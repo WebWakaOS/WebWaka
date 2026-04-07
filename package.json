@@ -27,5 +27,11 @@
   },
   "dependencies": {
     "hono": "^4.12.12"
+  },
+  "pnpm": {
+    "overrides": {
+      "undici": ">=6.21.1"
+    }
   }
 }
+
