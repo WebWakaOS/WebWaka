@@ -56,7 +56,7 @@ export function requireLayerAccess(
  * Guard: workspace subscription must include branding rights.
  */
 export function requireBrandingRights(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan as SubscriptionPlan];
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
   if (!config.brandingRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include branding rights. Upgrade to Starter or above.`,
@@ -68,7 +68,7 @@ export function requireBrandingRights(ctx: EntitlementContext): void {
  * Guard: workspace must have delegation rights (create partner sub-workspaces).
  */
 export function requireDelegationRights(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan as SubscriptionPlan];
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
   if (!config.delegationRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include delegation rights. Enterprise plan required.`,
@@ -80,7 +80,7 @@ export function requireDelegationRights(ctx: EntitlementContext): void {
  * Guard: workspace must have AI rights.
  */
 export function requireAIAccess(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan as SubscriptionPlan];
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
   if (!config.aiRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include AI access. Upgrade to Growth or above.`,
@@ -93,7 +93,7 @@ export function requireAIAccess(ctx: EntitlementContext): void {
  * Required for political, medical, and other regulated verticals.
  */
 export function requireSensitiveSectorAccess(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan as SubscriptionPlan];
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
   if (!config.sensitiveSectorRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include sensitive sector access. Enterprise plan required.`,
