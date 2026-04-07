@@ -122,7 +122,7 @@
 
 **Goal:** Scaffold all vertical support packages, wire the Hono API Worker, implement geography-driven discovery, and produce full Nigeria LGA + ward seed data.
 **Owner:** Replit Agent
-**Overall status:** 🟡 READY FOR REVIEW — All tasks complete: packages, API, 146 tests passing, 8,810 ward seed committed. PR #13 open (feat/milestone-3 → main).
+**Overall status:** 🟡 READY FOR REVIEW — All tasks complete: packages, API, 151 tests passing, 8,810 ward seed committed. PR #13 open (feat/milestone-3 → main).
 
 | Task | Status | Notes |
 |---|---|---|
@@ -138,10 +138,10 @@
 | Issue #8 — 775 LGAs seed | DONE | `infra/db/seed/0002_lgas.sql` (775 total; Imeko-Afon LGA added) |
 | Issue #8 — 8,810 ward seed | DONE | `infra/db/seed/0003_wards.sql` — 8,810/8,810 wards, zero unmatched |
 | Typecheck all packages (11) | DONE | Zero errors — `pnpm -r run typecheck` |
-| Test all packages (146 tests) | DONE | All passing — `pnpm -r run test` (146 tests, 13 files, 8 packages) |
+| Test all packages (151 tests) | DONE | All passing — `pnpm -r run test` (151 tests, 14 tests in apps/api, 8 packages) |
 | Update milestone tracker + replit.md | DONE | 2026-04-07 |
 | PR: feat/milestone-3 → main (formalise audit trail) | DONE | Replit — PR #13 opened 2026-04-07, base=main. Labels: milestone-3, review-needed, base44. Closes #8, #11, #12. Release notes in PR branch: docs/releases/milestone-3.md (merges with PR). |
-| CI evidence on PR #13 | DONE | 146 tests, 13 files, 8 packages; 11 packages typecheck zero errors. Comment: PR #13#issuecomment-4201450890 |
+| CI evidence on PR #13 | DONE | 151 tests (+5 new API route tests), 8 packages typecheck zero errors; 11 packages typecheck zero errors. Comment: PR #13#issuecomment-4201450890 |
 | Founder approval — Milestone 3 | PENDING | Awaiting review |
 
 ---
