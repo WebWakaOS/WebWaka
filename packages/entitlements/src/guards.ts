@@ -6,7 +6,7 @@
  * Use evaluate* functions in UI and telemetry contexts where you need the decision without throwing.
  */
 
-import type { PlatformLayer, EntitlementContext, SubscriptionPlan } from '@webwaka/types';
+import type { PlatformLayer, EntitlementContext } from '@webwaka/types';
 import { SubscriptionStatus } from '@webwaka/types';
 import { PLAN_CONFIGS } from './plan-config.js';
 
