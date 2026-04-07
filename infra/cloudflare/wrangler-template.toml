@@ -1,0 +1,53 @@
+# wrangler.toml TEMPLATE
+# Copy to apps/<app-name>/wrangler.toml and fill in the blanks.
+# DO NOT store actual database IDs or secrets here — use GitHub Actions secrets
+# and reference them via [vars] or wrangler secret put.
+
+name = "webwaka-os-<app-name>"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ── Shared bindings ───────────────────────────────────────────────────────────
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = ""          # staging namespace ID
+preview_id = ""  # preview/dev namespace ID
+
+# ── Staging environment ───────────────────────────────────────────────────────
+[env.staging]
+name = "webwaka-os-<app-name>-staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-staging"
+database_id = ""   # Set from CLOUDFLARE_D1_STAGING_ID secret
+
+[[env.staging.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = ""            # Staging KV namespace ID
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+LOG_LEVEL = "debug"
+
+# ── Production environment ────────────────────────────────────────────────────
+[env.production]
+name = "webwaka-os-<app-name>-production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-production"
+database_id = ""   # Set from CLOUDFLARE_D1_PRODUCTION_ID secret
+
+[[env.production.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = ""            # Production KV namespace ID
+
+[env.production.vars]
+ENVIRONMENT = "production"
+LOG_LEVEL = "warn"
+
+# ── Secrets (set via `wrangler secret put`, never in this file) ───────────────
+# JWT_SECRET
+# INTER_SERVICE_SECRET
