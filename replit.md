@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: 4 — Discovery Layer MVP (ACTIVE)**
+**Current Milestone: 4 — Discovery Layer MVP (READY FOR REVIEW)**
 
 ## Milestone Status
 
@@ -13,8 +13,8 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 0 — Program Setup | ✅ DONE |
 | 1 — Governance Baseline | ✅ DONE |
 | 2 — Monorepo Scaffolding | ✅ DONE — Founder approved 2026-04-07 |
-| 3 — Vertical Package Scaffolding + First API Wiring | ✅ DONE — Founder approved 2026-04-07 20:31 WAT — 151 tests, 11 packages clean |
-| 4 — Discovery Layer MVP | 🟢 ACTIVE — Brief published 2026-04-07 20:31 WAT |
+| 3 — Vertical Package Scaffolding + First API Wiring | ✅ DONE — Founder approved 2026-04-07 20:31 WAT — 171 tests, 12 packages clean |
+| 4 — Discovery Layer MVP | 🟡 READY FOR REVIEW — 5 routes, 2 migrations, 20 tests, 171 total |
 
 ## Tech Stack (Target Production)
 
@@ -120,7 +120,7 @@ interface D1Stmt {
 ```
 `first` and `all` must be plain generic async functions (not `vi.fn()`), since `vi.fn()` strips generic type parameters.
 
-## Test Summary (Milestone 3 final — baseline for M4)
+## Test Summary (Milestone 4 — Discovery Layer MVP)
 
 | Package | Tests | Status |
 |---|---|---|
@@ -131,10 +131,9 @@ interface D1Stmt {
 | @webwaka/entities | 30 | ✅ All passing |
 | @webwaka/relationships | 5 | ✅ All passing |
 | @webwaka/offline-sync | 4 | ✅ All passing |
-| apps/api | 14 | ✅ All passing |
-| **Total** | **151** | ✅ All passing |
-
-**M4 target:** 171+ tests (151 baseline + ≥20 new discovery tests)
+| @webwaka/search-indexing | 0 | ✅ passWithNoTests (scaffold only) |
+| apps/api | 34 | ✅ All passing (14 M3 + 20 discovery M4) |
+| **Total** | **171** | ✅ All passing |
 
 ## D1 Migration Files
 
@@ -185,7 +184,7 @@ Ward seed is pre-committed. Source: `nielvid/states-lga-wards-polling-units` (Gi
 | POST | `/entities/organizations` | JWT | Create organization |
 | GET | `/entities/organizations/:id` | JWT | Get organization |
 
-### Milestone 4 Routes (to be added)
+### Milestone 4 Routes (Discovery Layer — public, no auth)
 
 | Method | Path | Auth | Description |
 |---|---|---|---|

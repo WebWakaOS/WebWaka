@@ -35,6 +35,7 @@ import { healthRoutes } from './routes/health.js';
 import { geographyRoutes } from './routes/geography.js';
 import { entityRoutes } from './routes/entities.js';
 import { authRoutes } from './routes/auth-routes.js';
+import { discoveryRoutes } from './routes/discovery.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -58,6 +59,7 @@ app.use('*', logger());
 
 app.route('/health', healthRoutes);
 app.route('/geography', geographyRoutes);
+app.route('/discovery', discoveryRoutes);
 
 // ---------------------------------------------------------------------------
 // Auth routes — /auth/login and /auth/verify are public;

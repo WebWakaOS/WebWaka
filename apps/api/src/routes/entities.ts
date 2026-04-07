@@ -30,6 +30,7 @@ import { PlatformLayer, SubscriptionPlan, SubscriptionStatus } from '@webwaka/ty
 import type { IndividualId, OrganizationId, EntitlementContext } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 import { EntitlementError } from '@webwaka/entitlements';
+import { indexIndividual, indexOrganization } from '../lib/search-index.js';
 import type { Env } from '../env.js';
 
 const entityRoutes = new Hono<{ Bindings: Env; Variables: { auth: AuthContext } }>();
@@ -97,6 +98,13 @@ entityRoutes.post('/individuals', async (c) => {
     ...(body.metadata !== undefined ? { metadata: body.metadata } : {}),
   });
 
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await indexIndividual(c.env.DB as any, individual as any, auth.tenantId);
+  } catch (err) {
+    console.error('[entities] search index failed for individual:', err);
+  }
+
   return c.json({ data: individual }, 201);
 });
 
@@ -149,6 +157,13 @@ entityRoutes.post('/organizations', async (c) => {
     ...(body.placeId !== undefined ? { placeId: body.placeId } : {}),
     ...(body.metadata !== undefined ? { metadata: body.metadata } : {}),
   });
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await indexOrganization(c.env.DB as any, org as any, auth.tenantId);
+  } catch (err) {
+    console.error('[entities] search index failed for organization:', err);
+  }
 
   return c.json({ data: org }, 201);
 });

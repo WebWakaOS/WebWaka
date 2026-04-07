@@ -3,6 +3,11 @@ main = "src/index.ts"
 compatibility_date = "2024-12-05"
 compatibility_flags = ["nodejs_compat"]
 
+# Pending migrations (apply before next deploy):
+# wrangler d1 migrations apply webwaka-main --remote
+# 0008_init_search_index.sql    — search_entries table + search_fts FTS5 virtual table
+# 0009_init_discovery_events.sql — discovery_events audit log table
+
 [vars]
 ENVIRONMENT = "development"
 
