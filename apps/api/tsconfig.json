@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@webwaka/types":         ["../../packages/types/src/index.ts"],
+      "@webwaka/auth":          ["../../packages/auth/src/index.ts"],
+      "@webwaka/geography":     ["../../packages/core/geography/src/index.ts"],
+      "@webwaka/entities":      ["../../packages/entities/src/index.ts"],
+      "@webwaka/entitlements":  ["../../packages/entitlements/src/index.ts"],
+      "@webwaka/relationships": ["../../packages/relationships/src/index.ts"]
+    },
+    "rootDir": "../..",
+    "outDir": "dist",
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src/**/*"]
+}

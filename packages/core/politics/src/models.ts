@@ -98,6 +98,7 @@ export interface PartyAffiliation {
 // ---------------------------------------------------------------------------
 
 export interface CandidateRecord {
+  readonly id: string; // Issue #12 — required primary key
   readonly individualId: IndividualId;
   readonly officeType: PoliticalOfficeType;
   readonly jurisdictionId: JurisdictionId;

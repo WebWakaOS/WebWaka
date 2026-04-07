@@ -1,0 +1,35 @@
+{
+  "name": "@webwaka/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Workers API — Hono + WebWaka OS backend.",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "hono": "^4.12.12",
+    "@webwaka/auth": "workspace:*",
+    "@webwaka/types": "workspace:*",
+    "@webwaka/entities": "workspace:*",
+    "@webwaka/geography": "workspace:*",
+    "@webwaka/entitlements": "workspace:*",
+    "@webwaka/relationships": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0",
+    "wrangler": "^3.90.0"
+  }
+}

@@ -1,0 +1,920 @@
+-- Seed: All 774 Nigerian Local Government Areas
+-- Issue #8 — Milestone 3
+-- Source: 1991 Local Government (Basic Constitutional and Transitional Provisions) Act
+--         (as amended) + INEC constituency boundaries.
+--
+-- Level: 4 (LocalGovernmentArea)
+-- Parent: corresponding state place_id
+-- Ancestry path: ["place_nigeria_001", "<zone_id>", "<state_id>"]
+--
+-- IDs use the slug pattern: place_lga_<state>_<slug>
+-- Inserted in batches of ~50 per state to avoid statement length limits.
+
+-- ===========================================================================
+-- NORTH CENTRAL
+-- ===========================================================================
+
+-- ---- Benue (23 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_benue_ado',        'Ado',          'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_agatu',      'Agatu',        'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_apa',        'Apa',          'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_buruku',     'Buruku',       'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_gboko',      'Gboko',        'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_guma',       'Guma',         'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_gwer_east',  'Gwer East',    'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_gwer_west',  'Gwer West',    'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_katsina_ala','Katsina-Ala',  'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_konshisha',  'Konshisha',    'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_kwande',     'Kwande',       'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_logo',       'Logo',         'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_makurdi',    'Makurdi',      'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_obi',        'Obi',          'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_ogbadibo',   'Ogbadibo',     'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_ohimini',    'Ohimini',      'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_oju',        'Oju',          'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_okpokwu',    'Okpokwu',      'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_otukpo',     'Otukpo',       'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_tarka',      'Tarka',        'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_ukum',       'Ukum',         'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_ushongo',    'Ushongo',      'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL),
+  ('place_lga_benue_vandeikya',  'Vandeikya',    'local_government_area', 4, 'place_state_benue', '["place_nigeria_001","place_zone_north_central","place_state_benue"]', NULL);
+
+-- ---- Kogi (21 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_kogi_adavi',           'Adavi',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ajaokuta',        'Ajaokuta',         'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ankpa',           'Ankpa',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_bassa',           'Bassa',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_dekina',          'Dekina',           'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ibaji',           'Ibaji',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_idah',            'Idah',             'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_igalamela_odolu', 'Igalamela-Odolu',  'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ijumu',           'Ijumu',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_kabba_bunu',      'Kabba/Bunu',       'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_kogi',            'Kogi',             'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_lokoja',          'Lokoja',           'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_mopa_muro',       'Mopa-Muro',        'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ofu',             'Ofu',              'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_ogori_magongo',   'Ogori/Magongo',    'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_okehi',           'Okehi',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_okene',           'Okene',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_olamaboro',       'Olamaboro',        'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_omala',           'Omala',            'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_yagba_east',      'Yagba East',       'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL),
+  ('place_lga_kogi_yagba_west',      'Yagba West',       'local_government_area', 4, 'place_state_kogi', '["place_nigeria_001","place_zone_north_central","place_state_kogi"]', NULL);
+
+-- ---- Kwara (16 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_kwara_asa',              'Asa',              'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_baruten',          'Baruten',          'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_edu',              'Edu',              'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_ekiti',            'Ekiti',            'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_ifelodun',         'Ifelodun',         'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_ilorin_east',      'Ilorin East',      'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_ilorin_south',     'Ilorin South',     'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_ilorin_west',      'Ilorin West',      'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_irepodun',         'Irepodun',         'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_isin',             'Isin',             'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_kaiama',           'Kaiama',           'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_moro',             'Moro',             'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_offa',             'Offa',             'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_oke_ero',          'Oke Ero',          'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_oyun',             'Oyun',             'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL),
+  ('place_lga_kwara_pategi',           'Pategi',           'local_government_area', 4, 'place_state_kwara', '["place_nigeria_001","place_zone_north_central","place_state_kwara"]', NULL);
+
+-- ---- Nasarawa (13 LGAs) ----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_nasarawa_akwanga',       'Akwanga',    'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_awe',           'Awe',        'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_doma',          'Doma',       'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_karu',          'Karu',       'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_keana',         'Keana',      'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_keffi',         'Keffi',      'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_kokona',        'Kokona',     'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_lafia',         'Lafia',      'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_nasarawa',      'Nasarawa',   'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_nasarawa_egon', 'Nasarawa Egon','local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_obi',           'Obi',        'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_toto',          'Toto',       'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL),
+  ('place_lga_nasarawa_wamba',         'Wamba',      'local_government_area', 4, 'place_state_nasarawa', '["place_nigeria_001","place_zone_north_central","place_state_nasarawa"]', NULL);
+
+-- ---- Niger (25 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_niger_agaie',      'Agaie',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_agwara',     'Agwara',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_bida',       'Bida',      'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_borgu',      'Borgu',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_bosso',      'Bosso',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_chanchaga',  'Chanchaga', 'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_edati',      'Edati',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_gbako',      'Gbako',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_gurara',     'Gurara',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_katcha',     'Katcha',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_kontagora',  'Kontagora', 'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_lapai',      'Lapai',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_lavun',      'Lavun',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_magama',     'Magama',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_mariga',     'Mariga',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_mashegu',    'Mashegu',   'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_mokwa',      'Mokwa',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_moya',       'Moya',      'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_paikoro',    'Paikoro',   'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_rafi',       'Rafi',      'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_rijau',      'Rijau',     'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_shiroro',    'Shiroro',   'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_suleja',     'Suleja',    'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_tafa',       'Tafa',      'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL),
+  ('place_lga_niger_wushishi',   'Wushishi',  'local_government_area', 4, 'place_state_niger', '["place_nigeria_001","place_zone_north_central","place_state_niger"]', NULL);
+
+-- ---- Plateau (17 LGAs) -----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_plateau_barkin_ladi',    'Barkin Ladi',    'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_bassa',          'Bassa',          'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_bokkos',         'Bokkos',         'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_jos_east',       'Jos East',       'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_jos_north',      'Jos North',      'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_jos_south',      'Jos South',      'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_kanam',          'Kanam',          'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_kanke',          'Kanke',          'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_langtang_north', 'Langtang North', 'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_langtang_south', 'Langtang South', 'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_mangu',          'Mangu',          'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_mikang',         'Mikang',         'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_pankshin',       'Pankshin',       'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_quaan_pan',      'Qua''an Pan',    'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_riyom',          'Riyom',          'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_shendam',        'Shendam',        'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL),
+  ('place_lga_plateau_wase',           'Wase',           'local_government_area', 4, 'place_state_plateau', '["place_nigeria_001","place_zone_north_central","place_state_plateau"]', NULL);
+
+-- ---- Federal Capital Territory (6 Area Councils) ---------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_fct_abaji',          'Abaji',                'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL),
+  ('place_lga_fct_amac',           'Abuja Municipal',      'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL),
+  ('place_lga_fct_bwari',          'Bwari',                'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL),
+  ('place_lga_fct_gwagwalada',     'Gwagwalada',           'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL),
+  ('place_lga_fct_kuje',           'Kuje',                 'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL),
+  ('place_lga_fct_kwali',          'Kwali',                'local_government_area', 4, 'place_state_fct', '["place_nigeria_001","place_zone_north_central","place_state_fct"]', NULL);
+
+-- ===========================================================================
+-- NORTH EAST
+-- ===========================================================================
+
+-- ---- Adamawa (21 LGAs) -----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_adamawa_demsa',      'Demsa',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_fufure',     'Fufure',     'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_ganye',      'Ganye',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_gayuk',      'Gayuk',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_gombi',      'Gombi',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_grie',       'Grie',       'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_hong',       'Hong',       'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_jada',       'Jada',       'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_larmurde',   'Lamurde',    'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_madagali',   'Madagali',   'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_maiha',      'Maiha',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_mayo_belwa', 'Mayo-Belwa', 'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_michika',    'Michika',    'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_mubi_north', 'Mubi North', 'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_mubi_south', 'Mubi South', 'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_numan',      'Numan',      'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_shelleng',   'Shelleng',   'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_song',       'Song',       'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_toungo',     'Toungo',     'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_yola_north', 'Yola North', 'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL),
+  ('place_lga_adamawa_yola_south', 'Yola South', 'local_government_area', 4, 'place_state_adamawa', '["place_nigeria_001","place_zone_north_east","place_state_adamawa"]', NULL);
+
+-- ---- Bauchi (20 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_bauchi_alkaleri',      'Alkaleri',      'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_bauchi',        'Bauchi',        'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_bogoro',        'Bogoro',        'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_damban',        'Damban',        'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_darazo',        'Darazo',        'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_dass',          'Dass',          'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_gamawa',        'Gamawa',        'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_ganjuwa',       'Ganjuwa',       'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_giade',         'Giade',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_itas_gadau',    'Itas/Gadau',    'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_jamaare',       'Jama''are',     'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_katagum',       'Katagum',       'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_kirfi',         'Kirfi',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_misau',         'Misau',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_ningi',         'Ningi',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_shira',         'Shira',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_tafawa_balewa', 'Tafawa Balewa', 'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_toro',          'Toro',          'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_warji',         'Warji',         'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL),
+  ('place_lga_bauchi_zaki',          'Zaki',          'local_government_area', 4, 'place_state_bauchi', '["place_nigeria_001","place_zone_north_east","place_state_bauchi"]', NULL);
+
+-- ---- Borno (27 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_borno_abadam',        'Abadam',       'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_askira_uba',    'Askira/Uba',   'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_bama',          'Bama',         'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_bayo',          'Bayo',         'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_biu',           'Biu',          'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_chibok',        'Chibok',       'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_damboa',        'Damboa',       'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_dikwa',         'Dikwa',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_gubio',         'Gubio',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_guzamala',      'Guzamala',     'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_gwoza',         'Gwoza',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_hawul',         'Hawul',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_jere',          'Jere',         'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_kaga',          'Kaga',         'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_kala_balge',    'Kala/Balge',   'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_konduga',       'Konduga',      'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_kukawa',        'Kukawa',       'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_kwaya_kusar',   'Kwaya Kusar',  'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_mafa',          'Mafa',         'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_magumeri',      'Magumeri',     'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_maiduguri',     'Maiduguri',    'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_marte',         'Marte',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_mobbar',        'Mobbar',       'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_monguno',       'Monguno',      'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_ngala',         'Ngala',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_nganzai',       'Nganzai',      'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL),
+  ('place_lga_borno_shani',         'Shani',        'local_government_area', 4, 'place_state_borno', '["place_nigeria_001","place_zone_north_east","place_state_borno"]', NULL);
+
+-- ---- Gombe (11 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_gombe_akko',          'Akko',          'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_balanga',       'Balanga',       'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_billiri',       'Billiri',       'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_dukku',         'Dukku',         'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_funakaye',      'Funakaye',      'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_gombe',         'Gombe',         'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_kaltungo',      'Kaltungo',      'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_kwami',         'Kwami',         'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_nafada',        'Nafada',        'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_shongom',       'Shongom',       'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL),
+  ('place_lga_gombe_yamaltu_deba',  'Yamaltu/Deba',  'local_government_area', 4, 'place_state_gombe', '["place_nigeria_001","place_zone_north_east","place_state_gombe"]', NULL);
+
+-- ---- Taraba (16 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_taraba_ardo_kola',    'Ardo Kola',   'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_bali',         'Bali',         'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_donga',        'Donga',        'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_gashaka',      'Gashaka',      'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_gassol',       'Gassol',       'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_ibi',          'Ibi',          'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_jalingo',      'Jalingo',      'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_karim_lamido', 'Karim Lamido', 'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_kumi',         'Kumi',         'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_lau',          'Lau',          'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_sardauna',     'Sardauna',     'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_takum',        'Takum',        'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_ussa',         'Ussa',         'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_wukari',       'Wukari',       'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_yorro',        'Yorro',        'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL),
+  ('place_lga_taraba_zing',         'Zing',         'local_government_area', 4, 'place_state_taraba', '["place_nigeria_001","place_zone_north_east","place_state_taraba"]', NULL);
+
+-- ---- Yobe (17 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_yobe_bade',       'Bade',       'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_bursari',    'Bursari',    'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_damaturu',   'Damaturu',   'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_fika',       'Fika',       'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_fune',       'Fune',       'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_geidam',     'Geidam',     'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_gujba',      'Gujba',      'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_gulani',     'Gulani',     'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_jakusko',    'Jakusko',    'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_karasuwa',   'Karasuwa',   'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_machina',    'Machina',    'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_nangere',    'Nangere',    'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_nguru',      'Nguru',      'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_potiskum',   'Potiskum',   'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_tarmua',     'Tarmua',     'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_yunusari',   'Yunusari',   'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL),
+  ('place_lga_yobe_yusufari',   'Yusufari',   'local_government_area', 4, 'place_state_yobe', '["place_nigeria_001","place_zone_north_east","place_state_yobe"]', NULL);
+
+-- ===========================================================================
+-- NORTH WEST
+-- ===========================================================================
+
+-- ---- Jigawa (27 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_jigawa_auyo',             'Auyo',            'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_babura',           'Babura',          'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_biriniwa',         'Biriniwa',        'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_birnin_kudu',      'Birnin Kudu',     'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_buji',             'Buji',            'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_dutse',            'Dutse',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_gagarawa',         'Gagarawa',        'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_garki',            'Garki',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_gumel',            'Gumel',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_guri',             'Guri',            'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_gwaram',           'Gwaram',          'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_gwiwa',            'Gwiwa',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_hadejia',          'Hadejia',         'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_jahun',            'Jahun',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_kafin_hausa',      'Kafin Hausa',     'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_kaugama',          'Kaugama',         'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_kazaure',          'Kazaure',         'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_kiri_kasama',      'Kiri Kasama',     'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_kiyawa',           'Kiyawa',          'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_maigatari',        'Maigatari',       'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_malam_maduri',     'Malam Maduri',    'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_miga',             'Miga',            'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_ringim',           'Ringim',          'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_roni',             'Roni',            'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_sule_tankarkar',   'Sule-Tankarkar',  'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_taura',            'Taura',           'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL),
+  ('place_lga_jigawa_yankwashi',        'Yankwashi',       'local_government_area', 4, 'place_state_jigawa', '["place_nigeria_001","place_zone_north_west","place_state_jigawa"]', NULL);
+
+-- ---- Kaduna (23 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_kaduna_birnin_gwari',   'Birnin Gwari',    'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_chikun',         'Chikun',          'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_giwa',           'Giwa',            'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_igabi',          'Igabi',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_ikara',          'Ikara',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_jaba',           'Jaba',            'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_jemaa',          'Jema''a',         'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kachia',         'Kachia',          'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kaduna_north',   'Kaduna North',    'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kaduna_south',   'Kaduna South',    'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kagarko',        'Kagarko',         'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kajuru',         'Kajuru',          'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kaura',          'Kaura',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kauru',          'Kauru',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kubau',          'Kubau',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_kudan',          'Kudan',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_lere',           'Lere',            'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_makarfi',        'Makarfi',         'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_sabon_gari',     'Sabon Gari',      'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_sanga',          'Sanga',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_soba',           'Soba',            'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_zangon_kataf',   'Zangon Kataf',    'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL),
+  ('place_lga_kaduna_zaria',          'Zaria',           'local_government_area', 4, 'place_state_kaduna', '["place_nigeria_001","place_zone_north_west","place_state_kaduna"]', NULL);
+
+-- ---- Kano (44 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_kano_ajingi',        'Ajingi',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_albasu',        'Albasu',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_bagwai',        'Bagwai',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_bebeji',        'Bebeji',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_bichi',         'Bichi',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_bunkure',       'Bunkure',       'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_dala',          'Dala',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_dambatta',      'Dambatta',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_dawakin_kudu',  'Dawakin Kudu',  'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_dawakin_tofa',  'Dawakin Tofa',  'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_doguwa',        'Doguwa',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_fagge',         'Fagge',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_gabasawa',      'Gabasawa',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_garko',         'Garko',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_garun_mallam',  'Garun Mallam',  'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_gaya',          'Gaya',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_gezawa',        'Gezawa',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_gwale',         'Gwale',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_gwarzo',        'Gwarzo',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kabo',          'Kabo',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kano_municipal','Kano Municipal','local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_karaye',        'Karaye',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kibiya',        'Kibiya',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kiru',          'Kiru',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kumbotso',      'Kumbotso',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kunchi',        'Kunchi',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_kura',          'Kura',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_madobi',        'Madobi',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_makoda',        'Makoda',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_minjibir',      'Minjibir',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_nasarawa',      'Nasarawa',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_rano',          'Rano',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_rimin_gado',    'Rimin Gado',    'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_rogo',          'Rogo',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_shanono',       'Shanono',       'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_sumaila',       'Sumaila',       'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_takai',         'Takai',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_tarauni',       'Tarauni',       'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_tofa',          'Tofa',          'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_tsanyawa',      'Tsanyawa',      'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_tudun_wada',    'Tudun Wada',    'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_ungogo',        'Ungogo',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_warawa',        'Warawa',        'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL),
+  ('place_lga_kano_wudil',         'Wudil',         'local_government_area', 4, 'place_state_kano', '["place_nigeria_001","place_zone_north_west","place_state_kano"]', NULL);
+
+-- ---- Katsina (34 LGAs) -----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_katsina_bakori',     'Bakori',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_batagarawa', 'Batagarawa', 'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_batsari',    'Batsari',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_baure',      'Baure',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_bindawa',    'Bindawa',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_charanchi',  'Charanchi',  'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_dan_musa',   'Dan Musa',   'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_dandume',    'Dandume',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_danja',      'Danja',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_daura',      'Daura',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_dutsi',      'Dutsi',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_dutsin_ma',  'Dutsin-Ma',  'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_faskari',    'Faskari',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_funtua',     'Funtua',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_ingawa',     'Ingawa',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_jibia',      'Jibia',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kafur',      'Kafur',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kaita',      'Kaita',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kankara',    'Kankara',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kankia',     'Kankia',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_katsina',    'Katsina',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kurfi',      'Kurfi',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_kusada',     'Kusada',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_maiadua',    'Mai''adua',  'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_malumfashi', 'Malumfashi', 'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_mani',       'Mani',       'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_mashi',      'Mashi',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_matazu',     'Matazu',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_musawa',     'Musawa',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_rimi',       'Rimi',       'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_sabuwa',     'Sabuwa',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_safana',     'Safana',     'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_sandamu',    'Sandamu',    'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL),
+  ('place_lga_katsina_zango',      'Zango',      'local_government_area', 4, 'place_state_katsina', '["place_nigeria_001","place_zone_north_west","place_state_katsina"]', NULL);
+
+-- ---- Kebbi (21 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_kebbi_aleiro',         'Aleiro',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_arewa_dandi',    'Arewa Dandi',    'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_argungu',        'Argungu',        'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_augie',          'Augie',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_bagudo',         'Bagudo',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_birnin_kebbi',   'Birnin Kebbi',   'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_bunza',          'Bunza',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_dandi',          'Dandi',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_fakai',          'Fakai',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_gwandu',         'Gwandu',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_jega',           'Jega',           'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_kalgo',          'Kalgo',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_koko_besse',     'Koko/Besse',     'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_maiyama',        'Maiyama',        'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_ngaski',         'Ngaski',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_sakaba',         'Sakaba',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_shanga',         'Shanga',         'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_suru',           'Suru',           'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_wasagu_danko',   'Wasagu/Danko',   'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_yauri',          'Yauri',          'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL),
+  ('place_lga_kebbi_zuru',           'Zuru',           'local_government_area', 4, 'place_state_kebbi', '["place_nigeria_001","place_zone_north_west","place_state_kebbi"]', NULL);
+
+-- ---- Sokoto (23 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_sokoto_binji',          'Binji',         'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_bodinga',        'Bodinga',       'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_dange_shuni',    'Dange Shuni',   'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_gada',           'Gada',          'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_goronyo',        'Goronyo',       'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_gudu',           'Gudu',          'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_gwadabawa',      'Gwadabawa',     'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_illela',         'Illela',        'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_isa',            'Isa',           'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_kebbe',          'Kebbe',         'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_kware',          'Kware',         'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_rabah',          'Rabah',         'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_sabon_birni',    'Sabon Birni',   'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_shagari',        'Shagari',       'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_silame',         'Silame',        'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_sokoto_north',   'Sokoto North',  'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_sokoto_south',   'Sokoto South',  'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_tambuwal',       'Tambuwal',      'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_tangaza',        'Tangaza',       'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_tureta',         'Tureta',        'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_wamako',         'Wamako',        'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_wurno',          'Wurno',         'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL),
+  ('place_lga_sokoto_yabo',           'Yabo',          'local_government_area', 4, 'place_state_sokoto', '["place_nigeria_001","place_zone_north_west","place_state_sokoto"]', NULL);
+
+-- ---- Zamfara (14 LGAs) -----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_zamfara_anka',              'Anka',              'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_bakura',            'Bakura',            'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_birnin_magaji',     'Birnin Magaji/Kiyaw','local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_bukkuyum',          'Bukkuyum',          'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_bungudu',           'Bungudu',           'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_gummi',             'Gummi',             'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_gusau',             'Gusau',             'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_kaura_namoda',      'Kaura Namoda',      'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_maradun',           'Maradun',           'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_maru',              'Maru',              'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_shinkafi',          'Shinkafi',          'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_talata_mafara',     'Talata Mafara',     'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_tsafe',             'Tsafe',             'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL),
+  ('place_lga_zamfara_zurmi',             'Zurmi',             'local_government_area', 4, 'place_state_zamfara', '["place_nigeria_001","place_zone_north_west","place_state_zamfara"]', NULL);
+
+-- ===========================================================================
+-- SOUTH EAST
+-- ===========================================================================
+
+-- ---- Abia (17 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_abia_aba_north',       'Aba North',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_aba_south',       'Aba South',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_arochukwu',       'Arochukwu',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_bende',           'Bende',           'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_ikwuano',         'Ikwuano',         'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_isiala_ngwa_n',   'Isiala Ngwa North','local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_isiala_ngwa_s',   'Isiala Ngwa South','local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_isuikwuato',      'Isuikwuato',      'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_obi_ngwa',        'Obi Ngwa',        'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_ohafia',          'Ohafia',          'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_osisioma_ngwa',   'Osisioma Ngwa',   'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_ugwunagbo',       'Ugwunagbo',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_ukwa_east',       'Ukwa East',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_ukwa_west',       'Ukwa West',       'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_umuahia_north',   'Umuahia North',   'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_umuahia_south',   'Umuahia South',   'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL),
+  ('place_lga_abia_umu_nneochi',     'Umu Nneochi',     'local_government_area', 4, 'place_state_abia', '["place_nigeria_001","place_zone_south_east","place_state_abia"]', NULL);
+
+-- ---- Anambra (21 LGAs) -----------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_anambra_aguata',         'Aguata',          'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_anambra_east',   'Anambra East',    'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_anambra_west',   'Anambra West',    'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_anaocha',        'Anaocha',         'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_awka_north',     'Awka North',      'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_awka_south',     'Awka South',      'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_ayamelum',       'Ayamelum',        'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_dunukofia',      'Dunukofia',       'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_ekwusigo',       'Ekwusigo',        'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_idemili_north',  'Idemili North',   'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_idemili_south',  'Idemili South',   'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_ihiala',         'Ihiala',          'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_njikoka',        'Njikoka',         'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_nnewi_north',    'Nnewi North',     'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_nnewi_south',    'Nnewi South',     'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_ogbaru',         'Ogbaru',          'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_onitsha_north',  'Onitsha North',   'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_onitsha_south',  'Onitsha South',   'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_orumba_north',   'Orumba North',    'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_orumba_south',   'Orumba South',    'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL),
+  ('place_lga_anambra_oyi',            'Oyi',             'local_government_area', 4, 'place_state_anambra', '["place_nigeria_001","place_zone_south_east","place_state_anambra"]', NULL);
+
+-- ---- Ebonyi (13 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_ebonyi_abakaliki',    'Abakaliki',    'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_afikpo_north', 'Afikpo North', 'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_afikpo_south', 'Afikpo South', 'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ebonyi',       'Ebonyi',       'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ezza_north',   'Ezza North',   'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ezza_south',   'Ezza South',   'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ikwo',         'Ikwo',         'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ishielu',      'Ishielu',      'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ivo',          'Ivo',          'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_izzi',         'Izzi',         'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ohaozara',     'Ohaozara',     'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_ohaukwu',      'Ohaukwu',      'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL),
+  ('place_lga_ebonyi_onicha',       'Onicha',       'local_government_area', 4, 'place_state_ebonyi', '["place_nigeria_001","place_zone_south_east","place_state_ebonyi"]', NULL);
+
+-- ---- Enugu (17 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_enugu_aninri',           'Aninri',           'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_awgu',             'Awgu',             'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_enugu_east',       'Enugu East',       'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_enugu_north',      'Enugu North',      'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_enugu_south',      'Enugu South',      'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_ezeagu',           'Ezeagu',           'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_igbo_etiti',       'Igbo Etiti',       'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_igbo_eze_north',   'Igbo Eze North',   'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_igbo_eze_south',   'Igbo Eze South',   'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_isi_uzo',          'Isi Uzo',          'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_nkanu_east',       'Nkanu East',       'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_nkanu_west',       'Nkanu West',       'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_nsukka',           'Nsukka',           'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_oji_river',        'Oji River',        'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_udenu',            'Udenu',            'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_udi',              'Udi',              'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL),
+  ('place_lga_enugu_uzo_uwani',        'Uzo-Uwani',        'local_government_area', 4, 'place_state_enugu', '["place_nigeria_001","place_zone_south_east","place_state_enugu"]', NULL);
+
+-- ---- Imo (27 LGAs) ---------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_imo_aboh_mbaise',    'Aboh Mbaise',    'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ahiazu_mbaise',  'Ahiazu Mbaise',  'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ehime_mbano',    'Ehime Mbano',    'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ezinihitte',     'Ezinihitte',     'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ideato_north',   'Ideato North',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ideato_south',   'Ideato South',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ihitte_uboma',   'Ihitte/Uboma',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ikeduru',        'Ikeduru',        'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_isiala_mbano',   'Isiala Mbano',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_isu',            'Isu',            'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_mbaitoli',       'Mbaitoli',       'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ngor_okpala',    'Ngor Okpala',    'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_njaba',          'Njaba',          'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_nkwerre',        'Nkwerre',        'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_nwangele',       'Nwangele',       'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_obowo',          'Obowo',          'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_oguta',          'Oguta',          'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_ohaji_egbema',   'Ohaji/Egbema',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_okigwe',         'Okigwe',         'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_orlu',           'Orlu',           'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_orsu',           'Orsu',           'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_oru_east',       'Oru East',       'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_oru_west',       'Oru West',       'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_owerri_muni',    'Owerri Municipal','local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_owerri_north',   'Owerri North',   'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_owerri_west',    'Owerri West',    'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL),
+  ('place_lga_imo_unuimo',         'Unuimo',         'local_government_area', 4, 'place_state_imo', '["place_nigeria_001","place_zone_south_east","place_state_imo"]', NULL);
+
+-- ===========================================================================
+-- SOUTH SOUTH
+-- ===========================================================================
+
+-- ---- Akwa Ibom (31 LGAs) ---------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_akwaibom_abak',             'Abak',             'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_eastern_obolo',    'Eastern Obolo',    'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_eket',             'Eket',             'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_esit_eket',        'Esit Eket',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_essien_udim',      'Essien Udim',      'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_etim_ekpo',        'Etim Ekpo',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_etinan',           'Etinan',           'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ibeno',            'Ibeno',            'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ibesikpo',         'Ibesikpo Asutan',  'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ibiono_ibom',      'Ibiono-Ibom',      'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ika',              'Ika',              'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ikono',            'Ikono',            'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ikot_abasi',       'Ikot Abasi',       'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ikot_ekpene',      'Ikot Ekpene',      'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ini',              'Ini',              'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_itu',              'Itu',              'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_mbo',              'Mbo',              'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_mkpat_enin',       'Mkpat-Enin',       'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_nsit_atai',        'Nsit-Atai',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_nsit_ibom',        'Nsit-Ibom',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_nsit_ubium',       'Nsit-Ubium',       'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_obot_akara',       'Obot Akara',       'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_okobo',            'Okobo',            'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_onna',             'Onna',             'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_oron',             'Oron',             'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_oruk_anam',        'Oruk Anam',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_udung_uko',        'Udung-Uko',        'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_ukanafun',         'Ukanafun',         'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_uruan',            'Uruan',            'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_urue_offong',      'Urue-Offong/Oruko','local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL),
+  ('place_lga_akwaibom_uyo',              'Uyo',              'local_government_area', 4, 'place_state_akwaibom', '["place_nigeria_001","place_zone_south_south","place_state_akwaibom"]', NULL);
+
+-- ---- Bayelsa (8 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_bayelsa_brass',            'Brass',           'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_ekeremor',         'Ekeremor',        'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_kolokuma_opokuma', 'Kolokuma/Opokuma','local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_nembe',            'Nembe',           'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_ogbia',            'Ogbia',           'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_sagbama',          'Sagbama',         'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_southern_ijaw',    'Southern Ijaw',   'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL),
+  ('place_lga_bayelsa_yenagoa',          'Yenagoa',         'local_government_area', 4, 'place_state_bayelsa', '["place_nigeria_001","place_zone_south_south","place_state_bayelsa"]', NULL);
+
+-- ---- Cross River (18 LGAs) -------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_crossriver_abi',             'Abi',             'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_akamkpa',         'Akamkpa',         'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_akpabuyo',        'Akpabuyo',        'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_bakassi',         'Bakassi',         'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_bekwarra',        'Bekwarra',        'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_biase',           'Biase',           'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_boki',            'Boki',            'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_calabar_muni',    'Calabar Municipal','local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_calabar_south',   'Calabar South',   'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_etung',           'Etung',           'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_ikom',            'Ikom',            'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_obanliku',        'Obanliku',        'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_obubra',          'Obubra',          'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_obudu',           'Obudu',           'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_odukpani',        'Odukpani',        'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_ogoja',           'Ogoja',           'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_yakurr',          'Yakurr',          'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL),
+  ('place_lga_crossriver_yala',            'Yala',            'local_government_area', 4, 'place_state_crossriver', '["place_nigeria_001","place_zone_south_south","place_state_crossriver"]', NULL);
+
+-- ---- Delta (25 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_delta_aniocha_north',    'Aniocha North',     'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_aniocha_south',    'Aniocha South',     'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_bomadi',           'Bomadi',            'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_burutu',           'Burutu',            'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ethiope_east',     'Ethiope East',      'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ethiope_west',     'Ethiope West',      'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ika_north_east',   'Ika North East',    'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ika_south',        'Ika South',         'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_isoko_north',      'Isoko North',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_isoko_south',      'Isoko South',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ndokwa_east',      'Ndokwa East',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ndokwa_west',      'Ndokwa West',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_okpe',             'Okpe',              'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_oshimili_north',   'Oshimili North',    'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_oshimili_south',   'Oshimili South',    'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_patani',           'Patani',            'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_sapele',           'Sapele',            'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_udu',              'Udu',               'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ughelli_north',    'Ughelli North',     'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ughelli_south',    'Ughelli South',     'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_ukwuani',          'Ukwuani',           'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_uvwie',            'Uvwie',             'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_warri_north',      'Warri North',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_warri_south',      'Warri South',       'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL),
+  ('place_lga_delta_warri_south_west', 'Warri South West',  'local_government_area', 4, 'place_state_delta', '["place_nigeria_001","place_zone_south_south","place_state_delta"]', NULL);
+
+-- ---- Edo (18 LGAs) ---------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_edo_akoko_edo',       'Akoko-Edo',       'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_egor',            'Egor',            'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_esan_central',    'Esan Central',    'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_esan_north_east', 'Esan North-East', 'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_esan_south_east', 'Esan South-East', 'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_esan_west',       'Esan West',       'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_etsako_central',  'Etsako Central',  'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_etsako_east',     'Etsako East',     'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_etsako_west',     'Etsako West',     'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_igueben',         'Igueben',         'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_ikpoba_okha',     'Ikpoba-Okha',     'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_orhionmwon',      'Orhionmwon',      'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_oredo',           'Oredo',           'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_ovia_north_east', 'Ovia North-East', 'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_ovia_south_west', 'Ovia South-West', 'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_owan_east',       'Owan East',       'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_owan_west',       'Owan West',       'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL),
+  ('place_lga_edo_uhunmwonde',      'Uhunmwonde',      'local_government_area', 4, 'place_state_edo', '["place_nigeria_001","place_zone_south_south","place_state_edo"]', NULL);
+
+-- ---- Rivers (23 LGAs) ------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_rivers_abua_odual',      'Abua/Odual',        'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_ahoada_east',     'Ahoada East',       'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_ahoada_west',     'Ahoada West',       'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_akuku_toru',      'Akuku-Toru',        'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_andoni',          'Andoni',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_asari_toru',      'Asari-Toru',        'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_bonny',           'Bonny',             'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_degema',          'Degema',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_eleme',           'Eleme',             'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_emohua',          'Emohua',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_etche',           'Etche',             'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_gokana',          'Gokana',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_ikwerre',         'Ikwerre',           'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_khana',           'Khana',             'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_obio_akpor',      'Obio-Akpor',        'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_ogba_egbema',     'Ogba/Egbema/Ndoni', 'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_ogu_bolo',        'Ogu/Bolo',          'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_okrika',          'Okrika',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_omuma',           'Omuma',             'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_opobo_nkoro',     'Opobo/Nkoro',       'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_oyigbo',          'Oyigbo',            'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_port_harcourt',   'Port Harcourt',     'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL),
+  ('place_lga_rivers_tai',             'Tai',               'local_government_area', 4, 'place_state_rivers', '["place_nigeria_001","place_zone_south_south","place_state_rivers"]', NULL);
+
+-- ===========================================================================
+-- SOUTH WEST
+-- ===========================================================================
+
+-- ---- Ekiti (16 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_ekiti_ado_ekiti',         'Ado Ekiti',        'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_efon',              'Efon',             'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ekiti_east',        'Ekiti East',       'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ekiti_south_west',  'Ekiti South-West', 'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ekiti_west',        'Ekiti West',       'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_emure',             'Emure',            'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_gbonyin',           'Gbonyin',          'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ido_osi',           'Ido/Osi',          'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ijero',             'Ijero',            'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ikere',             'Ikere',            'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ikole',             'Ikole',            'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ilejemeje',         'Ilejemeje',        'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_irepodun_ifelodun', 'Irepodun/Ifelodun','local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_ise_orun',          'Ise/Orun',         'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_moba',              'Moba',             'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL),
+  ('place_lga_ekiti_oye',               'Oye',              'local_government_area', 4, 'place_state_ekiti', '["place_nigeria_001","place_zone_south_west","place_state_ekiti"]', NULL);
+
+-- ---- Lagos (20 LGAs) -------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_lagos_agege',            'Agege',            'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ajeromi_ifelodun', 'Ajeromi-Ifelodun', 'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_alimosho',         'Alimosho',         'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_amuwo_odofin',     'Amuwo-Odofin',     'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_apapa',            'Apapa',            'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_badagry',          'Badagry',          'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_epe',              'Epe',              'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_eti_osa',          'Eti-Osa',          'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ibeju_lekki',      'Ibeju-Lekki',      'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ifako_ijaiye',     'Ifako-Ijaiye',     'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ikeja',            'Ikeja',            'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ikorodu',          'Ikorodu',          'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_kosofe',           'Kosofe',           'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_lagos_island',     'Lagos Island',     'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_lagos_mainland',   'Lagos Mainland',   'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_mushin',           'Mushin',           'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_ojo',              'Ojo',              'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_oshodi_isolo',     'Oshodi-Isolo',     'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_shomolu',          'Shomolu',          'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL),
+  ('place_lga_lagos_surulere',         'Surulere',         'local_government_area', 4, 'place_state_lagos', '["place_nigeria_001","place_zone_south_west","place_state_lagos"]', NULL);
+
+-- ---- Ogun (20 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_ogun_abeokuta_north',    'Abeokuta North',   'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_abeokuta_south',    'Abeokuta South',   'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ado_odo_ota',       'Ado-Odo/Ota',      'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ewekoro',           'Ewekoro',          'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ifo',               'Ifo',              'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ijebu_east',        'Ijebu East',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ijebu_north',       'Ijebu North',      'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ijebu_north_east',  'Ijebu North East', 'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ijebu_ode',         'Ijebu Ode',        'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ikenne',            'Ikenne',           'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ipokia',            'Ipokia',           'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_obafemi_owode',     'Obafemi Owode',    'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_odeda',             'Odeda',            'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_odogbolu',          'Odogbolu',         'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_ogun_waterside',    'Ogun Waterside',   'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_remo_north',        'Remo North',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_sagamu',            'Sagamu',           'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_yewa_north',        'Yewa North',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_yewa_south',        'Yewa South',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
+  ('place_lga_ogun_shagamu',           'Shagamu',          'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL);
+
+-- ---- Ondo (18 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_ondo_akoko_north_east',  'Akoko North-East',  'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_akoko_north_west',  'Akoko North-West',  'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_akoko_south_east',  'Akoko South-East',  'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_akoko_south_west',  'Akoko South-West',  'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_akure_north',       'Akure North',       'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_akure_south',       'Akure South',       'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ese_odo',           'Ese Odo',           'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_idanre',            'Idanre',            'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ifedore',           'Ifedore',           'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ilaje',             'Ilaje',             'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ile_oluji',         'Ile Oluji/Okeigbo', 'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_irele',             'Irele',             'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_odigbo',            'Odigbo',            'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_okitipupa',         'Okitipupa',         'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ondo_east',         'Ondo East',         'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ondo_west',         'Ondo West',         'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_ose',               'Ose',               'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL),
+  ('place_lga_ondo_owo',               'Owo',               'local_government_area', 4, 'place_state_ondo', '["place_nigeria_001","place_zone_south_west","place_state_ondo"]', NULL);
+
+-- ---- Osun (30 LGAs) --------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_osun_aiyedaade',      'Aiyedaade',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_aiyedire',       'Aiyedire',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_atakumosa_east', 'Atakumosa East', 'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_atakumosa_west', 'Atakumosa West', 'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_boluwaduro',     'Boluwaduro',     'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_boripe',         'Boripe',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ede_north',      'Ede North',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ede_south',      'Ede South',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_egbedore',       'Egbedore',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ejigbo',         'Ejigbo',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ife_central',    'Ife Central',    'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ife_east',       'Ife East',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ife_north',      'Ife North',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ife_south',      'Ife South',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ifedayo',        'Ifedayo',        'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ifelodun',       'Ifelodun',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ila',            'Ila',            'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ilesa_east',     'Ilesa East',     'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ilesa_west',     'Ilesa West',     'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_irepodun',       'Irepodun',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_irewole',        'Irewole',        'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_isokan',         'Isokan',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_iwo',            'Iwo',            'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_obokun',         'Obokun',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_odo_otin',       'Odo Otin',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_ola_oluwa',      'Ola-Oluwa',      'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_olorunda',       'Olorunda',       'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_oriade',         'Oriade',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_orolu',          'Orolu',          'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL),
+  ('place_lga_osun_osogbo',         'Osogbo',         'local_government_area', 4, 'place_state_osun', '["place_nigeria_001","place_zone_south_west","place_state_osun"]', NULL);
+
+-- ---- Oyo (33 LGAs) ---------------------------------------------------------
+INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES
+  ('place_lga_oyo_afijio',           'Afijio',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_akinyele',         'Akinyele',         'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_atiba',            'Atiba',            'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_atisbo',           'Atisbo',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_egbeda',           'Egbeda',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibadan_north',     'Ibadan North',     'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibadan_north_east','Ibadan North-East', 'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibadan_north_west','Ibadan North-West', 'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibadan_south_east','Ibadan South-East', 'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibadan_south_west','Ibadan South-West', 'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibarapa_central',  'Ibarapa Central',  'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibarapa_east',     'Ibarapa East',     'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ibarapa_north',    'Ibarapa North',    'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ido',              'Ido',              'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_irepo',            'Irepo',            'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_iseyin',           'Iseyin',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_itesiwaju',        'Itesiwaju',        'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_iwajowa',          'Iwajowa',          'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_kajola',           'Kajola',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_lagelu',           'Lagelu',           'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ogbomosho_north',  'Ogbomosho North',  'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ogbomosho_south',  'Ogbomosho South',  'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ogo_oluwa',        'Ogo Oluwa',        'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_olorunsogo',       'Olorunsogo',       'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_oluyole',          'Oluyole',          'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ona_ara',          'Ona Ara',          'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_orelope',          'Orelope',          'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_ori_ire',          'Ori Ire',          'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_oyo_east',         'Oyo East',         'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_oyo_west',         'Oyo West',         'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_saki_east',        'Saki East',        'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_saki_west',        'Saki West',        'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL),
+  ('place_lga_oyo_surulere',         'Surulere',         'local_government_area', 4, 'place_state_oyo', '["place_nigeria_001","place_zone_south_west","place_state_oyo"]', NULL);
