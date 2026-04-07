@@ -10,6 +10,7 @@ export default defineConfig({
       '@webwaka/entities':      path.resolve(__dirname, '../../packages/entities/src/index.ts'),
       '@webwaka/entitlements':  path.resolve(__dirname, '../../packages/entitlements/src/index.ts'),
       '@webwaka/relationships': path.resolve(__dirname, '../../packages/relationships/src/index.ts'),
+      '@webwaka/claims':        path.resolve(__dirname, '../../packages/claims/src/index.ts'),
     },
   },
   test: {

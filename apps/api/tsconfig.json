@@ -8,7 +8,8 @@
       "@webwaka/geography":     ["../../packages/core/geography/src/index.ts"],
       "@webwaka/entities":      ["../../packages/entities/src/index.ts"],
       "@webwaka/entitlements":  ["../../packages/entitlements/src/index.ts"],
-      "@webwaka/relationships": ["../../packages/relationships/src/index.ts"]
+      "@webwaka/relationships": ["../../packages/relationships/src/index.ts"],
+      "@webwaka/claims":        ["../../packages/claims/src/index.ts"]
     },
     "rootDir": "../..",
     "outDir": "dist",

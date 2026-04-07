@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: 4 — Discovery Layer MVP (READY FOR REVIEW)**
+**Current Milestone: 5 — Claim-First Onboarding (READY FOR REVIEW)**
 
 ## Milestone Status
 
@@ -13,8 +13,9 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 0 — Program Setup | ✅ DONE |
 | 1 — Governance Baseline | ✅ DONE |
 | 2 — Monorepo Scaffolding | ✅ DONE — Founder approved 2026-04-07 |
-| 3 — Vertical Package Scaffolding + First API Wiring | ✅ DONE — Founder approved 2026-04-07 20:31 WAT — 171 tests, 12 packages clean |
-| 4 — Discovery Layer MVP | 🟡 READY FOR REVIEW — 5 routes, 2 migrations, 20 tests, 171 total |
+| 3 — Vertical Package Scaffolding + First API Wiring | ✅ DONE — Founder approved 2026-04-07 20:31 WAT |
+| 4 — Discovery Layer MVP | ✅ DONE — Founder approved 2026-04-07 — 171 tests, 12 packages clean |
+| 5 — Claim-First Onboarding | 🟡 READY FOR REVIEW — 8 deliverables, 202 tests, 13 packages clean |
 
 ## Tech Stack (Target Production)
 
@@ -51,9 +52,10 @@ webwaka-os/
     offline-sync/           — @webwaka/offline-sync: Sync envelope types (scaffold) ✅
     ai-abstraction/         — @webwaka/ai-abstraction: AI provider interface (scaffold) ✅
     search-indexing/        — @webwaka/search-indexing: Search adapter types (M4 scaffold)
+    claims/                 — @webwaka/claims: Claim state machine + verification helpers (M5) ✅
   infra/
     db/
-      migrations/           — D1 SQL migration files (0001–0009 after M4) ✅
+      migrations/           — D1 SQL migration files (0001–0010 after M5) ✅
       seed/                 — Nigeria geography seed + LGA data ✅
       seed/scripts/         — INEC CSV → ward SQL importer ✅
     cloudflare/             — Cloudflare infrastructure config
@@ -120,7 +122,7 @@ interface D1Stmt {
 ```
 `first` and `all` must be plain generic async functions (not `vi.fn()`), since `vi.fn()` strips generic type parameters.
 
-## Test Summary (Milestone 4 — Discovery Layer MVP)
+## Test Summary (Milestone 5 — Claim-First Onboarding)
 
 | Package | Tests | Status |
 |---|---|---|
@@ -132,8 +134,9 @@ interface D1Stmt {
 | @webwaka/relationships | 5 | ✅ All passing |
 | @webwaka/offline-sync | 4 | ✅ All passing |
 | @webwaka/search-indexing | 0 | ✅ passWithNoTests (scaffold only) |
-| apps/api | 34 | ✅ All passing (14 M3 + 20 discovery M4) |
-| **Total** | **171** | ✅ All passing |
+| @webwaka/claims | 15 | ✅ All passing (10 state-machine + 5 verification) |
+| apps/api | 50 | ✅ All passing (15 base + 20 discovery M4 + 15 claim M5) |
+| **Total** | **202** | ✅ All passing |
 
 ## D1 Migration Files
 
@@ -149,6 +152,7 @@ interface D1Stmt {
 | `0007a_political_assignments_constraint.sql` | CandidateRecord.id + UNIQUE constraint |
 | `0008_init_search_index.sql` | Search entries + FTS5 virtual table ← M4 |
 | `0009_init_discovery_events.sql` | Discovery events log ← M4 |
+| `0010_claim_workflow.sql` | claim_requests table + indexes ← M5 |
 
 ## Seed Data
 
@@ -183,6 +187,19 @@ Ward seed is pre-committed. Source: `nielvid/states-lga-wards-polling-units` (Gi
 | GET | `/entities/organizations` | JWT | List organizations (tenant-scoped) |
 | POST | `/entities/organizations` | JWT | Create organization |
 | GET | `/entities/organizations/:id` | JWT | Get organization |
+
+### Milestone 5 Routes (Claim-First Onboarding)
+
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| POST | `/claim/intent` | JWT | Convert discovery intent → formal claim_request |
+| POST | `/claim/advance` | JWT (admin) | Advance claim state: approve or reject |
+| POST | `/claim/verify` | JWT | Submit verification evidence |
+| GET | `/claim/status/:profileId` | none | Public claim status + checklist |
+| POST | `/workspaces/:id/activate` | JWT | Activate workspace plan (Paystack stub) |
+| PATCH | `/workspaces/:id` | JWT (admin) | Update plan/name |
+| POST | `/workspaces/:id/invite` | JWT | Invite member to workspace |
+| GET | `/workspaces/:id/analytics` | JWT | Usage metrics (members, entities, pending claims) |
 
 ### Milestone 4 Routes (Discovery Layer — public, no auth)
 
