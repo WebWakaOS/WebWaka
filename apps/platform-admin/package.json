@@ -1,0 +1,14 @@
+{
+  "name": "@webwaka/platform-admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "WebWaka OS Platform Admin — local dev shim. Production: Cloudflare Pages.",
+  "scripts": {
+    "dev": "node server.js",
+    "typecheck": "echo 'No TypeScript in platform-admin yet — Milestone 2 pending'",
+    "test": "echo 'No tests in platform-admin yet — Milestone 2 pending'",
+    "lint": "echo 'No lint in platform-admin yet — Milestone 2 pending'",
+    "clean": "echo 'Nothing to clean in platform-admin yet'"
+  }
+}
