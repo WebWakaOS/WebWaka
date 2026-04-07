@@ -6,7 +6,7 @@
  * for what each subscription tier can access.
  */
 
-import { SubscriptionPlan, PlatformLayer } from '@webwaka/types';
+import { SubscriptionPlan, PlatformLayer } from '@webwaka/types'; // eslint-disable-line @typescript-eslint/no-unused-vars -- used as computed enum key in PLAN_CONFIGS
 
 // ---------------------------------------------------------------------------
 // Plan config shape
