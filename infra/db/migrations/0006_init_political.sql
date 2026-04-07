@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS jurisdictions (
   place_id       TEXT NOT NULL REFERENCES places(id),
   territory_type TEXT NOT NULL,
   name           TEXT NOT NULL,
-  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  created_at     INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at     INTEGER NOT NULL DEFAULT (unixepoch()),
   UNIQUE (place_id, territory_type)
 );
 
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS terms (
   start_date   TEXT NOT NULL,
   end_date     TEXT,
   confirmed_at TEXT,
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at   INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at   INTEGER NOT NULL DEFAULT (unixepoch())
 );
 
 -- Political assignments: person holding office over jurisdiction
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS political_assignments (
   term_id            TEXT NOT NULL REFERENCES terms(id),
   verification_state TEXT NOT NULL DEFAULT 'unverified',
   tenant_id          TEXT NOT NULL,
-  created_at         TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at         TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at         INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at         INTEGER NOT NULL DEFAULT (unixepoch())
 );
 
 CREATE INDEX IF NOT EXISTS idx_political_assignments_individual_id ON political_assignments(individual_id);
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS party_affiliations (
   joined_at         TEXT,
   left_at           TEXT,
   is_primary        INTEGER NOT NULL DEFAULT 1, -- SQLite boolean
-  created_at        TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at        TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at        INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at        INTEGER NOT NULL DEFAULT (unixepoch())
 );
 
 CREATE INDEX IF NOT EXISTS idx_party_affiliations_individual_id ON party_affiliations(individual_id);
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS candidate_records (
   party_affiliation_id TEXT REFERENCES party_affiliations(id),
   election_date       TEXT NOT NULL,
   verification_state  TEXT NOT NULL DEFAULT 'unverified',
-  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  created_at          INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at          INTEGER NOT NULL DEFAULT (unixepoch()),
   PRIMARY KEY (individual_id, office_type, jurisdiction_id, election_date)
 );
