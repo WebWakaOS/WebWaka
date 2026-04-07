@@ -1,0 +1,40 @@
+name: Governance Check
+
+on:
+  pull_request:
+    paths:
+      - "docs/governance/**"
+      - "docs/architecture/decisions/**"
+
+jobs:
+  governance-doc-check:
+    name: Verify governance doc structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required governance docs exist
+        run: |
+          MISSING=0
+          for doc in \
+            "docs/governance/security-baseline.md" \
+            "docs/governance/release-governance.md" \
+            "docs/governance/platform-invariants.md" \
+            "docs/governance/agent-execution-rules.md" \
+            "docs/governance/milestone-tracker.md"; do
+            if [ ! -f "$doc" ]; then
+              echo "MISSING: $doc"
+              MISSING=1
+            fi
+          done
+          if [ "$MISSING" = "1" ]; then
+            echo "FAIL: Missing required governance documents."
+            exit 1
+          else
+            echo "OK: All required governance docs present."
+          fi
+
+      - name: Remind reviewer to add founder-approval label
+        run: |
+          echo "INFO: Governance doc change detected."
+          echo "Ensure this PR has the founder-approval label before merging."
