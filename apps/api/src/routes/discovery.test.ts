@@ -168,8 +168,8 @@ function makeD1Mock(opts: D1MockOptions = {}) {
           if (sql.includes('FROM discovery_events de') && sql.includes('JOIN search_entries')) {
             return Promise.resolve({ results: trendingRows } as { results: T[] });
           }
-          // Search entries queries
-          if (sql.includes('FROM search_entries')) {
+          // Search entries queries (direct) or FTS5 search (JOIN from search_fts)
+          if (sql.includes('FROM search_entries') || sql.includes('FROM search_fts')) {
             return Promise.resolve({ results: searchRows } as { results: T[] });
           }
           // Relationships

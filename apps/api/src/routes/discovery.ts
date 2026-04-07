@@ -44,6 +44,18 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+async function hashIp(rawIp: string): Promise<string> {
+  if (!rawIp || rawIp === 'unknown') return 'unknown';
+  try {
+    const encoded = new TextEncoder().encode(rawIp);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+  } catch {
+    return 'unknown';
+  }
+}
+
 async function logEvent(
   db: D1Like,
   eventType: string,
@@ -107,13 +119,16 @@ discoveryRoutes.get('/search', async (c) => {
     visibility: string;
   }
 
+  // Use FTS5 MATCH for full-text search as specified (Platform Invariant — T3 discovery)
+  // search_fts is a content-table virtual table over search_entries, so we JOIN back for metadata.
   let sql = `
     SELECT se.entity_type, se.entity_id, se.display_name, se.place_id, se.ancestry_path, se.visibility
-    FROM search_entries se
-    WHERE se.visibility = 'public'
-      AND (se.display_name LIKE ? OR se.keywords LIKE ?)
+    FROM search_fts
+    JOIN search_entries se ON se.entity_id = search_fts.entity_id
+    WHERE search_fts MATCH ?
+      AND se.visibility = 'public'
   `;
-  const binds: unknown[] = [`%${q}%`, `%${q.toLowerCase()}%`];
+  const binds: unknown[] = [q.replace(/[^a-zA-Z0-9À-ɏ\s]/g, ' ').trim() + '*'];
 
   if (type) {
     sql += ` AND se.entity_type = ?`;
@@ -277,7 +292,8 @@ discoveryRoutes.post('/claim-intent', async (c) => {
     }, 409);
   }
 
-  const ipHash = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? 'unknown';
+  const rawIp = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? 'unknown';
+  const ipHash = await hashIp(rawIp);
 
   const recentIntents = await db
     .prepare(
