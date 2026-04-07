@@ -84,29 +84,37 @@
 
 **Goal:** Implement shared type packages, core geography/political primitives, auth scaffold, D1 schema foundations, and CI verification.
 **Owner:** Replit Agent 4 (implementation) + Base44 Super Agent (review + CI coordination)
-**Overall status:** 🟡 IN PROGRESS — Replit kickoff authorized, awaiting first branch submission
+**Overall status:** 🟡 IN PROGRESS — Implementation delivered by Replit, review complete, required fixes outstanding
 
 **Baseline:** `main` at commit `ef4afda7` (post PR #6 merge, 7 April 2026)
-**Target branch for Replit work:** `feat/milestone-2-scaffold`
-**PR target:** `staging`
+**Replit delivery:** Direct push to `main` (commits b7f0fc87, 6d69c11e) — process violation, retrospective PR #10 opened
+**Required fixes:** Issue #9 — 3 Replit items + 2 Base44 items (Base44 fixes applied)
+**CI:** Audit ✅ | Typecheck ❌ | Tests ❌ | Lint ❌ (all blocked on Required Fix #1)
 
 | Task | Status | Notes |
 |---|---|---|
-| Scaffold `packages/types` (shared TypeScript types) | IN PROGRESS | Replit — depends on universal-entity-model.md |
-| Scaffold `packages/core/geography` (typed hierarchy) | IN PROGRESS | Replit — TDR-0011 |
-| Scaffold `packages/core/politics` (office + territory model) | IN PROGRESS | Replit — political-taxonomy.md |
-| Scaffold `packages/auth` (JWT + workspace-scoped auth) | IN PROGRESS | Replit — TDR-0008 |
-| D1 schema: foundational tables and migrations | IN PROGRESS | Replit — TDR-0007 |
-| D1 seed: pnpm-workspace + tsconfig + eslint setup | IN PROGRESS | Replit |
-| CI passes end-to-end on monorepo structure | NOT STARTED | Blocks milestone completion |
-| Base44 governance review of Replit output | NOT STARTED | Base44 — triggers after PR opened |
-| Founder approval — Milestone 2 | NOT STARTED | Required before Milestone 3 |
+| Scaffold `packages/types` (shared TypeScript types) | DONE | Committed b7f0fc87 — all 7 entities, 11 entitlement dimensions, 15 relationship types |
+| Scaffold `packages/core/geography` (typed hierarchy) | DONE | Committed b7f0fc87 — full 8-level hierarchy, rollup helpers, Nigeria seed constants |
+| Scaffold `packages/core/politics` (office + territory model) | DONE | Committed b7f0fc87 — all 7 offices, exhaustive OFFICE_TERRITORY_MAP |
+| Scaffold `packages/auth` (JWT + workspace-scoped auth) | DONE | Committed b7f0fc87 — Web Crypto, MissingTenantContextError, timing-safe secret compare |
+| D1 schema: foundational tables and migrations | DONE | 6 migration files, 0001–0006, timestamps fixed to INTEGER |
+| Seed data: pnpm-workspace + tsconfig + eslint setup | DONE | 44 seed records (1 country + 6 zones + 37 states) |
+| Root scaffold: pnpm-workspace.yaml, tsconfig.base.json, vitest | DONE | Committed b7f0fc87 |
+| Fix workflows: --migrations-dir infra/db/migrations | DONE | Base44 — 2026-04-07 |
+| Standardise timestamps to INTEGER (unixepoch()) | DONE | Base44 — 2026-04-07 (6 migrations updated) |
+| Fix #1: tsconfig paths for @webwaka/* workspace resolution | BLOCKED | Replit — Issue #9 — CI typecheck/test/lint failing until resolved |
+| Fix #3: jwt.test.ts (8 required test cases) | BLOCKED | Replit — Issue #9 — security-critical function untested |
+| Fix #4: Remove Express server from apps/platform-admin | BLOCKED | Replit — Issue #9 — violates Platform Invariant T1 |
+| Retrospective PR: main → staging (formalise audit trail) | DONE | Base44 — PR #10 opened 2026-04-07 |
+| CI passes end-to-end on monorepo structure | BLOCKED | Blocked on Fix #1 (Replit) |
+| Base44 governance review of Replit output | DONE | Base44 — 2026-04-07 — APPROVED WITH REQUIRED FIXES |
+| Founder approval — Milestone 2 | NOT STARTED | Requires CI green + Fix #1/3/4 resolved |
 
 **Out of scope for this milestone (do NOT implement):**
 - `packages/ai`, `packages/db`, `packages/ui`, `packages/entitlements`, `packages/offline-sync`
 - Any `apps/*` implementation
 - Vertical-specific features
-- D1 seed data for 774 LGAs or 8,814 wards (framework only; seed script deferred to M2 completion or M3)
+- D1 seed data for 774 LGAs or 8,814 wards (deferred to Issue #8)
 
 ---
 
@@ -116,13 +124,14 @@ Detailed breakdown to be added as each milestone approaches.
 
 | Milestone | Title | Status |
 |---|---|---|
-| 3 | Discovery & Public Profiles | NOT STARTED |
-| 4 | Claim-First Onboarding | NOT STARTED |
-| 5 | Commerce Module | NOT STARTED |
-| 6 | Transport Module | NOT STARTED |
-| 7 | Civic & Political Module | NOT STARTED |
-| 8 | Institutional Module | NOT STARTED |
-| 9 | Professional Module | NOT STARTED |
-| 10 | Partner & White-Label | NOT STARTED |
-| 11 | AI Integration | NOT STARTED |
-| 12 | Production Launch | NOT STARTED |
+| 3 | API Worker + Database Layer | NOT STARTED |
+| 4 | Discovery & Public Profiles | NOT STARTED |
+| 5 | Claim-First Onboarding | NOT STARTED |
+| 6 | Commerce Module | NOT STARTED |
+| 7 | Transport Module | NOT STARTED |
+| 8 | Civic & Political Module | NOT STARTED |
+| 9 | Institutional Module | NOT STARTED |
+| 10 | Professional Module | NOT STARTED |
+| 11 | Partner & White-Label | NOT STARTED |
+| 12 | AI Integration | NOT STARTED |
+| 13 | Production Launch | NOT STARTED |
