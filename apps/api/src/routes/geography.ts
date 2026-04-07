@@ -25,7 +25,8 @@ const geographyRoutes = new Hono<{ Bindings: Env }>();
  * The index is rebuilt at most once per hour.
  */
 async function getGeographyIndex(env: Env) {
-  const cached = await env.GEOGRAPHY_CACHE.get(CACHE_KEY, 'json') as null | Record<string, unknown>;
+  const cachedRaw = await env.GEOGRAPHY_CACHE.get(CACHE_KEY, 'json');
+  const cached: null | Record<string, unknown> = cachedRaw;
   if (cached) {
     // Rebuild GeographyIndex Map from cached plain object
     return new Map(Object.entries(cached)) as unknown as Awaited<ReturnType<typeof buildIndexFromD1>>;
