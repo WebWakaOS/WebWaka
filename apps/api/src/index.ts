@@ -17,6 +17,19 @@
  *   GET  /entities/organizations           — list (auth required)
  *   POST /entities/organizations           — create (auth + entitlement required)
  *   GET  /entities/organizations/:id       — get by ID (auth required)
+ *   GET  /discovery/search                 — full-text + geography search (no auth)
+ *   GET  /discovery/profiles/:type/:id     — public profile (no auth)
+ *   POST /discovery/claim-intent           — capture claim interest (no auth)
+ *   GET  /discovery/nearby/:placeId        — entities in subtree (no auth)
+ *   GET  /discovery/trending               — most-viewed this week (no auth)
+ *   POST /claim/intent                     — formal claim request (auth required)
+ *   POST /claim/advance                    — advance claim state (admin only)
+ *   POST /claim/verify                     — submit verification evidence (auth required)
+ *   GET  /claim/status/:profileId          — public claim status (no auth)
+ *   POST /workspaces/:id/activate          — activate workspace plan (auth required)
+ *   PATCH /workspaces/:id                  — update plan/layers (admin only)
+ *   POST /workspaces/:id/invite            — invite member (auth required)
+ *   GET  /workspaces/:id/analytics         — usage metrics (auth required)
  *
  * Platform Invariants enforced:
  *   T3 — tenant_id on all DB queries (via auth middleware context)
@@ -36,6 +49,8 @@ import { geographyRoutes } from './routes/geography.js';
 import { entityRoutes } from './routes/entities.js';
 import { authRoutes } from './routes/auth-routes.js';
 import { discoveryRoutes } from './routes/discovery.js';
+import { claimRoutes } from './routes/claim.js';
+import { workspaceRoutes } from './routes/workspaces.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -76,6 +91,22 @@ app.route('/auth', authRoutes);
 
 app.use('/entities/*', authMiddleware);
 app.route('/entities', entityRoutes);
+
+// ---------------------------------------------------------------------------
+// Claim routes — /claim/status/:profileId is public; others require auth
+// ---------------------------------------------------------------------------
+
+app.use('/claim/intent', authMiddleware);
+app.use('/claim/advance', authMiddleware);
+app.use('/claim/verify', authMiddleware);
+app.route('/claim', claimRoutes);
+
+// ---------------------------------------------------------------------------
+// Workspace routes — all require auth
+// ---------------------------------------------------------------------------
+
+app.use('/workspaces/*', authMiddleware);
+app.route('/workspaces', workspaceRoutes);
 
 // ---------------------------------------------------------------------------
 // Global error handler
