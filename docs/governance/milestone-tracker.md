@@ -186,3 +186,34 @@
 | 11 | Partner & White-Label | NOT STARTED |
 | 12 | Offline & PWA Baseline | NOT STARTED |
 | 13 | Production Hardening & Launch | NOT STARTED |
+
+---
+
+## Milestone 5 — Claim-First Onboarding + Workspace Activation
+
+**Goal:** Registration, claim submission + review lifecycle, workspace activation gated on verified claim, free-tier subscription provisioning, back-office entitlement check.
+**Owner:** Replit Agent (implementation) + Base44 Super Agent (QA, audit, CI)
+**Overall status:** 🔵 IN PROGRESS — Brief issued 2026-04-07 21:49 WAT
+
+**Baseline:** `main` at commit `30ad5f8` — 171 tests, 12 packages typecheck clean
+**Branch:** `feat/milestone-5` → `main`
+**Brief:** `docs/milestones/milestone-5-replit-brief.md`
+
+| Task | Status | Notes |
+|---|---|---|
+| Migration 0010 — users table | NOT STARTED | Formalises users table referenced by auth-routes.ts |
+| Migration 0011 — claim_requests table | NOT STARTED | Full claim audit trail |
+| POST /auth/register | NOT STARTED | New registration endpoint |
+| POST /claim/submit | NOT STARTED | Submit claim, advance profile to claim_pending |
+| GET /claim/my-claims | NOT STARTED | List caller's claim requests |
+| POST /claim/withdraw/:id | NOT STARTED | Withdraw pending claim, revert to claimable |
+| POST /claim/approve/:id | NOT STARTED | Admin: approve claim → verified |
+| POST /claim/reject/:id | NOT STARTED | Admin: reject claim → claimable |
+| POST /workspaces | NOT STARTED | Activate workspace gated on verified claim |
+| GET /workspaces/mine | NOT STARTED | Return workspace + subscription + member_count |
+| GET /workspaces/mine/entitlements | NOT STARTED | Return plan config via @webwaka/entitlements |
+| Wire new routes in index.ts | NOT STARTED | /claim/* and /workspaces/* with authMiddleware |
+| 25+ new tests | NOT STARTED | claim-routes.test.ts + workspace-routes.test.ts |
+| replit.md updated | NOT STARTED | New routes + migrations |
+| Governance checklist passed | NOT STARTED | See brief §Governance Compliance Checklist |
+| Founder approval — Milestone 5 | NOT STARTED | Pending QA review |
