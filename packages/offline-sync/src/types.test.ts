@@ -47,14 +47,16 @@ describe('@webwaka/offline-sync — type contract correctness', () => {
   });
 
   it('SyncAdapter interface shape compiles (mock implementation)', () => {
+    // eslint-disable-next-line @typescript-eslint/require-await
     const mockAdapter = {
-      enqueue: async () => 'sq_001',
-      dequeue: async () => [],
-      updateStatus: async () => undefined,
-      resolveConflict: async () => undefined,
+      enqueue: (): Promise<string> => Promise.resolve('sq_001'),
+      dequeue: (): Promise<SyncQueueItem[]> => Promise.resolve([]),
+      updateStatus: (): Promise<void> => Promise.resolve(),
+      resolveConflict: (): Promise<void> => Promise.resolve(),
     } satisfies SyncAdapter;
 
     expect(typeof mockAdapter.enqueue).toBe('function');
     expect(typeof mockAdapter.dequeue).toBe('function');
   });
 });
+
