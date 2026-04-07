@@ -1,4 +1,4 @@
-name: Deploy -- Production
+name: Deploy — Production
 
 on:
   push:
@@ -10,12 +10,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # -- CI checks --------------------------------------------------------------
+  # ── CI checks ──────────────────────────────────────────────────────────────
   ci:
     name: CI Checks
     uses: ./.github/workflows/ci.yml
 
-  # -- D1 Migrations ----------------------------------------------------------
+  # ── D1 Migrations ──────────────────────────────────────────────────────────
   migrate-production:
     name: D1 Migrations (Production)
     needs: ci
@@ -31,18 +31,20 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Apply D1 migrations (skip if none exist)
+      - name: Apply D1 migrations (production)
         run: |
-          if [ -d "migrations" ] && ls migrations/*.sql 1>/dev/null 2>&1; then
-            npx wrangler d1 migrations apply webwaka-os-production --env production
+          if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
+            npx wrangler d1 migrations apply webwaka-os-production \
+              --env production \
+              --migrations-dir infra/db/migrations
           else
-            echo "No migrations found -- skipping (pre-Milestone 2)"
+            echo "No migrations found at infra/db/migrations — skipping"
           fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-  # -- Deploy apps ------------------------------------------------------------
+  # ── Deploy apps ────────────────────────────────────────────────────────────
   deploy-api-production:
     name: Deploy API (Production)
     needs: migrate-production
@@ -64,13 +66,13 @@ jobs:
             pnpm --filter api build
             npx wrangler deploy --env production
           else
-            echo "apps/api/wrangler.toml not found -- skipping deploy (pre-Milestone 2)"
+            echo "apps/api/wrangler.toml not found — skipping deploy (pre-Milestone 3)"
           fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-  # -- Smoke tests ------------------------------------------------------------
+  # ── Smoke tests ────────────────────────────────────────────────────────────
   smoke-test-production:
     name: Smoke Test (Production)
     needs: deploy-api-production
@@ -90,7 +92,7 @@ jobs:
           if [ -f "tests/smoke/package.json" ]; then
             pnpm --filter smoke run smoke:production
           else
-            echo "Smoke tests not yet implemented -- skipping (pre-Milestone 2)"
+            echo "Smoke tests not yet implemented — skipping (pre-Milestone 3)"
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
