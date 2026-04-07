@@ -1,0 +1,42 @@
+version: 2
+updates:
+  # pnpm workspaces — root
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Africa/Lagos"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      cloudflare:
+        patterns:
+          - "@cloudflare/*"
+          - "wrangler"
+      hono:
+        patterns:
+          - "hono"
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "playwright"
+          - "@playwright/*"
+      types:
+        patterns:
+          - "@types/*"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Africa/Lagos"
+    labels:
+      - "dependencies"
+      - "ci"
