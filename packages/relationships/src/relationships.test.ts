@@ -3,7 +3,7 @@
  * Uses an in-memory D1 mock — no real database binding required.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { EntityType } from '@webwaka/types';
 import type { TenantId } from '@webwaka/types';
 import { RelationshipKind } from './types.js';
@@ -26,7 +26,7 @@ function makeMockDb() {
         boundArgs = args;
         return stmt;
       },
-      run: vi.fn(async () => {
+      run: vi.fn(() => {
         if (sql.startsWith('INSERT INTO relationships')) {
           const [id, kind, subject_type, subject_id, object_type, object_id, tenant_id, metadata] = boundArgs;
           store.push({ id, kind, subject_type, subject_id, object_type, object_id, tenant_id, metadata, created_at: new Date().toISOString() });
@@ -38,8 +38,8 @@ function makeMockDb() {
         }
         return {};
       }),
-      first: vi.fn(async () => null),
-      all: async <T>(): Promise<{ results: T[] }> => {
+      first: vi.fn(() => null),
+      all: <T>(): { results: T[] } => {
         const results = store.filter((row) => {
           if (sql.includes('tenant_id = ?') && row['tenant_id'] !== boundArgs[0]) return false;
           if (boundArgs[1] !== undefined && sql.includes('subject_id = ?') && row['subject_id'] !== boundArgs[1]) return false;
