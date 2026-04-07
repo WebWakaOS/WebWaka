@@ -140,7 +140,7 @@
 | Typecheck all packages (11) | DONE | Zero errors — `pnpm -r run typecheck` |
 | Test all packages (146 tests) | DONE | All passing — `pnpm -r run test` (146 tests, 13 files, 8 packages) |
 | Update milestone tracker + replit.md | DONE | 2026-04-07 |
-| PR: feat/milestone-3 → main (formalise audit trail) | DONE | Replit — PR #13 opened 2026-04-07, base=main. Labels: milestone-3, review-needed, base44. Closes #8, #11, #12. Release notes: docs/releases/milestone-3.md |
+| PR: feat/milestone-3 → main (formalise audit trail) | DONE | Replit — PR #13 opened 2026-04-07, base=main. Labels: milestone-3, review-needed, base44. Closes #8, #11, #12. Release notes in PR branch: docs/releases/milestone-3.md (merges with PR). |
 | CI evidence on PR #13 | DONE | 146 tests, 13 files, 8 packages; 11 packages typecheck zero errors. Comment: PR #13#issuecomment-4201450890 |
 | Founder approval — Milestone 3 | PENDING | Awaiting review |
 
