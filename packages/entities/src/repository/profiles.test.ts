@@ -27,7 +27,7 @@ function makeMockDb() {
       let boundArgs: unknown[] = [];
       const stmt: D1Stmt = {
         bind: (...args: unknown[]) => { boundArgs = args; return stmt; },
-        run: vi.fn(async () => {
+        run: vi.fn(() => {
           if (sql.startsWith('INSERT INTO profiles')) {
             const [id, subjectType, subjectId, primaryPlaceId, claimState] = boundArgs;
             store.push({ id, subject_type: subjectType, subject_id: subjectId, primary_place_id: primaryPlaceId, claim_state: claimState, verified_by: null, tenant_id: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
@@ -37,17 +37,17 @@ function makeMockDb() {
             const row = store.find((r) => r['id'] === id) as Record<string, unknown> | undefined;
             if (row) { row['claim_state'] = nextState; row['verified_by'] = verifiedBy; }
           }
-          return {};
+          return Promise.resolve({});
         }),
-        first: async <T>(): Promise<T | null> => {
+        first: <T>(): Promise<T | null> => {
           if (sql.includes('subject_type = ?')) {
             const [subjectType, subjectId] = boundArgs;
-            return (store.find((r) => r['subject_type'] === subjectType && r['subject_id'] === subjectId) ?? null) as T | null;
+            return Promise.resolve((store.find((r) => r['subject_type'] === subjectType && r['subject_id'] === subjectId) ?? null) as T | null);
           }
           const [id] = boundArgs;
-          return (store.find((r) => r['id'] === id) ?? null) as T | null;
+          return Promise.resolve((store.find((r) => r['id'] === id) ?? null) as T | null);
         },
-        all: async <T>(): Promise<{ results: T[] }> => ({ results: store as unknown as T[] }),
+        all: <T>(): Promise<{ results: T[] }> => ({ results: store as unknown as T[] }),
       };
       return stmt;
     },
@@ -78,7 +78,7 @@ describe('advanceClaimState', () => {
   it('transitions seeded → claimable successfully', async () => {
     const db = makeMockDb();
     const profile = await seedProfile(db, EntityType.Individual, 'ind_002');
-    const advanced = await advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.Claimable);
+    const advanced = await advanceClaimState(db, profile.id, ClaimLifecycleState.Claimable);
     expect((advanced as unknown as Record<string, unknown>)?.['claimState']).toBe(ClaimLifecycleState.Claimable);
   });
 
@@ -86,10 +86,10 @@ describe('advanceClaimState', () => {
     const db = makeMockDb();
     const profile = await seedProfile(db, EntityType.Individual, 'ind_003');
     await expect(
-      advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.Managed),
+      advanceClaimState(db, profile.id, ClaimLifecycleState.Managed),
     ).rejects.toThrow(InvalidClaimTransitionError);
     await expect(
-      advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.Managed),
+      advanceClaimState(db, profile.id, ClaimLifecycleState.Managed),
     ).rejects.toThrow(/seeded.*managed/i);
   });
 
@@ -119,9 +119,9 @@ describe('claim state transition validation', () => {
   it('allows claim_pending to go back to claimable (rejection flow)', async () => {
     const db = makeMockDb();
     const profile = await seedProfile(db, EntityType.Individual, 'ind_004');
-    await advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.Claimable);
-    await advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.ClaimPending);
-    const result = await advanceClaimState(db, profile.id as ProfileId, ClaimLifecycleState.Claimable);
+    await advanceClaimState(db, profile.id, ClaimLifecycleState.Claimable);
+    await advanceClaimState(db, profile.id, ClaimLifecycleState.ClaimPending);
+    const result = await advanceClaimState(db, profile.id, ClaimLifecycleState.Claimable);
     expect((result as unknown as Record<string, unknown>)?.['claimState']).toBe(ClaimLifecycleState.Claimable);
   });
 });
