@@ -1,0 +1,24 @@
+# WebWaka OS — Code Owners
+# These owners are automatically requested for review on PRs that touch their areas.
+# Syntax: pattern  @owner1 @owner2
+
+# Default owner for everything
+*                           @WebWakaDOS/founders
+
+# Governance docs — founder must review all changes
+/docs/governance/           @WebWakaDOS/founders
+
+# Architecture decisions — founder + base44 agent review
+/docs/architecture/         @WebWakaDOS/founders
+
+# Infrastructure — agent-controlled but founder-visible
+/infra/                     @WebWakaDOS/founders
+/.github/                   @WebWakaDOS/founders
+
+# Core packages — careful review
+/packages/auth-tenancy/     @WebWakaDOS/founders
+/packages/entitlements/     @WebWakaDOS/founders
+/packages/entities/         @WebWakaDOS/founders
+
+# Apps
+/apps/                      @WebWakaDOS/founders
