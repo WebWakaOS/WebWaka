@@ -18,7 +18,8 @@ interface D1Stmt {
   all<T>(): Promise<{ results: T[] }>;
 }
 
-type SqlHandler = (sql: string, ...args: unknown[]) => Promise<unknown>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+type SqlHandler = (sql: string, ...args: unknown[]) => unknown;
 
 /**
  * Build a D1 mock that matches queries by SQL substring.
@@ -91,7 +92,8 @@ describe('GET /claim/status/:profileId', () => {
     const app = makeApp(db);
     const res = await app.request('/claim/status/prof_abc');
     expect(res.status).toBe(200);
-    const json = await res.json();
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    const json = await res.json() as Record<string, unknown>;
     expect(json.claimState).toBe('seeded');
     expect(json.pendingRequest).toBeNull();
   });
@@ -103,10 +105,10 @@ describe('GET /claim/status/:profileId', () => {
     const app = makeApp(db);
     const res = await app.request('/claim/status/prof_abc');
     expect(res.status).toBe(200);
-    const json = await res.json();
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    const json = await res.json() as { checklist?: { items: unknown[] } };
     expect(json.checklist).toBeDefined();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(Array.isArray((json as Record<string, unknown> & { checklist?: { items: unknown[] } }).checklist?.items)).toBe(true);
+    expect(Array.isArray(json.checklist?.items)).toBe(true);
   });
 });
 
