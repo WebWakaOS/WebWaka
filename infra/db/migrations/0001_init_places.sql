@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS places (
   -- NULL for shared geography nodes (states, LGAs, wards).
   -- Populated for tenant-created facility places. (Platform Invariant T3)
   tenant_id   TEXT,
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at  INTEGER NOT NULL DEFAULT (unixepoch())
 );
 
 CREATE INDEX IF NOT EXISTS idx_places_parent_id ON places(parent_id);
