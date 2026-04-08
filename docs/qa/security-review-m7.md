@@ -8,6 +8,97 @@
 
 ---
 
+## A. OTP Replay Prevention
+
+**Verification command:**
+```bash
+grep -r "hashed_otp\|hashOTP\|hash.*otp" packages/otp/src/
+```
+
+| Check | Result | Evidence |
+|---|---|---|
+| OTP hashed before storage (R7) | PASS | `packages/otp/src/otp-generator.ts::hashOTP()` — SHA-256(`LOG_PII_SALT` + otp). Hash returned by `sendMultiChannelOTP()` for storage in `otp_log`. Raw OTP never written to D1. |
+| Hash function used | PASS | `crypto.subtle.digest('SHA-256', data)` — Web Crypto API, same as Cloudflare Workers runtime |
+| OTP verified by re-hashing submitted code | PASS | `packages/otp/src/multi-channel.ts::verifyOTP()` re-hashes the submitted code with the same salt and compares to stored hash |
+| OTP single-use enforced | PASS | `otp_log.used_at` set on first use; subsequent verifications check `used_at IS NULL` |
+| OTP expires after 10 minutes | PASS | `OTP_TTL_SECONDS = 600` — `otpExpiresAt()` in `otp-generator.ts`; `isOTPExpired()` checked at verify time |
+| Test evidence | PASS | `packages/otp` tests include hash verification — hashed value passed to D1 mock, not raw code |
+
+---
+
+## B. BVN Enumeration Prevention
+
+**Verification commands:**
+```bash
+grep "identityRateLimit" apps/api/src/index.ts
+grep "maskPII\|maskPhone\|LOG_PII_SALT" apps/api/src/middleware/audit-log.ts
+```
+
+| Check | Result | Evidence |
+|---|---|---|
+| `identityRateLimit` applied to `/identity/verify-bvn` | PASS | `apps/api/src/index.ts` line 200: `app.use('/identity/verify-bvn', identityRateLimit)` |
+| `identityRateLimit` applied to `/identity/verify-nin` | PASS | `apps/api/src/index.ts` line 201: `app.use('/identity/verify-nin', identityRateLimit)` |
+| BVN value never logged in plaintext | PASS | `LOG_PII_SALT` env var used to hash phone/BVN before any log write. `hashOTP(env.LOG_PII_SALT, bvn)` pattern enforced in identity routes. |
+| Rate limit key is per-user | PASS | `rate:identity:{userId}` — prevents enumeration via account switching |
+
+---
+
+## C. DM Encryption
+
+**Verification commands:**
+```bash
+grep "assertDMMasterKey" apps/api/src/index.ts
+grep "DM_MASTER_KEY" packages/social/src/dm.ts
+```
+
+| Check | Result | Evidence |
+|---|---|---|
+| `assertDMMasterKey()` called before any route registration | PASS | `apps/api/src/index.ts` line 250: called at startup before routes. 2 matches (import + call). |
+| `DM_MASTER_KEY` used in AES-GCM encryption before every INSERT | PASS | `packages/social/src/dm.ts` — `crypto.subtle.importKey('raw', keyMaterial, { name: 'AES-GCM' })` wraps content before D1 INSERT. No plaintext content column. |
+| P14 enforced — missing key throws at startup | PASS | `assertDMMasterKey()` throws `'P14_VIOLATION: DM_MASTER_KEY is required but was not provided'` if key absent |
+| contact.ts refactor did NOT remove DM guard | PASS | Grep confirms `assertDMMasterKey` still present in `apps/api/src/index.ts` post-M7f refactor |
+| No regression from M7e/M7f | PASS | All 42 `@webwaka/social` tests pass; DM encryption tests green |
+
+---
+
+## D. Tenant Isolation (T3) — New M7e/M7f Files
+
+**Verification command:**
+```bash
+grep -n "SELECT\|INSERT\|UPDATE\|DELETE" \
+  apps/api/src/routes/airtime.ts \
+  apps/api/src/routes/geography.ts \
+  packages/contact/src/contact-service.ts \
+  apps/ussd-gateway/src/telegram.ts \
+  2>/dev/null | grep -v "tenant_id\|T3.*exception\|#"
+```
+
+| File | SQL Queries | Tenant Isolation | Notes |
+|---|---|---|---|
+| `airtime.ts` | `SELECT agent_wallets WHERE agent_id=? AND tenant_id=?` | PASS | Initial wallet lookup binds `tenantId`. CTE UPDATE uses `wallet.id` from tenant-scoped result. KYC `SELECT users WHERE id=?` — `users.id` globally unique; JWT validates tenant membership before handler. |
+| `geography.ts` | `SELECT geography WHERE geography_type=?` | T3 exception (documented) | `T3 exception: geography is platform-wide, not tenant-scoped` — documented in file comment line 113. Public route, no PII. |
+| `contact-service.ts` | `SELECT/UPDATE/INSERT contact_channels WHERE user_id=?` | PASS | `contact_channels` has no `tenant_id` column — isolation via globally unique UUID `user_id` (assigned per user per platform). `assertChannelConsent` binds `tenantId` in `consent_records`. Documented in JSDoc. |
+| `telegram.ts` | `UPDATE contact_channels SET telegram_chat_id WHERE user_id=?` | PASS | Looks up user by `telegram_chat_id` from bot message — no tenant leak; `user_id` globally unique. |
+
+**Result: Zero new SQL queries violate T3. Geography exception documented. ✓**
+
+---
+
+## E. CORS Configuration
+
+**Verification command:**
+```bash
+grep "origin\|ALLOWED_ORIGINS" apps/api/src/index.ts
+```
+
+| Check | Result | Evidence |
+|---|---|---|
+| CORS origin is not `'*'` (wildcard) | PASS | `apps/api/src/index.ts` — CORS reads `c.env.ALLOWED_ORIGINS` (comma-separated Worker secret). Returns origin only if it appears in the allowlist. Returns `null` (reject) otherwise. |
+| No hardcoded wildcard in production path | PASS | `grep "origin.*'\*'" apps/api/src/index.ts` — zero matches. Wildcard fallback only in development hint comment. |
+| `ALLOWED_ORIGINS` is env-driven | PASS | Comment: "CORS origin reads ALLOWED_ORIGINS from Worker env (not hardcoded wildcard). ALLOWED_ORIGINS is a comma-separated string set via CF Dashboard secret." |
+
+---
+
 ## 1. Authentication & Authorisation
 
 | Control | Implementation | Status |

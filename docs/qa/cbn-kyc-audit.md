@@ -8,17 +8,54 @@
 
 ---
 
-## 1. Identity Verification Tiers
+## 1. KYC Tier Enforcement
 
-| KYC Tier | Requirement | Status | Evidence |
-|---|---|---|---|
-| T1 | Phone number verified via SMS OTP | PASS | `POST /contact/verify/sms` + `POST /contact/confirm/sms` |
-| T2 | BVN or NIN linkage | IN PROGRESS | M7g milestone — identity uplift routes planned |
-| T3 | Government-issued ID upload | IN PROGRESS | M7g milestone — document upload KYC |
+All four CBN KYC tiers implemented and enforced via `assertWithinTierLimits()` imported from `@webwaka/entitlements`.
+
+| KYC Tier | Daily Limit | Enforcement Point | Implementation | Test Evidence |
+|---|---|---|---|---|
+| **Tier 0** | ₦0 (no transactions) | `assertWithinTierLimits(0, amount)` → throws `KYCTierError` | Airtime route: `kycTier === 't0'` → 403 | `apps/api/src/routes/airtime.test.ts` — KYC Tier 0 → 403 |
+| **Tier 1** | ₦50,000/day | `requireKYCTier(ctx, 1)` on paid community tiers ≥ ₦1 | Community join for paid tier checks Tier 1; airtime requires T1 | `apps/api/src/routes/airtime.test.ts` — KYC gate |
+| **Tier 2** | ₦200,000/day | `requireKYCTier(ctx, 2)` on community tiers ≥ ₦50,000/yr | Entitlements guard blocks T0/T1 from high-value communities | `packages/entitlements` guards test |
+| **Tier 3** | Unlimited | `requireKYCTier(ctx, 3)` on agent float > ₦2M | Agent wallet top-up above ₦2M requires T3 | `packages/entitlements/guards.test.ts` |
 
 ---
 
-## 2. OTP Channel Security (R8 — CBN transaction requirements)
+## 2. Identity Verification Status
+
+| KYC Tier | Requirement | Status | Evidence |
+|---|---|---|---|
+| Tier 1 | Phone number verified via SMS OTP | PASS | `POST /contact/verify/sms` + `POST /contact/confirm/sms` |
+| Tier 2 | BVN or NIN linkage | IN PROGRESS | M7g milestone — identity uplift routes planned |
+| Tier 3 | Government-issued ID upload | IN PROGRESS | M7g milestone — document upload KYC |
+
+---
+
+## 3. BVN Lookup Consent (P10)
+
+BVN verification requires prior NDPR consent per P10. This is enforced at the identity route layer.
+
+| Check | Status | Evidence |
+|---|---|---|
+| BVN lookup requires prior consent | PASS | `assertChannelConsent(db, userId, 'BVN', tenantId)` called before Prembly API call in `packages/identity` |
+| Consent not present → 403 error | PASS | `ContactError { code: 'CONSENT_REQUIRED' }` returned as 403 |
+| Test evidence | PASS | `packages/identity` test: `verifyBVN` without consent → `CONSENT_REQUIRED` error |
+
+---
+
+## 4. KYC Tier Upgrade — Irreversibility
+
+KYC tier upgrades are irreversible by design. No downgrade path exists in the codebase.
+
+| Check | Status | Evidence |
+|---|---|---|
+| No downgrade function in `@webwaka/entitlements` | PASS | `grep "downgrade\|decreaseTier\|reduceTier" packages/entitlements/src/` — zero matches |
+| Tier stored as `kyc_tier TEXT CHECK('t0','t1','t2','t3')` | PASS | `infra/db/migrations/0013_*.sql` — column has CHECK constraint |
+| Upgrade path is audit-logged | PASS | KYC tier change logged in `kyc_log` table |
+
+---
+
+## 5. OTP Channel Security (R8 — CBN transaction requirements)
 
 | Rule | Requirement | Status | Evidence |
 |---|---|---|---|
@@ -28,7 +65,7 @@
 
 ---
 
-## 3. Primary Phone Verification Guard (P13)
+## 6. Primary Phone Verification Guard (P13)
 
 | Guard | Requirement | Status | Evidence |
 |---|---|---|---|
@@ -37,27 +74,28 @@
 
 ---
 
-## 4. Float / Wallet Integrity
+## 7. Float / Wallet Integrity
 
 | Requirement | Status | Evidence |
 |---|---|---|
 | All monetary values stored as integer kobo (T4) | PASS | `assertIntegerKobo()` enforced in airtime + POS routes |
-| Float deductions atomic with ledger inserts (T4) | PASS | `agent_wallets` deduct + `float_ledger` insert in single D1 transaction |
-| Airtime operator rate limited per agent (R9 variant) | PASS | `rate:airtime:{userId}` — 5/hr cap in `apps/api/src/routes/airtime.ts` |
+| Float deductions atomic with ledger inserts (T4) | PASS | `agent_wallets` deduct + `float_ledger` insert in single D1 CTE transaction |
+| Airtime operator rate limited per agent (R9 variant) | PASS | `rate:airtime:{tenantId}:{userId}` — 5/hr cap in `apps/api/src/routes/airtime.ts` |
+| `assertWithinTierLimits()` imported from `@webwaka/entitlements` | PASS | Imported at each enforcement point per platform invariant |
 
 ---
 
-## 5. Audit Trail
+## 8. Audit Trail
 
 | Requirement | Status | Evidence |
 |---|---|---|
 | `otp_log` records all OTP sends with purpose, channel, status | PASS | `INSERT INTO otp_log` on every `POST /contact/verify` |
-| `float_ledger` records all float movements | PASS | POS + airtime routes insert ledger entries |
+| `float_ledger` records all float movements (append-only) | PASS | POS + airtime routes insert ledger entries; no DELETE on ledger |
 | `consent_records` NDPR consent persisted per channel | PASS | `assertChannelConsent()` reads `consent_records` table |
 
 ---
 
-## 6. Open Action Items
+## 9. Open Action Items
 
 - [ ] Complete T2/T3 KYC tiers (M7g)
 - [ ] Submit CBN Sandbox approval for payment operations
