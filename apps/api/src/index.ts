@@ -94,6 +94,8 @@ import { syncRoutes } from './routes/sync.js';
 import { posRoutes } from './routes/pos.js';
 import { identityRateLimit } from './middleware/rate-limit.js';
 import { auditLogMiddleware } from './middleware/audit-log.js';
+import { communityRoutes } from './routes/community.js';
+import { socialRoutes } from './routes/social.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -215,6 +217,38 @@ app.route('/sync', syncRoutes);
 
 app.use('/pos/*', authMiddleware);
 app.route('/pos', posRoutes);
+
+// ---------------------------------------------------------------------------
+// M7c: Community platform routes (P1, P10, P15, T3, T4, T5)
+// Public: GET /community/:slug, GET /community/:id/channels, GET /community/:id/courses,
+//         GET /community/channels/:id/posts, GET /community/lessons/:id, GET /community/:id/events
+// Auth required: POST /community/join, POST /community/channels/:id/posts,
+//                POST /community/lessons/:id/progress, POST /community/events/:id/rsvp
+// ---------------------------------------------------------------------------
+
+app.use('/community/join', authMiddleware);
+app.use('/community/channels/:id/posts', authMiddleware);
+app.use('/community/lessons/:id/progress', authMiddleware);
+app.use('/community/events/:id/rsvp', authMiddleware);
+app.route('/community', communityRoutes);
+
+// ---------------------------------------------------------------------------
+// M7c: Social network routes (P14, P15, T3, T5)
+// Public: GET /social/profile/:handle
+// Auth required: POST /social/profile/setup, POST /social/follow/:id,
+//                GET /social/feed, POST /social/posts, POST /social/posts/:id/react,
+//                GET /social/dm/threads, POST /social/dm/threads, POST /social/dm/threads/:id/messages,
+//                GET /social/stories
+// ---------------------------------------------------------------------------
+
+app.use('/social/profile/setup', authMiddleware);
+app.use('/social/follow/*', authMiddleware);
+app.use('/social/feed', authMiddleware);
+app.use('/social/posts', authMiddleware);
+app.use('/social/posts/*', authMiddleware);
+app.use('/social/dm/*', authMiddleware);
+app.use('/social/stories', authMiddleware);
+app.route('/social', socialRoutes);
 
 // ---------------------------------------------------------------------------
 // Global error handler

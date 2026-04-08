@@ -1,32 +1,83 @@
 /**
- * @webwaka/social
+ * @webwaka/social — Social network platform.
+ * Profiles, Follows, Posts, Groups, DMs, Stories, Feed.
  *
- * Social network platform for WebWaka OS.
- * Entities: SocialProfile, Follow, SocialPost, SocialGroup, DMThread, DMMessage, Reaction
- *
- * See docs/social/ for full specification:
- * - social-graph.md       — follow/block/mute/group model
- * - feed-algorithm.md     — home + explore + trending feeds
- * - social-moderation.md  — AI classifier + human review queue
- * - dm-privacy.md         — DM encryption contracts
- * - stories-spec.md       — 24h ephemeral content
- *
- * Nigeria-specific features:
- * - Verification badge gated on NIN/BVN (packages/identity)
- * - Naija Pidgin (pcm) post labelling
- * - USSD trending feed (*384# → 3)
- * - Offline feed cache (Dexie.js, last 50 posts in IndexedDB)
+ * (Platform Invariants P5, P6, P14, P15, T3, T5)
  */
 
-// TODO M7d — Implement:
-// - packages/social/src/entities/ (SocialProfile, Follow, SocialPost, etc.)
-// - packages/social/src/migrations/ (0029–0034)
-// - packages/social/src/feed/ (home-feed.ts, explore-feed.ts, trending.ts)
-// - packages/social/src/routes/ (API handlers /social/*)
-// - packages/social/src/moderation.ts (AI classifier integration)
-// - packages/social/src/dm/ (thread-manager.ts, message-encryptor.ts)
-// - packages/social/src/stories/ (stories-ttl-cleanup.ts via scheduled cron)
-// - packages/social/src/verification-badge.ts (BVN/NIN gated)
-// - packages/social/src/ussd-feed.ts (USSD trending endpoint)
+export type {
+  SocialProfile,
+  SocialFollow,
+  SocialBlock,
+  SocialPost,
+  SocialGroup,
+  SocialGroupMember,
+  SocialReaction,
+  DMThread,
+  DMMessage,
+  ModerationResult,
+} from './types.js';
 
-export { SOCIAL_STUB_VERSION } from './stub';
+export {
+  setupSocialProfile,
+  getSocialProfileByHandle,
+  getSocialProfile,
+  isHandleAvailable,
+  verifyProfile,
+} from './social-profile.js';
+
+export type { D1Like } from './social-profile.js';
+
+export {
+  followProfile,
+  unfollowProfile,
+  blockProfile,
+  getFollowingIds,
+  getMutuals,
+} from './follow.js';
+
+export {
+  createPost,
+  getPost,
+  reactToPost,
+  getTrendingPosts,
+} from './social-post.js';
+
+export {
+  createGroup,
+  getGroup,
+  joinGroup,
+  listPublicGroups,
+  listGroupMembers,
+} from './social-group.js';
+
+export {
+  getUserFeed,
+  getExploreFeed,
+} from './feed.js';
+
+export {
+  getOrCreateThread,
+  listThreads,
+  sendDM,
+  getThreadMessages,
+  decryptDMContent,
+  assertDMMasterKey,
+} from './dm.js';
+
+export {
+  createStory,
+  getActiveStories,
+  storyTimeRemaining,
+} from './stories.js';
+
+export {
+  classifySocialContent,
+  shadowBanProfile,
+  reportSocialContent,
+} from './moderation.js';
+
+export {
+  encryptContent,
+  decryptContent,
+} from './encryption.js';

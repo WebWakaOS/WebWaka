@@ -1,26 +1,88 @@
 /**
- * @webwaka/community
+ * @webwaka/community — Skool-style community platform.
+ * Community Spaces, Channels, Courses, Events, Memberships.
  *
- * Skool-style community platform for WebWaka OS.
- * Entities: CommunitySpace, CommunityMembership, CommunityChannel,
- *           ForumThread, CourseModule, CommunityEvent
- *
- * See docs/community/ for full specification:
- * - community-model.md     — entity model
- * - skool-features.md      — feature set
- * - community-entitlements.md — KYC + subscription gating
- * - community-moderation.md   — content moderation pipeline
- * - community-monetization.md — payments + revenue split
+ * (Platform Invariants P1, P2, P5, P6, P10, P15, T3, T4, T5)
  */
 
-// TODO M7c — Implement:
-// - packages/community/src/entities/ (all 6 entity types)
-// - packages/community/src/migrations/ (0025–0028)
-// - packages/community/src/routes/ (API handlers)
-// - packages/community/src/moderation.ts
-// - packages/community/src/moderation-config.ts
-// - packages/community/src/membership-payment.ts (KYC gating)
-// - packages/community/src/broadcast-dm.ts
-// - packages/community/src/offline-cache.ts (Service Worker strategy)
+export type {
+  CommunitySpace,
+  MembershipTier,
+  CommunityMembership,
+  CommunityChannel,
+  ChannelPost,
+  CourseModule,
+  CourseLesson,
+  LessonProgress,
+  CommunityEvent,
+  EventRSVP,
+  ModerationResult,
+} from './types.js';
 
-export { COMMUNITY_STUB_VERSION } from './stub';
+export {
+  createCommunitySpace,
+  getCommunitySpace,
+  listCommunitySpaces,
+  listMembershipTiers,
+  createMembershipTier,
+} from './community-space.js';
+
+export type { D1Like } from './community-space.js';
+
+export {
+  joinCommunity,
+  leaveCommunity,
+  upgradeMemberTier,
+  getMembership,
+  getUserMemberships,
+} from './membership.js';
+
+export {
+  createChannel,
+  listChannels,
+  createChannelPost,
+  listChannelPosts,
+  getChannelPost,
+} from './channel.js';
+
+export {
+  createCourseModule,
+  listCourseModules,
+  createLesson,
+  getLesson,
+  listLessons,
+  updateLessonProgress,
+  getLessonProgress,
+} from './course.js';
+
+export {
+  createEvent,
+  listEvents,
+  getEvent,
+  rsvpEvent,
+} from './event.js';
+
+export {
+  classifyContent,
+  submitModerationAction,
+  reportContent,
+} from './moderation.js';
+
+export {
+  assertPaidTiersEnabled,
+  assertCoursesEnabled,
+  assertMaxSpaces,
+  FREE_COMMUNITY_ENTITLEMENTS,
+  GROWTH_COMMUNITY_ENTITLEMENTS,
+  ENTERPRISE_COMMUNITY_ENTITLEMENTS,
+} from './entitlements.js';
+
+export type { CommunityEntitlementDimensions } from './entitlements.js';
+
+export {
+  resolveThresholds,
+  DEFAULT_THRESHOLDS,
+  PLATFORM_MAX_THRESHOLDS,
+} from './moderation-config.js';
+
+export type { ModerationThresholds } from './moderation-config.js';

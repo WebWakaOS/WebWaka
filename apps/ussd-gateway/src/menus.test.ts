@@ -1,6 +1,8 @@
 /**
  * Tests for USSD menu text builders.
  * Validates CON/END prefixes, balance formatting (P9 — integer kobo), and menu text.
+ * M7c additions: trendingFeed with posts, trendingPostDetail, communityListMenu,
+ *                communityDetailMenu (Branch 3 + Branch 5).
  */
 
 import { describe, it, expect } from 'vitest';
@@ -11,9 +13,15 @@ import {
   sendMoneyEnterAmount,
   sendMoneyConfirm,
   trendingFeed,
+  trendingPostDetail,
   transportMenu,
   communityMenu,
+  communityListMenu,
+  communityDetailMenu,
+  communityAnnouncementsMenu,
   endSession,
+  type TrendingPost,
+  type CommunityItem,
 } from './menus.js';
 
 describe('mainMenu', () => {
@@ -92,25 +100,166 @@ describe('sendMoneyConfirm', () => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// M7c: trendingFeed with real post data (Branch 3)
+// ---------------------------------------------------------------------------
+
 describe('trendingFeed', () => {
-  it('starts with CON prefix', () => {
+  it('starts with CON prefix (no posts)', () => {
     expect(trendingFeed()).toMatch(/^CON /);
   });
 
-  it('includes back option', () => {
+  it('includes back option (no posts)', () => {
     expect(trendingFeed()).toContain('0. Back');
+  });
+
+  it('shows "No trending posts" when empty array passed', () => {
+    expect(trendingFeed([])).toContain('No trending posts');
+  });
+
+  it('lists numbered posts when posts provided', () => {
+    const posts: TrendingPost[] = [
+      { handle: 'amaka', content: 'Hello Lagos! This is a test post.' },
+      { handle: 'chidi', content: 'Good morning Nigeria, how are you all doing today?' },
+    ];
+    const menu = trendingFeed(posts);
+    expect(menu).toContain('1. @amaka:');
+    expect(menu).toContain('2. @chidi:');
+    expect(menu).toContain('0. Back');
+  });
+
+  it('truncates post content to 40 chars', () => {
+    const longContent = 'A'.repeat(100);
+    const posts: TrendingPost[] = [{ handle: 'user1', content: longContent }];
+    const menu = trendingFeed(posts);
+    const line = menu.split('\n').find((l) => l.startsWith('1.'));
+    expect(line).toBeDefined();
+    // after "@user1: " + 40 chars of content
+    const contentPart = line!.split(': ')[1] ?? '';
+    expect(contentPart.length).toBeLessThanOrEqual(40);
+  });
+
+  it('shows at most 5 posts', () => {
+    const posts: TrendingPost[] = Array.from({ length: 10 }, (_, i) => ({
+      handle: `user${i}`,
+      content: `Post number ${i}`,
+    }));
+    const menu = trendingFeed(posts);
+    expect(menu).toContain('5.');
+    expect(menu).not.toContain('6.');
+  });
+});
+
+describe('trendingPostDetail', () => {
+  it('starts with CON prefix', () => {
+    expect(trendingPostDetail({ handle: 'amaka', content: 'Hello' })).toMatch(/^CON /);
+  });
+
+  it('shows handle in output', () => {
+    const detail = trendingPostDetail({ handle: 'chidi', content: 'Great post!' });
+    expect(detail).toContain('@chidi');
+  });
+
+  it('includes like and back options', () => {
+    const detail = trendingPostDetail({ handle: 'user1', content: 'Content here' });
+    expect(detail).toContain('1. Like');
+    expect(detail).toContain('0. Back');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// M7c: communityListMenu (Branch 5)
+// ---------------------------------------------------------------------------
+
+describe('communityListMenu', () => {
+  it('starts with CON prefix (no communities)', () => {
+    expect(communityListMenu()).toMatch(/^CON /);
+  });
+
+  it('shows "no communities" when empty', () => {
+    expect(communityListMenu([])).toContain('no communities');
+  });
+
+  it('lists numbered communities', () => {
+    const communities: CommunityItem[] = [
+      { id: 'c1', name: 'Lagos Devs' },
+      { id: 'c2', name: 'Abuja Entrepreneurs' },
+    ];
+    const menu = communityListMenu(communities);
+    expect(menu).toContain('1. Lagos Devs');
+    expect(menu).toContain('2. Abuja Entrepreneurs');
+    expect(menu).toContain('0. Back');
+  });
+
+  it('shows at most 5 communities', () => {
+    const communities: CommunityItem[] = Array.from({ length: 8 }, (_, i) => ({
+      id: `c${i}`,
+      name: `Community ${i + 1}`,
+    }));
+    const menu = communityListMenu(communities);
+    expect(menu).toContain('5.');
+    expect(menu).not.toContain('6.');
+  });
+});
+
+describe('communityDetailMenu', () => {
+  it('starts with CON prefix', () => {
+    expect(communityDetailMenu('Lagos Devs')).toMatch(/^CON /);
+  });
+
+  it('includes community name in header', () => {
+    expect(communityDetailMenu('Abuja Entrepreneurs')).toContain('Abuja Entrepreneurs');
+  });
+
+  it('includes Announcements, Events, Members and Back', () => {
+    const menu = communityDetailMenu('Test Community');
+    expect(menu).toContain('1. Announcements');
+    expect(menu).toContain('2. Upcoming Events');
+    expect(menu).toContain('3. Members');
+    expect(menu).toContain('0. Back');
+  });
+
+  it('truncates very long community names to 30 chars', () => {
+    const longName = 'A'.repeat(50);
+    const menu = communityDetailMenu(longName);
+    const header = menu.split('\n')[0] ?? '';
+    expect(header.length).toBeLessThanOrEqual(35); // "CON " + 30 chars
+  });
+});
+
+describe('communityAnnouncementsMenu', () => {
+  it('starts with CON prefix (empty)', () => {
+    expect(communityAnnouncementsMenu([])).toMatch(/^CON /);
+  });
+
+  it('shows no announcements message', () => {
+    expect(communityAnnouncementsMenu([])).toContain('No announcements');
+  });
+
+  it('lists numbered announcements', () => {
+    const posts = [
+      { title: 'Welcome to the group', content: 'Welcome everyone!' },
+      { title: null, content: 'Big news coming this week, stay tuned for updates.' },
+    ];
+    const menu = communityAnnouncementsMenu(posts);
+    expect(menu).toContain('1. Welcome to the group');
+    expect(menu).toContain('2. Big news coming');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Legacy communityMenu (backward compatibility)
+// ---------------------------------------------------------------------------
+
+describe('communityMenu', () => {
+  it('starts with CON prefix', () => {
+    expect(communityMenu()).toMatch(/^CON /);
   });
 });
 
 describe('transportMenu', () => {
   it('starts with CON prefix', () => {
     expect(transportMenu()).toMatch(/^CON /);
-  });
-});
-
-describe('communityMenu', () => {
-  it('starts with CON prefix', () => {
-    expect(communityMenu()).toMatch(/^CON /);
   });
 });
 

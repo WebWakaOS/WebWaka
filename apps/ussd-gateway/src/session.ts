@@ -13,14 +13,17 @@ export type USSDState =
   | 'send_money_enter_amount'
   | 'send_money_confirm'
   | 'trending_feed'
+  | 'trending_post_detail'
   | 'transport_menu'
-  | 'community_menu';
+  | 'community_menu'      // legacy — alias for community_list
+  | 'community_list'
+  | 'community_detail';
 
 export interface USSDSession {
   sessionId: string;
   phone: string;
   state: USSDState;
-  data: Record<string, string>;
+  data: Record<string, unknown>;  // unknown allows arrays (trending posts, communities) and numbers
   createdAt: number;
 }
 

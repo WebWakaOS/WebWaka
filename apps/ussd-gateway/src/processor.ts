@@ -7,6 +7,12 @@
  *   text="1*2"     → from main menu → option 1 → option 2
  *
  * This processor uses session.state (not the full path) to drive the menu FSM.
+ *
+ * M7c additions:
+ *   trending_feed        — shows top 5 posts from social_posts (Branch 3)
+ *   trending_post_detail — shows a single post detail with like option
+ *   community_list       — shows communities user is member of (Branch 5)
+ *   community_detail     — shows selected community: announcements, events, members
  */
 
 import type { USSDSession } from './session.js';
@@ -17,9 +23,13 @@ import {
   sendMoneyEnterAmount,
   sendMoneyConfirm,
   trendingFeed,
+  trendingPostDetail,
   transportMenu,
-  communityMenu,
+  communityListMenu,
+  communityDetailMenu,
   endSession,
+  type TrendingPost,
+  type CommunityItem,
 } from './menus.js';
 
 export interface ProcessResult {
@@ -42,6 +52,9 @@ function lastInput(text: string): string {
 /**
  * Process USSD input for the current session state.
  * Returns the response text and the updated session.
+ *
+ * Note: trending posts and community lists are pre-fetched by the route handler
+ * and stored in session.data before this function is called.
  */
 export function processUSSDInput(session: USSDSession, text: string): ProcessResult {
   const input = lastInput(text);
@@ -66,11 +79,21 @@ export function processUSSDInput(session: USSDSession, text: string): ProcessRes
     case 'trending_feed':
       return handleTrendingFeed(updatedSession, input);
 
+    case 'trending_post_detail':
+      return handleTrendingPostDetail(updatedSession, input);
+
     case 'transport_menu':
       return handleTransportMenu(updatedSession, input);
 
+    case 'community_list':
+      return handleCommunityList(updatedSession, input);
+
+    case 'community_detail':
+      return handleCommunityDetail(updatedSession, input);
+
+    // Legacy state — redirects to community_list
     case 'community_menu':
-      return handleCommunityMenu(updatedSession, input);
+      return handleCommunityList(updatedSession, input);
 
     default:
       return {
@@ -83,7 +106,6 @@ export function processUSSDInput(session: USSDSession, text: string): ProcessRes
 
 function handleMainMenu(session: USSDSession, input: string): ProcessResult {
   if (!input) {
-    // Fresh session
     return { text: mainMenu(), session: { ...session, state: 'main_menu' }, ended: false };
   }
   switch (input) {
@@ -100,8 +122,9 @@ function handleMainMenu(session: USSDSession, input: string): ProcessResult {
         ended: false,
       };
     case '3':
+      // Trending posts pre-fetched by route handler and stored in session.data.trendingPosts
       return {
-        text: trendingFeed(),
+        text: trendingFeed(session.data['trendingPosts'] as TrendingPost[] | undefined),
         session: { ...session, state: 'trending_feed' },
         ended: false,
       };
@@ -112,9 +135,10 @@ function handleMainMenu(session: USSDSession, input: string): ProcessResult {
         ended: false,
       };
     case '5':
+      // Community list pre-fetched by route handler and stored in session.data.communities
       return {
-        text: communityMenu(),
-        session: { ...session, state: 'community_menu' },
+        text: communityListMenu(session.data['communities'] as CommunityItem[] | undefined),
+        session: { ...session, state: 'community_list' },
         ended: false,
       };
     default:
@@ -157,7 +181,7 @@ function handleEnterAmount(session: USSDSession, input: string): ProcessResult {
   }
   const recipient = session.data['recipient'] ?? 'Unknown';
   return {
-    text: sendMoneyConfirm(recipient, input),
+    text: sendMoneyConfirm(String(recipient), input),
     session: { ...session, state: 'send_money_confirm', data: { ...session.data, amount: input } },
     ended: false,
   };
@@ -179,11 +203,54 @@ function handleSendMoneyConfirm(session: USSDSession, input: string): ProcessRes
   return { text: endSession('Invalid selection.'), session, ended: true };
 }
 
+/**
+ * Trending feed handler — Branch 3 (*384*3#).
+ * User selects 1-5 to view a post, 0 to go back.
+ */
 function handleTrendingFeed(session: USSDSession, input: string): ProcessResult {
   if (input === '0') {
     return { text: mainMenu(), session: { ...session, state: 'main_menu' }, ended: false };
   }
-  return { text: endSession('Feature coming soon. Dial *384# to try again.'), session, ended: true };
+
+  const posts = session.data['trendingPosts'] as TrendingPost[] | undefined;
+  const index = parseInt(input, 10) - 1;
+
+  if (!posts || index < 0 || index >= posts.length) {
+    return { text: endSession('Invalid selection.'), session, ended: true };
+  }
+
+  const selected = posts[index];
+  if (!selected) {
+    return { text: endSession('Post not found.'), session, ended: true };
+  }
+
+  return {
+    text: trendingPostDetail(selected),
+    session: {
+      ...session,
+      state: 'trending_post_detail',
+      data: { ...session.data, selectedPostIndex: index },
+    },
+    ended: false,
+  };
+}
+
+/**
+ * Trending post detail handler — like or go back.
+ */
+function handleTrendingPostDetail(session: USSDSession, input: string): ProcessResult {
+  if (input === '0') {
+    const posts = session.data['trendingPosts'] as TrendingPost[] | undefined;
+    return {
+      text: trendingFeed(posts),
+      session: { ...session, state: 'trending_feed' },
+      ended: false,
+    };
+  }
+  if (input === '1') {
+    return { text: endSession('Post liked! Open the WebWaka app to see your feed.'), session, ended: true };
+  }
+  return { text: endSession('Invalid selection.'), session, ended: true };
 }
 
 function handleTransportMenu(session: USSDSession, input: string): ProcessResult {
@@ -193,9 +260,75 @@ function handleTransportMenu(session: USSDSession, input: string): ProcessResult
   return { text: endSession('Transport booking coming soon.'), session, ended: true };
 }
 
-function handleCommunityMenu(session: USSDSession, input: string): ProcessResult {
+/**
+ * Community list handler — Branch 5 (*384*5#).
+ * Shows list of communities the user belongs to.
+ * User selects 1-5 to view community detail, 0 to go back.
+ */
+function handleCommunityList(session: USSDSession, input: string): ProcessResult {
   if (input === '0') {
     return { text: mainMenu(), session: { ...session, state: 'main_menu' }, ended: false };
   }
-  return { text: endSession('Community features coming soon.'), session, ended: true };
+
+  const communities = session.data['communities'] as CommunityItem[] | undefined;
+  const index = parseInt(input, 10) - 1;
+
+  if (!communities || index < 0 || index >= communities.length) {
+    return { text: endSession('Invalid selection.'), session, ended: true };
+  }
+
+  const selected = communities[index];
+  if (!selected) {
+    return { text: endSession('Community not found.'), session, ended: true };
+  }
+
+  return {
+    text: communityDetailMenu(selected.name),
+    session: {
+      ...session,
+      state: 'community_detail',
+      data: { ...session.data, selectedCommunityId: selected.id, selectedCommunityName: selected.name },
+    },
+    ended: false,
+  };
+}
+
+/**
+ * Community detail handler — show announcements, events, or members.
+ */
+function handleCommunityDetail(session: USSDSession, input: string): ProcessResult {
+  if (input === '0') {
+    const communities = session.data['communities'] as CommunityItem[] | undefined;
+    return {
+      text: communityListMenu(communities),
+      session: { ...session, state: 'community_list' },
+      ended: false,
+    };
+  }
+
+  const communityName = String(session.data['selectedCommunityName'] ?? 'Community');
+  const communityId = String(session.data['selectedCommunityId'] ?? '');
+
+  switch (input) {
+    case '1':
+      return {
+        text: endSession(`Latest announcements for ${communityName} are on the app. Open WebWaka to read.`),
+        session,
+        ended: true,
+      };
+    case '2':
+      return {
+        text: endSession(`Upcoming events for ${communityName} are on the app. Open WebWaka to RSVP. ID: ${communityId.slice(0, 8)}`),
+        session,
+        ended: true,
+      };
+    case '3':
+      return {
+        text: endSession(`View all members of ${communityName} in the WebWaka app.`),
+        session,
+        ended: true,
+      };
+    default:
+      return { text: endSession('Invalid selection.'), session, ended: true };
+  }
 }
