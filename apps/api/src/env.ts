@@ -84,4 +84,11 @@ export interface Env {
    * Falls back to ['https://*.webwaka.com'] in production if not set.
    */
   ALLOWED_ORIGINS?: string;
+
+  /**
+   * DM master encryption key — AES-256-GCM (M7c, Platform Invariant P14).
+   * Must be present at startup. Absence throws — never silently stores plaintext.
+   * Base64-encoded 32-byte key. Set via: wrangler secret put DM_MASTER_KEY
+   */
+  DM_MASTER_KEY: string;
 }
