@@ -14,6 +14,9 @@ export default defineConfig({
       '@webwaka/payments':      path.resolve(__dirname, '../../packages/payments/src/index.ts'),
       '@webwaka/events':        path.resolve(__dirname, '../../packages/events/src/index.ts'),
       '@webwaka/frontend':      path.resolve(__dirname, '../../packages/frontend/src/index.ts'),
+      '@webwaka/identity':      path.resolve(__dirname, '../../packages/identity/src/index.ts'),
+      '@webwaka/otp':           path.resolve(__dirname, '../../packages/otp/src/index.ts'),
+      '@webwaka/contact':       path.resolve(__dirname, '../../packages/contact/src/index.ts'),
     },
   },
   test: {

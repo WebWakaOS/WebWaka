@@ -1,24 +1,32 @@
 /**
- * @webwaka/otp
+ * @webwaka/otp — Multi-channel OTP delivery (M7a)
  *
- * OTP delivery abstraction for Nigerian phone verification.
- * Implements OTPProvider abstraction from TDR-0009 (M7 extension).
+ * Implements the OTP delivery waterfall:
+ *   SMS (Termii) → WhatsApp (Meta v18) → Telegram Bot → [Voice]
  *
- * Channel priority: SMS (Termii) → WhatsApp → USSD → Voice
- * See docs/identity/otp-channels.md for full specification.
+ * R8: Transaction OTPs MUST use SMS. Telegram NOT allowed for transactions.
+ * R9: Channel-level rate limiting (KV-backed sliding window).
+ * R10: Each channel is verified independently.
  *
- * Rate limiting: R5 — 3 OTP sends / 10 min per phone number.
- * Phone validation: Nigerian carriers (MTN, Airtel, Glo, 9mobile).
+ * Usage:
+ *   import { sendMultiChannelOTP, verifyOTPHash, validateNigerianPhone } from '@webwaka/otp';
  */
 
-// TODO M7a — Implement:
-// - packages/otp/src/providers/termii.ts
-// - packages/otp/src/providers/africas-talking.ts
-// - packages/otp/src/channel-selector.ts
-// - packages/otp/src/phone-validator.ts
-// - packages/otp/src/rate-limiter.ts
-// - packages/otp/src/otp-generator.ts (crypto.getRandomValues)
-// - packages/otp/src/otp-store.ts (hashed storage in D1)
+export { sendMultiChannelOTP, verifyOTPHash, lockChannelAfterFailures } from './multi-channel.js';
+export { sendSMSOTP } from './termii-sms.js';
+export { sendWhatsAppOTP } from './whatsapp-meta.js';
+export { sendTelegramOTP } from './telegram-bot.js';
+export { resolveOTPChannels, rateLimitKey, lockKey, CHANNEL_RATE_LIMITS, lockDurationSeconds } from './channel-router.js';
+export { validateNigerianPhone } from './phone-validator.js';
+export { generateOTP, hashOTP, otpExpiresAt, isOTPExpired, OTP_TTL_SECONDS } from './otp-generator.js';
 
-export type { OTPProvider, OTPChannel, OTPConfig, OTPSendResult, PhoneValidationResult } from './types';
-export { OTP_STUB_VERSION } from './stub';
+export type {
+  OTPChannel,
+  OTPPurpose,
+  OTPSendResult,
+  PhoneValidationResult,
+  OTPEnv,
+  KVNamespace,
+} from './types.js';
+
+export { OTPError } from './types.js';

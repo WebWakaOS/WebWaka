@@ -1,36 +1,33 @@
 /**
- * @webwaka/identity
+ * @webwaka/identity — Nigerian identity verification package (M7a)
  *
- * Nigerian identity verification package.
- * Implements the IdentityProvider abstraction from TDR-0009 (M7 extension).
+ * Implements NIN/BVN/CAC/FRSC verification via Prembly (primary) + Paystack (BVN fallback).
+ *
+ * ALL lookups require a ConsentRecord (Platform Invariant P10 — NDPR).
+ * BVN/NIN values must NEVER be logged (Security Baseline R7).
  *
  * Usage:
- *   import { verifyBVN, verifyNIN, verifyCAC, verifyFRSC } from '@webwaka/identity';
- *
- * See docs/identity/ for full API reference and compliance rules.
- * See docs/enhancements/m7/kyc-compliance.md for KYC strategy.
- *
- * IMPORTANT: All lookups require a ConsentRecord (Platform Invariant P10 — NDPR).
- * BVN/NIN values must never be logged (Security Baseline R7).
+ *   import { verifyBVN, verifyNIN, verifyCAC, verifyFRSC, assertConsentExists } from '@webwaka/identity';
  */
 
-// TODO M7a — Implement:
-// - packages/identity/src/providers/prembly.ts
-// - packages/identity/src/providers/paystack-identity.ts
-// - packages/identity/src/consent.ts (requireConsentFor)
-// - packages/identity/src/bvn.ts
-// - packages/identity/src/nin.ts
-// - packages/identity/src/cac.ts
-// - packages/identity/src/frsc.ts
-// - packages/identity/src/kyc-tier-updater.ts
+export { verifyBVN } from './bvn.js';
+export { verifyNIN } from './nin.js';
+export { verifyCAC, validateCACNumber } from './cac.js';
+export { verifyFRSC } from './frsc.js';
+export { assertConsentExists, hashPII, maskPhone, maskEmail } from './consent.js';
 
 export type {
   BVNVerifyResult,
   NINVerifyResult,
   CACVerifyResult,
   FRSCVerifyResult,
-  IdentityProvider,
+  KYCRecord,
+  KYCTier,
+  VerificationStatus,
+  IdentityDocType,
+  IdentityProviderName,
   ConsentRecord,
-} from './types';
+  IdentityEnv,
+} from './types.js';
 
-export { IDENTITY_STUB_VERSION } from './stub';
+export { IdentityError } from './types.js';

@@ -23,3 +23,6 @@ export {
   requireAIAccess,
   requireSensitiveSectorAccess,
 } from './guards.js';
+
+export type { KYCTier, KYCTierConfig } from './cbn-kyc-tiers.js';
+export { KYC_TIER_CONFIGS, KYCTierError, meetsTierRequirement, requireKYCTier, assertWithinTierLimits } from './cbn-kyc-tiers.js';
