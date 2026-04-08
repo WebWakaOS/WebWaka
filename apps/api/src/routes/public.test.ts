@@ -24,13 +24,25 @@ function makeDb(rows: Record<string, unknown> = {}) {
   };
 }
 
+const stubKV = {
+  get: async (_key: string) => null,
+  put: async (_key: string, _value: string, _opts?: unknown) => undefined,
+} as unknown as KVNamespace;
+
 function makeEnv(extras: Partial<Env> = {}): Env {
   return {
     DB: makeDb() as unknown as D1Database,
-    GEOGRAPHY_CACHE: {} as KVNamespace,
+    GEOGRAPHY_CACHE: stubKV,
+    RATE_LIMIT_KV: stubKV,
     JWT_SECRET: 'test-jwt-secret-minimum-32-characters!',
     ENVIRONMENT: 'development',
     PAYSTACK_SECRET_KEY: 'sk_test_fake',
+    PREMBLY_API_KEY: 'prembly_test_key',
+    TERMII_API_KEY: 'termii_test_key',
+    WHATSAPP_ACCESS_TOKEN: 'wa_test_token',
+    WHATSAPP_PHONE_NUMBER_ID: 'wa_phone_id',
+    TELEGRAM_BOT_TOKEN: 'tg_test_token',
+    LOG_PII_SALT: 'test-pii-salt-32-chars-minimum!!',
     ...extras,
   };
 }

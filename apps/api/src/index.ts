@@ -36,12 +36,27 @@
  *   GET  /public/:tenantSlug               — tenant manifest + discovery page (no auth, M6)
  *   GET  /admin/:workspaceId/dashboard     — admin layout model (no auth, M6)
  *   POST /themes/:tenantId                 — update tenant branding (auth required, M6)
+ *   POST /identity/verify-bvn             — BVN verification (auth required, M7a)
+ *   POST /identity/verify-nin             — NIN verification (auth required, M7a)
+ *   POST /identity/verify-cac             — CAC lookup (auth required, M7a)
+ *   POST /identity/verify-frsc            — FRSC lookup (auth required, M7a)
+ *   GET  /contact/channels                — get contact channels (auth required, M7a)
+ *   PUT  /contact/channels                — upsert contact channels (auth required, M7a)
+ *   POST /contact/verify/:channel         — send OTP to channel (auth required, M7a)
+ *   POST /contact/confirm/:channel        — confirm OTP for channel (auth required, M7a)
+ *   DELETE /contact/channels/:channel     — remove channel (auth required, M7a)
+ *   GET  /contact/preferences             — get OTP preferences (auth required, M7a)
+ *   PUT  /contact/preferences             — update OTP preferences (auth required, M7a)
  *
  * Platform Invariants enforced:
  *   T3 — tenant_id on all DB queries (via auth middleware context)
  *   T4 — kobo integers enforced by repository layer
  *   T5 — entitlement checks in entity create routes
  *   T6 — geography-driven discovery via /geography routes
+ *   P10 — NDPR consent required before identity lookups (M7a)
+ *   R5  — 2/hour BVN/NIN rate limit (M7a)
+ *   R8  — SMS mandatory for transaction OTPs (M7a)
+ *   R9  — channel-level OTP rate limits (M7a)
  */
 
 import { Hono } from 'hono';
@@ -63,6 +78,10 @@ import {
   paymentsVerifyRoute,
 } from './routes/payments.js';
 import { publicRoutes, adminPublicRoutes, themeRoutes } from './routes/public.js';
+import { identityRoutes } from './routes/identity.js';
+import { contactRoutes } from './routes/contact.js';
+import { identityRateLimit } from './middleware/rate-limit.js';
+import { auditLogMiddleware } from './middleware/audit-log.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -142,6 +161,24 @@ app.route('/admin', adminPublicRoutes);
 
 app.use('/themes/*', authMiddleware);
 app.route('/themes', themeRoutes);
+
+// ---------------------------------------------------------------------------
+// M7a: Identity verification routes — auth + rate limit (R5) + audit log
+// ---------------------------------------------------------------------------
+
+app.use('/identity/*', authMiddleware);
+app.use('/identity/*', auditLogMiddleware);
+app.use('/identity/verify-bvn', identityRateLimit);
+app.use('/identity/verify-nin', identityRateLimit);
+app.route('/identity', identityRoutes);
+
+// ---------------------------------------------------------------------------
+// M7a: Contact channel routes — auth required (R9/R10 enforced in route handler)
+// ---------------------------------------------------------------------------
+
+app.use('/contact/*', authMiddleware);
+app.use('/contact/verify/*', auditLogMiddleware);
+app.route('/contact', contactRoutes);
 
 // ---------------------------------------------------------------------------
 // Global error handler

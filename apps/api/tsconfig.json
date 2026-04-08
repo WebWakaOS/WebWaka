@@ -12,7 +12,10 @@
       "@webwaka/claims":        ["../../packages/claims/src/index.ts"],
       "@webwaka/payments":      ["../../packages/payments/src/index.ts"],
       "@webwaka/events":        ["../../packages/events/src/index.ts"],
-      "@webwaka/frontend":      ["../../packages/frontend/src/index.ts"]
+      "@webwaka/frontend":      ["../../packages/frontend/src/index.ts"],
+      "@webwaka/identity":      ["../../packages/identity/src/index.ts"],
+      "@webwaka/otp":           ["../../packages/otp/src/index.ts"],
+      "@webwaka/contact":       ["../../packages/contact/src/index.ts"]
     },
     "rootDir": "../..",
     "outDir": "dist",
