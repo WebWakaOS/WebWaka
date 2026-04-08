@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: 7e — Nigeria UX Polish (NEXT UP)**
+**Current Milestone: M8 — NEXT UP**
 
 ## Milestone Status
 
@@ -20,10 +20,10 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 7a — Regulatory Survival + Multi-Channel Contact | ✅ DONE — PR #21 merged 2026-04-08 — 116 tests — SHA `d629339` |
 | 7b — Offline Sync + USSD Gateway + POS Float Ledger | ✅ DONE — PR #24 merged 2026-04-08 — 178 tests — SHA `ef76fdc` |
 | 7c — Community Platform + Social Network (combined M7c+M7d) | ✅ DONE — 609 total tests — HEAD `691ecaa` |
-| 7e — Nigeria UX Polish | ✅ DONE — branch `feat/m7ef-nigeria-ux-contact` — i18n pcm/en, USSD *384#, low-data mode, airtime, geography hierarchy, PWA |
+| 7e — Nigeria UX Polish | ✅ DONE — i18n pcm/en, USSD *384#, low-data mode, airtime, geography hierarchy, PWA |
 | 7f — Contact Service + Telegram + 360dialog | ✅ DONE — ContactService D1 persistence, P12/P13 guards, R8 routing, Telegram webhook, 360dialog WA |
-| M7 QA Gate | ✅ DONE — NITDA, CBN KYC, NDPR, security-review docs in docs/qa/ |
-| M7 Total Tests | 716 passing (baseline 609, target ≥655) — branch pushed, PR ready |
+| M7 QA Gate | ✅ DONE — QA report `/approve-m7ef` — SHA `3d5a67a` |
+| **M7 Platform Total** | **719 tests passing** (baseline 609, +110 new) — merged to main `3d5a67a` |
 
 ## Tech Stack (Target Production)
 
