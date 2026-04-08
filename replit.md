@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: M8 — NEXT UP**
+**Current Milestone: M8a — Verticals Infrastructure (IN PROGRESS)**
 
 ## Milestone Status
 
@@ -24,6 +24,19 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 7f — Contact Service + Telegram + 360dialog | ✅ DONE — ContactService D1 persistence, P12/P13 guards, R8 routing, Telegram webhook, 360dialog WA |
 | M7 QA Gate | ✅ DONE — QA report `/approve-m7ef` — SHA `3d5a67a` |
 | **M7 Platform Total** | **719 tests passing** (baseline 609, +110 new) — merged to main `3d5a67a` |
+| **M8 Planning** | ✅ DONE — SHA `75930c4` — 160 verticals seeded, packages/verticals FSM scaffold, 6 framework docs |
+| **M8a — Verticals Infrastructure** | 🔲 IN PROGRESS — packages/verticals scaffold done (27 tests); API routes + wrangler wiring pending |
+| M8b — Politics + POS Business | 🔲 PLANNED — docs/milestones/m8b-framework.md |
+| M8c — Transport Verticals | 🔲 PLANNED — docs/milestones/m8c-framework.md |
+| M8d — Civic Expansion | 🔲 PLANNED — docs/milestones/m8d-framework.md |
+| M8e — P1 Commerce + Creator | 🔲 PLANNED — docs/milestones/m8e-framework.md |
+
+## Platform Test Totals
+
+| Milestone | Tests | Delta |
+|---|---|---|
+| M7 (baseline) | 719 | — |
+| M8 Planning (packages/verticals) | **746** | +27 |
 
 ## Tech Stack (Target Production)
 
