@@ -21,13 +21,13 @@ CREATE INDEX IF NOT EXISTS idx_sessions_tenant ON agent_sessions(tenant_id);
 -- Server-side sync log — mirrors Dexie.js client queue for audit
 CREATE TABLE IF NOT EXISTS sync_queue_log (
   id               TEXT NOT NULL PRIMARY KEY,
-  client_id        TEXT NOT NULL,             -- Client-generated UUID
+  client_id        TEXT NOT NULL UNIQUE,      -- Client-generated UUID — UNIQUE for P11 idempotency
   agent_id         TEXT,
   entity_type      TEXT NOT NULL,
   operation        TEXT NOT NULL CHECK (operation IN ('create', 'update', 'delete')),
   payload          TEXT NOT NULL,             -- JSON
-  status           TEXT NOT NULL DEFAULT 'received'
-                   CHECK (status IN ('received', 'applied', 'rejected', 'conflict')),
+  status           TEXT NOT NULL DEFAULT 'pending'
+                   CHECK (status IN ('pending', 'applied', 'conflict')),
   conflict_reason  TEXT,
   applied_at       INTEGER,
   tenant_id        TEXT NOT NULL,
