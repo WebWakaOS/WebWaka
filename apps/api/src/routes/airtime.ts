@@ -28,14 +28,17 @@ type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 // Local D1Like
 // ---------------------------------------------------------------------------
 
+interface D1PreparedStatement {
+  first<T>(): Promise<T | null>;
+  run(): Promise<{ success: boolean; meta?: { changes: number } }>;
+  all<T>(): Promise<{ results: T[] }>;
+}
+
 interface D1Like {
   prepare(sql: string): {
-    bind(...args: unknown[]): {
-      first<T>(): Promise<T | null>;
-      run(): Promise<{ success: boolean; meta?: { changes: number } }>;
-      all<T>(): Promise<{ results: T[] }>;
-    };
+    bind(...args: unknown[]): D1PreparedStatement;
   };
+  batch(statements: D1PreparedStatement[]): Promise<{ success: boolean; meta?: { changes: number } }[]>;
 }
 
 // ---------------------------------------------------------------------------
@@ -86,7 +89,7 @@ async function deductFromFloat(
   reference: string,
   tenantId: string,
 ): Promise<void> {
-  // Step A: Fetch wallet identity (id, current balance) — T3: bind both agentId + tenantId.
+  // Step A: Verify wallet exists and get its id — T3: bind agentId + tenantId.
   const wallet = await db
     .prepare(`SELECT id, balance_kobo FROM agent_wallets WHERE agent_id = ? AND tenant_id = ? LIMIT 1`)
     .bind(agentId, tenantId)
@@ -98,38 +101,38 @@ async function deductFromFloat(
     throw err;
   }
 
-  // Step B: Atomic conditional UPDATE — only decrements if balance is still sufficient.
-  // The WHERE balance_kobo >= ? clause prevents any concurrent race from over-spending
-  // (D1/SQLite single-writer WAL ensures this UPDATE is serialized per database).
+  // Step B: Single atomic CTE — conditional debit + ledger insert in one D1 statement.
+  // The CTE deducts ONLY when balance is sufficient (WHERE balance_kobo >= amount).
+  // If the CTE returns 0 rows (balance insufficient), the INSERT also inserts 0 rows
+  // (FROM deduction is empty) → meta.changes = 0 → INSUFFICIENT_FLOAT.
+  // Both debit and ledger entry are committed atomically; no gap between the two operations.
   const now = Math.floor(Date.now() / 1000);
-  const updateResult = await db
+  const entryId = `fle_${crypto.randomUUID()}`;
+  const result = await db
     .prepare(
-      `UPDATE agent_wallets
-       SET balance_kobo = balance_kobo - ?, updated_at = ?
-       WHERE id = ? AND balance_kobo >= ?`,
+      `WITH deduction AS (
+         UPDATE agent_wallets
+         SET balance_kobo = balance_kobo - ?, updated_at = ?
+         WHERE id = ? AND balance_kobo >= ?
+         RETURNING id, balance_kobo
+       )
+       INSERT INTO float_ledger
+         (id, wallet_id, amount_kobo, running_balance_kobo, transaction_type, reference, created_at)
+       SELECT ?, d.id, ?, d.balance_kobo, 'cash_out', ?, ?
+       FROM deduction d`,
     )
-    .bind(amountKobo, now, wallet.id, amountKobo)
+    .bind(
+      amountKobo, now, wallet.id, amountKobo, // UPDATE args
+      entryId, -amountKobo, reference, now,   // INSERT args
+    )
     .run();
 
-  // meta.changes = 0 means the conditional WHERE failed — balance became insufficient
-  // between our SELECT (Step A) and this UPDATE (Step B). Reject as INSUFFICIENT_FLOAT.
-  if ((updateResult.meta?.changes ?? 1) === 0) {
+  // meta.changes = 0 → CTE returned no rows → balance was insufficient at write time.
+  if ((result.meta?.changes ?? 1) === 0) {
     const err = new Error('Insufficient agent float balance');
     (err as Error & { code: string }).code = 'INSUFFICIENT_FLOAT';
     throw err;
   }
-
-  // Step C: Record ledger entry with the computed new balance.
-  const newBalance = wallet.balance_kobo - amountKobo;
-  const entryId = `fle_${crypto.randomUUID()}`;
-  await db
-    .prepare(
-      `INSERT INTO float_ledger
-         (id, wallet_id, amount_kobo, running_balance_kobo, transaction_type, reference, created_at)
-       VALUES (?, ?, ?, ?, 'cash_out', ?, ?)`,
-    )
-    .bind(entryId, wallet.id, -amountKobo, newBalance, reference, now)
-    .run();
 }
 
 // ---------------------------------------------------------------------------
