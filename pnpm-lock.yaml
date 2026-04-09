@@ -97,12 +97,75 @@ importers:
       '@webwaka/verticals':
         specifier: workspace:*
         version: link:../../packages/verticals
+      '@webwaka/verticals-church':
+        specifier: workspace:*
+        version: link:../../packages/verticals-church
+      '@webwaka/verticals-clinic':
+        specifier: workspace:*
+        version: link:../../packages/verticals-clinic
+      '@webwaka/verticals-cooperative':
+        specifier: workspace:*
+        version: link:../../packages/verticals-cooperative
+      '@webwaka/verticals-creator':
+        specifier: workspace:*
+        version: link:../../packages/verticals-creator
+      '@webwaka/verticals-haulage':
+        specifier: workspace:*
+        version: link:../../packages/verticals-haulage
+      '@webwaka/verticals-market':
+        specifier: workspace:*
+        version: link:../../packages/verticals-market
+      '@webwaka/verticals-ministry-mission':
+        specifier: workspace:*
+        version: link:../../packages/verticals-ministry-mission
+      '@webwaka/verticals-mosque':
+        specifier: workspace:*
+        version: link:../../packages/verticals-mosque
+      '@webwaka/verticals-motor-park':
+        specifier: workspace:*
+        version: link:../../packages/verticals-motor-park
+      '@webwaka/verticals-ngo':
+        specifier: workspace:*
+        version: link:../../packages/verticals-ngo
+      '@webwaka/verticals-okada-keke':
+        specifier: workspace:*
+        version: link:../../packages/verticals-okada-keke
       '@webwaka/verticals-politician':
         specifier: workspace:*
         version: link:../../packages/verticals-politician
       '@webwaka/verticals-pos-business':
         specifier: workspace:*
         version: link:../../packages/verticals-pos-business
+      '@webwaka/verticals-professional':
+        specifier: workspace:*
+        version: link:../../packages/verticals-professional
+      '@webwaka/verticals-restaurant':
+        specifier: workspace:*
+        version: link:../../packages/verticals-restaurant
+      '@webwaka/verticals-rideshare':
+        specifier: workspace:*
+        version: link:../../packages/verticals-rideshare
+      '@webwaka/verticals-road-transport-union':
+        specifier: workspace:*
+        version: link:../../packages/verticals-road-transport-union
+      '@webwaka/verticals-school':
+        specifier: workspace:*
+        version: link:../../packages/verticals-school
+      '@webwaka/verticals-sole-trader':
+        specifier: workspace:*
+        version: link:../../packages/verticals-sole-trader
+      '@webwaka/verticals-tech-hub':
+        specifier: workspace:*
+        version: link:../../packages/verticals-tech-hub
+      '@webwaka/verticals-transit':
+        specifier: workspace:*
+        version: link:../../packages/verticals-transit
+      '@webwaka/verticals-womens-association':
+        specifier: workspace:*
+        version: link:../../packages/verticals-womens-association
+      '@webwaka/verticals-youth-organization':
+        specifier: workspace:*
+        version: link:../../packages/verticals-youth-organization
       hono:
         specifier: ^4.12.12
         version: 4.12.12
@@ -593,6 +656,215 @@ importers:
         specifier: ^1.2.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/verticals-church:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-clinic:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-cooperative:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-creator:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-haulage:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-market:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-ministry-mission:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-mosque:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-motor-park:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-ngo:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-okada-keke:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
   packages/verticals-political-party:
     dependencies:
       '@webwaka/types':
@@ -636,6 +908,196 @@ importers:
       '@webwaka/types':
         specifier: workspace:*
         version: link:../types
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-professional:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-restaurant:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-rideshare:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-road-transport-union:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-school:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-sole-trader:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-tech-hub:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-transit:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-womens-association:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/verticals-youth-organization:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+      '@webwaka/verticals':
+        specifier: workspace:*
+        version: link:../verticals
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20241205.0

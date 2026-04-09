@@ -104,6 +104,9 @@ import { workspaceVerticalsRoutes } from './routes/workspace-verticals.js';
 import { superagentRoutes } from './routes/superagent.js';
 import { politicianRoutes } from './routes/politician.js';
 import { posBusinessRoutes } from './routes/pos-business.js';
+import { transportRoutes } from './routes/transport.js';
+import { civicRoutes } from './routes/civic.js';
+import { commerceRoutes } from './routes/commerce.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -278,6 +281,27 @@ app.route('/politician', politicianRoutes);
 
 app.use('/pos-business/*', authMiddleware);
 app.route('/pos-business', posBusinessRoutes);
+
+// ---------------------------------------------------------------------------
+// M8c: Transport vertical routes — auth required (T3, P9, P12)
+// ---------------------------------------------------------------------------
+
+app.use('/transport/*', authMiddleware);
+app.route('/transport', transportRoutes);
+
+// ---------------------------------------------------------------------------
+// M8d: Civic vertical routes — auth required (T3, P9, P13)
+// ---------------------------------------------------------------------------
+
+app.use('/civic/*', authMiddleware);
+app.route('/civic', civicRoutes);
+
+// ---------------------------------------------------------------------------
+// M8e: Commerce vertical routes — auth required (T3, P9, P13)
+// ---------------------------------------------------------------------------
+
+app.use('/commerce/*', authMiddleware);
+app.route('/commerce', commerceRoutes);
 
 // ---------------------------------------------------------------------------
 // M7c: Social routes — most require auth; /social/profile/:handle is public
