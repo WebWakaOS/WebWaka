@@ -35,6 +35,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | **M8e — P1 Commerce + Creator** | ✅ DONE — creator(35) + sole-trader(23) + market(19) + professional(22) + school(21) + clinic(22) + tech-hub(19) + restaurant(20) — SHA `b4e0726` |
 | **All 17 P1-Original Verticals** | ✅ COMPLETE — 530 new tests across 21 packages, 3 API route bundles, migration 0056 |
 | **M9 — Commerce P2 Batch 1 (Set A)** | ✅ DONE — auto-mechanic(16) + bakery(16) + beauty-salon(16) + bookshop(16) + catering(16) + cleaning-service(15) + electronics-repair(16) + florist(16) + food-vendor(16) — 9 packages, migrations 0057-0065 — SHA `a477fbc` |
+| **Commerce P3 (Set C) — 15 verticals** | ✅ DONE — artisanal-mining(23) + borehole-driller(20) + building-materials(20) + car-wash(26) + cleaning-company(20) + electrical-fittings(19) + generator-dealer(24) + hair-salon(19) + petrol-station(22) + phone-repair-shop(19) + shoemaker(20) + spare-parts(22) + tyre-shop(20) + used-car-dealer(19) + water-vendor(20) — migrations 0078-0092 — auth middleware fix applied — SHA `bc0cd06` |
 
 ## Platform Test Totals
 
@@ -45,6 +46,18 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | M8b (politician + pos-business) | ~800 | +54 |
 | M8c+M8d+M8e (21 vertical packages) | **~1330** | +530 |
 | M9 Commerce P2 Batch 1 (9 packages) | **~1473** | +143 |
+| Commerce P3 (15 verticals) | **~1766** | +293 |
+
+## GitHub Push Note
+
+To push local commits to GitHub (`origin/main`), a GitHub Personal Access Token (PAT) with `repo` scope is needed. The Replit GitHub OAuth integration was not connected for this Repl.
+
+**To push manually:**
+```bash
+git remote set-url origin https://<PAT>@github.com/WebWakaDOS/webwaka-os
+git push origin main
+```
+Or set `GITHUB_TOKEN` as a secret and use it in the remote URL.
 
 ## Tech Stack (Target Production)
 
