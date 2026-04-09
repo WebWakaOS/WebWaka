@@ -26,8 +26,9 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | **M7 Platform Total** | **719 tests passing** (baseline 609, +110 new) — merged to main `3d5a67a` |
 | **M8 Planning** | ✅ DONE — SHA `75930c4` — 160 verticals seeded, packages/verticals FSM scaffold, 6 framework docs |
 | **M8 QA Gate** | ✅ DONE — docs/qa/m8-self-verification.md — 25/25 checklist — /self-approved-m8-planning — PR #26 merged SHA `1139a26` |
-| **Pre-Verticals Phase (PV-0 + PV-1 + SA-1)** | ✅ DONE — 3-in-1 remediation + SuperAgent Phase 1 complete — packages/ai-abstraction, ai-adapters, superagent + brand-runtime + public-discovery scaffolded |
-| **M8a — Verticals Infrastructure** | 🔲 IN PROGRESS — packages/verticals scaffold done (27 tests); API routes + wrangler wiring pending |
+| **Pre-Verticals Phase (PV-0 + PV-1 + SA-1)** | ✅ DONE — 3-in-1 remediation + SuperAgent Phase 1 complete — SHA `6f68a3d` |
+| **SA-2.x + M8a** | ✅ DONE — NDPR consent flows, vertical AI hooks, API routes wired — SHA `7ddd4f0` |
+| **M8a — Verticals Infrastructure** | ✅ DONE — packages/verticals scaffold + API routes + workspace activation + SuperAgent routes all wired |
 | M8b — Politics + POS Business | 🔲 PLANNED — docs/milestones/m8b-framework.md |
 | M8c — Transport Verticals | 🔲 PLANNED — docs/milestones/m8c-framework.md |
 | M8d — Civic Expansion | 🔲 PLANNED — docs/milestones/m8d-framework.md |
