@@ -61,6 +61,11 @@
  *   petrol-station, phone-repair-shop, shoemaker, spare-parts,
  *   tyre-shop, used-car-dealer, water-vendor
  *
+ * Civic Extended — 10 verticals (auth required, M8d/M11/M12) — mounted at /api/v1/:slug/*
+ *   mosque, youth-organization, womens-association, waste-management,
+ *   book-club, professional-association, sports-club,
+ *   campaign-office (L3 HITL), constituency-office (L3 HITL), ward-rep (L3 HITL)
+ *
  * Platform Invariants enforced:
  *   T3 — tenant_id on all DB queries (via auth middleware context)
  *   T4 — kobo integers enforced by repository layer
@@ -117,6 +122,7 @@ import { commerceP2Routes } from './routes/verticals-commerce-p2.js';
 import { commerceP2Batch2Routes } from './routes/verticals-commerce-p2-batch2.js';
 import { commerceP3Routes } from './routes/verticals-commerce-p3.js';
 import { transportExtendedRoutes } from './routes/verticals-transport-extended.js';
+import { civicExtendedRoutes } from './routes/verticals-civic-extended.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -370,6 +376,23 @@ app.use('/api/v1/tyre-shop/*', authMiddleware);
 app.use('/api/v1/used-car-dealer/*', authMiddleware);
 app.use('/api/v1/water-vendor/*', authMiddleware);
 app.route('/api/v1', commerceP3Routes);
+
+// ---------------------------------------------------------------------------
+// M8d/M11/M12: Civic Extended — mosque, youth-organization, womens-association,
+//   waste-management, book-club, professional-association, sports-club,
+//   campaign-office, constituency-office, ward-rep
+// ---------------------------------------------------------------------------
+app.use('/api/v1/mosque/*', authMiddleware);
+app.use('/api/v1/youth-organization/*', authMiddleware);
+app.use('/api/v1/womens-association/*', authMiddleware);
+app.use('/api/v1/waste-management/*', authMiddleware);
+app.use('/api/v1/book-club/*', authMiddleware);
+app.use('/api/v1/professional-association/*', authMiddleware);
+app.use('/api/v1/sports-club/*', authMiddleware);
+app.use('/api/v1/campaign-office/*', authMiddleware);
+app.use('/api/v1/constituency-office/*', authMiddleware);
+app.use('/api/v1/ward-rep/*', authMiddleware);
+app.route('/api/v1', civicExtendedRoutes);
 
 // ---------------------------------------------------------------------------
 // M9/M12: Transport Extended — clearing-agent, courier, dispatch-rider,

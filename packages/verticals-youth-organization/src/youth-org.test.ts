@@ -1,43 +1,53 @@
+/**
+ * @webwaka/verticals-youth-organization — tests (M8d)
+ * Minimum 15 tests. Covers: T3, P9, FSM (cac_verified), scholarship, KYC guards.
+ */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { YouthOrgRepository } from './youth-org.js';
-import { isValidYouthOrgTransition } from './types.js';
+import {
+  isValidYouthOrgTransition,
+  guardClaimedToCacVerified,
+  guardScholarshipDisbursement,
+} from './types.js';
+
 function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
-    const bindFn = (...vals: unknown[]) => ({
+    const bind = (...vals: unknown[]) => ({
       run: async () => {
-        if (sql.trim().toUpperCase().startsWith('INSERT')) {
+        const s = sql.trim().toUpperCase();
+        if (s.startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
           const valM = sql.match(/VALUES\s*\(([^)]+)\)/i);
           if (colM && valM) {
-            const cols = colM[1].split(',').map((c: string) => c.trim());
-            const tokens = valM[1].split(',').map((v: string) => v.trim());
+            const cols = colM[1]!.split(',').map((c: string) => c.trim());
+            const tokens = valM[1]!.split(',').map((v: string) => v.trim());
             const row: Record<string, unknown> = {};
             let bi = 0;
             cols.forEach((col: string, i: number) => {
               const tok = tokens[i] ?? '?';
               if (tok === '?') { row[col] = vals[bi++]; }
               else if (tok.toUpperCase() === 'NULL') { row[col] = null; }
-              else if (tok.toLowerCase() === 'unixepoch()') { row[col] = Math.floor(Date.now() / 1000); }
+              else if (tok.toLowerCase().includes('unixepoch')) { row[col] = Math.floor(Date.now() / 1000); }
               else if (tok.startsWith("'") && tok.endsWith("'")) { row[col] = tok.slice(1, -1); }
               else if (!Number.isNaN(Number(tok))) { row[col] = Number(tok); }
               else { row[col] = vals[bi++]; }
             });
-            if (row['status'] === undefined) row['status'] = 'seeded';
-            if (row['available'] === undefined) row['available'] = 1;
+            if (!row['status']) row['status'] = 'seeded';
             if (!row['created_at']) row['created_at'] = Math.floor(Date.now() / 1000);
+            if (!row['updated_at']) row['updated_at'] = Math.floor(Date.now() / 1000);
             store.push(row);
           }
-        } else if (sql.trim().toUpperCase().startsWith('UPDATE')) {
-          const setM = sql.match(/SET\s+(.+?)\s+WHERE/i);
+        } else if (s.startsWith('UPDATE')) {
+          const setM = sql.match(/SET\s+(.+?)\s+WHERE/is);
           if (setM) {
-            const clauses = setM[1].split(',').map((s: string) => s.trim());
+            const clauses = setM[1]!.split(',').map((c: string) => c.trim()).filter((c: string) => !c.toLowerCase().includes('updated_at') && !c.toLowerCase().includes('unixepoch'));
             const id = vals[vals.length - 2] as string;
             const tid = vals[vals.length - 1] as string;
             const idx = store.findIndex(r => r['id'] === id && r['tenant_id'] === tid);
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
-                const col = clause.split('=')[0].trim();
+                const col = clause.split('=')[0]!.trim();
                 (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
@@ -46,64 +56,116 @@ function makeDb() {
         return { success: true };
       },
       first: async <T>() => {
-        if (sql.trim().toUpperCase().startsWith('SELECT')) {
-          if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
-          if (vals.length >= 2) {
-            const v0 = vals[0]; const v1 = vals[1];
-            const found = store.find(r =>
-              (r['id'] === v0 || r['individual_id'] === v0 || r['member_number'] === v0 ||
-               r['plate_number'] === v0 || r['route_id'] === v0) &&
-              r['tenant_id'] === v1
-            );
-            return (found ?? null) as T;
-          }
-          if (vals.length === 1) return (store.find(r => r['id'] === vals[0] || r['individual_id'] === vals[0]) ?? null) as T;
-          return (store[0] ?? null) as T;
-        }
-        return null as T;
+        if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
+        const found = store.find(r =>
+          vals.length >= 2 ? r['id'] === vals[0] && r['tenant_id'] === vals[1] : r['id'] === vals[0]
+        );
+        return (found ?? null) as T;
       },
-      all: async <T>() => {
-        if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
-          const filtered = store.filter(r => {
-            const v0 = vals[0];
-            const v1 = vals[1];
-            const matchTenant = v1 === undefined || r['tenant_id'] === v1;
-            const matchFirst = v0 === undefined ||
-              r['workspace_id'] === v0 || r['goods_type'] === v0 ||
-              r['facility_type'] === v0 || r['school_type'] === v0 ||
-              r['profession'] === v0 || r['state'] === v0 ||
-              r['lga'] === v0 || r['route_id'] === v0 ||
-              r['creator_id'] === v0 || r['member_id'] === v0 ||
-              r['available'] === v0;
-            return matchFirst && matchTenant;
-          });
-          return ({ results: filtered }) as unknown as T;
-        }
-        return ({ results: store }) as unknown as T;
-      },
+      all: async <T>() => ({
+        results: store.filter(r =>
+          vals.length >= 2 ? (r['profile_id'] === vals[0] || r['workspace_id'] === vals[0]) && r['tenant_id'] === vals[1] : true
+        ),
+      } as { results: T[] }),
     });
-    return { bind: bindFn };
+    return { bind };
   };
-  return { prepare: prep };
+  return { prepare: prep } as unknown as ConstructorParameters<typeof YouthOrgRepository>[0];
 }
+
 describe('YouthOrgRepository', () => {
-  let db: ReturnType<typeof makeDb>; let repo: YouthOrgRepository;
-  beforeEach(() => { db = makeDb(); repo = new YouthOrgRepository(db as any); });
-  it('creates org with seeded status', async () => { const y = await repo.create({ organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', orgName: 'Lagos Youth Dev' }); expect(y.status).toBe('seeded'); expect(y.orgName).toBe('Lagos Youth Dev'); });
-  it('uses provided id', async () => { const y = await repo.create({ id: 'yo-001', organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', orgName: 'Kano Youth' }); expect(y.id).toBe('yo-001'); });
-  it('findById returns null for missing', async () => { expect(await repo.findById('none', 't1')).toBeNull(); });
-  it('update orgName', async () => { const y = await repo.create({ organizationId: 'org2', workspaceId: 'ws1', tenantId: 't1', orgName: 'Old' }); expect(await repo.update(y.id, 't1', { orgName: 'New' })).not.toBeNull(); });
-  it('update registrationRef', async () => { const y = await repo.create({ organizationId: 'org3', workspaceId: 'ws1', tenantId: 't1', orgName: 'Org X' }); expect(await repo.update(y.id, 't1', { registrationRef: 'REG-Y-001' })).not.toBeNull(); });
-  it('update memberCount', async () => { const y = await repo.create({ organizationId: 'org4', workspaceId: 'ws1', tenantId: 't1', orgName: 'Org Y', memberCount: 50 }); expect(await repo.update(y.id, 't1', { memberCount: 100 })).not.toBeNull(); });
-  it('transition seeded → claimed', async () => { const y = await repo.create({ organizationId: 'org5', workspaceId: 'ws1', tenantId: 't1', orgName: 'Y1' }); expect(await repo.transition(y.id, 't1', 'claimed')).not.toBeNull(); });
-  it('transition claimed → active', async () => { const y = await repo.create({ organizationId: 'org6', workspaceId: 'ws1', tenantId: 't1', orgName: 'Y2' }); expect(await repo.transition(y.id, 't1', 'active')).not.toBeNull(); });
-  it('transition active → suspended', async () => { const y = await repo.create({ organizationId: 'org7', workspaceId: 'ws1', tenantId: 't1', orgName: 'Y3' }); expect(await repo.transition(y.id, 't1', 'suspended')).not.toBeNull(); });
-  it('transition suspended → active', async () => { const y = await repo.create({ organizationId: 'org8', workspaceId: 'ws1', tenantId: 't1', orgName: 'Y4' }); expect(await repo.transition(y.id, 't1', 'active')).not.toBeNull(); });
+  let repo: YouthOrgRepository;
+  beforeEach(() => { repo = new YouthOrgRepository(makeDb() as never); });
+
+  it('creates org with seeded status', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'NANS Lagos Chapter' });
+    expect(o.status).toBe('seeded');
+    expect(o.orgName).toBe('NANS Lagos Chapter');
+  });
+
+  it('uses provided id', async () => {
+    const o = await repo.create({ id: 'yo-001', workspaceId: 'ws1', tenantId: 't1', orgName: 'CDA Youth' });
+    expect(o.id).toBe('yo-001');
+  });
+
+  it('findById returns null for wrong tenant (T3)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'Youth FC' });
+    expect(await repo.findById(o.id, 'wrong')).toBeNull();
+  });
+
+  it('transitions seeded → claimed', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'UNILAG SU' });
+    const u = await repo.transition(o.id, 't1', 'claimed');
+    expect(u?.status).toBe('claimed');
+  });
+
+  it('transitions claimed → cac_verified after update', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'ABSU' });
+    await repo.update(o.id, 't1', { cacRegNumber: 'CAC-YO-001' });
+    const u = await repo.transition(o.id, 't1', 'cac_verified');
+    expect(u?.status).toBe('cac_verified');
+  });
+
+  it('transitions cac_verified → active', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'NUS' });
+    await repo.transition(o.id, 't1', 'claimed');
+    await repo.transition(o.id, 't1', 'cac_verified');
+    const u = await repo.transition(o.id, 't1', 'active');
+    expect(u?.status).toBe('active');
+  });
+
+  it('creates member with integer annual_dues_kobo (P9)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'CDA' });
+    const m = await repo.createMember({ profileId: o.id, tenantId: 't1', memberName: 'Emeka Eze', annualDuesKobo: 500000 });
+    expect(m.annualDuesKobo).toBe(500000);
+  });
+
+  it('rejects fractional kobo for dues (P9)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'Youth P9' });
+    await expect(repo.createMember({ profileId: o.id, tenantId: 't1', memberName: 'Test', annualDuesKobo: 500.5 })).rejects.toThrow('P9');
+  });
+
+  it('creates event with attendance', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'NANS Imo' });
+    const e = await repo.createEvent({ profileId: o.id, tenantId: 't1', eventName: 'AGM 2025', attendanceCount: 200 });
+    expect(e.attendanceCount).toBe(200);
+  });
+
+  it('creates scholarship with kobo amounts (P9)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'Youth Scholars' });
+    const s = await repo.createScholarship({ profileId: o.id, tenantId: 't1', donatedAmountKobo: 2000000, awardAmountKobo: 2000000, recipientName: 'Fatima Bello', academicYear: '2025/2026' });
+    expect(s.awardAmountKobo).toBe(2000000);
+  });
+
+  it('rejects fractional kobo for scholarship (P9)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 't1', orgName: 'Scholar-P9' });
+    await expect(repo.createScholarship({ profileId: o.id, tenantId: 't1', donatedAmountKobo: 100.5, awardAmountKobo: 100000 })).rejects.toThrow('P9');
+  });
+
+  it('findScholarshipsByProfile isolates by tenant (T3)', async () => {
+    const o = await repo.create({ workspaceId: 'ws1', tenantId: 'tx', orgName: 'T3-Test' });
+    await repo.createScholarship({ profileId: o.id, tenantId: 'tx', donatedAmountKobo: 100000, awardAmountKobo: 100000 });
+    expect(await repo.findScholarshipsByProfile(o.id, 'wrong')).toHaveLength(0);
+  });
 });
-describe('YouthOrg FSM', () => {
-  it('seeded → claimed valid', () => { expect(isValidYouthOrgTransition('seeded', 'claimed')).toBe(true); });
-  it('claimed → active valid', () => { expect(isValidYouthOrgTransition('claimed', 'active')).toBe(true); });
-  it('active → suspended valid', () => { expect(isValidYouthOrgTransition('active', 'suspended')).toBe(true); });
-  it('suspended → active valid', () => { expect(isValidYouthOrgTransition('suspended', 'active')).toBe(true); });
-  it('seeded → active invalid', () => { expect(isValidYouthOrgTransition('seeded', 'active')).toBe(false); });
+
+describe('YouthOrg FSM guards', () => {
+  it('seeded → claimed valid', () => expect(isValidYouthOrgTransition('seeded', 'claimed')).toBe(true));
+  it('claimed → cac_verified valid', () => expect(isValidYouthOrgTransition('claimed', 'cac_verified')).toBe(true));
+  it('cac_verified → active valid', () => expect(isValidYouthOrgTransition('cac_verified', 'active')).toBe(true));
+  it('seeded → active invalid (T4)', () => expect(isValidYouthOrgTransition('seeded', 'active')).toBe(false));
+  it('claimed → active invalid (T4)', () => expect(isValidYouthOrgTransition('claimed', 'active')).toBe(false));
+  it('active → suspended valid', () => expect(isValidYouthOrgTransition('active', 'suspended')).toBe(true));
+  it('guardClaimedToCacVerified blocks missing CAC number', () => {
+    expect(guardClaimedToCacVerified({ cacRegNumber: null, kycTier: 1 }).allowed).toBe(false);
+  });
+  it('guardClaimedToCacVerified passes with CAC number', () => {
+    expect(guardClaimedToCacVerified({ cacRegNumber: 'CAC-001', kycTier: 1 }).allowed).toBe(true);
+  });
+  it('guardScholarshipDisbursement blocks KYC Tier 1 above ₦500k', () => {
+    expect(guardScholarshipDisbursement({ awardAmountKobo: 60_000_000, kycTier: 1 }).allowed).toBe(false);
+  });
+  it('guardScholarshipDisbursement allows KYC Tier 2 above ₦500k', () => {
+    expect(guardScholarshipDisbursement({ awardAmountKobo: 60_000_000, kycTier: 2 }).allowed).toBe(true);
+  });
 });
