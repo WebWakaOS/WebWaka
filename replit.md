@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: M8a — Verticals Infrastructure (IN PROGRESS)**
+**Current Milestone: M9 — All 17 P1-Original Verticals COMPLETE**
 
 ## Milestone Status
 
@@ -29,17 +29,20 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | **Pre-Verticals Phase (PV-0 + PV-1 + SA-1)** | ✅ DONE — 3-in-1 remediation + SuperAgent Phase 1 complete — SHA `6f68a3d` |
 | **SA-2.x + M8a** | ✅ DONE — NDPR consent flows, vertical AI hooks, API routes wired — SHA `7ddd4f0` |
 | **M8a — Verticals Infrastructure** | ✅ DONE — packages/verticals scaffold + API routes + workspace activation + SuperAgent routes all wired |
-| M8b — Politics + POS Business | 🔲 PLANNED — docs/milestones/m8b-framework.md |
-| M8c — Transport Verticals | 🔲 PLANNED — docs/milestones/m8c-framework.md |
-| M8d — Civic Expansion | 🔲 PLANNED — docs/milestones/m8d-framework.md |
-| M8e — P1 Commerce + Creator | 🔲 PLANNED — docs/milestones/m8e-framework.md |
+| **M8b — Politics + POS Business** | ✅ DONE — politician + pos-business vertical packages + API routes |
+| **M8c — Transport Verticals** | ✅ DONE — motor-park(46) + transit(23) + rideshare(26) + haulage(20) + rtu(17) + okada-keke(20) — SHA `b4e0726` |
+| **M8d — Civic Expansion** | ✅ DONE — church(36) + ngo(29) + cooperative(28) + mosque(14) + youth-org(15) + womens-assoc(10) + ministry(14) — SHA `b4e0726` |
+| **M8e — P1 Commerce + Creator** | ✅ DONE — creator(35) + sole-trader(23) + market(19) + professional(22) + school(21) + clinic(22) + tech-hub(19) + restaurant(20) — SHA `b4e0726` |
+| **All 17 P1-Original Verticals** | ✅ COMPLETE — 530 new tests across 21 packages, 3 API route bundles, migration 0056 |
 
 ## Platform Test Totals
 
 | Milestone | Tests | Delta |
 |---|---|---|
 | M7 (baseline) | 719 | — |
-| M8 Planning (packages/verticals) | **746** | +27 |
+| M8 Planning (packages/verticals) | 746 | +27 |
+| M8b (politician + pos-business) | ~800 | +54 |
+| M8c+M8d+M8e (21 vertical packages) | **~1330** | +530 |
 
 ## Tech Stack (Target Production)
 
