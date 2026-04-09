@@ -9,6 +9,13 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about Nigerian agriculture, food systems, or market operations. Always read referenced documents and code first.
@@ -17,6 +24,7 @@
 - **All financial values in kobo** (P9, T4) — commodity prices, market levies, warehouse fees, storage charges.
 - **USSD is the primary channel** for many agricultural field agents — AI features are excluded from USSD paths (P12). Design with offline/USSD-compatible data entry patterns (no AI) and web/WhatsApp AI features separately.
 - **SuperAgent is the AI layer** — all AI routes through `packages/superagent`. Crop advisory AI is advisory only (L2 autonomy) — no autonomous planting or spraying recommendations.
+- **3-in-1 pillar alignment required.** Every task block must declare its `primary_pillars` from `docs/governance/verticals-master-plan.md`. Every PR must be labeled with the correct `3in1:pillar-N` GitHub label. See `docs/governance/3in1-platform-architecture.md`.
 - **Platform Invariants are non-negotiable:** P2, P9, P10, P12, P13, T3.
 
 ---
@@ -25,8 +33,10 @@
 
 - **Module / vertical:** `packages/verticals` + slug `farm`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Geography package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/geography/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Identity package (CAC/land verification): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -211,6 +221,7 @@ Recovery:
 
 - **Module / vertical:** `packages/verticals` + slug `poultry`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-AGR-1)
 
@@ -289,6 +300,7 @@ Minimum 14 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `agri-aggregator`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - (Same core refs as V-AGR-1)
   - Relationships package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/relationships/
@@ -360,8 +372,10 @@ Minimum 12 test cases — collection prices in kobo (P9), farmer payment in kobo
 
 - **Module / vertical:** `packages/verticals` + slug `market`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Geography package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/geography/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
@@ -446,8 +460,10 @@ Minimum 16 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `warehouse`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Geography package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/geography/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
 
@@ -521,8 +537,10 @@ Minimum 12 test cases — storage fees in kobo (P9), withdrawal fee calculated c
 
 - **Module / vertical:** `packages/verticals` + slug `tech-hub`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Geography package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/geography/

@@ -9,6 +9,13 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about WebWaka's architecture, API contracts, or business logic. Always read the referenced documents and code first.
@@ -16,6 +23,7 @@
 - **Thoroughness is far more important than speed.** Spend extra time reading, planning, and validating.
 - **All work must be pushed to GitHub.** No local partial work should remain outside the repo.
 - **SuperAgent is the AI layer** — all AI features in verticals route through `packages/superagent` (SA Phase 1). Never call AI providers directly from vertical code.
+- **3-in-1 pillar alignment required.** Every task block must declare its `primary_pillars` from `docs/governance/verticals-master-plan.md`. Every PR must be labeled with the correct `3in1:pillar-N` GitHub label. See `docs/governance/3in1-platform-architecture.md`.
 - **Platform Invariants are non-negotiable.** Read `docs/governance/platform-invariants.md` in full before implementing any vertical.
 - **The verticals FSM engine** in `packages/verticals/` governs lifecycle states. All verticals must use it — no custom state machines.
 
@@ -25,8 +33,10 @@
 
 - **Module / vertical:** `packages/verticals` + vertical slug `pos-business`
 - **Priority:** P1-Original — must reach production before M10
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Verticals FSM engine: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/verticals/src/
   - Verticals dependency DAG: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-dependency-dag.md
   - POS package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/pos/
@@ -195,8 +205,10 @@ Minimum: 15 test cases.
 
 - **Module / vertical:** `packages/verticals` + vertical slug `restaurant`
 - **Priority:** P2-Top100 (score ≥ 30/30)
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - AI integration framework: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-integration-framework.md
   - Community package (for ordering events): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Payments: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -281,8 +293,10 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + vertical slug `supermarket`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - (Same core refs as V-COMM-1 for inventory patterns)
   - AI integration framework: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-integration-framework.md
 
@@ -359,8 +373,10 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `fashion-brand`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Social package (for lookbook/catalog): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Community package (for customer community): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - AI integration framework: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-integration-framework.md
@@ -431,8 +447,10 @@ Minimum 10 test cases — status FSM transitions, kobo price validation, T3 isol
 
 - **Module / vertical:** `packages/verticals` + slug `wholesale-market`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Identity package (for CAC/TIN verification): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
   - AI integration framework: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-integration-framework.md

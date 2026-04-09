@@ -9,12 +9,20 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about Nigerian transport infrastructure. Always read the referenced documents and code first.
 - **Research Nigerian transport context deeply** — FRSC regulations, NURTW structure, mass transit policy, and haulage licensing are domain-specific. Do not generalize from Western patterns.
 - **All work must be pushed to GitHub.** No local partial work remains outside the repo.
 - **SuperAgent is the AI layer** — all AI features route through `packages/superagent`. Never call AI providers directly.
+- **3-in-1 pillar alignment required.** Every task block must declare its `primary_pillars` from `docs/governance/verticals-master-plan.md`. Every PR must be labeled with the correct `3in1:pillar-N` GitHub label. See `docs/governance/3in1-platform-architecture.md`.
 - **FRSC (Federal Road Safety Corps) integration** is a hard dependency for all transport verticals — vehicle registration, driver licensing, and route licensing require FRSC data. Read `packages/identity/` for integration patterns.
 - **Platform Invariants:** P2 (Nigeria First), P9 (integer kobo for all fares and levies), T3 (tenant isolation), P12 (no AI on USSD — critical for roadside/motor park agents).
 
@@ -24,9 +32,11 @@
 
 - **Module / vertical:** `packages/verticals` + slug `motor-park`
 - **Priority:** P1-Original — must reach production before M10
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **Milestone:** M8c
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Verticals dependency DAG: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-dependency-dag.md
   - Geography package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/geography/
   - Identity package (FRSC): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -213,6 +223,7 @@ Recovery:
 
 - **Module / vertical:** `packages/verticals` + slug `mass-transit`
 - **Priority:** P1-Original — M8c
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-TRN-1)
   - Offerings model (for route licensing): https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/entitlement-model.md
@@ -290,6 +301,7 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `rideshare`
 - **Priority:** P1-Original — M8c
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-TRN-1)
   - OTP package (for driver verification): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/otp/
@@ -368,6 +380,7 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `haulage`
 - **Priority:** P1-Original — M8c
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-TRN-1)
   - Identity package (FRSC + CAC): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/

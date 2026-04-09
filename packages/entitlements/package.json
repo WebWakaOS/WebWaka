@@ -2,7 +2,7 @@
   "name": "@webwaka/entitlements",
   "version": "0.1.0",
   "private": true,
-  "description": "Subscription plan matrix and entitlement evaluation engine for WebWaka OS.",
+  "description": "[Infra] Subscription plan matrix and entitlement evaluation engine for WebWaka OS.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

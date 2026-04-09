@@ -2,7 +2,7 @@
   "name": "@webwaka/claims",
   "version": "0.1.0",
   "private": true,
-  "description": "Claim state machine and tenant verification helpers. WebWaka OS Milestone 5.",
+  "description": "[Pillar 3] Claim state machine and tenant verification helpers. WebWaka OS Milestone 5.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

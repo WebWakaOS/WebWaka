@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/otp",
   "version": "0.1.0",
-  "description": "OTP delivery abstraction — SMS (Termii), WhatsApp, USSD, Voice — Nigerian phone validation",
+  "description": "[Infra] OTP delivery abstraction \u2014 SMS (Termii), WhatsApp, USSD, Voice \u2014 Nigerian phone validation",
   "private": true,
   "type": "module",
   "exports": {
@@ -19,5 +19,13 @@
     "typescript": "^5.3.0",
     "vitest": "^1.2.0"
   },
-  "keywords": ["otp", "sms", "termii", "africa", "nigeria", "phone", "verification"]
+  "keywords": [
+    "otp",
+    "sms",
+    "termii",
+    "africa",
+    "nigeria",
+    "phone",
+    "verification"
+  ]
 }

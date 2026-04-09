@@ -1,0 +1,55 @@
+# apps/public-discovery/wrangler.toml
+# Public Discovery Worker — Pillar 3: Listing / Multi-Vendor Marketplace
+# Serves geography-first entity listings, public profiles, nearby search.
+# Routes: webwaka.ng/discover/* and webwaka.ng/near/* (no auth required)
+
+name = "webwaka-public-discovery"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# D1 — entity and geography lookups
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "placeholder-replace-with-actual-id"
+
+# KV — geography and listing cache (TTL 60 s)
+[[kv_namespaces]]
+binding = "DISCOVERY_CACHE"
+id = "placeholder-replace-with-actual-id"
+
+[env.staging]
+name = "webwaka-public-discovery-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-staging"
+database_id = ""
+
+[[env.staging.kv_namespaces]]
+binding = "DISCOVERY_CACHE"
+id = ""
+
+[env.production]
+name = "webwaka-public-discovery-production"
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-production"
+database_id = ""
+
+[[env.production.kv_namespaces]]
+binding = "DISCOVERY_CACHE"
+id = ""
+
+# Secrets (set via: wrangler secret put SECRET_NAME)
+# Required:
+#   LOG_PII_SALT

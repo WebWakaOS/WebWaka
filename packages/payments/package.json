@@ -2,7 +2,7 @@
   "name": "@webwaka/payments",
   "version": "0.1.0",
   "private": true,
-  "description": "Paystack payment integration + subscription sync. WebWaka OS Milestone 6.",
+  "description": "[Pillar 1] Paystack payment integration + subscription sync. WebWaka OS Milestone 6.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

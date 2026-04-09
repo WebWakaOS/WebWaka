@@ -2,7 +2,7 @@
   "name": "@webwaka/ai",
   "version": "0.1.0",
   "private": true,
-  "description": "AI provider abstraction type contracts for WebWaka OS. Runtime adapters: Milestone 5+.",
+  "description": "[AI] AI provider abstraction type contracts for WebWaka OS. Runtime adapters: Milestone 5+.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

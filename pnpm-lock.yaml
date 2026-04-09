@@ -105,6 +105,40 @@ importers:
         specifier: ^3.90.0
         version: 3.114.17(@cloudflare/workers-types@4.20260405.1)
 
+  apps/brand-runtime:
+    dependencies:
+      '@webwaka/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@webwaka/entities':
+        specifier: workspace:*
+        version: link:../../packages/entities
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../../packages/entitlements
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      hono:
+        specifier: ^4.12.12
+        version: 4.12.12
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+      wrangler:
+        specifier: ^3.90.0
+        version: 3.114.17(@cloudflare/workers-types@4.20260405.1)
+
   apps/platform-admin: {}
 
   apps/projections:
@@ -122,6 +156,37 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.9.3
+
+  apps/public-discovery:
+    dependencies:
+      '@webwaka/entities':
+        specifier: workspace:*
+        version: link:../../packages/entities
+      '@webwaka/search-indexing':
+        specifier: workspace:*
+        version: link:../../packages/search-indexing
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      hono:
+        specifier: ^4.12.12
+        version: 4.12.12
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+      wrangler:
+        specifier: ^3.90.0
+        version: 3.114.17(@cloudflare/workers-types@4.20260405.1)
 
   apps/tenant-public:
     dependencies:
@@ -173,12 +238,31 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/ai-adapters:
+    dependencies:
+      '@webwaka/ai':
+        specifier: workspace:*
+        version: link:../ai-abstraction
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
   packages/auth:
     dependencies:
+      '@webwaka/ai':
+        specifier: workspace:*
+        version: link:../ai-abstraction
       '@webwaka/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
       typescript:
         specifier: ^5.4.5
         version: 5.9.3
@@ -439,6 +523,31 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/superagent:
+    dependencies:
+      '@webwaka/ai':
+        specifier: workspace:*
+        version: link:../ai-abstraction
+      '@webwaka/ai-adapters':
+        specifier: workspace:*
+        version: link:../ai-adapters
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
   packages/types:

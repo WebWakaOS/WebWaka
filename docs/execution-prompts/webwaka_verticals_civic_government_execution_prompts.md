@@ -9,12 +9,20 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about WebWaka's architecture or Nigerian civic/political context. Always read the referenced documents and code first.
 - **Research Nigerian civic and political context deeply** before implementing any vertical. NGO registration, cooperative law, faith community structures, and LGA governance are domain-specific — do not generalize from Western patterns.
 - **All work must be pushed to GitHub.** No local partial work remains outside the repo.
 - **SuperAgent is the AI layer** — all AI features route through `packages/superagent`. Never call AI providers directly from vertical code.
+- **3-in-1 pillar alignment required.** Every task block must declare its `primary_pillars` from `docs/governance/verticals-master-plan.md`. Every PR must be labeled with the correct `3in1:pillar-N` GitHub label. See `docs/governance/3in1-platform-architecture.md`.
 - **Platform Invariants are non-negotiable.** P2 (Nigeria First), T3 (tenant isolation), P10 (NDPR consent for AI).
 - **Politics-related verticals** have additional sensitivity requirements: AI must not generate political content autonomously (HITL required for L3+ autonomy on political topics).
 
@@ -24,9 +32,11 @@
 
 - **Module / vertical:** `packages/verticals` + slug `politician`
 - **Priority:** P1-Original — must reach production before M10
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **Milestone:** M8b
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Politics package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/politics/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
@@ -168,6 +178,7 @@ Security:
 
 - **Module / vertical:** `packages/verticals` + slug `political-party`
 - **Priority:** P1-Original — M8b
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - (Same politics + community + social refs as V-CIV-1)
   - Relationships package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/relationships/
@@ -238,8 +249,10 @@ Minimum 12 test cases — dues in integer kobo (P9), executive level validation,
 
 - **Module / vertical:** `packages/verticals` + slug `church`
 - **Priority:** P1-Original — M8d
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -321,6 +334,7 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `ngo`
 - **Priority:** P1-Original — M8d
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-CIV-3)
   - Identity package (for CAC IT-reg): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -402,8 +416,10 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `cooperative`
 - **Priority:** P1-Original — M8d
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Entitlements package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/entitlements/
   - Identity package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -485,6 +501,7 @@ Minimum 14 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `lga-office`
 - **Priority:** P3
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **Milestone:** M8b (alongside politics)
 - **GitHub context:**
   - Politics package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/core/politics/

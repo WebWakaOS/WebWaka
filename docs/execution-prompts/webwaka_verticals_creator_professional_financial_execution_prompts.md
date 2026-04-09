@@ -9,6 +9,13 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about Nigerian creator economy, professional licensing, or financial regulations. Always read the referenced documents and code first.
@@ -24,8 +31,10 @@
 
 - **Module / vertical:** `packages/verticals` + slug `creator`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -161,8 +170,10 @@ Minimum 14 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `sole-trader`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Contact package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/contact/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -233,8 +244,10 @@ Minimum 10 test cases — prices in kobo (P9), quote amount in kobo, invoice tie
 
 - **Module / vertical:** `packages/verticals` + slug `professional`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Identity package (license bodies): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -315,8 +328,10 @@ Minimum 14 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `savings-group`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Platform invariants: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/platform-invariants.md
@@ -393,8 +408,10 @@ Minimum 12 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `insurance-agent`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Identity package (NAICOM license): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
 
@@ -460,8 +477,10 @@ Minimum 10 test cases — premium in kobo (P9), renewal date alert, client data 
 
 - **Module / vertical:** `packages/verticals` + slug `community-radio`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - AI capability matrix: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-capability-matrix.md
@@ -531,8 +550,10 @@ Minimum 10 test cases — ad booking cost in kobo (P9), schedule no-overlap vali
 
 - **Module / vertical:** `packages/verticals` + slug `startup`
 - **Priority:** P3
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Social package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/social/
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Relationships package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/relationships/

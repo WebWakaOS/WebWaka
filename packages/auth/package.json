@@ -2,7 +2,7 @@
   "name": "@webwaka/auth",
   "version": "0.1.0",
   "private": true,
-  "description": "JWT validation, workspace-scoped auth, and entitlement-aware access control for WebWaka OS",
+  "description": "[Infra] JWT validation, workspace-scoped auth, and entitlement-aware access control for WebWaka OS",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -20,9 +20,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@webwaka/types": "workspace:*"
+    "@webwaka/types": "workspace:*",
+    "@webwaka/ai": "workspace:*"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }

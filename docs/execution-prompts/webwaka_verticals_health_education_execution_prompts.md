@@ -9,6 +9,13 @@
 
 ---
 
+> **3-in-1 Platform Note:**  
+> Every vertical in this document serves at least **Pillar 1 (Ops)** and **Pillar 3 (Marketplace)**.  
+> Verticals marked with Pillar 2 also require `apps/brand-runtime/` (implemented in PV-1.1).  
+> **SuperAgent AI is cross-cutting — it is NOT a fourth pillar.** All AI features route through `packages/superagent`.  
+> See `docs/governance/3in1-platform-architecture.md` for the full pillar map and `docs/governance/verticals-master-plan.md` for per-vertical classification.
+
+
 ### General rules for all agents using these prompts
 
 - **Never make assumptions** about Nigerian healthcare regulations or education policy. Always read referenced documents and code first.
@@ -17,6 +24,7 @@
 - **Education verticals** serve children and students — content policies apply; AI content generation must be age-appropriate.
 - **All financial values in kobo** (P9, T4) — consultation fees, school fees, prescription charges.
 - **SuperAgent is the AI layer** — all AI routes go through `packages/superagent`. Never call AI providers directly from vertical code.
+- **3-in-1 pillar alignment required.** Every task block must declare its `primary_pillars` from `docs/governance/verticals-master-plan.md`. Every PR must be labeled with the correct `3in1:pillar-N` GitHub label. See `docs/governance/3in1-platform-architecture.md`.
 
 ---
 
@@ -24,8 +32,10 @@
 
 - **Module / vertical:** `packages/verticals` + slug `clinic`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Verticals dependency DAG: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-dependency-dag.md
   - Identity package (CAC + license): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
@@ -211,6 +221,7 @@ Security:
 
 - **Module / vertical:** `packages/verticals` + slug `pharmacy`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - (Same core refs as V-HLT-1)
   - AI integration framework: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/ai-integration-framework.md
@@ -280,8 +291,10 @@ Minimum 12 test cases — drug prices in kobo (P9), dispensing decrements stock,
 
 - **Module / vertical:** `packages/verticals` + slug `gym`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Entitlements package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/entitlements/
@@ -350,8 +363,10 @@ Minimum 10 test cases — membership amounts in kobo (P9), class capacity enforc
 
 - **Module / vertical:** `packages/verticals` + slug `school`
 - **Priority:** P1-Original — M8e
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 2 (Branding) + Pillar 3 (Marketplace)
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Community package (for courses): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - Payments package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/payments/
   - Identity package (CAC): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -436,6 +451,7 @@ Minimum 14 test cases:
 
 - **Module / vertical:** `packages/verticals` + slug `vocational-center`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - (Same core refs as V-EDU-1)
   - FRSC package (for driving school licensing): https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/identity/
@@ -505,8 +521,10 @@ Minimum 10 test cases — certificate issued only after minimum score, verificat
 
 - **Module / vertical:** `packages/verticals` + slug `tutoring`
 - **Priority:** P2-Top100
+- **Primary pillars:** Pillar 1 (Ops) + Pillar 3 (Marketplace) — see docs/governance/3in1-platform-architecture.md
 - **GitHub context:**
   - Verticals master plan: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+  - 3-in-1 platform architecture: https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/3in1-platform-architecture.md
   - Community package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/community/
   - OTP package: https://github.com/WebWakaDOS/webwaka-os/blob/main/packages/otp/
 

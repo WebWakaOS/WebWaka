@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@webwaka/types":          ["../../packages/types/src/index.ts"],
+      "@webwaka/entities":       ["../../packages/entities/src/index.ts"],
+      "@webwaka/search-indexing": ["../../packages/search-indexing/src/index.ts"]
+    },
+    "rootDir": "../..",
+    "outDir": "dist",
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src/**/*"]
+}

@@ -26,6 +26,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | **M7 Platform Total** | **719 tests passing** (baseline 609, +110 new) — merged to main `3d5a67a` |
 | **M8 Planning** | ✅ DONE — SHA `75930c4` — 160 verticals seeded, packages/verticals FSM scaffold, 6 framework docs |
 | **M8 QA Gate** | ✅ DONE — docs/qa/m8-self-verification.md — 25/25 checklist — /self-approved-m8-planning — PR #26 merged SHA `1139a26` |
+| **Pre-Verticals Phase (PV-0 + PV-1 + SA-1)** | ✅ DONE — 3-in-1 remediation + SuperAgent Phase 1 complete — packages/ai-abstraction, ai-adapters, superagent + brand-runtime + public-discovery scaffolded |
 | **M8a — Verticals Infrastructure** | 🔲 IN PROGRESS — packages/verticals scaffold done (27 tests); API routes + wrangler wiring pending |
 | M8b — Politics + POS Business | 🔲 PLANNED — docs/milestones/m8b-framework.md |
 | M8c — Transport Verticals | 🔲 PLANNED — docs/milestones/m8c-framework.md |
@@ -64,8 +65,8 @@ webwaka-os/
     projections/            — Event processor Worker ✅ M6
     platform-admin/         — Super admin dashboard (running on port 5000)
     partner-admin/          — Partner/tenant management portal (future)
-    public-discovery/       — Public search and discovery (future)
-    brand-runtime/          — Tenant-branded storefronts (future)
+    brand-runtime/          — Tenant-branded storefronts + portal (Pillar 2) ✅ PV-1.1/1.3
+    public-discovery/       — Geography-first marketplace listings (Pillar 3) ✅ PV-1.2
   packages/
     types/                  — @webwaka/types: Canonical TypeScript types ✅
     core/
@@ -76,7 +77,9 @@ webwaka-os/
     entities/               — @webwaka/entities: Individual/Org/Profile repositories ✅
     relationships/          — @webwaka/relationships: Typed link graph (D1) ✅
     offline-sync/           — @webwaka/offline-sync: Sync envelope types (scaffold) ✅
-    ai-abstraction/         — @webwaka/ai-abstraction: AI provider interface (scaffold) ✅
+    ai-abstraction/         — @webwaka/ai: AI types + capabilities + 5-level routing engine ✅ SA-1.1/1.2
+    ai-adapters/            — @webwaka/ai-adapters: OpenAI-compat/Anthropic/Google adapters ✅ SA-1.3
+    superagent/             — @webwaka/superagent: Key service, WakaCU wallet, partner pools, usage metering ✅ SA-1.4-1.9
     search-indexing/        — @webwaka/search-indexing: Search adapter types (M4 scaffold)
     claims/                 — @webwaka/claims: Claim state machine + verification helpers (M5) ✅
     payments/               — @webwaka/payments: Paystack integration + subscription sync (M6) ✅

@@ -2,7 +2,7 @@
   "name": "@webwaka/pos",
   "version": "0.1.0",
   "private": true,
-  "description": "POS terminal management + float double-entry ledger for WebWaka OS.",
+  "description": "[Pillar 1] POS terminal management + float double-entry ledger for WebWaka OS.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

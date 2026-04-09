@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/verticals",
   "version": "0.1.0",
-  "description": "Vertical registry, FSM engine, router, and entitlements matrix for all 160+ WebWaka OS verticals",
+  "description": "[Pillar 3] Vertical registry, FSM engine, router, and entitlements matrix for all 160+ WebWaka OS verticals",
   "private": true,
   "type": "module",
   "exports": {
@@ -19,5 +19,12 @@
     "typescript": "^5.3.0",
     "vitest": "^1.2.0"
   },
-  "keywords": ["verticals", "fsm", "router", "entitlements", "nigeria", "webwaka"]
+  "keywords": [
+    "verticals",
+    "fsm",
+    "router",
+    "entitlements",
+    "nigeria",
+    "webwaka"
+  ]
 }
