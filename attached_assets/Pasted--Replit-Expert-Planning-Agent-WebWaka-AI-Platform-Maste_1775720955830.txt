@@ -1,0 +1,287 @@
+# Replit Expert Planning Agent: WebWaka AI Platform Master Plan (M8-AI) â€” TOP PRIORITY
+
+**CLIENT:** WebWakaDOS â€” Nigeria-first multi-vertical SaaS
+**PHASE:** M8-AI â€” Platform-Wide AI Architecture, Policy, Billing, Routing, and Integration
+**PRIORITY:** HIGHEST / BLOCKS ALL VERTICAL IMPLEMENTATION UNTIL COMPLETED
+**DEADLINE:** 2026-04-10 18:00 WAT (24 hours)
+
+## ðŸš¨ NON-NEGOTIABLE: EXHAUSTIVE REPO-WIDE REVIEW, NO ASSUMPTIONS
+
+Before any design or implementation planning, Replit must perform a **full repository and documentation audit** of EVERYTHING related to AI, billing, entitlement, subscriptions, providers, agent autonomy, automation, media generation, analytics, data ingestion, and user-facing AI usage across all packages/apps/docs.
+
+### Mandatory audit scope
+Search and review **all** docs, code, migrations, routes, tests, prompts, configs, and package scaffolds for:
+- `ai`, `llm`, `model`, `prompt`, `agent`, `automation`, `copilot`, `assistant`
+- `billing`, `credits`, `quota`, `usage`, `metering`, `rate-limit`, `throttle`
+- `provider`, `openai`, `anthropic`, `google`, `mistral`, `cohere`, `meta`, `byok`, `api key`
+- `voice`, `audio`, `tts`, `stt`, `transcribe`, `speech`, `call`
+- `image`, `video`, `generation`, `media`, `creative`, `design`
+- `research`, `scrape`, `enrichment`, `content`, `support`, `chat`, `analytics`
+- `workspace settings`, `super admin settings`, `subscription`, `entitlements`
+- `fallback`, `routing`, `failover`, `provider selection`, `multi-key`
+
+### Required audit outputs
+1. `docs/planning/m8-ai-phase0-repo-audit.md` â€” exhaustive findings, existing AI surfaces, gaps, dependencies, risks.
+2. `docs/planning/m8-ai-existing-context-map.md` â€” map of current AI-relevant codepaths and docs.
+3. `docs/planning/m8-ai-gap-analysis.md` â€” what exists, what is partial, what is missing, what must be expanded.
+4. `docs/planning/m8-ai-architecture-decision-log.md` â€” decisions with justification and alternatives rejected.
+
+**No assumptions are allowed. Every statement must cite repo file paths, doc names, or code references.**
+
+## ðŸŽ¯ PRIMARY GOAL
+Design a **platform-wide AI subsystem** that is:
+- **AI-provider neutral**.
+- Supports **super-admin platform keys**, **workspace-owned keys**, and **end-user BYOK keys**.
+- Supports **multiple keys per provider** and **multi-provider fallback/failover**.
+- Supports **free, free-trial, paid, metered, credit-based, and disabled modes**.
+- Supports **model capability routing** across text, audio, image, video, embeddings, moderation, research, analytics, automation, and agentic tasks.
+- Supports **tiered agent autonomy** from least privileged user actions to supervised autonomous workflows.
+- Supports **billing, throttling, quotas, credits, and usage metering**.
+- Supports **global platform policy** plus **super-admin override** plus **workspace-level controls** plus **user-level BYOK**.
+- Applies across **all verticals, apps, packages, and scenarios**.
+
+## ðŸ” WHAT MUST BE RESEARCHED IN DEPTH
+Replit must study and synthesize all existing and planned AI-related contexts across the repo, including but not limited to:
+- current AI abstraction scaffolds
+- model/provider contracts
+- any moderation or classification logic
+- any prompt or agent contract
+- any billing/subscription/credits logic
+- any existing feature gating or entitlement model
+- any API routes that could use AI
+- any user dashboard settings or admin control surfaces
+- any content generation or enrichment workflows
+- any voice/audio/video/image generation possibilities
+- any data upload/enrichment/automation jobs
+- any background agent or workflow engine
+- any workspace-level settings for keys, quotas, and enablement
+- any existing or planned telemetry, usage logs, or audit trails
+
+## ðŸ“¦ DELIVERABLES (PLAN + DOCS + ARCHITECTURE)
+
+### 1. AI Platform Master Blueprint
+`docs/governance/ai-platform-master-plan.md`
+Include:
+- system vision
+- user/admin/provider hierarchy
+- capability matrix
+- trust and safety policy
+- billing and metering policy
+- BYOK policy
+- failover and fallback policy
+- autonomy policy
+- model routing policy
+- vertical integration policy
+- implementation phases
+
+### 2. AI Context Map
+`docs/governance/ai-context-map.md`
+- every existing and planned AI touchpoint in repo
+- package/app route map
+- per-surface AI opportunity and dependency
+
+### 3. AI Capability Matrix
+`docs/governance/ai-capability-matrix.md`
+Rows for:
+- text generation
+- summarization
+- classification
+- embeddings
+- voice transcription
+- text-to-speech
+- image generation
+- image understanding
+- video generation
+- video understanding
+- research
+- agentic workflows
+- database write assistance
+- support chat
+- sales assist
+- analytics
+- email generation
+- website generation
+- product description generation
+- automation workflows
+Each row must define:
+- allowed tiers
+- free vs paid behavior
+- trial limits
+- billing method
+- quota units
+- provider types allowed
+- fallback chain
+- audit requirements
+- approval requirements
+- human-in-the-loop requirement if any
+
+### 4. AI Provider/Key Architecture
+`docs/governance/ai-provider-routing.md`
+Define:
+- super-admin platform keys
+- workspace-owned provider keys
+- user BYOK keys
+- key vault design
+- provider registry
+- model registry
+- capability routing
+- failover ordering
+- health checks
+- spend thresholds
+- quota exhaustion behavior
+- provider-specific capability mapping
+- per-tenant and per-user policy controls
+
+### 5. AI Billing, Credits, and Entitlements
+`docs/governance/ai-billing-and-entitlements.md`
+Define:
+- metering units per capability
+- subscription inclusion rules
+- trial entitlements
+- credit pack rules
+- overage handling
+- rate limiting and throttling
+- platform funded usage vs user funded usage
+- workspace policy overrides
+- disable/enable switches
+- admin approval gates
+
+### 6. AI Autonomy and Agent Policy
+`docs/governance/ai-agent-autonomy.md`
+Define:
+- assistant-only behavior
+- supervised actions
+- autonomous actions
+- write permissions
+- tool permissions
+- database mutation boundaries
+- vertical-specific agent roles
+- human approval thresholds
+- logging and rollback policy
+
+### 7. AI Integration Framework
+`docs/governance/ai-integration-framework.md`
+Define how AI integrates into:
+- Commerce
+- POS/business management
+- Transport
+- Civic/community
+- Social/networking
+- Identity/KYC support flows
+- Customer support
+- Analytics and reporting
+- Content generation
+- Email and messaging
+- Research and data enrichment
+- Upload-to-database workflows
+
+### 8. Implementation Phase Plan
+`docs/implementation/m8-ai-phase-plan.md`
+Must be a **dependency-ordered implementation strategy**.
+But it must also allow later phases to be implemented **independently** once the shared platform foundation is done.
+
+### 9. Package/Repo Wiring Plan
+`docs/governance/ai-repo-wiring.md`
+Identify all packages/apps/routes/configs that must be created or expanded, including:
+- AI abstraction package expansion
+- provider adapters
+- routing engine
+- usage metering
+- credits engine
+- admin control APIs
+- workspace dashboard surfaces
+- logs/audit tables
+- tests and mocks
+
+### 10. Research-First Vertical AI Guide
+`docs/templates/vertical-ai-research-template.md`
+A template used before each vertical implementation to research:
+- AI use cases
+- provider/model mapping
+- required capabilities
+- billing mode
+- autonomy level
+- fallback chain
+- admin controls
+- compliance constraints
+- feature flags
+- testing requirements
+
+### 11. QA Framework
+`docs/qa/ai-platform-qa-framework.md`
+Must define how every AI feature will be validated across:
+- provider failover
+- billing correctness
+- quota exhaustion
+- BYOK behavior
+- capability routing
+- access control
+- logging/audit
+- human approval boundaries
+- autonomy restrictions
+- vertical integration
+
+### 12. Repo Audit Report
+`docs/planning/m8-ai-repo-audit-summary.md`
+Must summarize:
+- what already exists
+- what is partial
+- what is missing
+- what must be expanded now
+- what can wait
+
+## ðŸ”§ REQUIRED ARCHITECTURAL PRINCIPLES
+Replit must explicitly design for:
+- AI provider neutrality.
+- Multiple keys per provider.
+- Platform key fallback chain.
+- Workspace key override.
+- User BYOK override.
+- Capability-based model selection.
+- Free/trial/paid/credit-based behaviors.
+- Throttling and quota enforcement.
+- Auditability and tenant isolation.
+- Vertical-specific AI policy overrides.
+- Support for text, audio, image, video, and agentic automation.
+- Super-admin global enable/disable controls.
+- Human approval for sensitive autonomous operations.
+
+## ðŸ§ª REQUIRED RESEARCH QUESTIONS
+Before planning, answer these using repo evidence:
+1. What AI-related scaffolds already exist?
+2. What entitlement/billing structures can be reused?
+3. What admin/workspace settings structures already exist?
+4. What app surfaces should expose AI controls?
+5. What verticals need AI first, and for what use cases?
+6. What data/logging/audit model is required for safety and billing?
+7. What provider/key model best fits platform + BYOK + fallback?
+8. What can be centralized and what must be vertical-specific?
+9. What permissions must exist for autonomous actions?
+10. What is the minimum foundation needed so later AI features can be added without redesign?
+
+## ðŸ“Œ PLANNING ORDER
+1. Full repo/context audit.
+2. Existing AI and billing gap analysis.
+3. Architecture and policy design.
+4. Repo/package wiring plan.
+5. Implementation phase plan.
+6. Vertical AI research template.
+7. QA framework.
+8. PR-ready documentation placement.
+
+## ðŸ“ OUTPUT RULES
+- Write documents to exact locations.
+- Do not invent packages unless the repo audit proves they are needed.
+- Do not assume any provider or billing model exists unless confirmed by repo evidence.
+- Every decision must be grounded in repo context and documented.
+- If a concept exists partially, expand it instead of replacing it.
+- If a capability is missing, define the minimum reusable foundation now.
+
+## âœ… SUCCESS CRITERIA
+- No AI surface is left unplanned.
+- No billing/key/fallback/autonomy behavior is ambiguous.
+- Vertical plans can later reuse the AI foundation without redesign.
+- The prompt, docs, and repo wiring are complete before implementation begins.
+- The result is provider-neutral, policy-driven, and future-proof.
+
+**DO NOT IMPLEMENT FEATURE CODE YET.** This phase is research, documentation, architecture, and repo wiring only.
