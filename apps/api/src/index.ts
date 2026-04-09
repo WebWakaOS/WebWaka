@@ -107,6 +107,7 @@ import { posBusinessRoutes } from './routes/pos-business.js';
 import { transportRoutes } from './routes/transport.js';
 import { civicRoutes } from './routes/civic.js';
 import { commerceRoutes } from './routes/commerce.js';
+import { commerceP2Routes } from './routes/verticals-commerce-p2.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -302,6 +303,23 @@ app.route('/civic', civicRoutes);
 
 app.use('/commerce/*', authMiddleware);
 app.route('/commerce', commerceRoutes);
+
+// ---------------------------------------------------------------------------
+// M9: Commerce P2 Batch 1 vertical routes — auth required (T3, P9, P10, P12, P13)
+// Verticals: auto-mechanic, bakery, beauty-salon, bookshop, catering,
+//            cleaning-service, electronics-repair, florist, food-vendor
+// ---------------------------------------------------------------------------
+
+app.use('/auto-mechanic/*', authMiddleware);
+app.use('/bakery/*', authMiddleware);
+app.use('/beauty-salon/*', authMiddleware);
+app.use('/bookshop/*', authMiddleware);
+app.use('/catering/*', authMiddleware);
+app.use('/cleaning-service/*', authMiddleware);
+app.use('/electronics-repair/*', authMiddleware);
+app.use('/florist/*', authMiddleware);
+app.use('/food-vendor/*', authMiddleware);
+app.route('/', commerceP2Routes);
 
 // ---------------------------------------------------------------------------
 // M7c: Social routes — most require auth; /social/profile/:handle is public

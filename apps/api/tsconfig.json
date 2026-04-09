@@ -45,7 +45,16 @@
       "@webwaka/verticals-school":              ["../../packages/verticals-school/src/index.ts"],
       "@webwaka/verticals-clinic":              ["../../packages/verticals-clinic/src/index.ts"],
       "@webwaka/verticals-tech-hub":            ["../../packages/verticals-tech-hub/src/index.ts"],
-      "@webwaka/verticals-restaurant":          ["../../packages/verticals-restaurant/src/index.ts"]
+      "@webwaka/verticals-restaurant":          ["../../packages/verticals-restaurant/src/index.ts"],
+      "@webwaka/verticals-auto-mechanic":       ["../../packages/verticals-auto-mechanic/src/index.ts"],
+      "@webwaka/verticals-bakery":              ["../../packages/verticals-bakery/src/index.ts"],
+      "@webwaka/verticals-beauty-salon":        ["../../packages/verticals-beauty-salon/src/index.ts"],
+      "@webwaka/verticals-bookshop":            ["../../packages/verticals-bookshop/src/index.ts"],
+      "@webwaka/verticals-catering":            ["../../packages/verticals-catering/src/index.ts"],
+      "@webwaka/verticals-cleaning-service":    ["../../packages/verticals-cleaning-service/src/index.ts"],
+      "@webwaka/verticals-electronics-repair":  ["../../packages/verticals-electronics-repair/src/index.ts"],
+      "@webwaka/verticals-florist":             ["../../packages/verticals-florist/src/index.ts"],
+      "@webwaka/verticals-food-vendor":         ["../../packages/verticals-food-vendor/src/index.ts"]
     },
     "rootDir": "../..",
     "outDir": "dist",

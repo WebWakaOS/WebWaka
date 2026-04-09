@@ -55,7 +55,16 @@
     "@webwaka/verticals-school": "workspace:*",
     "@webwaka/verticals-clinic": "workspace:*",
     "@webwaka/verticals-tech-hub": "workspace:*",
-    "@webwaka/verticals-restaurant": "workspace:*"
+    "@webwaka/verticals-restaurant": "workspace:*",
+    "@webwaka/verticals-auto-mechanic": "workspace:*",
+    "@webwaka/verticals-bakery": "workspace:*",
+    "@webwaka/verticals-beauty-salon": "workspace:*",
+    "@webwaka/verticals-bookshop": "workspace:*",
+    "@webwaka/verticals-catering": "workspace:*",
+    "@webwaka/verticals-cleaning-service": "workspace:*",
+    "@webwaka/verticals-electronics-repair": "workspace:*",
+    "@webwaka/verticals-florist": "workspace:*",
+    "@webwaka/verticals-food-vendor": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
