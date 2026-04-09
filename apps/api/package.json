@@ -76,7 +76,22 @@
     "@webwaka/verticals-spa": "workspace:*",
     "@webwaka/verticals-tailor": "workspace:*",
     "@webwaka/verticals-travel-agent": "workspace:*",
-    "@webwaka/verticals-welding-fabrication": "workspace:*"
+    "@webwaka/verticals-welding-fabrication": "workspace:*",
+    "@webwaka/verticals-artisanal-mining": "workspace:*",
+    "@webwaka/verticals-borehole-driller": "workspace:*",
+    "@webwaka/verticals-building-materials": "workspace:*",
+    "@webwaka/verticals-car-wash": "workspace:*",
+    "@webwaka/verticals-cleaning-company": "workspace:*",
+    "@webwaka/verticals-electrical-fittings": "workspace:*",
+    "@webwaka/verticals-generator-dealer": "workspace:*",
+    "@webwaka/verticals-hair-salon": "workspace:*",
+    "@webwaka/verticals-petrol-station": "workspace:*",
+    "@webwaka/verticals-phone-repair-shop": "workspace:*",
+    "@webwaka/verticals-shoemaker": "workspace:*",
+    "@webwaka/verticals-spare-parts": "workspace:*",
+    "@webwaka/verticals-tyre-shop": "workspace:*",
+    "@webwaka/verticals-used-car-dealer": "workspace:*",
+    "@webwaka/verticals-water-vendor": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",

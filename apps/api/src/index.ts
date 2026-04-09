@@ -109,6 +109,7 @@ import { civicRoutes } from './routes/civic.js';
 import { commerceRoutes } from './routes/commerce.js';
 import { commerceP2Routes } from './routes/verticals-commerce-p2.js';
 import { commerceP2Batch2Routes } from './routes/verticals-commerce-p2-batch2.js';
+import { commerceP3Routes } from './routes/verticals-commerce-p3.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -338,6 +339,7 @@ app.use('/tailor/*', authMiddleware);
 app.use('/travel-agent/*', authMiddleware);
 app.use('/welding-fabrication/*', authMiddleware);
 app.route('/', commerceP2Batch2Routes);
+app.route('/api/v1', commerceP3Routes);
 
 // ---------------------------------------------------------------------------
 // M7c: Social routes — most require auth; /social/profile/:handle is public
