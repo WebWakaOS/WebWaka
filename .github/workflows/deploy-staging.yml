@@ -34,7 +34,10 @@ jobs:
       - name: Apply D1 migrations (staging)
         run: |
           if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
-            npx wrangler d1 migrations apply webwaka-os-staging               --env staging               --migrations-dir infra/db/migrations
+            npx wrangler d1 migrations apply webwaka-staging \
+              --env staging \
+              --remote \
+              --config apps/api/wrangler.toml
           else
             echo "No migrations found at infra/db/migrations — skipping"
           fi
@@ -62,7 +65,7 @@ jobs:
         run: |
           if [ -f "apps/api/wrangler.toml" ]; then
             pnpm --filter api build
-            npx wrangler deploy --env staging
+            npx wrangler deploy --env staging --config apps/api/wrangler.toml
           else
             echo "apps/api/wrangler.toml not found — skipping deploy (pre-Milestone 3)"
           fi
