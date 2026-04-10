@@ -10,7 +10,7 @@ logisticsDeliveryRoutes.post('/', async (c) => {
   let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!b['workspace_id'] || !b['business_name']) return c.json({ error: 'workspace_id, business_name required' }, 400);
   const repo = new LogisticsDeliveryRepository(c.env.DB);
-  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, frscCert: b['frsc_cert'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, serviceType: b['service_type'] as string | undefined });
+  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, frscCert: b['frsc_cert'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, serviceType: b['service_type'] as unknown as import('@webwaka/verticals-logistics-delivery').ServiceType | undefined });
   return c.json({ logistics_delivery: profile }, 201);
 });
 logisticsDeliveryRoutes.get('/workspace/:workspaceId', async (c) => {

@@ -25,13 +25,19 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 }
 
 export interface PrintingPressProfile {
-  id: string; workspaceId: string; tenantId: string; companyName: string; apconRef: string | null;
-  nanRef: string | null; cacRc: string | null; pressType: string;
+  id: string; workspaceId: string; tenantId: string; companyName?: string; apconRef?: string | null;
+  nanRef?: string | null; cacRc: string | null; pressType?: string;
   status: PrintingPressFSMState; createdAt: number; updatedAt: number;
+  businessName: string;
+  ncpnMembership: string | null;
+  printType: 'offset' | 'digital' | 'screen' | 'flexographic' | null;
 }
 export interface CreatePrintingPressInput {
-  id?: string; workspaceId: string; tenantId: string; companyName: string; pressType?: string;
+  id?: string; workspaceId: string; tenantId: string; companyName?: string; pressType?: string;
   apconRef?: string; nanRef?: string; cacRc?: string;
+  businessName?: string;
+  ncpnMembership?: string;
+  printType?: string;
 }
 export interface PrintPressJob {
   id: string; profileId: string; tenantId: string; clientRefId: string; jobType: PrintJobType;
@@ -47,4 +53,17 @@ export interface PressMaterial {
   id: string; profileId: string; tenantId: string; paperName: string;
   gsm: number; reamsInStock: number; costPerReamKobo: number; reorderLevel: number;
   createdAt: number; updatedAt: number;
+}
+
+export interface PrintingJob {
+  id: string; profileId: string; tenantId: string; clientRefId: string;
+  jobType: 'business_card' | 'brochure' | 'banner' | 'book' | 'stationery' | 'packaging' | string;
+  quantity: number; descriptionSpec: string | null; setupCostKobo: number; printCostKobo: number;
+  totalKobo: number; depositKobo: number; jobDate: number; deliveryDate: number | null;
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled'; createdAt: number; updatedAt: number;
+}
+export interface PrintingInventory {
+  id: string; profileId: string; tenantId: string; materialName: string;
+  qtyInStock: number; unitCostKobo: number; reorderLevel: number; createdAt: number; updatedAt: number;
+  unit?: string;
 }

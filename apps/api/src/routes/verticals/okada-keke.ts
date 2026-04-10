@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { OkadaKekeRepository, isValidOkadaKekeTransition, guardLagosOkadaBan } from '@webwaka/verticals-okada-keke';
-import type { OkadaKekeFSMState } from '@webwaka/verticals-okada-keke';
+import type { OkadaKekeFSMState, VehicleType } from '@webwaka/verticals-okada-keke';
 import type { Env } from '../../env.js';
 export const okadaKekeRoutes = new Hono<{ Bindings: Env }>();
 okadaKekeRoutes.post('/', async (c) => {
@@ -9,7 +9,7 @@ okadaKekeRoutes.post('/', async (c) => {
   const banCheck = guardLagosOkadaBan(b['operating_state'] as string ?? '', b['vehicle_category'] as string ?? '');
   if (!banCheck.allowed) return c.json({ error: banCheck.reason }, 422);
   try {
-    return c.json({ okada_keke: await new OkadaKekeRepository(c.env.DB).createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, operatingState: b['operating_state'] as string | undefined, vehicleCategory: b['vehicle_category'] as string | undefined, nurtwMembership: b['nurtw_membership'] as string | undefined, lvaaReg: b['lvaa_reg'] as string | undefined, cacRc: b['cac_rc'] as string | undefined }) }, 201);
+    return c.json({ okada_keke: await new OkadaKekeRepository(c.env.DB).createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, operatingState: b['operating_state'] as string | undefined, vehicleCategory: b['vehicle_category'] as unknown as VehicleType | undefined, nurtwMembership: b['nurtw_membership'] as string | undefined, lvaaReg: b['lvaa_reg'] as string | undefined, cacRc: b['cac_rc'] as string | undefined }) }, 201);
   } catch (e) { return c.json({ error: (e as Error).message }, 422); }
 });
 okadaKekeRoutes.get('/workspace/:workspaceId', async (c) => { const auth = c.get('auth') as { tenantId: string }; return c.json({ okada_keke: await new OkadaKekeRepository(c.env.DB).findProfileByWorkspace(c.req.param('workspaceId'), auth.tenantId) }); });

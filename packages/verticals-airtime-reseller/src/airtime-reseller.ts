@@ -47,7 +47,9 @@ export class AirtimeResellerRepository {
     if (existing) return rowToWallet(existing);
     const id = uuid(); const ts = now(); const today = Math.floor(ts / 86400);
     await this.db.prepare('INSERT INTO airtime_wallet (id,reseller_id,tenant_id,wallet_balance_kobo,daily_used_kobo,daily_reset_date,created_at,updated_at) VALUES (?,?,?,0,0,?,?,?)').bind(id, resellerId, tenantId, today, ts, ts).run();
-    return (await this.db.prepare('SELECT * FROM airtime_wallet WHERE id=? AND tenant_id=?').bind(id, tenantId).first<WalletRow>()).then(r => rowToWallet(r!));
+    const walletRow = await this.db.prepare('SELECT * FROM airtime_wallet WHERE id=? AND tenant_id=?').bind(id, tenantId).first<WalletRow>();
+    if (!walletRow) throw new Error('[airtime-reseller] wallet create failed');
+    return rowToWallet(walletRow);
   }
 
   async createTransaction(input: CreateAirtimeTransactionInput, dailyLimitKobo = 30_000_000): Promise<AirtimeTransaction> {

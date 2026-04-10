@@ -54,11 +54,17 @@ export interface OilGasServicesProfile {
 export interface CreateOilGasServicesInput {
   id?: string; workspaceId: string; tenantId: string; companyName: string; serviceCategory?: string;
   ncdmbCert?: string; dprRegistration?: string; cacRc?: string;
+  dprLicence?: string;
+  tinRef?: string;
+  serviceSegment?: string;
+  lc?: number;
 }
 export interface OilGasContract {
   id: string; profileId: string; tenantId: string; clientRefId: string; contractTitle: string;
   contractValueKobo: number; localContentPctX100: number; startDate: number; endDate: number | null;
   mobilisationKobo: number; invoicedKobo: number; status: ContractStatus; createdAt: number; updatedAt: number;
+  performanceBondKobo?: number;
+  contractScope?: string | null;
 }
 export interface OilGasHseLog {
   id: string; profileId: string; tenantId: string; logDate: number; incidentCount: number;

@@ -34,13 +34,26 @@ export function guardNoDriverRefToAi(input: { includesDriverRef?: boolean }): Gu
 }
 
 export interface OkadaKekeProfile {
-  id: string; workspaceId: string; tenantId: string; coopName: string; nurtwReg: string | null;
-  stateTransportPermit: string | null; cacRc: string | null; vehicleType: VehicleType;
-  state: string | null; banStatus: BanStatus; status: OkadaKekeFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; businessName: string; nurtwMembership: string | null;
+  lvaaReg: string | null; cacRc: string | null; vehicleCategory: VehicleType;
+  operatingState: string | null; status: OkadaKekeFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreateOkadaKekeInput {
-  id?: string; workspaceId: string; tenantId: string; coopName: string; vehicleType?: VehicleType;
-  nurtwReg?: string; stateTransportPermit?: string; cacRc?: string; state?: string; banStatus?: BanStatus;
+  id?: string; workspaceId: string; tenantId: string; businessName: string; vehicleCategory?: VehicleType;
+  nurtwMembership?: string; lvaaReg?: string; cacRc?: string; operatingState?: string;
+}
+export interface OkadaKekeVehicle {
+  id: string; profileId: string; tenantId: string; category: VehicleType; makeModel: string | null;
+  plateNumber: string; vehicleYear: number | null; motorVehicleLicence: string | null;
+  insurancePolicyRef: string | null; status: string; createdAt: number; updatedAt: number;
+}
+export interface OkadaKekePilot {
+  id: string; profileId: string; tenantId: string; pilotRefId: string; licenceNumber: string | null;
+  vehicleId: string | null; lasgRiderBadge: string | null; status: string; createdAt: number; updatedAt: number;
+}
+export interface OkadaKekeTrip {
+  id: string; profileId: string; tenantId: string; pilotId: string; passengerRefId: string;
+  tripDate: number; fareKobo: number; paymentMethod: string; status: string; createdAt: number;
 }
 export interface OkadaKekeFleetVehicle {
   id: string; profileId: string; tenantId: string; vehicleType: VehicleType; plateNumber: string | null;

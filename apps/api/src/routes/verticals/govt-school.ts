@@ -18,16 +18,16 @@ govtSchoolRoutes.post('/:id/transition', async (c) => {
 });
 govtSchoolRoutes.post('/:id/students', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
-  return c.json({ student: await new GovtSchoolRepository(c.env.DB).enrollStudent(c.req.param('id'), auth.tenantId, { studentRefId: b['student_ref_id'] as string, classLevel: b['class_level'] as string, academicYear: b['academic_year'] as string, term: b['term'] as string, admissionNumber: b['admission_number'] as string | undefined }) }, 201);
+  return c.json({ student: await new GovtSchoolRepository(c.env.DB).enrollStudent(c.req.param('id'), auth.tenantId, { studentId: b['student_ref_id'] as string, className: b['class_level'] as string, admissionDate: b['admission_date'] as number ?? Math.floor(Date.now()/1000), subsidy: b['subsidy'] as boolean | undefined }) }, 201);
 });
 govtSchoolRoutes.get('/:id/students', async (c) => { const auth = c.get('auth') as { tenantId: string }; const students = await new GovtSchoolRepository(c.env.DB).listStudents(c.req.param('id'), auth.tenantId); return c.json({ students, count: students.length }); });
 govtSchoolRoutes.post('/:id/teachers', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
-  return c.json({ teacher: await new GovtSchoolRepository(c.env.DB).addTeacher(c.req.param('id'), auth.tenantId, { teacherRefId: b['teacher_ref_id'] as string, trcnReg: b['trcn_reg'] as string | undefined, subjectAreas: b['subject_areas'] as string | undefined, tsnStatus: b['tsn_status'] as string | undefined }) }, 201);
+  return c.json({ teacher: await new GovtSchoolRepository(c.env.DB).addTeacher(c.req.param('id'), auth.tenantId, { teacherRefId: b['teacher_ref_id'] as string, subjectArea: b['subject_area'] as string | undefined, qualifications: b['qualifications'] as string | undefined, employmentDate: b['employment_date'] as number | undefined }) }, 201);
 });
 govtSchoolRoutes.get('/:id/teachers', async (c) => { const auth = c.get('auth') as { tenantId: string }; const teachers = await new GovtSchoolRepository(c.env.DB).listTeachers(c.req.param('id'), auth.tenantId); return c.json({ teachers, count: teachers.length }); });
 govtSchoolRoutes.post('/:id/results', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
-  try { return c.json({ result: await new GovtSchoolRepository(c.env.DB).recordResult(c.req.param('id'), auth.tenantId, { studentRefId: b['student_ref_id'] as string, academicYear: b['academic_year'] as string, term: b['term'] as string, subject: b['subject'] as string, scoreX10: b['score_x10'] as number, gradeCode: b['grade_code'] as string | undefined }) }, 201); } catch (e) { return c.json({ error: (e as Error).message }, 422); }
+  try { return c.json({ result: await new GovtSchoolRepository(c.env.DB).recordResult(c.req.param('id'), auth.tenantId, { studentId: b['student_ref_id'] as string, term: b['term'] as string, subject: b['subject'] as string, score: b['score'] as number, maxScore: b['max_score'] as number ?? 100 }) }, 201); } catch (e) { return c.json({ error: (e as Error).message }, 422); }
 });
 govtSchoolRoutes.get('/:id/results', async (c) => { const auth = c.get('auth') as { tenantId: string }; const results = await new GovtSchoolRepository(c.env.DB).listResults(c.req.param('id'), auth.tenantId); return c.json({ results, count: results.length }); });

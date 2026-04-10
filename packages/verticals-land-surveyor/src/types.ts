@@ -35,21 +35,43 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 }
 
 export interface LandSurveyorProfile {
-  id: string; workspaceId: string; tenantId: string; companyName: string; surconLicence: string | null;
-  cacRc: string | null; specialisation: string; status: LandSurveyorFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; companyName?: string; surconLicence?: string | null;
+  cacRc: string | null; specialisation?: string; status: LandSurveyorFSMState; createdAt: number; updatedAt: number;
+  businessName?: string;
+  surconReg?: string | null;
+  state?: string | null;
+  lga?: string | null;
 }
 export interface CreateLandSurveyorInput {
-  id?: string; workspaceId: string; tenantId: string; companyName: string; specialisation?: string;
+  id?: string; workspaceId: string; tenantId: string; companyName?: string; specialisation?: string;
   surconLicence?: string; cacRc?: string;
+  businessName?: string;
+  lga?: string;
+  surconReg?: string;
+  state?: string;
 }
 export interface SurveyJob {
-  id: string; profileId: string; tenantId: string; clientRefId: string; titleRef: string | null;
-  surveyType: SurveyType; location: string | null; professionalFeeKobo: number;
-  disbursementKobo: number; totalKobo: number; jobDate: number; completedDate: number | null;
+  id: string; profileId: string; tenantId: string; clientRefId: string; titleRef?: string | null;
+  surveyType: SurveyType; location?: string | null; professionalFeeKobo?: number;
+  disbursementKobo?: number; totalKobo?: number; jobDate: number; completedDate: number | null;
   status: SurveyJobStatus; createdAt: number; updatedAt: number;
+  landRefId?: string;
+  locationState?: string;
+  locationLga?: string | null;
+  feePaidKobo?: number;
 }
 export interface SurveyEquipment {
   id: string; profileId: string; tenantId: string; equipmentName: string; model: string | null;
   purchaseCostKobo: number; purchaseDate: number | null; calibrationDue: number | null;
   status: string; createdAt: number; updatedAt: number;
+}
+
+export interface SurveyPlan {
+  id: string; profileId?: string; tenantId: string; surveyJobId?: string;
+  planNumber?: string; planDate?: number; status?: string; createdAt: number;
+  jobId?: string;
+  beaconCount?: number;
+  areaSqmX100?: number;
+  sealDate?: number | null;
+  bearingNotes?: string | null;
 }

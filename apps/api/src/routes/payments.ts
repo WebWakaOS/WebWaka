@@ -96,7 +96,7 @@ workspaceUpgradeRoute.post('/:id/upgrade', async (c) => {
         workspaceId,
         amountKobo,
         email,
-        callbackUrl: `https://app.webwaka.com/billing/verify?ref={PAYSTACK_REFERENCE}`,
+        callbackUrl: `${c.env.APP_BASE_URL ?? 'https://app.webwaka.com'}/billing/verify`,
         metadata: { plan, workspace_id: workspaceId },
       },
     );

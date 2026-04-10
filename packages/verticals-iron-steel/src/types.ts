@@ -28,12 +28,16 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 }
 
 export interface IronSteelProfile {
-  id: string; workspaceId: string; tenantId: string; businessName: string; sonCert: string | null;
-  cacRc: string | null; productType: string; status: IronSteelFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; businessName: string; sonCert?: string | null;
+  cacRc: string | null; productType?: string; status: IronSteelFSMState; createdAt: number; updatedAt: number;
+  cisa_membership: string | null;
+  manilaMembership: string | null;
 }
 export interface CreateIronSteelInput {
   id?: string; workspaceId: string; tenantId: string; businessName: string; productType?: string;
   sonCert?: string; cacRc?: string;
+  cisaMembership?: string;
+  manilaMembership?: string;
 }
 export interface IronSteelInventoryItem {
   id: string; profileId: string; tenantId: string; productName: string; grade: string | null;
@@ -45,3 +49,11 @@ export interface IronSteelOrder {
   totalKobo: number; orderDate: number; deliveryDate: number | null; isBulk: boolean;
   status: IronSteelOrderStatus; createdAt: number; updatedAt: number;
 }
+
+export interface SteelInventoryItem {
+  id: string; profileId: string; tenantId: string; productName: string; productCode: string | null;
+  grade: string | null; thicknessMmX10: number; widthMm: number; lengthMm: number;
+  weightGramsPerMeter: number; qtyInStock: number; unitCostKobo: number; retailPriceKobo: number;
+  reorderLevel: number; createdAt: number; updatedAt: number;
+}
+export type SteelOrder = IronSteelOrder;

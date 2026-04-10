@@ -40,6 +40,9 @@ export interface GovtSchoolProfile {
 export interface CreateGovtSchoolInput {
   id?: string; workspaceId: string; tenantId: string; schoolName: string; schoolType?: SchoolType;
   subebRef?: string; ubecRef?: string; nemisId?: string; lga?: string; state?: string;
+  nesreaCert?: string;
+  ministryRef?: string;
+  schoolLevel?: string;
 }
 export interface SchoolClass {
   id: string; profileId: string; tenantId: string; className: string; teacherRefId: string | null;

@@ -12,6 +12,7 @@ compatibility_flags = ["nodejs_compat"]
 # 0183_negotiation_sessions.sql           — negotiation_sessions
 # 0184_negotiation_offers.sql             — negotiation_offers
 # 0185_negotiation_audit_log.sql          — negotiation_audit_log
+# 0186_ministry_members.sql               — ministry_members table
 
 # Negotiation expiry CRON — runs every 15 minutes
 # Expires open sessions past their expiry time; cleans up abandoned accepted sessions.
@@ -21,23 +22,66 @@ crons = ["*/15 * * * *"]
 [vars]
 ENVIRONMENT = "development"
 
-# D1 bindings — provisioned per environment
+# ---------------------------------------------------------------------------
+# Local development — uses wrangler --local (in-process D1 and KV)
+# ---------------------------------------------------------------------------
 [[d1_databases]]
 binding = "DB"
 database_name = "webwaka-main"
-database_id = "placeholder-replace-with-actual-id"
+database_id = "local-dev-placeholder"
 
-# KV bindings
 [[kv_namespaces]]
 binding = "GEOGRAPHY_CACHE"
-id = "placeholder-replace-with-actual-id"
+id = "local-dev-placeholder"
 
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# Staging — D1 ID from milestone-tracker.md; KV IDs: run `wrangler kv namespace list`
+# ---------------------------------------------------------------------------
 [env.staging]
 name = "webwaka-api-staging"
+
 [env.staging.vars]
 ENVIRONMENT = "staging"
 
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "cfa62668"
+
+# Staging KV IDs — retrieve exact IDs from Cloudflare Dashboard or:
+#   wrangler kv namespace list --env staging
+[[env.staging.kv_namespaces]]
+binding = "GEOGRAPHY_CACHE"
+id = "STAGING_GEOGRAPHY_CACHE_KV_NAMESPACE_ID"
+
+[[env.staging.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "STAGING_RATE_LIMIT_KV_NAMESPACE_ID"
+
+# ---------------------------------------------------------------------------
+# Production — D1 ID from milestone-tracker.md; KV IDs: run `wrangler kv namespace list`
+# ---------------------------------------------------------------------------
 [env.production]
 name = "webwaka-api-production"
+
 [env.production.vars]
 ENVIRONMENT = "production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "de1d0935"
+
+# Production KV IDs — retrieve exact IDs from Cloudflare Dashboard or:
+#   wrangler kv namespace list --env production
+[[env.production.kv_namespaces]]
+binding = "GEOGRAPHY_CACHE"
+id = "PROD_GEOGRAPHY_CACHE_KV_NAMESPACE_ID"
+
+[[env.production.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "PROD_RATE_LIMIT_KV_NAMESPACE_ID"

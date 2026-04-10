@@ -29,7 +29,8 @@ export interface PlumbingSuppliesProfile {
   cacRc: string | null; status: PlumbingSuppliesFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreatePlumbingSuppliesInput {
-  id?: string; workspaceId: string; tenantId: string; companyName: string; sonCert?: string; cacRc?: string;
+  id?: string; workspaceId: string; tenantId: string; companyName?: string; sonCert?: string; cacRc?: string;
+  businessName?: string;
 }
 export interface PlumbingInventoryItem {
   id: string; profileId: string; tenantId: string; productName: string; productCode: string | null;

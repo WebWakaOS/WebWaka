@@ -35,12 +35,16 @@ export function guardL3HitlClinical(input: { isClinicalOutput?: boolean }): Guar
 }
 
 export interface OpticianProfile {
-  id: string; workspaceId: string; tenantId: string; businessName: string; osphonReg: string | null;
-  cacRc: string | null; clinicType: string; status: OpticianFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; businessName: string; osphonReg?: string | null;
+  cacRc: string | null; clinicType?: string; status: OpticianFSMState; createdAt: number; updatedAt: number;
+  coaLicence: string | null;
+  mdcnVerification: string | null;
 }
 export interface CreateOpticianInput {
   id?: string; workspaceId: string; tenantId: string; businessName: string; clinicType?: string;
   osphonReg?: string; cacRc?: string;
+  coaLicence?: string;
+  mdcnVerification?: string;
 }
 export interface OpticianAppointment {
   id: string; profileId: string; tenantId: string; patientRefId: string;
@@ -57,5 +61,19 @@ export interface OpticianOrder {
   id: string; profileId: string; tenantId: string; patientRefId: string; prescriptionId: string | null;
   frameType: string | null; lensType: string | null; frameCostKobo: number; lensCostKobo: number;
   totalKobo: number; orderDate: number; readyDate: number | null; status: OpticalOrderStatus;
+  createdAt: number; updatedAt: number;
+}
+
+export interface VisionTestRecord {
+  id: string; profileId: string; tenantId: string; patientRefId: string; testDate: number;
+  rightEyeSphX100: number; leftEyeSphX100: number; rightEyeCylX100: number | null; leftEyeCylX100: number | null;
+  pdMmX10: number | null; optometristRefId: string | null; requiresReferral: boolean;
+  notes: string | null; consultationFeeKobo: number; createdAt: number;
+}
+export interface EyewearOrder {
+  id: string; profileId: string; tenantId: string; patientRefId: string; testId: string | null;
+  eyewearType: 'prescription_glasses' | 'sunglasses' | 'contact_lenses' | 'reading_glasses';
+  frameBrand: string | null; lensBrand: string | null; totalKobo: number; depositKobo: number;
+  orderDate: number; readyDate: number | null; status: 'pending' | 'ready' | 'collected' | 'cancelled';
   createdAt: number; updatedAt: number;
 }

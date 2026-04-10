@@ -7,9 +7,9 @@
  *
  * P9: final_price_kobo is always an INTEGER. Assertion is made at generation time.
  *
- * SECURITY NOTE: This token is NOT cryptographically signed in MVP.
- * TODO: sign with HMAC-SHA256 using a platform secret key before production.
- * For MVP, the session_id is used as a cross-check at verification time.
+ * SECURITY: When PRICE_LOCK_SECRET is provided the token is HMAC-SHA256 signed
+ * using SubtleCrypto (Cloudflare Workers / Web Crypto API).
+ * Without a secret the token is unsigned (legacy/test only — do NOT use in prod).
  *
  * Token validity: 24 hours from issued_at.
  */
@@ -19,7 +19,25 @@ import { InvalidPriceLockError } from './types.js';
 
 const TOKEN_VALIDITY_SECONDS = 24 * 3600;
 
-export function generatePriceLockToken(session: NegotiationSession): string {
+async function hmacSign(payload: string, secret: string): Promise<string> {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
+  return btoa(String.fromCharCode(...new Uint8Array(sig)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+async function hmacVerify(payload: string, sig: string, secret: string): Promise<boolean> {
+  const expected = await hmacSign(payload, secret);
+  if (expected.length !== sig.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ sig.charCodeAt(i);
+  return diff === 0;
+}
+
+export async function generatePriceLockToken(session: NegotiationSession, secret?: string): Promise<string> {
   if (session.final_price_kobo === null) {
     throw new Error('Cannot generate price lock token for a non-accepted session');
   }
@@ -35,17 +53,39 @@ export function generatePriceLockToken(session: NegotiationSession): string {
   };
 
   const json = JSON.stringify(payload);
-  return btoa(json).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  const payloadB64 = btoa(json).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+  if (!secret) return payloadB64;
+
+  const sig = await hmacSign(payloadB64, secret);
+  return `${payloadB64}.${sig}`;
 }
 
-export function verifyPriceLockToken(
+export async function verifyPriceLockToken(
   token: string,
   tenantId: string,
-): { session_id: string; final_price_kobo: number } {
-  let payload: PriceLockPayload;
+  secret?: string,
+): Promise<{ session_id: string; final_price_kobo: number }> {
+  let payloadB64: string;
+  let sigPart: string | undefined;
 
+  const dotIdx = token.lastIndexOf('.');
+  if (dotIdx !== -1) {
+    payloadB64 = token.slice(0, dotIdx);
+    sigPart = token.slice(dotIdx + 1);
+  } else {
+    payloadB64 = token;
+  }
+
+  if (secret) {
+    if (!sigPart) throw new InvalidPriceLockError('missing signature');
+    const valid = await hmacVerify(payloadB64, sigPart, secret);
+    if (!valid) throw new InvalidPriceLockError('invalid signature');
+  }
+
+  let payload: PriceLockPayload;
   try {
-    const padded = token.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = payloadB64.replace(/-/g, '+').replace(/_/g, '/');
     const padLen = (4 - (padded.length % 4)) % 4;
     const json = atob(padded + '='.repeat(padLen));
     payload = JSON.parse(json) as PriceLockPayload;

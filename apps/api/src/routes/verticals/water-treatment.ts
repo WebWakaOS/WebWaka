@@ -7,6 +7,7 @@
  */
 
 import { Hono } from 'hono';
+import type { Context } from 'hono';
 import type { Env } from '../../types.js';
 import {
   WaterTreatmentRepository,
@@ -17,7 +18,7 @@ import {
 type Auth = { userId: string; tenantId: string };
 const app = new Hono<{ Bindings: Env }>();
 function repo(c: { env: Env }) { return new WaterTreatmentRepository(c.env.DB); }
-function auth(c: Parameters<Parameters<typeof app.use>[1]>[0]) { return c.get('auth') as Auth; }
+function auth(c: Context<{ Bindings: Env }>) { return c.get('auth') as Auth; }
 
 app.post('/profiles', async (c) => {
   const { tenantId } = auth(c);
@@ -62,7 +63,7 @@ app.post('/profiles/:id/subscriptions', async (c) => {
   const body = await c.req.json<{ clientPhone: string; propertyType: string; monthlyRateKobo: number; dailyLitresAllocation: number }>();
   const feeG = guardFractionalKobo(body.monthlyRateKobo);
   if (!feeG.allowed) return c.json({ error: feeG.reason }, 422);
-  return c.json(await repo(c).createSubscription({ profileId: c.req.param('id'), tenantId, propertyType: body.propertyType as never, ...body }), 201);
+  return c.json(await repo(c).createSubscription({ profileId: c.req.param('id'), tenantId, ...body, propertyType: body.propertyType as never }), 201);
 });
 
 app.post('/profiles/:id/ai/quality-alert', async (c) => {

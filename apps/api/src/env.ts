@@ -105,4 +105,19 @@ export interface Env {
    * Set via: wrangler secret put TELEGRAM_WEBHOOK_SECRET (in apps/ussd-gateway)
    */
   TELEGRAM_WEBHOOK_SECRET?: string;
+
+  /**
+   * HMAC-SHA256 secret for signing price-lock tokens (T004).
+   * Prevents tampering of negotiated price in checkout tokens.
+   * Set via: wrangler secret put PRICE_LOCK_SECRET
+   */
+  PRICE_LOCK_SECRET?: string;
+
+  /**
+   * Public base URL of the platform app (T006).
+   * Used to build Paystack callback URLs and other redirects.
+   * Example: "https://app.webwaka.com"
+   * Set via: wrangler secret put APP_BASE_URL (or vars in wrangler.toml)
+   */
+  APP_BASE_URL?: string;
 }

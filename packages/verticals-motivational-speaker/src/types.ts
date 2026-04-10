@@ -31,8 +31,10 @@ export interface MotivationalSpeakerProfile {
   status: MotivationalSpeakerFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreateMotivationalSpeakerInput {
-  id?: string; workspaceId: string; tenantId: string; businessName: string; speakerName: string;
+  id?: string; workspaceId: string; tenantId: string; businessName?: string; speakerName: string;
   cacRc?: string; specialisation?: string; itfTrainingAffiliate?: boolean;
+  associationMembership?: string;
+  niche?: string;
 }
 export interface SpeakingEngagement {
   id: string; profileId: string; tenantId: string; clientRefId: string; eventName: string;

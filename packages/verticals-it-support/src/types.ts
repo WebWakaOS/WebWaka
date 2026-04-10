@@ -30,21 +30,49 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 }
 
 export interface ITSupportProfile {
-  id: string; workspaceId: string; tenantId: string; companyName: string; nccRef: string | null;
-  cacRc: string | null; serviceType: string; status: ITSupportFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; companyName?: string; nccRef?: string | null;
+  cacRc: string | null; serviceType?: string; status: ITSupportFSMState; createdAt: number; updatedAt: number;
+  businessName: string;
+  nitnCert: string | null;
+  ndprConformance: boolean;
+  serviceScope: string;
 }
 export interface CreateITSupportInput {
-  id?: string; workspaceId: string; tenantId: string; companyName: string; serviceType?: string;
+  id?: string; workspaceId: string; tenantId: string; companyName?: string; serviceType?: string;
   nccRef?: string; cacRc?: string;
+  businessName?: string;
+  nitnCert?: string;
+  ndprConformance?: boolean;
+  serviceScope?: string;
 }
 export interface ITTicket {
-  id: string; profileId: string; tenantId: string; clientRefId: string; ticketType: TicketType;
-  deviceType: string | null; priority: TicketPriority; faultDesc: string | null;
-  labourCostKobo: number; partsCostKobo: number; totalCostKobo: number; slaHours: number;
-  openedDate: number; closedDate: number | null; status: TicketStatus; createdAt: number; updatedAt: number;
+  id: string; profileId: string; tenantId: string; clientRefId: string; ticketType?: TicketType;
+  deviceType?: string | null; priority: TicketPriority; faultDesc?: string | null;
+  labourCostKobo?: number; partsCostKobo?: number; totalCostKobo?: number; slaHours?: number;
+  openedDate?: number; closedDate?: number | null; status: TicketStatus; createdAt: number; updatedAt: number;
+  issueType: string;
+  assignedToRef: string | null;
+  resolutionNotes: string | null;
+  openedAt: number;
+  closedAt: number | null;
+  description?: string | null;
 }
 export interface ITRetainer {
   id: string; profileId: string; tenantId: string; clientRefId: string;
   monthlyRetainerKobo: number; slaResponseHours: number; startDate: number; endDate: number | null;
   status: string; createdAt: number; updatedAt: number;
 }
+
+// Compatibility aliases (casing variants used by external routes)
+export type ItSupportProfile = ITSupportProfile;
+export type CreateItSupportInput = CreateITSupportInput;
+export type ItSupportFSMState = ITSupportFSMState;
+export type ItTicket = ITTicket;
+export interface ItServiceContract {
+  id: string; profileId: string; tenantId: string; clientRefId: string;
+  contractType?: string; monthlyRetainerKobo?: number; startDate: number; endDate: number | null;
+  status: string; createdAt: number; updatedAt: number;
+  annualFeeKobo?: number;
+  slaDescription?: string | null;
+}
+export type isValidItSupportTransition = typeof isValidITSupportTransition;

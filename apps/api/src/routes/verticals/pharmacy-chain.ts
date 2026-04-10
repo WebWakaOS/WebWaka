@@ -10,7 +10,7 @@ pharmacyChainRoutes.post('/', async (c) => {
   let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!b['workspace_id'] || !b['business_name']) return c.json({ error: 'workspace_id, business_name required' }, 400);
   const repo = new PharmacyChainRepository(c.env.DB);
-  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, pcnLicence: b['pcn_licence'] as string | undefined, nafdacLicence: b['nafdac_licence'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, category: b['category'] as string | undefined });
+  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, pcnLicence: b['pcn_licence'] as string | undefined, nafdacLicence: b['nafdac_licence'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, category: b['category'] as unknown as import('@webwaka/verticals-pharmacy-chain').PharmacyCategory | undefined });
   return c.json({ pharmacy_chain: profile }, 201);
 });
 pharmacyChainRoutes.get('/workspace/:workspaceId', async (c) => {

@@ -36,6 +36,11 @@ export interface NurserySchoolProfile {
 export interface CreateNurserySchoolInput {
   id?: string; workspaceId: string; tenantId: string; schoolName: string; capacity?: number;
   subebReg?: string; lgaEduCert?: string; proprietorRef?: string;
+  nesCert?: string;
+  siwesRef?: string;
+  cacScn?: string;
+  state?: string;
+  lga?: string;
 }
 export interface NurseryEnrollmentSummary {
   id: string; profileId: string; tenantId: string; term: string;

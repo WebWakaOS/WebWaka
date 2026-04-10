@@ -34,8 +34,11 @@ export interface MarketAssociationProfile {
   status: MarketAssociationFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreateMarketAssociationInput {
-  id?: string; workspaceId: string; tenantId: string; associationName: string;
+  id?: string; workspaceId: string; tenantId: string; associationName?: string;
   cacItCert?: string; marketName?: string; state?: string; lga?: string;
+  cacScn?: string;
+  lgaRef?: string;
+  totalStalls?: number;
 }
 export interface MarketMember {
   id: string; profileId: string; tenantId: string; memberRefId: string; stallNumber: string | null;

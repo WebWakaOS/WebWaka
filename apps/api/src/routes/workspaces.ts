@@ -19,6 +19,7 @@ import { Role } from '@webwaka/types';
 import type { WorkspaceId, UserId } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 import { getWorkspaceById, addMember } from '@webwaka/entities';
+import { initializePayment } from '@webwaka/payments';
 import type { Env } from '../env.js';
 
 const workspaceRoutes = new Hono<{ Bindings: Env }>();
@@ -60,11 +61,16 @@ workspaceRoutes.post('/:id/activate', async (c) => {
     return c.json({ error: 'Only the workspace owner can activate' }, 403);
   }
 
-  let body: { paymentMethodStub?: string; plan?: string };
+  let body: { email?: string; plan?: string };
   try {
     body = await c.req.json<typeof body>();
   } catch {
     body = {};
+  }
+
+  const email = body.email;
+  if (!email) {
+    return c.json({ error: 'email is required for payment initialization' }, 400);
   }
 
   const plan = body.plan ?? 'starter';
@@ -73,25 +79,37 @@ workspaceRoutes.post('/:id/activate', async (c) => {
     return c.json({ error: `Invalid plan. Must be one of: ${validPlans.join('|')}` }, 400);
   }
 
-  // Payment processor stub — Paystack integration deferred to M6
-  const paystackReference = `stub_${crypto.randomUUID().replace(/-/g, '')}`;
+  const PLAN_AMOUNTS: Record<string, number> = {
+    starter: 5_000_00,
+    growth: 20_000_00,
+    enterprise: 100_000_00,
+  };
+  const amountKobo = PLAN_AMOUNTS[plan] ?? PLAN_AMOUNTS['starter']!;
 
-  // Update subscription to active
-  await db
-    .prepare(
-      `UPDATE subscriptions
-       SET plan = ?, status = 'active', updated_at = unixepoch()
-       WHERE workspace_id = ? AND tenant_id = ?`,
-    )
-    .bind(plan, workspaceId, auth.tenantId)
-    .run();
+  const secretKey = c.env.PAYSTACK_SECRET_KEY;
+  if (!secretKey) {
+    return c.json({ error: 'Payment provider not configured' }, 503);
+  }
+
+  const payment = await initializePayment(
+    { secretKey },
+    {
+      workspaceId,
+      amountKobo,
+      email,
+      callbackUrl: `${c.env.APP_BASE_URL ?? 'https://app.webwaka.com'}/billing/verify`,
+      metadata: { plan, workspace_id: workspaceId },
+    },
+  );
 
   return c.json({
     workspaceId,
     plan,
-    status: 'active',
-    paystackReference,
-    note: 'Payment processing via Paystack stub — full integration in Milestone 6',
+    status: 'pending_payment',
+    reference: payment.reference,
+    authorizationUrl: payment.authorizationUrl,
+    accessCode: payment.accessCode,
+    amountKobo: payment.amountKobo,
   }, 200);
 });
 

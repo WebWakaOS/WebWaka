@@ -154,7 +154,7 @@ import { syncRoutes } from './routes/sync.js';
 import { posRoutes } from './routes/pos.js';
 import { communityRoutes } from './routes/community.js';
 import { socialRoutes } from './routes/social.js';
-import { identityRateLimit } from './middleware/rate-limit.js';
+import { identityRateLimit, rateLimitMiddleware } from './middleware/rate-limit.js';
 import { auditLogMiddleware } from './middleware/audit-log.js';
 import { assertDMMasterKey } from '@webwaka/social';
 import { airtimeRoutes } from './routes/airtime.js';
@@ -206,6 +206,8 @@ app.use('*', async (c, next) => {
 app.use('*', logger());
 // M7e: Low-data mode — strips media_urls from JSON responses when X-Low-Data: 1 (P4/P6)
 app.use('*', lowDataMiddleware);
+// T006: Global rate limiting — 100 req/60s per IP before auth (R5)
+app.use('*', rateLimitMiddleware({ keyPrefix: 'global', maxRequests: 100, windowSeconds: 60 }));
 
 // ---------------------------------------------------------------------------
 // Public routes (no auth)

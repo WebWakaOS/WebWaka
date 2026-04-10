@@ -19,7 +19,7 @@ export class OilGasServicesRepository {
     await this.db.prepare(`UPDATE oil_gas_services_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[oil-gas-services] not found'); return p;
   }
-  async createContract(profileId: string, tenantId: string, input: { clientRefId: string; contractTitle: string; contractValueKobo: number; localContentPctX100: number; startDate: number; endDate?: number; mobilisationKobo?: number }): Promise<OilGasContract> {
+  async createContract(profileId: string, tenantId: string, input: { clientRefId: string; contractTitle: string; contractValueKobo: number; localContentPctX100?: number; startDate: number; endDate?: number; mobilisationKobo?: number; contractScope?: string; performanceBondKobo?: number }): Promise<OilGasContract> {
     if (!Number.isInteger(input.contractValueKobo)) throw new Error('contract_value_kobo must be integer (no REAL/float — P9 critical)');
     if (!Number.isInteger(input.localContentPctX100)) throw new Error('local_content_pct_x100 must be integer (pct×100)');
     const id = crypto.randomUUID();
@@ -44,5 +44,32 @@ export class OilGasServicesRepository {
     const r = await this.db.prepare('SELECT * FROM oil_gas_ncdmb_reports WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[oil-gas-services] NCDMB report create failed');
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, contractId: r['contract_id'] as string, reportPeriod: r['report_period'] as string, localContentPctX100: r['local_content_pct_x100'] as number, nigerianStaffCount: r['nigerian_staff_count'] as number, expatriateStaffCount: r['expatriate_staff_count'] as number, localSpendKobo: r['local_spend_kobo'] as number, createdAt: r['created_at'] as number };
   }
+
+  async addPersonnel(profileId: string, tenantId: string, input: { personnelRefId: string; role: string; ncdmbCategory?: string; expatriate?: boolean; monthlySalaryKobo?: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Math.floor(Date.now()/1000);
+    await this.db.prepare('INSERT INTO oil_gas_personnel (id,profile_id,tenant_id,personnel_ref_id,role,ncdmb_category,expatriate,monthly_salary_kobo,created_at) VALUES (?,?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.personnelRefId,input.role,input.ncdmbCategory??null,input.expatriate?1:0,input.monthlySalaryKobo??0,ts).run();
+    return { id, profileId, tenantId, ...input, ncdmbCategory: input.ncdmbCategory??null, expatriate: input.expatriate??false, monthlySalaryKobo: input.monthlySalaryKobo??0, createdAt: ts };
+  }
+  async listPersonnel(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM oil_gas_personnel WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async registerEquipment(profileId: string, tenantId: string, input: { equipmentName: string; serialNumber?: string; assetTag?: string; valuationKobo?: number; lastCertDate?: number; certBody?: string }): Promise<Record<string, unknown>> {
+    if (input.valuationKobo !== undefined && !Number.isInteger(input.valuationKobo)) throw new Error('valuation_kobo must be integer (P9)');
+    const id = crypto.randomUUID(); const ts = Math.floor(Date.now()/1000);
+    await this.db.prepare('INSERT INTO oil_gas_equipment (id,profile_id,tenant_id,equipment_name,serial_number,asset_tag,valuation_kobo,last_cert_date,cert_body,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.equipmentName,input.serialNumber??null,input.assetTag??null,input.valuationKobo??0,input.lastCertDate??null,input.certBody??null,ts).run();
+    return { id, profileId, tenantId, ...input, createdAt: ts };
+  }
+  async listEquipment(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM oil_gas_equipment WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async createHseLog(profileId: string, tenantId: string, input: { logDate: number; incidentType?: string; manHoursWorked: number; ltifr?: number; trifr?: number; nearMissCount?: number; notes?: string }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Math.floor(Date.now()/1000);
+    await this.db.prepare('INSERT INTO oil_gas_hse_log (id,profile_id,tenant_id,log_date,incident_type,man_hours_worked,ltifr,trifr,near_miss_count,notes,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.logDate,input.incidentType??null,input.manHoursWorked,input.ltifr??null,input.trifr??null,input.nearMissCount??0,input.notes??null,ts).run();
+    return { id, profileId, tenantId, ...input, createdAt: ts };
+  }
+  async listHseLogs(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM oil_gas_hse_log WHERE profile_id=? AND tenant_id=? ORDER BY log_date DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+
 }
 export function guardSeedToClaimed(_p: OilGasServicesProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

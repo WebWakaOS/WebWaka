@@ -9,6 +9,7 @@
  */
 
 import { Hono } from 'hono';
+import type { Context } from 'hono';
 import type { Env } from '../../types.js';
 import {
   RehabCentreRepository,
@@ -26,7 +27,7 @@ type Auth = { userId: string; tenantId: string };
 const app = new Hono<{ Bindings: Env }>();
 
 function repo(c: { env: Env }) { return new RehabCentreRepository(c.env.DB); }
-function auth(c: Parameters<Parameters<typeof app.use>[1]>[0]) { return c.get('auth') as Auth; }
+function auth(c: Context<{ Bindings: Env }>) { return c.get('auth') as Auth; }
 
 app.post('/profiles', async (c) => {
   const { tenantId } = auth(c);

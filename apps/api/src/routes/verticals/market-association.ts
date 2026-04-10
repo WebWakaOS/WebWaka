@@ -28,5 +28,5 @@ marketAssociationRoutes.post('/:id/levies', async (c) => {
 marketAssociationRoutes.get('/:id/levies', async (c) => { const auth = c.get('auth') as { tenantId: string }; const levies = await new MarketAssociationRepository(c.env.DB).listLevies(c.req.param('id'), auth.tenantId); return c.json({ levies, count: levies.length }); });
 marketAssociationRoutes.post('/:id/incidents', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
-  return c.json({ incident: await new MarketAssociationRepository(c.env.DB).reportIncident(c.req.param('id'), auth.tenantId, { incidentType: b['incident_type'] as string, incidentDate: b['incident_date'] as number, description: b['description'] as string | undefined, reporterRef: b['reporter_ref'] as string | undefined }) }, 201);
+  return c.json({ incident: await new MarketAssociationRepository(c.env.DB).reportIncident(c.req.param('id'), auth.tenantId, { incidentType: b['incident_type'] as string, incidentDate: b['incident_date'] as number, description: b['description'] as string, reportedBy: b['reporter_ref'] as string | undefined }) }, 201);
 });

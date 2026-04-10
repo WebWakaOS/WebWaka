@@ -12,7 +12,7 @@ export class MinistryMissionRepository {
   }
   async findProfileById(id: string, tenantId: string): Promise<MinistryMissionProfile|null> { const r = await this.db.prepare('SELECT * FROM ministry_mission_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<MinistryMissionProfile|null> { const r = await this.db.prepare('SELECT * FROM ministry_mission_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
-  async transitionStatus(id: string, tenantId: string, to: MinistryMissionFSMState, fields?: { itNumber?: string; cacItCert?: string }): Promise<MinistryMissionProfile> {
+  async transitionStatus(id: string, tenantId: string, to: MinistryMissionFSMState, fields?: { itNumber?: string; cacItCert?: string; cacScn?: string }): Promise<MinistryMissionProfile> {
     if (to === 'it_registered' && !fields?.itNumber) throw new Error('IT number required to transition to it_registered');
     let extra = ''; if (fields?.itNumber) extra += `, it_number='${fields.itNumber}'`; if (fields?.cacItCert) extra += `, cac_it_cert='${fields.cacItCert}'`;
     await this.db.prepare(`UPDATE ministry_mission_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
@@ -25,17 +25,39 @@ export class MinistryMissionRepository {
     const r = await this.db.prepare('SELECT * FROM ministry_services WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[ministry-mission] service create failed'); return toService(r);
   }
   async listServices(profileId: string, tenantId: string): Promise<MinistryService[]> { const { results } = await this.db.prepare('SELECT * FROM ministry_services WHERE profile_id=? AND tenant_id=? ORDER BY scheduled_date DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results.map(toService); }
-  async recordDonation(profileId: string, tenantId: string, input: { donorRef: string; amountKobo: number; donationDate: number; category?: string }): Promise<MinistryDonation> {
-    if (!Number.isInteger(input.amountKobo)) throw new Error('amount_kobo must be integer (P9)');
-    const id = crypto.randomUUID();
-    await this.db.prepare('INSERT INTO ministry_donations (id,profile_id,tenant_id,donor_ref,amount_kobo,donation_date,category,created_at) VALUES (?,?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,input.donorRef,input.amountKobo,input.donationDate,input.category??'offering').run();
-    const r = await this.db.prepare('SELECT * FROM ministry_donations WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[ministry-mission] donation create failed'); return toDonation(r);
-  }
   async recordOutreach(profileId: string, tenantId: string, input: { outreachType: string; outreachDate: number; beneficiaryCount?: number; costKobo?: number; location?: string }): Promise<MinistryOutreach> {
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO ministry_outreach (id,profile_id,tenant_id,outreach_type,outreach_date,beneficiary_count,cost_kobo,location,created_at) VALUES (?,?,?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,input.outreachType,input.outreachDate,input.beneficiaryCount??0,input.costKobo??0,input.location??null).run();
     const r = await this.db.prepare('SELECT * FROM ministry_outreach WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[ministry-mission] outreach create failed');
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, outreachType: r['outreach_type'] as string, outreachDate: r['outreach_date'] as number, beneficiaryCount: r['beneficiary_count'] as number, costKobo: r['cost_kobo'] as number, location: r['location'] as string|null, createdAt: r['created_at'] as number };
+  }
+  async createEvent(profileId: string, tenantId: string, input: { eventName: string; eventDate: number; venue?: string; expectedAttendance?: number; budgetKobo?: number; offeringCollectedKobo?: number }): Promise<MinistryService> {
+    return this.recordService(profileId, tenantId, { serviceType: 'special', scheduledDate: input.eventDate, attendanceCount: input.expectedAttendance, offeringKobo: input.offeringCollectedKobo, tithKobo: 0, notes: [input.eventName, input.venue].filter(Boolean).join(' — ') });
+  }
+  async listEvents(profileId: string, tenantId: string): Promise<MinistryService[]> {
+    return this.listServices(profileId, tenantId);
+  }
+  async addMember(profileId: string, tenantId: string, input: { memberRefId: string; role?: string; joinDate?: number }): Promise<{ id: string; profileId: string; tenantId: string; memberRefId: string; role: string; joinDate: number; createdAt: number }> {
+    const id = crypto.randomUUID();
+    await this.db.prepare('INSERT INTO ministry_members (id,profile_id,tenant_id,member_ref_id,role,join_date,created_at) VALUES (?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,input.memberRefId,input.role??'member',input.joinDate??Math.floor(Date.now()/1000)).run();
+    const r = await this.db.prepare('SELECT * FROM ministry_members WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[ministry-mission] member add failed');
+    return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, memberRefId: r['member_ref_id'] as string, role: r['role'] as string, joinDate: r['join_date'] as number, createdAt: r['created_at'] as number };
+  }
+  async listMembers(profileId: string, tenantId: string): Promise<{ id: string; profileId: string; tenantId: string; memberRefId: string; role: string; joinDate: number; createdAt: number }[]> {
+    const { results } = await this.db.prepare('SELECT * FROM ministry_members WHERE profile_id=? AND tenant_id=? ORDER BY join_date DESC').bind(profileId,tenantId).all<Record<string,unknown>>();
+    return results.map(r => ({ id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, memberRefId: r['member_ref_id'] as string, role: r['role'] as string, joinDate: r['join_date'] as number, createdAt: r['created_at'] as number }));
+  }
+  async listDonations(profileId: string, tenantId: string): Promise<MinistryDonation[]> {
+    const { results } = await this.db.prepare('SELECT * FROM ministry_donations WHERE profile_id=? AND tenant_id=? ORDER BY donation_date DESC').bind(profileId,tenantId).all<Record<string,unknown>>();
+    return results.map(toDonation);
+  }
+  async recordDonation(profileId: string, tenantId: string, input: { donorRef?: string; donorRefId?: string; amountKobo: number; donationDate: number; category?: string; donationType?: string; notes?: string }): Promise<MinistryDonation> {
+    if (!Number.isInteger(input.amountKobo)) throw new Error('amount_kobo must be integer (P9)');
+    const id = crypto.randomUUID();
+    const donorRef = input.donorRef ?? input.donorRefId ?? 'anonymous';
+    const category = input.category ?? input.donationType ?? 'offering';
+    await this.db.prepare('INSERT INTO ministry_donations (id,profile_id,tenant_id,donor_ref,amount_kobo,donation_date,category,created_at) VALUES (?,?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,donorRef,input.amountKobo,input.donationDate,category).run();
+    const r = await this.db.prepare('SELECT * FROM ministry_donations WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[ministry-mission] donation create failed'); return toDonation(r);
   }
 }
 export function guardSeedToClaimed(_p: MinistryMissionProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

@@ -35,12 +35,20 @@ export interface LaundryPriceItem {
   priceKobo: number; createdAt: number; updatedAt: number;
 }
 export interface LaundryOrder {
-  id: string; profileId: string; tenantId: string; clientRefId: string; items: string;
-  pickupDate: number | null; deliveryDate: number | null; totalKobo: number;
+  id: string; profileId: string; tenantId: string; customerRefId: string; items?: string;
+  pickupDate: number | null; deliveryDate?: number | null; totalKobo: number;
   status: LaundryOrderStatus; createdAt: number; updatedAt: number;
+  itemCount?: number;
+  itemTypes?: string | null;
+  weightGrams?: number | null;
+  expressService?: boolean;
+  returnDate?: number | null;
 }
 export interface LaundrySubscription {
-  id: string; profileId: string; tenantId: string; clientRefId: string; packageName: string;
-  frequency: string; priceKobo: number; itemsIncluded: number; startDate: number;
+  id: string; profileId: string; tenantId: string; customerRefId: string; packageName?: string;
+  frequency?: string; priceKobo?: number; itemsIncluded?: number; startDate: number;
   endDate: number | null; status: string; createdAt: number;
+  plan?: string;
+  monthlyKobo?: number;
+  updatedAt?: number;
 }

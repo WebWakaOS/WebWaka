@@ -42,8 +42,14 @@ export interface OrphanageProfile {
   status: OrphanageFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreateOrphanageInput {
-  id?: string; workspaceId: string; tenantId: string; orgName: string; capacity?: number;
+  id?: string; workspaceId: string; tenantId: string; orgName?: string; capacity?: number;
   dssLicense?: string; cacItCert?: string; fmwsdReg?: string;
+  facilityName?: string;
+  mosswRef?: string;
+  cacScn?: string;
+  nccsRef?: string;
+  state?: string;
+  lga?: string;
 }
 export interface OrphanagePopulationSummary {
   id: string; profileId: string; tenantId: string; reportDate: number;

@@ -36,12 +36,22 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 
 export interface MinistryMissionProfile {
   id: string; workspaceId: string; tenantId: string; ministryName: string; itNumber: string | null;
-  cacItCert: string | null; denomination: string | null; foundingPastorRef: string | null;
-  orgType: OrgType; status: MinistryMissionFSMState; createdAt: number; updatedAt: number;
+  cacItCert?: string | null; denomination?: string | null; foundingPastorRef?: string | null;
+  orgType?: OrgType; status: MinistryMissionFSMState; createdAt: number; updatedAt?: number;
+  organizationId?: string;
+  foundingYear?: number | null;
+  totalMembers?: number;
 }
 export interface CreateMinistryMissionInput {
   id?: string; workspaceId: string; tenantId: string; ministryName: string; orgType?: OrgType;
   itNumber?: string; cacItCert?: string; denomination?: string; foundingPastorRef?: string;
+  cacScn?: string;
+  organizationId?: string;
+  foundingYear?: number;
+  totalMembers?: number;
+  tinRef?: string;
+  state?: string;
+  lga?: string;
 }
 export interface MinistryService {
   id: string; profileId: string; tenantId: string; serviceType: MinistryServiceType;
@@ -56,3 +66,12 @@ export interface MinistryOutreach {
   id: string; profileId: string; tenantId: string; outreachType: string;
   outreachDate: number; beneficiaryCount: number; costKobo: number; location: string | null; createdAt: number;
 }
+
+// MinistryRepository types (distinct from MinistryMissionProfile)
+export type MinistryProfile = MinistryMissionProfile;
+export type CreateMinistryInput = CreateMinistryMissionInput;
+export interface UpdateMinistryInput {
+  ministryName?: string; itNumber?: string | null; foundingYear?: number | null;
+  totalMembers?: number; status?: string; denomination?: string; state?: string; lga?: string;
+}
+export type MinistryFSMState = MinistryMissionFSMState;

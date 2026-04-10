@@ -28,11 +28,13 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 
 export interface LaundryServiceProfile {
   id: string; workspaceId: string; tenantId: string; businessName: string; cacRc: string | null;
-  machineCount: number; capacityKgPerLoadX100: number; status: LaundryServiceFSMState; createdAt: number; updatedAt: number;
+  machineCount?: number; capacityKgPerLoadX100?: number; status: LaundryServiceFSMState; createdAt: number; updatedAt: number;
+  serviceArea: string | null;
 }
 export interface CreateLaundryServiceInput {
   id?: string; workspaceId: string; tenantId: string; businessName: string;
   cacRc?: string; machineCount?: number; capacityKgPerLoadX100?: number;
+  serviceArea?: string;
 }
 export interface LaundryServiceMachine {
   id: string; profileId: string; tenantId: string; machineNumber: string; machineType: MachineType;
@@ -48,3 +50,11 @@ export interface LaundryServiceSubscription {
   loadsPerMonth: number; monthlyPriceKobo: number; startDate: number; endDate: number | null;
   status: string; createdAt: number;
 }
+
+export interface LaundryServiceOrder {
+  id: string; profileId: string; tenantId: string; customerRefId: string; itemCount: number;
+  itemTypes: string | null; totalKobo: number; pickupDate: number | null; returnDate: number | null;
+  expressService: boolean; status: 'pending' | 'picked_up' | 'in_progress' | 'ready' | 'delivered' | 'cancelled';
+  createdAt: number; updatedAt: number;
+}
+export type LaundryServiceRoute = LaundryServiceProfile;

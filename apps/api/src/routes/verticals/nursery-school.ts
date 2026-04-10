@@ -26,23 +26,23 @@ nurserySchoolRoutes.post('/:id/enrollments', async (c) => {
   if ('child_ref_id' in b) return c.json({ error: 'P13: child_ref_id is prohibited in nursery-school data' }, 422);
   const repo = new NurserySchoolRepository(c.env.DB);
   try {
-    const enrollment = await repo.createEnrollment(c.req.param('id'), auth.tenantId, { guardianRefId: b['guardian_ref_id'] as string, ageBracket: b['age_bracket'] as string, classLevel: b['class_level'] as string, academicYear: b['academic_year'] as string, term: b['term'] as string, termFeeKobo: b['term_fee_kobo'] as number });
+    const enrollment = await repo.createEnrollment(c.req.param('id'), auth.tenantId, { term: b['term'] as string, ageBracket02: b['age_bracket_0_2'] as number ?? 0, ageBracket24: b['age_bracket_2_4'] as number ?? 0, ageBracket46: b['age_bracket_4_6'] as number ?? 0, enrollmentDate: b['enrollment_date'] as number | undefined });
     return c.json({ enrollment }, 201);
   } catch (e) { return c.json({ error: (e as Error).message }, 422); }
 });
 nurserySchoolRoutes.get('/:id/enrollment-summary', async (c) => {
   const auth = c.get('auth') as { tenantId: string };
-  const summary = await new NurserySchoolRepository(c.env.DB).getEnrollmentSummary(c.req.param('id'), auth.tenantId);
+  const summary = await new NurserySchoolRepository(c.env.DB).listEnrollmentSummaries(c.req.param('id'), auth.tenantId);
   return c.json({ summary });
 });
 nurserySchoolRoutes.post('/:id/teachers', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
-  return c.json({ teacher: await new NurserySchoolRepository(c.env.DB).addTeacher(c.req.param('id'), auth.tenantId, { teacherRefId: b['teacher_ref_id'] as string, trcnReg: b['trcn_reg'] as string | undefined, classAssignment: b['class_assignment'] as string | undefined }) }, 201);
+  return c.json({ teacher: await new NurserySchoolRepository(c.env.DB).addTeacher(c.req.param('id'), auth.tenantId, { teacherRefId: b['teacher_ref_id'] as string, qualification: b['qualification'] as string | undefined, subjectArea: b['class_assignment'] as string | undefined, employmentDate: b['employment_date'] as number | undefined }) }, 201);
 });
 nurserySchoolRoutes.get('/:id/teachers', async (c) => { const auth = c.get('auth') as { tenantId: string }; const teachers = await new NurserySchoolRepository(c.env.DB).listTeachers(c.req.param('id'), auth.tenantId); return c.json({ teachers, count: teachers.length }); });
 nurserySchoolRoutes.post('/:id/fee-payments', async (c) => {
   const auth = c.get('auth') as { tenantId: string }; let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if ('child_ref_id' in b) return c.json({ error: 'P13: child_ref_id is prohibited in nursery-school data' }, 422);
-  try { return c.json({ payment: await new NurserySchoolRepository(c.env.DB).recordFeePayment(c.req.param('id'), auth.tenantId, { enrollmentId: b['enrollment_id'] as string, guardianRefId: b['guardian_ref_id'] as string, amountKobo: b['amount_kobo'] as number, paymentDate: b['payment_date'] as number, academicYear: b['academic_year'] as string, term: b['term'] as string }) }, 201); } catch (e) { return c.json({ error: (e as Error).message }, 422); }
+  try { return c.json({ payment: await new NurserySchoolRepository(c.env.DB).recordFeePayment(c.req.param('id'), auth.tenantId, { term: b['term'] as string, feeType: b['fee_type'] as string ?? 'tuition', amountKobo: b['amount_kobo'] as number, paymentDate: b['payment_date'] as number }) }, 201); } catch (e) { return c.json({ error: (e as Error).message }, 422); }
 });
 nurserySchoolRoutes.get('/:id/fee-payments', async (c) => { const auth = c.get('auth') as { tenantId: string }; const payments = await new NurserySchoolRepository(c.env.DB).listFeePayments(c.req.param('id'), auth.tenantId); return c.json({ payments, count: payments.length }); });

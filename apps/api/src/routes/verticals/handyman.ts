@@ -10,7 +10,7 @@ handymanRoutes.post('/', async (c) => {
   let b: Record<string, unknown>; try { b = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!b['workspace_id'] || !b['business_name']) return c.json({ error: 'workspace_id, business_name required' }, 400);
   const repo = new HandymanRepository(c.env.DB);
-  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, tradeType: b['trade_type'] as string | undefined, corenAwareness: b['coren_awareness'] as string | undefined, nabtebCert: b['nabteb_cert'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, state: b['state'] as string | undefined, lga: b['lga'] as string | undefined });
+  const profile = await repo.createProfile({ workspaceId: b['workspace_id'] as string, tenantId: auth.tenantId, businessName: b['business_name'] as string, tradeType: b['trade_type'] as unknown as import('@webwaka/verticals-handyman').TradeType | undefined, corenAwareness: b['coren_awareness'] as string | undefined, nabtebCert: b['nabteb_cert'] as string | undefined, cacRc: b['cac_rc'] as string | undefined, state: b['state'] as string | undefined, lga: b['lga'] as string | undefined });
   return c.json({ handyman: profile }, 201);
 });
 handymanRoutes.get('/workspace/:workspaceId', async (c) => {

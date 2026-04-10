@@ -37,5 +37,31 @@ export class GovtSchoolRepository {
     const r = await this.db.prepare('SELECT * FROM school_capitation_grants WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[govt-school] grant create failed');
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, grantYear: r['grant_year'] as string, grantAmountKobo: r['grant_amount_kobo'] as number, disbursementDate: r['disbursement_date'] as number|null, utilisedKobo: r['utilised_kobo'] as number, grantSource: r['grant_source'] as SchoolCapitationGrant['grantSource'], createdAt: r['created_at'] as number, updatedAt: r['updated_at'] as number };
   }
+
+  async enrollStudent(profileId: string, tenantId: string, input: { studentId: string; className: string; admissionDate: number; subsidy?: boolean }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO school_students (id,profile_id,tenant_id,student_id,class_name,admission_date,subsidy,created_at) VALUES (?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.studentId,input.className,input.admissionDate,input.subsidy?1:0,ts).run();
+    return { id, profileId, tenantId, studentId: input.studentId, className: input.className, admissionDate: input.admissionDate, subsidy: input.subsidy??false, createdAt: ts };
+  }
+  async listStudents(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM school_students WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async addTeacher(profileId: string, tenantId: string, input: { teacherRefId: string; subjectArea?: string; qualifications?: string; employmentDate?: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO school_teachers (id,profile_id,tenant_id,teacher_ref_id,subject_area,qualifications,employment_date,created_at) VALUES (?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.teacherRefId,input.subjectArea??null,input.qualifications??null,input.employmentDate??null,ts).run();
+    return { id, profileId, tenantId, teacherRefId: input.teacherRefId, subjectArea: input.subjectArea??null, qualifications: input.qualifications??null, employmentDate: input.employmentDate??null, createdAt: ts };
+  }
+  async listTeachers(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM school_teachers WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async recordResult(profileId: string, tenantId: string, input: { studentId: string; term: string; subject: string; score: number; maxScore: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO school_results (id,profile_id,tenant_id,student_id,term,subject,score,max_score,created_at) VALUES (?,?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.studentId,input.term,input.subject,input.score,input.maxScore,ts).run();
+    return { id, profileId, tenantId, ...input, createdAt: ts };
+  }
+  async listResults(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM school_results WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+
 }
 export function guardSeedToClaimed(_p: GovtSchoolProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

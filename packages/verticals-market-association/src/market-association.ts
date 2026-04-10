@@ -12,7 +12,7 @@ export class MarketAssociationRepository {
   }
   async findProfileById(id: string, tenantId: string): Promise<MarketAssociationProfile|null> { const r = await this.db.prepare('SELECT * FROM market_association_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<MarketAssociationProfile|null> { const r = await this.db.prepare('SELECT * FROM market_association_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
-  async transitionStatus(id: string, tenantId: string, to: MarketAssociationFSMState): Promise<MarketAssociationProfile> {
+  async transitionStatus(id: string, tenantId: string, to: MarketAssociationFSMState, _fields?: { cacScn?: string }): Promise<MarketAssociationProfile> {
     await this.db.prepare('UPDATE market_association_profiles SET status=?, updated_at=unixepoch() WHERE id=? AND tenant_id=?').bind(to,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[market-association] not found'); return p;
   }
@@ -22,7 +22,7 @@ export class MarketAssociationRepository {
     const r = await this.db.prepare('SELECT * FROM market_members WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[market-association] member create failed'); return toMember(r);
   }
   async listMembers(profileId: string, tenantId: string): Promise<MarketMember[]> { const { results } = await this.db.prepare('SELECT * FROM market_members WHERE profile_id=? AND tenant_id=?').bind(profileId,tenantId).all<Record<string,unknown>>(); return results.map(toMember); }
-  async recordLevy(profileId: string, tenantId: string, input: { memberRefId: string; levyType: string; amountKobo: number; paymentDate: number }): Promise<MarketLevy> {
+  async recordLevy(profileId: string, tenantId: string, input: { memberRefId?: string; traderId?: string; levyType?: string; amountKobo: number; paymentDate?: number; periodMonth?: number; collectedDate?: number }): Promise<MarketLevy> {
     if (!Number.isInteger(input.amountKobo)) throw new Error('amount_kobo must be integer (P9)');
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO market_levies (id,profile_id,tenant_id,member_ref_id,levy_type,amount_kobo,payment_date,created_at) VALUES (?,?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,input.memberRefId,input.levyType,input.amountKobo,input.paymentDate).run();
@@ -34,5 +34,23 @@ export class MarketAssociationRepository {
     const r = await this.db.prepare('SELECT * FROM market_meetings WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[market-association] meeting create failed');
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, meetingDate: r['meeting_date'] as number, attendanceCount: r['attendance_count'] as number, resolutions: r['resolutions'] as string|null, createdAt: r['created_at'] as number };
   }
+
+  async addTrader(profileId: string, tenantId: string, input: { traderRefId: string; stallNumber?: string; tradeType?: string; monthlyLevyKobo?: number; joinDate?: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO market_traders (id,profile_id,tenant_id,trader_ref_id,stall_number,trade_type,monthly_levy_kobo,join_date,created_at) VALUES (?,?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.traderRefId,input.stallNumber??null,input.tradeType??null,input.monthlyLevyKobo??0,input.joinDate??ts,ts).run();
+    return { id, profileId, tenantId, traderRefId: input.traderRefId, stallNumber: input.stallNumber??null, tradeType: input.tradeType??null, monthlyLevyKobo: input.monthlyLevyKobo??0, joinDate: input.joinDate??ts, createdAt: ts };
+  }
+  async listTraders(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM market_traders WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async listLevies(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM market_levies WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async reportIncident(profileId: string, tenantId: string, input: { incidentType: string; description: string; incidentDate: number; reportedBy?: string }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO market_incidents (id,profile_id,tenant_id,incident_type,description,incident_date,reported_by,created_at) VALUES (?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.incidentType,input.description,input.incidentDate,input.reportedBy??null,ts).run();
+    return { id, profileId, tenantId, ...input, reportedBy: input.reportedBy??null, createdAt: ts };
+  }
+
 }
 export function guardSeedToClaimed(_p: MarketAssociationProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

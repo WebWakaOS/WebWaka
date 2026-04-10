@@ -29,8 +29,9 @@ export interface PaintsDistributorProfile {
   nafdacRef: string | null; cacRc: string | null; status: PaintsDistributorFSMState; createdAt: number; updatedAt: number;
 }
 export interface CreatePaintsDistributorInput {
-  id?: string; workspaceId: string; tenantId: string; companyName: string;
+  id?: string; workspaceId: string; tenantId: string; companyName?: string;
   sonCert?: string; nafdacRef?: string; cacRc?: string;
+  businessName?: string;
 }
 export interface PaintsInventoryItem {
   id: string; profileId: string; tenantId: string; brandName: string; colourCode: string | null;

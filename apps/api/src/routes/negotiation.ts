@@ -448,7 +448,7 @@ negotiationRouter.post('/sessions/:id/accept', async (c) => {
 
     let price_lock_token: string | null = null;
     try {
-      price_lock_token = generatePriceLockToken(session);
+      price_lock_token = await generatePriceLockToken(session, c.env.PRICE_LOCK_SECRET);
     } catch {
       price_lock_token = null;
     }
@@ -546,7 +546,7 @@ negotiationRouter.post('/checkout/verify-price-lock', async (c) => {
   if (!token) return c.json({ error: 'price_lock_token is required', code: 'invalid_value' }, 422);
 
   try {
-    const result = verifyPriceLockToken(token, auth.tenantId);
+    const result = await verifyPriceLockToken(token, auth.tenantId, c.env.PRICE_LOCK_SECRET);
     return c.json({ valid: true, session_id: result.session_id, final_price_kobo: result.final_price_kobo });
   } catch (err) {
     return handleEngineError(c, err);

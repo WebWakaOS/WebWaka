@@ -46,6 +46,7 @@ export interface CreateYouthOrgInput {
   type?: YouthOrgType | undefined;
   state?: string | undefined;
   lga?: string | undefined;
+  organizationId?: string;
 }
 
 export interface UpdateYouthOrgInput {

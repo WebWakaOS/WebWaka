@@ -50,6 +50,7 @@ export interface CreateWomensAssocInput {
   type?: WomensAssocType | undefined;
   state?: string | undefined;
   lga?: string | undefined;
+  organizationId?: string;
 }
 
 export interface UpdateWomensAssocInput {

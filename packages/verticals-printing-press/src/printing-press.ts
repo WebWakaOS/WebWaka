@@ -26,12 +26,17 @@ export class PrintingPressRepository {
     await this.db.prepare('UPDATE printing_jobs SET status=?, updated_at=unixepoch() WHERE id=? AND tenant_id=?').bind(status,id,tenantId).run();
     const r = await this.db.prepare('SELECT * FROM printing_jobs WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[printing-press] job not found'); return toJob(r);
   }
-  async addInventory(profileId: string, tenantId: string, input: { materialName: string; unit?: string; quantityInStock: number; unitCostKobo: number; reorderLevel?: number }): Promise<PrintingInventory> {
+  async addInventory(profileId: string, tenantId: string, input: { materialName: string; unit?: string; qtyInStock: number; unitCostKobo: number; reorderLevel?: number }): Promise<PrintingInventory> {
     if (!Number.isInteger(input.unitCostKobo)) throw new Error('unit_cost_kobo must be integer (P9)');
     const id = crypto.randomUUID();
-    await this.db.prepare('INSERT INTO printing_inventory (id,profile_id,tenant_id,material_name,unit,quantity_in_stock,unit_cost_kobo,reorder_level,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,unixepoch(),unixepoch())').bind(id,profileId,tenantId,input.materialName,input.unit??'ream',input.quantityInStock,input.unitCostKobo,input.reorderLevel??5).run();
+    await this.db.prepare('INSERT INTO printing_inventory (id,profile_id,tenant_id,material_name,unit,quantity_in_stock,unit_cost_kobo,reorder_level,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,unixepoch(),unixepoch())').bind(id,profileId,tenantId,input.materialName,input.unit??'ream',input.qtyInStock,input.unitCostKobo,input.reorderLevel??5).run();
     const r = await this.db.prepare('SELECT * FROM printing_inventory WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[printing-press] inventory create failed');
-    return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, materialName: r['material_name'] as string, unit: r['unit'] as string, quantityInStock: r['quantity_in_stock'] as number, unitCostKobo: r['unit_cost_kobo'] as number, reorderLevel: r['reorder_level'] as number, createdAt: r['created_at'] as number, updatedAt: r['updated_at'] as number };
+    return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, materialName: r['material_name'] as string, unit: r['unit'] as string, qtyInStock: r['quantity_in_stock'] as number, unitCostKobo: r['unit_cost_kobo'] as number, reorderLevel: r['reorder_level'] as number, createdAt: r['created_at'] as number, updatedAt: r['updated_at'] as number };
+  }
+
+  async listInventory(profileId: string, tenantId: string): Promise<PrintingInventory[]> {
+    const { results } = await this.db.prepare('SELECT * FROM printing_press_inventory WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId, tenantId).all<PrintingInventory>();
+    return results;
   }
 }
 export function guardSeedToClaimed(_p: PrintingPressProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

@@ -24,7 +24,7 @@ hotelRoutes.post('/', async (c) => {
   try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!body['workspace_id'] || !body['hotel_name']) return c.json({ error: 'workspace_id, hotel_name required' }, 400);
   const repo = new HotelRepository(c.env.DB);
-  const profile = await repo.createProfile({ workspaceId: body['workspace_id'] as string, tenantId: auth.tenantId, hotelName: body['hotel_name'] as string, hotelType: body['hotel_type'] as string | undefined, nihotourLicence: body['nihotour_licence'] as string | undefined, stateTourismBoardRef: body['state_tourism_board_ref'] as string | undefined, cacRc: body['cac_rc'] as string | undefined, starRating: body['star_rating'] as number | undefined });
+  const profile = await repo.createProfile({ workspaceId: body['workspace_id'] as string, tenantId: auth.tenantId, hotelName: body['hotel_name'] as string, hotelType: body['hotel_type'] as unknown as import('@webwaka/verticals-hotel').HotelType | undefined, nihotourLicence: body['nihotour_licence'] as string | undefined, stateTourismBoardRef: body['state_tourism_board_ref'] as string | undefined, cacRc: body['cac_rc'] as string | undefined, starRating: body['star_rating'] as number | undefined });
   return c.json({ hotel: profile }, 201);
 });
 

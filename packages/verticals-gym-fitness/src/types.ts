@@ -30,17 +30,25 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 }
 
 export interface GymFitnessProfile {
-  id: string; workspaceId: string; tenantId: string; gymName: string; cacRc: string | null;
-  nfscnCert: string | null; gymType: string; status: GymFitnessFSMState; createdAt: number; updatedAt: number;
+  id: string; workspaceId: string; tenantId: string; gymName?: string; cacRc: string | null;
+  nfscnCert?: string | null; gymType?: string; status: GymFitnessFSMState; createdAt: number; updatedAt: number;
+  nasfcCert: string | null;
+  businessName?: string;
+  capacity?: number;
 }
 export interface CreateGymFitnessInput {
-  id?: string; workspaceId: string; tenantId: string; gymName: string; gymType?: string;
+  id?: string; workspaceId: string; tenantId: string; gymName?: string; gymType?: string;
   cacRc?: string; nfscnCert?: string;
+  businessName?: string;
+  nasfcCert?: string;
+  capacity?: number;
 }
 export interface GymMembership {
   id: string; profileId: string; tenantId: string; memberRefId: string;
-  membershipType: MembershipType; feeKobo: number; startDate: number; endDate: number | null;
+  membershipType?: MembershipType; feeKobo?: number; startDate: number; endDate: number | null;
   status: MembershipStatus; createdAt: number; updatedAt: number;
+  plan: string;
+  monthlyFeeKobo: number;
 }
 export interface GymEquipment {
   id: string; profileId: string; tenantId: string; equipmentName: string; category: string | null;
@@ -51,4 +59,13 @@ export interface GymClassSchedule {
   id: string; profileId: string; tenantId: string; className: string; trainerRef: string | null;
   dayOfWeek: number; startTime: number; durationMinutes: number; capacity: number;
   feeKobo: number; createdAt: number; updatedAt: number;
+}
+
+export interface GymSession {
+  id: string; profileId: string; tenantId: string; memberRefId: string;
+  sessionDate: number; durationMinutes: number; sessionType: string; trainerRefId: string | null; createdAt: number;
+}
+export interface GymEquipmentLog {
+  id: string; profileId: string; tenantId: string; equipmentName: string;
+  maintenanceDate: number; notes: string | null; costKobo: number; createdAt: number;
 }

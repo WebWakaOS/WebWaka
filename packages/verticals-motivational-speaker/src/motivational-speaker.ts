@@ -1,4 +1,4 @@
-import type { MotivationalSpeakerProfile, CreateMotivationalSpeakerInput, MotivationalSpeakerFSMState, SpeakingEngagement, TrainingProgram, TrainingEnrollment } from './types.js';
+import type { MotivationalSpeakerProfile, CreateMotivationalSpeakerInput, MotivationalSpeakerFSMState, SpeakingEngagement, TrainingProgram, TrainingEnrollment, EnrollmentStatus } from './types.js';
 interface D1Like { prepare(s: string): { bind(...v: unknown[]): { run(): Promise<{ success: boolean }>; first<T>(): Promise<T | null>; all<T>(): Promise<{ results: T[] }>; }; }; }
 function toProfile(r: Record<string, unknown>): MotivationalSpeakerProfile { return { id: r['id'] as string, workspaceId: r['workspace_id'] as string, tenantId: r['tenant_id'] as string, businessName: r['business_name'] as string, speakerName: r['speaker_name'] as string, cacRc: r['cac_rc'] as string|null, specialisation: r['specialisation'] as string|null, itfTrainingAffiliate: Boolean(r['itf_training_affiliate']), status: r['status'] as MotivationalSpeakerFSMState, createdAt: r['created_at'] as number, updatedAt: r['updated_at'] as number }; }
 function toEngagement(r: Record<string, unknown>): SpeakingEngagement { return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, clientRefId: r['client_ref_id'] as string, eventName: r['event_name'] as string, eventDate: r['event_date'] as number, audienceSize: r['audience_size'] as number, feeKobo: r['fee_kobo'] as number, travelKobo: r['travel_kobo'] as number, totalKobo: r['total_kobo'] as number, status: r['status'] as SpeakingEngagement['status'], createdAt: r['created_at'] as number, updatedAt: r['updated_at'] as number }; }
@@ -12,11 +12,11 @@ export class MotivationalSpeakerRepository {
   }
   async findProfileById(id: string, tenantId: string): Promise<MotivationalSpeakerProfile|null> { const r = await this.db.prepare('SELECT * FROM motivational_speaker_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<MotivationalSpeakerProfile|null> { const r = await this.db.prepare('SELECT * FROM motivational_speaker_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
-  async transitionStatus(id: string, tenantId: string, to: MotivationalSpeakerFSMState): Promise<MotivationalSpeakerProfile> {
+  async transitionStatus(id: string, tenantId: string, to: MotivationalSpeakerFSMState, _fields?: { cacRc?: string }): Promise<MotivationalSpeakerProfile> {
     await this.db.prepare('UPDATE motivational_speaker_profiles SET status=?, updated_at=unixepoch() WHERE id=? AND tenant_id=?').bind(to,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[motivational-speaker] not found'); return p;
   }
-  async createEngagement(profileId: string, tenantId: string, input: { clientRefId: string; eventName: string; eventDate: number; audienceSize?: number; feeKobo: number; travelKobo?: number; totalKobo: number }): Promise<SpeakingEngagement> {
+  async createEngagement(profileId: string, tenantId: string, input: { clientRefId: string; eventName: string; eventDate: number; audienceSize?: number; feeKobo: number; travelKobo?: number; totalKobo: number; eventType?: string }): Promise<SpeakingEngagement> {
     if (!Number.isInteger(input.totalKobo)) throw new Error('total_kobo must be integer (P9)');
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO speaking_engagements (id,profile_id,tenant_id,client_ref_id,event_name,event_date,audience_size,fee_kobo,travel_kobo,total_kobo,status,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,\'enquiry\',unixepoch(),unixepoch())').bind(id,profileId,tenantId,input.clientRefId,input.eventName,input.eventDate,input.audienceSize??0,input.feeKobo,input.travelKobo??0,input.totalKobo).run();
@@ -35,7 +35,22 @@ export class MotivationalSpeakerRepository {
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO training_enrollments (id,program_id,tenant_id,participant_ref,enrollment_date,fee_kobo,status,created_at) VALUES (?,?,?,?,?,?,\'enrolled\',unixepoch())').bind(id,programId,tenantId,input.participantRef,input.enrollmentDate,input.feeKobo).run();
     const r = await this.db.prepare('SELECT * FROM training_enrollments WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[motivational-speaker] enrollment create failed');
-    return { id: r['id'] as string, programId: r['program_id'] as string, tenantId: r['tenant_id'] as string, participantRef: r['participant_ref'] as string, enrollmentDate: r['enrollment_date'] as number, feeKobo: r['fee_kobo'] as number, status: r['status'] as string, createdAt: r['created_at'] as number };
+    return { id: r['id'] as string, programId: r['program_id'] as string, tenantId: r['tenant_id'] as string, participantRef: r['participant_ref'] as string, enrollmentDate: r['enrollment_date'] as number, feeKobo: r['fee_kobo'] as number, status: r['status'] as unknown as EnrollmentStatus, createdAt: r['created_at'] as number };
   }
+
+  async addTestimonial(profileId: string, tenantId: string, input: { clientRefId: string; testimonialText: string; rating?: number; eventDate?: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO speaker_testimonials (id,profile_id,tenant_id,client_ref_id,testimonial_text,rating,event_date,created_at) VALUES (?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.clientRefId,input.testimonialText,input.rating??null,input.eventDate??null,ts).run();
+    return { id, profileId, tenantId, ...input, rating: input.rating??null, eventDate: input.eventDate??null, createdAt: ts };
+  }
+  async listTestimonials(profileId: string, tenantId: string): Promise<Record<string, unknown>[]> {
+    const { results } = await this.db.prepare('SELECT * FROM speaker_testimonials WHERE profile_id=? AND tenant_id=? ORDER BY created_at DESC').bind(profileId,tenantId).all<Record<string,unknown>>(); return results;
+  }
+  async addMediaProduct(profileId: string, tenantId: string, input: { productTitle: string; productType: string; priceKobo?: number; publishDate?: number }): Promise<Record<string, unknown>> {
+    const id = crypto.randomUUID(); const ts = Date.now();
+    await this.db.prepare('INSERT INTO speaker_media_products (id,profile_id,tenant_id,product_title,product_type,price_kobo,publish_date,created_at) VALUES (?,?,?,?,?,?,?,?)').bind(id,profileId,tenantId,input.productTitle,input.productType,input.priceKobo??0,input.publishDate??null,ts).run();
+    return { id, profileId, tenantId, ...input, priceKobo: input.priceKobo??0, publishDate: input.publishDate??null, createdAt: ts };
+  }
+
 }
 export function guardSeedToClaimed(_p: MotivationalSpeakerProfile): { allowed: boolean; reason?: string } { return { allowed: true }; }

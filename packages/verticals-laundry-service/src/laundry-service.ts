@@ -26,7 +26,7 @@ export class LaundryServiceRepository {
     await this.db.prepare('UPDATE laundry_service_orders SET status=?, return_date=?, updated_at=unixepoch() WHERE id=? AND tenant_id=?').bind(status,returnDate??null,id,tenantId).run();
     const r = await this.db.prepare('SELECT * FROM laundry_service_orders WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[laundry-service] order not found'); return toOrder(r);
   }
-  async addRoute(profileId: string, tenantId: string, input: { routeName: string; coverageAreas: string; pickupDays?: string }): Promise<LaundryServiceRoute> {
+  async addRoute(profileId: string, tenantId: string, input: { routeName: string; coverageAreas: string; pickupDays?: string }): Promise<Record<string, unknown>> {
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO laundry_service_routes (id,profile_id,tenant_id,route_name,coverage_areas,pickup_days,created_at) VALUES (?,?,?,?,?,?,unixepoch())').bind(id,profileId,tenantId,input.routeName,input.coverageAreas,input.pickupDays??null).run();
     const r = await this.db.prepare('SELECT * FROM laundry_service_routes WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[laundry-service] route create failed');

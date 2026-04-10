@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import { ItSupportRepository, isValidItSupportTransition } from '@webwaka/verticals-it-support';
-import type { ItSupportFSMState } from '@webwaka/verticals-it-support';
+import { ItSupportRepository, isValidITSupportTransition as isValidItSupportTransition } from '@webwaka/verticals-it-support';
+import type { ITSupportFSMState as ItSupportFSMState } from '@webwaka/verticals-it-support';
 import type { Env } from '../../env.js';
 export const itSupportRoutes = new Hono<{ Bindings: Env }>();
 itSupportRoutes.post('/', async (c) => {

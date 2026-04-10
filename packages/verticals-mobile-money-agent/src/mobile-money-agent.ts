@@ -69,6 +69,8 @@ export class MobileMoneyAgentRepository {
     if (!Number.isInteger(amountKobo) || amountKobo <= 0) throw new Error('P9: topup amountKobo must be a positive integer');
     const ts = now();
     await this.db.prepare('UPDATE mm_float SET float_balance_kobo=float_balance_kobo+?,last_topup_kobo=?,last_topup_date=?,updated_at=? WHERE agent_id=? AND tenant_id=?').bind(amountKobo, amountKobo, ts, ts, agentId, tenantId).run();
-    return (await this.db.prepare('SELECT * FROM mm_float WHERE agent_id=? AND tenant_id=?').bind(agentId, tenantId).first<FloatRow>()).then(r => rowToFloat(r!));
+    const floatRow = await this.db.prepare('SELECT * FROM mm_float WHERE agent_id=? AND tenant_id=?').bind(agentId, tenantId).first<FloatRow>();
+    if (!floatRow) throw new Error('[mobile-money-agent] float not found after topup');
+    return rowToFloat(floatRow);
   }
 }

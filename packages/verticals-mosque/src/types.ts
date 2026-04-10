@@ -44,6 +44,7 @@ export interface CreateMosqueInput {
   nsciaAffiliationNumber?: string | undefined;
   state?: string | undefined;
   lga?: string | undefined;
+  organizationId?: string;
 }
 
 export interface UpdateMosqueInput {
