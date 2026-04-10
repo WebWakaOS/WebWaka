@@ -36,6 +36,9 @@ function makeDb() {
             if (!row['status']) row['status'] = 'seeded';
             if (!row['created_at']) row['created_at'] = Math.floor(Date.now() / 1000);
             if (!row['updated_at']) row['updated_at'] = Math.floor(Date.now() / 1000);
+            // Tag row with its table name for accurate all() filtering
+            const tableM = sql.match(/INSERT INTO (\w+)/i);
+            if (tableM) row['_table'] = tableM[1];
             store.push(row);
           }
         } else if (sql.trim().toUpperCase().startsWith('UPDATE')) {

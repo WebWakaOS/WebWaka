@@ -1,9 +1,9 @@
 import type { MinistryMissionProfile, CreateMinistryMissionInput, MinistryMissionFSMState, MinistryService, MinistryDonation, MinistryOutreach } from './types.js';
 interface D1Like { prepare(s: string): { bind(...v: unknown[]): { run(): Promise<{ success: boolean }>; first<T>(): Promise<T | null>; all<T>(): Promise<{ results: T[] }>; }; }; }
 function toProfile(r: Record<string, unknown>): MinistryMissionProfile { 
-  const p = { id: r['id'] as string, workspaceId: r['workspace_id'] as string, tenantId: r['tenant_id'] as string, ministryName: r['ministry_name'] as string, itNumber: r['it_number'] as string|null, cacItCert: r['cac_it_cert'] as string|null, denomination: r['denomination'] as string|null, foundingPastorRef: r['founding_pastor_ref'] as string|null, orgType: r['org_type'] as MinistryMissionProfile['orgType'], status: r['status'] as MinistryMissionFSMState, createdAt: r['created_at'] as number } as MinistryMissionProfile;
+  const p = { id: r['id'] as string, workspaceId: r['workspace_id'] as string, tenantId: r['tenant_id'] as string, ministryName: r['ministry_name'] as string, itNumber: r['it_number'] as string|null, cacItCert: r['cac_it_cert'] as (string|null|undefined), denomination: r['denomination'] as (string|null|undefined), foundingPastorRef: r['founding_pastor_ref'] as (string|null|undefined), orgType: r['org_type'] as MinistryMissionProfile['orgType'], status: r['status'] as MinistryMissionFSMState, createdAt: r['created_at'] as number } as MinistryMissionProfile;
   if (r['updated_at'] !== null && r['updated_at'] !== undefined) p.updatedAt = r['updated_at'] as number;
-  return p;
+  return p as unknown as MinistryMissionProfile;
 }
 function toService(r: Record<string, unknown>): MinistryService { return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, serviceType: r['service_type'] as MinistryService['serviceType'], scheduledDate: r['scheduled_date'] as number, attendanceCount: r['attendance_count'] as number ?? 0, offeringKobo: r['offering_kobo'] as number ?? 0, tithKobo: r['tith_kobo'] as number ?? 0, notes: r['notes'] as string|null, createdAt: r['created_at'] as number }; }
 function toDonation(r: Record<string, unknown>): MinistryDonation { return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, donorRef: r['donor_ref'] as string, amountKobo: r['amount_kobo'] as number, donationDate: r['donation_date'] as number, category: r['category'] as MinistryDonation['category'], createdAt: r['created_at'] as number }; }
@@ -36,7 +36,7 @@ export class MinistryMissionRepository {
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, outreachType: r['outreach_type'] as string, outreachDate: r['outreach_date'] as number, beneficiaryCount: r['beneficiary_count'] as number, costKobo: r['cost_kobo'] as number, location: r['location'] as string|null, createdAt: r['created_at'] as number };
   }
   async createEvent(profileId: string, tenantId: string, input: { eventName: string; eventDate: number; venue?: string; expectedAttendance?: number; budgetKobo?: number; offeringCollectedKobo?: number }): Promise<MinistryService> {
-    return this.recordService(profileId, tenantId, { serviceType: 'special', scheduledDate: input.eventDate, attendanceCount: input.expectedAttendance, offeringKobo: input.offeringCollectedKobo, tithKobo: 0, notes: [input.eventName, input.venue].filter(Boolean).join(' — ') });
+    return this.recordService(profileId, tenantId, { serviceType: 'special', scheduledDate: input.eventDate, ...(input.expectedAttendance !== undefined ? { attendanceCount: input.expectedAttendance } : {}), ...(input.offeringCollectedKobo !== undefined ? { offeringKobo: input.offeringCollectedKobo } : {}), tithKobo: 0, notes: [input.eventName, input.venue].filter(Boolean).join(' — ') });
   }
   async listEvents(profileId: string, tenantId: string): Promise<MinistryService[]> {
     return this.listServices(profileId, tenantId);
