@@ -29,7 +29,18 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO palm_oil_sales')) { const ml = vals[4]; if (!Number.isInteger(ml) || (ml as number) < 0) throw new Error('quantityMl must be a non-negative integer ml'); const price = vals[5]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: pricePerLitreKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_phone: vals[3], quantity_ml: vals[4], price_per_litre_kobo: vals[5], total_kobo: vals[6], sale_date: vals[7], created_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => {
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
+          return null as T | null;
+        },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

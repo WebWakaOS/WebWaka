@@ -26,7 +26,18 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO miller_production_batches')) { const raw = vals[5]; if (!Number.isInteger(raw) || (raw as number) < 0) throw new Error('rawInputKg must be a non-negative integer'); const out = vals[6]; if (!Number.isInteger(out) || (out as number) < 0) throw new Error('productOutputKg must be a non-negative integer'); const mc = vals[8]; if (!Number.isInteger(mc) || (mc as number) < 0) throw new Error('P9: millingCostKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], batch_date: vals[3], crop_type: vals[4], raw_input_kg: vals[5], product_output_kg: vals[6], product_type: vals[7], milling_cost_kobo: vals[8], created_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => {
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
+          return null as T | null;
+        },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

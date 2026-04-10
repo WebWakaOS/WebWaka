@@ -29,7 +29,18 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO cold_temp_log')) { const temp = vals[5]; if (!Number.isInteger(temp)) throw new Error('Temperature must be an integer millidegrees Celsius (no floats)'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], unit_id: vals[3], log_time: vals[4], temperature_mc: vals[5], alert_flag: vals[6], created_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => {
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
+          return null as T | null;
+        },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
