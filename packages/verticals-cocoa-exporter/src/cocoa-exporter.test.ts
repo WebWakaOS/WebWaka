@@ -29,7 +29,18 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO cocoa_exports')) { const qty = vals[4]; if (!Number.isInteger(qty) || (qty as number) < 0) throw new Error('quantityKg must be a non-negative integer'); const fob = vals[8]; if (!Number.isInteger(fob) || (fob as number) < 0) throw new Error('P9: fobValueKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_country: vals[3], quantity_kg: vals[4], quality_cert_ref: vals[5], nepc_licence_ref: vals[6], cbn_fx_form: vals[7], fob_value_kobo: vals[8], shipping_date: vals[9], fx_repatriated_kobo: 0, repatriation_date: null, status: 'prepared', created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => {
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
+          return null as T | null;
+        },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
