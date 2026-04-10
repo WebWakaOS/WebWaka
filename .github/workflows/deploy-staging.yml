@@ -37,7 +37,8 @@ jobs:
             npx wrangler d1 migrations apply webwaka-staging \
               --env staging \
               --remote \
-              --config apps/api/wrangler.toml
+              --config apps/api/wrangler.toml \
+              --migrations-dir infra/db/migrations
           else
             echo "No migrations found at infra/db/migrations — skipping"
           fi
@@ -63,12 +64,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
-          if [ -f "apps/api/wrangler.toml" ]; then
-            pnpm --filter api build
-            npx wrangler deploy --env staging --config apps/api/wrangler.toml
-          else
-            echo "apps/api/wrangler.toml not found — skipping deploy (pre-Milestone 3)"
-          fi
+          pnpm --filter api build
+          npx wrangler deploy --env staging --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -97,3 +94,4 @@ jobs:
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.STAGING_BASE_URL }}
+
