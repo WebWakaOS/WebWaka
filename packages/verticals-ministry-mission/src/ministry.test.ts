@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MinistryRepository } from './ministry.js';
-import { isValidMinistryTransition } from './types.js';
+import { isValidMinistryMissionTransition } from './types.js';
 function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
@@ -97,12 +97,12 @@ describe('MinistryRepository', () => {
   it('update itNumber', async () => { const m = await repo.create({ organizationId: 'org4', workspaceId: 'ws1', tenantId: 't1', ministryName: 'M X' }); expect(await repo.update(m.id, 't1', { itNumber: 'IT-M-001' })).not.toBeNull(); });
   it('update totalMembers', async () => { const m = await repo.create({ organizationId: 'org5', workspaceId: 'ws1', tenantId: 't1', ministryName: 'M Y', totalMembers: 300 }); expect(await repo.update(m.id, 't1', { totalMembers: 500 })).not.toBeNull(); });
   it('transition seeded → claimed', async () => { const m = await repo.create({ organizationId: 'org6', workspaceId: 'ws1', tenantId: 't1', ministryName: 'MN1' }); expect(await repo.transition(m.id, 't1', 'claimed')).not.toBeNull(); });
-  it('transition claimed → it_verified', async () => { const m = await repo.create({ organizationId: 'org7', workspaceId: 'ws1', tenantId: 't1', ministryName: 'MN2' }); expect(await repo.transition(m.id, 't1', 'it_verified')).not.toBeNull(); });
+  it('transition claimed → it_verified', async () => { const m = await repo.create({ organizationId: 'org7', workspaceId: 'ws1', tenantId: 't1', ministryName: 'MN2' }); expect(await repo.transition(m.id, 't1', 'it_registered')).not.toBeNull(); });
   it('transition it_verified → active', async () => { const m = await repo.create({ organizationId: 'org8', workspaceId: 'ws1', tenantId: 't1', ministryName: 'MN3' }); expect(await repo.transition(m.id, 't1', 'active')).not.toBeNull(); });
 });
 describe('Ministry FSM', () => {
-  it('seeded → claimed valid', () => { expect(isValidMinistryTransition('seeded', 'claimed')).toBe(true); });
-  it('claimed → it_verified valid', () => { expect(isValidMinistryTransition('claimed', 'it_verified')).toBe(true); });
-  it('it_verified → active valid', () => { expect(isValidMinistryTransition('it_verified', 'active')).toBe(true); });
-  it('seeded → active invalid', () => { expect(isValidMinistryTransition('seeded', 'active')).toBe(false); });
+  it('seeded → claimed valid', () => { expect(isValidMinistryMissionTransition('seeded', 'claimed')).toBe(true); });
+  it('claimed → it_verified valid', () => { expect(isValidMinistryMissionTransition('claimed', 'it_registered')).toBe(true); });
+  it('it_verified → active valid', () => { expect(isValidMinistryMissionTransition('it_registered', 'active')).toBe(true); });
+  it('seeded → active invalid', () => { expect(isValidMinistryMissionTransition('seeded', 'active')).toBe(false); });
 });

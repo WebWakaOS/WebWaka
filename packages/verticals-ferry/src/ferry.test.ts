@@ -62,13 +62,22 @@ function makeDb() {
         );
         return (found ?? null) as T;
       },
-      all: async <T>() => ({
-        results: store.filter(r =>
-          vals.length >= 2
-            ? (r['profile_id'] === vals[0]) && r['tenant_id'] === vals[1]
-            : true
-        ),
-      } as { results: T[] }),
+      all: async <T>() => {
+        // Extract table name from SELECT ... FROM table_name
+        const tableMatch = sql.match(/FROM\s+(\w+)/i);
+        const tableName = tableMatch ? tableMatch[1] : null;
+        let filtered = store;
+        if (tableName && vals.length >= 2) {
+          // Filter by table type + profile_id/vessel_id/etc + tenant_id
+          filtered = store.filter(r => {
+            const match = (tableName === 'ferry_trips' || tableName === 'ferry_vessels') 
+              ? (r['profile_id'] === vals[0] || r['vessel_id'] === vals[0]) && r['tenant_id'] === vals[1]
+              : true;
+            return match;
+          });
+        }
+        return { results: filtered } as { results: T[] };
+      },
     });
     return { bind: bindFn };
   };
