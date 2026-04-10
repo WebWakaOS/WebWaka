@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SyncEngine } from './sync-engine.js';
-import type { SyncAdapter, SyncQueueItem, ConflictResolution, SyncStatus } from './types.js';
+import type { SyncAdapter, SyncQueueItem, SyncStatus } from './types.js';
 
 function makeMockItem(overrides: Partial<SyncQueueItem> = {}): SyncQueueItem {
   return {
@@ -47,7 +47,7 @@ beforeEach(() => {
 describe('SyncEngine.processPendingQueue', () => {
   it('returns zero counts when queue is empty', async () => {
     const adapter = makeMockAdapter();
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     const result = await engine.processPendingQueue();
     expect(result).toEqual({ synced: 0, conflicts: 0, errors: 0, total: 0 });
   });
@@ -57,7 +57,7 @@ describe('SyncEngine.processPendingQueue', () => {
     const adapter = makeMockAdapter([item]);
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 200 }));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     const result = await engine.processPendingQueue();
     expect(result.synced).toBe(1);
     expect(result.conflicts).toBe(0);
@@ -69,7 +69,7 @@ describe('SyncEngine.processPendingQueue', () => {
     const adapter = makeMockAdapter([item]);
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 409 }));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     const result = await engine.processPendingQueue();
     expect(result.conflicts).toBe(1);
     expect(result.synced).toBe(0);
@@ -84,7 +84,7 @@ describe('SyncEngine.processPendingQueue', () => {
     const adapter = makeMockAdapter([item]);
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     const result = await engine.processPendingQueue();
     expect(result.errors).toBe(1);
     expect(adapter.updateStatus).toHaveBeenCalledWith(item.id, 'failed', expect.stringContaining('Network error'));
@@ -105,7 +105,7 @@ describe('SyncEngine.processPendingQueue', () => {
       return Promise.resolve({ ok: true, status: 200 });
     }));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     await engine.processPendingQueue();
     expect(order).toEqual(['first', 'second', 'third']);
   });
@@ -115,7 +115,7 @@ describe('SyncEngine.processPendingQueue', () => {
     const adapter = makeMockAdapter([item]);
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 200 }));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     await engine.processPendingQueue();
     expect(adapter.updateStatus).toHaveBeenCalledWith('item-x', 'syncing');
     expect(adapter.updateStatus).toHaveBeenCalledWith('item-x', 'synced');
@@ -128,7 +128,7 @@ describe('SyncEngine.processPendingQueue', () => {
     const adapter = makeMockAdapter([pending], [failed]);
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 200 }));
 
-    const engine = new SyncEngine(adapter, 'https://api.test', async () => 'token');
+    const engine = new SyncEngine(adapter, 'https://api.test', () => Promise.resolve('token'));
     const result = await engine.processPendingQueue();
     expect(result.total).toBe(2);
     expect(result.synced).toBe(2);
