@@ -155,10 +155,10 @@ export class OpenAICompatAdapter implements AIAdapter {
 
     try {
       while (true) {
-        const { done, value } = await reader.read();
+        const { done, value } = await reader.read() as { done: boolean; value: Uint8Array | undefined };
         if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value ?? new Uint8Array(), { stream: true });
         const lines = chunk.split('\n');
 
         for (const line of lines) {
@@ -189,3 +189,4 @@ export class OpenAICompatAdapter implements AIAdapter {
     };
   }
 }
+
