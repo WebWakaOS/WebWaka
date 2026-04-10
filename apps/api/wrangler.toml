@@ -30,8 +30,9 @@ id = "58bec07ac48448388b372c3dd8bc1bb9"
 ENVIRONMENT = "staging"
 LOG_LEVEL = "debug"
 
+# Custom domain — bare hostname only, no wildcard/path
 [[env.staging.routes]]
-pattern = "api-staging.webwaka.com/*"
+pattern = "api-staging.webwaka.com"
 zone_name = "webwaka.com"
 custom_domain = true
 
@@ -61,8 +62,9 @@ id = "86d90c013d3d4529ac08aad6d283a6bf"
 ENVIRONMENT = "production"
 LOG_LEVEL = "warn"
 
+# Custom domain — bare hostname only, no wildcard/path
 [[env.production.routes]]
-pattern = "api.webwaka.com/*"
+pattern = "api.webwaka.com"
 zone_name = "webwaka.com"
 custom_domain = true
 
