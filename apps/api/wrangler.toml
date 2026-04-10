@@ -2,6 +2,7 @@ name = "webwaka-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-05"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = false
 
 # Negotiation expiry CRON — runs every 15 minutes
 [[triggers]]
@@ -19,11 +20,15 @@ database_name = "webwaka-main"
 database_id = "local-dev-placeholder"
 
 [[kv_namespaces]]
-binding = "GEOGRAPHY_CACHE"
+binding = "CACHE_KV"
 id = "local-dev-placeholder"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
+id = "local-dev-placeholder"
+
+[[kv_namespaces]]
+binding = "SESSIONS_KV"
 id = "local-dev-placeholder"
 
 # ---------------------------------------------------------------------------
@@ -31,10 +36,16 @@ id = "local-dev-placeholder"
 # ---------------------------------------------------------------------------
 [env.staging]
 name = "webwaka-api-staging"
+workers_dev = false
+
+routes = [
+  { pattern = "api-staging.webwaka.com/*", zone_name = "webwaka.com" }
+]
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
 APP_BASE_URL = "https://api-staging.webwaka.com"
+LOG_LEVEL = "debug"
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -43,22 +54,32 @@ database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
 migrations_dir = "../../infra/db/migrations"
 
 [[env.staging.kv_namespaces]]
-binding = "GEOGRAPHY_CACHE"
+binding = "CACHE_KV"
 id = "4732f3a682964607bae2170f350e4fb4"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "2a81cd5b8d094911a20e1e0f6a190506"
 
+[[env.staging.kv_namespaces]]
+binding = "SESSIONS_KV"
+id = "58bec07ac48448388b372c3dd8bc1bb9"
+
 # ---------------------------------------------------------------------------
 # Production
 # ---------------------------------------------------------------------------
 [env.production]
 name = "webwaka-api-production"
+workers_dev = false
+
+routes = [
+  { pattern = "api.webwaka.com/*", zone_name = "webwaka.com" }
+]
 
 [env.production.vars]
 ENVIRONMENT = "production"
 APP_BASE_URL = "https://api.webwaka.com"
+LOG_LEVEL = "warn"
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -67,12 +88,16 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 migrations_dir = "../../infra/db/migrations"
 
 [[env.production.kv_namespaces]]
-binding = "GEOGRAPHY_CACHE"
+binding = "CACHE_KV"
 id = "5bd5695d963247d0b105a936827e0a89"
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"
+
+[[env.production.kv_namespaces]]
+binding = "SESSIONS_KV"
+id = "86d90c013d3d4529ac08aad6d283a6bf"
 
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:
@@ -86,4 +111,3 @@ id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"
 #   LOG_PII_SALT
 #   DM_MASTER_KEY
 #   PRICE_LOCK_SECRET
-
