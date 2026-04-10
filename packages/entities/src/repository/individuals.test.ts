@@ -22,8 +22,8 @@ interface D1Stmt {
 function makeMockDb() {
   const store: Record<string, unknown>[] = [];
 
-  function makeRow(id: string, name: string, tenantId: string, placeId: string | null, metadata: string | null): Record<string, unknown> {
-    return { id, name, entity_type: 'individual', tenant_id: tenantId, place_id: placeId, metadata, created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
+  function makeRow(id: string, firstName: string, lastName: string, displayName: string, tenantId: string): Record<string, unknown> {
+    return { id, name: displayName, first_name: firstName, last_name: lastName, entity_type: 'individual', tenant_id: tenantId, created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
   }
 
   return {
@@ -34,8 +34,9 @@ function makeMockDb() {
         bind: (...args: unknown[]) => { boundArgs = args; return stmt; },
         run: vi.fn(() => {
           if (sql.startsWith('INSERT INTO individuals')) {
-            const [id, name, , tenantId, placeId, metadata] = boundArgs;
-            store.push(makeRow(id as string, name as string, tenantId as string, placeId as string | null, metadata as string | null));
+            // impl binds: (id, firstName, lastName, displayName, tenantId)
+            const [id, firstName, lastName, displayName, tenantId] = boundArgs;
+            store.push(makeRow(id as string, firstName as string, lastName as string, displayName as string, tenantId as string));
           }
           if (sql.startsWith('UPDATE individuals')) {
             const id = boundArgs[boundArgs.length - 2];
