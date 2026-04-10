@@ -529,18 +529,7 @@ app.route('/api/v1', financialPlaceMediaInstitutionalRoutes);
 //   oil-gas-services — dual-gate FSM: ncdmb_certified → dpr_registered
 // ---------------------------------------------------------------------------
 
-const setJSlugs = [
-  'hotel','handyman','logistics-delivery','pharmacy-chain','furniture-maker',
-  'gas-distributor','generator-repair','it-support','laundry','optician',
-  'gym-fitness','printing-press','land-surveyor','okada-keke','laundry-service',
-  'iron-steel','internet-cafe','motorcycle-accessories','paints-distributor',
-  'plumbing-supplies','ministry-mission','market-association','motivational-speaker',
-  'govt-school','nursery-school','orphanage','oil-gas-services',
-] as const;
-
-for (const slug of setJSlugs) {
-  app.use(`/api/v1/verticals/${slug}/*`, authMiddleware);
-}
+app.use('/api/v1/verticals/*', authMiddleware);
 app.route('/api/v1/verticals', setJExtendedRouter);
 
 // ---------------------------------------------------------------------------
