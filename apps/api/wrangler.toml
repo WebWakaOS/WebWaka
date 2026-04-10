@@ -7,7 +7,11 @@ workers_dev = false
 # ── Staging environment ───────────────────────────────────────────────────────
 [env.staging]
 name = "webwaka-api-staging"
-workers_dev = true
+workers_dev = false
+
+routes = [
+  { pattern = "api-staging.webwaka.com/*", zone_name = "webwaka.com" }
+]
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -34,6 +38,10 @@ LOG_LEVEL = "debug"
 [env.production]
 name = "webwaka-api-production"
 workers_dev = false
+
+routes = [
+  { pattern = "api.webwaka.com/*", zone_name = "webwaka.com" }
+]
 
 [[env.production.d1_databases]]
 binding = "DB"
