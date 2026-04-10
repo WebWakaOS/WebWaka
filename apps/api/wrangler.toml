@@ -7,11 +7,7 @@ workers_dev = false
 # ── Staging environment ───────────────────────────────────────────────────────
 [env.staging]
 name = "webwaka-api-staging"
-workers_dev = false
-
-routes = [
-  { pattern = "api-staging.webwaka.com/*", zone_name = "webwaka.com" }
-]
+workers_dev = true
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -34,14 +30,15 @@ id = "58bec07ac48448388b372c3dd8bc1bb9"
 ENVIRONMENT = "staging"
 LOG_LEVEL = "debug"
 
+[[env.staging.routes]]
+pattern = "api-staging.webwaka.com/*"
+zone_name = "webwaka.com"
+custom_domain = true
+
 # ── Production environment ────────────────────────────────────────────────────
 [env.production]
 name = "webwaka-api-production"
 workers_dev = false
-
-routes = [
-  { pattern = "api.webwaka.com/*", zone_name = "webwaka.com" }
-]
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -63,6 +60,11 @@ id = "86d90c013d3d4529ac08aad6d283a6bf"
 [env.production.vars]
 ENVIRONMENT = "production"
 LOG_LEVEL = "warn"
+
+[[env.production.routes]]
+pattern = "api.webwaka.com/*"
+zone_name = "webwaka.com"
+custom_domain = true
 
 # ── Secrets (set via wrangler secret put, never in this file) ─────────────────
 # JWT_SECRET
