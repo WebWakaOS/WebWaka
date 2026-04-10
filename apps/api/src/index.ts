@@ -17,7 +17,7 @@ export interface Env {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  fetch(request: Request, env: Env, _ctx: ExecutionContext): Response {
     const url = new URL(request.url);
 
     // Health check
