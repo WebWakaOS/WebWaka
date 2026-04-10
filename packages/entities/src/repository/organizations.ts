@@ -1,6 +1,9 @@
 /**
  * D1-backed CRUD for the organizations table.
  * T3: every query includes tenant_id.
+ *
+ * Schema note: organizations table does NOT have entity_type or place_id columns.
+ * Those fields are omitted from INSERT/SELECT to match actual D1 schema.
  */
 
 import type { Organization, TenantId, OrganizationId } from '@webwaka/types';
@@ -20,7 +23,8 @@ interface D1Like {
 
 export interface CreateOrganizationInput {
   name: string;
-  placeId?: string;
+  registrationNumber?: string;
+  placeId?: string;        // kept for API compat but not stored (no column)
   metadata?: Record<string, unknown>;
 }
 
@@ -28,8 +32,7 @@ interface OrgRow {
   id: string;
   name: string;
   tenant_id: string;
-  place_id: string | null;
-  metadata: string | null;
+  registration_number: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -40,12 +43,14 @@ function rowToOrg(row: OrgRow): Organization {
     type: EntityType.Organization,
     tenantId: row.tenant_id as TenantId,
     name: row.name,
-    placeId: row.place_id ?? undefined,
-    metadata: row.metadata ? (JSON.parse(row.metadata) as Record<string, unknown>) : undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   } as unknown as Organization;
 }
+
+const SELECT_COLS = `id, name, tenant_id, registration_number,
+                     datetime(created_at,'unixepoch') AS created_at,
+                     datetime(updated_at,'unixepoch') AS updated_at`;
 
 export async function createOrganization(
   db: D1Like,
@@ -57,16 +62,14 @@ export async function createOrganization(
 
   await db
     .prepare(
-      `INSERT INTO organizations (id, name, entity_type, tenant_id, place_id, metadata, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, unixepoch(), unixepoch())`,
+      `INSERT INTO organizations (id, name, tenant_id, registration_number)
+       VALUES (?, ?, ?, ?)`,
     )
     .bind(
       id,
       input.name,
-      EntityType.Organization,
       tenantId,
-      input.placeId ?? null,
-      input.metadata ? JSON.stringify(input.metadata) : null,
+      input.registrationNumber ?? null,
     )
     .run();
 
@@ -75,8 +78,6 @@ export async function createOrganization(
     type: EntityType.Organization,
     tenantId,
     name: input.name,
-    placeId: input.placeId,
-    metadata: input.metadata,
     createdAt: now,
     updatedAt: now,
   } as unknown as Organization;
@@ -88,10 +89,7 @@ export async function getOrganizationById(
   id: OrganizationId,
 ): Promise<Organization | null> {
   const row = await db
-    .prepare(
-      `SELECT id, name, tenant_id, place_id, metadata, datetime(created_at,'unixepoch') AS created_at, datetime(updated_at,'unixepoch') AS updated_at
-       FROM organizations WHERE id = ? AND tenant_id = ?`,
-    )
+    .prepare(`SELECT ${SELECT_COLS} FROM organizations WHERE id = ? AND tenant_id = ?`)
     .bind(id, tenantId)
     .first<OrgRow>();
 
@@ -104,8 +102,7 @@ export async function listOrganizationsByTenant(
   opts: PaginationOptions = { limit: 20 },
 ): Promise<PaginatedResult<Organization>> {
   const limit = Math.min(opts.limit, 100);
-  let sql = `SELECT id, name, tenant_id, place_id, metadata, datetime(created_at,'unixepoch') AS created_at, datetime(updated_at,'unixepoch') AS updated_at
-             FROM organizations WHERE tenant_id = ?`;
+  let sql = `SELECT ${SELECT_COLS} FROM organizations WHERE tenant_id = ?`;
   const bindings: unknown[] = [tenantId];
 
   if (opts.cursor) {
@@ -139,8 +136,7 @@ export async function updateOrganization(
   const bindings: unknown[] = [];
 
   if (patch.name !== undefined) { updates.push('name = ?'); bindings.push(patch.name); }
-  if (patch.placeId !== undefined) { updates.push('place_id = ?'); bindings.push(patch.placeId); }
-  if (patch.metadata !== undefined) { updates.push('metadata = ?'); bindings.push(JSON.stringify(patch.metadata)); }
+  if (patch.registrationNumber !== undefined) { updates.push('registration_number = ?'); bindings.push(patch.registrationNumber); }
   updates.push('updated_at = unixepoch()');
 
   if (updates.length === 1) return existing;
