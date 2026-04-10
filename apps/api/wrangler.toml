@@ -34,21 +34,21 @@ name = "webwaka-api-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
-APP_BASE_URL = "https://api-staging.webwaka.ng"
+APP_BASE_URL = "https://api-staging.webwaka.com"
 
 [[env.staging.d1_databases]]
 binding = "DB"
-database_name = "webwaka-os-staging"
-database_id = "cfa62668-bbd0-4cf2-996a-53da76bab948"
+database_name = "webwaka-staging"
+database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
 migrations_dir = "../../infra/db/migrations"
 
 [[env.staging.kv_namespaces]]
 binding = "GEOGRAPHY_CACHE"
-id = "01df2e1e329d446ebfd1577b93554ede"
+id = "4732f3a682964607bae2170f350e4fb4"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "608eacac3eb941a68c716b14e84b4d10"
+id = "2a81cd5b8d094911a20e1e0f6a190506"
 
 # ---------------------------------------------------------------------------
 # Production
@@ -58,21 +58,21 @@ name = "webwaka-api-production"
 
 [env.production.vars]
 ENVIRONMENT = "production"
-APP_BASE_URL = "https://api.webwaka.ng"
+APP_BASE_URL = "https://api.webwaka.com"
 
 [[env.production.d1_databases]]
 binding = "DB"
-database_name = "webwaka-os-production"
-database_id = "de1d0935-31ed-4a33-a0fd-0122d7a4fe43"
+database_name = "webwaka-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 migrations_dir = "../../infra/db/migrations"
 
 [[env.production.kv_namespaces]]
 binding = "GEOGRAPHY_CACHE"
-id = "b447c8dd14e3432baaeb8bf13d8fd736"
+id = "5bd5695d963247d0b105a936827e0a89"
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "af260e847d1e400e94cf13f6ae3214eb"
+id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"
 
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:
@@ -86,3 +86,4 @@ id = "af260e847d1e400e94cf13f6ae3214eb"
 #   LOG_PII_SALT
 #   DM_MASTER_KEY
 #   PRICE_LOCK_SECRET
+
