@@ -11,8 +11,8 @@ function makeDb() {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
           const valM = sql.match(/VALUES\s*\(([^)]+)\)/i);
           if (colM && valM) {
-            const cols = colM[1].split(',').map((c: string) => c.trim());
-            const tokens = valM[1].split(',').map((v: string) => v.trim());
+            const cols = colM[1]!.split(',').map((c: string) => c.trim());
+            const tokens = valM[1]!.split(',').map((v: string) => v.trim());
             const row: Record<string, unknown> = {};
             let bi = 0;
             cols.forEach((col: string, i: number) => {
@@ -32,13 +32,13 @@ function makeDb() {
         } else if (sql.trim().toUpperCase().startsWith('UPDATE')) {
           const setM = sql.match(/SET\s+(.+?)\s+WHERE/i);
           if (setM) {
-            const clauses = setM[1].split(',').map((s: string) => s.trim());
+            const clauses = setM[1]!.split(',').map((s: string) => s.trim());
             const id = vals[vals.length - 2] as string;
             const tid = vals[vals.length - 1] as string;
             const idx = store.findIndex(r => r['id'] === id && r['tenant_id'] === tid);
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
-                const col = clause.split('=')[0].trim();
+                const col = (clause.split('=')[0] ?? '').trim();
                 (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }

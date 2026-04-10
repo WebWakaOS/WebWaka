@@ -28,7 +28,18 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO fp_finished_goods')) { const price = vals[6]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: unitSalePriceKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], product_name: vals[3], nafdac_product_number: vals[4], units_in_stock: vals[5], unit_sale_price_kobo: vals[6], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => {
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
+          return null as T | null;
+        },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

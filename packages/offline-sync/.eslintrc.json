@@ -1,10 +1,24 @@
 {
-  "extends": ["../../.eslintrc.base.json"],
+  "extends": [
+    "../../.eslintrc.base.json"
+  ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "env": {
     "node": true,
     "es2022": true
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/require-await": "off"
+      }
+    }
+  ]
 }

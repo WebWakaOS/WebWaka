@@ -28,7 +28,15 @@ function makeDb() {
           return { success: true };
         },
         first: async <T>() => {
-          if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null;
+          if (sql.includes('WHERE id=?')) {
+            const record = store.get(vals[0] as string) ?? null;
+            if (record === null) return null as T | null;
+            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
+              const row = record as Record<string, unknown>;
+              if (row['tenant_id'] !== vals[1]) return null as T | null;
+            }
+            return record as T | null;
+          }
           return null as T | null;
         },
         all: async <T>() => ({ results: [] as T[] }),
