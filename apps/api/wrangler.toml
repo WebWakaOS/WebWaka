@@ -2,10 +2,12 @@ name = "webwaka-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = false
 
 # ── Staging environment ───────────────────────────────────────────────────────
 [env.staging]
 name = "webwaka-api-staging"
+workers_dev = true
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -31,6 +33,7 @@ LOG_LEVEL = "debug"
 # ── Production environment ────────────────────────────────────────────────────
 [env.production]
 name = "webwaka-api-production"
+workers_dev = false
 
 [[env.production.d1_databases]]
 binding = "DB"
