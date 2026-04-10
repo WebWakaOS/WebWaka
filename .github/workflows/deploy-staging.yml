@@ -31,12 +31,26 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Stage migrations for wrangler
+        run: |
+          # wrangler v4 reads migrations from apps/api/migrations/
+          # Copy from canonical location infra/db/migrations/
+          if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
+            mkdir -p apps/api/migrations
+            cp infra/db/migrations/*.sql apps/api/migrations/
+            echo "Staged $(ls apps/api/migrations/*.sql | wc -l) migration files"
+          else
+            echo "No migrations to stage"
+          fi
       - name: Apply D1 migrations (staging)
         run: |
-          if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
-            npx wrangler d1 migrations apply webwaka-os-staging --env staging --remote --config apps/api/wrangler.toml
+          if ls apps/api/migrations/*.sql 1>/dev/null 2>&1; then
+            npx wrangler d1 migrations apply webwaka-staging \
+              --env staging \
+              --remote \
+              --config apps/api/wrangler.toml
           else
-            echo "No migrations found at infra/db/migrations — skipping"
+            echo "No migrations found — skipping"
           fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -60,12 +74,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
-          if [ -f "apps/api/wrangler.toml" ]; then
-            pnpm --filter api build
-            npx wrangler deploy --env staging
-          else
-            echo "apps/api/wrangler.toml not found — skipping deploy (pre-Milestone 3)"
-          fi
+          pnpm --filter api build
+          npx wrangler deploy --env staging --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
