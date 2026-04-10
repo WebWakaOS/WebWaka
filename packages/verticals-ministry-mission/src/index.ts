@@ -1,2 +1,2 @@
+export * from './ministry-mission.js';
 export * from './types.js';
-export { MinistryRepository } from './ministry.js';

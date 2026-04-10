@@ -99,6 +99,22 @@
  *   government-agency (BPP, L3 HITL ALL AI, Tier3 KYC, vendor/procurement P13),
  *   polling-unit (INEC, L3 HITL ALL AI, NO voter PII — absolute)
  *
+ * Set J Extended — 27 verticals (auth required, M12) — mounted at /api/v1/verticals/:slug/*
+ *   Migrations 0154–0180. Special invariants:
+ *   orphanage       (L3 HITL ALL, child_ref_id forbidden, no-PII intake)
+ *   nursery-school  (highest P13, no child_ref_id, aggregate counts only)
+ *   okada-keke      (L2 AI, Lagos 2022 ban guard, NURTW FSM gate)
+ *   oil-gas-services (L2 AI, Tier3 KYC, dual-gate FSM ncdmb_certified→dpr_registered)
+ *   gas-distributor  (cylinder sizes INTEGER GRAMS: 3000/5000/12500/25000/50000)
+ *   iron-steel       (thickness INTEGER mm×10)
+ *   internet-cafe    (session duration INTEGER minutes)
+ *   optician         (L2 scheduling, L3 HITL clinical output)
+ *   land-surveyor    (L2 max, L3 HITL land identity)
+ *   hotel, handyman, logistics-delivery, pharmacy-chain, furniture-maker,
+ *   generator-repair, it-support, laundry, gym-fitness, printing-press,
+ *   laundry-service, motorcycle-accessories, paints-distributor, plumbing-supplies,
+ *   ministry-mission, market-association, motivational-speaker, govt-school
+ *
  * Platform Invariants enforced:
  *   T3 — tenant_id on all DB queries (via auth middleware context)
  *   T4 — kobo integers enforced by repository layer
@@ -159,6 +175,7 @@ import { civicExtendedRoutes } from './routes/verticals-civic-extended.js';
 import healthExtendedRoutes from './routes/verticals-health-extended.js';
 import profCreatorExtendedRoutes from './routes/verticals-prof-creator-extended.js';
 import financialPlaceMediaInstitutionalRoutes from './routes/verticals-financial-place-media-institutional-extended.js';
+import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -502,6 +519,29 @@ app.use('/api/v1/podcast-studio/*', authMiddleware);
 app.use('/api/v1/government-agency/*', authMiddleware);
 app.use('/api/v1/polling-unit/*', authMiddleware);
 app.route('/api/v1', financialPlaceMediaInstitutionalRoutes);
+
+// ---------------------------------------------------------------------------
+// Set J Extended — 27 verticals (migrations 0154–0180, M12)
+// P13 enforcement notes:
+//   orphanage       — L3 HITL ALL; child_ref_id prohibited at route layer
+//   nursery-school  — P13 highest; no child_ref_id; aggregate counts only
+//   okada-keke      — Lagos 2022 okada ban check at profile creation
+//   oil-gas-services — dual-gate FSM: ncdmb_certified → dpr_registered
+// ---------------------------------------------------------------------------
+
+const setJSlugs = [
+  'hotel','handyman','logistics-delivery','pharmacy-chain','furniture-maker',
+  'gas-distributor','generator-repair','it-support','laundry','optician',
+  'gym-fitness','printing-press','land-surveyor','okada-keke','laundry-service',
+  'iron-steel','internet-cafe','motorcycle-accessories','paints-distributor',
+  'plumbing-supplies','ministry-mission','market-association','motivational-speaker',
+  'govt-school','nursery-school','orphanage','oil-gas-services',
+] as const;
+
+for (const slug of setJSlugs) {
+  app.use(`/api/v1/verticals/${slug}/*`, authMiddleware);
+}
+app.route('/api/v1/verticals', setJExtendedRouter);
 
 // ---------------------------------------------------------------------------
 // M7c: Social routes — most require auth; /social/profile/:handle is public
