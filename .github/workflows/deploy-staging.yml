@@ -33,8 +33,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Stage migrations for wrangler
         run: |
-          # wrangler v4 only reads migrations from apps/api/migrations/
-          # Copy from canonical location infra/db/migrations/
           if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
             mkdir -p apps/api/migrations
             cp infra/db/migrations/*.sql apps/api/migrations/
@@ -79,6 +77,17 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Push secrets to staging worker
+        run: |
+          echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET \
+            --env staging --config apps/api/wrangler.toml
+          echo "$INTER_SERVICE_SECRET" | npx wrangler secret put INTER_SERVICE_SECRET \
+            --env staging --config apps/api/wrangler.toml
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          INTER_SERVICE_SECRET: ${{ secrets.INTER_SERVICE_SECRET }}
 
   # ── Smoke tests ────────────────────────────────────────────────────────────
   smoke-test-staging:
@@ -104,3 +113,4 @@ jobs:
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.STAGING_BASE_URL }}
+
