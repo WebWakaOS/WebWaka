@@ -70,6 +70,18 @@
  *   dental-clinic (M9), sports-academy (M10), vet-clinic (M10),
  *   community-health (M12, USSD-safe), elderly-care (M12), rehab-centre (M12, L3 HITL ALL AI)
  *
+ * Professional Extended — 7 verticals (auth required, M9/M12) — mounted at /api/v1/:slug/*
+ *   accounting-firm (M9), event-planner (M9),
+ *   law-firm (M9, L3 HITL ALL AI — legal privilege absolute),
+ *   funeral-home (M12, L3 HITL ALL AI — deceased data absolute),
+ *   pr-firm (M12), tax-consultant (M12, L3 HITL ALL AI — tax privilege absolute),
+ *   wedding-planner (M12)
+ *
+ * Creator Extended — 4 verticals (auth required, M10/M12) — mounted at /api/v1/:slug/*
+ *   music-studio (M10, COSON, integer hours/bpm), photography-studio (M10),
+ *   recording-label (M12, royalty_split_bps INTEGER, kobo arithmetic),
+ *   talent-agency (M12, commission_bps INTEGER, fee arithmetic)
+ *
  * Platform Invariants enforced:
  *   T3 — tenant_id on all DB queries (via auth middleware context)
  *   T4 — kobo integers enforced by repository layer
@@ -128,6 +140,7 @@ import { commerceP3Routes } from './routes/verticals-commerce-p3.js';
 import { transportExtendedRoutes } from './routes/verticals-transport-extended.js';
 import { civicExtendedRoutes } from './routes/verticals-civic-extended.js';
 import healthExtendedRoutes from './routes/verticals-health-extended.js';
+import profCreatorExtendedRoutes from './routes/verticals-prof-creator-extended.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -426,6 +439,26 @@ app.use('/api/v1/community-health/*', authMiddleware);
 app.use('/api/v1/elderly-care/*', authMiddleware);
 app.use('/api/v1/rehab-centre/*', authMiddleware);
 app.route('/api/v1', healthExtendedRoutes);
+
+// ---------------------------------------------------------------------------
+// M9–M12: Professional + Creator Extended — 11 verticals
+//   Professional (M9/M12): accounting-firm, event-planner, law-firm (L3 HITL),
+//     funeral-home (L3 HITL), pr-firm, tax-consultant (L3 HITL), wedding-planner
+//   Creator (M10/M12): music-studio, photography-studio, recording-label, talent-agency
+// P13: L3 HITL mandatory for law-firm, funeral-home, tax-consultant ALL AI calls
+// ---------------------------------------------------------------------------
+app.use('/api/v1/accounting-firm/*', authMiddleware);
+app.use('/api/v1/event-planner/*', authMiddleware);
+app.use('/api/v1/law-firm/*', authMiddleware);
+app.use('/api/v1/funeral-home/*', authMiddleware);
+app.use('/api/v1/pr-firm/*', authMiddleware);
+app.use('/api/v1/tax-consultant/*', authMiddleware);
+app.use('/api/v1/wedding-planner/*', authMiddleware);
+app.use('/api/v1/music-studio/*', authMiddleware);
+app.use('/api/v1/photography-studio/*', authMiddleware);
+app.use('/api/v1/recording-label/*', authMiddleware);
+app.use('/api/v1/talent-agency/*', authMiddleware);
+app.route('/api/v1', profCreatorExtendedRoutes);
 
 // ---------------------------------------------------------------------------
 // M7c: Social routes — most require auth; /social/profile/:handle is public
