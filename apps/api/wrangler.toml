@@ -2,16 +2,16 @@ name = "webwaka-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
-
-# Negotiation expiry CRON — runs every 15 minutes
-[[triggers]]
-crons = ["*/15 * * * *"]
 workers_dev = false
 
 # ── Staging environment ───────────────────────────────────────────────────────
 [env.staging]
 name = "webwaka-api-staging"
 workers_dev = false
+
+# Negotiation expiry CRON — runs every 15 minutes
+[[env.staging.triggers]]
+crons = ["*/15 * * * *"]
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -35,7 +35,6 @@ id = "58bec07ac48448388b372c3dd8bc1bb9"
 ENVIRONMENT = "staging"
 LOG_LEVEL = "debug"
 
-# Custom domain — bare hostname, workers_dev = false
 [[env.staging.routes]]
 pattern = "api-staging.webwaka.com"
 zone_name = "webwaka.com"
@@ -45,6 +44,10 @@ custom_domain = true
 [env.production]
 name = "webwaka-api-production"
 workers_dev = false
+
+# Negotiation expiry CRON — runs every 15 minutes
+[[env.production.triggers]]
+crons = ["*/15 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -68,7 +71,6 @@ id = "86d90c013d3d4529ac08aad6d283a6bf"
 ENVIRONMENT = "production"
 LOG_LEVEL = "warn"
 
-# Custom domain — bare hostname, workers_dev = false
 [[env.production.routes]]
 pattern = "api.webwaka.com"
 zone_name = "webwaka.com"
@@ -77,3 +79,4 @@ custom_domain = true
 # ── Secrets (set via wrangler secret put, never in this file) ─────────────────
 # JWT_SECRET
 # INTER_SERVICE_SECRET
+
