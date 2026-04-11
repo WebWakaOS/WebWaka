@@ -20,11 +20,14 @@
  */
 
 import { Hono } from 'hono';
+import { secureHeaders } from 'hono/secure-headers';
 import type { Env } from './env.js';
 import { brandedPageRouter } from './routes/branded-page.js';
 import { portalRouter } from './routes/portal.js';
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use('*', secureHeaders());
 
 // ─── Liveness probe (no auth, no tenant resolution) ───────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'brand-runtime' }));

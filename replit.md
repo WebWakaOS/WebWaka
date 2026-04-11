@@ -23,7 +23,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 
 48 remediation items across 8 workstreams, ~135.5 estimated hours:
 - **Phase 0 (3 items):** Admin auth fixes (SEC-001/002/003) — ✅ COMPLETE
-- **Phase 1 (12 items):** Audit logs, CORS, entitlements middleware, AI guards, governance CI, release governance, secret rotation
+- **Phase 1 (12 items):** Audit logs, CORS, entitlements, AI guards, governance CI — ✅ COMPLETE
 - **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI
 - **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding
 - **Phase 4 (14 items):** Documentation harmonization — pillar labels, milestone tracker, compliance dashboard
@@ -125,6 +125,10 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `0004_init_subscriptions.sql` | Subscriptions |
 | `0005_init_profiles.sql` | Profiles (discovery records) |
 | `0006_init_political.sql` | Jurisdictions, terms, political assignments, party affiliations |
+| `0191_sec003_add_tenant_id_to_contact_channels.sql` | Add tenant_id to contact_channels (Phase 0) |
+| `0192_sec003_add_tenant_id_to_claim_requests.sql` | Add tenant_id to claim_requests (Phase 0) |
+| `0193_sec004_audit_logs.sql` | Persistent audit_logs table (Phase 1 SEC-004) |
+| `0194_ai001_hitl_tables.sql` | AI HITL queue + events tables (Phase 1 AI-001) |
 
 ## Deployment
 
@@ -139,7 +143,30 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 - `docs/governance/geography-taxonomy.md` — Geography hierarchy
 - `docs/governance/political-taxonomy.md` — Political office model
 - `docs/governance/entitlement-model.md` — Subscription-gated access rules
+- `docs/governance/release-governance.md` — Release flow and CI governance gates
+- `docs/governance/agent-execution-rules.md` — Agent coordination and governance enforcement
 - `docs/architecture/decisions/` — 12 Technical Decision Records
+- `infra/cloudflare/secrets-rotation-log.md` — Secret inventory and rotation schedule
+- `CHANGELOG.md` — Release changelog (Keep a Changelog format)
+
+## Phase 1 New Middleware Files
+
+| File | Purpose |
+|---|---|
+| `apps/api/src/middleware/audit-log.ts` | Persistent audit logging to D1 + console |
+| `apps/api/src/middleware/entitlement.ts` | `requireEntitlement(layer)` — subscription plan gate for vertical routes |
+| `apps/api/src/middleware/ai-entitlement.ts` | AI access entitlement check (blocks free plan from SuperAgent) |
+| `apps/api/src/middleware/ussd-exclusion.ts` | Blocks USSD sessions from all AI entry points (P12) |
+| `packages/superagent/src/guards.ts` | `guardAIFinancialWrite()` — prevents AI from writing to financial tables |
+
+## CI Governance Checks
+
+| Script | Checks |
+|---|---|
+| `scripts/governance-checks/check-cors.ts` | CORS non-wildcard, no localhost in production |
+| `scripts/governance-checks/check-tenant-isolation.ts` | No tenant_id from user input |
+| `scripts/governance-checks/check-ai-direct-calls.ts` | No direct AI SDK calls (P7) |
+| `scripts/governance-checks/check-monetary-integrity.ts` | No floats on monetary values (P9) |
 
 ## Important Invariants for All Agents
 

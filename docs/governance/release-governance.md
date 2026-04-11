@@ -78,7 +78,8 @@ feat/* or fix/* branch
 - **MINOR:** new features, new packages, new endpoints
 - **PATCH:** bug fixes, performance improvements, doc updates
 - Every production release is tagged: `v1.2.3`
-- Changelog auto-generated from conventional commits
+- Changelog maintained manually in `CHANGELOG.md` at repo root following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
+- Every PR must update CHANGELOG.md with changes being introduced
 
 ---
 
@@ -107,3 +108,27 @@ Before a milestone is marked DONE and promoted to `main`:
 - [ ] Staging smoke tests pass
 - [ ] Rollback plan documented
 - [ ] Founder signoff received
+
+---
+
+## Current Development Workflow
+
+Development currently uses Replit Agent as the primary implementation engine, with code pushed to GitHub via the GitHub API (PAT-authenticated). The Replit environment serves as the development and testing workspace.
+
+### Push Flow
+1. Replit Agent implements features and fixes in the Replit workspace
+2. Code is validated via typecheck and manual testing
+3. Changes are pushed to GitHub via the API (blob → tree → commit → ref update)
+4. CI runs on GitHub Actions (typecheck, test, lint, audit, governance checks)
+5. PR opened from feature branch → staging
+6. Staging verification → Founder signoff → staging → main
+
+### Governance CI Gate
+Every PR must pass the governance checks job, which validates:
+- CORS configuration is production-safe
+- Tenant isolation (no tenant_id from user input)
+- No direct AI SDK calls (P7 — must use @webwaka/ai-adapters)
+- Monetary integrity (P9 — no floats on monetary values)
+
+### Secret Rotation
+See `infra/cloudflare/secrets-rotation-log.md` for the full secret inventory and rotation schedule.

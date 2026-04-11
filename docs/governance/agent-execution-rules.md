@@ -103,3 +103,20 @@ Everything must be written so another agent can resume seamlessly if interrupted
 - Infrastructure: documented in `infra/`
 - Progress: updated in `docs/governance/milestone-tracker.md`
 - Blockers: filed as GitHub issues
+
+---
+
+## Governance Enforcement
+
+### CI Governance Checks (CI-001)
+The following automated checks run on every PR via `.github/workflows/ci.yml`:
+- **check-cors.ts**: Validates CORS configuration is non-wildcard and excludes localhost in production
+- **check-tenant-isolation.ts**: Scans route files for tenant_id sourced from user input instead of auth context
+- **check-ai-direct-calls.ts**: Ensures no direct OpenAI/Anthropic SDK usage outside @webwaka/ai-adapters (P7)
+- **check-monetary-integrity.ts**: Detects parseFloat/toFixed on monetary field names (P9)
+
+### Release Changelog
+Every PR must update `CHANGELOG.md` at the repo root. See `docs/governance/release-governance.md` for full release flow.
+
+### Secret Rotation
+All secrets must be rotated every 90 days. See `infra/cloudflare/secrets-rotation-log.md` for the rotation schedule and procedures.

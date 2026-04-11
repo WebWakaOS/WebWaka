@@ -75,3 +75,9 @@ export type {
   PartnerCreditPool,
   AiUsageEvent,
 } from './types.js';
+
+export {
+  guardAIFinancialWrite,
+  AIFinancialWriteError,
+  getProhibitedFinancialTables,
+} from './guards.js';

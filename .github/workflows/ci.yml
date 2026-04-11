@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
 
   test:
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
   lint:
@@ -56,7 +56,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm lint
 
   audit:
@@ -71,5 +71,27 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm audit --audit-level=high
+
+  governance:
+    name: Governance Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check CORS configuration
+        run: npx tsx scripts/governance-checks/check-cors.ts
+      - name: Check tenant isolation
+        run: npx tsx scripts/governance-checks/check-tenant-isolation.ts
+      - name: Check AI direct calls (P7)
+        run: npx tsx scripts/governance-checks/check-ai-direct-calls.ts
+      - name: Check monetary integrity (P9)
+        run: npx tsx scripts/governance-checks/check-monetary-integrity.ts

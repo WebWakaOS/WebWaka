@@ -17,11 +17,14 @@
  */
 
 import { Hono } from 'hono';
+import { secureHeaders } from 'hono/secure-headers';
 import type { Env } from './env.js';
 import { listingsRouter } from './routes/listings.js';
 import { profilesRouter } from './routes/profiles.js';
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use('*', secureHeaders());
 
 // ─── Liveness probe ────────────────────────────────────────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));

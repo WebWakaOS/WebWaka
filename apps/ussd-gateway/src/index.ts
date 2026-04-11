@@ -21,6 +21,7 @@
  */
 
 import { Hono } from 'hono';
+import { secureHeaders } from 'hono/secure-headers';
 import { getOrCreateSession, saveSession, deleteSession, type USSDSession } from './session.js';
 import { processUSSDInput } from './processor.js';
 import { mainMenu, type TrendingPostSnippet, type CommunityItem } from './menus.js';
@@ -48,6 +49,8 @@ interface Env {
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use('*', secureHeaders());
 
 // ---------------------------------------------------------------------------
 // D1 data pre-fetchers (M7c — Branch 3 and 5)

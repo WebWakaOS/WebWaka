@@ -177,6 +177,8 @@ import profCreatorExtendedRoutes from './routes/verticals-prof-creator-extended.
 import financialPlaceMediaInstitutionalRoutes from './routes/verticals-financial-place-media-institutional-extended.js';
 import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
 import { negotiationRouter } from './routes/negotiation.js';
+import { ussdExclusionMiddleware } from './middleware/ussd-exclusion.js';
+import { aiEntitlementMiddleware } from './middleware/ai-entitlement.js';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
 
 const app = new Hono<{ Bindings: Env }>();
@@ -191,12 +193,21 @@ app.use('*', secureHeaders());
 // Fallback: ['https://*.webwaka.com', 'http://localhost:5173'] for development.
 app.use('*', async (c, next) => {
   const envOrigins = c.env?.ALLOWED_ORIGINS;
+  const isProd = c.env?.ENVIRONMENT === 'production';
   const allowed: string[] = envOrigins
     ? envOrigins.split(',').map((o) => o.trim()).filter(Boolean)
-    : ['https://*.webwaka.com', 'http://localhost:5173'];
+    : isProd
+      ? []
+      : ['http://localhost:5173'];
+
+  const webwakaDomainSuffix = '.webwaka.com';
 
   return cors({
-    origin: (origin) => (allowed.includes(origin) ? origin : null),
+    origin: (origin) => {
+      if (allowed.includes(origin)) return origin;
+      if (origin.endsWith(webwakaDomainSuffix) || origin === 'https://webwaka.com') return origin;
+      return null;
+    },
     allowHeaders: ['Authorization', 'Content-Type'],
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     exposeHeaders: ['X-Request-Id'],
@@ -231,6 +242,7 @@ app.route('/auth', authRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/entities/*', authMiddleware);
+app.use('/entities/*', auditLogMiddleware);
 app.route('/entities', entityRoutes);
 
 // ---------------------------------------------------------------------------
@@ -247,6 +259,7 @@ app.route('/claim', claimRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/workspaces/*', authMiddleware);
+app.use('/workspaces/*', auditLogMiddleware);
 app.route('/workspaces', workspaceRoutes);
 app.route('/workspaces', workspaceUpgradeRoute);
 app.route('/workspaces', workspaceBillingRoute);
@@ -256,6 +269,7 @@ app.route('/workspaces', workspaceBillingRoute);
 // ---------------------------------------------------------------------------
 
 app.use('/payments/*', authMiddleware);
+app.use('/payments/*', auditLogMiddleware);
 app.route('/payments', paymentsVerifyRoute);
 
 // ---------------------------------------------------------------------------
@@ -319,6 +333,7 @@ app.route('/community', communityRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/airtime/*', authMiddleware);
+app.use('/airtime/*', auditLogMiddleware);
 app.route('/airtime', airtimeRoutes);
 
 // ---------------------------------------------------------------------------
@@ -336,9 +351,14 @@ app.route('/workspaces', workspaceVerticalsRoutes);
 
 // ---------------------------------------------------------------------------
 // SA-2.x / SA-3.x: SuperAgent routes — auth required; /chat also runs aiConsentGate (P10/P12)
+// ENT-002: AI entitlement check on all SuperAgent routes (before consent gate)
+// AI-004: USSD exclusion on all AI entry points (P12)
 // ---------------------------------------------------------------------------
 
 app.use('/superagent/*', authMiddleware);
+app.use('/superagent/*', ussdExclusionMiddleware);
+app.use('/superagent/*', aiEntitlementMiddleware);
+app.use('/superagent/*', auditLogMiddleware);
 app.route('/superagent', superagentRoutes);
 
 // ---------------------------------------------------------------------------
@@ -551,6 +571,7 @@ app.route('/api/v1/verticals', setJExtendedRouter);
 // ---------------------------------------------------------------------------
 
 app.use('/api/v1/negotiation/*', authMiddleware);
+app.use('/api/v1/negotiation/*', auditLogMiddleware);
 app.route('/api/v1/negotiation', negotiationRouter);
 
 // ---------------------------------------------------------------------------
