@@ -50,7 +50,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }

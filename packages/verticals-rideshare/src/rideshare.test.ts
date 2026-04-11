@@ -40,7 +40,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = (clause.split('=')[0]! ?? '').trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -164,13 +164,13 @@ describe('RideshareRepository', () => {
     const p = await repo.create({ individualId: 'ind-16', workspaceId: 'ws1', tenantId: 't1' });
     expect(await repo.update(p.id, 't1', {})).not.toBeNull();
   });
-  it('transition seeded → frsc_pending', async () => {
+  it('transition seeded → claimed', async () => {
     const p = await repo.create({ individualId: 'ind-17', workspaceId: 'ws1', tenantId: 't1' });
-    expect(await repo.transition(p.id, 't1', 'frsc_pending')).not.toBeNull();
+    expect(await repo.transition(p.id, 't1', 'claimed')).not.toBeNull();
   });
-  it('transition frsc_pending → active', async () => {
+  it('transition claimed → frsc_verified', async () => {
     const p = await repo.create({ individualId: 'ind-18', workspaceId: 'ws1', tenantId: 't1' });
-    expect(await repo.transition(p.id, 't1', 'active')).not.toBeNull();
+    expect(await repo.transition(p.id, 't1', 'frsc_verified')).not.toBeNull();
   });
   it('transition active → suspended', async () => {
     const p = await repo.create({ individualId: 'ind-19', workspaceId: 'ws1', tenantId: 't1' });

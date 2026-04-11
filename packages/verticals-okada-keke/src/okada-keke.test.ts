@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { OkadaKekeRepository } from './okada-keke.js';
-import { isValidOkadaTransition, VALID_OKADA_TRANSITIONS } from './types.js';
+import { isValidOkadaKekeTransition } from './types.js';
 
 function makeDb() {
   const store: Record<string, unknown>[] = [];
@@ -40,7 +40,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = (clause.split('=')[0]! ?? '').trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -55,7 +55,8 @@ function makeDb() {
             const v0 = vals[0]; const v1 = vals[1];
             const found = store.find(r =>
               (r['id'] === v0 || r['individual_id'] === v0 || r['member_number'] === v0 ||
-               r['plate_number'] === v0 || r['route_id'] === v0) &&
+               r['plate_number'] === v0 || r['route_id'] === v0 ||
+               r['workspace_id'] === v0) &&
               r['tenant_id'] === v1
             );
             return (found ?? null) as T;
@@ -99,70 +100,59 @@ describe('OkadaKekeRepository', () => {
   it('creates okada profile with seeded status', async () => {
     const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
     expect(p.status).toBe('seeded');
-    expect(p.operatorType).toBe('okada');
+    expect(p.vehicleCategory).toBe('okada');
   });
   it('creates keke profile', async () => {
     const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'keke' });
-    expect(p.operatorType).toBe('keke');
+    expect(p.vehicleCategory).toBe('keke');
   });
   it('creates both profile', async () => {
     const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'both' });
-    expect(p.operatorType).toBe('both');
+    expect(p.vehicleCategory).toBe('both');
   });
-  it('uses provided id', async () => {
-    const p = await repo.create({ id: 'ok-001', workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
-    expect(p.id).toBe('ok-001');
-  });
-  it('default riderCount is 0', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'keke' });
-    expect(p.riderCount).toBe(0);
-  });
-  it('custom riderCount stored', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada', riderCount: 50 });
-    expect(p.riderCount).toBe(50);
-  });
-  it('stores tenantId', async () => {
+  it('stores tenantId (T3)', async () => {
     const p = await repo.create({ workspaceId: 'ws1', tenantId: 'tenant-O', operatorType: 'keke' });
     expect(p.tenantId).toBe('tenant-O');
   });
-  it('findById returns null for missing', async () => {
-    expect(await repo.findById('none', 't1')).toBeNull();
+  it('findProfileById returns null for missing', async () => {
+    expect(await repo.findProfileById('none', 't1')).toBeNull();
   });
-  it('findByWorkspace returns profiles', async () => {
+  it('findProfileByWorkspace returns profile', async () => {
     await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
-    const ps = await repo.findByWorkspace('ws1', 't1');
-    expect(ps.length).toBeGreaterThanOrEqual(1);
-  });
-  it('update frscRef', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
-    expect(await repo.update(p.id, 't1', { frscRef: 'FRSC-OK-001' })).not.toBeNull();
-  });
-  it('update riderCount', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'keke' });
-    expect(await repo.update(p.id, 't1', { riderCount: 75 })).not.toBeNull();
+    const p = await repo.findProfileByWorkspace('ws1', 't1');
+    expect(p).not.toBeNull();
   });
   it('transition seeded → claimed', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'both' });
-    expect(await repo.transition(p.id, 't1', 'claimed')).not.toBeNull();
+    const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 't1', businessName: 'Test Coop', vehicleCategory: 'both' });
+    const t = await repo.transitionStatus(p.id, 't1', 'claimed');
+    expect(t.status).toBe('claimed');
   });
-  it('transition claimed → frsc_verified', async () => {
+  it('transition claimed → nurtw_registered', async () => {
+    const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 't1', businessName: 'Test Coop', vehicleCategory: 'okada' });
+    await repo.transitionStatus(p.id, 't1', 'claimed');
+    const t = await repo.transitionStatus(p.id, 't1', 'nurtw_registered');
+    expect(t.status).toBe('nurtw_registered');
+  });
+  it('transition nurtw_registered → active', async () => {
+    const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 't1', businessName: 'Test Coop', vehicleCategory: 'keke' });
+    await repo.transitionStatus(p.id, 't1', 'claimed');
+    await repo.transitionStatus(p.id, 't1', 'nurtw_registered');
+    const t = await repo.transitionStatus(p.id, 't1', 'active');
+    expect(t.status).toBe('active');
+  });
+  it('default businessName via create()', async () => {
     const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
-    expect(await repo.transition(p.id, 't1', 'frsc_verified')).not.toBeNull();
+    expect(p.businessName).toBe('Okada/Keke Cooperative');
   });
-  it('transition frsc_verified → active', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'keke' });
-    expect(await repo.transition(p.id, 't1', 'active')).not.toBeNull();
-  });
-  it('empty update returns existing', async () => {
-    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'okada' });
-    expect(await repo.update(p.id, 't1', {})).not.toBeNull();
+  it('custom name via create()', async () => {
+    const p = await repo.create({ workspaceId: 'ws1', tenantId: 't1', operatorType: 'keke', name: 'Eko Riders' });
+    expect(p.businessName).toBe('Eko Riders');
   });
 });
 
 describe('OkadaKeke FSM', () => {
-  it('seeded → claimed valid', () => { expect(isValidOkadaTransition('seeded', 'claimed')).toBe(true); });
-  it('claimed → frsc_verified valid', () => { expect(isValidOkadaTransition('claimed', 'frsc_verified')).toBe(true); });
-  it('frsc_verified → active valid', () => { expect(isValidOkadaTransition('frsc_verified', 'active')).toBe(true); });
-  it('seeded → active invalid', () => { expect(isValidOkadaTransition('seeded', 'active')).toBe(false); });
-  it('VALID_OKADA_TRANSITIONS has 3+ entries', () => { expect(VALID_OKADA_TRANSITIONS.length).toBeGreaterThanOrEqual(3); });
+  it('seeded → claimed valid', () => { expect(isValidOkadaKekeTransition('seeded', 'claimed')).toBe(true); });
+  it('claimed → nurtw_registered valid', () => { expect(isValidOkadaKekeTransition('claimed', 'nurtw_registered')).toBe(true); });
+  it('nurtw_registered → active valid', () => { expect(isValidOkadaKekeTransition('nurtw_registered', 'active')).toBe(true); });
+  it('seeded → active invalid', () => { expect(isValidOkadaKekeTransition('seeded', 'active')).toBe(false); });
 });

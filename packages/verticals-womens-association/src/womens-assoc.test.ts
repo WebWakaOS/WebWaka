@@ -7,7 +7,7 @@ import { WomensAssocRepository } from './womens-assoc.js';
 import {
   isValidWomensAssocTransition,
   guardClaimedToCacVerified,
-  guardLoanDisbursement,
+  guardWelfareLoan,
 } from './types.js';
 
 function makeDb() {
@@ -49,7 +49,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -169,10 +169,10 @@ describe('WomensAssoc FSM guards', () => {
   it('guardClaimedToCacVerified passes with CAC', () => {
     expect(guardClaimedToCacVerified({ cacReg: 'CAC-001', kycTier: 1 }).allowed).toBe(true);
   });
-  it('guardLoanDisbursement blocks KYC Tier 1 above ₦500k', () => {
-    expect(guardLoanDisbursement({ amountKobo: 60_000_000, kycTier: 1 }).allowed).toBe(false);
+  it('guardWelfareLoan blocks KYC Tier 1 above ₦500k', () => {
+    expect(guardWelfareLoan({ amountKobo: 60_000_000, kycTier: 1 }).allowed).toBe(false);
   });
-  it('guardLoanDisbursement allows KYC Tier 2 above ₦500k', () => {
-    expect(guardLoanDisbursement({ amountKobo: 60_000_000, kycTier: 2 }).allowed).toBe(true);
+  it('guardWelfareLoan allows KYC Tier 2 above ₦500k', () => {
+    expect(guardWelfareLoan({ amountKobo: 60_000_000, kycTier: 2 }).allowed).toBe(true);
   });
 });

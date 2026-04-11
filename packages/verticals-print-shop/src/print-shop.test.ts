@@ -48,7 +48,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -151,7 +151,7 @@ describe('PrintShopRepository', () => {
   });
 
   it('T015 — creates paper stock with integer unitCostKobo (P9)', async () => {
-    const stock = await repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', paperType: 'Glossy Art Paper', gsm: 150, sheetSize: 'A4', quantityInStockX1000: 500, unitCostKobo: 8_000 });
+    const stock = await repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', paperType: 'Glossy Art Paper', gsm: 150, sheetSize: 'A4', quantityInStock: 500, unitCostKobo: 8_000 });
     expect(stock.paperType).toBe('Glossy Art Paper');
     expect(stock.unitCostKobo).toBe(8_000);
   });

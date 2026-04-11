@@ -48,7 +48,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx]! as Record<string, unknown>)[col] = vals[i];
+                (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -152,20 +152,20 @@ describe('FloristRepository', () => {
 
   it('T013 — creates stock with integer unit_cost_kobo and expiry_date (P9)', async () => {
     const expiry = Math.floor(Date.now() / 1000) + 86400 * 2;
-    const s = await repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Rose', quantityInStockX1000: 50, unitCostKobo: 2000, expiryDate: expiry });
+    const s = await repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Rose', quantityInStock: 50, unitCostKobo: 2000, expiryDate: expiry });
     expect(s.unitCostKobo).toBe(2000);
     expect(s.expiryDate).toBe(expiry);
   });
 
   it('T014 — rejects fractional unit_cost_kobo for stock (P9)', async () => {
-    await expect(repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Lily', quantityInStockX1000: 10, unitCostKobo: 1500.5 })).rejects.toThrow('[P9]');
+    await expect(repo.createStock({ workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Lily', quantityInStock: 10, unitCostKobo: 1500.5 })).rejects.toThrow('[P9]');
   });
 
   it('T015 — listExpiringStock returns stock expiring within threshold', async () => {
     const soon = Math.floor(Date.now() / 1000) + 86400;
     const later = Math.floor(Date.now() / 1000) + 86400 * 7;
-    await repo.createStock({ id: 'stk1', workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Tulip', quantityInStockX1000: 20, unitCostKobo: 1000, expiryDate: soon });
-    await repo.createStock({ id: 'stk2', workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Orchid', quantityInStockX1000: 10, unitCostKobo: 3000, expiryDate: later });
+    await repo.createStock({ id: 'stk1', workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Tulip', quantityInStock: 20, unitCostKobo: 1000, expiryDate: soon });
+    await repo.createStock({ id: 'stk2', workspaceId: 'ws1', tenantId: 'tn1', flowerName: 'Orchid', quantityInStock: 10, unitCostKobo: 3000, expiryDate: later });
     const expiring = await repo.listExpiringStock('ws1', 'tn1', soon);
     expect(expiring.some(s => s.flowerName === 'Tulip')).toBe(true);
     expect(expiring.every(s => s.expiryDate !== null && s.expiryDate <= soon)).toBe(true);

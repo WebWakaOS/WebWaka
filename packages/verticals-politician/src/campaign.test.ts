@@ -36,14 +36,14 @@ function buildCampaignDb() {
           const id = bindings[1] as string;
           const existing = store.get(id);
           if (existing && typeof existing === 'object') {
-            store.set(id, { ...(existing as object), status: 'confirmed', paystack_ref: bindings[0] });
+            store.set(id, { ...existing, status: 'confirmed', paystack_ref: bindings[0] });
           }
         }
         if (sql.includes("SET status = 'failed'")) {
           const id = bindings[0] as string;
           const existing = store.get(id);
           if (existing && typeof existing === 'object') {
-            store.set(id, { ...(existing as object), status: 'failed' });
+            store.set(id, { ...existing, status: 'failed' });
           }
         }
         return { success: true };

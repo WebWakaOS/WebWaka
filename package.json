@@ -26,6 +26,7 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
+    "@replit/connectors-sdk": "^0.4.0",
     "hono": "^4.12.12"
   },
   "pnpm": {
@@ -36,4 +37,3 @@
     }
   }
 }
-
