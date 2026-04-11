@@ -27,7 +27,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO agro_input_orders')) { const total = vals[6]; if (!Number.isInteger(total) || (total as number) < 0) throw new Error('P9: totalKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], farmer_phone: vals[3], farmer_name: vals[4], items: vals[5], total_kobo: vals[6], abp_subsidy_kobo: vals[7], balance_kobo: vals[8], status: 'pending', created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; return null as T | null; },
+        first: async <T>() => { if (sql.includes('WHERE id=?')) { const row = store.get(vals[0] as string) ?? null; if (row && sql.includes('AND tenant_id=?') && (row as Record<string, unknown>)['tenant_id'] !== vals[1]) return null as T | null; return row as T | null; } return null as T | null; },
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
