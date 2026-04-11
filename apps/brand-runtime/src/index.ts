@@ -34,12 +34,53 @@ app.use('*', secureHeaders());
 // ─── Liveness probe (no auth, no tenant resolution) ───────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'brand-runtime' }));
 
-// ─── PWA service worker (no tenant resolution needed) ────────────────────
+// ─── PWA service worker with Background Sync (PWA-002) ───────────────────
 app.get('/sw.js', (c) => {
-  const sw = `const CACHE='webwaka-brand-v1';const SHELL=['/','/manifest.json'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
-self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  const sw = `const CACHE='webwaka-brand-v2';
+const SHELL=['/','/manifest.json'];
+
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));
+  self.skipWaiting();
+});
+
+self.addEventListener('activate',e=>{
+  e.waitUntil(
+    caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))
+    .then(()=>clients.claim())
+  );
+});
+
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  e.respondWith(
+    fetch(e.request)
+      .then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(cache=>cache.put(e.request,c));}return r;})
+      .catch(()=>caches.match(e.request))
+  );
+});
+
+self.addEventListener('sync',e=>{
+  if(e.tag==='webwaka-sync'){e.waitUntil(processSyncQueue());}
+});
+
+async function processSyncQueue(){
+  try{
+    const db=await new Promise((res,rej)=>{const r=indexedDB.open('WebWakaOfflineDB',2);r.onerror=()=>rej(r.error);r.onsuccess=()=>res(r.result);});
+    const tx=db.transaction('syncQueue','readonly');
+    const items=await new Promise((res,rej)=>{const r=tx.objectStore('syncQueue').getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error);});
+    const pending=items.filter(i=>i.status==='pending'||i.status==='failed').sort((a,b)=>a.createdAt-b.createdAt);
+    for(const item of pending){
+      try{
+        const resp=await fetch('/api/sync/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});
+        const newStatus=resp.ok||resp.status===409?'synced':'failed';
+        const utx=db.transaction('syncQueue','readwrite');const s=utx.objectStore('syncQueue');
+        const g=await new Promise((res,rej)=>{const r=s.get(item.id);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});
+        if(g){g.status=newStatus;g.lastAttemptAt=Date.now();s.put(g);}
+      }catch{}
+    }
+  }catch{}
+}`;
   return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
 });
 

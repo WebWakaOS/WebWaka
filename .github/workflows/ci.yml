@@ -105,3 +105,5 @@ jobs:
         run: npx tsx scripts/governance-checks/check-pwa-manifest.ts
       - name: Check NDPR before AI (GAP-005)
         run: npx tsx scripts/governance-checks/check-ndpr-before-ai.ts
+      - name: Check geography seed integrity (GAP-002)
+        run: npx tsx scripts/governance-checks/check-geography-integrity.ts

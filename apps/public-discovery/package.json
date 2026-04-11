@@ -22,6 +22,7 @@
     "@webwaka/types": "workspace:*",
     "@webwaka/entities": "workspace:*",
     "@webwaka/search-indexing": "workspace:*",
+    "@webwaka/white-label-theming": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

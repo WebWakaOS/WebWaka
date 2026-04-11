@@ -4,7 +4,11 @@
  *
  * All branded pages extend this template. CSS custom properties are injected
  * from white-label-theming generateCssTokens() (PV-1.3).
+ *
+ * GAP-003: Attribution rendered from shared @webwaka/white-label-theming package.
  */
+
+import { renderAttribution } from '@webwaka/white-label-theming';
 
 export interface BaseTemplateOptions {
   title: string;
@@ -13,12 +17,12 @@ export interface BaseTemplateOptions {
   displayName: string;
   faviconUrl: string | null;
   body: string;
-  /** Optional extra <head> content (OG tags, structured data, etc.) */
   headExtra?: string;
+  removeAttribution?: boolean;
 }
 
 export function baseTemplate(opts: BaseTemplateOptions): string {
-  const { title, cssVars, logoUrl, displayName, faviconUrl, body, headExtra = '' } = opts;
+  const { title, cssVars, logoUrl, displayName, faviconUrl, body, headExtra = '', removeAttribution } = opts;
 
   return `<!DOCTYPE html>
 <html lang="en-NG">
@@ -90,6 +94,11 @@ a:hover { text-decoration: underline; }
 }
 .ww-nav-brand img { height: 36px; width: auto; border-radius: 4px; }
 
+.ww-nav-links { display: none; gap: 1.5rem; }
+.ww-nav-links a { color: var(--ww-text); font-size: .875rem; font-weight: 500; }
+.ww-nav-links a:hover { color: var(--ww-primary); }
+@media (min-width: 768px) { .ww-nav-links { display: flex; } }
+
 .ww-content { flex: 1; padding: 2rem 1.5rem; max-width: 72rem; margin: 0 auto; width: 100%; }
 
 .ww-footer {
@@ -111,6 +120,11 @@ a:hover { text-decoration: underline; }
       ${logoUrl ? `<img src="${escAttr(logoUrl)}" alt="${escAttr(displayName)} logo" />` : ''}
       <span>${escHtml(displayName)}</span>
     </a>
+    <div class="ww-nav-links">
+      <a href="/about">About</a>
+      <a href="/services">Services</a>
+      <a href="/contact">Contact</a>
+    </div>
     <div class="ww-nav-actions">
       <a class="ww-btn ww-btn-outline" href="/portal/login">Log in</a>
     </div>
@@ -121,7 +135,7 @@ a:hover { text-decoration: underline; }
   </main>
 
   <footer class="ww-footer">
-    <p>Powered by <a href="https://webwaka.ng" target="_blank" rel="noopener">WebWaka</a></p>
+    ${renderAttribution({ removeAttribution })}
   </footer>
 </body>
 </html>`;

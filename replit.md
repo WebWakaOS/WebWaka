@@ -25,7 +25,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 - **Phase 0 (3 items):** Admin auth fixes (SEC-001/002/003) — ✅ COMPLETE
 - **Phase 1 (12 items):** Audit logs, CORS, entitlements, AI guards, governance CI — ✅ COMPLETE + QA PASSED
 - **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI — ✅ COMPLETE + QA PASSED
-- **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding
+- **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding — ✅ COMPLETE
 - **Phase 4 (14 items):** Documentation harmonization — pillar labels, milestone tracker, compliance dashboard
 
 ## Tech Stack (Target Production)
@@ -132,6 +132,8 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `0195_ai002_vertical_configs.sql` | AI vertical configs table + 17 vertical seeds (Phase 2 AI-002) |
 | `0196_add_slug_to_organizations.sql` | Add slug column to organizations for tenant resolution (Phase 2 QA) |
 | `0197_create_tenant_branding.sql` | Create tenant_branding table for white-label theming (Phase 2 QA) |
+| `0198_create_contact_submissions.sql` | Contact form submissions table for brand-runtime (Phase 3 P3IN1-001) |
+| `0199_offerings_search_trigger.sql` | Search index table + D1 triggers on offerings insert/update (Phase 3 P3IN1-003) |
 
 ## Deployment
 
@@ -151,6 +153,19 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 - `docs/architecture/decisions/` — 12 Technical Decision Records
 - `infra/cloudflare/secrets-rotation-log.md` — Secret inventory and rotation schedule
 - `CHANGELOG.md` — Release changelog (Keep a Changelog format)
+
+## Phase 3 New Files
+
+| File | Purpose |
+|---|---|
+| `apps/brand-runtime/src/templates/about.ts` | About page template (Pillar 2) |
+| `apps/brand-runtime/src/templates/services.ts` | Full services/offerings catalog template (Pillar 2) |
+| `apps/brand-runtime/src/templates/contact.ts` | Contact form template with offline-capable submission (Pillar 2) |
+| `packages/offerings/src/index.ts` | Cross-pillar offerings data access layer (P1→P2→P3 flow) |
+| `packages/claims/src/state-machine.ts` | Extended with transition guards (GAP-006) |
+| `scripts/governance-checks/check-geography-integrity.ts` | Geography seed validation (GAP-002) |
+| `infra/db/migrations/0198_create_contact_submissions.sql` | Contact submissions table |
+| `infra/db/migrations/0199_offerings_search_trigger.sql` | Search index + triggers |
 
 ## Phase 2 New Files
 
@@ -186,6 +201,7 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `scripts/governance-checks/check-pillar-prefix.ts` | Every package.json has pillar prefix (DOC-010) |
 | `scripts/governance-checks/check-pwa-manifest.ts` | All client-facing apps have PWA manifest (PWA-001) |
 | `scripts/governance-checks/check-ndpr-before-ai.ts` | NDPR consent gate on AI routes (GAP-005) |
+| `scripts/governance-checks/check-geography-integrity.ts` | Geography seed integrity — zones, states, LGAs, wards, priority states (GAP-002) |
 
 ## Important Invariants for All Agents
 

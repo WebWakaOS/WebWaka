@@ -110,6 +110,23 @@ export function getDefaultTheme(): typeof DEFAULT_THEME {
   return { ...DEFAULT_THEME };
 }
 
+// ---------------------------------------------------------------------------
+// Attribution (GAP-003 — White-Label Policy §4)
+// ---------------------------------------------------------------------------
+
+export interface AttributionOptions {
+  removeAttribution?: boolean | undefined;
+}
+
+export function renderAttribution(opts?: AttributionOptions): string {
+  if (opts?.removeAttribution) return '';
+  return `<p>Powered by <a href="https://webwaka.ng" target="_blank" rel="noopener">WebWaka</a></p>`;
+}
+
+// ---------------------------------------------------------------------------
+// Theme resolution
+// ---------------------------------------------------------------------------
+
 export async function getBrandTokens(
   tenantSlug: string,
   db: D1Like,
