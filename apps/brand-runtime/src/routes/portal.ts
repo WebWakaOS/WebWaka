@@ -12,16 +12,11 @@
  */
 
 import { Hono } from 'hono';
-import type { Env } from '../env.js';
-import { tenantResolve } from '../middleware/tenant-resolve.js';
+import type { Env, Variables } from '../env.js';
 import { generateCssTokens } from '../lib/theme.js';
 import { baseTemplate } from '../templates/base.js';
 
-type Variables = { tenantSlug: string };
-
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
-
-router.use('*', tenantResolve);
 
 // GET /portal/login — branded login page
 router.get('/login', async (c) => {

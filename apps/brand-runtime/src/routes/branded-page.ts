@@ -12,14 +12,11 @@
 import { Hono } from 'hono';
 import type { Context } from 'hono';
 import type { Env, Variables } from '../env.js';
-import { tenantResolve } from '../middleware/tenant-resolve.js';
 import { generateCssTokens } from '../lib/theme.js';
 import { baseTemplate } from '../templates/base.js';
 import { brandedHomeBody } from '../templates/branded-home.js';
 
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
-
-router.use('*', tenantResolve);
 
 router.get('/', async (c) => {
   const slug = c.get('tenantSlug');

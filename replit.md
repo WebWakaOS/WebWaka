@@ -24,7 +24,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 48 remediation items across 8 workstreams, ~135.5 estimated hours:
 - **Phase 0 (3 items):** Admin auth fixes (SEC-001/002/003) — ✅ COMPLETE
 - **Phase 1 (12 items):** Audit logs, CORS, entitlements, AI guards, governance CI — ✅ COMPLETE + QA PASSED
-- **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI — ✅ COMPLETE
+- **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI — ✅ COMPLETE + QA PASSED
 - **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding
 - **Phase 4 (14 items):** Documentation harmonization — pillar labels, milestone tracker, compliance dashboard
 
@@ -130,6 +130,8 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `0193_sec004_audit_logs.sql` | Persistent audit_logs table (Phase 1 SEC-004) |
 | `0194_ai001_hitl_tables.sql` | AI HITL queue + events tables (Phase 1 AI-001) |
 | `0195_ai002_vertical_configs.sql` | AI vertical configs table + 17 vertical seeds (Phase 2 AI-002) |
+| `0196_add_slug_to_organizations.sql` | Add slug column to organizations for tenant resolution (Phase 2 QA) |
+| `0197_create_tenant_branding.sql` | Create tenant_branding table for white-label theming (Phase 2 QA) |
 
 ## Deployment
 
