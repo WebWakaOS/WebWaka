@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-water-treatment",
   "version": "0.1.0",
   "private": true,
-  "description": "Water Treatment / Borehole Operator vertical — NAFDAC, scaled integer measures (pH×100), subscriptions, AI alerts. M11.",
+  "description": "[Pillar 1+3] Water Treatment / Borehole Operator vertical — NAFDAC, scaled integer measures (pH×100), subscriptions, AI alerts. M11.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

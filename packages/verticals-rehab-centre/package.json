@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-rehab-centre",
   "version": "0.1.0",
   "private": true,
-  "description": "Rehabilitation / Recovery Centre vertical — NDLEA compliance, L3 HITL mandatory, P13. M12.",
+  "description": "[Pillar 1+3] Rehabilitation / Recovery Centre vertical — NDLEA compliance, L3 HITL mandatory, P13. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

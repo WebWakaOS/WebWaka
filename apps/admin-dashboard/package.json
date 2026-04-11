@@ -2,7 +2,7 @@
   "name": "@webwaka/admin-dashboard",
   "version": "0.1.0",
   "private": true,
-  "description": "Admin dashboard Cloudflare Worker. WebWaka OS Milestone 6.",
+  "description": "[Pillar 1] Admin dashboard Cloudflare Worker. WebWaka OS Milestone 6.",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.json",

@@ -29,6 +29,33 @@ app.use('*', secureHeaders());
 // ─── Liveness probe ────────────────────────────────────────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));
 
+// ─── PWA assets (served from Worker) ──────────────────────────────────────
+app.get('/manifest.json', (c) => {
+  const manifest = {
+    name: 'WebWaka Discover',
+    short_name: 'Discover',
+    description: "Nigeria's multi-vertical business directory and marketplace",
+    start_url: '/discover',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#1a6b3a',
+    lang: 'en-NG',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+    ],
+  };
+  return c.json(manifest, 200, { 'Content-Type': 'application/manifest+json', 'Cache-Control': 'public, max-age=3600' });
+});
+
+app.get('/sw.js', (c) => {
+  const sw = `const CACHE='webwaka-discover-v1';const SHELL=['/discover','/manifest.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
+});
+
 // ─── Discovery routes ──────────────────────────────────────────────────────
 app.route('/discover', listingsRouter);
 app.route('/discover/profile', profilesRouter);

@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-events-centre",
   "version": "0.1.0",
   "private": true,
-  "description": "Events Centre / Hall Rental vertical — multi-section, multi-day bookings, section conflict check, AI utilisation. M12.",
+  "description": "[Pillar 1+3] Events Centre / Hall Rental vertical — multi-section, multi-day bookings, section conflict check, AI utilisation. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

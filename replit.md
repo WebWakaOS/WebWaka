@@ -24,7 +24,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 48 remediation items across 8 workstreams, ~135.5 estimated hours:
 - **Phase 0 (3 items):** Admin auth fixes (SEC-001/002/003) — ✅ COMPLETE
 - **Phase 1 (12 items):** Audit logs, CORS, entitlements, AI guards, governance CI — ✅ COMPLETE + QA PASSED
-- **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI
+- **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI — ✅ COMPLETE
 - **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding
 - **Phase 4 (14 items):** Documentation harmonization — pillar labels, milestone tracker, compliance dashboard
 
@@ -129,6 +129,7 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `0192_sec003_add_tenant_id_to_claim_requests.sql` | Add tenant_id to claim_requests (Phase 0) |
 | `0193_sec004_audit_logs.sql` | Persistent audit_logs table (Phase 1 SEC-004) |
 | `0194_ai001_hitl_tables.sql` | AI HITL queue + events tables (Phase 1 AI-001) |
+| `0195_ai002_vertical_configs.sql` | AI vertical configs table + 17 vertical seeds (Phase 2 AI-002) |
 
 ## Deployment
 
@@ -149,6 +150,17 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 - `infra/cloudflare/secrets-rotation-log.md` — Secret inventory and rotation schedule
 - `CHANGELOG.md` — Release changelog (Keep a Changelog format)
 
+## Phase 2 New Files
+
+| File | Purpose |
+|---|---|
+| `apps/brand-runtime/src/middleware/branding-entitlement.ts` | ENT-003: Branding entitlement gate (Pillar 2 plan check) |
+| `apps/brand-runtime/src/env.ts` | Variables type (tenantSlug, tenantId, tenantName, themeColor) |
+| `packages/white-label-theming/src/index.ts` | Shared brand token system (getBrandTokens, generateCSS) |
+| `packages/design-system/src/index.ts` | Mobile-first CSS (360px base, breakpoints, spacing, typography) |
+| `infra/db/migrations/0195_ai002_vertical_configs.sql` | ai_vertical_configs table + 17 vertical seeds |
+| `infra/db/migrations/*.rollback.{sql,md}` | Rollback scripts for all 196 migrations |
+
 ## Phase 1 New Middleware Files
 
 | File | Purpose |
@@ -167,6 +179,11 @@ The `types` package has only `tsconfig.json` (no cross-package deps, standard `r
 | `scripts/governance-checks/check-tenant-isolation.ts` | No tenant_id from user input |
 | `scripts/governance-checks/check-ai-direct-calls.ts` | No direct AI SDK calls (P7) |
 | `scripts/governance-checks/check-monetary-integrity.ts` | No floats on monetary values (P9) |
+| `scripts/governance-checks/check-dependency-sources.ts` | No file:/github: dependency sources (CI-004) |
+| `scripts/governance-checks/check-rollback-scripts.ts` | Every migration has rollback script (CI-003) |
+| `scripts/governance-checks/check-pillar-prefix.ts` | Every package.json has pillar prefix (DOC-010) |
+| `scripts/governance-checks/check-pwa-manifest.ts` | All client-facing apps have PWA manifest (PWA-001) |
+| `scripts/governance-checks/check-ndpr-before-ai.ts` | NDPR consent gate on AI routes (GAP-005) |
 
 ## Important Invariants for All Agents
 

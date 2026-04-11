@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-newspaper-dist",
   "version": "0.1.0",
   "private": true,
-  "description": "Newspaper Distribution / Media House vertical — NPC, print runs (integer copies), vendor accounts, ad billing. M12.",
+  "description": "[Pillar 1+3] Newspaper Distribution / Media House vertical — NPC, print runs (integer copies), vendor accounts, ad billing. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

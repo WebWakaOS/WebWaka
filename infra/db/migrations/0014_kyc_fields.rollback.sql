@@ -1,0 +1,9 @@
+-- Rollback for ALTER TABLE migration
+-- SQLite <3.35 does not support DROP COLUMN. Manual table rebuild required.
+-- ALTER TABLE individuals DROP COLUMN nin_hash; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE individuals DROP COLUMN bvn_hash; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE individuals DROP COLUMN nin_verified; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE individuals DROP COLUMN bvn_verified; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE profiles DROP COLUMN kyc_tier; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE profiles DROP COLUMN bvn_verified_at; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE profiles DROP COLUMN nin_verified_at; -- D1/SQLite does not support DROP COLUMN before 3.35

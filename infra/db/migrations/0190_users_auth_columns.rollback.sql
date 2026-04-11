@@ -1,0 +1,5 @@
+-- Rollback for ALTER TABLE migration
+-- SQLite <3.35 does not support DROP COLUMN. Manual table rebuild required.
+-- ALTER TABLE users DROP COLUMN workspace_id; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE users DROP COLUMN tenant_id; -- D1/SQLite does not support DROP COLUMN before 3.35
+-- ALTER TABLE users DROP COLUMN role; -- D1/SQLite does not support DROP COLUMN before 3.35

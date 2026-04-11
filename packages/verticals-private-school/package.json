@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-private-school",
   "version": "0.1.0",
   "private": true,
-  "description": "Private School Operator vertical — students, fees, SUBEB compliance, AI class report. M12.",
+  "description": "[Pillar 1+3] Private School Operator vertical — students, fees, SUBEB compliance, AI class report. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

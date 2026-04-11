@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "WebWaka OS Platform Admin — local dev shim. Production: Cloudflare Pages.",
+  "description": "[Infra] WebWaka OS Platform Admin — local dev shim. Production: Cloudflare Pages.",
   "scripts": {
     "dev": "node server.js",
     "typecheck": "tsc --noEmit",

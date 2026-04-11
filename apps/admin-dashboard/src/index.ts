@@ -83,6 +83,36 @@ app.use('*', cors({
 app.get('/health', (c) => c.json({ status: 'ok', app: 'admin-dashboard' }));
 
 // ---------------------------------------------------------------------------
+// PWA assets (served from Worker)
+// ---------------------------------------------------------------------------
+
+app.get('/manifest.json', (c) => {
+  const manifest = {
+    name: 'WebWaka Admin',
+    short_name: 'Admin',
+    description: 'WebWaka workspace administration dashboard',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#006400',
+    lang: 'en-NG',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+    ],
+  };
+  return c.json(manifest, 200, { 'Content-Type': 'application/manifest+json', 'Cache-Control': 'public, max-age=3600' });
+});
+
+app.get('/sw.js', (c) => {
+  const sw = `const CACHE='webwaka-admin-v1';const SHELL=['/','/manifest.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
+});
+
+// ---------------------------------------------------------------------------
 // JWT Authentication middleware — applied to all routes below this point
 // SEC-001: Replaces untrusted x-workspace-id header with JWT-verified identity
 // ---------------------------------------------------------------------------

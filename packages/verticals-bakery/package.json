@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-bakery",
   "version": "0.1.0",
   "private": true,
-  "description": "Bakery / Confectionery vertical — FSM, D1 CRUD, production planning, NAFDAC compliance. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Bakery / Confectionery vertical — FSM, D1 CRUD, production planning, NAFDAC compliance. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

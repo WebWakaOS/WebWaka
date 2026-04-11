@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-catering",
   "version": "0.1.0",
   "private": true,
-  "description": "Catering Service vertical — FSM, event pipeline, NAFDAC compliance. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Catering Service vertical — FSM, event pipeline, NAFDAC compliance. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

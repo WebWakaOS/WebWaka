@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-politician",
   "version": "0.1.0",
   "private": true,
-  "description": "Individual Politician vertical — FSM, D1 CRUD, campaign management. M8b P1-Original.",
+  "description": "[Pillar 1+3] Individual Politician vertical — FSM, D1 CRUD, campaign management. M8b P1-Original.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

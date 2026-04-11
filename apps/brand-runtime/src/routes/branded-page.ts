@@ -10,13 +10,12 @@
  */
 
 import { Hono } from 'hono';
-import type { Env } from '../env.js';
+import type { Context } from 'hono';
+import type { Env, Variables } from '../env.js';
 import { tenantResolve } from '../middleware/tenant-resolve.js';
 import { generateCssTokens } from '../lib/theme.js';
 import { baseTemplate } from '../templates/base.js';
 import { brandedHomeBody } from '../templates/branded-home.js';
-
-type Variables = { tenantSlug: string };
 
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 
@@ -35,7 +34,7 @@ router.get('/:slug', async (c) => {
 async function renderBrandedHome(
   env: Env,
   slug: string,
-  c: Parameters<typeof router.get>[1] extends infer H ? (H extends (...args: infer A) => any ? A[0] : never) : never,
+  c: Context<{ Bindings: Env; Variables: Variables }>,
 ) {
   let cssVars: string;
   let theme: import('../lib/theme.js').TenantTheme;

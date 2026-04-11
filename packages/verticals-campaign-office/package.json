@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-campaign-office",
   "version": "0.1.0",
   "private": true,
-  "description": "Campaign Office vertical — budget tracking, donor log, INEC compliance, L3 HITL AI. M8b.",
+  "description": "[Pillar 1+3] Campaign Office vertical — budget tracking, donor log, INEC compliance, L3 HITL AI. M8b.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

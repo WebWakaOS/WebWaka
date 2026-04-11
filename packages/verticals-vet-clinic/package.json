@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-vet-clinic",
   "version": "0.1.0",
   "private": true,
-  "description": "Veterinary Clinic / Pet Shop vertical — patient register, VCNB compliance, P13. M10.",
+  "description": "[Pillar 1+3] Veterinary Clinic / Pet Shop vertical — patient register, VCNB compliance, P13. M10.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

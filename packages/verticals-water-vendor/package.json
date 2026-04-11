@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-water-vendor",
   "version": "0.1.0",
   "private": true,
-  "description": "Water Vendor — NAFDAC compliance, delivery orders, volume integer (P9). M10 Commerce P3.",
+  "description": "[Pillar 1+3] Water Vendor — NAFDAC compliance, delivery orders, volume integer (P9). M10 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

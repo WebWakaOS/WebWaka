@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-creche",
   "version": "0.1.0",
   "private": true,
-  "description": "Crèche / Day Care Centre vertical — child attendance, billing, SUBEB compliance, L3 HITL AI. M12.",
+  "description": "[Pillar 1+3] Crèche / Day Care Centre vertical — child attendance, billing, SUBEB compliance, L3 HITL AI. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

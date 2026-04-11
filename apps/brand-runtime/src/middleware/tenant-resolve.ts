@@ -15,9 +15,9 @@
  */
 
 import { createMiddleware } from 'hono/factory';
-import type { Env } from '../env.js';
+import type { Env, Variables } from '../env.js';
 
-export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: { tenantSlug: string } }>(
+export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: Variables }>(
   async (c, next) => {
     const host = c.req.header('host') ?? '';
     let slug: string | null = null;
@@ -35,7 +35,7 @@ export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: { tena
     if (!slug) {
       const subMatch = host.match(/^brand-([a-z0-9-]+)\.webwaka\.ng(?::\d+)?$/i);
       if (subMatch) {
-        slug = subMatch[1];
+        slug = subMatch[1] ?? null;
       }
     }
 
@@ -49,6 +49,21 @@ export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: { tena
     }
 
     c.set('tenantSlug', slug);
+
+    const tenantRow = await c.env.DB
+      .prepare(`SELECT t.id AS tenant_id, tb.display_name, tb.primary_color
+                FROM tenants t
+                LEFT JOIN tenant_branding tb ON tb.tenant_id = t.id
+                WHERE t.slug = ? LIMIT 1`)
+      .bind(slug)
+      .first<{ tenant_id: string; display_name: string | null; primary_color: string | null }>();
+
+    if (tenantRow) {
+      c.set('tenantId', tenantRow.tenant_id);
+      if (tenantRow.display_name) c.set('tenantName', tenantRow.display_name);
+      if (tenantRow.primary_color) c.set('themeColor', tenantRow.primary_color);
+    }
+
     await next();
   },
 );

@@ -21,21 +21,64 @@
 
 import { Hono } from 'hono';
 import { secureHeaders } from 'hono/secure-headers';
-import type { Env } from './env.js';
+import type { Env, Variables } from './env.js';
 import { brandedPageRouter } from './routes/branded-page.js';
 import { portalRouter } from './routes/portal.js';
+import { brandingEntitlementMiddleware } from './middleware/branding-entitlement.js';
+import { tenantResolve } from './middleware/tenant-resolve.js';
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 app.use('*', secureHeaders());
 
 // ─── Liveness probe (no auth, no tenant resolution) ───────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'brand-runtime' }));
 
+// ─── PWA service worker (no tenant resolution needed) ────────────────────
+app.get('/sw.js', (c) => {
+  const sw = `const CACHE='webwaka-brand-v1';const SHELL=['/','/manifest.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
+});
+
+// ─── Tenant resolution (sets tenantSlug + tenantId for all subsequent routes)
+app.use('/manifest.json', tenantResolve);
+app.use('/portal/*', tenantResolve);
+app.use('/*', tenantResolve);
+
+// ─── PWA manifest (tenant-dynamic, after tenant resolution) ──────────────
+app.get('/manifest.json', async (c) => {
+  const tenantName = c.get('tenantName') ?? 'WebWaka';
+  const themeColor = c.get('themeColor') ?? '#1a6b3a';
+
+  const manifest = {
+    name: tenantName,
+    short_name: tenantName.slice(0, 12),
+    description: `${tenantName} — Powered by WebWaka`,
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: themeColor,
+    lang: 'en-NG',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+    ],
+  };
+
+  return c.json(manifest, 200, { 'Content-Type': 'application/manifest+json', 'Cache-Control': 'public, max-age=3600' });
+});
+
+// ─── ENT-003: Branding entitlement check (after tenant resolution) ────────
+app.use('/portal/*', brandingEntitlementMiddleware);
+app.use('/*', brandingEntitlementMiddleware);
+
 // ─── Portal routes (branded auth shell) ───────────────────────────────────
 app.route('/portal', portalRouter);
 
-// ─── Branded public home ───────────────────────────────────────────────────
+// ─── Branded public home ─────────────────────────────────────────────────
 app.route('/', brandedPageRouter);
 
 // ─── Unmatched ─────────────────────────────────────────────────────────────

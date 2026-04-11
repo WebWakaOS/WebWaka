@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-florist",
   "version": "0.1.0",
   "private": true,
-  "description": "Florist / Garden Centre vertical — FSM, arrangement catalogue, event orders. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Florist / Garden Centre vertical — FSM, arrangement catalogue, event orders. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

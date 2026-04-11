@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-petrol-station",
   "version": "0.1.0",
   "private": true,
-  "description": "Petrol Station vertical — pump dip readings, fleet credit, NUPRC compliance. M11 Commerce P3.",
+  "description": "[Pillar 1+3] Petrol Station vertical — pump dip readings, fleet credit, NUPRC compliance. M11 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

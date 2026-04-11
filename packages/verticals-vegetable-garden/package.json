@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-vegetable-garden",
   "version": "0.1.0",
   "private": true,
-  "description": "Vegetable Garden / Horticulture vertical — plots, harvests, FMARD integration, AI yield. M12.",
+  "description": "[Pillar 1+3] Vegetable Garden / Horticulture vertical — plots, harvests, FMARD integration, AI yield. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

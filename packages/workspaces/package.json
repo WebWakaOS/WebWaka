@@ -2,7 +2,7 @@
   "name": "@webwaka/workspaces",
   "version": "0.1.0",
   "private": true,
-  "description": "@webwaka/workspaces stub — WebWaka OS",
+  "description": "[Pillar 1+3] @webwaka/workspaces",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

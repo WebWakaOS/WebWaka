@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-food-vendor",
   "version": "0.1.0",
   "private": true,
-  "description": "Food Vendor / Street Food vertical — 3-state FSM, digital menu, daily sales. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Food Vendor / Street Food vertical — 3-state FSM, digital menu, daily sales. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

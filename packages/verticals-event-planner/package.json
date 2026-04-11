@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-event-planner",
   "version": "0.1.0",
   "private": true,
-  "description": "Event Planner / MC vertical — events, vendors, task checklist, AI pipeline. M9.",
+  "description": "[Pillar 1+3] Event Planner / MC vertical — events, vendors, task checklist, AI pipeline. M9.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

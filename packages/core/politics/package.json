@@ -2,7 +2,7 @@
   "name": "@webwaka/politics",
   "version": "0.1.0",
   "private": true,
-  "description": "Political office, territory, and assignment model for WebWaka OS",
+  "description": "[Pillar 1+3] Political office, territory, and assignment model for WebWaka OS",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

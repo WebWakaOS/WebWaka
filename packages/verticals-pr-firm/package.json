@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-pr-firm",
   "version": "0.1.0",
   "private": true,
-  "description": "PR Firm vertical — campaigns, media coverage, NIPR compliance, AI pipeline. M12.",
+  "description": "[Pillar 1+3] PR Firm vertical — campaigns, media coverage, NIPR compliance, AI pipeline. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

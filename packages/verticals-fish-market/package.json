@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-fish-market",
   "version": "0.1.0",
   "private": true,
-  "description": "Fish Market / Fishmonger vertical — stock, expiry alerts, NAFDAC compliance, AI demand. M12.",
+  "description": "[Pillar 1+3] Fish Market / Fishmonger vertical — stock, expiry alerts, NAFDAC compliance, AI demand. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

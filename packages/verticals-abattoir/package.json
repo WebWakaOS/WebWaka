@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-abattoir",
   "version": "0.1.0",
   "private": true,
-  "description": "Abattoir / Meat Processing vertical — slaughter log, meat sales, NAFDAC compliance. M12.",
+  "description": "[Pillar 1+3] Abattoir / Meat Processing vertical — slaughter log, meat sales, NAFDAC compliance. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

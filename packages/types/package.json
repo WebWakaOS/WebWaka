@@ -2,7 +2,7 @@
   "name": "@webwaka/types",
   "version": "0.1.0",
   "private": true,
-  "description": "Canonical TypeScript types for the WebWaka OS platform",
+  "description": "[Infra] Canonical TypeScript types for the WebWaka OS platform",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

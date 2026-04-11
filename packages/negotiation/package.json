@@ -2,7 +2,7 @@
   "name": "@webwaka/negotiation",
   "version": "0.1.0",
   "private": true,
-  "description": "Negotiable pricing engine — vendor policy, listing overrides, offer FSM, guardrails, audit log. Platform-wide, vertical-agnostic.",
+  "description": "[Pillar 1] Negotiable pricing engine — vendor policy, listing overrides, offer FSM, guardrails, audit log. Platform-wide, vertical-agnostic.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

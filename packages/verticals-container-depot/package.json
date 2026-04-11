@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-container-depot",
   "version": "0.1.0",
   "private": true,
-  "description": "Container Depot / Logistics Hub vertical — container management, storage billing, NCS/NPA compliance. M12.",
+  "description": "[Pillar 1+3] Container Depot / Logistics Hub vertical — container management, storage billing, NCS/NPA compliance. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

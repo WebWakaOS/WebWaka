@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-photography-studio",
   "version": "0.1.0",
   "private": true,
-  "description": "Photography Studio / Videography vertical — bookings, equipment, AI pipeline. M10.",
+  "description": "[Pillar 1+3] Photography Studio / Videography vertical — bookings, equipment, AI pipeline. M10.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

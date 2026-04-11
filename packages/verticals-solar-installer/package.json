@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-solar-installer",
   "version": "0.1.0",
   "private": true,
-  "description": "Solar Installer vertical — FSM, compliance, P9/T3 invariants. M9/M10 Commerce P2 Batch 2.",
+  "description": "[Pillar 1+3] Solar Installer vertical — FSM, compliance, P9/T3 invariants. M9/M10 Commerce P2 Batch 2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

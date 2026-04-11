@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-mobile-money-agent",
   "version": "0.1.0",
   "private": true,
-  "description": "Mobile Money Agent vertical — CBN agent banking, float management, daily cap enforcement, Tier 3 KYC. M12.",
+  "description": "[Pillar 1+3] Mobile Money Agent vertical — CBN agent banking, float management, daily cap enforcement, Tier 3 KYC. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

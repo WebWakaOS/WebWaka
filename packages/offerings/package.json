@@ -2,7 +2,7 @@
   "name": "@webwaka/offerings",
   "version": "0.1.0",
   "private": true,
-  "description": "@webwaka/offerings stub — WebWaka OS",
+  "description": "[Pillar 1+3] @webwaka/offerings",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

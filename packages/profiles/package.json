@@ -2,7 +2,7 @@
   "name": "@webwaka/profiles",
   "version": "0.1.0",
   "private": true,
-  "description": "Profile management for WebWaka OS",
+  "description": "[Pillar 3] Profile management for WebWaka OS",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

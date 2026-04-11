@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-recording-label",
   "version": "0.1.0",
   "private": true,
-  "description": "Record Label / Music Publisher vertical — artiste roster, royalties in bps, COSON, AI catalogue. M12.",
+  "description": "[Pillar 1+3] Record Label / Music Publisher vertical — artiste roster, royalties in bps, COSON, AI catalogue. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
