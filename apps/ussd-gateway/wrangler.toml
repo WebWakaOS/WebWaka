@@ -40,19 +40,19 @@ ENVIRONMENT = "staging"
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "webwaka-os-staging"
-database_id = "cfa62668-bbd0-4cf2-996a-53da76bab948"
+database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "608eacac3eb941a68c716b14e84b4d10"
+id = "96c2ac8e8bbe49e39513106cbae8abe8"
 
 [[env.staging.kv_namespaces]]
 binding = "USSD_SESSION_KV"
-id = "2d2b2b32beb94df989a7e3520cc3962a"
+id = "67c95f1527114e4bac480a44c4169b85"
 
 [[env.staging.routes]]
-pattern = "api-staging.webwaka.ng/ussd"
-zone_name = "webwaka.ng"
+pattern = "api-staging.webwaka.com/ussd"
+zone_name = "webwaka.com"
 
 # ---------------------------------------------------------------------------
 # Production
@@ -66,19 +66,19 @@ ENVIRONMENT = "production"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "webwaka-os-production"
-database_id = "de1d0935-31ed-4a33-a0fd-0122d7a4fe43"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "af260e847d1e400e94cf13f6ae3214eb"
+id = "fae0d9a22e924d108ff8d71046832193"
 
 [[env.production.kv_namespaces]]
 binding = "USSD_SESSION_KV"
-id = "c3f90b3b6b634983b1778964b0a92ed0"
+id = "e34fb28b075b4362a8d4d840c19e670c"
 
 [[env.production.routes]]
-pattern = "api.webwaka.ng/ussd"
-zone_name = "webwaka.ng"
+pattern = "api.webwaka.com/ussd"
+zone_name = "webwaka.com"
 
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:
