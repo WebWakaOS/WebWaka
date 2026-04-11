@@ -1,5 +1,3 @@
-import { renderAttribution } from '@webwaka/white-label-theming';
-
 export interface AboutPageData {
   displayName: string;
   description: string | null;
@@ -53,7 +51,7 @@ export function aboutPageBody(data: AboutPageData): string {
 }
 
 function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function safeHref(url: string): string {

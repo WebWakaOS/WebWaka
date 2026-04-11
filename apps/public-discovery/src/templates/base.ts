@@ -200,7 +200,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
     <a class="ww-nav-brand" href="/discover">WebWaka Discover</a>
     <div class="ww-nav-links">
       <a href="/discover">Browse</a>
-      <a href="/discover/search?q=">Search</a>
+      <a href="/discover" onclick="var i=document.querySelector('.ww-search input');if(i){event.preventDefault();i.focus();i.scrollIntoView({behavior:'smooth'})}">Search</a>
     </div>
     <a href="https://webwaka.ng" style="font-size:.875rem;color:var(--ww-text-muted);text-decoration:none;white-space:nowrap">List your business &rarr;</a>
   </nav>
@@ -214,5 +214,5 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

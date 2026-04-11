@@ -82,27 +82,34 @@ export function contactPageBody(data: ContactPageData): string {
               navigator.serviceWorker.ready.then(function(reg){
                 if(reg.sync) reg.sync.register('webwaka-sync');
               });
-            } catch(ex){}
+              showSuccess();
+            } catch(ex){ postDirect(data); }
           };
           openReq.onerror = function(){ postDirect(data); };
         } else {
           postDirect(data);
         }
-
-        form.style.display = 'none';
-        document.getElementById('contactSuccess').style.display = 'block';
       });
 
+      function showSuccess(){
+        var f = document.getElementById('contactForm');
+        var s = document.getElementById('contactSuccess');
+        if(f) f.style.display = 'none';
+        if(s) s.style.display = 'block';
+      }
+
       function postDirect(data){
+        var btn = document.querySelector('.ww-btn--primary');
+        if(btn){ btn.textContent = 'Sending…'; btn.disabled = true; }
         fetch('/contact', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify(data)
         }).then(function(r){
           if(!r.ok) throw new Error('Submit failed');
+          showSuccess();
         }).catch(function(){
-          form.style.display = '';
-          document.getElementById('contactSuccess').style.display = 'none';
+          if(btn){ btn.textContent = 'Send Message'; btn.disabled = false; }
           alert('Could not send your message. Please try again.');
         });
       }
@@ -136,5 +143,5 @@ export function contactPageBody(data: ContactPageData): string {
 }
 
 function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

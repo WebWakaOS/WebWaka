@@ -18,7 +18,7 @@ import { Hono } from 'hono';
 import type { Context } from 'hono';
 import type { Env, Variables } from '../env.js';
 import { generateCssTokens } from '../lib/theme.js';
-import type { TenantTheme, ThemeTokens } from '../lib/theme.js';
+import type { TenantTheme } from '../lib/theme.js';
 import { baseTemplate } from '../templates/base.js';
 import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
@@ -91,16 +91,6 @@ function seoHead(opts: { title: string; description: string; url: string; image?
 
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function safeHref(url: string): string {
-  try {
-    const parsed = new URL(url, 'https://placeholder.invalid');
-    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
-      return encodeURI(url);
-    }
-  } catch { /* invalid URL */ }
-  return '#';
 }
 
 router.get('/', async (c) => {
@@ -216,7 +206,6 @@ router.get('/contact', async (c) => {
 });
 
 router.post('/contact', async (c) => {
-  const slug = c.get('tenantSlug');
   const tenantId = c.get('tenantId');
 
   if (!tenantId) return c.json({ error: 'Tenant not found' }, 404);
