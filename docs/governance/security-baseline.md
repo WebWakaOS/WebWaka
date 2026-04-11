@@ -125,7 +125,7 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - Any secret exposure: rotate immediately, audit access logs, notify Founder.
 - Rollback procedure: revert merge commit on `main`, CI redeploys previous version.
 
-> **Enforced in:** `docs/governance/release-governance.md` (rollback procedures), `infra/cloudflare/secrets-rotation-log.md` (secret exposure protocol). Automated incident response tooling is planned for M10 (Staging Hardening).
+> **Enforced in:** `docs/governance/incident-response.md` (full runbook with severity levels, escalation matrix, and post-incident review), `docs/governance/release-governance.md` (rollback procedures), `infra/cloudflare/secrets-rotation-log.md` (secret exposure protocol).
 
 ---
 

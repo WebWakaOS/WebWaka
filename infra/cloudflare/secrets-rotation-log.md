@@ -20,6 +20,9 @@
 | `CLOUDFLARE_API_TOKEN` | GitHub Actions Secret | 2026-04-01 | 2026-04-01 | 2026-07-01 | Regenerate in Cloudflare Dashboard → Profile → API Tokens. Update in GitHub repo Settings → Secrets. |
 | `DIALOG360_API_KEY` | CF Worker Secret (optional) | 2026-04-01 | 2026-04-01 | 2026-07-01 | Regenerate in 360dialog Hub. `wrangler secret put DIALOG360_API_KEY`. |
 | `TELEGRAM_WEBHOOK_SECRET` | CF Worker Secret | 2026-04-01 | 2026-04-01 | 2026-07-01 | Generate new random string. `wrangler secret put TELEGRAM_WEBHOOK_SECRET`. Update webhook via Telegram setWebhook API. |
+| `AFRICAS_TALKING_USERNAME` | CF Worker Secret (ussd-gateway) | 2026-04-01 | 2026-04-01 | 2026-07-01 | Update username in Africa's Talking Dashboard. `wrangler secret put AFRICAS_TALKING_USERNAME`. |
+| `AFRICAS_TALKING_API_KEY` | CF Worker Secret (ussd-gateway) | 2026-04-01 | 2026-04-01 | 2026-07-01 | Regenerate in Africa's Talking Dashboard → Settings → API Key. `wrangler secret put AFRICAS_TALKING_API_KEY`. |
+| `WHATSAPP_PHONE_NUMBER_ID` | CF Worker Secret | 2026-04-01 | 2026-04-01 | 2026-07-01 | Update from Meta Business Manager → Phone Numbers. `wrangler secret put WHATSAPP_PHONE_NUMBER_ID`. |
 
 ## Rotation Checklist
 

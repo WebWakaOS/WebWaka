@@ -1,6 +1,6 @@
 # WebWaka OS — Governance Compliance Dashboard
 
-**Last updated:** 2026-04-11 (Phase 4 documentation harmonization)  
+**Last updated:** 2026-04-11 (M10 Staging Hardening complete)  
 **Source:** `docs/governance/platform-invariants.md`, `docs/governance/security-baseline.md`, `docs/governance/3in1-platform-architecture.md`  
 **Updated by:** Replit Agent
 
@@ -9,7 +9,8 @@
 ## Overall Compliance Score
 
 **16 / 18 invariants fully enforced** (89%)  
-**2 invariants documented but not yet fully enforced** (P3 Africa-First, T8 Step-by-Step Commits)
+**2 invariants documented but not yet fully enforced** (P3 Africa-First, T8 Step-by-Step Commits)  
+**10 / 10 security baseline sections compliant** (100%)
 
 ---
 
@@ -58,7 +59,7 @@
 | §7 | Data Isolation | ✅ COMPLIANT | Tenant isolation on all queries; no shared in-memory state |
 | §8 | Transport Security | ✅ COMPLIANT | secureHeaders() globally; CORS non-wildcard; CSP headers |
 | §9 | Dependency Security | ✅ COMPLIANT | Dependabot weekly; CI: no file:/github: references |
-| §10 | Incident Response | ⚠️ DOCUMENTED | Policy exists; no automated incident response yet |
+| §10 | Incident Response | ✅ COMPLIANT | Full runbook with severity levels, escalation matrix, and post-incident review (`docs/governance/incident-response.md`) |
 
 ---
 
@@ -70,7 +71,7 @@
 | Pillar 2 (Brand) app live | ✅ | brand-runtime — home, about, services, contact, white-label theming |
 | Pillar 3 (Marketplace) app live | ✅ | public-discovery — search, geography browse, entity profiles, Schema.org |
 | AI cross-cutting (not 4th pillar) | ✅ | SuperAgent architecture documented; adapters scaffolded; no direct SDK calls |
-| Package `[Pillar N]` prefixes | ✅ | CI: `check-pillar-prefix.ts` enforces on all 175+ packages |
+| Package `[Pillar N]` prefixes | ✅ | CI: `check-pillar-prefix.ts` enforces on all 176 packages |
 | Vertical pillar assignments | ✅ | `primary_pillars` column in verticals table; all 143 verticals classified |
 | Cross-pillar data flow | ✅ | `packages/offerings/` shared layer; `search_index` D1 triggers |
 
@@ -113,7 +114,7 @@
 |-----|----------|------|
 | P3 (Africa-First) — Nigeria-only implementation | Low | By design per P2; expansion architecture documented for post-M12 |
 | T8 (Step-by-Step Commits) — batched pushes used | Low | Audit trail maintained via commit messages + session logs |
-| §10 (Incident Response) — no automation | Low | Policy documented; tooling deferred to M10 (Staging Hardening) |
+| §10 (Incident Response) — policy only | ~~Low~~ | ✅ RESOLVED — Full runbook implemented in M10 |
 | Partner infrastructure — not implemented | Low | Governance rules approved; implementation in M11 roadmap |
 | SuperAgent AI — adapters scaffolded, not production | Medium | Full implementation in M12 (AI Integration Production) |
 
@@ -127,13 +128,13 @@
 | CI test green | ✅ DONE | Fixed 27 packages with vitest but no test files |
 | CI lint green | ✅ DONE | 0 errors (warnings only) |
 | Partner-admin scaffold | ✅ DONE | Was stub-only (.gitkeep); now has package.json + tsconfig |
-| Incident response runbook | ⬜ TODO | Deferred — tooling needed |
-| Structured logging | ⬜ TODO | Replace console.error with structured logger |
-| Smoke test expansion | ⬜ TODO | Auth, discovery, claims suites |
-| Secrets provisioning | ⬜ TODO | Verify GitHub + Cloudflare secrets match |
+| Incident response runbook | ✅ DONE | `docs/governance/incident-response.md` — severity levels, escalation matrix, post-incident review |
+| Structured logging | ✅ DONE | `packages/logging/` — structured JSON logger with PII masking, 15 tests |
+| Smoke test expansion | ✅ DONE | 4 smoke suites: health, discovery, claims, branding |
+| Secrets provisioning | ✅ DONE | `scripts/verify-secrets.ts` — cross-references wrangler.toml, deploy workflow, rotation log |
 
 **CI Pipeline:** 4/4 steps green (typecheck ✅, test ✅, lint ✅, governance ✅)  
-**Test coverage:** 182 test files (163 packages + 18 apps + 1 smoke), 0 failures
+**Test coverage:** 186 test files (164 packages + 18 apps + 4 smoke), 0 failures
 
 ---
 

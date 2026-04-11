@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Phase: Milestone 10 — Staging Hardening (IN PROGRESS)**
+**Current Phase: Milestone 10 — Staging Hardening (✅ COMPLETE)**
 
 ## Milestone Status
 
@@ -15,20 +15,20 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 2 — Monorepo Scaffolding | ✅ DONE (0 errors across 175+ packages) |
 | 3–8 — API, Discovery, Claims, Commerce, Community, Verticals | ✅ SUBSTANTIALLY COMPLETE (143 verticals, 124 route files, 200 migrations) |
 | Governance Remediation (Phases 0–4) | ✅ COMPLETE — 48/48 items |
-| 10 — Staging Hardening | 🔧 IN PROGRESS — CI pipeline green, remaining: incident response, logging, smoke tests |
+| 10 — Staging Hardening | ✅ COMPLETE — 9/9 tasks done (CI green, incident response, logging, smoke tests, secrets) |
 
 ## Platform Scale
 
 | Metric | Count |
 |--------|-------|
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
-| Packages | 175+ (183 with pillar prefixes) |
+| Packages | 176 (184 with pillar prefixes) |
 | Verticals | 143 |
 | D1 migrations | 200 (all with rollback scripts) |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
 | CI governance checks | 10 |
-| Total test files | 182 (163 packages + 18 apps + 1 smoke, 0 failures) |
+| Total test files | 186 (164 packages + 18 apps + 4 smoke, 0 failures) |
 
 ## Key Documents
 
@@ -90,7 +90,7 @@ webwaka-os/
   scripts/
     governance-checks/      — 10 automated CI governance checks
   tests/
-    smoke/                  — Smoke tests (api-health)
+    smoke/                  — Smoke tests (health, discovery, claims, branding)
 ```
 
 ## Running Locally (Development)
@@ -104,8 +104,8 @@ webwaka-os/
 
 ```bash
 pnpm install                    # Install all workspace packages
-pnpm typecheck                  # Typecheck all packages (175+)
-pnpm test                       # Run full test suite (182 test files)
+pnpm typecheck                  # Typecheck all packages (176)
+pnpm test                       # Run full test suite (186 test files)
 pnpm lint                       # Lint all packages
 
 # Individual package commands
@@ -123,7 +123,7 @@ npx tsx scripts/governance-checks/check-tenant-isolation.ts
 | Step | Command | Status |
 |------|---------|--------|
 | TypeScript Check | `pnpm typecheck` | ✅ PASS |
-| Tests | `pnpm test` | ✅ PASS (182 test files, 0 failures) |
+| Tests | `pnpm test` | ✅ PASS (186 test files, 0 failures) |
 | Lint | `pnpm lint` | ✅ PASS |
 | Governance | 10 custom checks in `scripts/governance-checks/` | ✅ PASS (10/10) |
 

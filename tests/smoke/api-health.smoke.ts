@@ -9,7 +9,7 @@
  *   P14 — DM payloads are AES-GCM encrypted (ciphertext, not plaintext)
  */
 
-const BASE = process.env['BASE_URL'] ?? 'http://localhost:8787';
+const BASE = process.env['SMOKE_BASE_URL'] ?? process.env['BASE_URL'] ?? 'http://localhost:8787';
 const TENANT = process.env['SMOKE_TENANT_ID'] ?? 'tenant_smoke_001';
 const API_KEY = process.env['SMOKE_API_KEY'];
 if (!API_KEY) {

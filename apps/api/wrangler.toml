@@ -85,6 +85,16 @@ zone_name = "webwaka.com"
 custom_domain = true
 
 # ── Secrets (set via wrangler secret put, never in this file) ─────────────────
-# JWT_SECRET
-# INTER_SERVICE_SECRET
+# Required:
+#   JWT_SECRET
+#   INTER_SERVICE_SECRET
+#   PAYSTACK_SECRET_KEY
+#   PREMBLY_API_KEY
+#   TERMII_API_KEY
+#   WHATSAPP_ACCESS_TOKEN
+#   WHATSAPP_PHONE_NUMBER_ID
+#   TELEGRAM_BOT_TOKEN
+#   LOG_PII_SALT
+#   DM_MASTER_KEY
+#   PRICE_LOCK_SECRET
 

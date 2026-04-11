@@ -1,0 +1,26 @@
+{
+  "name": "@webwaka/logging",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Infra] Structured JSON logger with severity levels, context enrichment, and PII masking. WebWaka OS M10.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist",
+    "lint": "echo 'no lint yet'"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
