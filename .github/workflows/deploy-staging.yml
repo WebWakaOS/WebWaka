@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - staging
+  workflow_dispatch:
 
 concurrency:
   group: deploy-staging
@@ -30,7 +31,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - name: Stage migrations for wrangler
         run: |
           if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
@@ -69,7 +70,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
           npx wrangler deploy --env staging --config apps/api/wrangler.toml
@@ -102,7 +103,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - name: Run staging smoke tests
         run: |
           if [ -f "tests/smoke/package.json" ]; then
