@@ -9,8 +9,10 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@webwaka/auth": "workspace:*",
     "@webwaka/frontend": "workspace:*",
     "@webwaka/payments": "workspace:*",
+    "@webwaka/types": "workspace:*",
     "hono": "^4.3.0"
   },
   "devDependencies": {

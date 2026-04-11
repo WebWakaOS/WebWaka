@@ -44,12 +44,18 @@ importers:
 
   apps/admin-dashboard:
     dependencies:
+      '@webwaka/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@webwaka/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
       '@webwaka/payments':
         specifier: workspace:*
         version: link:../../packages/payments
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       hono:
         specifier: ^4.3.0
         version: 4.12.12
@@ -615,7 +621,24 @@ importers:
         specifier: ^3.90.0
         version: 3.114.17(@cloudflare/workers-types@4.20260405.1)
 
-  apps/platform-admin: {}
+  apps/platform-admin:
+    dependencies:
+      '@webwaka/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      hono:
+        specifier: ^4.3.0
+        version: 4.12.12
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240524.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
 
   apps/projections:
     dependencies:

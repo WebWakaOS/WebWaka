@@ -253,13 +253,14 @@ workspaceRoutes.get('/:id/analytics', async (c) => {
     .first<{ cnt: number }>();
 
   // Pending claim requests for this workspace's entities
+  // SEC-003: Scoped to tenant — previously returned platform-wide count
   const pendingClaims = await db
     .prepare(
       `SELECT COUNT(*) AS cnt FROM claim_requests cr
        JOIN profiles p ON p.id = cr.profile_id
-       WHERE cr.status = 'pending'`,
+       WHERE cr.status = 'pending' AND cr.tenant_id = ?`,
     )
-    .bind()
+    .bind(auth.tenantId)
     .first<{ cnt: number }>();
 
   return c.json({

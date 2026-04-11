@@ -143,16 +143,22 @@ authRoutes.delete('/me', async (c) => {
     .run();
 
   // Purge contact channels (phone numbers, OTP codes)
+  // SEC-003: Added tenant_id predicate for T3 compliance (migration 0191)
+  // Uses (tenant_id = ? OR tenant_id IS NULL) to handle legacy rows without tenant_id
   await db
     .prepare(
-      `DELETE FROM contact_channels WHERE user_id = ?`,
+      `DELETE FROM contact_channels WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
     )
-    .bind(auth.userId)
+    .bind(auth.userId, auth.tenantId)
     .run();
 
   // Invalidate all active sessions (best-effort — ignore if table not yet created)
+  // SEC-003: Added tenant_id predicate for T3 compliance
   try {
-    await db.prepare(`DELETE FROM sessions WHERE user_id = ?`).bind(auth.userId).run();
+    await db
+      .prepare(`DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`)
+      .bind(auth.userId, auth.tenantId)
+      .run();
   } catch {
     // sessions table may not exist — safe to ignore
   }
