@@ -155,9 +155,11 @@ export class OpenAICompatAdapter implements AIAdapter {
 
     try {
       while (true) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { done, value } = await reader.read();
         if (done) break;
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split('\n');
 
