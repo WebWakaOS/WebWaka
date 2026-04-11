@@ -32,7 +32,7 @@
 
 | ID | Invariant | Status | Enforcement | Code / CI Reference |
 |----|-----------|--------|-------------|---------------------|
-| T1 | Cloudflare-First Runtime | ✅ ENFORCED | All 7 apps are Hono-based Workers; Node.js server is dev shim only | `apps/*/src/index.ts` (Hono), `apps/platform-admin/server.js` (dev shim) |
+| T1 | Cloudflare-First Runtime | ✅ ENFORCED | All 9 apps are Hono-based Workers; Node.js server is dev shim only | `apps/*/src/index.ts` (Hono), `apps/platform-admin/server.js` (dev shim) |
 | T2 | TypeScript-First | ✅ ENFORCED | `strict: true` in all tsconfig; 5 apps typecheck clean (0 errors) | All `tsconfig.json` files |
 | T3 | Tenant Isolation Everywhere | ✅ ENFORCED | Every tenant-scoped query includes `tenant_id`; CI automated scan | CI: `scripts/governance-checks/check-tenant-isolation.ts` |
 | T4 | Monetary Integrity | ✅ ENFORCED | Integer kobo only; no floats on monetary fields | CI: `scripts/governance-checks/check-monetary-integrity.ts` |

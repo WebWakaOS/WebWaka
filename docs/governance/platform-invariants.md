@@ -63,7 +63,7 @@ Every non-public feature access is checked against the tenant's active subscript
 Discovery pages, inventory rollups, and marketplace aggregation are driven by the geography hierarchy from `@packages/geography`. Direct city/state string matching is not used for aggregation.
 
 ### T7 — Claim-First Growth
-Discoverable entities (businesses, professionals, properties, routes, etc.) are seeded first and claimed later. The claim → verify → manage lifecycle is enforced by `@packages/profiles`.
+Discoverable entities (businesses, professionals, properties, routes, etc.) are seeded first and claimed later. The claim → verify → manage lifecycle is enforced by `packages/claims/src/state-machine.ts` (8-state FSM with transition guards).
 
 ### T8 — Step-by-Step GitHub Commits
 All changes are committed in small, coherent units. No mega-commits spanning multiple features. Every commit must pass CI.
@@ -95,7 +95,7 @@ Every file, function, and module must be readable and resumable by a new agent o
 
 | ID | Invariant | Status | Enforcement Method | Code Reference |
 |----|-----------|--------|-------------------|----------------|
-| T1 | Cloudflare-First Runtime | ✅ Enforced | All apps are Hono-based Workers; Node.js server is dev shim only | `apps/*/src/index.ts` (Hono), `apps/platform-admin/server.js` (dev shim) |
+| T1 | Cloudflare-First Runtime | ✅ Enforced | All 9 apps are Hono-based Workers; Node.js server is dev shim only | `apps/*/src/index.ts` (Hono), `apps/platform-admin/server.js` (dev shim) |
 | T2 | TypeScript-First | ✅ Enforced | `strict: true` in all tsconfig; 5 apps typecheck clean | All `tsconfig.json` files |
 | T3 | Tenant Isolation Everywhere | ✅ Enforced | Every tenant-scoped query includes `tenant_id`; CI scan | CI: `scripts/governance-checks/check-tenant-isolation.ts` |
 | T4 | Monetary Integrity | ✅ Enforced | Integer kobo; no floats on monetary fields | CI: `scripts/governance-checks/check-monetary-integrity.ts` |

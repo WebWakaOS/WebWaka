@@ -32,9 +32,13 @@ Storage
 apps/
   api/                  — Cloudflare Workers API entry point
   platform-admin/       — Super admin dashboard
+  admin-dashboard/      — Admin dashboard
   partner-admin/        — Partner/tenant management portal
   public-discovery/     — Public search and discovery frontend
   brand-runtime/        — Tenant-branded website/storefront runtime
+  ussd-gateway/         — USSD micro-transactions gateway
+  tenant-public/        — Per-tenant profile listing (discovery-lite)
+  projections/          — Data projection workers
 
 packages/
   entities/             — Canonical root entity definitions

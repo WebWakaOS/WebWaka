@@ -24,7 +24,7 @@
 |--------|-------|
 | Total packages | 175+ |
 | Vertical sector packages | 143 |
-| Apps | 7 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway) |
+| Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
 | D1 migrations | 200 (all with rollback scripts) |
 | Route files | 124+ |
 | CI governance checks | 10 |
