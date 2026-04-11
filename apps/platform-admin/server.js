@@ -27,11 +27,20 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
 };
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'",
+};
+
 const server = http.createServer((req, res) => {
   const requestPath = req.url === '/' ? '/index.html' : (req.url ?? '/index.html');
 
   if (requestPath === '/health') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(200, { 'Content-Type': 'application/json', ...SECURITY_HEADERS });
     res.end(JSON.stringify({ status: 'ok', app: 'WebWaka OS Platform Admin', milestone: 2 }));
     return;
   }
@@ -42,19 +51,11 @@ const server = http.createServer((req, res) => {
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.writeHead(404, { 'Content-Type': 'text/plain', ...SECURITY_HEADERS });
       res.end('Not found');
       return;
     }
-    res.writeHead(200, {
-      'Content-Type': contentType,
-      'X-Content-Type-Options': 'nosniff',
-      'X-Frame-Options': 'DENY',
-      'X-XSS-Protection': '1; mode=block',
-      'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'",
-    });
+    res.writeHead(200, { 'Content-Type': contentType, ...SECURITY_HEADERS });
     res.end(data);
   });
 });

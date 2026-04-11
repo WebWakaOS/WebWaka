@@ -179,6 +179,8 @@ import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
 import { negotiationRouter } from './routes/negotiation.js';
 import { ussdExclusionMiddleware } from './middleware/ussd-exclusion.js';
 import { aiEntitlementMiddleware } from './middleware/ai-entitlement.js';
+import { requireEntitlement } from './middleware/entitlement.js';
+import { PlatformLayer } from '@webwaka/types';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
 
 const app = new Hono<{ Bindings: Env }>();
@@ -200,12 +202,14 @@ app.use('*', async (c, next) => {
       ? []
       : ['http://localhost:5173'];
 
-  const webwakaDomainSuffix = '.webwaka.com';
-
   return cors({
     origin: (origin) => {
+      if (isProd && !origin.startsWith('https://')) return null;
       if (allowed.includes(origin)) return origin;
-      if (origin.endsWith(webwakaDomainSuffix) || origin === 'https://webwaka.com') return origin;
+      if (origin.startsWith('https://') &&
+          (origin.endsWith('.webwaka.com') || origin === 'https://webwaka.com')) {
+        return origin;
+      }
       return null;
     },
     allowHeaders: ['Authorization', 'Content-Type'],
@@ -252,6 +256,9 @@ app.route('/entities', entityRoutes);
 app.use('/claim/intent', authMiddleware);
 app.use('/claim/advance', authMiddleware);
 app.use('/claim/verify', authMiddleware);
+app.use('/claim/intent', auditLogMiddleware);
+app.use('/claim/advance', auditLogMiddleware);
+app.use('/claim/verify', auditLogMiddleware);
 app.route('/claim', claimRoutes);
 
 // ---------------------------------------------------------------------------
@@ -284,6 +291,7 @@ app.route('/admin', adminPublicRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/themes/*', authMiddleware);
+app.use('/themes/*', auditLogMiddleware);
 app.route('/themes', themeRoutes);
 
 // ---------------------------------------------------------------------------
@@ -316,6 +324,7 @@ app.route('/sync', syncRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/pos/*', authMiddleware);
+app.use('/pos/*', auditLogMiddleware);
 app.route('/pos', posRoutes);
 
 // ---------------------------------------------------------------------------
@@ -366,6 +375,9 @@ app.route('/superagent', superagentRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/politician/*', authMiddleware);
+app.use('/politician', authMiddleware);
+app.use('/politician/*', requireEntitlement(PlatformLayer.Political));
+app.use('/politician', requireEntitlement(PlatformLayer.Political));
 app.route('/politician', politicianRoutes);
 
 // ---------------------------------------------------------------------------
@@ -373,6 +385,9 @@ app.route('/politician', politicianRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/pos-business/*', authMiddleware);
+app.use('/pos-business', authMiddleware);
+app.use('/pos-business/*', requireEntitlement(PlatformLayer.Commerce));
+app.use('/pos-business', requireEntitlement(PlatformLayer.Commerce));
 app.route('/pos-business', posBusinessRoutes);
 
 // ---------------------------------------------------------------------------
@@ -380,6 +395,9 @@ app.route('/pos-business', posBusinessRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/transport/*', authMiddleware);
+app.use('/transport', authMiddleware);
+app.use('/transport/*', requireEntitlement(PlatformLayer.Transport));
+app.use('/transport', requireEntitlement(PlatformLayer.Transport));
 app.route('/transport', transportRoutes);
 
 // ---------------------------------------------------------------------------
@@ -387,6 +405,9 @@ app.route('/transport', transportRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/civic/*', authMiddleware);
+app.use('/civic', authMiddleware);
+app.use('/civic/*', requireEntitlement(PlatformLayer.Civic));
+app.use('/civic', requireEntitlement(PlatformLayer.Civic));
 app.route('/civic', civicRoutes);
 
 // ---------------------------------------------------------------------------
@@ -394,6 +415,9 @@ app.route('/civic', civicRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/commerce/*', authMiddleware);
+app.use('/commerce', authMiddleware);
+app.use('/commerce/*', requireEntitlement(PlatformLayer.Commerce));
+app.use('/commerce', requireEntitlement(PlatformLayer.Commerce));
 app.route('/commerce', commerceRoutes);
 
 // ---------------------------------------------------------------------------

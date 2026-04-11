@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE INDEX idx_audit_logs_tenant ON audit_logs(tenant_id);
-CREATE INDEX idx_audit_logs_user ON audit_logs(tenant_id, user_id);
-CREATE INDEX idx_audit_logs_action ON audit_logs(tenant_id, action);
-CREATE INDEX idx_audit_logs_created ON audit_logs(tenant_id, created_at);
-CREATE INDEX idx_audit_logs_resource ON audit_logs(tenant_id, resource_type, resource_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_tenant ON audit_logs(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user ON audit_logs(tenant_id, user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(tenant_id, action);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(tenant_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_resource ON audit_logs(tenant_id, resource_type, resource_id);

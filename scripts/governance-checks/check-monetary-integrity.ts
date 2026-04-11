@@ -9,7 +9,7 @@ const SCAN_DIRS = [
 
 const MONETARY_FLOAT_PATTERNS = [
   /parseFloat\s*\([^)]*(?:price|amount|cost|fee|balance|naira|kobo|wakaCu)/i,
-  /toFixed\s*\(\s*\d+\s*\)/,
+  /(?:price|amount|cost|fee|balance|naira|kobo|wakaCu)[^.]*\.toFixed\s*\(/i,
   /Math\.round\s*\([^)]*(?:price|amount|cost|fee|balance)/i,
 ];
 

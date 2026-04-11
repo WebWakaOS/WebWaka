@@ -37,6 +37,13 @@ function main(): void {
     }
   }
 
+  const hasHttpsCheck = content.includes("origin.startsWith('https://')") ||
+    content.includes('origin.startsWith("https://")');
+  if (!hasHttpsCheck) {
+    console.error('FAIL: CORS webwaka domain matching does not enforce HTTPS protocol.');
+    process.exit(1);
+  }
+
   console.log('PASS: CORS configuration is production-safe.');
 }
 
