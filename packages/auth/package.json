@@ -20,9 +20,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@webwaka/ai": "workspace:*",
     "@webwaka/types": "workspace:*"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }
