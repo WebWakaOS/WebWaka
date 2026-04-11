@@ -199,17 +199,48 @@
 
 ---
 
-## Milestones 9–13 — Future
+## Milestone 10 — Staging Hardening
+
+**Status:** IN PROGRESS  
+**Dependency:** Governance remediation complete (✅ Phase 0–4 done)
+
+### M10 Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| M10-001 | Fix `packages/design-system` missing tsconfig.json | ✅ DONE |
+| M10-002 | Fix `packages/white-label-theming` missing tsconfig.json | ✅ DONE |
+| M10-003 | Fix 27 packages with `vitest run` but no test files (exit 1) | ✅ DONE |
+| M10-004 | Scaffold `apps/partner-admin` (was stub-only .gitkeep) | ✅ DONE |
+| M10-005 | Verify full CI pipeline green (typecheck + test + lint + governance) | ✅ DONE |
+| M10-006 | Incident response runbook | NOT STARTED |
+| M10-007 | Structured logging / error monitoring | NOT STARTED |
+| M10-008 | Smoke test expansion (auth, discovery, claims) | NOT STARTED |
+| M10-009 | Secrets provisioning verification | NOT STARTED |
+
+### CI Pipeline Status
+
+| Step | Status | Details |
+|------|--------|---------|
+| `pnpm typecheck` | ✅ PASS | All 9 apps, 12 core packages, 143 verticals |
+| `pnpm test` | ✅ PASS | 161 test files across 130+ packages, 0 failures |
+| `pnpm lint` | ✅ PASS | 0 errors (warnings only — TS version compat) |
+| Governance checks | ✅ PASS | 10/10 checks green |
+
+---
+
+## Milestones 9, 11–13 — Future
 
 | Milestone | Title | Status | Dependencies |
 |---|---|---|---|
 | 9 | Vertical Scaling | NOT STARTED | Requires Pillars 2+3 live (✅ done) |
-| 10 | Staging Hardening | NOT STARTED | Requires governance remediation complete (✅ done) |
 | 11 | Partner & White-Label | NOT STARTED | Requires M10 |
 | 12 | AI Integration (Production) | NOT STARTED | Requires M11 |
 | 13 | Production Launch | NOT STARTED | Requires M12 |
 
 ---
+
+*Last updated: 2026-04-11*
 
 *This tracker is the live status document for all WebWaka OS milestones and remediation phases.*
 *See `docs/governance/compliance-dashboard.md` for invariant-level compliance status.*

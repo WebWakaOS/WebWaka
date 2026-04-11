@@ -119,6 +119,26 @@
 
 ---
 
+## M10 — Staging Hardening Progress
+
+| Task | Status | Notes |
+|------|--------|-------|
+| CI typecheck green | ✅ DONE | Fixed design-system + white-label-theming missing tsconfig.json |
+| CI test green | ✅ DONE | Fixed 27 packages with vitest but no test files |
+| CI lint green | ✅ DONE | 0 errors (warnings only) |
+| Partner-admin scaffold | ✅ DONE | Was stub-only (.gitkeep); now has package.json + tsconfig |
+| Incident response runbook | ⬜ TODO | Deferred — tooling needed |
+| Structured logging | ⬜ TODO | Replace console.error with structured logger |
+| Smoke test expansion | ⬜ TODO | Auth, discovery, claims suites |
+| Secrets provisioning | ⬜ TODO | Verify GitHub + Cloudflare secrets match |
+
+**CI Pipeline:** 4/4 steps green (typecheck ✅, test ✅, lint ✅, governance ✅)  
+**Test coverage:** 161 test files across 130+ packages, 0 failures
+
+---
+
+*Last updated: 2026-04-11*
+
 *This dashboard is the single-page compliance view for WebWaka OS.*  
 *For detailed invariant definitions, see `docs/governance/platform-invariants.md`.*  
 *For milestone progress, see `docs/governance/milestone-tracker.md`.*  

@@ -1,0 +1,16 @@
+{
+  "name": "@webwaka/partner-admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Pillar 1] Partner/tenant management portal",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'no tests yet'",
+    "build": "echo 'skip'",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
