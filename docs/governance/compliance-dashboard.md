@@ -133,7 +133,7 @@
 | Secrets provisioning | ⬜ TODO | Verify GitHub + Cloudflare secrets match |
 
 **CI Pipeline:** 4/4 steps green (typecheck ✅, test ✅, lint ✅, governance ✅)  
-**Test coverage:** 161 test files across 130+ packages, 0 failures
+**Test coverage:** 182 test files (163 packages + 18 apps + 1 smoke), 0 failures
 
 ---
 

@@ -7,6 +7,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "echo 'no tests yet'",
+    "lint": "echo 'no lint yet'",
     "build": "echo 'skip'",
     "clean": "rm -rf dist"
   },

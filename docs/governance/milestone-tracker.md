@@ -223,7 +223,7 @@
 | Step | Status | Details |
 |------|--------|---------|
 | `pnpm typecheck` | ✅ PASS | All 9 apps, 12 core packages, 143 verticals |
-| `pnpm test` | ✅ PASS | 161 test files across 130+ packages, 0 failures |
+| `pnpm test` | ✅ PASS | 182 test files (163 packages + 18 apps + 1 smoke), 0 failures |
 | `pnpm lint` | ✅ PASS | 0 errors (warnings only — TS version compat) |
 | Governance checks | ✅ PASS | 10/10 checks green |
 

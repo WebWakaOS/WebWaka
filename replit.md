@@ -22,13 +22,13 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Metric | Count |
 |--------|-------|
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
-| Packages | 175+ (182 with pillar prefixes) |
+| Packages | 175+ (183 with pillar prefixes) |
 | Verticals | 143 |
 | D1 migrations | 200 (all with rollback scripts) |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
 | CI governance checks | 10 |
-| Total test files | 161 (across 130+ packages, 0 failures) |
+| Total test files | 182 (163 packages + 18 apps + 1 smoke, 0 failures) |
 
 ## Key Documents
 
@@ -105,7 +105,7 @@ webwaka-os/
 ```bash
 pnpm install                    # Install all workspace packages
 pnpm typecheck                  # Typecheck all packages (175+)
-pnpm test                       # Run full test suite (161 test files)
+pnpm test                       # Run full test suite (182 test files)
 pnpm lint                       # Lint all packages
 
 # Individual package commands
@@ -123,7 +123,7 @@ npx tsx scripts/governance-checks/check-tenant-isolation.ts
 | Step | Command | Status |
 |------|---------|--------|
 | TypeScript Check | `pnpm typecheck` | ✅ PASS |
-| Tests | `pnpm test` | ✅ PASS (161 test files, 0 failures) |
+| Tests | `pnpm test` | ✅ PASS (182 test files, 0 failures) |
 | Lint | `pnpm lint` | ✅ PASS |
 | Governance | 10 custom checks in `scripts/governance-checks/` | ✅ PASS (10/10) |
 

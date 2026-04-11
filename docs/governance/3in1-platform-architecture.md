@@ -139,7 +139,7 @@ SuperAgent (AI) capabilities are tier-based within any subscription (Free, Growt
 |-----|-------------------|--------|-------|
 | `apps/api/` | Infra (all pillars served via this API) | ✅ Live | Shared API gateway |
 | `apps/platform-admin/` | Pillar 1 — Ops | ✅ Live | WebWaka super-admin |
-| `apps/partner-admin/` | Pillar 1 — Ops | ✅ Live | Partner/tenant management |
+| `apps/partner-admin/` | Pillar 1 — Ops | ⚠️ Scaffolded | Partner/tenant management (M11 roadmap) |
 | `apps/admin-dashboard/` | Pillar 1 — Ops | ✅ Live | Admin dashboard |
 | `apps/ussd-gateway/` | Pillar 1 — Ops | ✅ Live | USSD micro-transactions |
 | `apps/brand-runtime/` | **Pillar 2 — Branding** | ✅ Live | Tenant-branded websites/stores — home, about, services, contact pages with mobile-first CSS, SEO, offline-capable contact form |
