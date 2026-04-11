@@ -24,33 +24,37 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
       - run: pnpm install --no-frozen-lockfile
-      - name: Stage migrations for wrangler
+
+      - name: Symlink migrations for wrangler
         run: |
-          if [ -d "infra/db/migrations" ] && ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
-            mkdir -p apps/api/migrations
+          # wrangler.toml migrations_dir = "migrations" (relative to apps/api/)
+          # Real migrations live in infra/db/migrations — create a hard copy so
+          # wrangler can walk the dir without symlink issues in the runner.
+          mkdir -p apps/api/migrations
+          if ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
             cp infra/db/migrations/*.sql apps/api/migrations/
             echo "Staged $(ls apps/api/migrations/*.sql | wc -l) migration files"
           else
-            echo "No migrations to stage"
+            echo "No migration files found — skipping copy"
           fi
+
       - name: Apply D1 migrations (staging)
         run: |
-          if ls apps/api/migrations/*.sql 1>/dev/null 2>&1; then
-            npx wrangler d1 migrations apply webwaka-staging \
-              --env staging \
-              --remote \
-              --config apps/api/wrangler.toml
-          else
-            echo "No migrations found — skipping"
-          fi
+          echo "y" | npx wrangler d1 migrations apply webwaka-staging \
+            --env staging \
+            --remote \
+            --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -63,21 +67,30 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
       - run: pnpm install --no-frozen-lockfile
+
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
-          npx wrangler deploy --env staging --config apps/api/wrangler.toml
+          npx wrangler deploy \
+            --env staging \
+            --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      - name: Push secrets to staging worker
+
+      - name: Sync secrets to staging worker
+        # Only update secrets that are actually present in the environment.
+        # wrangler secret put reads from stdin to avoid shell history leakage.
         run: |
           echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET \
             --env staging --config apps/api/wrangler.toml
@@ -89,6 +102,18 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           INTER_SERVICE_SECRET: ${{ secrets.INTER_SERVICE_SECRET }}
 
+      - name: Post deploy health check
+        run: |
+          echo "Waiting 10 s for worker to propagate..."
+          sleep 10
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://api-staging.webwaka.com/health)
+          echo "Health check HTTP status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Staging health check failed (HTTP $STATUS)"
+            exit 1
+          fi
+          echo "✅ api-staging.webwaka.com is healthy"
+
   # ── Smoke tests ────────────────────────────────────────────────────────────
   smoke-test-staging:
     name: Smoke Test (Staging)
@@ -96,14 +121,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
       - run: pnpm install --no-frozen-lockfile
+
       - name: Run staging smoke tests
         run: |
           if [ -f "tests/smoke/package.json" ]; then
@@ -115,3 +144,21 @@ jobs:
           SMOKE_BASE_URL: ${{ vars.STAGING_BASE_URL }}
           SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
           SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
+
+  # ── Summary ────────────────────────────────────────────────────────────────
+  notify-success:
+    name: Notify Success
+    needs: [smoke-test-staging]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Print deploy summary
+        run: |
+          echo "## ✅ Staging Deploy Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| | |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Endpoint** | https://api-staging.webwaka.com |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Triggered by** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
