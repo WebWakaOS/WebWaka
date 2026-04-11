@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SyncEngine } from './sync-engine.js';
-import type { SyncAdapter, SyncQueueItem, ConflictResolution, SyncStatus } from './types.js';
+import type { SyncAdapter, SyncQueueItem, SyncStatus } from './types.js';
 
 function makeMockItem(overrides: Partial<SyncQueueItem> = {}): SyncQueueItem {
   return {
