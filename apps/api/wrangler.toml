@@ -2,6 +2,10 @@ name = "webwaka-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
+
+# Negotiation expiry CRON — runs every 15 minutes
+[[triggers]]
+crons = ["*/15 * * * *"]
 workers_dev = false
 
 # ── Staging environment ───────────────────────────────────────────────────────
@@ -13,6 +17,7 @@ workers_dev = false
 binding = "DB"
 database_name = "webwaka-staging"
 database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+migrations_dir = "migrations"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -45,6 +50,7 @@ workers_dev = false
 binding = "DB"
 database_name = "webwaka-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+migrations_dir = "migrations"
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"

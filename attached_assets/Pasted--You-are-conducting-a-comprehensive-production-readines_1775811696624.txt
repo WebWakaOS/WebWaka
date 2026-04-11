@@ -1,0 +1,152 @@
+
+You are conducting a **comprehensive production-readiness audit** of the entire WebWaka platform repository.
+
+## MISSION
+Deep-dive every file, directory, document, code module, configuration, deployment script, and planning artifact. Produce a **detailed report of everything pending** to make WebWaka production-ready for Nigerian multi-tenant SaaS operations.
+
+## SCOPE (EXHAUSTIVE)
+```
+REPO COMPLETE AUDIT CHECKLIST:
+
+✅ CODE REVIEW (Backend + Frontend)
+  - All source files (.js, .ts, .php, .py, .sql, templates)
+  - Controllers, routes, models, services, utils
+  - API endpoints (coverage, auth, validation, error handling)
+  - Database schemas/migrations (indexes, constraints, normalization)
+  - Business logic completeness per vertical
+  - Multi-tenancy enforcement (tenant_id everywhere?)
+
+✅ CONFIGURATION
+  - Environment variables (dev/staging/prod)
+  - Secrets management (Paystack, SMS, email, storage)
+  - Database config (connections, pools, backups)
+  - Queue/worker config
+  - Rate limiting, CORS, security headers
+
+✅ DEPLOYMENT
+  - Cloudflare deployment scripts/pipelines
+  - CI/CD status (GitHub Actions, Replit deploy?)
+  - Rollback capability
+  - Zero-downtime deploy process
+  - Multi-region/HA setup
+
+✅ INFRASTRUCTURE
+  - Database (schema, scaling, replication)
+  - Storage (file uploads, backups)
+  - Queue system (if any)
+  - Monitoring/alerting (errors, perf, uptime)
+  - CDN/cache config
+
+✅ FRONTEND
+  - UI completeness per vertical
+  - Mobile responsiveness
+  - Accessibility (a11y)
+  - Performance (Lighthouse scores)
+  - PWA readiness
+
+✅ SECURITY
+  - Auth (sessions, JWT, 2FA?)
+  - Input validation/sanitization
+  - SQL injection protection
+  - XSS/CSRF protection
+  - File upload security
+  - Rate limiting per tenant/IP
+
+✅ DOCS & PROCESSES
+  - README completeness
+  - API docs (OpenAPI/Swagger?)
+  - Onboarding docs
+  - Deployment docs
+  - Incident response
+  - Vendor integration guides (Paystack, etc.)
+
+✅ VERTICAL-SPECIFIC
+  - Commerce, transport, civic, POS — feature completeness
+  - Single vs multi-vendor flows
+  - Payment integration status
+  - Reporting/analytics per vertical
+
+✅ PRODUCTION READINESS
+  - Error handling/logging
+  - Graceful degradation
+  - Load testing results
+  - Backup/restore tested?
+  - SSL/TLS everywhere
+  - GDPR/Nigerian data protection compliance
+```
+
+## OUTPUT STRUCTURE (MANDATORY)
+
+```
+# WebWaka Production Readiness Audit
+**Date:** [today]  
+**Repo State:** [commit/sha]  
+**Audit Scope:** 100% repo coverage  
+
+## 1. EXECUTIVE SUMMARY
+- Current readiness: X/10  
+- Critical blockers: [list]  
+- 30-day path to production: [high-level]  
+
+## 2. BLOCKERS (Production impossible without these)
+1. [Issue] → Impact: [business risk] → Fix: [1-line solution]
+
+## 3. HIGH PRIORITY (Must fix before 1k users)
+1. [Issue] → Files: [list] → Est: Xh
+
+## 4. MEDIUM PRIORITY (Before 10k users)
+[...]
+
+## 5. VERTICAL-SPECIFIC GAPS
+**Commerce:** [status]
+**Transport:** [status]
+**Civic:** [status]
+**POS:** [status]
+
+## 6. INFRASTRUCTURE READYNESS
+**Database:** [status]
+**Deployment:** [status]
+**Monitoring:** [status]
+
+## 7. TASK PLAN (90-day production roadmap)
+### Sprint 1: Blockers (Week 1-2)
+Task 1.1: [title] → Files: [] → AC: [] → Est: Xh
+
+### Sprint 2: Core stability (Week 3-4)
+[...]
+
+## 8. ASSUMPTIONS MADE
+[List any gaps where you couldn't verify]
+
+## 9. FILES NOT UNDERSTOOD
+[List files with unclear purpose]
+```
+
+## METHODOLOGY (MANDATORY STEPS)
+```
+1. CATALOG EVERY DIRECTORY/FILE → Generate complete file tree
+2. READ EVERY README, DOC, PLANNING FILE first
+3. MAP CURRENT ARCHITECTURE → Diagram data flow, verticals, auth
+4. TEST RUN LOCALLY → Document setup issues, errors, missing deps
+5. CHECK EVERY VERTICAL → List implemented vs planned features  
+6. AUDIT DEPLOYMENT → Try to deploy, document failures
+7. SECURITY SCAN → Static analysis for vulns (SQLi, XSS, etc.)
+8. LOAD TEST → Simple load test endpoints
+9. NO ASSUMPTIONS → If unclear, flag as "NEEDS CLARIFICATION"
+10. CROSS-REFERENCE → Match code vs docs vs plans
+```
+
+## VERIFICATION RULES
+- **Don't assume** → Verify by reading code/docs
+- **Flag gaps** → "Unclear from current repo state"
+- **Test everything** → Run queries, hit endpoints, check UI
+- **No hypotheticals** → Only report what exists/doesn't exist
+
+## PRIORITY CRITERIA
+**BLOCKER:** Production breaks without it  
+**HIGH:** >10% user impact  
+**MEDIUM:** Polish/scalability  
+**LOW:** Nice-to-have
+
+Start analysis now. Thoroughness > speed. Generate complete audit.
+```

@@ -3,7 +3,7 @@ name: Deploy — Production
 on:
   push:
     branches:
-      - staging
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -73,7 +73,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy API to Cloudflare Workers (production)
         run: |
-          pnpm --filter api build
           npx wrangler deploy --env production --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -114,4 +113,5 @@ jobs:
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
-
+          SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
+          SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}

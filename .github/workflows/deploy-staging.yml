@@ -54,7 +54,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-  # ── Deploy apps ────────────────────────────────────────────────────────────
+  # ── Deploy API ─────────────────────────────────────────────────────────────
   deploy-api-staging:
     name: Deploy API (Staging)
     needs: migrate-staging
@@ -72,7 +72,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
-          pnpm --filter api build
           npx wrangler deploy --env staging --config apps/api/wrangler.toml
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -113,4 +112,5 @@ jobs:
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.STAGING_BASE_URL }}
-
+          SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
+          SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
