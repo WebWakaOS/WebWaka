@@ -69,21 +69,51 @@ importers:
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@webwaka/claims':
+        specifier: workspace:*
+        version: link:../../packages/claims
       '@webwaka/community':
         specifier: workspace:*
         version: link:../../packages/community
+      '@webwaka/contact':
+        specifier: workspace:*
+        version: link:../../packages/contact
       '@webwaka/entities':
         specifier: workspace:*
         version: link:../../packages/entities
       '@webwaka/entitlements':
         specifier: workspace:*
         version: link:../../packages/entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../../packages/events
+      '@webwaka/frontend':
+        specifier: workspace:*
+        version: link:../../packages/frontend
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
+      '@webwaka/identity':
+        specifier: workspace:*
+        version: link:../../packages/identity
+      '@webwaka/negotiation':
+        specifier: workspace:*
+        version: link:../../packages/negotiation
+      '@webwaka/otp':
+        specifier: workspace:*
+        version: link:../../packages/otp
+      '@webwaka/payments':
+        specifier: workspace:*
+        version: link:../../packages/payments
+      '@webwaka/politics':
+        specifier: workspace:*
+        version: link:../../packages/core/politics
       '@webwaka/pos':
         specifier: workspace:*
         version: link:../../packages/pos
+      '@webwaka/profiles':
+        specifier: workspace:*
+        version: link:../../packages/profiles
       '@webwaka/relationships':
         specifier: workspace:*
         version: link:../../packages/relationships
@@ -99,6 +129,24 @@ importers:
       '@webwaka/verticals':
         specifier: workspace:*
         version: link:../../packages/verticals
+      '@webwaka/verticals-abattoir':
+        specifier: workspace:*
+        version: link:../../packages/verticals-abattoir
+      '@webwaka/verticals-accounting-firm':
+        specifier: workspace:*
+        version: link:../../packages/verticals-accounting-firm
+      '@webwaka/verticals-advertising-agency':
+        specifier: workspace:*
+        version: link:../../packages/verticals-advertising-agency
+      '@webwaka/verticals-agro-input':
+        specifier: workspace:*
+        version: link:../../packages/verticals-agro-input
+      '@webwaka/verticals-airport-shuttle':
+        specifier: workspace:*
+        version: link:../../packages/verticals-airport-shuttle
+      '@webwaka/verticals-airtime-reseller':
+        specifier: workspace:*
+        version: link:../../packages/verticals-airtime-reseller
       '@webwaka/verticals-artisanal-mining':
         specifier: workspace:*
         version: link:../../packages/verticals-artisanal-mining
@@ -111,6 +159,9 @@ importers:
       '@webwaka/verticals-beauty-salon':
         specifier: workspace:*
         version: link:../../packages/verticals-beauty-salon
+      '@webwaka/verticals-book-club':
+        specifier: workspace:*
+        version: link:../../packages/verticals-book-club
       '@webwaka/verticals-bookshop':
         specifier: workspace:*
         version: link:../../packages/verticals-bookshop
@@ -120,9 +171,21 @@ importers:
       '@webwaka/verticals-building-materials':
         specifier: workspace:*
         version: link:../../packages/verticals-building-materials
+      '@webwaka/verticals-bureau-de-change':
+        specifier: workspace:*
+        version: link:../../packages/verticals-bureau-de-change
+      '@webwaka/verticals-campaign-office':
+        specifier: workspace:*
+        version: link:../../packages/verticals-campaign-office
       '@webwaka/verticals-car-wash':
         specifier: workspace:*
         version: link:../../packages/verticals-car-wash
+      '@webwaka/verticals-cargo-truck':
+        specifier: workspace:*
+        version: link:../../packages/verticals-cargo-truck
+      '@webwaka/verticals-cassava-miller':
+        specifier: workspace:*
+        version: link:../../packages/verticals-cassava-miller
       '@webwaka/verticals-catering':
         specifier: workspace:*
         version: link:../../packages/verticals-catering
@@ -135,84 +198,270 @@ importers:
       '@webwaka/verticals-cleaning-service':
         specifier: workspace:*
         version: link:../../packages/verticals-cleaning-service
+      '@webwaka/verticals-clearing-agent':
+        specifier: workspace:*
+        version: link:../../packages/verticals-clearing-agent
       '@webwaka/verticals-clinic':
         specifier: workspace:*
         version: link:../../packages/verticals-clinic
+      '@webwaka/verticals-cocoa-exporter':
+        specifier: workspace:*
+        version: link:../../packages/verticals-cocoa-exporter
+      '@webwaka/verticals-cold-room':
+        specifier: workspace:*
+        version: link:../../packages/verticals-cold-room
+      '@webwaka/verticals-community-hall':
+        specifier: workspace:*
+        version: link:../../packages/verticals-community-hall
+      '@webwaka/verticals-community-health':
+        specifier: workspace:*
+        version: link:../../packages/verticals-community-health
+      '@webwaka/verticals-constituency-office':
+        specifier: workspace:*
+        version: link:../../packages/verticals-constituency-office
       '@webwaka/verticals-construction':
         specifier: workspace:*
         version: link:../../packages/verticals-construction
+      '@webwaka/verticals-container-depot':
+        specifier: workspace:*
+        version: link:../../packages/verticals-container-depot
       '@webwaka/verticals-cooperative':
         specifier: workspace:*
         version: link:../../packages/verticals-cooperative
+      '@webwaka/verticals-courier':
+        specifier: workspace:*
+        version: link:../../packages/verticals-courier
       '@webwaka/verticals-creator':
         specifier: workspace:*
         version: link:../../packages/verticals-creator
+      '@webwaka/verticals-creche':
+        specifier: workspace:*
+        version: link:../../packages/verticals-creche
+      '@webwaka/verticals-dental-clinic':
+        specifier: workspace:*
+        version: link:../../packages/verticals-dental-clinic
+      '@webwaka/verticals-dispatch-rider':
+        specifier: workspace:*
+        version: link:../../packages/verticals-dispatch-rider
+      '@webwaka/verticals-driving-school':
+        specifier: workspace:*
+        version: link:../../packages/verticals-driving-school
+      '@webwaka/verticals-elderly-care':
+        specifier: workspace:*
+        version: link:../../packages/verticals-elderly-care
       '@webwaka/verticals-electrical-fittings':
         specifier: workspace:*
         version: link:../../packages/verticals-electrical-fittings
       '@webwaka/verticals-electronics-repair':
         specifier: workspace:*
         version: link:../../packages/verticals-electronics-repair
+      '@webwaka/verticals-event-hall':
+        specifier: workspace:*
+        version: link:../../packages/verticals-event-hall
+      '@webwaka/verticals-event-planner':
+        specifier: workspace:*
+        version: link:../../packages/verticals-event-planner
+      '@webwaka/verticals-events-centre':
+        specifier: workspace:*
+        version: link:../../packages/verticals-events-centre
+      '@webwaka/verticals-ferry':
+        specifier: workspace:*
+        version: link:../../packages/verticals-ferry
+      '@webwaka/verticals-fish-market':
+        specifier: workspace:*
+        version: link:../../packages/verticals-fish-market
       '@webwaka/verticals-florist':
         specifier: workspace:*
         version: link:../../packages/verticals-florist
+      '@webwaka/verticals-food-processing':
+        specifier: workspace:*
+        version: link:../../packages/verticals-food-processing
       '@webwaka/verticals-food-vendor':
         specifier: workspace:*
         version: link:../../packages/verticals-food-vendor
       '@webwaka/verticals-fuel-station':
         specifier: workspace:*
         version: link:../../packages/verticals-fuel-station
+      '@webwaka/verticals-funeral-home':
+        specifier: workspace:*
+        version: link:../../packages/verticals-funeral-home
+      '@webwaka/verticals-furniture-maker':
+        specifier: workspace:*
+        version: link:../../packages/verticals-furniture-maker
+      '@webwaka/verticals-gas-distributor':
+        specifier: workspace:*
+        version: link:../../packages/verticals-gas-distributor
       '@webwaka/verticals-generator-dealer':
         specifier: workspace:*
         version: link:../../packages/verticals-generator-dealer
+      '@webwaka/verticals-generator-repair':
+        specifier: workspace:*
+        version: link:../../packages/verticals-generator-repair
+      '@webwaka/verticals-government-agency':
+        specifier: workspace:*
+        version: link:../../packages/verticals-government-agency
+      '@webwaka/verticals-govt-school':
+        specifier: workspace:*
+        version: link:../../packages/verticals-govt-school
+      '@webwaka/verticals-gym-fitness':
+        specifier: workspace:*
+        version: link:../../packages/verticals-gym-fitness
       '@webwaka/verticals-hair-salon':
         specifier: workspace:*
         version: link:../../packages/verticals-hair-salon
+      '@webwaka/verticals-handyman':
+        specifier: workspace:*
+        version: link:../../packages/verticals-handyman
       '@webwaka/verticals-haulage':
         specifier: workspace:*
         version: link:../../packages/verticals-haulage
+      '@webwaka/verticals-hire-purchase':
+        specifier: workspace:*
+        version: link:../../packages/verticals-hire-purchase
+      '@webwaka/verticals-hotel':
+        specifier: workspace:*
+        version: link:../../packages/verticals-hotel
+      '@webwaka/verticals-internet-cafe':
+        specifier: workspace:*
+        version: link:../../packages/verticals-internet-cafe
+      '@webwaka/verticals-iron-steel':
+        specifier: workspace:*
+        version: link:../../packages/verticals-iron-steel
+      '@webwaka/verticals-it-support':
+        specifier: workspace:*
+        version: link:../../packages/verticals-it-support
+      '@webwaka/verticals-land-surveyor':
+        specifier: workspace:*
+        version: link:../../packages/verticals-land-surveyor
+      '@webwaka/verticals-laundry':
+        specifier: workspace:*
+        version: link:../../packages/verticals-laundry
+      '@webwaka/verticals-laundry-service':
+        specifier: workspace:*
+        version: link:../../packages/verticals-laundry-service
+      '@webwaka/verticals-law-firm':
+        specifier: workspace:*
+        version: link:../../packages/verticals-law-firm
+      '@webwaka/verticals-logistics-delivery':
+        specifier: workspace:*
+        version: link:../../packages/verticals-logistics-delivery
       '@webwaka/verticals-market':
         specifier: workspace:*
         version: link:../../packages/verticals-market
+      '@webwaka/verticals-market-association':
+        specifier: workspace:*
+        version: link:../../packages/verticals-market-association
       '@webwaka/verticals-ministry-mission':
         specifier: workspace:*
         version: link:../../packages/verticals-ministry-mission
+      '@webwaka/verticals-mobile-money-agent':
+        specifier: workspace:*
+        version: link:../../packages/verticals-mobile-money-agent
       '@webwaka/verticals-mosque':
         specifier: workspace:*
         version: link:../../packages/verticals-mosque
+      '@webwaka/verticals-motivational-speaker':
+        specifier: workspace:*
+        version: link:../../packages/verticals-motivational-speaker
       '@webwaka/verticals-motor-park':
         specifier: workspace:*
         version: link:../../packages/verticals-motor-park
+      '@webwaka/verticals-motorcycle-accessories':
+        specifier: workspace:*
+        version: link:../../packages/verticals-motorcycle-accessories
+      '@webwaka/verticals-music-studio':
+        specifier: workspace:*
+        version: link:../../packages/verticals-music-studio
+      '@webwaka/verticals-newspaper-dist':
+        specifier: workspace:*
+        version: link:../../packages/verticals-newspaper-dist
       '@webwaka/verticals-ngo':
         specifier: workspace:*
         version: link:../../packages/verticals-ngo
+      '@webwaka/verticals-nursery-school':
+        specifier: workspace:*
+        version: link:../../packages/verticals-nursery-school
+      '@webwaka/verticals-nurtw':
+        specifier: workspace:*
+        version: link:../../packages/verticals-nurtw
+      '@webwaka/verticals-oil-gas-services':
+        specifier: workspace:*
+        version: link:../../packages/verticals-oil-gas-services
       '@webwaka/verticals-okada-keke':
         specifier: workspace:*
         version: link:../../packages/verticals-okada-keke
+      '@webwaka/verticals-optician':
+        specifier: workspace:*
+        version: link:../../packages/verticals-optician
+      '@webwaka/verticals-orphanage':
+        specifier: workspace:*
+        version: link:../../packages/verticals-orphanage
+      '@webwaka/verticals-paints-distributor':
+        specifier: workspace:*
+        version: link:../../packages/verticals-paints-distributor
+      '@webwaka/verticals-palm-oil':
+        specifier: workspace:*
+        version: link:../../packages/verticals-palm-oil
       '@webwaka/verticals-petrol-station':
         specifier: workspace:*
         version: link:../../packages/verticals-petrol-station
+      '@webwaka/verticals-pharmacy-chain':
+        specifier: workspace:*
+        version: link:../../packages/verticals-pharmacy-chain
       '@webwaka/verticals-phone-repair-shop':
         specifier: workspace:*
         version: link:../../packages/verticals-phone-repair-shop
+      '@webwaka/verticals-photography-studio':
+        specifier: workspace:*
+        version: link:../../packages/verticals-photography-studio
+      '@webwaka/verticals-plumbing-supplies':
+        specifier: workspace:*
+        version: link:../../packages/verticals-plumbing-supplies
+      '@webwaka/verticals-podcast-studio':
+        specifier: workspace:*
+        version: link:../../packages/verticals-podcast-studio
+      '@webwaka/verticals-political-party':
+        specifier: workspace:*
+        version: link:../../packages/verticals-political-party
       '@webwaka/verticals-politician':
         specifier: workspace:*
         version: link:../../packages/verticals-politician
+      '@webwaka/verticals-polling-unit':
+        specifier: workspace:*
+        version: link:../../packages/verticals-polling-unit
       '@webwaka/verticals-pos-business':
         specifier: workspace:*
         version: link:../../packages/verticals-pos-business
+      '@webwaka/verticals-pr-firm':
+        specifier: workspace:*
+        version: link:../../packages/verticals-pr-firm
       '@webwaka/verticals-print-shop':
         specifier: workspace:*
         version: link:../../packages/verticals-print-shop
+      '@webwaka/verticals-printing-press':
+        specifier: workspace:*
+        version: link:../../packages/verticals-printing-press
+      '@webwaka/verticals-private-school':
+        specifier: workspace:*
+        version: link:../../packages/verticals-private-school
       '@webwaka/verticals-professional':
         specifier: workspace:*
         version: link:../../packages/verticals-professional
+      '@webwaka/verticals-professional-association':
+        specifier: workspace:*
+        version: link:../../packages/verticals-professional-association
       '@webwaka/verticals-property-developer':
         specifier: workspace:*
         version: link:../../packages/verticals-property-developer
       '@webwaka/verticals-real-estate-agency':
         specifier: workspace:*
         version: link:../../packages/verticals-real-estate-agency
+      '@webwaka/verticals-recording-label':
+        specifier: workspace:*
+        version: link:../../packages/verticals-recording-label
+      '@webwaka/verticals-rehab-centre':
+        specifier: workspace:*
+        version: link:../../packages/verticals-rehab-centre
       '@webwaka/verticals-restaurant':
         specifier: workspace:*
         version: link:../../packages/verticals-restaurant
@@ -246,12 +495,27 @@ importers:
       '@webwaka/verticals-spare-parts':
         specifier: workspace:*
         version: link:../../packages/verticals-spare-parts
+      '@webwaka/verticals-sports-academy':
+        specifier: workspace:*
+        version: link:../../packages/verticals-sports-academy
+      '@webwaka/verticals-sports-club':
+        specifier: workspace:*
+        version: link:../../packages/verticals-sports-club
       '@webwaka/verticals-tailor':
         specifier: workspace:*
         version: link:../../packages/verticals-tailor
+      '@webwaka/verticals-talent-agency':
+        specifier: workspace:*
+        version: link:../../packages/verticals-talent-agency
+      '@webwaka/verticals-tax-consultant':
+        specifier: workspace:*
+        version: link:../../packages/verticals-tax-consultant
       '@webwaka/verticals-tech-hub':
         specifier: workspace:*
         version: link:../../packages/verticals-tech-hub
+      '@webwaka/verticals-training-institute':
+        specifier: workspace:*
+        version: link:../../packages/verticals-training-institute
       '@webwaka/verticals-transit':
         specifier: workspace:*
         version: link:../../packages/verticals-transit
@@ -264,9 +528,27 @@ importers:
       '@webwaka/verticals-used-car-dealer':
         specifier: workspace:*
         version: link:../../packages/verticals-used-car-dealer
+      '@webwaka/verticals-vegetable-garden':
+        specifier: workspace:*
+        version: link:../../packages/verticals-vegetable-garden
+      '@webwaka/verticals-vet-clinic':
+        specifier: workspace:*
+        version: link:../../packages/verticals-vet-clinic
+      '@webwaka/verticals-ward-rep':
+        specifier: workspace:*
+        version: link:../../packages/verticals-ward-rep
+      '@webwaka/verticals-waste-management':
+        specifier: workspace:*
+        version: link:../../packages/verticals-waste-management
+      '@webwaka/verticals-water-treatment':
+        specifier: workspace:*
+        version: link:../../packages/verticals-water-treatment
       '@webwaka/verticals-water-vendor':
         specifier: workspace:*
         version: link:../../packages/verticals-water-vendor
+      '@webwaka/verticals-wedding-planner':
+        specifier: workspace:*
+        version: link:../../packages/verticals-wedding-planner
       '@webwaka/verticals-welding-fabrication':
         specifier: workspace:*
         version: link:../../packages/verticals-welding-fabrication
@@ -461,6 +743,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/auth-tenancy: {}
+
   packages/claims:
     dependencies:
       '@webwaka/types':
@@ -541,6 +825,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/design-system: {}
+
   packages/entities:
     dependencies:
       '@webwaka/geography':
@@ -617,6 +903,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/offerings: {}
+
   packages/offline-sync:
     dependencies:
       '@webwaka/types':
@@ -687,6 +975,19 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
+  packages/profiles:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
   packages/relationships:
     dependencies:
       '@webwaka/types':
@@ -712,6 +1013,8 @@ importers:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/shared-config: {}
 
   packages/social:
     dependencies:
@@ -3495,6 +3798,10 @@ importers:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/white-label-theming: {}
+
+  packages/workspaces: {}
 
 packages:
 

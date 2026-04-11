@@ -48,7 +48,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx] as Record<string, unknown>)[col] = vals[i];
+                (store[idx]! as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -133,12 +133,12 @@ describe('CleaningServiceRepository', () => {
   });
 
   it('T011 — creates supply with integer unit_cost_kobo (P9)', async () => {
-    const s = await repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Dettol', unit: 'litre', quantityInStock: 10, unitCostKobo: 120000 });
+    const s = await repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Dettol', unit: 'litre', quantityInStockX1000: 10, unitCostKobo: 120000 });
     expect(s.unitCostKobo).toBe(120000);
   });
 
   it('T012 — rejects fractional unit_cost_kobo for supply (P9)', async () => {
-    await expect(repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Bleach', unit: 'litre', quantityInStock: 5, unitCostKobo: 80000.5 })).rejects.toThrow('[P9]');
+    await expect(repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Bleach', unit: 'litre', quantityInStockX1000: 5, unitCostKobo: 80000.5 })).rejects.toThrow('[P9]');
   });
 
   it('T013 — cross-tenant job hidden (T3)', async () => {
@@ -147,7 +147,7 @@ describe('CleaningServiceRepository', () => {
   });
 
   it('T014 — cross-tenant supply hidden (T3)', async () => {
-    const s = await repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Mop', unit: 'piece', quantityInStock: 2, unitCostKobo: 50000 });
+    const s = await repo.createSupply({ workspaceId: 'ws1', tenantId: 'tn1', supplyName: 'Mop', unit: 'piece', quantityInStockX1000: 2, unitCostKobo: 50000 });
     expect(await repo.findSupplyById(s.id, 'tn-other')).toBeNull();
   });
 

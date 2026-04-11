@@ -1,0 +1,15 @@
+{
+  "name": "@webwaka/workspaces",
+  "version": "0.1.0",
+  "private": true,
+  "description": "@webwaka/workspaces stub — WebWaka OS",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "echo 'skip'",
+    "test": "echo 'skip'",
+    "build": "echo 'skip'"
+  }
+}

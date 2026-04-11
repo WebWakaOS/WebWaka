@@ -89,7 +89,7 @@ function parseSetClauses(sql: string, bindings: unknown[]): Record<string, unkno
   const clauses = (match[1] ?? '').split(',').map((c) => c.trim());
   let idx = 0;
   for (const clause of clauses) {
-    const col = clause.split('=')[0]?.trim();
+    const col = clause.split('=')[0]!?.trim();
     if (col && col !== 'updated_at') {
       result[col] = bindings[idx++];
     }

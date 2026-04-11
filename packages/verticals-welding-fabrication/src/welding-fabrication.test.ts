@@ -47,7 +47,7 @@ function makeDb() {
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
-                (store[idx] as Record<string, unknown>)[col] = vals[i];
+                (store[idx]! as Record<string, unknown>)[col] = vals[i];
               });
             }
           }
@@ -149,7 +149,7 @@ describe('WeldingFabricationRepository', () => {
   });
 
   it('T015 — creates welding material with integer unitCostKobo (P9)', async () => {
-    const m = await repo.createMaterial({ workspaceId: 'ws1', tenantId: 'tn1', materialName: 'Mild Steel Bar 12mm', unit: 'kg', quantityInStock: 500, unitCostKobo: 120_000 });
+    const m = await repo.createMaterial({ workspaceId: 'ws1', tenantId: 'tn1', materialName: 'Mild Steel Bar 12mm', unit: 'kg', quantityInStockX1000: 500, unitCostKobo: 120_000 });
     expect(m.materialName).toBe('Mild Steel Bar 12mm');
     expect(m.unit).toBe('kg');
     expect(m.unitCostKobo).toBe(120_000);
