@@ -5,6 +5,8 @@
 **Authority:** Platform Architecture Team
 **Reviewed by:** SuperAgent Master Plan (docs/governance/superagent/)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 This log records all Architecture Decision Log (ADL) entries for WebWaka's AI subsystem.
 Entries are ordered chronologically (ADL-001 first). Each decision is binding until superseded by a later ADL.
 

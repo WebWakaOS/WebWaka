@@ -7,6 +7,8 @@
 **Agent role:** Senior Staff Engineer + Production SRE + Nigeria Compliance Lead  
 **Deliverable:** `docs/reports/superagent-audit-2026-04-10.md` + `docs/plans/cloudflare-deployment-remediation-2026-04-10.md` — both committed and pushed to GitHub
 
+> **Primary pillar(s):** All three — Pillar 1 (Ops), Pillar 2 (Branding), Pillar 3 (Marketplace) + AI (Cross-cutting). This is a full-platform audit spanning all pillars and infrastructure. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 0. Mission

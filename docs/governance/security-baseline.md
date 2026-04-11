@@ -2,7 +2,7 @@
 
 **Status:** ACTIVE
 **Owner:** Base44 Super Agent (draft) → Founder (approval)
-**Last updated:** 2026-04-07
+**Last updated:** 2026-04-11
 
 ---
 
@@ -27,6 +27,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - No `.env` files committed. `.env.example` files are allowed with placeholder values only.
 - Secret rotation policy: rotate all secrets every 90 days or immediately on suspected exposure.
 
+> **Enforced in:** `.github/workflows/deploy-staging.yml` (secrets injection), `infra/cloudflare/secrets-rotation-log.md` (rotation tracking)
+
 ---
 
 ## 2. Authentication and Tenancy
@@ -38,6 +40,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - Cross-tenant access is a critical security bug. Every query must be scoped by `tenant_id`.
 - Super admin routes require explicit `super_admin` role check — not just any admin.
 
+> **Enforced in:** `packages/auth/src/jwt.ts` (JWT validation), `apps/api/src/index.ts` (global JWT middleware), `apps/admin-dashboard/src/index.ts` (admin JWT auth), `apps/platform-admin/src/routes/claims.ts` (super_admin role check)
+
 ---
 
 ## 3. Role-Based Access Control (RBAC)
@@ -46,6 +50,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - Roles: `super_admin`, `admin`, `manager`, `agent`, `cashier`, `member`, `public`.
 - Role hierarchy is enforced at the middleware layer, not in business logic.
 - No hardcoded role checks in DB queries — use middleware.
+
+> **Enforced in:** `packages/auth/src/rbac.ts` (`requireRole()` implementation), route-level `requireRole()` calls in `apps/api/src/routes/`, `apps/platform-admin/src/routes/claims.ts` (super_admin guard)
 
 ---
 
@@ -56,6 +62,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - IDs are opaque strings — never sequential integers exposed to clients.
 - SQL queries use parameterised bindings only. No string interpolation in DB queries.
 
+> **Enforced in:** Zod schemas in route handlers (`apps/api/src/routes/`), CI: `scripts/governance-checks/check-monetary-integrity.ts` (integer kobo enforcement)
+
 ---
 
 ## 5. Rate Limiting
@@ -63,6 +71,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - All public endpoints must have rate limiting via Cloudflare KV or Workers rate limiting API.
 - Authentication endpoints (login, OTP, token refresh) have stricter limits.
 - Rate limit state is stored in KV binding `RATE_LIMIT_KV`.
+
+> **Enforced in:** `apps/api/src/index.ts` (rate limit middleware), `RATE_LIMIT_KV` Cloudflare KV binding
 
 ---
 
@@ -74,6 +84,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - Audit logs include: `tenant_id`, `user_id`, `action`, `resource_type`, `resource_id`, `timestamp`, `ip` (where available).
 - Audit logs are append-only. No update or delete on audit log records.
 
+> **Enforced in:** `apps/api/src/middleware/audit-log.ts` (audit middleware), `infra/db/migrations/0193_sec004_audit_logs.sql` (audit_logs D1 table), applied to destructive + financial routes in `apps/api/src/index.ts`
+
 ---
 
 ## 7. Data Isolation
@@ -83,6 +95,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - R2 bucket paths are prefixed with `{tenant_id}/` for all tenant assets.
 - No shared in-memory state between tenant requests (Cloudflare Workers are stateless by design).
 
+> **Enforced in:** D1 migrations (`tenant_id NOT NULL` on all tenant-scoped tables), CI: `scripts/governance-checks/check-tenant-isolation.ts` (scans for tenant_id from user input), KV key patterns in `apps/api/src/routes/`, R2 path prefixes in `packages/storage/`
+
 ---
 
 ## 8. Transport Security
@@ -90,6 +104,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - All traffic served over HTTPS only. Cloudflare handles TLS termination.
 - CORS: `ALLOWED_ORIGINS` must be explicitly set. No wildcard `*` in production.
 - Security headers: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` on all responses.
+
+> **Enforced in:** `secureHeaders()` (Hono middleware) applied globally in all 5 app entry points (`apps/*/src/index.ts`), `apps/platform-admin/server.js` (CSP + security headers). CI: `scripts/governance-checks/check-cors.ts` (CORS non-wildcard verification)
 
 ---
 
@@ -99,6 +115,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - No `file:` or `github:` references in production `package.json` (enforced by CI).
 - `npm audit` runs in CI. High/critical vulnerabilities block merge.
 
+> **Enforced in:** CI: `scripts/governance-checks/check-dependency-sources.ts` (no file:/github: references), `.github/dependabot.yml` (weekly triage)
+
 ---
 
 ## 10. Incident Response
@@ -106,6 +124,8 @@ This document defines the non-negotiable security rules for WebWaka OS. All impl
 - Any suspected cross-tenant data exposure: **immediately report to security@webwaka.com and isolate the affected tenant**.
 - Any secret exposure: rotate immediately, audit access logs, notify Founder.
 - Rollback procedure: revert merge commit on `main`, CI redeploys previous version.
+
+> **Enforced in:** `docs/governance/release-governance.md` (rollback procedures), `infra/cloudflare/secrets-rotation-log.md` (secret exposure protocol). Automated incident response tooling is planned for M10 (Staging Hardening).
 
 ---
 

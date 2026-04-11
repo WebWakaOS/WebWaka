@@ -2,7 +2,7 @@
 
 **Status:** ACTIVE
 **Owner:** Perplexity (initial) + Base44 (refinement) → Founder (approval)
-**Last updated:** 2026-04-07
+**Last updated:** 2026-04-11
 
 ---
 
@@ -108,15 +108,40 @@ Everything must be written so another agent can resume seamlessly if interrupted
 
 ## Governance Enforcement
 
-### CI Governance Checks (CI-001)
+### CI Governance Checks (10 automated checks)
 The following automated checks run on every PR via `.github/workflows/ci.yml`:
-- **check-cors.ts**: Validates CORS configuration is non-wildcard and excludes localhost in production
-- **check-tenant-isolation.ts**: Scans route files for tenant_id sourced from user input instead of auth context
-- **check-ai-direct-calls.ts**: Ensures no direct OpenAI/Anthropic SDK usage outside @webwaka/ai-adapters (P7)
-- **check-monetary-integrity.ts**: Detects parseFloat/toFixed on monetary field names (P9)
+
+| # | Script | Invariant | What It Checks |
+|---|--------|-----------|---------------|
+| 1 | `check-cors.ts` | Security §8 | CORS non-wildcard, no localhost in production |
+| 2 | `check-tenant-isolation.ts` | T3 | No tenant_id from user input (must come from auth context) |
+| 3 | `check-ai-direct-calls.ts` | P7 | No direct OpenAI/Anthropic SDK usage outside @webwaka/ai-adapters |
+| 4 | `check-monetary-integrity.ts` | T4/P9 | No parseFloat/toFixed on monetary field names (integer kobo only) |
+| 5 | `check-dependency-sources.ts` | Security §9 | No file:/github: dependency references in package.json |
+| 6 | `check-rollback-scripts.ts` | Release Gov. | Every migration has a rollback script (.rollback.sql or .rollback.md) |
+| 7 | `check-pillar-prefix.ts` | 3-in-1 §7 | Every package.json description starts with [Pillar N], [AI], or [Infra] |
+| 8 | `check-pwa-manifest.ts` | P5 | All client-facing apps (except api/ussd-gateway) have PWA manifest |
+| 9 | `check-ndpr-before-ai.ts` | G5/P10 | NDPR consent gate, USSD exclusion, and AI entitlement on SuperAgent routes |
+| 10 | `check-geography-integrity.ts` | T6 | Geography seed integrity — zones, states, LGAs, wards, priority states, hierarchy |
+
+All 10 checks are located in `scripts/governance-checks/` and must pass before any merge to staging or main.
+
+### Pillar Awareness
+All agents must classify their work by pillar before implementing:
+- Identify the primary pillar(s) affected by the task
+- New packages must have `[Pillar N]` prefix in `package.json` description
+- New routes or features must be placed in the correct pillar's app
+- Cross-pillar features must be documented as such
 
 ### Release Changelog
 Every PR must update `CHANGELOG.md` at the repo root. See `docs/governance/release-governance.md` for full release flow.
 
 ### Secret Rotation
 All secrets must be rotated every 90 days. See `infra/cloudflare/secrets-rotation-log.md` for the rotation schedule and procedures.
+
+### Current Workflow (Practical)
+The current development workflow uses Replit Agent with direct pushes to `staging` via GitHub API, followed by retrospective audit. This differs from the ideal PR-based flow described above. Both workflows are acceptable provided:
+1. Every batch of changes has an associated audit trail (commit messages, session logs)
+2. CI governance checks pass on all code before promotion to main
+3. Founder has visibility into all changes via GitHub notifications
+4. CHANGELOG.md is maintained after each batch of work

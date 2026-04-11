@@ -5,6 +5,8 @@
 **Authority:** Extends `docs/governance/ai-policy.md` (M1) and TDR-0009 (accepted)  
 **Builds on:** `packages/ai-abstraction/` (M3 type contracts), `packages/entitlements/` (plan-config)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 1. System Vision

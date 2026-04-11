@@ -13,11 +13,13 @@ WebWaka exists to become a Nigeria-first and Africa-ready digital operating syst
 
 ## Mission
 
-WebWaka's mission is to help every relevant entity move from informal or fragmented operations into structured digital presence, operational control, and scalable distribution through a 3-in-1 platform model:
+WebWaka's mission is to help every relevant entity move from informal or fragmented operations into structured digital presence, operational control, and scalable distribution through a **3-in-1 platform model**:
 
-1. Discovery and public visibility
-2. Operational management and workflows
-3. Dedicated branded digital experience
+1. **Pillar 1 — Operations-Management (POS):** Operational management, workflows, transactions, float ledger, staff scheduling, and back-office tools that run the business
+2. **Pillar 2 — Branding / Website / Portal:** Dedicated branded digital experience — entity-specific website, storefront, service portal, and white-label surfaces
+3. **Pillar 3 — Listing / Multi-Vendor Marketplace:** Discovery and public visibility — seeded directories, geography-powered search, claim-first onboarding, and multi-vendor marketplace
+
+These three pillars are enhanced by a cross-cutting **AI / SuperAgent** intelligence layer (not a fourth pillar) that provides vendor-neutral, BYOK-capable AI features across all three pillars.
 
 ## Strategic Intent
 

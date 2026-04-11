@@ -4,6 +4,8 @@
 **Date:** 2026-04-08  
 **Builds on:** `packages/entitlements/src/plan-config.ts`, `packages/ai-abstraction/src/types.ts`
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 Column definitions:
 - **Allowed Tiers**: Minimum subscription plan (cumulative — higher plans also get it)
 - **Free Behavior**: What happens on free plan

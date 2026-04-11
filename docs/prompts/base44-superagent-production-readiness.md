@@ -3,6 +3,8 @@
 **Date:** 2026-04-11
 **Objective:** Bring WebWaka OS to 100% production-ready state — zero CI failures, successful Cloudflare deployment via GitHub Actions, every API endpoint reachable, every front-end rendering, every dashboard functional, every vertical operational.
 
+> **Primary pillar(s):** All three — Pillar 1 (Ops), Pillar 2 (Branding), Pillar 3 (Marketplace) + AI (Cross-cutting). This is a full-platform readiness prompt spanning all pillars and the SuperAgent intelligence layer. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 1. PROJECT OVERVIEW

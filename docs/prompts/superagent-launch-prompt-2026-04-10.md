@@ -6,6 +6,8 @@
 **Reference checklist:** `docs/super-admin-launch-checklist.md`  
 **Goal:** First working Super Admin login on staging → production live → operator using platform
 
+> **Primary pillar(s):** Pillar 1 (Ops) — primary (Super Admin is a Pillar 1 app). Also touches Pillar 2 + 3 for deployment verification. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## Context You Must Know Before Starting

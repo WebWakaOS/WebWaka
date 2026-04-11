@@ -24,6 +24,26 @@ Claim-first onboarding allows WebWaka to seed discoverable records first and con
 | **Monetized** | Offerings are live and transactional |
 | **Delegated** | Partner or sub-partner is managing on behalf of entity |
 
+## Enforcement
+
+The claim lifecycle state machine is enforced by **`packages/claims/src/state-machine.ts`** (not `@packages/profiles`). The `@packages/profiles` package provides the `PublicProfile` data contract only.
+
+**Implemented stages (all 8 in FSM):**
+- Seeded → Claimable → Claim Pending → Verified → Managed → Branded → Monetized → Delegated
+
+**Transition guards (implemented in `guardedAdvanceClaimState()`):**
+- `managed → branded`: requires active Pillar 2 branding subscription (`hasBrandingSubscription`)
+- `branded → monetized`: requires at least one payment method configured (`hasPaymentMethod`)
+- `monetized → delegated`: requires signed partner delegation agreement (`hasDelegationAgreement`)
+
+**Terminal state:** `delegated` — no further transitions allowed.
+
+The FSM also supports skip transitions (e.g., `managed → monetized` directly) when all intermediate guards are satisfied.
+
+**Test coverage:** 36 tests in `packages/claims/src/state-machine.test.ts` covering all transitions, guards, error classes, and edge cases.
+
+---
+
 ## Rules
 
 1. Seeded records may exist before a user signs up.

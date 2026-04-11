@@ -54,6 +54,29 @@ packages/
   shared-config/        — Shared settings and environment helpers
 ```
 
+## 3-in-1 Platform Pillars
+
+WebWaka delivers three interconnected capabilities that can be subscribed to individually or in any combination:
+
+| Pillar | Name | Runtime | Description |
+|--------|------|---------|-------------|
+| **Pillar 1** | Operations-Management (POS) | `apps/api/`, `apps/admin-dashboard/`, `apps/ussd-gateway/` | Back-office: POS, float ledger, orders, inventory, staff, USSD |
+| **Pillar 2** | Branding / Website / Portal | `apps/brand-runtime/` | Front-of-house: branded website, storefront, service portal, white-label |
+| **Pillar 3** | Listing / Multi-Vendor Marketplace | `apps/public-discovery/` | Discovery: seeded directories, geography search, claim-first onboarding |
+| **Cross-cutting** | AI / SuperAgent | `packages/superagent/`, `packages/ai-abstraction/` | Intelligence layer across all pillars (NOT a fourth pillar) |
+
+### Pillar-to-Package Map
+
+```
+Pillar 1 (Ops):        packages/pos, packages/offerings, packages/workspaces, packages/payments
+Pillar 2 (Brand):      packages/white-label-theming, packages/design-system, packages/frontend
+Pillar 3 (Marketplace): packages/profiles, packages/search-indexing, packages/claims, packages/geography
+AI (Cross-cutting):    packages/superagent, packages/ai-abstraction, packages/ai-adapters
+Infra (Pre-vertical):  packages/auth, packages/entities, packages/entitlements, packages/relationships
+```
+
+See `docs/governance/3in1-platform-architecture.md` for authoritative module-to-pillar assignments.
+
 ## Key Design Rules
 
 1. **Packages first** — no vertical feature code before the shared packages that support it are built
