@@ -110,24 +110,40 @@ claimsAdminRoutes.get('/', async (c) => {
     return c.json({ error: `status must be one of: ${validStatuses.join('|')}` }, 400);
   }
 
-  const whereClause = status === 'all' ? '' : `WHERE cr.status = '${status}'`;
+  const isAll = status === 'all';
 
-  const rows = await db
-    .prepare(
-      `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
-       FROM claim_requests cr
-       JOIN profiles p ON p.id = cr.profile_id
-       ${whereClause}
-       ORDER BY cr.created_at DESC
-       LIMIT ? OFFSET ?`,
-    )
-    .bind(limit, offset)
-    .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>();
+  const rows = isAll
+    ? await db
+        .prepare(
+          `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
+           FROM claim_requests cr
+           JOIN profiles p ON p.id = cr.profile_id
+           ORDER BY cr.created_at DESC
+           LIMIT ? OFFSET ?`,
+        )
+        .bind(limit, offset)
+        .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>()
+    : await db
+        .prepare(
+          `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
+           FROM claim_requests cr
+           JOIN profiles p ON p.id = cr.profile_id
+           WHERE cr.status = ?
+           ORDER BY cr.created_at DESC
+           LIMIT ? OFFSET ?`,
+        )
+        .bind(status, limit, offset)
+        .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>();
 
-  const total = await db
-    .prepare(`SELECT COUNT(*) AS cnt FROM claim_requests ${whereClause}`)
-    .bind()
-    .first<{ cnt: number }>();
+  const total = isAll
+    ? await db
+        .prepare('SELECT COUNT(*) AS cnt FROM claim_requests')
+        .bind()
+        .first<{ cnt: number }>()
+    : await db
+        .prepare('SELECT COUNT(*) AS cnt FROM claim_requests WHERE status = ?')
+        .bind(status)
+        .first<{ cnt: number }>();
 
   return c.json({
     claims: rows.results.map((r) => ({

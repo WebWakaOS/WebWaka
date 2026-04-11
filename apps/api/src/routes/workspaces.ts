@@ -258,7 +258,7 @@ workspaceRoutes.get('/:id/analytics', async (c) => {
     .prepare(
       `SELECT COUNT(*) AS cnt FROM claim_requests cr
        JOIN profiles p ON p.id = cr.profile_id
-       WHERE cr.status = 'pending' AND cr.tenant_id = ?`,
+       WHERE cr.status = 'pending' AND (cr.tenant_id = ? OR cr.tenant_id IS NULL)`,
     )
     .bind(auth.tenantId)
     .first<{ cnt: number }>();

@@ -334,7 +334,6 @@ claimRoutes.post('/verify', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimRoutes.get('/status/:profileId', async (c) => {
-  const auth = c.get('auth');
   const profileId = c.req.param('profileId');
   const db = c.env.DB as unknown as D1Like;
 
@@ -347,27 +346,37 @@ claimRoutes.get('/status/:profileId', async (c) => {
     return c.json({ error: 'Profile not found' }, 404);
   }
 
-  // SEC-003: scope pending claim lookup to tenant
-  const pendingClaim = await db
-    .prepare(
-      `SELECT id, status, verification_method, expires_at
-       FROM claim_requests WHERE profile_id = ? AND status = 'pending' AND (tenant_id = ? OR tenant_id IS NULL)
-       ORDER BY created_at DESC LIMIT 1`,
-    )
-    .bind(profileId, auth.tenantId)
-    .first<{ id: string; status: string; verification_method: string; expires_at: number }>();
+  // SEC-003: If caller is authenticated, scope pending-claim lookup to their tenant.
+  // If unauthenticated (public), only expose whether a pending claim exists (boolean),
+  // without revealing claim details that could leak cross-tenant metadata.
+  const auth = c.get('auth') as import('@webwaka/types').AuthContext | undefined;
+
+  let pendingRequest: { id: string; status: string; verificationMethod: string; expiresAt: number } | null = null;
+
+  if (auth?.tenantId) {
+    const pendingClaim = await db
+      .prepare(
+        `SELECT id, status, verification_method, expires_at
+         FROM claim_requests WHERE profile_id = ? AND status = 'pending' AND (tenant_id = ? OR tenant_id IS NULL)
+         ORDER BY created_at DESC LIMIT 1`,
+      )
+      .bind(profileId, auth.tenantId)
+      .first<{ id: string; status: string; verification_method: string; expires_at: number }>();
+
+    if (pendingClaim) {
+      pendingRequest = {
+        id: pendingClaim.id,
+        status: pendingClaim.status,
+        verificationMethod: pendingClaim.verification_method,
+        expiresAt: pendingClaim.expires_at,
+      };
+    }
+  }
 
   return c.json({
     profileId: profile.id,
     claimState: profile.claim_state,
-    pendingRequest: pendingClaim
-      ? {
-          id: pendingClaim.id,
-          status: pendingClaim.status,
-          verificationMethod: pendingClaim.verification_method,
-          expiresAt: pendingClaim.expires_at,
-        }
-      : null,
+    pendingRequest,
     checklist: documentVerificationChecklist(),
   });
 });
