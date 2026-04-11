@@ -7,7 +7,7 @@
 export * from './types.js';
 export { TravelAgentRepository } from './travel-agent.js';
 
-export const VERTICAL_SLUG = 'travel-agent' as const;
+export const VERTICAL_SLUG = 'travel-agent';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerTravelAgentVertical() {

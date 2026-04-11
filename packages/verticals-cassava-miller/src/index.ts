@@ -8,7 +8,7 @@
 export * from './types.js';
 export { CassavaMillerRepository } from './cassava-miller.js';
 
-export const VERTICAL_SLUG = 'cassava-miller' as const;
+export const VERTICAL_SLUG = 'cassava-miller';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerCassavaMillerVertical() {

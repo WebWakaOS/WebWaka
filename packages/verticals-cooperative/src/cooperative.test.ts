@@ -5,6 +5,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -45,6 +46,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -62,6 +64,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -89,6 +92,7 @@ function makeDb() {
 
 describe('CooperativeRepository — members', () => {
   let db: ReturnType<typeof makeDb>; let repo: CooperativeRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new CooperativeRepository(db as any); });
 
   it('creates member with active status', async () => { const m = await repo.createMember({ workspaceId: 'ws1', tenantId: 't1', userId: 'u1', memberNumber: 'MEM-001' }); expect(m.status).toBe('active'); expect(m.memberNumber).toBe('MEM-001'); });
@@ -105,6 +109,7 @@ describe('CooperativeRepository — members', () => {
 
 describe('CooperativeRepository — contributions', () => {
   let db: ReturnType<typeof makeDb>; let repo: CooperativeRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new CooperativeRepository(db as any); });
 
   it('creates contribution with pending status (P9)', async () => { const c = await repo.createContribution({ workspaceId: 'ws1', tenantId: 't1', memberId: 'mb1', amountKobo: 500000, cycleMonth: '2025-01' }); expect(c.status).toBe('pending'); expect(c.amountKobo).toBe(500000); });
@@ -119,6 +124,7 @@ describe('CooperativeRepository — contributions', () => {
 
 describe('CooperativeRepository — loans', () => {
   let db: ReturnType<typeof makeDb>; let repo: CooperativeRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new CooperativeRepository(db as any); });
 
   it('creates loan with pending status (P9)', async () => { const l = await repo.createLoan({ workspaceId: 'ws1', tenantId: 't1', memberId: 'mb1', amountKobo: 2000000, interestRate: 500, durationMonths: 6 }); expect(l.status).toBe('pending'); expect(l.amountKobo).toBe(2000000); expect(l.interestRate).toBe(500); });

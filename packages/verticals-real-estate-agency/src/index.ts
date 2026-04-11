@@ -7,7 +7,7 @@
 export * from './types.js';
 export { RealEstateAgencyRepository } from './real-estate-agency.js';
 
-export const VERTICAL_SLUG = 'real-estate-agency' as const;
+export const VERTICAL_SLUG = 'real-estate-agency';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerRealEstateAgencyVertical() {

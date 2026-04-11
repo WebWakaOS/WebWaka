@@ -5,6 +5,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -45,6 +46,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -62,6 +64,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -88,6 +91,7 @@ function makeDb() {
 }
 describe('ProfessionalRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: ProfessionalRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new ProfessionalRepository(db as any); });
   it('creates professional with seeded status', async () => { const p = await repo.create({ individualId: 'ind-1', workspaceId: 'ws1', tenantId: 't1', profession: 'lawyer' }); expect(p.status).toBe('seeded'); expect(p.profession).toBe('lawyer'); });
   it('uses provided id', async () => { const p = await repo.create({ id: 'pr-001', individualId: 'ind-2', workspaceId: 'ws1', tenantId: 't1', profession: 'doctor' }); expect(p.id).toBe('pr-001'); });

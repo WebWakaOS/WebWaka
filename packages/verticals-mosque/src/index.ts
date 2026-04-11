@@ -7,7 +7,7 @@
 export * from './types.js';
 export { MosqueRepository } from './mosque.js';
 
-export const VERTICAL_SLUG = 'mosque' as const;
+export const VERTICAL_SLUG = 'mosque';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerMosqueVertical() {

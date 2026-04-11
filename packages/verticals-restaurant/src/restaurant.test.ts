@@ -6,6 +6,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -46,6 +47,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -63,6 +65,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -90,6 +93,7 @@ function makeDb() {
 
 describe('MenuRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: MenuRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new MenuRepository(db as any); });
 
   it('creates menu item with available=true', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Jollof Rice', priceKobo: 150000 }); expect(item.available).toBe(true); expect(item.name).toBe('Jollof Rice'); });

@@ -22,6 +22,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO cold_room_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], facility_name: vals[3], nafdac_cold_chain_cert: vals[4], son_cert: vals[5], capacity_kg: vals[6], cac_rc: vals[7], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO cold_room_units')) { const cap = vals[4]; if (!Number.isInteger(cap) || (cap as number) < 0) throw new Error('Capacity must be a non-negative integer kg'); const temp = vals[5]; if (!Number.isInteger(temp)) throw new Error('Temperature must be an integer millidegrees Celsius'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], unit_number: vals[3], capacity_kg: vals[4], current_temp_mc: vals[5], status: 'active', created_at: 1, updated_at: 1 }); }
@@ -29,6 +30,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO cold_temp_log')) { const temp = vals[5]; if (!Number.isInteger(temp)) throw new Error('Temperature must be an integer millidegrees Celsius (no floats)'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], unit_id: vals[3], log_time: vals[4], temperature_mc: vals[5], alert_flag: vals[6], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -41,6 +43,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

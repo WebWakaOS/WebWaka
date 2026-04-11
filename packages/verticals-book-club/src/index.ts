@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BookClubRepository } from './book-club.js';
 
-export const VERTICAL_SLUG = 'book-club' as const;
+export const VERTICAL_SLUG = 'book-club';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerBookClubVertical() {

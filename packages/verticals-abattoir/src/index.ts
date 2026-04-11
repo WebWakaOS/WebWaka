@@ -8,7 +8,7 @@
 export * from './types.js';
 export { AbattoirRepository } from './abattoir.js';
 
-export const VERTICAL_SLUG = 'abattoir' as const;
+export const VERTICAL_SLUG = 'abattoir';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerAbattoirVertical() {

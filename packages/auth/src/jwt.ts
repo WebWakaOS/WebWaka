@@ -14,6 +14,13 @@ import type { AuthContext } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 
 // ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+/** Subset of JwtPayload needed to issue a new token (iat/exp are auto-set). */
+export type JwtPayloadInput = Pick<JwtPayload, 'sub' | 'workspace_id' | 'tenant_id' | 'role'>;
+
+// ---------------------------------------------------------------------------
 // Errors
 // ---------------------------------------------------------------------------
 
@@ -141,6 +148,50 @@ export async function verifyJwt(token: string, secret: string): Promise<JwtPaylo
   }
 
   return payload;
+}
+
+// ---------------------------------------------------------------------------
+// JWT issuance (HMAC-SHA256, Cloudflare Workers Web Crypto)
+// ---------------------------------------------------------------------------
+
+/**
+ * Issues a signed JWT using HMAC-SHA256.
+ *
+ * @param payload - Claims to embed (iat/exp are automatically added)
+ * @param secret  - JWT secret from Cloudflare Worker secrets (JWT_SECRET)
+ * @param expiresInSec - Token lifetime in seconds (default: 1 hour)
+ */
+export async function issueJwt(
+  payload: JwtPayloadInput,
+  secret: string,
+  expiresInSec = 3600,
+): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const fullPayload: JwtPayload = { ...payload, iat: now, exp: now + expiresInSec };
+
+  const b64url = (str: string): string =>
+    btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+  const headerB64 = b64url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+  const payloadB64 = b64url(JSON.stringify(fullPayload));
+  const signingInput = `${headerB64}.${payloadB64}`;
+
+  const encoder = new TextEncoder();
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+
+  const sigBuffer = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(signingInput));
+  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sigBuffer)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+
+  return `${signingInput}.${sigB64}`;
 }
 
 // ---------------------------------------------------------------------------

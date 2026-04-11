@@ -20,6 +20,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO driving_school_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], school_name: vals[3], frsc_registration: vals[4], state: vals[5], cac_rc: vals[6], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO ds_students')) { const fee = vals[6]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: enrolmentFeeKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], student_ref_id: vals[3], course_type: vals[4], enrolment_fee_kobo: vals[6], lessons_paid: vals[7], start_date: null, frsc_test_date: null, test_status: 'pending', cert_issued: 0, created_at: 1, updated_at: 1 }); }
@@ -27,6 +28,7 @@ function makeDb() {
           if (sql.startsWith('UPDATE driving_school_profiles SET status')) store.set(vals[2] as string, { ...(store.get(vals[2] as string) as object ?? {}), status: vals[0], updated_at: vals[1] });
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -39,6 +41,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

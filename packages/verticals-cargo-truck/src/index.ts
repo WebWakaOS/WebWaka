@@ -7,7 +7,7 @@
 export * from './types.js';
 export { CargoTruckRepository } from './cargo-truck.js';
 
-export const VERTICAL_SLUG = 'cargo-truck' as const;
+export const VERTICAL_SLUG = 'cargo-truck';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerCargoTruckVertical() {

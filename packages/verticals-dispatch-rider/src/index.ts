@@ -7,7 +7,7 @@
 export * from './types.js';
 export { DispatchRiderRepository } from './dispatch-rider.js';
 
-export const VERTICAL_SLUG = 'dispatch-rider' as const;
+export const VERTICAL_SLUG = 'dispatch-rider';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerDispatchRiderVertical() {

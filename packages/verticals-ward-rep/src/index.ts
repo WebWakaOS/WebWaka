@@ -8,7 +8,7 @@
 export * from './types.js';
 export { WardRepRepository } from './ward-rep.js';
 
-export const VERTICAL_SLUG = 'ward-rep' as const;
+export const VERTICAL_SLUG = 'ward-rep';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerWardRepVertical() {

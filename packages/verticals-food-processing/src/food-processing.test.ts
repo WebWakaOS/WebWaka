@@ -21,6 +21,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO food_processing_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], factory_name: vals[3], nafdac_manufacturing_permit: vals[4], son_product_cert: vals[5], cac_rc: vals[6], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO fp_production_batches')) { const units = vals[7]; if (!Number.isInteger(units) || (units as number) < 0) throw new Error('quantityUnits must be a non-negative integer'); const grams = vals[8]; if (!Number.isInteger(grams) || (grams as number) < 0) throw new Error('unitSizeGrams must be a non-negative integer'); const cost = vals[9]; if (!Number.isInteger(cost) || (cost as number) < 0) throw new Error('P9: totalCostKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], product_name: vals[3], nafdac_product_number: vals[4], batch_number: vals[5], production_date: vals[6], quantity_units: vals[7], unit_size_grams: vals[8], total_cost_kobo: vals[9], expiry_date: vals[10], created_at: 1 }); }
@@ -28,6 +29,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO fp_finished_goods')) { const price = vals[6]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: unitSalePriceKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], product_name: vals[3], nafdac_product_number: vals[4], units_in_stock: vals[5], unit_sale_price_kobo: vals[6], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -40,6 +42,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ElectronicsRepairRepository } from './electronics-repair.js';
 
-export const VERTICAL_SLUG = 'electronics-repair' as const;
+export const VERTICAL_SLUG = 'electronics-repair';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerElectronicsRepairVertical() {

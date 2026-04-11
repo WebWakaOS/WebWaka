@@ -6,6 +6,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -46,6 +47,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -63,6 +65,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -90,6 +93,7 @@ function makeDb() {
 
 describe('CreatorRepository — profiles', () => {
   let db: ReturnType<typeof makeDb>; let repo: CreatorRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new CreatorRepository(db as any); });
 
   it('creates creator with seeded status', async () => { const c = await repo.create({ individualId: 'ind-1', workspaceId: 'ws1', tenantId: 't1', niche: 'lifestyle' }); expect(c.status).toBe('seeded'); expect(c.niche).toBe('lifestyle'); });
@@ -115,6 +119,7 @@ describe('CreatorRepository — profiles', () => {
 
 describe('CreatorRepository — brand deals', () => {
   let db: ReturnType<typeof makeDb>; let repo: CreatorRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new CreatorRepository(db as any); });
 
   it('creates deal with enquiry status', async () => { const d = await repo.createDeal({ workspaceId: 'ws1', tenantId: 't1', creatorId: 'cr-1', brandName: 'Dangote' }); expect(d.status).toBe('enquiry'); expect(d.brandName).toBe('Dangote'); });
@@ -126,6 +131,7 @@ describe('CreatorRepository — brand deals', () => {
   it('updateDeal brandName', async () => { const d = await repo.createDeal({ workspaceId: 'ws1', tenantId: 't1', creatorId: 'cr-6', brandName: 'Old Brand' }); expect(await repo.updateDeal(d.id, 't1', { brandName: 'New Brand' })).not.toBeNull(); });
   it('updateDeal empty returns existing', async () => { const d = await repo.createDeal({ workspaceId: 'ws1', tenantId: 't1', creatorId: 'cr-7', brandName: 'Brand X' }); expect(await repo.updateDeal(d.id, 't1', {})).not.toBeNull(); });
   it('updateDeal dealValueKobo', async () => { const d = await repo.createDeal({ workspaceId: 'ws1', tenantId: 't1', creatorId: 'cr-8', brandName: 'Cowrywise' }); expect(await repo.updateDeal(d.id, 't1', { dealValueKobo: 1500000 })).not.toBeNull(); });
+  // eslint-disable-next-line @typescript-eslint/require-await
   it('supports all deal statuses', async () => { for (const s of ['enquiry','negotiating','confirmed','delivered','paid','cancelled'] as const) { expect(s).toBeTruthy(); } });
 });
 

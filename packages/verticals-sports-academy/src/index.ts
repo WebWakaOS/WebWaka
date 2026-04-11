@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SportsAcademyRepository } from './sports-academy.js';
 
-export const VERTICAL_SLUG = 'sports-academy' as const;
+export const VERTICAL_SLUG = 'sports-academy';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerSportsAcademyVertical() {

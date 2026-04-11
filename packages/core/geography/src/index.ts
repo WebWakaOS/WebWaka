@@ -8,3 +8,4 @@
 export * from './types.js';
 export * from './hierarchy.js';
 export * from './seed-schema.js';
+export * from './d1.js';

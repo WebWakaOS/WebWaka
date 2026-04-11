@@ -9,7 +9,7 @@
 export * from './types.js';
 export { FoodProcessingRepository } from './food-processing.js';
 
-export const VERTICAL_SLUG = 'food-processing' as const;
+export const VERTICAL_SLUG = 'food-processing';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerFoodProcessingVertical() {

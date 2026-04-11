@@ -7,6 +7,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -47,6 +48,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -64,6 +66,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -91,6 +94,7 @@ function makeDb() {
 
 describe('ChurchRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: ChurchRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new ChurchRepository(db as any); });
 
   it('creates church with seeded status', async () => { const c = await repo.create({ organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', denomination: 'pentecostal' }); expect(c.status).toBe('seeded'); expect(c.denomination).toBe('pentecostal'); });
@@ -115,6 +119,7 @@ describe('ChurchRepository', () => {
 
 describe('TitheRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: TitheRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new TitheRepository(db as any); });
 
   it('creates tithe record', async () => { const t = await repo.create({ workspaceId: 'ws1', tenantId: 't1', memberId: 'mb1', amountKobo: 100000, paymentType: 'tithe' }); expect(t.amountKobo).toBe(100000); expect(t.paymentType).toBe('tithe'); });

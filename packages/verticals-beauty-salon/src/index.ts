@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BeautySalonRepository } from './beauty-salon.js';
 
-export const VERTICAL_SLUG = 'beauty-salon' as const;
+export const VERTICAL_SLUG = 'beauty-salon';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerBeautySalonVertical() {

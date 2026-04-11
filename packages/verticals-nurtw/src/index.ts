@@ -8,7 +8,7 @@
 export * from './types.js';
 export { NurtwRepository } from './nurtw.js';
 
-export const VERTICAL_SLUG = 'nurtw' as const;
+export const VERTICAL_SLUG = 'nurtw';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerNurtwVertical() {

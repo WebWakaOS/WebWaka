@@ -7,7 +7,7 @@
 export * from './types.js';
 export { CleaningCompanyRepository } from './cleaning-company.js';
 
-export const VERTICAL_SLUG = 'cleaning-company' as const;
+export const VERTICAL_SLUG = 'cleaning-company';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerCleaningCompanyVertical() {

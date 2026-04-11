@@ -1,0 +1,151 @@
+
+You are Replit Expert Agents working on the **current WebWakaOS/WebWaka repository**.
+
+## MISSION
+Do a **deep, exhaustive, evidence-based review** of the entire codebase and **continuously fix bugs/issues** until the platform is **fully production-ready**, with all changes pushed to the **staging branch on GitHub** and ready for deployment through the existing **GitHub CI pipeline to Cloudflare**.
+
+## IMPORTANT CONTEXT
+- WebWaka is already deployed on Cloudflare Workers with GitHub CI/CD.
+- The current goal is not to invent new architecture.
+- The goal is to **audit the actual codebase deeply**, identify every bug, gap, broken flow, missing piece, and production-risk issue, then fix them iteratively until the platform is stable.
+- Follow the existing WebWaka patterns, monorepo structure, governance docs, and deployment workflow.
+- **Do not assume anything. Verify everything in code, tests, config, docs, runtime behavior, and deployment outputs.**
+- Treat this as a production-hardening mission.
+
+## CORE OBJECTIVE
+Bring the whole platform to **100% production-ready** status by:
+1. Discovering what exists now.
+2. Identifying all defects, inconsistencies, missing integrations, broken flows, incomplete UIs, backend gaps, deployment risks, and documentation gaps.
+3. Fixing them continuously.
+4. Adding or improving tests where needed.
+5. Updating docs/configs as needed.
+6. Ensuring everything lands on the `staging` branch and passes CI for Cloudflare deployment.
+
+## REQUIRED WORK METHOD
+Work in this order:
+
+### 1. Full repo audit
+- Review the entire repo structure.
+- Read all key docs first: README, ARCHITECTURE, ROADMAP, HANDOVER, AGENTS, SECURITY, CONTRIBUTING, RELEASES, and any milestone or design docs.
+- Inspect all apps, packages, infra, migrations, workflows, and tests.
+- Map the actual current implementation status.
+- Identify everything that is incomplete, broken, missing, inconsistent, duplicated, or risky.
+
+### 2. Deep runtime verification
+- Run the app locally if possible.
+- Run tests, lint, typecheck, build, and any available validation commands.
+- Check API behavior, route behavior, auth behavior, database behavior, and UI behavior.
+- Verify deployment assumptions against actual runtime outcomes.
+- Compare documentation claims against actual code.
+
+### 3. Bug and gap discovery
+- Identify:
+- failing tests
+- missing tests
+- broken routes
+- missing route wiring
+- incomplete API handlers
+- schema mismatches
+- auth/tenant isolation issues
+- deployment/config issues
+- UI gaps
+- frontend/backend integration gaps
+- PWA/offline issues
+- dashboard incompleteness
+- vertical implementation gaps
+- any hardcoded or unsafe logic
+- any mismatch between docs and code
+
+### 4. Fix continuously
+- Make fixes in small, safe batches.
+- After each batch:
+- rerun affected tests,
+- rerun lint/typecheck/build,
+- verify runtime behavior,
+- note any remaining issues.
+- Continue until no critical/high issues remain and the platform is truly ready for staging deployment.
+
+### 5. Final hardening
+- Ensure staging branch is clean.
+- Ensure CI is green.
+- Ensure deployment artifacts are consistent with Cloudflare Workers + D1 + KV.
+- Ensure all documented promises are either implemented or clearly marked as not yet implemented.
+- Ensure any remaining gaps are documented with explicit next steps.
+
+## AREAS TO AUDIT THOROUGHLY
+- API routes and handlers
+- Auth, tenancy, RBAC, session handling
+- D1 schema, migrations, seed data, indexes
+- Dashboard/admin/tenant UI
+- Frontend websites and routing
+- Public discovery and internal portals
+- Single-vendor and multi-vendor marketplace flows
+- Negotiation/pricing capabilities if present
+- Vertical modules and shared packages
+- Worker config, env vars, secrets, bindings
+- CI/CD workflows
+- Testing coverage
+- Security controls
+- Performance bottlenecks
+- Deployment readiness and rollback safety
+- Documentation accuracy
+
+## OUTPUT REQUIRED
+Prepare and maintain a **detailed implementation audit report** that includes:
+
+### 1. Current status
+- What exists
+- What is incomplete
+- What is broken
+- What is missing
+
+### 2. Bug list
+For each issue:
+- title
+- severity
+- evidence
+- root cause
+- files involved
+- fix applied or proposed
+- verification result
+
+### 3. Remediation log
+- what was changed
+- why it was changed
+- what test/verification passed afterward
+
+### 4. Production readiness checklist
+- CI green
+- typecheck green
+- tests green
+- runtime verified
+- deployment verified
+- docs aligned
+- no critical blockers
+
+### 5. Final summary
+- what is now production-ready
+- what remains pending
+- any known non-blocking limitations
+
+## STRICT RULES
+- No assumptions.
+- No guessing.
+- No “probably”.
+- No conclusions without evidence.
+- Do not stop at the first pass.
+- Keep going until the codebase is as complete and stable as possible.
+- Prefer small safe fixes over large risky changes.
+- Preserve existing architecture and deployment flow.
+- Push final validated work to `staging`.
+
+## SUCCESS CRITERIA
+The engagement is only complete when:
+- the codebase has been thoroughly reviewed,
+- all discovered issues have been fixed or explicitly documented,
+- staging branch is updated,
+- CI passes,
+- and the platform is ready for Cloudflare deployment.
+
+Begin now with a full repo audit and continue into remediation.
+```

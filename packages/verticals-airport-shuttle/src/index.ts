@@ -7,7 +7,7 @@
 export * from './types.js';
 export { AirportShuttleRepository } from './airport-shuttle.js';
 
-export const VERTICAL_SLUG = 'airport-shuttle' as const;
+export const VERTICAL_SLUG = 'airport-shuttle';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerAirportShuttleVertical() {

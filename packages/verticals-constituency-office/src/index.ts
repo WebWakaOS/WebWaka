@@ -8,7 +8,7 @@
 export * from './types.js';
 export { ConstituencyOfficeRepository } from './constituency-office.js';
 
-export const VERTICAL_SLUG = 'constituency-office' as const;
+export const VERTICAL_SLUG = 'constituency-office';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerConstituencyOfficeVertical() {

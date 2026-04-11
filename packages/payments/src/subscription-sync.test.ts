@@ -6,13 +6,16 @@ function makeDb(rows: Record<string, unknown[]> = {}) {
     prepare(sql: string) {
       return {
         bind: (..._args: unknown[]) => ({
+          // eslint-disable-next-line @typescript-eslint/require-await
           run: async () => ({ success: true }),
+          // eslint-disable-next-line @typescript-eslint/require-await
           first: async <T>(): Promise<T | null> => {
             for (const [key, resultRows] of Object.entries(rows)) {
               if (sql.includes(key)) return (resultRows[0] ?? null) as T;
             }
             return null;
           },
+          // eslint-disable-next-line @typescript-eslint/require-await
           all: async <T>() => {
             for (const [key, resultRows] of Object.entries(rows)) {
               if (sql.includes(key)) return { results: resultRows as T[] };
@@ -20,8 +23,11 @@ function makeDb(rows: Record<string, unknown[]> = {}) {
             return { results: [] as T[] };
           },
         }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => ({ success: true }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>(): Promise<T | null> => null,
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       };
     },

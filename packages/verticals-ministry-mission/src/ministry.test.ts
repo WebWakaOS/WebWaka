@@ -5,6 +5,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -45,6 +46,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -62,6 +64,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -88,6 +91,7 @@ function makeDb() {
 }
 describe('MinistryRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: MinistryRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new MinistryRepository(db as any); });
   it('creates ministry with seeded status', async () => { const m = await repo.create({ organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', ministryName: 'Apostolic Faith' }); expect(m.status).toBe('seeded'); expect(m.ministryName).toBe('Apostolic Faith'); });
   it('uses provided id', async () => { const m = await repo.create({ id: 'mn-001', organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', ministryName: 'Grace Ministry' }); expect(m.id).toBe('mn-001'); });

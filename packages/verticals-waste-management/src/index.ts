@@ -7,7 +7,7 @@
 export * from './types.js';
 export { WasteManagementRepository } from './waste-management.js';
 
-export const VERTICAL_SLUG = 'waste-management' as const;
+export const VERTICAL_SLUG = 'waste-management';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerWasteManagementVertical() {

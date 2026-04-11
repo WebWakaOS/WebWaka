@@ -7,7 +7,7 @@
 export * from './types.js';
 export { PetrolStationRepository } from './petrol-station.js';
 
-export const VERTICAL_SLUG = 'petrol-station' as const;
+export const VERTICAL_SLUG = 'petrol-station';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerPetrolStationVertical() {

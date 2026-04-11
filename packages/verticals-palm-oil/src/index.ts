@@ -9,7 +9,7 @@
 export * from './types.js';
 export { PalmOilRepository } from './palm-oil.js';
 
-export const VERTICAL_SLUG = 'palm-oil' as const;
+export const VERTICAL_SLUG = 'palm-oil';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerPalmOilVertical() {

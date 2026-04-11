@@ -497,6 +497,13 @@ importers:
         version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
 
   packages/contact:
+    dependencies:
+      '@webwaka/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@webwaka/otp':
+        specifier: workspace:*
+        version: link:../otp
     devDependencies:
       typescript:
         specifier: ^5.4.0

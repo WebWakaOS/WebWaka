@@ -5,6 +5,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -45,6 +46,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -62,6 +64,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -88,6 +91,7 @@ function makeDb() {
 }
 describe('TechHubRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: TechHubRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new TechHubRepository(db as any); });
   it('creates tech hub with seeded status', async () => { const h = await repo.create({ workspaceId: 'ws1', tenantId: 't1', hubName: 'CcHub Lagos', lga: 'Yaba', state: 'Lagos' }); expect(h.status).toBe('seeded'); expect(h.hubName).toBe('CcHub Lagos'); });
   it('uses provided id', async () => { const h = await repo.create({ id: 'th-001', workspaceId: 'ws1', tenantId: 't1', hubName: 'Abuja Hub', lga: 'Wuse', state: 'FCT' }); expect(h.id).toBe('th-001'); });

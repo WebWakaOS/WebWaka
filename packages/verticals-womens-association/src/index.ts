@@ -7,7 +7,7 @@
 export * from './types.js';
 export { WomensAssocRepository } from './womens-assoc.js';
 
-export const VERTICAL_SLUG = 'womens-association' as const;
+export const VERTICAL_SLUG = 'womens-association';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerWomensAssociationVertical() {

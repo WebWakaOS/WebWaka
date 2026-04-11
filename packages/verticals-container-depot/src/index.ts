@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ContainerDepotRepository } from './container-depot.js';
 
-export const VERTICAL_SLUG = 'container-depot' as const;
+export const VERTICAL_SLUG = 'container-depot';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerContainerDepotVertical() {

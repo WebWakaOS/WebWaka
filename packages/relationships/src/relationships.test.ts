@@ -15,13 +15,16 @@ import { createRelationship, listRelationships, deleteRelationship } from './rep
 
 const TENANT_ID = 'tenant_test_001' as TenantId;
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function makeMockDb() {
   const store: Record<string, unknown>[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const prepare = (sql: string) => {
     let boundArgs: unknown[] = [];
 
     const stmt = {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       bind: (...args: unknown[]) => {
         boundArgs = args;
         return stmt;

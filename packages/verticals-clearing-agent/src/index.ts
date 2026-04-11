@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ClearingAgentRepository } from './clearing-agent.js';
 
-export const VERTICAL_SLUG = 'clearing-agent' as const;
+export const VERTICAL_SLUG = 'clearing-agent';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerClearingAgentVertical() {

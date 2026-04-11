@@ -20,6 +20,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO elderly_care_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], facility_name: vals[3], fmhsw_registration: null, state_social_welfare_cert: null, cac_rc: null, bed_count: vals[4], status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO care_residents')) { const rate = vals[6]; if (!Number.isInteger(rate) || (rate as number) < 0) throw new Error('P9: monthlyRateKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], resident_ref_id: vals[3], room_number: vals[4], admission_date: vals[5], monthly_rate_kobo: vals[6], payer_ref_id: vals[7], payer_type: vals[8], status: 'active', created_at: 1, updated_at: 1 }); }
@@ -27,7 +28,9 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO care_staff_rota')) { store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], staff_name: vals[3], role: vals[4], shift_start: vals[5], shift_end: vals[6], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; if (sql.includes('SUM(outstanding_kobo)')) return { outstanding: 0 } as unknown as T; if (sql.includes('COUNT(*)')) return { cnt: 0 } as unknown as T; if (sql.includes('bed_count')) return { bed_count: 20 } as unknown as T; return null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -96,36 +99,36 @@ describe('elderly-care vertical', () => {
   });
 
   it('T3: createProfile stores tenantId', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', facilityName: 'Golden Years Lagos' });
     expect(p.tenantId).toBe('tenant-A');
     expect(p.status).toBe('seeded');
   });
 
   it('T3: cross-tenant lookup returns null', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     expect(await repo.findProfileById('no-such-id', 'tenant-B')).toBeNull();
   });
 
   it('P13: resident_ref_id is opaque UUID (never a name)', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     const r = await repo.createResident({ profileId: 'p1', tenantId: 'tenant-A', monthlyRateKobo: 5000000 });
     expect(r.residentRefId).toMatch(/^[0-9a-f-]{36}$/i);
     expect(r.residentRefId).not.toContain('Adeyemi');
   });
 
   it('P9: createResident rejects fractional monthlyRateKobo', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     await expect(repo.createResident({ profileId: 'p1', tenantId: 'tenant-A', monthlyRateKobo: 5000000.50 })).rejects.toThrow('P9');
   });
 
   it('P9: createBilling rejects fractional monthlyChargeKobo', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     await expect(repo.createBilling({ profileId: 'p1', tenantId: 'tenant-A', residentRefId: 'r1', billingPeriod: '2024-01', monthlyChargeKobo: 500000.5 })).rejects.toThrow('P9');
   });
 
   it('staff rota can be created', async () => {
-    const repo = new ElderlyCareRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new ElderlyCareRepository(makeDb());
     const rota = await repo.createStaffRota({ profileId: 'p1', tenantId: 'tenant-A', staffName: 'Nurse Ada', role: 'nurse', shiftStart: 1700000000, shiftEnd: 1700036000 });
     expect(rota.staffName).toBe('Nurse Ada');
     expect(rota.tenantId).toBe('tenant-A');

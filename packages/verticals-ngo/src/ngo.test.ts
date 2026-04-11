@@ -6,6 +6,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -46,6 +47,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -63,6 +65,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -90,6 +93,7 @@ function makeDb() {
 
 describe('NgoRepository — profiles', () => {
   let db: ReturnType<typeof makeDb>; let repo: NgoRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new NgoRepository(db as any); });
 
   it('creates NGO with seeded status', async () => { const n = await repo.create({ organizationId: 'org1', workspaceId: 'ws1', tenantId: 't1', sector: 'education' }); expect(n.status).toBe('seeded'); expect(n.sector).toBe('education'); });
@@ -111,6 +115,7 @@ describe('NgoRepository — profiles', () => {
 
 describe('NgoRepository — funding', () => {
   let db: ReturnType<typeof makeDb>; let repo: NgoRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new NgoRepository(db as any); });
 
   it('creates funding record (P9)', async () => { const f = await repo.createFunding({ workspaceId: 'ws1', tenantId: 't1', donorName: 'USAID', amountKobo: 5000000 }); expect(f.donorName).toBe('USAID'); expect(f.amountKobo).toBe(5000000); });

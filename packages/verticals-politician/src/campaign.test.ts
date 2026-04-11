@@ -15,6 +15,7 @@ function buildCampaignDb() {
 
   const prepare = (sql: string) => ({
     bind: (...bindings: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.includes('INSERT INTO campaign_donations')) {
           const id = bindings[0] as string;
@@ -47,6 +48,7 @@ function buildCampaignDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         // For SELECT queries with WHERE id = ? AND tenant_id = ?
         const id = bindings[0] as string;
@@ -55,6 +57,7 @@ function buildCampaignDb() {
         if (!row || row['tenant_id'] !== tenantId) return null as T;
         return row as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         const wsId = bindings[0] as string;
         const tenantId = bindings[1] as string;

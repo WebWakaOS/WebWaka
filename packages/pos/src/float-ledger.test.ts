@@ -6,7 +6,7 @@
  * Reversals are new rows with negative amountKobo.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   postLedgerEntry,
   reverseLedgerEntry,
@@ -32,7 +32,8 @@ type MockStatement = {
 
 function makeDB(walletBalanceKobo: number, ledgerRow?: { wallet_id: string; amount_kobo: number; reference: string }): {
   prepare: (sql: string) => MockStatement;
-  batch: ReturnType<typeof vi.fn>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  batch: (...args: any[]) => Promise<{ success: boolean }[]>;
 } {
   const batchMock = vi.fn().mockResolvedValue([{ success: true }, { success: true }]);
 

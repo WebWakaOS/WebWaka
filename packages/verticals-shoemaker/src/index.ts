@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ShoemakerRepository } from './shoemaker.js';
 
-export const VERTICAL_SLUG = 'shoemaker' as const;
+export const VERTICAL_SLUG = 'shoemaker';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerShoemakerVertical() {

@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BoreholeDrillerRepository } from './borehole-driller.js';
 
-export const VERTICAL_SLUG = 'borehole-driller' as const;
+export const VERTICAL_SLUG = 'borehole-driller';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerBoreholeDrillerVertical() {

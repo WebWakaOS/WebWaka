@@ -9,7 +9,7 @@
 export * from './types.js';
 export { ColdRoomRepository } from './cold-room.js';
 
-export const VERTICAL_SLUG = 'cold-room' as const;
+export const VERTICAL_SLUG = 'cold-room';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerColdRoomVertical() {

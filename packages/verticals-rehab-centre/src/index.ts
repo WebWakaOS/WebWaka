@@ -8,7 +8,7 @@
 export * from './types.js';
 export { RehabCentreRepository } from './rehab-centre.js';
 
-export const VERTICAL_SLUG = 'rehab-centre' as const;
+export const VERTICAL_SLUG = 'rehab-centre';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerRehabCentreVertical() {

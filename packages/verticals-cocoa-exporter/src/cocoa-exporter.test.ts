@@ -23,12 +23,14 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO cocoa_exporter_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], company_name: vals[3], nepc_exporter_licence: vals[4], nxp_number: vals[5], crin_registered: vals[6], cbn_forex_dealer: vals[7], cac_rc: vals[8], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO cocoa_procurement')) { const qty = vals[4]; if (!Number.isInteger(qty) || (qty as number) < 0) throw new Error('quantityKg must be a non-negative integer'); const price = vals[6]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: pricePerKgKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], farmer_phone: vals[3], quantity_kg: vals[4], grade: vals[5], price_per_kg_kobo: vals[6], intake_date: vals[7], created_at: 1 }); }
           if (sql.startsWith('INSERT INTO cocoa_exports')) { const qty = vals[4]; if (!Number.isInteger(qty) || (qty as number) < 0) throw new Error('quantityKg must be a non-negative integer'); const fob = vals[8]; if (!Number.isInteger(fob) || (fob as number) < 0) throw new Error('P9: fobValueKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_country: vals[3], quantity_kg: vals[4], quality_cert_ref: vals[5], nepc_licence_ref: vals[6], cbn_fx_form: vals[7], fob_value_kobo: vals[8], shipping_date: vals[9], fx_repatriated_kobo: 0, repatriation_date: null, status: 'prepared', created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -41,6 +43,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

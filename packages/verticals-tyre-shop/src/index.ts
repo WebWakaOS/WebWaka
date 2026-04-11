@@ -7,7 +7,7 @@
 export * from './types.js';
 export { TyreShopRepository } from './tyre-shop.js';
 
-export const VERTICAL_SLUG = 'tyre-shop' as const;
+export const VERTICAL_SLUG = 'tyre-shop';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerTyreShopVertical() {

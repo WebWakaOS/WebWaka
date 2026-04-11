@@ -20,17 +20,20 @@ function makeDb(overrides: Partial<Record<string, unknown>> = {}) {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO dental_clinic_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], clinic_name: vals[3], mdcn_facility_reg: null, adsn_membership: null, cac_rc: null, status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO dental_appointments')) { const fee = vals[7]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: consultationFeeKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], patient_ref_id: vals[3], dentist_ref_id: vals[4], appointment_time: vals[5], treatment_type: vals[6], consultation_fee_kobo: vals[7], status: 'booked', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO dental_treatments')) { const cost = vals[4]; if (!Number.isInteger(cost) || (cost as number) < 0) throw new Error('P9: treatmentCostKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], appointment_id: vals[2], tenant_id: vals[3], treatment_cost_kobo: vals[4], lab_ref: vals[5], notes_ref: vals[6], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) { const key = vals[0] as string; return (store.get(key) ?? null) as T | null; }
           if (sql.includes('COUNT(*) as cnt') && sql.includes('COALESCE')) { return { cnt: 0, rev: 0 } as unknown as T; }
           return (overrides[sql] ?? null) as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -115,39 +118,39 @@ describe('dental-clinic vertical', () => {
   });
 
   it('T3: createProfile stores tenantId correctly', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     const profile = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', clinicName: 'Smile Dental' });
     expect(profile.tenantId).toBe('tenant-A');
     expect(profile.status).toBe('seeded');
   });
 
   it('T3: findProfileById returns null for wrong tenant (cross-tenant 403 equivalent)', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', clinicName: 'Smile Dental' });
     const found = await repo.findProfileById('non-existent-id', 'tenant-B');
     expect(found).toBeNull();
   });
 
   it('P9: createAppointment rejects fractional consultationFeeKobo', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     await expect(repo.createAppointment({ profileId: 'p1', tenantId: 'tenant-A', dentistRefId: 'd1', appointmentTime: 1700000000, consultationFeeKobo: 5000.50 })).rejects.toThrow('P9');
   });
 
   it('P9: createAppointment accepts integer consultationFeeKobo', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     const appt = await repo.createAppointment({ profileId: 'p1', tenantId: 'tenant-A', dentistRefId: 'd1', appointmentTime: 1700000000, consultationFeeKobo: 500000 });
     expect(appt.consultationFeeKobo).toBe(500000);
     expect(appt.patientRefId).toBeTruthy();
   });
 
   it('P13: appointment patient_ref_id is UUID (never a name)', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     const appt = await repo.createAppointment({ profileId: 'p1', tenantId: 'tenant-A', dentistRefId: 'd1', appointmentTime: 1700000000, consultationFeeKobo: 0 });
     expect(appt.patientRefId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('P9: createTreatment rejects fractional treatmentCostKobo', async () => {
-    const repo = new DentalClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new DentalClinicRepository(makeDb());
     await expect(repo.createTreatment({ profileId: 'p1', appointmentId: 'a1', tenantId: 'tenant-A', treatmentCostKobo: 1500.25 })).rejects.toThrow('P9');
   });
 

@@ -22,6 +22,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO vegetable_garden_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], farm_name: vals[3], state_agric_reg: vals[4], fmard_extension_code: vals[5], plot_count: vals[6], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO farm_plots')) { const sqm = vals[4]; if (!Number.isInteger(sqm) || (sqm as number) <= 0) throw new Error('areaSqm must be a positive integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], plot_name: vals[3], area_sqm: vals[4], crop_type: vals[5], planting_date: vals[6], expected_harvest_date: vals[7], status: 'growing', created_at: 1, updated_at: 1 }); }
@@ -30,6 +31,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO farm_sales')) { const wg = vals[5]; if (!Number.isInteger(wg) || (wg as number) < 0) throw new Error('weightGrams must be a non-negative integer'); const price = vals[6]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: pricePerKgKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_phone: vals[3], crop_type: vals[4], weight_grams: vals[5], price_per_kg_kobo: vals[6], total_kobo: vals[7], sale_date: vals[8], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -42,6 +44,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

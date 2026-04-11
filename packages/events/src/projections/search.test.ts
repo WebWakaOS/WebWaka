@@ -7,8 +7,11 @@ function makeDb(eventRows: unknown[] = []) {
     prepare(sql: string) {
       return {
         bind: (..._args: unknown[]) => ({
+          // eslint-disable-next-line @typescript-eslint/require-await
           run: async () => ({ success: true }),
+          // eslint-disable-next-line @typescript-eslint/require-await
           first: async <T>(): Promise<T | null> => null,
+          // eslint-disable-next-line @typescript-eslint/require-await
           all: async <T>() => {
             if (sql.includes('event_log')) {
               return { results: eventRows as T[] };
@@ -16,8 +19,11 @@ function makeDb(eventRows: unknown[] = []) {
             return { results: [] as T[] };
           },
         }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => ({ success: true }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>(): Promise<T | null> => null,
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       };
     },

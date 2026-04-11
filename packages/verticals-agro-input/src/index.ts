@@ -8,7 +8,7 @@
 export * from './types.js';
 export { AgroInputRepository } from './agro-input.js';
 
-export const VERTICAL_SLUG = 'agro-input' as const;
+export const VERTICAL_SLUG = 'agro-input';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerAgroInputVertical() {

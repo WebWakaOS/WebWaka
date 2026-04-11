@@ -20,6 +20,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -60,6 +61,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -77,6 +79,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -120,6 +123,7 @@ function buildMockDb(
     bind: (...bindings: unknown[]) => {
       onQuery(sql, bindings);
       return {
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO politician_profiles')) {
             const id = bindings[0] as string;
@@ -163,6 +167,7 @@ function buildMockDb(
           }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           const id = bindings[0] as string;
           const tenantId = bindings[1] as string | undefined;
@@ -174,6 +179,7 @@ function buildMockDb(
           }
           return row as T;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => {
           const results = Array.from(store.values()) as T[];
           return { results };

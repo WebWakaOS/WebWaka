@@ -22,6 +22,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO fish_market_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], business_name: vals[3], nafdac_food_safety_cert: vals[4], nifda_registration: vals[5], market_location: vals[6], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO fish_stock')) { const wg = vals[5]; if (!Number.isInteger(wg) || (wg as number) < 0) throw new Error('weightGrams must be a non-negative integer'); const cost = vals[6]; if (!Number.isInteger(cost) || (cost as number) < 0) throw new Error('P9: costPerKgKobo must be a non-negative integer'); const exp = vals[7]; if (!Number.isInteger(exp)) throw new Error('expiryDate must be an integer unix timestamp'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], fish_type: vals[3], category: vals[4], weight_grams: vals[5], cost_per_kg_kobo: vals[6], expiry_date: vals[7], source: vals[8], created_at: 1, updated_at: 1 }); }
@@ -29,6 +30,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO fish_wastage')) { const wg = vals[5]; if (!Number.isInteger(wg) || (wg as number) < 0) throw new Error('weightGrams must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], waste_date: vals[3], fish_type: vals[4], weight_grams: vals[5], reason: vals[6], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -41,6 +43,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

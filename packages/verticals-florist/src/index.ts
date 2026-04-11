@@ -7,7 +7,7 @@
 export * from './types.js';
 export { FloristRepository } from './florist.js';
 
-export const VERTICAL_SLUG = 'florist' as const;
+export const VERTICAL_SLUG = 'florist';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerFloristVertical() {

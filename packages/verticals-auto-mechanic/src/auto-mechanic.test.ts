@@ -19,6 +19,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -58,6 +59,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r => {
@@ -66,6 +68,7 @@ function makeDb() {
         });
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         const results = store.filter(r => {
           if (vals.length >= 2) return r['workspace_id'] === vals[0] && r['tenant_id'] === vals[1];

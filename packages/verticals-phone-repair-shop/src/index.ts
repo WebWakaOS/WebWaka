@@ -7,7 +7,7 @@
 export * from './types.js';
 export { PhoneRepairShopRepository } from './phone-repair-shop.js';
 
-export const VERTICAL_SLUG = 'phone-repair-shop' as const;
+export const VERTICAL_SLUG = 'phone-repair-shop';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerPhoneRepairShopVertical() {

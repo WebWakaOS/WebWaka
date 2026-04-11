@@ -13,8 +13,21 @@ import {
 
 function makeDb() {
   const store: Record<string, unknown>[] = [];
+
+  function extractTable(sql: string): string {
+    const insertM = sql.match(/INSERT\s+INTO\s+(\w+)/i);
+    if (insertM) return insertM[1]!.toLowerCase();
+    const updateM = sql.match(/UPDATE\s+(\w+)/i);
+    if (updateM) return updateM[1]!.toLowerCase();
+    const selectM = sql.match(/FROM\s+(\w+)/i);
+    if (selectM) return selectM[1]!.toLowerCase();
+    return '';
+  }
+
   const prep = (sql: string) => {
+    const table = extractTable(sql);
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -22,7 +35,7 @@ function makeDb() {
           if (colM && valM) {
             const cols = colM[1]!.split(',').map((c: string) => c.trim());
             const tokens = valM[1]!.split(',').map((v: string) => v.trim());
-            const row: Record<string, unknown> = {};
+            const row: Record<string, unknown> = { _table: table };
             let bi = 0;
             cols.forEach((col: string, i: number) => {
               const tok = tokens[i] ?? '?';
@@ -44,7 +57,7 @@ function makeDb() {
             const clauses = setM[1]!.split(',').map((c: string) => c.trim()).filter((c: string) => !c.toLowerCase().includes('updated_at') && !c.toLowerCase().includes('unixepoch'));
             const id = vals[vals.length - 2] as string;
             const tid = vals[vals.length - 1] as string;
-            const idx = store.findIndex(r => r['id'] === id && r['tenant_id'] === tid);
+            const idx = store.findIndex(r => r['_table'] === table && r['id'] === id && r['tenant_id'] === tid);
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
                 const col = clause.split('=')[0]!.trim();
@@ -55,18 +68,22 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r =>
-          vals.length >= 2 ? (r['id'] === vals[0] || r['workspace_id'] === vals[0]) && r['tenant_id'] === vals[1] : r['id'] === vals[0]
+          r['_table'] === table &&
+          (vals.length >= 2 ? (r['id'] === vals[0] || r['workspace_id'] === vals[0]) && r['tenant_id'] === vals[1] : r['id'] === vals[0])
         );
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => ({
         results: store.filter(r =>
-          vals.length >= 2
+          r['_table'] === table &&
+          (vals.length >= 2
             ? (r['profile_id'] === vals[0]) && r['tenant_id'] === vals[1]
-            : true
+            : true)
         ),
       } as { results: T[] }),
     });
