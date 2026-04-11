@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: 2 — Monorepo Scaffolding and Shared Core Foundations (APPROVED WITH FIXES APPLIED)**
+**Current Phase: Governance Compliance Remediation (2026-04-11)**
 
 ## Milestone Status
 
@@ -13,6 +13,20 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 0 — Program Setup | ✅ DONE |
 | 1 — Governance Baseline | ✅ DONE |
 | 2 — Monorepo Scaffolding | 🟢 ALL LINT + TYPECHECK ERRORS RESOLVED (0 errors across 175 packages) |
+| 3–8 — API, Discovery, Claims, Commerce, Community, Verticals | 🟢 SUBSTANTIALLY COMPLETE (143 verticals, 124 route files, 185+ migrations) |
+| Governance Remediation | 🟡 IN PROGRESS — 48 items across 8 workstreams |
+
+## Governance Remediation Plan
+
+**Location:** `docs/reports/governance-remediation-plan-2026-04-11.md`
+**Audit Report:** `docs/reports/governance-compliance-deep-audit-2026-04-11.md`
+
+48 remediation items across 8 workstreams, ~135.5 estimated hours:
+- **Phase 0 (3 items):** Admin auth fixes (SEC-001/002/003) — CRITICAL security gaps
+- **Phase 1 (12 items):** Audit logs, CORS, entitlements middleware, AI guards, governance CI, release governance, secret rotation
+- **Phase 2 (12 items):** PWA assets, mobile-first CSS, white-label wiring, rollback backfill, expanded CI
+- **Phase 3 (7 items):** Brand-runtime + public-discovery production quality, cross-pillar data, offline-sync, geography seeding
+- **Phase 4 (14 items):** Documentation harmonization — pillar labels, milestone tracker, compliance dashboard
 
 ## Tech Stack (Target Production)
 
