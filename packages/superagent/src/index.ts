@@ -26,6 +26,12 @@
  *   VERTICAL_AI_CONFIGS — SA-2.3: Per-vertical AI capability declarations
  *   getVerticalAiConfig — SA-2.3: Look up config by slug
  *   isCapabilityAllowed — SA-2.3: Check capability permission for a vertical
+ *
+ * Exports (SA-4.x — M12 Production):
+ *   HitlService        — SA-4.5: HITL queue management (submit, review, expire)
+ *   SpendControls      — SA-4.4: Per-user/team/project WakaCU budgets
+ *   ComplianceFilter   — SA-4.5: Sensitive sector content filtering
+ *   NdprRegister       — SA-4.3: NDPR Article 30 processing register
  */
 
 export { KeyService } from './key-service.js';
@@ -81,3 +87,40 @@ export {
   AIFinancialWriteError,
   getProhibitedFinancialTables,
 } from './guards.js';
+
+export { HitlService } from './hitl-service.js';
+export type {
+  HitlSubmission,
+  HitlReview,
+  HitlQueueItem,
+  HitlServiceDeps,
+} from './hitl-service.js';
+
+export { SpendControls } from './spend-controls.js';
+export type {
+  BudgetScope,
+  SpendBudget,
+  SetBudgetInput,
+  SpendCheckResult,
+  SpendControlsDeps,
+} from './spend-controls.js';
+
+export {
+  getSensitiveSector,
+  isSensitiveVertical,
+  preProcessCheck,
+  stripPii,
+  postProcessCheck,
+} from './compliance-filter.js';
+export type {
+  SensitiveSector,
+  ComplianceCheckResult,
+  PostProcessResult,
+} from './compliance-filter.js';
+
+export { NdprRegister } from './ndpr-register.js';
+export type {
+  ProcessingActivity,
+  RegisterEntry,
+  NdprRegisterDeps,
+} from './ndpr-register.js';

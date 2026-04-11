@@ -182,6 +182,7 @@ import { aiEntitlementMiddleware } from './middleware/ai-entitlement.js';
 import { requireEntitlement } from './middleware/entitlement.js';
 import { PlatformLayer } from '@webwaka/types';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
+import { partnerRoutes } from './routes/partners.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -617,6 +618,16 @@ app.use('/social/posts/*/react', authMiddleware);
 app.use('/social/dm/*', authMiddleware);
 app.use('/social/stories', authMiddleware);
 app.route('/social', socialRoutes);
+
+// ---------------------------------------------------------------------------
+// M11: Partner & White-Label routes — super_admin only (T3, audit log, partner-and-subpartner-model.md)
+// Governance: partner-and-subpartner-model.md Phase 1+2
+// All /partners/* routes require super_admin role (enforced in partnerRoutes handlers)
+// ---------------------------------------------------------------------------
+
+app.use('/partners/*', authMiddleware);
+app.use('/partners/*', auditLogMiddleware);
+app.route('/partners', partnerRoutes);
 
 // ---------------------------------------------------------------------------
 // Global error handler

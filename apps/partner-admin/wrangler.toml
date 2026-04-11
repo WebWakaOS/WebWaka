@@ -1,0 +1,39 @@
+# WebWaka OS — Partner Admin Worker
+# Target: Cloudflare Workers (TDR-0002)
+# Pillar: 1 — Operations-Management
+# Milestone: 11 — Partner & White-Label
+
+name = "webwaka-partner-admin"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# ---------------------------------------------------------------------------
+# Local development (miniflare / wrangler dev)
+# ---------------------------------------------------------------------------
+
+[env.local]
+name = "webwaka-partner-admin-local"
+[env.local.vars]
+ENVIRONMENT = "development"
+
+# ---------------------------------------------------------------------------
+# Staging environment
+# ---------------------------------------------------------------------------
+
+[env.staging]
+name = "webwaka-partner-admin-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+# ---------------------------------------------------------------------------
+# Production environment
+# ---------------------------------------------------------------------------
+
+[env.production]
+name = "webwaka-partner-admin"
+[env.production.vars]
+ENVIRONMENT = "production"

@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "smoke:staging": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts",
-    "smoke:production": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts",
+    "smoke:staging": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts && tsx superagent.smoke.ts",
+    "smoke:production": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts && tsx superagent.smoke.ts",
     "smoke:health": "tsx api-health.smoke.ts",
     "smoke:discovery": "tsx discovery.smoke.ts",
     "smoke:claims": "tsx claims.smoke.ts",
-    "smoke:branding": "tsx branding.smoke.ts"
+    "smoke:branding": "tsx branding.smoke.ts",
+    "smoke:superagent": "tsx superagent.smoke.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

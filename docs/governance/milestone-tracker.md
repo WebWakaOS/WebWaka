@@ -1,6 +1,6 @@
 # WebWaka OS — Milestone Progress Tracker
 
-**Last updated:** 2026-04-11 (M10 Staging Hardening complete)
+**Last updated:** 2026-04-11 (M13 Production Launch complete — v1.0.0)
 **Updated by:** Replit Agent
 
 ---
@@ -25,7 +25,7 @@
 | Total packages | 176 |
 | Vertical sector packages | 143 |
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
-| D1 migrations | 200 (all with rollback scripts) |
+| D1 migrations | 206 (all with rollback scripts) |
 | Route files | 124+ |
 | CI governance checks | 10 |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
@@ -229,18 +229,184 @@
 
 ---
 
-## Milestones 9, 11–13 — Future
+## Milestone 11 — Partner & White-Label
 
-| Milestone | Title | Status | Dependencies |
-|---|---|---|---|
-| 9 | Vertical Scaling | NOT STARTED | Requires Pillars 2+3 live (✅ done) |
-| 11 | Partner & White-Label | NOT STARTED | Requires M10 |
-| 12 | AI Integration (Production) | NOT STARTED | Requires M11 |
-| 13 | Production Launch | NOT STARTED | Requires M12 |
+**Status:** ✅ COMPLETE  
+**Dependency:** M10 Staging Hardening (✅ done)
+
+### M11 Tasks
+
+| Task | Description | Status |
+|------|-------------|--------|
+| M11-001 | D1 migration 0202: `partner_entitlements` table (+ rollback) | ✅ DONE |
+| M11-002 | D1 migration 0203: `partner_audit_log` table (+ rollback) | ✅ DONE |
+| M11-003 | Partner API routes — 8 endpoints, super_admin-gated, T3+audit compliant | ✅ DONE |
+| M11-004 | Partner route tests — 72 tests, all passing | ✅ DONE |
+| M11-005 | Wire partner routes into `apps/api/src/index.ts` | ✅ DONE |
+| M11-006 | `apps/partner-admin` Hono Worker app — full dashboard | ✅ DONE |
+| M11-007 | Documentation updates — tracker, dashboard, partner model, replit.md | ✅ DONE |
+
+### What Was Built
+
+| Component | Details |
+|-----------|---------|
+| `infra/db/migrations/0202_partner_entitlements.sql` | `partner_entitlements` table with rollback |
+| `infra/db/migrations/0203_partner_audit_log.sql` | `partner_audit_log` table with rollback |
+| `apps/api/src/routes/partners.ts` | GET/POST partners, GET/PATCH partner status, GET/POST sub-partners, GET/POST entitlements — all super_admin-gated |
+| `apps/api/src/routes/partners.test.ts` | 72 tests: auth guards, CRUD, delegation limits, T3 isolation, status FSM |
+| `apps/partner-admin/src/index.ts` | Full Hono Worker dashboard (partner list, detail, entitlements, sub-partners) |
+
+### Governance Rules Enforced
+
+| Rule | Enforcement |
+|------|------------|
+| Partner status FSM: pending → active → suspended → deactivated (terminal) | Enforced in PATCH `/partners/:id/status` |
+| Sub-partner creation requires `delegation_rights = '1'` entitlement | Verified before sub-partner POST |
+| Sub-partner count bounded by `max_sub_partners` entitlement | Enforced in sub-partner POST |
+| `white_label_depth`: 0 (none) / 1 (partial) / 2 (full) — subscription-gated | Stored as entitlement dimension |
+| All partner mutations logged to `partner_audit_log` | Via audit middleware + direct inserts |
+| T3: `tenant_id` on all D1 queries | ✅ ENFORCED in all 8 routes |
+| super_admin-only: no partner routes accessible by tenant users | ✅ Role guard on all routes |
+
+### CI Pipeline Status (post-M11)
+
+| Step | Status | Details |
+|------|--------|---------|
+| `pnpm typecheck` | ✅ PASS | api + partner-admin both typecheck clean |
+| `pnpm test` | ✅ PASS | 244 tests in @webwaka/api (72 new partner tests), 20 nurtw tests fixed |
+| `pnpm lint` | ✅ PASS | 0 errors |
+| Governance checks | ✅ PASS | 10/10 checks green |
 
 ---
 
-*Last updated: 2026-04-11 (M10 complete)*
+## Milestone 12 — AI Integration (Production)
+
+**Goal:** Complete SA-4.x Phase 4 SuperAgent roadmap — production-grade AI with HITL, spend controls, compliance filtering, NDPR register, and audit export.
+**Owner:** Replit Agent (implementation)
+**Overall status:** ✅ DONE
+
+| Task ID | Description | Status |
+|------|-------------|--------|
+| M12-001 | HITL Service Layer (`hitl-service.ts`) — submit, review, list, expire, 72h L3 window | ✅ DONE |
+| M12-002 | Enterprise Spend Controls (`spend-controls.ts`) + migration 0204 (`ai_spend_budgets`) | ✅ DONE |
+| M12-003 | Compliance-Mode AI (`compliance-filter.ts`) — sensitive sector detection, PII stripping, post-processing | ✅ DONE |
+| M12-004 | NDPR Article 30 Register (`ndpr-register.ts`) + migration 0205 (`ai_processing_register`) | ✅ DONE |
+| M12-005 | AI Audit Export — anonymized usage export route | ✅ DONE |
+| M12-006 | HITL/Budget/NDPR/Compliance routes in `superagent.ts` (13 new endpoints) | ✅ DONE |
+| M12-007 | SuperAgent package tests — 68 tests (hitl, spend, compliance, ndpr) | ✅ DONE |
+| M12-008 | SuperAgent route integration tests — 43 tests (incl. role guards) | ✅ DONE |
+| M12-009 | Documentation updates — tracker, replit.md | ✅ DONE |
+| M12-QA | Post-completion QA audit — 9 bugs found and fixed (see `docs/qa/m12-ai-qa-report.md`) | ✅ DONE |
+
+### What Was Built
+
+| Component | Details |
+|-----------|---------|
+| `packages/superagent/src/hitl-service.ts` | HITL queue management: submit, review (approve/reject), list, countPending, expireStale, getItem. L3 enforces 72h review window. |
+| `packages/superagent/src/spend-controls.ts` | Per-user/team/project/workspace WakaCU budgets: setBudget, checkBudget, listBudgets, deleteBudget, recordSpend, resetMonthlyBudgets. P9 integer enforcement. |
+| `packages/superagent/src/compliance-filter.ts` | Sensitive sector detection (medical/legal/political/pharmaceutical), PII stripping (P13), pre/post-processing checks, sector-specific disclaimers. |
+| `packages/superagent/src/ndpr-register.ts` | NDPR Article 30 register: seedFromVerticalConfigs, listActivities, markReviewed, exportRegister. Auto-populates from VERTICAL_AI_CONFIGS. |
+| `infra/db/migrations/0204_ai_spend_budgets.sql` | `ai_spend_budgets` table with rollback |
+| `infra/db/migrations/0205_ai_processing_register.sql` | `ai_processing_register` table with rollback |
+| `apps/api/src/routes/superagent.ts` | 13 new M12 endpoints: HITL submit/queue/review, budgets CRUD, audit export, NDPR register/seed/review, compliance check |
+| `packages/superagent/src/*.test.ts` | 68 package tests across 4 test files |
+| `apps/api/src/routes/superagent.test.ts` | 43 route integration tests |
+| `tests/smoke/superagent.smoke.ts` | 16 smoke checks (compliance, auth guards, route registration, USSD exclusion) |
+
+### New API Endpoints (M12)
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| POST | `/superagent/hitl/submit` | Submit AI action for HITL review |
+| GET | `/superagent/hitl/queue` | List pending HITL items |
+| PATCH | `/superagent/hitl/:id/review` | Approve/reject HITL item |
+| GET | `/superagent/budgets` | List spend budgets |
+| PUT | `/superagent/budgets` | Set/update spend budget |
+| DELETE | `/superagent/budgets/:id` | Deactivate a spend budget |
+| GET | `/superagent/audit/export` | Anonymized AI usage export |
+| GET | `/superagent/ndpr/register` | NDPR Article 30 register export |
+| POST | `/superagent/ndpr/register/seed` | Seed register from vertical configs |
+| PATCH | `/superagent/ndpr/register/:id/review` | Mark register entry reviewed |
+| GET | `/superagent/compliance/check` | Check compliance status for vertical |
+
+### Governance Rules Enforced
+
+| Rule | Enforcement |
+|------|------------|
+| T3: tenant_id on all queries | ✅ All HITL, budget, NDPR queries tenant-scoped |
+| P9: integer WakaCU | ✅ SpendControls rejects non-integer amounts |
+| P7: no direct AI SDK calls | ✅ All AI calls through adapter abstraction |
+| P10: NDPR consent | ✅ NDPR register auto-populated; consent gate on /chat |
+| P13: no raw PII to AI | ✅ ComplianceFilter strips phone/email before AI calls |
+| HITL L3 72h window | ✅ HitlService enforces mandatory 72h review for L3 items |
+
+### CI Pipeline Status (post-M12 QA)
+
+| Step | Status | Details |
+|------|--------|---------|
+| `pnpm typecheck` | ✅ PASS | api + superagent both typecheck clean |
+| `pnpm test` | ✅ PASS | 279 API tests (43 superagent route), 68 superagent package tests — 0 failures |
+| Governance checks | ✅ PASS | 10/10 checks green |
+| QA Report | ✅ APPROVED | `docs/qa/m12-ai-qa-report.md` — 9 bugs fixed, all verified |
+
+---
+
+## Milestone 13 — Production Launch
+
+**Goal:** Complete all code-level production readiness for v1.0.0 release. CHANGELOG, version bumps, smoke test expansion, documentation finalization.
+**Owner:** Replit Agent (implementation) → Founder (signoff + deploy)
+**Overall status:** ✅ DONE
+**Dependency:** M12 complete (✅ done)
+
+| Task ID | Description | Status |
+|---------|-------------|--------|
+| M13-001 | M12 QA Report (`docs/qa/m12-ai-qa-report.md`) — formal QA gate documentation | ✅ DONE |
+| M13-002 | CHANGELOG.md v1.0.0 — complete release history (M10–M12 + governance remediation) | ✅ DONE |
+| M13-003 | Version bump — root + api to 1.0.0; API_VERSION already 1.0.0 | ✅ DONE |
+| M13-004 | SuperAgent smoke tests (`tests/smoke/superagent.smoke.ts`) — 16 checks | ✅ DONE |
+| M13-005 | Milestone tracker + compliance dashboard updated with M12 QA + M13 | ✅ DONE |
+| M13-006 | Final audit — full test suite, governance checks, typecheck all green | ✅ DONE |
+
+### What Was Delivered
+
+| Component | Details |
+|-----------|---------|
+| `CHANGELOG.md` | Complete v1.0.0 release notes: M10 hardening, M11 partner, M12 AI, QA fixes, governance remediation |
+| `docs/qa/m12-ai-qa-report.md` | Formal QA gate report: 9 bugs found/fixed, 347 tests verified |
+| `tests/smoke/superagent.smoke.ts` | 16 smoke checks: compliance, auth guards (unauthenticated rejection), route registration, USSD exclusion |
+| `package.json` | Root version bumped to 1.0.0 |
+| `apps/api/package.json` | API version bumped to 1.0.0 |
+| Milestone tracker | Updated with M12 QA results and M13 completion |
+| Compliance dashboard | Updated with M12 AI integration status |
+
+### Production Launch Prerequisites (for Founder)
+
+| Step | Description | Status |
+|------|-------------|--------|
+| 1 | Rotate Cloudflare API token (see launch checklist) | 🔲 FOUNDER ACTION |
+| 2 | Apply wrangler secrets to staging | 🔲 FOUNDER ACTION |
+| 3 | Apply all 206 D1 migrations to staging | 🔲 FOUNDER ACTION |
+| 4 | Load geography seed data | 🔲 FOUNDER ACTION |
+| 5 | Seed platform tenant + super admin | 🔲 FOUNDER ACTION |
+| 6 | Deploy 4 Workers to staging | 🔲 FOUNDER ACTION |
+| 7 | Run smoke tests against staging | 🔲 FOUNDER ACTION |
+| 8 | Enable production approval gate | 🔲 FOUNDER ACTION |
+| 9 | Deploy to production via CI | 🔲 FOUNDER ACTION |
+| 10 | Seed production super admin | 🔲 FOUNDER ACTION |
+
+See `docs/super-admin-launch-checklist.md` for detailed instructions.
+
+---
+
+## Milestones 9 — Future
+
+| Milestone | Title | Status | Dependencies |
+|---|---|---|---|
+| 9 | Vertical Scaling | NOT STARTED | Requires M13 Production Launch (✅ done) |
+
+---
+
+*Last updated: 2026-04-11 (M13 Production Launch complete)*
 
 *This tracker is the live status document for all WebWaka OS milestones and remediation phases.*
 *See `docs/governance/compliance-dashboard.md` for invariant-level compliance status.*

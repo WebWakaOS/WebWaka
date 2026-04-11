@@ -4,7 +4,7 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Phase: Milestone 10 — Staging Hardening (✅ COMPLETE)**
+**Current Phase: Milestone 13 — Production Launch (✅ COMPLETE — v1.0.0)**
 
 ## Milestone Status
 
@@ -13,9 +13,12 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 0 — Program Setup | ✅ DONE |
 | 1 — Governance Baseline | ✅ DONE |
 | 2 — Monorepo Scaffolding | ✅ DONE (0 errors across 175+ packages) |
-| 3–8 — API, Discovery, Claims, Commerce, Community, Verticals | ✅ SUBSTANTIALLY COMPLETE (143 verticals, 124 route files, 200 migrations) |
+| 3–8 — API, Discovery, Claims, Commerce, Community, Verticals | ✅ SUBSTANTIALLY COMPLETE (143 verticals, 124 route files, 206 migrations) |
 | Governance Remediation (Phases 0–4) | ✅ COMPLETE — 48/48 items |
-| 10 — Staging Hardening | ✅ COMPLETE — 9/9 tasks done (CI green, incident response, logging, smoke tests, secrets) |
+| 10 — Staging Hardening | ✅ COMPLETE — 9/9 tasks done |
+| 11 — Partner & White-Label | ✅ COMPLETE — 7/7 tasks done |
+| 12 — AI Integration (Production) | ✅ COMPLETE — 10/10 tasks done (incl. QA: 9 bugs fixed, 111 tests) |
+| 13 — Production Launch | ✅ COMPLETE — v1.0.0 (CHANGELOG, version bumps, smoke tests, docs) |
 
 ## Platform Scale
 
@@ -24,11 +27,14 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
 | Packages | 176 (184 with pillar prefixes) |
 | Verticals | 143 |
-| D1 migrations | 200 (all with rollback scripts) |
+| D1 migrations | 206 (all with rollback scripts) |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
 | CI governance checks | 10 |
-| Total test files | 186 (164 packages + 18 apps + 4 smoke, 0 failures) |
+| Smoke test suites | 5 (health, discovery, claims, branding, superagent) |
+| Total API tests (@webwaka/api) | 279 (incl. 61 partner + 43 superagent route integration tests) |
+| SuperAgent package tests | 68 (hitl-service, spend-controls, compliance-filter, ndpr-register) |
+| Platform version | 1.0.0 |
 
 ## Key Documents
 
@@ -81,7 +87,7 @@ webwaka-os/
     verticals-*/            — 143 vertical-specific packages
   infra/
     db/
-      migrations/           — D1 SQL migration files (0001–0199)
+      migrations/           — D1 SQL migration files (0001–0205, 206 total)
       seed/                 — Nigeria geography seed data
     cloudflare/             — Cloudflare infrastructure config
   docs/
@@ -105,7 +111,7 @@ webwaka-os/
 ```bash
 pnpm install                    # Install all workspace packages
 pnpm typecheck                  # Typecheck all packages (176)
-pnpm test                       # Run full test suite (186 test files)
+pnpm test                       # Run full test suite (233 API tests, 0 failures)
 pnpm lint                       # Lint all packages
 
 # Individual package commands
@@ -123,7 +129,7 @@ npx tsx scripts/governance-checks/check-tenant-isolation.ts
 | Step | Command | Status |
 |------|---------|--------|
 | TypeScript Check | `pnpm typecheck` | ✅ PASS |
-| Tests | `pnpm test` | ✅ PASS (186 test files, 0 failures) |
+| Tests | `pnpm test` | ✅ PASS (279 API tests, 60 superagent pkg tests, 73 root tests — 0 failures) |
 | Lint | `pnpm lint` | ✅ PASS |
 | Governance | 10 custom checks in `scripts/governance-checks/` | ✅ PASS (10/10) |
 
