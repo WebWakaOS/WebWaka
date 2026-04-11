@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@webwaka/ai": ["../ai-abstraction/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*"]
+}

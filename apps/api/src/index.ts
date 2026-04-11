@@ -1,39 +1,610 @@
 /**
- * WebWaka API — Cloudflare Worker entry point
+ * WebWaka API — Cloudflare Workers entry point.
+ * Framework: Hono (https://hono.dev)
  *
- * Built on Hono. Bindings: DB (D1), RATE_LIMIT_KV, CACHE_KV, SESSIONS_KV
- * Secrets: JWT_SECRET, INTER_SERVICE_SECRET
+ * Route map:
+ *   GET  /health                           — liveness probe (no auth)
+ *   POST /auth/login                       — issue JWT
+ *   POST /auth/verify                      — validate a JWT, return decoded payload
+ *   POST /auth/refresh                     — refresh JWT (auth required)
+ *   GET  /auth/me                          — return caller's AuthContext (auth required)
+ *   GET  /geography/places/:id             — place node (no auth)
+ *   GET  /geography/places/:id/children    — direct children (no auth)
+ *   GET  /geography/places/:id/ancestry    — ancestry breadcrumb (no auth)
+ *   GET  /entities/individuals             — list (auth required)
+ *   POST /entities/individuals             — create (auth + entitlement required)
+ *   GET  /entities/individuals/:id         — get by ID (auth required)
+ *   GET  /entities/organizations           — list (auth required)
+ *   POST /entities/organizations           — create (auth + entitlement required)
+ *   GET  /entities/organizations/:id       — get by ID (auth required)
+ *   GET  /discovery/search                 — full-text + geography search (no auth)
+ *   GET  /discovery/profiles/:type/:id     — public profile (no auth)
+ *   POST /discovery/claim-intent           — capture claim interest (no auth)
+ *   GET  /discovery/nearby/:placeId        — entities in subtree (no auth)
+ *   GET  /discovery/trending               — most-viewed this week (no auth)
+ *   POST /claim/intent                     — formal claim request (auth required)
+ *   POST /claim/advance                    — advance claim state (admin only)
+ *   POST /claim/verify                     — submit verification evidence (auth required)
+ *   GET  /claim/status/:profileId          — public claim status (no auth)
+ *   POST /workspaces/:id/activate          — activate workspace plan (auth required)
+ *   PATCH /workspaces/:id                  — update plan/layers (admin only)
+ *   POST /workspaces/:id/invite            — invite member (auth required)
+ *   GET  /workspaces/:id/analytics         — usage metrics (auth required)
+ *   POST /workspaces/:id/upgrade           — initialise Paystack checkout (auth required, M6)
+ *   GET  /workspaces/:id/billing           — billing history (auth required, M6)
+ *   POST /payments/verify                  — verify + sync Paystack payment (auth required, M6)
+ *   GET  /public/:tenantSlug               — tenant manifest + discovery page (no auth, M6)
+ *   GET  /admin/:workspaceId/dashboard     — admin layout model (no auth, M6)
+ *   POST /themes/:tenantId                 — update tenant branding (auth required, M6)
+ *   POST /identity/verify-bvn             — BVN verification (auth required, M7a)
+ *   POST /identity/verify-nin             — NIN verification (auth required, M7a)
+ *   POST /identity/verify-cac             — CAC lookup (auth required, M7a)
+ *   POST /identity/verify-frsc            — FRSC lookup (auth required, M7a)
+ *   GET  /contact/channels                — get contact channels (auth required, M7a)
+ *   PUT  /contact/channels                — upsert contact channels (auth required, M7a)
+ *   POST /contact/verify/:channel         — send OTP to channel (auth required, M7a)
+ *   POST /contact/confirm/:channel        — confirm OTP for channel (auth required, M7a)
+ *   DELETE /contact/channels/:channel     — remove channel (auth required, M7a)
+ *   GET  /contact/preferences             — get OTP preferences (auth required, M7a)
+ *   PUT  /contact/preferences             — update OTP preferences (auth required, M7a)
+ *   POST /sync/apply                      — offline queue replay (auth required, M7b)
+ *   POST /pos/terminals                   — register POS terminal (auth required, M7b)
+ *   POST /pos/float/credit                — top up agent float (auth required, M7b)
+ *   POST /pos/float/debit                 — deduct from float (auth required, M7b)
+ *   GET  /pos/float/balance               — get current balance (auth required, M7b)
+ *   GET  /pos/float/history               — paginated ledger (auth required, M7b)
+ *   POST /pos/float/reverse               — reverse a ledger entry (auth required, M7b)
+ *
+ * Commerce P3 — 15 verticals (auth required, M10/M11/M12) — mounted at /api/v1/:slug/*
+ *   artisanal-mining, borehole-driller, building-materials, car-wash,
+ *   cleaning-company, electrical-fittings, generator-dealer, hair-salon,
+ *   petrol-station, phone-repair-shop, shoemaker, spare-parts,
+ *   tyre-shop, used-car-dealer, water-vendor
+ *
+ * Civic Extended — 10 verticals (auth required, M8d/M11/M12) — mounted at /api/v1/:slug/*
+ *   mosque, youth-organization, womens-association, waste-management,
+ *   book-club, professional-association, sports-club,
+ *   campaign-office (L3 HITL), constituency-office (L3 HITL), ward-rep (L3 HITL)
+ *
+ * Health Extended — 6 verticals (auth required, M9–M12) — mounted at /api/v1/:slug/*
+ *   dental-clinic (M9), sports-academy (M10), vet-clinic (M10),
+ *   community-health (M12, USSD-safe), elderly-care (M12), rehab-centre (M12, L3 HITL ALL AI)
+ *
+ * Professional Extended — 7 verticals (auth required, M9/M12) — mounted at /api/v1/:slug/*
+ *   accounting-firm (M9), event-planner (M9),
+ *   law-firm (M9, L3 HITL ALL AI — legal privilege absolute),
+ *   funeral-home (M12, L3 HITL ALL AI — deceased data absolute),
+ *   pr-firm (M12), tax-consultant (M12, L3 HITL ALL AI — tax privilege absolute),
+ *   wedding-planner (M12)
+ *
+ * Creator Extended — 4 verticals (auth required, M10/M12) — mounted at /api/v1/:slug/*
+ *   music-studio (M10, COSON, integer hours/bpm), photography-studio (M10),
+ *   recording-label (M12, royalty_split_bps INTEGER, kobo arithmetic),
+ *   talent-agency (M12, commission_bps INTEGER, fee arithmetic)
+ *
+ * Financial Extended — 4 verticals (auth required, M12) — mounted at /api/v1/:slug/*
+ *   airtime-reseller (CBN daily cap 30M kobo, L2 AI), bureau-de-change (FX kobo/cent no-float, L2 AI, Tier3),
+ *   hire-purchase (outstanding_kobo decrement, L2 AI, Tier3), mobile-money-agent (CBN daily cap, L2 AI, Tier3)
+ *
+ * Place Extended — 4 verticals (auth required, M10/M11/M12) — mounted at /api/v1/:slug/*
+ *   event-hall (double-booking, L2 AI), water-treatment (scaled ints ph×100/ppm×10/NTU×10, L2 AI),
+ *   community-hall (3-state FSM, L1 AI), events-centre (section conflict, L2 AI)
+ *
+ * Media Extended — 3 verticals (auth required, M9/M12) — mounted at /api/v1/:slug/*
+ *   advertising-agency (APCON, impressions INTEGER, CPM kobo, L2 AI),
+ *   newspaper-dist (NPC, print_run INTEGER copies, L2 AI),
+ *   podcast-studio (L3 HITL broadcast scheduling; L2 sponsorship revenue)
+ *
+ * Institutional Extended — 2 verticals (auth required, M11/M12) — mounted at /api/v1/:slug/*
+ *   government-agency (BPP, L3 HITL ALL AI, Tier3 KYC, vendor/procurement P13),
+ *   polling-unit (INEC, L3 HITL ALL AI, NO voter PII — absolute)
+ *
+ * Set J Extended — 27 verticals (auth required, M12) — mounted at /api/v1/verticals/:slug/*
+ *   Migrations 0154–0180. Special invariants:
+ *   orphanage       (L3 HITL ALL, child_ref_id forbidden, no-PII intake)
+ *   nursery-school  (highest P13, no child_ref_id, aggregate counts only)
+ *   okada-keke      (L2 AI, Lagos 2022 ban guard, NURTW FSM gate)
+ *   oil-gas-services (L2 AI, Tier3 KYC, dual-gate FSM ncdmb_certified→dpr_registered)
+ *   gas-distributor  (cylinder sizes INTEGER GRAMS: 3000/5000/12500/25000/50000)
+ *   iron-steel       (thickness INTEGER mm×10)
+ *   internet-cafe    (session duration INTEGER minutes)
+ *   optician         (L2 scheduling, L3 HITL clinical output)
+ *   land-surveyor    (L2 max, L3 HITL land identity)
+ *   hotel, handyman, logistics-delivery, pharmacy-chain, furniture-maker,
+ *   generator-repair, it-support, laundry, gym-fitness, printing-press,
+ *   laundry-service, motorcycle-accessories, paints-distributor, plumbing-supplies,
+ *   ministry-mission, market-association, motivational-speaker, govt-school
+ *
+ * Platform Invariants enforced:
+ *   T3 — tenant_id on all DB queries (via auth middleware context)
+ *   T4 — kobo integers enforced by repository layer
+ *   T5 — entitlement checks in entity create routes
+ *   T6 — geography-driven discovery via /geography routes
+ *   P6  — offline queue replay via /sync/apply (M7b)
+ *   P9  — all float amounts validated as integer kobo (M7b)
+ *   P10 — NDPR consent required before identity lookups (M7a)
+ *   P11 — server-wins conflict on /sync/apply (M7b)
+ *   R5  — 2/hour BVN/NIN rate limit (M7a)
+ *   R8  — SMS mandatory for transaction OTPs (M7a)
+ *   R9  — channel-level OTP rate limits (M7a)
  */
 
-export interface Env {
-  DB: D1Database;
-  RATE_LIMIT_KV: KVNamespace;
-  CACHE_KV: KVNamespace;
-  SESSIONS_KV: KVNamespace;
-  ENVIRONMENT: string;
-  LOG_LEVEL: string;
-  JWT_SECRET: string;
-  INTER_SERVICE_SECRET: string;
-}
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { secureHeaders } from 'hono/secure-headers';
+import type { Env } from './env.js';
+import { authMiddleware } from './middleware/auth.js';
+import { healthRoutes } from './routes/health.js';
+import { geographyRoutes } from './routes/geography.js';
+import { entityRoutes } from './routes/entities.js';
+import { authRoutes } from './routes/auth-routes.js';
+import { discoveryRoutes } from './routes/discovery.js';
+import { claimRoutes } from './routes/claim.js';
+import { workspaceRoutes } from './routes/workspaces.js';
+import {
+  workspaceUpgradeRoute,
+  workspaceBillingRoute,
+  paymentsVerifyRoute,
+} from './routes/payments.js';
+import { publicRoutes, adminPublicRoutes, themeRoutes } from './routes/public.js';
+import { identityRoutes } from './routes/identity.js';
+import { contactRoutes } from './routes/contact.js';
+import { syncRoutes } from './routes/sync.js';
+import { posRoutes } from './routes/pos.js';
+import { communityRoutes } from './routes/community.js';
+import { socialRoutes } from './routes/social.js';
+import { identityRateLimit, rateLimitMiddleware } from './middleware/rate-limit.js';
+import { auditLogMiddleware } from './middleware/audit-log.js';
+import { assertDMMasterKey } from '@webwaka/social';
+import { airtimeRoutes } from './routes/airtime.js';
+import { lowDataMiddleware } from './middleware/low-data.js';
+import { verticalsRoutes } from './routes/verticals.js';
+import { workspaceVerticalsRoutes } from './routes/workspace-verticals.js';
+import { superagentRoutes } from './routes/superagent.js';
+import { politicianRoutes } from './routes/politician.js';
+import { posBusinessRoutes } from './routes/pos-business.js';
+import { transportRoutes } from './routes/transport.js';
+import { civicRoutes } from './routes/civic.js';
+import { commerceRoutes } from './routes/commerce.js';
+import { commerceP2Routes } from './routes/verticals-commerce-p2.js';
+import { commerceP2Batch2Routes } from './routes/verticals-commerce-p2-batch2.js';
+import { commerceP3Routes } from './routes/verticals-commerce-p3.js';
+import { transportExtendedRoutes } from './routes/verticals-transport-extended.js';
+import { civicExtendedRoutes } from './routes/verticals-civic-extended.js';
+import healthExtendedRoutes from './routes/verticals-health-extended.js';
+import profCreatorExtendedRoutes from './routes/verticals-prof-creator-extended.js';
+import financialPlaceMediaInstitutionalRoutes from './routes/verticals-financial-place-media-institutional-extended.js';
+import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
+import { negotiationRouter } from './routes/negotiation.js';
+import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
+
+const app = new Hono<{ Bindings: Env }>();
+
+// ---------------------------------------------------------------------------
+// Global middleware
+// ---------------------------------------------------------------------------
+
+app.use('*', secureHeaders());
+// M7b advisory: CORS origin reads ALLOWED_ORIGINS from Worker env (not hardcoded wildcard).
+// ALLOWED_ORIGINS is a comma-separated string set via CF Dashboard secret.
+// Fallback: ['https://*.webwaka.com', 'http://localhost:5173'] for development.
+app.use('*', async (c, next) => {
+  const envOrigins = c.env?.ALLOWED_ORIGINS;
+  const allowed: string[] = envOrigins
+    ? envOrigins.split(',').map((o) => o.trim()).filter(Boolean)
+    : ['https://*.webwaka.com', 'http://localhost:5173'];
+
+  return cors({
+    origin: (origin) => (allowed.includes(origin) ? origin : null),
+    allowHeaders: ['Authorization', 'Content-Type'],
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    exposeHeaders: ['X-Request-Id'],
+    maxAge: 86400,
+  })(c, next);
+});
+app.use('*', logger());
+// M7e: Low-data mode — strips media_urls from JSON responses when X-Low-Data: 1 (P4/P6)
+app.use('*', lowDataMiddleware);
+// T006: Global rate limiting — 100 req/60s per IP before auth (R5)
+app.use('*', rateLimitMiddleware({ keyPrefix: 'global', maxRequests: 100, windowSeconds: 60 }));
+
+// ---------------------------------------------------------------------------
+// Public routes (no auth)
+// ---------------------------------------------------------------------------
+
+app.route('/health', healthRoutes);
+app.route('/geography', geographyRoutes);
+app.route('/discovery', discoveryRoutes);
+
+// ---------------------------------------------------------------------------
+// Auth routes — /auth/login and /auth/verify are public;
+// /auth/refresh and /auth/me require a valid JWT
+// ---------------------------------------------------------------------------
+
+app.use('/auth/refresh', authMiddleware);
+app.use('/auth/me', authMiddleware);
+app.route('/auth', authRoutes);
+
+// ---------------------------------------------------------------------------
+// Authenticated entity routes
+// ---------------------------------------------------------------------------
+
+app.use('/entities/*', authMiddleware);
+app.route('/entities', entityRoutes);
+
+// ---------------------------------------------------------------------------
+// Claim routes — /claim/status/:profileId is public; others require auth
+// ---------------------------------------------------------------------------
+
+app.use('/claim/intent', authMiddleware);
+app.use('/claim/advance', authMiddleware);
+app.use('/claim/verify', authMiddleware);
+app.route('/claim', claimRoutes);
+
+// ---------------------------------------------------------------------------
+// Workspace routes — all require auth
+// ---------------------------------------------------------------------------
+
+app.use('/workspaces/*', authMiddleware);
+app.route('/workspaces', workspaceRoutes);
+app.route('/workspaces', workspaceUpgradeRoute);
+app.route('/workspaces', workspaceBillingRoute);
+
+// ---------------------------------------------------------------------------
+// M6: Payment verification route — auth required
+// ---------------------------------------------------------------------------
+
+app.use('/payments/*', authMiddleware);
+app.route('/payments', paymentsVerifyRoute);
+
+// ---------------------------------------------------------------------------
+// M6: Public tenant + admin dashboard routes — no auth required
+// ---------------------------------------------------------------------------
+
+app.route('/public', publicRoutes);
+app.route('/admin', adminPublicRoutes);
+
+// ---------------------------------------------------------------------------
+// M6: Theme routes — auth required
+// ---------------------------------------------------------------------------
+
+app.use('/themes/*', authMiddleware);
+app.route('/themes', themeRoutes);
+
+// ---------------------------------------------------------------------------
+// M7a: Identity verification routes — auth + rate limit (R5) + audit log
+// ---------------------------------------------------------------------------
+
+app.use('/identity/*', authMiddleware);
+app.use('/identity/*', auditLogMiddleware);
+app.use('/identity/verify-bvn', identityRateLimit);
+app.use('/identity/verify-nin', identityRateLimit);
+app.route('/identity', identityRoutes);
+
+// ---------------------------------------------------------------------------
+// M7a: Contact channel routes — auth required (R9/R10 enforced in route handler)
+// ---------------------------------------------------------------------------
+
+app.use('/contact/*', authMiddleware);
+app.use('/contact/verify/*', auditLogMiddleware);
+app.route('/contact', contactRoutes);
+
+// ---------------------------------------------------------------------------
+// M7b: Offline sync endpoint — auth required (P11 — server-wins conflict)
+// ---------------------------------------------------------------------------
+
+app.use('/sync/*', authMiddleware);
+app.route('/sync', syncRoutes);
+
+// ---------------------------------------------------------------------------
+// M7b: POS terminal + float ledger routes — auth required (P9/T3/T4)
+// ---------------------------------------------------------------------------
+
+app.use('/pos/*', authMiddleware);
+app.route('/pos', posRoutes);
+
+// ---------------------------------------------------------------------------
+// M7c: Community routes — join requires auth (P10 NDPR), reads are public (T3)
+// ---------------------------------------------------------------------------
+
+app.use('/community/join', authMiddleware);
+app.use('/community/channels/*/posts', authMiddleware);
+app.use('/community/lessons/*/progress', authMiddleware);
+app.use('/community/events/*/rsvp', authMiddleware);
+app.route('/community', communityRoutes);
+
+// ---------------------------------------------------------------------------
+// M7e: Airtime top-up routes — auth required (P2/P9/T3/T4, KYC Tier 1, rate limit)
+// ---------------------------------------------------------------------------
+
+app.use('/airtime/*', authMiddleware);
+app.route('/airtime', airtimeRoutes);
+
+// ---------------------------------------------------------------------------
+// M8a: Verticals registry routes — public (no auth required)
+// ---------------------------------------------------------------------------
+
+app.route('/verticals', verticalsRoutes);
+
+// ---------------------------------------------------------------------------
+// M8a: Workspace verticals activation — auth required
+// ---------------------------------------------------------------------------
+
+app.use('/workspaces/*/verticals*', authMiddleware);
+app.route('/workspaces', workspaceVerticalsRoutes);
+
+// ---------------------------------------------------------------------------
+// SA-2.x / SA-3.x: SuperAgent routes — auth required; /chat also runs aiConsentGate (P10/P12)
+// ---------------------------------------------------------------------------
+
+app.use('/superagent/*', authMiddleware);
+app.route('/superagent', superagentRoutes);
+
+// ---------------------------------------------------------------------------
+// M8b: Politician vertical routes — auth required (T3 isolation via tenantId)
+// ---------------------------------------------------------------------------
+
+app.use('/politician/*', authMiddleware);
+app.route('/politician', politicianRoutes);
+
+// ---------------------------------------------------------------------------
+// M8b: POS Business vertical routes — auth required (T3 isolation via tenantId)
+// ---------------------------------------------------------------------------
+
+app.use('/pos-business/*', authMiddleware);
+app.route('/pos-business', posBusinessRoutes);
+
+// ---------------------------------------------------------------------------
+// M8c: Transport vertical routes — auth required (T3, P9, P12)
+// ---------------------------------------------------------------------------
+
+app.use('/transport/*', authMiddleware);
+app.route('/transport', transportRoutes);
+
+// ---------------------------------------------------------------------------
+// M8d: Civic vertical routes — auth required (T3, P9, P13)
+// ---------------------------------------------------------------------------
+
+app.use('/civic/*', authMiddleware);
+app.route('/civic', civicRoutes);
+
+// ---------------------------------------------------------------------------
+// M8e: Commerce vertical routes — auth required (T3, P9, P13)
+// ---------------------------------------------------------------------------
+
+app.use('/commerce/*', authMiddleware);
+app.route('/commerce', commerceRoutes);
+
+// ---------------------------------------------------------------------------
+// M9: Commerce P2 Batch 1 vertical routes — auth required (T3, P9, P10, P12, P13)
+// Verticals: auto-mechanic, bakery, beauty-salon, bookshop, catering,
+//            cleaning-service, electronics-repair, florist, food-vendor
+// ---------------------------------------------------------------------------
+
+app.use('/auto-mechanic/*', authMiddleware);
+app.use('/bakery/*', authMiddleware);
+app.use('/beauty-salon/*', authMiddleware);
+app.use('/bookshop/*', authMiddleware);
+app.use('/catering/*', authMiddleware);
+app.use('/cleaning-service/*', authMiddleware);
+app.use('/electronics-repair/*', authMiddleware);
+app.use('/florist/*', authMiddleware);
+app.use('/food-vendor/*', authMiddleware);
+app.route('/', commerceP2Routes);
+
+// ---------------------------------------------------------------------------
+// Commerce P2 Batch 2 (M9/M10): 12 verticals
+// ---------------------------------------------------------------------------
+app.use('/construction/*', authMiddleware);
+app.use('/fuel-station/*', authMiddleware);
+app.use('/print-shop/*', authMiddleware);
+app.use('/property-developer/*', authMiddleware);
+app.use('/real-estate-agency/*', authMiddleware);
+app.use('/restaurant-chain/*', authMiddleware);
+app.use('/security-company/*', authMiddleware);
+app.use('/solar-installer/*', authMiddleware);
+app.use('/spa/*', authMiddleware);
+app.use('/tailor/*', authMiddleware);
+app.use('/travel-agent/*', authMiddleware);
+app.use('/welding-fabrication/*', authMiddleware);
+app.route('/', commerceP2Batch2Routes);
+
+// ---------------------------------------------------------------------------
+// Commerce P3 (M10/M11/M12): 15 verticals — auth required (T3, P9, P12, P13)
+// Verticals: artisanal-mining, borehole-driller, building-materials, car-wash,
+//            cleaning-company, electrical-fittings, generator-dealer, hair-salon,
+//            petrol-station, phone-repair-shop, shoemaker, spare-parts,
+//            tyre-shop, used-car-dealer, water-vendor
+// ---------------------------------------------------------------------------
+app.use('/api/v1/artisanal-mining/*', authMiddleware);
+app.use('/api/v1/borehole-driller/*', authMiddleware);
+app.use('/api/v1/building-materials/*', authMiddleware);
+app.use('/api/v1/car-wash/*', authMiddleware);
+app.use('/api/v1/cleaning-company/*', authMiddleware);
+app.use('/api/v1/electrical-fittings/*', authMiddleware);
+app.use('/api/v1/generator-dealer/*', authMiddleware);
+app.use('/api/v1/hair-salon/*', authMiddleware);
+app.use('/api/v1/petrol-station/*', authMiddleware);
+app.use('/api/v1/phone-repair-shop/*', authMiddleware);
+app.use('/api/v1/shoemaker/*', authMiddleware);
+app.use('/api/v1/spare-parts/*', authMiddleware);
+app.use('/api/v1/tyre-shop/*', authMiddleware);
+app.use('/api/v1/used-car-dealer/*', authMiddleware);
+app.use('/api/v1/water-vendor/*', authMiddleware);
+app.route('/api/v1', commerceP3Routes);
+
+// ---------------------------------------------------------------------------
+// M8d/M11/M12: Civic Extended — mosque, youth-organization, womens-association,
+//   waste-management, book-club, professional-association, sports-club,
+//   campaign-office, constituency-office, ward-rep
+// ---------------------------------------------------------------------------
+app.use('/api/v1/mosque/*', authMiddleware);
+app.use('/api/v1/youth-organization/*', authMiddleware);
+app.use('/api/v1/womens-association/*', authMiddleware);
+app.use('/api/v1/waste-management/*', authMiddleware);
+app.use('/api/v1/book-club/*', authMiddleware);
+app.use('/api/v1/professional-association/*', authMiddleware);
+app.use('/api/v1/sports-club/*', authMiddleware);
+app.use('/api/v1/campaign-office/*', authMiddleware);
+app.use('/api/v1/constituency-office/*', authMiddleware);
+app.use('/api/v1/ward-rep/*', authMiddleware);
+app.route('/api/v1', civicExtendedRoutes);
+
+// ---------------------------------------------------------------------------
+// M9/M12: Transport Extended — clearing-agent, courier, dispatch-rider,
+//          airport-shuttle, cargo-truck, container-depot, ferry, nurtw
+// ---------------------------------------------------------------------------
+app.use('/api/v1/clearing-agent/*', authMiddleware);
+app.use('/api/v1/courier/*', authMiddleware);
+app.use('/api/v1/dispatch-rider/*', authMiddleware);
+app.use('/api/v1/airport-shuttle/*', authMiddleware);
+app.use('/api/v1/cargo-truck/*', authMiddleware);
+app.use('/api/v1/container-depot/*', authMiddleware);
+app.use('/api/v1/ferry/*', authMiddleware);
+app.use('/api/v1/nurtw/*', authMiddleware);
+app.route('/api/v1', transportExtendedRoutes);
+
+// ---------------------------------------------------------------------------
+// M9–M12: Health Extended — dental-clinic, sports-academy, vet-clinic,
+//          community-health, elderly-care, rehab-centre
+// P13: clinical/patient/animal/resident PII never leaves vertical boundary
+// L3 HITL mandatory for rehab-centre ALL AI; L3 HITL for patient-adjacent AI
+// ---------------------------------------------------------------------------
+app.use('/api/v1/dental-clinic/*', authMiddleware);
+app.use('/api/v1/sports-academy/*', authMiddleware);
+app.use('/api/v1/vet-clinic/*', authMiddleware);
+app.use('/api/v1/community-health/*', authMiddleware);
+app.use('/api/v1/elderly-care/*', authMiddleware);
+app.use('/api/v1/rehab-centre/*', authMiddleware);
+app.route('/api/v1', healthExtendedRoutes);
+
+// ---------------------------------------------------------------------------
+// M9–M12: Professional + Creator Extended — 11 verticals
+//   Professional (M9/M12): accounting-firm, event-planner, law-firm (L3 HITL),
+//     funeral-home (L3 HITL), pr-firm, tax-consultant (L3 HITL), wedding-planner
+//   Creator (M10/M12): music-studio, photography-studio, recording-label, talent-agency
+// P13: L3 HITL mandatory for law-firm, funeral-home, tax-consultant ALL AI calls
+// ---------------------------------------------------------------------------
+app.use('/api/v1/accounting-firm/*', authMiddleware);
+app.use('/api/v1/event-planner/*', authMiddleware);
+app.use('/api/v1/law-firm/*', authMiddleware);
+app.use('/api/v1/funeral-home/*', authMiddleware);
+app.use('/api/v1/pr-firm/*', authMiddleware);
+app.use('/api/v1/tax-consultant/*', authMiddleware);
+app.use('/api/v1/wedding-planner/*', authMiddleware);
+app.use('/api/v1/music-studio/*', authMiddleware);
+app.use('/api/v1/photography-studio/*', authMiddleware);
+app.use('/api/v1/recording-label/*', authMiddleware);
+app.use('/api/v1/talent-agency/*', authMiddleware);
+app.route('/api/v1', profCreatorExtendedRoutes);
+
+// ---------------------------------------------------------------------------
+// M12/M11/M10/M9: Financial + Place + Media + Institutional Extended — 13 verticals
+//   Financial: airtime-reseller, bureau-de-change, hire-purchase, mobile-money-agent
+//   Place:     event-hall, water-treatment, community-hall, events-centre
+//   Media:     advertising-agency, newspaper-dist, podcast-studio
+//   Institutional: government-agency, polling-unit
+// P9/T3/P12/P13 enforced; CBN daily caps; FX integer rates; scaled water integers
+// L3 HITL mandatory: government-agency (all AI), polling-unit (all AI),
+//   podcast-studio (BROADCAST_SCHEDULING only); L2 for others; L1 community-hall
+// ---------------------------------------------------------------------------
+app.use('/api/v1/airtime-reseller/*', authMiddleware);
+app.use('/api/v1/bureau-de-change/*', authMiddleware);
+app.use('/api/v1/hire-purchase/*', authMiddleware);
+app.use('/api/v1/mobile-money-agent/*', authMiddleware);
+app.use('/api/v1/event-hall/*', authMiddleware);
+app.use('/api/v1/water-treatment/*', authMiddleware);
+app.use('/api/v1/community-hall/*', authMiddleware);
+app.use('/api/v1/events-centre/*', authMiddleware);
+app.use('/api/v1/advertising-agency/*', authMiddleware);
+app.use('/api/v1/newspaper-dist/*', authMiddleware);
+app.use('/api/v1/podcast-studio/*', authMiddleware);
+app.use('/api/v1/government-agency/*', authMiddleware);
+app.use('/api/v1/polling-unit/*', authMiddleware);
+app.route('/api/v1', financialPlaceMediaInstitutionalRoutes);
+
+// ---------------------------------------------------------------------------
+// Set J Extended — 27 verticals (migrations 0154–0180, M12)
+// P13 enforcement notes:
+//   orphanage       — L3 HITL ALL; child_ref_id prohibited at route layer
+//   nursery-school  — P13 highest; no child_ref_id; aggregate counts only
+//   okada-keke      — Lagos 2022 okada ban check at profile creation
+//   oil-gas-services — dual-gate FSM: ncdmb_certified → dpr_registered
+// ---------------------------------------------------------------------------
+
+app.use('/api/v1/verticals/*', authMiddleware);
+app.route('/api/v1/verticals', setJExtendedRouter);
+
+// ---------------------------------------------------------------------------
+// Negotiable Pricing — platform-wide pricing capability (additive, not disruptive)
+// Negotiation is opt-in by seller. Fixed pricing is the default and unchanged.
+// Blocked verticals: pharmacy_chain, food_vendor, bakery, petrol_station,
+//   internet_cafe, govt_school, orphanage, okada_keke, laundry, laundry_service,
+//   beauty_salon, optician (hard gate in engine layer, not just route layer).
+// P9: All monetary values INTEGER kobo. Discounts INTEGER bps. No floats.
+// T3: tenant_id from auth context only — never from request body.
+// SECURITY: min_price_kobo is never serialised into any API response.
+// Migrations: 0181 vendor_pricing_policies, 0182 listing_price_overrides,
+//             0183 negotiation_sessions, 0184 negotiation_offers,
+//             0185 negotiation_audit_log
+// ---------------------------------------------------------------------------
+
+app.use('/api/v1/negotiation/*', authMiddleware);
+app.route('/api/v1/negotiation', negotiationRouter);
+
+// ---------------------------------------------------------------------------
+// M7c: Social routes — most require auth; /social/profile/:handle is public
+// P14 — assert DM_MASTER_KEY is present at startup before routes are wired.
+// ---------------------------------------------------------------------------
+
+app.use('/social/*', async (c, next) => {
+  if (c.req.path.includes('/dm/threads')) {
+    assertDMMasterKey(c.env.DM_MASTER_KEY);
+  }
+  await next();
+});
+app.use('/social/profile/setup', authMiddleware);
+app.use('/social/follow/*', authMiddleware);
+app.use('/social/feed', authMiddleware);
+app.use('/social/posts', authMiddleware);
+app.use('/social/posts/*/react', authMiddleware);
+app.use('/social/dm/*', authMiddleware);
+app.use('/social/stories', authMiddleware);
+app.route('/social', socialRoutes);
+
+// ---------------------------------------------------------------------------
+// Global error handler
+// ---------------------------------------------------------------------------
+
+app.onError((err, c) => {
+  console.error('[webwaka-api] Unhandled error:', err);
+  return c.json(
+    {
+      error: 'Internal server error',
+      message: c.env?.ENVIRONMENT === 'development' ? err.message : undefined,
+    },
+    500,
+  );
+});
+
+// ---------------------------------------------------------------------------
+// 404 fallback
+// ---------------------------------------------------------------------------
+
+app.notFound((c) => {
+  return c.json({ error: `Route not found: ${c.req.method} ${c.req.path}` }, 404);
+});
+
+// ---------------------------------------------------------------------------
+// Cloudflare Workers entry point
+// Exports both fetch handler (HTTP) and scheduled handler (CRON).
+// ---------------------------------------------------------------------------
 
 export default {
-  fetch(request: Request, env: Env, _ctx: ExecutionContext): Response {
-    const url = new URL(request.url);
+  fetch: app.fetch.bind(app),
 
-    // Health check
-    if (url.pathname === "/health" || url.pathname === "/") {
-      return Response.json({
-        status: "ok",
-        environment: env.ENVIRONMENT ?? "unknown",
-        version: "0.1.0",
-        timestamp: new Date().toISOString(),
-      });
-    }
-
-    // 404 fallback
-    return Response.json(
-      { error: "Not Found", path: url.pathname },
-      { status: 404 }
-    );
+  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
+    await runNegotiationExpiry(env);
   },
-} satisfies ExportedHandler<Env>;
+};
