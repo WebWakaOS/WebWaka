@@ -183,6 +183,7 @@ import { requireEntitlement } from './middleware/entitlement.js';
 import { PlatformLayer } from '@webwaka/types';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
 import { partnerRoutes } from './routes/partners.js';
+import { templateRoutes } from './routes/templates.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -628,6 +629,19 @@ app.route('/social', socialRoutes);
 app.use('/partners/*', authMiddleware);
 app.use('/partners/*', auditLogMiddleware);
 app.route('/partners', partnerRoutes);
+
+// ---------------------------------------------------------------------------
+// v1.0.1: Template Registry — marketplace for dashboard, website, vertical blueprints,
+// workflows, emails, and modules.
+// GET /templates and GET /templates/:slug are public.
+// POST /templates requires super_admin.
+// /templates/installed, POST /templates/:slug/install, DELETE /templates/:slug/install require auth.
+// T3: tenant_id on all install queries. T4: price_kobo integer only.
+// ---------------------------------------------------------------------------
+
+app.use('/templates/installed', authMiddleware);
+app.use('/templates/*/install', authMiddleware);
+app.route('/templates', templateRoutes);
 
 // ---------------------------------------------------------------------------
 // Global error handler
