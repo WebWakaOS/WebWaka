@@ -65,8 +65,8 @@ function makeDb() {
       all: async <T>() => ({
         results: store.filter(r =>
           vals.length >= 2
-            ? (r['profile_id'] === vals[0]) && r['tenant_id'] === vals[1]
-            : true
+            ? (r['profile_id'] === vals[0] || r['workspace_id'] === vals[0]) && r['tenant_id'] === vals[1]
+            : r['id'] === vals[0]
         ),
       } as { results: T[] }),
     });
