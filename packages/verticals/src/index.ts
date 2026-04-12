@@ -9,3 +9,4 @@ export * from './types.js';
 export * from './fsm.js';
 export * from './router.js';
 export * from './entitlements.js';
+export * from './template-validator.js';
