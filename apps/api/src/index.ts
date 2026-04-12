@@ -184,6 +184,7 @@ import { PlatformLayer } from '@webwaka/types';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
 import { partnerRoutes } from './routes/partners.js';
 import { templateRoutes } from './routes/templates.js';
+import { openapiRoutes } from './routes/openapi.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -231,6 +232,7 @@ app.use('*', rateLimitMiddleware({ keyPrefix: 'global', maxRequests: 100, window
 // ---------------------------------------------------------------------------
 
 app.route('/health', healthRoutes);
+app.route('/openapi.json', openapiRoutes);
 app.route('/geography', geographyRoutes);
 app.route('/discovery', discoveryRoutes);
 
@@ -648,11 +650,28 @@ app.route('/templates', templateRoutes);
 // ---------------------------------------------------------------------------
 
 app.onError((err, c) => {
-  console.error('[webwaka-api] Unhandled error:', err);
+  const authCtx = c.get('auth') as { userId?: string; tenantId?: string } | undefined;
+  const structured = {
+    level: 'error',
+    service: 'webwaka-api',
+    timestamp: new Date().toISOString(),
+    error: {
+      name: err instanceof Error ? err.name : 'UnknownError',
+      message: err instanceof Error ? err.message : String(err),
+      stack: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.stack : undefined,
+    },
+    context: {
+      route: c.req.path,
+      method: c.req.method,
+      tenantId: authCtx?.tenantId,
+      environment: c.env?.ENVIRONMENT,
+    },
+  };
+  console.error(JSON.stringify(structured));
   return c.json(
     {
       error: 'Internal server error',
-      message: c.env?.ENVIRONMENT === 'development' ? err.message : undefined,
+      message: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.message : undefined,
     },
     500,
   );
