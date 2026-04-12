@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebWaka OS — Admin Dashboard</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00c851">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--green:#00c851;--dark:#0a0f1e;--card:#111827;--border:#1f2937;--text:#e5e7eb;--muted:#6b7280;--sidebar-w:240px;--red:#ef4444;--amber:#f59e0b;--blue:#3b82f6}
+    body{background:var(--dark);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex}
+    .sidebar{width:var(--sidebar-w);background:#0d1526;border-right:1px solid var(--border);padding:1rem 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+    .sidebar .logo{display:flex;align-items:center;gap:.5rem;padding:0 1rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1rem}
+    .sidebar .logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:.9rem}
+    .sidebar .logo-text{font-size:1rem;font-weight:700}
+    .sidebar .logo-text span{color:var(--green)}
+    .nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;color:var(--muted);cursor:pointer;font-size:.9rem;transition:all .15s;border-left:3px solid transparent}
+    .nav-item:hover{background:rgba(255,255,255,.03);color:var(--text)}
+    .nav-item.active{color:var(--green);border-left-color:var(--green);background:rgba(0,200,81,.05)}
+    .nav-item .icon{width:20px;text-align:center}
+    .main{margin-left:var(--sidebar-w);flex:1;min-height:100vh}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:#0d1526}
+    .topbar h2{font-size:1.1rem;font-weight:600}
+    .badge{font-size:.7rem;background:rgba(0,200,81,.1);border:1px solid rgba(0,200,81,.3);color:var(--green);padding:.2rem .6rem;border-radius:999px}
+    .content{padding:2rem;max-width:1200px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem}
+    .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .kpi .label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
+    .kpi .value{font-size:1.75rem;font-weight:700}
+    .kpi .trend{font-size:.75rem;margin-top:.25rem}
+    .kpi .trend.up{color:var(--green)}
+    .kpi .trend.down{color:var(--red)}
+    .section-title{font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:2rem 0 1rem}
+    table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+    th{text-align:left;padding:.75rem 1rem;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+    td{padding:.75rem 1rem;font-size:.85rem;border-bottom:1px solid var(--border)}
+    tr:last-child td{border-bottom:none}
+    .status-badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:.7rem;font-weight:600}
+    .status-active{background:rgba(0,200,81,.1);color:var(--green)}
+    .status-pending{background:rgba(245,158,11,.1);color:var(--amber)}
+    .status-inactive{background:rgba(107,114,128,.1);color:var(--muted)}
+    .empty-state{text-align:center;padding:3rem;color:var(--muted)}
+    .empty-state .icon{font-size:2.5rem;margin-bottom:.75rem}
+    .view{display:none}
+    .view.active{display:block}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:border-color .2s}
+    .card:hover{border-color:rgba(0,200,81,.3)}
+    .card h4{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
+    .card p{font-size:.8rem;color:var(--muted);line-height:1.4}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:8px;font-size:.85rem;cursor:pointer;border:none;font-weight:500;transition:all .15s}
+    .btn-primary{background:var(--green);color:#000}
+    .btn-primary:hover{background:#00b347}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--green);color:var(--green)}
+    @media(max-width:768px){
+      .sidebar{width:60px;overflow:hidden}
+      .sidebar .logo-text,.sidebar .nav-label{display:none}
+      .main{margin-left:60px}
+      .kpi-grid{grid-template-columns:1fr}
+      .content{padding:1rem}
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">W</div>
+      <div class="logo-text">WebWaka <span>OS</span></div>
+    </div>
+    <div class="nav-item active" data-view="overview">
+      <span class="icon">📊</span>
+      <span class="nav-label">Overview</span>
+    </div>
+    <div class="nav-item" data-view="verticals">
+      <span class="icon">🏢</span>
+      <span class="nav-label">Verticals</span>
+    </div>
+    <div class="nav-item" data-view="members">
+      <span class="icon">👥</span>
+      <span class="nav-label">Members</span>
+    </div>
+    <div class="nav-item" data-view="claims">
+      <span class="icon">📋</span>
+      <span class="nav-label">Claims</span>
+    </div>
+    <div class="nav-item" data-view="entitlements">
+      <span class="icon">🔑</span>
+      <span class="nav-label">Entitlements</span>
+    </div>
+    <div class="nav-item" data-view="templates">
+      <span class="icon">🧩</span>
+      <span class="nav-label">Templates</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2 id="page-title">Overview</h2>
+      <span class="badge">v1.0.1</span>
+    </div>
+
+    <div class="content">
+      <div id="view-overview" class="view active">
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="label">Active Members</div>
+            <div class="value">—</div>
+            <div class="trend up">Loading...</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Revenue (This Month)</div>
+            <div class="value">₦—</div>
+            <div class="trend up">Loading...</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Active Verticals</div>
+            <div class="value">—</div>
+            <div class="trend">Loading...</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Sync Queue Depth</div>
+            <div class="value">—</div>
+            <div class="trend">Loading...</div>
+          </div>
+        </div>
+        <p class="section-title">Quick Actions</p>
+        <div class="card-grid">
+          <div class="card">
+            <h4>Manage Claims</h4>
+            <p>Review pending claim requests from businesses and professionals.</p>
+          </div>
+          <div class="card">
+            <h4>Template Marketplace</h4>
+            <p>Browse and install dashboard, website, and workflow templates.</p>
+          </div>
+          <div class="card">
+            <h4>View Analytics</h4>
+            <p>Geography-driven usage metrics and revenue breakdown.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-verticals" class="view">
+        <p class="section-title">Enabled Verticals</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Vertical</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>KYC Tier</th>
+              <th>AI Level</th>
+            </tr>
+          </thead>
+          <tbody id="verticals-tbody">
+            <tr><td colspan="5" class="empty-state">Loading verticals...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="view-members" class="view">
+        <p class="section-title">Workspace Members</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>KYC Tier</th>
+              <th>Last Active</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="members-tbody">
+            <tr><td colspan="5" class="empty-state">Loading members...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="view-claims" class="view">
+        <p class="section-title">Pending Claims Queue</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Type</th>
+              <th>Claimant</th>
+              <th>State</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="claims-tbody">
+            <tr><td colspan="6" class="empty-state">Loading claims...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="view-entitlements" class="view">
+        <p class="section-title">Current Plan & Feature Gates</p>
+        <div class="card-grid">
+          <div class="card">
+            <h4>Plan: Professional</h4>
+            <p>Includes all base features + 3 verticals + branding.</p>
+          </div>
+          <div class="card">
+            <h4>Feature Gates</h4>
+            <p>AI SuperAgent, White-Label Branding, POS Float, Offline Sync.</p>
+          </div>
+          <div class="card">
+            <h4>Usage</h4>
+            <p>12 / 50 members • 3 / 5 verticals • 1.2M / 5M API calls</p>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem">
+          <button class="btn btn-primary">Upgrade Plan</button>
+          <button class="btn btn-outline" style="margin-left:.5rem">View Billing History</button>
+        </div>
+      </div>
+
+      <div id="view-templates" class="view">
+        <p class="section-title">Installed Templates</p>
+        <div id="installed-templates" class="card-grid">
+          <div class="empty-state" style="grid-column:1/-1">
+            <div class="icon">🧩</div>
+            <p>No templates installed yet. Browse the marketplace to get started.</p>
+          </div>
+        </div>
+        <p class="section-title" style="margin-top:2rem">Template Marketplace</p>
+        <div id="marketplace-templates" class="card-grid">
+          <div class="card">
+            <h4>Restaurant Dashboard</h4>
+            <p>Full POS, menu management, table booking for restaurant operators.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline">Install</button></div>
+          </div>
+          <div class="card">
+            <h4>School Dashboard</h4>
+            <p>Student enrollment, fee tracking, attendance for schools.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline">Install</button></div>
+          </div>
+          <div class="card">
+            <h4>Retail Website</h4>
+            <p>Public-facing storefront with product catalog and Paystack checkout.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline">Install</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+        document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+        item.classList.add('active');
+        var viewId = 'view-' + item.dataset.view;
+        document.getElementById(viewId).classList.add('active');
+        document.getElementById('page-title').textContent = item.querySelector('.nav-label').textContent;
+      });
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function() {});
+    }
+  </script>
+</body>
+</html>
