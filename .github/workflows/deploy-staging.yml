@@ -134,12 +134,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
 
       - name: Run staging smoke tests
-        run: |
-          if [ -f "tests/smoke/package.json" ]; then
-            pnpm --filter smoke run smoke:staging
-          else
-            echo "Smoke tests not yet implemented — skipping (pre-Milestone 3)"
-          fi
+        run: pnpm --filter smoke run smoke:staging
         env:
           SMOKE_BASE_URL: ${{ vars.STAGING_BASE_URL }}
           SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
