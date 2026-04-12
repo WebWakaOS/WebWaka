@@ -9,7 +9,7 @@ import type { Env } from '../env.js';
 
 // Keep in sync with apps/api/package.json version field.
 // TEST-001: version endpoint required by smoke test suite.
-const API_VERSION = '1.0.0';
+const API_VERSION = '1.0.1';
 
 const healthRoutes = new Hono<{ Bindings: Env }>();
 
