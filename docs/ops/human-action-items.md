@@ -1,180 +1,122 @@
-# WebWaka OS — All Remaining Human-Action Items
+# WebWaka OS — Remaining Human-Action Items
 
 **Status:** Living document — update checkboxes as items are completed  
 **Last updated:** 2026-04-13  
 **Prepared by:** WebWaka Agent  
-**Branch:** staging  
+**Branch:** `staging` (default branch)  
 **GitHub repo:** https://github.com/WebWakaOS/WebWaka
 
 ---
 
-## Summary
+## What Is Already Done
 
-These are all tasks that **cannot be automated** by the code agent because they require
-Cloudflare credentials, GitHub admin access, or production secrets. All code changes have
-been made; only the operations below are outstanding.
+The following items from earlier remediation plans are **confirmed complete** as of the
+April 10–11 infrastructure handover (see `docs/HANDOVER.md`):
+
+| Item | Completed | Evidence |
+|---|---|---|
+| Cloudflare account provisioned | ✅ | Account ID `98174497603b3edc1ca0159402956161` |
+| Domain `webwaka.com` active zone | ✅ | Zone ID `ee14050f896d897ad93d300397d0d26d` |
+| D1 databases created (staging + production) | ✅ | See §5 of HANDOVER.md |
+| 191 D1 migrations applied to staging | ✅ | 559 tables; applied 2026-04-10 ~21:16 UTC |
+| KV namespaces created (6 total) | ✅ | 3 staging + 3 production; IDs in HANDOVER.md §5 |
+| `webwaka-api-staging` Worker deployed | ✅ | Live at `https://api-staging.webwaka.com` |
+| `webwaka-api-production` Worker deployed | ✅ | Live at `https://api.webwaka.com` |
+| `JWT_SECRET` + `INTER_SERVICE_SECRET` pushed to both Workers | ✅ | Via `wrangler secret put` in deploy CI |
+| GitHub environments `staging` + `production` created | ✅ | IDs 14009923309 / 14009923508 |
+| GitHub secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` set | ✅ | Repo-level + environment-level |
+| CI/CD pipelines green (CI, Deploy-Staging, Deploy-Production) | ✅ | Run #24268508845 all green |
+| `staging` set as default branch (`main` deleted) | ✅ | 2026-04-11 00:23 UTC |
+| D1 migrations auto-apply on every CI deploy | ✅ | Step 5 of deploy workflow |
+
+---
+
+## What Is Still Outstanding
 
 | ID | Category | Item | Effort | Blocker for |
 |---|---|---|---|---|
-| DEPLOY-001 | Cloudflare | Verify/create KV namespaces in Cloudflare account | 10 min | Production deploys |
-| DEPLOY-005 | Cloudflare | Apply D1 migrations to staging + production databases | 20 min | Runtime queries |
-| CF-SECRETS | Cloudflare | Set `wrangler secret put` for each worker app | 15 min | Worker authentication |
-| OPS-001-A | GitHub | Create `staging` environment with required reviewer | 5 min | Staging gate |
-| OPS-001-B | GitHub | Create `production` environment with 2+ reviewers + wait timer | 5 min | Production gate |
-| OPS-001-C | GitHub | Enable branch protection on `staging` branch | 5 min | PR quality gate |
-| GH-SECRETS | GitHub | Set `CF_API_TOKEN` + `CF_ACCOUNT_ID` in GitHub environments | 5 min | CI deploys |
+| MIGRATIONS | Cloudflare | Production D1 migration backlog (30 new migrations since handover) | Auto / verify | Runtime queries post-M3 |
+| NEW-SECRETS | Cloudflare | Set `LOG_PII_SALT` on newly deployed worker apps | 10 min | NDPR pseudonymisation |
+| OPS-001-A | GitHub | Add required-reviewer protection to `staging` environment | 5 min | Prevents unreviewed staging deploys |
+| OPS-001-B | GitHub | Add required-reviewers + wait timer to `production` environment | 5 min | 4-eyes gate on production |
+| OPS-001-C | GitHub | Enable branch protection rules on `staging` branch | 5 min | PR quality gate |
 | GH-VARS | GitHub | Set `STAGING_BASE_URL` + `PRODUCTION_BASE_URL` as Actions variables | 3 min | Smoke tests in CI |
+| SMOKE | GitHub | Wire real smoke tests into CI (replace placeholder) | See note | Post-M3 regression detection |
 | CODE-5 | GitHub | Create 5 GitHub labels for 3-in-1 pillar tracking | 5 min | PR tagging |
-| CODE-5-RETRO | GitHub | Apply labels retroactively to 27 previously merged PRs | 30 min | Audit trail |
+| CODE-5-RETRO | GitHub | Apply labels retroactively to 27 previously merged PRs | 30 min | Governance audit trail |
 
 ---
 
-## DEPLOY-001 — Verify / Create KV Namespaces in Cloudflare
+## MIGRATIONS — Production D1 Migration Backlog
 
-**Requires:** Cloudflare CLI (`wrangler`) + `CLOUDFLARE_API_TOKEN`  
-**Why:** If the KV namespaces referenced in `wrangler.toml` do not exist in the Cloudflare
-account, all worker deploys will fail with a namespace-not-found error.
+**Status:** Self-healing via CI, but verify manually  
+**Why:** As of the April 10 handover, the production D1 database had only 6 migration files applied
+(13 tables). Every push to `staging` triggers the CI deploy pipeline which runs
+`wrangler d1 migrations apply` automatically. Migrations 0007–0221 should now be applied.
+Verify and confirm they are fully caught up.
 
-### Cloudflare resource IDs already in `wrangler.toml`
-
-| Binding | App | Staging ID | Production ID |
-|---|---|---|---|
-| `RATE_LIMIT_KV` | apps/api | `2a81cd5b8d094911a20e1e0f6a190506` | `8cbf31285b0c43e1a8f44ee0af9fcdf3` |
-| `GEOGRAPHY_CACHE` | apps/api | `4732f3a682964607bae2170f350e4fb4` | `5bd5695d963247d0b105a936827e0a89` |
-| `DISCOVERY_CACHE` | apps/public-discovery | `eb26f47e1be34ce59526f9617e02f51f` | `d82d3780283e4857966bc8fab4e2761c` |
-| `THEME_CACHE` | apps/brand-runtime | `3093422f3e4e4252a3b542ed9a06fd18` | `d89a05e8c5814c6c966061f62dd24f8c` |
-| `USSD_SESSION_KV` | apps/ussd-gateway | `67c95f1527114e4bac480a44c4169b85` | `e34fb28b075b4362a8d4d840c19e670c` |
-
-### Steps
+### Verify
 
 ```bash
-export CLOUDFLARE_API_TOKEN="<your-token>"
-export CLOUDFLARE_ACCOUNT_ID="a5f5864b726209519e0c361f2bb90e79"
+# Check how many migrations have been applied to production:
+wrangler d1 execute webwaka-os-production \
+  --command "SELECT name FROM _cf_METADATA ORDER BY id" \
+  --env production
 
-# List existing KV namespaces and confirm each ID above exists:
-wrangler kv namespace list
-
-# If any namespace ID is missing, create it (example):
-wrangler kv namespace create "GEOGRAPHY_CACHE" --env staging
-# Copy the printed ID and update apps/api/wrangler.toml accordingly.
+# Or via Cloudflare dashboard:
+# https://dash.cloudflare.com/98174497603b3edc1ca0159402956161/workers/d1
 ```
 
-### D1 Databases
-
-| Name | Staging ID | Production ID |
-|---|---|---|
-| `webwaka-os-staging` | `7c264f00-c36d-4014-b2fe-c43e136e86f6` | — |
-| `webwaka-os-production` | — | `72fa5ec8-52c2-4f41-b486-957d7b00c76f` |
-
-```bash
-# Verify D1 databases exist:
-wrangler d1 list
-```
-
-- [ ] All KV namespace IDs verified to exist in Cloudflare account
-- [ ] Both D1 databases verified to exist
-
----
-
-## DEPLOY-005 — Apply D1 Migrations to Remote Databases
-
-**Requires:** Wrangler CLI authenticated to WebWakaOS Cloudflare account  
-**Why:** Migrations 0001–0221 have been written but have never been applied to the
-remote Cloudflare D1 instances. Without them, every database query will fail at runtime.
-
-### Staging
-
-```bash
-cd apps/api
-wrangler d1 migrations apply webwaka-os-staging --env staging
-```
-
-Expected: list of 221 migration files applied. Re-running is safe — already-applied
-migrations are skipped.
-
-### Production
-
-> **4-eyes requirement:** One person executes; a second person audits the output before confirming.
+If any migrations are missing, the next CI deploy will apply them. To trigger manually:
 
 ```bash
 cd apps/api
 wrangler d1 migrations apply webwaka-os-production --env production
 ```
 
-### Post-migration smoke test
+> **4-eyes checkpoint:** Production migration changes require two-person sign-off.
 
-```bash
-# Staging
-cd tests/smoke
-SMOKE_BASE_URL=https://api-staging.webwaka.ng pnpm test
-
-# Production
-SMOKE_BASE_URL=https://api.webwaka.ng pnpm test
-```
-
-Both must return `200 { ok: true }` before the migration is considered complete.
-
-### Rollback procedure (if needed)
-
-D1 does not support automatic rollback. To fix a broken migration:
-
-1. Identify the breaking migration number (e.g., `0199_broken_change.sql`)
-2. Write a compensating migration: `apps/api/migrations/0222_rollback_broken_change.sql`
-3. Apply it: `wrangler d1 migrations apply webwaka-os-<env> --env <env>`
-4. Re-run smoke tests
-
-- [ ] Staging migrations applied + smoke test passes
-- [ ] Production migrations applied + smoke test passes (4-eyes signed off)
+- [ ] Production D1 confirmed to have all 221 migrations applied
 
 ---
 
-## CF-SECRETS — Set Wrangler Worker Secrets
+## NEW-SECRETS — `LOG_PII_SALT` for Additional Worker Apps
 
-**Requires:** Wrangler CLI + the secret values  
-**Why:** These secrets are never stored in `wrangler.toml` (by design). Each worker reads
-them at runtime via `env.JWT_SECRET` etc. They must be set separately per environment.
+**Why:** `JWT_SECRET` and `INTER_SERVICE_SECRET` were injected for `apps/api` in the April 10
+deploy. As additional worker apps are deployed to Cloudflare (brand-runtime, tenant-public,
+public-discovery, ussd-gateway), they each need their own secrets set.
 
-### apps/api
+`LOG_PII_SALT` is used for NDPR-compliant pseudonymisation of personal data in logs. It is
+required by the security baseline (SEC-004). `JWT_SECRET` is required for any app that
+validates bearer tokens.
 
-```bash
-cd apps/api
-wrangler secret put JWT_SECRET --env staging
-wrangler secret put JWT_SECRET --env production
-wrangler secret put LOG_PII_SALT --env staging
-wrangler secret put LOG_PII_SALT --env production
-```
-
-### apps/brand-runtime
+### Per app, run when deploying each worker for the first time:
 
 ```bash
+# Generate values (run once, store securely):
+openssl rand -hex 32   # for JWT_SECRET
+openssl rand -hex 16   # for LOG_PII_SALT
+
+# apps/brand-runtime
 cd apps/brand-runtime
 wrangler secret put JWT_SECRET --env staging
 wrangler secret put JWT_SECRET --env production
 wrangler secret put LOG_PII_SALT --env staging
 wrangler secret put LOG_PII_SALT --env production
-```
 
-### apps/tenant-public
-
-```bash
+# apps/tenant-public
 cd apps/tenant-public
 wrangler secret put JWT_SECRET --env staging
 wrangler secret put JWT_SECRET --env production
 wrangler secret put LOG_PII_SALT --env staging
 wrangler secret put LOG_PII_SALT --env production
-```
 
-### apps/public-discovery
-
-```bash
+# apps/public-discovery (no JWT — unauthenticated discovery; LOG_PII_SALT only)
 cd apps/public-discovery
 wrangler secret put LOG_PII_SALT --env staging
 wrangler secret put LOG_PII_SALT --env production
-```
 
-### apps/ussd-gateway
-
-```bash
+# apps/ussd-gateway
 cd apps/ussd-gateway
 wrangler secret put JWT_SECRET --env staging
 wrangler secret put JWT_SECRET --env production
@@ -182,75 +124,78 @@ wrangler secret put LOG_PII_SALT --env staging
 wrangler secret put LOG_PII_SALT --env production
 ```
 
-**Secret values guidance:**
+> **Note:** These apps are not yet deployed to Cloudflare Workers. Complete this step at
+> first deploy time for each app. Do not pre-create secrets for undeployed workers.
 
-| Secret | Minimum entropy | Notes |
-|---|---|---|
-| `JWT_SECRET` | 256-bit random hex | `openssl rand -hex 32` |
-| `LOG_PII_SALT` | 128-bit random hex | `openssl rand -hex 16` — used for NDPR pseudonymisation |
-
-- [ ] apps/api secrets set (staging + production)
-- [ ] apps/brand-runtime secrets set (staging + production)
-- [ ] apps/tenant-public secrets set (staging + production)
-- [ ] apps/public-discovery secrets set (staging + production)
-- [ ] apps/ussd-gateway secrets set (staging + production)
+- [ ] `LOG_PII_SALT` + `JWT_SECRET` set for brand-runtime (at first deploy)
+- [ ] `LOG_PII_SALT` + `JWT_SECRET` set for tenant-public (at first deploy)
+- [ ] `LOG_PII_SALT` set for public-discovery (at first deploy)
+- [ ] `LOG_PII_SALT` + `JWT_SECRET` set for ussd-gateway (at first deploy)
 
 ---
 
-## OPS-001-A — Create `staging` GitHub Environment
+## OPS-001-A — Add Required-Reviewer Protection to `staging` Environment
 
-**URL:** https://github.com/WebWakaOS/WebWaka/settings/environments  
-**Requires:** GitHub repository admin access
+**URL:** https://github.com/WebWakaOS/WebWaka/settings/environments/14009923309  
+**Why:** The `staging` environment was created (ID: 14009923309) but may not have deployment
+protection rules enabled. Without a required reviewer, every push to `staging` auto-deploys
+with no human gate.
 
 ### Steps
 
-1. Click **New environment** → name: `staging`
-2. Under **Deployment protection rules**:
-   - ✅ Required reviewers: add at least 1 reviewer
-   - Wait timer: 0 minutes (optional)
-3. Under **Environment secrets** (add here OR via GH-SECRETS below):
-   - `CF_API_TOKEN` — Cloudflare API token with Workers + D1 write access
-   - `CF_ACCOUNT_ID` — `a5f5864b726209519e0c361f2bb90e79`
+1. Open the link above
+2. Under **Deployment protection rules**, enable:
+   - ✅ **Required reviewers** — add at least 1 reviewer
+3. Save
+
+- [ ] `staging` environment has required reviewer set
+
+---
+
+## OPS-001-B — Add Required-Reviewers + Wait Timer to `production` Environment
+
+**URL:** https://github.com/WebWakaOS/WebWaka/settings/environments/14009923508  
+**Why:** The `production` environment was created (ID: 14009923508). A 4-eyes gate and wait
+timer are required before any production deploy proceeds.
+
+> **Important note on current trigger:** Per `docs/HANDOVER.md §10`, every push to `staging`
+> currently triggers *both* the staging AND production deploy simultaneously. Consider changing
+> `deploy-production.yml` to `workflow_dispatch` only (manual trigger) if you want staging-only
+> pushes. The environment protection gate is a secondary safeguard regardless.
+
+### Steps
+
+1. Open the link above
+2. Under **Deployment protection rules**, enable:
+   - ✅ **Required reviewers** — add **2+ reviewers** (4-eyes principle)
+   - ✅ **Wait timer** — set to **10 minutes** (circuit-breaker window)
+3. Under **Deployment branches and tags**:
+   - Select **Protected branches only**
 4. Save
 
-- [ ] `staging` GitHub environment created with required reviewer
-- [ ] `CF_API_TOKEN` + `CF_ACCOUNT_ID` set as environment secrets for `staging`
+### Optional: Change production trigger to manual-only
 
----
+In `.github/workflows/deploy-production.yml`, change the trigger from `push` to `workflow_dispatch`:
 
-## OPS-001-B — Create `production` GitHub Environment
+```yaml
+on:
+  workflow_dispatch:   # manual trigger only
+  # push:              # remove or comment out the push trigger
+```
 
-**URL:** https://github.com/WebWakaOS/WebWaka/settings/environments  
-**Requires:** GitHub repository admin access
+This prevents any push to `staging` from auto-deploying to production.
 
-### Steps
-
-1. Click **New environment** → name: `production`
-2. Under **Deployment protection rules**:
-   - ✅ Required reviewers: add **2+ reviewers** (4-eyes principle)
-   - ✅ Wait timer: **10 minutes** (circuit-breaker window — allows hotfix cancellation)
-3. Under **Deployment branches and tags**:
-   - Select **Protected branches only** — restricts deploys to protected branches
-4. Under **Environment secrets**:
-   - `CF_API_TOKEN` — production-scoped Cloudflare API token (recommend separate token)
-   - `CF_ACCOUNT_ID` — `a5f5864b726209519e0c361f2bb90e79`
-5. Save
-
-### Verification
-
-Trigger a test production deploy → confirm the `deploy-api-production` job pauses at the
-reviewer approval step before proceeding to `wrangler deploy --env production`.
-
-- [ ] `production` GitHub environment created with 2+ required reviewers + 10-min timer
-- [ ] Deployment restricted to protected branches only
-- [ ] `CF_API_TOKEN` + `CF_ACCOUNT_ID` set as environment secrets for `production`
+- [ ] `production` environment has 2+ required reviewers set
+- [ ] `production` environment has 10-minute wait timer set
+- [ ] (Optional) Production deploy trigger changed to `workflow_dispatch` only
 
 ---
 
 ## OPS-001-C — Enable Branch Protection on `staging`
 
 **URL:** https://github.com/WebWakaOS/WebWaka/settings/branches  
-**Requires:** GitHub repository admin access
+**Why:** `staging` is the default branch and the source of truth. Without branch protection,
+anyone with push access can push directly without passing CI, bypassing the test + lint gates.
 
 ### Steps
 
@@ -258,62 +203,66 @@ reviewer approval step before proceeding to `wrangler deploy --env production`.
 2. Branch name pattern: `staging`
 3. Enable:
    - ✅ Require a pull request before merging
-   - ✅ Require status checks to pass before merging → add: `ci`
+   - ✅ Require status checks to pass before merging → search and add: `ci`
    - ✅ Require branches to be up to date before merging
-   - ✅ Do not allow bypassing the above settings (disables force-push for admins too)
+   - ✅ Do not allow bypassing the above settings
 4. Save
 
 - [ ] Branch protection rule created for `staging`
 - [ ] `ci` status check required before merge
-- [ ] Force-push disabled
+- [ ] Force-push disabled (including for admins)
 
 ---
 
-## GH-SECRETS — Set GitHub Actions Secrets
-
-**URL:** https://github.com/WebWakaOS/WebWaka/settings/secrets/actions  
-**Why:** The CI/CD workflows (`.github/workflows/ci.yml`, `deploy-production.yml`) read
-`CF_API_TOKEN` and `CF_ACCOUNT_ID` from GitHub Actions secrets to authenticate wrangler.
-
-These should be set **at the environment level** (inside the `staging` and `production`
-environments created in OPS-001-A and OPS-001-B), not as repository-level secrets, so
-that each environment can use a differently scoped API token.
-
-If separate per-environment tokens are not available, set them as repository-level secrets:
-
-1. Navigate to: **Settings → Secrets and variables → Actions → New repository secret**
-2. Add:
-   - `CF_API_TOKEN` — Cloudflare API token
-   - `CF_ACCOUNT_ID` — `a5f5864b726209519e0c361f2bb90e79`
-
-- [ ] `CF_API_TOKEN` accessible from CI workflows
-- [ ] `CF_ACCOUNT_ID` accessible from CI workflows
-
----
-
-## GH-VARS — Set GitHub Actions Variables
+## GH-VARS — Set GitHub Actions Variables for Smoke Tests
 
 **URL:** https://github.com/WebWakaOS/WebWaka/settings/variables/actions  
-**Why:** The smoke test step in CI reads these public URLs. They are not secrets.
+**Why:** The CI smoke test step reads `STAGING_BASE_URL` and `PRODUCTION_BASE_URL` as public
+Actions variables. Currently the smoke test is skipped (placeholder). These should be set
+now so they are ready when the smoke suite is wired in during Milestone 3.
+
+### Steps
 
 1. Navigate to: **Settings → Secrets and variables → Actions → Variables tab → New repository variable**
 2. Add:
-   - `STAGING_BASE_URL` = `https://webwaka-api-staging.<your-cf-subdomain>.workers.dev`
-   - `PRODUCTION_BASE_URL` = `https://api.webwaka.ng`
+   - `STAGING_BASE_URL` = `https://api-staging.webwaka.com`
+   - `PRODUCTION_BASE_URL` = `https://api.webwaka.com`
 
-Replace `<your-cf-subdomain>` with the actual Workers subdomain shown in the Cloudflare
-dashboard under **Workers & Pages → Overview**.
+- [ ] `STAGING_BASE_URL` variable set to `https://api-staging.webwaka.com`
+- [ ] `PRODUCTION_BASE_URL` variable set to `https://api.webwaka.com`
 
-- [ ] `STAGING_BASE_URL` variable set
-- [ ] `PRODUCTION_BASE_URL` variable set
+---
+
+## SMOKE — Wire Real Smoke Tests into CI
+
+**Note:** This is a code task, not a UI-only action. It can be done by the code agent when
+Milestone 3 is complete.
+
+**Why:** Per `docs/HANDOVER.md §3`, the smoke test step in the CI workflow is currently a
+placeholder that is always skipped. Real smoke tests exist in `tests/smoke/` but are not
+wired into the CI pipeline.
+
+### When Milestone 3 ships, update `.github/workflows/ci.yml` smoke test step to:
+
+```bash
+cd tests/smoke
+SMOKE_API_KEY=${{ secrets.SMOKE_API_KEY }} \
+SMOKE_BASE_URL=${{ vars.STAGING_BASE_URL }} \
+pnpm test
+```
+
+And add `SMOKE_API_KEY` as a repo-level secret.
+
+- [ ] Smoke test step wired into `ci.yml` (Milestone 3)
+- [ ] `SMOKE_API_KEY` set as a GitHub Actions secret
 
 ---
 
 ## CODE-5 — Create GitHub Labels for 3-in-1 Pillar Tracking
 
 **URL:** https://github.com/WebWakaOS/WebWaka/labels  
-**Why:** Without these labels, PRs and issues cannot be tracked by pillar, making it
-impossible to monitor implementation balance across Ops / Branding / Marketplace.
+**Why:** 29 GitHub labels were created at Milestone 0 but none cover the 3-in-1 pillars.
+Without these labels, PRs cannot be tracked by pillar.
 
 ### Labels to create
 
@@ -328,9 +277,8 @@ impossible to monitor implementation balance across Ops / Branding / Marketplace
 ### Steps
 
 1. Open https://github.com/WebWakaOS/WebWaka/labels
-2. Click **New label** for each row above
-3. Enter the name, color, and description exactly as shown
-4. Click **Create label**
+2. Click **New label** for each row above — enter name, color, description exactly as shown
+3. Click **Create label**
 
 - [ ] `3in1:ops` label created
 - [ ] `3in1:branding` label created
@@ -343,34 +291,27 @@ impossible to monitor implementation balance across Ops / Branding / Marketplace
 ## CODE-5-RETRO — Apply Labels to Previously Merged PRs
 
 **URL:** https://github.com/WebWakaOS/WebWaka/pulls?state=closed  
-**Why:** 27 PRs have been merged without 3-in-1 labels. Retroactive labeling ensures
-the audit trail is accurate for governance reporting.
+**Effort:** ~30 minutes  
+**Dependency:** CODE-5 must be done first
 
-### Steps
+Apply the appropriate `3in1:*` label(s) to every closed PR. Use this file-to-pillar mapping:
 
-1. Open each closed PR
-2. In the **Labels** sidebar, apply the appropriate `3in1:*` label(s)
-3. At minimum, label the PRs that touch:
-   - `apps/api` → `3in1:infra`
-   - `apps/brand-runtime` → `3in1:branding`
-   - `apps/public-discovery` → `3in1:marketplace`
-   - `apps/tenant-public` → `3in1:branding`
-   - `packages/white-label-theming` → `3in1:branding`
-   - `packages/community` → `3in1:marketplace`
-   - `packages/social` → `3in1:marketplace`
-   - Migrations (0001–0221) → `3in1:infra`
+| Files changed | Label(s) |
+|---|---|
+| `apps/api/` | `3in1:infra` |
+| `apps/brand-runtime/` | `3in1:branding` |
+| `apps/public-discovery/` | `3in1:marketplace` |
+| `apps/tenant-public/` | `3in1:branding` |
+| `apps/ussd-gateway/` | `3in1:infra` |
+| `packages/white-label-theming/` | `3in1:branding` |
+| `packages/community/` | `3in1:marketplace` |
+| `packages/social/` | `3in1:marketplace` |
+| `packages/auth-tenancy/` | `3in1:infra` |
+| `infra/db/migrations/` | `3in1:infra` |
+| `.github/workflows/` | `3in1:infra` |
+| `packages/ai-abstraction/` | `3in1:ai` |
 
 - [ ] All 27 closed PRs reviewed and labeled
-
----
-
-## PR Template Update (Recommended)
-
-After CODE-5 is done, add label application as a required PR checklist item. The 3-in-1
-remediation plan already contains the suggested PR template addition at the bottom of
-`docs/governance/webwaka_3in1_remediation_plan.md` (search for "PR template checklist").
-
-- [ ] `.github/pull_request_template.md` updated with `3in1:*` label requirement checkbox
 
 ---
 
@@ -378,42 +319,41 @@ remediation plan already contains the suggested PR template addition at the bott
 
 ```
 Cloudflare
-- [ ] DEPLOY-001   KV namespaces verified to exist in Cloudflare account
-- [ ] DEPLOY-005   Migrations applied to staging D1 + smoke test passes
-- [ ] DEPLOY-005   Migrations applied to production D1 + smoke test passes (4-eyes)
-- [ ] CF-SECRETS   Wrangler secrets set for all 5 worker apps (staging + production)
+- [ ] MIGRATIONS    Production D1 confirmed to have all 221 migrations applied
 
-GitHub
-- [ ] OPS-001-A    staging GitHub environment created with required reviewer
-- [ ] OPS-001-B    production GitHub environment created (2+ reviewers, 10-min timer)
-- [ ] OPS-001-C    staging branch protection enabled (CI required, no force-push)
-- [ ] GH-SECRETS   CF_API_TOKEN + CF_ACCOUNT_ID set in GitHub
-- [ ] GH-VARS      STAGING_BASE_URL + PRODUCTION_BASE_URL set as Actions variables
-- [ ] CODE-5       5 GitHub labels created
-- [ ] CODE-5-RETRO 27 closed PRs retroactively labeled
+Secrets (at first deploy of each new worker app)
+- [ ] NEW-SECRETS   LOG_PII_SALT + JWT_SECRET set for brand-runtime
+- [ ] NEW-SECRETS   LOG_PII_SALT + JWT_SECRET set for tenant-public
+- [ ] NEW-SECRETS   LOG_PII_SALT set for public-discovery
+- [ ] NEW-SECRETS   LOG_PII_SALT + JWT_SECRET set for ussd-gateway
 
-Optional
-- [ ] PR template updated with 3in1:* label checkbox
+GitHub Environments
+- [ ] OPS-001-A     staging environment: required reviewer added
+- [ ] OPS-001-B     production environment: 2+ reviewers + 10-min wait timer
+- [ ] OPS-001-B     (Optional) production deploy trigger changed to workflow_dispatch
+
+GitHub Branch & CI
+- [ ] OPS-001-C     staging branch protection enabled (CI required, no force-push)
+- [ ] GH-VARS       STAGING_BASE_URL + PRODUCTION_BASE_URL set as Actions variables
+- [ ] SMOKE         Real smoke tests wired into CI (Milestone 3 task)
+- [ ] SMOKE         SMOKE_API_KEY added as GitHub secret
+
+GitHub Labels
+- [ ] CODE-5        5 GitHub labels created (3in1:ops/branding/marketplace/ai/infra)
+- [ ] CODE-5-RETRO  27 closed PRs retroactively labeled
 ```
-
-When every box is ticked, the platform is fully configured for its first production deployment.
 
 ---
 
-## Reference: Cloudflare Account IDs
+## Reference: Active Infrastructure (as of April 11, 2026)
 
 | Resource | Value |
 |---|---|
-| Cloudflare Account ID | `a5f5864b726209519e0c361f2bb90e79` |
-| D1 staging database ID | `7c264f00-c36d-4014-b2fe-c43e136e86f6` |
-| D1 production database ID | `72fa5ec8-52c2-4f41-b486-957d7b00c76f` |
-| RATE_LIMIT_KV staging | `2a81cd5b8d094911a20e1e0f6a190506` |
-| RATE_LIMIT_KV production | `8cbf31285b0c43e1a8f44ee0af9fcdf3` |
-| GEOGRAPHY_CACHE staging | `4732f3a682964607bae2170f350e4fb4` |
-| GEOGRAPHY_CACHE production | `5bd5695d963247d0b105a936827e0a89` |
-| DISCOVERY_CACHE staging | `eb26f47e1be34ce59526f9617e02f51f` |
-| DISCOVERY_CACHE production | `d82d3780283e4857966bc8fab4e2761c` |
-| THEME_CACHE staging | `3093422f3e4e4252a3b542ed9a06fd18` |
-| THEME_CACHE production | `d89a05e8c5814c6c966061f62dd24f8c` |
-| USSD_SESSION_KV staging | `67c95f1527114e4bac480a44c4169b85` |
-| USSD_SESSION_KV production | `e34fb28b075b4362a8d4d840c19e670c` |
+| Cloudflare Account ID | `98174497603b3edc1ca0159402956161` |
+| Cloudflare Zone ID (webwaka.com) | `ee14050f896d897ad93d300397d0d26d` |
+| D1 staging (`webwaka-staging`) | `7c264f00-c36d-4014-b2fe-c43e136e86f6` |
+| D1 production (`webwaka-production`) | `72fa5ec8-52c2-4f41-b486-957d7b00c76f` |
+| Production API | https://api.webwaka.com |
+| Staging API | https://api-staging.webwaka.com |
+| GitHub Environments | https://github.com/WebWakaOS/WebWaka/settings/environments |
+| Cloudflare Dashboard | https://dash.cloudflare.com/98174497603b3edc1ca0159402956161 |
