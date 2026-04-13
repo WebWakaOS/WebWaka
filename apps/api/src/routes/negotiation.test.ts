@@ -87,7 +87,6 @@ vi.mock('@webwaka/negotiation', () => ({
   MaxRoundsExceededError,
   UnauthorizedNegotiationError,
   DuplicateSessionError,
-  DuplicateSessionError: DuplicateSessionError,
   InvalidPriceLockError,
   OfferBelowFloorError: class extends Error { code = 'offer_below_floor'; },
   OfferExceedsDiscountError: class extends Error { code = 'offer_exceeds_discount'; },
@@ -168,7 +167,7 @@ describe('GET /negotiation/policy', () => {
 // ---------------------------------------------------------------------------
 
 describe('PUT /negotiation/policy', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid pricing mode', async () => {
     const app = makeApp();
@@ -399,7 +398,7 @@ describe('POST /negotiation/sessions', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /negotiation/sessions/:id/offer', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for float amount_kobo (P9)', async () => {
     const app = makeApp();
@@ -464,7 +463,7 @@ describe('POST /negotiation/sessions/:id/offer', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /negotiation/sessions', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns merged seller+buyer session list deduped', async () => {
     mockRepo.listSessionsForSeller.mockResolvedValueOnce([MOCK_SESSION]);
@@ -511,7 +510,7 @@ describe('GET /negotiation/sessions', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST accept/decline/cancel', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('accept returns 200 with session and price_lock_token', async () => {
     mockEngine.acceptOffer.mockResolvedValueOnce({ ...MOCK_SESSION, status: 'accepted', final_price_kobo: 4500 });
@@ -560,7 +559,7 @@ describe('POST accept/decline/cancel', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /negotiation/sessions/:id/history', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 404 when session not found', async () => {
     mockRepo.getSession.mockResolvedValueOnce(null);
@@ -585,7 +584,7 @@ describe('GET /negotiation/sessions/:id/history', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /negotiation/analytics', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 403 when no workspaceId (seller required)', async () => {
     const app = makeAppNoWorkspace();
@@ -608,7 +607,7 @@ describe('GET /negotiation/analytics', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /negotiation/checkout/verify-price-lock', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 when token is missing', async () => {
     const app = makeApp();

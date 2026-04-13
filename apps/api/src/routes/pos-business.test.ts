@@ -77,7 +77,7 @@ const MOCK_CUSTOMER = { id: 'cus_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', 
 // ---------------------------------------------------------------------------
 
 describe('POST /pos-business/products', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when required fields are missing', async () => {
     const app = makeApp();
@@ -115,7 +115,7 @@ describe('POST /pos-business/products', () => {
 });
 
 describe('GET /pos-business/products/:workspaceId', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with product list', async () => {
     mockInventoryRepo.findByWorkspace.mockResolvedValueOnce([MOCK_PRODUCT]);
@@ -135,7 +135,7 @@ describe('GET /pos-business/products/:workspaceId', () => {
 });
 
 describe('GET /pos-business/product/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 when product found', async () => {
     mockInventoryRepo.findById.mockResolvedValueOnce(MOCK_PRODUCT);
@@ -159,7 +159,7 @@ describe('GET /pos-business/product/:id', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /pos-business/sales', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when items array is empty', async () => {
     const app = makeApp();
@@ -207,7 +207,7 @@ describe('POST /pos-business/sales', () => {
 });
 
 describe('GET /pos-business/sales/:workspaceId', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with sales list', async () => {
     mockSalesRepo.listByWorkspace.mockResolvedValueOnce([MOCK_SALE]);
@@ -222,7 +222,7 @@ describe('GET /pos-business/sales/:workspaceId', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /pos-business/customers', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid customer creation', async () => {
     mockCustomerRepo.create.mockResolvedValueOnce(MOCK_CUSTOMER);
@@ -239,7 +239,7 @@ describe('POST /pos-business/customers', () => {
 });
 
 describe('GET /pos-business/customers/:workspaceId', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with customer list', async () => {
     mockCustomerRepo.listByWorkspace.mockResolvedValueOnce([MOCK_CUSTOMER]);

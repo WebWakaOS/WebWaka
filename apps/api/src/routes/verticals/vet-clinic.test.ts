@@ -78,7 +78,7 @@ const MOCK_PROFILE = { id: 'vc_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', cl
 // ---------------------------------------------------------------------------
 
 describe('POST /profiles', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid profile creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);
@@ -110,7 +110,7 @@ describe('POST /profiles', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /profiles/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns profile when found', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(MOCK_PROFILE);
@@ -141,7 +141,7 @@ describe('GET /profiles/:id', () => {
 // ---------------------------------------------------------------------------
 
 describe('PATCH /profiles/:id/transition', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 404 when profile not found', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(null);

@@ -3,12 +3,24 @@
  * Framework: Hono (T1 — Cloudflare-first)
  *
  * Route map:
- *   GET  /                   → tenant-branded public home page
- *   GET  /:slug              → branded home by slug (path-based fallback)
- *   GET  /portal/login       → tenant-branded login page
- *   POST /portal/login       → credential submission → API Worker → JWT cookie
- *   GET  /portal/            → portal dashboard redirect
- *   GET  /health             → liveness probe (no auth)
+ *   GET  /                         → tenant-branded public home page
+ *   GET  /about                    → about page
+ *   GET  /services                 → services catalog
+ *   GET  /contact                  → contact form
+ *   POST /contact                  → contact form submission
+ *   GET  /blog                     → blog listing (P4-A)
+ *   GET  /blog/:slug               → blog post detail (P4-A)
+ *   GET  /shop                     → product/offering listing (P4-A)
+ *   GET  /shop/:productId          → product detail (P4-A)
+ *   GET  /shop/cart                → shopping cart (P4-A)
+ *   POST /shop/cart/add            → add to cart (P4-A)
+ *   POST /shop/checkout            → Paystack payment init (P4-A)
+ *   GET  /shop/checkout/callback   → Paystack verify (P4-A)
+ *   GET  /sitemap.xml              → tenant sitemap (P4-A SEO-02)
+ *   GET  /manifest.webmanifest     → dynamic PWA manifest (P4-A)
+ *   GET  /portal/login             → tenant-branded login page
+ *   POST /portal/login             → credential submission → API Worker → JWT cookie
+ *   GET  /health                   → liveness probe (no auth)
  *
  * Tenant resolution priority (tenantResolve middleware):
  *   1. Custom domain match (custom_domain in tenant_branding)
@@ -24,6 +36,9 @@ import { secureHeaders } from 'hono/secure-headers';
 import type { Env, Variables } from './env.js';
 import { brandedPageRouter } from './routes/branded-page.js';
 import { portalRouter } from './routes/portal.js';
+import { blogRouter } from './routes/blog.js';
+import { shopRouter } from './routes/shop.js';
+import { sitemapRouter } from './routes/sitemap.js';
 import { brandingEntitlementMiddleware } from './middleware/branding-entitlement.js';
 import { tenantResolve } from './middleware/tenant-resolve.js';
 
@@ -127,6 +142,11 @@ app.use('/*', brandingEntitlementMiddleware);
 
 // ─── Portal routes (branded auth shell) ───────────────────────────────────
 app.route('/portal', portalRouter);
+
+// ─── P4-A: Blog, shop, sitemap routes ─────────────────────────────────────
+app.route('/blog', blogRouter);
+app.route('/shop', shopRouter);
+app.route('/', sitemapRouter);
 
 // ─── Branded public home ─────────────────────────────────────────────────
 app.route('/', brandedPageRouter);

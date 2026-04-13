@@ -129,7 +129,7 @@ const MOCK_ORG = { id: 'org_xyz', name: 'Waka Ltd', tenantId: 'tnt_a' };
 // ---------------------------------------------------------------------------
 
 describe('POST /entities/individuals', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when name is missing', async () => {
     mockRequireLayerAccess.mockReturnValueOnce(undefined);
@@ -214,7 +214,7 @@ describe('POST /entities/individuals', () => {
 });
 
 describe('GET /entities/individuals', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with items list', async () => {
     mockListIndividuals.mockResolvedValueOnce({ items: [MOCK_INDIVIDUAL], nextCursor: null });
@@ -248,7 +248,7 @@ describe('GET /entities/individuals', () => {
 });
 
 describe('GET /entities/individuals/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 when individual found', async () => {
     mockGetIndividualById.mockResolvedValueOnce(MOCK_INDIVIDUAL);
@@ -279,7 +279,7 @@ describe('GET /entities/individuals/:id', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /entities/organizations', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when name is missing', async () => {
     mockRequireLayerAccess.mockReturnValueOnce(undefined);
@@ -336,7 +336,7 @@ describe('POST /entities/organizations', () => {
 });
 
 describe('GET /entities/organizations', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with org list', async () => {
     mockListOrgs.mockResolvedValueOnce({ items: [MOCK_ORG], nextCursor: null });
@@ -349,7 +349,7 @@ describe('GET /entities/organizations', () => {
 });
 
 describe('GET /entities/organizations/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 when org found', async () => {
     mockGetOrgById.mockResolvedValueOnce(MOCK_ORG);

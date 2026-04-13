@@ -64,7 +64,7 @@ const MOCK_PROFILE = { id: 'gs_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', sc
 // ---------------------------------------------------------------------------
 
 describe('POST /govt-school', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when workspace_id or school_name missing', async () => {
     const app = makeApp();
@@ -106,7 +106,7 @@ describe('POST /govt-school', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /govt-school/:id and /workspace/:workspaceId', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('GET /workspace/:workspaceId returns profile', async () => {
     mockRepo.findProfileByWorkspace.mockResolvedValueOnce(MOCK_PROFILE);
@@ -144,7 +144,7 @@ describe('GET /govt-school/:id and /workspace/:workspaceId', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /govt-school/:id/transition', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 404 when profile not found', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(null);
@@ -190,7 +190,7 @@ describe('POST /govt-school/:id/transition', () => {
 // ---------------------------------------------------------------------------
 
 describe('Students — POST/GET /:id/students', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('POST /:id/students returns 201', async () => {
     mockRepo.enrollStudent.mockResolvedValueOnce({ id: 'stu_001', studentId: 'std_ref_001', className: 'Primary 3' });
@@ -220,7 +220,7 @@ describe('Students — POST/GET /:id/students', () => {
 // ---------------------------------------------------------------------------
 
 describe('Results — POST/GET /:id/results', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('POST /:id/results returns 201', async () => {
     mockRepo.recordResult.mockResolvedValueOnce({ id: 'res_001', score: 85 });

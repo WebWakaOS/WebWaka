@@ -3,11 +3,16 @@
  * Framework: Hono (T1 — Cloudflare-first)
  *
  * Route map:
- *   GET  /health                              → liveness probe (no auth)
- *   GET  /discover                            → platform home — search + trending
- *   GET  /discover/in/:placeId                → geography-filtered entity listings
- *   GET  /discover/search?q=…&place=…         → full-text + location search
- *   GET  /discover/profile/:entityType/:id    → public entity profile page
+ *   GET  /health                                       → liveness probe (no auth)
+ *   GET  /discover                                     → platform home — search + trending
+ *   GET  /discover/in/:placeId                         → geography-filtered entity listings (placeId)
+ *   GET  /discover/search?q=…&place=…                  → full-text + location search
+ *   GET  /discover/category/:cat                       → category browse
+ *   GET  /discover/profile/:entityType/:id             → public entity profile page
+ *   GET  /discover/:stateSlug                          → geography-aware: all businesses in state (P4-B)
+ *   GET  /discover/:stateSlug/:sectorOrLgaSlug         → state+sector or state+LGA (P4-B)
+ *   GET  /discover/:stateSlug/:lgaSlug/:sectorSlug     → state+LGA+sector (P4-B)
+ *   GET  /sitemap-index.xml                            → paginated sitemap index (P4-B SEO)
  *
  * No authentication required — all routes are public.
  * T3: no tenant isolation — marketplace pages are cross-tenant by design.
@@ -21,6 +26,7 @@ import { secureHeaders } from 'hono/secure-headers';
 import type { Env } from './env.js';
 import { listingsRouter } from './routes/listings.js';
 import { profilesRouter } from './routes/profiles.js';
+import { geographyRouter } from './routes/geography.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -32,47 +38,10 @@ app.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));
 // SEO-01: robots.txt for public-facing discovery worker
 app.get('/robots.txt', (c) => {
   return c.text(
-    'User-agent: *\nAllow: /discover\nDisallow: /health\nSitemap: https://discover.webwaka.com/sitemap.xml\n',
+    'User-agent: *\nAllow: /discover\nDisallow: /health\nSitemap: https://discover.webwaka.ng/sitemap-index.xml\nSitemap: https://discover.webwaka.ng/sitemap.xml\n',
     200,
     { 'Content-Type': 'text/plain', 'Cache-Control': 'public, max-age=86400' },
   );
-});
-
-// SEO-02: Dynamic sitemap XML — public organization listings only (no PII)
-app.get('/sitemap.xml', async (c) => {
-  const base = 'https://discover.webwaka.com';
-  const now = new Date().toISOString().split('T')[0];
-
-  const staticUrls = [
-    `<url><loc>${base}/discover</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`,
-  ];
-
-  let orgUrls: string[] = [];
-  try {
-    const { results } = await c.env.DB.prepare(
-      `SELECT id, updated_at FROM organizations
-       WHERE status = 'active' ORDER BY updated_at DESC LIMIT 5000`,
-    ).all<{ id: string; updated_at: number }>();
-
-    orgUrls = results.map((r) => {
-      const lastmod = r.updated_at
-        ? new Date(r.updated_at * 1000).toISOString().split('T')[0]
-        : now;
-      return `<url><loc>${base}/discover/profile/organization/${r.id}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
-    });
-  } catch {
-    // D1 unavailable — return static sitemap only
-  }
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticUrls, ...orgUrls].join('\n')}
-</urlset>`;
-
-  return c.text(xml, 200, {
-    'Content-Type': 'application/xml; charset=utf-8',
-    'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-  });
 });
 
 // ─── PWA assets (served from Worker) ──────────────────────────────────────
@@ -157,6 +126,88 @@ async function processSyncQueue(){
 // ─── Discovery routes ──────────────────────────────────────────────────────
 app.route('/discover', listingsRouter);
 app.route('/discover/profile', profilesRouter);
+
+// ─── P4-B: Geography-aware SEO URLs (after explicit /discover routes) ─────
+// These mount AFTER /discover/in/:placeId, /discover/search, /discover/category
+// to avoid shadowing. Hono matches in registration order.
+app.route('/discover', geographyRouter);
+
+// ─── P4-B: Sitemap index for large datasets ────────────────────────────────
+app.get('/sitemap-index.xml', async (c) => {
+  const base = 'https://discover.webwaka.ng';
+  const now = new Date().toISOString().split('T')[0];
+
+  // Main sitemap is already at /sitemap.xml
+  // We also produce paginated org sitemaps for large directories
+  type CountRow = { total: number };
+  let totalOrgs = 0;
+  try {
+    const row = await c.env.DB
+      .prepare(`SELECT COUNT(*) AS total FROM organizations WHERE is_published = 1`)
+      .first<CountRow>();
+    totalOrgs = row?.total ?? 0;
+  } catch { /* graceful */ }
+
+  const PAGE_SIZE = 1000;
+  const pages = Math.max(1, Math.ceil(totalOrgs / PAGE_SIZE));
+  const sitemapEntries = [
+    `  <sitemap><loc>${base}/sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`,
+    ...Array.from({ length: pages }, (_, i) =>
+      `  <sitemap><loc>${base}/sitemap.xml?page=${i + 1}&amp;type=orgs</loc><lastmod>${now}</lastmod></sitemap>`,
+    ),
+  ];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries.join('\n')}
+</sitemapindex>`;
+
+  return c.text(xml, 200, {
+    'Content-Type': 'application/xml; charset=utf-8',
+    'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+  });
+});
+
+// Also upgrade /sitemap.xml to support ?page=N&type=orgs pagination
+app.get('/sitemap.xml', async (c) => {
+  const base = 'https://discover.webwaka.ng';
+  const now = new Date().toISOString().split('T')[0];
+  const page = Math.max(1, parseInt(c.req.query('page') ?? '1', 10));
+  const type = c.req.query('type') ?? 'all';
+  const PAGE_SIZE = 1000;
+  const offset = (page - 1) * PAGE_SIZE;
+
+  const staticUrls = page === 1
+    ? [`<url><loc>${base}/discover</loc><changefreq>daily</changefreq><priority>1.0</priority></url>`]
+    : [];
+
+  let orgUrls: string[] = [];
+  if (type === 'all' || type === 'orgs') {
+    try {
+      const { results } = await c.env.DB.prepare(
+        `SELECT id, updated_at FROM organizations
+         WHERE is_published = 1
+         ORDER BY updated_at DESC
+         LIMIT ? OFFSET ?`,
+      ).bind(PAGE_SIZE, offset).all<{ id: string; updated_at: number }>();
+
+      orgUrls = results.map((r) => {
+        const lastmod = r.updated_at ? new Date(r.updated_at * 1000).toISOString().split('T')[0] : now;
+        return `<url><loc>${base}/discover/profile/organization/${r.id}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>`;
+      });
+    } catch { /* D1 unavailable */ }
+  }
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${[...staticUrls, ...orgUrls].join('\n')}
+</urlset>`;
+
+  return c.text(xml, 200, {
+    'Content-Type': 'application/xml; charset=utf-8',
+    'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+  });
+});
 
 // ─── Root redirect ──────────────────────────────────────────────────────────
 app.get('/', (c) => c.redirect('/discover'));

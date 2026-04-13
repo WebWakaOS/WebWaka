@@ -127,7 +127,7 @@ describe('GET /templates/:slug', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /templates — publish', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 403 for non-super_admin role', async () => {
     const app = makeApp(makeDb(), 'admin');
@@ -209,7 +209,7 @@ describe('POST /templates — publish', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /templates/:slug/install', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 404 when template slug does not exist', async () => {
     const app = makeApp(makeDb());

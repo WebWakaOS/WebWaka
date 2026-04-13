@@ -65,7 +65,7 @@ const MOCK_PROFILE = { id: 'pol_001', individualId: 'ind_001', workspaceId: 'wsp
 // ---------------------------------------------------------------------------
 
 describe('POST /politician', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when required fields are missing', async () => {
     const app = makeApp();
@@ -117,7 +117,7 @@ describe('POST /politician', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /politician/workspace/:workspaceId', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 with list of politicians', async () => {
     mockRepo.findByWorkspace.mockResolvedValueOnce([MOCK_PROFILE]);
@@ -141,7 +141,7 @@ describe('GET /politician/workspace/:workspaceId', () => {
 // ---------------------------------------------------------------------------
 
 describe('GET /politician/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 200 when profile found', async () => {
     mockRepo.findById.mockResolvedValueOnce(MOCK_PROFILE);
@@ -172,7 +172,7 @@ describe('GET /politician/:id', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /politician/:id/transition', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid FSM transition', async () => {
     mockIsValidTransition.mockReturnValueOnce(false);
@@ -222,7 +222,7 @@ describe('POST /politician/:id/transition', () => {
 // ---------------------------------------------------------------------------
 
 describe('DELETE /politician/:id', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 403 for non-admin role (Bug 5 fix)', async () => {
     const app = makeApp('tnt_a', 'usr_a', 'member');

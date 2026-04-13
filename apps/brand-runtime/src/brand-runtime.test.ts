@@ -35,6 +35,7 @@ interface MockOpts {
   primaryColor?: string | null;
   subscription?: { plan: string; status: string } | null;
   offerings?: Row[];
+  blogPosts?: Row[];
 }
 
 /**
@@ -47,12 +48,14 @@ function makeDB(opts: MockOpts = {}): D1Database {
     primaryColor = '#1a6b3a',
     subscription = { plan: 'starter', status: 'active' },
     offerings = [],
+    blogPosts = [],
   } = opts;
 
   function bindResult(sql: string) {
     const lo = sql.toLowerCase();
     return {
       all: async <T>(): Promise<{ results: T[] }> => {
+        if (lo.includes('blog_posts')) return { results: blogPosts as T[] };
         if (lo.includes('offerings')) return { results: offerings as T[] };
         return { results: [] as T[] };
       },
@@ -112,6 +115,18 @@ function makeDB(opts: MockOpts = {}): D1Database {
           } as T;
         }
 
+        // blog post single lookup: SELECT ... FROM blog_posts WHERE ... slug = ?
+        if (lo.includes('blog_posts') && lo.includes('limit 1')) {
+          if (blogPosts.length > 0) return blogPosts[0] as T;
+          return null;
+        }
+
+        // shop product lookup: SELECT ... FROM offerings WHERE ... AND id = ?
+        if (lo.includes('offerings') && lo.includes('and id')) {
+          if (offerings.length > 0) return offerings[0] as T;
+          return null;
+        }
+
         return null;
       },
       run: async () => ({ success: true, meta: {} as D1Meta }),
@@ -142,6 +157,7 @@ function makeEnv(opts: MockOpts = {}): Env {
   return {
     DB: makeDB(opts),
     THEME_CACHE: stubKV,
+    CART_KV: stubKV,
     JWT_SECRET: 'test-jwt-secret-min-32-chars-pad!!',
     LOG_PII_SALT: 'test-pii-salt-min-32-chars-padding!',
     INTER_SERVICE_SECRET: 'inter-service-test-secret-minimum32c',
@@ -508,5 +524,367 @@ describe('T15: Attribution rendered when subscription does not remove it', () =>
     const res = await app.request(brandReq('/', 'acme'), {}, env);
     const html = await res.text();
     expect(html).toContain('webwaka.ng');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T16 — Blog listing page (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T16: GET /blog — blog listing page', () => {
+  it('returns 200 with HTML for active tenant', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/blog', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('<!DOCTYPE html>');
+    expect(html).toContain('Blog');
+  });
+
+  it('renders blog post titles from DB', async () => {
+    const posts = [
+      { id: 'p1', slug: 'hello-world', title: 'Hello World Post', excerpt: 'First post ever', published_at: 1700000000, author_name: 'Jane Doe', status: 'published' },
+    ];
+    const env = makeEnv({ org: ACME, blogPosts: posts });
+    const res = await app.request(brandReq('/blog', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('Hello World Post');
+    expect(html).toContain('Jane Doe');
+  });
+
+  it('renders empty state when no posts exist', async () => {
+    const env = makeEnv({ org: ACME, blogPosts: [] });
+    const res = await app.request(brandReq('/blog', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('No posts published yet');
+  });
+
+  it('includes og:title meta tag', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/blog', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('og:title');
+  });
+
+  it('returns 404 when tenant is unknown', async () => {
+    const env = makeEnv({ org: null });
+    const res = await app.request(brandReq('/blog', 'nobody'), {}, env);
+    expect(res.status).toBe(404);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T17 — Blog post detail page (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T17: GET /blog/:slug — blog post detail', () => {
+  const POST = {
+    id: 'post_001',
+    slug: 'my-first-post',
+    title: 'My First Post',
+    content: '<p>This is the full content of the post.</p>',
+    published_at: 1700000000,
+    author_name: 'Tunde Bello',
+    cover_image_url: null,
+    status: 'published',
+  };
+
+  it('returns 200 with post title and content', async () => {
+    const env = makeEnv({ org: ACME, blogPosts: [POST] });
+    const res = await app.request(brandReq('/blog/my-first-post', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('My First Post');
+    expect(html).toContain('Tunde Bello');
+    expect(html).toContain('articleBody');
+  });
+
+  it('includes Schema.org BlogPosting microdata', async () => {
+    const env = makeEnv({ org: ACME, blogPosts: [POST] });
+    const res = await app.request(brandReq('/blog/my-first-post', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('schema.org/BlogPosting');
+    expect(html).toContain('datePublished');
+  });
+
+  it('returns 404 when post does not exist', async () => {
+    const env = makeEnv({ org: ACME, blogPosts: [] });
+    const res = await app.request(brandReq('/blog/nonexistent', 'acme'), {}, env);
+    expect(res.status).toBe(404);
+    const html = await res.text();
+    expect(html).toContain('Post Not Found');
+  });
+
+  it('includes og:title for the post', async () => {
+    const env = makeEnv({ org: ACME, blogPosts: [POST] });
+    const res = await app.request(brandReq('/blog/my-first-post', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('og:title');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T18 — Shop listing page (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T18: GET /shop — shop listing page', () => {
+  const OFFERING = {
+    id: 'off_001',
+    name: 'Premium Package',
+    description: 'Our premium service offering',
+    price_kobo: 1500000,
+    image_url: null,
+    category: 'Services',
+    is_published: 1,
+    sort_order: 0,
+    created_at: 1700000000,
+    tenant_id: ACME.id,
+  };
+
+  it('returns 200 with shop HTML for active tenant', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/shop', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('<!DOCTYPE html>');
+    expect(html).toContain('Shop');
+  });
+
+  it('renders offering name and P9 price in ₦', async () => {
+    const env = makeEnv({ org: ACME, offerings: [OFFERING] });
+    const res = await app.request(brandReq('/shop', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('Premium Package');
+    expect(html).toContain('15,000.00');
+  });
+
+  it('renders "No products" empty state when no offerings', async () => {
+    const env = makeEnv({ org: ACME, offerings: [] });
+    const res = await app.request(brandReq('/shop', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('No products available yet');
+  });
+
+  it('includes og:title meta tag for shop page', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/shop', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('og:title');
+  });
+
+  it('returns 404 when tenant is unknown', async () => {
+    const env = makeEnv({ org: null });
+    const res = await app.request(brandReq('/shop', 'nobody'), {}, env);
+    expect(res.status).toBe(404);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T19 — Shop product detail page (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T19: GET /shop/:productId — product detail', () => {
+  const PRODUCT = {
+    id: 'prod_001',
+    name: 'Deluxe Service',
+    description: 'A premium deluxe experience',
+    price_kobo: 2000000,
+    image_url: null,
+    category: 'Premium',
+    is_published: 1,
+  };
+
+  it('returns 200 with product name and P9 price', async () => {
+    const env = makeEnv({ org: ACME, offerings: [PRODUCT] });
+    const res = await app.request(brandReq('/shop/prod_001', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('Deluxe Service');
+    expect(html).toContain('20,000.00');
+  });
+
+  it('includes add-to-cart form pointing to /shop/cart/add', async () => {
+    const env = makeEnv({ org: ACME, offerings: [PRODUCT] });
+    const res = await app.request(brandReq('/shop/prod_001', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('/shop/cart/add');
+    expect(html).toContain('name="productId"');
+  });
+
+  it('returns 404 when product does not exist', async () => {
+    const env = makeEnv({ org: ACME, offerings: [] });
+    const res = await app.request(brandReq('/shop/nonexistent_product', 'acme'), {}, env);
+    expect(res.status).toBe(404);
+    const html = await res.text();
+    expect(html).toContain('Product Not Found');
+  });
+
+  it('includes og:title for product page', async () => {
+    const env = makeEnv({ org: ACME, offerings: [PRODUCT] });
+    const res = await app.request(brandReq('/shop/prod_001', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('og:title');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T20 — Cart page (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T20: GET /shop/cart — shopping cart', () => {
+  it('returns 200 with empty cart message when no session', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/shop/cart', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('Your Cart');
+    expect(html).toContain('cart is empty');
+  });
+
+  it('shows proceed to checkout button when cart has items (stubbed KV returns items)', async () => {
+    // Stub KV to return cart items
+    const cartItems = [{ productId: 'p1', name: 'Test Item', price_kobo: 500000, qty: 2 }];
+    const cartKV: KVNamespace = {
+      get: async (_key: string, _type?: string) => cartItems as unknown,
+      put: async () => undefined,
+      delete: async () => undefined,
+      list: async () => ({ keys: [], list_complete: true, cacheStatus: null }),
+      getWithMetadata: async () => ({ value: null, metadata: null, cacheStatus: null }),
+    } as unknown as KVNamespace;
+    const env = { ...makeEnv({ org: ACME }), CART_KV: cartKV };
+    const res = await app.request(
+      brandReq('/shop/cart', 'acme', { headers: { Cookie: 'ww_session=testsession001' } }),
+      {},
+      env,
+    );
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('Test Item');
+    expect(html).toContain('Proceed to Checkout');
+    expect(html).toContain('10,000.00');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T21 — POST /shop/cart/add (P4-A HIGH-007)
+// ---------------------------------------------------------------------------
+describe('T21: POST /shop/cart/add — add item to cart', () => {
+  it('redirects to /shop/cart on success', async () => {
+    const offering = { id: 'off_01', name: 'Basic Service', price_kobo: 100000, is_published: 1 };
+    const env = makeEnv({ org: ACME, offerings: [offering] });
+    const res = await app.request(
+      brandReq('/shop/cart/add', 'acme', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'productId=off_01&qty=1',
+      }),
+      {},
+      env,
+    );
+    // Should redirect to cart
+    expect(res.status).toBe(302);
+    expect(res.headers.get('Location')).toBe('/shop/cart');
+  });
+
+  it('redirects to /shop when productId is missing', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(
+      brandReq('/shop/cart/add', 'acme', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: '',
+      }),
+      {},
+      env,
+    );
+    expect(res.status).toBe(302);
+    expect(res.headers.get('Location')).toBe('/shop');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T22 — GET /sitemap.xml — tenant sitemap (P4-A SEO-02)
+// ---------------------------------------------------------------------------
+describe('T22: GET /sitemap.xml — tenant sitemap', () => {
+  it('returns 200 XML sitemap with static pages', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/sitemap.xml', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('application/xml');
+    const xml = await res.text();
+    expect(xml).toContain('<?xml version="1.0"');
+    expect(xml).toContain('<urlset');
+    expect(xml).toContain('/about');
+    expect(xml).toContain('/services');
+    expect(xml).toContain('/shop');
+    expect(xml).toContain('/blog');
+  });
+
+  it('includes offering URLs when offerings are present', async () => {
+    const offerings = [{ id: 'off_sitemap_01', updated_at: 1700000000 }];
+    const env = makeEnv({ org: ACME, offerings });
+    const res = await app.request(brandReq('/sitemap.xml', 'acme'), {}, env);
+    const xml = await res.text();
+    expect(xml).toContain('/shop/off_sitemap_01');
+  });
+
+  it('has cache-control headers for CDN caching', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/sitemap.xml', 'acme'), {}, env);
+    expect(res.headers.get('cache-control')).toContain('max-age=3600');
+  });
+
+  it('returns 404 for unknown tenants', async () => {
+    const env = makeEnv({ org: null });
+    const res = await app.request(brandReq('/sitemap.xml', 'nobody'), {}, env);
+    expect(res.status).toBe(404);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T23 — GET /manifest.webmanifest — dynamic PWA manifest (P4-A)
+// ---------------------------------------------------------------------------
+describe('T23: GET /manifest.webmanifest — dynamic PWA manifest', () => {
+  it('returns 200 JSON with correct content-type', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/manifest.webmanifest', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('manifest');
+    const manifest = await res.json() as Record<string, unknown>;
+    expect(manifest.start_url).toBe('/');
+    expect(manifest.display).toBe('standalone');
+    expect(manifest.background_color).toBe('#ffffff');
+  });
+
+  it('sets cache-control header', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/manifest.webmanifest', 'acme'), {}, env);
+    expect(res.headers.get('cache-control')).toContain('max-age=3600');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T24 — Base template Open Graph meta tags (SEO-02 P4-A)
+// ---------------------------------------------------------------------------
+describe('T24: Open Graph meta tags injected via base template (SEO-02)', () => {
+  it('injects og:title and Twitter card meta tags', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('property="og:title"');
+    expect(html).toContain('name="twitter:card"');
+  });
+
+  it('injects PWA manifest link tag on all pages', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/about', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('manifest.webmanifest');
+  });
+
+  it('nav includes Shop and Blog links', async () => {
+    const env = makeEnv({ org: ACME });
+    const res = await app.request(brandReq('/', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('href="/shop"');
+    expect(html).toContain('href="/blog"');
   });
 });

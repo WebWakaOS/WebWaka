@@ -19,18 +19,45 @@ export interface BaseTemplateOptions {
   body: string;
   headExtra?: string;
   removeAttribution?: boolean;
+  /** SEO-02: Open Graph / social sharing meta tags */
+  ogTitle?: string | undefined;
+  ogDescription?: string | undefined;
+  ogImage?: string | undefined;
+  /** SEO-02: canonical URL for this page */
+  canonicalUrl?: string | undefined;
 }
 
 export function baseTemplate(opts: BaseTemplateOptions): string {
-  const { title, cssVars, logoUrl, displayName, faviconUrl, body, headExtra = '', removeAttribution } = opts;
+  const {
+    title, cssVars, logoUrl, displayName, faviconUrl, body,
+    headExtra = '', removeAttribution,
+    ogTitle, ogDescription, ogImage, canonicalUrl,
+  } = opts;
+
+  const fullTitle = `${escHtml(title)} | ${escHtml(displayName)}`;
+  const resolvedOgTitle = ogTitle ?? `${title} | ${displayName}`;
+  const ogMeta = `
+  <!-- SEO-02: Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="${escHtml(resolvedOgTitle)}" />
+  ${ogDescription ? `<meta property="og:description" content="${escHtml(ogDescription)}" />` : ''}
+  ${ogImage ? `<meta property="og:image" content="${escAttr(ogImage)}" />` : ''}
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escHtml(resolvedOgTitle)}" />
+  ${ogDescription ? `<meta name="twitter:description" content="${escHtml(ogDescription)}" />` : ''}
+  ${canonicalUrl ? `<link rel="canonical" href="${escAttr(canonicalUrl)}" />` : ''}
+  <!-- PWA manifest -->
+  <link rel="manifest" href="/manifest.webmanifest" />`;
 
   return `<!DOCTYPE html>
 <html lang="en-NG">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escHtml(title)} | ${escHtml(displayName)}</title>
+  <title>${fullTitle}</title>
   ${faviconUrl ? `<link rel="icon" href="${escAttr(faviconUrl)}" />` : '<link rel="icon" href="/favicon.ico" />'}
+  ${ogMeta}
   ${headExtra}
   <style>
 ${cssVars}
@@ -137,6 +164,8 @@ a:hover { text-decoration: underline; }
     <div class="ww-nav-links">
       <a href="/about">About</a>
       <a href="/services">Services</a>
+      <a href="/shop">Shop</a>
+      <a href="/blog">Blog</a>
       <a href="/contact">Contact</a>
     </div>
     <div class="ww-nav-actions">

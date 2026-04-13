@@ -187,9 +187,9 @@ describe('POST /identity/verify-bvn', () => {
     expect(body).not.toContain('12345678901');
   });
 
-  it('returns 422 for non-consent IdentityError (e.g. invalid_bvn_format)', async () => {
+  it('returns 422 for non-consent IdentityError (e.g. bvn_not_found)', async () => {
     const { IdentityError } = await import('@webwaka/identity');
-    mockVerifyBVN.mockRejectedValueOnce(new IdentityError('invalid_bvn_format', 'BVN format invalid'));
+    mockVerifyBVN.mockRejectedValueOnce(new IdentityError('bvn_not_found', 'BVN format invalid'));
     const app = makeApp(makeDb());
     const res = await app.request('/identity/verify-bvn', {
       method: 'POST',
@@ -234,7 +234,7 @@ describe('POST /identity/verify-bvn', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /identity/verify-nin', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when nin is missing', async () => {
     const app = makeApp(makeDb());
@@ -317,7 +317,7 @@ describe('POST /identity/verify-nin', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /identity/verify-cac', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when rc_number is missing', async () => {
     const app = makeApp(makeDb());
@@ -370,7 +370,7 @@ describe('POST /identity/verify-cac', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /identity/verify-frsc', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when license_number is missing', async () => {
     const app = makeApp(makeDb());

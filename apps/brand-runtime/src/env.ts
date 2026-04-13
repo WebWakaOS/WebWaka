@@ -6,10 +6,21 @@
 export interface Env {
   DB: D1Database;
   THEME_CACHE: KVNamespace;
+  /**
+   * KV namespace for transient cart data (session-scoped, 24h TTL).
+   * Keyed as `cart:{tenantId}:{sessionId}`.
+   * Optional — shop routes gracefully degrade if absent.
+   */
+  CART_KV?: KVNamespace;
   JWT_SECRET: string;
   LOG_PII_SALT: string;
   INTER_SERVICE_SECRET: string;
   ENVIRONMENT: 'development' | 'staging' | 'production';
+  /**
+   * Paystack secret key for e-commerce checkout (P4-A).
+   * Optional — shop/checkout routes return 503 if absent.
+   */
+  PAYSTACK_SECRET_KEY?: string;
   /**
    * R2 bucket for brand asset storage: logos, cover images, favicons, custom fonts.
    * Bound as "assets-staging" / "assets-production" per environment.
