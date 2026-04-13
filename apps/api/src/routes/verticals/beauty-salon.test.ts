@@ -47,7 +47,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'bs_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', salonName: 'Glam Studio', state: 'Lagos', status: 'seeded' };
 
 describe('POST / — create beauty salon profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'fv_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', vendorName: 'Iya Risi Kitchen', lga: 'Surulere', state: 'Lagos', status: 'seeded' };
 
 describe('POST / — create food vendor profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

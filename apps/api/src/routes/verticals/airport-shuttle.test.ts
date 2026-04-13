@@ -40,7 +40,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'as_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', companyName: 'Murtala Shuttle', status: 'seeded' };
 
 describe('POST / — create airport shuttle profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);
@@ -81,7 +81,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid transition', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);
@@ -100,7 +100,7 @@ describe('POST /:id/transition — FSM', () => {
 });
 
 describe('POST /:id/bookings — P9 fare_kobo', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 with integer fare_kobo', async () => {
     mockRepo.createBooking.mockResolvedValueOnce({ id: 'bk_001', fareKobo: 500000, passengerPhone: '08099999999' });

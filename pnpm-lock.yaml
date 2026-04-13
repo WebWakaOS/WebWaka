@@ -237,6 +237,9 @@ importers:
       '@webwaka/verticals-community-health':
         specifier: workspace:*
         version: link:../../packages/verticals-community-health
+      '@webwaka/verticals-community-radio':
+        specifier: workspace:*
+        version: link:../../packages/verticals-community-radio
       '@webwaka/verticals-constituency-office':
         specifier: workspace:*
         version: link:../../packages/verticals-constituency-office
@@ -342,6 +345,9 @@ importers:
       '@webwaka/verticals-hotel':
         specifier: workspace:*
         version: link:../../packages/verticals-hotel
+      '@webwaka/verticals-insurance-agent':
+        specifier: workspace:*
+        version: link:../../packages/verticals-insurance-agent
       '@webwaka/verticals-internet-cafe':
         specifier: workspace:*
         version: link:../../packages/verticals-internet-cafe
@@ -465,6 +471,9 @@ importers:
       '@webwaka/verticals-private-school':
         specifier: workspace:*
         version: link:../../packages/verticals-private-school
+      '@webwaka/verticals-produce-aggregator':
+        specifier: workspace:*
+        version: link:../../packages/verticals-produce-aggregator
       '@webwaka/verticals-professional':
         specifier: workspace:*
         version: link:../../packages/verticals-professional
@@ -495,6 +504,9 @@ importers:
       '@webwaka/verticals-road-transport-union':
         specifier: workspace:*
         version: link:../../packages/verticals-road-transport-union
+      '@webwaka/verticals-savings-group':
+        specifier: workspace:*
+        version: link:../../packages/verticals-savings-group
       '@webwaka/verticals-school':
         specifier: workspace:*
         version: link:../../packages/verticals-school

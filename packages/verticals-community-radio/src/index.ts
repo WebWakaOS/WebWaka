@@ -1,4 +1,5 @@
 export * from './types.js';
+export { CommunityRadioRepository } from './repo.js';
 
 export const VERTICAL_SLUG = 'community-radio';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;

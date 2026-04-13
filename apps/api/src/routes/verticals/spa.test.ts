@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'spa_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', spaName: 'Serenity Wellness', type: 'day_spa', status: 'seeded' };
 
 describe('POST / — create spa profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

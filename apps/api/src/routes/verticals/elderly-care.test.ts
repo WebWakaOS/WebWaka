@@ -44,7 +44,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'ec_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', facilityName: 'Graceful Years Home', bedCount: 30, status: 'seeded' };
 
 describe('POST /profiles — create elderly care profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

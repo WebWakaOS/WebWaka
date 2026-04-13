@@ -44,7 +44,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'dc_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', clinicName: 'Bright Smile Clinic', status: 'seeded' };
 
 describe('POST /profiles — create dental clinic profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

@@ -1,4 +1,5 @@
 export * from './types.js';
+export { InsuranceAgentRepository } from './repo.js';
 
 export const VERTICAL_SLUG = 'insurance-agent';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;

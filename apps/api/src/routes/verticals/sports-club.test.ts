@@ -32,7 +32,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'sc_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', clubName: 'Lagos Eagles FC', status: 'seeded' };
 
 describe('POST / — create sports club profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.create.mockResolvedValueOnce(MOCK);
@@ -69,7 +69,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid transition', async () => {
     mockRepo.findById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);

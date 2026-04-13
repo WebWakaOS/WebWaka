@@ -44,7 +44,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'ch_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', orgName: 'Bariga CHW Network', lga: 'Bariga', status: 'seeded' };
 
 describe('POST /profiles — create community health profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

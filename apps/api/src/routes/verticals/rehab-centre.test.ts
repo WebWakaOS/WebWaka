@@ -47,7 +47,7 @@ function makeApp(tenantId = 'tnt_a', kycTier = 3) {
 const MOCK_PROFILE = { id: 'rh_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', centreName: 'Hope Recovery Centre', bedCount: 20, kycTier: 3, status: 'seeded' };
 
 describe('POST /profiles — create rehab centre profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for Tier-3 KYC valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

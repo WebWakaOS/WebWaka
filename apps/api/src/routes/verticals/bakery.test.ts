@@ -52,7 +52,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'bak_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', bakeryName: 'Mama Cakes', status: 'seeded' };
 
 describe('POST / — create bakery profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

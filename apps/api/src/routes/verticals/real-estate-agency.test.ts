@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 're_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', agencyName: 'Prime Properties NG', status: 'seeded' };
 
 describe('POST / — create real estate agency profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

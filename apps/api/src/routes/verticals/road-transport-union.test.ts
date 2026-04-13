@@ -33,7 +33,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'rtu_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', unionName: 'Lagos NURTW Zone 4', memberCount: 250, status: 'seeded' };
 
 describe('POST / — create RTU profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.create.mockResolvedValueOnce(MOCK);
@@ -92,7 +92,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when to state missing', async () => {
     const res = await makeApp().request('/rtu_001/transition', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });

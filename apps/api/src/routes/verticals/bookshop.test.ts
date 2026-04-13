@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'bs_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', shopName: 'Page One Books', state: 'Abuja', lga: 'Garki', status: 'seeded' };
 
 describe('POST / — create bookshop profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

@@ -38,7 +38,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'ds_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', schoolName: 'Delta Driving School', status: 'seeded' };
 
 describe('POST /profiles — create driving school profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);
@@ -64,7 +64,7 @@ describe('GET /profiles/:id', () => {
 });
 
 describe('PATCH /profiles/:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid FSM transition', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);

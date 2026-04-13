@@ -35,7 +35,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'co_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', candidateName: 'Emeka Obi', officeSought: 'governorship', status: 'seeded' };
 
 describe('POST / — create campaign office profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.create.mockResolvedValueOnce(MOCK);
@@ -72,7 +72,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM + INEC spending cap', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid FSM transition', async () => {
     mockRepo.findById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);

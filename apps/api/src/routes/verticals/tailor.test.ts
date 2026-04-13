@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'tl_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', businessName: 'Couture by Amara', status: 'seeded' };
 
 describe('POST / — create tailor profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

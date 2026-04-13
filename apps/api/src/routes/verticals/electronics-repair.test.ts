@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'er_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', shopName: 'TechFix Hub', state: 'Lagos', status: 'seeded' };
 
 describe('POST / — create electronics repair profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

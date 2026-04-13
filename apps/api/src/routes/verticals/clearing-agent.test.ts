@@ -39,7 +39,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'ca_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', companyName: 'Apex Clearing Ltd', status: 'seeded' };
 
 describe('POST / — create clearing agent profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);
@@ -83,7 +83,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid transition', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);
@@ -102,7 +102,7 @@ describe('POST /:id/transition — FSM', () => {
 });
 
 describe('POST /:id/shipments — P9', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid shipment with integer kobo values', async () => {
     mockRepo.createShipment.mockResolvedValueOnce({ id: 'sh_001', declaredValueKobo: 500000, dutyAmountKobo: 50000, professionalFeeKobo: 15000 });

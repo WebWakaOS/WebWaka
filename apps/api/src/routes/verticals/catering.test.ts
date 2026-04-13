@@ -37,7 +37,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'cat_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', businessName: 'Mama Titi Catering', status: 'seeded' };
 
 describe('POST / — create catering profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);

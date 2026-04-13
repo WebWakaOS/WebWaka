@@ -33,7 +33,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'pa_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', displayName: 'Kano Produce Aggregators', status: 'seeded' };
 
 describe('POST / — create produce aggregator profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);
@@ -77,7 +77,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 400 when to state missing', async () => {
     const res = await makeApp().request('/pa_001/transition', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });

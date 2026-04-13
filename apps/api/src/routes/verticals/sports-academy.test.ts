@@ -44,7 +44,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'sa_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', academyName: 'Champions Academy', status: 'seeded' };
 
 describe('POST /profiles — create sports academy profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

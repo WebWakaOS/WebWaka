@@ -52,7 +52,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK_PROFILE = { id: 'am_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', workshopName: 'Chukwu Auto', state: 'Lagos', lga: 'Ikeja', status: 'seeded' };
 
 describe('POST / — create profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid profile creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);

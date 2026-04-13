@@ -41,7 +41,7 @@ function makeApp(tenantId = 'tnt_a') {
 const MOCK = { id: 'am_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', companyName: 'Plateau Miners Co-op', status: 'seeded' };
 
 describe('POST / — create artisanal mining profile', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 201 for valid creation', async () => {
     mockRepo.createProfile.mockResolvedValueOnce(MOCK);
@@ -82,7 +82,7 @@ describe('PATCH /:id', () => {
 });
 
 describe('POST /:id/transition — FSM (to_status)', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => { vi.clearAllMocks(); });
 
   it('returns 422 for invalid transition', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(MOCK); mockIsValid.mockReturnValueOnce(false);
