@@ -85,16 +85,17 @@ supportRoutes.post('/tickets', async (c) => {
     return c.json({ error: `priority must be one of: ${VALID_PRIORITIES.join(', ')}` }, 400);
   }
 
-  // T3: workspace_id validated to belong to caller's tenant
+  // T3: workspaceId is required; validated to belong to caller's tenant
   const workspaceId = body.workspaceId ?? auth.workspaceId ?? '';
-  if (workspaceId) {
-    const ws = await db
-      .prepare('SELECT id FROM workspaces WHERE id = ? AND tenant_id = ?')
-      .bind(workspaceId, auth.tenantId)
-      .first<{ id: string }>();
-    if (!ws) {
-      return c.json({ error: 'workspace not found or does not belong to your tenant' }, 422);
-    }
+  if (!workspaceId) {
+    return c.json({ error: 'workspaceId is required' }, 400);
+  }
+  const ws = await db
+    .prepare('SELECT id FROM workspaces WHERE id = ? AND tenant_id = ?')
+    .bind(workspaceId, auth.tenantId)
+    .first<{ id: string }>();
+  if (!ws) {
+    return c.json({ error: 'workspace not found or does not belong to your tenant' }, 422);
   }
 
   const id = `tkt_${crypto.randomUUID().replace(/-/g, '')}`;

@@ -832,6 +832,11 @@ templates.post('/:slug/rate', async (c) => {
   if (!a) return c.json({ error: 'Unauthorized' }, 401);
   const { tenantId, workspaceId } = a;
 
+  // T3: workspaceId is required — one rating per workspace per template (UNIQUE constraint)
+  if (!workspaceId) {
+    return c.json({ error: 'workspaceId required in auth context to submit a rating' }, 422);
+  }
+
   const slug = c.req.param('slug');
   const db = c.env.DB;
 
@@ -909,7 +914,7 @@ templates.get('/:slug/ratings', async (c) => {
 
   const { results } = await db
     .prepare(
-      `SELECT id, workspace_id, tenant_id, rating, review_text, created_at, updated_at
+      `SELECT id, workspace_id, rating, review_text, created_at, updated_at
        FROM template_ratings
        WHERE template_slug = ?
        ORDER BY created_at DESC

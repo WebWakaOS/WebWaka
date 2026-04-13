@@ -13,6 +13,7 @@
  */
 
 import { createMiddleware } from 'hono/factory';
+import { kvGetText } from '@webwaka/core';
 import type { Env } from '../env.js';
 
 interface RateLimitOptions {
@@ -34,15 +35,9 @@ export function rateLimitMiddleware(opts: RateLimitOptions) {
 
     // SEC-005: Fail open when KV is unavailable — never block requests due to
     // infrastructure issues; the alternative (blocking all traffic) is worse.
-    let count = 0;
-    try {
-      const raw = await kv.get(key);
-      count = raw ? parseInt(raw, 10) : 0;
-    } catch {
-      // KV unavailable — fail open to preserve availability
-      await next();
-      return;
-    }
+    // ARC-17: kvGetText never throws — returns the fallback on any KV error.
+    const raw = await kvGetText(kv, key, null);
+    const count = raw ? parseInt(raw, 10) : 0;
 
     if (count >= opts.maxRequests) {
       // SEC-005: Add Retry-After header (RFC 7231 §7.1.3)

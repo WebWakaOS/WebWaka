@@ -233,3 +233,190 @@ describe('GET /templates/installed', () => {
     expect(res.status).toBe(200);
   });
 });
+
+// ---------------------------------------------------------------------------
+// POST /templates/:slug/rate  (P6-B)
+// ---------------------------------------------------------------------------
+
+function makeRatingApp(db: ReturnType<typeof makeDb>, opts: { workspaceId?: string | null; role?: string } = {}) {
+  const app = new Hono<{ Bindings: { DB: unknown; JWT_SECRET: string; ENVIRONMENT: string } }>();
+  app.use('*', async (c, next) => {
+    c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development' } as never;
+    // Use 'in' check so explicit undefined/null is preserved (tests the missing-workspaceId guard)
+    const workspaceId = 'workspaceId' in opts ? opts.workspaceId : 'wsp_001';
+    c.set('auth' as never, {
+      userId: 'usr_test',
+      tenantId: 'tnt_a',
+      ...(workspaceId != null ? { workspaceId } : {}),
+      role: opts.role ?? 'admin',
+    } as never);
+    await next();
+  });
+  app.route('/templates', templateRoutes);
+  return app;
+}
+
+describe('POST /templates/:slug/rate', () => {
+  const makeRatingDb = (templateFound = true) =>
+    makeDb({
+      template_registry: () => (templateFound ? MOCK_TEMPLATE : null),
+      template_ratings: () => ({ avg_rating: 4.5, rating_count: 3 }),
+    });
+
+  it('returns 201 with avgRating for valid integer rating', async () => {
+    const app = makeRatingApp(makeRatingDb());
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 4 }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { templateSlug: string; yourRating: number; avgRating: number; ratingCount: number };
+    expect(json.templateSlug).toBe('dashboard-starter');
+    expect(json.yourRating).toBe(4);
+    expect(typeof json.avgRating).toBe('number');
+    expect(typeof json.ratingCount).toBe('number');
+  });
+
+  it('returns 404 when template does not exist', async () => {
+    const app = makeRatingApp(makeRatingDb(false));
+    const res = await app.request('/templates/no-such-template/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 3 }),
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 401 when unauthenticated', async () => {
+    const app = new Hono<{ Bindings: { DB: unknown; JWT_SECRET: string; ENVIRONMENT: string } }>();
+    app.use('*', async (c, next) => {
+      c.env = { DB: makeRatingDb(), JWT_SECRET: 'test', ENVIRONMENT: 'development' } as never;
+      await next();
+    });
+    app.route('/templates', templateRoutes);
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 4 }),
+    });
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 422 when workspaceId is missing from auth context (Bug #4 fix)', async () => {
+    const app = makeRatingApp(makeRatingDb(), { workspaceId: undefined });
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 4 }),
+    });
+    expect(res.status).toBe(422);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('workspaceId');
+  });
+
+  it('returns 400 when rating is 0 (out of range — T4 invariant)', async () => {
+    const app = makeRatingApp(makeRatingDb());
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 0 }),
+    });
+    expect(res.status).toBe(400);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('integer');
+  });
+
+  it('returns 400 when rating is 6 (out of range — T4 invariant)', async () => {
+    const app = makeRatingApp(makeRatingDb());
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 6 }),
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('returns 400 when rating is a float (T4 integer invariant)', async () => {
+    const app = makeRatingApp(makeRatingDb());
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 3.5 }),
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('accepts optional review_text field', async () => {
+    const app = makeRatingApp(makeRatingDb());
+    const res = await app.request('/templates/dashboard-starter/rate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rating: 5, review_text: 'Excellent template' }),
+    });
+    expect(res.status).toBe(201);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /templates/:slug/ratings  (P6-B)
+// ---------------------------------------------------------------------------
+
+describe('GET /templates/:slug/ratings', () => {
+  const RATING_FIXTURE = {
+    id: 'tr_001', workspace_id: 'wsp_001', rating: 5,
+    review_text: 'Great!', created_at: 1700000000, updated_at: 1700000000,
+  };
+
+  const makeRatingsListDb = (templateFound = true) =>
+    makeDb({
+      template_registry: () => (templateFound ? MOCK_TEMPLATE : null),
+      template_ratings: (sql: string) => {
+        if (sql.includes('AVG')) return { avg_rating: 4.8, rating_count: 10 };
+        return [RATING_FIXTURE];
+      },
+    });
+
+  it('returns 200 with ratings list and aggregate stats', async () => {
+    const app = makeRatingApp(makeRatingsListDb());
+    const res = await app.request('/templates/dashboard-starter/ratings');
+    expect(res.status).toBe(200);
+    const json = await res.json() as {
+      templateSlug: string;
+      avgRating: number | null;
+      ratingCount: number;
+      ratings: unknown[];
+      page: number;
+      perPage: number;
+    };
+    expect(json.templateSlug).toBe('dashboard-starter');
+    expect(typeof json.avgRating).toBe('number');
+    expect(typeof json.ratingCount).toBe('number');
+    expect(Array.isArray(json.ratings)).toBe(true);
+    expect(json.page).toBe(1);
+    expect(json.perPage).toBe(50);
+  });
+
+  it('returns 404 when template not found', async () => {
+    const app = makeRatingApp(makeRatingsListDb(false));
+    const res = await app.request('/templates/no-such-slug/ratings');
+    expect(res.status).toBe(404);
+  });
+
+  it('does NOT expose tenant_id in ratings response (Bug #5 T3 fix)', async () => {
+    const app = makeRatingApp(makeRatingsListDb());
+    const res = await app.request('/templates/dashboard-starter/ratings');
+    const json = await res.json() as { ratings: Record<string, unknown>[] };
+    for (const r of json.ratings) {
+      expect(r).not.toHaveProperty('tenant_id');
+    }
+  });
+
+  it('respects page query param', async () => {
+    const app = makeRatingApp(makeRatingsListDb());
+    const res = await app.request('/templates/dashboard-starter/ratings?page=2');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { page: number };
+    expect(json.page).toBe(2);
+  });
+});

@@ -62,14 +62,14 @@ analyticsRoutes.get('/summary', async (c) => {
       .prepare('SELECT COUNT(*) AS cnt FROM organizations')
       .first<{ cnt: number }>(),
     db
-      .prepare("SELECT COUNT(*) AS cnt FROM workspaces WHERE status = 'active'")
+      .prepare("SELECT COUNT(*) AS cnt FROM workspaces WHERE subscription_status = 'active'")
       .first<{ cnt: number }>(),
     db
       .prepare(
         `SELECT
-           COUNT(*)         AS tx_count,
-           COALESCE(SUM(amount_kobo), 0) AS revenue_kobo
-         FROM transactions
+           COUNT(*)                                                        AS tx_count,
+           COALESCE(SUM(CASE WHEN type = 'credit' THEN amount_wc ELSE 0 END), 0) AS revenue_kobo
+         FROM wc_transactions
          WHERE created_at >= datetime('now', '-30 days')`,
       )
       .first<{ tx_count: number; revenue_kobo: number }>(),

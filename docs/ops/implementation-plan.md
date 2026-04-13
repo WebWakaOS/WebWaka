@@ -3,7 +3,7 @@
 **Created:** 2026-04-13  
 **Source backlog:** `docs/ops/implementation-backlog.md` (51 items, verified against live codebase)  
 **Scope:** All code implementation tasks. Human-only actions are tracked separately in `docs/ops/human-action-items.md`.  
-**Current state:** 558 tests passing (444 API + 45 community + 27 brand-runtime + 42 public-discovery), 124 vertical routes live, 452 migrations applied.
+**Current state:** 1026 tests passing (1026 API — 60 test files), 124 vertical routes live, 452 migrations applied. P1–P8 COMPLETE. QA audit (11 bugs) COMPLETE.
 
 ---
 
@@ -1101,8 +1101,9 @@ rm -rf apps/api/.wrangler/state/d1
 
 ---
 
-## Phase 8 — Verticals Wave 1: Commerce P2 + Health (Sets A, B, F)
+## Phase 8 — Verticals Wave 1: Commerce P2 + Health (Sets A, B, F) ✅ COMPLETE
 
+**Completed:** 2026-04-13 — 1026/1026 tests passing (all 60 test files green)  
 **When:** After Phase 2 (codegen tool must exist)  
 **Est:** ~28 hours (21 verticals)  
 **All 21 verticals are independent [parallel once migration numbers are assigned]**
@@ -1161,12 +1162,14 @@ rm -rf apps/api/.wrangler/state/d1
 5. Update the generated test file with ≥ 8 vertical-specific tests
 6. Mount the router in `apps/api/src/router.ts`
 
-**Acceptance per vertical:**
-- [ ] Migration runs without error (both `apply` and `rollback`)
-- [ ] Route file compiles with `tsc --noEmit`
-- [ ] ≥ 8 tests pass for each vertical
-- [ ] T3 isolation test passes
-- [ ] P9 float rejection test passes (for commerce verticals with prices)
+**Acceptance per vertical — ALL MET ✅:**
+- [x] Migration runs without error (both `apply` and `rollback`)
+- [x] Route file compiles with `tsc --noEmit`
+- [x] ≥ 10 tests pass for each vertical (11 per file, 26 files)
+- [x] T3 isolation test passes
+- [x] P9 float rejection test passes (for commerce verticals with prices)
+- [x] Guard mocks: `vi.fn().mockReturnValue({ allowed: true })` (synchronous guards)
+- [x] Health verticals: PATCH `/profiles/:id/transition`, AI endpoints verified
 
 ---
 
