@@ -8,11 +8,13 @@
  *
  * Routes:
  *   GET  /health                      — liveness probe
- *   POST /rebuild/search              — rebuild search index from events
- *   POST /rebuild/analytics           — rebuild analytics snapshot (stub)
+ *   POST /rebuild/search              — rebuild search index from events (inter-service auth required)
+ *   POST /rebuild/analytics           — rebuild analytics snapshot stub (inter-service auth required)
  *   GET  /events/:aggregate/:id       — fetch events for an aggregate
  *
  * Milestone 6 — Event Bus Layer
+ * SEC-009: POST /rebuild/* require X-Inter-Service-Secret header (INTER_SERVICE_SECRET env var).
+ *   Unauthenticated callers receive 401. This guards against arbitrary D1 rebuild triggers.
  */
 
 import { Hono } from 'hono';
@@ -28,6 +30,12 @@ interface Env {
   DB: D1Database;
   ENVIRONMENT: 'development' | 'staging' | 'production';
   ALLOWED_ORIGINS?: string;
+  /**
+   * SEC-009: Shared secret for inter-service calls to mutation endpoints.
+   * Set via `wrangler secret put INTER_SERVICE_SECRET` per deployment.
+   * Required for POST /rebuild/* routes.
+   */
+  INTER_SERVICE_SECRET: string;
 }
 
 interface D1Like {
@@ -63,10 +71,30 @@ app.use('*', async (c, next) => {
 app.get('/health', (c) => c.json({ status: 'ok', app: 'projections' }));
 
 // ---------------------------------------------------------------------------
+// Inter-service auth helper (SEC-009)
+// POST mutation routes must include X-Inter-Service-Secret matching env var.
+// ---------------------------------------------------------------------------
+
+function verifyInterServiceSecret(
+  secret: string | undefined,
+  expected: string | undefined,
+): boolean {
+  if (!expected) return false;
+  if (!secret) return false;
+  return secret === expected;
+}
+
+// ---------------------------------------------------------------------------
 // Rebuild search index — POST /rebuild/search
+// SEC-009: Requires X-Inter-Service-Secret header.
 // ---------------------------------------------------------------------------
 
 app.post('/rebuild/search', async (c) => {
+  const provided = c.req.header('X-Inter-Service-Secret');
+  if (!verifyInterServiceSecret(provided, c.env.INTER_SERVICE_SECRET)) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+
   const db = c.env.DB as unknown as D1Like;
 
   const start = Date.now();
@@ -82,9 +110,15 @@ app.post('/rebuild/search', async (c) => {
 
 // ---------------------------------------------------------------------------
 // Rebuild analytics snapshot — POST /rebuild/analytics (stub for M7)
+// SEC-009: Requires X-Inter-Service-Secret header.
 // ---------------------------------------------------------------------------
 
 app.post('/rebuild/analytics', async (c) => {
+  const provided = c.req.header('X-Inter-Service-Secret');
+  if (!verifyInterServiceSecret(provided, c.env.INTER_SERVICE_SECRET)) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+
   // In M7 this will aggregate event_log into analytics_snapshots.
   // For M6 we acknowledge + return a stub response.
   return c.json({
