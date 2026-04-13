@@ -1,7 +1,7 @@
 # WebWaka OS — Remaining Human-Action Items
 
 **Status:** Living document — update checkboxes as items are completed  
-**Last updated:** 2026-04-13  
+**Last updated:** 2026-04-13 (revised — 3 new critical items added from full audit)  
 **Prepared by:** WebWaka Agent  
 **Branch:** `staging` (default branch)  
 **GitHub repo:** https://github.com/WebWakaOS/WebWaka
@@ -35,8 +35,11 @@ April 10–11 infrastructure handover (see `docs/HANDOVER.md`):
 
 | ID | Category | Item | Effort | Blocker for |
 |---|---|---|---|---|
-| MIGRATIONS | Cloudflare | Production D1 migration backlog (30 new migrations since handover) | Auto / verify | Runtime queries post-M3 |
-| NEW-SECRETS | Cloudflare | Set `LOG_PII_SALT` on newly deployed worker apps | 10 min | NDPR pseudonymisation |
+| **⚠️ TOKEN-ROTATE** | **Cloudflare — URGENT** | **Rotate the Cloudflare API token exposed in a public GitHub commit** | **5 min** | **Security — do this first** |
+| EXT-SECRETS | Cloudflare | Set third-party integration secrets on `apps/api` worker | 15 min | Payments, KYC, OTP, messaging |
+| SUPER-ADMIN | Cloudflare | Seed platform tenant and super admin user in D1 | 10 min | First login and admin access |
+| MIGRATIONS | Cloudflare | Production D1 migration backlog (verify fully applied) | Auto / verify | Runtime queries post-M3 |
+| NEW-SECRETS | Cloudflare | Set `LOG_PII_SALT` + `JWT_SECRET` on newly deployed worker apps | 10 min | NDPR pseudonymisation |
 | OPS-001-A | GitHub | Add required-reviewer protection to `staging` environment | 5 min | Prevents unreviewed staging deploys |
 | OPS-001-B | GitHub | Add required-reviewers + wait timer to `production` environment | 5 min | 4-eyes gate on production |
 | OPS-001-C | GitHub | Enable branch protection rules on `staging` branch | 5 min | PR quality gate |
@@ -44,6 +47,156 @@ April 10–11 infrastructure handover (see `docs/HANDOVER.md`):
 | SMOKE | GitHub | Wire real smoke tests into CI (replace placeholder) | See note | Post-M3 regression detection |
 | CODE-5 | GitHub | Create 5 GitHub labels for 3-in-1 pillar tracking | 5 min | PR tagging |
 | CODE-5-RETRO | GitHub | Apply labels retroactively to 27 previously merged PRs | 30 min | Governance audit trail |
+
+---
+
+## ⚠️ TOKEN-ROTATE — Rotate the Exposed Cloudflare API Token (DO FIRST)
+
+**URGENT — Security**  
+**Why:** A live Cloudflare API token was committed to the public GitHub repository inside
+`docs/production-remediation-plan-2026-04-10.md`. Anyone who has ever viewed that file
+has a copy of the token. This must be rotated before any other work proceeds.
+
+### Steps
+
+1. Go to: https://dash.cloudflare.com/profile/api-tokens
+2. Find the token (search for one matching `mx5yewdNFpT7oGZxt81BdUKJ1UF3_tUaiVL0rrG_` prefix) and click **Revoke**
+3. Click **Create Token** → use the **Edit Cloudflare Workers** template
+4. Add scopes: `D1 → Edit`, `Workers KV Storage → Edit`, `Workers Scripts → Edit`, `Zone → Edit` (for custom domains)
+5. Copy the new token — you will only see it once
+6. Update **GitHub Actions secret** (repo-level + both environments):
+   - Go to: https://github.com/WebWakaOS/WebWaka/settings/secrets/actions
+   - Update `CLOUDFLARE_API_TOKEN` with the new value
+7. For local wrangler commands, set in your terminal:
+   ```bash
+   export CLOUDFLARE_API_TOKEN="<new-token>"
+   export CLOUDFLARE_ACCOUNT_ID="98174497603b3edc1ca0159402956161"
+   ```
+
+- [ ] Old Cloudflare API token revoked
+- [ ] New token created with correct scopes
+- [ ] `CLOUDFLARE_API_TOKEN` updated in GitHub Actions secrets
+
+---
+
+## EXT-SECRETS — Set Third-Party Integration Secrets on `apps/api`
+
+**Why:** `apps/api/wrangler.toml` documents 9 additional secrets that must be set via
+`wrangler secret put` for payments (Paystack), identity verification (Prembly), OTP (Termii),
+messaging (WhatsApp, Telegram), and platform security (DM encryption, price-lock). These
+are different from `JWT_SECRET` which was already pushed.
+
+### Generate values
+
+```bash
+# Generate strong random keys for platform-internal secrets:
+openssl rand -hex 32   # for DM_MASTER_KEY
+openssl rand -hex 32   # for PRICE_LOCK_SECRET
+openssl rand -hex 32   # for INTER_SERVICE_SECRET
+```
+
+### Set secrets (run once for staging, repeat for production)
+
+```bash
+export CLOUDFLARE_API_TOKEN="<your-token>"
+cd apps/api
+
+# Paystack (from https://dashboard.paystack.com/#/settings/developer)
+wrangler secret put PAYSTACK_SECRET_KEY --env staging
+wrangler secret put PAYSTACK_SECRET_KEY --env production
+
+# Prembly — identity/KYC verification
+wrangler secret put PREMBLY_API_KEY --env staging
+wrangler secret put PREMBLY_API_KEY --env production
+
+# Termii — OTP SMS provider
+wrangler secret put TERMII_API_KEY --env staging
+wrangler secret put TERMII_API_KEY --env production
+
+# WhatsApp Business API (Meta developer portal)
+wrangler secret put WHATSAPP_ACCESS_TOKEN --env staging
+wrangler secret put WHATSAPP_ACCESS_TOKEN --env production
+wrangler secret put WHATSAPP_PHONE_NUMBER_ID --env staging
+wrangler secret put WHATSAPP_PHONE_NUMBER_ID --env production
+
+# Telegram Bot (from @BotFather)
+wrangler secret put TELEGRAM_BOT_TOKEN --env staging
+wrangler secret put TELEGRAM_BOT_TOKEN --env production
+
+# Platform-internal secrets (generate fresh values per env)
+wrangler secret put DM_MASTER_KEY --env staging       # AES-256-GCM key for DM encryption
+wrangler secret put DM_MASTER_KEY --env production
+wrangler secret put PRICE_LOCK_SECRET --env staging   # HMAC key for price-lock tokens
+wrangler secret put PRICE_LOCK_SECRET --env production
+wrangler secret put INTER_SERVICE_SECRET --env staging  # API→Admin service-to-service auth
+wrangler secret put INTER_SERVICE_SECRET --env production
+```
+
+> **Staging vs Production:** Use test credentials (Paystack test key, etc.) for staging.
+> Use live credentials only for production.
+
+- [ ] PAYSTACK_SECRET_KEY set (staging + production)
+- [ ] PREMBLY_API_KEY set (staging + production)
+- [ ] TERMII_API_KEY set (staging + production)
+- [ ] WHATSAPP_ACCESS_TOKEN + WHATSAPP_PHONE_NUMBER_ID set (staging + production)
+- [ ] TELEGRAM_BOT_TOKEN set (staging + production)
+- [ ] DM_MASTER_KEY set (staging + production)
+- [ ] PRICE_LOCK_SECRET set (staging + production)
+- [ ] INTER_SERVICE_SECRET set (staging + production)
+
+---
+
+## SUPER-ADMIN — Seed Platform Tenant and Super Admin User
+
+**Why:** The D1 database has no data yet. Before the first login can happen, a platform-level
+tenant and a super admin user must be seeded. Without this, `POST /auth/login` will always
+return 404/401.
+
+### Generate password hash
+
+```bash
+# Generate a bcrypt hash of your super admin password (use a strong password):
+node -e "const crypto = require('crypto'); console.log(crypto.createHash('sha256').update('YourChosenPassword').digest('hex'))"
+# Or use a proper bcrypt tool — the API uses bcrypt for password verification
+```
+
+### Seed staging
+
+```bash
+export CLOUDFLARE_API_TOKEN="<your-token>"
+
+# 1. Create the platform tenant
+wrangler d1 execute webwaka-os-staging --env staging \
+  --command "INSERT INTO tenants (id, slug, name, status, created_at) VALUES ('ten_platform', 'webwaka', 'WebWaka OS', 'active', unixepoch())"
+
+# 2. Create the super admin user
+wrangler d1 execute webwaka-os-staging --env staging \
+  --command "INSERT INTO users (id, tenant_id, email, password_hash, role, status, created_at) VALUES ('usr_superadmin', 'ten_platform', 'admin@webwaka.com', '<bcrypt-hash>', 'super_admin', 'active', unixepoch())"
+
+# 3. Create the platform workspace
+wrangler d1 execute webwaka-os-staging --env staging \
+  --command "INSERT INTO workspaces (id, tenant_id, name, status, plan, created_at) VALUES ('wsp_platform', 'ten_platform', 'WebWaka Platform', 'active', 'full_platform', unixepoch())"
+```
+
+### Verify first login
+
+```bash
+curl -X POST https://api-staging.webwaka.com/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@webwaka.com","password":"YourChosenPassword"}' | jq .
+# Expected: { "token": "eyJ...", "user": { "role": "super_admin" } }
+```
+
+### Repeat for production (after staging verified)
+
+Use a **different**, stronger password for production. Store it in a password manager.
+
+- [ ] Platform tenant seeded in staging D1
+- [ ] Super admin user seeded in staging D1
+- [ ] First login to staging API verified (returns JWT with `super_admin` role)
+- [ ] Platform tenant seeded in production D1
+- [ ] Super admin user seeded in production D1 (different password)
+- [ ] Production first login verified
 
 ---
 
