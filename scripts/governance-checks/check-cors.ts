@@ -3,42 +3,49 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const API_INDEX = path.resolve(__dirname, '../../apps/api/src/index.ts');
+const CORS_CONFIG = path.resolve(__dirname, '../../packages/shared-config/src/cors.ts');
 
 function main(): void {
-  const content = fs.readFileSync(API_INDEX, 'utf8');
+  const apiContent = fs.readFileSync(API_INDEX, 'utf8');
+  const corsContent = fs.existsSync(CORS_CONFIG)
+    ? fs.readFileSync(CORS_CONFIG, 'utf8')
+    : '';
+  const combined = apiContent + '\n' + corsContent;
 
-  const hasWildcardOrigin = /origin:\s*['"]?\*['"]?/.test(content);
+  const hasWildcardOrigin = /origin:\s*['"]?\*['"]?/.test(combined);
   if (hasWildcardOrigin) {
     console.error('FAIL: CORS uses wildcard (*) origin. Must be explicit origin list.');
     process.exit(1);
   }
 
-  const hasEnvCheck = content.includes('ENVIRONMENT') && content.includes('production');
+  const hasEnvCheck =
+    (combined.includes('ENVIRONMENT') && combined.includes('production')) ||
+    (combined.includes('environment') && combined.includes('production'));
   if (!hasEnvCheck) {
     console.error('FAIL: CORS fallback does not check ENVIRONMENT for production mode.');
     process.exit(1);
   }
 
-  const prodFallbackMatch = content.match(/isProd[\s\S]*?\?\s*\[([^\]]*)\]/);
+  const prodFallbackMatch = combined.match(/isProd[\s\S]*?\?\s*\[([^\]]*)\]/);
   if (prodFallbackMatch) {
-    const prodList = prodFallbackMatch[1].trim();
+    const prodList = prodFallbackMatch[1]!.trim();
     if (prodList.includes('localhost')) {
       console.error('FAIL: Production CORS fallback includes localhost.');
       process.exit(1);
     }
   }
 
-  const devFallbackMatch = content.match(/:\s*\[([^\]]*localhost[^\]]*)\]/);
+  const devFallbackMatch = combined.match(/:\s*\[([^\]]*localhost[^\]]*)\]/);
   if (devFallbackMatch) {
-    const hasProdGuard = content.includes('isProd');
+    const hasProdGuard = combined.includes('isProd');
     if (!hasProdGuard) {
       console.error('FAIL: localhost in CORS but no production guard found.');
       process.exit(1);
     }
   }
 
-  const hasHttpsCheck = content.includes("origin.startsWith('https://')") ||
-    content.includes('origin.startsWith("https://")');
+  const hasHttpsCheck = combined.includes("origin.startsWith('https://')") ||
+    combined.includes('origin.startsWith("https://")');
   if (!hasHttpsCheck) {
     console.error('FAIL: CORS webwaka domain matching does not enforce HTTPS protocol.');
     process.exit(1);

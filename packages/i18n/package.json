@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/i18n",
   "version": "0.1.0",
-  "description": "Typed i18n for WebWaka OS — en, ha (Hausa), yo (Yoruba), ig (Igbo), pcm (Nigerian Pidgin)",
+  "description": "[Cross-cutting] Typed i18n for WebWaka OS — en, ha (Hausa), yo (Yoruba), ig (Igbo), pcm (Nigerian Pidgin)",
   "type": "module",
   "main": "./src/index.ts",
   "exports": {

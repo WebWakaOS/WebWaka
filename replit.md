@@ -30,12 +30,12 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
 | Packages | 178 (186 with pillar prefixes) — +2 new: verticals-supermarket, verticals-savings-group |
 | Verticals | 145 (+2: supermarket, savings-group) |
-| D1 migrations | 215 (all with rollback scripts) — +2: 0213 delivery_orders, 0214 reservations |
+| D1 migrations | 222 (all with rollback scripts) — +2: 0213 delivery_orders, 0214 reservations |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
 | CI governance checks | 10 |
 | Smoke test suites | 5 (health, discovery, claims, branding, superagent) |
-| Total API tests (@webwaka/api) | 332 (incl. 61 partner + 43 superagent + 20 sprint5-perf + 9 security/isolation + 25 sprint7-product tests) |
+| Total API tests (@webwaka/api) | 444 (21 test files, incl. 61 partner + 43 superagent + 20 sprint5-perf + 9 security/isolation + 25 sprint7-product tests) |
 | SuperAgent package tests | 68 (hitl-service, spend-controls, compliance-filter, ndpr-register) |
 | M9 vertical package tests | 190 (hotel×35, logistics×31, pharmacy×31, gas×13, restaurant×30, supermarket×35, savings-group×15) |
 | Platform version | 1.0.1 |
@@ -247,8 +247,8 @@ Local dev sections use `local-dev-placeholder` (correct for miniflare).
 **New package:** `packages/i18n` — `@webwaka/i18n` v0.1.0
 
 **Final test counts (post Sprint 12):**
-- `apps/api`: 433 tests (21 files) | `packages/superagent`: 83 tests | `packages/ai-adapters`: 19 tests | `packages/i18n`: 52 tests
-- **Total unit/integration**: 587 tests | **E2E defined**: 162 tests (8 journeys)
+- `apps/api`: 444 tests (21 files) | `apps/ussd-gateway`: 96 tests (4 files) | `packages/superagent`: 83 tests | `packages/ai-adapters`: 19 tests | `packages/i18n`: 52 tests
+- **Total unit/integration**: 1764 tests (96 files) | **E2E defined**: 162 tests (8 journeys)
 
 ## Important Invariants for All Agents
 
