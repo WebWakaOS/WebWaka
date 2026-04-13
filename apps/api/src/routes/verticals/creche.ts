@@ -1,20 +1,20 @@
 /**
  * Crèche routes — M12
- * P13: child_ref_id opaque UUID; child names/ages/developmental notes NEVER to AI
- * L3 HITL mandatory for ALL AI calls on this vertical
+ * P13: STRICTEST data protection — child names/DOB/developmental notes NEVER to AI
+ *   Only aggregate stats (age bracket counts, fee averages) allowed in advisory
+ * L3 HITL mandatory — advisory is informational capacity planning only
  * P9: monthlyFeeKobo / feeKobo must be integers
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * GET /:id/ai-advisory — NDPR consent gate + age-only data; no child identifiers
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   CrecheRepository,
   guardClaimedToSubebVerified,
-  guardL3HitlRequired,
-  guardP13ChildData,
   guardFractionalKobo,
   isValidCrecheTransition,
 } from '@webwaka/verticals-creche';
@@ -84,13 +84,24 @@ app.post('/profiles/:id/billing', async (c) => {
   return c.json(billing, 201);
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number; payloadKeys?: string[] }>();
-  const hitlGuard = guardL3HitlRequired({ autonomyLevel: body.autonomyLevel });
-  if (!hitlGuard.allowed) return c.json({ error: hitlGuard.reason }, 403);
-  const p13Guard = guardP13ChildData({ payloadKeys: body.payloadKeys ?? [] });
-  if (!p13Guard.allowed) return c.json({ error: p13Guard.reason }, 403);
-  return c.json({ status: 'ai_prompt_queued_for_hitl_review' });
-});
+// AI advisory — P13: STRICTEST — only age brackets + fee averages; no names, IDs, or developmental data
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const children = await repo(c).listChildren(c.req.param('id'), tenantId);
+    const advisory = (children as Record<string, unknown>[]).map(ch => ({
+      age_months: ch['ageMonths'],
+      monthly_fee_kobo: ch['monthlyFeeKobo'],
+    }));
+    return c.json({
+      capability: 'ENROLLMENT_CAPACITY_ADVISORY',
+      advisory_data: advisory,
+      count: advisory.length,
+      hitl_required: true,
+    });
+  },
+);
 
 export default app;

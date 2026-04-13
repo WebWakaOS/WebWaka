@@ -1,9 +1,10 @@
 /**
  * Crèche vertical route tests — P11
  * FSM: seeded → claimed → subeb_verified → active
- * Guards: guardClaimedToSubebVerified, guardL3HitlRequired, guardP13ChildData, guardFractionalKobo (all sync)
- * P13: child PII never exposed; child_ref_id is opaque
- * ≥10 cases: CRUD, FSM, children, attendance, billing, P13 guard.
+ * Guards: guardClaimedToSubebVerified, guardFractionalKobo (all sync)
+ * NDPR: GET /:id/ai-advisory gated by aiConsentGate; only ageMonths + feeKobo in advisory (strictest data protection)
+ * P13: child names/DOB/developmental notes NEVER in AI; child_ref_id is opaque
+ * ≥10 cases: CRUD, FSM, children, attendance, billing, AI advisory.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -22,9 +23,11 @@ vi.mock('@webwaka/verticals-creche', () => ({
   CrecheRepository: vi.fn(() => mockRepo),
   isValidCrecheTransition: vi.fn().mockReturnValue(true),
   guardClaimedToSubebVerified: vi.fn().mockReturnValue({ allowed: true }),
-  guardL3HitlRequired: vi.fn().mockReturnValue({ allowed: true }),
-  guardP13ChildData: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
+}));
+
+vi.mock('@webwaka/superagent', () => ({
+  aiConsentGate: vi.fn().mockImplementation(async (_c: unknown, next: () => Promise<void>) => next()),
 }));
 
 const stubDb = { prepare: () => ({ bind: () => ({ first: async () => null, run: async () => ({ success: true }), all: async () => ({ results: [] }) }) }) };
@@ -150,5 +153,35 @@ describe('POST /profiles/:id/billing — create billing', () => {
     expect(res.status).toBe(201);
     const body = await res.json() as typeof billing;
     expect(body.feeKobo).toBe(5000000);
+  });
+});
+
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate (STRICTEST)', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns only ageMonths and monthlyFeeKobo — no names, IDs, or developmental data', async () => {
+    mockRepo.listChildren.mockResolvedValueOnce([
+      { ageMonths: 18, monthlyFeeKobo: 5000000, childRefId: 'ref_secret_001', childName: 'should not appear' },
+      { ageMonths: 24, monthlyFeeKobo: 6000000, childRefId: 'ref_secret_002', childName: 'also should not appear' },
+    ]);
+    const res = await makeApp().request('/profiles/cr_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { capability: string; advisory_data: Record<string, unknown>[]; count: number; hitl_required: boolean };
+    expect(body.capability).toBe('ENROLLMENT_CAPACITY_ADVISORY');
+    expect(body.count).toBe(2);
+    expect(body.hitl_required).toBe(true);
+    expect(body.advisory_data[0]).toHaveProperty('age_months', 18);
+    expect(body.advisory_data[0]).toHaveProperty('monthly_fee_kobo', 5000000);
+    expect(body.advisory_data[0]).not.toHaveProperty('childRefId');
+    expect(body.advisory_data[0]).not.toHaveProperty('childName');
+  });
+
+  it('returns empty advisory when no children enrolled', async () => {
+    mockRepo.listChildren.mockResolvedValueOnce([]);
+    const res = await makeApp().request('/profiles/cr_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { count: number; hitl_required: boolean };
+    expect(body.count).toBe(0);
+    expect(body.hitl_required).toBe(true);
   });
 });

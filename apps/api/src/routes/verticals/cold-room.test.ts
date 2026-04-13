@@ -19,7 +19,6 @@ vi.mock('@webwaka/verticals-cold-room', () => ({
   ColdRoomRepository: vi.fn(() => mockRepo),
   guardClaimedToNafdacVerified: vi.fn().mockReturnValue({ allowed: true }),
   guardIntegerTemperature: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidColdRoomTransition: mockIsValid,
 }));
@@ -94,5 +93,25 @@ describe('POST /profiles/:id/units — P9 daily_rate_kobo', () => {
 describe('GET /profiles/:id/units', () => {
   it('returns 404 (no list endpoint defined)', async () => {
     expect((await makeApp().request('/profiles/cr_001/units')).status).toBe(404);
+  });
+});
+
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns advisory data (facility capacity, no client PII)', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce({ ...MOCK, status: 'seeded', capacityKg: 10000, nafdacColdChainCert: 'NAFDAC-CR-001' });
+    const res = await makeApp().request('/profiles/cr_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { capability: string; profile_summary: { capacity_kg: number; nafdac_certified: boolean }; count: number };
+    expect(body.capability).toBe('TEMPERATURE_ALERT_ADVISORY');
+    expect(body.profile_summary.capacity_kg).toBe(10000);
+    expect(body.profile_summary.nafdac_certified).toBe(true);
+    expect(body.count).toBe(1);
+  });
+
+  it('returns 404 when profile not found', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    expect((await makeApp().request('/profiles/nx/ai-advisory')).status).toBe(404);
   });
 });

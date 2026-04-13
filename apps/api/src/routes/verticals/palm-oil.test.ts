@@ -1,8 +1,9 @@
 /**
  * Palm Oil vertical route tests — P11
  * FSM: seeded → claimed → nafdac_verified → active
- * Guards: guardClaimedToNafdacVerified, guardIntegerMl, guardL2AiCap, guardFractionalKobo (all sync)
- * ≥10 cases: CRUD, FSM, FFB intake, batches, sales, AI.
+ * Guards: guardClaimedToNafdacVerified, guardIntegerMl, guardFractionalKobo (all sync)
+ * NDPR: GET /:id/ai-advisory gated by aiConsentGate (supplier phone never exposed)
+ * ≥10 cases: CRUD, FSM, FFB intake, batches, sales, AI advisory.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -22,8 +23,11 @@ vi.mock('@webwaka/verticals-palm-oil', () => ({
   isValidPalmOilTransition: vi.fn().mockReturnValue(true),
   guardClaimedToNafdacVerified: vi.fn().mockReturnValue({ allowed: true }),
   guardIntegerMl: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
+}));
+
+vi.mock('@webwaka/superagent', () => ({
+  aiConsentGate: vi.fn().mockImplementation(async (_c: unknown, next: () => Promise<void>) => next()),
 }));
 
 const stubDb = { prepare: () => ({ bind: () => ({ first: async () => null, run: async () => ({ success: true }), all: async () => ({ results: [] }) }) }) };
@@ -162,20 +166,22 @@ describe('POST /profiles/:id/sales — record sale', () => {
   });
 });
 
-describe('POST /ai/prompt — AI advisory', () => {
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
-  it('returns ai_advisory_queued status', async () => {
-    const res = await makeApp().request('/ai/prompt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+  it('returns advisory data (mill status/compliance, no supplier PII)', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce({ ...MOCK, status: 'seeded', nafdacProductNumber: 'NAFDAC-001', niforAffiliation: 'NIFOR-LG' });
+    const res = await makeApp().request('/profiles/po_001/ai-advisory');
     expect(res.status).toBe(200);
-    const body = await res.json() as { status: string };
-    expect(body.status).toBe('ai_advisory_queued');
+    const body = await res.json() as { capability: string; profile_summary: { nafdac_certified: boolean; nifor_affiliated: boolean }; count: number };
+    expect(body.capability).toBe('PALM_OIL_YIELD_ADVISORY');
+    expect(body.profile_summary.nafdac_certified).toBe(true);
+    expect(body.profile_summary.nifor_affiliated).toBe(true);
+    expect(body.count).toBe(1);
   });
 
-  it('returns 403 when L2 cap exceeded', async () => {
-    const { guardL2AiCap } = await import('@webwaka/verticals-palm-oil');
-    vi.mocked(guardL2AiCap).mockReturnValueOnce({ allowed: false, reason: 'L2 cap exceeded' });
-    const res = await makeApp().request('/ai/prompt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 5 }) });
-    expect(res.status).toBe(403);
+  it('returns 404 when profile not found', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    expect((await makeApp().request('/profiles/nx/ai-advisory')).status).toBe(404);
   });
 });

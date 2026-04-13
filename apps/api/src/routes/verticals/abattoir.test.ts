@@ -21,8 +21,11 @@ vi.mock('@webwaka/verticals-abattoir', () => ({
   AbattoirRepository: vi.fn(() => mockRepo),
   isValidAbattoirTransition: vi.fn().mockReturnValue(true),
   guardClaimedToNafdacVerified: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
+}));
+
+vi.mock('@webwaka/superagent', () => ({
+  aiConsentGate: vi.fn().mockImplementation(async (_c: unknown, next: () => Promise<void>) => next()),
 }));
 
 const stubDb = { prepare: () => ({ bind: () => ({ first: async () => null, run: async () => ({ success: true }), all: async () => ({ results: [] }) }) }) };
@@ -157,20 +160,28 @@ describe('GET /profiles/:id/sales — list sales', () => {
   });
 });
 
-describe('POST /ai/prompt — AI advisory', () => {
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
-  it('returns queued status when guard allows', async () => {
-    const res = await makeApp().request('/ai/prompt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+  it('returns advisory data stripped of buyerPhone PII', async () => {
+    mockRepo.listSales.mockResolvedValueOnce([
+      { animalType: 'cattle', quantityKg: 200, pricePerKgKobo: 350000, totalKobo: 70000000, saleDate: 1700000000, buyerPhone: '08012345678' },
+    ]);
+    const res = await makeApp().request('/profiles/ab_001/ai-advisory');
     expect(res.status).toBe(200);
-    const body = await res.json() as { status: string };
-    expect(body.status).toBe('ai_advisory_queued');
+    const body = await res.json() as { capability: string; advisory_data: Record<string, unknown>[]; count: number };
+    expect(body.capability).toBe('SLAUGHTER_YIELD_FORECAST');
+    expect(body.count).toBe(1);
+    expect(body.advisory_data[0]).toHaveProperty('animal_type');
+    expect(body.advisory_data[0]).not.toHaveProperty('buyerPhone');
+    expect(body.advisory_data[0]).not.toHaveProperty('buyer_phone');
   });
 
-  it('returns 403 when L2 cap exceeded', async () => {
-    const { guardL2AiCap } = await import('@webwaka/verticals-abattoir');
-    vi.mocked(guardL2AiCap).mockReturnValueOnce({ allowed: false, reason: 'L2 cap exceeded' });
-    const res = await makeApp().request('/ai/prompt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 5 }) });
-    expect(res.status).toBe(403);
+  it('returns empty advisory when no sales yet', async () => {
+    mockRepo.listSales.mockResolvedValueOnce([]);
+    const res = await makeApp().request('/profiles/ab_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { count: number };
+    expect(body.count).toBe(0);
   });
 });

@@ -18,7 +18,6 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
 vi.mock('@webwaka/verticals-agro-input', () => ({
   AgroInputRepository: vi.fn(() => mockRepo),
   guardClaimedToNascVerified: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidAgroInputTransition: mockIsValid,
 }));
@@ -93,5 +92,25 @@ describe('POST /profiles/:id/catalogue — P9 unit_price_kobo', () => {
 describe('GET /profiles/:id/catalogue', () => {
   it('returns 404 (no list endpoint defined)', async () => {
     expect((await makeApp().request('/profiles/ai_001/catalogue')).status).toBe(404);
+  });
+});
+
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns advisory data (status + compliance flags, no farmer PII)', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce({ ...MOCK, status: 'seeded', nascDealerNumber: null });
+    const res = await makeApp().request('/profiles/ai_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { capability: string; profile_summary: { status: string }; count: number };
+    expect(body.capability).toBe('INPUT_DEMAND_ADVISORY');
+    expect(body.profile_summary.status).toBe('seeded');
+    expect(body.count).toBe(1);
+  });
+
+  it('returns 404 when profile not found', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    const res = await makeApp().request('/profiles/nx/ai-advisory');
+    expect(res.status).toBe(404);
   });
 });

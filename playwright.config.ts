@@ -56,6 +56,22 @@ export default defineConfig({
       },
     },
     {
+      name: 'workspace-e2e',
+      testMatch: '**/workspace/*.e2e.ts',
+      use: {
+        baseURL: process.env['WORKSPACE_URL'] ?? 'http://localhost:5173',
+        ...devices['Desktop Chrome'],
+      },
+    },
+    {
+      name: 'workspace-e2e-mobile',
+      testMatch: '**/workspace/*.e2e.ts',
+      use: {
+        baseURL: process.env['WORKSPACE_URL'] ?? 'http://localhost:5173',
+        ...devices['Pixel 5'],
+      },
+    },
+    {
       name: 'all-e2e',
       testMatch: '**/*.e2e.ts',
       use: {

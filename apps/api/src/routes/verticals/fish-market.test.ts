@@ -20,7 +20,6 @@ vi.mock('@webwaka/verticals-fish-market', () => ({
   guardClaimedToNafdacVerified: vi.fn().mockReturnValue({ allowed: true }),
   guardIntegerGrams: vi.fn().mockReturnValue({ allowed: true }),
   guardExpiryAlert: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidFishMarketTransition: mockIsValid,
 }));
@@ -95,5 +94,25 @@ describe('POST /profiles/:id/stock — P9 integer grams, price_per_kg_kobo', () 
 describe('GET /profiles/:id/stock', () => {
   it('returns 404 (no list endpoint defined)', async () => {
     expect((await makeApp().request('/profiles/fm_001/stock')).status).toBe(404);
+  });
+});
+
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns advisory data (market location, no buyer PII)', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce({ ...MOCK, status: 'seeded', marketLocation: 'Balogun Market, Lagos', nafdacFoodSafetyCert: 'NAFDAC-FM-001' });
+    const res = await makeApp().request('/profiles/fm_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { capability: string; profile_summary: { market_location: string; nafdac_certified: boolean }; count: number };
+    expect(body.capability).toBe('DEMAND_PLANNING_ADVISORY');
+    expect(body.profile_summary.market_location).toBe('Balogun Market, Lagos');
+    expect(body.profile_summary.nafdac_certified).toBe(true);
+    expect(body.count).toBe(1);
+  });
+
+  it('returns 404 when profile not found', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    expect((await makeApp().request('/profiles/nx/ai-advisory')).status).toBe(404);
   });
 });

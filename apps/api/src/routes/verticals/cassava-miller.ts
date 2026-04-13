@@ -1,18 +1,18 @@
 /**
  * Cassava Miller routes — M12
- * ADL-010: AI at L2 max — yield forecasts and price alerts advisory only
+ * ADL-010: AI at L2 max — milling yield forecast and price alerts advisory only
  * P9: costPerKgKobo / millingCostKobo / totalKobo must be integers; weights as integer kg
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   CassavaMillerRepository,
   guardClaimedToNafdacVerified,
-  guardL2AiCap,
   guardFractionalKobo,
   isValidCassavaMillerTransition,
 } from '@webwaka/verticals-cassava-miller';
@@ -79,11 +79,25 @@ app.post('/profiles/:id/sales', async (c) => {
   return c.json(sale, 201);
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number }>();
-  const g = guardL2AiCap({ autonomyLevel: body.autonomyLevel });
-  if (!g.allowed) return c.json({ error: g.reason }, 403);
-  return c.json({ status: 'ai_advisory_queued' });
-});
+// AI advisory — P13: supplierPhone stripped; mill-level capacity/status only
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const profile = await repo(c).findProfileById(c.req.param('id'), tenantId);
+    if (!profile) return c.json({ error: 'not found' }, 404);
+    const p = profile as Record<string, unknown>;
+    return c.json({
+      capability: 'MILLING_YIELD_FORECAST',
+      profile_summary: {
+        status: p['status'],
+        processing_capacity_kg_per_day: p['processingCapacityKgPerDay'],
+        nafdac_verified: !!p['nafdacManufacturingPermit'],
+      },
+      count: 1,
+    });
+  },
+);
 
 export default app;

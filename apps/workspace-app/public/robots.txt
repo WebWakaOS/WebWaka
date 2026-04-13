@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /pos
+Disallow: /offerings
+Disallow: /settings
+Disallow: /vertical
+
+Sitemap: /sitemap.xml

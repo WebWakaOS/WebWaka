@@ -1,19 +1,19 @@
 /**
  * Food Processing routes — M12
- * ADL-010: AI at L2 max — demand planning advisory only
+ * ADL-010: AI at L2 max — production demand advisory only
  * NAFDAC batch traceability via nafdac_product_number + batch_number
  * P9: totalCostKobo / unitSalePriceKobo must be integers; weights as integers
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   FoodProcessingRepository,
   guardClaimedToNafdacVerified,
-  guardL2AiCap,
   guardFractionalKobo,
   isValidFoodProcessingTransition,
 } from '@webwaka/verticals-food-processing';
@@ -80,11 +80,25 @@ app.post('/profiles/:id/finished-goods', async (c) => {
   return c.json(good, 201);
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number }>();
-  const g = guardL2AiCap({ autonomyLevel: body.autonomyLevel });
-  if (!g.allowed) return c.json({ error: g.reason }, 403);
-  return c.json({ status: 'ai_advisory_queued' });
-});
+// AI advisory — P13: no personal buyer/supplier data; factory-level compliance stats only
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const profile = await repo(c).findProfileById(c.req.param('id'), tenantId);
+    if (!profile) return c.json({ error: 'not found' }, 404);
+    const p = profile as Record<string, unknown>;
+    return c.json({
+      capability: 'PRODUCTION_DEMAND_ADVISORY',
+      profile_summary: {
+        status: p['status'],
+        nafdac_permit: !!p['nafdacManufacturingPermit'],
+        son_certified: !!p['sonProductCert'],
+      },
+      count: 1,
+    });
+  },
+);
 
 export default app;

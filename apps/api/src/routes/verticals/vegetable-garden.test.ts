@@ -20,7 +20,6 @@ vi.mock('@webwaka/verticals-vegetable-garden', () => ({
   guardClaimedToActive: vi.fn().mockReturnValue({ allowed: true }),
   guardIntegerGrams: vi.fn().mockReturnValue({ allowed: true }),
   guardIntegerSqm: vi.fn().mockReturnValue({ allowed: true }),
-  guardL2AiCap: vi.fn().mockReturnValue({ allowed: true }),
   guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidVegetableGardenTransition: mockIsValid,
 }));
@@ -95,5 +94,25 @@ describe('POST /profiles/:id/plots — P9 integer sqm', () => {
 describe('GET /profiles/:id/plots', () => {
   it('returns 404 (no list endpoint defined)', async () => {
     expect((await makeApp().request('/profiles/vg_001/plots')).status).toBe(404);
+  });
+});
+
+describe('GET /profiles/:id/ai-advisory — NDPR consent gate', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns advisory data (garden status, no buyer PII)', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce({ ...MOCK, status: 'seeded', fmardCode: null });
+    const res = await makeApp().request('/profiles/vg_001/ai-advisory');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { capability: string; profile_summary: { status: string; fmard_code: boolean }; count: number };
+    expect(body.capability).toBe('CROP_YIELD_ADVISORY');
+    expect(body.profile_summary.status).toBe('seeded');
+    expect(body.profile_summary.fmard_code).toBe(false);
+    expect(body.count).toBe(1);
+  });
+
+  it('returns 404 when profile not found', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    expect((await makeApp().request('/profiles/nx/ai-advisory')).status).toBe(404);
   });
 });

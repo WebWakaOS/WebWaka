@@ -2,20 +2,20 @@
  * Cocoa Exporter routes — M12
  * KYC Tier 3 MANDATORY — export FX transactions
  * ADL-010: AI at L2 max — commodity price alerts advisory only
- * P13: farmer phone never in AI; aggregate procurement stats only
+ * P13: farmer phone never in AI; company-level export stats only
  * P9: pricePerKgKobo / fobValueKobo must be integers
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   CocoaExporterRepository,
   guardClaimedToNepcVerified,
   guardKycTier3Mandatory,
-  guardL2AiCap,
   guardFractionalKobo,
   isValidCocoaExporterTransition,
 } from '@webwaka/verticals-cocoa-exporter';
@@ -75,11 +75,26 @@ app.post('/profiles/:id/exports', async (c) => {
   return c.json(exp, 201);
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number }>();
-  const g = guardL2AiCap({ autonomyLevel: body.autonomyLevel });
-  if (!g.allowed) return c.json({ error: g.reason }, 403);
-  return c.json({ status: 'ai_advisory_queued' });
-});
+// AI advisory — P13: farmer phone never exposed; company-level export/compliance stats only
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const profile = await repo(c).findProfileById(c.req.param('id'), tenantId);
+    if (!profile) return c.json({ error: 'not found' }, 404);
+    const p = profile as Record<string, unknown>;
+    return c.json({
+      capability: 'COMMODITY_PRICE_ADVISORY',
+      profile_summary: {
+        status: p['status'],
+        nepc_verified: !!p['nepcExporterLicence'],
+        cbn_forex_dealer: !!p['cbnForexDealer'],
+        crin_registered: !!p['crinRegistered'],
+      },
+      count: 1,
+    });
+  },
+);
 
 export default app;

@@ -1,18 +1,19 @@
 /**
  * Abattoir routes — M12
- * ADL-010: AI at L2 max — yield forecasts advisory only
+ * ADL-010: AI at L2 max — slaughter yield forecast advisory only
  * P9: pricePerKgKobo / totalKobo must be integers; weights as integer kg
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * P13: buyerPhone stripped from AI advisory data; aggregate yield stats only
+ * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   AbattoirRepository,
   guardClaimedToNafdacVerified,
-  guardL2AiCap,
   guardFractionalKobo,
   isValidAbattoirTransition,
 } from '@webwaka/verticals-abattoir';
@@ -73,11 +74,20 @@ app.get('/profiles/:id/sales', async (c) => {
   return c.json(await repo(c).listSales(c.req.param('id'), tenantId));
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number }>();
-  const g = guardL2AiCap({ autonomyLevel: body.autonomyLevel });
-  if (!g.allowed) return c.json({ error: g.reason }, 403);
-  return c.json({ status: 'ai_advisory_queued' });
-});
+// AI advisory — P13: buyerPhone stripped; aggregate slaughter/sales stats only
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const sales = await repo(c).listSales(c.req.param('id'), tenantId);
+    const advisory = (sales as Record<string, unknown>[]).map(s => ({
+      animal_type: s['animalType'], quantity_kg: s['quantityKg'],
+      price_per_kg_kobo: s['pricePerKgKobo'], total_kobo: s['totalKobo'],
+      sale_date: s['saleDate'],
+    }));
+    return c.json({ capability: 'SLAUGHTER_YIELD_FORECAST', advisory_data: advisory, count: advisory.length });
+  },
+);
 
 export default app;

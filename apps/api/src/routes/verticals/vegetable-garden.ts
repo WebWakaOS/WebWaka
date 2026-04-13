@@ -1,21 +1,22 @@
 /**
  * Vegetable Garden routes — M12
  * FSM: 3-state informal (seeded → claimed → active); FMARD code optional
- * ADL-010: AI at L2 max — harvest forecasts and price alerts advisory only
+ * ADL-010: AI at L2 max — crop yield forecast and price alert advisory only
  * P9: pricePerKgKobo / costKobo / totalKobo must be integers; weights as integer grams; area as integer sqm
  * T3: all queries scoped to tenantId
- * P12: AI blocked on USSD
+ * P13: buyerPhone stripped; plot-level harvest aggregates only
+ * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
  */
 
 import { Hono } from 'hono';
-import type { Context } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import type { Env } from '../../types.js';
+import { aiConsentGate } from '@webwaka/superagent';
 import {
   VegetableGardenRepository,
   guardClaimedToActive,
   guardIntegerGrams,
   guardIntegerSqm,
-  guardL2AiCap,
   guardFractionalKobo,
   isValidVegetableGardenTransition,
 } from '@webwaka/verticals-vegetable-garden';
@@ -94,11 +95,24 @@ app.post('/profiles/:id/sales', async (c) => {
   return c.json(sale, 201);
 });
 
-app.post('/ai/prompt', async (c) => {
-  const body = await c.req.json<{ autonomyLevel?: string | number }>();
-  const g = guardL2AiCap({ autonomyLevel: body.autonomyLevel });
-  if (!g.allowed) return c.json({ error: g.reason }, 403);
-  return c.json({ status: 'ai_advisory_queued' });
-});
+// AI advisory — P13: buyerPhone stripped; garden profile capacity and status only
+app.get(
+  '/profiles/:id/ai-advisory',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const { tenantId } = auth(c);
+    const profile = await repo(c).findProfileById(c.req.param('id'), tenantId);
+    if (!profile) return c.json({ error: 'not found' }, 404);
+    const p = profile as Record<string, unknown>;
+    return c.json({
+      capability: 'CROP_YIELD_ADVISORY',
+      profile_summary: {
+        status: p['status'],
+        fmard_code: !!p['fmardCode'],
+      },
+      count: 1,
+    });
+  },
+);
 
 export default app;
