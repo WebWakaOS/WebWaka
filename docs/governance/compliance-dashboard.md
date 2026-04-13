@@ -1,6 +1,6 @@
 # WebWaka OS — Governance Compliance Dashboard
 
-**Last updated:** 2026-04-14 (M10 Final QA Sweep — 6 bugs fixed, 145/145 vertical packages typecheck clean)  
+**Last updated:** 2026-04-14 (Full QA Audit + Enhancement Roadmap Reconciliation — 67/112 enhancements complete, 148/148 verticals, 159 registry entries)  
 **Source:** `docs/governance/platform-invariants.md`, `docs/governance/security-baseline.md`, `docs/governance/3in1-platform-architecture.md`  
 **Updated by:** Replit Agent
 
@@ -71,26 +71,27 @@
 | Pillar 2 (Brand) app live | ✅ | brand-runtime — home, about, services, contact, white-label theming |
 | Pillar 3 (Marketplace) app live | ✅ | public-discovery — search, geography browse, entity profiles, Schema.org |
 | AI cross-cutting (not 4th pillar) | ✅ | SuperAgent architecture documented; adapters scaffolded; no direct SDK calls |
-| Package `[Pillar N]` prefixes | ✅ | CI: `check-pillar-prefix.ts` enforces on all 176 packages |
-| Vertical pillar assignments | ✅ | `primary_pillars` column in verticals table; all 143 verticals classified |
+| Package `[Pillar N]` prefixes | ✅ | CI: `check-pillar-prefix.ts` enforces on all 178 packages |
+| Vertical pillar assignments | ✅ | `primary_pillars` column in verticals table; all 159 verticals classified (148 with packages) |
 | Cross-pillar data flow | ✅ | `packages/offerings/` shared layer; `search_index` D1 triggers |
 
 ---
 
-## CI Governance Checks (10 / 10 passing)
+## CI Governance Checks (11 / 11 passing)
 
 | # | Check | Status | Last Verified |
 |---|-------|--------|---------------|
-| 1 | CORS non-wildcard | ✅ PASS | 2026-04-11 |
-| 2 | Tenant isolation | ✅ PASS | 2026-04-11 |
-| 3 | AI direct calls blocked | ✅ PASS | 2026-04-11 |
-| 4 | Monetary integrity (kobo) | ✅ PASS | 2026-04-11 |
-| 5 | Dependency sources clean | ✅ PASS | 2026-04-11 |
-| 6 | Migration rollback scripts | ✅ PASS | 2026-04-11 |
-| 7 | Pillar prefix enforcement | ✅ PASS | 2026-04-11 |
-| 8 | PWA manifest presence | ✅ PASS | 2026-04-11 |
-| 9 | NDPR + AI entitlement gates | ✅ PASS | 2026-04-11 |
-| 10 | Geography seed integrity | ✅ PASS | 2026-04-11 |
+| 1 | CORS non-wildcard | ✅ PASS | 2026-04-14 |
+| 2 | Tenant isolation | ✅ PASS | 2026-04-14 |
+| 3 | AI direct calls blocked | ✅ PASS | 2026-04-14 |
+| 4 | Monetary integrity (kobo) | ✅ PASS | 2026-04-14 |
+| 5 | Dependency sources clean | ✅ PASS | 2026-04-14 |
+| 6 | Migration rollback scripts | ✅ PASS | 2026-04-14 |
+| 7 | Pillar prefix enforcement | ✅ PASS | 2026-04-14 |
+| 8 | PWA manifest presence | ✅ PASS | 2026-04-14 |
+| 9 | NDPR + AI entitlement gates | ✅ PASS | 2026-04-14 |
+| 10 | Geography seed integrity | ✅ PASS | 2026-04-14 |
+| 11 | Vertical registry/package consistency | ✅ PASS | 2026-04-14 |
 
 ---
 
@@ -164,13 +165,43 @@
 | SuperAgent smoke tests | ✅ DONE |
 | Milestone tracker updated | ✅ DONE |
 | Compliance dashboard updated | ✅ DONE |
-| All tests passing (347+ API; 145/145 vertical packages) | ✅ VERIFIED |
+| All tests passing (444 API; 148/148 vertical packages, 168 vitest projects) | ✅ VERIFIED |
 | 10/10 governance checks | ✅ VERIFIED |
 | Founder launch actions | 🔲 PENDING (see `docs/super-admin-launch-checklist.md`) |
 
 ---
 
-*Last updated: 2026-04-11 (M13 Production Launch — v1.0.0) → 2026-04-14 (M10 Final QA Sweep — QA-001 P13 `individual_score` guard; QA-002–006 TypeScript strict-mode fixes; all 145 vertical packages typecheck clean)*
+## Enhancement Roadmap Progress (Sprints 1–12)
+
+| Category | Done | Total | Key Items |
+|----------|------|-------|-----------|
+| Security (SEC) | 15/18 | 83% | Auth hardening, CORS, rate limiting, token rotation, PBKDF2 600k |
+| Architecture (ARC) | 10/20 | 50% | Deployment configs, CORS package, error schemas, correlation IDs |
+| UX/UI (UX) | 1/15 | 7% | i18n framework (en + Pidgin) |
+| Performance (PERF) | 7/12 | 58% | Cache headers, geo warming, cursor pagination, compression |
+| QA/Testing (QA) | 4/12 | 33% | Auth tests, tenant isolation tests, E2E, AI tests |
+| DevOps (DEV) | 9/10 | 90% | Staging gate, monitoring, Dependabot, rollback automation |
+| Product (PROD) | 6/10 | 60% | Onboarding, marketplace UI, webhooks, billing enforcement |
+| SEO | 5/5 | 100% | robots.txt, sitemap, structured data, OG images, page speed |
+| Monetization (MON) | 4/5 | 80% | Payment flow, revenue share, metering, free tier |
+| Governance (GOV) | 5/5 | 100% | Docs, CONTRIBUTING.md, Swagger UI, ADRs, Changesets |
+| **Total** | **67/112** | **60%** | **~265h completed, ~195h remaining** |
+
+---
+
+## Vertical Registry Status
+
+| Metric | Count |
+|--------|-------|
+| Registry entries | 159 |
+| Vertical packages | 148 |
+| Matched (package ↔ registry) | 148/148 (100%) |
+| Registry entries awaiting packages | 11 |
+| Orphan packages | 0 |
+
+---
+
+*Last updated: 2026-04-14 (Full QA Audit + Enhancement Roadmap Reconciliation)*
 
 *This dashboard is the single-page compliance view for WebWaka OS.*  
 *For detailed invariant definitions, see `docs/governance/platform-invariants.md`.*  

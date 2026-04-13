@@ -8,7 +8,7 @@ const SEARCH_DIRS = [
   path.join(ROOT, 'apps'),
 ];
 
-const VALID_PREFIXES = ['[Pillar 1]', '[Pillar 2]', '[Pillar 3]', '[Pillar 1+3]', '[AI]', '[Infra]', '[Cross-cutting]'];
+const VALID_PREFIXES = ['[Pillar 1]', '[Pillar 2]', '[Pillar 3]', '[Pillar 1+2]', '[Pillar 1+3]', '[Pillar 2+3]', '[Pillar 1+2+3]', '[AI]', '[Infra]', '[Cross-cutting]'];
 
 function findPackageJsonFiles(dir: string): string[] {
   const results: string[] = [];

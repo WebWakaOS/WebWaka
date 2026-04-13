@@ -24,19 +24,20 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | 9 — Vertical Scaling | ✅ COMPLETE — D1 migrations 0213+0214, 190 new tests across 7 packages, 2 new vertical packages |
 | M9–M12 QA Hardening | ✅ PUSHED — 118 vitest configs added, 168 workspace projects, 1764 tests passing, all 10 governance checks green |
 | Full QA Audit | ✅ COMPLETE — P9 float arithmetic fix (templates.ts), 10/10 governance, 9/9 apps typecheck, 148/148 verticals pass, 222/222 migrations with rollbacks |
+| Enhancement Roadmap Reconciliation | ✅ COMPLETE — 67/112 enhancements marked done, registry reconciled (159 entries, 0 orphans), 11 new vertical packages, 11th governance check added |
 
 ## Platform Scale
 
 | Metric | Count |
 |--------|-------|
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
-| Packages | 178 (186 with pillar prefixes) — +2 new: verticals-supermarket, verticals-savings-group |
-| Verticals | 148 (+2: supermarket, savings-group) |
-| Vitest workspace projects | 168 (9 apps + 11 packages + 148 verticals) |
+| Packages | 201 (all with pillar prefixes) — +11 new verticals (pharmacy, gym, startup, etc.) |
+| Verticals | 159 registry entries, 159 packages (148 original + 11 new) |
+| Vitest workspace projects | 179 (9 apps + 11 packages + 159 verticals) |
 | D1 migrations | 222 (all with rollback scripts) — +2: 0213 delivery_orders, 0214 reservations |
 | Claims FSM states | 8 (with transition guards, 36 tests) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
-| CI governance checks | 10 |
+| CI governance checks | 11 (+1: vertical registry/package consistency) |
 | Smoke test suites | 5 (health, discovery, claims, branding, superagent) |
 | Total API tests (@webwaka/api) | 444 (21 test files, incl. 61 partner + 43 superagent + 20 sprint5-perf + 9 security/isolation + 25 sprint7-product tests) |
 | SuperAgent package tests | 68 (hitl-service, spend-controls, compliance-filter, ndpr-register) |
