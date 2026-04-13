@@ -1,9 +1,9 @@
 /**
  * Commerce P3 — Combined Router
- * M10/M11 Set C (15 verticals)
+ * M10/M11/M12 Set C (16 verticals)
  *
- * Mounts all 15 Commerce P3 vertical routers under their canonical slugs.
- * This combined router is mounted at /api/v1 in apps/api/src/index.ts.
+ * Mounts all 16 Commerce P3 vertical routers under their canonical slugs.
+ * This combined router is mounted at /api/v1 in apps/api/src/router.ts.
  *
  * Routes:
  *   /artisanal-mining/...
@@ -17,6 +17,7 @@
  *   /petrol-station/...
  *   /phone-repair-shop/...
  *   /shoemaker/...
+ *   /sole-trader/...
  *   /spare-parts/...
  *   /tyre-shop/...
  *   /used-car-dealer/...
@@ -36,6 +37,7 @@ import { hairSalonRoutes } from './verticals/hair-salon.js';
 import { petrolStationRoutes } from './verticals/petrol-station.js';
 import { phoneRepairShopRoutes } from './verticals/phone-repair-shop.js';
 import { shoemakerRoutes } from './verticals/shoemaker.js';
+import soleTraderRoutes from './verticals/sole-trader.js';
 import { sparePartsRoutes } from './verticals/spare-parts.js';
 import { tyreShopRoutes } from './verticals/tyre-shop.js';
 import { usedCarDealerRoutes } from './verticals/used-car-dealer.js';
@@ -54,6 +56,7 @@ commerceP3Routes.route('/hair-salon', hairSalonRoutes);
 commerceP3Routes.route('/petrol-station', petrolStationRoutes);
 commerceP3Routes.route('/phone-repair-shop', phoneRepairShopRoutes);
 commerceP3Routes.route('/shoemaker', shoemakerRoutes);
+commerceP3Routes.route('/sole-trader', soleTraderRoutes);
 commerceP3Routes.route('/spare-parts', sparePartsRoutes);
 commerceP3Routes.route('/tyre-shop', tyreShopRoutes);
 commerceP3Routes.route('/used-car-dealer', usedCarDealerRoutes);

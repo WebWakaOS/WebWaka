@@ -161,8 +161,10 @@ describe('GET /:id/ai-advisory — P13: IMEI stripped', () => {
     expect(res.status).toBe(200);
     const body = await res.json() as { capability: string; advisory_data: { device_brand: string }[] };
     expect(body.capability).toBe('PARTS_DEMAND_FORECAST');
-    expect(body.advisory_data[0]).not.toHaveProperty('imei');
-    expect(body.advisory_data[0]).not.toHaveProperty('customerPhone');
-    expect(body.advisory_data[0].device_brand).toBe('Samsung');
+    expect(body.advisory_data).toHaveLength(1);
+    const first = body.advisory_data[0]!;
+    expect(first).not.toHaveProperty('imei');
+    expect(first).not.toHaveProperty('customerPhone');
+    expect(first.device_brand).toBe('Samsung');
   });
 });

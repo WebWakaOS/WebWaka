@@ -19,6 +19,7 @@ import { cargoTruckRoutes } from './verticals/cargo-truck.js';
 import { containerDepotRoutes } from './verticals/container-depot.js';
 import { ferryRoutes } from './verticals/ferry.js';
 import { nurtwRoutes } from './verticals/nurtw.js';
+import { roadTransportUnionRoutes } from './verticals/road-transport-union.js';
 
 export const transportExtendedRoutes = new Hono<{ Bindings: Env }>();
 
@@ -30,3 +31,4 @@ transportExtendedRoutes.route('/cargo-truck', cargoTruckRoutes);
 transportExtendedRoutes.route('/container-depot', containerDepotRoutes);
 transportExtendedRoutes.route('/ferry', ferryRoutes);
 transportExtendedRoutes.route('/nurtw', nurtwRoutes);
+transportExtendedRoutes.route('/road-transport-union', roadTransportUnionRoutes);

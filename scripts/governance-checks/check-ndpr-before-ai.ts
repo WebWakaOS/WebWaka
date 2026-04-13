@@ -28,19 +28,22 @@ function main(): void {
     }
   }
 
-  const indexContent = fs.readFileSync(
-    path.resolve(__dirname, '../../apps/api/src/index.ts'),
-    'utf8',
-  );
-  const hasUssdExclusion = indexContent.includes('ussdExclusionMiddleware') && indexContent.includes("'/superagent");
+  // ARC-07: Routes were split from index.ts into router.ts. Check router.ts first, fall back to index.ts.
+  const routerPath = path.resolve(__dirname, '../../apps/api/src/router.ts');
+  const indexPath = path.resolve(__dirname, '../../apps/api/src/index.ts');
+  const routerSource = fs.existsSync(routerPath) ? fs.readFileSync(routerPath, 'utf8') : '';
+  const indexContent = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
+  const combinedContent = routerSource + '\n' + indexContent;
+
+  const hasUssdExclusion = combinedContent.includes('ussdExclusionMiddleware') && combinedContent.includes("'/superagent");
   if (!hasUssdExclusion) {
-    console.error('FAIL: USSD exclusion middleware not applied to superagent routes in index.ts.');
+    console.error('FAIL: USSD exclusion middleware not applied to superagent routes in router.ts or index.ts.');
     process.exit(1);
   }
 
-  const hasAiEntitlement = indexContent.includes('aiEntitlementMiddleware') && indexContent.includes("'/superagent");
+  const hasAiEntitlement = combinedContent.includes('aiEntitlementMiddleware') && combinedContent.includes("'/superagent");
   if (!hasAiEntitlement) {
-    console.error('FAIL: AI entitlement middleware not applied to superagent routes in index.ts.');
+    console.error('FAIL: AI entitlement middleware not applied to superagent routes in router.ts or index.ts.');
     process.exit(1);
   }
 

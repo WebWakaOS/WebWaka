@@ -32,6 +32,7 @@ import fishMarketRoutes from './verticals/fish-market.js';
 import foodProcessingRoutes from './verticals/food-processing.js';
 import palmOilRoutes from './verticals/palm-oil.js';
 import vegetableGardenRoutes from './verticals/vegetable-garden.js';
+import { produceAggregatorRoutes } from './verticals/produce-aggregator.js';
 
 const router = new Hono<{ Bindings: Env }>();
 
@@ -48,5 +49,6 @@ router.route('/fish-market', fishMarketRoutes);
 router.route('/food-processing', foodProcessingRoutes);
 router.route('/palm-oil', palmOilRoutes);
 router.route('/vegetable-garden', vegetableGardenRoutes);
+router.route('/produce-aggregator', produceAggregatorRoutes);
 
 export default router;

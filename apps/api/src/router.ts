@@ -62,6 +62,7 @@ import { onboardingRoutes } from './routes/onboarding.js';
 import { billingRoutes } from './routes/billing.js';
 import { analyticsRoutes } from './routes/analytics.js';
 import { supportRoutes } from './routes/support.js';
+import eduAgriExtendedRoutes from './routes/verticals-edu-agri-extended.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -324,6 +325,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/api/v1/petrol-station/*', authMiddleware);
   app.use('/api/v1/phone-repair-shop/*', authMiddleware);
   app.use('/api/v1/shoemaker/*', authMiddleware);
+  app.use('/api/v1/sole-trader/*', authMiddleware);
   app.use('/api/v1/spare-parts/*', authMiddleware);
   app.use('/api/v1/tyre-shop/*', authMiddleware);
   app.use('/api/v1/used-car-dealer/*', authMiddleware);
@@ -344,6 +346,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/api/v1/campaign-office/*', authMiddleware);
   app.use('/api/v1/constituency-office/*', authMiddleware);
   app.use('/api/v1/ward-rep/*', authMiddleware);
+  app.use('/api/v1/ngo/*', authMiddleware);
   app.route('/api/v1', civicExtendedRoutes);
 
   // -------------------------------------------------------------------------
@@ -358,7 +361,31 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/api/v1/container-depot/*', authMiddleware);
   app.use('/api/v1/ferry/*', authMiddleware);
   app.use('/api/v1/nurtw/*', authMiddleware);
+  app.use('/api/v1/road-transport-union/*', authMiddleware);
   app.route('/api/v1', transportExtendedRoutes);
+
+  // -------------------------------------------------------------------------
+  // M9–M12: Education + Agricultural Extended — 14 verticals
+  // L3 HITL mandatory: creche (all AI — child safeguarding)
+  // P13: private-school/creche — no child PII to AI; aggregate counts only
+  // cocoa-exporter — mandatory Tier 3 KYC; cold-room — integer millidegrees
+  // -------------------------------------------------------------------------
+
+  app.use('/api/v1/driving-school/*', authMiddleware);
+  app.use('/api/v1/training-institute/*', authMiddleware);
+  app.use('/api/v1/creche/*', authMiddleware);
+  app.use('/api/v1/private-school/*', authMiddleware);
+  app.use('/api/v1/agro-input/*', authMiddleware);
+  app.use('/api/v1/cold-room/*', authMiddleware);
+  app.use('/api/v1/abattoir/*', authMiddleware);
+  app.use('/api/v1/cassava-miller/*', authMiddleware);
+  app.use('/api/v1/cocoa-exporter/*', authMiddleware);
+  app.use('/api/v1/fish-market/*', authMiddleware);
+  app.use('/api/v1/food-processing/*', authMiddleware);
+  app.use('/api/v1/palm-oil/*', authMiddleware);
+  app.use('/api/v1/vegetable-garden/*', authMiddleware);
+  app.use('/api/v1/produce-aggregator/*', authMiddleware);
+  app.route('/api/v1', eduAgriExtendedRoutes);
 
   // -------------------------------------------------------------------------
   // M9–M12: Health Extended — 6 verticals
@@ -403,13 +430,17 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/api/v1/bureau-de-change/*', authMiddleware);
   app.use('/api/v1/hire-purchase/*', authMiddleware);
   app.use('/api/v1/mobile-money-agent/*', authMiddleware);
+  app.use('/api/v1/insurance-agent/*', authMiddleware);
+  app.use('/api/v1/savings-group/*', authMiddleware);
   app.use('/api/v1/event-hall/*', authMiddleware);
   app.use('/api/v1/water-treatment/*', authMiddleware);
   app.use('/api/v1/community-hall/*', authMiddleware);
   app.use('/api/v1/events-centre/*', authMiddleware);
+  app.use('/api/v1/tech-hub/*', authMiddleware);
   app.use('/api/v1/advertising-agency/*', authMiddleware);
   app.use('/api/v1/newspaper-dist/*', authMiddleware);
   app.use('/api/v1/podcast-studio/*', authMiddleware);
+  app.use('/api/v1/community-radio/*', authMiddleware);
   app.use('/api/v1/government-agency/*', authMiddleware);
   app.use('/api/v1/polling-unit/*', authMiddleware);
   app.route('/api/v1', financialPlaceMediaInstitutionalRoutes);
