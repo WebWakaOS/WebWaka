@@ -13,7 +13,9 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
     findProfileById: vi.fn(),
     updateProfile: vi.fn(),
     transition: vi.fn(),
+    createMember: vi.fn(),
     createMembership: vi.fn(),
+    listMembers: vi.fn(),
     listMemberships: vi.fn(),
   },
   mockIsValid: vi.fn().mockReturnValue(true),
@@ -21,10 +23,10 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
 
 vi.mock('@webwaka/verticals-sports-academy', () => ({
   SportsAcademyRepository: vi.fn(() => mockRepo),
-  guardClaimedToPermitVerified: vi.fn(),
-  guardHighValueMembership: vi.fn(),
-  guardP13HealthMetrics: vi.fn(),
-  guardFractionalKobo: vi.fn(),
+  guardClaimedToPermitVerified: vi.fn().mockReturnValue({ allowed: true }),
+  guardHighValueMembership: vi.fn().mockReturnValue({ allowed: true }),
+  guardP13HealthMetrics: vi.fn().mockReturnValue({ allowed: true }),
+  guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidSportsAcademyTransition: mockIsValid,
 }));
 
@@ -108,6 +110,14 @@ describe('PATCH /profiles/:id/transition — FSM', () => {
       body: JSON.stringify({ to: 'claimed' }),
     });
     expect(res.status).toBe(404);
+  });
+});
+
+describe('POST /profiles/:id/members', () => {
+  it('returns 201 for valid member registration', async () => {
+    mockRepo.createMember.mockResolvedValueOnce({ id: 'mem_001', membershipPlan: 'monthly', planFeeKobo: 50000 });
+    const res = await makeApp().request('/profiles/sa_001/members', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ membershipPlan: 'monthly', planFeeKobo: 50000, validUntil: 1731536000 }) });
+    expect(res.status).toBe(201);
   });
 });
 

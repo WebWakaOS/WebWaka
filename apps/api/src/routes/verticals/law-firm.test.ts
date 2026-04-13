@@ -12,6 +12,7 @@ const { mockRepo } = vi.hoisted(() => ({
   mockRepo: {
     createProfile: vi.fn(), findProfileById: vi.fn(), updateStatus: vi.fn(),
     createMatter: vi.fn(), createTimeEntry: vi.fn(), createCpdLog: vi.fn(),
+    createCourtCalendar: vi.fn(),
   },
 }));
 
@@ -103,6 +104,14 @@ describe('POST /profiles/:id/time-entries', () => {
   it('returns 201 for valid time entry', async () => {
     mockRepo.createTimeEntry.mockResolvedValueOnce({ id: 'te_001', timeMinutes: 120 });
     const res = await makeApp().request('/profiles/lf_001/time-entries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ matterRefId: 'uuid-opaque', feeEarnerRefId: 'mem_a', timeMinutes: 120, ratePerHourKobo: 250000, amountKobo: 500000, entryDate: 1700000000 }) });
+    expect(res.status).toBe(201);
+  });
+});
+
+describe('POST /profiles/:id/court-calendar', () => {
+  it('returns 201 for valid court calendar entry', async () => {
+    mockRepo.createCourtCalendar.mockResolvedValueOnce({ id: 'cc_001', matterRefId: 'uuid-opaque', courtDate: 1700000000 });
+    const res = await makeApp().request('/profiles/lf_001/court-calendar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ matterRefId: 'uuid-opaque', courtName: 'FCT High Court', courtDate: 1700000000, courtType: 'high', hearingType: 'mention' }) });
     expect(res.status).toBe(201);
   });
 });

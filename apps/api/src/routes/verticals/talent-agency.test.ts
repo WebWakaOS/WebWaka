@@ -101,3 +101,10 @@ describe('POST /profiles/:id/bookings', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/ai/talent-pipeline', () => {
+  it('returns 200 for L2 AI talent pipeline analysis', async () => {
+    const res = await makeApp().request('/profiles/ta_001/ai/talent-pipeline', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+    expect(res.status).toBe(200);
+  });
+});

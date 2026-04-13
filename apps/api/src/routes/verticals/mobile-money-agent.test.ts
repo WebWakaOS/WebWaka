@@ -100,3 +100,10 @@ describe('POST /profiles/:id/float/topup', () => {
     expect(res.status).toBe(200);
   });
 });
+
+describe('POST /profiles/:id/ai/float-utilisation', () => {
+  it('returns 200 for L2 AI float utilisation analysis', async () => {
+    const res = await makeApp().request('/profiles/mma_001/ai/float-utilisation', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+    expect(res.status).toBe(200);
+  });
+});

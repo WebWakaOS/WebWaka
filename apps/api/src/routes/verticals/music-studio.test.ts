@@ -101,3 +101,11 @@ describe('POST /profiles/:id/beats', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/equipment', () => {
+  it('returns 201 for valid equipment record', async () => {
+    mockRepo.createEquipment.mockResolvedValueOnce({ id: 'eq_001', equipmentName: 'SSL 4000', category: 'mixing_console' });
+    const res = await makeApp().request('/profiles/ms_001/equipment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ equipmentName: 'SSL 4000', category: 'mixing_console', purchaseCostKobo: 5000000, purchaseDate: 1700000000 }) });
+    expect(res.status).toBe(201);
+  });
+});

@@ -12,6 +12,7 @@ const { mockRepo } = vi.hoisted(() => ({
   mockRepo: {
     createProfile: vi.fn(), findProfileById: vi.fn(), updateStatus: vi.fn(),
     createTaxFile: vi.fn(), createRemittance: vi.fn(), createCpdLog: vi.fn(),
+    createBilling: vi.fn(),
   },
 }));
 
@@ -101,6 +102,14 @@ describe('POST /profiles/:id/remittances', () => {
   it('returns 201 for valid remittance record', async () => {
     mockRepo.createRemittance.mockResolvedValueOnce({ id: 'rem_001', amountKobo: 500000 });
     const res = await makeApp().request('/profiles/tc_001/remittances', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clientRefId: 'cli_a', taxType: 'paye', period: '2024-03', amountKobo: 500000, remittanceDate: 1700000000, bankRef: 'BANK-001' }) });
+    expect(res.status).toBe(201);
+  });
+});
+
+describe('POST /profiles/:id/billing', () => {
+  it('returns 201 for valid billing record', async () => {
+    mockRepo.createBilling.mockResolvedValueOnce({ id: 'bil_001', clientRefId: 'cli_a', professionalFeeKobo: 500000 });
+    const res = await makeApp().request('/profiles/tc_001/billing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clientRefId: 'cli_a', period: '2024-Q1', professionalFeeKobo: 500000, paidKobo: 500000 }) });
     expect(res.status).toBe(201);
   });
 });

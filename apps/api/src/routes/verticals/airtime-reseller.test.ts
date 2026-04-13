@@ -98,3 +98,10 @@ describe('POST /profiles/:id/transactions', () => {
     expect(mockRepo.createTransaction).toHaveBeenCalledWith(expect.objectContaining({ tenantId: 'tnt_b' }));
   });
 });
+
+describe('POST /profiles/:id/ai/revenue-trend', () => {
+  it('returns 200 for L2 AI revenue-trend analysis', async () => {
+    const res = await makeApp().request('/profiles/ar_001/ai/revenue-trend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+    expect(res.status).toBe(200);
+  });
+});

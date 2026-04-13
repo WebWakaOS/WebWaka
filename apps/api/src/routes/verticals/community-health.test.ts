@@ -13,6 +13,7 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
     findProfileById: vi.fn(),
     updateProfile: vi.fn(),
     transition: vi.fn(),
+    createWorker: vi.fn(),
     createHousehold: vi.fn(),
     listHouseholds: vi.fn(),
   },
@@ -108,6 +109,14 @@ describe('PATCH /profiles/:id/transition — FSM', () => {
       body: JSON.stringify({ to: 'claimed' }),
     });
     expect(res.status).toBe(404);
+  });
+});
+
+describe('POST /profiles/:id/workers', () => {
+  it('returns 201 for valid community health worker', async () => {
+    mockRepo.createWorker.mockResolvedValueOnce({ id: 'wkr_001', profileId: 'ch_001', lga: 'Bariga', ward: 'Ward 5' });
+    const res = await makeApp().request('/profiles/ch_001/workers', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lga: 'Bariga', ward: 'Ward 5', trainingLevel: 'chew' }) });
+    expect(res.status).toBe(201);
   });
 });
 

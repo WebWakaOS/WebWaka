@@ -10,7 +10,7 @@ import app from './advertising-agency.js';
 const { mockRepo } = vi.hoisted(() => ({
   mockRepo: {
     createProfile: vi.fn(), findProfileById: vi.fn(), updateStatus: vi.fn(),
-    createCampaign: vi.fn(), createCampaignReport: vi.fn(), createCreative: vi.fn(),
+    createCampaign: vi.fn(), createCampaignReport: vi.fn(), createCreative: vi.fn(), createMediaBuy: vi.fn(),
   },
 }));
 
@@ -90,6 +90,14 @@ describe('POST /profiles/:id/campaigns', () => {
   it('returns 201 for valid campaign', async () => {
     mockRepo.createCampaign.mockResolvedValueOnce({ id: 'cmp_001', campaignName: 'Launch' });
     const res = await makeApp().request('/profiles/aa_001/campaigns', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clientRefId: 'cli_a', campaignName: 'Launch', budgetKobo: 5000000, startDate: 1700000000 }) });
+    expect(res.status).toBe(201);
+  });
+});
+
+describe('POST /campaigns/:campaignId/media-buys', () => {
+  it('returns 201 for valid media buy', async () => {
+    mockRepo.createMediaBuy.mockResolvedValueOnce({ id: 'mb_001', campaignId: 'cmp_001', channelType: 'tv', impressions: 500000 });
+    const res = await makeApp().request('/campaigns/cmp_001/media-buys', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelType: 'tv', impressions: 500000, costKobo: 2000000, flightStart: 1700000000, flightEnd: 1701000000 }) });
     expect(res.status).toBe(201);
   });
 });

@@ -21,10 +21,10 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
 
 vi.mock('@webwaka/verticals-elderly-care', () => ({
   ElderlyCareRepository: vi.fn(() => mockRepo),
-  guardClaimedToFmhswVerified: vi.fn(),
-  guardDiasporaBilling: vi.fn(),
-  guardP13ClinicalData: vi.fn(),
-  guardFractionalKobo: vi.fn(),
+  guardClaimedToFmhswVerified: vi.fn().mockReturnValue({ allowed: true }),
+  guardDiasporaBilling: vi.fn().mockReturnValue({ allowed: true }),
+  guardP13ClinicalData: vi.fn().mockReturnValue({ allowed: true }),
+  guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidElderlyCareTransition: mockIsValid,
 }));
 
@@ -108,6 +108,14 @@ describe('PATCH /profiles/:id/transition — FSM', () => {
       body: JSON.stringify({ to: 'claimed' }),
     });
     expect(res.status).toBe(404);
+  });
+});
+
+describe('POST /profiles/:id/residents', () => {
+  it('returns 201 for valid resident admission', async () => {
+    mockRepo.createResident.mockResolvedValueOnce({ id: 'res_001', residentRefId: 'ref_001', admissionDate: 1700000000 });
+    const res = await makeApp().request('/profiles/ec_001/residents', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ residentRefId: 'ref_001', admissionDate: 1700000000, careLevel: 'assisted', monthlyFeeKobo: 500000 }) });
+    expect(res.status).toBe(201);
   });
 });
 

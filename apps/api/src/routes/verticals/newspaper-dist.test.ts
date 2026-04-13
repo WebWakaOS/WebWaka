@@ -100,3 +100,10 @@ describe('POST /profiles/:id/ads', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/ai/circulation-trend', () => {
+  it('returns 200 for L2 AI circulation trend analysis', async () => {
+    const res = await makeApp().request('/profiles/nd_001/ai/circulation-trend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+    expect(res.status).toBe(200);
+  });
+});

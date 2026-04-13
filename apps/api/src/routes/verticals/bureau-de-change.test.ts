@@ -102,3 +102,10 @@ describe('POST /profiles/:id/transactions', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/ai/fx-position', () => {
+  it('returns 200 for L2 AI FX position analysis', async () => {
+    const res = await makeApp().request('/profiles/bdc_001/ai/fx-position', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 2 }) });
+    expect(res.status).toBe(200);
+  });
+});

@@ -100,3 +100,11 @@ describe('POST /profiles/:id/vendors', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/tasks', () => {
+  it('returns 201 for valid wedding planning task', async () => {
+    mockRepo.createTask.mockResolvedValueOnce({ id: 'tsk_001', taskName: 'Book venue', dueDate: 1700000000 });
+    const res = await makeApp().request('/profiles/wp_001/tasks', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: 'bk_001', taskName: 'Book venue', dueDate: 1700000000, assignedTo: 'coord_a' }) });
+    expect(res.status).toBe(201);
+  });
+});

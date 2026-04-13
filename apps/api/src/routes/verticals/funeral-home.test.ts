@@ -105,3 +105,10 @@ describe('POST /profiles/:id/services', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/ai/service-planning — L3 HITL, no deceased data', () => {
+  it('returns 200 for L3 AI service-planning advisory', async () => {
+    const res = await makeApp().request('/profiles/fh_001/ai/service-planning', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ autonomyLevel: 3 }) });
+    expect(res.status).toBe(200);
+  });
+});

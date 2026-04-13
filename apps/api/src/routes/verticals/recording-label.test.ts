@@ -101,3 +101,11 @@ describe('POST /profiles/:id/royalty-distributions', () => {
     expect(res.status).toBe(201);
   });
 });
+
+describe('POST /profiles/:id/releases', () => {
+  it('returns 201 for valid release record', async () => {
+    mockRepo.createRelease.mockResolvedValueOnce({ id: 'rel_001', releaseTitle: 'Afrobeats Vol 1', releaseType: 'album' });
+    const res = await makeApp().request('/profiles/rl_001/releases', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ artisteRefId: 'art_a', releaseTitle: 'Afrobeats Vol 1', releaseType: 'album', releaseDate: 1700000000, streamingLinks: [] }) });
+    expect(res.status).toBe(201);
+  });
+});

@@ -21,10 +21,10 @@ const { mockRepo, mockIsValid } = vi.hoisted(() => ({
 
 vi.mock('@webwaka/verticals-dental-clinic', () => ({
   DentalClinicRepository: vi.fn(() => mockRepo),
-  guardClaimedToMdcnVerified: vi.fn(),
-  guardKycForInsurance: vi.fn(),
-  guardP13PatientData: vi.fn(),
-  guardFractionalKobo: vi.fn(),
+  guardClaimedToMdcnVerified: vi.fn().mockReturnValue({ allowed: true }),
+  guardKycForInsurance: vi.fn().mockReturnValue({ allowed: true }),
+  guardP13PatientData: vi.fn().mockReturnValue({ allowed: true }),
+  guardFractionalKobo: vi.fn().mockReturnValue({ allowed: true }),
   isValidDentalClinicTransition: mockIsValid,
 }));
 
@@ -108,6 +108,14 @@ describe('PATCH /profiles/:id/transition — FSM', () => {
       body: JSON.stringify({ to: 'claimed' }),
     });
     expect(res.status).toBe(404);
+  });
+});
+
+describe('POST /profiles/:id/appointments', () => {
+  it('returns 201 for valid appointment', async () => {
+    mockRepo.createAppointment.mockResolvedValueOnce({ id: 'apt_001', patientRefId: 'ref_001', appointmentDate: 1700000000 });
+    const res = await makeApp().request('/profiles/dc_001/appointments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ patientRefId: 'ref_001', appointmentDate: 1700000000, procedureType: 'cleaning', estimatedFeeKobo: 50000 }) });
+    expect(res.status).toBe(201);
   });
 });
 

@@ -9,7 +9,7 @@ import app from './polling-unit.js';
 
 const { mockRepo, mockIsValid } = vi.hoisted(() => ({
   mockRepo: {
-    createProfile: vi.fn(), findProfileById: vi.fn(), updateProfile: vi.fn(), transition: vi.fn(),
+    createProfile: vi.fn(), findProfileById: vi.fn(), updateProfile: vi.fn(), transition: vi.fn(), updateStatus: vi.fn(),
     createPollingUnit: vi.fn(), listUnits: vi.fn(),
     createElectionEvent: vi.fn(), listElectionEvents: vi.fn(),
   },
@@ -49,8 +49,9 @@ describe('POST /profiles — create polling unit profile', () => {
     expect(res.status).toBe(201);
   });
 
-  it('returns 400 when required fields missing', async () => {
-    const res = await makeApp().request('/profiles', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ workspaceId: 'wsp_a' }) });
+  it('returns 201 without optional inecAccreditation', async () => {
+    mockRepo.createProfile.mockResolvedValueOnce(MOCK_PROFILE);
+    const res = await makeApp().request('/profiles', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ workspaceId: 'wsp_a', lgaName: 'Eti-Osa', state: 'Lagos', lga: 'Eti-Osa' }) });
     expect(res.status).toBe(201);
   });
 
@@ -70,6 +71,28 @@ describe('GET /profiles/:id', () => {
   it('returns 404 when profile not found', async () => {
     mockRepo.findProfileById.mockResolvedValueOnce(null);
     expect((await makeApp().request('/profiles/nx')).status).toBe(404);
+  });
+});
+
+describe('PATCH /profiles/:id/transition — FSM', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 200 for valid seeded→claimed transition', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(MOCK_PROFILE).mockResolvedValueOnce({ ...MOCK_PROFILE, status: 'claimed' });
+    mockIsValid.mockReturnValueOnce(true);
+    mockRepo.updateStatus.mockResolvedValueOnce(undefined);
+    expect((await makeApp().request('/profiles/pu_001/transition', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ to: 'claimed' }) })).status).toBe(200);
+  });
+
+  it('returns 422 for invalid FSM transition', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(MOCK_PROFILE);
+    mockIsValid.mockReturnValueOnce(false);
+    expect((await makeApp().request('/profiles/pu_001/transition', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ to: 'active' }) })).status).toBe(422);
+  });
+
+  it('returns 404 when profile not found for transition', async () => {
+    mockRepo.findProfileById.mockResolvedValueOnce(null);
+    expect((await makeApp().request('/profiles/nx/transition', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ to: 'claimed' }) })).status).toBe(404);
   });
 });
 
