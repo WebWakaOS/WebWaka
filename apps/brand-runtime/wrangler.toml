@@ -40,6 +40,11 @@ database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
 binding = "THEME_CACHE"
 id = "3093422f3e4e4252a3b542ed9a06fd18"
 
+# R2 — brand asset storage (logos, cover images, favicons)
+[[env.staging.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "webwaka-os-assets-staging"
+
 # ---------------------------------------------------------------------------
 # Production
 # ---------------------------------------------------------------------------
@@ -57,6 +62,11 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 [[env.production.kv_namespaces]]
 binding = "THEME_CACHE"
 id = "d89a05e8c5814c6c966061f62dd24f8c"
+
+# R2 — brand asset storage (logos, cover images, favicons)
+[[env.production.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "webwaka-os-assets-production"
 
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:

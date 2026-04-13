@@ -122,7 +122,7 @@
 
 | Task | Description | Depends On |
 |---|---|---|
-| **SA-2.1** SuperAgent SDK | `packages/superagent-sdk/` — typed helpers for verticals: `chat()`, `embed()`, `agentRun()`. Eliminates raw HTTP calls from vertical packages | Phase 1 complete |
+| **SA-2.1** SuperAgent SDK | `packages/superagent/` — typed helpers for verticals: `chat()`, `embed()`, `agentRun()`. Eliminates raw HTTP calls from vertical packages | Phase 1 complete |
 | **SA-2.2** Agent runtime | `POST /v1/superagent/agent` — multi-step workflow executor, HITL gate, step-by-step audit trail | SA-1.3, SA-1.12 |
 | **SA-2.3** Automation runtime | `POST /v1/superagent/automate` — cron-triggered AI automations via Cloudflare Workers CRON | SA-2.2 |
 | **SA-2.4** Partner credit console | `apps/partner-admin/` extensions — partner pool purchase, tenant allocation, usage monitoring | SA-1.14 |
@@ -138,7 +138,7 @@ Each P1 vertical must complete:
 2. Add `AI_CAPABILITY_SET` to vertical package config
 3. Declare `AUTONOMY_LEVEL` per use case
 4. Declare `HITL_REQUIRED` per use case
-5. Import `packages/superagent-sdk` — never call AI routes directly
+5. Import `packages/superagent` — never call AI routes directly
 6. Add `ai-prompts.ts` with vertical-specific system prompts
 7. Register vertical in `ai_vertical_configs` D1 table
 
@@ -165,7 +165,7 @@ Each P1 vertical must complete:
 ### Acceptance Criteria (Phase 2)
 
 ```
-[ ] SuperAgent SDK v1.0 released (packages/superagent-sdk)
+[ ] SuperAgent SDK v1.0 released (packages/superagent)
 [ ] POST /v1/superagent/agent — multi-step workflow executes with HITL gate
 [ ] Partner console: partner can allocate WC to tenant workspace
 [ ] Tenant workspace consumes partner WC, not own subscription WC

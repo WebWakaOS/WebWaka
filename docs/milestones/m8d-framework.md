@@ -221,7 +221,7 @@ CREATE INDEX idx_coop_loan_tenant ON cooperative_loans(tenant_id);
 
 ## AI Integration — SuperAgent Requirements (added 2026-04-13)
 
-All AI features in this milestone use `packages/superagent-sdk`. Do not import `packages/ai-abstraction` directly in vertical code.
+All AI features in this milestone use `packages/superagent`. Do not import `packages/ai-abstraction` directly in vertical code.
 
 For each AI feature in M8d:
 1. Complete Section 13 of `docs/templates/vertical-ai-research-template.md` — declare capability set and autonomy level

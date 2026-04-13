@@ -19,6 +19,13 @@ export interface Env {
   /** General-purpose KV namespace — audit log fallback, cache, feature flags (SEC-17) */
   KV?: KVNamespace;
 
+  /**
+   * R2 bucket for file/asset storage: logos, user uploads, documents, export files.
+   * Bound as "assets-staging" / "assets-production" per environment.
+   * Optional in type; any route using this must guard with: if (!c.env.ASSETS) return c.json({ error: 'File storage not available' }, 503)
+   */
+  ASSETS?: R2Bucket;
+
   /** JWT secret — stored as a CF Worker Secret. Never log this. */
   JWT_SECRET: string;
 

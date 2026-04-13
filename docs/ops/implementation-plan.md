@@ -254,7 +254,7 @@ Every work item shows:
 
 ---
 
-### P2-B: HIGH-001 — Resolve `superagent-sdk` Package Gap (ADL-012)
+### P2-B: HIGH-001 — Resolve `superagent` Package Gap (ADL-012)
 **Backlog:** HIGH-001  
 **Est:** 1h  
 **Decision:** Use Option B (document-only fix — avoid creating a new package that would require all 124 vertical packages to update their imports)
@@ -262,23 +262,23 @@ Every work item shows:
 **Files to create/modify:**
 - `docs/architecture/decisions/0017-ai-package-naming.md`
 - `docs/governance/ai-architecture-decision-log.md`
-- All governance docs that reference `superagent-sdk` → update to `superagent`
+- All governance docs that reference `superagent` → update to `superagent`
 
 **Approach:**
 
-1. Audit all docs for `superagent-sdk` references:
+1. Audit all docs for `superagent` references:
    ```bash
-   grep -rn "superagent-sdk" docs/
+   grep -rn "superagent" docs/
    ```
-2. For each doc, replace `packages/superagent-sdk` → `packages/superagent` and `@webwaka/superagent-sdk` → `@webwaka/superagent`
+2. For each doc, replace `packages/superagent` → `packages/superagent` and `@webwaka/superagent` → `@webwaka/superagent`
 3. Create `docs/architecture/decisions/0017-ai-package-naming.md`:
    - Records the decision: `packages/superagent` is the canonical verticals AI entry point
-   - `packages/superagent-sdk` was a planning-stage alias; no code should be created under that name
+   - `packages/superagent` was a planning-stage alias; no code should be created under that name
    - All verticals import from `@webwaka/superagent`
 4. Update `docs/governance/ai-architecture-decision-log.md` ADL-001 entry to reference `packages/superagent`
 
 **Acceptance:**
-- [ ] `grep -rn "superagent-sdk" docs/` returns zero results
+- [ ] `grep -rn "superagent" docs/` returns zero results
 - [ ] ADL-012/ADR-0017 is filed and committed
 - [ ] No code change needed — all existing imports already use `@webwaka/superagent`
 

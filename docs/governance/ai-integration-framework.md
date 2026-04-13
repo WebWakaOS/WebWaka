@@ -11,7 +11,7 @@
 
 ## Architectural Principle
 
-> **SuperAgent addition (2026-04-13):** Verticals MUST use `packages/superagent-sdk` to call AI. They must NOT import `packages/ai-abstraction` directly. The SDK is the vertical-facing contract. `packages/ai-abstraction` is an internal platform primitive.
+> **SuperAgent addition (2026-04-13):** Verticals MUST use `packages/superagent` to call AI. They must NOT import `packages/ai-abstraction` directly. The SDK is the vertical-facing contract. `packages/ai-abstraction` is an internal platform primitive.
 
 
 

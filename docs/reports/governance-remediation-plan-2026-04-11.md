@@ -1214,20 +1214,20 @@ Items identified during code review as missing from the initial plan.
 
 ---
 
-### GAP-001: Create superagent-sdk package (referenced but missing)
+### GAP-001: Create superagent package (referenced but missing)
 
 **Governance Principle:** G1 — All AI Through SuperAgent, ADL-001
 **Severity:** MEDIUM
 **Phase:** 2
 
-**Current State:** ADL-001 and governance rules reference `packages/superagent-sdk` as the entry point for vertical packages to call AI. This package does not exist. Vertical packages currently call `packages/superagent` directly.
+**Current State:** ADL-001 and governance rules reference `packages/superagent` as the entry point for vertical packages to call AI. This package does not exist. Vertical packages currently call `packages/superagent` directly.
 
 **Files:**
-- `packages/superagent-sdk/` (create)
+- `packages/superagent/` (create)
 - `docs/governance/ai-architecture-decision-log.md`
 
 **Action:**
-1. Either: create `packages/superagent-sdk` as a thin wrapper around `packages/superagent` that provides a simplified API for vertical packages, OR
+1. Either: create `packages/superagent` as a thin wrapper around `packages/superagent` that provides a simplified API for vertical packages, OR
 2. Update ADL-001 and all governance docs to reference `packages/superagent` as the correct package name, and file an ADL-012 noting the name change
 3. Whichever approach is chosen, ensure consistency between docs and code
 

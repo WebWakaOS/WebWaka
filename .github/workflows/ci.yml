@@ -109,6 +109,8 @@ jobs:
         run: npx tsx scripts/governance-checks/check-geography-integrity.ts
       - name: Check vertical registry/package consistency
         run: npx tsx scripts/governance-checks/check-vertical-registry.ts
+      - name: Check secret rotation schedule (SEC-008)
+        run: npx tsx scripts/verify-secrets.ts
 
   smoke:
     name: Smoke Tests

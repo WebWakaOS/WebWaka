@@ -117,8 +117,8 @@
 
 | Section | What to Change |
 |---|---|
-| Architectural Principle | Add: "Verticals MUST use `packages/superagent-sdk` to call AI. They must NOT import `packages/ai-abstraction` directly. The SDK is the vertical-facing contract" |
-| All vertical sections | Add "SuperAgent Declaration" subsection per vertical: capability set, autonomy level, HITL requirement, which `superagent-sdk` method to call |
+| Architectural Principle | Add: "Verticals MUST use `packages/superagent` to call AI. They must NOT import `packages/ai-abstraction` directly. The SDK is the vertical-facing contract" |
+| All vertical sections | Add "SuperAgent Declaration" subsection per vertical: capability set, autonomy level, HITL requirement, which `superagent` method to call |
 
 ---
 
@@ -182,7 +182,7 @@
 
 | Change per file | What to Do |
 |---|---|
-| AI section | Add: "All AI features in this milestone use `packages/superagent-sdk`. Declare capability set and autonomy level per feature. See `docs/governance/superagent/04-execution-roadmap.md` for Phase 2 vertical integration checklist." |
+| AI section | Add: "All AI features in this milestone use `packages/superagent`. Declare capability set and autonomy level per feature. See `docs/governance/superagent/04-execution-roadmap.md` for Phase 2 vertical integration checklist." |
 
 ---
 
@@ -207,7 +207,7 @@
 
 | Change | What to Do |
 |---|---|
-| "Must Be Created" section | Change `packages/ai-adapters/src/openai.ts` → `openai-compat.ts`. Add `edenai.ts` row. Add `packages/superagent-sdk/` and `packages/wc-wallet/` as new P0 gaps |
+| "Must Be Created" section | Change `packages/ai-adapters/src/openai.ts` → `openai-compat.ts`. Add `edenai.ts` row. Add `packages/superagent/` and `packages/wc-wallet/` as new P0 gaps |
 | Add new P0 gap | "SuperAgent key issuance and lifecycle management — no implementation exists" |
 | Add new P0 gap | "WakaCU credit wallet (user-level + workspace-level + partner pool) — no implementation exists" |
 
@@ -220,7 +220,7 @@
 | Change | What to Do |
 |---|---|
 | Adapter filename | `openai.test.ts` → `openai-compat.test.ts`; count ≥10 |
-| Add new packages | `packages/superagent-sdk/`, `packages/wc-wallet/` with file trees and test counts |
+| Add new packages | `packages/superagent/`, `packages/wc-wallet/` with file trees and test counts |
 | Add new routes | `apps/api/src/routes/superagent.ts`, `ai-keys.ts`, `ai-credits.ts`, `partner-credits.ts` |
 | Update total test count | Recalculate after Phase 1 adds ≥82 tests |
 

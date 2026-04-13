@@ -93,15 +93,15 @@ The Cloudflare R2 buckets (`assets-staging`, `assets-production`) were provision
 
 ---
 
-### HIGH-001 — GAP-001: `packages/superagent-sdk` Missing
+### HIGH-001 — GAP-001: `packages/superagent` Missing
 **Source:** Governance Remediation Plan — GAP-001  
 **Governance:** G1 — All AI Through SuperAgent, ADL-001  
-**Files:** `packages/superagent-sdk/` (create), `docs/governance/ai-architecture-decision-log.md`
+**Files:** `packages/superagent/` (create), `docs/governance/ai-architecture-decision-log.md`
 
-ADL-001 and multiple governance documents reference `packages/superagent-sdk` as the entry point for vertical packages to call SuperAgent. This package does not exist. Verticals currently call `packages/superagent` directly — inconsistent with the documented API contract.
+ADL-001 and multiple governance documents reference `packages/superagent` as the entry point for vertical packages to call SuperAgent. This package does not exist. Verticals currently call `packages/superagent` directly — inconsistent with the documented API contract.
 
 **Options (pick one and file ADL-012 documenting the decision):**
-- **Option A:** Create `packages/superagent-sdk` as a thin, documented wrapper around `packages/superagent` with a simplified verticals-facing API
+- **Option A:** Create `packages/superagent` as a thin, documented wrapper around `packages/superagent` with a simplified verticals-facing API
 - **Option B:** File ADL-012 officially renaming the package, update all governance docs to reference `packages/superagent` instead, and close the gap documentally
 
 **Acceptance:**

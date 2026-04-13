@@ -231,12 +231,12 @@ Entries are ordered chronologically (ADL-001 first). Each decision is binding un
 **Date:** 2026-04-11 (Phase 2 Governance Remediation)
 **Status:** ACTIVE
 
-**Context:** ADL-001 and governance rules reference `packages/superagent-sdk` as the entry point for vertical packages to call AI. This package was never created. The actual implementation uses `packages/superagent` directly (which wraps `packages/ai-abstraction`). Creating a separate `-sdk` wrapper would add an unnecessary indirection layer with no functional benefit.
+**Context:** ADL-001 and governance rules reference `packages/superagent` as the entry point for vertical packages to call AI. This package was never created. The actual implementation uses `packages/superagent` directly (which wraps `packages/ai-abstraction`). Creating a separate `-sdk` wrapper would add an unnecessary indirection layer with no functional benefit.
 
-**Decision:** `packages/superagent` IS the SDK. All governance doc references to `packages/superagent-sdk` are updated to `packages/superagent`. No new package is created.
+**Decision:** `packages/superagent` IS the SDK. All governance doc references to `packages/superagent` are updated to `packages/superagent`. No new package is created.
 
 **Consequences:**
-- ADL-001 reference to `packages/superagent-sdk` is understood to mean `packages/superagent`
+- ADL-001 reference to `packages/superagent` is understood to mean `packages/superagent`
 - All governance docs updated to reference `packages/superagent` as the AI entry point
 - Vertical packages that need AI capabilities import from `@webwaka/superagent`
 

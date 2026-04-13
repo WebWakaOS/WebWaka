@@ -20,7 +20,7 @@
 All AI features in WebWaka must route through SuperAgent unless one of the explicit exceptions in Rule G1.1 applies.
 
 **What this means:**
-- Vertical packages MUST use `packages/superagent-sdk` to call AI
+- Vertical packages MUST use `packages/superagent` to call AI
 - Vertical packages MUST NOT import `packages/ai-abstraction` directly
 - Apps MUST NOT call aggregator APIs directly — all calls go through `resolveAdapter()` in the routing engine
 - No new `fetch('https://api.openai.com/...')` or `fetch('https://api.anthropic.com/...')` calls anywhere in the codebase

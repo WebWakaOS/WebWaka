@@ -27,6 +27,12 @@ id = "2a81cd5b8d094911a20e1e0f6a190506"
 binding = "GEOGRAPHY_CACHE"
 id = "4732f3a682964607bae2170f350e4fb4"
 
+# R2 — file/asset storage (logos, uploads, documents)
+# Bucket name must match the provisioned bucket in Cloudflare (see infra/cloudflare/environments.md)
+[[env.staging.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "webwaka-os-assets-staging"
+
 # KV (audit-log fallback, feature flags) — optional binding
 # Provision: wrangler kv namespace create AUDIT_KV --env staging
 # Then add the returned ID here and uncomment:
@@ -65,6 +71,11 @@ id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"
 [[env.production.kv_namespaces]]
 binding = "GEOGRAPHY_CACHE"
 id = "5bd5695d963247d0b105a936827e0a89"
+
+# R2 — file/asset storage (logos, uploads, documents)
+[[env.production.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "webwaka-os-assets-production"
 
 # KV (audit-log fallback, feature flags) — optional binding
 # Provision: wrangler kv namespace create AUDIT_KV --env production

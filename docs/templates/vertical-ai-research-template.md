@@ -225,7 +225,7 @@ Every vertical must complete this section before Phase 2 implementation begins.
 | `capability_set[]` | List the `AICapability` values used (e.g., `text_generation`, `summarization`) |
 | `autonomy_level` | L0–L5 per the autonomy policy in `docs/governance/ai-agent-autonomy.md` |
 | `hitl_required` | `true` / `false` per use case — L3+ always requires `true` |
-| `superagent_sdk_method` | The `packages/superagent-sdk` method called (e.g., `superagent.generate()`) |
+| `superagent_sdk_method` | The `packages/superagent` method called (e.g., `superagent.generate()`) |
 | `sensitive_sector` | `true` if vertical handles medical, legal, financial, or political data |
 
 **Example (POS Business vertical):**

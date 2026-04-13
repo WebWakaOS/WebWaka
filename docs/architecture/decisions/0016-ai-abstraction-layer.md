@@ -30,7 +30,7 @@ Use a **3-layer AI abstraction**:
 
 2. **`packages/ai-adapters/`** — provider adapters wrapping HTTP fetch (not vendor SDKs). Key adapters: `openai-compat.ts` (handles OpenAI, OpenRouter, Together, Groq — all OpenAI-compatible endpoints), `anthropic.ts`, `google.ts`, `edenai.ts` (multimodal via Eden AI).
 
-3. **`packages/superagent-sdk/`** — the vertical-facing SDK contract. Verticals call `superagent.generate()`, `superagent.analyze()` etc. They never import `packages/ai-abstraction` directly. The SDK handles key resolution, P13 PII filter, WakaCU metering, and HITL gate.
+3. **`packages/superagent/`** — the vertical-facing SDK contract. Verticals call `superagent.generate()`, `superagent.analyze()` etc. They never import `packages/ai-abstraction` directly. The SDK handles key resolution, P13 PII filter, WakaCU metering, and HITL gate.
 
 **Aggregator-only for platform keys (ADL-010):** All platform-level AI traffic routes through aggregators — OpenRouter (primary), Together AI, Groq, Eden AI. Direct OpenAI/Anthropic/Google keys are BYOK-only. This avoids vendor lock-in and enables a single platform API key to access hundreds of models.
 

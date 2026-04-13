@@ -79,7 +79,7 @@ Some principles are deeply embedded in the code (T3 Tenant Isolation, T4 Monetar
 
 **Reality:** `packages/ai-abstraction` implements `resolveAdapter()` — a 5-level BYOK resolution chain. `packages/ai-adapters` provides concrete adapters for OpenAI-compatible, Anthropic, and Google endpoints using raw `fetch` (no vendor SDKs). No direct AI provider imports exist outside the adapters package. The `apps/api/src/routes/superagent.ts` route uses `resolveAdapter()` correctly.
 
-**Gaps:** `packages/superagent-sdk` (referenced in governance docs as the required import for verticals) does not exist. The functionality is split between `packages/ai-abstraction` and `packages/superagent`.
+**Gaps:** `packages/superagent` (referenced in governance docs as the required import for verticals) does not exist. The functionality is split between `packages/ai-abstraction` and `packages/superagent`.
 
 ---
 
@@ -224,7 +224,7 @@ Some principles are deeply embedded in the code (T3 Tenant Isolation, T4 Monetar
 **Reality:**
 - `resolveAdapter()` exists ✅ (G1 partially enforced)
 - Aggregator registry exists ✅ (G2 architecturally enforced)
-- No `packages/superagent-sdk` exists ❌ (G1 reference target missing)
+- No `packages/superagent` exists ❌ (G1 reference target missing)
 - `packages/wc-wallet/` exists for WakaCU ✅ (G4 infrastructure present)
 
 **What's partially present but not fully wired:**

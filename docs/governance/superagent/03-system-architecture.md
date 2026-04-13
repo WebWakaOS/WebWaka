@@ -485,7 +485,7 @@ TTL:
 
 | Package | Purpose |
 |---|---|
-| `packages/superagent-sdk` | Client SDK for verticals calling SuperAgent routes. Typed helpers: `chat()`, `embed()`, `agentRun()`. Avoids direct HTTP calls from vertical packages |
+| `packages/superagent` | Client SDK for verticals calling SuperAgent routes. Typed helpers: `chat()`, `embed()`, `agentRun()`. Avoids direct HTTP calls from vertical packages |
 | `packages/wc-wallet` | WakaCU wallet operations: `deductWC()`, `creditWC()`, `getBalance()`, `topUpIntent()`. Mirrors `packages/pos/src/float-ledger.ts` pattern |
 
 ### 6.3 New App Routes

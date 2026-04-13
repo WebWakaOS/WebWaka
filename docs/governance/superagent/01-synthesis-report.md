@@ -103,7 +103,7 @@ The following elements of the existing plan are fully compatible with and suppor
 | Addition | Why | Affects |
 |---|---|---|
 | SuperAgent API gateway routes | `/v1/superagent/*` is the external-facing API | New file: `apps/api/src/routes/superagent.ts` |
-| SuperAgent SDK | Client-side helper for verticals to call SuperAgent consistently | New: `packages/superagent-sdk/` |
+| SuperAgent SDK | Client-side helper for verticals to call SuperAgent consistently | New: `packages/superagent/` |
 | Partner resale console | Admin UI for partners to manage credit pool and tenant allocations | New: `apps/partner-admin/` extensions |
 | Eden AI as fourth aggregator | Eden AI provides image, STT, TTS, translation via one API — fills gaps | `ai-provider-routing.md` §5c additions |
 | Credit auto-top-up for consumers | Consumer tier: auto-recharge wallet when below threshold | `ai-billing-and-entitlements.md` §8 |

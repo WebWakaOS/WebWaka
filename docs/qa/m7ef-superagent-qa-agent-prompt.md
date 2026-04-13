@@ -263,7 +263,7 @@ Add any missing ones with their purpose and `wrangler secret put` command.
 grep -n "aggregator.*test\|integration.*test\|openrouter.*test" docs/governance/superagent/03-system-architecture.md
 ```
 
-If not present, add a **Testing Requirements** section specifying that `packages/superagent-sdk` (when implemented in Phase 1) must include:
+If not present, add a **Testing Requirements** section specifying that `packages/superagent` (when implemented in Phase 1) must include:
 - OpenRouter connectivity test
 - Together AI connectivity test
 - Groq connectivity test

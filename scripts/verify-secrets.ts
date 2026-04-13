@@ -195,6 +195,76 @@ if (fs.existsSync(envExamplePath)) {
   fail('.env.example not found');
 }
 
+// ── Source 7: Rotation age check (SEC-008) ───────────────────────────────────
+console.log('\n7. Checking secret rotation ages (SEC-008)...\n');
+
+const WARN_AGE_DAYS = 60;
+const FAIL_AGE_DAYS = 80;
+const UPCOMING_WARN_DAYS = 10;
+
+const rotationLogPath2 = path.resolve('infra/cloudflare/secrets-rotation-log.md');
+let rotationAgeExitCode = 0;
+
+if (fs.existsSync(rotationLogPath2)) {
+  const content = fs.readFileSync(rotationLogPath2, 'utf-8');
+  const todayMs = Date.now();
+
+  // Parse table rows: lines starting with | `SecretName` |
+  const rowRe = /^\|\s+`([^`]+)`\s+\|[^|]+\|[^|]+\|\s+(\d{4}-\d{2}-\d{2})\s+\|\s+(\d{4}-\d{2}-\d{2})\s+\|/gm;
+  let match: RegExpExecArray | null;
+  let secretsChecked = 0;
+
+  while ((match = rowRe.exec(content)) !== null) {
+    const secretName = match[1];
+    const lastRotatedStr = match[2];
+    const nextRotationStr = match[3];
+
+    if (!secretName || !lastRotatedStr || !nextRotationStr) continue;
+
+    const lastRotatedMs = Date.parse(lastRotatedStr);
+    const nextRotationMs = Date.parse(nextRotationStr);
+
+    if (isNaN(lastRotatedMs) || isNaN(nextRotationMs)) {
+      warn(`Secret "${secretName}" has unparseable date: last=${lastRotatedStr} next=${nextRotationStr}`);
+      continue;
+    }
+
+    const ageMs = todayMs - lastRotatedMs;
+    const ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+    const daysUntilDue = Math.floor((nextRotationMs - todayMs) / (1000 * 60 * 60 * 24));
+
+    if (ageDays >= FAIL_AGE_DAYS) {
+      fail(`Secret "${secretName}" was last rotated ${ageDays} days ago (threshold: ${FAIL_AGE_DAYS}d) — ROTATE IMMEDIATELY`);
+      rotationAgeExitCode = 1;
+    } else if (ageDays >= WARN_AGE_DAYS) {
+      warn(`Secret "${secretName}" was last rotated ${ageDays} days ago — rotation due in ${daysUntilDue} days`);
+    } else {
+      pass(`Secret "${secretName}" — rotated ${ageDays}d ago, next rotation in ${daysUntilDue}d`);
+    }
+
+    if (daysUntilDue <= UPCOMING_WARN_DAYS && daysUntilDue > 0) {
+      warn(`Secret "${secretName}" rotation coming up in ${daysUntilDue} days — plan ahead`);
+    } else if (daysUntilDue <= 0) {
+      warn(`Secret "${secretName}" rotation is OVERDUE by ${Math.abs(daysUntilDue)} days`);
+    }
+
+    secretsChecked++;
+  }
+
+  if (secretsChecked === 0) {
+    warn('No rotation age entries parsed from secrets-rotation-log.md — check table format');
+  } else {
+    pass(`Rotation age check complete: ${secretsChecked} secrets audited`);
+  }
+} else {
+  fail('secrets-rotation-log.md not found — cannot check rotation ages');
+  rotationAgeExitCode = 1;
+}
+
+if (rotationAgeExitCode !== 0) {
+  exitCode = rotationAgeExitCode;
+}
+
 // ── Summary ──────────────────────────────────────────────────────────────────
 console.log(`\n${'─'.repeat(60)}`);
 if (exitCode === 0) {
