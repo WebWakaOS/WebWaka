@@ -81,6 +81,10 @@ webhookRoutes.post('/', async (c) => {
   const auth = c.get('auth') as AuthContext;
   const db = c.env.DB;
 
+  if (!auth.workspaceId) {
+    return c.json({ error: 'workspace_id is required to register a webhook' }, 400);
+  }
+
   let body: unknown;
   try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON' }, 400); }
 

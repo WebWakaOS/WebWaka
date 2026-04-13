@@ -196,9 +196,10 @@ airtimeRoutes.post('/topup', async (c) => {
   // KYC Tier-1 gate — airtime top-up is a financial operation requiring at minimum Tier 1.
   // Tier 0 (unverified) users are blocked per Nigeria CBN KYC compliance (BVN linkage = T1).
   const kycDb = c.env.DB as unknown as D1Like;
+  // T3: scope KYC lookup to caller's tenant_id (defense-in-depth; user IDs are UUIDs but T3 is absolute)
   const kycRow = await kycDb
-    .prepare(`SELECT kyc_tier FROM users WHERE id = ? LIMIT 1`)
-    .bind(auth.userId)
+    .prepare(`SELECT kyc_tier FROM users WHERE id = ? AND tenant_id = ? LIMIT 1`)
+    .bind(auth.userId, auth.tenantId)
     .first<{ kyc_tier: string }>();
 
   if (!kycRow || kycRow.kyc_tier === 't0') {

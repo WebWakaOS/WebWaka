@@ -13,6 +13,7 @@
  *   - Rate limit: 2/hour per user (R5) — via identityRateLimit middleware
  *   - P10: Consent record required before every lookup
  *   - R7: BVN/NIN never stored — only SHA-256(SALT + value) hash
+ *   - T3: consent_records scoped to caller's tenant_id + user_id (SEC-T3-CONSENT)
  */
 
 import { Hono } from 'hono';
@@ -35,16 +36,18 @@ const identityRoutes = new Hono<{ Bindings: Env }>();
  * Body: { bvn: string, consent_id: string, phone: string }
  */
 identityRoutes.post('/verify-bvn', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
   const body = await c.req.json<{ bvn: string; consent_id: string; phone: string }>().catch(() => null);
   if (!body?.bvn || !body.consent_id || !body.phone) {
     return c.json({ error: 'bvn, consent_id, and phone are required.' }, 400);
   }
 
   const db = c.env.DB as unknown as D1Like;
+  // SEC-T3-CONSENT: scope consent lookup to caller's tenant + user to prevent cross-tenant misuse
   const consent = await db.prepare(
     `SELECT id, user_id, tenant_id, data_type, purpose, consented_at, revoked_at
-     FROM consent_records WHERE id = ? AND data_type = 'BVN' LIMIT 1`,
-  ).bind(body.consent_id).first<ConsentRecord>();
+     FROM consent_records WHERE id = ? AND data_type = 'BVN' AND tenant_id = ? AND user_id = ? LIMIT 1`,
+  ).bind(body.consent_id, auth.tenantId, auth.userId).first<ConsentRecord>();
 
   try {
     const result = await verifyBVN(body.bvn, consent as ConsentRecord, body.phone, {
@@ -61,8 +64,8 @@ identityRoutes.post('/verify-bvn', async (c) => {
          VALUES (?, ?, ?, 'BVN', ?, 'verified', ?, ?)`,
     ).bind(
       'system',
-      consent?.tenant_id ?? '',
-      consent?.user_id ?? '',
+      auth.tenantId,
+      auth.userId,
       result.provider,
       Math.floor(Date.now() / 1000),
       bvn_hash,
@@ -83,16 +86,18 @@ identityRoutes.post('/verify-bvn', async (c) => {
  * Body: { nin: string, consent_id: string }
  */
 identityRoutes.post('/verify-nin', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
   const body = await c.req.json<{ nin: string; consent_id: string }>().catch(() => null);
   if (!body?.nin || !body.consent_id) {
     return c.json({ error: 'nin and consent_id are required.' }, 400);
   }
 
   const db = c.env.DB as unknown as D1Like;
+  // SEC-T3-CONSENT: scope consent lookup to caller's tenant + user
   const consent = await db.prepare(
     `SELECT id, user_id, tenant_id, data_type, purpose, consented_at, revoked_at
-     FROM consent_records WHERE id = ? AND data_type = 'NIN' LIMIT 1`,
-  ).bind(body.consent_id).first<ConsentRecord>();
+     FROM consent_records WHERE id = ? AND data_type = 'NIN' AND tenant_id = ? AND user_id = ? LIMIT 1`,
+  ).bind(body.consent_id, auth.tenantId, auth.userId).first<ConsentRecord>();
 
   try {
     const result = await verifyNIN(body.nin, consent as ConsentRecord, {
@@ -107,8 +112,8 @@ identityRoutes.post('/verify-nin', async (c) => {
          VALUES (?, ?, ?, 'NIN', ?, 'verified', ?, ?)`,
     ).bind(
       'system',
-      consent?.tenant_id ?? '',
-      consent?.user_id ?? '',
+      auth.tenantId,
+      auth.userId,
       result.provider,
       Math.floor(Date.now() / 1000),
       nin_hash,
@@ -129,16 +134,18 @@ identityRoutes.post('/verify-nin', async (c) => {
  * Body: { rc_number: string, consent_id: string }
  */
 identityRoutes.post('/verify-cac', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
   const body = await c.req.json<{ rc_number: string; consent_id: string }>().catch(() => null);
   if (!body?.rc_number || !body.consent_id) {
     return c.json({ error: 'rc_number and consent_id are required.' }, 400);
   }
 
   const db = c.env.DB as unknown as D1Like;
+  // SEC-T3-CONSENT: scope consent lookup to caller's tenant + user
   const consent = await db.prepare(
     `SELECT id, user_id, tenant_id, data_type, purpose, consented_at, revoked_at
-     FROM consent_records WHERE id = ? AND data_type = 'CAC' LIMIT 1`,
-  ).bind(body.consent_id).first<ConsentRecord>();
+     FROM consent_records WHERE id = ? AND data_type = 'CAC' AND tenant_id = ? AND user_id = ? LIMIT 1`,
+  ).bind(body.consent_id, auth.tenantId, auth.userId).first<ConsentRecord>();
 
   try {
     const result = await verifyCAC(body.rc_number, consent as ConsentRecord, {
@@ -160,16 +167,18 @@ identityRoutes.post('/verify-cac', async (c) => {
  * Body: { license_number: string, consent_id: string }
  */
 identityRoutes.post('/verify-frsc', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
   const body = await c.req.json<{ license_number: string; consent_id: string }>().catch(() => null);
   if (!body?.license_number || !body.consent_id) {
     return c.json({ error: 'license_number and consent_id are required.' }, 400);
   }
 
   const db = c.env.DB as unknown as D1Like;
+  // SEC-T3-CONSENT: scope consent lookup to caller's tenant + user
   const consent = await db.prepare(
     `SELECT id, user_id, tenant_id, data_type, purpose, consented_at, revoked_at
-     FROM consent_records WHERE id = ? AND data_type = 'FRSC' LIMIT 1`,
-  ).bind(body.consent_id).first<ConsentRecord>();
+     FROM consent_records WHERE id = ? AND data_type = 'FRSC' AND tenant_id = ? AND user_id = ? LIMIT 1`,
+  ).bind(body.consent_id, auth.tenantId, auth.userId).first<ConsentRecord>();
 
   try {
     const result = await verifyFRSC(body.license_number, consent as ConsentRecord, {

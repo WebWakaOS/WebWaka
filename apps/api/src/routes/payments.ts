@@ -230,11 +230,11 @@ workspaceBillingRoute.get('/:id/billing', async (c) => {
       `SELECT id, workspace_id, paystack_ref, amount_kobo, status, metadata,
               datetime(created_at,'unixepoch') AS created_at
        FROM billing_history
-       WHERE workspace_id = ?
+       WHERE workspace_id = ? AND tenant_id = ?
        ORDER BY created_at DESC
        LIMIT 50`,
     )
-    .bind(workspaceId)
+    .bind(workspaceId, auth.tenantId)
     .all<BillingRow>();
 
   const records = rows.results.map((r) => ({

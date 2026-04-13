@@ -125,8 +125,9 @@ authRoutes.post('/login', async (c) => {
         { name: 'PBKDF2', salt: newSaltBuf, iterations: 600_000, hash: 'SHA-256' }, newKey, 256,
       );
       const newHash64 = btoa(String.fromCharCode(...new Uint8Array(newBits)));
-      await c.env.DB.prepare(`UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ?`)
-        .bind(`${newSalt64}:${newHash64}`, userRow.id).run();
+      // T3: include tenant_id in WHERE clause (defense-in-depth)
+      await c.env.DB.prepare(`UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`)
+        .bind(`${newSalt64}:${newHash64}`, userRow.id, userRow.tenant_id).run();
     } catch {
       // Rehash failure is non-critical — user can log in on next attempt
     }
