@@ -34,6 +34,7 @@ import {
 } from '@webwaka/contact';
 import { sendMultiChannelOTP, verifyOTPHash, validateNigerianPhone, OTPError } from '@webwaka/otp';
 import type { Env } from '../env.js';
+import type { AuthContext } from '@webwaka/types';
 import type { OTPPreference, NotificationPreference } from '@webwaka/contact';
 
 // ---------------------------------------------------------------------------
@@ -50,7 +51,9 @@ interface D1Like {
   };
 }
 
-const contactRoutes = new Hono<{ Bindings: Env }>();
+type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
+
+const contactRoutes = new Hono<AppEnv>();
 
 // ---------------------------------------------------------------------------
 // GET /contact/channels
@@ -62,13 +65,10 @@ const contactRoutes = new Hono<{ Bindings: Env }>();
  * M7f: Delegates to ContactService.getContactChannels()
  */
 contactRoutes.get('/channels', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
-  const tenantId = c.req.header('X-Tenant-Id') ?? 'default';
+  const auth = c.get('auth');
   const db = c.env.DB as unknown as Parameters<typeof getContactChannels>[0];
 
-  const channels = await getContactChannels(db, userId, tenantId);
+  const channels = await getContactChannels(db, auth.userId, auth.tenantId);
   return c.json({ channels });
 });
 
@@ -83,10 +83,7 @@ contactRoutes.get('/channels', async (c) => {
  * M7f: Delegates to ContactService.upsertContactChannels()
  */
 contactRoutes.put('/channels', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
-  const tenantId = c.req.header('X-Tenant-Id') ?? 'default';
+  const auth = c.get('auth');
 
   const body = await c.req.json<{
     primary_phone: string;
@@ -114,7 +111,7 @@ contactRoutes.put('/channels', async (c) => {
   });
 
   const db = c.env.DB as unknown as Parameters<typeof upsertContactChannels>[0];
-  await upsertContactChannels(db, userId, channels, tenantId);
+  await upsertContactChannels(db, auth.userId, channels, auth.tenantId);
 
   return c.json({ success: true, channels_saved: channels.length });
 });
@@ -129,10 +126,7 @@ contactRoutes.put('/channels', async (c) => {
  * M7f: assertChannelConsent (P12) checked before OTP dispatch.
  */
 contactRoutes.post('/verify/:channel', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
-  const tenantId = c.req.header('X-Tenant-Id') ?? 'default';
+  const auth = c.get('auth');
   const channel = c.req.param('channel') as 'sms' | 'whatsapp' | 'telegram';
   if (!['sms', 'whatsapp', 'telegram'].includes(channel)) {
     return c.json({ error: 'Invalid channel. Must be sms, whatsapp, or telegram.' }, 400);
@@ -146,7 +140,7 @@ contactRoutes.post('/verify/:channel', async (c) => {
   // P12 — NDPR consent check before OTP dispatch
   try {
     const consentDb = c.env.DB as unknown as Parameters<typeof assertChannelConsent>[0];
-    await assertChannelConsent(consentDb, userId, channel, tenantId);
+    await assertChannelConsent(consentDb, auth.userId, channel, auth.tenantId);
   } catch (err) {
     if (err instanceof ContactError && err.code === 'CONSENT_REQUIRED') {
       return c.json({ error: 'CONSENT_REQUIRED', message: err.message }, 403);
@@ -174,7 +168,7 @@ contactRoutes.post('/verify/:channel', async (c) => {
   const channelRow = await db.prepare(
     `SELECT id, user_id, channel_type, value, is_primary, verified, verified_at, created_at, updated_at
      FROM contact_channels WHERE user_id = ? AND channel_type = ? LIMIT 1`,
-  ).bind(userId, channel).first<ContactRow>();
+  ).bind(auth.userId, channel).first<ContactRow>();
 
   if (!channelRow) {
     return c.json({ error: 'channel_not_found', message: `No ${channel} contact on record. Please add it first.` }, 404);
@@ -205,7 +199,7 @@ contactRoutes.post('/verify/:channel', async (c) => {
     await db.prepare(
       `INSERT INTO otp_log (user_id, phone, otp_hash, purpose, channel, status, expires_at, created_at)
        VALUES (?, ?, ?, ?, ?, 'pending', ?, ?)`,
-    ).bind(userId, channelRow.value, result.otp_hash, purpose, result.channel, result.expires_at, now).run();
+    ).bind(auth.userId, channelRow.value, result.otp_hash, purpose, result.channel, result.expires_at, now).run();
 
     return c.json({ success: true, channel: result.channel, expires_at: result.expires_at });
   } catch (err) {
@@ -229,10 +223,7 @@ contactRoutes.post('/verify/:channel', async (c) => {
  * M7f: Uses ContactService.markChannelVerified()
  */
 contactRoutes.post('/confirm/:channel', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
-  const tenantId = c.req.header('X-Tenant-Id') ?? 'default';
+  const auth = c.get('auth');
   const channel = c.req.param('channel') as 'sms' | 'whatsapp' | 'telegram';
   const body = await c.req.json<{ code: string }>().catch(() => null);
 
@@ -252,7 +243,7 @@ contactRoutes.post('/confirm/:channel', async (c) => {
   const logRow = await db.prepare(
     `SELECT id, otp_hash, expires_at, status FROM otp_log
      WHERE user_id = ? AND channel = ? AND status = 'pending' ORDER BY created_at DESC LIMIT 1`,
-  ).bind(userId, channel).first<OTPLogRow>();
+  ).bind(auth.userId, channel).first<OTPLogRow>();
 
   if (!logRow) {
     return c.json({ error: 'otp_not_found', message: 'No pending OTP for this channel.' }, 404);
@@ -268,7 +259,7 @@ contactRoutes.post('/confirm/:channel', async (c) => {
 
   // M7f: Use ContactService.markChannelVerified (R10)
   const markDb = c.env.DB as unknown as Parameters<typeof markChannelVerified>[0];
-  await markChannelVerified(markDb, userId, channel, tenantId);
+  await markChannelVerified(markDb, auth.userId, channel, auth.tenantId);
 
   return c.json({ success: true, channel, verified: true });
 });
@@ -283,10 +274,7 @@ contactRoutes.post('/confirm/:channel', async (c) => {
  * M7f: Uses ContactService.removeContactChannel()
  */
 contactRoutes.delete('/channels/:channel', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
-  const tenantId = c.req.header('X-Tenant-Id') ?? 'default';
+  const auth = c.get('auth');
   const channel = c.req.param('channel') as 'whatsapp' | 'telegram' | 'email';
   if (!['whatsapp', 'telegram', 'email'].includes(channel)) {
     return c.json({ error: 'Cannot remove primary SMS channel. Only whatsapp, telegram, or email.' }, 400);
@@ -295,7 +283,7 @@ contactRoutes.delete('/channels/:channel', async (c) => {
   const db = c.env.DB as unknown as Parameters<typeof removeContactChannel>[0];
 
   try {
-    await removeContactChannel(db, userId, channel, tenantId);
+    await removeContactChannel(db, auth.userId, channel, auth.tenantId);
     return c.json({ success: true, removed: channel });
   } catch (err) {
     if (err instanceof ContactError && err.code === 'CANNOT_REMOVE_PRIMARY') {
@@ -314,9 +302,7 @@ contactRoutes.delete('/channels/:channel', async (c) => {
  * Returns the user's OTP and notification preferences.
  */
 contactRoutes.get('/preferences', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
-
+  const auth = c.get('auth');
   const db = c.env.DB as unknown as D1Like;
 
   interface PrefRow {
@@ -325,8 +311,8 @@ contactRoutes.get('/preferences', async (c) => {
   }
 
   const prefs = await db.prepare(
-    `SELECT otp_preference, notification_preference FROM contact_preferences WHERE user_id = ? LIMIT 1`,
-  ).bind(userId).first<PrefRow>();
+    `SELECT otp_preference, notification_preference FROM contact_preferences WHERE user_id = ? AND tenant_id = ? LIMIT 1`,
+  ).bind(auth.userId, auth.tenantId).first<PrefRow>();
 
   return c.json({
     otp_preference: prefs?.otp_preference ?? 'sms',
@@ -343,8 +329,7 @@ contactRoutes.get('/preferences', async (c) => {
  * Body: { otp_preference?, notification_preference? }
  */
 contactRoutes.put('/preferences', async (c) => {
-  const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ error: 'Unauthorized' }, 401);
+  const auth = c.get('auth');
 
   const body = await c.req.json<{ otp_preference?: OTPPreference; notification_preference?: NotificationPreference }>().catch(() => null);
   if (!body) return c.json({ error: 'Invalid request body.' }, 400);
@@ -353,14 +338,15 @@ contactRoutes.put('/preferences', async (c) => {
   const now = Math.floor(Date.now() / 1000);
 
   await db.prepare(
-    `INSERT INTO contact_preferences (user_id, otp_preference, notification_preference, updated_at)
-     VALUES (?, ?, ?, ?)
+    `INSERT INTO contact_preferences (user_id, tenant_id, otp_preference, notification_preference, updated_at)
+     VALUES (?, ?, ?, ?, ?)
      ON CONFLICT (user_id) DO UPDATE SET
        otp_preference = COALESCE(excluded.otp_preference, otp_preference),
        notification_preference = COALESCE(excluded.notification_preference, notification_preference),
        updated_at = excluded.updated_at`,
   ).bind(
-    userId,
+    auth.userId,
+    auth.tenantId,
     body.otp_preference ?? 'sms',
     body.notification_preference ?? 'sms',
     now,
