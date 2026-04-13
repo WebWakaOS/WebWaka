@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-ward-rep",
   "version": "0.1.0",
   "private": true,
-  "description": "Ward Representative / Polling Unit vertical — polling units, projects, service requests, L3 HITL AI. M12.",
+  "description": "[Pillar 1+3] Ward Representative / Polling Unit vertical — polling units, projects, service requests, L3 HITL AI. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

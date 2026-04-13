@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-courier",
   "version": "0.1.0",
   "private": true,
-  "description": "Courier Service vertical — parcel tracking, rider dispatch, COD reconciliation. M9.",
+  "description": "[Pillar 1+3] Courier Service vertical — parcel tracking, rider dispatch, COD reconciliation. M9.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

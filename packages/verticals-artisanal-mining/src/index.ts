@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ArtisanalMiningRepository } from './artisanal-mining.js';
 
-export const VERTICAL_SLUG = 'artisanal-mining' as const;
+export const VERTICAL_SLUG = 'artisanal-mining';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerArtisanalMiningVertical() {

@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-bookshop",
   "version": "0.1.0",
   "private": true,
-  "description": "Bookshop / Stationery Store vertical — FSM, ISBN catalogue, school bulk orders. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Bookshop / Stationery Store vertical — FSM, ISBN catalogue, school bulk orders. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

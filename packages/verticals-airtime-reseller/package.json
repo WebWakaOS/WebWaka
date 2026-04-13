@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-airtime-reseller",
   "version": "0.1.0",
   "private": true,
-  "description": "Airtime / VTU Reseller vertical — NCC dealer, CBN sub-agent daily cap, commission tracking. M12.",
+  "description": "[Pillar 1+3] Airtime / VTU Reseller vertical — NCC dealer, CBN sub-agent daily cap, commission tracking. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

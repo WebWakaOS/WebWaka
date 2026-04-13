@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SolarInstallerRepository } from './solar-installer.js';
 
-export const VERTICAL_SLUG = 'solar-installer' as const;
+export const VERTICAL_SLUG = 'solar-installer';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerSolarInstallerVertical() {

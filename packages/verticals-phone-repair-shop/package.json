@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-phone-repair-shop",
   "version": "0.1.0",
   "private": true,
-  "description": "Phone Repair Shop vertical — intake jobs, parts inventory, IMEI guard (P13). M10 Commerce P3.",
+  "description": "[Pillar 1+3] Phone Repair Shop vertical — intake jobs, parts inventory, IMEI guard (P13). M10 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

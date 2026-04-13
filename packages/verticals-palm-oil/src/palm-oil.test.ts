@@ -22,6 +22,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO palm_oil_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], mill_name: vals[3], nafdac_product_number: vals[4], nifor_affiliation: vals[5], state_agric_extension_reg: vals[6], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO palm_ffb_intake')) { const qty = vals[4]; if (!Number.isInteger(qty) || (qty as number) < 0) throw new Error('quantityKg must be a non-negative integer kg'); const cost = vals[5]; if (!Number.isInteger(cost) || (cost as number) < 0) throw new Error('P9: costPerKgKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], ffb_source: vals[3], quantity_kg: vals[4], cost_per_kg_kobo: vals[5], intake_date: vals[6], supplier_phone: vals[7], created_at: 1 }); }
@@ -29,6 +30,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO palm_oil_sales')) { const ml = vals[4]; if (!Number.isInteger(ml) || (ml as number) < 0) throw new Error('quantityMl must be a non-negative integer ml'); const price = vals[5]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: pricePerLitreKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_phone: vals[3], quantity_ml: vals[4], price_per_litre_kobo: vals[5], total_kobo: vals[6], sale_date: vals[7], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -41,6 +43,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

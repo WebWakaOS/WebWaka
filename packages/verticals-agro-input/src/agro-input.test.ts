@@ -21,24 +21,16 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO agro_input_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], company_name: vals[3], nasc_dealer_number: vals[4], fepsan_membership: vals[5], nafdac_agrochemical_reg: vals[6], fmard_abp_participant: vals[7], cac_rc: vals[8], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO agro_input_catalogue')) { const price = vals[7]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: pricePerUnitKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], product_name: vals[3], category: vals[4], nasc_or_nafdac_cert_number: vals[5], unit: vals[6], price_per_unit_kobo: vals[7], quantity_in_stock: vals[8], created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO agro_input_orders')) { const total = vals[6]; if (!Number.isInteger(total) || (total as number) < 0) throw new Error('P9: totalKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], farmer_phone: vals[3], farmer_name: vals[4], items: vals[5], total_kobo: vals[6], abp_subsidy_kobo: vals[7], balance_kobo: vals[8], status: 'pending', created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => {
-          if (sql.includes('WHERE id=?')) {
-            const record = store.get(vals[0] as string) ?? null;
-            if (record === null) return null as T | null;
-            if (sql.includes('tenant_id=?') || sql.includes('AND tenant_id')) {
-              const row = record as Record<string, unknown>;
-              if (row['tenant_id'] !== vals[1]) return null as T | null;
-            }
-            return record as T | null;
-          }
-          return null as T | null;
-        },
+        // eslint-disable-next-line @typescript-eslint/require-await
+        first: async <T>() => { if (sql.includes('WHERE id=?')) { const row = store.get(vals[0] as string) ?? null; if (row && sql.includes('AND tenant_id=?') && (row as Record<string, unknown>)['tenant_id'] !== vals[1]) return null as T | null; return row as T | null; } return null as T | null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

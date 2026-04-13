@@ -9,7 +9,7 @@
 export * from './types.js';
 export { CocoaExporterRepository } from './cocoa-exporter.js';
 
-export const VERTICAL_SLUG = 'cocoa-exporter' as const;
+export const VERTICAL_SLUG = 'cocoa-exporter';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerCocoaExporterVertical() {

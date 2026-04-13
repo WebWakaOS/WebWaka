@@ -16,6 +16,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -55,6 +56,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r => {
@@ -63,6 +65,7 @@ function makeDb() {
         });
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         const cond = (r: Record<string, unknown>) => {
           if (sql.toLowerCase().includes('quantity_in_stock <= reorder_level')) {
@@ -157,17 +160,16 @@ describe('BakeryRepository', () => {
   });
 
   it('T014 — creates ingredient with integer unit_cost_kobo (P9)', async () => {
-    const i = await repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Flour', unit: 'kg', quantityInStockX1000: 50, unitCostKobo: 120000 });
+    const i = await repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Flour', unit: 'kg', quantityInStockX1000: 50000, unitCostKobo: 120000 });
     expect(i.unitCostKobo).toBe(120000);
   });
 
   it('T015 — rejects fractional ingredient unit_cost_kobo (P9)', async () => {
-    await expect(repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Sugar', unit: 'kg', quantityInStockX1000: 10, unitCostKobo: 45000.99 })).rejects.toThrow('[P9]');
+    await expect(repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Sugar', unit: 'kg', quantityInStockX1000: 10000, unitCostKobo: 45000.99 })).rejects.toThrow('[P9]');
   });
 
   it('T016 — cross-tenant ingredient is not visible (T3)', async () => {
-    const i = await repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Butter', unit: 'kg', quantityInStockX1000: 5, unitCostKobo: 90000 });
+    const i = await repo.createIngredient({ workspaceId: 'ws1', tenantId: 'tn1', ingredientName: 'Butter', unit: 'kg', quantityInStockX1000: 5000, unitCostKobo: 90000 });
     expect(await repo.findIngredientById(i.id, 'tn-other')).toBeNull();
   });
 });
-

@@ -133,6 +133,9 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
+import { bodyLimit } from 'hono/body-limit';
+import { compress } from 'hono/compress';
+import { createCorsConfig } from '@webwaka/shared-config';
 import type { Env } from './env.js';
 import { authMiddleware } from './middleware/auth.js';
 import { healthRoutes } from './routes/health.js';
@@ -156,6 +159,7 @@ import { communityRoutes } from './routes/community.js';
 import { socialRoutes } from './routes/social.js';
 import { identityRateLimit, rateLimitMiddleware } from './middleware/rate-limit.js';
 import { auditLogMiddleware } from './middleware/audit-log.js';
+import { monitoringMiddleware } from './middleware/monitoring.js';
 import { assertDMMasterKey } from '@webwaka/social';
 import { airtimeRoutes } from './routes/airtime.js';
 import { lowDataMiddleware } from './middleware/low-data.js';
@@ -177,7 +181,18 @@ import profCreatorExtendedRoutes from './routes/verticals-prof-creator-extended.
 import financialPlaceMediaInstitutionalRoutes from './routes/verticals-financial-place-media-institutional-extended.js';
 import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
 import { negotiationRouter } from './routes/negotiation.js';
+import { ussdExclusionMiddleware } from './middleware/ussd-exclusion.js';
+import { aiEntitlementMiddleware } from './middleware/ai-entitlement.js';
+import { requireEntitlement } from './middleware/entitlement.js';
+import { PlatformLayer } from '@webwaka/types';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
+import { partnerRoutes } from './routes/partners.js';
+import { templateRoutes } from './routes/templates.js';
+import { webhookRoutes } from './routes/webhooks.js';
+import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
+import { onboardingRoutes } from './routes/onboarding.js';
+import { billingRoutes } from './routes/billing.js';
+import { billingEnforcementMiddleware } from './middleware/billing-enforcement.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -186,21 +201,36 @@ const app = new Hono<{ Bindings: Env }>();
 // ---------------------------------------------------------------------------
 
 app.use('*', secureHeaders());
-// M7b advisory: CORS origin reads ALLOWED_ORIGINS from Worker env (not hardcoded wildcard).
-// ALLOWED_ORIGINS is a comma-separated string set via CF Dashboard secret.
-// Fallback: ['https://*.webwaka.com', 'http://localhost:5173'] for development.
+// ARC-19: Request correlation IDs for structured log tracing (must run before monitoring)
 app.use('*', async (c, next) => {
-  const envOrigins = c.env?.ALLOWED_ORIGINS;
-  const allowed: string[] = envOrigins
-    ? envOrigins.split(',').map((o) => o.trim()).filter(Boolean)
-    : ['https://*.webwaka.com', 'http://localhost:5173'];
-
+  const requestId = c.req.header('X-Request-ID') ?? crypto.randomUUID();
+  c.set('requestId', requestId);
+  c.header('X-Request-ID', requestId);
+  await next();
+});
+// DEV-04: Monitoring middleware — tracks latency, error rates, alerting webhook
+app.use('*', monitoringMiddleware);
+// PERF-06: Response compression for JSON-heavy endpoints (gzip, threshold 1KB)
+// Only compress when client explicitly requests it (Accept-Encoding check)
+const gzipMiddleware = compress({ encoding: 'gzip' });
+app.use('*', async (c, next) => {
+  const acceptEncoding = c.req.header('Accept-Encoding') ?? '';
+  if (acceptEncoding.includes('gzip')) {
+    return gzipMiddleware(c, next);
+  }
+  await next();
+});
+// SEC-13: Enforce request body size limit (256KB) to prevent oversized payloads
+app.use('*', bodyLimit({ maxSize: 256 * 1024 }));
+// ARC-05 + SEC-08: Use shared CORS config with environment-aware localhost gating
+app.use('*', async (c, next) => {
+  const config = createCorsConfig({
+    environment: c.env?.ENVIRONMENT,
+    allowedOriginsEnv: c.env?.ALLOWED_ORIGINS,
+  });
   return cors({
-    origin: (origin) => (allowed.includes(origin) ? origin : null),
-    allowHeaders: ['Authorization', 'Content-Type'],
-    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    ...config,
     exposeHeaders: ['X-Request-Id'],
-    maxAge: 86400,
   })(c, next);
 });
 app.use('*', logger());
@@ -214,6 +244,8 @@ app.use('*', rateLimitMiddleware({ keyPrefix: 'global', maxRequests: 100, window
 // ---------------------------------------------------------------------------
 
 app.route('/health', healthRoutes);
+app.route('/openapi.json', openapiRoutes);
+app.route('/docs', swaggerRoutes);  // GOV-03: Swagger UI
 app.route('/geography', geographyRoutes);
 app.route('/discovery', discoveryRoutes);
 
@@ -224,6 +256,8 @@ app.route('/discovery', discoveryRoutes);
 
 app.use('/auth/refresh', authMiddleware);
 app.use('/auth/me', authMiddleware);
+// SEC-03: Login-specific rate limiting — 10 attempts per 5 minutes per IP
+app.use('/auth/login', rateLimitMiddleware({ keyPrefix: 'auth:login', maxRequests: 10, windowSeconds: 300 }));
 app.route('/auth', authRoutes);
 
 // ---------------------------------------------------------------------------
@@ -231,6 +265,7 @@ app.route('/auth', authRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/entities/*', authMiddleware);
+app.use('/entities/*', auditLogMiddleware);
 app.route('/entities', entityRoutes);
 
 // ---------------------------------------------------------------------------
@@ -240,6 +275,9 @@ app.route('/entities', entityRoutes);
 app.use('/claim/intent', authMiddleware);
 app.use('/claim/advance', authMiddleware);
 app.use('/claim/verify', authMiddleware);
+app.use('/claim/intent', auditLogMiddleware);
+app.use('/claim/advance', auditLogMiddleware);
+app.use('/claim/verify', auditLogMiddleware);
 app.route('/claim', claimRoutes);
 
 // ---------------------------------------------------------------------------
@@ -247,6 +285,7 @@ app.route('/claim', claimRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/workspaces/*', authMiddleware);
+app.use('/workspaces/*', auditLogMiddleware);
 app.route('/workspaces', workspaceRoutes);
 app.route('/workspaces', workspaceUpgradeRoute);
 app.route('/workspaces', workspaceBillingRoute);
@@ -256,13 +295,19 @@ app.route('/workspaces', workspaceBillingRoute);
 // ---------------------------------------------------------------------------
 
 app.use('/payments/*', authMiddleware);
+app.use('/payments/*', auditLogMiddleware);
 app.route('/payments', paymentsVerifyRoute);
 
 // ---------------------------------------------------------------------------
-// M6: Public tenant + admin dashboard routes — no auth required
+// M6: Public tenant routes — no auth required
 // ---------------------------------------------------------------------------
 
 app.route('/public', publicRoutes);
+
+// SEC-01: Admin dashboard routes now require auth to prevent data leakage.
+// Previously registered without auth — any user with a workspace ID could access metadata.
+app.use('/admin/*', authMiddleware);
+app.use('/admin/*', auditLogMiddleware);
 app.route('/admin', adminPublicRoutes);
 
 // ---------------------------------------------------------------------------
@@ -270,6 +315,7 @@ app.route('/admin', adminPublicRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/themes/*', authMiddleware);
+app.use('/themes/*', auditLogMiddleware);
 app.route('/themes', themeRoutes);
 
 // ---------------------------------------------------------------------------
@@ -302,6 +348,7 @@ app.route('/sync', syncRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/pos/*', authMiddleware);
+app.use('/pos/*', auditLogMiddleware);
 app.route('/pos', posRoutes);
 
 // ---------------------------------------------------------------------------
@@ -319,6 +366,7 @@ app.route('/community', communityRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/airtime/*', authMiddleware);
+app.use('/airtime/*', auditLogMiddleware);
 app.route('/airtime', airtimeRoutes);
 
 // ---------------------------------------------------------------------------
@@ -336,9 +384,14 @@ app.route('/workspaces', workspaceVerticalsRoutes);
 
 // ---------------------------------------------------------------------------
 // SA-2.x / SA-3.x: SuperAgent routes — auth required; /chat also runs aiConsentGate (P10/P12)
+// ENT-002: AI entitlement check on all SuperAgent routes (before consent gate)
+// AI-004: USSD exclusion on all AI entry points (P12)
 // ---------------------------------------------------------------------------
 
 app.use('/superagent/*', authMiddleware);
+app.use('/superagent/*', ussdExclusionMiddleware);
+app.use('/superagent/*', aiEntitlementMiddleware);
+app.use('/superagent/*', auditLogMiddleware);
 app.route('/superagent', superagentRoutes);
 
 // ---------------------------------------------------------------------------
@@ -346,6 +399,9 @@ app.route('/superagent', superagentRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/politician/*', authMiddleware);
+app.use('/politician', authMiddleware);
+app.use('/politician/*', requireEntitlement(PlatformLayer.Political));
+app.use('/politician', requireEntitlement(PlatformLayer.Political));
 app.route('/politician', politicianRoutes);
 
 // ---------------------------------------------------------------------------
@@ -353,6 +409,9 @@ app.route('/politician', politicianRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/pos-business/*', authMiddleware);
+app.use('/pos-business', authMiddleware);
+app.use('/pos-business/*', requireEntitlement(PlatformLayer.Commerce));
+app.use('/pos-business', requireEntitlement(PlatformLayer.Commerce));
 app.route('/pos-business', posBusinessRoutes);
 
 // ---------------------------------------------------------------------------
@@ -360,6 +419,9 @@ app.route('/pos-business', posBusinessRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/transport/*', authMiddleware);
+app.use('/transport', authMiddleware);
+app.use('/transport/*', requireEntitlement(PlatformLayer.Transport));
+app.use('/transport', requireEntitlement(PlatformLayer.Transport));
 app.route('/transport', transportRoutes);
 
 // ---------------------------------------------------------------------------
@@ -367,6 +429,9 @@ app.route('/transport', transportRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/civic/*', authMiddleware);
+app.use('/civic', authMiddleware);
+app.use('/civic/*', requireEntitlement(PlatformLayer.Civic));
+app.use('/civic', requireEntitlement(PlatformLayer.Civic));
 app.route('/civic', civicRoutes);
 
 // ---------------------------------------------------------------------------
@@ -374,6 +439,9 @@ app.route('/civic', civicRoutes);
 // ---------------------------------------------------------------------------
 
 app.use('/commerce/*', authMiddleware);
+app.use('/commerce', authMiddleware);
+app.use('/commerce/*', requireEntitlement(PlatformLayer.Commerce));
+app.use('/commerce', requireEntitlement(PlatformLayer.Commerce));
 app.route('/commerce', commerceRoutes);
 
 // ---------------------------------------------------------------------------
@@ -551,6 +619,7 @@ app.route('/api/v1/verticals', setJExtendedRouter);
 // ---------------------------------------------------------------------------
 
 app.use('/api/v1/negotiation/*', authMiddleware);
+app.use('/api/v1/negotiation/*', auditLogMiddleware);
 app.route('/api/v1/negotiation', negotiationRouter);
 
 // ---------------------------------------------------------------------------
@@ -574,15 +643,93 @@ app.use('/social/stories', authMiddleware);
 app.route('/social', socialRoutes);
 
 // ---------------------------------------------------------------------------
+// M11: Partner & White-Label routes — super_admin only (T3, audit log, partner-and-subpartner-model.md)
+// Governance: partner-and-subpartner-model.md Phase 1+2
+// All /partners/* routes require super_admin role (enforced in partnerRoutes handlers)
+// ---------------------------------------------------------------------------
+
+app.use('/partners/*', authMiddleware);
+app.use('/partners/*', auditLogMiddleware);
+app.route('/partners', partnerRoutes);
+
+// ---------------------------------------------------------------------------
+// v1.0.1: Template Registry — marketplace for dashboard, website, vertical blueprints,
+// workflows, emails, and modules.
+// GET /templates and GET /templates/:slug are public.
+// POST /templates requires super_admin.
+// /templates/installed, POST /templates/:slug/install, DELETE /templates/:slug/install require auth.
+// POST /templates/:slug/purchase and /purchase/verify require auth (MON-01).
+// T3: tenant_id on all install queries. T4: price_kobo integer only.
+// ---------------------------------------------------------------------------
+
+app.use('/templates/installed', authMiddleware);
+app.use('/templates/*/install', authMiddleware);
+app.use('/templates/*/upgrade', authMiddleware);
+app.use('/templates/*/purchase', authMiddleware);
+app.use('/templates/*/purchase/verify', authMiddleware);
+app.route('/templates', templateRoutes);
+
+// ---------------------------------------------------------------------------
+// PROD-04: Webhook subscription routes — auth required (T3 enforced in handlers)
+// ---------------------------------------------------------------------------
+
+app.use('/webhooks/*', authMiddleware);
+app.use('/webhooks', authMiddleware);
+app.route('/webhooks', webhookRoutes);
+
+// ---------------------------------------------------------------------------
+// PROD-01: Onboarding checklist routes — auth required
+// ---------------------------------------------------------------------------
+
+app.use('/onboarding/*', authMiddleware);
+app.route('/onboarding', onboardingRoutes);
+
+// ---------------------------------------------------------------------------
+// PROD-09: Billing enforcement routes — auth required
+// ---------------------------------------------------------------------------
+
+app.use('/billing/*', authMiddleware);
+app.use('/billing/*', auditLogMiddleware);
+app.route('/billing', billingRoutes);
+
+// ---------------------------------------------------------------------------
+// PROD-09: Billing enforcement middleware — applied after auth on write paths
+// Checks subscription status; suspends write access for expired subscriptions.
+// Exempt paths: /health, /auth, /billing, /onboarding, /payments
+// ---------------------------------------------------------------------------
+
+app.use('/entities/*', billingEnforcementMiddleware);
+app.use('/workspaces/*', billingEnforcementMiddleware);
+app.use('/claim/intent', billingEnforcementMiddleware);
+app.use('/claim/advance', billingEnforcementMiddleware);
+
+// ---------------------------------------------------------------------------
 // Global error handler
 // ---------------------------------------------------------------------------
 
 app.onError((err, c) => {
-  console.error('[webwaka-api] Unhandled error:', err);
+  const authCtx = c.get('auth') as { userId?: string; tenantId?: string } | undefined;
+  const structured = {
+    level: 'error',
+    service: 'webwaka-api',
+    timestamp: new Date().toISOString(),
+    error: {
+      name: err instanceof Error ? err.name : 'UnknownError',
+      message: err instanceof Error ? err.message : String(err),
+      stack: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.stack : undefined,
+    },
+    context: {
+      route: c.req.path,
+      method: c.req.method,
+      tenantId: authCtx?.tenantId,
+      environment: c.env?.ENVIRONMENT,
+    },
+  };
+  console.error(JSON.stringify(structured));
   return c.json(
     {
       error: 'Internal server error',
-      message: c.env?.ENVIRONMENT === 'development' ? err.message : undefined,
+      message: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.message : undefined,
     },
     500,
   );

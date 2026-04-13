@@ -1,6 +1,10 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import app from '../index.js';
 import type { Env } from '../env.js';
+import { issueJwt } from '@webwaka/auth';
+import { Role } from '@webwaka/types';
+import type { UserId, WorkspaceId, TenantId } from '@webwaka/types';
+import { asId } from '@webwaka/types';
 
 function makeDb(rows: Record<string, unknown> = {}) {
   return {
@@ -106,19 +110,42 @@ describe('GET /public/:tenantSlug', () => {
 });
 
 // ---------------------------------------------------------------------------
-// GET /admin/:workspaceId/dashboard  (no auth middleware — served from publicRoutes)
+// GET /admin/:workspaceId/dashboard  (SEC-01: now requires auth)
 // ---------------------------------------------------------------------------
 
+let adminToken: string;
+beforeAll(async () => {
+  adminToken = await issueJwt(
+    {
+      sub: asId<UserId>('usr_pub_test_001'),
+      workspace_id: asId<WorkspaceId>('wsp_pub001'),
+      tenant_id: asId<TenantId>('tenant_pub_test_001'),
+      role: Role.Admin,
+    },
+    'test-jwt-secret-minimum-32-characters!',
+  );
+});
+
 describe('GET /admin/:workspaceId/dashboard', () => {
-  it('returns 404 for unknown workspace', async () => {
+  it('returns 401 without auth (SEC-01)', async () => {
     const req = new Request('http://localhost/admin/wsp_missing/dashboard');
     const res = await app.fetch(req, makeEnv());
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(401);
   });
 
-  it('returns 200 with layout and plan for known workspace', async () => {
+  it('returns 403 for workspace not owned by caller (IDOR prevention)', async () => {
+    const req = new Request('http://localhost/admin/wsp_missing/dashboard', {
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
+    const res = await app.fetch(req, makeEnv());
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 200 with layout and plan for known workspace with auth', async () => {
     const db = makeDb({ workspace: WORKSPACE_ROW, subscription: { plan: 'growth' } });
-    const req = new Request('http://localhost/admin/wsp_pub001/dashboard');
+    const req = new Request('http://localhost/admin/wsp_pub001/dashboard', {
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
     const res = await app.fetch(req, makeEnv({ DB: db as unknown as D1Database }));
     expect(res.status).toBe(200);
     const body = await res.json() as { layout: { plan: string }; plan: string };

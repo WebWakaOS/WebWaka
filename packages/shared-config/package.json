@@ -1,0 +1,15 @@
+{
+  "name": "@webwaka/shared-config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Pillar 1+3] @webwaka/shared-config",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "echo 'skip'",
+    "test": "echo 'skip'",
+    "build": "echo 'skip'"
+  }
+}

@@ -15,6 +15,7 @@ function buildInventoryDb() {
 
   const prepare = (sql: string) => ({
     bind: (...bindings: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.includes('INSERT INTO pos_products')) {
           const id = bindings[0] as string;
@@ -56,6 +57,7 @@ function buildInventoryDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         const id = bindings[0] as string;
         const tenantId = bindings[1] as string;
@@ -63,6 +65,7 @@ function buildInventoryDb() {
         if (!row || row['tenant_id'] !== tenantId) return null as T;
         return row as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         const results = Array.from(store.values()).filter((r) => {
           const row = r as Record<string, unknown>;

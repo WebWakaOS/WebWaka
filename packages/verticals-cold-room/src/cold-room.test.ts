@@ -22,6 +22,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO cold_room_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], facility_name: vals[3], nafdac_cold_chain_cert: vals[4], son_cert: vals[5], capacity_kg: vals[6], cac_rc: vals[7], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO cold_room_units')) { const cap = vals[4]; if (!Number.isInteger(cap) || (cap as number) < 0) throw new Error('Capacity must be a non-negative integer kg'); const temp = vals[5]; if (!Number.isInteger(temp)) throw new Error('Temperature must be an integer millidegrees Celsius'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], unit_number: vals[3], capacity_kg: vals[4], current_temp_mc: vals[5], status: 'active', created_at: 1, updated_at: 1 }); }
@@ -29,6 +30,7 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO cold_temp_log')) { const temp = vals[5]; if (!Number.isInteger(temp)) throw new Error('Temperature must be an integer millidegrees Celsius (no floats)'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], unit_id: vals[3], log_time: vals[4], temperature_mc: vals[5], alert_flag: vals[6], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -41,6 +43,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -159,5 +162,52 @@ describe('cold-room vertical', () => {
     const db = makeDb();
     const repo = new ColdRoomRepository(db as never);
     await expect(repo.createUnit({ profileId: 'p1', tenantId: 'tid1', unitNumber: 'CR-01', capacityKg: 500.5 })).rejects.toThrow('non-negative integer kg');
+  });
+
+  it('guardIntegerCapacity fails for negative kg', () => {
+    expect(guardIntegerCapacity(-1).allowed).toBe(false);
+  });
+
+  it('guardIntegerCapacity passes for zero capacity', () => {
+    expect(guardIntegerCapacity(0).allowed).toBe(true);
+  });
+
+  it('guardClaimedToNafdacVerified fails with KYC Tier 1 (< 2 required)', () => {
+    const r = guardClaimedToNafdacVerified({ nafdacColdChainCert: 'NAFDAC-CC-002', kycTier: 1 });
+    expect(r.allowed).toBe(false);
+    expect(r.reason).toContain('KYC Tier 2');
+  });
+
+  it('guardKycForBulkCollateral passes with KYC Tier 3', () => {
+    expect(guardKycForBulkCollateral({ kycTier: 3 }).allowed).toBe(true);
+  });
+
+  it('FSM: active → suspended is valid', () => {
+    expect(isValidColdRoomTransition('active', 'suspended')).toBe(true);
+  });
+
+  it('FSM: suspended → active is valid (recovery)', () => {
+    expect(isValidColdRoomTransition('suspended', 'active')).toBe(true);
+  });
+
+  it('guardFractionalKobo passes for valid integer kobo amount', () => {
+    expect(guardFractionalKobo(50000).allowed).toBe(true);
+  });
+
+  it('guardL2AiCap blocks numeric level 3 (ADL-010)', () => {
+    expect(guardL2AiCap({ autonomyLevel: 3 }).allowed).toBe(false);
+  });
+
+  it('ColdRoomRepository.createAgreement rejects fractional dailyRateKobo (P9)', async () => {
+    const db = makeDb();
+    const repo = new ColdRoomRepository(db as never);
+    await expect(repo.createAgreement({ profileId: 'p1', tenantId: 'tid1', clientPhone: '0800000001', commodityType: 'Tomatoes', quantityKg: 500, dailyRateKobo: 250.5, entryDate: 1000 })).rejects.toThrow('P9');
+  });
+
+  it('ColdRoomRepository.createProfile has facilityName set', async () => {
+    const db = makeDb();
+    const repo = new ColdRoomRepository(db as never);
+    const p = await repo.createProfile({ workspaceId: 'ws2', tenantId: 'tid2', facilityName: 'ArcticStore Nigeria' });
+    expect(p.facilityName).toBe('ArcticStore Nigeria');
   });
 });

@@ -216,5 +216,16 @@ CREATE INDEX idx_coop_loan_tenant ON cooperative_loans(tenant_id);
 [ ] T3 isolation on all new tables
 [ ] pnpm -r typecheck — 0 errors
 [ ] docs/verticals/church-brief.md complete
+
+---
+
+## AI Integration — SuperAgent Requirements (added 2026-04-13)
+
+All AI features in this milestone use `packages/superagent-sdk`. Do not import `packages/ai-abstraction` directly in vertical code.
+
+For each AI feature in M8d:
+1. Complete Section 13 of `docs/templates/vertical-ai-research-template.md` — declare capability set and autonomy level
+2. Set `hitl_required: true` for any feature with autonomy level L3 or above
+3. See `docs/governance/superagent/04-execution-roadmap.md` for the Phase 2 vertical integration checklist
 [ ] docs/verticals/cooperative-brief.md complete
 ```

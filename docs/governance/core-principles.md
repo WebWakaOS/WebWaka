@@ -7,9 +7,6 @@
 
 ---
 
-> **M7 Review 2026-04-08:** Reviewed by Base44 Super Agent — no structural changes required. KYC/NDPR/Community/Social references are additive layers in entitlement-model.md and universal-entity-model.md.
-
-
 The following principles are mandatory across product, engineering, governance, and deployment decisions.
 
 ## Product Principles
@@ -43,3 +40,18 @@ The following principles are mandatory across product, engineering, governance, 
 - **Step-by-step GitHub pushes**
 - **Continuity-friendly implementation for future agents**
 - **Governance before improvisation**
+
+---
+
+## Africa-First Expansion Architecture (Future)
+
+**Current status:** Nigeria-only. All data structures, geography, payments, and compliance are designed for Nigerian realities. This is intentional (P2 — Nigeria First) and is not a governance violation.
+
+**Multi-country expansion requirements (when the time comes):**
+1. **Geography abstraction:** Add `country_id` column to `geography_places` and tenant-scoped tables. The current hierarchy (Zone → State → LGA → Ward) is Nigeria-specific; other countries have different administrative divisions.
+2. **Payment provider abstraction:** Paystack is Nigeria-first. Expansion requires a payment provider interface layer: `PaymentProvider { charge(), verify(), webhook() }` → Paystack (NG), Flutterwave (Africa-wide), Stripe (global).
+3. **Multi-currency support:** Replace hardcoded kobo (NGN × 100) with a currency-aware smallest-unit integer pattern: `{ amount: number, currency: 'NGN' | 'GHS' | 'KES', unit: 'kobo' | 'pesewa' | 'cent' }`.
+4. **Regulatory body abstraction:** CAC (Nigeria), FRSC (Nigeria) → interface → other countries' business registries.
+5. **Locale support:** Add country-specific locale data (phone formats, address formats, tax rules).
+
+This is marked as a **Future Architecture** item, not a current violation. Implementation target: post-M12, once Nigeria market is validated.

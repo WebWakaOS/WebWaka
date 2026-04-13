@@ -20,6 +20,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO sports_academy_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], academy_name: vals[3], type: vals[4], state_sports_permit: null, cac_rc: null, status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO sports_members')) { const fee = vals[5]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: planFeeKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], member_ref_id: vals[3], membership_plan: vals[4], plan_fee_kobo: vals[5], valid_until: vals[6], status: 'active', created_at: 1, updated_at: 1 }); }
@@ -28,7 +29,9 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO sports_checkins')) { store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], member_ref_id: vals[3], class_id: vals[4], check_date: vals[5], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => { if (sql.includes('WHERE id=?')) { return (store.get(vals[0] as string) ?? null) as T | null; } if (sql.includes('COUNT(*)')) return { total: 0, active: 0, rev: 0 } as unknown as T; return null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -97,43 +100,43 @@ describe('sports-academy vertical', () => {
   });
 
   it('T3: createProfile stores tenantId', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', academyName: 'FitZone Lagos' });
     expect(p.tenantId).toBe('tenant-A');
     expect(p.status).toBe('seeded');
   });
 
   it('T3: cross-tenant lookup returns null', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     expect(await repo.findProfileById('no-such-id', 'tenant-B')).toBeNull();
   });
 
   it('P9: createMember rejects fractional planFeeKobo', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     await expect(repo.createMember({ profileId: 'p1', tenantId: 'tenant-A', planFeeKobo: 999.99 })).rejects.toThrow('P9');
   });
 
   it('P9: createMember accepts integer planFeeKobo', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     const m = await repo.createMember({ profileId: 'p1', tenantId: 'tenant-A', planFeeKobo: 1000000 });
     expect(m.planFeeKobo).toBe(1000000);
     expect(m.memberRefId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('P13: member_ref_id is opaque UUID (never a name)', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     const m = await repo.createMember({ profileId: 'p1', tenantId: 'tenant-A', planFeeKobo: 500000 });
     expect(m.memberRefId).not.toContain('John');
     expect(m.memberRefId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('P9: createClass rejects fractional classFeeKobo', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     await expect(repo.createClass({ profileId: 'p1', tenantId: 'tenant-A', className: 'Spin', classFeeKobo: 500.5 })).rejects.toThrow('P9');
   });
 
   it('P9: createEquipment rejects fractional purchaseCostKobo', async () => {
-    const repo = new SportsAcademyRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new SportsAcademyRepository(makeDb());
     await expect(repo.createEquipment({ profileId: 'p1', tenantId: 'tenant-A', equipmentName: 'Treadmill', purchaseCostKobo: 100.5 })).rejects.toThrow('P9');
   });
 

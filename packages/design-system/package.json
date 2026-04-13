@@ -1,0 +1,18 @@
+{
+  "name": "@webwaka/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Infra] Mobile-first responsive CSS foundation (P4)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'skip'",
+    "build": "echo 'skip'"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

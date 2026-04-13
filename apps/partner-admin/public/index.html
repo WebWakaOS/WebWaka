@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebWaka OS — Partner Admin</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00c851">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="WebWaka OS Partner Admin — manage tenants, branding, templates, and analytics.">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--green:#00c851;--dark:#0a0f1e;--card:#111827;--border:#1f2937;--text:#e5e7eb;--muted:#6b7280;--sidebar-w:240px}
+    body{background:var(--dark);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .skip-link{position:absolute;top:-100%;left:1rem;background:var(--green);color:#000;padding:.75rem 1.5rem;border-radius:0 0 8px 8px;font-weight:600;z-index:100;text-decoration:none;font-size:.9rem;transition:top .2s}
+    .skip-link:focus{top:0}
+    .sidebar{width:var(--sidebar-w);background:#0d1526;border-right:1px solid var(--border);padding:1rem 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10;transition:transform .3s ease}
+    .sidebar .logo{display:flex;align-items:center;gap:.5rem;padding:0 1rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1rem}
+    .sidebar .logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:.9rem}
+    .sidebar .logo-text{font-size:1rem;font-weight:700}
+    .sidebar .logo-text span{color:var(--green)}
+    .nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;color:var(--muted);cursor:pointer;font-size:.9rem;transition:all .15s;border-left:3px solid transparent;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+    .nav-item:hover{background:rgba(255,255,255,.03);color:var(--text)}
+    .nav-item:focus-visible{outline:2px solid var(--green);outline-offset:-2px;border-radius:4px}
+    .nav-item.active{color:var(--green);border-left:3px solid var(--green);background:rgba(0,200,81,.05)}
+    .nav-item .icon{width:20px;text-align:center}
+    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer;padding:.25rem;line-height:1}
+    .hamburger:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9}
+    .main{margin-left:var(--sidebar-w);flex:1;min-height:100vh}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:#0d1526}
+    .topbar h2{font-size:1.1rem;font-weight:600}
+    .badge{font-size:.7rem;background:rgba(0,200,81,.1);border:1px solid rgba(0,200,81,.3);color:var(--green);padding:.2rem .6rem;border-radius:999px}
+    .content{padding:2rem;max-width:1200px}
+    .section-title{font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:2rem 0 1rem}
+    table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+    th{text-align:left;padding:.75rem 1rem;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+    td{padding:.75rem 1rem;font-size:.85rem;border-bottom:1px solid var(--border)}
+    tr:last-child td{border-bottom:none}
+    .status-badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:.7rem;font-weight:600}
+    .status-active{background:rgba(0,200,81,.1);color:var(--green)}
+    .status-pending{background:rgba(245,158,11,.1);color:#f59e0b}
+    .view{display:none}
+    .view.active{display:block}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:border-color .2s}
+    .card:hover{border-color:rgba(0,200,81,.3)}
+    .card h4{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
+    .card p{font-size:.8rem;color:var(--muted);line-height:1.4}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem}
+    .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+    .kpi .label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
+    .kpi .value{font-size:1.75rem;font-weight:700}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:8px;font-size:.85rem;cursor:pointer;border:none;font-weight:500;transition:all .15s}
+    .btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+    .btn-primary{background:var(--green);color:#000}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .color-swatch{width:32px;height:32px;border-radius:8px;border:2px solid var(--border);display:inline-block;vertical-align:middle}
+    .loading-skeleton{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem}
+    .skeleton-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--card) 25%,var(--border) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .app-loaded .loading-skeleton{display:none}
+    @media(max-width:768px){
+      .sidebar{transform:translateX(-100%);width:280px}
+      .sidebar.open{transform:translateX(0)}
+      .overlay.open{display:block}
+      .hamburger{display:block}
+      .main{margin-left:0}
+      .kpi-grid{grid-template-columns:1fr}
+      .content{padding:1rem}
+      .topbar{padding:1rem}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="overlay" id="overlay" role="presentation"></div>
+
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="logo">
+      <div class="logo-mark" aria-hidden="true">W</div>
+      <div class="logo-text">WebWaka <span>OS</span></div>
+    </div>
+    <nav aria-label="Partner admin sections">
+      <button class="nav-item active" data-view="tenants" aria-current="page">
+        <span class="icon" aria-hidden="true">&#127970;</span>
+        <span class="nav-label">Tenants</span>
+      </button>
+      <button class="nav-item" data-view="branding">
+        <span class="icon" aria-hidden="true">&#127912;</span>
+        <span class="nav-label">Branding</span>
+      </button>
+      <button class="nav-item" data-view="templates">
+        <span class="icon" aria-hidden="true">&#129513;</span>
+        <span class="nav-label">Templates</span>
+      </button>
+      <button class="nav-item" data-view="analytics">
+        <span class="icon" aria-hidden="true">&#128200;</span>
+        <span class="nav-label">Analytics</span>
+      </button>
+    </nav>
+  </aside>
+
+  <main class="main" id="main-content" role="main">
+    <div class="topbar">
+      <button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+      <h2 id="page-title" aria-live="polite">Tenants</h2>
+      <span class="badge" aria-label="Partner Admin version 1.0.1">Partner Admin v1.0.1</span>
+    </div>
+
+    <div class="loading-skeleton" id="loading-skeleton" role="status" aria-label="Loading dashboard">
+      <div class="skeleton-bar" style="width:60%;height:16px"></div>
+      <div class="skeleton-bar" style="width:80%;height:12px"></div>
+      <div class="skeleton-bar" style="width:40%;height:12px"></div>
+      <span class="sr-only">Loading dashboard content...</span>
+    </div>
+
+    <div class="content">
+      <section id="view-tenants" class="view active" aria-label="Tenant management">
+        <div class="kpi-grid" role="list" aria-label="Tenant metrics">
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-managed-label">Managed Tenants</div>
+            <div class="value" aria-labelledby="kpi-managed-label">—</div>
+          </div>
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-active-label">Active Tenants</div>
+            <div class="value" aria-labelledby="kpi-active-label">—</div>
+          </div>
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-revenue-label">Total Revenue</div>
+            <div class="value" aria-labelledby="kpi-revenue-label">&#8358;—</div>
+          </div>
+        </div>
+        <h3 class="section-title">Tenant List</h3>
+        <table aria-label="Tenants list">
+          <thead>
+            <tr><th scope="col">Tenant</th><th scope="col">Slug</th><th scope="col">Plan</th><th scope="col">Status</th><th scope="col">Created</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading tenant data...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="view-branding" class="view" aria-label="White-label branding">
+        <h3 class="section-title">White-Label Theme Editor</h3>
+        <div class="card-grid" role="list" aria-label="Branding options">
+          <div class="card" role="listitem">
+            <h4>Brand Colors</h4>
+            <p>Primary, secondary, accent, and background colors.</p>
+            <div style="margin-top:.75rem;display:flex;gap:.5rem" role="group" aria-label="Color swatches">
+              <div class="color-swatch" style="background:#00c851" aria-label="Primary green"></div>
+              <div class="color-swatch" style="background:#0a0f1e" aria-label="Dark background"></div>
+              <div class="color-swatch" style="background:#111827" aria-label="Card background"></div>
+              <div class="color-swatch" style="background:#e5e7eb" aria-label="Light text"></div>
+            </div>
+          </div>
+          <div class="card" role="listitem">
+            <h4>Logo &amp; Assets</h4>
+            <p>Upload brand logo, favicon, and PWA icons.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline" aria-label="Upload brand assets">Upload</button></div>
+          </div>
+          <div class="card" role="listitem">
+            <h4>Typography</h4>
+            <p>Select heading and body font families.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline" aria-label="Configure typography">Configure</button></div>
+          </div>
+          <div class="card" role="listitem">
+            <h4>Preview</h4>
+            <p>Preview your branded tenant site before publishing.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-primary" aria-label="Preview branded site">Preview</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-templates" class="view" aria-label="Template deployment">
+        <h3 class="section-title">Deploy Templates to Tenants</h3>
+        <div class="card-grid" role="list" aria-label="Template operations">
+          <div class="card" role="listitem">
+            <h4>Bulk Deploy</h4>
+            <p>Install a template across all managed tenants at once.</p>
+            <div style="margin-top:.75rem"><button class="btn btn-outline" aria-label="Select template for bulk deployment">Select Template</button></div>
+          </div>
+          <div class="card" role="listitem">
+            <h4>Template Status</h4>
+            <p>View installation status across all tenants.</p>
+          </div>
+          <div class="card" role="listitem">
+            <h4>Rollback</h4>
+            <p>Rollback a template deployment from selected tenants.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-analytics" class="view" aria-label="Cross-tenant analytics">
+        <h3 class="section-title">Cross-Tenant Analytics</h3>
+        <div class="kpi-grid" role="list" aria-label="Analytics metrics">
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-api-label">Total API Calls (30d)</div>
+            <div class="value" aria-labelledby="kpi-api-label">—</div>
+          </div>
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-users-label">Active Users (30d)</div>
+            <div class="value" aria-labelledby="kpi-users-label">—</div>
+          </div>
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-rev30-label">Revenue (30d)</div>
+            <div class="value" aria-labelledby="kpi-rev30-label">&#8358;—</div>
+          </div>
+          <div class="kpi" role="listitem">
+            <div class="label" id="kpi-geo-label">Top Geography</div>
+            <div class="value" aria-labelledby="kpi-geo-label">—</div>
+          </div>
+        </div>
+        <h3 class="section-title">Revenue by Geography</h3>
+        <table aria-label="Revenue by geography">
+          <thead>
+            <tr><th scope="col">Zone</th><th scope="col">State</th><th scope="col">Tenants</th><th scope="col">Revenue (&#8358;)</th><th scope="col">Growth</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted)">Loading analytics data...</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      var hamburger = document.getElementById('hamburger-btn');
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.getElementById('overlay');
+
+      function toggleNav() {
+        var isOpen = sidebar.classList.toggle('open');
+        overlay.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      }
+
+      hamburger.addEventListener('click', toggleNav);
+      overlay.addEventListener('click', toggleNav);
+
+      document.querySelectorAll('.nav-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.nav-item').forEach(function(n) {
+            n.classList.remove('active');
+            n.removeAttribute('aria-current');
+          });
+          document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+          item.classList.add('active');
+          item.setAttribute('aria-current', 'page');
+          document.getElementById('view-' + item.dataset.view).classList.add('active');
+          document.getElementById('page-title').textContent = item.querySelector('.nav-label').textContent;
+          if (sidebar.classList.contains('open')) toggleNav();
+        });
+      });
+
+      document.body.classList.add('app-loaded');
+
+      if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(function() {}); }
+    })();
+  </script>
+</body>
+</html>

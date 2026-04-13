@@ -5,6 +5,8 @@
 **Authority:** Extends `docs/governance/ai-policy.md` (M1) and TDR-0009 (accepted)  
 **Builds on:** `packages/ai-abstraction/` (M3 type contracts), `packages/entitlements/` (plan-config)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 1. System Vision
@@ -116,6 +118,10 @@ End User / Consumer
 ---
 
 ## 6. BYOK Policy
+
+> **SuperAgent addition (2026-04-13):** When AI is enabled for a workspace, a SuperAgent managed key is auto-issued as the default BYOK at Level 3 in the resolution chain. This key is backed by the platform aggregator pool (OpenRouter primary). User-supplied BYOK keys and workspace BYOK keys (Levels 1–2) override the SuperAgent managed key when present.
+
+
 
 - Workspace admins may register provider API keys in `ai_provider_keys` (workspace-level)
 - Individual users may register personal API keys (user-level, highest resolution priority)
@@ -248,3 +254,24 @@ Platform Invariant P1 (Build Once Use Infinitely) applies: vertical AI configs c
 | M8a-AI-3 | Days 7–8 | AI API routes, rate limiting, credit deduction, BYOK key management | Vertical AI |
 | M8a-AI-4 | Days 9–10 | Super-admin AI controls, workspace AI settings, usage dashboard | Reporting |
 | M8b-AI+ | Parallel | Per-vertical AI configs using research template | Vertical AI features |
+
+> **Note (SuperAgent alignment — 2026-04-13):** M8a-AI-1 through M8a-AI-4 are now tracked in `docs/governance/superagent/04-execution-roadmap.md`. This section remains as the Phase 1 technical summary. The SuperAgent execution roadmap is the authoritative ordering reference.
+
+---
+
+## 12. WebWaka SuperAgent
+
+WebWaka SuperAgent is the **cross-cutting intelligence layer** of the 3-in-1 platform. It is NOT a fourth pillar.
+
+SuperAgent enhances all three pillars:
+- **Pillar 1 (Operations)** — AI-driven inventory forecasting, compliance checks, anomaly alerts
+- **Pillar 2 (Branding)** — AI content generation, SEO copy, brand voice enforcement
+- **Pillar 3 (Marketplace)** — AI-powered template recommendations, vertical-fit scoring
+
+All AI capabilities are exposed through the UI of one of the three pillars. See `docs/governance/superagent/` for the full governance suite and `docs/governance/3in1-platform-architecture.md` for the pillar map.
+
+**Key properties:**
+- All platform AI traffic routes through aggregators (OpenRouter primary, Together/Groq/Eden AI co-aggregators) per ADL-010
+- SuperAgent issues workspace-scoped managed keys as the default BYOK (Level 3 in resolution chain)
+- WakaCU (WakaCreditUnits) are the metering unit; 1 WC = 1,000 input + 500 output tokens
+- P13 invariant: no PII may be included in AI requests

@@ -55,7 +55,10 @@ export async function generatePriceLockToken(session: NegotiationSession, secret
   const json = JSON.stringify(payload);
   const payloadB64 = btoa(json).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
-  if (!secret) return payloadB64;
+  // SEC-15: Require HMAC secret — unsigned tokens must not be used in production.
+  if (!secret) {
+    throw new Error('PRICE_LOCK_SECRET is required for generating price-lock tokens. Set via: wrangler secret put PRICE_LOCK_SECRET');
+  }
 
   const sig = await hmacSign(payloadB64, secret);
   return `${payloadB64}.${sig}`;

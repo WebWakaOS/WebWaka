@@ -25,6 +25,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO rehab_centre_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], centre_name: vals[3], ndlea_licence: null, fmhsw_registration: null, cac_rc: null, bed_count: vals[4], status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO rehab_programmes')) { const fee = vals[5]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: totalFeeKobo must be a non-negative integer'); const days = vals[4]; if (!Number.isInteger(days) || (days as number) <= 0) throw new Error('durationDays must be a positive integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], programme_name: vals[3], duration_days: vals[4], total_fee_kobo: vals[5], programme_type: vals[6], created_at: 1, updated_at: 1 }); }
@@ -32,7 +33,9 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO rehab_sessions')) { store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], resident_ref_id: vals[3], session_date: vals[4], facilitator_id: vals[5], session_type: vals[6], created_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; if (sql.includes('SUM(CASE WHEN status')) return { active_cnt: 0, completed_cnt: 0 } as unknown as T; if (sql.includes('COUNT(*)')) return { cnt: 0 } as unknown as T; return null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -114,19 +117,19 @@ describe('rehab-centre vertical', () => {
   });
 
   it('T3: createProfile stores tenantId', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', centreName: 'Hope Recovery Centre' });
     expect(p.tenantId).toBe('tenant-A');
     expect(p.status).toBe('seeded');
   });
 
   it('T3: cross-tenant lookup returns null (403 equivalent)', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     expect(await repo.findProfileById('no-such-id', 'tenant-B')).toBeNull();
   });
 
   it('P13 CRITICAL: resident_ref_id is opaque UUID — no name stored', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     const e = await repo.createEnrolment({ profileId: 'p1', tenantId: 'tenant-A', programmeId: 'prog1', depositKobo: 5000000, balanceKobo: 25000000 });
     expect(e.residentRefId).toMatch(/^[0-9a-f-]{36}$/i);
     expect(e.residentRefId).not.toContain('Emeka');
@@ -134,22 +137,22 @@ describe('rehab-centre vertical', () => {
   });
 
   it('P9: createProgramme rejects fractional totalFeeKobo', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     await expect(repo.createProgramme({ profileId: 'p1', tenantId: 'tenant-A', programmeName: '3-Month Residential', durationDays: 90, totalFeeKobo: 30000000.5 })).rejects.toThrow('P9');
   });
 
   it('programme durationDays must be positive integer', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     await expect(repo.createProgramme({ profileId: 'p1', tenantId: 'tenant-A', programmeName: 'Invalid', durationDays: 0, totalFeeKobo: 10000000 })).rejects.toThrow('positive integer');
   });
 
   it('P9: createEnrolment rejects fractional depositKobo', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     await expect(repo.createEnrolment({ profileId: 'p1', tenantId: 'tenant-A', programmeId: 'prog1', depositKobo: 100.5, balanceKobo: 900 })).rejects.toThrow('P9');
   });
 
   it('session logged with session_type only — no content stored', async () => {
-    const repo = new RehabCentreRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new RehabCentreRepository(makeDb());
     const s = await repo.createSession({ profileId: 'p1', tenantId: 'tenant-A', residentRefId: 'r1', facilitatorId: 'f1' });
     expect(s.sessionType).toBe('group');
     expect(Object.keys(s)).not.toContain('content');

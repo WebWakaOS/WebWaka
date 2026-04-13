@@ -7,7 +7,7 @@
 export * from './types.js';
 export { WeldingFabricationRepository } from './welding-fabrication.js';
 
-export const VERTICAL_SLUG = 'welding-fabrication' as const;
+export const VERTICAL_SLUG = 'welding-fabrication';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerWeldingFabricationVertical() {

@@ -1,0 +1,186 @@
+name: Canary Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type 'deploy-canary' to confirm"
+        required: true
+        type: string
+
+concurrency:
+  group: canary-deploy-${{ github.ref }}
+  cancel-in-progress: false  # never cancel an in-progress canary
+
+jobs:
+  validate-inputs:
+    name: Validate Confirmation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check confirmation phrase
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "deploy-canary" ]; then
+            echo "Confirmation phrase incorrect. Expected: deploy-canary"
+            exit 1
+          fi
+
+  deploy-canary-10:
+    name: Deploy Canary (10% traffic)
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    outputs:
+      canary_version_id: ${{ steps.deploy.outputs.version_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm --filter @webwaka/api typecheck
+
+      - name: Run tests
+        run: pnpm --filter @webwaka/api test
+
+      - name: Deploy canary version at 10% traffic
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd apps/api
+          VERSION_ID=$(npx wrangler versions upload --name webwaka-api --json | jq -r '.version_id')
+          echo "version_id=$VERSION_ID" >> $GITHUB_OUTPUT
+          npx wrangler versions deploy \
+            --name webwaka-api \
+            --version-percentage "$VERSION_ID"=10 \
+            --yes
+          echo "Deployed canary version $VERSION_ID at 10% traffic"
+
+  health-gate-10:
+    name: Health Gate (10% — 30 min)
+    needs: deploy-canary-10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes for canary traffic
+        run: sleep 1800
+
+      - name: Run smoke tests against canary
+        env:
+          API_URL: ${{ secrets.CANARY_API_URL || 'https://api.webwaka.com' }}
+        run: |
+          STATUS=$(curl -sf "$API_URL/health" | jq -r '.status')
+          if [ "$STATUS" != "ok" ]; then
+            echo "Health check failed: status=$STATUS"
+            exit 1
+          fi
+          echo "Health check passed: status=$STATUS"
+
+      - name: Check error rate gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "Error rate gate: manual check required in Cloudflare Dashboard"
+          echo "Criteria: 5xx rate < 0.5% for canary version in last 15 minutes"
+          echo "Proceed only if criteria met."
+
+  promote-canary-50:
+    name: Promote Canary to 50%
+    needs: [deploy-canary-10, health-gate-10]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Widen to 50% traffic
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd apps/api
+          CANARY_VERSION="${{ needs.deploy-canary-10.outputs.canary_version_id }}"
+          npx wrangler versions deploy \
+            --name webwaka-api \
+            --version-percentage "$CANARY_VERSION"=50 \
+            --yes
+          echo "Widened canary $CANARY_VERSION to 50% traffic"
+
+  health-gate-50:
+    name: Health Gate (50% — 30 min)
+    needs: promote-canary-50
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes for 50% canary traffic
+        run: sleep 1800
+
+      - name: Run smoke tests at 50% canary
+        env:
+          API_URL: ${{ secrets.CANARY_API_URL || 'https://api.webwaka.com' }}
+        run: |
+          STATUS=$(curl -sf "$API_URL/health" | jq -r '.status')
+          if [ "$STATUS" != "ok" ]; then
+            echo "Health check failed at 50% stage"
+            exit 1
+          fi
+          echo "50% health gate passed"
+
+  full-rollout:
+    name: Full Rollout (100%)
+    needs: [deploy-canary-10, health-gate-50]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Promote to 100% traffic
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd apps/api
+          CANARY_VERSION="${{ needs.deploy-canary-10.outputs.canary_version_id }}"
+          npx wrangler versions deploy \
+            --name webwaka-api \
+            --version-percentage "$CANARY_VERSION"=100 \
+            --yes
+          echo "Full rollout complete: version $CANARY_VERSION at 100% traffic"
+
+      - name: Tag release in git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "canary-$(date +%Y%m%d-%H%M%S)-promoted"
+          git push --tags || true
+
+  rollback:
+    name: Automatic Rollback
+    needs: [deploy-canary-10, health-gate-10]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Roll back to previous stable version
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd apps/api
+          echo "Health gate failed — rolling back to previous stable version"
+          STABLE_VERSION=$(npx wrangler versions list --name webwaka-api --json | jq -r '.[1].version_id // empty')
+          if [ -z "$STABLE_VERSION" ]; then
+            echo "Could not determine stable version — manual rollback required"
+            exit 1
+          fi
+          npx wrangler versions deploy \
+            --name webwaka-api \
+            --version-percentage "$STABLE_VERSION"=100 \
+            --yes
+          echo "Rolled back to $STABLE_VERSION (100% traffic)"

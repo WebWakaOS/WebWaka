@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-electronics-repair",
   "version": "0.1.0",
   "private": true,
-  "description": "Electronics Repair Shop vertical — FSM, repair job cards, parts inventory. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Electronics Repair Shop vertical — FSM, repair job cards, parts inventory. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

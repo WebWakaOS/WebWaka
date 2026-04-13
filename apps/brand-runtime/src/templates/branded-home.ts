@@ -16,7 +16,7 @@ export interface BrandedHomeData {
 
 export function brandedHomeBody(data: BrandedHomeData): string {
   const esc = (s: string) =>
-    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
   const offeringCards =
     data.offerings.length === 0

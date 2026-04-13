@@ -20,6 +20,9 @@
 ```typescript
 // packages/ai-abstraction/src/types.ts
 export type AIProvider = 'openai' | 'anthropic' | 'google' | 'byok';
+// Note (2026-04-13): M8a-AI-1 expansion adds 15 values — see ADL-009, ADL-010.
+// Current M3 state: 4 values. Aggregator providers (openrouter, together, groq, edenai)
+// and Chinese providers (deepseek, qwen, etc.) will be added in M8a-AI-1.
 
 export interface AIProviderConfig {
   provider: AIProvider;
@@ -153,7 +156,13 @@ AI-relevant env vars currently defined:
 - `DIALOG360_API_KEY` — 360dialog WA API (not AI)
 
 **Missing AI env vars:**
-- `OPENAI_API_KEY` (platform key)
+// Note (2026-04-13, ADL-009 + ADL-010): OPENAI_API_KEY_1/2, ANTHROPIC_API_KEY_1, GOOGLE_AI_API_KEY_1
+// are NOT platform keys — they are user/workspace BYOK only. Platform keys are aggregator keys:
+// OPENROUTER_API_KEY_1/2, TOGETHER_API_KEY_1, GROQ_API_KEY_1, EDEN_AI_KEY_1.
+// Additionally: SA_KEY_KV (KV namespace), SA_KEY_ENCRYPTION_KEY (AES-GCM secret for SuperAgent keys).
+// ADL-009 added: OPENROUTER_API_KEY_1, DEEPSEEK_API_KEY_1, QWEN_API_KEY_1, GROQ_API_KEY_1, MINIMAX_API_KEY_1.
+// ADL-010 adds: EDEN_AI_KEY_1, SA_KEY_KV, SA_KEY_ENCRYPTION_KEY.
+- `OPENROUTER_API_KEY_1` (primary platform aggregator key — ADL-010)
 - `ANTHROPIC_API_KEY` (platform key)
 - `GOOGLE_AI_API_KEY` (platform key)
 - `AI_DEFAULT_PROVIDER` (routing)

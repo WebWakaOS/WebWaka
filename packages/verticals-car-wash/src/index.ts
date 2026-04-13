@@ -7,7 +7,7 @@
 export * from './types.js';
 export { CarWashRepository } from './car-wash.js';
 
-export const VERTICAL_SLUG = 'car-wash' as const;
+export const VERTICAL_SLUG = 'car-wash';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerCarWashVertical() {

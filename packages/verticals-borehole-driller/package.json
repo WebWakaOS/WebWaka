@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-borehole-driller",
   "version": "0.1.0",
   "private": true,
-  "description": "Borehole Driller vertical — projects, rig management, water board compliance. M12 Commerce P3.",
+  "description": "[Pillar 1+3] Borehole Driller vertical — projects, rig management, water board compliance. M12 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

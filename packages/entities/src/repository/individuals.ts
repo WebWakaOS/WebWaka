@@ -80,7 +80,6 @@ export async function createIndividual(
     type: EntityType.Individual,
     tenantId,
     name: displayName,
-    ...(input.metadata !== undefined ? { metadata: input.metadata } : {}),
     createdAt: now,
     updatedAt: now,
   } as unknown as Individual;
@@ -151,4 +150,3 @@ export async function updateIndividual(
 
   return getIndividualById(db, tenantId, id);
 }
-

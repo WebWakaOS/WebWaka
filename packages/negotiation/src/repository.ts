@@ -393,6 +393,7 @@ export class NegotiationRepository {
         )
         .run();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('[negotiation] audit write failed (non-fatal):', err);
     }
   }

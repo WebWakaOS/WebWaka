@@ -66,7 +66,7 @@ describe('saveSession', () => {
     const session: USSDSession = {
       sessionId: 'sess_save',
       phone: '+2348012345678',
-      state: 'send_money_enter_amount',
+      state: 'send_money_enter_phone_amount',
       data: { recipient: '+2348099999999' },
       createdAt: Date.now(),
     };

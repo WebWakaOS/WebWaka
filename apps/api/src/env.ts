@@ -120,4 +120,19 @@ export interface Env {
    * Set via: wrangler secret put APP_BASE_URL (or vars in wrangler.toml)
    */
   APP_BASE_URL?: string;
+
+  /**
+   * DEV-04: Webhook URL for critical error rate alerting.
+   * Receives POST with JSON payload when error rate exceeds threshold.
+   * Supports Slack, Discord, PagerDuty, or generic webhook endpoints.
+   * Set via: wrangler secret put ALERT_WEBHOOK_URL
+   */
+  ALERT_WEBHOOK_URL?: string;
+
+  /**
+   * PROD-05: Resend API key for transactional email delivery.
+   * Powers welcome, purchase-receipt, workspace-invite, payment-confirmation emails.
+   * Set via: wrangler secret put RESEND_API_KEY
+   */
+  RESEND_API_KEY?: string;
 }

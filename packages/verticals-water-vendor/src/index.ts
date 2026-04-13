@@ -7,7 +7,7 @@
 export * from './types.js';
 export { WaterVendorRepository } from './water-vendor.js';
 
-export const VERTICAL_SLUG = 'water-vendor' as const;
+export const VERTICAL_SLUG = 'water-vendor';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerWaterVendorVertical() {

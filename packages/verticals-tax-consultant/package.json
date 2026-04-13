@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-tax-consultant",
   "version": "0.1.0",
   "private": true,
-  "description": "Tax Consultant / Revenue Agent vertical — client tax files, remittances, FIRS/CITN, L3 HITL AI. M12.",
+  "description": "[Pillar 1+3] Tax Consultant / Revenue Agent vertical — client tax files, remittances, FIRS/CITN, L3 HITL AI. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

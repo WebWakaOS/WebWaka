@@ -7,7 +7,7 @@
 export * from './types.js';
 export { PrintShopRepository } from './print-shop.js';
 
-export const VERTICAL_SLUG = 'print-shop' as const;
+export const VERTICAL_SLUG = 'print-shop';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerPrintShopVertical() {

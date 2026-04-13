@@ -211,3 +211,45 @@ Before writing any AI feature code for this vertical:
 - [ ] CBN KYC requirements noted
 - [ ] No AI feature calls provider directly (routes through `resolveAdapter()`)
 - [ ] `docs/verticals/{slug}-ai-brief.md` saved and committed to main before implementation starts
+
+---
+
+## Section 13: SuperAgent Integration Declaration
+
+> **Added 2026-04-13 (SuperAgent alignment)** — Required for all verticals using AI.
+
+Every vertical must complete this section before Phase 2 implementation begins.
+
+| Declaration | Value |
+|------------|-------|
+| `capability_set[]` | List the `AICapability` values used (e.g., `text_generation`, `summarization`) |
+| `autonomy_level` | L0–L5 per the autonomy policy in `docs/governance/ai-agent-autonomy.md` |
+| `hitl_required` | `true` / `false` per use case — L3+ always requires `true` |
+| `superagent_sdk_method` | The `packages/superagent-sdk` method called (e.g., `superagent.generate()`) |
+| `sensitive_sector` | `true` if vertical handles medical, legal, financial, or political data |
+
+**Example (POS Business vertical):**
+
+```typescript
+// packages/verticals-pos-business/src/ai.config.ts
+export const AI_CONFIG = {
+  capability_set: ['text_generation', 'summarization', 'analytics_insights'],
+  use_cases: [
+    {
+      name: 'inventory_forecast',
+      autonomy_level: 'L2',
+      hitl_required: false,
+      superagent_sdk_method: 'superagent.generate',
+    },
+    {
+      name: 'anomaly_alert',
+      autonomy_level: 'L1',
+      hitl_required: false,
+      superagent_sdk_method: 'superagent.analyze',
+    },
+  ],
+  sensitive_sector: false,
+} as const;
+```
+
+**Validation rule:** Any vertical with `autonomy_level >= L3` for any use case MUST set `hitl_required: true` for that use case and ensure `workspace_ai_settings.autonomy.batch` or `autonomy.autonomous` is enabled for the workspace.

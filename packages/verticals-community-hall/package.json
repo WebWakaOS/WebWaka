@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-community-hall",
   "version": "0.1.0",
   "private": true,
-  "description": "Community Hall / Town Hall vertical — 3-state FSM, LGA/CDA, bookings, maintenance fund. M12.",
+  "description": "[Pillar 1+3] Community Hall / Town Hall vertical — 3-state FSM, LGA/CDA, bookings, maintenance fund. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

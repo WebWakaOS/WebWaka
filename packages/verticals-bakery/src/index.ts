@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BakeryRepository } from './bakery.js';
 
-export const VERTICAL_SLUG = 'bakery' as const;
+export const VERTICAL_SLUG = 'bakery';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerBakeryVertical() {

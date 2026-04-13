@@ -1,0 +1,46 @@
+# apps/tenant-public/wrangler.toml
+# Tenant Public Worker — Pillar 3: Public Tenant Sites
+# Serves white-label discovery pages per tenant slug.
+# ARC-01: Deploy config added for staging/production parity.
+
+name = "webwaka-tenant-public"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# D1 — tenant manifest and profile lookups
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# Staging
+# ---------------------------------------------------------------------------
+[env.staging]
+name = "webwaka-tenant-public-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-staging"
+database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+
+# ---------------------------------------------------------------------------
+# Production
+# ---------------------------------------------------------------------------
+[env.production]
+name = "webwaka-tenant-public-production"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"

@@ -4,7 +4,7 @@
 **Scope:** Full codebase + documentation cross-repository review  
 **Auditor:** Senior WebWaka Product Architect and Systems Auditor  
 **Date:** 2026-04-09  
-**Repo:** https://github.com/WebWakaDOS/webwaka-os  
+**Repo:** https://github.com/WebWakaOS/WebWaka  
 **Companion:** `docs/governance/webwaka_3in1_remediation_plan.md`
 
 ---

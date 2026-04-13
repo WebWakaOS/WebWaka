@@ -1,0 +1,23 @@
+{
+  "name": "@webwaka/partner-admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Pillar 1] Partner/tenant management portal — M11 Partner & White-Label",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "lint": "echo 'no lint yet'",
+    "build": "echo 'skip'",
+    "clean": "rm -rf dist",
+    "dev": "wrangler dev --config wrangler.toml"
+  },
+  "dependencies": {
+    "hono": "^4.12.12"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.6.0"
+  }
+}

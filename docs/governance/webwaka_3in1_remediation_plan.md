@@ -4,7 +4,7 @@
 **Companion:** `docs/governance/webwaka_3in1_core_audit_summary.md`  
 **Auditor:** Senior WebWaka Product Architect and Systems Auditor  
 **Date:** 2026-04-09  
-**Repo:** https://github.com/WebWakaDOS/webwaka-os  
+**Repo:** https://github.com/WebWakaOS/WebWaka  
 
 ---
 
@@ -29,7 +29,7 @@ Within each list, items are ordered by **Phase**:
 
 ### DOC-1: Align vision-and-mission.md pillar names and order with canonical 3-in-1 spec
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/vision-and-mission.md — Mission section, "3-in-1 platform model"
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/docs/governance/vision-and-mission.md — Mission section, "3-in-1 platform model"
 - **Why:** The vision document defines the three pillars using different names and a different ordering from the agreed canonical spec. It says "1. Discovery and public visibility / 2. Operational management / 3. Dedicated branded digital experience" — the canonical order is 1. Operations-Management, 2. Branding, 3. Listing/Marketplace. Any agent or developer who reads the vision uses it as a reference, and the inconsistency propagates naming drift.
 - **Action:**
   1. Update the Mission section to use the exact canonical pillar names and ordering:
@@ -44,7 +44,7 @@ Within each list, items are ordered by **Phase**:
 
 ### DOC-2: Add 3-in-1 pillar map to ARCHITECTURE.md
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/ARCHITECTURE.md
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/ARCHITECTURE.md
 - **Why:** ARCHITECTURE.md describes every app and package but does not label any as belonging to a pillar. A developer or agent reading the architecture has no guidance on which apps or packages serve which pillar. Platform Invariant P2 (build once) cannot be enforced without clear pillar boundaries.
 - **Action:**
   1. Add a new top-level section: `## 3-in-1 Pillar Architecture` immediately after `## Platform Model`
@@ -69,7 +69,7 @@ Within each list, items are ordered by **Phase**:
 
 ### DOC-3: Add 3-in-1 pillar cross-reference to verticals-master-plan.md
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/governance/verticals-master-plan.md
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/docs/governance/verticals-master-plan.md
 - **Why:** The verticals-master-plan organizes 160 verticals by sector category only. Implementers cannot determine which pillar a vertical primarily serves — operations, branding, or marketplace — which is essential for knowing which UI shell, which schema extension pattern, and which API context to use.
 - **Action:**
   1. Add a new section: `## 3-in-1 Pillar Classification for Verticals`
@@ -93,13 +93,13 @@ Within each list, items are ordered by **Phase**:
 ### DOC-4: Add pillar cross-reference label to all 7 existing execution prompt documents
 
 - **Location:**
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_commerce_pos_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_civic_government_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_transport_logistics_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_health_education_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_creator_professional_financial_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_verticals_agricultural_place_execution_prompts.md
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/webwaka_preverticals_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_commerce_pos_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_civic_government_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_transport_logistics_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_health_education_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_creator_professional_financial_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_verticals_agricultural_place_execution_prompts.md
+  - https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/webwaka_preverticals_execution_prompts.md
 - **Why:** Every task block in the execution prompts describes implementation but does not tell the implementing agent which 3-in-1 pillar(s) the vertical primarily serves. This means an agent implementing, say, the `market` vertical has no guidance on whether to build toward the branded storefront shell (Pillar 2) or the public discovery/marketplace shell (Pillar 3).
 - **Action:** For each task block in every execution prompt document:
   1. Add a `**Primary pillar(s):**` line to the task block header, immediately after `**Milestone target:**`
@@ -111,7 +111,7 @@ Within each list, items are ordered by **Phase**:
 
 ### DOC-5: Add 3-in-1 pillar classification to MASTER_CONTINUATION_PROMPT.md and the 9 new execution prompt Sets
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/docs/execution-prompts/MASTER_CONTINUATION_PROMPT.md
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/docs/execution-prompts/MASTER_CONTINUATION_PROMPT.md
 - **Why:** The master continuation prompt does not instruct generating agents to classify verticals by 3-in-1 pillar. The SET A–I vertical tables have no `Primary Pillar` column. All 97 new task blocks being generated will inherit this omission.
 - **Action:**
   1. Add `Primary Pillar(s)` column to every vertical table in Sets A–I.
@@ -178,7 +178,7 @@ Within each list, items are ordered by **Phase**:
 
 ### CODE-1: Implement `apps/brand-runtime/` — Pillar 2 minimum viable delivery
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/apps/brand-runtime/.gitkeep
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/apps/brand-runtime/.gitkeep
 - **Why:** Pillar 2 (Branding / Website / Portal) is a core product offer. It has no code implementation. A customer who subscribes expecting a branded digital presence for their business has nothing to activate. This is the most critical functional gap in the platform.
 - **Action:**
   1. Remove `.gitkeep`, create `apps/brand-runtime/src/index.ts` (Cloudflare Workers Hono app)
@@ -200,7 +200,7 @@ Within each list, items are ordered by **Phase**:
 
 ### CODE-2: Implement `apps/public-discovery/` — Pillar 3 marketplace frontend
 
-- **Location:** https://github.com/WebWakaDOS/webwaka-os/blob/main/apps/public-discovery/.gitkeep
+- **Location:** https://github.com/WebWakaOS/WebWaka/blob/main/apps/public-discovery/.gitkeep
 - **Why:** Pillar 3 (Listing / Multi-Vendor Marketplace) has a fully-implemented backend (discovery API, profiles, search, claims, geography, verticals) but zero frontend. The marketplace cannot be used by an end user without a frontend.
 - **Action:**
   1. Remove `.gitkeep`, create `apps/public-discovery/src/index.ts` (Cloudflare Workers Hono app)
@@ -221,8 +221,8 @@ Within each list, items are ordered by **Phase**:
 ### CODE-3: Add `pillar` column to the verticals table and seed
 
 - **Location:**
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/infra/db/migrations/0036_verticals_table.sql
-  - https://github.com/WebWakaDOS/webwaka-os/blob/main/infra/db/seeds/0004_verticals-master.csv
+  - https://github.com/WebWakaOS/WebWaka/blob/main/infra/db/migrations/0036_verticals_table.sql
+  - https://github.com/WebWakaOS/WebWaka/blob/main/infra/db/seeds/0004_verticals-master.csv
 - **Why:** The verticals table has no `pillar` column. Queries like "list all Pillar 2 verticals" or "which verticals feed into the marketplace" cannot be answered from the schema. Vertical implementations have no schema-level pillar anchor.
 - **Action:**
   1. Create a new migration (next number after 0045) to ALTER the `verticals` table:
@@ -266,7 +266,7 @@ Within each list, items are ordered by **Phase**:
 
 ### CODE-5: Create GitHub labels for 3-in-1 pillars
 
-- **Location:** GitHub repository label settings — https://github.com/WebWakaDOS/webwaka-os/labels
+- **Location:** GitHub repository label settings — https://github.com/WebWakaOS/WebWaka/labels
 - **Why:** Milestone 0 created 29 GitHub labels (governance, milestone, workflow, infra, agent categories) but none for 3-in-1 pillars. Without labels, PRs and issues cannot be tracked by pillar, making it impossible to monitor implementation balance across the three pillars.
 - **Action:** Create the following GitHub labels:
   | Label | Color | Description |

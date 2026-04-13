@@ -14,7 +14,7 @@ This runbook covers manual steps that cannot be automated via CI/CD — either b
 
 **Steps:**
 
-1. Go to: https://github.com/WebWakaDOS/webwaka-os/settings/environments
+1. Go to: https://github.com/WebWakaOS/WebWaka/settings/environments
 2. Click **"production"** environment (create it if it does not exist)
 3. Under **"Deployment protection rules"**, enable **"Required reviewers"**
 4. Add the founder/lead engineer GitHub username as a required reviewer
@@ -138,6 +138,17 @@ npx wrangler secret put TELEGRAM_BOT_TOKEN --env staging --config apps/api/wrang
 npx wrangler secret put LOG_PII_SALT --env staging --config apps/api/wrangler.toml
 npx wrangler secret put DM_MASTER_KEY --env staging --config apps/api/wrangler.toml
 npx wrangler secret put PRICE_LOCK_SECRET --env staging --config apps/api/wrangler.toml
+
+# USSD Gateway secrets (apps/ussd-gateway):
+npx wrangler secret put AFRICAS_TALKING_USERNAME --env staging --config apps/ussd-gateway/wrangler.toml
+npx wrangler secret put AFRICAS_TALKING_API_KEY --env staging --config apps/ussd-gateway/wrangler.toml
+
+# Brand Runtime secrets (apps/brand-runtime):
+npx wrangler secret put INTER_SERVICE_SECRET --env staging --config apps/brand-runtime/wrangler.toml
+npx wrangler secret put LOG_PII_SALT --env staging --config apps/brand-runtime/wrangler.toml
+
+# Public Discovery secrets (apps/public-discovery):
+npx wrangler secret put LOG_PII_SALT --env staging --config apps/public-discovery/wrangler.toml
 ```
 
 ---
@@ -146,11 +157,11 @@ npx wrangler secret put PRICE_LOCK_SECRET --env staging --config apps/api/wrangl
 
 ```bash
 # Against staging
-SMOKE_API_KEY=<your-key> BASE_URL=https://api-staging.webwaka.ng \
+SMOKE_API_KEY=<your-key> SMOKE_BASE_URL=https://api-staging.webwaka.com \
   pnpm --filter smoke run smoke:staging
 
 # Against production (only after staging passes)
-SMOKE_API_KEY=<your-key> BASE_URL=https://api.webwaka.ng \
+SMOKE_API_KEY=<your-key> SMOKE_BASE_URL=https://api.webwaka.com \
   pnpm --filter smoke run smoke:production
 ```
 
@@ -165,7 +176,7 @@ The Cloudflare API token committed to `docs/production-remediation-plan-2026-04-
 2. Find and **revoke** the compromised token immediately
 3. Create a new token with: Workers KV Read+Write, D1 Read+Write, Workers Deploy permissions
 4. Update the `CLOUDFLARE_API_TOKEN` secret at:
-   https://github.com/WebWakaDOS/webwaka-os/settings/secrets/actions
+   https://github.com/WebWakaOS/WebWaka/settings/secrets/actions
 5. Never commit API tokens to git — always use `wrangler secret put` or GitHub Secrets
 
 ---

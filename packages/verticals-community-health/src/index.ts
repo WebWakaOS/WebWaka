@@ -7,7 +7,7 @@
 export * from './types.js';
 export { CommunityHealthRepository } from './community-health.js';
 
-export const VERTICAL_SLUG = 'community-health' as const;
+export const VERTICAL_SLUG = 'community-health';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerCommunityHealthVertical() {

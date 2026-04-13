@@ -4,11 +4,9 @@
 **Author:** Perplexity (Milestone 1)
 **Reviewed by:** Base44 Super Agent
 **Founder approved:** ✅ 7 April 2026
+**Last updated:** 2026-04-11
 
 ---
-
-> **M7 Review 2026-04-08:** Reviewed by Base44 Super Agent — no structural changes required. KYC/NDPR/Community/Social references are additive layers in entitlement-model.md and universal-entity-model.md.
-
 
 ## Vision
 
@@ -18,11 +16,11 @@ WebWaka exists to become a Nigeria-first and Africa-ready digital operating syst
 
 WebWaka's mission is to help every relevant entity move from informal or fragmented operations into structured digital presence, operational control, and scalable distribution through a **3-in-1 platform model**:
 
-1. **Operations-Management (POS)** — transaction processing, order management, inventory, reporting, and back-office workflows for running any business or organisation
-2. **Branding / Website / Portal** — a dedicated branded digital presence: single-vendor e-commerce store, informational site, service portal, or booking page linked to underlying operations
-3. **Listing / Multi-Vendor Marketplace** — a discovery and directory layer: seeded listings, claim-first onboarding, multi-tenant marketplace, geography-powered search
+1. **Pillar 1 — Operations-Management (POS):** Operational management, workflows, transactions, float ledger, staff scheduling, and back-office tools that run the business
+2. **Pillar 2 — Branding / Website / Portal:** Dedicated branded digital experience — entity-specific website, storefront, service portal, and white-label surfaces
+3. **Pillar 3 — Listing / Multi-Vendor Marketplace:** Discovery and public visibility — seeded directories, geography-powered search, claim-first onboarding, and multi-vendor marketplace
 
-> **Note on AI:** WebWaka SuperAgent is the **cross-cutting intelligence layer** that enhances all three pillars. It is NOT a fourth primary capability — it operates in service of Pillars 1, 2, and 3.
+These three pillars are enhanced by a cross-cutting **AI / SuperAgent** intelligence layer (not a fourth pillar) that provides vendor-neutral, BYOK-capable AI features across all three pillars.
 
 ## Strategic Intent
 

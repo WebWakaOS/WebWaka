@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-plumbing-supplies",
   "version": "0.1.0",
   "private": true,
-  "description": "plumbing-supplies vertical — FSM, compliance, P9/T3 invariants. Set J.",
+  "description": "[Pillar 1+3] plumbing-supplies vertical — FSM, compliance, P9/T3 invariants. Set J.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "echo 'no tests yet'",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist"
   },

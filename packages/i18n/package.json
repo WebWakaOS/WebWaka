@@ -1,0 +1,19 @@
+{
+  "name": "@webwaka/i18n",
+  "version": "0.1.0",
+  "description": "Typed i18n for WebWaka OS — en, ha (Hausa), yo (Yoruba), ig (Igbo), pcm (Nigerian Pidgin)",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

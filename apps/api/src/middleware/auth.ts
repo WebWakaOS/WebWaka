@@ -11,12 +11,14 @@
 import type { MiddlewareHandler } from 'hono';
 import type { AuthContext } from '@webwaka/types';
 import { resolveAuthContext } from '@webwaka/auth';
+import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import type { Env } from '../env.js';
 
 // Hono context variable key for auth context
 declare module 'hono' {
   interface ContextVariableMap {
     auth: AuthContext;
+    requestId: string;
   }
 }
 
@@ -25,7 +27,20 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
   const result = await resolveAuthContext(authHeader, c.env.JWT_SECRET);
 
   if (!result.success) {
-    return c.json({ error: result.message }, result.status);
+    return c.json(errorResponse(ErrorCode.Unauthorized, result.message), result.status);
+  }
+
+  // SEC-10: Check if token has been blacklisted (e.g. after refresh rotation)
+  const rawToken = authHeader?.replace(/^Bearer\s+/i, '');
+  if (rawToken) {
+    try {
+      const blacklisted = await c.env.RATE_LIMIT_KV.get(`blacklist:${rawToken}`);
+      if (blacklisted) {
+        return c.json(errorResponse(ErrorCode.Unauthorized, 'Token has been revoked.'), 401);
+      }
+    } catch {
+      // KV unavailable — fail open
+    }
   }
 
   c.set('auth', result.context);

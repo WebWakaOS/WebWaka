@@ -7,13 +7,14 @@ import { WomensAssocRepository } from './womens-assoc.js';
 import {
   isValidWomensAssocTransition,
   guardClaimedToCacVerified,
-  guardLoanDisbursement,
+  guardWelfareLoan,
 } from './types.js';
 
 function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bind = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         const s = sql.trim().toUpperCase();
         if (s.startsWith('INSERT')) {
@@ -55,6 +56,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r =>
@@ -62,6 +64,7 @@ function makeDb() {
         );
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => ({
         results: store.filter(r =>
           vals.length >= 2 ? (r['profile_id'] === vals[0] || r['workspace_id'] === vals[0]) && r['tenant_id'] === vals[1] : true
@@ -166,10 +169,10 @@ describe('WomensAssoc FSM guards', () => {
   it('guardClaimedToCacVerified passes with CAC', () => {
     expect(guardClaimedToCacVerified({ cacReg: 'CAC-001', kycTier: 1 }).allowed).toBe(true);
   });
-  it('guardLoanDisbursement blocks KYC Tier 1 above ₦500k', () => {
-    expect(guardLoanDisbursement({ amountKobo: 60_000_000, kycTier: 1 }).allowed).toBe(false);
+  it('guardWelfareLoan blocks KYC Tier 1 above ₦500k', () => {
+    expect(guardWelfareLoan({ amountKobo: 60_000_000, kycTier: 1 }).allowed).toBe(false);
   });
-  it('guardLoanDisbursement allows KYC Tier 2 above ₦500k', () => {
-    expect(guardLoanDisbursement({ amountKobo: 60_000_000, kycTier: 2 }).allowed).toBe(true);
+  it('guardWelfareLoan allows KYC Tier 2 above ₦500k', () => {
+    expect(guardWelfareLoan({ amountKobo: 60_000_000, kycTier: 2 }).allowed).toBe(true);
   });
 });

@@ -5,6 +5,9 @@
  *   END <text>  — terminate session
  *
  * Shortcode: *384#
+ *
+ * UX-08: All flows are max 3 levels deep from main menu.
+ * Send Money uses a combined PHONE*AMOUNT format to keep depth at 2 levels.
  */
 
 /**
@@ -24,7 +27,6 @@ export function mainMenu(): string {
  * Platform Invariant P9: balanceKobo is always an integer.
  */
 export function walletMenu(balanceKobo: number): string {
-  // Integer division — no floating point (P9)
   const nairaWhole = Math.floor(balanceKobo / 100);
   const koboPart = balanceKobo % 100;
   const balanceFormatted = `${nairaWhole}.${String(koboPart).padStart(2, '0')}`;
@@ -36,23 +38,19 @@ Balance: \u20A6${balanceFormatted}
 }
 
 /**
- * Send money — enter recipient phone
+ * Send money — combined phone and amount entry (UX-08).
+ * User enters PHONE*AMOUNT in a single input to flatten from 4→2 levels.
  */
-export function sendMoneyEnterRecipient(): string {
+export function sendMoneyEnterPhoneAndAmount(): string {
   return `CON Send Money
-Enter recipient phone number:`;
+Enter phone and amount:
+Format: PHONE*AMOUNT
+Example: 08012345678*500`;
 }
 
 /**
- * Send money — enter amount
- */
-export function sendMoneyEnterAmount(recipient: string): string {
-  return `CON Send Money to ${recipient}
-Enter amount in Naira:`;
-}
-
-/**
- * Send money — confirm
+ * Send money — confirm transfer.
+ * Level 2 from main menu (3rd interaction total).
  */
 export function sendMoneyConfirm(recipient: string, amountDisplay: string): string {
   return `CON Confirm Transfer

@@ -14,8 +14,11 @@
     "rootDir": "../..",
     "types": ["@cloudflare/workers-types"],
     "paths": {
+      "@webwaka/ai": ["../../packages/ai-abstraction/src/index.ts"],
+      "@webwaka/auth": ["../../packages/auth/src/index.ts"],
       "@webwaka/frontend": ["../../packages/frontend/src/index.ts"],
-      "@webwaka/payments": ["../../packages/payments/src/index.ts"]
+      "@webwaka/payments": ["../../packages/payments/src/index.ts"],
+      "@webwaka/types": ["../../packages/types/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],

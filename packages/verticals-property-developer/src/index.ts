@@ -7,7 +7,7 @@
 export * from './types.js';
 export { PropertyDeveloperRepository } from './property-developer.js';
 
-export const VERTICAL_SLUG = 'property-developer' as const;
+export const VERTICAL_SLUG = 'property-developer';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerPropertyDeveloperVertical() {

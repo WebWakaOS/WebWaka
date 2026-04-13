@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-professional-association",
   "version": "0.1.0",
   "private": true,
-  "description": "Professional Association (NBA/NMA/ICAN) vertical — CPD, dues, regulatory compliance. M12.",
+  "description": "[Pillar 1+3] Professional Association (NBA/NMA/ICAN) vertical — CPD, dues, regulatory compliance. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

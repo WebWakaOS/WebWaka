@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-law-firm",
   "version": "0.1.0",
   "private": true,
-  "description": "Law Firm / Legal Practice vertical — matter management, time billing, NBA compliance, L3 HITL AI. M9.",
+  "description": "[Pillar 1+3] Law Firm / Legal Practice vertical — matter management, time billing, NBA compliance, L3 HITL AI. M9.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

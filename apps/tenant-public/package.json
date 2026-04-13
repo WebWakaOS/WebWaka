@@ -2,7 +2,7 @@
   "name": "@webwaka/tenant-public",
   "version": "0.1.0",
   "private": true,
-  "description": "White-label tenant public discovery site. WebWaka OS Milestone 6.",
+  "description": "[Pillar 3] White-label tenant public discovery site. WebWaka OS Milestone 6.",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.json",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@webwaka/frontend": "workspace:*",
+    "@webwaka/shared-config": "workspace:*",
     "hono": "^4.3.0"
   },
   "devDependencies": {

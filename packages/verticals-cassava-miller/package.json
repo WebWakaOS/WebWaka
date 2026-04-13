@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-cassava-miller",
   "version": "0.1.0",
   "private": true,
-  "description": "Cassava / Maize / Rice Miller vertical — intake, batches, NAFDAC compliance, AI yield. M12.",
+  "description": "[Pillar 1+3] Cassava / Maize / Rice Miller vertical — intake, batches, NAFDAC compliance, AI yield. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

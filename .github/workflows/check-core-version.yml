@@ -6,7 +6,6 @@ on:
       - "**/package.json"
   push:
     branches:
-      - main
       - staging
     paths:
       - "**/package.json"

@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-cold-room",
   "version": "0.1.0",
   "private": true,
-  "description": "Cold Room / Storage Facility vertical — temperature monitoring, storage billing, NAFDAC compliance. M10.",
+  "description": "[Pillar 1+3] Cold Room / Storage Facility vertical — temperature monitoring, storage billing, NAFDAC compliance. M10.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-elderly-care",
   "version": "0.1.0",
   "private": true,
-  "description": "Elderly Care Facility vertical — resident management, diaspora billing, P13. M12.",
+  "description": "[Pillar 1+3] Elderly Care Facility vertical — resident management, diaspora billing, P13. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

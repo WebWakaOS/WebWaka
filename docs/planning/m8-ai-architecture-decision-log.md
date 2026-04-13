@@ -153,6 +153,8 @@ Every decision records: context, decision, alternatives rejected, consequences, 
 
 ---
 
+## ADL-008-NOTE: ADL-008 (Credits) was decided before ADL-009 (Aggregators). Numbering in this file was corrected 2026-04-13 — ADL-008 section appears after ADL-009 in this file due to original insertion order; logical ordering is ADL-008 → ADL-009 → ADL-010.
+
 ## ADL-009: AI Aggregators and Chinese Providers Are First-Class in the Provider Registry
 
 **Context:** The M8-AI brief initially scoped only OpenAI, Anthropic, and Google as named providers. AI aggregators (OpenRouter, Groq, Together, Portkey, Fireworks) and Chinese AI providers (DeepSeek, Qwen, Zhipu, Moonshot, MiniMax, Yi/01.AI) have matured significantly and offer meaningful advantages for the Nigeria-first platform mission.
@@ -211,3 +213,28 @@ Every decision records: context, decision, alternatives rejected, consequences, 
 - Free trial: first N credits platform-funded per workspace (configurable by super-admin)
 
 **Evidence:** `packages/payments/src/subscription-sync.ts` — billing pattern available to reuse. `packages/payments/src/types.ts` — `BillingRecord` shape to follow.
+
+---
+
+## ADL-010: SuperAgent Aggregator-Only Platform Architecture
+
+**Context:** As WebWaka adds AI capabilities across all 145+ business verticals, the platform needs a managed AI layer that shields individual workspaces from API key management complexity, handles billing abstraction, and enforces P13 (no PII to AI). Direct first-party vendor keys (OpenAI, Anthropic, Google) require per-model integration work, separate billing relationships, and expose the platform to vendor lock-in.
+
+**Decision:** All platform AI traffic routes exclusively through AI aggregators. OpenRouter is the primary aggregator. Together AI, Groq, and Eden AI are co-aggregators. Direct OpenAI/Anthropic/Google keys are user/workspace BYOK only — never platform keys.
+
+SuperAgent manages workspace-scoped API keys (stored in `superagent_keys` D1 table, encrypted in KV) as the default key at Level 3 in the 5-level resolution chain. When a workspace has no BYOK registered, SuperAgent auto-issues a managed key backed by the aggregator pool.
+
+**Alternatives rejected:**
+- **Direct first-party vendor keys as platform keys** — Rejected. Creates vendor lock-in, requires separate billing relationships per vendor, complex failover logic per vendor. ADL-009 aggregator strategy is already established.
+- **No managed key — require all workspaces to supply BYOK** — Rejected. Onboarding friction. Nigerian SMBs expect plug-and-play AI, not API key management.
+- **Platform-funded unlimited AI** — Rejected. AI API costs are real. WakaCU metering (ADL-008) is the economically sound model.
+
+**Consequences:**
+- `superagent_keys` D1 table required (id, workspace_id, tenant_id, encrypted_key, aggregator, status, created_at, rotated_at)
+- `SA_KEY_KV` KV namespace required for key caching
+- `SA_KEY_ENCRYPTION_KEY` env secret required for AES-GCM key encryption
+- Eden AI added as aggregator for multimodal capabilities (TTS, STT, translation, vision)
+- `packages/ai-adapters/src/openai.ts` → renamed to `openai-compat.ts` (handles all OpenAI-compatible endpoints including aggregators)
+
+**Date accepted:** 2026-04-13  
+**Authority:** SuperAgent governance suite (`docs/governance/superagent/`)

@@ -13,10 +13,13 @@
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import { baseTemplate } from '../templates/base.js';
+import { detectLocale, createI18n } from '@webwaka/i18n';
 
 const router = new Hono<{ Bindings: Env }>();
 
 router.get('/:entityType/:id', async (c) => {
+  const locale = detectLocale(c.req.raw);
+  const t = createI18n(locale);
   const { entityType, id } = c.req.param();
   const cacheKey = `disc:profile:${entityType}:${id}`;
 
@@ -63,8 +66,11 @@ router.get('/:entityType/:id', async (c) => {
   if (!profile) {
     return c.html(
       baseTemplate({
-        title: 'Not found',
+        title: t('status_not_found'),
         body: '<p style="color:var(--ww-text-muted);margin-top:2rem">This profile could not be found.</p>',
+        locale,
+        searchLabel: t('action_search'),
+        footerTagline: t('footer_tagline'),
       }),
       404,
     );
@@ -109,6 +115,21 @@ router.get('/:entityType/:id', async (c) => {
     </div>
   </section>`;
 
+  const tenantSlug = await c.env.DB
+    .prepare(`SELECT slug FROM organizations WHERE id = ? LIMIT 1`)
+    .bind(profile.id)
+    .first<{ slug: string | null }>()
+    .catch(() => null);
+
+  const brandSiteUrl = tenantSlug?.slug ? `https://brand-${tenantSlug.slug}.webwaka.ng` : null;
+
+  const claimCta = entityType === 'organization' ? `
+    <div class="ww-cta-banner" style="margin-top:2rem">
+      <h3>Is this your business?</h3>
+      <p>Claim this listing to update your info, add offerings, and build your brand.</p>
+      <a class="ww-cta-btn" href="https://webwaka.ng/claim/${esc(id)}">Claim This Business</a>
+    </div>` : '';
+
   const body = `
     <a href="/discover" style="font-size:.875rem;color:var(--ww-text-muted)">&larr; Discover</a>
     <div style="margin-top:1.5rem;display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap">
@@ -116,28 +137,60 @@ router.get('/:entityType/:id', async (c) => {
       <div>
         ${profile.category ? `<span class="ww-badge">${esc(profile.category)}</span>` : ''}
         <h1 style="font-size:1.75rem;font-weight:800;line-height:1.2">${esc(profile.name)}</h1>
-        ${profile.place_name ? `<p style="color:var(--ww-text-muted);margin-top:.375rem">📍 ${esc(profile.place_name)}</p>` : ''}
+        ${profile.place_name ? `<p style="color:var(--ww-text-muted);margin-top:.375rem">${esc(profile.place_name)}</p>` : ''}
         ${profile.phone ? `<p style="margin-top:.375rem"><a href="tel:${esc(profile.phone)}">${esc(profile.phone)}</a></p>` : ''}
-        ${profile.website ? `<p style="margin-top:.375rem"><a href="${encodeURI(profile.website)}" target="_blank" rel="noopener">${esc(profile.website)}</a></p>` : ''}
+        ${profile.website ? `<p style="margin-top:.375rem"><a href="${safeHref(profile.website)}" target="_blank" rel="noopener">${esc(profile.website)}</a></p>` : ''}
+        ${brandSiteUrl ? `<p style="margin-top:.5rem"><a href="${brandSiteUrl}" class="ww-cta-btn" style="font-size:.8125rem;padding:.375rem .875rem;min-height:auto">Visit Website &rarr;</a></p>` : ''}
       </div>
     </div>
     ${profile.description ? `<p style="margin-top:1.5rem;color:var(--ww-text-muted);line-height:1.7;max-width:44rem">${esc(profile.description)}</p>` : ''}
-    ${offeringsHtml}`;
+    ${offeringsHtml}
+    ${claimCta}`;
+
+  const description = profile.description ?? `${profile.name} on WebWaka`;
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: profile.name,
+    description: description,
+    ...(profile.logo_url ? { image: profile.logo_url } : {}),
+    ...(profile.phone ? { telephone: profile.phone } : {}),
+    ...(profile.website ? { url: profile.website } : {}),
+    ...(profile.place_name ? { address: { '@type': 'PostalAddress', addressLocality: profile.place_name, addressCountry: 'NG' } } : {}),
+  };
 
   return c.html(
     baseTemplate({
       title: profile.name,
       body,
       headExtra: `
+        <meta name="description" content="${esc(description.slice(0, 160))}" />
         <meta property="og:title" content="${esc(profile.name)}" />
-        <meta property="og:description" content="${esc(profile.description ?? `${profile.name} on WebWaka`)}" />
-        ${profile.logo_url ? `<meta property="og:image" content="${encodeURI(profile.logo_url)}" />` : ''}`,
+        <meta property="og:description" content="${esc(description)}" />
+        <meta property="og:type" content="business.business" />
+        ${profile.logo_url ? `<meta property="og:image" content="${encodeURI(profile.logo_url)}" />` : ''}
+        <link rel="canonical" href="/discover/profile/${entityType}/${esc(id)}" />`,
+      structuredData,
+      locale,
+      searchLabel: t('action_search'),
+      footerTagline: t('footer_tagline'),
     }),
   );
 });
 
 function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function safeHref(url: string): string {
+  try {
+    const parsed = new URL(url, 'https://placeholder.invalid');
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return encodeURI(url);
+    }
+  } catch { /* invalid URL */ }
+  return '#';
 }
 
 export { router as profilesRouter };

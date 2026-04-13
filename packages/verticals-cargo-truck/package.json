@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-cargo-truck",
   "version": "0.1.0",
   "private": true,
-  "description": "Cargo Truck Fleet Operator vertical — fleet management, trip logs, FRSC compliance. M12.",
+  "description": "[Pillar 1+3] Cargo Truck Fleet Operator vertical — fleet management, trip logs, FRSC compliance. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

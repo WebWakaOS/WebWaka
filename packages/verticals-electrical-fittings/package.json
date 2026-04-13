@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-electrical-fittings",
   "version": "0.1.0",
   "private": true,
-  "description": "Electrical Fittings Dealer vertical — catalogue, contractor credit, AI demand. M12 Commerce P3.",
+  "description": "[Pillar 1+3] Electrical Fittings Dealer vertical — catalogue, contractor credit, AI demand. M12 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

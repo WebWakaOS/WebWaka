@@ -2,7 +2,7 @@
   "name": "@webwaka/projections",
   "version": "0.1.0",
   "private": true,
-  "description": "Event projections Cloudflare Worker. WebWaka OS Milestone 6.",
+  "description": "[Infra] Event projections Cloudflare Worker. WebWaka OS Milestone 6.",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.json",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@webwaka/events": "workspace:*",
+    "@webwaka/shared-config": "workspace:*",
     "hono": "^4.3.0"
   },
   "devDependencies": {

@@ -76,6 +76,13 @@ Env var pattern exists. AI API keys follow the same pattern. Just add `OPENAI_AP
 
 ## What Must Be Created (critical path — M8a-AI)
 
+### Priority 0 — SuperAgent Blockers (added 2026-04-13)
+
+- **`packages/superagent-sdk/`** — Vertical-facing SDK contract. Verticals call this, not `packages/ai-abstraction` directly. No implementation exists. P0.
+- **`packages/wc-wallet/`** — WakaCreditUnit wallet service (balance query, debit, top-up). No implementation exists. P0.
+- **SuperAgent key issuance and lifecycle management** — `superagent_keys` D1 table, auto-issue on workspace AI enable, key rotation. No implementation exists. P0.
+- **WakaCU credit wallet (user-level + workspace-level + partner pool)** — `wc_wallets`, `wc_transactions`, `partner_credit_pools`, `partner_tenant_allocations` D1 tables + wallet service. No implementation exists. P0.
+
 ### Priority 1 — Blockers (nothing else works without these)
 
 1. **AI env vars** — Add to `apps/api/src/env.ts`
@@ -111,7 +118,8 @@ Env var pattern exists. AI API keys follow the same pattern. Just add `OPENAI_AP
 ### Priority 2 — Core Features (after blockers)
 
 6. **Adapter implementations** — `packages/ai-adapters/`
-   - `packages/ai-adapters/src/openai.ts` — OpenAI adapter
+   - `packages/ai-adapters/src/openai-compat.ts` — OpenAI-compatible adapter (handles OpenAI, OpenRouter, Together, Groq and all OpenAI-compatible endpoints; renamed from `openai.ts` per ADL-010)
+   - `packages/ai-adapters/src/edenai.ts` — Eden AI adapter (TTS, STT, translation, vision; multimodal platform capabilities)
    - `packages/ai-adapters/src/anthropic.ts` — Anthropic adapter
    - `packages/ai-adapters/src/google.ts` — Google AI adapter
 

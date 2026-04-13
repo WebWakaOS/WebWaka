@@ -19,12 +19,18 @@ function makeDb(row: unknown = null) {
     prepare(sql: string) {
       return {
         bind: (..._args: unknown[]) => ({
+          // eslint-disable-next-line @typescript-eslint/require-await
           run: async () => ({ success: true }),
+          // eslint-disable-next-line @typescript-eslint/require-await
           first: async <T>(): Promise<T | null> => row as T | null,
+          // eslint-disable-next-line @typescript-eslint/require-await
           all: async <T>() => ({ results: row ? [row as T] : [] }),
         }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => ({ success: true }),
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>(): Promise<T | null> => row as T | null,
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: row ? [row as T] : [] }),
       };
     },

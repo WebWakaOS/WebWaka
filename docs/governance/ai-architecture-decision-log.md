@@ -5,6 +5,8 @@
 **Authority:** Platform Architecture Team
 **Reviewed by:** SuperAgent Master Plan (docs/governance/superagent/)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 This log records all Architecture Decision Log (ADL) entries for WebWaka's AI subsystem.
 Entries are ordered chronologically (ADL-001 first). Each decision is binding until superseded by a later ADL.
 
@@ -21,7 +23,7 @@ Entries are ordered chronologically (ADL-001 first). Each decision is binding un
 
 **Consequences:**
 - `packages/ai-abstraction` is the single entry point for all AI features
-- Vertical packages call `packages/superagent-sdk` which calls `packages/ai-abstraction`
+- Vertical packages call `packages/superagent` which calls `packages/ai-abstraction` (see ADL-012)
 - Platform Invariant P7: "No direct OpenAI/Anthropic SDK imports" enforced by lint
 
 **Evidence:** `docs/governance/ai-policy.md`, TDR-0009
@@ -31,7 +33,7 @@ Entries are ordered chronologically (ADL-001 first). Each decision is binding un
 ## ADL-002: AI Provider Key Vault — Cloudflare KV + AES-GCM
 
 **Date:** M3 (Auth and Entitlements)
-**Status:** ACTIVE
+**Status:** SUPERSEDED by ADL-011 (2026-04-11) — Actual implementation uses D1 with AES-256-GCM
 
 **Context:** Provider API keys must be stored securely. D1 is unsuitable for sensitive key storage (plain-text at rest without additional encryption).
 
@@ -194,6 +196,49 @@ Entries are ordered chronologically (ADL-001 first). Each decision is binding un
 - SuperAgent key (`sk-waka-{32 hex}`) auto-issued when AI is enabled; stored encrypted in `SA_KEY_KV`
 
 **Evidence:** Consistent with TDR-0009, ADL-001, ADL-009. See full rationale in `docs/governance/superagent/03-system-architecture.md`.
+
+---
+
+## ADL-011: SuperAgent Key Vault — D1 with AES-256-GCM (Supersedes ADL-002 KV Spec)
+
+**Date:** 2026-04-11 (Phase 2 Governance Remediation)
+**Status:** ACTIVE — Supersedes ADL-002
+
+**Context:** ADL-002 specified Cloudflare KV as the storage backend for encrypted AI provider keys. The actual implementation (`packages/superagent/src/key-service.ts`, migration `0042_superagent_keys.sql`) stores encrypted keys in D1 using AES-256-GCM via the Web Crypto API (HKDF key derivation with SHA-256). This approach is operationally simpler (single data store, joins with key metadata, transactional upsert) and provides equivalent security since keys are encrypted at rest before being stored.
+
+**Decision:** Keep D1 as the key storage backend. Encrypted key material (AES-256-GCM ciphertext + 12-byte IV, Base64-encoded) is stored in the `superagent_keys.encrypted_key` column. The AES master key is derived from `SA_KEY_ENCRYPTION_KEY` env var via HKDF. D1 stores both metadata and encrypted value in a single row — no KV split.
+
+**Key Rotation Mechanism:**
+1. Generate new `SA_KEY_ENCRYPTION_KEY` value
+2. Run key re-encryption migration: read all active keys, decrypt with old master, encrypt with new master, update in place
+3. Update `SA_KEY_ENCRYPTION_KEY` in Cloudflare secrets
+4. Restart all Workers consuming the binding
+5. Existing decrypted session keys in memory expire naturally (short-lived)
+6. Rotation target: every 90 days per security baseline
+
+**Alternatives Rejected:**
+- KV-based storage (ADL-002 original) — more complex split architecture, no transactional guarantees between metadata and key storage, harder to audit
+
+**Consequences:**
+- ADL-002 status changed to SUPERSEDED
+- `SA_KEY_KV` binding is no longer required for key storage (may be retained for other caching)
+- All key operations (upsert, resolve, revoke, list) are D1-only
+
+---
+
+## ADL-012: SuperAgent SDK Package Name Resolution
+
+**Date:** 2026-04-11 (Phase 2 Governance Remediation)
+**Status:** ACTIVE
+
+**Context:** ADL-001 and governance rules reference `packages/superagent-sdk` as the entry point for vertical packages to call AI. This package was never created. The actual implementation uses `packages/superagent` directly (which wraps `packages/ai-abstraction`). Creating a separate `-sdk` wrapper would add an unnecessary indirection layer with no functional benefit.
+
+**Decision:** `packages/superagent` IS the SDK. All governance doc references to `packages/superagent-sdk` are updated to `packages/superagent`. No new package is created.
+
+**Consequences:**
+- ADL-001 reference to `packages/superagent-sdk` is understood to mean `packages/superagent`
+- All governance docs updated to reference `packages/superagent` as the AI entry point
+- Vertical packages that need AI capabilities import from `@webwaka/superagent`
 
 ---
 

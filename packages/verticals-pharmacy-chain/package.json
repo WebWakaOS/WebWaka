@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-pharmacy-chain",
   "version": "0.1.0",
   "private": true,
-  "description": "pharmacy-chain vertical — FSM, compliance, P9/T3 invariants. Set J.",
+  "description": "[Pillar 1+3] pharmacy-chain vertical — FSM, compliance, P9/T3 invariants. Set J.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

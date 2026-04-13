@@ -36,11 +36,11 @@ export function guardL2AiCap(input: { autonomyLevel?: string | number }): GuardR
 
 export interface MinistryMissionProfile {
   id: string; workspaceId: string; tenantId: string; ministryName: string; itNumber: string | null;
-  cacItCert?: string | null; denomination?: string | null; foundingPastorRef?: string | null;
-  orgType?: OrgType; status: MinistryMissionFSMState; createdAt: number; updatedAt?: number;
-  organizationId?: string;
-  foundingYear?: number | null;
-  totalMembers?: number;
+  cacItCert?: string | null | undefined; denomination?: string | null | undefined; foundingPastorRef?: string | null | undefined;
+  orgType?: OrgType | undefined; status: MinistryMissionFSMState; createdAt: number; updatedAt?: number | undefined;
+  organizationId?: string | undefined;
+  foundingYear?: number | null | undefined;
+  totalMembers?: number | undefined;
 }
 export interface CreateMinistryMissionInput {
   id?: string; workspaceId: string; tenantId: string; ministryName: string; orgType?: OrgType;

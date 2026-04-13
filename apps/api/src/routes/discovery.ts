@@ -23,6 +23,9 @@ import type { Env } from '../env.js';
 
 const discoveryRoutes = new Hono<{ Bindings: Env }>();
 
+const SEARCH_CACHE_TTL = 300; // 5 minutes
+const SEARCH_CACHE_PREFIX = 'discovery:search:';
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -110,6 +113,26 @@ discoveryRoutes.get('/search', async (c) => {
 
   const db = c.env.DB as unknown as D1Like;
 
+  const isCacheable = !cursor && limit <= 20;
+  let cacheKey = '';
+
+  if (isCacheable) {
+    const normalized = q.trim().toLowerCase().slice(0, 100);
+    const typeNorm = (type ?? '').slice(0, 50);
+    const placeNorm = (placeId ?? '').slice(0, 50);
+    cacheKey = `${SEARCH_CACHE_PREFIX}${normalized}:${typeNorm}:${placeNorm}:${limit}`;
+    try {
+      const cached = await c.env.GEOGRAPHY_CACHE.get(cacheKey, 'json');
+      if (cached) {
+        await logEvent(db, 'search_hit', { query: q, metadata: { type, placeId, cached: true } });
+        c.header('X-Cache', 'HIT');
+        return c.json(cached as Record<string, unknown>);
+      }
+    } catch {
+      // KV read failure — fall through to D1
+    }
+  }
+
   interface SearchRow {
     entity_type: string;
     entity_id: string;
@@ -119,8 +142,6 @@ discoveryRoutes.get('/search', async (c) => {
     visibility: string;
   }
 
-  // Use FTS5 MATCH for full-text search as specified (Platform Invariant — T3 discovery)
-  // search_fts is a content-table virtual table over search_entries, so we JOIN back for metadata.
   let sql = `
     SELECT se.entity_type, se.entity_id, se.display_name, se.place_id, se.ancestry_path, se.visibility
     FROM search_fts
@@ -151,7 +172,7 @@ discoveryRoutes.get('/search', async (c) => {
 
   await logEvent(db, 'search_hit', { query: q, metadata: { type, placeId } });
 
-  return c.json({
+  const response = {
     items: items.map((r) => ({
       entityType: r.entity_type,
       entityId: r.entity_id,
@@ -161,7 +182,22 @@ discoveryRoutes.get('/search', async (c) => {
     })),
     nextCursor,
     total: items.length,
-  });
+  };
+
+  if (isCacheable) {
+    c.header('X-Cache', 'MISS');
+    if (items.length > 0) {
+      try {
+        await c.env.GEOGRAPHY_CACHE.put(cacheKey, JSON.stringify(response), {
+          expirationTtl: SEARCH_CACHE_TTL,
+        });
+      } catch {
+        // Non-fatal: cache write failure
+      }
+    }
+  }
+
+  return c.json(response);
 });
 
 // ---------------------------------------------------------------------------

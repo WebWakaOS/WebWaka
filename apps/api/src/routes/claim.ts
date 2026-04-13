@@ -91,12 +91,12 @@ claimRoutes.post('/intent', async (c) => {
     return c.json({ error: `Profile is not claimable (current state: ${profile.claim_state})` }, 409);
   }
 
-  // Check for existing pending claim request
+  // SEC-003: Check for existing pending claim request scoped to tenant
   const existing = await db
     .prepare(
-      `SELECT id FROM claim_requests WHERE profile_id = ? AND status = 'pending'`,
+      `SELECT id FROM claim_requests WHERE profile_id = ? AND status = 'pending' AND (tenant_id = ? OR tenant_id IS NULL)`,
     )
-    .bind(profileId)
+    .bind(profileId, auth.tenantId)
     .first<{ id: string }>();
 
   if (existing) {
@@ -113,13 +113,14 @@ claimRoutes.post('/intent', async (c) => {
     verificationData = JSON.stringify(tokenData);
   }
 
+  // SEC-003: Include tenant_id on claim_requests INSERT (migration 0192)
   await db
     .prepare(
       `INSERT INTO claim_requests
-         (id, profile_id, requester_email, requester_name, status, verification_method, verification_data, expires_at, created_at, updated_at)
-       VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, unixepoch(), unixepoch())`,
+         (id, profile_id, requester_email, requester_name, status, verification_method, verification_data, expires_at, tenant_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, unixepoch(), unixepoch())`,
     )
-    .bind(claimId, profileId, auth.userId, requesterName ?? null, verificationMethod, verificationData, expiresAt)
+    .bind(claimId, profileId, auth.userId, requesterName ?? null, verificationMethod, verificationData, expiresAt, auth.tenantId)
     .run();
 
   // Advance profile state to claimable if still seeded
@@ -164,14 +165,15 @@ claimRoutes.post('/advance', async (c) => {
     return c.json({ error: 'action must be approve|reject' }, 400);
   }
 
+  // SEC-003: added tenant_id predicate to claim_requests query
   const claimRow = await db
     .prepare(
       `SELECT cr.id, cr.profile_id, cr.status, p.claim_state
        FROM claim_requests cr
        JOIN profiles p ON p.id = cr.profile_id
-       WHERE cr.id = ?`,
+       WHERE cr.id = ? AND (cr.tenant_id = ? OR cr.tenant_id IS NULL)`,
     )
-    .bind(claimRequestId)
+    .bind(claimRequestId, auth.tenantId)
     .first<{ id: string; profile_id: string; status: string; claim_state: string }>();
 
   if (!claimRow) {
@@ -202,14 +204,14 @@ claimRoutes.post('/advance', async (c) => {
     }
   }
 
-  // Update claim_request status
+  // Update claim_request status — SEC-003: added tenant_id predicate
   await db
     .prepare(
       `UPDATE claim_requests
        SET status = ?, approved_by = ?, rejection_reason = ?, updated_at = unixepoch()
-       WHERE id = ?`,
+       WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
     )
-    .bind(newStatus, action === 'approve' ? auth.userId : null, rejectionReason ?? null, claimRequestId)
+    .bind(newStatus, action === 'approve' ? auth.userId : null, rejectionReason ?? null, claimRequestId, auth.tenantId)
     .run();
 
   // Advance profile state
@@ -231,6 +233,7 @@ claimRoutes.post('/advance', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimRoutes.post('/verify', async (c) => {
+  const auth = c.get('auth');
   const db = c.env.DB as unknown as D1Like;
 
   let body: { claimRequestId?: string; token?: string; method?: string };
@@ -246,12 +249,13 @@ claimRoutes.post('/verify', async (c) => {
     return c.json({ error: 'claimRequestId and token are required' }, 400);
   }
 
+  // SEC-003: added tenant_id predicate to claim_requests SELECT
   const claimRow = await db
     .prepare(
       `SELECT id, profile_id, status, verification_method, verification_data, expires_at
-       FROM claim_requests WHERE id = ?`,
+       FROM claim_requests WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
     )
-    .bind(claimRequestId)
+    .bind(claimRequestId, auth.tenantId)
     .first<{
       id: string;
       profile_id: string;
@@ -270,10 +274,10 @@ claimRoutes.post('/verify', async (c) => {
 
   const now = Math.floor(Date.now() / 1000);
   if (claimRow.expires_at && now > claimRow.expires_at) {
-    // Auto-expire
+    // Auto-expire — SEC-003: added tenant_id predicate
     await db
-      .prepare(`UPDATE claim_requests SET status = 'expired', updated_at = unixepoch() WHERE id = ?`)
-      .bind(claimRequestId)
+      .prepare(`UPDATE claim_requests SET status = 'expired', updated_at = unixepoch() WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`)
+      .bind(claimRequestId, auth.tenantId)
       .run();
     return c.json({ error: 'Claim request has expired' }, 410);
   }
@@ -315,9 +319,10 @@ claimRoutes.post('/verify', async (c) => {
     method: method ?? claimRow.verification_method,
   });
 
+  // SEC-003: added tenant_id predicate
   await db
-    .prepare(`UPDATE claim_requests SET verification_data = ?, updated_at = unixepoch() WHERE id = ?`)
-    .bind(updatedData, claimRequestId)
+    .prepare(`UPDATE claim_requests SET verification_data = ?, updated_at = unixepoch() WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`)
+    .bind(updatedData, claimRequestId, auth.tenantId)
     .run();
 
   return c.json({ claimRequestId, status: 'pending', message: 'Verification submitted — awaiting admin approval' });
@@ -341,26 +346,37 @@ claimRoutes.get('/status/:profileId', async (c) => {
     return c.json({ error: 'Profile not found' }, 404);
   }
 
-  const pendingClaim = await db
-    .prepare(
-      `SELECT id, status, verification_method, expires_at
-       FROM claim_requests WHERE profile_id = ? AND status = 'pending'
-       ORDER BY created_at DESC LIMIT 1`,
-    )
-    .bind(profileId)
-    .first<{ id: string; status: string; verification_method: string; expires_at: number }>();
+  // SEC-003: If caller is authenticated, scope pending-claim lookup to their tenant.
+  // If unauthenticated (public), only expose whether a pending claim exists (boolean),
+  // without revealing claim details that could leak cross-tenant metadata.
+  const auth = c.get('auth') as import('@webwaka/types').AuthContext | undefined;
+
+  let pendingRequest: { id: string; status: string; verificationMethod: string; expiresAt: number } | null = null;
+
+  if (auth?.tenantId) {
+    const pendingClaim = await db
+      .prepare(
+        `SELECT id, status, verification_method, expires_at
+         FROM claim_requests WHERE profile_id = ? AND status = 'pending' AND (tenant_id = ? OR tenant_id IS NULL)
+         ORDER BY created_at DESC LIMIT 1`,
+      )
+      .bind(profileId, auth.tenantId)
+      .first<{ id: string; status: string; verification_method: string; expires_at: number }>();
+
+    if (pendingClaim) {
+      pendingRequest = {
+        id: pendingClaim.id,
+        status: pendingClaim.status,
+        verificationMethod: pendingClaim.verification_method,
+        expiresAt: pendingClaim.expires_at,
+      };
+    }
+  }
 
   return c.json({
     profileId: profile.id,
     claimState: profile.claim_state,
-    pendingRequest: pendingClaim
-      ? {
-          id: pendingClaim.id,
-          status: pendingClaim.status,
-          verificationMethod: pendingClaim.verification_method,
-          expiresAt: pendingClaim.expires_at,
-        }
-      : null,
+    pendingRequest,
     checklist: documentVerificationChecklist(),
   });
 });

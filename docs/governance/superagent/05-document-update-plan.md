@@ -30,7 +30,7 @@
 
 **Owner:** Platform team  
 **Priority:** P0 — blocks all implementation  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Section | What to Change |
 |---|---|
@@ -47,7 +47,7 @@
 
 **Owner:** Platform team  
 **Priority:** P0 — blocks all implementation  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Section | What to Change |
 |---|---|
@@ -66,7 +66,7 @@
 
 **Owner:** Platform team  
 **Priority:** P0 — blocks billing implementation  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Section | What to Change |
 |---|---|
@@ -82,7 +82,7 @@
 
 **Owner:** Platform team  
 **Priority:** P0 — required for audit trail  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -95,7 +95,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1 — update before implementation begins  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -113,7 +113,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Section | What to Change |
 |---|---|
@@ -126,7 +126,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -139,7 +139,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -152,7 +152,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -164,7 +164,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -178,7 +178,7 @@
 **Owner:** Vertical teams  
 **Files:** `docs/milestones/m8b-framework.md`, `m8c-framework.md`, `m8d-framework.md`, `m8e-framework.md`  
 **Priority:** P1 — before respective milestone implementation begins  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change per file | What to Do |
 |---|---|
@@ -190,7 +190,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|
@@ -203,7 +203,7 @@
 
 **Owner:** Platform team  
 **Priority:** P1  
-**Status:** 🔲 TODO
+**Status:** ✅ DONE — 2026-04-13
 
 | Change | What to Do |
 |---|---|

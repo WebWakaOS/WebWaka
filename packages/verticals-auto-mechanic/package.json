@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-auto-mechanic",
   "version": "0.1.0",
   "private": true,
-  "description": "Auto Mechanic / Garage vertical — FSM, D1 CRUD, job cards, parts inventory. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Auto Mechanic / Garage vertical — FSM, D1 CRUD, job cards, parts inventory. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

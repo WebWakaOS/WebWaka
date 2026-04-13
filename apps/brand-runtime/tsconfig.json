@@ -6,7 +6,8 @@
       "@webwaka/types":        ["../../packages/types/src/index.ts"],
       "@webwaka/auth":         ["../../packages/auth/src/index.ts"],
       "@webwaka/entities":     ["../../packages/entities/src/index.ts"],
-      "@webwaka/entitlements": ["../../packages/entitlements/src/index.ts"]
+      "@webwaka/entitlements": ["../../packages/entitlements/src/index.ts"],
+      "@webwaka/white-label-theming": ["../../packages/white-label-theming/src/index.ts"]
     },
     "rootDir": "../..",
     "outDir": "dist",

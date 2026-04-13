@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-beauty-salon",
   "version": "0.1.0",
   "private": true,
-  "description": "Beauty Salon / Barber Shop vertical — FSM, appointments, staff scheduling. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Beauty Salon / Barber Shop vertical — FSM, appointments, staff scheduling. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

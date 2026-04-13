@@ -15,6 +15,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -54,6 +55,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.toLowerCase().includes('sum(') || sql.toLowerCase().includes('count(')) {
           const total = store.filter(r => r['workspace_id'] === vals[0] && r['tenant_id'] === vals[1]).reduce((s, r) => s + Number(r['total_kobo'] ?? 0), 0);
@@ -64,6 +66,7 @@ function makeDb() {
         const found = store.find(r => vals.length >= 2 ? r['id'] === vals[0] && r['tenant_id'] === vals[1] : r['id'] === vals[0]);
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         return { results: store.filter(r => vals.length >= 2 ? r['workspace_id'] === vals[0] && r['tenant_id'] === vals[1] : true) } as { results: T[] };
       },

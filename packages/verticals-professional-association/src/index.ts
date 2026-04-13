@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ProfessionalAssocRepository } from './professional-association.js';
 
-export const VERTICAL_SLUG = 'professional-association' as const;
+export const VERTICAL_SLUG = 'professional-association';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerProfessionalAssociationVertical() {

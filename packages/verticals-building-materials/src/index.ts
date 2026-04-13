@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BuildingMaterialsRepository } from './building-materials.js';
 
-export const VERTICAL_SLUG = 'building-materials' as const;
+export const VERTICAL_SLUG = 'building-materials';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerBuildingMaterialsVertical() {

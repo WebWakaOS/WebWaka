@@ -116,6 +116,14 @@ export const adminPublicRoutes = new Hono<AppEnv>();
 
 adminPublicRoutes.get('/:workspaceId/dashboard', async (c) => {
   const workspaceId = c.req.param('workspaceId');
+
+  // SEC-01: Enforce workspace authorization — users can only access their own workspace.
+  // Super admins (role = 'super_admin') bypass this check for platform-level access.
+  const auth = c.get('auth');
+  if (auth && auth.workspaceId !== workspaceId && auth.role !== 'super_admin') {
+    return c.json({ error: 'Forbidden: you do not have access to this workspace.' }, 403);
+  }
+
   const db = c.env.DB as unknown as D1Like;
 
   const manifest = await getTenantManifestById(db, workspaceId);

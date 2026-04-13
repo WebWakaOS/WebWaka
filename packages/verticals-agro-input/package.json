@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-agro-input",
   "version": "0.1.0",
   "private": true,
-  "description": "Agro-Input Dealer vertical — catalogue, farmer credit, ABP subsidy, AI demand. M10.",
+  "description": "[Pillar 1+3] Agro-Input Dealer vertical — catalogue, farmer credit, ABP subsidy, AI demand. M10.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -98,6 +98,7 @@ function makeEnv(): Record<string, unknown> {
   return {
     DB: makeD1Mock(),
     GEOGRAPHY_CACHE: makeKVMock(),
+    RATE_LIMIT_KV: makeKVMock(),
     JWT_SECRET,
     ENVIRONMENT: 'development',
   };
@@ -277,6 +278,80 @@ describe('POST /auth/login', () => {
   it('returns 400 when credentials missing', async () => {
     const res = await makeRequest('/auth/login', { method: 'POST', body: {} });
     expect(res.status).toBe(400);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// QA-01: Admin dashboard routes require auth (SEC-01)
+// ---------------------------------------------------------------------------
+
+describe('GET /admin/:workspaceId/dashboard — auth required', () => {
+  it('returns 401 without auth header', async () => {
+    const res = await makeRequest('/admin/wsp_test_001/dashboard');
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 200 or 404 with valid auth for own workspace', async () => {
+    const res = await makeRequest('/admin/wsp_test_001/dashboard', { token: validToken });
+    expect([200, 404]).toContain(res.status);
+  });
+
+  it('returns 403 when accessing another workspace (IDOR prevention)', async () => {
+    const res = await makeRequest('/admin/wsp_other_999/dashboard', { token: validToken });
+    expect(res.status).toBe(403);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// QA-01: Auth refresh returns new token
+// ---------------------------------------------------------------------------
+
+describe('POST /auth/refresh — authenticated', () => {
+  it('returns 200 with a new token', async () => {
+    const res = await makeRequest('/auth/refresh', { method: 'POST', token: validToken });
+    expect(res.status).toBe(200);
+    const body: Record<string, unknown> = await res.json();
+    expect(typeof body['token']).toBe('string');
+    expect(body['token']).not.toBe('');
+  });
+
+  it('returns 401 without auth', async () => {
+    const res = await makeRequest('/auth/refresh', { method: 'POST' });
+    expect(res.status).toBe(401);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// QA-11: Tenant isolation — cross-tenant entity access
+// ---------------------------------------------------------------------------
+
+describe('Tenant isolation (T3)', () => {
+  it('entities list scoped to authenticated tenant', async () => {
+    const res = await makeRequest('/entities/individuals', { token: validToken });
+    expect(res.status).toBe(200);
+    const body: Record<string, unknown> = await res.json();
+    const data = body['data'] as Record<string, unknown>[];
+    for (const item of data) {
+      expect(item['tenant_id']).toBe(TENANT_ID);
+    }
+  });
+
+  it('different tenant cannot access other tenant data', async () => {
+    const otherTenantToken = await issueJwt(
+      {
+        sub: asId<UserId>('usr_other_001'),
+        workspace_id: asId<WorkspaceId>('wsp_other_001'),
+        tenant_id: asId<TenantId>('tenant_other_001'),
+        role: Role.Member,
+      },
+      JWT_SECRET,
+    );
+
+    const res = await makeRequest('/entities/individuals', { token: otherTenantToken });
+    expect(res.status).toBe(200);
+    const body: Record<string, unknown> = await res.json();
+    const data = body['data'] as Record<string, unknown>[];
+    expect(data.length).toBe(0);
   });
 });
 

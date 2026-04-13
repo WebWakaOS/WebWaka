@@ -8,7 +8,7 @@
 export * from './types.js';
 export { RestaurantChainRepository } from './restaurant-chain.js';
 
-export const VERTICAL_SLUG = 'restaurant-chain' as const;
+export const VERTICAL_SLUG = 'restaurant-chain';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerRestaurantChainVertical() {

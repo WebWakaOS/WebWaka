@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-sports-club",
   "version": "0.1.0",
   "private": true,
-  "description": "Sports Club / Amateur League vertical — player roster, match schedule, expenses. M12.",
+  "description": "[Pillar 1+3] Sports Club / Amateur League vertical — player roster, match schedule, expenses. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

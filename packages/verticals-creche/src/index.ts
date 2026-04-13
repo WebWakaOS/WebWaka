@@ -8,7 +8,7 @@
 export * from './types.js';
 export { CrecheRepository } from './creche.js';
 
-export const VERTICAL_SLUG = 'creche' as const;
+export const VERTICAL_SLUG = 'creche';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerCrecheVertical() {

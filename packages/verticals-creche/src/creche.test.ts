@@ -20,12 +20,14 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO creche_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], creche_name: vals[3], subeb_registration: vals[4], state_social_welfare_cert: vals[5], cac_rc: vals[6], capacity: vals[7], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO creche_children')) { const fee = vals[6]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: monthlyFeeKobo must be a non-negative integer'); const age = vals[4]; if (!Number.isInteger(age) || (age as number) < 0) throw new Error('ageMonths must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], child_ref_id: vals[3], age_months: vals[4], admission_date: vals[5], monthly_fee_kobo: vals[6], status: 'active', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO creche_billing')) { const fee = vals[5]; if (!Number.isInteger(fee) || (fee as number) < 0) throw new Error('P9: feeKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], child_ref_id: vals[3], billing_period: vals[4], fee_kobo: vals[5], paid_kobo: vals[6], outstanding_kobo: vals[7], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           if (sql.includes('WHERE id=?')) {
             const record = store.get(vals[0] as string) ?? null;
@@ -38,6 +40,7 @@ function makeDb() {
           }
           return null as T | null;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),

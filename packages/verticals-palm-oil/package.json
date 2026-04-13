@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-palm-oil",
   "version": "0.1.0",
   "private": true,
-  "description": "Palm Oil / Vegetable Oil Producer vertical — FFB intake, batches, NAFDAC, AI yield. M12.",
+  "description": "[Pillar 1+3] Palm Oil / Vegetable Oil Producer vertical — FFB intake, batches, NAFDAC, AI yield. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

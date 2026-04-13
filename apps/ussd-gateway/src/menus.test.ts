@@ -1,14 +1,16 @@
 /**
  * Tests for USSD menu text builders.
  * Validates CON/END prefixes, balance formatting (P9 — integer kobo), and menu text.
+ *
+ * UX-08: sendMoneyEnterRecipient / sendMoneyEnterAmount replaced by
+ * sendMoneyEnterPhoneAndAmount (combined PHONE*AMOUNT format).
  */
 
 import { describe, it, expect } from 'vitest';
 import {
   mainMenu,
   walletMenu,
-  sendMoneyEnterRecipient,
-  sendMoneyEnterAmount,
+  sendMoneyEnterPhoneAndAmount,
   sendMoneyConfirm,
   trendingFeed,
   viewTrendingPost,
@@ -41,13 +43,9 @@ describe('walletMenu', () => {
   });
 
   it('formats balance correctly (P9 — integer kobo)', () => {
-    // 50000 kobo = ₦500.00
     expect(walletMenu(50_000)).toContain('500.00');
-    // 100 kobo = ₦1.00
     expect(walletMenu(100)).toContain('1.00');
-    // 0 kobo = ₦0.00
     expect(walletMenu(0)).toContain('0.00');
-    // 9999 kobo = ₦99.99
     expect(walletMenu(9_999)).toContain('99.99');
   });
 
@@ -56,25 +54,24 @@ describe('walletMenu', () => {
   });
 
   it('does not use floating point division', () => {
-    // 1 kobo = ₦0.01 — exact, no float rounding issues
     const menu = walletMenu(1);
     expect(menu).toContain('0.01');
   });
 });
 
-describe('sendMoneyEnterRecipient', () => {
+describe('sendMoneyEnterPhoneAndAmount (UX-08)', () => {
   it('starts with CON prefix', () => {
-    expect(sendMoneyEnterRecipient()).toMatch(/^CON /);
-  });
-});
-
-describe('sendMoneyEnterAmount', () => {
-  it('includes recipient phone in text', () => {
-    expect(sendMoneyEnterAmount('+2348012345678')).toContain('+2348012345678');
+    expect(sendMoneyEnterPhoneAndAmount()).toMatch(/^CON /);
   });
 
-  it('starts with CON prefix', () => {
-    expect(sendMoneyEnterAmount('+2348012345678')).toMatch(/^CON /);
+  it('includes PHONE*AMOUNT format hint', () => {
+    const text = sendMoneyEnterPhoneAndAmount();
+    expect(text).toContain('PHONE*AMOUNT');
+  });
+
+  it('includes an example', () => {
+    const text = sendMoneyEnterPhoneAndAmount();
+    expect(text).toContain('08012345678*500');
   });
 });
 

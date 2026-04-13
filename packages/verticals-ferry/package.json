@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-ferry",
   "version": "0.1.0",
   "private": true,
-  "description": "Ferry / Water Transport Operator vertical — vessel management, trip logs, NIMASA compliance. M12.",
+  "description": "[Pillar 1+3] Ferry / Water Transport Operator vertical — vessel management, trip logs, NIMASA compliance. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

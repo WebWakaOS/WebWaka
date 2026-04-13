@@ -10,7 +10,7 @@
 export * from './types.js';
 export { VegetableGardenRepository } from './vegetable-garden.js';
 
-export const VERTICAL_SLUG = 'vegetable-garden' as const;
+export const VERTICAL_SLUG = 'vegetable-garden';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerVegetableGardenVertical() {

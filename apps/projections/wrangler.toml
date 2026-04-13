@@ -1,0 +1,50 @@
+# apps/projections/wrangler.toml
+# Projections Worker — Infrastructure: Event Processing
+# Rebuilds search index projections from event_log.
+# ARC-01: Deploy config added for staging/production parity.
+
+name = "webwaka-projections"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# D1 — event_log and search index
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# Staging
+# ---------------------------------------------------------------------------
+[env.staging]
+name = "webwaka-projections-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-staging"
+database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+
+# ---------------------------------------------------------------------------
+# Production
+# ---------------------------------------------------------------------------
+[env.production]
+name = "webwaka-projections-production"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+# Secrets (set via: wrangler secret put SECRET_NAME)
+# Required:
+#   INTER_SERVICE_SECRET

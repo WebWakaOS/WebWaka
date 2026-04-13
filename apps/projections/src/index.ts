@@ -18,6 +18,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
+import { createCorsConfig } from '@webwaka/shared-config';
 import {
   rebuildSearchIndexFromEvents,
   getAggregateEvents,
@@ -26,6 +27,7 @@ import {
 interface Env {
   DB: D1Database;
   ENVIRONMENT: 'development' | 'staging' | 'production';
+  ALLOWED_ORIGINS?: string;
 }
 
 interface D1Like {
@@ -44,7 +46,15 @@ interface D1Like {
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
-app.use('*', cors());
+// SEC-02 + SEC-08 + ARC-05: Use shared CORS config with environment-aware localhost gating
+app.use('*', async (c, next) => {
+  const config = createCorsConfig({
+    environment: c.env.ENVIRONMENT,
+    ...(c.env.ALLOWED_ORIGINS !== undefined ? { allowedOriginsEnv: c.env.ALLOWED_ORIGINS } : {}),
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+  });
+  return cors(config)(c, next);
+});
 
 // ---------------------------------------------------------------------------
 // Health

@@ -1,7 +1,7 @@
 # M8-AI Implementation Phase Plan
 
-**Status:** M8-AI Planning Baseline  
-**Date:** 2026-04-08  
+**Status:** SUPERSEDED FOR ORDERING BY `docs/governance/superagent/04-execution-roadmap.md`. This document remains as Phase 1 technical detail reference.  
+**Date:** 2026-04-08 (updated 2026-04-13 for SuperAgent alignment)  
 **Constraint:** DO NOT IMPLEMENT FEATURE CODE YET — this is the plan for when implementation begins  
 **Design principle:** Platform foundation first; vertical AI features parallel after foundation complete
 

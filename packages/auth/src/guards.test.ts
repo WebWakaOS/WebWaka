@@ -13,6 +13,7 @@ import { requirePrimaryPhoneVerified, AuthGuardError } from './guards.js';
 // Mock D1 helpers
 // ---------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function mockDbWithPhone(phoneRow: { id: string } | null) {
   return {
     prepare: vi.fn().mockReturnValue({

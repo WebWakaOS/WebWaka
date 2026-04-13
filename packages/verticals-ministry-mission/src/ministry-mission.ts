@@ -32,7 +32,10 @@ export class MinistryMissionRepository {
     return { id: r['id'] as string, profileId: r['profile_id'] as string, tenantId: r['tenant_id'] as string, outreachType: r['outreach_type'] as string, outreachDate: r['outreach_date'] as number, beneficiaryCount: r['beneficiary_count'] as number, costKobo: r['cost_kobo'] as number, location: r['location'] as string|null, createdAt: r['created_at'] as number };
   }
   async createEvent(profileId: string, tenantId: string, input: { eventName: string; eventDate: number; venue?: string; expectedAttendance?: number; budgetKobo?: number; offeringCollectedKobo?: number }): Promise<MinistryService> {
-    return this.recordService(profileId, tenantId, { serviceType: 'special', scheduledDate: input.eventDate, attendanceCount: input.expectedAttendance, offeringKobo: input.offeringCollectedKobo, tithKobo: 0, notes: [input.eventName, input.venue].filter(Boolean).join(' — ') });
+    const svc: { serviceType: string; scheduledDate: number; tithKobo: number; notes: string; attendanceCount?: number; offeringKobo?: number } = { serviceType: 'special', scheduledDate: input.eventDate, tithKobo: 0, notes: [input.eventName, input.venue].filter(Boolean).join(' — ') };
+    if (input.expectedAttendance !== undefined) svc.attendanceCount = input.expectedAttendance;
+    if (input.offeringCollectedKobo !== undefined) svc.offeringKobo = input.offeringCollectedKobo;
+    return this.recordService(profileId, tenantId, svc);
   }
   async listEvents(profileId: string, tenantId: string): Promise<MinistryService[]> {
     return this.listServices(profileId, tenantId);

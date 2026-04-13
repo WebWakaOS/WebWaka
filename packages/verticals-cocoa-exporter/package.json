@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-cocoa-exporter",
   "version": "0.1.0",
   "private": true,
-  "description": "Cocoa Exporter vertical — procurement, export, CBN FX repatriation, AI commodity alert. M12.",
+  "description": "[Pillar 1+3] Cocoa Exporter vertical — procurement, export, CBN FX repatriation, AI commodity alert. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

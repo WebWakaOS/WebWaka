@@ -6,6 +6,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -38,7 +39,7 @@ function makeDb() {
             const idx = store.findIndex(r => r['id'] === id && r['tenant_id'] === tid);
             if (idx >= 0) {
               clauses.forEach((clause: string, i: number) => {
-                const col = (clause.split('=')[0] ?? '').trim();
+                const col = (clause.split('=')[0]! ?? '').trim();
                 (store[idx] as Record<string, unknown>)[col] = vals[i];
               });
             }
@@ -46,6 +47,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT')) {
           if (sql.toLowerCase().includes('count(*)')) return ({ cnt: store.length }) as unknown as T;
@@ -63,6 +65,7 @@ function makeDb() {
         }
         return null as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         if (sql.trim().toUpperCase().startsWith('SELECT') && vals.length >= 2) {
           const filtered = store.filter(r => {
@@ -90,6 +93,7 @@ function makeDb() {
 
 describe('MenuRepository', () => {
   let db: ReturnType<typeof makeDb>; let repo: MenuRepository;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   beforeEach(() => { db = makeDb(); repo = new MenuRepository(db as any); });
 
   it('creates menu item with available=true', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Jollof Rice', priceKobo: 150000 }); expect(item.available).toBe(true); expect(item.name).toBe('Jollof Rice'); });
@@ -112,4 +116,14 @@ describe('MenuRepository', () => {
   it('updateItem empty returns existing', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Beans', priceKobo: 60000 }); expect(await repo.updateItem(item.id, 't1', {})).not.toBeNull(); });
   it('supports all categories', async () => { for (const cat of ['starter','main','dessert','drink','snack','special'] as const) { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: `Cat:${cat}`, priceKobo: 10000, category: cat }); expect(item).not.toBeNull(); } });
   it('tenantId stored', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 'tenant-R', name: 'Rice', priceKobo: 100000 }); expect(item.tenantId).toBe('tenant-R'); });
+  it('workspaceId stored on item', async () => { const item = await repo.createItem({ workspaceId: 'ws-store-99', tenantId: 't1', name: 'Yam', priceKobo: 200000 }); expect(item.workspaceId).toBe('ws-store-99'); });
+  it('findItemById returns correct item by id', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Groundnut', priceKobo: 45000 }); const found = await repo.findItemById(item.id, 't1'); expect(found?.name).toBe('Groundnut'); });
+  it('cross-tenant isolation: findItemById returns null for wrong tenant (T3)', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Isolated Item', priceKobo: 50000 }); expect(await repo.findItemById(item.id, 't-other')).toBeNull(); });
+  it('multiple items in workspace all returned by listMenu', async () => { for (let i = 0; i < 3; i++) { await repo.createItem({ workspaceId: 'ws-multi', tenantId: 't1', name: `Item ${i}`, priceKobo: 10000 * (i + 1) }); } const menu = await repo.listMenu('ws-multi', 't1'); expect(menu.length).toBeGreaterThanOrEqual(3); });
+  it('priceKobo stored exactly as integer — no rounding (P9 integrity)', async () => { const priceKobo = 1234567; const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Precise Item', priceKobo }); expect(item.priceKobo).toBe(priceKobo); expect(Number.isInteger(item.priceKobo)).toBe(true); });
+  it('updateItem description to null accepted', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'No Desc', priceKobo: 60000, description: 'Has desc' }); expect(await repo.updateItem(item.id, 't1', { description: null })).not.toBeNull(); });
+  it('updateItem photoUrl can be set', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Photo Item', priceKobo: 80000 }); expect(await repo.updateItem(item.id, 't1', { photoUrl: 'https://cdn.example.com/updated.jpg' })).not.toBeNull(); });
+  it('all supported categories cover Nigerian menu patterns', () => { const categories = ['starter', 'main', 'dessert', 'drink', 'snack', 'special'] as const; expect(categories).toHaveLength(6); categories.forEach(c => expect(typeof c).toBe('string')); });
+  it('createdAt timestamp is unix epoch integer', async () => { const item = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Plantain', priceKobo: 50000 }); expect(Number.isInteger(item.createdAt)).toBe(true); expect(item.createdAt).toBeGreaterThan(0); });
+  it('item id is auto-generated unique string when not provided', async () => { const a = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Zobo', priceKobo: 30000 }); const b = await repo.createItem({ workspaceId: 'ws1', tenantId: 't1', name: 'Kunu', priceKobo: 25000 }); expect(a.id).not.toBe(b.id); expect(typeof a.id).toBe('string'); });
 });

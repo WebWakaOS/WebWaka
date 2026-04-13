@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ElderlyCareRepository } from './elderly-care.js';
 
-export const VERTICAL_SLUG = 'elderly-care' as const;
+export const VERTICAL_SLUG = 'elderly-care';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerElderlyCareVertical() {

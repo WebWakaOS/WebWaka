@@ -7,7 +7,7 @@
 export * from './types.js';
 export { ElectricalFittingsRepository } from './electrical-fittings.js';
 
-export const VERTICAL_SLUG = 'electrical-fittings' as const;
+export const VERTICAL_SLUG = 'electrical-fittings';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerElectricalFittingsVertical() {

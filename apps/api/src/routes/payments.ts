@@ -22,6 +22,7 @@ import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 import { initializePayment, verifyPayment, verifyWebhookSignature } from '@webwaka/payments';
 import { syncPaymentToSubscription, recordFailedPayment } from '@webwaka/payments';
+import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 
 interface D1Like {
   prepare(query: string): {
@@ -179,6 +180,16 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         amountKobo: verified.amountKobo,
         metadata: { ...(verified.metadata as Record<string, unknown>) },
       });
+
+      // PROD-04: fire-and-forget webhook dispatch (best effort)
+      const dispatcher = new WebhookDispatcher(c.env.DB, auth.tenantId);
+      void dispatcher.dispatch('payment.completed', {
+        workspace_id: workspaceId,
+        reference,
+        amount_kobo: verified.amountKobo,
+        plan: result.plan,
+        billing_id: result.billingId,
+      }).catch(() => {});
 
       return c.json({
         status: 'success',

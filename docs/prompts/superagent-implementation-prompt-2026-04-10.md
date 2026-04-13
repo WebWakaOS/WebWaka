@@ -8,6 +8,8 @@
 **Audit baseline:** 47 / 100 deployment readiness  
 **Target:** 100 / 100 — platform live on Cloudflare Workers, smoke tests green, users onboarding
 
+> **Primary pillar(s):** All three — Pillar 1 (Ops), Pillar 2 (Branding), Pillar 3 (Marketplace) + AI (Cross-cutting). This remediation covers all pillars, infrastructure, and governance enforcement. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## STOP FIRST — Read Before Executing Anything

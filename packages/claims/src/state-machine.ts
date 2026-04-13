@@ -6,6 +6,10 @@
  *   seeded → claimable → claim_pending → verified → managed → branded → monetized → delegated
  *
  * M5 primary path: seeded → claimable → claim_pending → verified → managed
+ *
+ * Phase 3 additions (GAP-006):
+ *   - Transition guards for business maturity stages (branded, monetized, delegated)
+ *   - Guards validate prerequisites without gating access — they track business maturity
  */
 
 import { ClaimLifecycleState } from '@webwaka/types';
@@ -28,6 +32,59 @@ const VALID_TRANSITIONS: Readonly<Record<ClaimState, readonly ClaimState[]>> = {
 };
 
 // ---------------------------------------------------------------------------
+// Transition guards (GAP-006 — business maturity prerequisites)
+// ---------------------------------------------------------------------------
+
+export interface TransitionContext {
+  hasBrandingSubscription?: boolean;
+  hasPaymentMethod?: boolean;
+  hasDelegationAgreement?: boolean;
+}
+
+export interface TransitionGuardResult {
+  allowed: boolean;
+  reason?: string;
+}
+
+type TransitionGuardFn = (ctx: TransitionContext) => TransitionGuardResult;
+
+const TRANSITION_GUARDS: Partial<Record<string, TransitionGuardFn>> = {
+  'managed→branded': (ctx) => {
+    if (!ctx.hasBrandingSubscription) {
+      return { allowed: false, reason: 'Active Pillar 2 (branding) subscription required to enter branded state' };
+    }
+    return { allowed: true };
+  },
+  'managed→monetized': (ctx) => {
+    if (!ctx.hasBrandingSubscription) {
+      return { allowed: false, reason: 'Active Pillar 2 (branding) subscription required before monetization' };
+    }
+    if (!ctx.hasPaymentMethod) {
+      return { allowed: false, reason: 'At least one payment method must be configured to enter monetized state' };
+    }
+    return { allowed: true };
+  },
+  'branded→monetized': (ctx) => {
+    if (!ctx.hasPaymentMethod) {
+      return { allowed: false, reason: 'At least one payment method must be configured to enter monetized state' };
+    }
+    return { allowed: true };
+  },
+  'branded→delegated': (ctx) => {
+    if (!ctx.hasDelegationAgreement) {
+      return { allowed: false, reason: 'Partner delegation agreement required to enter delegated state' };
+    }
+    return { allowed: true };
+  },
+  'monetized→delegated': (ctx) => {
+    if (!ctx.hasDelegationAgreement) {
+      return { allowed: false, reason: 'Partner delegation agreement required to enter delegated state' };
+    }
+    return { allowed: true };
+  },
+};
+
+// ---------------------------------------------------------------------------
 // Errors
 // ---------------------------------------------------------------------------
 
@@ -42,6 +99,13 @@ export class UnknownClaimStateError extends Error {
   constructor(state: string) {
     super(`Unknown claim state: '${state}'`);
     this.name = 'UnknownClaimStateError';
+  }
+}
+
+export class TransitionGuardError extends Error {
+  constructor(from: ClaimState, to: ClaimState, reason: string) {
+    super(`Transition guard failed (${from} → ${to}): ${reason}`);
+    this.name = 'TransitionGuardError';
   }
 }
 
@@ -68,6 +132,21 @@ export function validateTransition(currentState: string, nextState: string): boo
   return allowed.includes(nextState as ClaimState);
 }
 
+/**
+ * Check transition guards for business maturity stages.
+ * Returns the guard result. If no guard is defined for the transition, it is allowed.
+ */
+export function checkTransitionGuard(
+  currentState: ClaimState,
+  nextState: ClaimState,
+  ctx: TransitionContext,
+): TransitionGuardResult {
+  const key = `${currentState}→${nextState}`;
+  const guard = TRANSITION_GUARDS[key];
+  if (!guard) return { allowed: true };
+  return guard(ctx);
+}
+
 export interface ClaimEvidence {
   method: 'email' | 'phone' | 'document';
   token?: string;
@@ -91,6 +170,30 @@ export function advanceClaimState(
 ): { newState: ClaimState; evidence?: ClaimEvidence } {
   if (!validateTransition(currentState, nextState)) {
     throw new InvalidClaimTransitionError(currentState, nextState);
+  }
+
+  return evidence !== undefined ? { newState: nextState, evidence } : { newState: nextState };
+}
+
+/**
+ * Advance a claim state with transition guard validation.
+ * Validates both the structural transition and business prerequisite guards.
+ * Throws InvalidClaimTransitionError for invalid transitions.
+ * Throws TransitionGuardError when prerequisites are not met.
+ */
+export function guardedAdvanceClaimState(
+  currentState: ClaimState,
+  nextState: ClaimState,
+  ctx: TransitionContext,
+  evidence?: ClaimEvidence,
+): { newState: ClaimState; evidence?: ClaimEvidence } {
+  if (!validateTransition(currentState, nextState)) {
+    throw new InvalidClaimTransitionError(currentState, nextState);
+  }
+
+  const guardResult = checkTransitionGuard(currentState, nextState, ctx);
+  if (!guardResult.allowed) {
+    throw new TransitionGuardError(currentState, nextState, guardResult.reason ?? 'Guard check failed');
   }
 
   return evidence !== undefined ? { newState: nextState, evidence } : { newState: nextState };

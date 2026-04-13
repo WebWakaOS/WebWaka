@@ -11,3 +11,10 @@ export interface Env {
   INTER_SERVICE_SECRET: string;
   ENVIRONMENT: 'development' | 'staging' | 'production';
 }
+
+export interface Variables {
+  tenantSlug: string;
+  tenantId?: string;
+  tenantName?: string;
+  themeColor?: string;
+}

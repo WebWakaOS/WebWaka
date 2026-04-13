@@ -217,3 +217,14 @@ After M8e, **all 17 P1-Original verticals** are fully implemented:
 | 17 | Tech Hub | M8e |
 
 **100% P1-Original coverage achieved. M9+ begins P2/P3 commerce verticals.**
+
+---
+
+## AI Integration — SuperAgent Requirements (added 2026-04-13)
+
+All AI features in this milestone use `packages/superagent-sdk`. Do not import `packages/ai-abstraction` directly in vertical code.
+
+For each AI feature in M8e:
+1. Complete Section 13 of `docs/templates/vertical-ai-research-template.md` — declare capability set and autonomy level
+2. Set `hitl_required: true` for any feature with autonomy level L3 or above
+3. See `docs/governance/superagent/04-execution-roadmap.md` for the Phase 2 vertical integration checklist

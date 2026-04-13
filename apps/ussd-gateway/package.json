@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/ussd-gateway",
   "version": "0.1.0",
-  "description": "USSD gateway Worker — *384# shortcode via Africa's Talking",
+  "description": "[Pillar 1] USSD gateway Worker — *384# shortcode via Africa's Talking",
   "private": true,
   "type": "module",
   "scripts": {

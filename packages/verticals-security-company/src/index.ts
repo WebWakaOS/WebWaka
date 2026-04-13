@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SecurityCompanyRepository } from './security-company.js';
 
-export const VERTICAL_SLUG = 'security-company' as const;
+export const VERTICAL_SLUG = 'security-company';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerSecurityCompanyVertical() {

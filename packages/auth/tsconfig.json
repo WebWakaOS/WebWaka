@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@webwaka/types": ["../types/src/index.ts"],
-      "@webwaka/ai":    ["../ai-abstraction/src/index.ts"]
+      "@webwaka/ai": ["../ai-abstraction/src/index.ts"]
     },
     "rootDir": "..",
     "outDir": "dist"

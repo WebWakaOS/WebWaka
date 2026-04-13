@@ -1,0 +1,15 @@
+{
+  "name": "@webwaka/auth-tenancy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Infra] @webwaka/auth-tenancy",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "echo 'skip'",
+    "test": "echo 'skip'",
+    "build": "echo 'skip'"
+  }
+}

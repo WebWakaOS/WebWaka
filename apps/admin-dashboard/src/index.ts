@@ -2,14 +2,15 @@
  * apps/admin-dashboard — Cloudflare Workers entry point for the admin dashboard.
  *
  * Renders the admin layout model and exposes management endpoints.
- * Authentication is required for all routes.
+ * Authentication is required for all routes via JWT (SEC-001).
  *
  * Routes:
- *   GET  /health               — liveness probe
- *   GET  /layout               — admin layout model (requires x-workspace-id header)
- *   GET  /billing              — workspace billing history
+ *   GET  /health               — liveness probe (no auth)
+ *   GET  /layout               — admin layout model (JWT required, admin+ role)
+ *   GET  /billing              — workspace billing history (JWT required, admin+ role)
  *
  * Milestone 6 — Frontend Composition Layer
+ * SEC-001: JWT auth replaces x-workspace-id header trust (2026-04-11)
  */
 
 import { Hono } from 'hono';
@@ -19,11 +20,25 @@ import {
   getTenantManifestById,
   buildAdminLayout,
 } from '@webwaka/frontend';
+import {
+  resolveAuthContext,
+  requireRole,
+} from '@webwaka/auth';
+import { Role } from '@webwaka/types';
+import type { AuthContext } from '@webwaka/types';
+import { marketplaceRouter } from './marketplace.js';
 
 interface Env {
   DB: D1Database;
   JWT_SECRET: string;
   ENVIRONMENT: 'development' | 'staging' | 'production';
+  API_BASE_URL: string;
+}
+
+declare module 'hono' {
+  interface ContextVariableMap {
+    auth: AuthContext;
+  }
 }
 
 interface D1Like {
@@ -43,7 +58,7 @@ interface BillingRow {
   id: string;
   workspace_id: string;
   paystack_ref: string | null;
-  amount_kobo: number;
+  amount_naira: number;
   status: string;
   metadata: string;
   created_at: string;
@@ -57,33 +72,101 @@ interface SubscriptionRow {
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
-app.use('*', cors({
-  origin: ['https://*.webwaka.com', 'http://localhost:5173'],
-  allowHeaders: ['Authorization', 'Content-Type', 'X-Workspace-Id'],
-  allowMethods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
-}));
+// SEC-08: Gate localhost behind environment check
+app.use('*', async (c, next) => {
+  const isProd = c.env?.ENVIRONMENT === 'production';
+  return cors({
+    origin: (origin) => {
+      if (!isProd && origin === 'http://localhost:5173') return origin;
+      if (origin.startsWith('https://') &&
+          (origin.endsWith('.webwaka.com') || origin === 'https://webwaka.com')) {
+        return origin;
+      }
+      return null;
+    },
+    allowHeaders: ['Authorization', 'Content-Type'],
+    allowMethods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
+    maxAge: 86400,
+  })(c, next);
+});
 
 // ---------------------------------------------------------------------------
-// Health
+// Health — no auth required
 // ---------------------------------------------------------------------------
 
 app.get('/health', (c) => c.json({ status: 'ok', app: 'admin-dashboard' }));
 
 // ---------------------------------------------------------------------------
+// PWA assets (served from Worker)
+// ---------------------------------------------------------------------------
+
+app.get('/manifest.json', (c) => {
+  const manifest = {
+    name: 'WebWaka Admin',
+    short_name: 'Admin',
+    description: 'WebWaka workspace administration dashboard',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#006400',
+    lang: 'en-NG',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+    ],
+  };
+  return c.json(manifest, 200, { 'Content-Type': 'application/manifest+json', 'Cache-Control': 'public, max-age=3600' });
+});
+
+app.get('/sw.js', (c) => {
+  const sw = `const CACHE='webwaka-admin-v1';const SHELL=['/','/manifest.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
+});
+
+// ---------------------------------------------------------------------------
+// JWT Authentication middleware — applied to all routes below this point
+// SEC-001: Replaces untrusted x-workspace-id header with JWT-verified identity
+// ---------------------------------------------------------------------------
+
+app.use('/*', async (c, next) => {
+  const authHeader = c.req.header('Authorization') ?? null;
+  const result = await resolveAuthContext(authHeader, c.env.JWT_SECRET);
+
+  if (!result.success) {
+    return c.json({ error: result.message }, result.status);
+  }
+
+  c.set('auth', result.context);
+  await next();
+});
+
+// ---------------------------------------------------------------------------
 // Layout model — GET /layout
+// SEC-001: workspace_id derived from JWT, role must be admin or above
 // ---------------------------------------------------------------------------
 
 app.get('/layout', async (c) => {
-  const workspaceId = c.req.header('x-workspace-id');
-  if (!workspaceId) return c.json({ error: 'x-workspace-id header required' }, 400);
+  const auth = c.get('auth');
 
+  try {
+    requireRole(auth, Role.Admin);
+  } catch {
+    return c.json({ error: 'Access denied. Admin role required.' }, 403);
+  }
+
+  const workspaceId = auth.workspaceId;
   const db = c.env.DB as unknown as D1Like;
   const manifest = await getTenantManifestById(db, workspaceId);
   if (!manifest) return c.json({ error: 'Workspace not found' }, 404);
 
   const sub = await db
-    .prepare('SELECT plan, status FROM subscriptions WHERE workspace_id = ?')
-    .bind(workspaceId)
+    .prepare(
+      'SELECT plan, status FROM subscriptions WHERE workspace_id = ? AND tenant_id = ?',
+    )
+    .bind(workspaceId, auth.tenantId)
     .first<SubscriptionRow>();
 
   const plan = sub?.plan ?? 'free';
@@ -94,16 +177,23 @@ app.get('/layout', async (c) => {
 
 // ---------------------------------------------------------------------------
 // Billing — GET /billing
+// SEC-001: workspace_id derived from JWT, role must be admin or above
 // ---------------------------------------------------------------------------
 
 app.get('/billing', async (c) => {
-  const workspaceId = c.req.header('x-workspace-id');
-  if (!workspaceId) return c.json({ error: 'x-workspace-id header required' }, 400);
+  const auth = c.get('auth');
 
+  try {
+    requireRole(auth, Role.Admin);
+  } catch {
+    return c.json({ error: 'Access denied. Admin role required.' }, 403);
+  }
+
+  const workspaceId = auth.workspaceId;
   const db = c.env.DB as unknown as D1Like;
   const rows = await db
     .prepare(
-      `SELECT id, workspace_id, paystack_ref, amount_kobo, status, metadata,
+      `SELECT id, workspace_id, paystack_ref, amount_naira, status, metadata,
               datetime(created_at,'unixepoch') AS created_at
        FROM billing_history
        WHERE workspace_id = ?
@@ -117,7 +207,7 @@ app.get('/billing', async (c) => {
     id: r.id,
     workspaceId: r.workspace_id,
     paystackRef: r.paystack_ref,
-    amountKobo: r.amount_kobo,
+    amountKobo: r.amount_naira,
     status: r.status,
     metadata: (() => { try { return JSON.parse(r.metadata) as Record<string, unknown>; } catch { return {}; } })(),
     createdAt: r.created_at,
@@ -125,5 +215,12 @@ app.get('/billing', async (c) => {
 
   return c.json({ workspaceId, records, total: records.length });
 });
+
+// ---------------------------------------------------------------------------
+// Template Marketplace UI — PROD-02
+// Auth already applied above — marketplaceRouter inherits it via parent app.
+// ---------------------------------------------------------------------------
+
+app.route('/marketplace', marketplaceRouter);
 
 export default app;

@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-dental-clinic",
   "version": "0.1.0",
   "private": true,
-  "description": "Dental Clinic / Orthodontist vertical — appointments, MDCN compliance, P13-safe AI. M9.",
+  "description": "[Pillar 1+3] Dental Clinic / Orthodontist vertical — appointments, MDCN compliance, P13-safe AI. M9.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

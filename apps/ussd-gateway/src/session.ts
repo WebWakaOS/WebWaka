@@ -9,8 +9,7 @@
 export type USSDState =
   | 'main_menu'
   | 'wallet_menu'
-  | 'send_money_enter_recipient'
-  | 'send_money_enter_amount'
+  | 'send_money_enter_phone_amount'
   | 'send_money_confirm'
   | 'trending_feed'
   | 'trending_view_post'

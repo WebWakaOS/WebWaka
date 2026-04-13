@@ -7,7 +7,7 @@
 export * from './types.js';
 export { BookshopRepository } from './bookshop.js';
 
-export const VERTICAL_SLUG = 'bookshop' as const;
+export const VERTICAL_SLUG = 'bookshop';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerBookshopVertical() {

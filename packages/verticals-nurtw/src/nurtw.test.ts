@@ -16,6 +16,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -56,6 +57,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r =>
@@ -63,13 +65,25 @@ function makeDb() {
         );
         return (found ?? null) as T;
       },
-      all: async <T>() => ({
-        results: store.filter(r =>
+      // eslint-disable-next-line @typescript-eslint/require-await
+      all: async <T>() => {
+        let filtered = store.filter(r =>
           vals.length >= 2
             ? (r['profile_id'] === vals[0] || r['member_id'] === vals[0]) && r['tenant_id'] === vals[1]
             : true
-        ),
-      } as { results: T[] }),
+        );
+        // Discriminate by table name so mixed record types don't bleed across queries.
+        // The shared in-memory store contains profiles, members, dues logs, and welfare claims;
+        // without discrimination, member rows (which have profile_id) would appear in welfare claim results.
+        if (sql.includes('union_welfare_claims')) {
+          filtered = filtered.filter(r => r['claim_type'] !== undefined);
+        } else if (sql.includes('union_members')) {
+          filtered = filtered.filter(r => r['member_name'] !== undefined);
+        } else if (sql.includes('union_dues_log')) {
+          filtered = filtered.filter(r => r['amount_kobo'] !== undefined && r['member_id'] !== undefined && r['claim_type'] === undefined);
+        }
+        return { results: filtered } as { results: T[] };
+      },
     });
     return { bind: bindFn };
   };

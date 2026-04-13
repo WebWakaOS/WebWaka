@@ -8,7 +8,7 @@
 export * from './types.js';
 export { FoodVendorRepository } from './food-vendor.js';
 
-export const VERTICAL_SLUG = 'food-vendor' as const;
+export const VERTICAL_SLUG = 'food-vendor';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerFoodVendorVertical() {

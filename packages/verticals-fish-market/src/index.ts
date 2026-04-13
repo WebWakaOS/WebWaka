@@ -9,7 +9,7 @@
 export * from './types.js';
 export { FishMarketRepository } from './fish-market.js';
 
-export const VERTICAL_SLUG = 'fish-market' as const;
+export const VERTICAL_SLUG = 'fish-market';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerFishMarketVertical() {

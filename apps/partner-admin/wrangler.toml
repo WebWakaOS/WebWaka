@@ -1,0 +1,67 @@
+# WebWaka OS — Partner Admin Worker
+# Target: Cloudflare Workers (TDR-0002)
+# Pillar: 1 — Operations-Management
+# Milestone: 11 — Partner & White-Label
+
+name = "webwaka-partner-admin"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# ARC-04: D1 + KV bindings for partner data operations
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "local-dev-placeholder"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# Local development (miniflare / wrangler dev)
+# ---------------------------------------------------------------------------
+
+[env.local]
+name = "webwaka-partner-admin-local"
+[env.local.vars]
+ENVIRONMENT = "development"
+
+# ---------------------------------------------------------------------------
+# Staging environment
+# ---------------------------------------------------------------------------
+
+[env.staging]
+name = "webwaka-partner-admin-staging"
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-staging"
+database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+
+[[env.staging.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "2a81cd5b8d094911a20e1e0f6a190506"
+
+# ---------------------------------------------------------------------------
+# Production environment
+# ---------------------------------------------------------------------------
+
+[env.production]
+name = "webwaka-partner-admin"
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+[[env.production.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"

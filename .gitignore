@@ -45,3 +45,6 @@ pnpm-debug.log*
 
 # Cloudflare
 .wrangler/
+
+# WebWaka Superagent workspace (not part of project source)
+.agents/

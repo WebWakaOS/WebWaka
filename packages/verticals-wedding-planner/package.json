@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-wedding-planner",
   "version": "0.1.0",
   "private": true,
-  "description": "Wedding Planner / Celebrant vertical — events, vendors, task checklist, AI pipeline. M12.",
+  "description": "[Pillar 1+3] Wedding Planner / Celebrant vertical — events, vendors, task checklist, AI pipeline. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

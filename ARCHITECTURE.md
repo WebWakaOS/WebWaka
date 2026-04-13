@@ -2,24 +2,6 @@
 
 > For detailed architecture decisions, see `docs/architecture/decisions/`.
 
-## 3-in-1 Pillar Architecture
-
-WebWaka's product surface is organized around three primary pillars and a cross-cutting AI layer. Every app, package, and vertical belongs to one or more pillars. All new modules must declare their primary pillar.
-
-| Pillar | Description | Primary Apps | Primary Packages |
-|--------|-------------|-------------|-----------------|
-| **Pillar 1 — Operations-Management (POS)** | Transaction, inventory, reporting, back-office workflows | `apps/api` (pos, payments, workspaces routes), `apps/ussd-gateway`, `apps/platform-admin`, `apps/partner-admin` | `packages/pos`, `packages/offerings`, `packages/workspaces`, `packages/payments` |
-| **Pillar 2 — Branding / Website / Portal** | Branded digital presence, single-vendor store, service portal | `apps/brand-runtime` | `packages/white-label-theming`, `packages/design-system`, `packages/frontend` |
-| **Pillar 3 — Listing / Multi-Vendor Marketplace** | Public discovery, claim-first onboarding, geography-driven search | `apps/public-discovery`, `apps/tenant-public` | `packages/profiles`, `packages/search-indexing`, `packages/claims`, `packages/geography`, `packages/verticals` |
-| **Cross-cutting — AI / SuperAgent** | Intelligence layer serving all three pillars (NOT a fourth pillar) | — | `packages/ai-abstraction`, `packages/ai-adapters`, `packages/superagent` |
-| **Pre-vertical Infrastructure** | Shared foundation for all pillars | `apps/api` (shared routes) | `packages/auth`, `packages/auth-tenancy`, `packages/entities`, `packages/entitlements`, `packages/identity`, `packages/community`, `packages/social`, `packages/otp`, `packages/contact` |
-
-**Pillar declaration rule:** All new packages must include `[Pillar N]`, `[AI]`, or `[Infra]` as the first word in their `package.json` `"description"` field. All new verticals must declare `primary_pillars` in their `VerticalRegistration`.
-
-See `docs/governance/3in1-platform-architecture.md` for the complete pillar reference.
-
----
-
 ## Platform Model
 
 WebWaka OS is a **multi-tenant, multi-vertical, white-label platform** where:
@@ -50,9 +32,13 @@ Storage
 apps/
   api/                  — Cloudflare Workers API entry point
   platform-admin/       — Super admin dashboard
+  admin-dashboard/      — Admin dashboard
   partner-admin/        — Partner/tenant management portal
   public-discovery/     — Public search and discovery frontend
   brand-runtime/        — Tenant-branded website/storefront runtime
+  ussd-gateway/         — USSD micro-transactions gateway
+  tenant-public/        — Per-tenant profile listing (discovery-lite)
+  projections/          — Data projection workers
 
 packages/
   entities/             — Canonical root entity definitions
@@ -71,6 +57,29 @@ packages/
   white-label-theming/  — Branding rules, theming, templates
   shared-config/        — Shared settings and environment helpers
 ```
+
+## 3-in-1 Platform Pillars
+
+WebWaka delivers three interconnected capabilities that can be subscribed to individually or in any combination:
+
+| Pillar | Name | Runtime | Description |
+|--------|------|---------|-------------|
+| **Pillar 1** | Operations-Management (POS) | `apps/api/`, `apps/admin-dashboard/`, `apps/ussd-gateway/` | Back-office: POS, float ledger, orders, inventory, staff, USSD |
+| **Pillar 2** | Branding / Website / Portal | `apps/brand-runtime/` | Front-of-house: branded website, storefront, service portal, white-label |
+| **Pillar 3** | Listing / Multi-Vendor Marketplace | `apps/public-discovery/` | Discovery: seeded directories, geography search, claim-first onboarding |
+| **Cross-cutting** | AI / SuperAgent | `packages/superagent/`, `packages/ai-abstraction/` | Intelligence layer across all pillars (NOT a fourth pillar) |
+
+### Pillar-to-Package Map
+
+```
+Pillar 1 (Ops):        packages/pos, packages/offerings, packages/workspaces, packages/payments
+Pillar 2 (Brand):      packages/white-label-theming, packages/design-system, packages/frontend
+Pillar 3 (Marketplace): packages/profiles, packages/search-indexing, packages/claims, packages/geography
+AI (Cross-cutting):    packages/superagent, packages/ai-abstraction, packages/ai-adapters
+Infra (Pre-vertical):  packages/auth, packages/entities, packages/entitlements, packages/relationships
+```
+
+See `docs/governance/3in1-platform-architecture.md` for authoritative module-to-pillar assignments.
 
 ## Key Design Rules
 

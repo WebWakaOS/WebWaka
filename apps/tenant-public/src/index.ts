@@ -15,12 +15,14 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
+import { createCorsConfig } from '@webwaka/shared-config';
 import { getTenantManifestBySlug, renderProfileList } from '@webwaka/frontend';
 import type { TenantManifest } from '@webwaka/frontend';
 
 interface Env {
   DB: D1Database;
   ENVIRONMENT: 'development' | 'staging' | 'production';
+  ALLOWED_ORIGINS?: string;
 }
 
 interface D1Like {
@@ -53,13 +55,52 @@ interface ProfileRow {
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
-app.use('*', cors());
+// SEC-06 + SEC-08 + ARC-05: Use shared CORS config with environment-aware localhost gating
+app.use('*', async (c, next) => {
+  const config = createCorsConfig({
+    environment: c.env.ENVIRONMENT,
+    ...(c.env.ALLOWED_ORIGINS !== undefined ? { allowedOriginsEnv: c.env.ALLOWED_ORIGINS } : {}),
+    allowHeaders: ['Content-Type'],
+    allowMethods: ['GET', 'OPTIONS'],
+  });
+  return cors(config)(c, next);
+});
 
 // ---------------------------------------------------------------------------
 // Health
 // ---------------------------------------------------------------------------
 
 app.get('/health', (c) => c.json({ status: 'ok', app: 'tenant-public' }));
+
+// ---------------------------------------------------------------------------
+// PWA assets (served from Worker)
+// ---------------------------------------------------------------------------
+
+app.get('/manifest.json', (c) => {
+  const manifest = {
+    name: 'WebWaka',
+    short_name: 'WebWaka',
+    description: "Nigeria's multi-vertical business platform",
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#1a6b3a',
+    lang: 'en-NG',
+    icons: [
+      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+    ],
+  };
+  return c.json(manifest, 200, { 'Content-Type': 'application/manifest+json', 'Cache-Control': 'public, max-age=3600' });
+});
+
+app.get('/sw.js', (c) => {
+  const sw = `const CACHE='webwaka-tenant-v1';const SHELL=['/','/manifest.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(clients.claim());});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+  return c.text(sw, 200, { 'Content-Type': 'application/javascript', 'Cache-Control': 'public, max-age=3600' });
+});
 
 // ---------------------------------------------------------------------------
 // Resolve tenant from Host header or x-tenant-slug

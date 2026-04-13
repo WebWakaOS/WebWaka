@@ -6,7 +6,7 @@
  */
 
 import type {
-  AdvertisingAgencyProfile, AdCampaign, AdMediaBuy, AdBilling,
+  AdvertisingAgencyProfile, AdCampaign, AdMediaBuy,
   AdvertisingAgencyFSMState, CampaignType, CampaignStatus,
   CreateAdvertisingAgencyInput, CreateAdCampaignInput, CreateAdMediaBuyInput,
 } from './types.js';
@@ -18,12 +18,9 @@ function now() { return Math.floor(Date.now() / 1000); }
 interface ProfileRow { id: string; workspace_id: string; tenant_id: string; agency_name: string; apcon_registration: string | null; oaan_membership: string | null; cac_rc: string | null; status: string; created_at: number; updated_at: number; }
 interface CampaignRow { id: string; profile_id: string; tenant_id: string; client_ref_id: string; campaign_name: string; campaign_type: string; budget_kobo: number; start_date: number; end_date: number; status: string; created_at: number; updated_at: number; }
 interface MediaBuyRow { id: string; campaign_id: string; tenant_id: string; channel: string; spend_kobo: number; impressions: number; cpm_kobo: number; created_at: number; updated_at: number; }
-interface BillingRow { id: string; profile_id: string; tenant_id: string; client_ref_id: string; period: string; media_spend_kobo: number; agency_commission_kobo: number; retainer_kobo: number; total_billed_kobo: number; created_at: number; updated_at: number; }
-
 function rowToProfile(r: ProfileRow): AdvertisingAgencyProfile { return { id: r.id, workspaceId: r.workspace_id, tenantId: r.tenant_id, agencyName: r.agency_name, apconRegistration: r.apcon_registration, oaanMembership: r.oaan_membership, cacRc: r.cac_rc, status: r.status as AdvertisingAgencyFSMState, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToCampaign(r: CampaignRow): AdCampaign { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, clientRefId: r.client_ref_id, campaignName: r.campaign_name, campaignType: r.campaign_type as CampaignType, budgetKobo: r.budget_kobo, startDate: r.start_date, endDate: r.end_date, status: r.status as CampaignStatus, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToMediaBuy(r: MediaBuyRow): AdMediaBuy { return { id: r.id, campaignId: r.campaign_id, tenantId: r.tenant_id, channel: r.channel, spendKobo: r.spend_kobo, impressions: r.impressions, cpmKobo: r.cpm_kobo, createdAt: r.created_at, updatedAt: r.updated_at }; }
-function rowToBilling(r: BillingRow): AdBilling { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, clientRefId: r.client_ref_id, period: r.period, mediaSpendKobo: r.media_spend_kobo, agencyCommissionKobo: r.agency_commission_kobo, retainerKobo: r.retainer_kobo, totalBilledKobo: r.total_billed_kobo, createdAt: r.created_at, updatedAt: r.updated_at }; }
 
 export class AdvertisingAgencyRepository {
   constructor(private db: D1Like) {}

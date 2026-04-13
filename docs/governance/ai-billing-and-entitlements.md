@@ -5,6 +5,8 @@
 **Builds on:** `packages/entitlements/src/plan-config.ts`, `packages/payments/src/subscription-sync.ts`  
 **Architectural decision:** ADL-008 (AI credits separate from subscription)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 1. Metering Units Per Capability
@@ -269,3 +271,92 @@ CREATE TABLE ai_credit_transactions (
 );
 CREATE INDEX idx_aict_workspace ON ai_credit_transactions(workspace_id, created_at);
 ```
+
+> **SuperAgent alignment (2026-04-13):** The tables above (`ai_credit_balances`, `ai_credit_transactions`) are the M8-AI baseline. The SuperAgent WakaCU wallet system (ADL-008) extends these with `wc_wallets`, `wc_transactions`, `partner_credit_pools`, and `partner_tenant_allocations` tables. See the WakaCU schema below.
+
+### WakaCU Wallet Schema (SuperAgent — post-ADL-008)
+
+```sql
+-- wc_wallets: per-workspace WakaCreditUnit balance
+CREATE TABLE wc_wallets (
+  workspace_id   TEXT PRIMARY KEY,
+  tenant_id      TEXT NOT NULL,
+  balance_wc     INTEGER NOT NULL DEFAULT 0,   -- P9: integer WakaCU
+  lifetime_wc    INTEGER NOT NULL DEFAULT 0,
+  updated_at     INTEGER DEFAULT (unixepoch())
+);
+
+-- wc_transactions: credit/debit audit trail
+CREATE TABLE wc_transactions (
+  id             TEXT PRIMARY KEY,
+  workspace_id   TEXT NOT NULL,
+  tenant_id      TEXT NOT NULL,
+  type           TEXT NOT NULL CHECK(type IN ('grant','purchase','usage_debit','partner_allocation','admin_adjust')),
+  amount_wc      INTEGER NOT NULL,   -- positive = credit; negative = debit (P9)
+  balance_after  INTEGER NOT NULL,
+  reference      TEXT,
+  created_at     INTEGER DEFAULT (unixepoch())
+);
+CREATE INDEX idx_wct_workspace ON wc_transactions(workspace_id, created_at);
+
+-- partner_credit_pools: wholesale WakaCU purchased by partners
+CREATE TABLE partner_credit_pools (
+  id             TEXT PRIMARY KEY,
+  partner_id     TEXT NOT NULL,
+  tenant_id      TEXT NOT NULL,
+  total_wc       INTEGER NOT NULL,   -- P9: integer WakaCU
+  used_wc        INTEGER NOT NULL DEFAULT 0,
+  expires_at     INTEGER,
+  created_at     INTEGER DEFAULT (unixepoch())
+);
+
+-- partner_tenant_allocations: partner → workspace WC allocation
+CREATE TABLE partner_tenant_allocations (
+  id             TEXT PRIMARY KEY,
+  pool_id        TEXT NOT NULL REFERENCES partner_credit_pools(id),
+  workspace_id   TEXT NOT NULL,
+  tenant_id      TEXT NOT NULL,
+  allocated_wc   INTEGER NOT NULL,   -- P9
+  used_wc        INTEGER NOT NULL DEFAULT 0,
+  allocated_at   INTEGER DEFAULT (unixepoch())
+);
+```
+
+### SuperAgent Key D1 Schema
+
+```sql
+CREATE TABLE superagent_keys (
+  id             TEXT PRIMARY KEY,
+  workspace_id   TEXT NOT NULL,
+  tenant_id      TEXT NOT NULL,
+  encrypted_key  TEXT NOT NULL,   -- AES-GCM encrypted, stored as base64
+  aggregator     TEXT NOT NULL CHECK(aggregator IN ('openrouter','together','groq','edenai')),
+  status         TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active','revoked','rotating')),
+  created_at     INTEGER DEFAULT (unixepoch()),
+  rotated_at     INTEGER
+);
+CREATE UNIQUE INDEX idx_sk_workspace ON superagent_keys(workspace_id) WHERE status = 'active';
+```
+
+### Partner AI Credit Resale Model
+
+Partners on the `partner` subscription tier may purchase WakaCU bundles wholesale at ₦0.60/WC (vs ₦1.00/WC retail) and allocate credits to their tenant workspaces:
+
+| Step | Actor | Action |
+|------|-------|--------|
+| 1 | Partner | Purchases WC bundle via Paystack → credited to `partner_credit_pools` |
+| 2 | Partner | Allocates WC to specific workspace via `POST /partner/credits/allocate` |
+| 3 | Platform | Workspace `wc_wallets.balance_wc` updated; `partner_tenant_allocations` record created |
+| 4 | Workspace | Uses WC normally; deductions flow through `wc_transactions` |
+
+Credits are scoped per-tenant — no cross-tenant sharing (T3 invariant).
+
+### Workspace Policy Overrides (Additions)
+
+The following fields are added to `workspace_ai_settings` (migration 0041):
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `auto_top_up` | BOOLEAN | Whether to auto-purchase WC when balance drops below threshold |
+| `auto_top_up_threshold_wc` | INTEGER | Balance threshold that triggers auto top-up (WakaCU) |
+| `auto_top_up_pack` | TEXT | Credit pack SKU to auto-purchase on trigger |

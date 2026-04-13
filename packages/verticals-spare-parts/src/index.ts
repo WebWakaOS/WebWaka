@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SparePartsRepository } from './spare-parts.js';
 
-export const VERTICAL_SLUG = 'spare-parts' as const;
+export const VERTICAL_SLUG = 'spare-parts';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerSparePartsVertical() {

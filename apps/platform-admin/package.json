@@ -3,12 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "WebWaka OS Platform Admin — local dev shim. Production: Cloudflare Pages.",
+  "description": "[Infra] WebWaka OS Platform Admin — local dev shim. Production: Cloudflare Pages.",
   "scripts": {
     "dev": "node server.js",
-    "typecheck": "echo 'No TypeScript in platform-admin yet — Milestone 2 pending'",
+    "typecheck": "tsc --noEmit",
     "test": "echo 'No tests in platform-admin yet — Milestone 2 pending'",
     "lint": "echo 'No lint in platform-admin yet — Milestone 2 pending'",
     "clean": "echo 'Nothing to clean in platform-admin yet'"
+  },
+  "dependencies": {
+    "@webwaka/auth": "workspace:*",
+    "@webwaka/types": "workspace:*",
+    "hono": "^4.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240524.0",
+    "typescript": "^5.4.5"
   }
 }

@@ -8,6 +8,12 @@
  *
  * Geography data is public — no auth required.
  * Results are cached in KV to avoid repeated D1 reads.
+ *
+ * PERF-02: Graceful degradation — on KV failure, each endpoint falls back
+ *          to a targeted D1 query instead of a full table-scan rebuild.
+ *          Full index rebuild only happens on a normal cache miss (KV reachable
+ *          but key expired). Individual place nodes are cached independently
+ *          for incremental warming.
  */
 
 import { Hono } from 'hono';
@@ -19,28 +25,51 @@ import type { Env } from '../env.js';
 const CACHE_TTL_SECONDS = 3600; // 1 hour
 const CACHE_KEY = 'geography:index:v1';
 
+type PlaceRow = { id: string; name: string; geography_type: string; parent_id: string | null; ancestry_path: string };
+
 const geographyRoutes = new Hono<{ Bindings: Env }>();
 
-/**
- * Load the geography index from KV cache or rebuild from D1.
- * The index is rebuilt at most once per hour.
- */
-async function getGeographyIndex(env: Env) {
-  const cached: null | Record<string, unknown> = await env.GEOGRAPHY_CACHE.get(CACHE_KEY, 'json');
-  if (cached) {
-    // Rebuild GeographyIndex Map from cached plain object
-    return new Map(Object.entries(cached)) as unknown as Awaited<ReturnType<typeof buildIndexFromD1>>;
+async function getGeographyIndex(env: Env): Promise<Awaited<ReturnType<typeof buildIndexFromD1>> | null> {
+  let kvReachable = true;
+  try {
+    const cached: null | Record<string, unknown> = await env.GEOGRAPHY_CACHE.get(CACHE_KEY, 'json');
+    if (cached) {
+      return new Map(Object.entries(cached)) as unknown as Awaited<ReturnType<typeof buildIndexFromD1>>;
+    }
+  } catch (err) {
+    console.error('[geography] KV read failed:', err);
+    kvReachable = false;
+  }
+
+  if (!kvReachable) {
+    return null;
   }
 
   const index = await buildIndexFromD1(env.DB);
 
-  // Serialize map to plain object for KV storage
-  const serialized = Object.fromEntries(index);
-  await env.GEOGRAPHY_CACHE.put(CACHE_KEY, JSON.stringify(serialized), {
-    expirationTtl: CACHE_TTL_SECONDS,
-  });
+  try {
+    const serialized = Object.fromEntries(index);
+    await env.GEOGRAPHY_CACHE.put(CACHE_KEY, JSON.stringify(serialized), {
+      expirationTtl: CACHE_TTL_SECONDS,
+    });
+  } catch (err) {
+    console.error('[geography] KV write failed (serving from D1):', err);
+  }
 
   return index;
+}
+
+async function getPlaceFromD1(env: Env, placeId: string): Promise<PlaceRow | null> {
+  return env.DB.prepare(
+    `SELECT id, name, geography_type, parent_id, ancestry_path FROM places WHERE id = ? LIMIT 1`,
+  ).bind(placeId).first<PlaceRow>();
+}
+
+async function getChildrenFromD1(env: Env, parentId: string): Promise<PlaceRow[]> {
+  const { results } = await env.DB.prepare(
+    `SELECT id, name, geography_type, parent_id, ancestry_path FROM places WHERE parent_id = ? ORDER BY name ASC LIMIT 500`,
+  ).bind(parentId).all<PlaceRow>();
+  return results;
 }
 
 // GET /geography/places/:placeId
@@ -49,13 +78,22 @@ geographyRoutes.get('/places/:placeId', async (c) => {
 
   try {
     const index = await getGeographyIndex(c.env);
-    const node = index.get(placeId);
 
-    if (!node) {
-      return c.json({ error: `Place '${placeId}' not found.` }, 404);
+    if (index) {
+      const node = index.get(placeId);
+      if (!node) {
+        return c.json({ error: `Place '${placeId}' not found.` }, 404);
+      }
+      c.header('Cache-Control', 'public, max-age=3600');
+      return c.json({ data: node });
     }
 
-    return c.json({ data: node });
+    const row = await getPlaceFromD1(c.env, placeId);
+    if (!row) {
+      return c.json({ error: `Place '${placeId}' not found.` }, 404);
+    }
+    c.header('Cache-Control', 'public, max-age=600');
+    return c.json({ data: row, _fallback: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal error';
     return c.json({ error: message }, 500);
@@ -68,11 +106,18 @@ geographyRoutes.get('/places/:placeId/children', async (c) => {
 
   try {
     const index = await getGeographyIndex(c.env);
-    const children = Array.from(index.values()).filter(
-      (node) => node.parentId === placeId,
-    );
 
-    return c.json({ data: children, count: children.length });
+    if (index) {
+      const children = Array.from(index.values()).filter(
+        (node) => node.parentId === placeId,
+      );
+      c.header('Cache-Control', 'public, max-age=3600');
+      return c.json({ data: children, count: children.length });
+    }
+
+    const children = await getChildrenFromD1(c.env, placeId);
+    c.header('Cache-Control', 'public, max-age=600');
+    return c.json({ data: children, count: children.length, _fallback: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal error';
     return c.json({ error: message }, 500);
@@ -85,18 +130,32 @@ geographyRoutes.get('/places/:placeId/ancestry', async (c) => {
 
   try {
     const index = await getGeographyIndex(c.env);
-    const node = index.get(placeId);
 
-    if (!node) {
-      return c.json({ error: `Place '${placeId}' not found.` }, 404);
+    if (index) {
+      const node = index.get(placeId);
+      if (!node) {
+        return c.json({ error: `Place '${placeId}' not found.` }, 404);
+      }
+      const ancestryNodes = (node.ancestryPath as PlaceId[])
+        .map((id) => index.get(id))
+        .filter((n): n is NonNullable<typeof n> => n !== undefined);
+      c.header('Cache-Control', 'public, max-age=3600');
+      return c.json({ data: ancestryNodes, placeId, count: ancestryNodes.length });
     }
 
-    // Resolve each ancestor ID in the ancestryPath to its full node
-    const ancestryNodes = (node.ancestryPath as PlaceId[])
-      .map((id) => index.get(id))
-      .filter((n): n is NonNullable<typeof n> => n !== undefined);
-
-    return c.json({ data: ancestryNodes, placeId, count: ancestryNodes.length });
+    const row = await getPlaceFromD1(c.env, placeId);
+    if (!row) {
+      return c.json({ error: `Place '${placeId}' not found.` }, 404);
+    }
+    let ancestryIds: string[] = [];
+    try { ancestryIds = JSON.parse(row.ancestry_path ?? '[]') as string[]; } catch { /* empty */ }
+    const ancestryNodes: PlaceRow[] = [];
+    for (const ancestorId of ancestryIds) {
+      const ancestor = await getPlaceFromD1(c.env, ancestorId);
+      if (ancestor) ancestryNodes.push(ancestor);
+    }
+    c.header('Cache-Control', 'public, max-age=600');
+    return c.json({ data: ancestryNodes, placeId, count: ancestryNodes.length, _fallback: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal error';
     return c.json({ error: message }, 500);
@@ -107,12 +166,6 @@ geographyRoutes.get('/places/:placeId/ancestry', async (c) => {
 // M7e: States, LGAs, Wards — D1 direct queries (public, cacheable)
 // ---------------------------------------------------------------------------
 
-/**
- * GET /geography/states
- * Returns all Nigerian states from the places table.
- * Public — no auth. T3 exception: geography is platform-wide, not tenant-scoped.
- * Cache-Control: public, max-age=86400
- */
 geographyRoutes.get('/states', async (c) => {
   interface StateRow {
     id: string;
@@ -138,11 +191,6 @@ geographyRoutes.get('/states', async (c) => {
   }
 });
 
-/**
- * GET /geography/lgas?stateId={id}
- * Returns LGAs belonging to the given state.
- * Public — no auth. Cache-Control: public, max-age=86400
- */
 geographyRoutes.get('/lgas', async (c) => {
   const stateId = c.req.query('stateId');
   if (!stateId || stateId.trim() === '') {
@@ -173,11 +221,6 @@ geographyRoutes.get('/lgas', async (c) => {
   }
 });
 
-/**
- * GET /geography/wards?lgaId={id}
- * Returns wards belonging to the given LGA.
- * Public — no auth. Cache-Control: public, max-age=86400
- */
 geographyRoutes.get('/wards', async (c) => {
   const lgaId = c.req.query('lgaId');
   if (!lgaId || lgaId.trim() === '') {

@@ -20,6 +20,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO community_health_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], org_name: vals[3], nphcda_affiliation: null, state_moh_registration: null, lga: null, status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO chw_workers')) { store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], chw_ref_id: vals[3], training_level: vals[4], lga: vals[5], ward: vals[6], status: 'active', created_at: 1, updated_at: 1 }); }
@@ -28,7 +29,9 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO chw_stock')) { const cnt = vals[4]; if (!Number.isInteger(cnt) || (cnt as number) < 0) throw new Error('unitCount must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], item_name: vals[3], unit_count: vals[4], dispensed_count: vals[5], last_restocked: null, created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; if (sql.includes('COUNT(*)') && sql.includes('SUM')) return { cnt: 0, refs: 0 } as unknown as T; if (sql.includes('COUNT(*)')) return { cnt: 0 } as unknown as T; return null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -97,43 +100,43 @@ describe('community-health vertical', () => {
   });
 
   it('T3: createProfile stores tenantId', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', orgName: 'Kano CHW Network' });
     expect(p.tenantId).toBe('tenant-A');
     expect(p.status).toBe('seeded');
   });
 
   it('T3: cross-tenant lookup returns null', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     expect(await repo.findProfileById('no-such-id', 'tenant-B')).toBeNull();
   });
 
   it('P13: household_ref_id is opaque UUID (never address)', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     const v = await repo.createVisit({ profileId: 'p1', tenantId: 'tenant-A', chwRefId: 'chw1' });
     expect(v.householdRefId).toMatch(/^[0-9a-f-]{36}$/i);
     expect(v.householdRefId).not.toContain('Lagos');
   });
 
   it('CHW worker created with opaque ref', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     const w = await repo.createWorker({ profileId: 'p1', tenantId: 'tenant-A' });
     expect(w.chwRefId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('immunisation: dosesAdministered must be integer', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     await expect(repo.createImmunisation({ profileId: 'p1', tenantId: 'tenant-A', chwRefId: 'chw1', vaccineName: 'OPV', dosesAdministered: 5.5 })).rejects.toThrow('integer');
   });
 
   it('immunisation: integer dosesAdministered accepted', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     const imm = await repo.createImmunisation({ profileId: 'p1', tenantId: 'tenant-A', chwRefId: 'chw1', vaccineName: 'OPV', dosesAdministered: 12 });
     expect(imm.dosesAdministered).toBe(12);
   });
 
   it('stock: unitCount must be non-negative integer', async () => {
-    const repo = new CommunityHealthRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new CommunityHealthRepository(makeDb());
     await expect(repo.createStock({ profileId: 'p1', tenantId: 'tenant-A', itemName: 'ORS', unitCount: -5 })).rejects.toThrow('integer');
   });
 

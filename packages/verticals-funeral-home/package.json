@@ -2,9 +2,13 @@
   "name": "@webwaka/verticals-funeral-home",
   "version": "0.1.0",
   "private": true,
-  "description": "Funeral Home / Mortuary vertical — case management, billing, L3 HITL AI. M12.",
+  "description": "[Pillar 1+3] Funeral Home / Mortuary vertical — case management, billing, L3 HITL AI. M12.",
   "main": "./src/index.ts",
-  "exports": { ".": { "source": "./src/index.ts" } },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

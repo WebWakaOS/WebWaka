@@ -1,5 +1,9 @@
 /**
  * Tests for USSD input processor — multi-step flow validation.
+ *
+ * UX-08: Send Money flow flattened from 4 to 3 levels.
+ * Old: main → enter_recipient → enter_amount → confirm (4 interactions)
+ * New: main → enter_phone_amount (PHONE*AMOUNT) → confirm (3 interactions)
  */
 
 import { describe, it, expect } from 'vitest';
@@ -30,9 +34,9 @@ describe('processUSSDInput — main menu', () => {
     expect(result.ended).toBe(false);
   });
 
-  it('routes "2" to send money (enter recipient)', () => {
+  it('routes "2" to send money (enter phone+amount)', () => {
     const result = processUSSDInput(makeSession(), '2');
-    expect(result.session.state).toBe('send_money_enter_recipient');
+    expect(result.session.state).toBe('send_money_enter_phone_amount');
     expect(result.ended).toBe(false);
   });
 
@@ -82,60 +86,97 @@ describe('processUSSDInput — wallet menu', () => {
   });
 });
 
-describe('processUSSDInput — send money multi-step flow', () => {
-  it('stores recipient in session data on enter_recipient step', () => {
-    const session = makeSession('send_money_enter_recipient');
-    const result = processUSSDInput(session, '2*+2348099999999');
-    expect(result.session.state).toBe('send_money_enter_amount');
-    expect(result.session.data['recipient']).toBe('+2348099999999');
-    expect(result.ended).toBe(false);
-  });
-
-  it('rejects short phone number on enter_recipient', () => {
-    const session = makeSession('send_money_enter_recipient');
-    const result = processUSSDInput(session, '2*123');
-    expect(result.text).toMatch(/^END /);
-    expect(result.ended).toBe(true);
-  });
-
-  it('stores amount in session data on enter_amount step', () => {
-    const session = makeSession('send_money_enter_amount', { recipient: '+2348099999999' });
-    const result = processUSSDInput(session, '2*+2348099999999*500');
+describe('processUSSDInput — send money (UX-08 flattened)', () => {
+  it('parses PHONE*AMOUNT from full text and goes to confirm', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*500');
     expect(result.session.state).toBe('send_money_confirm');
+    expect(result.session.data['recipient']).toBe('08012345678');
     expect(result.session.data['amount']).toBe('500');
     expect(result.ended).toBe(false);
   });
 
-  it('rejects invalid amount', () => {
-    const session = makeSession('send_money_enter_amount', { recipient: '+2348099999999' });
-    const result = processUSSDInput(session, '2*+2348099999999*abc');
+  it('parses international phone format', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*+2348099999999*1000');
+    expect(result.session.state).toBe('send_money_confirm');
+    expect(result.session.data['recipient']).toBe('+2348099999999');
+    expect(result.session.data['amount']).toBe('1000');
+  });
+
+  it('rejects input without enough segments (no amount)', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678');
+    expect(result.text).toMatch(/^END /);
+    expect(result.text).toContain('PHONE*AMOUNT');
+    expect(result.ended).toBe(true);
+  });
+
+  it('rejects short phone number', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*123*500');
+    expect(result.text).toMatch(/^END /);
+    expect(result.text).toContain('phone');
+    expect(result.ended).toBe(true);
+  });
+
+  it('rejects non-numeric amount', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*abc');
+    expect(result.text).toMatch(/^END /);
+    expect(result.text).toContain('amount');
+    expect(result.ended).toBe(true);
+  });
+
+  it('rejects zero amount', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*0');
+    expect(result.text).toMatch(/^END /);
+    expect(result.ended).toBe(true);
+  });
+
+  it('rejects negative amount', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*-100');
+    expect(result.text).toMatch(/^END /);
+    expect(result.ended).toBe(true);
+  });
+
+  it('rejects amount with trailing letters (e.g. 500abc)', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*500abc');
+    expect(result.text).toMatch(/^END /);
+    expect(result.ended).toBe(true);
+  });
+
+  it('accepts decimal amount like 1500.50', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*08012345678*1500.50');
+    expect(result.session.state).toBe('send_money_confirm');
+    expect(result.session.data['amount']).toBe('1500.50');
+  });
+
+  it('rejects non-numeric phone (alpha chars)', () => {
+    const session = makeSession('send_money_enter_phone_amount');
+    const result = processUSSDInput(session, '2*abcdefghij*500');
     expect(result.text).toMatch(/^END /);
     expect(result.ended).toBe(true);
   });
 
   it('confirms transfer on "1" in send_money_confirm', () => {
-    const session = makeSession('send_money_confirm', { recipient: '+2348099999999', amount: '500' });
-    const result = processUSSDInput(session, '2*+2348099999999*500*1');
+    const session = makeSession('send_money_confirm', { recipient: '08012345678', amount: '500' });
+    const result = processUSSDInput(session, '2*08012345678*500*1');
     expect(result.text).toMatch(/^END /);
     expect(result.text).toContain('initiated');
     expect(result.ended).toBe(true);
   });
 
   it('cancels transfer on "2" in send_money_confirm', () => {
-    const session = makeSession('send_money_confirm', { recipient: '+2348099999999', amount: '500' });
-    const result = processUSSDInput(session, '2*+2348099999999*500*2');
+    const session = makeSession('send_money_confirm', { recipient: '08012345678', amount: '500' });
+    const result = processUSSDInput(session, '2*08012345678*500*2');
     expect(result.text).toMatch(/^END /);
     expect(result.text).toContain('cancelled');
     expect(result.ended).toBe(true);
-  });
-});
-
-describe('processUSSDInput — trailing-input extraction', () => {
-  it('extracts last pipe-segment as input', () => {
-    // text="1*2*500" → lastInput="500" → processed in send_money_enter_amount
-    const session = makeSession('send_money_enter_amount', { recipient: '+2348099999999' });
-    const result = processUSSDInput(session, '2*+2348099999999*500');
-    expect(result.session.data['amount']).toBe('500');
   });
 });
 
@@ -153,7 +194,6 @@ describe('processUSSDInput — trending_feed (Branch 3)', () => {
   it('shows "0. Back" in trending feed menu', () => {
     const session = makeSession('trending_feed');
     const result = processUSSDInput(session, '3*0');
-    // input "0" from trending_feed → back to main menu
     expect(result.session.state).toBe('main_menu');
     expect(result.ended).toBe(false);
   });

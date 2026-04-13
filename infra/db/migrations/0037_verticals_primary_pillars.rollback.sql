@@ -1,0 +1,3 @@
+-- Rollback for ALTER TABLE migration
+-- SQLite <3.35 does not support DROP COLUMN. Manual table rebuild required.
+-- ALTER TABLE verticals DROP COLUMN primary_pillars; -- D1/SQLite does not support DROP COLUMN before 3.35

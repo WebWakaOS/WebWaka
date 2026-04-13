@@ -5,6 +5,8 @@
 **Extends:** TDR-0009 (`docs/architecture/decisions/0009-ai-provider-abstraction.md`)  
 **Depends on:** `packages/ai-abstraction/src/types.ts` (existing), migration 0037 (planned)
 
+> **3-in-1 Position:** AI is a cross-cutting intelligence layer that enhances all three pillars (Pillar 1 — Operations-Management, Pillar 2 — Branding, Pillar 3 — Marketplace). It is NOT a fourth pillar. All AI features must be accessed through the `@webwaka/ai-abstraction` and `@webwaka/ai-adapters` packages. See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
 ---
 
 ## 1. Super-Admin Platform Keys
@@ -16,10 +18,13 @@ Platform keys are API keys owned by the WebWaka platform team and used as the de
 
 ```typescript
 // apps/api/src/env.ts additions
-OPENAI_API_KEY_1?: string;        // Primary OpenAI key
-OPENAI_API_KEY_2?: string;        // Secondary OpenAI key (for key rotation / load split)
-ANTHROPIC_API_KEY_1?: string;     // Primary Anthropic key
-GOOGLE_AI_API_KEY_1?: string;     // Primary Google AI key
+// Platform keys (ADL-010): aggregator-only — no direct first-party vendor keys as platform keys
+OPENROUTER_API_KEY_1?: string;    // Primary aggregator key (OpenRouter)
+OPENROUTER_API_KEY_2?: string;    // Secondary OpenRouter key (rotation / load split)
+TOGETHER_API_KEY_1?: string;      // Together AI co-aggregator key
+GROQ_API_KEY_1?: string;          // Groq co-aggregator key (fast inference)
+EDEN_AI_KEY_1?: string;           // Eden AI key (multimodal — TTS, STT, translation, vision)
+// Direct OpenAI/Anthropic/Google keys are user/workspace BYOK only — not platform keys (ADL-010)
 AI_DEFAULT_PROVIDER: string;      // 'openai' | 'anthropic' | 'google'
 AI_FALLBACK_PROVIDER?: string;    // Different provider for fallback
 AI_KEY_VAULT_KV: KVNamespace;     // KV binding for health check cache
@@ -33,6 +38,10 @@ AI_KEY_VAULT_KV: KVNamespace;     // KV binding for health check cache
 ---
 
 ## 2. Workspace-Owned Provider Keys (Workspace BYOK)
+
+> **SuperAgent addition (2026-04-13):** When no BYOK is registered, SuperAgent auto-issues a workspace-scoped managed key (stored in `superagent_keys` D1 table, encrypted in `SA_KEY_KV`). This managed key routes through the platform aggregator pool and is used as Level 3 in the resolution chain. Workspaces with registered BYOK keys always use those in preference.
+
+
 
 Workspace admins can register their own API keys for any supported provider.
 

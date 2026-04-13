@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-nurtw",
   "version": "0.1.0",
   "private": true,
-  "description": "NURTW / Road Transport Union vertical — member register, dues collection, welfare claims. M12.",
+  "description": "[Pillar 1+3] NURTW / Road Transport Union vertical — member register, dues collection, welfare claims. M12.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

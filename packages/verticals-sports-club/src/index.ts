@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SportsClubRepository } from './sports-club.js';
 
-export const VERTICAL_SLUG = 'sports-club' as const;
+export const VERTICAL_SLUG = 'sports-club';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerSportsClubVertical() {

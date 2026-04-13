@@ -7,7 +7,7 @@
 export * from './types.js';
 export { UsedCarDealerRepository } from './used-car-dealer.js';
 
-export const VERTICAL_SLUG = 'used-car-dealer' as const;
+export const VERTICAL_SLUG = 'used-car-dealer';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerUsedCarDealerVertical() {

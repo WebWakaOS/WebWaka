@@ -2,10 +2,10 @@
 
 **Document type:** Governance — canonical platform architecture reference  
 **Status:** Approved — replaces all scattered 3-in-1 references  
-**Date:** 2026-04-09  
+**Date:** 2026-04-09 (created), 2026-04-11 (updated — Phase 4 remediation)  
 **Author:** Replit Agent (3-in-1 audit and remediation)  
 **Founder approved:** Pending  
-**Repo:** https://github.com/WebWakaDOS/webwaka-os
+**Repo:** https://github.com/WebWakaOS/WebWaka
 
 > **This document is the single source of truth for the 3-in-1 platform structure.**  
 > All new modules, apps, packages, and verticals must be declared here before implementation begins.  
@@ -139,11 +139,11 @@ SuperAgent (AI) capabilities are tier-based within any subscription (Free, Growt
 |-----|-------------------|--------|-------|
 | `apps/api/` | Infra (all pillars served via this API) | ✅ Live | Shared API gateway |
 | `apps/platform-admin/` | Pillar 1 — Ops | ✅ Live | WebWaka super-admin |
-| `apps/partner-admin/` | Pillar 1 — Ops | ✅ Live | Partner/tenant management |
+| `apps/partner-admin/` | Pillar 1 — Ops | ⚠️ Scaffolded | Partner/tenant management (M11 roadmap) |
 | `apps/admin-dashboard/` | Pillar 1 — Ops | ✅ Live | Admin dashboard |
 | `apps/ussd-gateway/` | Pillar 1 — Ops | ✅ Live | USSD micro-transactions |
-| `apps/brand-runtime/` | **Pillar 2 — Branding** | ❌ Not implemented | Tenant-branded websites/stores |
-| `apps/public-discovery/` | **Pillar 3 — Marketplace** | ❌ Not implemented | Public directory frontend |
+| `apps/brand-runtime/` | **Pillar 2 — Branding** | ✅ Live | Tenant-branded websites/stores — home, about, services, contact pages with mobile-first CSS, SEO, offline-capable contact form |
+| `apps/public-discovery/` | **Pillar 3 — Marketplace** | ✅ Live | Public directory frontend — search, geography browse, category chips, entity profiles, Schema.org structured data, claim CTA |
 | `apps/tenant-public/` | Pillar 3 — Marketplace | ⚠️ Partial | Per-tenant profile listing (discovery-lite) |
 | `apps/projections/` | Pillar 1 — Ops | ✅ Live | Data projection workers |
 
@@ -225,19 +225,22 @@ Add "branding" when:
 
 ---
 
-## 6. Implementation Gaps (as of 2026-04-09)
+## 6. Implementation Status (as of 2026-04-11, post-Phase 3 remediation)
 
-| Item | Gap | Remediation | Phase |
-|------|-----|-------------|-------|
-| `apps/brand-runtime/` | Empty — no implementation | Implement Pillar 2 MVP (PV-1.1) | Phase 2 |
-| `apps/public-discovery/` | Empty — no implementation | Implement Pillar 3 MVP (PV-1.2) | Phase 2 |
-| `verticals` table | No `primary_pillars` column | Migration 0046 + seed update (PV-0.2) | Phase 1 |
-| Execution prompt docs | No pillar labels on task blocks | PV-0.5 — update all 7 docs | Phase 1 |
-| `packages/white-label-theming/` | Not wired to any surface app | PV-1.3 — wire to brand-runtime | Phase 2 |
-| AI governance docs | No 3-in-1 position statement | DOC-6 — add header to each | Phase 1 |
-| `package.json` descriptions | No `[Pillar N]` prefix | CODE-4 — update all descriptions | Phase 1 |
+| Item | Status | Notes |
+|------|--------|-------|
+| `apps/brand-runtime/` | ✅ DONE | Pillar 2 MVP live — branded home, about, services, contact pages with white-label theming, mobile-first CSS, SEO, offline contact form |
+| `apps/public-discovery/` | ✅ DONE | Pillar 3 MVP live — search, geography browse, category chips, entity profiles, Schema.org structured data, claim CTA |
+| `verticals` table | ✅ DONE | `primary_pillars` column in migrations |
+| Execution prompt docs | ✅ DONE (Phase 4) | Pillar labels added to all execution prompt task blocks |
+| `packages/white-label-theming/` | ✅ DONE | Wired to brand-runtime via `generateCssTokens()` + `getBrandTokens()` |
+| AI governance docs | ✅ DONE (Phase 4) | 3-in-1 position statement added to all AI docs |
+| `package.json` descriptions | ✅ DONE | All 175+ packages have `[Pillar N]` prefix — CI enforced by `check-pillar-prefix.ts` |
+| Cross-pillar data flow | ✅ DONE | `packages/offerings/` shared data layer, `search_index` D1 table with triggers |
+| Geography seeding | ✅ DONE | 774 LGAs, 37 states, 6 zones + ward-level data for priority states |
+| Claim lifecycle FSM | ✅ DONE | 8 states, transition guards, 36 tests |
 
-See `docs/governance/webwaka_3in1_remediation_plan.md` for full remediation details.
+See `docs/reports/governance-remediation-plan-2026-04-11.md` for full remediation details.
 
 ---
 
@@ -268,6 +271,6 @@ Add to `CONTRIBUTING.md` and the PR template:
 
 ---
 
-*Last updated: 2026-04-09*  
+*Last updated: 2026-04-11 — Phase 4 documentation harmonization*  
 *Authority: This document governs all architectural decisions regarding platform pillar structure.*  
 *Companion documents: `docs/governance/webwaka_3in1_core_audit_summary.md`, `docs/governance/webwaka_3in1_remediation_plan.md`*

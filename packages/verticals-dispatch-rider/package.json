@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-dispatch-rider",
   "version": "0.1.0",
   "private": true,
-  "description": "Dispatch Rider Network vertical — job dispatch, rider earnings, FRSC compliance. M9.",
+  "description": "[Pillar 1+3] Dispatch Rider Network vertical — job dispatch, rider earnings, FRSC compliance. M9.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

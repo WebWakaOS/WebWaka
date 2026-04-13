@@ -22,13 +22,16 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO abattoir_profiles')) store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], abattoir_name: vals[3], nafdac_registration: vals[4], nvri_approval: vals[5], state_animal_health_cert: vals[6], cac_rc: vals[7], capacity_head_per_day: vals[8], status: 'seeded', created_at: 1, updated_at: 1 });
           if (sql.startsWith('INSERT INTO abattoir_slaughter_log')) { const hc = vals[5]; if (!Number.isInteger(hc) || (hc as number) < 0) throw new Error('headCount must be a non-negative integer'); const myk = vals[7]; if (!Number.isInteger(myk) || (myk as number) < 0) throw new Error('meatYieldKg must be a non-negative integer kg'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], slaughter_date: vals[3], animal_type: vals[4], head_count: vals[5], vet_inspected: vals[6], meat_yield_kg: vals[7], created_at: 1 }); }
           if (sql.startsWith('INSERT INTO abattoir_sales')) { const qkg = vals[5]; if (!Number.isInteger(qkg) || (qkg as number) < 0) throw new Error('quantityKg must be a non-negative integer'); const pric = vals[6]; if (!Number.isInteger(pric) || (pric as number) < 0) throw new Error('P9: pricePerKgKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], buyer_phone: vals[3], animal_type: vals[4], quantity_kg: vals[5], price_per_kg_kobo: vals[6], total_kobo: vals[7], sale_date: vals[8], created_at: 1 }); }
           return { success: true };
         },
-        first: async <T>() => { if (sql.includes('WHERE id=?')) { const row = store.get(vals[0] as string) ?? null; if (row && vals[1] !== undefined) { const r = row as Record<string, unknown>; if (r['tenant_id'] !== vals[1]) return null as T | null; } return row as T | null; } return null as T | null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
+        first: async <T>() => { if (sql.includes('WHERE id=?')) { const row = store.get(vals[0] as string) ?? null; if (row && sql.includes('AND tenant_id=?') && (row as Record<string, unknown>)['tenant_id'] !== vals[1]) return null as T | null; return row as T | null; } return null as T | null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -138,4 +141,3 @@ describe('abattoir vertical', () => {
     await expect(repo.createSale({ profileId: 'p1', tenantId: 'tid1', buyerPhone: '08012345678', animalType: 'cattle', quantityKg: 100, pricePerKgKobo: 5000.5, totalKobo: 500000, saleDate: 1000 })).rejects.toThrow('P9');
   });
 });
-

@@ -20,6 +20,7 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
+        // eslint-disable-next-line @typescript-eslint/require-await
         run: async () => {
           if (sql.startsWith('INSERT INTO vet_clinic_profiles')) { store.set(vals[0] as string, { id: vals[0], workspace_id: vals[1], tenant_id: vals[2], clinic_name: vals[3], vcnb_registration: null, cac_rc: null, clinic_type: vals[4], status: 'seeded', created_at: 1, updated_at: 1 }); }
           if (sql.startsWith('INSERT INTO vet_patients')) { store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], animal_ref_id: vals[3], species: vals[4], breed: vals[5], owner_ref_id: vals[6], age_months: vals[7], created_at: 1, updated_at: 1 }); }
@@ -28,7 +29,9 @@ function makeDb() {
           if (sql.startsWith('INSERT INTO vet_shop_inventory')) { const price = vals[5]; if (!Number.isInteger(price) || (price as number) < 0) throw new Error('P9: unitPriceKobo must be a non-negative integer'); store.set(vals[0] as string, { id: vals[0], profile_id: vals[1], tenant_id: vals[2], product_name: vals[3], category: vals[4], unit_price_kobo: vals[5], quantity_in_stock: vals[6], created_at: 1, updated_at: 1 }); }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => { if (sql.includes('WHERE id=?')) return (store.get(vals[0] as string) ?? null) as T | null; if (sql.includes('COUNT(*)')) return { cnt: 0 } as unknown as T; return null; },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => ({ results: [] as T[] }),
       }),
     }),
@@ -93,42 +96,42 @@ describe('vet-clinic vertical', () => {
   });
 
   it('T3: createProfile stores tenantId', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tenant-A', clinicName: 'PawCare Clinic' });
     expect(p.tenantId).toBe('tenant-A');
     expect(p.status).toBe('seeded');
   });
 
   it('T3: cross-tenant lookup returns null', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     expect(await repo.findProfileById('no-such-id', 'tenant-B')).toBeNull();
   });
 
   it('P13: animal_ref_id is opaque UUID', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     const p = await repo.createPatient({ profileId: 'p1', tenantId: 'tenant-A', species: 'dog' });
     expect(p.animalRefId).toMatch(/^[0-9a-f-]{36}$/i);
     expect(p.animalRefId).not.toContain('Bingo');
   });
 
   it('P13: owner_ref_id is opaque UUID (never phone/name)', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     const p = await repo.createPatient({ profileId: 'p1', tenantId: 'tenant-A', species: 'cat' });
     expect(p.ownerRefId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('P9: createAppointment rejects fractional fee', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     await expect(repo.createAppointment({ profileId: 'p1', tenantId: 'tenant-A', animalRefId: 'a1', vetId: 'v1', appointmentTime: 1700000000, consultationFeeKobo: 2500.99 })).rejects.toThrow('P9');
   });
 
   it('P9: createVaccination rejects fractional costKobo', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     await expect(repo.createVaccination({ profileId: 'p1', tenantId: 'tenant-A', animalRefId: 'a1', vaccineName: 'Rabies', costKobo: 1500.5 })).rejects.toThrow('P9');
   });
 
   it('P9: createShopItem rejects fractional unitPriceKobo', async () => {
-    const repo = new VetClinicRepository(makeDb() as ReturnType<typeof makeDb>);
+    const repo = new VetClinicRepository(makeDb());
     await expect(repo.createShopItem({ profileId: 'p1', tenantId: 'tenant-A', productName: 'Dog Food', unitPriceKobo: 99.99 })).rejects.toThrow('P9');
   });
 

@@ -155,10 +155,12 @@ export class OpenAICompatAdapter implements AIAdapter {
 
     try {
       while (true) {
-        const { done, value } = await reader.read() as { done: boolean; value: Uint8Array | undefined };
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value ?? new Uint8Array(), { stream: true });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split('\n');
 
         for (const line of lines) {
@@ -189,4 +191,3 @@ export class OpenAICompatAdapter implements AIAdapter {
     };
   }
 }
-

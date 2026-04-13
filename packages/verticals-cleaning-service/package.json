@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-cleaning-service",
   "version": "0.1.0",
   "private": true,
-  "description": "Cleaning Service vertical — FSM, job scheduling, supply tracking. M9 Commerce P2.",
+  "description": "[Pillar 1+3] Cleaning Service vertical — FSM, job scheduling, supply tracking. M9 Commerce P2.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

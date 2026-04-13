@@ -2,18 +2,64 @@
  * Platform Admin — Claims Dashboard
  * Hono routes for super-admin claim management.
  *
- * GET  /admin/claims          — list pending claim requests
- * GET  /admin/claims/:id      — claim request detail + evidence viewer
- * POST /admin/claims/:id/approve — approve a claim
- * POST /admin/claims/:id/reject  — reject a claim
- * POST /admin/claims/expire-stale — expire claims older than 30 days
+ * GET  /admin/claims          — list pending claim requests (super_admin)
+ * GET  /admin/claims/:id      — claim request detail + evidence (super_admin)
+ * POST /admin/claims/:id/approve — approve a claim (super_admin)
+ * POST /admin/claims/:id/reject  — reject a claim (super_admin)
+ * POST /admin/claims/expire-stale — expire claims older than 30 days (super_admin)
  *
  * Milestone 5 — Platform Admin Claims Dashboard (Hono stub)
+ * SEC-002: JWT auth + super_admin role replaces X-Admin-Id header trust (2026-04-11)
  */
 
 import { Hono } from 'hono';
+import {
+  resolveAuthContext,
+  requireSuperAdmin,
+} from '@webwaka/auth';
+import type { AuthContext } from '@webwaka/types';
 
-const claimsAdminRoutes = new Hono();
+interface PlatformAdminEnv {
+  DB?: D1Like;
+  JWT_SECRET: string;
+}
+
+declare module 'hono' {
+  interface ContextVariableMap {
+    auth: AuthContext;
+  }
+}
+
+const claimsAdminRoutes = new Hono<{ Bindings: PlatformAdminEnv }>();
+
+// ---------------------------------------------------------------------------
+// JWT Authentication middleware — all claims routes require super_admin
+// SEC-002: Replaces untrusted X-Admin-Id header with JWT-verified identity
+// ---------------------------------------------------------------------------
+
+claimsAdminRoutes.use('*', async (c, next) => {
+  const authHeader = c.req.header('Authorization') ?? null;
+  const jwtSecret = c.env.JWT_SECRET;
+
+  if (!jwtSecret) {
+    return c.json({ error: 'Server misconfigured: JWT_SECRET not set' }, 500);
+  }
+
+  const result = await resolveAuthContext(authHeader, jwtSecret);
+
+  if (!result.success) {
+    return c.json({ error: result.message }, result.status);
+  }
+
+  try {
+    requireSuperAdmin(result.context);
+  } catch {
+    return c.json({ error: 'Access denied. Super admin role required.' }, 403);
+  }
+
+  c.set('auth', result.context);
+  await next();
+});
 
 // ---------------------------------------------------------------------------
 // Shared D1Like type (local — see platform invariants)
@@ -52,7 +98,7 @@ interface ClaimRequestRow {
 // ---------------------------------------------------------------------------
 
 claimsAdminRoutes.get('/', async (c) => {
-  const db = (c.env as { DB?: D1Like }).DB;
+  const db = c.env.DB;
   if (!db) return c.json({ error: 'Database not available' }, 503);
 
   const status = c.req.query('status') ?? 'pending';
@@ -64,24 +110,40 @@ claimsAdminRoutes.get('/', async (c) => {
     return c.json({ error: `status must be one of: ${validStatuses.join('|')}` }, 400);
   }
 
-  const whereClause = status === 'all' ? '' : `WHERE cr.status = '${status}'`;
+  const isAll = status === 'all';
 
-  const rows = await db
-    .prepare(
-      `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
-       FROM claim_requests cr
-       JOIN profiles p ON p.id = cr.profile_id
-       ${whereClause}
-       ORDER BY cr.created_at DESC
-       LIMIT ? OFFSET ?`,
-    )
-    .bind(limit, offset)
-    .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>();
+  const rows = isAll
+    ? await db
+        .prepare(
+          `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
+           FROM claim_requests cr
+           JOIN profiles p ON p.id = cr.profile_id
+           ORDER BY cr.created_at DESC
+           LIMIT ? OFFSET ?`,
+        )
+        .bind(limit, offset)
+        .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>()
+    : await db
+        .prepare(
+          `SELECT cr.*, p.subject_type, p.subject_id, p.claim_state
+           FROM claim_requests cr
+           JOIN profiles p ON p.id = cr.profile_id
+           WHERE cr.status = ?
+           ORDER BY cr.created_at DESC
+           LIMIT ? OFFSET ?`,
+        )
+        .bind(status, limit, offset)
+        .all<ClaimRequestRow & { subject_type: string; subject_id: string; claim_state: string }>();
 
-  const total = await db
-    .prepare(`SELECT COUNT(*) AS cnt FROM claim_requests ${whereClause}`)
-    .bind()
-    .first<{ cnt: number }>();
+  const total = isAll
+    ? await db
+        .prepare('SELECT COUNT(*) AS cnt FROM claim_requests')
+        .bind()
+        .first<{ cnt: number }>()
+    : await db
+        .prepare('SELECT COUNT(*) AS cnt FROM claim_requests WHERE status = ?')
+        .bind(status)
+        .first<{ cnt: number }>();
 
   return c.json({
     claims: rows.results.map((r) => ({
@@ -109,7 +171,7 @@ claimsAdminRoutes.get('/', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimsAdminRoutes.get('/:id', async (c) => {
-  const db = (c.env as { DB?: D1Like }).DB;
+  const db = c.env.DB;
   if (!db) return c.json({ error: 'Database not available' }, 503);
 
   const claimId = c.req.param('id');
@@ -161,11 +223,11 @@ claimsAdminRoutes.get('/:id', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimsAdminRoutes.post('/:id/approve', async (c) => {
-  const db = (c.env as { DB?: D1Like }).DB;
+  const db = c.env.DB;
   if (!db) return c.json({ error: 'Database not available' }, 503);
 
+  const auth = c.get('auth');
   const claimId = c.req.param('id');
-  const adminId = c.req.header('X-Admin-Id') ?? 'platform-admin';
 
   const row = await db
     .prepare('SELECT id, status, profile_id FROM claim_requests WHERE id = ?')
@@ -185,7 +247,7 @@ claimsAdminRoutes.post('/:id/approve', async (c) => {
        SET status = 'approved', approved_by = ?, updated_at = unixepoch()
        WHERE id = ?`,
     )
-    .bind(adminId, claimId)
+    .bind(auth.userId, claimId)
     .run();
 
   // Advance profile state to verified
@@ -204,7 +266,7 @@ claimsAdminRoutes.post('/:id/approve', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimsAdminRoutes.post('/:id/reject', async (c) => {
-  const db = (c.env as { DB?: D1Like }).DB;
+  const db = c.env.DB;
   if (!db) return c.json({ error: 'Database not available' }, 503);
 
   const claimId = c.req.param('id');
@@ -253,7 +315,7 @@ claimsAdminRoutes.post('/:id/reject', async (c) => {
 // ---------------------------------------------------------------------------
 
 claimsAdminRoutes.post('/expire-stale', async (c) => {
-  const db = (c.env as { DB?: D1Like }).DB;
+  const db = c.env.DB;
   if (!db) return c.json({ error: 'Database not available' }, 503);
 
   const result = await db

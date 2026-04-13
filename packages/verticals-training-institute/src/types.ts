@@ -46,7 +46,7 @@ export function guardKycForSiwes(input: { kycTier: number }): GuardResult {
 }
 
 export function guardP13StudentData(input: { payloadKeys: string[] }): GuardResult {
-  const banned = ['student_name', 'student_phone', 'student_address', 'exam_score', 'individual_grade'];
+  const banned = ['student_name', 'student_phone', 'student_address', 'exam_score', 'individual_grade', 'individual_score'];
   const violations = input.payloadKeys.filter(k => banned.some(b => k.toLowerCase().includes(b)));
   if (violations.length > 0) return { allowed: false, reason: `P13 violation: student PII in AI payload: ${violations.join(', ')}` };
   return { allowed: true };

@@ -79,16 +79,12 @@ function makeDb() {
       },
       // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => ({
-        results: store.filter(r => {
-          // Must match table
-          if (r['_table'] !== table) return false;
-          // If we have 2+ bind values, filter by profile_id and tenant_id
-          if (vals.length >= 2) {
-            return r['profile_id'] === vals[0] && r['tenant_id'] === vals[1];
-          }
-          // Otherwise return all from this table
-          return true;
-        }),
+        results: store.filter(r =>
+          r['_table'] === table &&
+          (vals.length >= 2
+            ? (r['profile_id'] === vals[0]) && r['tenant_id'] === vals[1]
+            : true)
+        ),
       } as { results: T[] }),
     });
     return { bind: bindFn };

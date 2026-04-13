@@ -7,7 +7,7 @@
 export * from './types.js';
 export { PrivateSchoolRepository } from './private-school.js';
 
-export const VERTICAL_SLUG = 'private-school' as const;
+export const VERTICAL_SLUG = 'private-school';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerPrivateSchoolVertical() {

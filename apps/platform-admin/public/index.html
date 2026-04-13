@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WebWaka OS — Platform Admin</title>
+  <meta name="description" content="WebWaka OS Platform Admin — the governance-driven SaaS operating system for Africa.">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -20,6 +23,17 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
     }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--green); color: #000; padding: .75rem 1.5rem;
+      border-radius: 0 0 8px 8px; font-weight: 600; z-index: 100;
+      text-decoration: none; font-size: .9rem; transition: top .2s;
+    }
+    .skip-link:focus { top: 0; }
     header {
       display: flex;
       align-items: center;
@@ -34,257 +48,200 @@
       gap: 0.75rem;
     }
     .logo-mark {
-      width: 36px;
-      height: 36px;
-      background: var(--green);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.1rem;
-      color: #000;
+      width: 36px; height: 36px; background: var(--green); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.1rem; color: #000;
     }
-    .logo-text {
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .logo-text span {
-      color: var(--green);
-    }
+    .logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.5px; }
+    .logo-text span { color: var(--green); }
     .badge {
-      font-size: 0.7rem;
-      background: #1f2937;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
+      font-size: 0.7rem; background: #1f2937; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 999px;
     }
     .milestone-badge {
-      font-size: 0.75rem;
-      background: rgba(0,200,81,0.1);
-      border: 1px solid rgba(0,200,81,0.3);
-      color: var(--green);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
+      font-size: 0.75rem; background: rgba(0,200,81,0.1);
+      border: 1px solid rgba(0,200,81,0.3); color: var(--green);
+      padding: 0.25rem 0.75rem; border-radius: 999px;
     }
-    main {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .hero {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 0.75rem;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--green);
-    }
-    .hero p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      line-height: 1.6;
-    }
+    main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    .hero { text-align: center; padding: 3rem 1rem 2rem; }
+    .hero h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.75rem; }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; }
     .roadmap-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.25rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: var(--muted);
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.9rem; color: var(--muted);
     }
     .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 2s infinite;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green); animation: pulse 2s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-      margin-top: 2.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; margin-top: 2.5rem;
     }
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s;
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.5rem; transition: border-color 0.2s;
     }
     .card:hover { border-color: rgba(0,200,81,0.4); }
-    .card-icon {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .card p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.5;
-    }
+    .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
     .card .status {
-      margin-top: 1rem;
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      display: inline-block;
+      margin-top: 1rem; font-size: 0.75rem; padding: 0.2rem 0.6rem;
+      border-radius: 999px; display: inline-block;
     }
     .status-pending { background: #1f2937; color: var(--muted); }
     .status-active { background: rgba(0,200,81,0.1); color: var(--green); border: 1px solid rgba(0,200,81,0.3); }
     .section-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 2.5rem 0 1rem;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--muted); margin: 2.5rem 0 1rem;
     }
     .principles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-      margin-top: 1rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem; margin-top: 1rem;
     }
     .principle {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      font-size: 0.85rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; font-size: 0.85rem;
     }
-    .principle strong {
-      display: block;
-      color: var(--green);
-      font-size: 0.8rem;
-      margin-bottom: 0.25rem;
-    }
+    .principle strong { display: block; color: var(--green); font-size: 0.8rem; margin-bottom: 0.25rem; }
     .principle span { color: var(--muted); }
     footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.8rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
+      text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem;
+      border-top: 1px solid var(--border); margin-top: 3rem;
+    }
+    .loading-skeleton {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: 40vh; gap: 1rem;
+    }
+    .skeleton-bar {
+      height: 12px; border-radius: 6px;
+      background: linear-gradient(90deg, var(--card) 25%, var(--border) 50%, var(--card) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .app-loaded .loading-skeleton { display: none; }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.75rem; }
+      main { padding: 1rem; }
+      header { padding: 1rem; flex-wrap: wrap; gap: .5rem; }
+      .milestone-badge { font-size: .65rem; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
     <div class="logo">
-      <div class="logo-mark">W</div>
+      <div class="logo-mark" aria-hidden="true">W</div>
       <div class="logo-text">WebWaka <span>OS</span></div>
       <span class="badge">Platform Admin</span>
     </div>
-    <span class="milestone-badge">Milestone 7b — Offline Sync + USSD + POS</span>
+    <span class="milestone-badge" aria-label="Current milestone status">Milestone 7b — Offline Sync + USSD + POS</span>
   </header>
 
-  <main>
-    <div class="hero">
-      <h1>Build Once. <em>Use Infinitely.</em></h1>
+  <main id="main-content" role="main">
+    <div class="loading-skeleton" id="loading-skeleton" role="status" aria-label="Loading platform overview">
+      <div class="skeleton-bar" style="width:60%;height:16px"></div>
+      <div class="skeleton-bar" style="width:80%;height:12px"></div>
+      <div class="skeleton-bar" style="width:40%;height:12px"></div>
+      <span class="sr-only">Loading platform content...</span>
+    </div>
+
+    <div class="hero" aria-labelledby="hero-heading">
+      <h1 id="hero-heading">Build Once. <em>Use Infinitely.</em></h1>
       <p>Multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa — starting with Nigeria.</p>
-      <div class="roadmap-status">
-        <span class="dot"></span>
+      <div class="roadmap-status" role="status" aria-label="Milestone 7b complete">
+        <span class="dot" aria-hidden="true"></span>
         <span>Milestone 7b complete — Offline Sync (Dexie.js) + USSD Gateway + POS Float Ledger merged</span>
       </div>
     </div>
 
-    <p class="section-title">Platform Apps</p>
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">🛡️</div>
+    <h2 class="section-title" id="apps-heading">Platform Apps</h2>
+    <div class="grid" role="list" aria-labelledby="apps-heading">
+      <div class="card" role="listitem">
+        <div class="card-icon" aria-hidden="true">&#128737;&#65039;</div>
         <h3>Platform Admin</h3>
         <p>Super-admin dashboard for managing the entire WebWaka OS platform, tenants, and partners.</p>
         <span class="status status-active">Current App</span>
       </div>
-      <div class="card">
-        <div class="card-icon">🏢</div>
+      <div class="card" role="listitem">
+        <div class="card-icon" aria-hidden="true">&#127970;</div>
         <h3>Partner Admin</h3>
         <p>Portal for partners and tenants to manage their branded instances and configurations.</p>
         <span class="status status-pending">Milestone 2</span>
       </div>
-      <div class="card">
-        <div class="card-icon">🌐</div>
+      <div class="card" role="listitem">
+        <div class="card-icon" aria-hidden="true">&#127760;</div>
         <h3>Brand Runtime</h3>
         <p>White-labeled tenant storefronts and websites for end users, PWA-first and offline-capable.</p>
         <span class="status status-pending">Milestone 3</span>
       </div>
-      <div class="card">
-        <div class="card-icon">🔍</div>
+      <div class="card" role="listitem">
+        <div class="card-icon" aria-hidden="true">&#128269;</div>
         <h3>Public Discovery</h3>
         <p>Search and discovery interface for the public to find businesses and services on the platform.</p>
         <span class="status status-pending">Milestone 3</span>
       </div>
-      <div class="card">
-        <div class="card-icon">⚡</div>
+      <div class="card" role="listitem">
+        <div class="card-icon" aria-hidden="true">&#9889;</div>
         <h3>API (Cloudflare Workers)</h3>
         <p>Central edge API built with Hono, powering all apps with auth, tenancy, and business logic.</p>
         <span class="status status-pending">Milestone 1</span>
       </div>
     </div>
 
-    <p class="section-title">Core Principles</p>
-    <div class="principles">
-      <div class="principle">
+    <h2 class="section-title" id="principles-heading">Core Principles</h2>
+    <div class="principles" role="list" aria-labelledby="principles-heading">
+      <div class="principle" role="listitem">
         <strong>Nigeria First</strong>
         <span>Designed for Nigerian infrastructure, regulation, and market realities</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Mobile First</strong>
         <span>Every interface and workflow is mobile-primary</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Offline First</strong>
         <span>Core journeys work without a network connection</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>PWA First</strong>
         <span>All client apps are installable progressive web apps</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Vendor Neutral AI</strong>
         <span>No lock-in to a single AI provider — BYOK capable</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Edge First</strong>
         <span>Runs on Cloudflare Workers for low-latency across Africa</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Tenant Isolation</strong>
         <span>Every query scoped by tenant_id — data never leaks across tenants</span>
       </div>
-      <div class="principle">
+      <div class="principle" role="listitem">
         <strong>Build Once Use Infinitely</strong>
         <span>Every capability is a reusable primitive, never duplicated</span>
       </div>
     </div>
   </main>
 
-  <footer>
-    WebWaka OS &mdash; Governance-driven platform &mdash; v0.0.0 &mdash; Milestone 7b &mdash; 2026-04-08
+  <footer role="contentinfo">
+    WebWaka OS &mdash; Governance-driven platform &mdash; v1.0.1 &mdash; Sprint 8 &mdash; 2026-04-12
   </footer>
+
+  <script>
+    document.body.classList.add('app-loaded');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function() {});
+    }
+  </script>
 </body>
 </html>

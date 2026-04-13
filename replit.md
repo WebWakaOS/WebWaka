@@ -4,9 +4,8 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current Milestone: Production Remediation COMPLETE (100/100) — Platform code-complete, awaiting first deployment**
-
-**Handover Note:** `docs/handover-note-2026-04-10.md` — 1,162 lines, 21 sections, full platform reference for incoming agent or developer
+**Current Phase: M9 — Vertical Scaling (🔄 IN PROGRESS)**
+**Active: Enhancement Sprints 1–7 COMPLETE + M9 Vertical Scaling (190 new tests, 2 D1 migrations, 2 new packages)**
 
 ## Milestone Status
 
@@ -14,58 +13,49 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 |---|---|
 | 0 — Program Setup | ✅ DONE |
 | 1 — Governance Baseline | ✅ DONE |
-| 2 — Monorepo Scaffolding | ✅ DONE — Founder approved 2026-04-07 |
-| 3 — Vertical Package Scaffolding + First API Wiring | ✅ DONE — Founder approved 2026-04-07 20:31 WAT |
-| 4 — Discovery Layer MVP | ✅ DONE — Founder approved 2026-04-07 — 171 tests, 12 packages clean |
-| 5 — Claim-First Onboarding | ✅ DONE — PR #16 merged — 202 tests, 13 packages clean |
-| 6 — Complete Pre-Vertical Platform | ✅ DONE — PR #17 merged to main 2026-04-07 — 300 tests |
-| 7a — Regulatory Survival + Multi-Channel Contact | ✅ DONE — PR #21 merged 2026-04-08 — 116 tests — SHA `d629339` |
-| 7b — Offline Sync + USSD Gateway + POS Float Ledger | ✅ DONE — PR #24 merged 2026-04-08 — 178 tests — SHA `ef76fdc` |
-| 7c — Community Platform + Social Network (combined M7c+M7d) | ✅ DONE — 609 total tests — HEAD `691ecaa` |
-| 7e — Nigeria UX Polish | ✅ DONE — i18n pcm/en, USSD *384#, low-data mode, airtime, geography hierarchy, PWA |
-| 7f — Contact Service + Telegram + 360dialog | ✅ DONE — ContactService D1 persistence, P12/P13 guards, R8 routing, Telegram webhook, 360dialog WA |
-| M7 QA Gate | ✅ DONE — QA report `/approve-m7ef` — SHA `3d5a67a` |
-| **M7 Platform Total** | **719 tests passing** (baseline 609, +110 new) — merged to main `3d5a67a` |
-| **M8 Planning** | ✅ DONE — SHA `75930c4` — 160 verticals seeded, packages/verticals FSM scaffold, 6 framework docs |
-| **M8 QA Gate** | ✅ DONE — docs/qa/m8-self-verification.md — 25/25 checklist — /self-approved-m8-planning — PR #26 merged SHA `1139a26` |
-| **Pre-Verticals Phase (PV-0 + PV-1 + SA-1)** | ✅ DONE — 3-in-1 remediation + SuperAgent Phase 1 complete — SHA `6f68a3d` |
-| **SA-2.x + M8a** | ✅ DONE — NDPR consent flows, vertical AI hooks, API routes wired — SHA `7ddd4f0` |
-| **M8a — Verticals Infrastructure** | ✅ DONE — packages/verticals scaffold + API routes + workspace activation + SuperAgent routes all wired |
-| **M8b — Politics + POS Business** | ✅ DONE — politician + pos-business vertical packages + API routes |
-| **M8c — Transport Verticals** | ✅ DONE — motor-park(46) + transit(23) + rideshare(26) + haulage(20) + rtu(17) + okada-keke(20) — SHA `b4e0726` |
-| **M8d — Civic Expansion** | ✅ DONE — church(36) + ngo(29) + cooperative(28) + mosque(14) + youth-org(15) + womens-assoc(10) + ministry(14) — SHA `b4e0726` |
-| **M8e — P1 Commerce + Creator** | ✅ DONE — creator(35) + sole-trader(23) + market(19) + professional(22) + school(21) + clinic(22) + tech-hub(19) + restaurant(20) — SHA `b4e0726` |
-| **All 17 P1-Original Verticals** | ✅ COMPLETE — 530 new tests across 21 packages, 3 API route bundles, migration 0056 |
-| **M9 — Commerce P2 Batch 1 (Set A)** | ✅ DONE — auto-mechanic(16) + bakery(16) + beauty-salon(16) + bookshop(16) + catering(16) + cleaning-service(15) + electronics-repair(16) + florist(16) + food-vendor(16) — 9 packages, migrations 0057-0065 — SHA `a477fbc` |
-| **Commerce P3 (Set C) — 15 verticals** | ✅ DONE — artisanal-mining(23) + borehole-driller(20) + building-materials(20) + car-wash(26) + cleaning-company(20) + electrical-fittings(19) + generator-dealer(24) + hair-salon(19) + petrol-station(22) + phone-repair-shop(19) + shoemaker(20) + spare-parts(22) + tyre-shop(20) + used-car-dealer(19) + water-vendor(20) — migrations 0078-0092 — auth middleware fix applied — SHA `bc0cd06` |
-| **Civic Extended — 10 verticals** | ✅ DONE — mosque(≥15) + youth-org(≥15) + womens-assoc(≥15) + waste-mgmt(≥15) + book-club(≥15) + professional-assoc(≥15) + sports-club(≥15) + campaign-office(≥15, L3 HITL, INEC caps) + constituency-office(≥15, L3 HITL) + ward-rep(≥15, L3 HITL) — migrations 0101–0110 — types/repos/index/tests/routes/aggregator all complete |
-| **Health Extended — 6 verticals** | ✅ DONE — dental-clinic(M9, ≥22 tests, MDCN gate, P13) + sports-academy(M10, ≥20 tests, permit gate, P13) + vet-clinic(M10, ≥20 tests, VCNB gate, P13) + community-health(M12, ≥20 tests, NPHCDA gate, USSD-safe, P12/P13) + elderly-care(M12, ≥20 tests, FMHSW gate, diaspora KYC3, P13) + rehab-centre(M12, ≥25 tests, NDLEA gate, L3 HITL ALL AI, P13 most-sensitive) — migrations 0111–0116 — types/repos/index/tests/routes/aggregator all complete |
-| **Prof+Creator Extended — 11 verticals** | ✅ DONE — accounting-firm + event-planner + law-firm(L3 HITL ALL AI) + funeral-home(L3 HITL ALL AI) + pr-firm + tax-consultant(L3 HITL ALL AI) + wedding-planner + music-studio(COSON, integer hours/bpm) + photography-studio + recording-label(royalty_split_bps INTEGER) + talent-agency(commission_bps INTEGER, fee arithmetic) — migrations 0128–0140 — all complete |
-| **Financial+Place+Media+Institutional Extended — 13 verticals** | ✅ DONE — Financial: airtime-reseller(CBN 30M daily cap, L2, NCC) + bureau-de-change(FX kobo/cent no-floats, L2, CBN Tier3) + hire-purchase(outstanding decrement, L2, Tier3) + mobile-money-agent(float daily cap, L2, Tier3); Place: event-hall(double-booking prevention, L2) + water-treatment(ph×100/ppm×10/NTU×10 scaled ints, L2, NAFDAC) + community-hall(3-state FSM, L1) + events-centre(section conflict check, L2); Media: advertising-agency(APCON, impressions INTEGER, CPM kobo, L2) + newspaper-dist(NPC, print_run copies INTEGER, L2) + podcast-studio(L3 HITL broadcast scheduling; L2 sponsorship); Institutional: government-agency(BPP, L3 HITL ALL AI, Tier3, vendor P13) + polling-unit(INEC, L3 HITL ALL AI, NO voter PII absolute) — migrations 0141–0153 — types/repos/index/tests/routes/aggregator/index.ts all complete |
-| **Negotiable Pricing System (cross-vertical capability)** | ✅ COMPLETE — 5 D1 migrations (0181–0185: vendor_pricing_policies, listing_price_overrides, negotiation_sessions, negotiation_offers, negotiation_audit_log) + @webwaka/negotiation package (types, guardrails, repository, engine, price-lock) + 14-endpoint API router at `/api/v1/negotiation` + CRON expiry job (every 15 min) wired into Worker scheduled export — all money INTEGER kobo, all discounts INTEGER bps, 12 blocked verticals hard-gated in engine, min_price_kobo never serialised in responses |
-| **Production Remediation 2026-04-10** | ✅ COMPLETE — T001 (types.ts) ✅ · T002 (Ministry/OkadaKeke) ✅ · T003 (TS errors → 0) ✅ · T004 (HMAC price-lock) ✅ · T005 (Paystack activation) ✅ · T006 (rate limiting + callback) ✅ · T007 (smoke tests written) ✅ · T008 (replit.md + git push) ✅ — migration 0186 exists — pushed SHA `fc790c2` |
+| 2 — Monorepo Scaffolding | ✅ DONE (0 errors across 175+ packages) |
+| 3–8 — API, Discovery, Claims, Commerce, Community, Verticals | ✅ SUBSTANTIALLY COMPLETE (143 verticals, 124 route files, 206 migrations) |
+| Governance Remediation (Phases 0–4) | ✅ COMPLETE — 48/48 items |
+| 10 — Staging Hardening | ✅ COMPLETE — 9/9 tasks done |
+| 11 — Partner & White-Label | ✅ COMPLETE — 7/7 tasks done |
+| 12 — AI Integration (Production) | ✅ COMPLETE — 10/10 tasks done (incl. QA: 9 bugs fixed, 111 tests) |
+| 13 — Production Launch | ✅ COMPLETE — v1.0.0 (CHANGELOG, version bumps, smoke tests, docs) |
+| v1.0.1 — Foundation + Template Architecture | ✅ COMPLETE — Template marketplace, production hardening, Africa-First interfaces, 5 frame repos |
+| 9 — Vertical Scaling | 🔄 IN PROGRESS — D1 migrations 0213+0214, 190 new tests across 7 packages, 2 new vertical packages |
 
-## Platform Test Totals
+## Platform Scale
 
-| Milestone | Tests | Delta |
-|---|---|---|
-| M7 (baseline) | 719 | — |
-| M8 Planning (packages/verticals) | 746 | +27 |
-| M8b (politician + pos-business) | ~800 | +54 |
-| M8c+M8d+M8e (21 vertical packages) | **~1330** | +530 |
-| M9 Commerce P2 Batch 1 (9 packages) | **~1473** | +143 |
-| Commerce P3 (15 verticals) | **~1766** | +293 |
+| Metric | Count |
+|--------|-------|
+| Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
+| Packages | 178 (186 with pillar prefixes) — +2 new: verticals-supermarket, verticals-savings-group |
+| Verticals | 145 (+2: supermarket, savings-group) |
+| D1 migrations | 215 (all with rollback scripts) — +2: 0213 delivery_orders, 0214 reservations |
+| Claims FSM states | 8 (with transition guards, 36 tests) |
+| Geography seeds | 774 LGAs, 37 states, 6 zones |
+| CI governance checks | 10 |
+| Smoke test suites | 5 (health, discovery, claims, branding, superagent) |
+| Total API tests (@webwaka/api) | 332 (incl. 61 partner + 43 superagent + 20 sprint5-perf + 9 security/isolation + 25 sprint7-product tests) |
+| SuperAgent package tests | 68 (hitl-service, spend-controls, compliance-filter, ndpr-register) |
+| M9 vertical package tests | 190 (hotel×35, logistics×31, pharmacy×31, gas×13, restaurant×30, supermarket×35, savings-group×15) |
+| Platform version | 1.0.1 |
+| Template validator tests | 50 |
+| Frame template repos | 5 (dashboard, website, workflow, vertical, module) |
 
-## GitHub Push Note
+## Key Documents
 
-To push local commits to GitHub (`origin/main`), a GitHub Personal Access Token (PAT) with `repo` scope is needed. The Replit GitHub OAuth integration was not connected for this Repl.
-
-**To push manually:**
-```bash
-git remote set-url origin https://<PAT>@github.com/WebWakaDOS/webwaka-os
-git push origin main
-```
-Or set `GITHUB_TOKEN` as a secret and use it in the remote URL.
+| Document | Path |
+|----------|------|
+| Platform Invariants | `docs/governance/platform-invariants.md` |
+| Compliance Dashboard | `docs/governance/compliance-dashboard.md` |
+| Monitoring Runbook | `docs/governance/monitoring-runbook.md` |
+| Template Spec | `docs/templates/template-spec.md` |
+| Release Notes v1.0.1 | `docs/RELEASE-v1.0.1.md` |
+| Milestone Tracker | `docs/governance/milestone-tracker.md` |
+| 3-in-1 Architecture | `docs/governance/3in1-platform-architecture.md` |
+| Security Baseline | `docs/governance/security-baseline.md` |
+| Agent Execution Rules | `docs/governance/agent-execution-rules.md` |
+| Enhancement Roadmap v1.0.1 | `docs/enhancements/ENHANCEMENT_ROADMAP_v1.0.1.md` |
 
 ## Tech Stack (Target Production)
 
@@ -73,10 +63,9 @@ Or set `GITHUB_TOKEN` as a secret and use it in the remote URL.
 - **Language:** TypeScript (strict mode everywhere)
 - **API Framework:** Hono
 - **Frontend:** React + PWA
-- **Database:** Cloudflare D1 (SQLite at the edge) — shared staging + shared production (TDR-0007)
+- **Database:** Cloudflare D1 (SQLite at the edge)
 - **Cache/Config:** Cloudflare KV
 - **Storage:** Cloudflare R2
-- **Payments:** Paystack (NGN-first, kobo integers)
 - **Offline Sync:** Dexie.js + Service Workers
 - **AI Integration:** Vendor-neutral abstraction (BYOK capable)
 - **Package Manager:** pnpm workspaces
@@ -86,69 +75,38 @@ Or set `GITHUB_TOKEN` as a secret and use it in the remote URL.
 ```
 webwaka-os/
   apps/
-    api/                    — Cloudflare Workers API (Hono) ✅ M5 complete
-    tenant-public/          — White-label public discovery Worker ✅ M6
-    admin-dashboard/        — Admin dashboard Hono Worker ✅ M6
-    projections/            — Event processor Worker ✅ M6
+    api/                    — Cloudflare Workers API (Hono, 124 vertical routes)
     platform-admin/         — Super admin dashboard (running on port 5000)
-    partner-admin/          — Partner/tenant management portal (future)
-    brand-runtime/          — Tenant-branded storefronts + portal (Pillar 2) ✅ PV-1.1/1.3
-    public-discovery/       — Geography-first marketplace listings (Pillar 3) ✅ PV-1.2
+    admin-dashboard/        — Admin dashboard
+    partner-admin/          — Partner/tenant management portal
+    brand-runtime/          — Tenant-branded storefronts (Pillar 2)
+    public-discovery/       — Public search and discovery (Pillar 3)
+    ussd-gateway/           — USSD micro-transactions gateway
+    tenant-public/          — Per-tenant profile listing
+    projections/            — Data projection workers
   packages/
-    types/                  — @webwaka/types: Canonical TypeScript types ✅
+    types/                  — @webwaka/types: Canonical TypeScript types
     core/
-      geography/            — @webwaka/geography: Geography hierarchy + D1 loader ✅
-      politics/             — @webwaka/politics: Political office + territory model ✅
-    auth/                   — @webwaka/auth: JWT (issue + verify) + entitlement guards ✅
-    entitlements/           — @webwaka/entitlements: Plan evaluation + layer guards ✅
-    entities/               — @webwaka/entities: Individual/Org/Profile repositories ✅
-    relationships/          — @webwaka/relationships: Typed link graph (D1) ✅
-    offline-sync/           — @webwaka/offline-sync: Sync envelope types (scaffold) ✅
-    ai-abstraction/         — @webwaka/ai: AI types + capabilities + 5-level routing engine ✅ SA-1.1/1.2
-    ai-adapters/            — @webwaka/ai-adapters: OpenAI-compat/Anthropic/Google adapters ✅ SA-1.3
-    superagent/             — @webwaka/superagent: Key service, WakaCU wallet, partner pools, usage metering ✅ SA-1.4-1.9
-    search-indexing/        — @webwaka/search-indexing: Search adapter types (M4 scaffold)
-    claims/                 — @webwaka/claims: Claim state machine + verification helpers (M5) ✅
-    payments/               — @webwaka/payments: Paystack integration + subscription sync (M6) ✅
-    events/                 — @webwaka/events: Domain event bus + projections (M6) ✅
-    frontend/               — @webwaka/frontend: Tenant manifest + profile renderer + admin layout (M6) ✅
+      geography/            — @webwaka/geography: Geography hierarchy + rollup
+      politics/             — @webwaka/politics: Political office model
+    auth/                   — @webwaka/auth: JWT validation + entitlement guards
+    claims/                 — @webwaka/claims: 8-state FSM with transition guards
+    design-system/          — @webwaka/design-system: Mobile-first CSS foundation
+    white-label-theming/    — @webwaka/white-label-theming: Brand token system
+    superagent/             — @webwaka/superagent: AI integration layer
+    verticals-*/            — 143 vertical-specific packages
   infra/
     db/
-      migrations/           — D1 SQL migration files (0001–0012 after M6) ✅
-      seed/                 — Nigeria geography seed + LGA data ✅
-      seed/scripts/         — INEC CSV → ward SQL importer ✅
+      migrations/           — D1 SQL migration files (0001–0207, 208 total)
+      seed/                 — Nigeria geography seed data
     cloudflare/             — Cloudflare infrastructure config
-    github-actions/         — CI/CD workflow references
   docs/
-    governance/             — 16 governance documents (Milestone 1 baseline)
-    architecture/decisions/ — 12 TDRs (Milestone 1 baseline)
-    milestones/             — Replit briefs per milestone
-  tests/                    — e2e, integration, smoke (future)
-```
-
-## Package Dependencies
-
-```
-@webwaka/types (no internal deps)
-  ↑
-@webwaka/geography    (depends on: types)
-@webwaka/politics     (depends on: types, geography)
-@webwaka/auth         (depends on: types)
-@webwaka/entitlements (depends on: types, auth)
-@webwaka/entities     (depends on: types, geography)
-@webwaka/relationships(depends on: types)
-@webwaka/offline-sync (depends on: types)
-@webwaka/ai-abstraction (no internal deps)
-@webwaka/search-indexing (depends on: types)  ← M4 scaffold
-@webwaka/claims       (depends on: types)     ← M5
-@webwaka/payments     (no internal deps)      ← M6 (Paystack)
-@webwaka/events       (no internal deps)      ← M6 (domain bus)
-@webwaka/frontend     (no internal deps)      ← M6 (tenant manifest, renderer)
-  ↑
-apps/api              (depends on: all packages above)
-apps/tenant-public    (depends on: frontend)
-apps/admin-dashboard  (depends on: frontend, payments)
-apps/projections      (depends on: events)
+    governance/             — 16+ governance documents
+    architecture/decisions/ — 12 Technical Decision Records
+  scripts/
+    governance-checks/      — 10 automated CI governance checks
+  tests/
+    smoke/                  — Smoke tests (health, discovery, claims, branding)
 ```
 
 ## Running Locally (Development)
@@ -161,187 +119,161 @@ apps/projections      (depends on: events)
 ## Key Dev Commands
 
 ```bash
-pnpm install                           # Install all workspace packages
-pnpm -r run typecheck                  # Typecheck all packages (must be zero errors)
-pnpm -r run test                       # Run full workspace test suite
-pnpm seed:wards <path-to-inec-csv>     # Generate infra/db/seed/0003_wards.sql from INEC CSV
+pnpm install                    # Install all workspace packages
+pnpm typecheck                  # Typecheck all packages (176)
+pnpm test                       # Run full test suite (233 API tests, 0 failures)
+pnpm lint                       # Lint all packages
+
+# Individual package commands
+pnpm --filter @webwaka/claims test    # Run claims tests
+pnpm --filter @webwaka/auth test      # Run auth tests
+
+# Governance checks
+npx tsx scripts/governance-checks/check-cors.ts
+npx tsx scripts/governance-checks/check-tenant-isolation.ts
+# ... (10 total checks)
 ```
 
-## tsconfig Pattern (Two tsconfigs per dependent package)
+## CI Pipeline (4 steps, all green)
 
-Each package that depends on other workspace packages uses two tsconfig files:
-- `tsconfig.json` — for IDE/typecheck: has `paths` pointing to source, wide `rootDir` encompassing all workspace sources. Use: `tsc --noEmit`
-- `tsconfig.build.json` — for building dist: `rootDir: "src"`, `outDir: "dist"`, no cross-package paths. Use: `tsc -p tsconfig.build.json`
+| Step | Command | Status |
+|------|---------|--------|
+| TypeScript Check | `pnpm typecheck` | ✅ PASS |
+| Tests | `pnpm test` | ✅ PASS (279 API tests, 60 superagent pkg tests, 73 root tests — 0 failures) |
+| Lint | `pnpm lint` | ✅ PASS |
+| Governance | 10 custom checks in `scripts/governance-checks/` | ✅ PASS (10/10) |
 
-The `types` package has only `tsconfig.json` (no cross-package deps, standard `rootDir: "src"`).
+## Wrangler Configuration
 
-## D1 Mock Pattern (In Tests)
+All 7 Workers apps have `wrangler.toml` with staging + production environment sections:
+- `apps/api/wrangler.toml` — Real Cloudflare D1/KV IDs for staging + production
+- `apps/admin-dashboard/wrangler.toml` — Real Cloudflare D1 IDs for staging + production (ARC-01)
+- `apps/brand-runtime/wrangler.toml` — Real Cloudflare D1/KV IDs for staging + production
+- `apps/partner-admin/wrangler.toml` — Real Cloudflare D1/KV IDs for staging + production (ARC-04)
+- `apps/projections/wrangler.toml` — Real Cloudflare D1 IDs for staging + production (ARC-01)
+- `apps/public-discovery/wrangler.toml` — Real Cloudflare D1/KV IDs for staging + production
+- `apps/tenant-public/wrangler.toml` — Real Cloudflare D1 IDs for staging + production (ARC-01)
+- `apps/ussd-gateway/wrangler.toml` — Real Cloudflare D1/KV IDs for staging + production
 
-Tests use a local `D1Like` interface defined in each file (not a shared import):
-```typescript
-interface D1Like {
-  prepare(query: string): {
-    bind(...args: unknown[]): {
-      run(): Promise<{ success: boolean }>;
-      first<T>(): Promise<T | null>;
-      all<T>(): Promise<{ results: T[] }>;
-    };
-    run(): Promise<{ success: boolean }>;
-    first<T>(): Promise<T | null>;
-    all<T>(): Promise<{ results: T[] }>;
-  };
-}
-```
-`first` and `all` must be plain generic async functions (not `vi.fn()`), since `vi.fn()` strips generic type parameters.
-
-**D1Like local interface pattern (CRITICAL):** Every file touching D1 must define its own local `D1Like` interface. Never import a shared one.
-
-## Test Summary (Milestone 6 — Complete Pre-Vertical Platform)
-
-| Package | Tests | Status |
-|---|---|---|
-| @webwaka/geography | 21 | ✅ All passing |
-| @webwaka/politics | 16 | ✅ All passing |
-| @webwaka/auth | 34 | ✅ All passing |
-| @webwaka/entitlements | 27 | ✅ All passing |
-| @webwaka/entities | 30 | ✅ All passing |
-| @webwaka/relationships | 5 | ✅ All passing |
-| @webwaka/offline-sync | 4 | ✅ All passing |
-| @webwaka/search-indexing | 0 | ✅ passWithNoTests (scaffold only) |
-| @webwaka/claims | 15 | ✅ All passing |
-| @webwaka/payments | 16 | ✅ All passing (M6) |
-| @webwaka/events | 19 | ✅ All passing (M6) |
-| @webwaka/frontend | 45 | ✅ All passing (M6) |
-| apps/api | 62 | ✅ All passing (50 M5 base + 12 new M6) |
-| **Total** | **294** | ✅ All passing |
-
-## D1 Migration Files
-
-| File | Description |
-|---|---|
-| `0001_init_places.sql` | Places table with geography hierarchy |
-| `0002_init_entities.sql` | Individuals + Organizations root entities |
-| `0003_init_workspaces_memberships.sql` | Workspaces + Memberships |
-| `0004_init_subscriptions.sql` | Subscriptions |
-| `0005_init_profiles.sql` | Profiles (discovery records) |
-| `0006_init_political.sql` | Jurisdictions, terms, political assignments, party affiliations |
-| `0007_init_relationships.sql` | Entity relationship graph (typed links) |
-| `0007a_political_assignments_constraint.sql` | CandidateRecord.id + UNIQUE constraint |
-| `0008_init_search_index.sql` | Search entries + FTS5 virtual table ← M4 |
-| `0009_init_discovery_events.sql` | Discovery events log ← M4 |
-| `0010_claim_workflow.sql` | claim_requests table + indexes ← M5 |
-| `0011_payments.sql` | billing_history table + indexes ← M6 |
-| `0012_event_log.sql` | event_log append-only table + indexes ← M6 |
-
-## Seed Data
-
-| File | Description |
-|---|---|
-| `infra/db/seed/nigeria_country.sql` | 1 country record |
-| `infra/db/seed/nigeria_zones.sql` | 6 geopolitical zones |
-| `infra/db/seed/nigeria_states.sql` | 37 states (FCT + 36 states) |
-| `infra/db/seed/0002_lgas.sql` | 775 LGAs (all Nigeria LGAs + Imeko-Afon Ogun, previously missing) |
-| `infra/db/seed/0003_wards.sql` | 8,810 wards — all Nigeria wards from INEC data |
-
-Ward seed is pre-committed. Source: `nielvid/states-lga-wards-polling-units` (GitHub, INEC data).
-8,810 / 8,810 wards matched — zero unmatched. 767 INSERT batches (≤50 rows each).
-
-## API Routes (apps/api — Hono Worker)
-
-### Core Routes (M3)
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| GET | `/health` | none | Liveness probe |
-| POST | `/auth/login` | none | Issue JWT |
-| POST | `/auth/refresh` | JWT | Refresh JWT |
-| GET | `/auth/me` | JWT | Current auth context |
-| POST | `/auth/verify` | none | Verify JWT, return payload |
-| GET | `/geography/places/:id` | none | Place node |
-| GET | `/geography/places/:id/children` | none | Children of place |
-| GET | `/geography/places/:id/ancestry` | none | Ancestry breadcrumb |
-| GET | `/entities/individuals` | JWT | List individuals (tenant-scoped) |
-| POST | `/entities/individuals` | JWT | Create individual |
-| GET | `/entities/individuals/:id` | JWT | Get individual |
-| GET | `/entities/organizations` | JWT | List organizations (tenant-scoped) |
-| POST | `/entities/organizations` | JWT | Create organization |
-| GET | `/entities/organizations/:id` | JWT | Get organization |
-
-### Discovery Routes (M4 — public, no auth)
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| GET | `/discovery/search` | none | Full-text + geography search |
-| GET | `/discovery/profiles/:subjectType/:subjectId` | none | Public profile hydration |
-| POST | `/discovery/claim-intent` | none | Capture claim interest |
-| GET | `/discovery/nearby/:placeId` | none | Entities in geography subtree |
-| GET | `/discovery/trending` | none | Most-viewed profiles this week |
-
-### Claim + Workspace Routes (M5)
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| POST | `/claim/intent` | JWT | Convert discovery intent → formal claim_request |
-| POST | `/claim/advance` | JWT (admin) | Advance claim state: approve or reject |
-| POST | `/claim/verify` | JWT | Submit verification evidence |
-| GET | `/claim/status/:profileId` | none | Public claim status + checklist |
-| POST | `/workspaces/:id/activate` | JWT | Activate workspace plan |
-| PATCH | `/workspaces/:id` | JWT (admin) | Update plan/name |
-| POST | `/workspaces/:id/invite` | JWT | Invite member to workspace |
-| GET | `/workspaces/:id/analytics` | JWT | Usage metrics |
-
-### M6 Routes — Payments + Frontend
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| POST | `/workspaces/:id/upgrade` | JWT | Initialise Paystack checkout |
-| POST | `/payments/verify` | JWT | Verify + sync Paystack payment |
-| GET | `/workspaces/:id/billing` | JWT | Billing history |
-| GET | `/public/:tenantSlug` | none | Tenant manifest + discovery page |
-| GET | `/admin/:workspaceId/dashboard` | none | Admin layout model |
-| POST | `/themes/:tenantId` | JWT | Update tenant branding |
-
-## Cloudflare Worker Bindings (Env interface)
-
-| Binding | Type | Purpose |
-|---|---|---|
-| `DB` | D1Database | Main SQLite database |
-| `GEOGRAPHY_CACHE` | KVNamespace | Geography index cache |
-| `JWT_SECRET` | string | JWT HMAC secret (CF Worker Secret) |
-| `ENVIRONMENT` | string | development / staging / production |
-| `PAYSTACK_SECRET_KEY` | string | Paystack API secret (CF Worker Secret, M6) |
+Local dev sections use `local-dev-placeholder` (correct for miniflare).
 
 ## Deployment
 
-- **Target:** autoscale
-- **Run command:** `node apps/platform-admin/server.js`
-- **Production:** Requires Cloudflare credentials (see `.env.example` and `docs/governance/security-baseline.md`)
+- **GitHub Repository:** `https://github.com/WebWakaOS/WebWaka` (staging branch)
+- **CI:** `.github/workflows/ci.yml` (typecheck + test + lint + audit + governance)
+- **Staging Deploy:** `.github/workflows/deploy-staging.yml` (D1 migrations → API deploy → smoke tests)
+- **Production Deploy:** `.github/workflows/deploy-production.yml` (DEV-01: staging validation gate added)
+- **Target:** Cloudflare Workers (autoscale)
 
-## Key Governance Documents
+## Enhancement Remediation Status (v1.0.1)
 
-- `docs/governance/platform-invariants.md` — Non-negotiable rules (read before implementing)
-- `docs/governance/universal-entity-model.md` — Root entity definitions
-- `docs/governance/geography-taxonomy.md` — Geography hierarchy
-- `docs/governance/political-taxonomy.md` — Political office model
-- `docs/governance/entitlement-model.md` — Subscription-gated access rules
-- `docs/governance/claim-first-onboarding.md` — Claim lifecycle (seeded → managed)
-- `docs/architecture/decisions/` — 12 Technical Decision Records
+| Sprint | Scope | Status | Items |
+|--------|-------|--------|-------|
+| Sprint 1 | Critical Security + Quick Wins | ✅ PUSHED | SEC-01/02/03/06/07/08/13, BUG-06, ARC-02, SEO-01 |
+| Sprint 2 | Auth & Session Hardening | ✅ PUSHED | SEC-04/05/09/10/11/15/16 |
+| Sprint 3 | Deploy Config + Tests | ✅ PUSHED | ARC-01/04/05/06/11, QA-01/11, DEV-05 |
+| Sprint 4 | Remaining High Items | ✅ PUSHED | SEC-14, ARC-19, DEV-01 |
+| QA Audit | Verification & Integration | ✅ PUSHED | ARC-05/06 integration, SEC-08 projections/tenant-public |
+| Sprint 5 | Performance Optimization | ✅ PUSHED | PERF-01/02/03/04/06/08 |
+| Sprint 6 | DevOps Hardening | ✅ PUSHED | DEV-01/02/03/04/06/08/09 |
+| Sprint 7 | Product Foundation | ✅ PUSHED | PROD-01/07/09 |
+| Sprint 9 | Monetization Infrastructure | ✅ DONE | MON-01/02/04 — template purchase flow, 70/30 revenue splits, free tier limits |
+| Sprint 10 | SEO & Discovery | ✅ DONE | SEO-03/05 — ItemList JSON-LD on all 3 listing pages, default OG image |
+| Sprint 9+10 QA | Bug-Fix Pass | ✅ DONE | B1 auth guard, B2 @context dupe, B3/B3b null place_name, B4 upgrade_url, B5 email validation |
+
+### Key Security Hardening Applied
+- Admin dashboard routes now require JWT auth + workspace-scoped authorization (SEC-01, IDOR prevention)
+- Wildcard CORS eliminated from projections + tenant-public (SEC-02/06)
+- Login rate limiting: 10/5min per IP (SEC-03)
+- Refresh token rotation with KV blacklist (SEC-04/10)
+- PBKDF2 increased to 600k iterations with transparent rehash (SEC-05)
+- Password complexity validation utility available for registration/change-password flows (SEC-09)
+- Sessions table for NDPR erasure compliance (SEC-11)
+- Body size limits on all API requests (SEC-13)
+- Template manifest schema validation (SEC-14)
+- Price-lock HMAC secret now required, not optional (SEC-15)
+- Auth failure IP logging for security monitoring (SEC-16)
+- Localhost CORS gated behind ENVIRONMENT check — all 5 workers (SEC-08)
+- Request correlation IDs on all API requests (ARC-19)
+- Staging health check gate before production deploy (DEV-01)
+- Shared CORS config (`@webwaka/shared-config`) adopted by api, projections, tenant-public (ARC-05)
+- Standardized error response schema adopted in auth routes + middleware (ARC-06)
+
+### Sprint 5 Performance Optimizations Applied
+- CDN cache headers on all PWA workers — partner-admin now serves manifest.json/sw.js (PERF-01)
+- Geography graceful degradation: KV failures fall back to D1 queries, individual place caching (PERF-02)
+- Cursor-based pagination for template listing (backward-compatible with page/offset) (PERF-03)
+- Database index audit: 8 new indexes for high-traffic query patterns (PERF-04)
+- Gzip response compression via Hono compress middleware (Accept-Encoding gated) (PERF-06)
+- Discovery search result KV caching with 5-minute TTL for first-page queries (PERF-08)
+
+### Sprint 6 DevOps Hardening Applied
+- Staging validation gate blocks production deploy if staging health check fails (DEV-01, Sprint 4)
+- Rollback procedure runbook: Workers dashboard/CLI, D1 migration, KV cache invalidation (DEV-02)
+- Secret rotation documentation with 90-day schedule and per-secret procedures (DEV-03)
+- Monitoring middleware: request latency tracking, error rate alerting, webhook integration (DEV-04)
+- Readiness probe `/health/ready` with D1, KV, and error rate dependency checks (DEV-04)
+- Branch protection rules documented for staging (1 review) and main (2 reviews) (DEV-06)
+- Dependabot configured for npm + GitHub Actions with grouped updates (DEV-08, pre-existing)
+- Migration rollback automation via manual-dispatch GitHub Actions workflow (DEV-09)
+
+### Sprint 7 Product Foundation Applied
+- Tenant onboarding checklist: 6-step guided setup (profile, vertical, template, payment, team, branding) with per-workspace progress tracking (PROD-01)
+- Template version upgrade path: semver comparison, config preservation, upgrade log audit trail (PROD-07)
+- Billing enforcement engine: grace period (7 days), suspended state (read-only), free plan exempt, admin-triggered enforcement (PROD-09)
+- Billing enforcement middleware: checks subscription status on authenticated requests, exempt paths for health/auth/billing/onboarding (PROD-09)
+- New tables: onboarding_progress, template_versions, template_upgrade_log, usage_snapshots + subscription enforcement columns
+- New routes: /onboarding/:workspaceId, /billing/status, /billing/enforce, /billing/reactivate, /templates/:slug/upgrade
+
+### Sprint 11 — Governance & Documentation Applied
+- **GOV-01**: 13 governance documents updated (DOC-001–DOC-013), all TODO items resolved and marked ✅
+- **GOV-02**: `CONTRIBUTING.md` created at repo root — setup, architecture overview, PR guide, platform invariants reference
+- **GOV-03**: Swagger UI served at `GET /docs` in API worker; `GET /openapi.json` returns OpenAPI spec (CDN-hosted UI, no npm package needed for Workers)
+- **GOV-04**: ADR-0013 (D1 as primary DB), ADR-0014 (JWT + multi-tenancy), ADR-0015 (Hono framework choice), ADR-0016 (AI abstraction layer) in `docs/architecture/decisions/`
+- **GOV-05**: `@changesets/cli` installed; `.changeset/config.json`; `changeset:add`/`changeset:version` scripts; `CHANGELOG.md` seeded from sprint history; CI changelog step added
+
+### Sprint 12 — Polish + Marketplace Applied
+- **PROD-02**: Template marketplace UI in `apps/admin-dashboard` — 3 SSR pages (browse with pagination/filter, detail, install/purchase flow)
+- **PROD-04**: Webhook system — D1 migrations `0217_webhook_subscriptions` + `0218_webhook_deliveries`; `WebhookDispatcher` (HMAC-SHA256, 3-attempt retry, fire-and-forget); full CRUD routes at `/webhooks` + `/webhooks/:id/deliveries`; events wired into templates.ts, payments.ts, workspaces.ts
+- **PROD-05**: `EmailService` using Resend REST API — 4 templates (welcome, template-purchase-receipt, workspace-invite, payment-confirmation); `RESEND_API_KEY` env var; hooked into workspace invites and template purchases
+- **MON-03**: `GET /superagent/usage/quota` endpoint — `{used_waku_cu, quota_waku_cu, remaining_waku_cu, reset_date}`; plan-based monthly limits via D1
+- **QA-04**: Playwright E2E suite — `playwright.config.ts`; 162 tests in 8 critical journeys (J1 auth/T3, J2 marketplace, J3 workspace invite, J4 payments/P9, J5 AI quota, J6 webhooks, J7 SuperAgent/P13, J8 i18n/locale); `pnpm test:e2e`
+- **QA-05**: AI package tests — 19 tests in `packages/ai-adapters` (factory routing, HTTP mock, P8 key safety); 83 tests in `packages/superagent` (WalletService, SpendControls, CreditBurnEngine, NdprRegister)
+- **UX-15**: `@webwaka/i18n` package — 5 locales (en, ha/Hausa, yo/Yoruba, ig/Igbo, pcm/Nigerian Pidgin); 60+ typed keys; `detectLocale()` (Accept-Language header + `?lang=`); `createI18n()` typed `t()` with interpolation; `createLocaleMiddleware()`; integrated into all `public-discovery` HTML pages (base.ts lang attribute, nav labels, footer tagline); 52 tests passing
+- **ARC-20**: `docs/architecture/canary-deployment.md` (10%→50%→100% stages, health gates, D1 migration safety, rollback procedure); `.github/workflows/deploy-canary.yml` (automated with SIGTERM rollback on gate failure)
+- **SEO-02**: ✅ Done — `sitemap.xml` route in `apps/public-discovery/src/index.ts`
+- **SEO-04**: ✅ Done — preconnect/dns-prefetch resource hints + `loading=lazy` JS in `base.ts`
+
+**New package:** `packages/i18n` — `@webwaka/i18n` v0.1.0
+
+**Final test counts (post Sprint 12):**
+- `apps/api`: 433 tests (21 files) | `packages/superagent`: 83 tests | `packages/ai-adapters`: 19 tests | `packages/i18n`: 52 tests
+- **Total unit/integration**: 587 tests | **E2E defined**: 162 tests (8 journeys)
 
 ## Important Invariants for All Agents
 
-- T2: TypeScript strict mode everywhere. `any` requires a comment explaining why.
-- T3: Every query on tenant-scoped data includes `tenant_id`. No exceptions.
-- T4: All monetary values stored as **integer kobo** (NGN × 100). No floats.
-- T5: Feature access gated by entitlement check via `@webwaka/entitlements`.
-- T6: Discovery driven by `@webwaka/geography` hierarchy — no raw string city/state matching.
-- Discovery routes are **public** (no auth). Never expose `tenant_id` in public responses.
+- **Auth pattern:** `c.get('auth')` → `{ userId, tenantId, workspaceId? }`; NEVER decode JWT manually
+- **T2:** TypeScript strict mode everywhere. `any` requires a comment explaining why.
+- **T3:** Every query on tenant-scoped data includes `tenant_id`. No exceptions.
+- **T4/P9:** All monetary values stored as **integer kobo** (NGN × 100). No floats.
+- **T5:** Feature access gated by entitlement check via `@webwaka/auth`.
+- **T6:** Discovery driven by `@webwaka/geography` hierarchy — no raw string matching.
+- **T7:** Claim lifecycle enforced by `packages/claims/src/state-machine.ts` (NOT `@packages/profiles`).
+- **AI position:** AI/SuperAgent is cross-cutting intelligence layer (NOT a 4th pillar).
+- **App count:** 9 apps (NOT 7).
+- **Repo URL:** `https://github.com/WebWakaOS/WebWaka` (NOT `WebWakaDOS/webwaka-os`).
 
-## Agent Scratchpad (Critical Patterns)
+## CI Governance Checks (10 total)
 
-- **D1Like local interface pattern:** Every file touching D1 must define its own local `D1Like` interface. Never import a shared one.
-- **Auth middleware pattern:** Apply `authMiddleware` at app level in `index.ts` via `app.use('/route/path', authMiddleware)`, NOT inline in route handlers — inline breaks test mocking.
-- **vitest.config.ts alias pattern:** Every new workspace package used in `apps/api` must be added to `apps/api/vitest.config.ts` resolve.alias AND `apps/api/tsconfig.json` paths.
-- **exactOptionalPropertyTypes:** Use conditional spread `...(val !== undefined ? { key: val } : {})` for optional object fields. Returning `{ key: undefined }` to an `{ key?: T }` type fails.
-- **State key compact format:** `akwaibom` (not `akwa_ibom`), `crossriver` (not `cross_river`).
-- **Workspace ownerId type:** `IndividualId | OrganizationId` (not UserId) — cast to string for comparison.
-- **Paystack amounts:** Always in kobo (NGN × 100). Paystack sends amounts as integers.
+| Script | Invariant |
+|--------|-----------|
+| `check-cors.ts` | CORS non-wildcard |
+| `check-tenant-isolation.ts` | No tenant_id from user input |
+| `check-ai-direct-calls.ts` | No direct AI SDK calls (P7) |
+| `check-monetary-integrity.ts` | No floats on monetary values (P9) |
+| `check-dependency-sources.ts` | No file:/github: deps (CI-004) |
+| `check-rollback-scripts.ts` | Every migration has rollback (CI-003) |
+| `check-pillar-prefix.ts` | Package.json pillar prefix (DOC-010) |
+| `check-pwa-manifest.ts` | Client-facing apps have PWA manifest |
+| `check-ndpr-before-ai.ts` | NDPR consent gate on AI routes |
+| `check-geography-integrity.ts` | Geography seed integrity |

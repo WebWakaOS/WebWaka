@@ -8,7 +8,7 @@
 export * from './types.js';
 export { CampaignOfficeRepository } from './campaign-office.js';
 
-export const VERTICAL_SLUG = 'campaign-office' as const;
+export const VERTICAL_SLUG = 'campaign-office';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerCampaignOfficeVertical() {

@@ -13,6 +13,7 @@ import { issueJwt, verifyJwt, extractAuthContext } from '@webwaka/auth';
 import { Role } from '@webwaka/types';
 import type { UserId, WorkspaceId, TenantId } from '@webwaka/types';
 import { asId } from '@webwaka/types';
+import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import type { Env } from '../env.js';
 
 interface UserRow {
@@ -30,7 +31,11 @@ authRoutes.post('/login', async (c) => {
   const body = await c.req.json<{ email: string; password: string }>().catch(() => null);
 
   if (!body?.email || !body?.password) {
-    return c.json({ error: 'email and password are required.' }, 400);
+    return c.json(errorResponse(ErrorCode.BadRequest, 'email and password are required.'), 400);
+  }
+  // SEC-09: Password complexity validation (NIST SP 800-63B: min 8, max 128)
+  if (body.password.length < 8 || body.password.length > 128) {
+    return c.json(errorResponse(ErrorCode.BadRequest, 'password must be between 8 and 128 characters.'), 400);
   }
 
   // Look up user by email
@@ -42,7 +47,14 @@ authRoutes.post('/login', async (c) => {
     .first<UserRow>();
 
   if (!userRow) {
-    return c.json({ error: 'Invalid email or password.' }, 401);
+    // SEC-16: Log failed auth attempt with IP for security monitoring
+    const ip = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? 'unknown';
+    console.error(JSON.stringify({
+      level: 'warn', event: 'auth_failure', reason: 'user_not_found',
+      email: body.email.toLowerCase().trim(), ip,
+      timestamp: new Date().toISOString(),
+    }));
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
   }
 
   // Verify password using Web Crypto (PBKDF2)
@@ -50,9 +62,11 @@ authRoutes.post('/login', async (c) => {
   const [storedSalt, storedHash] = userRow.password_hash.split(':');
 
   if (!storedSalt || !storedHash) {
-    return c.json({ error: 'Authentication configuration error.' }, 500);
+    return c.json(errorResponse(ErrorCode.InternalError, 'Authentication configuration error.'), 500);
   }
 
+  // SEC-05: Increased from 100_000 to 600_000 iterations (OWASP 2024 recommendation).
+  // Backward compat: try 600k first, fallback to 100k for legacy hashes.
   const saltBuffer = Uint8Array.from(atob(storedSalt), (c) => c.charCodeAt(0));
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
@@ -61,15 +75,61 @@ authRoutes.post('/login', async (c) => {
     false,
     ['deriveBits'],
   );
-  const derivedBits = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: saltBuffer, iterations: 100_000, hash: 'SHA-256' },
+
+  let derivedHash: string;
+  let needsRehash = false;
+
+  // Try current iteration count first (600k)
+  const derivedBits600k = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
     keyMaterial,
     256,
   );
-  const derivedHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits)));
+  derivedHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits600k)));
 
   if (derivedHash !== storedHash) {
-    return c.json({ error: 'Invalid email or password.' }, 401);
+    // Fallback: try legacy 100k iterations
+    const derivedBits100k = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuffer, iterations: 100_000, hash: 'SHA-256' },
+      keyMaterial,
+      256,
+    );
+    const legacyHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits100k)));
+    if (legacyHash === storedHash) {
+      derivedHash = legacyHash;
+      needsRehash = true;
+    }
+  }
+
+  if (derivedHash !== storedHash) {
+    // SEC-16: Log failed auth attempt with IP for security monitoring
+    const ip = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? 'unknown';
+    console.error(JSON.stringify({
+      level: 'warn', event: 'auth_failure', reason: 'wrong_password',
+      userId: userRow.id, ip,
+      timestamp: new Date().toISOString(),
+    }));
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
+  }
+
+  // SEC-05: Transparent rehash to 600k iterations if login used legacy 100k hash
+  if (needsRehash) {
+    try {
+      const newSaltBuf = new Uint8Array(16);
+      crypto.getRandomValues(newSaltBuf);
+      const newSalt64 = btoa(String.fromCharCode(...newSaltBuf));
+      const newKey = await crypto.subtle.importKey(
+        'raw', encoder.encode(body.password), { name: 'PBKDF2' }, false, ['deriveBits'],
+      );
+      const newBits = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', salt: newSaltBuf, iterations: 600_000, hash: 'SHA-256' }, newKey, 256,
+      );
+      const newHash64 = btoa(String.fromCharCode(...new Uint8Array(newBits)));
+      await c.env.DB.prepare(`UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ?`)
+        .bind(`${newSalt64}:${newHash64}`, userRow.id).run();
+    } catch {
+      // Rehash failure is non-critical — user can log in on next attempt
+    }
   }
 
   const token = await issueJwt(
@@ -82,15 +142,38 @@ authRoutes.post('/login', async (c) => {
     c.env.JWT_SECRET,
   );
 
+  // SEC-11: Record session in D1 for NDPR erasure compliance
+  try {
+    const jti = crypto.randomUUID();
+    await c.env.DB.prepare(
+      `INSERT INTO sessions (id, user_id, tenant_id, issued_at, expires_at)
+       VALUES (?, ?, ?, unixepoch(), unixepoch() + 3600)`,
+    ).bind(jti, userRow.id, userRow.tenant_id).run();
+  } catch {
+    // sessions table may not exist yet — non-blocking
+  }
+
   return c.json({ token });
 });
 
 // POST /auth/refresh — re-issue a fresh JWT for the authenticated caller
+// SEC-04: Refresh token rotation — the old token is blacklisted upon refresh.
 // Note: authMiddleware must be applied before this route in the app entry
 authRoutes.post('/refresh', async (c) => {
   const auth = c.get('auth');
   if (!auth) {
-    return c.json({ error: 'Not authenticated.' }, 401);
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
+  }
+
+  // SEC-10: Blacklist the old token to prevent replay attacks
+  const oldToken = c.req.header('Authorization')?.replace(/^Bearer\s+/i, '');
+  if (oldToken) {
+    try {
+      const kv = c.env.RATE_LIMIT_KV;
+      await kv.put(`blacklist:${oldToken}`, '1', { expirationTtl: 3600 });
+    } catch {
+      // KV unavailable — fail open (token will expire naturally)
+    }
   }
 
   const token = await issueJwt(
@@ -111,7 +194,7 @@ authRoutes.post('/refresh', async (c) => {
 authRoutes.get('/me', (c) => {
   const auth = c.get('auth');
   if (!auth) {
-    return c.json({ error: 'Not authenticated.' }, 401);
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
   }
   return c.json({ data: auth });
 });
@@ -122,7 +205,7 @@ authRoutes.get('/me', (c) => {
 authRoutes.delete('/me', async (c) => {
   const auth = c.get('auth');
   if (!auth) {
-    return c.json({ error: 'Not authenticated.' }, 401);
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
   }
 
   const db = c.env.DB;
@@ -143,16 +226,22 @@ authRoutes.delete('/me', async (c) => {
     .run();
 
   // Purge contact channels (phone numbers, OTP codes)
+  // SEC-003: Added tenant_id predicate for T3 compliance (migration 0191)
+  // Uses (tenant_id = ? OR tenant_id IS NULL) to handle legacy rows without tenant_id
   await db
     .prepare(
-      `DELETE FROM contact_channels WHERE user_id = ?`,
+      `DELETE FROM contact_channels WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
     )
-    .bind(auth.userId)
+    .bind(auth.userId, auth.tenantId)
     .run();
 
   // Invalidate all active sessions (best-effort — ignore if table not yet created)
+  // SEC-003: Added tenant_id predicate for T3 compliance
   try {
-    await db.prepare(`DELETE FROM sessions WHERE user_id = ?`).bind(auth.userId).run();
+    await db
+      .prepare(`DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`)
+      .bind(auth.userId, auth.tenantId)
+      .run();
   } catch {
     // sessions table may not exist — safe to ignore
   }
@@ -171,7 +260,7 @@ authRoutes.post('/verify', async (c) => {
   const body = await c.req.json<{ token: string }>().catch(() => null);
 
   if (!body?.token) {
-    return c.json({ error: 'token is required.' }, 400);
+    return c.json(errorResponse(ErrorCode.BadRequest, 'token is required.'), 400);
   }
 
   try {
@@ -179,7 +268,7 @@ authRoutes.post('/verify', async (c) => {
     const context = extractAuthContext(payload);
     return c.json({ valid: true, data: context });
   } catch {
-    return c.json({ valid: false, error: 'Invalid or expired token.' }, 401);
+    return c.json({ valid: false, ...errorResponse(ErrorCode.Unauthorized, 'Invalid or expired token.') }, 401);
   }
 });
 

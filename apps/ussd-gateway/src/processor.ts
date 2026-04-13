@@ -7,14 +7,16 @@
  *   text="1*2"     → from main menu → option 1 → option 2
  *
  * This processor uses session.state (not the full path) to drive the menu FSM.
+ *
+ * UX-08: Send Money now uses combined PHONE*AMOUNT format to stay within
+ * 3 levels max depth (main → enter_phone_amount → confirm).
  */
 
 import type { USSDSession } from './session.js';
 import {
   mainMenu,
   walletMenu,
-  sendMoneyEnterRecipient,
-  sendMoneyEnterAmount,
+  sendMoneyEnterPhoneAndAmount,
   sendMoneyConfirm,
   trendingFeed,
   viewTrendingPost,
@@ -59,11 +61,8 @@ export function processUSSDInput(session: USSDSession, text: string): ProcessRes
     case 'wallet_menu':
       return handleWalletMenu(updatedSession, input);
 
-    case 'send_money_enter_recipient':
-      return handleEnterRecipient(updatedSession, input);
-
-    case 'send_money_enter_amount':
-      return handleEnterAmount(updatedSession, input);
+    case 'send_money_enter_phone_amount':
+      return handleEnterPhoneAndAmount(updatedSession, text);
 
     case 'send_money_confirm':
       return handleSendMoneyConfirm(updatedSession, input);
@@ -100,20 +99,19 @@ export function processUSSDInput(session: USSDSession, text: string): ProcessRes
 
 function handleMainMenu(session: USSDSession, input: string): ProcessResult {
   if (!input) {
-    // Fresh session
     return { text: mainMenu(), session: { ...session, state: 'main_menu' }, ended: false };
   }
   switch (input) {
     case '1':
       return {
-        text: walletMenu(0), // Balance fetched from DB in route handler
+        text: walletMenu(0),
         session: { ...session, state: 'wallet_menu' },
         ended: false,
       };
     case '2':
       return {
-        text: sendMoneyEnterRecipient(),
-        session: { ...session, state: 'send_money_enter_recipient' },
+        text: sendMoneyEnterPhoneAndAmount(),
+        session: { ...session, state: 'send_money_enter_phone_amount' },
         ended: false,
       };
     case '3':
@@ -156,26 +154,63 @@ function handleWalletMenu(session: USSDSession, input: string): ProcessResult {
   }
 }
 
-function handleEnterRecipient(session: USSDSession, input: string): ProcessResult {
-  if (!input || input.length < 10) {
-    return { text: endSession('Invalid phone number. Please try again.'), session, ended: true };
-  }
-  return {
-    text: sendMoneyEnterAmount(input),
-    session: { ...session, state: 'send_money_enter_amount', data: { ...session.data, recipient: input } },
-    ended: false,
-  };
-}
+/**
+ * UX-08: Combined phone+amount handler.
+ *
+ * Africa's Talking sends the full path as asterisk-separated values.
+ * When user is at send_money_enter_phone_amount and types "08012345678*500",
+ * Africa's Talking sends the full text as "2*08012345678*500".
+ *
+ * We parse the last two segments: phone and amount.
+ * This keeps Send Money at exactly 3 interactions (main → enter → confirm)
+ * instead of the previous 4 (main → phone → amount → confirm).
+ */
+function handleEnterPhoneAndAmount(session: USSDSession, fullText: string): ProcessResult {
+  const parts = fullText.split('*');
 
-function handleEnterAmount(session: USSDSession, input: string): ProcessResult {
-  const amount = parseFloat(input);
-  if (isNaN(amount) || amount <= 0) {
-    return { text: endSession('Invalid amount. Please try again.'), session, ended: true };
+  if (parts.length < 3) {
+    return {
+      text: endSession('Invalid format. Use PHONE*AMOUNT (e.g. 08012345678*500). Dial *384# to retry.'),
+      session,
+      ended: true,
+    };
   }
-  const recipient = (session.data['recipient'] as string | undefined) ?? 'Unknown';
+
+  const amount = parts[parts.length - 1] ?? '';
+  const phone = parts[parts.length - 2] ?? '';
+
+  const cleanPhone = phone.replace(/^\+/, '');
+  if (!cleanPhone || cleanPhone.length < 10 || !/^\d+$/.test(cleanPhone)) {
+    return {
+      text: endSession('Invalid phone number. Must be at least 10 digits. Dial *384# to retry.'),
+      session,
+      ended: true,
+    };
+  }
+
+  if (!/^\d+(\.\d{1,2})?$/.test(amount)) {
+    return {
+      text: endSession('Invalid amount. Enter a positive number. Dial *384# to retry.'),
+      session,
+      ended: true,
+    };
+  }
+  const parsedAmount = parseFloat(amount);
+  if (isNaN(parsedAmount) || parsedAmount <= 0) {
+    return {
+      text: endSession('Invalid amount. Enter a positive number. Dial *384# to retry.'),
+      session,
+      ended: true,
+    };
+  }
+
   return {
-    text: sendMoneyConfirm(recipient, input),
-    session: { ...session, state: 'send_money_confirm', data: { ...session.data, amount: input } },
+    text: sendMoneyConfirm(phone, amount),
+    session: {
+      ...session,
+      state: 'send_money_confirm',
+      data: { ...session.data, recipient: phone, amount: amount },
+    },
     ended: false,
   };
 }

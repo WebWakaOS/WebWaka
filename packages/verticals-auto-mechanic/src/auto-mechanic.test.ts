@@ -19,6 +19,7 @@ function makeDb() {
   const store: Record<string, unknown>[] = [];
   const prep = (sql: string) => {
     const bindFn = (...vals: unknown[]) => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       run: async () => {
         if (sql.trim().toUpperCase().startsWith('INSERT')) {
           const colM = sql.match(/\(([^)]+)\)\s+VALUES/i);
@@ -58,6 +59,7 @@ function makeDb() {
         }
         return { success: true };
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       first: async <T>() => {
         if (!sql.trim().toUpperCase().startsWith('SELECT')) return null as T;
         const found = store.find(r => {
@@ -66,6 +68,7 @@ function makeDb() {
         });
         return (found ?? null) as T;
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       all: async <T>() => {
         const results = store.filter(r => {
           if (vals.length >= 2) return r['workspace_id'] === vals[0] && r['tenant_id'] === vals[1];
@@ -174,5 +177,91 @@ describe('AutoMechanicRepository', () => {
     const card = await repo.createJobCard({ workspaceId: 'ws1', tenantId: 'tn1', vehiclePlate: 'LG-001-AA', customerPhone: '0800000003', complaint: 'Fan belt', labourCostKobo: 5000 });
     const fetched = await repo.findJobCardById(card.id, 'tn-other');
     expect(fetched).toBeNull();
+  });
+
+  it('T017 — createProfile with optional cacNumber and vioRegistration', async () => {
+    const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tn1', workshopName: 'Alpha Garage', state: 'Kano', lga: 'Nassarawa', cacNumber: 'RC-999', vioRegistration: 'VIO/KN/007' });
+    expect(p.cacNumber).toBe('RC-999');
+    expect(p.vioRegistration).toBe('VIO/KN/007');
+  });
+
+  it('T018 — findProfilesByWorkspace returns multiple profiles for same workspace', async () => {
+    await repo.createProfile({ workspaceId: 'ws-multi', tenantId: 'tn1', workshopName: 'Shop A', state: 'Lagos', lga: 'Ikeja' });
+    await repo.createProfile({ workspaceId: 'ws-multi', tenantId: 'tn1', workshopName: 'Shop B', state: 'Lagos', lga: 'Ikeja' });
+    const list = await repo.findProfilesByWorkspace('ws-multi', 'tn1');
+    expect(list.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('T019 — findProfilesByWorkspace returns empty for different tenant (T3)', async () => {
+    await repo.createProfile({ workspaceId: 'ws-t3', tenantId: 'tn-a', workshopName: 'Tenant A Shop', state: 'Oyo', lga: 'Ibadan' });
+    const list = await repo.findProfilesByWorkspace('ws-t3', 'tn-b');
+    expect(list.length).toBe(0);
+  });
+
+  it('T020 — updateProfile changes workshopName', async () => {
+    const p = await repo.createProfile({ workspaceId: 'ws1', tenantId: 'tn1', workshopName: 'Old Name', state: 'Lagos', lga: 'Ikeja' });
+    const updated = await repo.updateProfile(p.id, 'tn1', { workshopName: 'New Name' });
+    expect(updated?.workshopName).toBe('New Name');
+  });
+
+  it('T021 — suspended profile can return to active (FSM cycle)', () => {
+    expect(isValidAutoMechanicTransition('active', 'suspended')).toBe(true);
+    expect(isValidAutoMechanicTransition('suspended', 'active')).toBe(true);
+  });
+
+  it('T022 — listJobCards filters by status', async () => {
+    await repo.createJobCard({ workspaceId: 'ws-filter', tenantId: 'tn1', vehiclePlate: 'AB-001-CD', customerPhone: '0800000010', complaint: 'Clutch', labourCostKobo: 15000 });
+    const openCards = await repo.listJobCards('ws-filter', 'tn1', 'open');
+    expect(openCards.every(c => c.status === 'open')).toBe(true);
+  });
+
+  it('T023 — listJobCards without filter returns all cards for workspace', async () => {
+    await repo.createJobCard({ workspaceId: 'ws-all', tenantId: 'tn1', vehiclePlate: 'KN-100-AA', customerPhone: '0800000020', complaint: 'AC', labourCostKobo: 25000 });
+    const all = await repo.listJobCards('ws-all', 'tn1');
+    expect(all.length).toBeGreaterThan(0);
+  });
+
+  it('T024 — job card status transitions open→completed', async () => {
+    const card = await repo.createJobCard({ workspaceId: 'ws1', tenantId: 'tn1', vehiclePlate: 'RV-200-AA', customerPhone: '0800000030', complaint: 'Steering', labourCostKobo: 30000 });
+    const completed = await repo.updateJobCardStatus(card.id, 'tn1', 'completed');
+    expect(completed?.status).toBe('completed');
+  });
+
+  it('T025 — job card status transitions completed→invoiced', async () => {
+    const card = await repo.createJobCard({ workspaceId: 'ws1', tenantId: 'tn1', vehiclePlate: 'RV-300-AA', customerPhone: '0800000031', complaint: 'Radiator', labourCostKobo: 20000 });
+    await repo.updateJobCardStatus(card.id, 'tn1', 'completed');
+    const invoiced = await repo.updateJobCardStatus(card.id, 'tn1', 'invoiced');
+    expect(invoiced?.status).toBe('invoiced');
+  });
+
+  it('T026 — listParts returns all parts for workspace', async () => {
+    await repo.createPart({ workspaceId: 'ws-parts', tenantId: 'tn1', partName: 'Spark plug', quantityInStock: 50, unitCostKobo: 1500 });
+    await repo.createPart({ workspaceId: 'ws-parts', tenantId: 'tn1', partName: 'Fuel filter', quantityInStock: 20, unitCostKobo: 3500 });
+    const parts = await repo.listParts('ws-parts', 'tn1');
+    expect(parts.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('T027 — parts cross-tenant isolation (T3)', async () => {
+    await repo.createPart({ workspaceId: 'ws1', tenantId: 'tn-parts', partName: 'Air filter', quantityInStock: 10, unitCostKobo: 2000 });
+    const parts = await repo.listParts('ws1', 'tn-other-parts');
+    expect(parts.length).toBe(0);
+  });
+
+  it('T028 — createPart stores partNumber when provided', async () => {
+    const part = await repo.createPart({ workspaceId: 'ws1', tenantId: 'tn1', partName: 'Oil pump', partNumber: 'OP-9920', quantityInStock: 3, unitCostKobo: 45000 });
+    expect(part.partNumber).toBe('OP-9920');
+  });
+
+  it('T029 — job card P9: zero labour cost is valid', async () => {
+    const card = await repo.createJobCard({ workspaceId: 'ws1', tenantId: 'tn1', vehiclePlate: 'LA-000-AA', customerPhone: '0800000099', complaint: 'Warranty check', labourCostKobo: 0 });
+    expect(card.labourCostKobo).toBe(0);
+  });
+
+  it('T030 — registerAutoMechanicVertical returns correct metadata', async () => {
+    const { registerAutoMechanicVertical } = await import('./index.js');
+    const meta = registerAutoMechanicVertical();
+    expect(meta.slug).toBe('auto-mechanic');
+    expect(meta.primary_pillars).toContain('ops');
+    expect(typeof meta.ai_autonomy_level).toBe('number');
   });
 });

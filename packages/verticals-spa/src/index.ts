@@ -7,7 +7,7 @@
 export * from './types.js';
 export { SpaRepository } from './spa.js';
 
-export const VERTICAL_SLUG = 'spa' as const;
+export const VERTICAL_SLUG = 'spa';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerSpaVertical() {

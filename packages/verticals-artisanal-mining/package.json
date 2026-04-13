@@ -2,7 +2,7 @@
   "name": "@webwaka/verticals-artisanal-mining",
   "version": "0.1.0",
   "private": true,
-  "description": "Artisanal Mining vertical — MMSD compliance, production log, AI price advisory. M12 Commerce P3.",
+  "description": "[Pillar 1+3] Artisanal Mining vertical — MMSD compliance, production log, AI price advisory. M12 Commerce P3.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

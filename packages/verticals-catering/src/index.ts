@@ -7,7 +7,7 @@
 export * from './types.js';
 export { CateringRepository } from './catering.js';
 
-export const VERTICAL_SLUG = 'catering' as const;
+export const VERTICAL_SLUG = 'catering';
 export const PRIMARY_PILLARS = ['ops', 'branding', 'marketplace'] as const;
 
 export function registerCateringVertical() {

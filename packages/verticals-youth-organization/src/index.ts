@@ -7,7 +7,7 @@
 export * from './types.js';
 export { YouthOrgRepository } from './youth-org.js';
 
-export const VERTICAL_SLUG = 'youth-organization' as const;
+export const VERTICAL_SLUG = 'youth-organization';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
 
 export function registerYouthOrganizationVertical() {
