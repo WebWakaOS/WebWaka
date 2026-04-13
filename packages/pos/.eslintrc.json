@@ -1,11 +1,14 @@
 {
   "extends": "../../.eslintrc.base.json",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.eslint.json"
   },
   "overrides": [
     {
-      "files": ["**/*.test.ts", "**/*.spec.ts"],
+      "files": [
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
       "rules": {
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/require-await": "off"
