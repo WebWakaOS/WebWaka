@@ -129,9 +129,16 @@ app.post('/rebuild/analytics', async (c) => {
 
 // ---------------------------------------------------------------------------
 // Aggregate event history — GET /events/:aggregate/:id
+// SEC-009: Requires X-Inter-Service-Secret header.
+// Event payloads may contain financial data (payment amounts) — not public.
 // ---------------------------------------------------------------------------
 
 app.get('/events/:aggregate/:id', async (c) => {
+  const provided = c.req.header('X-Inter-Service-Secret');
+  if (!verifyInterServiceSecret(provided, c.env.INTER_SERVICE_SECRET)) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+
   const aggregate = c.req.param('aggregate');
   const aggregateId = c.req.param('id');
   const db = c.env.DB as unknown as D1Like;
