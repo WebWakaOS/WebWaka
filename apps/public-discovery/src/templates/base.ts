@@ -76,6 +76,18 @@ a { color: var(--ww-primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button, input, select, textarea { font: inherit; color: inherit; }
 
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; top: -100%; left: 1rem;
+  background: var(--ww-primary); color: #fff; padding: .75rem 1.5rem;
+  border-radius: 0 0 8px 8px; font-weight: 600; z-index: 200;
+  text-decoration: none; font-size: .9rem; transition: top .2s;
+}
+.skip-link:focus { top: 0; }
+
 .ww-nav {
   display: flex;
   align-items: center;
@@ -206,7 +218,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   </style>
 </head>
 <body>
-  <nav class="ww-nav">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="ww-nav" role="navigation" aria-label="Main navigation">
     <a class="ww-nav-brand" href="/discover">WebWaka Discover</a>
     <div class="ww-nav-links">
       <a href="/discover">Browse</a>
@@ -214,8 +228,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
     </div>
     <a href="https://webwaka.ng" style="font-size:.875rem;color:var(--ww-text-muted);text-decoration:none;white-space:nowrap">List your business &rarr;</a>
   </nav>
-  <main class="ww-content">${body}</main>
-  <footer class="ww-footer">
+  <main id="main-content" class="ww-content" role="main">${body}</main>
+  <footer class="ww-footer" role="contentinfo">
     ${renderAttribution()}
     <p style="margin-top:0.25rem">${footerTagline ? esc(footerTagline) : `&copy; ${new Date().getFullYear()} WebWaka OS &mdash; Nigeria's Business Platform`}</p>
   </footer>

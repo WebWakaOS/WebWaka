@@ -71,6 +71,18 @@ a:hover { text-decoration: underline; }
   border: 2px solid var(--ww-primary);
 }
 
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; top: -100%; left: 1rem;
+  background: var(--ww-primary); color: #fff; padding: .75rem 1.5rem;
+  border-radius: 0 0 8px 8px; font-weight: 600; z-index: 200;
+  text-decoration: none; font-size: .9rem; transition: top .2s;
+}
+.skip-link:focus { top: 0; }
+
 .ww-nav {
   display: flex;
   align-items: center;
@@ -115,7 +127,9 @@ a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-  <nav class="ww-nav">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="ww-nav" role="navigation" aria-label="Main navigation">
     <a class="ww-nav-brand" href="/">
       ${logoUrl ? `<img src="${escAttr(logoUrl)}" alt="${escAttr(displayName)} logo" />` : ''}
       <span>${escHtml(displayName)}</span>
@@ -130,11 +144,11 @@ a:hover { text-decoration: underline; }
     </div>
   </nav>
 
-  <main class="ww-content">
+  <main id="main-content" class="ww-content" role="main">
     ${body}
   </main>
 
-  <footer class="ww-footer">
+  <footer class="ww-footer" role="contentinfo">
     ${renderAttribution({ removeAttribution })}
   </footer>
 </body>

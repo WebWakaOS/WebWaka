@@ -1175,13 +1175,13 @@
 | SEC-09 | Password complexity | ✅ Done | Sprint 2 | 2h |
 | SEC-10 | Token blacklist | ✅ Done | Sprint 2 | 4h |
 | SEC-11 | Session table for erasure | ✅ Done | Sprint 2 | 2h |
-| SEC-12 | CSRF protection | ⬜ Open | — | 3h |
+| SEC-12 | CSRF protection | ✅ Done | Sprint 13 | 3h |
 | SEC-13 | Body size limits | ✅ Done | Sprint 1 | 30m |
 | SEC-14 | Manifest schema validation | ✅ Done | Sprint 4 | 3h |
 | SEC-15 | PriceLock secret required | ✅ Done | Sprint 2 | 1h |
 | SEC-16 | Auth failure IP logging | ✅ Done | Sprint 2 | 1h |
-| SEC-17 | Audit log KV fallback | ⬜ Open | — | 3h |
-| SEC-18 | Content-Type validation | ⬜ Open | — | 1h |
+| SEC-17 | Audit log KV fallback | ✅ Done | Sprint 13 | 3h |
+| SEC-18 | Content-Type validation | ✅ Done | Sprint 13 | 1h |
 | ARC-01 | Deployment configs | ✅ Done | Sprint 3 | 4h |
 | ARC-02 | Remove orphaned KV | ✅ Done | Sprint 1 | 15m |
 | ARC-03 | Sync compat dates | ✅ Done | Sprint 1 | 15m |
@@ -1203,16 +1203,16 @@
 | ARC-19 | Request correlation IDs | ✅ Done | Sprint 4 | 4h |
 | ARC-20 | Canary deployments | ✅ Done | Sprint 12 | 4h |
 | UX-01 | Accessibility (ARIA) | ⬜ Open | — | 8h |
-| UX-02 | Skip nav links | ⬜ Open | — | 2h |
-| UX-03 | PWA loading states | ⬜ Open | — | 3h |
-| UX-04 | Offline fallback page | ⬜ Open | — | 2h |
+| UX-02 | Skip nav links | ✅ Done | Sprint 13 | 2h |
+| UX-03 | PWA loading states | ✅ Done | Sprint 8 | 3h |
+| UX-04 | Offline fallback page | ✅ Done | Sprint 8 | 2h |
 | UX-05 | Form validation UI | ⬜ Open | — | 4h |
 | UX-06 | Dark mode | ⬜ Open | — | 6h |
 | UX-07 | Responsive navigation | ⬜ Open | — | 6h |
 | UX-08 | USSD menu depth | ⬜ Open | — | 4h |
 | UX-09 | Error recovery guidance | ⬜ Open | — | 4h |
 | UX-10 | Confirmation dialogs | ⬜ Open | — | 2h |
-| UX-11 | Responsive viewport | ⬜ Open | — | 2h |
+| UX-11 | Responsive viewport | ✅ Done | Sprint 8 | 2h |
 | UX-12 | Breadcrumb navigation | ⬜ Open | — | 3h |
 | UX-13 | Toast notifications | ⬜ Open | — | 3h |
 | UX-14 | Discovery card design | ⬜ Open | — | 4h |
@@ -1236,7 +1236,7 @@
 | QA-05 | AI package tests | ✅ Done | Sprint 12 | 6h |
 | QA-06 | Entity/workspace tests | ⬜ Open | — | 6h |
 | QA-07 | Load testing infra | ⬜ Open | — | 8h |
-| QA-08 | Smoke tests in CI | ⬜ Open | — | 2h |
+| QA-08 | Smoke tests in CI | ✅ Done | Sprint 13 | 2h |
 | QA-09 | External API contract tests | ⬜ Open | — | 6h |
 | QA-10 | Template lifecycle test | ⬜ Open | — | 3h |
 | QA-11 | Tenant isolation tests | ✅ Done | Sprint 3 | 8h |
@@ -1277,9 +1277,9 @@
 | GOV-04 | Backfill ADRs | ✅ Done | Sprint 11 | 4h |
 | GOV-05 | Changelog automation | ✅ Done | Sprint 11 | 4h |
 
-**Completed:** 67/112 (60%)  
-**Remaining Open:** 45 items (~195 hours estimated)  
-**Completed Effort:** ~265 hours across Sprints 1–12
+**Completed:** 75/112 (67%)  
+**Remaining Open:** 37 items (~172 hours estimated)  
+**Completed Effort:** ~283 hours across Sprints 1–13
 
 ---
 

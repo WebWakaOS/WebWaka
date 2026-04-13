@@ -16,6 +16,9 @@ export interface Env {
   /** KV namespace for OTP rate limiting and channel locks (R9) */
   RATE_LIMIT_KV: KVNamespace;
 
+  /** General-purpose KV namespace — audit log fallback, cache, feature flags (SEC-17) */
+  KV?: KVNamespace;
+
   /** JWT secret — stored as a CF Worker Secret. Never log this. */
   JWT_SECRET: string;
 

@@ -53,8 +53,8 @@ export const auditLogMiddleware = createMiddleware<{ Bindings: Env }>(async (c, 
   console.log('[AUDIT]', JSON.stringify(entry));
 
   if (tenantId) {
+    const id = crypto.randomUUID();
     try {
-      const id = crypto.randomUUID();
       await c.env.DB.prepare(
         `INSERT INTO audit_logs (id, tenant_id, user_id, action, method, path, resource_type, resource_id, ip_masked, status_code, duration_ms)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -74,7 +74,16 @@ export const auditLogMiddleware = createMiddleware<{ Bindings: Env }>(async (c, 
         )
         .run();
     } catch (err) {
-      console.error('[AUDIT] D1 write failed (non-blocking):', err instanceof Error ? err.message : err);
+      console.error('[AUDIT] D1 write failed, falling back to KV:', err instanceof Error ? err.message : err);
+      try {
+        const kv = c.env.KV;
+        if (kv) {
+          const kvKey = `audit:${tenantId}:${id}`;
+          await kv.put(kvKey, JSON.stringify(entry), { expirationTtl: 86400 });
+        }
+      } catch (kvErr) {
+        console.error('[AUDIT] KV fallback also failed (non-blocking):', kvErr instanceof Error ? kvErr.message : kvErr);
+      }
     }
   }
 });

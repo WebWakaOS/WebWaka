@@ -138,6 +138,8 @@ import { compress } from 'hono/compress';
 import { createCorsConfig } from '@webwaka/shared-config';
 import type { Env } from './env.js';
 import { authMiddleware } from './middleware/auth.js';
+import { contentTypeValidationMiddleware } from './middleware/content-type-validation.js';
+import { csrfMiddleware } from './middleware/csrf.js';
 import { healthRoutes } from './routes/health.js';
 import { geographyRoutes } from './routes/geography.js';
 import { entityRoutes } from './routes/entities.js';
@@ -238,6 +240,10 @@ app.use('*', logger());
 app.use('*', lowDataMiddleware);
 // T006: Global rate limiting — 100 req/60s per IP before auth (R5)
 app.use('*', rateLimitMiddleware({ keyPrefix: 'global', maxRequests: 100, windowSeconds: 60 }));
+// SEC-18: Content-Type validation — reject mutating requests without proper Content-Type
+app.use('*', contentTypeValidationMiddleware);
+// SEC-12: CSRF protection — verify Origin/Referer on mutating requests
+app.use('*', csrfMiddleware);
 
 // ---------------------------------------------------------------------------
 // Public routes (no auth)
