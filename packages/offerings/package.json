@@ -2,7 +2,7 @@
   "name": "@webwaka/offerings",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 1+3] @webwaka/offerings",
+  "description": "[Pillar 1+3] Products, services, routes, seats, and tickets catalog for WebWaka OS.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

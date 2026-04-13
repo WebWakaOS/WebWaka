@@ -140,7 +140,7 @@ import type { Env } from './env.js';
 import { authMiddleware } from './middleware/auth.js';
 import { contentTypeValidationMiddleware } from './middleware/content-type-validation.js';
 import { csrfMiddleware } from './middleware/csrf.js';
-import { healthRoutes } from './routes/health.js';
+import { healthRoutes, API_VERSION } from './routes/health.js';
 import { geographyRoutes } from './routes/geography.js';
 import { entityRoutes } from './routes/entities.js';
 import { authRoutes } from './routes/auth-routes.js';
@@ -250,6 +250,8 @@ app.use('*', csrfMiddleware);
 // ---------------------------------------------------------------------------
 
 app.route('/health', healthRoutes);
+// TEST-001: Top-level /version alias — smoke tests expect GET /version (not /health/version)
+app.get('/version', (c) => c.json({ version: API_VERSION }));
 app.route('/openapi.json', openapiRoutes);
 app.route('/docs', swaggerRoutes);  // GOV-03: Swagger UI
 app.route('/geography', geographyRoutes);

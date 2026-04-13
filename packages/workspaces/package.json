@@ -2,7 +2,7 @@
   "name": "@webwaka/workspaces",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 1+3] @webwaka/workspaces",
+  "description": "[Pillar 1+3] Workspace management — multi-tenant isolation, member roles, and billing context. WebWaka OS.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

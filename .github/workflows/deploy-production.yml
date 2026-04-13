@@ -63,7 +63,7 @@ jobs:
       - name: Apply D1 migrations (production)
         run: |
           if ls apps/api/migrations/*.sql 1>/dev/null 2>&1; then
-            npx wrangler d1 migrations apply webwaka-production \
+            npx wrangler d1 migrations apply webwaka-os-production \
               --env production \
               --remote \
               --config apps/api/wrangler.toml
@@ -77,7 +77,7 @@ jobs:
   # ── Deploy API ─────────────────────────────────────────────────────────────
   deploy-api-production:
     name: Deploy API (Production)
-    needs: migrate-production
+    needs: [migrate-production, ci]
     runs-on: ubuntu-latest
     environment: production
     steps:

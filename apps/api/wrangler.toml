@@ -15,7 +15,7 @@ crons = ["*/15 * * * *"]
 
 [[env.staging.d1_databases]]
 binding = "DB"
-database_name = "webwaka-staging"
+database_name = "webwaka-os-staging"
 database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
 migrations_dir = "migrations"
 
@@ -27,9 +27,12 @@ id = "2a81cd5b8d094911a20e1e0f6a190506"
 binding = "GEOGRAPHY_CACHE"
 id = "4732f3a682964607bae2170f350e4fb4"
 
-[[env.staging.kv_namespaces]]
-binding = "KV"
-id = "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+# KV (audit-log fallback, feature flags) — optional binding
+# Provision: wrangler kv namespace create AUDIT_KV --env staging
+# Then add the returned ID here and uncomment:
+# [[env.staging.kv_namespaces]]
+# binding = "KV"
+# id = "<AUDIT_KV_STAGING_ID>"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
@@ -51,7 +54,7 @@ crons = ["*/15 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
-database_name = "webwaka-production"
+database_name = "webwaka-os-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 migrations_dir = "migrations"
 
@@ -63,9 +66,12 @@ id = "8cbf31285b0c43e1a8f44ee0af9fcdf3"
 binding = "GEOGRAPHY_CACHE"
 id = "5bd5695d963247d0b105a936827e0a89"
 
-[[env.production.kv_namespaces]]
-binding = "KV"
-id = "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3"
+# KV (audit-log fallback, feature flags) — optional binding
+# Provision: wrangler kv namespace create AUDIT_KV --env production
+# Then add the returned ID here and uncomment:
+# [[env.production.kv_namespaces]]
+# binding = "KV"
+# id = "<AUDIT_KV_PRODUCTION_ID>"
 
 [env.production.vars]
 ENVIRONMENT = "production"

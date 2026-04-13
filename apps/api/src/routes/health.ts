@@ -1,6 +1,6 @@
 /**
  * GET /health           — liveness probe.
- * GET /health/version   — version endpoint for smoke tests.
+ * GET /health/version   — version endpoint (also mirrored at root GET /version via index.ts).
  * GET /health/ready     — readiness probe with dependency checks (DEV-04).
  * No authentication required.
  */
@@ -9,7 +9,7 @@ import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import { getErrorRateMetrics } from '../middleware/monitoring.js';
 
-const API_VERSION = '1.0.1';
+export const API_VERSION = '1.0.1';
 
 const healthRoutes = new Hono<{ Bindings: Env }>();
 

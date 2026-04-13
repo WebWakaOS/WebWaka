@@ -2,7 +2,7 @@
   "name": "@webwaka/auth-tenancy",
   "version": "0.1.0",
   "private": true,
-  "description": "[Infra] @webwaka/auth-tenancy",
+  "description": "[Infra] Auth, tenancy, JWT, RBAC, and session middleware. WebWaka OS platform foundation.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
