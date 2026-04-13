@@ -196,8 +196,8 @@ claimRoutes.post('/advance', async (c) => {
     if (currentProfileState === ClaimLifecycleState.Claimable) {
       try {
         await profileAdvanceClaimState(db as Parameters<typeof profileAdvanceClaimState>[0], asId<ProfileId>(claimRow.profile_id), ClaimLifecycleState.ClaimPending);
-      } catch {
-        // ignore
+      } catch (err) {
+        console.error('[claim] profileAdvanceClaimState to ClaimPending failed (non-blocking):', err instanceof Error ? err.message : err);
       }
     } else if (!validateTransition(currentProfileState, newProfileState)) {
       return c.json({ error: `Cannot transition profile from '${currentProfileState}' to '${newProfileState}'` }, 409);
@@ -307,8 +307,8 @@ claimRoutes.post('/verify', async (c) => {
   if (profileRow && profileRow.claim_state === ClaimLifecycleState.Claimable) {
     try {
       await profileAdvanceClaimState(db as Parameters<typeof profileAdvanceClaimState>[0], asId<ProfileId>(claimRow.profile_id), ClaimLifecycleState.ClaimPending);
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error('[claim] profileAdvanceClaimState to ClaimPending failed (non-blocking):', err instanceof Error ? err.message : err);
     }
   }
 
