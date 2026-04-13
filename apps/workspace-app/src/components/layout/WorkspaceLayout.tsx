@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar } from './Sidebar';
 import { BottomNav } from './BottomNav';
@@ -9,6 +9,7 @@ const MOBILE_BREAKPOINT = 768;
 
 export function WorkspaceLayout() {
   const { user, loading, initialized } = useAuth();
+  const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < MOBILE_BREAKPOINT);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export function WorkspaceLayout() {
   }, []);
 
   if (!initialized || loading) return <FullPageSpinner />;
-  if (!user) return <Navigate to="/login" replace state={{ from: window.location }} />;
+  if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>

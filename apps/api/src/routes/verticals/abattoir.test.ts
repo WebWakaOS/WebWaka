@@ -1,8 +1,9 @@
 /**
- * Abattoir vertical route tests — P11
+ * Abattoir vertical route tests — P11 + BUG-004
  * FSM: seeded → claimed → nafdac_verified → active
- * Guards: guardClaimedToNafdacVerified (sync), guardL2AiCap (sync), guardFractionalKobo (sync)
- * ≥10 cases: CRUD, FSM, T3 isolation, sub-resources, AI cap guard.
+ * Guards: guardClaimedToNafdacVerified (sync), guardFractionalKobo (sync)
+ * NDPR: GET /:id/ai-advisory gated by aiConsentGate; buyerPhone stripped before AI
+ * ≥10 cases: CRUD, FSM, T3 isolation, sub-resources, AI advisory (NDPR-clean).
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';

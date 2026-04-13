@@ -1,10 +1,9 @@
 /**
- * Abattoir routes — M12
- * ADL-010: AI at L2 max — slaughter yield forecast advisory only
+ * Abattoir routes — M12 + BUG-004
+ * NDPR: aiConsentGate middleware gates AI advisory; buyerPhone never sent to AI
  * P9: pricePerKgKobo / totalKobo must be integers; weights as integer kg
  * T3: all queries scoped to tenantId
- * P13: buyerPhone stripped from AI advisory data; aggregate yield stats only
- * GET /:id/ai-advisory — NDPR consent gate via aiConsentGate middleware
+ * GET /:id/ai-advisory — returns SLAUGHTER_YIELD_FORECAST (aggregate yield, no PII)
  */
 
 import { Hono } from 'hono';

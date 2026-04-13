@@ -1,8 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { toast } from '@/lib/toast';
+
+const DARK_MODE_KEY = 'ww_dark_mode';
+
+function getInitialDarkMode(): boolean {
+  const stored = localStorage.getItem(DARK_MODE_KEY);
+  if (stored !== null) return stored === 'true';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function applyDarkMode(enabled: boolean): void {
+  document.documentElement.setAttribute('data-theme', enabled ? 'dark' : 'light');
+  localStorage.setItem(DARK_MODE_KEY, String(enabled));
+}
 
 type Tab = 'profile' | 'notifications' | 'appearance' | 'security';
 
@@ -10,8 +23,12 @@ export default function Settings() {
   const { user, logout } = useAuth();
   const [tab, setTab] = useState<Tab>('profile');
   const [saving, setSaving] = useState(false);
-  const [darkMode, setDarkMode] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
   const [pushEnabled, setPushEnabled] = useState(false);
+
+  useEffect(() => {
+    applyDarkMode(darkMode);
+  }, [darkMode]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,7 +142,7 @@ export default function Settings() {
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Dark mode</div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>Switch between light and dark themes</div>
                 </div>
-                <ToggleSwitch checked={darkMode} onChange={v => { setDarkMode(v); toast.info(v ? 'Dark mode on' : 'Light mode on'); }} />
+                <ToggleSwitch checked={darkMode} onChange={v => { setDarkMode(v); toast.info(v ? 'Dark mode on' : 'Light mode on'); applyDarkMode(v); }} />
               </div>
               <div style={styles.toggleRow}>
                 <div>
