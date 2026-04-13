@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';
 import Login from '@/pages/Login';
@@ -16,9 +16,9 @@ function NotFound() {
       <div style={{ fontSize: 64 }} aria-hidden="true">🔍</div>
       <h1 style={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>Page not found</h1>
       <p style={{ color: '#6b7280', fontSize: 15 }}>The page you're looking for doesn't exist.</p>
-      <a href="/dashboard" style={{ color: '#0F4C81', fontWeight: 600, textDecoration: 'none', padding: '12px 24px', background: '#f0f9ff', borderRadius: 8, minHeight: 44, display: 'flex', alignItems: 'center' }}>
+      <Link to="/dashboard" style={{ color: '#0F4C81', fontWeight: 600, textDecoration: 'none', padding: '12px 24px', background: '#f0f9ff', borderRadius: 8, minHeight: 44, display: 'flex', alignItems: 'center' }}>
         Go to dashboard
-      </a>
+      </Link>
     </div>
   );
 }

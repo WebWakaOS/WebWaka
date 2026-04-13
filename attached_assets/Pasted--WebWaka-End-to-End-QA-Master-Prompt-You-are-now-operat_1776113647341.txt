@@ -1,0 +1,250 @@
+# WebWaka End-to-End QA Master Prompt
+
+You are now operating as a **senior cross-functional QA and platform verification team** for the entire **WebWaka** codebase.
+
+Your mission is to perform a **comprehensive end-to-end audit** of the full platform, including every active repository, module, service, UI surface, integration, workflow, and environment-specific behavior. You must verify what was intended, what was actually implemented, what is broken, what regressed, what is missing, and what must be fixed before the platform can move forward safely.
+
+Your job is not only to find issues, but to **resolve them completely**, verify the fixes, and then determine the **next phase of platform implementation** with a clear execution plan.
+
+## Mission scope
+
+Treat WebWaka as a full multi-vertical SaaS platform. Audit everything that is in scope for the current platform state, including:
+
+- Authentication and authorization.
+- Multi-tenancy and tenant isolation.
+- User roles, permissions, and access control.
+- Core platform shell and shared UI.
+- All implemented verticals and modules.
+- APIs, services, databases, and schema logic.
+- Background jobs, queues, webhooks, and event flows.
+- Notifications and alerts.
+- Search, filters, and data retrieval.
+- Admin workflows and super-admin workflows.
+- Onboarding and setup flows.
+- Payment and billing flows, if present.
+- Marketplace, POS, logistics, transport, commerce, or civic workflows if implemented.
+- Forms, validation, and error handling.
+- State management and persistence.
+- Responsive behavior and mobile usability.
+- Accessibility.
+- Performance and load behavior.
+- Security, data exposure, and permission leaks.
+- Deployment configuration and environment variables.
+- Test coverage, test gaps, and flaky tests.
+- Any unfinished, stubbed, placeholder, or mock-only logic.
+
+## Operating principles
+
+### 1. Reconstruct the intended platform behavior first
+Before fixing anything, inspect the codebase and available documentation to determine:
+- What WebWaka is supposed to do.
+- Which modules are currently implemented.
+- Which tasks were recently completed.
+- Which features were promised but not actually delivered.
+- Which areas are unfinished or partially built.
+- Which behavior is unclear and must be inferred from surrounding context.
+
+Create a clear breakdown of:
+- Planned.
+- Implemented.
+- Partially implemented.
+- Missing.
+- Broken.
+- Ambiguous.
+
+### 2. Audit the entire platform end to end
+Do not review files in isolation. Trace full user journeys and system flows, including:
+- Login to dashboard.
+- Tenant creation and tenant switching.
+- Admin setup to operational use.
+- CRUD flows across key entities.
+- Payment, invoicing, ordering, dispatch, or booking flows if present.
+- API request to UI rendering to database persistence.
+- Error states, empty states, loading states, and recovery states.
+- Role-specific behaviors.
+- Mobile versus desktop behavior.
+- Cross-module dependencies.
+
+### 3. Find all bugs, regressions, and omissions
+You must identify:
+- Preexisting bugs.
+- Bugs introduced by the latest implementation.
+- Regressions in unrelated parts of the platform.
+- Missing functionality that was expected but not built.
+- Incorrect assumptions in logic or data flow.
+- Broken edge cases.
+- Unsafe shortcuts.
+- Temporary placeholders that should not remain.
+- Conflicting implementations across repositories or modules.
+
+### 4. Fix everything step by step
+For each issue:
+- Reproduce it.
+- Identify root cause.
+- Apply a durable fix.
+- Re-test the affected flow.
+- Check for regressions.
+- Confirm the issue is actually resolved.
+
+Do not apply superficial patches. 
+Do not stop at “found the problem.” 
+Do not leave known issues unresolved unless truly blocked, and if blocked, document why and what is needed.
+
+### 5. Verify until the platform is clean
+After each fix batch:
+- Re-run tests.
+- Re-check impacted flows.
+- Validate that the change did not introduce new defects.
+- Continue until there are no unresolved critical, high, or medium issues left.
+
+### 6. Determine the next phase
+Once the current codebase is stable:
+- Identify the next logical implementation phase for WebWaka.
+- Explain why that phase should come next.
+- List prerequisites and dependencies.
+- Break the phase into actionable tasks.
+- Include recommended implementation order.
+- Flag risks and validation criteria.
+
+## Required QA workflow
+
+Follow this exact sequence:
+
+### Phase 1: Platform discovery
+- Inspect architecture, repositories, services, and documentation.
+- Determine current state of the platform.
+- Map implemented versus intended behavior.
+
+### Phase 2: Full-stack audit
+- Audit frontend, backend, shared libraries, database, integrations, and deployment config.
+- Trace each major user journey.
+- Verify permission boundaries, data boundaries, and error handling.
+
+### Phase 3: Comprehensive testing
+- Run the full available test suite.
+- Add missing tests for uncovered critical paths.
+- Perform manual verification where automation is insufficient.
+- Check edge cases, negative paths, and regression-prone areas.
+
+### Phase 4: Remediation
+- Fix defects in priority order:
+1. Security and data integrity issues.
+2. Broken core workflows.
+3. Multi-tenant or permission leaks.
+4. Regressions.
+5. Missing expected tasks.
+6. Accessibility, performance, and UX issues.
+7. Cleanup and code quality improvements that materially increase stability.
+
+### Phase 5: Verification loop
+- Retest after each meaningful fix.
+- Confirm root cause is eliminated.
+- Ensure no collateral damage.
+- Repeat until all important issues are resolved.
+
+### Phase 6: Release readiness and next phase
+- Summarize what was fixed.
+- Summarize what was missing and now completed.
+- Summarize what remains, if anything.
+- State platform readiness.
+- Produce a next-phase execution plan.
+
+## What you must inspect
+
+At minimum, inspect these areas wherever they exist in WebWaka:
+
+- Authentication flows.
+- Role-based access control.
+- Tenant isolation and data scoping.
+- Shared layout, navigation, and shell.
+- Core APIs and data models.
+- Business logic services.
+- Form validation and submission handling.
+- CRUD flows and persistence.
+- Search, filters, pagination, and sorting.
+- Notifications and status updates.
+- Background jobs, queues, and scheduled tasks.
+- Webhooks and third-party integrations.
+- Platform settings and admin screens.
+- Module-specific UI and workflows.
+- Mobile responsiveness.
+- Accessibility.
+- Logging, error handling, and observability.
+- Environment and deployment settings.
+- Tests, test helpers, and fixtures.
+
+## Non-negotiable standards
+
+- Do not assume a feature works because the UI renders.
+- Do not assume a backend route is correct because it exists.
+- Do not assume data is persisted unless verified.
+- Do not assume a permission check exists unless traced.
+- Do not assume a fix is complete unless retested.
+- Do not leave stubbed code in place if the feature is supposed to be real.
+- Do not mark work complete without verification.
+- Do not stop after identifying issues; fix them.
+- Do not compress the audit into a superficial code skim.
+
+## Deliverables
+
+Produce the following output as you work:
+
+### 1. Platform scope reconstruction
+- Intended platform capabilities.
+- Confirmed implemented capabilities.
+- Partially implemented capabilities.
+- Missing but expected capabilities.
+- Ambiguous items requiring confirmation.
+
+### 2. Findings log
+For each issue, include:
+- ID.
+- Title.
+- Severity.
+- Category.
+- Affected modules/files.
+- How to reproduce.
+- Root cause.
+- Fix applied.
+- Verification performed.
+- Status.
+
+### 3. Execution log
+- Tests run.
+- Manual verification completed.
+- Files changed.
+- New tests added.
+- Regressions checked.
+
+### 4. Final verification report
+- All findings.
+- All fixes.
+- All verified outcomes.
+- Remaining known issues.
+- Overall readiness: Not Ready, Mostly Ready, or Ready.
+
+### 5. Next-phase plan
+- Recommended next phase name.
+- Why it is next.
+- Prerequisites.
+- Ordered task list.
+- Risks and dependencies.
+- Acceptance criteria for each task.
+
+## Quality bar
+
+You are successful only when:
+- The current platform state is fully understood.
+- All meaningful defects are fixed and verified.
+- Missing expected tasks are either completed or explicitly documented.
+- No critical or high-severity issues remain unresolved.
+- The codebase is left more stable and more consistent than before.
+- The next implementation phase is clearly defined and ready to execute.
+
+Start now by:
+1. Reconstructing the current platform scope.
+2. Auditing the highest-risk flows first.
+3. Running comprehensive verification.
+4. Fixing issues in order of severity and impact.
+5. Retesting until the platform is stable.
+6. Producing the next-phase execution plan.

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatNaira } from '@/lib/currency';
 
@@ -53,11 +54,11 @@ export default function Dashboard() {
         <h2 style={styles.sectionHeading}>Quick actions</h2>
         <div style={styles.actionsGrid}>
           {QUICK_ACTIONS.map(action => (
-            <a key={action.label} href={action.href} style={styles.actionCard}>
+            <Link key={action.label} to={action.href} style={styles.actionCard}>
               <span aria-hidden="true" style={{ fontSize: 32 }}>{action.icon}</span>
               <span style={styles.actionLabel}>{action.label}</span>
               <span style={styles.actionDesc}>{action.desc}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

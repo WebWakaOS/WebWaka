@@ -12,7 +12,22 @@ function hasManifestRoute(indexPath: string): boolean {
 }
 
 function hasStaticManifest(appDir: string): boolean {
-  return fs.existsSync(path.join(appDir, 'public', 'manifest.json'));
+  return (
+    fs.existsSync(path.join(appDir, 'public', 'manifest.json')) ||
+    fs.existsSync(path.join(appDir, 'public', 'manifest.webmanifest'))
+  );
+}
+
+function hasVitePWAConfig(appDir: string): boolean {
+  const viteConfigs = ['vite.config.ts', 'vite.config.js', 'vite.config.mts'];
+  for (const cfg of viteConfigs) {
+    const cfgPath = path.join(appDir, cfg);
+    if (fs.existsSync(cfgPath)) {
+      const content = fs.readFileSync(cfgPath, 'utf8');
+      if (content.includes('VitePWA') || content.includes('vite-plugin-pwa')) return true;
+    }
+  }
+  return false;
 }
 
 function main(): void {
@@ -34,9 +49,10 @@ function main(): void {
 
     const hasRoute = hasManifestRoute(indexTs) || hasManifestRoute(serverJs);
     const hasStatic = hasStaticManifest(appDir);
+    const hasPWAPlugin = hasVitePWAConfig(appDir);
 
-    if (!hasRoute && !hasStatic) {
-      violations.push(`apps/${app}: no manifest.json route or static file found`);
+    if (!hasRoute && !hasStatic && !hasPWAPlugin) {
+      violations.push(`apps/${app}: no manifest.json route, static manifest, or vite-plugin-pwa config found`);
     }
   }
 
