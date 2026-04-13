@@ -1173,16 +1173,24 @@ rm -rf apps/api/.wrangler/state/d1
 
 ---
 
-## Phase 9 — Verticals Wave 2: Transport + Civic + Education (Sets D, E, G)
+## Phase 9 — Verticals Wave 2: Transport + Civic + Education (Sets D, E, G) ✅ COMPLETE
 
 **When:** After Phase 8  
-**Est:** ~30 hours (31 verticals)
+**Est:** ~30 hours (31 verticals)  
+**Completed:** 2026-04-13 — 1359 tests passing (90 test files), zero failures
 
-| Set | Count | Verticals |
-|---|---|---|
-| D | 8 | clearing-agent, courier, dispatch-rider, airport-shuttle, cargo-truck, container-depot, ferry, road-transport-union |
-| E | 10 | mosque, youth-organization, womens-association, waste-management, book-club, professional-association, sports-club, campaign-office, constituency-office, polling-unit-rep |
-| G | 13 | driving-school, training-institute, vocational-college, agro-input, artisanal-mining, cassava-miller, cocoa-exporter, fish-market, food-processing, produce-aggregator (check if already exists), vegetable-garden, water-treatment, cold-room |
+| Set | Count | Verticals | Status |
+|---|---|---|---|
+| D | 8 | clearing-agent, courier, dispatch-rider, airport-shuttle, cargo-truck, container-depot, ferry, road-transport-union | ✅ |
+| E | 10 | mosque, youth-organization, womens-association, waste-management, book-club, professional-association, sports-club, campaign-office, constituency-office, polling-unit | ✅ |
+| G | 12 | driving-school, training-institute, agro-input, artisanal-mining, cassava-miller, cocoa-exporter, fish-market, food-processing, produce-aggregator, vegetable-garden, water-treatment, cold-room | ✅ |
+
+**Infrastructure additions:**
+- Created `road-transport-union.ts` route (missing from prior phases)
+- Added `ProduceAggregatorRepository` to `@webwaka/verticals-produce-aggregator` package
+- Created `produce-aggregator.ts` route
+
+**Test baseline after P9:** 1359 tests / 90 test files
 
 **Same per-vertical approach as Phase 8. Migration numbers continue from 0249 upward.**
 

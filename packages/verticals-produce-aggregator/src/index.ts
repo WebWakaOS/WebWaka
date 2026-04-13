@@ -1,4 +1,5 @@
 export * from './types.js';
+export { ProduceAggregatorRepository } from './repo.js';
 
 export const VERTICAL_SLUG = 'produce-aggregator';
 export const PRIMARY_PILLARS = ['ops', 'marketplace'] as const;
