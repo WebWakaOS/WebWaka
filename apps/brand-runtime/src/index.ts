@@ -65,7 +65,7 @@ self.addEventListener('fetch',e=>{
   e.respondWith(
     fetch(e.request)
       .then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(cache=>cache.put(e.request,c));}return r;})
-      .catch(()=>caches.match(e.request))
+      .catch(()=>caches.match(e.request).then(r=>r??new Response('Offline',{status:503,statusText:'Service Unavailable'})))
   );
 });
 

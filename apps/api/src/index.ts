@@ -272,6 +272,7 @@ app.route('/auth', authRoutes);
 
 app.use('/entities/*', authMiddleware);
 app.use('/entities/*', auditLogMiddleware);
+app.use('/entities/*', billingEnforcementMiddleware);
 app.route('/entities', entityRoutes);
 
 // ---------------------------------------------------------------------------
@@ -284,6 +285,8 @@ app.use('/claim/verify', authMiddleware);
 app.use('/claim/intent', auditLogMiddleware);
 app.use('/claim/advance', auditLogMiddleware);
 app.use('/claim/verify', auditLogMiddleware);
+app.use('/claim/intent', billingEnforcementMiddleware);
+app.use('/claim/advance', billingEnforcementMiddleware);
 app.route('/claim', claimRoutes);
 
 // ---------------------------------------------------------------------------
@@ -292,6 +295,7 @@ app.route('/claim', claimRoutes);
 
 app.use('/workspaces/*', authMiddleware);
 app.use('/workspaces/*', auditLogMiddleware);
+app.use('/workspaces/*', billingEnforcementMiddleware);
 app.route('/workspaces', workspaceRoutes);
 app.route('/workspaces', workspaceUpgradeRoute);
 app.route('/workspaces', workspaceBillingRoute);
@@ -697,17 +701,6 @@ app.route('/onboarding', onboardingRoutes);
 app.use('/billing/*', authMiddleware);
 app.use('/billing/*', auditLogMiddleware);
 app.route('/billing', billingRoutes);
-
-// ---------------------------------------------------------------------------
-// PROD-09: Billing enforcement middleware — applied after auth on write paths
-// Checks subscription status; suspends write access for expired subscriptions.
-// Exempt paths: /health, /auth, /billing, /onboarding, /payments
-// ---------------------------------------------------------------------------
-
-app.use('/entities/*', billingEnforcementMiddleware);
-app.use('/workspaces/*', billingEnforcementMiddleware);
-app.use('/claim/intent', billingEnforcementMiddleware);
-app.use('/claim/advance', billingEnforcementMiddleware);
 
 // ---------------------------------------------------------------------------
 // Global error handler

@@ -244,7 +244,7 @@ router.post('/contact', async (c) => {
          VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
       )
       .bind(
-        `cs_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        `cs_${crypto.randomUUID().replace(/-/g, '')}`,
         tenantId,
         name,
         phone,

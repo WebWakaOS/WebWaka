@@ -43,21 +43,11 @@ async function requireAuth(c: Context<{ Bindings: Env }>): Promise<Auth | null> 
 }
 
 function generateId(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let id = 'tpl_';
-  for (let i = 0; i < 20; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return id;
+  return `tpl_${crypto.randomUUID().replace(/-/g, '')}`;
 }
 
 function generateInstallId(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let id = 'inst_';
-  for (let i = 0; i < 20; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return id;
+  return `inst_${crypto.randomUUID().replace(/-/g, '')}`;
 }
 
 const VALID_TEMPLATE_TYPES = ['dashboard', 'website', 'vertical-blueprint', 'workflow', 'email', 'module'] as const;

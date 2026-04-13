@@ -71,7 +71,7 @@ export function contactPageBody(data: ContactPageData): string {
               var tx = db.transaction('syncQueue','readwrite');
               var store = tx.objectStore('syncQueue');
               store.add({
-                id: 'contact_' + Date.now() + '_' + Math.random().toString(36).slice(2),
+                id: 'contact_' + (crypto.randomUUID ? crypto.randomUUID().replace(/-/g,'') : Date.now() + '_' + Date.now().toString(36)),
                 operationType: 'create',
                 entityType: 'contact_submission',
                 payload: JSON.stringify(data),

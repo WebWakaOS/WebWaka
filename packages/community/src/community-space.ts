@@ -48,7 +48,7 @@ function rowToSpace(row: CommunitySpaceRow): CommunitySpace {
 }
 
 function generateId(prefix: string): string {
-  return `${prefix}_${Math.random().toString(36).slice(2, 11)}${Date.now().toString(36)}`;
+  return `${prefix}_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
 }
 
 /**

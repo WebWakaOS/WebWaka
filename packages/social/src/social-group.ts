@@ -7,7 +7,7 @@ import type { SocialGroup, SocialGroupMember } from './types.js';
 import type { D1Like } from './social-profile.js';
 
 function generateId(prefix: string): string {
-  return `${prefix}_${Math.random().toString(36).slice(2, 11)}${Date.now().toString(36)}`;
+  return `${prefix}_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
 }
 
 interface GroupRow {

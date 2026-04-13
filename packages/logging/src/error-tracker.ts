@@ -68,10 +68,5 @@ export function logStructuredError(
 }
 
 export function createRequestId(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let id = 'req_';
-  for (let i = 0; i < 16; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return id;
+  return `req_${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
 }

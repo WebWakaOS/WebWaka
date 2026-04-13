@@ -31,8 +31,15 @@ self.addEventListener('fetch', (e) => {
       .catch(() =>
         caches.match(e.request).then((cached) => {
           if (cached) return cached;
-          if (isNavigation) return caches.match('/offline.html');
-          return cached;
+          if (isNavigation) {
+            return caches.match('/offline.html').then(
+              (offlinePage) => offlinePage ?? new Response('You are offline', { status: 503, statusText: 'Service Unavailable' }),
+            );
+          }
+          return new Response('Resource unavailable offline', {
+            status: 503,
+            statusText: 'Service Unavailable',
+          });
         })
       )
   );
