@@ -7,6 +7,12 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Social features are **cross-cutting infrastructure** that enhance all three pillars but are particularly integral to **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community and social engagement layer for marketplace participants. Social is NOT a standalone product pillar. See `docs/governance/3in1-platform-architecture.md`.
+
+---
+
 ## Overview
 
 The WebWaka social feed is a ranked, reverse-chronological feed of `SocialPost` records filtered and scored per viewer. It runs on Cloudflare Workers with D1 for storage and KV for per-user feed caches.

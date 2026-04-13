@@ -11,6 +11,7 @@
   "dependencies": {
     "@webwaka/frontend": "workspace:*",
     "@webwaka/shared-config": "workspace:*",
+    "@webwaka/white-label-theming": "workspace:*",
     "hono": "^4.3.0"
   },
   "devDependencies": {

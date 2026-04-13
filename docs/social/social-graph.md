@@ -7,6 +7,12 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Social features are **cross-cutting infrastructure** that enhance all three pillars but are particularly integral to **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community and social engagement layer for marketplace participants. Social is NOT a standalone product pillar. See `docs/governance/3in1-platform-architecture.md`.
+
+---
+
 ## Overview
 
 WebWaka Social is a multi-modal social network built on top of the WebWaka relationship graph. It supports Twitter-style follows, Instagram-style stories, Facebook-style groups, and LinkedIn-style professional connections — all unified through the platform's entity model (Individuals, Organisations, Places).

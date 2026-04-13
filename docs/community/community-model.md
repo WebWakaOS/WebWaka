@@ -7,6 +7,20 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Community and Social features are **cross-cutting infrastructure** that enhance all three pillars but are particularly integral to **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community engagement layer for marketplace participants. Community is NOT a standalone product pillar — it is an entitlement-gated capability mounted on top of the three pillars.
+>
+> | Pillar relationship | Role |
+> |---|---|
+> | Pillar 1 — Ops | Staff community spaces, internal learning, operational knowledge-sharing |
+> | Pillar 2 — Branding | Branded community portal embedded in a business's white-label site |
+> | Pillar 3 — Marketplace (primary) | Public engagement layer for marketplace participants, brand communities, creator audiences |
+>
+> See `docs/governance/3in1-platform-architecture.md` for the canonical module-to-pillar map.
+
+---
+
 ## Overview
 
 WebWaka Community is a Skool-style community platform built on WebWaka OS primitives. It enables any Organisation, Individual, or Place to spin up a structured learning and engagement community as a branded, entitlement-gated vertical module.

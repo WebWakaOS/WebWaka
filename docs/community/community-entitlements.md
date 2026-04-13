@@ -7,6 +7,13 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Community entitlements are **cross-cutting infrastructure** gating a capability that spans all three pillars but primarily enhances **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community engagement layer for marketplace participants.
+> See `docs/governance/3in1-platform-architecture.md` for the canonical module-to-pillar map.
+
+---
+
 ## Overview
 
 Community entitlements extend the core entitlement model (`docs/governance/entitlement-model.md`) with community-specific dimensions. All community access decisions route through `@packages/entitlements` — no hardcoded plan checks in community feature code (Platform Invariant T5).

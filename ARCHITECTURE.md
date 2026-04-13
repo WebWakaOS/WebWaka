@@ -77,6 +77,7 @@ Pillar 2 (Brand):      packages/white-label-theming, packages/design-system, pac
 Pillar 3 (Marketplace): packages/profiles, packages/search-indexing, packages/claims, packages/geography
 AI (Cross-cutting):    packages/superagent, packages/ai-abstraction, packages/ai-adapters
 Infra (Pre-vertical):  packages/auth, packages/entities, packages/entitlements, packages/relationships
+                       packages/community, packages/social  (cross-cutting; enhances Pillar 3 marketplace engagement)
 ```
 
 See `docs/governance/3in1-platform-architecture.md` for authoritative module-to-pillar assignments.

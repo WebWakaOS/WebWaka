@@ -37,6 +37,24 @@ Tenant-scoped management contexts for operations, teams, data, settings, and wor
 
 Dedicated branded digital experiences such as websites, stores, portals, booking pages, and campaign sites.
 
+## 3-in-1 Pillar Mapping
+
+Each root entity maps to one or more of the three platform pillars:
+
+| Root Entity | Pillar 1 — Ops | Pillar 2 — Branding | Pillar 3 — Marketplace |
+|---|---|---|---|
+| **Workspaces** | ✅ Primary (back-office, POS, staff, inventory) | — | — |
+| **Brand Surfaces** | — | ✅ Primary (website, store, portal, booking page) | — |
+| **Profiles** | — | Supports (branded profile) | ✅ Primary (discovery, directory, claim-first) |
+| **Individuals** | ✅ (operations actor) | ✅ (personal brand surface) | ✅ (directory listing) |
+| **Organizations** | ✅ (business operations) | ✅ (branded business site) | ✅ (marketplace listing) |
+| **Places** | ✅ (location management) | — | ✅ (geography-powered discovery) |
+| **Offerings** | ✅ (POS, transactions) | ✅ (branded catalog) | ✅ (marketplace products/services) |
+
+> **3-in-1 classification note:** Community and Social features extend this entity model as **cross-cutting infrastructure** on top of all three pillars, primarily enhancing Pillar 3 (Marketplace) engagement. They are not additional root entities — they layer on top of Workspaces (operations) and Brand Surfaces (branding). See `docs/governance/3in1-platform-architecture.md` for authoritative pillar assignments.
+
+---
+
 ## Key Rules
 
 **Model what something _is_ before modeling what it _does_.**

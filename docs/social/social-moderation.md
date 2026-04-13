@@ -7,6 +7,12 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Social features are **cross-cutting infrastructure** that enhance all three pillars but are particularly integral to **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community and social engagement layer for marketplace participants. Social is NOT a standalone product pillar. See `docs/governance/3in1-platform-architecture.md`.
+
+---
+
 ## Overview
 
 All user-generated content on WebWaka Social passes through a moderation pipeline before or immediately after publication. Moderation is implemented in `@packages/moderation` and is a mandatory middleware layer — no social feature may bypass it.

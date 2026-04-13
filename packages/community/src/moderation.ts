@@ -2,6 +2,12 @@
  * Content moderation for @webwaka/community.
  * Platform Invariant P15 — classifyContent must be called unconditionally
  * before every channel post insert.
+ *
+ * SEC-003 / P9 fix: confidence stored as INTEGER basis points (0–10000)
+ * where 10000 = 100.00% confidence. Consistent with migration 0188
+ * (community_moderation_log.confidence → confidence_bps) and with
+ * packages/social/src/moderation.ts.
+ * Never expose raw float externally; divide by 10000 for display only.
  */
 
 export type ModerationStatus = 'published' | 'auto_hide' | 'pending_review';
@@ -9,7 +15,8 @@ export type ModerationStatus = 'published' | 'auto_hide' | 'pending_review';
 export interface ModerationResult {
   status: ModerationStatus;
   reason?: string;
-  confidence: number;
+  /** Integer basis points 0–10000 (10000 = 100.00% confidence). P9 invariant. */
+  confidenceBps: number;
 }
 
 const SPAM_PATTERNS: RegExp[] = [
@@ -34,8 +41,8 @@ const SPAM_PATTERNS: RegExp[] = [
 export function classifyContent(content: string): ModerationResult {
   for (const pattern of SPAM_PATTERNS) {
     if (pattern.test(content)) {
-      return { status: 'auto_hide', reason: 'spam_detected', confidence: 0.9 };
+      return { status: 'auto_hide', reason: 'spam_detected', confidenceBps: 9000 };
     }
   }
-  return { status: 'published', confidence: 0.0 };
+  return { status: 'published', confidenceBps: 0 };
 }

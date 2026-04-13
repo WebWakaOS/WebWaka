@@ -10,6 +10,10 @@
  *   GET /health      — liveness probe
  *
  * Milestone 6 — Frontend Composition Layer
+ * CODE-6 — Wire @webwaka/white-label-theming so every tenant page renders
+ *           with tenant-specific brand tokens (primary color, display name,
+ *           CSS variables). getBrandTokens called without KV cache — tenant-
+ *           public does not provision THEME_CACHE; D1 fallback is used directly.
  */
 
 import { Hono } from 'hono';
@@ -18,6 +22,8 @@ import { secureHeaders } from 'hono/secure-headers';
 import { createCorsConfig } from '@webwaka/shared-config';
 import { getTenantManifestBySlug, renderProfileList } from '@webwaka/frontend';
 import type { TenantManifest } from '@webwaka/frontend';
+import { getBrandTokens } from '@webwaka/white-label-theming';
+import type { TenantTheme } from '@webwaka/white-label-theming';
 
 interface Env {
   DB: D1Database;
@@ -73,18 +79,65 @@ app.use('*', async (c, next) => {
 app.get('/health', (c) => c.json({ status: 'ok', app: 'tenant-public' }));
 
 // ---------------------------------------------------------------------------
+// Extract tenant slug from request (x-tenant-slug header or Host subdomain)
+// ---------------------------------------------------------------------------
+
+function extractTenantSlug(req: Request): string | null {
+  const headerSlug = req.headers.get('x-tenant-slug');
+  if (headerSlug) return headerSlug;
+
+  const host = req.headers.get('host') ?? '';
+  const subdomain = host.split('.')[0] ?? '';
+  return subdomain || null;
+}
+
+// ---------------------------------------------------------------------------
+// Resolve brand tokens (CODE-6) — fails open: returns null if tenant not found
+// ---------------------------------------------------------------------------
+
+async function resolveBrandTheme(slug: string, db: D1Like): Promise<TenantTheme | null> {
+  try {
+    const tokens = await getBrandTokens(slug, db as Parameters<typeof getBrandTokens>[1]);
+    return tokens.theme;
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // PWA assets (served from Worker)
 // ---------------------------------------------------------------------------
 
-app.get('/manifest.json', (c) => {
+/**
+ * CODE-6: manifest.json is now tenant-aware.
+ * Resolves tenant slug → getBrandTokens → uses tenant primaryColor and displayName.
+ * Falls back to WebWaka defaults if tenant cannot be resolved.
+ */
+app.get('/manifest.json', async (c) => {
+  const slug = extractTenantSlug(c.req.raw);
+  const db = c.env.DB as unknown as D1Like;
+
+  let themeColor = '#1a6b3a';
+  let appName = 'WebWaka';
+  let appDescription = "Nigeria's multi-vertical business platform";
+
+  if (slug) {
+    const theme = await resolveBrandTheme(slug, db);
+    if (theme) {
+      themeColor = theme.primaryColor;
+      appName = theme.displayName;
+      appDescription = `${theme.displayName} — powered by WebWaka`;
+    }
+  }
+
   const manifest = {
-    name: 'WebWaka',
-    short_name: 'WebWaka',
-    description: "Nigeria's multi-vertical business platform",
+    name: appName,
+    short_name: appName.length > 12 ? appName.slice(0, 12) : appName,
+    description: appDescription,
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#1a6b3a',
+    theme_color: themeColor,
     lang: 'en-NG',
     icons: [
       { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
@@ -109,12 +162,10 @@ self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWi
 async function resolveTenant(c: { req: Request; env: Env }): Promise<TenantManifest | null> {
   const db = c.env.DB as unknown as D1Like;
 
-  // x-tenant-slug header takes precedence (useful for testing)
-  const headerSlug = (c.req as unknown as { header(name: string): string | undefined }).header('x-tenant-slug');
+  const headerSlug = c.req.headers.get('x-tenant-slug');
   if (headerSlug) return getTenantManifestBySlug(db, headerSlug);
 
-  // Derive from Host: first subdomain segment (e.g. acme.webwaka.app → acme)
-  const host = (c.req as unknown as { header(name: string): string | undefined }).header('host') ?? '';
+  const host = c.req.headers.get('host') ?? '';
   const slug = host.split('.')[0] ?? '';
   if (!slug) return null;
 
@@ -154,7 +205,11 @@ app.get('/', async (c) => {
   const rows = await db.prepare(sql).bind(...binds).all<ProfileRow>();
   const profiles = renderProfileList(rows.results, manifest);
 
-  return c.json({ manifest, profiles, page, perPage });
+  // CODE-6: Resolve brand tokens and include in response for frontend CSS variable injection
+  const slug = extractTenantSlug(c.req.raw);
+  const brand = slug ? await resolveBrandTheme(slug, db) : null;
+
+  return c.json({ manifest, profiles, page, perPage, brand });
 });
 
 // ---------------------------------------------------------------------------
@@ -182,7 +237,12 @@ app.get('/profiles/:id', async (c) => {
   if (!row) return c.json({ error: 'Profile not found' }, 404);
 
   const [profile] = renderProfileList([row], manifest);
-  return c.json({ manifest, profile });
+
+  // CODE-6: Resolve brand tokens and include in response for frontend CSS variable injection
+  const slug = extractTenantSlug(c.req.raw);
+  const brand = slug ? await resolveBrandTheme(slug, db) : null;
+
+  return c.json({ manifest, profile, brand });
 });
 
 export default app;

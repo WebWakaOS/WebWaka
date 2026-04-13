@@ -7,6 +7,12 @@
 
 ---
 
+## 3-in-1 Platform Classification
+
+> **3-in-1 classification:** Social features are **cross-cutting infrastructure** that enhance all three pillars but are particularly integral to **Pillar 3 (Listing / Multi-Vendor Marketplace)** as the community and social engagement layer for marketplace participants. Social is NOT a standalone product pillar — it is an entitlement-gated capability mounted on top of the three pillars. See `docs/governance/3in1-platform-architecture.md`.
+
+---
+
 ## Overview
 
 WebWaka DMs are private, direct conversations between two users or within a group. This document defines the privacy contracts, encryption approach, and data handling rules.

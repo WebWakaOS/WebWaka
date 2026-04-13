@@ -732,6 +732,9 @@ importers:
       '@webwaka/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
+      '@webwaka/white-label-theming':
+        specifier: workspace:*
+        version: link:../../packages/white-label-theming
       hono:
         specifier: ^4.3.0
         version: 4.12.12
