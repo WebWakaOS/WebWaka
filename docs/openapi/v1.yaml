@@ -1,0 +1,742 @@
+openapi: "3.1.0"
+info:
+  title: WebWaka OS API
+  version: "1.0.1"
+  description: |
+    Multi-tenant, multi-vertical SaaS platform API for Africa (Nigeria-first).
+    Governance-driven, edge-first on Cloudflare Workers.
+
+    **Platform Invariants (non-negotiable):**
+    - T3: Every query scoped by `tenant_id` from JWT — never from user-supplied input
+    - P9: All monetary values in integer kobo — never floats or strings
+    - P10: NDPR consent checked before any personal data collection
+    - P13: No PII in AI requests — all AI paths through SuperAgent SDK
+
+    **Authentication:** All protected routes require `Authorization: Bearer <jwt>` header.
+    The JWT is issued by `POST /auth/login` and must include `userId`, `tenantId`, and `role`.
+  contact:
+    name: WebWaka Platform Team
+    email: platform@webwaka.com
+  license:
+    name: Proprietary
+    url: https://webwaka.com/terms
+
+servers:
+  - url: https://api.webwaka.com
+    description: Production
+  - url: https://api-staging.webwaka.com
+    description: Staging
+  - url: http://localhost:8787
+    description: Local development (Wrangler dev)
+
+tags:
+  - name: Health
+    description: Liveness and version endpoints
+  - name: Auth
+    description: JWT authentication and session management
+  - name: Geography
+    description: Nigerian geography hierarchy (states, LGAs, wards, polling units)
+  - name: Entities
+    description: Individuals, organisations, and places
+  - name: Workspaces
+    description: Tenant workspace management
+  - name: Payments
+    description: Paystack payment integration (P9 — integer kobo only)
+  - name: Identity
+    description: BVN/NIN/CAC/FRSC verification (M7a)
+  - name: Templates
+    description: Template marketplace registry (install, purchase, ratings)
+  - name: Analytics
+    description: Platform-wide aggregate analytics (super_admin only)
+  - name: Support
+    description: Support ticket system with FSM transitions
+  - name: Partners
+    description: Partner and sub-partner management (M11)
+  - name: SuperAgent
+    description: AI spend controls, credit engine, and NDPR compliance layer
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Liveness probe
+      operationId: getHealth
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, service, environment, timestamp]
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  service:
+                    type: string
+                    example: webwaka-api
+                  environment:
+                    type: string
+                    enum: [development, staging, production]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Authenticate and receive a JWT
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+      responses:
+        "200":
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh an expiring JWT
+      operationId: refreshToken
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: New JWT issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revoke the current JWT (blacklist)
+      operationId: logout
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Token revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+
+  /platform/analytics/summary:
+    get:
+      tags: [Analytics]
+      summary: Platform-wide aggregate statistics (super_admin only)
+      operationId: getAnalyticsSummary
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Aggregate platform statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [totalTenants, activeWorkspaces, last30Days, topVerticals, generatedAt]
+                properties:
+                  totalTenants:
+                    type: integer
+                    description: Total number of registered organisations/tenants
+                  activeWorkspaces:
+                    type: integer
+                    description: Active workspace count across all tenants
+                  last30Days:
+                    type: object
+                    properties:
+                      transactionCount:
+                        type: integer
+                      revenueKobo:
+                        type: integer
+                        description: Total revenue in integer kobo (P9 invariant)
+                  topVerticals:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/VerticalUsage"
+                  generatedAt:
+                    type: string
+                    format: date-time
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /platform/analytics/tenants:
+    get:
+      tags: [Analytics]
+      summary: Paginated tenant list with workspace count and plan (super_admin only)
+      operationId: getAnalyticsTenants
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        "200":
+          description: Paginated tenant list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tenants:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TenantSummary"
+                  page:
+                    type: integer
+                  perPage:
+                    type: integer
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /platform/analytics/verticals:
+    get:
+      tags: [Analytics]
+      summary: Vertical usage heatmap — workspace count per vertical (super_admin only)
+      operationId: getAnalyticsVerticals
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Vertical heatmap
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verticals:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/VerticalUsage"
+                  total:
+                    type: integer
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /support/tickets:
+    post:
+      tags: [Support]
+      summary: Create a support ticket (T3 — tenant from JWT)
+      operationId: createSupportTicket
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTicketRequest"
+      responses:
+        "201":
+          description: Ticket created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticket:
+                    $ref: "#/components/schemas/SupportTicket"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    get:
+      tags: [Support]
+      summary: List tickets for the authenticated tenant (T3 scoped)
+      operationId: listSupportTickets
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/TicketStatus"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        "200":
+          description: Paginated ticket list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SupportTicket"
+                  page:
+                    type: integer
+                  perPage:
+                    type: integer
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /support/tickets/{id}:
+    get:
+      tags: [Support]
+      summary: Get a single support ticket (T3 guard)
+      operationId: getSupportTicket
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ticket details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticket:
+                    $ref: "#/components/schemas/SupportTicket"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      tags: [Support]
+      summary: Update ticket status or assignee (admin or super_admin only — FSM enforced)
+      operationId: updateSupportTicket
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  $ref: "#/components/schemas/TicketStatus"
+                priority:
+                  $ref: "#/components/schemas/TicketPriority"
+                assigneeId:
+                  type: string
+                  nullable: true
+      responses:
+        "200":
+          description: Ticket updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticket:
+                    $ref: "#/components/schemas/SupportTicket"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          description: Invalid FSM transition (e.g. attempting to reopen a closed ticket)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /platform/support/platform/tickets:
+    get:
+      tags: [Support]
+      summary: All tickets across all tenants (super_admin cross-tenant view)
+      operationId: platformListSupportTickets
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/TicketStatus"
+        - name: priority
+          in: query
+          schema:
+            $ref: "#/components/schemas/TicketPriority"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        "200":
+          description: Paginated cross-tenant ticket list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SupportTicket"
+                  page:
+                    type: integer
+                  perPage:
+                    type: integer
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /templates:
+    get:
+      tags: [Templates]
+      summary: List available templates (marketplace)
+      operationId: listTemplates
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: vertical
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        "200":
+          description: Paginated template list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templates:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TemplateSummary"
+                  page:
+                    type: integer
+                  perPage:
+                    type: integer
+
+  /templates/{slug}/rate:
+    post:
+      tags: [Templates]
+      summary: Rate a template (one rating per workspace — upsert)
+      operationId: rateTemplate
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Integer rating 1–5 (T4 invariant)
+                review_text:
+                  type: string
+                  nullable: true
+      responses:
+        "201":
+          description: Rating recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templateSlug:
+                    type: string
+                  yourRating:
+                    type: integer
+                  avgRating:
+                    type: number
+                  ratingCount:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /templates/{slug}/ratings:
+    get:
+      tags: [Templates]
+      summary: List ratings for a template (paginated)
+      operationId: listTemplateRatings
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        "200":
+          description: Paginated ratings list with aggregate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templateSlug:
+                    type: string
+                  avgRating:
+                    type: number
+                    nullable: true
+                  ratingCount:
+                    type: integer
+                  ratings:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TemplateRating"
+                  page:
+                    type: integer
+                  perPage:
+                    type: integer
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+        details:
+          type: string
+
+    AuthTokenResponse:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+          description: Signed JWT
+        expiresAt:
+          type: string
+          format: date-time
+
+    TicketStatus:
+      type: string
+      enum: [open, in_progress, resolved, closed]
+
+    TicketPriority:
+      type: string
+      enum: [low, normal, high, urgent]
+
+    SupportTicket:
+      type: object
+      properties:
+        id:
+          type: string
+        workspace_id:
+          type: string
+        tenant_id:
+          type: string
+        subject:
+          type: string
+          maxLength: 200
+        body:
+          type: string
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+        status:
+          $ref: "#/components/schemas/TicketStatus"
+        assignee_id:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+          description: Unix timestamp
+        updated_at:
+          type: integer
+          description: Unix timestamp
+
+    CreateTicketRequest:
+      type: object
+      required: [subject, body]
+      properties:
+        subject:
+          type: string
+          maxLength: 200
+        body:
+          type: string
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+        workspaceId:
+          type: string
+
+    VerticalUsage:
+      type: object
+      properties:
+        vertical_slug:
+          type: string
+        workspace_count:
+          type: integer
+
+    TenantSummary:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+        tenant_name:
+          type: string
+        tenant_slug:
+          type: string
+        created_at:
+          type: string
+        workspace_count:
+          type: integer
+        subscription_plan:
+          type: string
+          nullable: true
+        subscription_status:
+          type: string
+          nullable: true
+
+    TemplateSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        vertical_slug:
+          type: string
+          nullable: true
+        install_count:
+          type: integer
+        avg_rating:
+          type: number
+          nullable: true
+
+    TemplateRating:
+      type: object
+      properties:
+        id:
+          type: string
+        workspace_id:
+          type: string
+        tenant_id:
+          type: string
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        review_text:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+
+  responses:
+    BadRequest:
+      description: Invalid request payload or parameters
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Missing or invalid JWT
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Forbidden:
+      description: Authenticated but insufficient role/permissions
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Requested resource not found (or T3-scoped access denied)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ValidationError:
+      description: Request body failed validation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

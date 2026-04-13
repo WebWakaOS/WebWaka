@@ -682,4 +682,467 @@ partnerRoutes.post('/:id/entitlements', async (c) => {
   return c.json({ entitlement }, 201);
 });
 
+// ---------------------------------------------------------------------------
+// GET /partners/:id/credits — WakaCU pool balance for a partner (P5)
+// ---------------------------------------------------------------------------
+
+partnerRoutes.get('/:id/credits', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const partner = await db
+    .prepare('SELECT id, tenant_id FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string; tenant_id: string }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  const wallet = await db
+    .prepare(
+      `SELECT balance_wc, lifetime_purchased_wc, lifetime_spent_wc,
+              spend_cap_monthly_wc, current_month_spent_wc
+       FROM wc_wallets WHERE tenant_id = ?`,
+    )
+    .bind(partner.tenant_id)
+    .first<{
+      balance_wc: number;
+      lifetime_purchased_wc: number;
+      lifetime_spent_wc: number;
+      spend_cap_monthly_wc: number;
+      current_month_spent_wc: number;
+    }>();
+
+  // Sum of all allocations made from this partner to sub-tenants
+  const allocations = await db
+    .prepare(
+      `SELECT COALESCE(SUM(amount_wc), 0) AS total_allocated
+       FROM partner_credit_allocations WHERE partner_id = ?`,
+    )
+    .bind(partnerId)
+    .first<{ total_allocated: number }>();
+
+  return c.json({
+    partnerId,
+    tenantId: partner.tenant_id,
+    wallet: wallet
+      ? {
+          balanceWc: wallet.balance_wc,
+          lifetimePurchasedWc: wallet.lifetime_purchased_wc,
+          lifetimeSpentWc: wallet.lifetime_spent_wc,
+          spendCapMonthlyWc: wallet.spend_cap_monthly_wc,
+          currentMonthSpentWc: wallet.current_month_spent_wc,
+        }
+      : null,
+    totalAllocatedWc: allocations?.total_allocated ?? 0,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// POST /partners/:id/credits/allocate — allocate WakaCU credits to sub-tenant (P5)
+// ---------------------------------------------------------------------------
+
+partnerRoutes.post('/:id/credits/allocate', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const partner = await db
+    .prepare('SELECT id, tenant_id, status FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string; tenant_id: string; status: string }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  if (partner.status !== 'active') {
+    return c.json({ error: 'Partner must be active to allocate credits' }, 422);
+  }
+
+  let body: { recipientTenant?: string; amountWc?: number; note?: string };
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  if (!body.recipientTenant || !body.amountWc) {
+    return c.json({ error: 'recipientTenant and amountWc are required' }, 400);
+  }
+
+  if (!Number.isInteger(body.amountWc) || body.amountWc <= 0) {
+    return c.json({ error: 'amountWc must be a positive integer (P9 invariant)' }, 400);
+  }
+
+  // Verify recipient is a valid sub-tenant of this partner
+  const subPartner = await db
+    .prepare(
+      `SELECT id FROM sub_partners
+       WHERE partner_id = ? AND tenant_id = ? AND status = 'active'`,
+    )
+    .bind(partnerId, body.recipientTenant)
+    .first<{ id: string }>();
+
+  if (!subPartner) {
+    return c.json(
+      { error: 'recipientTenant is not an active sub-tenant of this partner' },
+      422,
+    );
+  }
+
+  // Check partner wallet balance
+  const wallet = await db
+    .prepare('SELECT balance_wc FROM wc_wallets WHERE tenant_id = ?')
+    .bind(partner.tenant_id)
+    .first<{ balance_wc: number }>();
+
+  if (!wallet) {
+    return c.json({ error: 'Partner wallet not found' }, 422);
+  }
+
+  if (wallet.balance_wc < body.amountWc) {
+    return c.json(
+      {
+        error: 'Insufficient WakaCU balance',
+        available: wallet.balance_wc,
+        requested: body.amountWc,
+      },
+      422,
+    );
+  }
+
+  // Debit partner wallet
+  const partnerBalanceAfter = wallet.balance_wc - body.amountWc;
+  await db
+    .prepare(
+      `UPDATE wc_wallets
+       SET balance_wc = ?, lifetime_spent_wc = lifetime_spent_wc + ?,
+           current_month_spent_wc = current_month_spent_wc + ?,
+           updated_at = datetime('now')
+       WHERE tenant_id = ?`,
+    )
+    .bind(partnerBalanceAfter, body.amountWc, body.amountWc, partner.tenant_id)
+    .run();
+
+  const partnerTxId = `wct_${crypto.randomUUID().replace(/-/g, '')}`;
+  await db
+    .prepare(
+      `INSERT INTO wc_transactions
+         (id, tenant_id, type, amount_wc, balance_after_wc, description, reference_id)
+       VALUES (?, ?, 'debit', ?, ?, ?, ?)`,
+    )
+    .bind(
+      partnerTxId,
+      partner.tenant_id,
+      -body.amountWc,
+      partnerBalanceAfter,
+      `Partner credit allocation to sub-tenant ${body.recipientTenant}`,
+      null,
+    )
+    .run();
+
+  // Credit sub-tenant wallet — UPSERT in case no wallet yet
+  const recipientWallet = await db
+    .prepare('SELECT balance_wc FROM wc_wallets WHERE tenant_id = ?')
+    .bind(body.recipientTenant)
+    .first<{ balance_wc: number }>();
+
+  const recipientCurrentBalance = recipientWallet?.balance_wc ?? 0;
+  const recipientBalanceAfter = recipientCurrentBalance + body.amountWc;
+
+  if (recipientWallet) {
+    await db
+      .prepare(
+        `UPDATE wc_wallets
+         SET balance_wc = ?, lifetime_purchased_wc = lifetime_purchased_wc + ?,
+             updated_at = datetime('now')
+         WHERE tenant_id = ?`,
+      )
+      .bind(recipientBalanceAfter, body.amountWc, body.recipientTenant)
+      .run();
+  } else {
+    const resetDate = new Date();
+    resetDate.setMonth(resetDate.getMonth() + 1);
+    const resetAt = resetDate.toISOString().slice(0, 10);
+    await db
+      .prepare(
+        `INSERT INTO wc_wallets
+           (tenant_id, balance_wc, lifetime_purchased_wc, lifetime_spent_wc,
+            spend_cap_monthly_wc, current_month_spent_wc, spend_cap_reset_at, updated_at)
+         VALUES (?, ?, ?, 0, 1000, 0, ?, datetime('now'))`,
+      )
+      .bind(body.recipientTenant, body.amountWc, body.amountWc, resetAt)
+      .run();
+  }
+
+  const recipientTxId = `wct_${crypto.randomUUID().replace(/-/g, '')}`;
+  await db
+    .prepare(
+      `INSERT INTO wc_transactions
+         (id, tenant_id, type, amount_wc, balance_after_wc, description, reference_id)
+       VALUES (?, ?, 'credit', ?, ?, ?, ?)`,
+    )
+    .bind(
+      recipientTxId,
+      body.recipientTenant,
+      body.amountWc,
+      recipientBalanceAfter,
+      `Partner credit allocation from partner ${partnerId}`,
+      null,
+    )
+    .run();
+
+  // Record the allocation
+  const allocationId = `pca_${crypto.randomUUID().replace(/-/g, '')}`;
+  await db
+    .prepare(
+      `INSERT INTO partner_credit_allocations
+         (id, partner_id, recipient_tenant, amount_wc, note, allocated_by)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      allocationId,
+      partnerId,
+      body.recipientTenant,
+      body.amountWc,
+      body.note ?? null,
+      auth.userId as string,
+    )
+    .run();
+
+  await writePartnerAuditLog(db, partnerId, auth.userId as string, 'credits_allocated', {
+    recipientTenant: body.recipientTenant,
+    amountWc: body.amountWc,
+    partnerBalanceAfter,
+    allocationId,
+  });
+
+  return c.json(
+    {
+      allocationId,
+      partnerId,
+      recipientTenant: body.recipientTenant,
+      amountWc: body.amountWc,
+      partnerBalanceAfter,
+      recipientBalanceAfter,
+    },
+    201,
+  );
+});
+
+// ---------------------------------------------------------------------------
+// GET /partners/:id/credits/history — paginated allocation history (P5)
+// ---------------------------------------------------------------------------
+
+partnerRoutes.get('/:id/credits/history', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const partner = await db
+    .prepare('SELECT id FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  const rawPage = parseInt(c.req.query('page') ?? '1', 10);
+  const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+  const perPage = 50;
+  const offset = (page - 1) * perPage;
+
+  const { results } = await db
+    .prepare(
+      `SELECT id, recipient_tenant, amount_wc, note, allocated_by, created_at
+       FROM partner_credit_allocations
+       WHERE partner_id = ?
+       ORDER BY created_at DESC
+       LIMIT ? OFFSET ?`,
+    )
+    .bind(partnerId, perPage, offset)
+    .all<{
+      id: string;
+      recipient_tenant: string;
+      amount_wc: number;
+      note: string | null;
+      allocated_by: string;
+      created_at: string;
+    }>();
+
+  return c.json({ allocations: results ?? [], page, perPage });
+});
+
+// ---------------------------------------------------------------------------
+// POST /partners/:id/settlements/calculate — calculate revenue share (P5)
+// P9 Invariant: all amounts INTEGER kobo, share rate INTEGER basis points
+// ---------------------------------------------------------------------------
+
+partnerRoutes.post('/:id/settlements/calculate', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const partner = await db
+    .prepare('SELECT id, status FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string; status: string }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  let body: {
+    periodStart?: string;
+    periodEnd?: string;
+    grossGmvKobo?: number;
+    shareBasisPoints?: number;
+    notes?: string;
+  };
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  if (!body.periodStart || !body.periodEnd || body.grossGmvKobo === undefined || body.shareBasisPoints === undefined) {
+    return c.json(
+      { error: 'periodStart, periodEnd, grossGmvKobo, and shareBasisPoints are required' },
+      400,
+    );
+  }
+
+  // P9: all amounts must be integers
+  if (!Number.isInteger(body.grossGmvKobo) || body.grossGmvKobo < 0) {
+    return c.json({ error: 'grossGmvKobo must be a non-negative integer (kobo, P9 invariant)' }, 400);
+  }
+
+  if (!Number.isInteger(body.shareBasisPoints) || body.shareBasisPoints < 0 || body.shareBasisPoints > 10000) {
+    return c.json(
+      { error: 'shareBasisPoints must be an integer between 0 and 10000 (P9 invariant)' },
+      400,
+    );
+  }
+
+  // P9: integer arithmetic — Math.round to stay in integer domain
+  const platformFeeKobo = Math.round(body.grossGmvKobo * (10000 - body.shareBasisPoints) / 10000);
+  const partnerShareKobo = body.grossGmvKobo - platformFeeKobo;
+
+  const settlementId = `ps_${crypto.randomUUID().replace(/-/g, '')}`;
+
+  await db
+    .prepare(
+      `INSERT INTO partner_settlements
+         (id, partner_id, period_start, period_end, gross_gmv_kobo,
+          platform_fee_kobo, partner_share_kobo, share_basis_points,
+          status, calculated_by, notes)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`,
+    )
+    .bind(
+      settlementId,
+      partnerId,
+      body.periodStart,
+      body.periodEnd,
+      body.grossGmvKobo,
+      platformFeeKobo,
+      partnerShareKobo,
+      body.shareBasisPoints,
+      auth.userId as string,
+      body.notes ?? null,
+    )
+    .run();
+
+  await writePartnerAuditLog(db, partnerId, auth.userId as string, 'settlement_calculated', {
+    settlementId,
+    periodStart: body.periodStart,
+    periodEnd: body.periodEnd,
+    grossGmvKobo: body.grossGmvKobo,
+    shareBasisPoints: body.shareBasisPoints,
+    partnerShareKobo,
+  });
+
+  return c.json(
+    {
+      settlementId,
+      partnerId,
+      periodStart: body.periodStart,
+      periodEnd: body.periodEnd,
+      grossGmvKobo: body.grossGmvKobo,
+      platformFeeKobo,
+      partnerShareKobo,
+      shareBasisPoints: body.shareBasisPoints,
+      status: 'pending',
+    },
+    201,
+  );
+});
+
+// ---------------------------------------------------------------------------
+// GET /partners/:id/settlements — list settlements for a partner (P5)
+// ---------------------------------------------------------------------------
+
+partnerRoutes.get('/:id/settlements', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const partner = await db
+    .prepare('SELECT id FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  const rawPage = parseInt(c.req.query('page') ?? '1', 10);
+  const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+  const perPage = 50;
+  const offset = (page - 1) * perPage;
+
+  const { results } = await db
+    .prepare(
+      `SELECT id, period_start, period_end, gross_gmv_kobo, platform_fee_kobo,
+              partner_share_kobo, share_basis_points, status,
+              calculated_by, calculated_at, approved_by, approved_at, paid_at, notes
+       FROM partner_settlements
+       WHERE partner_id = ?
+       ORDER BY period_start DESC
+       LIMIT ? OFFSET ?`,
+    )
+    .bind(partnerId, perPage, offset)
+    .all<Record<string, unknown>>();
+
+  return c.json({ settlements: results ?? [], page, perPage });
+});
+
 export { partnerRoutes };

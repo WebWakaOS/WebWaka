@@ -921,3 +921,485 @@ describe('Email validation', () => {
     expect(emailRegex.test(email)).toBe(false);
   });
 });
+
+// ===========================================================================
+// P5 — Partner Model Phase 3: Credits, Allocations, Settlements
+// ===========================================================================
+
+describe('P5 — GET /partners/:id/credits — WakaCU credit pool balance', () => {
+  it('returns 403 for non-super_admin', async () => {
+    const app = makeApp({ role: 'admin' });
+    const res = await app.request('/partners/prt_1/credits');
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when partner not found', async () => {
+    const app = makeApp();
+    const res = await app.request('/partners/prt_missing/credits');
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 200 with wallet data and total allocated', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_partner_1' },
+        all: [],
+        run: { success: true },
+      },
+      'wc_wallets': {
+        first: {
+          balance_wc: 4500,
+          lifetime_purchased_wc: 10000,
+          lifetime_spent_wc: 5500,
+          spend_cap_monthly_wc: 2000,
+          current_month_spent_wc: 300,
+        },
+        all: [],
+        run: { success: true },
+      },
+      'SUM(amount_wc)': {
+        first: { total_allocated: 1200 },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits');
+    expect(res.status).toBe(200);
+    const json = await res.json() as {
+      partnerId: string;
+      tenantId: string;
+      wallet: { balanceWc: number };
+      totalAllocatedWc: number;
+    };
+    expect(json.partnerId).toBe('prt_1');
+    expect(json.tenantId).toBe('ten_partner_1');
+    expect(json.wallet?.balanceWc).toBe(4500);
+    expect(json.totalAllocatedWc).toBe(1200);
+  });
+
+  it('returns null wallet when no wallet row exists', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id FROM partners': {
+        first: { id: 'prt_2', tenant_id: 'ten_partner_2' },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_2/credits');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { wallet: null; totalAllocatedWc: number };
+    expect(json.wallet).toBeNull();
+    expect(json.totalAllocatedWc).toBe(0);
+  });
+});
+
+describe('P5 — POST /partners/:id/credits/allocate — credit allocation', () => {
+  it('returns 403 for non-super_admin', async () => {
+    const app = makeApp({ role: 'member' });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub', amountWc: 100 }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when partner not found', async () => {
+    const app = makeApp();
+    const res = await app.request('/partners/prt_missing/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub', amountWc: 100 }),
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 422 when partner is not active', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_1', status: 'suspended' },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub', amountWc: 100 }),
+    });
+    expect(res.status).toBe(422);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('active');
+  });
+
+  it('returns 400 when amountWc is not a positive integer (P9)', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_1', status: 'active' },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub', amountWc: 100.5 }),
+    });
+    expect(res.status).toBe(400);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('positive integer');
+  });
+
+  it('returns 422 when recipient is not an active sub-tenant of this partner', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_1', status: 'active' },
+        all: [],
+        run: { success: true },
+      },
+      'sub_partners': {
+        first: null,
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_stranger', amountWc: 100 }),
+    });
+    expect(res.status).toBe(422);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('sub-tenant');
+  });
+
+  it('returns 422 when partner has insufficient WakaCU balance', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_1', status: 'active' },
+        all: [],
+        run: { success: true },
+      },
+      'sub_partners': {
+        first: { id: 'sp_1' },
+        all: [],
+        run: { success: true },
+      },
+      'wc_wallets': {
+        first: { balance_wc: 50 },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub_1', amountWc: 500 }),
+    });
+    expect(res.status).toBe(422);
+    const json = await res.json() as { error: string; available: number; requested: number };
+    expect(json.error).toContain('Insufficient');
+    expect(json.available).toBe(50);
+    expect(json.requested).toBe(500);
+  });
+
+  it('returns 201 and deducts balance when allocation succeeds', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_partner', status: 'active' },
+        all: [],
+        run: { success: true },
+      },
+      'sub_partners': {
+        first: { id: 'sp_1' },
+        all: [],
+        run: { success: true },
+      },
+      'wc_wallets': {
+        first: { balance_wc: 5000 },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub_1', amountWc: 500, note: 'Monthly allocation' }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as {
+      amountWc: number;
+      partnerBalanceAfter: number;
+      recipientBalanceAfter: number;
+      allocationId: string;
+    };
+    expect(json.amountWc).toBe(500);
+    expect(json.partnerBalanceAfter).toBe(4500);
+    expect(json.recipientBalanceAfter).toBe(5500);
+    expect(json.allocationId.startsWith('pca_')).toBe(true);
+  });
+
+  it('amountWc is always a positive integer in the response (P9)', async () => {
+    const db = makeMockDB({
+      'SELECT id, tenant_id, status FROM partners': {
+        first: { id: 'prt_1', tenant_id: 'ten_partner', status: 'active' },
+        all: [],
+        run: { success: true },
+      },
+      'sub_partners': {
+        first: { id: 'sp_1' },
+        all: [],
+        run: { success: true },
+      },
+      'wc_wallets': {
+        first: { balance_wc: 10000 },
+        all: [],
+        run: { success: true },
+      },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/allocate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipientTenant: 'ten_sub_1', amountWc: 1000 }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { amountWc: number; partnerBalanceAfter: number };
+    expect(Number.isInteger(json.amountWc)).toBe(true);
+    expect(Number.isInteger(json.partnerBalanceAfter)).toBe(true);
+  });
+});
+
+describe('P5 — GET /partners/:id/credits/history — allocation history', () => {
+  it('returns 403 for non-super_admin', async () => {
+    const app = makeApp({ role: 'viewer' });
+    const res = await app.request('/partners/prt_1/credits/history');
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when partner not found', async () => {
+    const app = makeApp();
+    const res = await app.request('/partners/prt_ghost/credits/history');
+    expect(res.status).toBe(404);
+  });
+
+  it('returns paginated allocation history', async () => {
+    const rows = [
+      { id: 'pca_1', recipient_tenant: 'ten_a', amount_wc: 200, note: 'Q1', allocated_by: 'usr_admin', created_at: '2026-04-01' },
+      { id: 'pca_2', recipient_tenant: 'ten_b', amount_wc: 500, note: null, allocated_by: 'usr_admin', created_at: '2026-04-02' },
+    ];
+    const db = makeMockDB({
+      'SELECT id FROM partners': { first: { id: 'prt_1' }, all: [], run: { success: true } },
+      'partner_credit_allocations': { first: null, all: rows, run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/credits/history');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { allocations: typeof rows; page: number };
+    expect(json.allocations).toHaveLength(2);
+    expect(json.page).toBe(1);
+  });
+});
+
+describe('P5 — POST /partners/:id/settlements/calculate — revenue share (P9)', () => {
+  it('returns 403 for non-super_admin', async () => {
+    const app = makeApp({ role: 'admin' });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 1000000, shareBasisPoints: 500 }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when partner not found', async () => {
+    const app = makeApp();
+    const res = await app.request('/partners/prt_missing/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 500000, shareBasisPoints: 300 }),
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 400 when grossGmvKobo is not an integer (P9 invariant)', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 100000.50, shareBasisPoints: 500 }),
+    });
+    expect(res.status).toBe(400);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('P9');
+  });
+
+  it('returns 400 when shareBasisPoints is not an integer (P9 invariant)', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 100000, shareBasisPoints: 5.5 }),
+    });
+    expect(res.status).toBe(400);
+    const json = await res.json() as { error: string };
+    expect(json.error).toContain('P9');
+  });
+
+  it('returns 400 when shareBasisPoints exceeds 10000', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 100000, shareBasisPoints: 15000 }),
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('calculates integer revenue share correctly (P9 — no floats)', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        periodStart: '2026-03-01',
+        periodEnd: '2026-03-31',
+        grossGmvKobo: 1000000,
+        shareBasisPoints: 500,
+      }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as {
+      grossGmvKobo: number;
+      platformFeeKobo: number;
+      partnerShareKobo: number;
+      shareBasisPoints: number;
+      status: string;
+    };
+    // 500 bps = 5% partner share
+    expect(json.grossGmvKobo).toBe(1000000);
+    expect(json.partnerShareKobo).toBe(50000);
+    expect(json.platformFeeKobo).toBe(950000);
+    expect(json.shareBasisPoints).toBe(500);
+    expect(json.status).toBe('pending');
+    // P9: all amounts must be integers (never floats)
+    expect(Number.isInteger(json.partnerShareKobo)).toBe(true);
+    expect(Number.isInteger(json.platformFeeKobo)).toBe(true);
+  });
+
+  it('partnerShareKobo + platformFeeKobo always equals grossGmvKobo (P9 conservation)', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    // Use 333 bps (non-round number) to stress-test integer arithmetic
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        periodStart: '2026-04-01',
+        periodEnd: '2026-04-30',
+        grossGmvKobo: 750000,
+        shareBasisPoints: 333,
+      }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as {
+      grossGmvKobo: number;
+      platformFeeKobo: number;
+      partnerShareKobo: number;
+    };
+    expect(json.partnerShareKobo + json.platformFeeKobo).toBe(json.grossGmvKobo);
+  });
+
+  it('settlement ID starts with ps_', async () => {
+    const db = makeMockDB({
+      'SELECT id, status FROM partners': { first: { id: 'prt_1', status: 'active' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements/calculate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ periodStart: '2026-03-01', periodEnd: '2026-03-31', grossGmvKobo: 200000, shareBasisPoints: 750 }),
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { settlementId: string };
+    expect(json.settlementId.startsWith('ps_')).toBe(true);
+  });
+});
+
+describe('P5 — GET /partners/:id/settlements — list settlements', () => {
+  it('returns 403 for non-super_admin', async () => {
+    const app = makeApp({ role: 'admin' });
+    const res = await app.request('/partners/prt_1/settlements');
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when partner not found', async () => {
+    const app = makeApp();
+    const res = await app.request('/partners/prt_ghost/settlements');
+    expect(res.status).toBe(404);
+  });
+
+  it('returns empty list when no settlements', async () => {
+    const db = makeMockDB({
+      'SELECT id FROM partners': { first: { id: 'prt_1' }, all: [], run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { settlements: unknown[] };
+    expect(json.settlements).toHaveLength(0);
+  });
+
+  it('returns paginated settlement list', async () => {
+    const rows = [
+      {
+        id: 'ps_1',
+        period_start: '2026-03-01',
+        period_end: '2026-03-31',
+        gross_gmv_kobo: 1000000,
+        platform_fee_kobo: 950000,
+        partner_share_kobo: 50000,
+        share_basis_points: 500,
+        status: 'pending',
+        calculated_by: 'usr_admin',
+        calculated_at: '2026-04-01',
+        approved_by: null,
+        approved_at: null,
+        paid_at: null,
+        notes: null,
+      },
+    ];
+    const db = makeMockDB({
+      'SELECT id FROM partners': { first: { id: 'prt_1' }, all: [], run: { success: true } },
+      'partner_settlements': { first: null, all: rows, run: { success: true } },
+    });
+    const app = makeApp({ dbOverride: db });
+    const res = await app.request('/partners/prt_1/settlements');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { settlements: typeof rows; page: number };
+    expect(json.settlements).toHaveLength(1);
+    expect(json.settlements[0]!.partner_share_kobo).toBe(50000);
+    expect(json.page).toBe(1);
+  });
+});

@@ -216,6 +216,139 @@ See `.changeset/config.json` for configuration.
 
 ---
 
+## Local D1 Development
+
+WebWaka OS uses Cloudflare D1 as its primary database. For local development, Wrangler provides a local SQLite-backed D1 emulator via Miniflare.
+
+### Quickstart (new developer)
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Copy local dev vars
+cp apps/api/.dev.vars.example apps/api/.dev.vars
+# Edit apps/api/.dev.vars and fill in:
+#   JWT_SECRET=<at-least-32-random-bytes>
+#   PAYSTACK_SECRET_KEY=sk_test_...
+#   TERMII_API_KEY=...
+#   RESEND_API_KEY=re_...
+
+# 3. Run all D1 migrations against the local DB
+cd apps/api
+npx wrangler d1 migrations apply webwaka-local --local
+
+# 4. Start the local dev server (Miniflare)
+npx wrangler dev --local
+
+# 5. Test the API (in a separate terminal)
+curl http://localhost:8787/health
+```
+
+### Running migrations
+
+All migrations live in `apps/api/migrations/`. They are numbered sequentially (`NNNN_description.sql`).
+
+```bash
+# Apply all pending migrations to your local D1
+cd apps/api
+npx wrangler d1 migrations apply webwaka-local --local
+
+# Apply to the remote (staging) D1 database
+npx wrangler d1 migrations apply webwaka-staging --remote
+
+# List applied migrations
+npx wrangler d1 migrations list webwaka-local --local
+```
+
+**Migration naming convention:**
+```
+0001_initial_schema.sql
+0002_add_workspaces.sql
+...
+0227_verticals_church.sql
+```
+
+### D1 query hygiene
+
+Every query MUST filter by `tenant_id` (T3 invariant):
+```typescript
+// ✅ Correct — always filter by tenant_id
+const result = await db
+  .prepare('SELECT * FROM workspaces WHERE id = ? AND tenant_id = ?')
+  .bind(workspaceId, auth.tenantId)
+  .first();
+
+// ❌ Wrong — forgeable via URL parameter; never use req.param('tenantId') as the D1 filter
+const result = await db
+  .prepare('SELECT * FROM workspaces WHERE id = ? AND tenant_id = ?')
+  .bind(workspaceId, c.req.param('tenantId'))  // ← SEC violation
+  .first();
+```
+
+### Testing with mock D1
+
+API tests use an in-memory mock D1 — never a real database. See the pattern used in `apps/api/src/routes/partners.test.ts`.
+
+```typescript
+function makeMockDB(overrides = {}) {
+  return {
+    prepare: vi.fn().mockImplementation((sql) => ({
+      bind: (...args) => ({
+        first: () => Promise.resolve(overrides.result ?? null),
+        all:   () => Promise.resolve({ results: overrides.results ?? [] }),
+        run:   () => Promise.resolve({ success: true }),
+      }),
+    })),
+  };
+}
+```
+
+---
+
+## OpenAPI Spec
+
+The OpenAPI 3.1 spec is authored in `docs/openapi/v1.yaml` and served at runtime by `apps/api/src/routes/openapi.ts`.
+
+```bash
+# Lint the spec locally
+npx @redocly/cli lint docs/openapi/v1.yaml
+
+# View interactive docs
+cd apps/api && npx wrangler dev --local
+# then open: http://localhost:8787/docs
+```
+
+The CI pipeline automatically lints `docs/openapi/v1.yaml` on every PR. PRs that break the spec validation will not merge. See ADR-0018 for the versioning strategy.
+
+---
+
+## @webwaka/core Package
+
+The `packages/core` package provides shared runtime utilities for all Workers:
+
+| Export | Purpose |
+|--------|---------|
+| `CircuitBreaker` | KV-backed circuit breaker for external API calls (ARC-15) |
+| `kvGet<T>(kv, key, fallback)` | Safe JSON KV read — never throws |
+| `kvGetText(kv, key, fallback)` | Safe text KV read — never throws |
+
+**Usage pattern:**
+```typescript
+import { kvGet, kvGetText, CircuitBreaker } from '@webwaka/core';
+
+// Safe KV read — returns fallback on any error (ARC-17)
+const settings = await kvGet<BrandingSettings>(c.env.KV, `settings:${tenantId}`, DEFAULT_SETTINGS);
+
+// Circuit breaker for external APIs (ARC-15)
+const cb = new CircuitBreaker(c.env.KV, 'paystack', { failureThreshold: 5, recoveryTimeoutMs: 30_000 });
+const result = await cb.call(() => paystackClient.initializePayment(...));
+```
+
+All KV reads in application code MUST use `kvGet` / `kvGetText` — never raw `kv.get()`. This prevents unhandled 500 errors from KV availability hiccups (ARC-17).
+
+---
+
 ## Questions
 
 Open an issue using the appropriate template, or consult the agent coordination model in [AGENTS.md](./AGENTS.md).

@@ -60,6 +60,8 @@ import { webhookRoutes } from './routes/webhooks.js';
 import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
 import { onboardingRoutes } from './routes/onboarding.js';
 import { billingRoutes } from './routes/billing.js';
+import { analyticsRoutes } from './routes/analytics.js';
+import { supportRoutes } from './routes/support.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -499,4 +501,25 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/billing/*', authMiddleware);
   app.use('/billing/*', auditLogMiddleware);
   app.route('/billing', billingRoutes);
+
+  // -------------------------------------------------------------------------
+  // P6-A: MED-011 — Platform Analytics (super_admin only)
+  // No per-route middleware needed — routes enforce super_admin role internally
+  // -------------------------------------------------------------------------
+
+  app.use('/platform/analytics/*', authMiddleware);
+  app.route('/platform/analytics', analyticsRoutes);
+
+  // -------------------------------------------------------------------------
+  // P6-C: MED-013 — Support Ticket System
+  // Tenant-scoped + super_admin cross-tenant view
+  // -------------------------------------------------------------------------
+
+  app.use('/support/*', authMiddleware);
+  app.use('/support/*', auditLogMiddleware);
+  app.route('/support', supportRoutes);
+
+  // Platform-wide support view (super_admin only)
+  app.use('/platform/support/*', authMiddleware);
+  app.route('/platform/support', supportRoutes);
 }

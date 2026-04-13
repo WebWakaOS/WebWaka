@@ -186,7 +186,8 @@
     "@webwaka/verticals-ward-rep": "workspace:*",
     "@webwaka/verticals-waste-management": "workspace:*",
     "@webwaka/verticals-water-treatment": "workspace:*",
-    "@webwaka/verticals-wedding-planner": "workspace:*"
+    "@webwaka/verticals-wedding-planner": "workspace:*",
+    "@webwaka/core": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",

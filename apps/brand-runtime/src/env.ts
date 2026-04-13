@@ -34,4 +34,11 @@ export interface Variables {
   tenantId?: string;
   tenantName?: string;
   themeColor?: string;
+  /**
+   * Maximum white-label branding depth allowed for this tenant's partner.
+   * 0 = no white-label, 1 = basic (logo + colors), 2 = full (custom domain + all).
+   * Null/undefined means no partner restriction (use subscription plan only).
+   * Set by whiteLabelDepthMiddleware after tenant resolution.
+   */
+  whiteLabelDepth?: number;
 }

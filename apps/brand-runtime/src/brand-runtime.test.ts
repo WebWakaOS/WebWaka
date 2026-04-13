@@ -888,3 +888,141 @@ describe('T24: Open Graph meta tags injected via base template (SEO-02)', () => 
     expect(html).toContain('href="/blog"');
   });
 });
+
+// ===========================================================================
+// T25: White-label depth enforcement — ENT-004 (P5)
+// ===========================================================================
+
+import { Hono } from 'hono';
+import { whiteLabelDepthMiddleware } from './middleware/white-label-depth.js';
+
+/**
+ * Minimal test app that mounts whiteLabelDepthMiddleware and exposes the
+ * resolved depth via GET /depth so tests can assert on it.
+ */
+function makeDepthTestApp(opts: {
+  tenantId?: string;
+  subPartner?: { partner_id: string } | null;
+  entitlement?: { value: string } | null;
+} = {}) {
+  type AppEnv = { Bindings: { DB: unknown }; Variables: { tenantId?: string; whiteLabelDepth?: number } };
+  const app = new Hono<AppEnv>();
+
+  const db = {
+    prepare: (sql: string) => ({
+      bind: (..._args: unknown[]) => ({
+        first: async <T>(): Promise<T | null> => {
+          if (sql.includes('sub_partners')) return (opts.subPartner ?? null) as T | null;
+          if (sql.includes('partner_entitlements')) return (opts.entitlement ?? null) as T | null;
+          return null;
+        },
+      }),
+    }),
+  };
+
+  app.use('*', async (c, next) => {
+    c.set('tenantId', opts.tenantId ?? 'ten_001');
+    c.env = { DB: db } as never;
+    await next();
+  });
+
+  app.use('*', whiteLabelDepthMiddleware as never);
+
+  app.get('/depth', (c) => {
+    return c.json({ depth: c.get('whiteLabelDepth') });
+  });
+
+  return app;
+}
+
+describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
+  it('sets depth to 2 (unconstrained) when tenant has no sub-partner relationship', async () => {
+    const app = makeDepthTestApp({ subPartner: null });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(2);
+  });
+
+  it('sets depth to 1 when partner has white_label_depth = 1', async () => {
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_tier1' },
+      entitlement: { value: '1' },
+    });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(1);
+  });
+
+  it('sets depth to 2 when partner has white_label_depth = 2 (full white-label)', async () => {
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_tier2' },
+      entitlement: { value: '2' },
+    });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(2);
+  });
+
+  it('sets depth to 0 when partner has white_label_depth = 0 (no white-label)', async () => {
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_nobranding' },
+      entitlement: { value: '0' },
+    });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(0);
+  });
+
+  it('defaults to depth 1 when sub-tenant partner has no depth entitlement grant', async () => {
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_no_entitlement' },
+      entitlement: null,
+    });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(1);
+  });
+
+  it('defaults to depth 1 when entitlement value is invalid (corrupted data)', async () => {
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_bad' },
+      entitlement: { value: 'invalid_value' },
+    });
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: number };
+    expect(json.depth).toBe(1);
+  });
+
+  it('skips depth enforcement when tenantId is not set on context', async () => {
+    type AppEnv = { Bindings: { DB: unknown }; Variables: { tenantId?: string; whiteLabelDepth?: number } };
+    const app = new Hono<AppEnv>();
+    const db = { prepare: () => ({ bind: () => ({ first: async () => null }) }) };
+    app.use('*', async (c, next) => { c.env = { DB: db } as never; await next(); });
+    app.use('*', whiteLabelDepthMiddleware as never);
+    app.get('/depth', (c) => c.json({ depth: c.get('whiteLabelDepth') ?? 'not-set' }));
+
+    const res = await app.request('/depth');
+    expect(res.status).toBe(200);
+    const json = await res.json() as { depth: string | number };
+    // Middleware skipped — depth was never set by this middleware
+    expect(json.depth).toBe('not-set');
+  });
+
+  it('a Tier-1 partner cannot grant its sub-tenant deeper white-labelling than allowed', async () => {
+    // Partner with depth=1 — sub-tenant should get depth 1, NOT 2
+    const app = makeDepthTestApp({
+      subPartner: { partner_id: 'prt_tier1_only' },
+      entitlement: { value: '1' },
+    });
+    const res = await app.request('/depth');
+    const json = await res.json() as { depth: number };
+    // Must be capped at 1 — cannot exceed partner's granted depth
+    expect(json.depth).toBeLessThanOrEqual(1);
+  });
+});

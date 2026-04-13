@@ -27,6 +27,7 @@ import { evaluateUserLimit, evaluateOfferingLimit, evaluatePlaceLimit } from '@w
 import type { Env } from '../env.js';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 import { EmailService } from '../lib/email-service.js';
+import { indexOffering } from '../lib/search-index.js';
 
 const workspaceRoutes = new Hono<{ Bindings: Env }>();
 
@@ -368,6 +369,21 @@ workspaceRoutes.post('/:id/offerings', async (c) => {
       isPublished,
     )
     .run();
+
+  // P4-C: Sync to search index (non-fatal — search unavailability must not break offering creation)
+  try {
+    await indexOffering(db, {
+      id: offeringId,
+      name: body.name.trim(),
+      description: body.description ?? null,
+      category: null,
+      tenantId: auth.tenantId,
+      workspaceId,
+      isPublished: isPublished === 1,
+    });
+  } catch (err) {
+    console.error('[search-index] indexOffering failed (non-fatal):', err);
+  }
 
   return c.json({
     offering_id: offeringId,

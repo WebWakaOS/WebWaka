@@ -304,18 +304,177 @@ app.get('/', (c) => {
       <code>GET  /partners</code> — List all registered partners<br/>
       <code>POST /partners</code> — Register a new partner<br/>
       <code>GET  /partners/:id</code> — Get partner detail<br/>
-      <code>PATCH /partners/:id/status</code> — Update partner status (pending → active → suspended → deactivated)<br/>
+      <code>PATCH /partners/:id/status</code> — Update partner status<br/>
       <code>GET  /partners/:id/sub-partners</code> — List sub-partners<br/>
-      <code>POST /partners/:id/sub-partners</code> — Create sub-partner (requires delegation_rights entitlement)<br/>
+      <code>POST /partners/:id/sub-partners</code> — Create sub-partner<br/>
       <code>PATCH /partners/:id/sub-partners/:subId/status</code> — Update sub-partner status<br/>
       <code>GET  /partners/:id/entitlements</code> — View entitlement grants<br/>
-      <code>POST /partners/:id/entitlements</code> — Grant entitlement dimension
+      <code>POST /partners/:id/entitlements</code> — Grant entitlement dimension<br/>
+      <code>GET  /partners/:id/credits</code> — WakaCU credit pool balance <span style="color:var(--green)">NEW P5</span><br/>
+      <code>POST /partners/:id/credits/allocate</code> — Allocate credits to sub-tenant <span style="color:var(--green)">NEW P5</span><br/>
+      <code>GET  /partners/:id/credits/history</code> — Allocation history <span style="color:var(--green)">NEW P5</span><br/>
+      <code>POST /partners/:id/settlements/calculate</code> — Calculate revenue share <span style="color:var(--green)">NEW P5</span><br/>
+      <code>GET  /partners/:id/settlements</code> — List settlements <span style="color:var(--green)">NEW P5</span>
     </div>
+
+    <p class="section-title">Live Dashboard</p>
+    <div class="api-note" style="margin-bottom:1rem">
+      Enter a Partner ID and API base URL to load live data:
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:1.5rem">
+      <input id="apiBase" type="text" value="https://api.webwaka.com"
+        placeholder="API base URL"
+        style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:220px" />
+      <input id="partnerId" type="text" placeholder="Partner ID (e.g. prt_…)"
+        style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:200px" />
+      <input id="jwtToken" type="password" placeholder="super_admin JWT"
+        style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:200px" />
+      <button onclick="loadDashboard()"
+        style="background:var(--blue);color:#fff;border:none;padding:0.6rem 1.25rem;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600">
+        Load
+      </button>
+    </div>
+
+    <div id="creditsPanel" style="display:none">
+      <p class="section-title">WakaCU Credit Pool</p>
+      <div id="creditsData" class="api-note"></div>
+
+      <p class="section-title" style="margin-top:1.5rem">Allocate Credits</p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem">
+        <input id="allocTenant" type="text" placeholder="Recipient tenant ID"
+          style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:200px" />
+        <input id="allocAmount" type="number" placeholder="Amount (WC units)"
+          style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;width:160px" />
+        <input id="allocNote" type="text" placeholder="Note (optional)"
+          style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:180px" />
+        <button onclick="allocateCredits()"
+          style="background:#1a6b3a;color:#fff;border:none;padding:0.6rem 1.25rem;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600">
+          Allocate
+        </button>
+      </div>
+      <div id="allocResult" class="api-note" style="display:none"></div>
+    </div>
+
+    <div id="settlementsPanel" style="display:none">
+      <p class="section-title">Settlements</p>
+      <div id="settlementsData" class="api-note"></div>
+    </div>
+
+    <div id="subPartnersPanel" style="display:none">
+      <p class="section-title">Sub-Partners</p>
+      <div id="subPartnersData" class="api-note"></div>
+    </div>
+
   </main>
 
   <footer>
-    WebWaka OS &mdash; Partner Admin &mdash; Milestone 11 &mdash; 2026-04-11
+    WebWaka OS &mdash; Partner Admin &mdash; Milestone 11 — Phase 3 &mdash; 2026-04-13
   </footer>
+
+  <script>
+    let _base = '', _pid = '', _jwt = '';
+
+    function authHeaders() {
+      return { 'Authorization': 'Bearer ' + _jwt, 'Content-Type': 'application/json' };
+    }
+
+    async function loadDashboard() {
+      _base = document.getElementById('apiBase').value.replace(/\\/+$/, '');
+      _pid  = document.getElementById('partnerId').value.trim();
+      _jwt  = document.getElementById('jwtToken').value.trim();
+
+      if (!_pid || !_jwt) {
+        alert('Partner ID and JWT are required');
+        return;
+      }
+
+      document.getElementById('creditsPanel').style.display = 'block';
+      document.getElementById('settlementsPanel').style.display = 'block';
+      document.getElementById('subPartnersPanel').style.display = 'block';
+
+      await Promise.all([loadCredits(), loadSettlements(), loadSubPartners()]);
+    }
+
+    async function loadCredits() {
+      const el = document.getElementById('creditsData');
+      el.textContent = 'Loading…';
+      try {
+        const r = await fetch(_base + '/partners/' + _pid + '/credits', { headers: authHeaders() });
+        const d = await r.json();
+        if (!r.ok) { el.innerHTML = '<span style="color:#ef4444">Error: ' + (d.error || r.status) + '</span>'; return; }
+        const w = d.wallet || {};
+        el.innerHTML =
+          '<strong>Balance:</strong> ' + (w.balanceWc ?? '—') + ' WC &nbsp;|&nbsp; ' +
+          '<strong>Lifetime Purchased:</strong> ' + (w.lifetimePurchasedWc ?? '—') + ' WC &nbsp;|&nbsp; ' +
+          '<strong>Total Allocated to Sub-Tenants:</strong> ' + (d.totalAllocatedWc ?? '—') + ' WC';
+      } catch (e) {
+        el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function allocateCredits() {
+      const tenant = document.getElementById('allocTenant').value.trim();
+      const amount = parseInt(document.getElementById('allocAmount').value, 10);
+      const note   = document.getElementById('allocNote').value.trim();
+      const el = document.getElementById('allocResult');
+      el.style.display = 'block';
+      el.textContent = 'Allocating…';
+      try {
+        const r = await fetch(_base + '/partners/' + _pid + '/credits/allocate', {
+          method: 'POST',
+          headers: authHeaders(),
+          body: JSON.stringify({ recipientTenant: tenant, amountWc: amount, note: note || undefined }),
+        });
+        const d = await r.json();
+        if (!r.ok) { el.innerHTML = '<span style="color:#ef4444">Error: ' + (d.error || r.status) + '</span>'; return; }
+        el.innerHTML = '<span style="color:var(--green)">Allocated ' + d.amountWc + ' WC to ' + d.recipientTenant + '. Partner balance after: ' + d.partnerBalanceAfter + ' WC</span>';
+        await loadCredits();
+      } catch (e) {
+        el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function loadSettlements() {
+      const el = document.getElementById('settlementsData');
+      el.textContent = 'Loading…';
+      try {
+        const r = await fetch(_base + '/partners/' + _pid + '/settlements', { headers: authHeaders() });
+        const d = await r.json();
+        if (!r.ok) { el.innerHTML = '<span style="color:#ef4444">Error: ' + (d.error || r.status) + '</span>'; return; }
+        const rows = d.settlements || [];
+        if (rows.length === 0) { el.textContent = 'No settlements recorded yet.'; return; }
+        el.innerHTML = rows.map(s =>
+          '<div style="margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">' +
+          '<strong>' + s.period_start + ' → ' + s.period_end + '</strong> &nbsp; ' +
+          'GMV: ₦' + (s.gross_gmv_kobo / 100).toLocaleString() + ' &nbsp;|&nbsp; ' +
+          'Partner share: ₦' + (s.partner_share_kobo / 100).toLocaleString() + ' (' + (s.share_basis_points / 100).toFixed(2) + '%) &nbsp;|&nbsp; ' +
+          '<span class="status status-' + (s.status === 'paid' ? 'active' : 'pending') + '">' + s.status + '</span>' +
+          '</div>'
+        ).join('');
+      } catch (e) {
+        el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function loadSubPartners() {
+      const el = document.getElementById('subPartnersData');
+      el.textContent = 'Loading…';
+      try {
+        const r = await fetch(_base + '/partners/' + _pid + '/sub-partners', { headers: authHeaders() });
+        const d = await r.json();
+        if (!r.ok) { el.innerHTML = '<span style="color:#ef4444">Error: ' + (d.error || r.status) + '</span>'; return; }
+        const rows = d.subPartners || [];
+        if (rows.length === 0) { el.textContent = 'No sub-partners registered yet.'; return; }
+        el.innerHTML = rows.map(s =>
+          '<div style="margin-bottom:0.5rem">' +
+          '<strong>' + s.id + '</strong> — Tenant: ' + s.tenant_id + ' — Status: ' + s.status +
+          '</div>'
+        ).join('');
+      } catch (e) {
+        el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
+      }
+    }
+  </script>
 </body>
 </html>`;
 

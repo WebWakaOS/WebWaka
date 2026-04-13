@@ -24,7 +24,7 @@ import { initializePayment, verifyPayment } from '@webwaka/payments';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 import { EmailService } from '../lib/email-service.js';
 
-type Auth = { userId: string; tenantId: string; role?: string };
+type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
 const templates = new Hono<{ Bindings: Env }>();
 
@@ -819,6 +819,121 @@ templates.delete('/:slug/install', async (c) => {
   ]);
 
   return c.json({ rolled_back: true, template_slug: slug, installation_id: installation.id });
+});
+
+// ---------------------------------------------------------------------------
+// P6-B: Template Ratings — POST /templates/:slug/rate
+// T3: tenant_id + workspace_id from JWT; one rating per workspace per template
+// T4: rating must be integer 1–5
+// ---------------------------------------------------------------------------
+
+templates.post('/:slug/rate', async (c) => {
+  const a = await requireAuth(c);
+  if (!a) return c.json({ error: 'Unauthorized' }, 401);
+  const { tenantId, workspaceId } = a;
+
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const tmpl = await db
+    .prepare('SELECT id FROM template_registry WHERE slug = ?')
+    .bind(slug)
+    .first<{ id: string }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  let body: { rating?: unknown; review_text?: string };
+  try { body = await c.req.json<typeof body>(); }
+  catch { return c.json({ error: 'Invalid JSON body' }, 400); }
+
+  const rating = Number(body.rating);
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return c.json({ error: 'rating must be an integer between 1 and 5 (T4 invariant)' }, 400);
+  }
+
+  const id = `tr_${crypto.randomUUID().replace(/-/g, '')}`;
+  const reviewText = (body.review_text ?? null) as string | null;
+  const now = Math.floor(Date.now() / 1000);
+
+  await db
+    .prepare(
+      `INSERT INTO template_ratings (id, template_slug, workspace_id, tenant_id, rating, review_text, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(template_slug, workspace_id) DO UPDATE SET
+         rating = excluded.rating,
+         review_text = excluded.review_text,
+         updated_at = excluded.updated_at`,
+    )
+    .bind(id, slug, workspaceId ?? '', tenantId, rating, reviewText, now, now)
+    .run();
+
+  // Return new average rating
+  const agg = await db
+    .prepare(
+      `SELECT AVG(CAST(rating AS REAL)) AS avg_rating, COUNT(*) AS rating_count
+       FROM template_ratings WHERE template_slug = ?`,
+    )
+    .bind(slug)
+    .first<{ avg_rating: number | null; rating_count: number }>();
+
+  return c.json(
+    {
+      templateSlug: slug,
+      yourRating: rating,
+      avgRating: agg?.avg_rating != null ? Math.round(agg.avg_rating * 100) / 100 : rating,
+      ratingCount: agg?.rating_count ?? 1,
+    },
+    201,
+  );
+});
+
+// ---------------------------------------------------------------------------
+// P6-B: Template Ratings — GET /templates/:slug/ratings (paginated)
+// ---------------------------------------------------------------------------
+
+templates.get('/:slug/ratings', async (c) => {
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const tmpl = await db
+    .prepare('SELECT id FROM template_registry WHERE slug = ?')
+    .bind(slug)
+    .first<{ id: string }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  const rawPage = parseInt(c.req.query('page') ?? '1', 10);
+  const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+  const perPage = 50;
+  const offset = (page - 1) * perPage;
+
+  const { results } = await db
+    .prepare(
+      `SELECT id, workspace_id, tenant_id, rating, review_text, created_at, updated_at
+       FROM template_ratings
+       WHERE template_slug = ?
+       ORDER BY created_at DESC
+       LIMIT ? OFFSET ?`,
+    )
+    .bind(slug, perPage, offset)
+    .all<Record<string, unknown>>();
+
+  const agg = await db
+    .prepare(
+      `SELECT AVG(CAST(rating AS REAL)) AS avg_rating, COUNT(*) AS rating_count
+       FROM template_ratings WHERE template_slug = ?`,
+    )
+    .bind(slug)
+    .first<{ avg_rating: number | null; rating_count: number }>();
+
+  return c.json({
+    templateSlug: slug,
+    avgRating: agg?.avg_rating != null ? Math.round(agg.avg_rating * 100) / 100 : null,
+    ratingCount: agg?.rating_count ?? 0,
+    ratings: results ?? [],
+    page,
+    perPage,
+  });
 });
 
 export { templates as templateRoutes };

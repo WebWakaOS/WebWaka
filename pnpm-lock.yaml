@@ -93,6 +93,9 @@ importers:
       '@webwaka/contact':
         specifier: workspace:*
         version: link:../../packages/contact
+      '@webwaka/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@webwaka/entities':
         specifier: workspace:*
         version: link:../../packages/entities
@@ -860,6 +863,18 @@ importers:
     devDependencies:
       typescript:
         specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(jsdom@24.1.3)
+
+  packages/core:
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
         version: 5.9.3
       vitest:
         specifier: ^1.6.0

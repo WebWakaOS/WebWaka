@@ -123,6 +123,11 @@ router.get('/:entityType/:id', async (c) => {
 
   const brandSiteUrl = tenantSlug?.slug ? `https://brand-${tenantSlug.slug}.webwaka.ng` : null;
 
+  // P4-C: Cross-pillar order URL — links public profile back to Pillar 1 API
+  // Format: https://api.webwaka.ng/entities/{id}/order
+  // This is the canonical ordering endpoint exposed by Pillar 1 (Operations API)
+  const apiOrderUrl = `https://api.webwaka.ng/entities/${esc(id)}/order`;
+
   const claimCta = entityType === 'organization' ? `
     <div class="ww-cta-banner" style="margin-top:2rem">
       <h3>Is this your business?</h3>
@@ -141,6 +146,7 @@ router.get('/:entityType/:id', async (c) => {
         ${profile.phone ? `<p style="margin-top:.375rem"><a href="tel:${esc(profile.phone)}">${esc(profile.phone)}</a></p>` : ''}
         ${profile.website ? `<p style="margin-top:.375rem"><a href="${safeHref(profile.website)}" target="_blank" rel="noopener">${esc(profile.website)}</a></p>` : ''}
         ${brandSiteUrl ? `<p style="margin-top:.5rem"><a href="${brandSiteUrl}" class="ww-cta-btn" style="font-size:.8125rem;padding:.375rem .875rem;min-height:auto">Visit Website &rarr;</a></p>` : ''}
+        ${offerings.length > 0 ? `<p style="margin-top:.5rem"><a href="${apiOrderUrl}" class="ww-cta-btn" style="font-size:.8125rem;padding:.375rem .875rem;min-height:auto;background:var(--ww-primary)">Order / Book Now &rarr;</a></p>` : ''}
       </div>
     </div>
     ${profile.description ? `<p style="margin-top:1.5rem;color:var(--ww-text-muted);line-height:1.7;max-width:44rem">${esc(profile.description)}</p>` : ''}

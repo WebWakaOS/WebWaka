@@ -121,3 +121,60 @@ export async function removeFromIndex(db: D1Like, entityId: string): Promise<voi
     .bind(entityId)
     .run();
 }
+
+// ---------------------------------------------------------------------------
+// Offering indexing — Cross-Pillar Data Flow (P4-C HIGH-009)
+// ---------------------------------------------------------------------------
+
+interface Offering {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string | null;
+  tenantId: TenantId;
+  workspaceId: string;
+  isPublished: boolean;
+}
+
+/**
+ * Index (or re-index) an offering in search_entries.
+ * Non-entity offerings are stored with entity_type = 'offering' so they can be
+ * searched separately from org/individual profiles.
+ *
+ * Failures are intentionally non-fatal — callers should wrap in try/catch.
+ */
+export async function indexOffering(
+  db: D1Like,
+  offering: Offering,
+): Promise<void> {
+  if (!offering.isPublished) {
+    // Unpublished offerings are removed from the index
+    await removeOfferingFromIndex(db, offering.id);
+    return;
+  }
+
+  const keywords = normaliseKeywords(
+    [offering.name, offering.description ?? '', offering.category ?? ''].join(' '),
+  );
+  const id = generateSearchId();
+
+  await db
+    .prepare(
+      `INSERT OR REPLACE INTO search_entries
+         (id, entity_type, entity_id, tenant_id, display_name, keywords, place_id, ancestry_path, visibility, created_at, updated_at)
+       VALUES (?, 'offering', ?, ?, ?, ?, NULL, '[]', 'public', unixepoch(), unixepoch())`,
+    )
+    .bind(id, offering.id, offering.tenantId, offering.name, keywords)
+    .run();
+}
+
+/**
+ * Remove an offering from the search index (on delete or unpublish).
+ * Non-fatal — callers should wrap in try/catch.
+ */
+export async function removeOfferingFromIndex(db: D1Like, offeringId: string): Promise<void> {
+  await db
+    .prepare(`DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'offering'`)
+    .bind(offeringId)
+    .run();
+}

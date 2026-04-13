@@ -23,3 +23,8 @@ export {
   syncPaymentToSubscription,
   recordFailedPayment,
 } from './subscription-sync.js';
+
+export {
+  validateCurrency,
+} from './currency.js';
+export type { CurrencyCode, CurrencyValidationResult } from './currency.js';

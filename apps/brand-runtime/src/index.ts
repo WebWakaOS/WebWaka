@@ -40,6 +40,7 @@ import { blogRouter } from './routes/blog.js';
 import { shopRouter } from './routes/shop.js';
 import { sitemapRouter } from './routes/sitemap.js';
 import { brandingEntitlementMiddleware } from './middleware/branding-entitlement.js';
+import { whiteLabelDepthMiddleware } from './middleware/white-label-depth.js';
 import { tenantResolve } from './middleware/tenant-resolve.js';
 
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
@@ -139,6 +140,13 @@ app.get('/manifest.json', async (c) => {
 // ─── ENT-003: Branding entitlement check (after tenant resolution) ────────
 app.use('/portal/*', brandingEntitlementMiddleware);
 app.use('/*', brandingEntitlementMiddleware);
+
+// ─── ENT-004: White-label depth cap (P5 — partner depth enforcement) ──────
+// Runs after tenant resolution; sets whiteLabelDepth on context.
+// Downstream handlers (shop, portal) read c.get('whiteLabelDepth') to cap
+// which theme fields are applied per partner entitlement grant.
+app.use('/portal/*', whiteLabelDepthMiddleware);
+app.use('/*', whiteLabelDepthMiddleware);
 
 // ─── Portal routes (branded auth shell) ───────────────────────────────────
 app.route('/portal', portalRouter);

@@ -14,6 +14,7 @@
 
 import { Hono } from 'hono';
 import { validateNigerianPhone } from '@webwaka/otp';
+import { kvGetText } from '@webwaka/core';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 
@@ -211,7 +212,7 @@ airtimeRoutes.post('/topup', async (c) => {
 
   // Rate limit — 5 top-ups per user per hour (R9 pattern; T3: tenant-scoped KV key)
   const rateLimitKey = `rate:airtime:${auth.tenantId}:${auth.userId}`;
-  const countStr = await c.env.RATE_LIMIT_KV.get(rateLimitKey);
+  const countStr = await kvGetText(c.env.RATE_LIMIT_KV, rateLimitKey, null);
   const count = countStr ? parseInt(countStr, 10) : 0;
   if (count >= RATE_LIMIT) {
     return c.json({ error: 'rate_limited', message: 'Too many airtime requests. Try again later.' }, 429);
