@@ -447,7 +447,7 @@ describe('MON-01 + MON-02: POST /templates/:slug/purchase/verify', () => {
     const { gross_kobo, platform_fee_kobo, author_share_kobo } = body.revenue_split;
     // Gross = 50,000 kobo (₦500)
     expect(gross_kobo).toBe(50_000_00);
-    // Platform fee = floor(50_000_00 * 0.30) = 15_000_00
+    // Platform fee = floor((50_000_00 * 30) / 100) = 15_000_00
     expect(platform_fee_kobo).toBe(15_000_00);
     // Author share = 50_000_00 - 15_000_00 = 35_000_00
     expect(author_share_kobo).toBe(35_000_00);

@@ -728,7 +728,8 @@ templates.post('/:slug/purchase/verify', async (c) => {
   const splitId = `rsplit_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
 
   // MON-02: 70/30 revenue split (30% platform fee, 70% to template author)
-  const platformFeeKobo = Math.floor(purchase.amount_kobo * 0.30);
+  // T4/P9: integer-only arithmetic — no float multiplication on monetary values
+  const platformFeeKobo = Math.floor((purchase.amount_kobo * 30) / 100);
   const authorShareKobo = purchase.amount_kobo - platformFeeKobo;
 
   const existingInstall = await db.prepare(
