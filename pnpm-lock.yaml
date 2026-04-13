@@ -610,6 +610,9 @@ importers:
       '@webwaka/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@webwaka/white-label-theming':
+        specifier: workspace:*
+        version: link:../../packages/white-label-theming
       hono:
         specifier: ^4.12.12
         version: 4.12.12
@@ -4195,6 +4198,12 @@ importers:
         version: 5.9.3
 
   packages/workspaces: {}
+
+  tests/smoke:
+    devDependencies:
+      tsx:
+        specifier: ^4.19.2
+        version: 4.21.0
 
 packages:
 
