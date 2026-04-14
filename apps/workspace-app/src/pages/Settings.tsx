@@ -70,9 +70,8 @@ export default function Settings() {
       const updates: Promise<unknown>[] = [
         api.patch(`/workspaces/${user.workspaceId}`, { name: businessName || undefined }),
       ];
-      if (phone !== undefined) {
-        updates.push(authApi.updateProfile({ phone: phone || undefined }));
-      }
+      // phone is always a string; empty string clears the field (stored as null server-side)
+      updates.push(authApi.updateProfile({ phone: phone || undefined }));
       await Promise.all(updates);
       toast.success('Settings saved');
     } catch (err) {

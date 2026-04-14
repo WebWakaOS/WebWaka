@@ -34,6 +34,8 @@ interface UserRow {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Nigerian phone: optional +234 prefix, then 7–9 plus 10 digits (e.g. +2348012345678 or 08012345678)
+const PHONE_RE = /^(\+234|0)[789]\d{9}$/;
 const PASSWORD_MIN = 8;
 const PASSWORD_MAX = 128;
 const RESET_TOKEN_TTL = 3600;
@@ -367,12 +369,29 @@ authRoutes.patch('/profile', async (c) => {
   const bindings: unknown[] = [];
 
   if (body.phone !== undefined) {
+    const trimmedPhone = body.phone.trim();
+    if (trimmedPhone && !PHONE_RE.test(trimmedPhone)) {
+      return c.json(
+        errorResponse(
+          ErrorCode.BadRequest,
+          'phone must be a valid Nigerian number (e.g. +2348012345678 or 08012345678).',
+        ),
+        400,
+      );
+    }
     parts.push('phone = ?');
-    bindings.push(body.phone.trim() || null);
+    bindings.push(trimmedPhone || null);
   }
   if (body.fullName !== undefined) {
+    const trimmedName = body.fullName.trim();
+    if (trimmedName && trimmedName.length > 100) {
+      return c.json(
+        errorResponse(ErrorCode.BadRequest, 'fullName must be 100 characters or fewer.'),
+        400,
+      );
+    }
     parts.push('full_name = ?');
-    bindings.push(body.fullName.trim() || null);
+    bindings.push(trimmedName || null);
   }
   parts.push('updated_at = unixepoch()');
   bindings.push(auth.userId, auth.tenantId);

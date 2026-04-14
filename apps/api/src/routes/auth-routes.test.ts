@@ -1,15 +1,18 @@
 /**
- * Auth routes tests — Phase 18 QA audit
+ * Auth routes tests — Phase 18 + Phase 19 QA audit
  *
  * Covers:
- *   - POST /auth/login       — success, wrong password, user not found, bad request
- *   - POST /auth/register    — success (201), duplicate email (409), validation errors
- *   - GET  /auth/me          — success, 401 without JWT
- *   - POST /auth/refresh     — success with valid JWT, 401 without JWT
- *   - POST /auth/verify      — valid token, invalid token
- *   - POST /auth/forgot-password — always 200 (anti-enumeration)
- *   - POST /auth/reset-password  — success, invalid token, weak password
- *   - DELETE /auth/me        — NDPR erasure, 401 without JWT
+ *   - POST /auth/login             — success, wrong password, user not found, bad request
+ *   - POST /auth/register          — success (201), duplicate email (409), validation errors
+ *   - GET  /auth/me                — success (extended shape), 401 without JWT, workspaceId-less
+ *   - POST /auth/refresh           — success with valid JWT, 401 without JWT
+ *   - POST /auth/verify            — valid token, invalid token
+ *   - POST /auth/forgot-password   — always 200 (anti-enumeration), KV put called
+ *   - POST /auth/reset-password    — success, invalid token, weak password
+ *   - POST /auth/change-password   — success, 400/401 error cases
+ *   - POST /auth/logout            — 401 without JWT, KV blacklist + sessions, KV fail-open (P19-C)
+ *   - PATCH /auth/profile          — success, 400 validations, phone format, field clearing (P19-B)
+ *   - DELETE /auth/me              — NDPR erasure, 401 without JWT
  *
  * Pattern: app.fetch(new Request(url, opts), env) — identical to billing tests.
  */
@@ -146,7 +149,8 @@ function makeDB(opts: {
       run: vi.fn().mockResolvedValue({ success: true }),
       all: vi.fn().mockResolvedValue({ results: [] }),
     })),
-    batch: vi.fn().mockResolvedValue([{ results: [] }, { results: [] }]),
+    // P19-F: register batch now has 3 statements: tenants + workspaces + users
+    batch: vi.fn().mockResolvedValue([{ results: [] }, { results: [] }, { results: [] }]),
   };
 }
 
@@ -381,6 +385,36 @@ describe('GET /auth/me', () => {
     expect(body.businessName).toBeNull();
     // Response must NOT be nested under a "data" key (AUT-005 fix)
     expect((body as Record<string, unknown>)['data']).toBeUndefined();
+  });
+
+  it('returns 401 for a JWT missing the required workspace_id claim (architecture constraint)', async () => {
+    // @webwaka/auth requires sub, workspace_id, tenant_id, role, iat, exp in every JWT.
+    // A workspace-less super-admin cannot be authenticated with the current JWT schema.
+    // This test documents the constraint so it is not accidentally changed without intent.
+    const now = Math.floor(Date.now() / 1000);
+    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const payload = btoa(JSON.stringify({
+      sub: 'usr_super',
+      tenant_id: 'tnt_001',
+      // workspace_id intentionally omitted — violates JWT schema
+      role: 'admin',
+      iat: now - 10,
+      exp: now + 3600,
+    })).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const input = `${header}.${payload}`;
+    const key = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(JWT_SECRET),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
+    );
+    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(input));
+    const signature = btoa(String.fromCharCode(...new Uint8Array(sig)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const jwt = `${input}.${signature}`;
+
+    const res = await app.fetch(get('/auth/me', jwt), makeEnv(makeDB()));
+    // The auth middleware rejects tokens missing required claims
+    expect(res.status).toBe(401);
   });
 });
 
@@ -739,6 +773,65 @@ describe('PATCH /auth/profile', () => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: '+2348099887766', fullName: 'Chukwuemeka Eze' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it('returns 400 for an invalid phone number format', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ phone: 'not-a-phone' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/valid Nigerian number/i);
+  });
+
+  it('returns 200 when clearing phone with empty string (stores null)', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ phone: '' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/updated successfully/i);
+  });
+
+  it('returns 400 when fullName exceeds 100 characters', async () => {
+    const jwt = await makeJwt();
+    const longName = 'A'.repeat(101);
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ fullName: longName }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/100 characters/i);
+  });
+
+  it('accepts local Nigerian format (08012345678)', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ phone: '08012345678' }),
       }),
       makeEnv(makeDB()),
     );

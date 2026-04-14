@@ -50,7 +50,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
 | Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
 | Phase 18 P18 Checklist | ✅ COMPLETE — AUTH-001–008 + QA-18-001–007 all fixed; ResetPassword.tsx added; change-password endpoint live; 2402/2402 tests |
-| Phase 19 P19 Checklist | ✅ COMPLETE — P19-A email via Resend (password-reset template); P19-B profile save (PATCH /auth/profile + workspace name); P19-C server logout (POST /auth/logout + KV blacklist); P19-D Playwright E2E suite (auth-flows.e2e.ts); P19-E free-plan upgrade banner; P19-F tenants table (migration 0230); 2410/2410 tests |
+| Phase 19 P19 Checklist | ✅ COMPLETE + QA pass — P19-A email via Resend (password-reset template); P19-B profile save (PATCH /auth/profile + workspace name + phone format validation); P19-C server logout (POST /auth/logout + KV blacklist); P19-D Playwright E2E suite (auth-flows.e2e.ts); P19-E free-plan upgrade banner; P19-F tenants table (migration 0230); 2416/2416 tests (QA: fixed phone validation, batch mock 2→3, AUT-005 smoke test shape, dead-code condition, 5 new edge-case tests) |
 
 ## Platform Scale
 
@@ -62,7 +62,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
 | D1 migrations | 231 (all with rollback scripts — 0230 adds tenants table P19-F) |
-| API tests (apps/api) | 2410 (167 test files, 0 failures — auth-routes.test.ts: 44 tests incl. logout + profile PATCH) |
+| API tests (apps/api) | 2416 (167 test files, 0 failures — auth-routes.test.ts: 49 tests incl. phone validation, field clearing, constraint test; api.test.ts AUT-005 shape fix) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
 | CI governance checks | 12 (all 12 PASS — check-api-versioning.ts added in P18-E) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |

@@ -178,9 +178,11 @@ describe('GET /auth/me — authenticated', () => {
     const res = await makeRequest('/auth/me', { token: validToken });
     expect(res.status).toBe(200);
     const body: Record<string, unknown> = await res.json();
-    const data = body['data'] as Record<string, unknown>;
-    expect(data['userId']).toBe(USER_ID);
-    expect(data['tenantId']).toBe(TENANT_ID);
+    // AUT-005 fix: response is flat (no data wrapper) — id=userId, tenantId, workspaceId, role
+    expect(body['id']).toBe(USER_ID);
+    expect(body['tenantId']).toBe(TENANT_ID);
+    expect(body['workspaceId']).toBe(WORKSPACE_ID);
+    expect(body['data']).toBeUndefined();
   });
 
   it('returns 401 without auth header', async () => {
