@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { toast } from '@/lib/toast';
+import { authApi, ApiError } from '@/lib/api';
 
 const DARK_MODE_KEY = 'ww_dark_mode';
 
@@ -26,6 +27,11 @@ export default function Settings() {
   const [darkMode, setDarkMode] = useState(getInitialDarkMode);
   const [pushEnabled, setPushEnabled] = useState(false);
 
+  const [currentPw, setCurrentPw] = useState('');
+  const [newPw, setNewPw] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const [changingPw, setChangingPw] = useState(false);
+
   useEffect(() => {
     applyDarkMode(darkMode);
   }, [darkMode]);
@@ -36,6 +42,26 @@ export default function Settings() {
     await new Promise(r => setTimeout(r, 800));
     setSaving(false);
     toast.success('Settings saved');
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentPw) { toast.error('Enter your current password'); return; }
+    if (newPw.length < 8) { toast.error('New password must be at least 8 characters'); return; }
+    if (newPw !== confirmPw) { toast.error("Passwords don't match"); return; }
+    setChangingPw(true);
+    try {
+      await authApi.changePassword(currentPw, newPw);
+      toast.success('Password changed successfully');
+      setCurrentPw('');
+      setNewPw('');
+      setConfirmPw('');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Password change failed. Please try again.';
+      toast.error(msg);
+    } finally {
+      setChangingPw(false);
+    }
   };
 
   const requestPush = async () => {
@@ -157,16 +183,41 @@ export default function Settings() {
           {tab === 'security' && (
             <section aria-label="Security settings">
               <h2 style={styles.sectionHeading}>Security</h2>
-              <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 400 }}>
-                <Input label="Current password" type="password" required placeholder="••••••••" />
-                <Input label="New password" type="password" required placeholder="At least 8 characters" hint="Use a strong, unique password" />
-                <Input label="Confirm new password" type="password" required placeholder="••••••••" />
-                <Button type="submit" loading={saving}>Change password</Button>
+              <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 400 }}>
+                <Input
+                  label="Current password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  placeholder="••••••••"
+                  value={currentPw}
+                  onChange={e => setCurrentPw(e.target.value)}
+                />
+                <Input
+                  label="New password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  placeholder="At least 8 characters"
+                  hint="Use a strong, unique password"
+                  value={newPw}
+                  onChange={e => setNewPw(e.target.value)}
+                />
+                <Input
+                  label="Confirm new password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  placeholder="••••••••"
+                  value={confirmPw}
+                  onChange={e => setConfirmPw(e.target.value)}
+                />
+                <Button type="submit" loading={changingPw}>Change password</Button>
               </form>
               <div style={{ ...styles.dangerZone, marginTop: 32 }}>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>Sessions</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>Session</h3>
                 <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>
-                  You are signed in on this device. Signing out will clear your local session.
+                  Signing out clears your local session. Your account remains active.
                 </p>
                 <Button variant="danger" size="sm" onClick={logout}>Sign out</Button>
               </div>

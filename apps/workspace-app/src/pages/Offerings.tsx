@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { formatNaira, nairaToKobo, koboToNaira } from '@/lib/currency';
@@ -39,11 +40,12 @@ const EMPTY_FORM: ProductFormState = {
 
 export default function Offerings() {
   const { user } = useAuth();
+  const location = useLocation();
   const workspaceId = user?.workspaceId;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(location.pathname === '/offerings/new');
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductFormState>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);

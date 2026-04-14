@@ -125,5 +125,7 @@ export const authApi = {
     request<{ message: string }>('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }), skipAuth: true }),
   resetPassword: (token: string, password: string) =>
     request<{ message: string }>('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }), skipAuth: true }),
+  changePassword: (currentPassword: string, newPassword: string) =>
+    request<{ message: string }>('/auth/change-password', { method: 'POST', body: JSON.stringify({ currentPassword, newPassword }) }),
   me: () => request<LoginResponse['user']>('/auth/me'),
 };

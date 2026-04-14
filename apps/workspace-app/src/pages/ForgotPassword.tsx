@@ -43,7 +43,7 @@ export default function ForgotPassword() {
             <div style={styles.successIcon} aria-hidden="true">✉️</div>
             <h1 style={styles.heading}>Check your email</h1>
             <p style={styles.subheading}>
-              We've sent a password reset link to your email. It expires in 15 minutes.
+              We've sent a password reset link to your email. It expires in 1 hour.
             </p>
             <Link to="/login" style={{ display: 'block', textAlign: 'center', marginTop: 24 }}>
               <Button fullWidth variant="secondary">Back to login</Button>

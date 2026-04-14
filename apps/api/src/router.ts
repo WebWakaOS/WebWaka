@@ -84,8 +84,16 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   app.use('/auth/refresh', authMiddleware);
   app.use('/auth/me', authMiddleware);
+  app.use('/auth/change-password', authMiddleware);
   // SEC-03: Login-specific rate limiting — 10 attempts per 5 minutes per IP
   app.use('/auth/login', rateLimitMiddleware({ keyPrefix: 'auth:login', maxRequests: 10, windowSeconds: 300 }));
+  // SEC-03b: Registration rate limiting — 5 signups per 15 minutes per IP
+  app.use('/auth/register', rateLimitMiddleware({ keyPrefix: 'auth:register', maxRequests: 5, windowSeconds: 900 }));
+  // SEC-03c: Password reset rate limiting — 5 requests per 15 minutes per IP
+  app.use('/auth/forgot-password', rateLimitMiddleware({ keyPrefix: 'auth:forgot', maxRequests: 5, windowSeconds: 900 }));
+  app.use('/auth/reset-password', rateLimitMiddleware({ keyPrefix: 'auth:reset', maxRequests: 5, windowSeconds: 900 }));
+  // SEC-03d: Change-password rate limiting — 10 attempts per 15 minutes per user
+  app.use('/auth/change-password', rateLimitMiddleware({ keyPrefix: 'auth:changepw', maxRequests: 10, windowSeconds: 900 }));
   app.route('/auth', authRoutes);
 
   // -------------------------------------------------------------------------

@@ -49,7 +49,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Full Comprehensive QA Audit | ✅ COMPLETE — 6 bugs fixed, 22 routes restored, all governance green |
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
 | Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
-| Phase 18 P18 Checklist | 🔄 IN PROGRESS — AUTH-001–006 fixed (register/login/me/refresh chain), workspace-app API wired to real backend, auth-routes.test.ts added (30 tests), WS-001–003 connected to /billing/status + /pos-business APIs — 2396/2396 tests |
+| Phase 18 P18 Checklist | 🔄 IN PROGRESS — AUTH-001–008 + QA-18-001–007 all fixed; ResetPassword.tsx added; change-password endpoint live; rate limits on register/forgot/reset/change-password; Settings security tab wired; /offerings/new auto-opens form; 2402/2402 tests |
 
 ## Platform Scale
 
@@ -61,7 +61,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
 | D1 migrations | 230 (all with rollback scripts — 0229 adds revert_cancel to CHECK constraint) |
-| API tests (apps/api) | 2396 (167 test files, 0 failures — auth-routes.test.ts added) |
+| API tests (apps/api) | 2402 (167 test files, 0 failures — auth-routes.test.ts: 36 tests incl. change-password) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
 | CI governance checks | 12 (all 12 PASS — check-api-versioning.ts added in P18-E) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
@@ -93,7 +93,14 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | WS-001 | HIGH | Dashboard used hardcoded `DEMO_STATS` — no real data; connected to `/billing/status` + `/pos-business/sales/:workspaceId/summary` | `apps/workspace-app/src/pages/Dashboard.tsx` |
 | WS-002 | HIGH | Offerings used `setTimeout` stub for save/delete/toggle — data not persisted; connected to `/pos-business/products` CRUD | `apps/workspace-app/src/pages/Offerings.tsx` |
 | WS-003 | HIGH | POS used `DEMO_PRODUCTS` + `setTimeout` for checkout — no real transactions; connected to `/pos-business/products` load + `/pos-business/sales` | `apps/workspace-app/src/pages/POS.tsx` |
-| COVERAGE-001 | HIGH | `auth-routes.ts` had zero test coverage; added `auth-routes.test.ts` with 30 tests (login, register, me, refresh, verify, forgot-password, reset-password, NDPR erasure) | `apps/api/src/routes/auth-routes.test.ts` |
+| COVERAGE-001 | HIGH | `auth-routes.ts` had zero test coverage; added `auth-routes.test.ts` with 36 tests (login, register, me, refresh, verify, forgot-password, reset-password, change-password, NDPR erasure) | `apps/api/src/routes/auth-routes.test.ts` |
+| QA-18-001 | CRITICAL | No `ResetPassword.tsx` page existed — email reset link hit 404; user had no way to complete the reset flow | `apps/workspace-app/src/pages/ResetPassword.tsx` (new), `App.tsx` |
+| QA-18-002 | HIGH | No rate limit on `POST /auth/register` — open to spam account creation | `apps/api/src/router.ts` (added 5/15min limit) |
+| QA-18-003 | HIGH | No rate limit on `POST /auth/forgot-password` — KV could be flooded | `apps/api/src/router.ts` (added 5/15min limit) |
+| QA-18-004 | MEDIUM | `ForgotPassword.tsx` said "expires in 15 minutes" but backend TTL is 3600s (1 hour) | `apps/workspace-app/src/pages/ForgotPassword.tsx` |
+| QA-18-005 | MEDIUM | Settings "Change password" form called a `setTimeout` stub — no API call made; no `POST /auth/change-password` endpoint existed | `apps/api/src/routes/auth-routes.ts`, `apps/workspace-app/src/pages/Settings.tsx` |
+| QA-18-006 | LOW | `/offerings/new` route rendered the list view without opening the "Add offering" modal | `apps/workspace-app/src/pages/Offerings.tsx` (checks location.pathname) |
+| QA-18-007 | LOW | Settings "Sign out of all devices" label was misleading (only clears localStorage) | `apps/workspace-app/src/pages/Settings.tsx` (label corrected) |
 
 ### BUG-005/006 RESOLUTION — Complete Route Mounting Restoration
 

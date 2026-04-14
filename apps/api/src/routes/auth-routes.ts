@@ -445,6 +445,75 @@ authRoutes.delete('/me', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// POST /auth/change-password — change password for authenticated user
+// Requires currentPassword to prevent CSRF-style privilege escalation.
+// ---------------------------------------------------------------------------
+authRoutes.post('/change-password', async (c) => {
+  const auth = c.get('auth');
+  if (!auth) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
+  }
+
+  const body = await c.req.json<{
+    currentPassword: string;
+    newPassword: string;
+  }>().catch(() => null);
+
+  if (!body?.currentPassword || !body?.newPassword) {
+    return c.json(
+      errorResponse(ErrorCode.BadRequest, 'currentPassword and newPassword are required.'),
+      400,
+    );
+  }
+
+  const pwErr = validatePassword(body.newPassword);
+  if (pwErr) return c.json(errorResponse(ErrorCode.BadRequest, pwErr), 400);
+
+  if (body.currentPassword === body.newPassword) {
+    return c.json(
+      errorResponse(ErrorCode.BadRequest, 'New password must differ from current password.'),
+      400,
+    );
+  }
+
+  const userRow = await c.env.DB.prepare(
+    'SELECT password_hash FROM users WHERE id = ? AND tenant_id = ? LIMIT 1',
+  ).bind(auth.userId, auth.tenantId).first<{ password_hash: string }>();
+
+  if (!userRow?.password_hash) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'User not found.'), 401);
+  }
+
+  const encoder = new TextEncoder();
+  const [storedSalt, storedHash] = userRow.password_hash.split(':');
+
+  if (!storedSalt || !storedHash) {
+    return c.json(errorResponse(ErrorCode.InternalError, 'Authentication configuration error.'), 500);
+  }
+
+  const saltBuffer = Uint8Array.from(atob(storedSalt), (ch) => ch.charCodeAt(0));
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw', encoder.encode(body.currentPassword), { name: 'PBKDF2' }, false, ['deriveBits'],
+  );
+  const derivedBits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
+    keyMaterial, 256,
+  );
+  const derivedHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits)));
+
+  if (derivedHash !== storedHash) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Current password is incorrect.'), 401);
+  }
+
+  const newHash = await hashPassword(body.newPassword);
+  await c.env.DB.prepare(
+    `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
+  ).bind(newHash, auth.userId, auth.tenantId).run();
+
+  return c.json({ message: 'Password changed successfully.' });
+});
+
+// ---------------------------------------------------------------------------
 // POST /auth/verify — validate a JWT token and return decoded payload
 // ---------------------------------------------------------------------------
 authRoutes.post('/verify', async (c) => {

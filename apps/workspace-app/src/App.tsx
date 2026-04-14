@@ -4,6 +4,7 @@ import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayo
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import Dashboard from '@/pages/Dashboard';
 import POS from '@/pages/POS';
 import Offerings from '@/pages/Offerings';
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
 
           <Route element={<WorkspaceLayout />}>

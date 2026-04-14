@@ -534,6 +534,75 @@ describe('POST /auth/reset-password', () => {
 });
 
 // ---------------------------------------------------------------------------
+// POST /auth/change-password
+// ---------------------------------------------------------------------------
+describe('POST /auth/change-password', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(
+      post('/auth/change-password', { currentPassword: 'OldPass123!', newPassword: 'NewPass456!' }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 400 when currentPassword is missing', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      post('/auth/change-password', { newPassword: 'NewPass456!' }, jwt),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/currentPassword.*newPassword|required/i);
+  });
+
+  it('returns 400 for weak new password', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      post('/auth/change-password', { currentPassword: 'OldPass123!', newPassword: 'weak' }, jwt),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it('returns 400 when new password equals current password', async () => {
+    const jwt = await makeJwt();
+    const db = makeDB({ meUser: { password_hash: TEST_PASSWORD_HASH } });
+    const res = await app.fetch(
+      post('/auth/change-password', { currentPassword: TEST_PASSWORD, newPassword: TEST_PASSWORD }, jwt),
+      makeEnv(db),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/differ|same/i);
+  });
+
+  it('returns 401 when current password is wrong', async () => {
+    const jwt = await makeJwt();
+    const db = makeDB({ meUser: { password_hash: TEST_PASSWORD_HASH } });
+    const res = await app.fetch(
+      post('/auth/change-password', { currentPassword: 'WrongPass999!', newPassword: 'NewPass456!' }, jwt),
+      makeEnv(db),
+    );
+    expect(res.status).toBe(401);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/incorrect/i);
+  });
+
+  it('returns 200 and success message when current password is correct', async () => {
+    const jwt = await makeJwt();
+    const db = makeDB({ meUser: { password_hash: TEST_PASSWORD_HASH } });
+    const res = await app.fetch(
+      post('/auth/change-password', { currentPassword: TEST_PASSWORD, newPassword: 'NewSecure456!' }, jwt),
+      makeEnv(db),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/changed successfully/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // DELETE /auth/me (NDPR erasure)
 // ---------------------------------------------------------------------------
 describe('DELETE /auth/me', () => {
