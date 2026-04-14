@@ -1,0 +1,426 @@
+You are Replit Agent working on the current WebWaka OS platform.
+
+Your task is to prepare a deeply detailed, evidence-based implementation plan for the remaining platform issues and next phases listed below.
+
+Do not cover SSL/custom domain for brand-runtime in this assignment.
+That task belongs to Base44 Agent only.
+You may mention it only if it creates a dependency boundary, but do not plan it here.
+
+Your responsibility here is:
+1. Thoroughly review the current platform as it exists now.
+2. Do deep online research on relevant best practices and implementation patterns.
+3. Synthesize both the codebase reality and external research into a clear, detailed, implementation-ready plan.
+
+Thoroughness is far more important than speed.
+Do not assume.
+Do not skip anything.
+Do not confuse what exists already with what is only planned.
+Clearly distinguish:
+- fully implemented,
+- partially implemented,
+- not implemented,
+- human-action-required,
+- overtaken-by-events / no longer current direction.
+
+# Primary planning scope
+
+Prepare the implementation plan for the following remaining issues:
+
+1. Email verification enforcement
+   Current state: email_verified_at NULL is non-blocking.
+   Plan the best implementation for:
+   - dashboard warning,
+   - 7-day grace period,
+   - blocking unverified users from paid features after grace period,
+   - UX, API, entitlement, and enforcement implications.
+
+2. Vertical AI config completeness
+   Current state: not all 159 verticals have VERTICAL_AI_CONFIGS entries.
+   Plan for safe completeness by generating defaults for all unconfigured verticals:
+   - autonomy_level = 0
+   - no capabilities
+   - no unsafe assumptions.
+
+3. Changeset publishing
+   Current state: changeset:publish script exists, but publishing infrastructure for @webwaka/* packages to npm is not fully configured.
+   Plan the correct monorepo-safe publishing architecture and process.
+
+4. Event sourcing projections scheduling
+   Current state: apps/projections exists, but projection rebuild scheduling CRON trigger has not been added to projections wrangler.toml.
+   Plan the best implementation path.
+
+5. OpenAPI spec completeness
+   Current state: docs/openapi/v1.yaml needs to be updated to include P20 routes:
+   - invite
+   - sessions
+   - verify-email
+   - accept-invite
+   Plan how to make the spec complete and how to prevent future drift.
+
+6. i18n locale completeness
+   Current state: locale files exist for:
+   - en-NG
+   - yo
+   - ig
+   - ha
+   - pid
+   - fr
+   Plan a full completeness audit for all UI strings and define the remediation approach.
+
+7. Database index audit
+   Current state: a review is needed for compound indexes on high-frequency tables such as entities and profiles, especially patterns involving workspace_id and tenant_id.
+   Plan the audit method and likely implementation path for scale-readiness.
+
+8. HITL queue worker
+   Current state: packages/superagent/src/hitl-service.ts exists, but no scheduled worker yet processes HITL expiries.
+   Plan the worker/scheduler implementation in a way that fits current WebWaka architecture.
+
+9. k6 load test CI integration
+   Current state: tests/k6 exists, but load tests are not yet integrated into CI.
+   Plan the safest and most useful CI integration approach.
+
+10. Canary deployment automation
+   Current state: deploy-canary.yml exists, but trigger is manual.
+   Plan whether and how automatic canary on staging merge should work, with proper safeguards.
+
+# Next phases to plan
+
+Prepare detailed implementation planning for:
+
+## P21
+Make offline payment through bank transfers, with offline confirmation, the default payment method across the entire platform for every level of users and sectors.
+
+Important:
+The older audit lists P21 as “USSD Advanced Features.”
+Your task is to verify the present direction and, if this newer direction is confirmed by context, clearly mark the older P21 wording as overtaken by events rather than treating it as current plan.
+
+## P22
+AI SuperAgent Production:
+- HITL activation
+- spend controls live
+
+## P23
+Analytics Dashboard:
+- tenant-facing analytics
+- partner revenue dashboards
+
+## P24
+Multi-currency:
+- CFA for Côte d’Ivoire
+- USD
+- USDT
+- GHS
+- KES
+- ZAR
+
+## P25
+Marketplace:
+- platform-level B2B discovery
+- entity-to-entity commerce
+
+# Context baseline you must respect
+
+Use the current audited platform state as baseline, including:
+- WebWaka OS at P20 COMPLETE.
+- 22,208 source files audited.
+- 2,458 passing tests.
+- 0 TypeScript errors.
+- 9 Cloudflare Worker apps and 1 React PWA frontend.
+- 203 packages.
+- 159 verticals.
+- 233 migrations.
+- 11 governance CI checks passing.
+- platform invariants including offline-first, mobile-first, Nigeria-first, tenant isolation, entitlement enforcement, AI consent gates, integer-kobo money rules, and provider-neutral AI abstraction.
+- existing routes already include auth invite, sessions, verify-email, accept-invite in code, but OpenAPI completeness is still pending.
+- apps/projections already exists.
+- k6 tests already exist.
+- HITL service already exists.
+- locale files already exist.
+- email verification field and related route support already exist.
+- brand-runtime custom-domain planning is excluded from your implementation-planning scope here.
+
+# Required review scope
+
+Before producing recommendations, thoroughly review the relevant present-state implementation areas, including at minimum:
+
+- apps/api
+  - auth routes
+  - billing routes
+  - payments routes
+  - superagent routes
+  - analytics routes
+  - onboarding routes
+  - openapi route
+  - middleware for auth, billing enforcement, entitlement, AI entitlement, audit, monitoring
+
+- apps/projections
+  - current projection rebuild model
+  - worker setup
+  - scheduling gap
+
+- apps/workspace-app
+  - settings
+  - auth/session flows
+  - verify-email flow
+  - invite acceptance
+  - dashboard and warning surfaces
+  - analytics-facing UI implications
+
+- packages/superagent
+  - hitl-service
+  - AI abstractions
+  - spend / credit / autonomy implications
+
+- packages/i18n
+  - locales
+  - translation structure
+  - fallback behavior
+
+- docs/openapi
+  - v1.yaml completeness and maintenance process
+
+- .changeset
+  - publishing scripts
+  - release flow assumptions
+
+- .github/workflows
+  - CI
+  - deploy
+  - canary
+  - staging/production promotion
+  - where k6 can fit safely
+
+- infra/db/migrations
+  - users email_verified_at
+  - currency fields
+  - relevant payment, analytics, sessions, subscriptions, invitation, partner revenue, and eventlog tables
+  - indexes and high-frequency query paths
+
+- docs/governance and docs/architecture/decisions
+  - to ensure recommendations preserve platform invariants and approved architectural direction
+
+# Required external research scope
+
+Do deep research online before writing the plan. At minimum research:
+
+1. Email verification enforcement patterns in SaaS:
+   - warning periods
+   - grace windows
+   - paid-feature gating
+   - resend verification UX
+   - exception handling
+
+2. AI config registry completeness patterns:
+   - safe defaults
+   - capability registries
+   - autonomy gating
+   - fail-closed behavior
+
+3. Changesets and npm publishing for pnpm monorepos:
+   - release PR workflow
+   - npm trusted publishing / OIDC where relevant
+   - internal dependency versioning
+   - changelog and publish safety
+
+4. Event projection scheduling:
+   - Cloudflare Worker scheduled triggers
+   - replay/rebuild safety
+   - idempotence
+   - backfill strategy
+
+5. OpenAPI best practices:
+   - preventing spec drift
+   - contract completeness
+   - CI validation
+   - single source of truth patterns
+
+6. i18n coverage audits:
+   - translation key completeness
+   - fallback strategy
+   - missing-string detection
+   - QA approach for multi-locale UIs
+
+7. SQLite / D1 indexing patterns:
+   - compound indexes
+   - tenant/workspace-scoped query optimization
+   - read-heavy profile/entity queries
+
+8. HITL queue processing:
+   - expiry processing
+   - timeout escalation
+   - queue lifecycle
+   - operator notification / takeover patterns
+
+9. k6 in CI/CD:
+   - smoke vs full load test strategy
+   - thresholds
+   - schedule vs PR gating
+   - artifact retention
+
+10. Canary deployment automation:
+   - gradual rollout
+   - automated rollback thresholds
+   - feature flags
+   - staging-to-canary promotion safety
+
+11. Offline bank transfer as default payment method:
+   - proof of payment
+   - offline confirmation
+   - reconciliation
+   - fraud controls
+   - settlement states
+   - delayed confirmation UX
+   - suitability for low-connectivity environments
+
+12. AI spend controls:
+   - budget caps
+   - credit systems
+   - approval thresholds
+   - partner resale and sub-allocation
+   - auditability
+
+13. Analytics dashboards:
+   - tenant metrics
+   - partner revenue metrics
+   - precomputed vs live aggregation
+   - multi-tenant performance concerns
+
+14. Multi-currency architecture:
+   - display currency
+   - transaction currency
+   - settlement currency
+   - accounting/base currency
+   - FX handling
+   - stablecoin considerations
+   - pricing storage and conversion design
+
+15. B2B marketplace architecture:
+   - discovery vs transaction flows
+   - entity-to-entity trust and verification
+   - negotiation, ordering, invoicing, fulfillment, dispute flow
+   - how it should fit with an existing multi-vertical entity model
+
+# Deliverable title
+
+Produce one report titled:
+
+# WebWaka Detailed Implementation Plan — Remaining Platform Gaps and Phases P21–P25
+
+# Required report structure
+
+## 1. Executive framing
+State:
+- what this planning covers,
+- what it explicitly excludes,
+- what current platform baseline is assumed,
+- and what must not be re-architected unnecessarily because it already exists and works.
+
+## 2. Current-state evidence map
+For every issue and every phase area:
+- what already exists,
+- what exists partially,
+- what is missing,
+- what requires human action,
+- what has been overtaken by newer direction.
+
+## 3. Remaining immediate issues — detailed planning
+For each of the 10 remaining immediate issues, include:
+- problem statement,
+- why it matters,
+- current WebWaka evidence,
+- best-practice research synthesis,
+- recommended target design,
+- likely affected files / apps / packages / configs / workflows,
+- database impact,
+- API impact,
+- frontend/PWA impact,
+- governance/security/compliance impact,
+- rollout strategy,
+- migration strategy,
+- QA/test plan,
+- acceptance criteria,
+- risks and mitigations,
+- founder decisions required.
+
+## 4. P21–P25 detailed planning
+For each phase:
+- what the phase means in concrete WebWaka terms,
+- why it fits the current platform,
+- prerequisites and dependencies,
+- feature decomposition,
+- data model / migration changes,
+- route/API/worker/package impact,
+- cross-vertical implications,
+- entitlements / billing implications,
+- security/compliance implications,
+- operations/observability implications,
+- QA strategy,
+- milestone breakdown,
+- definition of done.
+
+## 5. Recommended sequencing
+Provide:
+- foundational tasks first,
+- what can run in parallel,
+- what should be blocked on founder decision,
+- what should be feature-flagged,
+- what should be staging-first,
+- what should remain manual before automation.
+
+## 6. 30/60/90-day roadmap
+Lay out a practical execution roadmap with workstreams and dependencies.
+
+## 7. PR / workstream slicing
+Break the work into sensible implementation batches suitable for future Replit execution:
+- branch name suggestion,
+- PR objective,
+- scope,
+- key files,
+- test requirements,
+- rollout notes.
+
+## 8. Stakeholder decision register
+List all founder / product / ops / compliance decisions that must be made before implementation.
+
+## 9. Overtaken-by-events register
+Explicitly identify any older wording or prior roadmap assumptions that should no longer be treated as active plan.
+This section is mandatory.
+
+## 10. Action matrix
+Provide a dense and actionable matrix containing:
+- item,
+- priority,
+- owner type,
+- code/config/docs/infra/human classification,
+- dependencies,
+- effort class,
+- risk class,
+- recommended sprint/phase.
+
+# Hard rules
+
+- Do not include Base44’s custom-domain task as an implementation-planning item.
+- Do not skip any remaining issue.
+- Do not skip any phase.
+- Do not produce vague recommendations.
+- Do not assume that something missing from docs is missing from code.
+- Do not assume that something planned in older docs is still current.
+- Clearly separate code changes from infrastructure changes, docs changes, CI changes, data changes, and human-admin actions.
+- Preserve WebWaka’s architectural invariants unless there is strong, evidence-based reason not to.
+- Any recommendation affecting tenant isolation, billing, money, AI consent, autonomy, entitlements, or offline-first behavior must be treated as high-scrutiny.
+- Any recommendation involving npm, GitHub, Cloudflare, or external operational setup must be clearly labeled where human setup is needed.
+
+# Special instruction on depth
+
+Your output must be detailed enough that it can later be split into:
+- implementation prompts,
+- QA prompts,
+- staging rollout prompts,
+- and founder review documents
+without needing to redo the analysis.
+
+Begin now with:
+1. full review of the relevant current platform state,
+2. deep online research,
+3. synthesis,
+4. final implementation-planning report.
