@@ -80,7 +80,7 @@ app.get(
   async (c) => {
     const { tenantId } = auth(c);
     const sales = await repo(c).listSales(c.req.param('id'), tenantId);
-    const advisory = (sales as Record<string, unknown>[]).map(s => ({
+    const advisory = (sales as unknown as Record<string, unknown>[]).map(s => ({
       animal_type: s['animalType'], quantity_kg: s['quantityKg'],
       price_per_kg_kobo: s['pricePerKgKobo'], total_kobo: s['totalKobo'],
       sale_date: s['saleDate'],

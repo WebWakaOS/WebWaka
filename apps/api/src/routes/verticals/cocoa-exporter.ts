@@ -83,7 +83,7 @@ app.get(
     const { tenantId } = auth(c);
     const profile = await repo(c).findProfileById(c.req.param('id'), tenantId);
     if (!profile) return c.json({ error: 'not found' }, 404);
-    const p = profile as Record<string, unknown>;
+    const p = profile as unknown as Record<string, unknown>;
     return c.json({
       capability: 'COMMODITY_PRICE_ADVISORY',
       profile_summary: {

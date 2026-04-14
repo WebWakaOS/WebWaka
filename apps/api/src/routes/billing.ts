@@ -530,7 +530,9 @@ billingRoutes.post('/revert-cancel', async (c) => {
 
 // ---------------------------------------------------------------------------
 // GET /billing/history  (MON-05)
-// Returns the plan change history for the caller's workspace (T3 scoped).
+// Returns the plan change history scoped by tenant_id (T3) AND workspace_id
+// when the caller has a workspaceId in their JWT. This prevents workspace A
+// from reading workspace B's billing history within the same tenant.
 // ---------------------------------------------------------------------------
 
 billingRoutes.get('/history', async (c) => {
@@ -540,27 +542,36 @@ billingRoutes.get('/history', async (c) => {
   const limit = Math.min(parseInt(c.req.query('limit') ?? '20', 10), 100);
   const offset = parseInt(c.req.query('offset') ?? '0', 10);
 
+  // T3 + workspace isolation:
+  //   - Always filter by tenant_id (T3 invariant).
+  //   - Also filter by workspace_id when present in the JWT, so workspace A
+  //     cannot read workspace B's history within the same tenant.
+  //   - Callers without a workspaceId (e.g. tenant super-admin) see all.
+  type HistoryRow = {
+    id: string;
+    subscription_id: string;
+    changed_by: string;
+    previous_plan: string;
+    new_plan: string;
+    change_type: string;
+    effective_at: number;
+    created_at: number;
+    notes: string | null;
+  };
+
+  const workspaceId = auth.workspaceId ?? null;
   const rows = await db
     .prepare(
       `SELECT id, subscription_id, changed_by, previous_plan, new_plan, change_type,
               effective_at, created_at, notes
        FROM subscription_plan_history
        WHERE tenant_id = ?
+         AND (? IS NULL OR workspace_id = ?)
        ORDER BY created_at DESC
        LIMIT ? OFFSET ?`,
     )
-    .bind(auth.tenantId, limit, offset)
-    .all<{
-      id: string;
-      subscription_id: string;
-      changed_by: string;
-      previous_plan: string;
-      new_plan: string;
-      change_type: string;
-      effective_at: number;
-      created_at: number;
-      notes: string | null;
-    }>();
+    .bind(auth.tenantId, workspaceId, workspaceId, limit, offset)
+    .all<HistoryRow>();
 
   return c.json({
     data: rows.results ?? [],

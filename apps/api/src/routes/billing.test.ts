@@ -473,8 +473,9 @@ describe('GET /billing/history', () => {
     expect(res.status).toBe(200);
     const body = await res.json() as Record<string, unknown>;
     expect(Array.isArray(body.data)).toBe(true);
-    expect((body.data as unknown[]).length).toBe(1);
-    expect((body.data as Record<string, unknown>[])[0].change_type).toBe('upgrade');
+    const rows = body.data as Array<Record<string, unknown>>;
+    expect(rows.length).toBe(1);
+    expect(rows[0]?.change_type).toBe('upgrade');
   });
 
   it('returns empty array when no history', async () => {

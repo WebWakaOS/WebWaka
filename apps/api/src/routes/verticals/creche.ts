@@ -91,7 +91,7 @@ app.get(
   async (c) => {
     const { tenantId } = auth(c);
     const children = await repo(c).listChildren(c.req.param('id'), tenantId);
-    const advisory = (children as Record<string, unknown>[]).map(ch => ({
+    const advisory = (children as unknown as Record<string, unknown>[]).map(ch => ({
       age_months: ch['ageMonths'],
       monthly_fee_kobo: ch['monthlyFeeKobo'],
     }));
