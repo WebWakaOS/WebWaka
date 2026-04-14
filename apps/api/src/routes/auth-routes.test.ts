@@ -1347,3 +1347,160 @@ describe('GET /admin/metrics — P20-E', () => {
     expect(res.status).toBe(200);
   });
 });
+
+// ===========================================================================
+// BUG-07: Missing test coverage — added by QA audit
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// GET /auth/me — emailVerifiedAt field (P20-C)
+// ---------------------------------------------------------------------------
+describe('GET /auth/me — emailVerifiedAt field (P20-C)', () => {
+  it('returns emailVerifiedAt as null when email_verified_at is null in DB', async () => {
+    const jwt = await makeJwt();
+    const db = makeDB({ meUser: { email: 'u@b.com', phone: null, full_name: null, email_verified_at: null } });
+    const res = await app.fetch(get('/auth/me', jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { emailVerifiedAt: unknown };
+    expect(body.emailVerifiedAt).toBeNull();
+  });
+
+  it('returns emailVerifiedAt as a unix timestamp when email is verified', async () => {
+    const jwt = await makeJwt();
+    const verifiedAt = Math.floor(Date.now() / 1000) - 3600;
+    const db = makeDB({ meUser: {
+      email: 'v@b.com', phone: null, full_name: 'Ada', email_verified_at: verifiedAt,
+    } });
+    const res = await app.fetch(get('/auth/me', jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { emailVerifiedAt: number; email: string };
+    expect(body.emailVerifiedAt).toBe(verifiedAt);
+    expect(body.email).toBe('v@b.com');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/accept-invite — new-user registration path (P20-A)
+// ---------------------------------------------------------------------------
+describe('POST /auth/accept-invite — new-user registration path (P20-A)', () => {
+  function makeInviteEnv(
+    inviteRow: Record<string, unknown>,
+    existingUser: unknown,
+    kvInviteId: string,
+  ): Env {
+    let idx = 0;
+    const db = {
+      prepare: vi.fn().mockImplementation(() => ({
+        bind: vi.fn().mockReturnValue({
+          first: vi.fn().mockImplementation(() => {
+            const i = idx++;
+            if (i === 0) return Promise.resolve(inviteRow);
+            if (i === 1) return Promise.resolve(existingUser);
+            return Promise.resolve(null);
+          }),
+          run: vi.fn().mockResolvedValue({ success: true }),
+          all: vi.fn().mockResolvedValue({ results: [] }),
+        }),
+        first: vi.fn().mockResolvedValue(null),
+        run: vi.fn().mockResolvedValue({ success: true }),
+        all: vi.fn().mockResolvedValue({ results: [] }),
+      })),
+      batch: vi.fn().mockResolvedValue([]),
+    };
+    return {
+      DB: db,
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockResolvedValue(kvInviteId),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+  }
+
+  const baseInvite = {
+    id: 'inv_002',
+    workspace_id: 'ws_001',
+    tenant_id: 'tnt_001',
+    email: 'newuser@test.com',
+    role: 'member',
+    expires_at: Math.floor(Date.now() / 1000) + 3600,
+    accepted_at: null,
+  };
+
+  it('returns 400 when new user omits name and password', async () => {
+    const env = makeInviteEnv(baseInvite, null /* no existing user */, 'inv_002');
+    const res = await app.fetch(post('/auth/accept-invite', { token: 'new-user-token' }), env);
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/name and password are required/i);
+  });
+
+  it('returns 400 when new user provides a weak password', async () => {
+    const env = makeInviteEnv(baseInvite, null, 'inv_002');
+    const res = await app.fetch(
+      post('/auth/accept-invite', { token: 'new-user-token', name: 'Chidi', password: 'weak' }),
+      env,
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/password must be between/i);
+  });
+
+  it('returns 200 and creates a new user when valid name+password are provided', async () => {
+    const env = makeInviteEnv(baseInvite, null, 'inv_002');
+    const res = await app.fetch(
+      post('/auth/accept-invite', {
+        token: 'new-user-token',
+        name: 'Chidi Okeke',
+        password: 'ValidPass999!',
+      }),
+      env,
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string; userId: string };
+    expect(body.message).toMatch(/invitation accepted/i);
+    expect(typeof body.userId).toBe('string');
+    expect(body.userId.startsWith('usr_')).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// deviceHintFromUA Edge-before-Chrome fix (BUG-01)
+// ---------------------------------------------------------------------------
+describe('deviceHintFromUA — Edge correctly identified before Chrome (BUG-01)', () => {
+  it('login succeeds with an Edge User-Agent (session creation does not blow up)', async () => {
+    // Chromium Edge UA contains both "Edg/" and "Chrome" — BUG-01 fix moves the Edge check first
+    // so the session is tagged "Edge" instead of "Chrome". We verify login returns 200 and a token.
+    const db = makeDB({
+      loginUser: {
+        id: 'usr_001',
+        email: 'edge@test.com',
+        password_hash: TEST_PASSWORD_HASH,
+        workspace_id: 'ws_001',
+        tenant_id: 'tnt_001',
+        role: 'admin',
+      },
+    });
+
+    const edgeUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0';
+    const req = new Request(`${BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'User-Agent': edgeUA },
+      body: JSON.stringify({ email: 'edge@test.com', password: TEST_PASSWORD }),
+    });
+
+    const res = await app.fetch(req, makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { token: string };
+    expect(typeof body.token).toBe('string');
+    expect(body.token.length).toBeGreaterThan(10);
+  });
+});

@@ -34,6 +34,8 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
   // SEC-10: Check if token has been blacklisted (e.g. after refresh rotation or logout)
   // ARC-17: kvGetText never throws — fails open if KV is unavailable
   const rawToken = authHeader?.replace(/^Bearer\s+/i, '');
+  let sessionHashHex: string | null = null;
+
   if (rawToken) {
     // Full-token blacklist (logout, refresh rotation)
     const blacklisted = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:${rawToken}`, null);
@@ -44,16 +46,34 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
     try {
       const encoder = new TextEncoder();
       const hashBuf = await crypto.subtle.digest('SHA-256', encoder.encode(rawToken));
-      const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
-      const sessionRevoked = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:jti:${hashHex}`, null);
+      sessionHashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      const sessionRevoked = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:jti:${sessionHashHex}`, null);
       if (sessionRevoked) {
         return c.json(errorResponse(ErrorCode.Unauthorized, 'Session has been revoked.'), 401);
       }
     } catch {
       // Hash computation failure is non-blocking — fail open
+      sessionHashHex = null;
     }
   }
 
   c.set('auth', result.context);
+
+  // BUG-03 fix: Update last_seen_at for active session (fire-and-forget, throttled to 1/60s per session)
+  // Only updates if last_seen_at is more than 60 seconds old to avoid excessive DB writes.
+  // Wrapped in an async IIFE so any synchronous throw from the DB mock (in tests) is converted
+  // to a rejected Promise that is absorbed by the outer .catch() — never blocks the response.
+  if (sessionHashHex && c.env.DB) {
+    (async () => {
+      await c.env.DB.prepare(
+        `UPDATE sessions SET last_seen_at = unixepoch()
+         WHERE jti = ? AND user_id = ? AND revoked_at IS NULL
+           AND (last_seen_at IS NULL OR unixepoch() - last_seen_at > 60)`,
+      ).bind(sessionHashHex, result.context.userId).run();
+    })().catch(() => {
+      // Non-blocking — session activity update failure must never block the request
+    });
+  }
+
   await next();
 };

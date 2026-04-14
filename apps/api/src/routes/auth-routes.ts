@@ -78,10 +78,11 @@ async function sha256hex(input: string): Promise<string> {
 function deviceHintFromUA(ua: string | null | undefined): string {
   if (!ua) return 'Unknown device';
   if (/mobile|android|iphone|ipad/i.test(ua)) return 'Mobile browser';
+  // BUG-01 fix: check Edge before Chrome — Chromium Edge UAs contain both "Edg" and "Chrome"
+  if (/edg\//i.test(ua)) return 'Edge';
   if (/chrome/i.test(ua)) return 'Chrome';
   if (/firefox/i.test(ua)) return 'Firefox';
   if (/safari/i.test(ua)) return 'Safari';
-  if (/edg/i.test(ua)) return 'Edge';
   if (/curl|httpie|postman/i.test(ua)) return 'API client';
   return 'Browser';
 }
@@ -760,6 +761,11 @@ authRoutes.post('/invite', async (c) => {
     );
   }
 
+  // BUG-02 fix: workspaceId required for workspace-scoped invite
+  if (!auth.workspaceId) {
+    return c.json(errorResponse(ErrorCode.BadRequest, 'Workspace not found in session.'), 400);
+  }
+
   const workspaceId = auth.workspaceId;
   const tenantId = auth.tenantId;
 
@@ -829,6 +835,10 @@ authRoutes.get('/invite/pending', async (c) => {
   if (!isAdminRole(auth.role)) {
     return c.json(errorResponse(ErrorCode.Forbidden, 'Only admins can view pending invitations.'), 403);
   }
+  // BUG-02 fix: workspaceId is required for workspace-scoped invitation queries
+  if (!auth.workspaceId) {
+    return c.json(errorResponse(ErrorCode.BadRequest, 'Workspace not found in session.'), 400);
+  }
 
   const rows = await c.env.DB.prepare(
     `SELECT id, email, role, invited_by, expires_at, created_at
@@ -853,6 +863,10 @@ authRoutes.delete('/invite/:id', async (c) => {
   }
   if (!isAdminRole(auth.role)) {
     return c.json(errorResponse(ErrorCode.Forbidden, 'Only admins can revoke invitations.'), 403);
+  }
+  // BUG-02 fix: workspaceId required for workspace-scoped revocation
+  if (!auth.workspaceId) {
+    return c.json(errorResponse(ErrorCode.BadRequest, 'Workspace not found in session.'), 400);
   }
 
   const inviteId = c.req.param('id');

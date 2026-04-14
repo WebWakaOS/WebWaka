@@ -97,6 +97,12 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/sessions/*', authMiddleware);
   // P20-C: Send-verification requires auth; /auth/verify-email is public (token-based)
   app.use('/auth/send-verification', authMiddleware);
+  // BUG-05 fix: Audit log on authenticated P20 auth sub-routes
+  app.use('/auth/invite', auditLogMiddleware);
+  app.use('/auth/invite/*', auditLogMiddleware);
+  app.use('/auth/sessions', auditLogMiddleware);
+  app.use('/auth/sessions/*', auditLogMiddleware);
+  app.use('/auth/send-verification', auditLogMiddleware);
   // SEC-03: Login-specific rate limiting — 10 attempts per 5 minutes per IP
   app.use('/auth/login', rateLimitMiddleware({ keyPrefix: 'auth:login', maxRequests: 10, windowSeconds: 300 }));
   // SEC-03b: Registration rate limiting — 5 signups per 15 minutes per IP
@@ -112,6 +118,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/invite', rateLimitMiddleware({ keyPrefix: 'auth:invite', maxRequests: 10, windowSeconds: 900 }));
   // SEC-03g: Verification email rate limiting — handled by KV throttle inside handler + global limiter
   app.use('/auth/send-verification', rateLimitMiddleware({ keyPrefix: 'auth:sendverify', maxRequests: 5, windowSeconds: 300 }));
+  // BUG-04 fix: Rate-limit public token endpoints — defense-in-depth against token probing
+  app.use('/auth/accept-invite', rateLimitMiddleware({ keyPrefix: 'auth:acceptinvite', maxRequests: 10, windowSeconds: 300 }));
+  app.use('/auth/verify-email', rateLimitMiddleware({ keyPrefix: 'auth:verifyemail', maxRequests: 10, windowSeconds: 300 }));
   app.route('/auth', authRoutes);
 
   // -------------------------------------------------------------------------

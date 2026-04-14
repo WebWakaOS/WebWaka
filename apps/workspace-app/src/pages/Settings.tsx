@@ -114,9 +114,11 @@ export default function Settings() {
     }
     setSaving(true);
     try {
-      const updates: Promise<unknown>[] = [
-        api.patch(`/workspaces/${user.workspaceId}`, { name: businessName || undefined }),
-      ];
+      const updates: Promise<unknown>[] = [];
+      // BUG-06 fix: only PATCH workspace when businessName is non-empty (empty body → 400)
+      if (businessName.trim()) {
+        updates.push(api.patch(`/workspaces/${user.workspaceId}`, { name: businessName.trim() }));
+      }
       updates.push(authApi.updateProfile({ phone: phone || undefined }));
       await Promise.all(updates);
       toast.success('Settings saved');
