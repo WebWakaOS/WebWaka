@@ -1,0 +1,595 @@
+{
+  "audit": {
+    "id": "webwaka-os-audit-2026-04-14",
+    "name": "WebWaka OS Comprehensive Deep Audit",
+    "date": "2026-04-14",
+    "type": "full-codebase-static-analysis",
+    "method": "file-by-file-deep-read",
+    "scope": "all source files excluding node_modules, dist, .git, .wrangler, .cache, test-results",
+    "output_files": [
+      "WebWaka_Comprehensive_Master_Report.md",
+      "WebWaka_File_Index.json",
+      "WebWaka_Audit_Metadata.json"
+    ]
+  },
+
+  "platform": {
+    "name": "WebWaka OS",
+    "tagline": "Multi-tenant, multi-vertical, white-label SaaS platform OS for Africa (Nigeria-first)",
+    "version": "v1.0.0",
+    "phase": "P20 COMPLETE",
+    "next_migration": "0234",
+    "mission": "Build Once Use Infinitely — governance-driven monorepo for African business verticals"
+  },
+
+  "codebase_statistics": {
+    "total_source_files": 22208,
+    "apps_count": 9,
+    "packages_count": 203,
+    "vertical_packages": 159,
+    "core_feature_packages": 30,
+    "ai_packages": 3,
+    "design_packages": 4,
+    "cloudflare_workers": 9,
+    "react_pwa_apps": 1,
+    "total_route_files": 80,
+    "total_test_files": 167,
+    "total_middleware_files": 16,
+    "vertical_route_files": 159,
+    "vertical_test_files": 159
+  },
+
+  "database": {
+    "engine": "Cloudflare D1 (SQLite)",
+    "total_migrations": 233,
+    "total_rollback_scripts": 234,
+    "migration_range": "0001_init_places – 0233_users_email_verified",
+    "latest_migration": "0233_users_email_verified",
+    "next_available_migration_number": "0234",
+    "environments": {
+      "staging": {
+        "name": "webwaka-os-staging",
+        "id": "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+      },
+      "production": {
+        "name": "webwaka-os-production",
+        "id": "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+      }
+    },
+    "schema_tables": [
+      "places",
+      "entities",
+      "workspaces",
+      "workspace_memberships",
+      "subscriptions",
+      "profiles",
+      "political_offices",
+      "political_assignments",
+      "relationships",
+      "relationship_types",
+      "search_index",
+      "discovery_events",
+      "claim_workflow",
+      "claim_evidence",
+      "payment_records",
+      "float_ledger",
+      "event_log",
+      "users",
+      "sessions",
+      "audit_log",
+      "rate_limit_records",
+      "ndpr_consents",
+      "otp_records",
+      "identity_verifications",
+      "pos_terminals",
+      "float_sessions",
+      "transactions",
+      "offerings",
+      "products",
+      "orders",
+      "inventory",
+      "discounts",
+      "community_spaces",
+      "community_channels",
+      "community_memberships",
+      "community_posts",
+      "courses",
+      "course_enrollments",
+      "community_events",
+      "farm_profiles",
+      "poultry_farm_profiles",
+      "warehouse_profiles",
+      "partner_revenue_share",
+      "partner_credit_allocations",
+      "template_ratings",
+      "support_tickets",
+      "subscription_plan_history",
+      "tenants",
+      "invitations",
+      "bakery_profiles",
+      "pharmacy_profiles",
+      "... (159 vertical profile tables total)"
+    ],
+    "monetary_invariant": "All amounts stored as INTEGER kobo (1/100 NGN). REAL/FLOAT types prohibited for monetary fields.",
+    "tenant_isolation": "tenant_id on every profile/transaction/audit table. Enforced at application layer.",
+    "timestamp_format": "INTEGER unix epoch (unixepoch())"
+  },
+
+  "testing": {
+    "framework": "Vitest v1.6.0",
+    "total_tests": 2458,
+    "total_test_files": 167,
+    "all_passing": true,
+    "typescript_errors": 0,
+    "test_breakdown": {
+      "auth_routes": "~800 tests in auth-routes.test.ts (largest single file)",
+      "vertical_routes": "~600 tests across 159 vertical test files",
+      "core_platform_routes": "~400 tests",
+      "package_unit_tests": "~300 tests",
+      "middleware_tests": "~200 tests",
+      "contract_tests": "~80 tests",
+      "integration_tests": "~78 tests"
+    },
+    "e2e_framework": "Playwright v1.49.0",
+    "e2e_projects": ["api-e2e", "discovery-e2e", "visual"],
+    "load_test_framework": "k6",
+    "typescript_config": {
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "jsx": "react-jsx"
+    }
+  },
+
+  "api": {
+    "framework": "Hono v4",
+    "version": "v1 (ADR-0018)",
+    "route_groups": [
+      "health", "auth", "geography", "discovery", "entities", "claim", "workspaces",
+      "payments", "public", "identity", "contact", "community", "social", "airtime",
+      "pos", "pos-business", "sync", "negotiation", "superagent", "politician",
+      "partner", "templates", "webhooks", "billing", "analytics", "support",
+      "onboarding", "openapi", "transport", "civic", "commerce",
+      "workspace-verticals", "admin-metrics", "verticals (159)"
+    ],
+    "total_auth_endpoints": 17,
+    "middleware_stack": [
+      "auth", "rate-limit", "audit-log", "billing-enforcement",
+      "entitlement", "ai-entitlement", "ussd-exclusion", "csrf",
+      "content-type-validation", "error-log", "monitoring",
+      "etag", "password-validation", "low-data"
+    ]
+  },
+
+  "cloudflare_infrastructure": {
+    "compatibility_date": "2024-12-05",
+    "compatibility_flags": ["nodejs_compat"],
+    "kv_namespaces": {
+      "RATE_LIMIT_KV": {
+        "purpose": "Sliding-window rate limiting, invite tokens, verify tokens, session blacklists",
+        "required": true,
+        "staging_id": "2a81cd5b8d094911a20e1e0f6a190506",
+        "production_id": "8cbf31285b0c43e1a8f44ee0af9fcdf3"
+      },
+      "GEOGRAPHY_CACHE": {
+        "purpose": "Geography index cache (states, LGAs, wards)",
+        "required": true,
+        "staging_id": "4732f3a682964607bae2170f350e4fb4",
+        "production_id": "5bd5695d963247d0b105a936827e0a89"
+      },
+      "THEME_CACHE": {
+        "purpose": "Brand-runtime tenant theme token cache (TTL 300s)",
+        "required": true,
+        "staging_id": "3093422f3e4e4252a3b542ed9a06fd18",
+        "production_id": "d89a05e8c5814c6c966061f62dd24f8c"
+      },
+      "DISCOVERY_CACHE": {
+        "purpose": "Public discovery listing cache (TTL 60s)",
+        "required": true,
+        "staging_id": "eb26f47e1be34ce59526f9617e02f51f",
+        "production_id": "d82d3780283e4857966bc8fab4e2761c"
+      },
+      "USSD_SESSION_KV": {
+        "purpose": "USSD session state per Africa's Talking session ID",
+        "required": true,
+        "staging_id": "local-dev-placeholder",
+        "production_id": "NOT_YET_PROVISIONED"
+      },
+      "KV_AUDIT": {
+        "purpose": "Audit log KV fallback + feature flags (optional)",
+        "required": false,
+        "status": "commented_out_in_wrangler"
+      }
+    },
+    "r2_buckets": {
+      "ASSETS_staging": "webwaka-os-assets-staging",
+      "ASSETS_production": "webwaka-os-assets-production"
+    },
+    "cron_jobs": [
+      {
+        "schedule": "*/15 * * * *",
+        "handler": "runNegotiationExpiry",
+        "app": "apps/api",
+        "purpose": "Expire stale price negotiations every 15 minutes"
+      }
+    ],
+    "required_secrets": [
+      "JWT_SECRET",
+      "INTER_SERVICE_SECRET",
+      "PAYSTACK_SECRET_KEY",
+      "PREMBLY_API_KEY",
+      "TERMII_API_KEY",
+      "WHATSAPP_ACCESS_TOKEN",
+      "WHATSAPP_PHONE_NUMBER_ID",
+      "TELEGRAM_BOT_TOKEN",
+      "LOG_PII_SALT",
+      "DM_MASTER_KEY",
+      "PRICE_LOCK_SECRET"
+    ]
+  },
+
+  "governance": {
+    "checks_total": 11,
+    "checks_passing": 11,
+    "checks_failing": 0,
+    "checks": [
+      { "id": 1, "rule": "SEC-001", "name": "CORS configuration", "script": "check-cors.ts", "status": "PASS" },
+      { "id": 2, "rule": "T3", "name": "Tenant isolation", "script": "check-tenant-isolation.ts", "status": "PASS" },
+      { "id": 3, "rule": "P7", "name": "No direct AI calls", "script": "check-ai-direct-calls.ts", "status": "PASS" },
+      { "id": 4, "rule": "P9", "name": "Monetary integrity (kobo)", "script": "check-monetary-integrity.ts", "status": "PASS" },
+      { "id": 5, "rule": "CI-004", "name": "Dependency sources", "script": "check-dependency-sources.ts", "status": "PASS" },
+      { "id": 6, "rule": "CI-003", "name": "Migration rollback scripts", "script": "check-rollback-scripts.ts", "status": "PASS" },
+      { "id": 7, "rule": "DOC-010", "name": "Pillar prefixes", "script": "check-pillar-prefix.ts", "status": "PASS" },
+      { "id": 8, "rule": "PWA-001", "name": "PWA manifests", "script": "check-pwa-manifest.ts", "status": "PASS" },
+      { "id": 9, "rule": "GAP-005", "name": "NDPR before AI", "script": "check-ndpr-before-ai.ts", "status": "PASS" },
+      { "id": 10, "rule": "GAP-002", "name": "Geography seed integrity", "script": "check-geography-integrity.ts", "status": "PASS" },
+      { "id": 11, "rule": "GAP-003", "name": "Vertical registry consistency", "script": "check-vertical-registry.ts", "status": "PASS" }
+    ],
+    "additional_checks": [
+      { "name": "Secret rotation schedule", "rule": "SEC-008", "script": "verify-secrets.ts" },
+      { "name": "API versioning", "script": "check-api-versioning.ts" },
+      { "name": "@webwaka/core version pinning", "workflow": "check-core-version.yml" }
+    ]
+  },
+
+  "cicd": {
+    "platform": "GitHub Actions",
+    "workflow_count": 9,
+    "workflows": [
+      "ci.yml",
+      "governance-check.yml",
+      "deploy-staging.yml",
+      "deploy-production.yml",
+      "deploy-canary.yml",
+      "rollback-migration.yml",
+      "check-core-version.yml",
+      "refresh-lockfile.yml",
+      "release-changelog.yml"
+    ],
+    "ci_jobs": ["typecheck", "test", "lint", "openapi-lint", "audit", "governance", "smoke"],
+    "concurrency_control": "cancel-in-progress per (workflow, ref, event) group"
+  },
+
+  "security": {
+    "auth_algorithm": "HS256 JWT",
+    "session_model": "D1 sessions table with jti, revoked_at, device_hint, user_agent, last_seen_at",
+    "token_storage": "Invite tokens: SHA-256 hash in D1 (raw token in KV TTL 24h only)",
+    "rate_limiting": {
+      "implementation": "KV-backed sliding window",
+      "endpoints_covered": [
+        "auth/login: 10/5min per IP",
+        "auth/register: 5/15min per IP",
+        "auth/forgot-password: 5/15min per IP",
+        "auth/reset-password: 5/15min per IP",
+        "auth/change-password: 10/15min per user",
+        "auth/profile: 20/15min per user",
+        "auth/invite: 10/15min per user",
+        "auth/send-verification: 5/5min per user",
+        "auth/verify-email: 5/5min per IP",
+        "auth/accept-invite: 10/5min per IP",
+        "identity/bvn + identity/nin: 2/hour per user (R5 invariant)"
+      ]
+    },
+    "cors": "Governed by check-cors.ts; configured on all Workers",
+    "csrf": "Token-based for browser-origin mutations",
+    "pii_handling": "LOG_PII_SALT applied to all user-identifiable fields before logging",
+    "dm_encryption": "DM_MASTER_KEY for social direct message encryption",
+    "ndpr_compliance": "AI consent required before identity lookups or AI advisory (check-ndpr-before-ai.ts)"
+  },
+
+  "verticals": {
+    "total": 159,
+    "standard_routes_per_vertical": [
+      "POST /{slug} - Create profile",
+      "GET /{slug}/workspace/:workspaceId - List profiles (T3 tenant-scoped)",
+      "GET /{slug}/:id - Get profile",
+      "PATCH /{slug}/:id - Update profile",
+      "POST /{slug}/:id/transition - FSM state transition",
+      "POST /{slug}/:id/products - Create product (P9 integer kobo)",
+      "GET /{slug}/:id/products - List products",
+      "POST /{slug}/:id/orders - Create order (P9)",
+      "GET /{slug}/:id/orders - List orders",
+      "GET /{slug}/:id/ai-advisory - AI advisory (aiConsentGate guard)"
+    ],
+    "per_package_structure": {
+      "description": "Each vertical has: index.ts, {slug}.ts (repository), {slug}.test.ts, types.ts",
+      "exports": ["VERTICAL_SLUG", "PRIMARY_PILLARS", "registerXxxVertical()", "XxxRepository", "FSM guards"],
+      "fsm_states_pattern": ["seeded", "claimed", "{regulatory_step}", "active", "suspended"]
+    },
+    "ai_capabilities": [
+      "DEMAND_PLANNING", "SALES_FORECAST", "INVENTORY_AI", "POS_RECEIPT_AI",
+      "SHIFT_SUMMARY_AI", "FRAUD_FLAG_AI", "BIO_GENERATOR", "BRAND_COPYWRITER",
+      "SEO_META_AI", "LISTING_ENHANCER", "REVIEW_SUMMARY", "SEARCH_RERANK"
+    ],
+    "ai_autonomy_levels": {
+      "0": "disabled",
+      "1": "suggestion only",
+      "2": "draft for human review",
+      "3": "auto-publish"
+    },
+    "categories": {
+      "food_agriculture": ["abattoir", "agro-input", "bakery", "cassava-miller", "cocoa-exporter", "cold-room", "farm", "fish-market", "food-processing", "food-vendor", "palm-oil", "poultry-farm", "produce-aggregator", "vegetable-garden"],
+      "health": ["clinic", "community-health", "dental-clinic", "elderly-care", "optician", "pharmacy", "pharmacy-chain", "rehab-centre", "vet-clinic"],
+      "transport_logistics": ["airport-shuttle", "auto-mechanic", "cargo-truck", "courier", "dispatch-rider", "driving-school", "ferry", "haulage", "logistics-delivery", "motor-park", "nurtw", "okada-keke", "rideshare", "road-transport-union", "transit"],
+      "financial_services": ["airtime-reseller", "bureau-de-change", "cooperative", "hire-purchase", "insurance-agent", "mobile-money-agent", "pos-business", "savings-group", "tax-consultant"],
+      "education": ["book-club", "creche", "govt-school", "nursery-school", "private-school", "school", "sports-academy", "tech-hub", "training-institute", "tutoring"],
+      "civic_political": ["campaign-office", "constituency-office", "government-agency", "lga-office", "market-association", "ngo", "nurtw", "polling-unit", "political-party", "politician", "road-transport-union", "ward-rep", "womens-association", "youth-organization"],
+      "professional_services": ["accounting-firm", "advertising-agency", "handyman", "it-support", "land-surveyor", "law-firm", "pr-firm", "professional", "professional-association", "security-company"],
+      "creator_media": ["community-radio", "creator", "motivational-speaker", "music-studio", "newspaper-dist", "photography-studio", "podcast-studio", "recording-label", "talent-agency"],
+      "commerce_retail": ["bakery", "bookshop", "building-materials", "catering", "electrical-fittings", "florist", "food-vendor", "furniture-maker", "generator-dealer", "generator-repair", "hotel", "internet-cafe", "iron-steel", "market", "motorcycle-accessories", "paints-distributor", "phone-repair-shop", "plumbing-supplies", "print-shop", "printing-press", "restaurant", "restaurant-chain", "shoemaker", "sole-trader", "spare-parts", "supermarket", "tailor", "tailoring-fashion", "travel-agent", "tyre-shop", "used-car-dealer", "water-vendor", "wedding-planner", "wholesale-market"],
+      "energy_infrastructure": ["borehole-driller", "fuel-station", "gas-distributor", "oil-gas-services", "petrol-station", "solar-installer", "waste-management", "water-treatment"],
+      "personal_services": ["beauty-salon", "car-wash", "cleaning-company", "cleaning-service", "elderly-care", "electronics-repair", "funeral-home", "gym", "gym-fitness", "hair-salon", "laundry", "laundry-service", "spa"],
+      "real_estate": ["property-developer", "real-estate-agency"],
+      "industrial": ["artisanal-mining", "construction", "container-depot", "welding-fabrication", "warehouse"],
+      "events": ["event-hall", "event-planner", "events-centre"],
+      "religious": ["church", "ministry-mission", "mosque"],
+      "social_services": ["orphanage"],
+      "startup_tech": ["startup"],
+      "sports_fitness": ["sports-club"],
+      "clearing": ["clearing-agent"]
+    }
+  },
+
+  "phases": {
+    "completed": [
+      "P1 - Critical Infrastructure Fixes",
+      "P2 - Foundation: Codegen + LGA Seeds + Index Refactor",
+      "P3 - Test Coverage Sprint",
+      "Pre-P4 QA Audit (11 bugs fixed)",
+      "P4 - Platform Production Quality",
+      "P5 - Partner Platform Phase 3",
+      "P6 - Admin Platform Features",
+      "P7 - Architecture Hardening (ARC-07: router.ts split)",
+      "P8 - Verticals Wave 1 (Commerce P2 + Health)",
+      "P9 - Verticals Wave 2 (Transport + Civic + Education)",
+      "P10 - Verticals Wave 3 (Professional + Creator + Financial)",
+      "P11 - Verticals Wave 4 (Commerce P3 Tail + Set J)",
+      "P12 - React PWA Frontend",
+      "P13/BUG-004 - Vertical AI Advisory Upgrade",
+      "P14 - Load Testing + UX Polish + Performance",
+      "P15 - Seed CSV Dedup + Final Governance Audit",
+      "P16 QA Audit - Comprehensive E2E Verification",
+      "P17 - Sprint 14 Final Open Items",
+      "P18 - P18 Execution Checklist (Auth-001 through Auth-008)",
+      "P19 - QA Audit + Edge Cases",
+      "P20 - Workspace Invitations + Session Mgmt + Email Verification"
+    ],
+    "current_phase": "P20 COMPLETE",
+    "test_progression": {
+      "P3": 669,
+      "P4": 737,
+      "P5": 914,
+      "P8": 1026,
+      "P11": 2305,
+      "P12_P13": 2321,
+      "P14": 2328,
+      "P16": 2328,
+      "P17": 2365,
+      "P18": 2402,
+      "P19": 2416,
+      "P20": 2452,
+      "P20_QA": 2458
+    }
+  },
+
+  "p20_qa_bugs": {
+    "total_bugs_found": 7,
+    "total_bugs_fixed": 7,
+    "bugs": [
+      {
+        "id": "BUG-01",
+        "severity": "medium",
+        "file": "apps/api/src/routes/auth-routes.ts",
+        "description": "Edge/Chrome UA detection order — Edge detected after Chrome causing misidentification",
+        "fix": "Moved Edge detection before Chrome in device_hint extraction"
+      },
+      {
+        "id": "BUG-02",
+        "severity": "high",
+        "file": "apps/api/src/routes/auth-routes.ts",
+        "description": "Missing auth.workspaceId null guards in invite routes",
+        "fix": "Added auth.workspaceId ?? null null guards"
+      },
+      {
+        "id": "BUG-03",
+        "severity": "medium",
+        "file": "apps/api/src/middleware/auth.ts",
+        "description": "last_seen_at never refreshed despite migration 0232 adding the column",
+        "fix": "Fire-and-forget async IIFE with 60s KV throttle"
+      },
+      {
+        "id": "BUG-04",
+        "severity": "high",
+        "file": "apps/api/src/router.ts",
+        "description": "Missing rate limit on /auth/accept-invite and /auth/verify-email",
+        "fix": "Added rateLimitMiddleware to both endpoints"
+      },
+      {
+        "id": "BUG-05",
+        "severity": "medium",
+        "file": "apps/api/src/router.ts",
+        "description": "Missing auditLogMiddleware on P20 authenticated auth routes",
+        "fix": "Added auditLogMiddleware to /auth/invite, /auth/sessions, /auth/send-verification"
+      },
+      {
+        "id": "BUG-06",
+        "severity": "low",
+        "file": "apps/workspace-app/src/pages/Settings.tsx",
+        "description": "Empty businessName field sent as empty string causing 400 from API",
+        "fix": "Guard: only include business_name in patch if businessName.trim().length > 0"
+      },
+      {
+        "id": "BUG-07",
+        "severity": "low",
+        "file": "apps/api/src/routes/auth-routes.test.ts",
+        "description": "Missing test coverage for 6 P20 scenarios",
+        "fix": "Added 6 new test cases (net new tests: 2452 → 2458)"
+      }
+    ]
+  },
+
+  "milestones": {
+    "completed": [
+      "M0 - Program Setup",
+      "M1 - Governance Baseline",
+      "M2 - Monorepo Scaffolding (0 errors across 201+ packages)",
+      "M3 - API Core",
+      "M4 - Discovery",
+      "M5 - Claims",
+      "M6 - Commerce",
+      "M7 - Community",
+      "M8 - Verticals",
+      "M9 - Vertical Scaling",
+      "M10 - Staging Hardening (9/9 tasks)",
+      "M11 - Partner & White-Label (7/7 tasks)",
+      "M12 - AI Integration Production (10/10 tasks)",
+      "M13 - Production Launch v1.0.0",
+      "v1.0.1 - Foundation + Template Architecture",
+      "QA Hardening (164 test files, 2305 tests, 11/11 governance)",
+      "Phase 16 E2E QA Audit (2328/2328 tests)",
+      "Phase 17 Sprint 14 (2365/2365 tests)",
+      "Phase 18 Auth Hardening (2402/2402 tests)",
+      "Phase 19 QA Edge Cases (2416 tests)",
+      "Phase 20 P20 Complete (2452 tests + 6 QA = 2458)"
+    ]
+  },
+
+  "platform_invariants": {
+    "T_series": {
+      "T1": { "rule": "No vendor lock-in in core packages", "status": "PASS" },
+      "T2": { "rule": "All packages exportable standalone", "status": "PASS" },
+      "T3": { "rule": "tenant_id on every DB query from auth context only", "status": "PASS" },
+      "T4": { "rule": "Cloudflare Workers primary runtime", "status": "PASS" },
+      "T5": { "rule": "Entitlement check before entity creation", "status": "PASS" },
+      "T6": { "rule": "Geography-driven discovery", "status": "PASS" }
+    },
+    "P_series": {
+      "P6": { "rule": "Offline queue replay via /sync", "status": "PASS" },
+      "P7": { "rule": "No direct AI provider calls outside abstraction layer", "status": "PASS" },
+      "P9": { "rule": "All amounts in integer kobo", "status": "PASS" },
+      "P10": { "rule": "NDPR consent required before identity lookups", "status": "PASS" },
+      "P11": { "rule": "Server-wins conflict on sync apply", "status": "PASS" },
+      "P12": { "rule": "AI consent gate on all AI advisory routes", "status": "PASS" },
+      "P13": { "rule": "AI autonomy level declared per vertical", "status": "PASS" }
+    },
+    "R_series": {
+      "R5": { "rule": "2/hour BVN/NIN rate limit", "status": "PASS" },
+      "R8": { "rule": "SMS mandatory for transaction OTPs", "status": "PASS" },
+      "R9": { "rule": "Channel-level OTP rate limits", "status": "PASS" }
+    },
+    "SEC_series": {
+      "SEC-001": { "rule": "CORS on all Workers", "status": "PASS" },
+      "SEC-003": { "rule": "Rate limiting on all auth endpoints", "status": "PASS" },
+      "SEC-008": { "rule": "Secret rotation schedule", "status": "PASS" }
+    }
+  },
+
+  "nigeria_geography": {
+    "zones": 6,
+    "states": 37,
+    "lgas": 774,
+    "wards": 8812,
+    "ussd_shortcode": "*384# (pending NCC registration)",
+    "currency": "NGN (Nigerian Naira)",
+    "monetary_unit": "kobo (integer, 1/100 NGN)",
+    "kyc_tiers": {
+      "T0": "Unverified — basic access",
+      "T1": "Phone verified — limited transactions",
+      "T2": "BVN/NIN verified — standard transactions",
+      "T3": "Full KYC — enterprise access"
+    },
+    "supported_locales": ["en-NG", "yo (Yoruba)", "ig (Igbo)", "ha (Hausa)", "pid (Pidgin)", "fr (French)"]
+  },
+
+  "ai_infrastructure": {
+    "ai_providers_supported": ["OpenAI-compatible", "Anthropic Claude", "Google Gemini"],
+    "byok": true,
+    "credit_system": "WakaCU (WebWaka Credit Units) with double-entry ledger",
+    "consent_model": "NDPR Article 30 compliant — explicit consent before any AI processing",
+    "ndpr_register": true,
+    "hitl_queue": true,
+    "spend_controls": true,
+    "compliance_filter": true,
+    "autonomy_levels": [0, 1, 2, 3]
+  },
+
+  "pwa": {
+    "enabled": true,
+    "framework": "vite-plugin-pwa + workbox-window",
+    "service_worker": true,
+    "offline_first": true,
+    "apps_with_pwa": ["apps/workspace-app", "apps/platform-admin", "apps/admin-dashboard"],
+    "governance_check": "PWA-001 (check-pwa-manifest.ts)"
+  },
+
+  "open_items": {
+    "human_action_required": [
+      "Provision USSD_SESSION_KV for production environment",
+      "Provision and enable KV (AUDIT_KV) in wrangler.toml",
+      "Register *384# USSD shortcode with NCC",
+      "Configure production USSD Worker KV IDs",
+      "Set up Cloudflare for SaaS CNAME for brand-runtime custom domains",
+      "Verify PAYSTACK_SECRET_KEY is live mode key in production secrets"
+    ],
+    "code_recommendations": [
+      "Add email verification enforcement with grace period",
+      "Complete VERTICAL_AI_CONFIGS for all 159 verticals",
+      "Configure npm publishing for @webwaka/* packages",
+      "Add CRON trigger to projections wrangler.toml",
+      "Update docs/openapi/v1.yaml with P20 routes",
+      "Verify i18n locale coverage (yo, ig, ha, pid, fr)",
+      "Audit compound indexes on (workspace_id, tenant_id) tables",
+      "Add HITL queue expiry CRON worker",
+      "Integrate k6 load tests into CI pipeline",
+      "Automate canary deployment trigger"
+    ]
+  },
+
+  "adrs": {
+    "count": 19,
+    "path": "docs/architecture/decisions/",
+    "range": "0001-monorepo-strategy – 0019-d1-connection-lifecycle"
+  },
+
+  "governance_docs": {
+    "count": 30,
+    "path": "docs/governance/"
+  },
+
+  "changeset": {
+    "cli_version": "^2.30.0",
+    "config": ".changesetrc.json",
+    "version_command": "changeset version && pnpm install --frozen-lockfile false",
+    "publish_command": "changeset publish"
+  },
+
+  "monorepo": {
+    "package_manager": "pnpm >=9",
+    "node_requirement": ">=20",
+    "workspace_globs": ["apps/*", "packages/*", "packages/core/*", "tests/smoke"],
+    "pnpm_overrides": {
+      "undici": ">=6.21.1",
+      "esbuild": ">=0.25.0",
+      "vite": ">=5.4.15"
+    }
+  }
+}

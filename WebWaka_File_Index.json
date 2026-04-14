@@ -1,0 +1,1268 @@
+{
+  "meta": {
+    "generated": "2026-04-14",
+    "platform": "WebWaka OS",
+    "version": "v1.0.0",
+    "phase": "P20 COMPLETE",
+    "total_source_files": 22208,
+    "description": "Structured index of all significant source files in the WebWaka OS monorepo, excluding node_modules, dist, .git, .wrangler, .cache, test-results"
+  },
+  "root": {
+    "path": "/",
+    "files": [
+      "package.json",
+      "pnpm-workspace.yaml",
+      "pnpm-lock.yaml",
+      "tsconfig.json",
+      "ARCHITECTURE.md",
+      "CHANGELOG.md",
+      "CONTRIBUTING.md",
+      "AGENTS.md",
+      "replit.md",
+      ".eslintrc.json",
+      ".gitignore",
+      ".changesetrc.json",
+      "playwright.config.ts"
+    ]
+  },
+  "apps": {
+    "api": {
+      "path": "apps/api",
+      "worker_name_staging": "webwaka-api-staging",
+      "worker_name_production": "webwaka-api-production",
+      "route_staging": "api-staging.webwaka.com",
+      "route_production": "api.webwaka.com",
+      "config_files": [
+        "apps/api/package.json",
+        "apps/api/wrangler.toml",
+        "apps/api/tsconfig.json",
+        "apps/api/.eslintrc.json"
+      ],
+      "entry": "apps/api/src/index.ts",
+      "router": "apps/api/src/router.ts",
+      "env_types": "apps/api/src/env.ts",
+      "jobs": [
+        "apps/api/src/jobs/negotiation-expiry.ts"
+      ],
+      "lib": [
+        "apps/api/src/lib/email-service.ts",
+        "apps/api/src/lib/email-service.test.ts",
+        "apps/api/src/lib/search-index.ts",
+        "apps/api/src/lib/webhook-dispatcher.ts"
+      ],
+      "contracts": [
+        "apps/api/src/contracts/paystack.contract.test.ts",
+        "apps/api/src/contracts/prembly.contract.test.ts",
+        "apps/api/src/contracts/termii.contract.test.ts"
+      ],
+      "middleware": [
+        "apps/api/src/middleware/index.ts",
+        "apps/api/src/middleware/auth.ts",
+        "apps/api/src/middleware/rate-limit.ts",
+        "apps/api/src/middleware/audit-log.ts",
+        "apps/api/src/middleware/billing-enforcement.ts",
+        "apps/api/src/middleware/entitlement.ts",
+        "apps/api/src/middleware/ai-entitlement.ts",
+        "apps/api/src/middleware/ussd-exclusion.ts",
+        "apps/api/src/middleware/csrf.ts",
+        "apps/api/src/middleware/content-type-validation.ts",
+        "apps/api/src/middleware/error-log.ts",
+        "apps/api/src/middleware/monitoring.ts",
+        "apps/api/src/middleware/etag.ts",
+        "apps/api/src/middleware/etag.test.ts",
+        "apps/api/src/middleware/password-validation.ts",
+        "apps/api/src/middleware/low-data.ts"
+      ],
+      "routes": {
+        "core": [
+          "apps/api/src/routes/health.ts",
+          "apps/api/src/routes/auth-routes.ts",
+          "apps/api/src/routes/auth-routes.test.ts",
+          "apps/api/src/routes/entities.ts",
+          "apps/api/src/routes/entities.test.ts",
+          "apps/api/src/routes/geography.ts",
+          "apps/api/src/routes/geography.test.ts",
+          "apps/api/src/routes/discovery.ts",
+          "apps/api/src/routes/discovery.test.ts",
+          "apps/api/src/routes/claim.ts",
+          "apps/api/src/routes/claim.test.ts",
+          "apps/api/src/routes/workspaces.ts",
+          "apps/api/src/routes/payments.ts",
+          "apps/api/src/routes/payments.test.ts",
+          "apps/api/src/routes/public.ts",
+          "apps/api/src/routes/public.test.ts",
+          "apps/api/src/routes/identity.ts",
+          "apps/api/src/routes/identity.test.ts",
+          "apps/api/src/routes/contact.ts",
+          "apps/api/src/routes/community.ts",
+          "apps/api/src/routes/community.test.ts",
+          "apps/api/src/routes/social.ts",
+          "apps/api/src/routes/social.test.ts",
+          "apps/api/src/routes/airtime.ts",
+          "apps/api/src/routes/airtime.test.ts",
+          "apps/api/src/routes/pos.ts",
+          "apps/api/src/routes/pos.test.ts",
+          "apps/api/src/routes/pos-business.ts",
+          "apps/api/src/routes/pos-business.test.ts",
+          "apps/api/src/routes/pos-reconciliation.test.ts",
+          "apps/api/src/routes/sync.ts",
+          "apps/api/src/routes/sync.test.ts",
+          "apps/api/src/routes/negotiation.ts",
+          "apps/api/src/routes/negotiation.test.ts",
+          "apps/api/src/routes/superagent.ts",
+          "apps/api/src/routes/superagent.test.ts",
+          "apps/api/src/routes/politician.ts",
+          "apps/api/src/routes/politician.test.ts",
+          "apps/api/src/routes/partners.ts",
+          "apps/api/src/routes/partners.test.ts",
+          "apps/api/src/routes/templates.ts",
+          "apps/api/src/routes/templates.test.ts",
+          "apps/api/src/routes/webhooks.ts",
+          "apps/api/src/routes/webhooks.test.ts",
+          "apps/api/src/routes/billing.ts",
+          "apps/api/src/routes/billing.test.ts",
+          "apps/api/src/routes/analytics.ts",
+          "apps/api/src/routes/analytics.test.ts",
+          "apps/api/src/routes/support.ts",
+          "apps/api/src/routes/support.test.ts",
+          "apps/api/src/routes/onboarding.ts",
+          "apps/api/src/routes/openapi.ts",
+          "apps/api/src/routes/transport.ts",
+          "apps/api/src/routes/civic.ts",
+          "apps/api/src/routes/commerce.ts",
+          "apps/api/src/routes/workspace-verticals.ts",
+          "apps/api/src/routes/admin-metrics.ts",
+          "apps/api/src/routes/verticals.ts",
+          "apps/api/src/routes/verticals-commerce-p2.ts",
+          "apps/api/src/routes/verticals-commerce-p2-batch2.ts",
+          "apps/api/src/routes/verticals-commerce-p3.ts",
+          "apps/api/src/routes/verticals-transport-extended.ts",
+          "apps/api/src/routes/verticals-civic-extended.ts",
+          "apps/api/src/routes/verticals-health-extended.ts",
+          "apps/api/src/routes/verticals-prof-creator-extended.ts",
+          "apps/api/src/routes/verticals-financial-place-media-institutional-extended.ts",
+          "apps/api/src/routes/verticals-set-j-extended.ts",
+          "apps/api/src/routes/verticals-edu-agri-extended.ts",
+          "apps/api/src/routes/integration.test.ts",
+          "apps/api/src/routes/low-data.test.ts",
+          "apps/api/src/routes/mon-sprint9.test.ts",
+          "apps/api/src/routes/sprint5-perf.test.ts",
+          "apps/api/src/routes/sprint7-product.test.ts"
+        ],
+        "verticals": [
+          "apps/api/src/routes/verticals/abattoir.ts",
+          "apps/api/src/routes/verticals/abattoir.test.ts",
+          "apps/api/src/routes/verticals/accounting-firm.ts",
+          "apps/api/src/routes/verticals/accounting-firm.test.ts",
+          "apps/api/src/routes/verticals/advertising-agency.ts",
+          "apps/api/src/routes/verticals/advertising-agency.test.ts",
+          "apps/api/src/routes/verticals/agro-input.ts",
+          "apps/api/src/routes/verticals/agro-input.test.ts",
+          "apps/api/src/routes/verticals/airport-shuttle.ts",
+          "apps/api/src/routes/verticals/airport-shuttle.test.ts",
+          "apps/api/src/routes/verticals/airtime-reseller.ts",
+          "apps/api/src/routes/verticals/airtime-reseller.test.ts",
+          "apps/api/src/routes/verticals/artisanal-mining.ts",
+          "apps/api/src/routes/verticals/artisanal-mining.test.ts",
+          "apps/api/src/routes/verticals/auto-mechanic.ts",
+          "apps/api/src/routes/verticals/auto-mechanic.test.ts",
+          "apps/api/src/routes/verticals/bakery.ts",
+          "apps/api/src/routes/verticals/bakery.test.ts",
+          "apps/api/src/routes/verticals/beauty-salon.ts",
+          "apps/api/src/routes/verticals/beauty-salon.test.ts",
+          "apps/api/src/routes/verticals/book-club.ts",
+          "apps/api/src/routes/verticals/book-club.test.ts",
+          "apps/api/src/routes/verticals/bookshop.ts",
+          "apps/api/src/routes/verticals/bookshop.test.ts",
+          "apps/api/src/routes/verticals/borehole-driller.ts",
+          "apps/api/src/routes/verticals/borehole-driller.test.ts",
+          "apps/api/src/routes/verticals/building-materials.ts",
+          "apps/api/src/routes/verticals/building-materials.test.ts",
+          "apps/api/src/routes/verticals/bureau-de-change.ts",
+          "apps/api/src/routes/verticals/bureau-de-change.test.ts",
+          "apps/api/src/routes/verticals/campaign-office.ts",
+          "apps/api/src/routes/verticals/campaign-office.test.ts",
+          "apps/api/src/routes/verticals/cargo-truck.ts",
+          "apps/api/src/routes/verticals/cargo-truck.test.ts",
+          "apps/api/src/routes/verticals/car-wash.ts",
+          "apps/api/src/routes/verticals/car-wash.test.ts",
+          "apps/api/src/routes/verticals/cassava-miller.ts",
+          "apps/api/src/routes/verticals/cassava-miller.test.ts",
+          "apps/api/src/routes/verticals/catering.ts",
+          "apps/api/src/routes/verticals/catering.test.ts",
+          "apps/api/src/routes/verticals/cleaning-company.ts",
+          "apps/api/src/routes/verticals/cleaning-company.test.ts",
+          "apps/api/src/routes/verticals/cleaning-service.ts",
+          "apps/api/src/routes/verticals/cleaning-service.test.ts",
+          "apps/api/src/routes/verticals/clearing-agent.ts",
+          "apps/api/src/routes/verticals/clearing-agent.test.ts",
+          "apps/api/src/routes/verticals/cocoa-exporter.ts",
+          "apps/api/src/routes/verticals/cocoa-exporter.test.ts",
+          "apps/api/src/routes/verticals/cold-room.ts",
+          "apps/api/src/routes/verticals/cold-room.test.ts",
+          "apps/api/src/routes/verticals/community-hall.ts",
+          "apps/api/src/routes/verticals/community-hall.test.ts",
+          "apps/api/src/routes/verticals/community-health.ts",
+          "apps/api/src/routes/verticals/community-health.test.ts",
+          "apps/api/src/routes/verticals/community-radio.ts",
+          "apps/api/src/routes/verticals/community-radio.test.ts",
+          "apps/api/src/routes/verticals/constituency-office.ts",
+          "apps/api/src/routes/verticals/constituency-office.test.ts",
+          "apps/api/src/routes/verticals/construction.ts",
+          "apps/api/src/routes/verticals/construction.test.ts",
+          "apps/api/src/routes/verticals/container-depot.ts",
+          "apps/api/src/routes/verticals/container-depot.test.ts",
+          "apps/api/src/routes/verticals/courier.ts",
+          "apps/api/src/routes/verticals/courier.test.ts",
+          "apps/api/src/routes/verticals/creche.ts",
+          "apps/api/src/routes/verticals/creche.test.ts",
+          "apps/api/src/routes/verticals/dental-clinic.ts",
+          "apps/api/src/routes/verticals/dental-clinic.test.ts",
+          "apps/api/src/routes/verticals/dispatch-rider.ts",
+          "apps/api/src/routes/verticals/dispatch-rider.test.ts",
+          "apps/api/src/routes/verticals/driving-school.ts",
+          "apps/api/src/routes/verticals/driving-school.test.ts",
+          "apps/api/src/routes/verticals/elderly-care.ts",
+          "apps/api/src/routes/verticals/elderly-care.test.ts",
+          "apps/api/src/routes/verticals/electrical-fittings.ts",
+          "apps/api/src/routes/verticals/electrical-fittings.test.ts",
+          "apps/api/src/routes/verticals/electronics-repair.ts",
+          "apps/api/src/routes/verticals/electronics-repair.test.ts",
+          "apps/api/src/routes/verticals/event-hall.ts",
+          "apps/api/src/routes/verticals/event-hall.test.ts",
+          "apps/api/src/routes/verticals/event-planner.ts",
+          "apps/api/src/routes/verticals/event-planner.test.ts",
+          "apps/api/src/routes/verticals/events-centre.ts",
+          "apps/api/src/routes/verticals/events-centre.test.ts",
+          "apps/api/src/routes/verticals/ferry.ts",
+          "apps/api/src/routes/verticals/ferry.test.ts",
+          "apps/api/src/routes/verticals/fish-market.ts",
+          "apps/api/src/routes/verticals/fish-market.test.ts",
+          "apps/api/src/routes/verticals/florist.ts",
+          "apps/api/src/routes/verticals/florist.test.ts",
+          "apps/api/src/routes/verticals/food-processing.ts",
+          "apps/api/src/routes/verticals/food-processing.test.ts",
+          "apps/api/src/routes/verticals/food-vendor.ts",
+          "apps/api/src/routes/verticals/food-vendor.test.ts",
+          "apps/api/src/routes/verticals/fuel-station.ts",
+          "apps/api/src/routes/verticals/fuel-station.test.ts",
+          "apps/api/src/routes/verticals/funeral-home.ts",
+          "apps/api/src/routes/verticals/funeral-home.test.ts",
+          "apps/api/src/routes/verticals/furniture-maker.ts",
+          "apps/api/src/routes/verticals/furniture-maker.test.ts",
+          "apps/api/src/routes/verticals/gas-distributor.ts",
+          "apps/api/src/routes/verticals/gas-distributor.test.ts",
+          "apps/api/src/routes/verticals/generator-dealer.ts",
+          "apps/api/src/routes/verticals/generator-dealer.test.ts",
+          "apps/api/src/routes/verticals/generator-repair.ts",
+          "apps/api/src/routes/verticals/generator-repair.test.ts",
+          "apps/api/src/routes/verticals/government-agency.ts",
+          "apps/api/src/routes/verticals/government-agency.test.ts",
+          "apps/api/src/routes/verticals/govt-school.ts",
+          "apps/api/src/routes/verticals/govt-school.test.ts",
+          "apps/api/src/routes/verticals/gym-fitness.ts",
+          "apps/api/src/routes/verticals/gym-fitness.test.ts",
+          "apps/api/src/routes/verticals/hair-salon.ts",
+          "apps/api/src/routes/verticals/hair-salon.test.ts",
+          "apps/api/src/routes/verticals/handyman.ts",
+          "apps/api/src/routes/verticals/handyman.test.ts",
+          "apps/api/src/routes/verticals/hire-purchase.ts",
+          "apps/api/src/routes/verticals/hire-purchase.test.ts",
+          "apps/api/src/routes/verticals/hotel.ts",
+          "apps/api/src/routes/verticals/hotel.test.ts",
+          "apps/api/src/routes/verticals/insurance-agent.ts",
+          "apps/api/src/routes/verticals/insurance-agent.test.ts",
+          "apps/api/src/routes/verticals/internet-cafe.ts",
+          "apps/api/src/routes/verticals/internet-cafe.test.ts",
+          "apps/api/src/routes/verticals/iron-steel.ts",
+          "apps/api/src/routes/verticals/iron-steel.test.ts",
+          "apps/api/src/routes/verticals/it-support.ts",
+          "apps/api/src/routes/verticals/it-support.test.ts",
+          "apps/api/src/routes/verticals/land-surveyor.ts",
+          "apps/api/src/routes/verticals/land-surveyor.test.ts",
+          "apps/api/src/routes/verticals/laundry.ts",
+          "apps/api/src/routes/verticals/laundry.test.ts",
+          "apps/api/src/routes/verticals/laundry-service.ts",
+          "apps/api/src/routes/verticals/laundry-service.test.ts",
+          "apps/api/src/routes/verticals/law-firm.ts",
+          "apps/api/src/routes/verticals/law-firm.test.ts",
+          "apps/api/src/routes/verticals/logistics-delivery.ts",
+          "apps/api/src/routes/verticals/logistics-delivery.test.ts",
+          "apps/api/src/routes/verticals/market-association.ts",
+          "apps/api/src/routes/verticals/market-association.test.ts",
+          "apps/api/src/routes/verticals/ministry-mission.ts",
+          "apps/api/src/routes/verticals/ministry-mission.test.ts",
+          "apps/api/src/routes/verticals/mobile-money-agent.ts",
+          "apps/api/src/routes/verticals/mobile-money-agent.test.ts",
+          "apps/api/src/routes/verticals/mosque.ts",
+          "apps/api/src/routes/verticals/mosque.test.ts",
+          "apps/api/src/routes/verticals/motivational-speaker.ts",
+          "apps/api/src/routes/verticals/motivational-speaker.test.ts",
+          "apps/api/src/routes/verticals/motorcycle-accessories.ts",
+          "apps/api/src/routes/verticals/motorcycle-accessories.test.ts",
+          "apps/api/src/routes/verticals/shoemaker.ts",
+          "apps/api/src/routes/verticals/shoemaker.test.ts",
+          "apps/api/src/routes/verticals/solar-installer.ts",
+          "apps/api/src/routes/verticals/solar-installer.test.ts",
+          "apps/api/src/routes/verticals/sole-trader.ts",
+          "apps/api/src/routes/verticals/sole-trader.test.ts",
+          "apps/api/src/routes/verticals/spare-parts.ts",
+          "apps/api/src/routes/verticals/spare-parts.test.ts",
+          "apps/api/src/routes/verticals/spa.ts",
+          "apps/api/src/routes/verticals/spa.test.ts",
+          "apps/api/src/routes/verticals/sports-academy.ts",
+          "apps/api/src/routes/verticals/sports-academy.test.ts",
+          "apps/api/src/routes/verticals/sports-club.ts",
+          "apps/api/src/routes/verticals/sports-club.test.ts",
+          "apps/api/src/routes/verticals/tailor.ts",
+          "apps/api/src/routes/verticals/tailor.test.ts",
+          "apps/api/src/routes/verticals/talent-agency.ts",
+          "apps/api/src/routes/verticals/talent-agency.test.ts",
+          "apps/api/src/routes/verticals/tax-consultant.ts",
+          "apps/api/src/routes/verticals/tax-consultant.test.ts",
+          "apps/api/src/routes/verticals/tech-hub.ts",
+          "apps/api/src/routes/verticals/tech-hub.test.ts",
+          "apps/api/src/routes/verticals/training-institute.ts",
+          "apps/api/src/routes/verticals/training-institute.test.ts",
+          "apps/api/src/routes/verticals/travel-agent.ts",
+          "apps/api/src/routes/verticals/travel-agent.test.ts",
+          "apps/api/src/routes/verticals/tyre-shop.ts",
+          "apps/api/src/routes/verticals/tyre-shop.test.ts",
+          "apps/api/src/routes/verticals/used-car-dealer.ts",
+          "apps/api/src/routes/verticals/used-car-dealer.test.ts",
+          "apps/api/src/routes/verticals/vegetable-garden.ts",
+          "apps/api/src/routes/verticals/vegetable-garden.test.ts",
+          "apps/api/src/routes/verticals/vet-clinic.ts",
+          "apps/api/src/routes/verticals/vet-clinic.test.ts",
+          "apps/api/src/routes/verticals/ward-rep.ts",
+          "apps/api/src/routes/verticals/ward-rep.test.ts",
+          "apps/api/src/routes/verticals/waste-management.ts",
+          "apps/api/src/routes/verticals/waste-management.test.ts",
+          "apps/api/src/routes/verticals/water-treatment.ts",
+          "apps/api/src/routes/verticals/water-treatment.test.ts",
+          "apps/api/src/routes/verticals/water-vendor.ts",
+          "apps/api/src/routes/verticals/water-vendor.test.ts",
+          "apps/api/src/routes/verticals/wedding-planner.ts",
+          "apps/api/src/routes/verticals/wedding-planner.test.ts",
+          "apps/api/src/routes/verticals/welding-fabrication.ts",
+          "apps/api/src/routes/verticals/welding-fabrication.test.ts",
+          "apps/api/src/routes/verticals/womens-association.ts",
+          "apps/api/src/routes/verticals/womens-association.test.ts",
+          "apps/api/src/routes/verticals/youth-organization.ts",
+          "apps/api/src/routes/verticals/youth-organization.test.ts"
+        ]
+      },
+      "test_files": [
+        "apps/api/src/api.test.ts"
+      ]
+    },
+    "platform_admin": {
+      "path": "apps/platform-admin",
+      "runtime": "Node.js (local dev) / Cloudflare Pages (production)",
+      "port": 5000,
+      "files": [
+        "apps/platform-admin/server.js",
+        "apps/platform-admin/package.json",
+        "apps/platform-admin/public/index.html",
+        "apps/platform-admin/public/manifest.json",
+        "apps/platform-admin/public/sw.js"
+      ]
+    },
+    "admin_dashboard": {
+      "path": "apps/admin-dashboard",
+      "worker_name_production": "webwaka-admin-dashboard-production",
+      "pillar": "1 - Operations-Management",
+      "files": [
+        "apps/admin-dashboard/src/index.ts",
+        "apps/admin-dashboard/src/marketplace.ts",
+        "apps/admin-dashboard/package.json",
+        "apps/admin-dashboard/wrangler.toml",
+        "apps/admin-dashboard/tsconfig.json",
+        "apps/admin-dashboard/public/manifest.json",
+        "apps/admin-dashboard/public/sw.js"
+      ]
+    },
+    "brand_runtime": {
+      "path": "apps/brand-runtime",
+      "worker_name_production": "webwaka-brand-runtime-production",
+      "pillar": "2 - Branding/Website/Portal",
+      "files": [
+        "apps/brand-runtime/src/index.ts",
+        "apps/brand-runtime/package.json",
+        "apps/brand-runtime/wrangler.toml",
+        "apps/brand-runtime/tsconfig.json"
+      ]
+    },
+    "partner_admin": {
+      "path": "apps/partner-admin",
+      "worker_name_production": "webwaka-partner-admin",
+      "pillar": "1 - Operations-Management",
+      "files": [
+        "apps/partner-admin/src/index.ts",
+        "apps/partner-admin/package.json",
+        "apps/partner-admin/wrangler.toml",
+        "apps/partner-admin/tsconfig.json"
+      ]
+    },
+    "public_discovery": {
+      "path": "apps/public-discovery",
+      "worker_name_production": "webwaka-public-discovery-production",
+      "pillar": "3 - Listing/Marketplace",
+      "files": [
+        "apps/public-discovery/src/index.ts",
+        "apps/public-discovery/package.json",
+        "apps/public-discovery/wrangler.toml",
+        "apps/public-discovery/tsconfig.json"
+      ]
+    },
+    "tenant_public": {
+      "path": "apps/tenant-public",
+      "worker_name_production": "webwaka-tenant-public-production",
+      "pillar": "3 - Public Tenant Sites",
+      "files": [
+        "apps/tenant-public/src/index.ts",
+        "apps/tenant-public/package.json",
+        "apps/tenant-public/wrangler.toml",
+        "apps/tenant-public/tsconfig.json"
+      ]
+    },
+    "ussd_gateway": {
+      "path": "apps/ussd-gateway",
+      "shortcode": "*384#",
+      "provider": "Africa's Talking",
+      "files": [
+        "apps/ussd-gateway/src/index.ts",
+        "apps/ussd-gateway/package.json",
+        "apps/ussd-gateway/wrangler.toml",
+        "apps/ussd-gateway/tsconfig.json"
+      ]
+    },
+    "projections": {
+      "path": "apps/projections",
+      "worker_name_production": "webwaka-projections-production",
+      "files": [
+        "apps/projections/src/index.ts",
+        "apps/projections/package.json",
+        "apps/projections/wrangler.toml",
+        "apps/projections/tsconfig.json"
+      ]
+    },
+    "workspace_app": {
+      "path": "apps/workspace-app",
+      "runtime": "React 18 + Vite 5 + TypeScript",
+      "phase": "P12 COMPLETE",
+      "config_files": [
+        "apps/workspace-app/package.json",
+        "apps/workspace-app/tsconfig.json",
+        "apps/workspace-app/vite.config.ts",
+        "apps/workspace-app/index.html"
+      ],
+      "pages": [
+        "apps/workspace-app/src/pages/Login.tsx",
+        "apps/workspace-app/src/pages/Register.tsx",
+        "apps/workspace-app/src/pages/ForgotPassword.tsx",
+        "apps/workspace-app/src/pages/ResetPassword.tsx",
+        "apps/workspace-app/src/pages/VerifyEmail.tsx",
+        "apps/workspace-app/src/pages/AcceptInvite.tsx",
+        "apps/workspace-app/src/pages/Dashboard.tsx",
+        "apps/workspace-app/src/pages/Settings.tsx",
+        "apps/workspace-app/src/pages/POS.tsx",
+        "apps/workspace-app/src/pages/Offerings.tsx",
+        "apps/workspace-app/src/pages/VerticalView.tsx"
+      ],
+      "contexts": [
+        "apps/workspace-app/src/contexts/AuthContext.tsx"
+      ],
+      "lib": [
+        "apps/workspace-app/src/lib/api.ts"
+      ]
+    }
+  },
+  "packages": {
+    "core_infrastructure": {
+      "types": {
+        "package_name": "@webwaka/types",
+        "path": "packages/types",
+        "files": [
+          "packages/types/src/index.ts",
+          "packages/types/src/ids.ts",
+          "packages/types/src/enums.ts",
+          "packages/types/src/entities.ts",
+          "packages/types/src/auth.ts",
+          "packages/types/src/subscription.ts",
+          "packages/types/src/africa-first.ts",
+          "packages/types/package.json",
+          "packages/types/tsconfig.json"
+        ]
+      },
+      "core": {
+        "package_name": "@webwaka/core",
+        "path": "packages/core",
+        "files": [
+          "packages/core/src/index.ts",
+          "packages/core/src/circuit-breaker.ts",
+          "packages/core/src/circuit-breaker.test.ts",
+          "packages/core/src/kv-safe.ts",
+          "packages/core/src/kv-safe.test.ts",
+          "packages/core/package.json",
+          "packages/core/tsconfig.json"
+        ]
+      },
+      "geography": {
+        "package_name": "@webwaka/geography",
+        "path": "packages/core/geography",
+        "files": [
+          "packages/core/geography/src/index.ts",
+          "packages/core/geography/package.json",
+          "packages/core/geography/tsconfig.json"
+        ]
+      },
+      "politics": {
+        "package_name": "@webwaka/politics",
+        "path": "packages/core/politics",
+        "files": [
+          "packages/core/politics/src/index.ts",
+          "packages/core/politics/package.json",
+          "packages/core/politics/tsconfig.json"
+        ]
+      },
+      "auth": {
+        "package_name": "@webwaka/auth",
+        "path": "packages/auth",
+        "files": [
+          "packages/auth/src/index.ts",
+          "packages/auth/src/jwt.ts",
+          "packages/auth/src/jwt.test.ts",
+          "packages/auth/src/roles.ts",
+          "packages/auth/src/roles.test.ts",
+          "packages/auth/src/guards.ts",
+          "packages/auth/src/guards.test.ts",
+          "packages/auth/src/entitlements.ts",
+          "packages/auth/src/entitlements.test.ts",
+          "packages/auth/src/middleware.ts",
+          "packages/auth/src/ai-hooks.ts",
+          "packages/auth/package.json",
+          "packages/auth/tsconfig.json"
+        ]
+      },
+      "auth_tenancy": {
+        "package_name": "@webwaka/auth-tenancy",
+        "path": "packages/auth-tenancy",
+        "files": [
+          "packages/auth-tenancy/src/index.ts",
+          "packages/auth-tenancy/package.json"
+        ]
+      },
+      "shared_config": {
+        "package_name": "@webwaka/shared-config",
+        "path": "packages/shared-config",
+        "files": [
+          "packages/shared-config/src/index.ts",
+          "packages/shared-config/package.json"
+        ]
+      }
+    },
+    "feature_packages": {
+      "claims": {
+        "package_name": "@webwaka/claims",
+        "path": "packages/claims",
+        "files": [
+          "packages/claims/src/index.ts",
+          "packages/claims/src/state-machine.ts",
+          "packages/claims/src/state-machine.test.ts",
+          "packages/claims/src/verification.ts",
+          "packages/claims/package.json",
+          "packages/claims/tsconfig.json",
+          "packages/claims/vitest.config.ts"
+        ]
+      },
+      "community": {
+        "package_name": "@webwaka/community",
+        "path": "packages/community",
+        "files": [
+          "packages/community/src/index.ts",
+          "packages/community/src/community-space.ts",
+          "packages/community/src/channel.ts",
+          "packages/community/src/course.ts",
+          "packages/community/src/event.ts",
+          "packages/community/src/membership.ts",
+          "packages/community/src/moderation.ts",
+          "packages/community/src/moderation-config.ts",
+          "packages/community/src/entitlements.ts",
+          "packages/community/src/space.ts",
+          "packages/community/src/types.ts",
+          "packages/community/src/community.test.ts",
+          "packages/community/package.json",
+          "packages/community/tsconfig.json"
+        ]
+      },
+      "contact": {
+        "package_name": "@webwaka/contact",
+        "path": "packages/contact",
+        "files": [
+          "packages/contact/src/index.ts",
+          "packages/contact/src/types.ts",
+          "packages/contact/src/contact-service.ts",
+          "packages/contact/src/contact-service.test.ts",
+          "packages/contact/src/contact.test.ts",
+          "packages/contact/src/channel-resolver.ts",
+          "packages/contact/src/normalize.ts",
+          "packages/contact/src/verification-state.ts",
+          "packages/contact/package.json",
+          "packages/contact/tsconfig.json"
+        ]
+      },
+      "entities": {
+        "package_name": "@webwaka/entities",
+        "path": "packages/entities",
+        "files": [
+          "packages/entities/src/index.ts",
+          "packages/entities/src/ids.ts",
+          "packages/entities/src/ids.test.ts",
+          "packages/entities/src/pagination.ts",
+          "packages/entities/package.json",
+          "packages/entities/tsconfig.json"
+        ]
+      },
+      "entitlements": {
+        "package_name": "@webwaka/entitlements",
+        "path": "packages/entitlements",
+        "files": [
+          "packages/entitlements/src/index.ts",
+          "packages/entitlements/src/plan-config.ts",
+          "packages/entitlements/src/evaluate.ts",
+          "packages/entitlements/src/evaluate.test.ts",
+          "packages/entitlements/src/guards.ts",
+          "packages/entitlements/src/guards.test.ts",
+          "packages/entitlements/src/cbn-kyc-tiers.ts",
+          "packages/entitlements/package.json",
+          "packages/entitlements/tsconfig.json"
+        ]
+      },
+      "events": {
+        "package_name": "@webwaka/events",
+        "path": "packages/events",
+        "files": [
+          "packages/events/src/index.ts",
+          "packages/events/src/event-types.ts",
+          "packages/events/src/publisher.ts",
+          "packages/events/src/publisher.test.ts",
+          "packages/events/src/subscriber.ts",
+          "packages/events/src/subscriber.test.ts",
+          "packages/events/package.json",
+          "packages/events/tsconfig.json"
+        ]
+      },
+      "identity": {
+        "package_name": "@webwaka/identity",
+        "path": "packages/identity",
+        "files": [
+          "packages/identity/src/index.ts",
+          "packages/identity/src/types.ts",
+          "packages/identity/src/bvn.ts",
+          "packages/identity/src/nin.ts",
+          "packages/identity/src/frsc.ts",
+          "packages/identity/src/cac.ts",
+          "packages/identity/src/consent.ts",
+          "packages/identity/src/identity.test.ts",
+          "packages/identity/package.json",
+          "packages/identity/tsconfig.json"
+        ]
+      },
+      "logging": {
+        "package_name": "@webwaka/logging",
+        "path": "packages/logging",
+        "files": [
+          "packages/logging/src/index.ts",
+          "packages/logging/src/logger.ts",
+          "packages/logging/src/error-tracker.ts",
+          "packages/logging/src/pii.ts",
+          "packages/logging/src/types.ts",
+          "packages/logging/package.json",
+          "packages/logging/tsconfig.json"
+        ]
+      },
+      "negotiation": {
+        "package_name": "@webwaka/negotiation",
+        "path": "packages/negotiation",
+        "files": [
+          "packages/negotiation/src/engine.ts",
+          "packages/negotiation/src/guardrails.ts",
+          "packages/negotiation/package.json",
+          "packages/negotiation/tsconfig.json"
+        ]
+      },
+      "offerings": {
+        "package_name": "@webwaka/offerings",
+        "path": "packages/offerings",
+        "files": [
+          "packages/offerings/src/index.ts",
+          "packages/offerings/package.json"
+        ]
+      },
+      "offline_sync": {
+        "package_name": "@webwaka/offline-sync",
+        "path": "packages/offline-sync",
+        "files": [
+          "packages/offline-sync/src/index.ts",
+          "packages/offline-sync/package.json",
+          "packages/offline-sync/tsconfig.json"
+        ]
+      },
+      "otp": {
+        "package_name": "@webwaka/otp",
+        "path": "packages/otp",
+        "files": [
+          "packages/otp/src/index.ts",
+          "packages/otp/package.json",
+          "packages/otp/tsconfig.json"
+        ]
+      },
+      "payments": {
+        "package_name": "@webwaka/payments",
+        "path": "packages/payments",
+        "files": [
+          "packages/payments/src/index.ts",
+          "packages/payments/package.json",
+          "packages/payments/tsconfig.json"
+        ]
+      },
+      "pos": {
+        "package_name": "@webwaka/pos",
+        "path": "packages/pos",
+        "files": [
+          "packages/pos/src/index.ts",
+          "packages/pos/package.json",
+          "packages/pos/tsconfig.json"
+        ]
+      },
+      "profiles": {
+        "package_name": "@webwaka/profiles",
+        "path": "packages/profiles",
+        "files": [
+          "packages/profiles/src/index.ts",
+          "packages/profiles/package.json",
+          "packages/profiles/tsconfig.json"
+        ]
+      },
+      "relationships": {
+        "package_name": "@webwaka/relationships",
+        "path": "packages/relationships",
+        "files": [
+          "packages/relationships/src/index.ts",
+          "packages/relationships/package.json",
+          "packages/relationships/tsconfig.json"
+        ]
+      },
+      "search_indexing": {
+        "package_name": "@webwaka/search-indexing",
+        "path": "packages/search-indexing",
+        "files": [
+          "packages/search-indexing/src/index.ts",
+          "packages/search-indexing/package.json",
+          "packages/search-indexing/tsconfig.json"
+        ]
+      },
+      "social": {
+        "package_name": "@webwaka/social",
+        "path": "packages/social",
+        "files": [
+          "packages/social/src/index.ts",
+          "packages/social/package.json",
+          "packages/social/tsconfig.json"
+        ]
+      },
+      "workspaces": {
+        "package_name": "@webwaka/workspaces",
+        "path": "packages/workspaces",
+        "files": [
+          "packages/workspaces/src/index.ts",
+          "packages/workspaces/package.json"
+        ]
+      }
+    },
+    "ai_packages": {
+      "superagent": {
+        "package_name": "@webwaka/superagent",
+        "path": "packages/superagent",
+        "files": [
+          "packages/superagent/src/index.ts",
+          "packages/superagent/src/key-service.ts",
+          "packages/superagent/src/wallet-service.ts",
+          "packages/superagent/src/wallet-service.test.ts",
+          "packages/superagent/src/partner-pool-service.ts",
+          "packages/superagent/src/credit-burn.ts",
+          "packages/superagent/src/usage-meter.ts",
+          "packages/superagent/src/consent-service.ts",
+          "packages/superagent/src/middleware.ts",
+          "packages/superagent/src/vertical-ai-config.ts",
+          "packages/superagent/src/guards.ts",
+          "packages/superagent/src/hitl-service.ts",
+          "packages/superagent/src/hitl-service.test.ts",
+          "packages/superagent/src/spend-controls.ts",
+          "packages/superagent/src/spend-controls.test.ts",
+          "packages/superagent/src/compliance-filter.ts",
+          "packages/superagent/src/compliance-filter.test.ts",
+          "packages/superagent/src/ndpr-register.ts",
+          "packages/superagent/src/ndpr-register.test.ts",
+          "packages/superagent/src/types.ts",
+          "packages/superagent/package.json",
+          "packages/superagent/tsconfig.json",
+          "packages/superagent/vitest.config.ts"
+        ]
+      },
+      "ai_abstraction": {
+        "package_name": "@webwaka/ai-abstraction",
+        "path": "packages/ai-abstraction",
+        "files": [
+          "packages/ai-abstraction/src/index.ts",
+          "packages/ai-abstraction/src/router.ts",
+          "packages/ai-abstraction/src/capabilities.ts",
+          "packages/ai-abstraction/src/types.ts",
+          "packages/ai-abstraction/package.json",
+          "packages/ai-abstraction/tsconfig.json"
+        ]
+      },
+      "ai_adapters": {
+        "package_name": "@webwaka/ai-adapters",
+        "path": "packages/ai-adapters",
+        "files": [
+          "packages/ai-adapters/src/index.ts",
+          "packages/ai-adapters/src/openai-compat.ts",
+          "packages/ai-adapters/src/anthropic.ts",
+          "packages/ai-adapters/src/google.ts",
+          "packages/ai-adapters/src/factory.ts",
+          "packages/ai-adapters/src/factory.test.ts",
+          "packages/ai-adapters/package.json",
+          "packages/ai-adapters/tsconfig.json"
+        ]
+      }
+    },
+    "design_packages": {
+      "design_system": {
+        "package_name": "@webwaka/design-system",
+        "path": "packages/design-system",
+        "files": [
+          "packages/design-system/src/index.ts",
+          "packages/design-system/package.json",
+          "packages/design-system/tsconfig.json"
+        ]
+      },
+      "white_label_theming": {
+        "package_name": "@webwaka/white-label-theming",
+        "path": "packages/white-label-theming",
+        "files": [
+          "packages/white-label-theming/src/index.ts",
+          "packages/white-label-theming/package.json",
+          "packages/white-label-theming/tsconfig.json"
+        ]
+      },
+      "frontend": {
+        "package_name": "@webwaka/frontend",
+        "path": "packages/frontend",
+        "files": [
+          "packages/frontend/src/index.ts",
+          "packages/frontend/src/admin-layout.ts",
+          "packages/frontend/src/admin-layout.test.ts",
+          "packages/frontend/src/discovery-page.ts",
+          "packages/frontend/src/discovery-page.test.ts",
+          "packages/frontend/src/profile-renderer.ts",
+          "packages/frontend/src/profile-renderer.test.ts",
+          "packages/frontend/src/tenant-manifest.ts",
+          "packages/frontend/src/tenant-manifest.test.ts",
+          "packages/frontend/src/theme.ts",
+          "packages/frontend/src/theme.test.ts",
+          "packages/frontend/src/ussd-shortcode.ts",
+          "packages/frontend/src/ussd-shortcode.test.ts",
+          "packages/frontend/src/i18n.test.ts",
+          "packages/frontend/package.json",
+          "packages/frontend/tsconfig.json"
+        ]
+      },
+      "i18n": {
+        "package_name": "@webwaka/i18n",
+        "path": "packages/i18n",
+        "files": [
+          "packages/i18n/src/index.ts",
+          "packages/i18n/src/index.test.ts",
+          "packages/i18n/package.json",
+          "packages/i18n/tsconfig.json"
+        ]
+      }
+    },
+    "verticals": {
+      "total_count": 159,
+      "per_package_structure": {
+        "files_per_package": [
+          "{slug}/src/index.ts",
+          "{slug}/src/{slug}.ts",
+          "{slug}/src/{slug}.test.ts",
+          "{slug}/src/types.ts",
+          "{slug}/package.json",
+          "{slug}/tsconfig.json",
+          "{slug}/vitest.config.ts",
+          "{slug}/.eslintrc.json"
+        ]
+      },
+      "all_packages": [
+        "packages/verticals-abattoir",
+        "packages/verticals-accounting-firm",
+        "packages/verticals-advertising-agency",
+        "packages/verticals-agro-input",
+        "packages/verticals-airport-shuttle",
+        "packages/verticals-airtime-reseller",
+        "packages/verticals-artisanal-mining",
+        "packages/verticals-auto-mechanic",
+        "packages/verticals-bakery",
+        "packages/verticals-beauty-salon",
+        "packages/verticals-book-club",
+        "packages/verticals-bookshop",
+        "packages/verticals-borehole-driller",
+        "packages/verticals-building-materials",
+        "packages/verticals-bureau-de-change",
+        "packages/verticals-campaign-office",
+        "packages/verticals-cargo-truck",
+        "packages/verticals-car-wash",
+        "packages/verticals-cassava-miller",
+        "packages/verticals-catering",
+        "packages/verticals-church",
+        "packages/verticals-cleaning-company",
+        "packages/verticals-cleaning-service",
+        "packages/verticals-clearing-agent",
+        "packages/verticals-clinic",
+        "packages/verticals-cocoa-exporter",
+        "packages/verticals-cold-room",
+        "packages/verticals-community-hall",
+        "packages/verticals-community-health",
+        "packages/verticals-community-radio",
+        "packages/verticals-constituency-office",
+        "packages/verticals-construction",
+        "packages/verticals-container-depot",
+        "packages/verticals-cooperative",
+        "packages/verticals-courier",
+        "packages/verticals-creator",
+        "packages/verticals-creche",
+        "packages/verticals-dental-clinic",
+        "packages/verticals-dispatch-rider",
+        "packages/verticals-driving-school",
+        "packages/verticals-elderly-care",
+        "packages/verticals-electrical-fittings",
+        "packages/verticals-electronics-repair",
+        "packages/verticals-event-hall",
+        "packages/verticals-event-planner",
+        "packages/verticals-events-centre",
+        "packages/verticals-farm",
+        "packages/verticals-fashion-brand",
+        "packages/verticals-ferry",
+        "packages/verticals-fish-market",
+        "packages/verticals-florist",
+        "packages/verticals-food-processing",
+        "packages/verticals-food-vendor",
+        "packages/verticals-fuel-station",
+        "packages/verticals-funeral-home",
+        "packages/verticals-furniture-maker",
+        "packages/verticals-gas-distributor",
+        "packages/verticals-generator-dealer",
+        "packages/verticals-generator-repair",
+        "packages/verticals-government-agency",
+        "packages/verticals-govt-school",
+        "packages/verticals-gym",
+        "packages/verticals-gym-fitness",
+        "packages/verticals-hair-salon",
+        "packages/verticals-handyman",
+        "packages/verticals-haulage",
+        "packages/verticals-hire-purchase",
+        "packages/verticals-hotel",
+        "packages/verticals-insurance-agent",
+        "packages/verticals-internet-cafe",
+        "packages/verticals-iron-steel",
+        "packages/verticals-it-support",
+        "packages/verticals-land-surveyor",
+        "packages/verticals-laundry",
+        "packages/verticals-laundry-service",
+        "packages/verticals-law-firm",
+        "packages/verticals-lga-office",
+        "packages/verticals-logistics-delivery",
+        "packages/verticals-market",
+        "packages/verticals-market-association",
+        "packages/verticals-ministry-mission",
+        "packages/verticals-mobile-money-agent",
+        "packages/verticals-mosque",
+        "packages/verticals-motivational-speaker",
+        "packages/verticals-motorcycle-accessories",
+        "packages/verticals-motor-park",
+        "packages/verticals-music-studio",
+        "packages/verticals-newspaper-dist",
+        "packages/verticals-ngo",
+        "packages/verticals-nursery-school",
+        "packages/verticals-nurtw",
+        "packages/verticals-oil-gas-services",
+        "packages/verticals-okada-keke",
+        "packages/verticals-optician",
+        "packages/verticals-orphanage",
+        "packages/verticals-paints-distributor",
+        "packages/verticals-palm-oil",
+        "packages/verticals-petrol-station",
+        "packages/verticals-pharmacy",
+        "packages/verticals-pharmacy-chain",
+        "packages/verticals-phone-repair-shop",
+        "packages/verticals-photography-studio",
+        "packages/verticals-plumbing-supplies",
+        "packages/verticals-podcast-studio",
+        "packages/verticals-political-party",
+        "packages/verticals-politician",
+        "packages/verticals-polling-unit",
+        "packages/verticals-pos-business",
+        "packages/verticals-poultry-farm",
+        "packages/verticals-pr-firm",
+        "packages/verticals-printing-press",
+        "packages/verticals-print-shop",
+        "packages/verticals-private-school",
+        "packages/verticals-produce-aggregator",
+        "packages/verticals-professional",
+        "packages/verticals-professional-association",
+        "packages/verticals-property-developer",
+        "packages/verticals-real-estate-agency",
+        "packages/verticals-recording-label",
+        "packages/verticals-rehab-centre",
+        "packages/verticals-restaurant",
+        "packages/verticals-restaurant-chain",
+        "packages/verticals-rideshare",
+        "packages/verticals-road-transport-union",
+        "packages/verticals-savings-group",
+        "packages/verticals-school",
+        "packages/verticals-security-company",
+        "packages/verticals-shoemaker",
+        "packages/verticals-solar-installer",
+        "packages/verticals-sole-trader",
+        "packages/verticals-spa",
+        "packages/verticals-spare-parts",
+        "packages/verticals-sports-academy",
+        "packages/verticals-sports-club",
+        "packages/verticals-startup",
+        "packages/verticals-supermarket",
+        "packages/verticals-tailor",
+        "packages/verticals-tailoring-fashion",
+        "packages/verticals-talent-agency",
+        "packages/verticals-tax-consultant",
+        "packages/verticals-tech-hub",
+        "packages/verticals-training-institute",
+        "packages/verticals-transit",
+        "packages/verticals-travel-agent",
+        "packages/verticals-tutoring",
+        "packages/verticals-tyre-shop",
+        "packages/verticals-used-car-dealer",
+        "packages/verticals-vegetable-garden",
+        "packages/verticals-vet-clinic",
+        "packages/verticals-ward-rep",
+        "packages/verticals-warehouse",
+        "packages/verticals-waste-management",
+        "packages/verticals-water-treatment",
+        "packages/verticals-water-vendor",
+        "packages/verticals-wedding-planner",
+        "packages/verticals-welding-fabrication",
+        "packages/verticals-wholesale-market",
+        "packages/verticals-womens-association",
+        "packages/verticals-youth-organization"
+      ]
+    }
+  },
+  "infra": {
+    "migrations": {
+      "path": "infra/db/migrations",
+      "total_sql_files": 475,
+      "total_migrations": 233,
+      "total_rollbacks": 234,
+      "range": "0001_init_places – 0233_users_email_verified",
+      "latest": "0233_users_email_verified.sql",
+      "notable_migrations": {
+        "0001": "places (geography hierarchy)",
+        "0002": "entities (universal entity model)",
+        "0003": "workspaces + workspace_memberships",
+        "0004": "subscriptions",
+        "0005": "profiles (discovery surface)",
+        "0006": "political offices + assignments",
+        "0007": "relationships",
+        "0008": "search_index (FTS5)",
+        "0009": "discovery_events",
+        "0010": "claim_workflow + claim_evidence",
+        "0011": "payments + float_ledger",
+        "0012": "event_log (event sourcing)",
+        "0013": "users",
+        "0014": "KYC fields",
+        "0230": "tenants table",
+        "0231": "invitations (P20-A)",
+        "0232": "sessions_extend: device_hint, user_agent, last_seen_at, jti (P20-B)",
+        "0233": "users.email_verified_at (P20-C)"
+      }
+    },
+    "seeds": {
+      "path": "infra/db/seed",
+      "files": [
+        "infra/db/seed/nigeria_country.sql",
+        "infra/db/seed/nigeria_zones.sql",
+        "infra/db/seed/nigeria_states.sql",
+        "infra/db/seed/0002_lgas.sql",
+        "infra/db/seed/0003_wards.sql",
+        "infra/db/seed/README.md",
+        "infra/db/seed/scripts/generate_wards_sql.ts"
+      ],
+      "counts": {
+        "zones": 6,
+        "states": 37,
+        "lgas": 774,
+        "wards": 8812
+      }
+    },
+    "cloudflare": {
+      "path": "infra/cloudflare",
+      "files": [
+        "infra/cloudflare/environments.md"
+      ]
+    },
+    "github_actions": {
+      "path": "infra/github-actions",
+      "note": "Main workflows in .github/workflows/"
+    }
+  },
+  "scripts": {
+    "governance_checks": {
+      "path": "scripts/governance-checks",
+      "count": 12,
+      "files": [
+        "scripts/governance-checks/check-cors.ts",
+        "scripts/governance-checks/check-tenant-isolation.ts",
+        "scripts/governance-checks/check-ai-direct-calls.ts",
+        "scripts/governance-checks/check-monetary-integrity.ts",
+        "scripts/governance-checks/check-dependency-sources.ts",
+        "scripts/governance-checks/check-rollback-scripts.ts",
+        "scripts/governance-checks/check-pillar-prefix.ts",
+        "scripts/governance-checks/check-pwa-manifest.ts",
+        "scripts/governance-checks/check-ndpr-before-ai.ts",
+        "scripts/governance-checks/check-geography-integrity.ts",
+        "scripts/governance-checks/check-vertical-registry.ts",
+        "scripts/governance-checks/check-api-versioning.ts"
+      ]
+    },
+    "codegen": {
+      "path": "scripts/codegen",
+      "files": [
+        "scripts/codegen/vertical.ts"
+      ]
+    },
+    "other": [
+      "scripts/verify-secrets.ts"
+    ]
+  },
+  "tests": {
+    "unit": {
+      "framework": "Vitest v1.6.0",
+      "total_tests": 2458,
+      "total_test_files": 167,
+      "all_passing": true
+    },
+    "e2e": {
+      "framework": "Playwright v1.49.0",
+      "path": "tests/e2e",
+      "projects": ["api-e2e", "discovery-e2e", "visual"],
+      "directories": [
+        "tests/e2e/api",
+        "tests/e2e/discovery",
+        "tests/e2e/workspace",
+        "tests/e2e/fixtures",
+        "tests/e2e/reports"
+      ]
+    },
+    "visual": {
+      "path": "tests/visual",
+      "snapshots": "tests/visual/snapshots"
+    },
+    "load": {
+      "framework": "k6",
+      "path": "tests/k6"
+    },
+    "integration": {
+      "path": "tests/integration"
+    },
+    "smoke": {
+      "path": "tests/smoke",
+      "covers": ["health", "claims-fsm", "superagent", "auth"]
+    }
+  },
+  "ci_cd": {
+    "path": ".github/workflows",
+    "workflows": [
+      {
+        "file": "ci.yml",
+        "trigger": "PR to staging, push to staging",
+        "jobs": ["typecheck", "test", "lint", "openapi-lint", "audit", "governance", "smoke"]
+      },
+      {
+        "file": "governance-check.yml",
+        "trigger": "PR, push",
+        "jobs": ["11 governance checks + secret rotation check"]
+      },
+      {
+        "file": "deploy-staging.yml",
+        "trigger": "Push to staging (after CI)",
+        "jobs": ["Deploy all 9 Workers"]
+      },
+      {
+        "file": "deploy-production.yml",
+        "trigger": "Manual dispatch",
+        "jobs": ["Deploy all 9 Workers to production"]
+      },
+      {
+        "file": "deploy-canary.yml",
+        "trigger": "Manual dispatch",
+        "jobs": ["Canary deployment"]
+      },
+      {
+        "file": "rollback-migration.yml",
+        "trigger": "Manual dispatch",
+        "jobs": ["D1 rollback script runner"]
+      },
+      {
+        "file": "check-core-version.yml",
+        "trigger": "PR, push to staging",
+        "jobs": ["Verify @webwaka/core version pinning"]
+      },
+      {
+        "file": "refresh-lockfile.yml",
+        "trigger": "Manual/Scheduled",
+        "jobs": ["Update pnpm lockfile"]
+      },
+      {
+        "file": "release-changelog.yml",
+        "trigger": "Tag push",
+        "jobs": ["Generate changelog via changesets"]
+      }
+    ]
+  },
+  "docs": {
+    "architecture_decisions": {
+      "path": "docs/architecture/decisions",
+      "count": 19,
+      "range": "0001-monorepo-strategy – 0019-d1-connection-lifecycle"
+    },
+    "governance": {
+      "path": "docs/governance",
+      "file_count": 30
+    },
+    "ops": {
+      "path": "docs/ops",
+      "files": [
+        "docs/ops/implementation-plan.md",
+        "docs/ops/implementation-backlog.md",
+        "docs/ops/human-action-items.md",
+        "docs/ops/local-dev-setup.md",
+        "docs/ops/event-replay-procedures.md",
+        "docs/ops/QA_AUDIT_REPORT_April2026.md"
+      ]
+    },
+    "openapi": {
+      "path": "docs/openapi",
+      "files": ["docs/openapi/v1.yaml"]
+    }
+  }
+}
