@@ -5,6 +5,7 @@ interface AuthUser {
   id: string;
   email: string;
   tenantId: string;
+  workspaceId?: string;
   role: string;
 }
 
@@ -57,17 +58,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
+  // AUT-004 fix: /auth/login returns { token, user } — no separate refreshToken.
+  // The access token itself is stored as the refresh credential so that
+  // tryRefresh() (AUT-006 fix) can pass it as a Bearer header to /auth/refresh.
   const login = useCallback(async (email: string, password: string) => {
     const res: LoginResponse = await authApi.login(email, password);
     setToken(res.token);
-    setRefreshToken(res.refreshToken);
+    setRefreshToken(res.token);
     dispatch({ type: 'LOGIN', user: res.user });
   }, []);
 
   const register = useCallback(async (payload: { email: string; password: string; businessName: string; phone?: string }) => {
     const res: LoginResponse = await authApi.register(payload);
     setToken(res.token);
-    setRefreshToken(res.refreshToken);
+    setRefreshToken(res.token);
     dispatch({ type: 'LOGIN', user: res.user });
   }, []);
 

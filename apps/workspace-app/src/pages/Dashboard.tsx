@@ -1,26 +1,110 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
 import { formatNaira } from '@/lib/currency';
 
-interface StatCard {
-  label: string;
-  value: string;
-  delta?: string;
-  positive?: boolean;
-  icon: string;
+interface BillingStatus {
+  plan: string;
+  status: string;
+  days_until_expiry?: number | null;
 }
 
-const DEMO_STATS: StatCard[] = [
-  { label: 'Revenue today',    value: formatNaira(48_500_00),   delta: '+12%', positive: true,  icon: '💰' },
-  { label: 'Orders today',     value: '24',                      delta: '+3',   positive: true,  icon: '🛒' },
-  { label: 'Active offerings', value: '18',                      icon: '📦' },
-  { label: 'Float balance',    value: formatNaira(250_000_00),   icon: '💳' },
-];
+interface SalesSummary {
+  orderCount: number;
+  totalKobo: number;
+}
+
+interface ProductCounts {
+  count: number;
+}
+
+interface SaleRow {
+  id: string;
+  total_kobo: number;
+  payment_method: string;
+  created_at: number;
+}
+
+interface SalesResponse {
+  sales: SaleRow[];
+  count: number;
+}
+
+interface DashboardData {
+  billing: BillingStatus | null;
+  summary: SalesSummary | null;
+  productCount: number | null;
+  recentSales: SaleRow[];
+}
+
+function useDashboardData(workspaceId: string | undefined) {
+  const [data, setData] = useState<DashboardData>({
+    billing: null,
+    summary: null,
+    productCount: null,
+    recentSales: [],
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!workspaceId) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    Promise.allSettled([
+      api.get<BillingStatus>('/billing/status'),
+      api.get<{ date: string } & SalesSummary>(`/pos-business/sales/${workspaceId}/summary`),
+      api.get<ProductCounts>(`/pos-business/products/${workspaceId}`),
+      api.get<SalesResponse>(`/pos-business/sales/${workspaceId}?limit=5`),
+    ]).then(([billingRes, summaryRes, productsRes, salesRes]) => {
+      setData({
+        billing: billingRes.status === 'fulfilled' ? billingRes.value : null,
+        summary: summaryRes.status === 'fulfilled' ? summaryRes.value : null,
+        productCount: productsRes.status === 'fulfilled' ? productsRes.value.count : null,
+        recentSales: salesRes.status === 'fulfilled' ? salesRes.value.sales.slice(0, 5) : [],
+      });
+      setLoading(false);
+    });
+  }, [workspaceId]);
+
+  return { data, loading };
+}
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { data, loading } = useDashboardData(user?.workspaceId);
+
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+
+  const statCards = [
+    {
+      label: 'Revenue today',
+      value: data.summary ? formatNaira(data.summary.totalKobo) : '—',
+      icon: '💰',
+    },
+    {
+      label: 'Orders today',
+      value: data.summary ? String(data.summary.orderCount) : '—',
+      icon: '🛒',
+    },
+    {
+      label: 'Active offerings',
+      value: data.productCount !== null ? String(data.productCount) : '—',
+      icon: '📦',
+    },
+    {
+      label: 'Plan',
+      value: data.billing
+        ? `${data.billing.plan.charAt(0).toUpperCase()}${data.billing.plan.slice(1)}`
+        : '—',
+      icon: '💳',
+    },
+  ];
 
   return (
     <div style={styles.page}>
@@ -32,20 +116,27 @@ export default function Dashboard() {
         <div style={styles.tenantBadge}>
           <span style={{ fontSize: 11, color: '#6b7280' }}>Tenant</span>
           <code style={{ fontSize: 12, color: '#0F4C81', fontWeight: 600 }}>{user?.tenantId ?? '—'}</code>
+          {data.billing && (
+            <span style={{
+              fontSize: 10, padding: '2px 8px', borderRadius: 10, marginTop: 2,
+              background: data.billing.status === 'active' ? '#dcfce7' : '#fee2e2',
+              color: data.billing.status === 'active' ? '#166534' : '#991b1b',
+              fontWeight: 600,
+            }}>
+              {data.billing.status}
+            </span>
+          )}
         </div>
       </header>
 
       <section aria-label="Key metrics" style={styles.statsGrid}>
-        {DEMO_STATS.map(stat => (
+        {statCards.map(stat => (
           <article key={stat.label} style={styles.statCard}>
             <div style={{ fontSize: 28, marginBottom: 8 }} aria-hidden="true">{stat.icon}</div>
-            <div style={styles.statValue}>{stat.value}</div>
+            <div style={styles.statValue}>
+              {loading ? <span style={{ color: '#d1d5db' }}>…</span> : stat.value}
+            </div>
             <div style={styles.statLabel}>{stat.label}</div>
-            {stat.delta && (
-              <div style={{ ...styles.statDelta, color: stat.positive ? '#166534' : '#991b1b' }}>
-                {stat.delta} vs yesterday
-              </div>
-            )}
           </article>
         ))}
       </section>
@@ -63,21 +154,36 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section aria-label="Recent activity" style={styles.section}>
-        <h2 style={styles.sectionHeading}>Recent activity</h2>
+      <section aria-label="Recent sales" style={styles.section}>
+        <h2 style={styles.sectionHeading}>Recent sales</h2>
         <div style={styles.activityList} role="list">
-          {DEMO_ACTIVITY.map((item, i) => (
-            <div key={i} role="listitem" style={styles.activityItem}>
-              <span aria-hidden="true" style={{ fontSize: 20 }}>{item.icon}</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>{item.title}</div>
-                <div style={{ fontSize: 12, color: '#6b7280' }}>{item.time}</div>
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: item.positive ? '#166534' : '#374151' }}>
-                {item.amount}
-              </div>
+          {loading ? (
+            <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
+              Loading…
             </div>
-          ))}
+          ) : data.recentSales.length === 0 ? (
+            <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
+              No sales recorded yet.{' '}
+              <Link to="/pos" style={{ color: '#0F4C81', fontWeight: 600 }}>Make a sale</Link>
+            </div>
+          ) : (
+            data.recentSales.map(sale => (
+              <div key={sale.id} role="listitem" style={styles.activityItem}>
+                <span aria-hidden="true" style={{ fontSize: 20 }}>🛒</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>
+                    Sale via {sale.payment_method}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#6b7280' }}>
+                    {new Date(sale.created_at * 1000).toLocaleTimeString()}
+                  </div>
+                </div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#166534' }}>
+                  {formatNaira(sale.total_kobo)}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>
@@ -89,13 +195,6 @@ const QUICK_ACTIONS = [
   { icon: '📦', label: 'Add offering',    desc: 'Create new product',    href: '/offerings/new' },
   { icon: '🏢', label: 'Vertical view',   desc: 'View business profile', href: '/vertical' },
   { icon: '📊', label: 'AI Advisory',     desc: 'Request AI insights',   href: '/vertical?tab=advisory' },
-];
-
-const DEMO_ACTIVITY = [
-  { icon: '🛒', title: 'Sale #1024 — Tomatoes 5kg', time: '2 min ago', amount: '₦4,500', positive: true },
-  { icon: '📦', title: 'Offering updated — Fresh Catfish', time: '15 min ago', amount: '', positive: false },
-  { icon: '🛒', title: 'Sale #1023 — Garri 10kg', time: '42 min ago', amount: '₦3,200', positive: true },
-  { icon: '💰', title: 'Float top-up received', time: '1 hr ago', amount: '₦50,000', positive: true },
 ];
 
 const styles = {
@@ -111,7 +210,6 @@ const styles = {
   } as React.CSSProperties,
   statValue: { fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 2 } as React.CSSProperties,
   statLabel: { fontSize: 13, color: '#6b7280' } as React.CSSProperties,
-  statDelta: { fontSize: 12, marginTop: 4, fontWeight: 500 } as React.CSSProperties,
   section: { marginBottom: 32 } as React.CSSProperties,
   sectionHeading: { fontSize: 17, fontWeight: 700, color: '#111827', marginBottom: 14 } as React.CSSProperties,
   actionsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 } as React.CSSProperties,

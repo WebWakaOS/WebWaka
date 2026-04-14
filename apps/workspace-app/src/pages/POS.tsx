@@ -1,40 +1,69 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { formatNaira } from '@/lib/currency';
 import { toast } from '@/lib/toast';
+import { api, ApiError } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Product {
   id: string;
   name: string;
-  priceKobo: number;
-  unit: string;
-  stock?: number;
-  emoji: string;
+  price_kobo: number;
+  sku: string | null;
+  stock_qty: number | null;
+  category: string | null;
+  active: boolean;
+}
+
+interface ProductsResponse {
+  products: Product[];
+  count: number;
 }
 
 interface CartItem extends Product {
   qty: number;
 }
 
-const DEMO_PRODUCTS: Product[] = [
-  { id: 'p1', name: 'Fresh Tomatoes', priceKobo: 45000, unit: 'kg', stock: 50, emoji: '🍅' },
-  { id: 'p2', name: 'Garri (White)',  priceKobo: 32000, unit: 'kg', stock: 200, emoji: '🌾' },
-  { id: 'p3', name: 'Palm Oil',       priceKobo: 85000, unit: 'litre', stock: 30, emoji: '🫙' },
-  { id: 'p4', name: 'Fresh Catfish',  priceKobo: 150000, unit: 'kg', stock: 20, emoji: '🐟' },
-  { id: 'p5', name: 'Yam (tuber)',    priceKobo: 60000, unit: 'each', stock: 80, emoji: '🍠' },
-  { id: 'p6', name: 'Plantain',       priceKobo: 25000, unit: 'bunch', stock: 40, emoji: '🍌' },
-  { id: 'p7', name: 'Eggs',           priceKobo: 9000, unit: 'each', stock: 500, emoji: '🥚' },
-  { id: 'p8', name: 'Pepper (red)',   priceKobo: 55000, unit: 'kg', stock: 60, emoji: '🌶️' },
-];
+type PaymentMethod = 'cash' | 'card' | 'transfer';
+
+const PAYMENT_LABELS: Record<PaymentMethod, string> = {
+  cash: '💵 Cash',
+  card: '💳 Card',
+  transfer: '🏦 Transfer',
+};
 
 export default function POS() {
+  const { user } = useAuth();
+  const workspaceId = user?.workspaceId;
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [search, setSearch] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
   const [checkingOut, setCheckingOut] = useState(false);
   const [receiptVisible, setReceiptVisible] = useState(false);
   const [lastOrderId, setLastOrderId] = useState('');
+  const [lastOrderTotal, setLastOrderTotal] = useState(0);
 
-  const filtered = DEMO_PRODUCTS.filter(p =>
+  useEffect(() => {
+    if (!workspaceId) {
+      setLoadingProducts(false);
+      return;
+    }
+    api.get<ProductsResponse>(`/pos-business/products/${workspaceId}`)
+      .then(res => setProducts(res.products.filter(p => p.active)))
+      .catch(err => {
+        if (err instanceof ApiError && err.status === 403) {
+          toast.error('Commerce features not available on your current plan.');
+        } else {
+          toast.error('Failed to load products.');
+        }
+      })
+      .finally(() => setLoadingProducts(false));
+  }, [workspaceId]);
+
+  const filtered = products.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -55,132 +84,201 @@ export default function POS() {
     );
   }, []);
 
-  const totalKobo = cart.reduce((sum, i) => sum + i.priceKobo * i.qty, 0);
+  const totalKobo = cart.reduce((sum, i) => sum + i.price_kobo * i.qty, 0);
 
   const checkout = async () => {
     if (cart.length === 0) { toast.error('Cart is empty'); return; }
+    if (!workspaceId) { toast.error('Workspace not found.'); return; }
+
     setCheckingOut(true);
     try {
-      await new Promise(r => setTimeout(r, 1200));
-      const orderId = `ORD-${Date.now().toString(36).toUpperCase()}`;
-      setLastOrderId(orderId);
+      const res = await api.post<{ sale: { id: string; total_kobo: number } }>('/pos-business/sales', {
+        workspace_id: workspaceId,
+        payment_method: paymentMethod,
+        items: cart.map(i => ({
+          product_id: i.id,
+          qty: i.qty,
+          price_kobo: i.price_kobo,
+        })),
+      });
+      setLastOrderId(res.sale.id.slice(0, 12).toUpperCase());
+      setLastOrderTotal(res.sale.total_kobo);
       setCart([]);
       setReceiptVisible(true);
-      toast.success(`Sale recorded — ${orderId}`);
-    } catch {
-      toast.error('Checkout failed. Please try again.');
+      toast.success(`Sale recorded — ${res.sale.id.slice(0, 12).toUpperCase()}`);
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Checkout failed. Please try again.';
+      toast.error(msg);
     } finally {
       setCheckingOut(false);
     }
   };
+
+  if (receiptVisible) {
+    return (
+      <div style={styles.page}>
+        <div style={styles.receipt}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🧾</div>
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: '#166534', marginBottom: 8 }}>
+            Sale recorded!
+          </h2>
+          <p style={{ fontSize: 15, color: '#374151', marginBottom: 4 }}>
+            Order ID: <strong>{lastOrderId}</strong>
+          </p>
+          <p style={{ fontSize: 20, fontWeight: 700, color: '#0F4C81', marginBottom: 24 }}>
+            {formatNaira(lastOrderTotal)}
+          </p>
+          <Button onClick={() => setReceiptVisible(false)} size="md">
+            New sale
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.page}>
       <header style={styles.header}>
         <h1 style={styles.heading}>Point of Sale</h1>
         <div style={{ fontSize: 14, color: '#6b7280' }}>
-          {cart.length > 0 ? `${cart.reduce((s,i)=>s+i.qty,0)} items in cart` : 'Add items from below'}
+          {cart.length > 0 && `${cart.reduce((s, i) => s + i.qty, 0)} items in cart`}
         </div>
       </header>
 
-      {receiptVisible && (
-        <div role="dialog" aria-label="Sale receipt" style={styles.receipt}>
-          <div style={{ fontSize: 32, marginBottom: 8 }} aria-hidden="true">✅</div>
-          <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>Sale complete!</div>
-          <code style={{ fontSize: 13, color: '#0F4C81' }}>{lastOrderId}</code>
-          <Button size="sm" variant="secondary" style={{ marginTop: 12 }} onClick={() => setReceiptVisible(false)}>
-            New sale
-          </Button>
-        </div>
-      )}
-
       <div style={styles.layout}>
-        <section aria-label="Product catalogue" style={styles.catalogue}>
-          <div style={styles.searchWrap}>
-            <label htmlFor="pos-search" style={styles.srOnly}>Search products</label>
-            <input
-              id="pos-search"
-              type="search"
-              placeholder="Search products…"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              style={styles.search}
-              aria-label="Search products"
-            />
-          </div>
-          <div style={styles.grid} role="list" aria-label="Available products">
-            {filtered.map(product => (
-              <button
-                key={product.id}
-                role="listitem"
-                onClick={() => addToCart(product)}
-                style={styles.productCard}
-                aria-label={`Add ${product.name} to cart — ${formatNaira(product.priceKobo)} per ${product.unit}`}
-              >
-                <span aria-hidden="true" style={{ fontSize: 32 }}>{product.emoji}</span>
-                <div style={styles.productName}>{product.name}</div>
-                <div style={styles.productPrice}>{formatNaira(product.priceKobo)}/{product.unit}</div>
-                {product.stock !== undefined && (
-                  <div style={{ fontSize: 11, color: product.stock < 10 ? '#dc2626' : '#6b7280' }}>
-                    {product.stock} in stock
-                  </div>
-                )}
-              </button>
-            ))}
-            {filtered.length === 0 && (
-              <p style={{ gridColumn: '1/-1', color: '#9ca3af', textAlign: 'center', padding: '32px 0' }}>
-                No products found for "{search}"
-              </p>
-            )}
-          </div>
-        </section>
+        <div style={styles.productsPanel}>
+          <input
+            type="search"
+            placeholder="Search products…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={styles.searchInput}
+            aria-label="Search products"
+          />
 
-        <aside aria-label="Shopping cart" style={styles.cartPanel}>
-          <h2 style={styles.cartHeading}>Cart</h2>
-          {cart.length === 0 ? (
-            <p style={{ color: '#9ca3af', fontSize: 14, textAlign: 'center', padding: '32px 0' }}>
-              No items yet.<br />Tap a product to add.
-            </p>
+          {loadingProducts ? (
+            <div style={{ padding: '32px 0', textAlign: 'center', color: '#9ca3af' }}>
+              Loading products…
+            </div>
+          ) : filtered.length === 0 ? (
+            <div style={{ padding: '32px 0', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
+              {products.length === 0
+                ? 'No active products. Add some in Offerings.'
+                : 'No products match your search.'}
+            </div>
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px' }}>
-              {cart.map(item => (
-                <li key={item.id} style={styles.cartItem}>
-                  <span aria-hidden="true">{item.emoji}</span>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600 }}>{item.name}</div>
-                    <div style={{ fontSize: 12, color: '#6b7280' }}>{formatNaira(item.priceKobo)} each</div>
-                  </div>
-                  <div style={styles.qtyControls} role="group" aria-label={`Quantity of ${item.name}`}>
-                    <button onClick={() => updateQty(item.id, -1)} style={styles.qtyBtn} aria-label="Decrease quantity">−</button>
-                    <span style={{ minWidth: 24, textAlign: 'center', fontSize: 14, fontWeight: 600 }}>{item.qty}</span>
-                    <button onClick={() => updateQty(item.id, 1)} style={styles.qtyBtn} aria-label="Increase quantity">+</button>
-                  </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0F4C81', minWidth: 64, textAlign: 'right' }}>
-                    {formatNaira(item.priceKobo * item.qty)}
-                  </div>
-                </li>
+            <div style={styles.productsGrid} role="list" aria-label="Products">
+              {filtered.map(product => (
+                <button
+                  key={product.id}
+                  role="listitem"
+                  onClick={() => addToCart(product)}
+                  style={styles.productCard}
+                  aria-label={`Add ${product.name} to cart`}
+                >
+                  <div style={{ fontSize: 28, marginBottom: 6 }} aria-hidden="true">📦</div>
+                  <div style={styles.productName}>{product.name}</div>
+                  {product.category && (
+                    <div style={{ fontSize: 11, color: '#9ca3af', marginBottom: 4 }}>
+                      {product.category}
+                    </div>
+                  )}
+                  <div style={styles.productPrice}>{formatNaira(product.price_kobo)}</div>
+                  {product.sku && (
+                    <div style={{ fontSize: 11, color: '#9ca3af' }}>per {product.sku}</div>
+                  )}
+                  {product.stock_qty !== null && (
+                    <div style={{ fontSize: 11, color: product.stock_qty < 5 ? '#dc2626' : '#9ca3af' }}>
+                      Stock: {product.stock_qty}
+                    </div>
+                  )}
+                </button>
               ))}
-            </ul>
+            </div>
+          )}
+        </div>
+
+        <div style={styles.cartPanel}>
+          <h2 style={styles.cartHeading}>Cart</h2>
+
+          {cart.length === 0 ? (
+            <div style={styles.emptyCart}>
+              <div style={{ fontSize: 36, marginBottom: 8 }}>🛒</div>
+              <div style={{ color: '#9ca3af', fontSize: 14 }}>Tap a product to add it</div>
+            </div>
+          ) : (
+            <div style={styles.cartItems} role="list" aria-label="Cart items">
+              {cart.map(item => (
+                <div key={item.id} role="listitem" style={styles.cartItem}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: '#111827' }}>{item.name}</div>
+                    <div style={{ fontSize: 12, color: '#6b7280' }}>
+                      {formatNaira(item.price_kobo)} × {item.qty} = {formatNaira(item.price_kobo * item.qty)}
+                    </div>
+                  </div>
+                  <div style={styles.qtyControls}>
+                    <button
+                      onClick={() => updateQty(item.id, -1)}
+                      style={styles.qtyBtn}
+                      aria-label={`Remove one ${item.name}`}
+                    >−</button>
+                    <span style={{ fontSize: 14, fontWeight: 700, minWidth: 24, textAlign: 'center' }}>
+                      {item.qty}
+                    </span>
+                    <button
+                      onClick={() => updateQty(item.id, 1)}
+                      style={styles.qtyBtn}
+                      aria-label={`Add one more ${item.name}`}
+                    >+</button>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
 
-          <div style={styles.cartTotal}>
-            <span>Total</span>
-            <span style={{ fontWeight: 800, fontSize: 18, color: '#0F4C81' }}>{formatNaira(totalKobo)}</span>
-          </div>
+          {cart.length > 0 && (
+            <>
+              <div style={styles.totalRow}>
+                <span style={{ fontSize: 15, color: '#374151' }}>Total</span>
+                <span style={{ fontSize: 20, fontWeight: 800, color: '#0F4C81' }}>
+                  {formatNaira(totalKobo)}
+                </span>
+              </div>
 
-          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-            <Button variant="secondary" size="sm" onClick={() => setCart([])} disabled={cart.length === 0}>
-              Clear
-            </Button>
-            <Button fullWidth size="md" loading={checkingOut} onClick={checkout} disabled={cart.length === 0}>
-              💳 Charge {totalKobo > 0 ? formatNaira(totalKobo) : ''}
-            </Button>
-          </div>
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 8 }}>
+                  Payment method
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  {(Object.keys(PAYMENT_LABELS) as PaymentMethod[]).map(method => (
+                    <button
+                      key={method}
+                      onClick={() => setPaymentMethod(method)}
+                      style={{
+                        flex: 1, padding: '8px 4px', borderRadius: 8, fontSize: 12,
+                        fontWeight: 600, cursor: 'pointer', border: '1.5px solid', minHeight: 40,
+                        borderColor: paymentMethod === method ? '#0F4C81' : '#e5e7eb',
+                        background: paymentMethod === method ? '#EFF6FF' : '#fff',
+                        color: paymentMethod === method ? '#0F4C81' : '#374151',
+                      }}
+                    >
+                      {PAYMENT_LABELS[method]}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 8, textAlign: 'center' }}>
-            Powered by Paystack · NDPR compliant
-          </p>
-        </aside>
+              <Button
+                onClick={checkout}
+                loading={checkingOut}
+                size="md"
+                style={{ width: '100%', justifyContent: 'center' } as React.CSSProperties}
+              >
+                Confirm sale — {formatNaira(totalKobo)}
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -188,49 +286,43 @@ export default function POS() {
 
 const styles = {
   page: { padding: '24px 20px', maxWidth: 1100, margin: '0 auto' } as React.CSSProperties,
-  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 20 } as React.CSSProperties,
+  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 } as React.CSSProperties,
   heading: { fontSize: 24, fontWeight: 700, color: '#111827' } as React.CSSProperties,
-  receipt: {
-    background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 12, padding: '20px 24px',
-    display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24,
+  layout: { display: 'grid', gridTemplateColumns: '1fr 340px', gap: 24, alignItems: 'start' } as React.CSSProperties,
+  productsPanel: { minWidth: 0 } as React.CSSProperties,
+  searchInput: {
+    width: '100%', padding: '10px 14px', borderRadius: 8, border: '1.5px solid #d1d5db',
+    fontSize: 14, marginBottom: 16, outline: 'none', boxSizing: 'border-box',
   } as React.CSSProperties,
-  layout: { display: 'flex', gap: 20, alignItems: 'flex-start', flexWrap: 'wrap' } as React.CSSProperties,
-  catalogue: { flex: 1, minWidth: 280 } as React.CSSProperties,
-  searchWrap: { marginBottom: 16 } as React.CSSProperties,
-  srOnly: { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' } as React.CSSProperties,
-  search: {
-    width: '100%', padding: '11px 14px', borderRadius: 8, border: '1.5px solid #d1d5db',
-    fontSize: 15, outline: 'none', minHeight: 44,
-  } as React.CSSProperties,
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 } as React.CSSProperties,
+  productsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 } as React.CSSProperties,
   productCard: {
-    background: '#fff', borderRadius: 12, padding: '16px 12px', border: '1.5px solid #e5e7eb',
-    cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-    minHeight: 110, transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
-    touchAction: 'manipulation',
+    background: '#fff', border: '1.5px solid #e5e7eb', borderRadius: 12, padding: '16px 12px',
+    display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+    cursor: 'pointer', transition: 'border-color 0.15s, box-shadow 0.15s',
+    minHeight: 120,
   } as React.CSSProperties,
-  productName: { fontSize: 13, fontWeight: 600, color: '#111827', textAlign: 'center' } as React.CSSProperties,
-  productPrice: { fontSize: 12, color: '#0F4C81', fontWeight: 600 } as React.CSSProperties,
+  productName: { fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 4 } as React.CSSProperties,
+  productPrice: { fontSize: 15, fontWeight: 800, color: '#0F4C81', marginBottom: 2 } as React.CSSProperties,
   cartPanel: {
-    width: 300, background: '#fff', borderRadius: 12, padding: '20px 16px',
-    border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-    position: 'sticky', top: 20,
+    background: '#fff', borderRadius: 16, padding: '20px', border: '1px solid #e5e7eb',
+    position: 'sticky', top: 24,
   } as React.CSSProperties,
-  cartHeading: { fontSize: 17, fontWeight: 700, color: '#111827', marginBottom: 14 } as React.CSSProperties,
-  cartItem: {
-    display: 'flex', alignItems: 'center', gap: 8, padding: '10px 0',
-    borderBottom: '1px solid #f3f4f6',
-  } as React.CSSProperties,
-  qtyControls: { display: 'flex', alignItems: 'center', gap: 4 } as React.CSSProperties,
+  cartHeading: { fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 16 } as React.CSSProperties,
+  emptyCart: { textAlign: 'center', padding: '32px 0', color: '#9ca3af' } as React.CSSProperties,
+  cartItems: { display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 } as React.CSSProperties,
+  cartItem: { display: 'flex', alignItems: 'center', gap: 12, padding: '10px', borderRadius: 8, background: '#f9fafb' } as React.CSSProperties,
+  qtyControls: { display: 'flex', alignItems: 'center', gap: 8 } as React.CSSProperties,
   qtyBtn: {
-    width: 28, height: 28, borderRadius: 6, border: '1.5px solid #e5e7eb',
-    background: '#f8f9fa', cursor: 'pointer', fontSize: 16, display: 'flex',
-    alignItems: 'center', justifyContent: 'center', fontWeight: 700,
-    minHeight: 28, touchAction: 'manipulation',
+    width: 28, height: 28, borderRadius: 6, border: '1.5px solid #d1d5db', background: '#fff',
+    cursor: 'pointer', fontSize: 16, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
   } as React.CSSProperties,
-  cartTotal: {
+  totalRow: {
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '14px 0 0', borderTop: '2px solid #e5e7eb', marginTop: 4,
-    fontSize: 15, fontWeight: 600, color: '#374151',
+    padding: '12px 0', borderTop: '1px solid #e5e7eb', marginBottom: 12,
+  } as React.CSSProperties,
+  receipt: {
+    maxWidth: 380, margin: '60px auto', textAlign: 'center', background: '#fff',
+    borderRadius: 16, padding: '48px 32px', border: '1px solid #e5e7eb',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
   } as React.CSSProperties,
 };

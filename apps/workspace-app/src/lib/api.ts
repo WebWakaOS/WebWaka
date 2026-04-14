@@ -74,17 +74,24 @@ async function request<T>(
   return res.json() as Promise<T>;
 }
 
+// AUT-006 fix: pass the stored JWT as an Authorization Bearer header so the
+// auth middleware can validate it and issue a fresh token. The /auth/refresh
+// route reads the caller's identity from the JWT — it does not accept a body.
+// After a successful rotation both ww_token and ww_refresh are updated to the
+// new token so subsequent refresh attempts use the latest valid credential.
 async function tryRefresh(refreshToken: string): Promise<boolean> {
   try {
     const res = await fetch(`${API_BASE}/auth/refresh`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${refreshToken}`,
+      },
     });
     if (!res.ok) return false;
-    const body = await res.json() as { token: string; refreshToken?: string };
+    const body = await res.json() as { token: string };
     setToken(body.token);
-    if (body.refreshToken) setRefreshToken(body.refreshToken);
+    setRefreshToken(body.token);
     return true;
   } catch {
     return false;
@@ -102,8 +109,7 @@ export const api = {
 
 export type LoginResponse = {
   token: string;
-  refreshToken: string;
-  user: { id: string; email: string; tenantId: string; role: string };
+  user: { id: string; email: string; tenantId: string; workspaceId?: string; role: string };
 };
 
 export const authApi = {

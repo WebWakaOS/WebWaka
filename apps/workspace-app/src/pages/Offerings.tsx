@@ -1,28 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { formatNaira, nairaToKobo, koboToNaira } from '@/lib/currency';
 import { toast } from '@/lib/toast';
+import { api, ApiError } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 
-interface Offering {
+interface Product {
   id: string;
   name: string;
-  description: string;
-  priceKobo: number;
-  unit: string;
+  price_kobo: number;
+  category: string | null;
   active: boolean;
-  imageUrl?: string;
-  category: string;
+  stock_qty: number | null;
+  sku: string | null;
 }
 
-const DEMO_OFFERINGS: Offering[] = [
-  { id: 'o1', name: 'Fresh Tomatoes', description: 'Locally grown, farm fresh', priceKobo: 45000, unit: 'kg', active: true, category: 'Produce' },
-  { id: 'o2', name: 'Garri (White)', description: 'Grade A cassava garri', priceKobo: 32000, unit: 'kg', active: true, category: 'Grains' },
-  { id: 'o3', name: 'Palm Oil', description: 'Unrefined red palm oil', priceKobo: 85000, unit: 'litre', active: true, category: 'Oils' },
-  { id: 'o4', name: 'Fresh Catfish', description: 'Live-caught daily', priceKobo: 150000, unit: 'kg', active: false, category: 'Protein' },
-];
+interface ProductsResponse {
+  products: Product[];
+  count: number;
+}
 
-interface OfferingFormState {
+interface ProductFormState {
   name: string;
   description: string;
   priceNaira: string;
@@ -30,19 +29,46 @@ interface OfferingFormState {
   category: string;
 }
 
-const EMPTY_FORM: OfferingFormState = { name: '', description: '', priceNaira: '', unit: 'kg', category: 'General' };
+const EMPTY_FORM: ProductFormState = {
+  name: '',
+  description: '',
+  priceNaira: '',
+  unit: 'kg',
+  category: 'General',
+};
 
 export default function Offerings() {
-  const [offerings, setOfferings] = useState<Offering[]>(DEMO_OFFERINGS);
+  const { user } = useAuth();
+  const workspaceId = user?.workspaceId;
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState<OfferingFormState>(EMPTY_FORM);
+  const [form, setForm] = useState<ProductFormState>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
-  const filtered = offerings.filter(o =>
-    filter === 'all' ? true : filter === 'active' ? o.active : !o.active
+  useEffect(() => {
+    if (!workspaceId) {
+      setLoadingProducts(false);
+      return;
+    }
+    api.get<ProductsResponse>(`/pos-business/products/${workspaceId}?active=0`)
+      .then(res => setProducts(res.products))
+      .catch(err => {
+        if (err instanceof ApiError && err.status === 403) {
+          toast.error('Commerce features not available on your current plan.');
+        } else {
+          toast.error('Failed to load offerings.');
+        }
+      })
+      .finally(() => setLoadingProducts(false));
+  }, [workspaceId]);
+
+  const filtered = products.filter(p =>
+    filter === 'all' ? true : filter === 'active' ? p.active : !p.active
   );
 
   const openNew = () => {
@@ -51,14 +77,14 @@ export default function Offerings() {
     setShowForm(true);
   };
 
-  const openEdit = (o: Offering) => {
-    setEditId(o.id);
+  const openEdit = (p: Product) => {
+    setEditId(p.id);
     setForm({
-      name: o.name,
-      description: o.description,
-      priceNaira: koboToNaira(o.priceKobo).toFixed(2),
-      unit: o.unit,
-      category: o.category,
+      name: p.name,
+      description: '',
+      priceNaira: koboToNaira(p.price_kobo).toFixed(2),
+      unit: p.sku ?? '',
+      category: p.category ?? 'General',
     });
     setShowForm(true);
   };
@@ -68,83 +94,143 @@ export default function Offerings() {
     if (!form.name.trim()) { toast.error('Name is required'); return; }
     const price = parseFloat(form.priceNaira);
     if (isNaN(price) || price <= 0) { toast.error('Enter a valid price'); return; }
+    if (!workspaceId) { toast.error('Workspace not found.'); return; }
+
     setSaving(true);
     try {
-      await new Promise(r => setTimeout(r, 800));
       if (editId) {
-        setOfferings(prev => prev.map(o => o.id === editId ? {
-          ...o, name: form.name, description: form.description,
-          priceKobo: nairaToKobo(price), unit: form.unit, category: form.category,
-        } : o));
+        const res = await api.patch<{ product: Product }>(`/pos-business/product/${editId}`, {
+          name: form.name.trim(),
+          price_kobo: nairaToKobo(price),
+          sku: form.unit.trim() || null,
+          category: form.category.trim() || null,
+        });
+        setProducts(prev => prev.map(p => p.id === editId ? res.product : p));
         toast.success('Offering updated');
       } else {
-        const newOffering: Offering = {
-          id: `o${Date.now()}`, name: form.name, description: form.description,
-          priceKobo: nairaToKobo(price), unit: form.unit, category: form.category, active: true,
-        };
-        setOfferings(prev => [newOffering, ...prev]);
+        const res = await api.post<{ product: Product }>('/pos-business/products', {
+          workspace_id: workspaceId,
+          name: form.name.trim(),
+          price_kobo: nairaToKobo(price),
+          sku: form.unit.trim() || undefined,
+          category: form.category.trim() || undefined,
+        });
+        setProducts(prev => [res.product, ...prev]);
         toast.success('Offering created');
       }
       setShowForm(false);
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Save failed. Please try again.';
+      toast.error(msg);
     } finally {
       setSaving(false);
     }
   };
 
-  const toggleActive = (id: string) => {
-    setOfferings(prev => prev.map(o => o.id === id ? { ...o, active: !o.active } : o));
-    toast.info('Offering status updated');
+  const toggleActive = async (p: Product) => {
+    if (!workspaceId) return;
+    try {
+      const res = await api.patch<{ product: Product }>(`/pos-business/product/${p.id}`, {
+        active: !p.active,
+      });
+      setProducts(prev => prev.map(item => item.id === p.id ? res.product : item));
+      toast.info(`Offering ${res.product.active ? 'activated' : 'deactivated'}`);
+    } catch {
+      toast.error('Failed to update offering status.');
+    }
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Delete this offering? This cannot be undone.')) return;
     setDeleting(id);
     try {
-      await new Promise(r => setTimeout(r, 600));
-      setOfferings(prev => prev.filter(o => o.id !== id));
+      await api.delete(`/pos-business/product/${id}`);
+      setProducts(prev => prev.filter(p => p.id !== id));
       toast.success('Offering deleted');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Delete failed.';
+      toast.error(msg);
     } finally {
       setDeleting(null);
     }
   };
+
+  const activeCount = products.filter(p => p.active).length;
 
   return (
     <div style={styles.page}>
       <header style={styles.header}>
         <div>
           <h1 style={styles.heading}>Offerings</h1>
-          <p style={styles.subheading}>{offerings.length} products · {offerings.filter(o=>o.active).length} active</p>
+          <p style={styles.subheading}>
+            {loadingProducts ? 'Loading…' : `${products.length} products · ${activeCount} active`}
+          </p>
         </div>
         <Button onClick={openNew} size="md">+ Add offering</Button>
       </header>
 
       {showForm && (
-        <div role="dialog" aria-label={editId ? 'Edit offering' : 'New offering'} aria-modal="true" style={styles.modal}>
+        <div
+          role="dialog"
+          aria-label={editId ? 'Edit offering' : 'New offering'}
+          aria-modal="true"
+          style={styles.modal}
+        >
           <div style={styles.modalCard}>
             <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>
               {editId ? 'Edit offering' : 'New offering'}
             </h2>
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <Input label="Product name" required value={form.name} onChange={e => setForm(p=>({...p, name: e.target.value}))} placeholder="e.g. Fresh Tomatoes" />
+              <Input
+                label="Product name"
+                required
+                value={form.name}
+                onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                placeholder="e.g. Fresh Tomatoes"
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <label style={styles.fieldLabel} htmlFor="desc">Description</label>
                 <textarea
                   id="desc"
                   value={form.description}
-                  onChange={e => setForm(p=>({...p, description: e.target.value}))}
-                  placeholder="Brief description for customers"
+                  onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+                  placeholder="Brief description for customers (optional)"
                   rows={3}
                   style={{ ...styles.textarea }}
                 />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <Input label="Price (Naira)" type="number" min="0" step="0.01" required value={form.priceNaira} onChange={e => setForm(p=>({...p, priceNaira: e.target.value}))} placeholder="450.00" hint="Enter in Naira" />
-                <Input label="Unit" required value={form.unit} onChange={e => setForm(p=>({...p, unit: e.target.value}))} placeholder="kg, litre, each…" />
+                <Input
+                  label="Price (Naira)"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  required
+                  value={form.priceNaira}
+                  onChange={e => setForm(p => ({ ...p, priceNaira: e.target.value }))}
+                  placeholder="450.00"
+                  hint="Enter in Naira"
+                />
+                <Input
+                  label="Unit (optional)"
+                  value={form.unit}
+                  onChange={e => setForm(p => ({ ...p, unit: e.target.value }))}
+                  placeholder="kg, litre, each…"
+                />
               </div>
-              <Input label="Category" value={form.category} onChange={e => setForm(p=>({...p, category: e.target.value}))} placeholder="Produce, Grains, Protein…" />
+              <Input
+                label="Category"
+                value={form.category}
+                onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
+                placeholder="Produce, Grains, Protein…"
+              />
               <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 8 }}>
-                <Button type="button" variant="secondary" onClick={() => setShowForm(false)}>Cancel</Button>
-                <Button type="submit" loading={saving}>{editId ? 'Save changes' : 'Create offering'}</Button>
+                <Button type="button" variant="secondary" onClick={() => setShowForm(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" loading={saving}>
+                  {editId ? 'Save changes' : 'Create offering'}
+                </Button>
               </div>
             </form>
           </div>
@@ -157,50 +243,83 @@ export default function Offerings() {
             key={f}
             onClick={() => setFilter(f)}
             style={{
-              padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 500, cursor: 'pointer',
-              border: '1.5px solid', minHeight: 36, touchAction: 'manipulation',
+              padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 500,
+              cursor: 'pointer', border: '1.5px solid', minHeight: 36, touchAction: 'manipulation',
               borderColor: filter === f ? '#0F4C81' : '#e5e7eb',
               background: filter === f ? '#0F4C81' : '#fff',
               color: filter === f ? '#fff' : '#374151',
             }}
-          >{f.charAt(0).toUpperCase() + f.slice(1)}</button>
+          >
+            {f.charAt(0).toUpperCase() + f.slice(1)}
+          </button>
         ))}
       </div>
 
-      <div role="list" aria-label="Offerings" style={styles.list}>
-        {filtered.map(offering => (
-          <article key={offering.id} role="listitem" style={{ ...styles.card, opacity: offering.active ? 1 : 0.65 }}>
-            <div style={styles.cardLeft}>
-              <div style={styles.cardName}>{offering.name}</div>
-              <div style={styles.cardDesc}>{offering.description}</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 6, flexWrap: 'wrap' }}>
-                <span style={styles.tag}>{offering.category}</span>
-                <span style={{ ...styles.tag, background: offering.active ? '#dcfce7' : '#fee2e2', color: offering.active ? '#166534' : '#991b1b' }}>
-                  {offering.active ? 'Active' : 'Inactive'}
-                </span>
+      {loadingProducts ? (
+        <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
+          Loading offerings…
+        </div>
+      ) : (
+        <div role="list" aria-label="Offerings" style={styles.list}>
+          {filtered.map(product => (
+            <article
+              key={product.id}
+              role="listitem"
+              style={{ ...styles.card, opacity: product.active ? 1 : 0.65 }}
+            >
+              <div style={styles.cardLeft}>
+                <div style={styles.cardName}>{product.name}</div>
+                <div style={{ display: 'flex', gap: 8, marginTop: 6, flexWrap: 'wrap' }}>
+                  {product.category && (
+                    <span style={styles.tag}>{product.category}</span>
+                  )}
+                  {product.sku && (
+                    <span style={styles.tag}>per {product.sku}</span>
+                  )}
+                  <span style={{
+                    ...styles.tag,
+                    background: product.active ? '#dcfce7' : '#fee2e2',
+                    color: product.active ? '#166534' : '#991b1b',
+                  }}>
+                    {product.active ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div style={styles.cardRight}>
-              <div style={styles.price}>{formatNaira(offering.priceKobo)}</div>
-              <div style={{ fontSize: 12, color: '#9ca3af' }}>per {offering.unit}</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
-                <Button size="sm" variant="ghost" onClick={() => openEdit(offering)}>Edit</Button>
-                <Button size="sm" variant="secondary" onClick={() => toggleActive(offering.id)}>
-                  {offering.active ? 'Deactivate' : 'Activate'}
-                </Button>
-                <Button size="sm" variant="danger" loading={deleting === offering.id} onClick={() => handleDelete(offering.id)}>
-                  Delete
-                </Button>
+              <div style={styles.cardRight}>
+                <div style={styles.price}>{formatNaira(product.price_kobo)}</div>
+                {product.sku && (
+                  <div style={{ fontSize: 12, color: '#9ca3af' }}>per {product.sku}</div>
+                )}
+                <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+                  <Button size="sm" variant="ghost" onClick={() => openEdit(product)}>Edit</Button>
+                  <Button size="sm" variant="secondary" onClick={() => toggleActive(product)}>
+                    {product.active ? 'Deactivate' : 'Activate'}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    loading={deleting === product.id}
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
+            </article>
+          ))}
+          {filtered.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
+              No offerings found.{' '}
+              <button
+                onClick={openNew}
+                style={{ color: '#0F4C81', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Add one
+              </button>
             </div>
-          </article>
-        ))}
-        {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
-            No offerings found. <button onClick={openNew} style={{ color: '#0F4C81', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Add one</button>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -219,7 +338,6 @@ const styles = {
   cardLeft: { flex: 1, minWidth: 200 } as React.CSSProperties,
   cardRight: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' } as React.CSSProperties,
   cardName: { fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 4 } as React.CSSProperties,
-  cardDesc: { fontSize: 13, color: '#6b7280' } as React.CSSProperties,
   tag: { fontSize: 11, fontWeight: 600, padding: '2px 8px', borderRadius: 12, background: '#f3f4f6', color: '#374151' } as React.CSSProperties,
   price: { fontSize: 20, fontWeight: 800, color: '#0F4C81' } as React.CSSProperties,
 };

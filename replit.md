@@ -49,7 +49,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Full Comprehensive QA Audit | ✅ COMPLETE — 6 bugs fixed, 22 routes restored, all governance green |
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
 | Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
-| Phase 18 P18 Checklist | 🔄 IN PROGRESS — P18-C (revert_cancel audit, migration 0229), P18-E (API versioning governance, 12th check), P18-F (k6 billing + negotiation + geography), P18-D (full ARIA audit + responsive nav), P18-A (ADR-0018 updated), P18-B infra ready — 2366/2366 tests |
+| Phase 18 P18 Checklist | 🔄 IN PROGRESS — AUTH-001–006 fixed (register/login/me/refresh chain), workspace-app API wired to real backend, auth-routes.test.ts added (30 tests), WS-001–003 connected to /billing/status + /pos-business APIs — 2396/2396 tests |
 
 ## Platform Scale
 
@@ -61,7 +61,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
 | D1 migrations | 230 (all with rollback scripts — 0229 adds revert_cancel to CHECK constraint) |
-| API tests (apps/api) | 2366 (166 test files, 0 failures) |
+| API tests (apps/api) | 2396 (167 test files, 0 failures — auth-routes.test.ts added) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
 | CI governance checks | 12 (all 12 PASS — check-api-versioning.ts added in P18-E) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
@@ -82,6 +82,18 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | BUG-006 | CRITICAL | `verticals-edu-agri-extended.ts` (14 routes) never imported or mounted in `router.ts` — all 14 routes unreachable | `apps/api/src/router.ts`, `verticals-edu-agri-extended.ts` |
 | SCRIPT-001 | LOW | `check-ndpr-before-ai.ts` checked `index.ts` instead of `router.ts` (stale after ARC-07 split) | `scripts/governance-checks/check-ndpr-before-ai.ts` |
 | SCRIPT-002 | LOW | `check-pillar-prefix.ts` didn't accept `[Infra/Pillar N]` hybrid prefix format | `scripts/governance-checks/check-pillar-prefix.ts` |
+| AUTH-001 | CRITICAL | `POST /auth/register` missing — workspace-app register page returned 404; implemented self-service tenant+workspace+user creation with PBKDF2-600k | `apps/api/src/routes/auth-routes.ts` |
+| AUTH-002 | MEDIUM | `POST /auth/forgot-password` missing — password reset initiation broken; implemented with KV TTL storage | `apps/api/src/routes/auth-routes.ts` |
+| AUTH-003 | MEDIUM | `POST /auth/reset-password` missing — password reset completion broken; implemented with KV token validation | `apps/api/src/routes/auth-routes.ts` |
+| AUTH-004 | HIGH | `/auth/login` returned `{ token }` only; frontend expected `{ token, user }` — user was always undefined after login until page refresh | `apps/api/src/routes/auth-routes.ts` |
+| AUTH-005 | HIGH | `/auth/me` returned `{ data: { userId } }` (nested, wrong field names); frontend expected `{ id, email, tenantId, role }` — tenantId always showed `—` | `apps/api/src/routes/auth-routes.ts` |
+| AUTH-006 | HIGH | `tryRefresh` sent token in POST body — `/auth/refresh` reads from Authorization header; refresh always failed causing immediate re-login on any 401 | `apps/workspace-app/src/lib/api.ts` |
+| AUTH-007 | MEDIUM | `setRefreshToken(res.refreshToken)` stored literal string `"undefined"` in localStorage on login (refreshToken didn't exist in response) | `apps/workspace-app/src/contexts/AuthContext.tsx` |
+| AUTH-008 | MEDIUM | `LoginResponse` type declared non-existent `refreshToken` field; `LoginResponse['user']` missing `workspaceId` needed by Dashboard/Offerings/POS | `apps/workspace-app/src/lib/api.ts` |
+| WS-001 | HIGH | Dashboard used hardcoded `DEMO_STATS` — no real data; connected to `/billing/status` + `/pos-business/sales/:workspaceId/summary` | `apps/workspace-app/src/pages/Dashboard.tsx` |
+| WS-002 | HIGH | Offerings used `setTimeout` stub for save/delete/toggle — data not persisted; connected to `/pos-business/products` CRUD | `apps/workspace-app/src/pages/Offerings.tsx` |
+| WS-003 | HIGH | POS used `DEMO_PRODUCTS` + `setTimeout` for checkout — no real transactions; connected to `/pos-business/products` load + `/pos-business/sales` | `apps/workspace-app/src/pages/POS.tsx` |
+| COVERAGE-001 | HIGH | `auth-routes.ts` had zero test coverage; added `auth-routes.test.ts` with 30 tests (login, register, me, refresh, verify, forgot-password, reset-password, NDPR erasure) | `apps/api/src/routes/auth-routes.test.ts` |
 
 ### BUG-005/006 RESOLUTION — Complete Route Mounting Restoration
 
