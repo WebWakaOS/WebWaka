@@ -29,16 +29,35 @@ const ROUTES_DIR = 'apps/api/src/routes';
 
 const routerSrc = readFileSync(ROUTER_PATH, 'utf-8');
 
-// Extract all `app.route('/some/path', ...)` calls
+// Strip comment lines (JSDoc block comment lines and // comments) so that
+// example paths inside comments (e.g. "app.route('/path', ...)") are not
+// counted as real mount registrations.
+const routerSrcCode = routerSrc
+  .split('\n')
+  .filter(line => {
+    const t = line.trimStart();
+    return !t.startsWith('*') && !t.startsWith('//');
+  })
+  .join('\n');
+
+// Extract all `app.route('/some/path', ...)` calls from non-comment lines
 const routeRegex = /app\.route\('([^']+)'/g;
 const mountedPaths: string[] = [];
 let m: RegExpExecArray | null;
-while ((m = routeRegex.exec(routerSrc)) !== null) {
+while ((m = routeRegex.exec(routerSrcCode)) !== null) {
   mountedPaths.push(m[1]);
 }
 
-const versionedMounts = new Set(mountedPaths.filter(p => p.startsWith('/api/v1/')));
-const unversionedMounts = new Set(mountedPaths.filter(p => !p.startsWith('/api/v1/')));
+// A path is "versioned" if it is at /api/v1 or under /api/v1/...
+// Note: routers mounted at bare '/api/v1' (no trailing slash) are GA-ready
+// even though the mount point has no trailing slash.
+const versionedMounts = new Set(mountedPaths.filter(p => p.startsWith('/api/v1')));
+const unversionedMounts = new Set(mountedPaths.filter(p => !p.startsWith('/api/v1')));
+
+// Count actual call-site registrations (Set deduplicates unique paths, but
+// multiple routers can be mounted at the same prefix, e.g. '/api/v1').
+const v1RegistrationCount = mountedPaths.filter(p => p.startsWith('/api/v1')).length;
+const v0RegistrationCount = mountedPaths.filter(p => !p.startsWith('/api/v1')).length;
 
 // ---------------------------------------------------------------------------
 // Read each route file and check header comment against actual mount
@@ -75,19 +94,19 @@ for (const file of routeFiles) {
   });
 
   if (claimsV1) {
-    // Rule 1: if file claims v1 prefix, verify it is actually mounted at /api/v1/
-    if (mountedAt && !mountedAt.startsWith('/api/v1/')) {
+    // Rule 1: if file claims v1 prefix, verify it is actually mounted at /api/v1 or /api/v1/...
+    if (mountedAt && !mountedAt.startsWith('/api/v1')) {
       violations.push({
         file,
         rule: 'RULE-1: v1 claim / unversioned mount mismatch',
-        detail: `Header claims /api/v1/ but is mounted at "${mountedAt}" in router.ts`,
+        detail: `Header claims /api/v1 prefix but is mounted at "${mountedAt}" in router.ts`,
       });
     } else {
       v1Routes.push(file);
     }
   } else {
     // Check if mounted at v1 but no v1 claim in header
-    if (mountedAt && mountedAt.startsWith('/api/v1/') && claimsUnversioned) {
+    if (mountedAt && mountedAt.startsWith('/api/v1') && claimsUnversioned) {
       violations.push({
         file,
         rule: 'RULE-2: v1 mount / unversioned claim mismatch',
@@ -118,9 +137,6 @@ for (const file of verticalsRouteFiles) {
 // Report
 // ---------------------------------------------------------------------------
 
-const v1MountCount = [...versionedMounts].length;
-const v0MountCount = [...unversionedMounts].length;
-
 if (violations.length > 0) {
   console.error(`FAIL: API versioning consistency violations found (${violations.length}):`);
   for (const v of violations) {
@@ -130,9 +146,14 @@ if (violations.length > 0) {
   process.exit(1);
 }
 
+const v1UniquePaths = [...versionedMounts].length;
+const v0UniquePaths = [...unversionedMounts].length;
+
 console.log(
   `PASS: API versioning consistent — ` +
-  `${v1MountCount} routes at /api/v1/ (GA-ready), ` +
-  `${v0MountCount} routes pre-GA v0 (unversioned per ADR-0018). ` +
+  `${v1RegistrationCount} GA-ready registrations at /api/v1 ` +
+  `(${v1UniquePaths} unique prefix${v1UniquePaths !== 1 ? 'es' : ''}), ` +
+  `${v0RegistrationCount} pre-GA v0 registrations (${v0UniquePaths} unique paths, unversioned per ADR-0018). ` +
+  `Verticals: ${v1VerticalsCount} v1, ${v0VerticalsCount} v0. ` +
   `0 violations.`,
 );

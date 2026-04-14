@@ -604,7 +604,7 @@
 
     // ── Form validation (UX-05) ──────────────────────────────────────────
     function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
-    function setFieldValidity(input, errorId, valid) {
+    function setFieldValidity(input, valid) {
       input.classList.toggle('valid', valid);
       input.classList.toggle('invalid', !valid);
       input.setAttribute('aria-invalid', String(!valid));
@@ -673,8 +673,8 @@
         var roleEl = document.getElementById('invite-role');
         var emailOk = validateEmail(emailEl.value);
         var roleOk = roleEl.value !== '';
-        setFieldValidity(emailEl, 'invite-email-error', emailOk);
-        setFieldValidity(roleEl, 'invite-role-error', roleOk);
+        setFieldValidity(emailEl, emailOk);
+        setFieldValidity(roleEl, roleOk);
         if (!emailOk || !roleOk) {
           showToast('error', 'Validation failed', 'Please fix the errors above before submitting.');
           return;
@@ -740,7 +740,7 @@
     var emailInput = document.getElementById('invite-email');
     if (emailInput) {
       emailInput.addEventListener('blur', function() {
-        if (emailInput.value) setFieldValidity(emailInput, 'invite-email-error', validateEmail(emailInput.value));
+        if (emailInput.value) setFieldValidity(emailInput, validateEmail(emailInput.value));
       });
     }
 
