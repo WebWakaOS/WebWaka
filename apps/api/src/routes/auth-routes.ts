@@ -968,10 +968,10 @@ authRoutes.post('/accept-invite', async (c) => {
      ON CONFLICT(workspace_id, user_id) DO UPDATE SET role = excluded.role, updated_at = unixepoch()`,
   ).bind(membershipId, workspaceId, tenantId, userId, role).run();
 
-  // Mark invitation as accepted
+  // Mark invitation as accepted (T3 defense-in-depth: scope by tenant_id)
   await db.prepare(
-    `UPDATE invitations SET accepted_at = unixepoch() WHERE id = ?`,
-  ).bind(inviteId).run();
+    `UPDATE invitations SET accepted_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
+  ).bind(inviteId, tenantId).run();
 
   // Delete KV token (consumed — single use)
   try { await c.env.RATE_LIMIT_KV.delete(kvKey); } catch { /* non-critical */ }

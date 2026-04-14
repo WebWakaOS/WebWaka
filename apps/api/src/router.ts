@@ -68,6 +68,13 @@ import { errorLogMiddleware } from './middleware/error-log.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
+  // P20-E: Structured error logging — global, applied before all routes.
+  // Emits a JSON log line for every 4xx/5xx response across the entire API.
+  // (BUG-B fix: was incorrectly scoped to /admin/* only)
+  // -------------------------------------------------------------------------
+  app.use('*', errorLogMiddleware);
+
+  // -------------------------------------------------------------------------
   // Public routes (no auth)
   // -------------------------------------------------------------------------
 
@@ -174,8 +181,6 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // SEC-01: Admin dashboard routes now require auth to prevent data leakage.
   app.use('/admin/*', authMiddleware);
   app.use('/admin/*', auditLogMiddleware);
-  // P20-E: Structured error logging on all admin routes
-  app.use('/admin/*', errorLogMiddleware);
   app.route('/admin', adminPublicRoutes);
   // P20-E: Admin metrics endpoint (admin/super_admin role enforced inside handler)
   app.route('/admin', adminMetricsRoutes);

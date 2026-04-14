@@ -42,7 +42,14 @@ adminMetricsRoutes.get('/metrics', async (c) => {
   const tenantId = auth.tenantId;
   const workspaceId = auth.workspaceId ?? '';
   const now = Math.floor(Date.now() / 1000);
-  const oneDayAgo = now - 86_400;
+
+  // audit_logs.created_at is stored as ISO-8601 with 'T' separator and trailing 'Z'
+  // (DEFAULT strftime('%Y-%m-%dT%H:%M:%fZ', 'now')).
+  // SQLite's datetime() produces space-separated format ('2026-04-14 12:00:00') which
+  // lexicographically compares incorrectly against ISO strings because 'T' > ' '.
+  // Fix: use strftime with the same ISO-8601 format for all time-window comparisons.
+  const oneHourAgoIso = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const oneDayAgoIso = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
   // Run all metric queries in parallel
   const [
@@ -65,28 +72,31 @@ adminMetricsRoutes.get('/metrics', async (c) => {
     ).bind(workspaceId, tenantId, now).first<{ cnt: number }>(),
 
     // 3. Recent error audit entries (last 1 hour, status >= 400, max 20 rows)
+    // BUG-A fix: compare ISO-8601 string against ISO-8601 string — not against SQLite datetime() output.
     c.env.DB.prepare(
       `SELECT action, path, status_code, duration_ms, created_at
        FROM audit_logs
-       WHERE tenant_id = ? AND status_code >= 400 AND created_at >= datetime(?, 'unixepoch', '-1 hour')
+       WHERE tenant_id = ? AND status_code >= 400 AND created_at >= ?
        ORDER BY created_at DESC LIMIT 20`,
-    ).bind(tenantId, now).all<{
+    ).bind(tenantId, oneHourAgoIso).all<{
       action: string; path: string; status_code: number;
       duration_ms: number; created_at: string;
     }>(),
 
     // 4. Auth failures in the last 24h (audit entries for /auth/* paths with 4xx status)
+    // BUG-A fix: use ISO-8601 string for the 24h window comparison.
     c.env.DB.prepare(
       `SELECT COUNT(*) AS cnt FROM audit_logs
        WHERE tenant_id = ? AND path LIKE '/auth/%' AND status_code >= 400 AND status_code < 500
-         AND created_at >= datetime(?, 'unixepoch', '-1 day')`,
-    ).bind(tenantId, now).first<{ cnt: number }>(),
+         AND created_at >= ?`,
+    ).bind(tenantId, oneDayAgoIso).first<{ cnt: number }>(),
 
     // 5. Total audit log entries in the last 24h
+    // BUG-A fix: use ISO-8601 string for the 24h window comparison.
     c.env.DB.prepare(
       `SELECT COUNT(*) AS cnt FROM audit_logs
-       WHERE tenant_id = ? AND created_at >= datetime(?, 'unixepoch', '-1 day')`,
-    ).bind(tenantId, now).first<{ cnt: number }>(),
+       WHERE tenant_id = ? AND created_at >= ?`,
+    ).bind(tenantId, oneDayAgoIso).first<{ cnt: number }>(),
   ]);
 
   return c.json({
