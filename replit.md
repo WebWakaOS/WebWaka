@@ -4,8 +4,8 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current State: Comprehensive E2E QA Audit COMPLETE — 2328 tests all green, 11/11 governance PASS**
-**Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P15 defined; Phase 16 next**
+**Current State: Phase 17 (Sprint 14) COMPLETE — 2365 tests all green, 11/11 governance PASS**
+**Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P17 defined; v1.0.1 roadmap ≥93% complete**
 
 ### Phase Progress (docs/ops/implementation-plan.md)
 | Phase | Status |
@@ -27,6 +27,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Phase 14 — Load Testing + UX Polish + Performance | ✅ COMPLETE (k6 suite, ETag middleware, FTS5 migration, PWA service worker) |
 | Phase 15 — Seed CSV Dedup + Final Gov Audit | ✅ COMPLETE (0 duplicates, UNIQUE constraint, 11/11 governance) |
 | Phase 16 QA Audit — Comprehensive E2E Verification | ✅ COMPLETE (9 bugs fixed, 11/11 governance, 2328 tests) |
+| Phase 17 — Sprint 14 Final Open Items | ✅ COMPLETE (MON-05 API, UX bundle, PERF-11, ARC-18, QA-12, docs — 2365 tests) |
 
 ## Milestone Status
 
@@ -46,6 +47,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | M9–M12 QA Hardening | ✅ COMPLETE — 164 test files, 2305 tests, 11/11 governance checks |
 | Full Comprehensive QA Audit | ✅ COMPLETE — 6 bugs fixed, 22 routes restored, all governance green |
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
+| Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
 
 ## Platform Scale
 
@@ -56,8 +58,8 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Verticals | 159 registry entries, 159 packages |
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
-| D1 migrations | 227 (all 227 have rollback scripts — BUG-001 fixed migration 0087) |
-| API tests (apps/api) | 2305 (164 test files, 0 failures) |
+| D1 migrations | 229 (all 229 have rollback scripts — 0228 adds subscription_plan_history) |
+| API tests (apps/api) | 2365 (166 test files, 0 failures) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
 | CI governance checks | 11 (all 11 PASS) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
@@ -169,10 +171,10 @@ webwaka-os/
 ```bash
 pnpm install                    # Install all workspace packages
 pnpm typecheck                  # Typecheck all packages
-pnpm test                       # Run full test suite (2305 tests, 164 files — apps/api)
+pnpm test                       # Run full test suite (2365 tests, 166 files — apps/api)
 
 # API-level tests (primary)
-cd apps/api && npx vitest run   # 2305 tests, 164 files, 0 failures
+cd apps/api && npx vitest run   # 2365 tests, 166 files, 0 failures
 
 # Package-level tests
 cd packages/verticals-phone-repair-shop && npx vitest run  # 15 tests
@@ -189,7 +191,7 @@ npx tsx scripts/governance-checks/check-ndpr-before-ai.ts
 | Step | Command | Status |
 |------|---------|--------|
 | TypeScript Check | `pnpm typecheck` | ✅ PASS (0 errors across api, ussd-gateway, brand-runtime, public-discovery) |
-| Tests | `cd apps/api && npx vitest run` | ✅ PASS (2305 tests, 164 files, 0 failures) |
+| Tests | `cd apps/api && npx vitest run` | ✅ PASS (2365 tests, 166 files, 0 failures) |
 | Governance | 11 custom checks in `scripts/governance-checks/` | ✅ PASS (11/11) |
 
 ## CI Governance Checks (11 total — all PASS)
@@ -201,8 +203,8 @@ npx tsx scripts/governance-checks/check-ndpr-before-ai.ts
 | `check-ai-direct-calls.ts` | No direct AI SDK calls (P7) | ✅ |
 | `check-monetary-integrity.ts` | No floats on monetary values (P9) | ✅ |
 | `check-dependency-sources.ts` | No file:/github: deps (CI-004) | ✅ |
-| `check-rollback-scripts.ts` | Every migration has rollback (CI-003) — 227/227 | ✅ |
-| `check-pillar-prefix.ts` | Package.json pillar prefix (DOC-010) — 202/202 packages | ✅ |
+| `check-rollback-scripts.ts` | Every migration has rollback (CI-003) — 229/229 | ✅ |
+| `check-pillar-prefix.ts` | Package.json pillar prefix (DOC-010) — 203/203 packages | ✅ |
 | `check-pwa-manifest.ts` | Client-facing apps have PWA manifest | ✅ |
 | `check-ndpr-before-ai.ts` | NDPR consent gate + USSD exclusion on AI routes (ARC-07 aware) | ✅ |
 | `check-geography-integrity.ts` | Geography seed integrity (T6) | ✅ |
@@ -298,3 +300,5 @@ app.route('/api/v1', myRoutes); // via the aggregator
 | Sprint 10 | SEO & Discovery | ✅ DONE |
 | Sprint 11 | Governance & Documentation | ✅ DONE |
 | Sprint 12 | Polish + Marketplace Launch | ✅ DONE |
+| Sprint 13 | Skip nav, smoke CI, ETag, i18n, canary, resource hints | ✅ DONE |
+| Sprint 14 | MON-05 billing API, UX bundle (6 items), PERF-11, ARC-18, QA-12, 3 docs | ✅ DONE |

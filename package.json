@@ -17,7 +17,9 @@
     "test:e2e": "playwright test",
     "test:e2e:api": "playwright test --project=api-e2e",
     "test:e2e:discovery": "playwright test --project=discovery-e2e",
-    "test:e2e:report": "playwright show-report tests/e2e/reports"
+    "test:e2e:report": "playwright show-report tests/e2e/reports",
+    "test:visual": "playwright test --project=visual",
+    "test:visual:update": "playwright test --project=visual --update-snapshots"
   },
   "engines": {
     "node": ">=20",

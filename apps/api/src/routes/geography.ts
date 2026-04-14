@@ -14,6 +14,10 @@
  *          Full index rebuild only happens on a normal cache miss (KV reachable
  *          but key expired). Individual place nodes are cached independently
  *          for incremental warming.
+ *
+ * PERF-11: D1 batch() used in the KV-fallback ancestry path to resolve all
+ *          ancestor nodes in a single HTTP roundtrip to D1 instead of N
+ *          sequential queries. See getAncestryFromD1().
  */
 
 import { Hono } from 'hono';
@@ -70,6 +74,24 @@ async function getChildrenFromD1(env: Env, parentId: string): Promise<PlaceRow[]
     `SELECT id, name, geography_type, parent_id, ancestry_path FROM places WHERE parent_id = ? ORDER BY name ASC LIMIT 500`,
   ).bind(parentId).all<PlaceRow>();
   return results;
+}
+
+/**
+ * PERF-11: Fetch all ancestry nodes in a single D1 batch() roundtrip.
+ * Replaces the N sequential queries pattern in the KV-fallback ancestry path.
+ * Empty ancestryIds returns [] immediately without hitting D1.
+ */
+async function getAncestryFromD1(env: Env, ancestryIds: string[]): Promise<PlaceRow[]> {
+  if (ancestryIds.length === 0) return [];
+
+  const stmts = ancestryIds.map((id) =>
+    env.DB.prepare(
+      `SELECT id, name, geography_type, parent_id, ancestry_path FROM places WHERE id = ? LIMIT 1`,
+    ).bind(id),
+  );
+
+  const batchResults = await env.DB.batch<PlaceRow>(stmts);
+  return batchResults.flatMap((r) => r.results).filter(Boolean);
 }
 
 // GET /geography/places/:placeId
@@ -149,11 +171,8 @@ geographyRoutes.get('/places/:placeId/ancestry', async (c) => {
     }
     let ancestryIds: string[] = [];
     try { ancestryIds = JSON.parse(row.ancestry_path ?? '[]') as string[]; } catch { /* empty */ }
-    const ancestryNodes: PlaceRow[] = [];
-    for (const ancestorId of ancestryIds) {
-      const ancestor = await getPlaceFromD1(c.env, ancestorId);
-      if (ancestor) ancestryNodes.push(ancestor);
-    }
+    // PERF-11: resolve all ancestor nodes in one D1 batch() roundtrip
+    const ancestryNodes = await getAncestryFromD1(c.env, ancestryIds);
     c.header('Cache-Control', 'public, max-age=600');
     return c.json({ data: ancestryNodes, placeId, count: ancestryNodes.length, _fallback: true });
   } catch (err) {

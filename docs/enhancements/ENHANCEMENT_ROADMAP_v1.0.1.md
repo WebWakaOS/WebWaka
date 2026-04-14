@@ -1190,31 +1190,31 @@
 | ARC-06 | Error response schema | ✅ Done | Sprint 3 | 8h |
 | ARC-07 | Split index.ts | ⬜ Open | — | 4h |
 | ARC-08 | Vertical code generation | ⬜ Open | — | 16h |
-| ARC-09 | D1 connection docs | ⬜ Open | — | 2h |
+| ARC-09 | D1 connection docs | ✅ Done | Sprint 14 | 2h |
 | ARC-10 | API versioning strategy | ⬜ Open | — | 2h |
 | ARC-11 | Health endpoints all workers | ✅ Done | Sprint 3 | 2h |
 | ARC-12 | Migration CI validation | ✅ Done | Sprint 4 | 4h |
 | ARC-13 | OpenAPI CI linting | ⬜ Open | — | 2h |
 | ARC-14 | DI for external services | ⬜ Open | — | 8h |
 | ARC-15 | Circuit breaker pattern | ⬜ Open | — | 6h |
-| ARC-16 | Event replay docs | ⬜ Open | — | 2h |
+| ARC-16 | Event replay docs | ✅ Done | Sprint 14 | 2h |
 | ARC-17 | KV cache graceful degradation | ⬜ Open | — | 3h |
-| ARC-18 | SW cache auto-versioning | ⬜ Open | — | 2h |
+| ARC-18 | SW cache auto-versioning | ✅ Done | Sprint 14 | 2h |
 | ARC-19 | Request correlation IDs | ✅ Done | Sprint 4 | 4h |
 | ARC-20 | Canary deployments | ✅ Done | Sprint 12 | 4h |
 | UX-01 | Accessibility (ARIA) | ⬜ Open | — | 8h |
 | UX-02 | Skip nav links | ✅ Done | Sprint 13 | 2h |
 | UX-03 | PWA loading states | ✅ Done | Sprint 8 | 3h |
 | UX-04 | Offline fallback page | ✅ Done | Sprint 8 | 2h |
-| UX-05 | Form validation UI | ⬜ Open | — | 4h |
-| UX-06 | Dark mode | ⬜ Open | — | 6h |
+| UX-05 | Form validation UI | ✅ Done | Sprint 14 | 4h |
+| UX-06 | Dark mode | ✅ Done | Sprint 14 | 6h |
 | UX-07 | Responsive navigation | ⬜ Open | — | 6h |
 | UX-08 | USSD menu depth | ⬜ Open | — | 4h |
-| UX-09 | Error recovery guidance | ⬜ Open | — | 4h |
-| UX-10 | Confirmation dialogs | ⬜ Open | — | 2h |
+| UX-09 | Error recovery guidance | ✅ Done | Sprint 14 | 4h |
+| UX-10 | Confirmation dialogs | ✅ Done | Sprint 14 | 2h |
 | UX-11 | Responsive viewport | ✅ Done | Sprint 8 | 2h |
-| UX-12 | Breadcrumb navigation | ⬜ Open | — | 3h |
-| UX-13 | Toast notifications | ⬜ Open | — | 3h |
+| UX-12 | Breadcrumb navigation | ✅ Done | Sprint 14 | 3h |
+| UX-13 | Toast notifications | ✅ Done | Sprint 14 | 3h |
 | UX-14 | Discovery card design | ⬜ Open | — | 4h |
 | UX-15 | i18n framework | ✅ Done | Sprint 12 | 16h |
 | PERF-01 | CDN cache headers | ✅ Done | Sprint 5 | 2h |
@@ -1227,7 +1227,7 @@
 | PERF-08 | Discovery search cache | ✅ Done | Sprint 5 | 4h |
 | PERF-09 | Lazy vertical loading | ⬜ Open | — | 6h |
 | PERF-10 | ETag support | ⬜ Open | — | 4h |
-| PERF-11 | D1 batch optimization | ⬜ Open | — | 4h |
+| PERF-11 | D1 batch optimization | ✅ Done | Sprint 14 | 4h |
 | PERF-12 | Resource hints | ✅ Done | Sprint 12 | 1h |
 | QA-01 | Auth route tests | ✅ Done | Sprint 3 | 8h |
 | QA-02 | Identity route tests | ⬜ Open | — | 6h |
@@ -1240,14 +1240,14 @@
 | QA-09 | External API contract tests | ⬜ Open | — | 6h |
 | QA-10 | Template lifecycle test | ⬜ Open | — | 3h |
 | QA-11 | Tenant isolation tests | ✅ Done | Sprint 3 | 8h |
-| QA-12 | Visual regression tests | ⬜ Open | — | 6h |
+| QA-12 | Visual regression tests | ✅ Done | Sprint 14 | 6h |
 | DEV-01 | Staging gate for prod | ✅ Done | Sprint 4/6 | 3h |
 | DEV-02 | Rollback documentation | ✅ Done | Sprint 6 | 2h |
 | DEV-03 | Secret rotation docs | ✅ Done | Sprint 6 | 4h |
 | DEV-04 | Monitoring/alerting | ✅ Done | Sprint 6 | 6h |
 | DEV-05 | Tests in CI | ✅ Done | Sprint 3 | 1h |
 | DEV-06 | Branch protection | ✅ Done | Sprint 6 | 1h |
-| DEV-07 | Local dev setup docs | ⬜ Open | — | 3h |
+| DEV-07 | Local dev setup docs | ✅ Done | Sprint 14 | 3h |
 | DEV-08 | Dependabot config | ✅ Done | Pre-existing | 1h |
 | DEV-09 | Rollback automation | ✅ Done | Sprint 6 | 3h |
 | DEV-10 | CI cache optimization | ✅ Done | Sprint 6 | 30m |
@@ -1270,7 +1270,7 @@
 | MON-02 | Revenue share tracking | ✅ Done | Sprint 9 | 8h |
 | MON-03 | AI usage metering | ✅ Done | Sprint 9 | 6h |
 | MON-04 | Free tier enforcement | ✅ Done | Sprint 9 | 6h |
-| MON-05 | Subscription management | ⬜ Open | — | 10h |
+| MON-05 | Subscription management | ✅ Done | Sprint 14 | 10h |
 | GOV-01 | Governance doc TODOs | ✅ Done | Sprint 11 | 8h |
 | GOV-02 | Developer onboarding | ✅ Done | Sprint 11 | 4h |
 | GOV-03 | API docs portal | ✅ Done | Sprint 11 | 6h |

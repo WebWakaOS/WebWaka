@@ -38,44 +38,59 @@ function makeKVMock(opts: { failReads?: boolean; failWrites?: boolean } = {}) {
   };
 }
 
-function makeGeographyDB(places: Record<string, { id: string; name: string; geography_type: string; parent_id: string | null; ancestry_path: string }> = {}) {
-  return {
-    prepare: (sql: string) => {
-      const stmt = {
-        bind: (...args: unknown[]) => {
-          const placeId = args[0] as string;
-          return {
-            first: <T>() => {
-              if (sql.includes('FROM places WHERE id')) {
-                return Promise.resolve((places[placeId] ?? null) as T);
-              }
-              return Promise.resolve(null as T);
-            },
-            all: <T>() => {
-              if (sql.includes('WHERE parent_id')) {
-                const children = Object.values(places).filter(p => p.parent_id === placeId);
-                return Promise.resolve({ results: children as T[] });
-              }
-              if (sql.includes("geography_type = 'state'")) {
-                const states = Object.values(places).filter(p => p.geography_type === 'state');
-                return Promise.resolve({ results: states as T[] });
-              }
-              return Promise.resolve({ results: [] as T[] });
-            },
-          };
+type PlacesMap = Record<string, { id: string; name: string; geography_type: string; parent_id: string | null; ancestry_path: string }>;
+
+function makeGeographyDB(places: PlacesMap = {}) {
+  const db: {
+    prepare: (sql: string) => ReturnType<typeof makeStmt>;
+    batch: <T>(stmts: Array<{ first: <U>() => Promise<U | null> }>) => Promise<{ results: T[] }[]>;
+  } = {
+    prepare: (sql: string) => makeStmt(sql, places),
+    // PERF-11: batch() resolves each bound statement via first() and wraps in D1Result shape
+    batch: async <T>(stmts: Array<{ first: <U>() => Promise<U | null> }>) => {
+      const rows = await Promise.all(stmts.map(s => s.first<T>()));
+      return rows.map(r => ({ results: r !== null && r !== undefined ? [r] : [] as T[] }));
+    },
+  };
+  return db;
+}
+
+function makeStmt(sql: string, places: PlacesMap) {
+  const stmt = {
+    bind: (...args: unknown[]) => {
+      const placeId = args[0] as string;
+      return {
+        first: <T>() => {
+          if (sql.includes('FROM places WHERE id')) {
+            return Promise.resolve((places[placeId] ?? null) as T);
+          }
+          return Promise.resolve(null as T);
         },
-        first: <T>() => Promise.resolve(null as T),
         all: <T>() => {
+          if (sql.includes('WHERE parent_id')) {
+            const children = Object.values(places).filter(p => p.parent_id === placeId);
+            return Promise.resolve({ results: children as T[] });
+          }
           if (sql.includes("geography_type = 'state'")) {
             const states = Object.values(places).filter(p => p.geography_type === 'state');
             return Promise.resolve({ results: states as T[] });
           }
           return Promise.resolve({ results: [] as T[] });
         },
+        run: () => Promise.resolve({ success: true }),
       };
-      return stmt;
     },
+    first: <T>() => Promise.resolve(null as T),
+    all: <T>() => {
+      if (sql.includes("geography_type = 'state'")) {
+        const states = Object.values(places).filter(p => p.geography_type === 'state');
+        return Promise.resolve({ results: states as T[] });
+      }
+      return Promise.resolve({ results: [] as T[] });
+    },
+    run: () => Promise.resolve({ success: true }),
   };
+  return stmt;
 }
 
 const TEST_PLACES = {

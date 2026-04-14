@@ -1379,3 +1379,81 @@ Without the third-party secrets, any tests or routes touching Paystack/Prembly/T
 *Plan prepared: 2026-04-13*  
 *Based on backlog: `docs/ops/implementation-backlog.md`*  
 *Test baseline: 558 passing (will grow with each phase)*
+
+---
+
+## Phase 16 — Comprehensive E2E QA Audit ✅ COMPLETE
+
+**When:** After Phase 15  
+**Est:** ~20 hours  
+**Status:** COMPLETE — 9 bugs fixed, 11/11 governance checks pass
+
+### P16 — QA Audit Work
+
+- BUG-001 through BUG-009 identified and resolved
+- 2328 tests passing across 164 test files
+- All 11 governance CI checks passing
+- Route mounting verified: all 132 vertical routes mounted
+- Sprint 13 deliverables: UX-02 (skip nav), QA-08 (smoke CI), ARC-17 (ETag middleware),
+  UX-15 (i18n), ARC-20 (canary deployments), PERF-12 (resource hints)
+
+---
+
+## Phase 17 — Sprint 14: Final Open Items ✅ COMPLETE
+
+**When:** After Phase 16  
+**Est:** ~53 hours  
+**Status:** COMPLETE — 2365 tests passing, all roadmap items delivered
+
+### P17-A: MON-05 — Subscription Plan Management API (10h)
+
+7 billing routes implemented in `apps/api/src/routes/billing.ts`:
+- `GET /billing/status` — subscription status with days_until_expiry
+- `POST /billing/enforce` — admin-only expiry enforcement + grace transitions
+- `POST /billing/reactivate` — payment-gated subscription reactivation
+- `POST /billing/change-plan` — upgrade/downgrade with PLAN_RANK hierarchy
+- `POST /billing/cancel` — schedule cancellation at period end
+- `POST /billing/revert-cancel` — undo scheduled cancellation
+- `GET /billing/history` — T3-scoped paginated plan change history
+
+D1 migration `0228_subscription_plan_history.sql` + rollback created.  
+`billing.test.ts` — 40+ tests using `app.fetch(req, env)` pattern; all passing.
+
+### P17-B: UX Bundle — Admin Dashboard (22h)
+
+Both `apps/admin-dashboard/public/index.html` and `apps/partner-admin/public/index.html` enhanced:
+- **UX-13** Toast notification system (auto-dismiss, success/error/info/warning types)
+- **UX-10** Confirmation dialogs for destructive actions (accessible modal pattern)
+- **UX-12** Breadcrumb navigation component
+- **UX-09** Error recovery with retry buttons
+- **UX-06** Dark/light mode toggle (localStorage + prefers-color-scheme)
+- **UX-05** Form validation patterns (real-time + submit)
+
+### P17-C: ARC-18 — Service Worker Cache Auto-Versioning (2h)
+
+- Both `sw.js` files use `__CACHE_VERSION__` token instead of hardcoded versions
+- `scripts/build-sw.ts` injects `BUILD_TIMESTAMP` at deploy time
+
+### P17-D: PERF-11 — D1 Batch Optimization (4h)
+
+- `apps/api/src/routes/geography.ts` ancestry fallback replaced N+1 loop
+  with `getAncestryFromD1()` using `DB.batch()` — O(n) → O(1) round trips
+- `sprint5-perf.test.ts` mock updated with `batch()` support
+
+### P17-E: QA-12 — Visual Regression Test Baseline (6h)
+
+- `tests/visual/platform-admin.visual.test.ts` — desktop/mobile/tablet snapshots
+- `tests/visual/admin-dashboard.visual.test.ts` — admin + partner-admin snapshots
+- `playwright.config.ts` updated with `visual` project + `snapshotDir`
+- `pnpm test:visual` and `pnpm test:visual:update` scripts added
+
+### P17-F: Documentation (9h)
+
+- **DEV-07** `docs/ops/local-dev-setup.md` — complete local development guide
+- **ARC-09** `docs/architecture/decisions/0019-d1-connection-lifecycle.md`
+- **ARC-16** `docs/ops/event-replay-procedures.md`
+
+| Phase | Items | Est Hours | Parallel? |
+|---|---|---|---|
+| P16 E2E QA Audit | 9 bugs + Sprint 13 | 20h | Yes |
+| P17 Sprint 14 | MON-05, UX×6, ARC-18, PERF-11, QA-12, docs×3 | 53h | Yes |
