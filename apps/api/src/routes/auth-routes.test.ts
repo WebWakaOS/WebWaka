@@ -361,18 +361,24 @@ describe('GET /auth/me', () => {
     expect(res.status).toBe(401);
   });
 
-  it('returns flat user shape { id, email, tenantId, workspaceId, role } with a valid JWT', async () => {
+  it('returns extended user shape { id, email, phone, fullName, businessName, tenantId, workspaceId, role } with a valid JWT', async () => {
     const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'admin');
-    const db = makeDB({ meUser: { email: 'user@example.com' } });
+    const db = makeDB({ meUser: { email: 'user@example.com', phone: '+2348012345678', full_name: 'Amara Okafor' } });
     const res = await app.fetch(get('/auth/me', jwt), makeEnv(db));
     expect(res.status).toBe(200);
     const body = await res.json() as {
       id: string; email: string; tenantId: string; workspaceId: string; role: string;
+      phone: string | null; fullName: string | null; businessName: string | null;
     };
     expect(body.id).toBe('usr_001');
+    expect(body.email).toBe('user@example.com');
+    expect(body.phone).toBe('+2348012345678');
+    expect(body.fullName).toBe('Amara Okafor');
     expect(body.tenantId).toBe('tnt_001');
     expect(body.workspaceId).toBe('ws_001');
     expect(body.role).toBe('admin');
+    // businessName comes from workspace query (returns null in mock)
+    expect(body.businessName).toBeNull();
     // Response must NOT be nested under a "data" key (AUT-005 fix)
     expect((body as Record<string, unknown>)['data']).toBeUndefined();
   });
@@ -599,6 +605,144 @@ describe('POST /auth/change-password', () => {
     expect(res.status).toBe(200);
     const body = await res.json() as { message: string };
     expect(body.message).toMatch(/changed successfully/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/logout (P19-C)
+// ---------------------------------------------------------------------------
+describe('POST /auth/logout', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(
+      post('/auth/logout', {}),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 200 and blacklists the token in KV with a valid JWT', async () => {
+    const jwt = await makeJwt();
+    const kvPut = vi.fn().mockResolvedValue(undefined);
+    const env = {
+      DB: makeDB(),
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: { get: vi.fn(), put: vi.fn(), delete: vi.fn() } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: kvPut,
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+    const res = await app.fetch(
+      post('/auth/logout', {}, jwt),
+      env,
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/logged out/i);
+    expect(kvPut).toHaveBeenCalledWith(
+      expect.stringMatching(/^blacklist:/),
+      '1',
+      expect.objectContaining({ expirationTtl: 3600 }),
+    );
+  });
+
+  it('still returns 200 when KV is unavailable (fail-open)', async () => {
+    const jwt = await makeJwt();
+    const env = {
+      DB: makeDB(),
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: { get: vi.fn(), put: vi.fn(), delete: vi.fn() } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: vi.fn().mockRejectedValue(new Error('KV unavailable')),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+    const res = await app.fetch(
+      post('/auth/logout', {}, jwt),
+      env,
+    );
+    expect(res.status).toBe(200);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// PATCH /auth/profile (P19-B)
+// ---------------------------------------------------------------------------
+describe('PATCH /auth/profile', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: '+2348012345678' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 400 when no updatable fields are provided', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({}),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/phone|fullName|required/i);
+  });
+
+  it('returns 200 when updating phone', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ phone: '+2348012345678' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/updated successfully/i);
+  });
+
+  it('returns 200 when updating fullName', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ fullName: 'Ngozi Adeyemi' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/updated successfully/i);
+  });
+
+  it('returns 200 when updating both phone and fullName', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      new Request(`${BASE}/auth/profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        body: JSON.stringify({ phone: '+2348099887766', fullName: 'Chukwuemeka Eze' }),
+      }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(200);
   });
 });
 

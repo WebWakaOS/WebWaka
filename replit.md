@@ -49,7 +49,8 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Full Comprehensive QA Audit | ✅ COMPLETE — 6 bugs fixed, 22 routes restored, all governance green |
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
 | Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
-| Phase 18 P18 Checklist | 🔄 IN PROGRESS — AUTH-001–008 + QA-18-001–007 all fixed; ResetPassword.tsx added; change-password endpoint live; rate limits on register/forgot/reset/change-password; Settings security tab wired; /offerings/new auto-opens form; 2402/2402 tests |
+| Phase 18 P18 Checklist | ✅ COMPLETE — AUTH-001–008 + QA-18-001–007 all fixed; ResetPassword.tsx added; change-password endpoint live; 2402/2402 tests |
+| Phase 19 P19 Checklist | ✅ COMPLETE — P19-A email via Resend (password-reset template); P19-B profile save (PATCH /auth/profile + workspace name); P19-C server logout (POST /auth/logout + KV blacklist); P19-D Playwright E2E suite (auth-flows.e2e.ts); P19-E free-plan upgrade banner; P19-F tenants table (migration 0230); 2410/2410 tests |
 
 ## Platform Scale
 
@@ -60,8 +61,8 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Verticals | 159 registry entries, 159 packages |
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
-| D1 migrations | 230 (all with rollback scripts — 0229 adds revert_cancel to CHECK constraint) |
-| API tests (apps/api) | 2402 (167 test files, 0 failures — auth-routes.test.ts: 36 tests incl. change-password) |
+| D1 migrations | 231 (all with rollback scripts — 0230 adds tenants table P19-F) |
+| API tests (apps/api) | 2410 (167 test files, 0 failures — auth-routes.test.ts: 44 tests incl. logout + profile PATCH) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
 | CI governance checks | 12 (all 12 PASS — check-api-versioning.ts added in P18-E) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
@@ -101,6 +102,12 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | QA-18-005 | MEDIUM | Settings "Change password" form called a `setTimeout` stub — no API call made; no `POST /auth/change-password` endpoint existed | `apps/api/src/routes/auth-routes.ts`, `apps/workspace-app/src/pages/Settings.tsx` |
 | QA-18-006 | LOW | `/offerings/new` route rendered the list view without opening the "Add offering" modal | `apps/workspace-app/src/pages/Offerings.tsx` (checks location.pathname) |
 | QA-18-007 | LOW | Settings "Sign out of all devices" label was misleading (only clears localStorage) | `apps/workspace-app/src/pages/Settings.tsx` (label corrected) |
+| P19-A | HIGH | `POST /forgot-password` generated tokens but never sent emails; `password-reset` template missing from EmailService | `apps/api/src/lib/email-service.ts` (template added), `apps/api/src/routes/auth-routes.ts` (EmailService wired) |
+| P19-B | HIGH | Settings profile "Save changes" was a setTimeout stub; no `PATCH /auth/profile` endpoint; GET /auth/me returned only 5 fields | `apps/api/src/routes/auth-routes.ts` (PATCH /auth/profile + extended GET /auth/me), `apps/workspace-app/src/pages/Settings.tsx`, `apps/workspace-app/src/lib/api.ts` |
+| P19-C | HIGH | No server-side logout; token blacklisting only happened on refresh; client just cleared localStorage | `apps/api/src/routes/auth-routes.ts` (POST /auth/logout + KV blacklist + session cleanup), `apps/workspace-app/src/contexts/AuthContext.tsx` (async logout), `apps/workspace-app/src/lib/api.ts` |
+| P19-D | MEDIUM | No Playwright E2E tests for reset-password page, forgot-password flow, change-password, or NDPR erasure UI | `tests/e2e/workspace/auth-flows.e2e.ts` (new — 18 tests) |
+| P19-E | MEDIUM | Dashboard showed `—` for Commerce metrics on free plan with no explanation; free-plan users had no upgrade path from the main screen | `apps/workspace-app/src/pages/Dashboard.tsx` (upgrade banner + locked metric labels) |
+| P19-F | LOW | No tenants table — tenant_id was a bare string with no corresponding DB record; multi-tenant admin dashboard had nothing to query | `infra/db/migrations/0230_init_tenants.sql` + rollback, `apps/api/src/routes/auth-routes.ts` (tenants insert in register batch) |
 
 ### BUG-005/006 RESOLUTION — Complete Route Mounting Restoration
 

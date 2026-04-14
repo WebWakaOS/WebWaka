@@ -109,7 +109,16 @@ export const api = {
 
 export type LoginResponse = {
   token: string;
-  user: { id: string; email: string; tenantId: string; workspaceId?: string; role: string };
+  user: {
+    id: string;
+    email: string;
+    tenantId: string;
+    workspaceId?: string;
+    role: string;
+    phone?: string | null;
+    fullName?: string | null;
+    businessName?: string | null;
+  };
 };
 
 export const authApi = {
@@ -127,5 +136,9 @@ export const authApi = {
     request<{ message: string }>('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }), skipAuth: true }),
   changePassword: (currentPassword: string, newPassword: string) =>
     request<{ message: string }>('/auth/change-password', { method: 'POST', body: JSON.stringify({ currentPassword, newPassword }) }),
+  updateProfile: (payload: { phone?: string; fullName?: string }) =>
+    request<{ message: string }>('/auth/profile', { method: 'PATCH', body: JSON.stringify(payload) }),
+  logout: () =>
+    request<{ message: string }>('/auth/logout', { method: 'POST' }),
   me: () => request<LoginResponse['user']>('/auth/me'),
 };

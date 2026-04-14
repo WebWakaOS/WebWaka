@@ -7,6 +7,9 @@ interface AuthUser {
   tenantId: string;
   workspaceId?: string;
   role: string;
+  phone?: string | null;
+  fullName?: string | null;
+  businessName?: string | null;
 }
 
 interface AuthState {
@@ -36,7 +39,7 @@ interface AuthContextValue {
   initialized: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (payload: { email: string; password: string; businessName: string; phone?: string }) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -75,7 +78,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'LOGIN', user: res.user });
   }, []);
 
-  const logout = useCallback(() => {
+  // P19-C: Server-side logout — blacklists token in KV and clears sessions.
+  // Best-effort: if the API call fails (e.g. network error), we still clear
+  // the local session so the user is logged out on this device.
+  const logout = useCallback(async () => {
+    try {
+      await authApi.logout();
+    } catch {
+      // Best effort — always clear local state
+    }
     clearToken();
     dispatch({ type: 'LOGOUT' });
   }, []);

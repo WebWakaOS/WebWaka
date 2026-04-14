@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { toast } from '@/lib/toast';
-import { authApi, ApiError } from '@/lib/api';
+import { authApi, api, ApiError } from '@/lib/api';
 
 const DARK_MODE_KEY = 'ww_dark_mode';
 
@@ -27,6 +27,11 @@ export default function Settings() {
   const [darkMode, setDarkMode] = useState(getInitialDarkMode);
   const [pushEnabled, setPushEnabled] = useState(false);
 
+  // P19-B: Controlled profile fields — populated on mount from GET /auth/me
+  const [businessName, setBusinessName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [profileLoading, setProfileLoading] = useState(true);
+
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -36,12 +41,46 @@ export default function Settings() {
     applyDarkMode(darkMode);
   }, [darkMode]);
 
+  // P19-B: Fetch extended profile on mount to populate the form with real data
+  useEffect(() => {
+    authApi.me()
+      .then((profile) => {
+        setBusinessName(profile.businessName ?? '');
+        setPhone(profile.phone ?? '');
+      })
+      .catch(() => {
+        // Fall back to auth context values if fetch fails
+        setBusinessName(user?.businessName ?? '');
+        setPhone(user?.phone ?? '');
+      })
+      .finally(() => setProfileLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // P19-B: Profile save — calls PATCH /workspaces/:id (business name)
+  //         and PATCH /auth/profile (phone) in parallel
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user?.workspaceId) {
+      toast.error('Workspace not found. Please reload the page.');
+      return;
+    }
     setSaving(true);
-    await new Promise(r => setTimeout(r, 800));
-    setSaving(false);
-    toast.success('Settings saved');
+    try {
+      const updates: Promise<unknown>[] = [
+        api.patch(`/workspaces/${user.workspaceId}`, { name: businessName || undefined }),
+      ];
+      if (phone !== undefined) {
+        updates.push(authApi.updateProfile({ phone: phone || undefined }));
+      }
+      await Promise.all(updates);
+      toast.success('Settings saved');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to save settings. Please try again.';
+      toast.error(msg);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleChangePassword = async (e: React.FormEvent) => {
@@ -106,25 +145,49 @@ export default function Settings() {
           {tab === 'profile' && (
             <section aria-label="Profile settings">
               <h2 style={styles.sectionHeading}>Profile</h2>
-              <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <Input label="Email address" type="email" value={user?.email ?? ''} readOnly hint="Contact support to change your email" />
-                <Input label="Business name" defaultValue="My Business" />
-                <Input label="Phone number" type="tel" defaultValue="+2348000000000" />
-                <div style={styles.fieldGroup}>
-                  <label style={styles.label} htmlFor="role-display">Role</label>
-                  <input id="role-display" value={user?.role ?? ''} readOnly style={styles.readOnlyInput} />
-                </div>
-                <div style={styles.fieldGroup}>
-                  <label style={styles.label} htmlFor="tenant-display">Tenant ID</label>
-                  <input id="tenant-display" value={user?.tenantId ?? ''} readOnly style={styles.readOnlyInput} />
-                </div>
-                <div style={{ display: 'flex', gap: 10 }}>
-                  <Button type="submit" loading={saving}>Save changes</Button>
-                </div>
-              </form>
+              {profileLoading ? (
+                <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading profile…</p>
+              ) : (
+                <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <Input
+                    label="Email address"
+                    type="email"
+                    value={user?.email ?? ''}
+                    readOnly
+                    hint="Contact support to change your email"
+                  />
+                  <Input
+                    label="Business name"
+                    value={businessName}
+                    onChange={e => setBusinessName(e.target.value)}
+                    placeholder="Your business name"
+                  />
+                  <Input
+                    label="Phone number"
+                    type="tel"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    placeholder="+2348000000000"
+                  />
+                  <div style={styles.fieldGroup}>
+                    <label style={styles.label} htmlFor="role-display">Role</label>
+                    <input id="role-display" value={user?.role ?? ''} readOnly style={styles.readOnlyInput} />
+                  </div>
+                  <div style={styles.fieldGroup}>
+                    <label style={styles.label} htmlFor="tenant-display">Tenant ID</label>
+                    <input id="tenant-display" value={user?.tenantId ?? ''} readOnly style={styles.readOnlyInput} />
+                  </div>
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <Button type="submit" loading={saving}>Save changes</Button>
+                  </div>
+                </form>
+              )}
               <div style={styles.dangerZone}>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>Danger zone</h3>
-                <Button variant="danger" size="sm" onClick={logout}>Sign out of all devices</Button>
+                <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>
+                  Signing out clears your session on this device. Your account remains active.
+                </p>
+                <Button variant="danger" size="sm" onClick={() => void logout()}>Sign out</Button>
               </div>
             </section>
           )}
@@ -217,9 +280,9 @@ export default function Settings() {
               <div style={{ ...styles.dangerZone, marginTop: 32 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>Session</h3>
                 <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>
-                  Signing out clears your local session. Your account remains active.
+                  Signing out clears your local session and invalidates your token on the server.
                 </p>
-                <Button variant="danger" size="sm" onClick={logout}>Sign out</Button>
+                <Button variant="danger" size="sm" onClick={() => void logout()}>Sign out</Button>
               </div>
             </section>
           )}

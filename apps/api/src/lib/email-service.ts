@@ -9,6 +9,7 @@
  *   template-purchase-receipt — paid template purchase confirmation
  *   workspace-invite      — invite someone to join a workspace
  *   payment-confirmation  — Paystack payment verified
+ *   password-reset        — forgot-password reset link (P19-A)
  *
  * P13 invariant: no PII is logged — only email address (required for delivery).
  * NDPR: email delivery is a service communication, not marketing — consent not required
@@ -19,7 +20,8 @@ export type EmailTemplate =
   | 'welcome'
   | 'template-purchase-receipt'
   | 'workspace-invite'
-  | 'payment-confirmation';
+  | 'payment-confirmation'
+  | 'password-reset';
 
 export interface WelcomeData {
   name: string;
@@ -50,11 +52,18 @@ export interface PaymentConfirmationData {
   payment_date: string;
 }
 
+export interface PasswordResetData {
+  name: string;
+  reset_url: string;
+  expires_in_hours: number;
+}
+
 export type TemplateData<T extends EmailTemplate> =
   T extends 'welcome' ? WelcomeData :
   T extends 'template-purchase-receipt' ? TemplatePurchaseReceiptData :
   T extends 'workspace-invite' ? WorkspaceInviteData :
   T extends 'payment-confirmation' ? PaymentConfirmationData :
+  T extends 'password-reset' ? PasswordResetData :
   never;
 
 const FROM_ADDRESS = 'WebWaka <noreply@webwaka.com>';
@@ -128,6 +137,34 @@ function renderPaymentConfirmation(data: PaymentConfirmationData): { subject: st
   };
 }
 
+function renderPasswordReset(data: PasswordResetData): { subject: string; html: string } {
+  return {
+    subject: 'Reset your WebWaka password',
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+        <h2 style="color:#006400">Reset your password</h2>
+        <p>Hi ${data.name},</p>
+        <p>We received a request to reset the password for your WebWaka account. Click the button below to set a new password.</p>
+        <p style="margin:28px 0">
+          <a href="${data.reset_url}"
+             style="background:#0F4C81;color:#fff;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">
+            Reset my password
+          </a>
+        </p>
+        <p style="color:#6b7280;font-size:0.875rem">
+          This link expires in <strong>${data.expires_in_hours} hour${data.expires_in_hours !== 1 ? 's' : ''}</strong>.
+          If you did not request a password reset, you can safely ignore this email — your password will not change.
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+        <p style="color:#9ca3af;font-size:0.75rem">
+          If the button above does not work, copy and paste this URL into your browser:<br />
+          <span style="word-break:break-all;color:#0F4C81">${data.reset_url}</span>
+        </p>
+        <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
+      </div>`,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Resend API client
 // ---------------------------------------------------------------------------
@@ -169,6 +206,9 @@ export class EmailService {
         break;
       case 'payment-confirmation':
         rendered = renderPaymentConfirmation(data as PaymentConfirmationData);
+        break;
+      case 'password-reset':
+        rendered = renderPasswordReset(data as PasswordResetData);
         break;
       default:
         return { ok: false, error: `Unknown template: ${String(template)}` };

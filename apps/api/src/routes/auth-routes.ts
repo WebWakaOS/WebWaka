@@ -2,12 +2,15 @@
  * Auth routes.
  *
  * POST   /auth/login            — authenticate with email + password, returns JWT + user
- * POST   /auth/register         — self-service tenant + workspace + user creation
+ * POST   /auth/register         — self-service tenant + workspace + user creation (also inserts tenants row)
  * POST   /auth/refresh          — refresh an expiring JWT (auth required)
- * GET    /auth/me               — return the caller's profile (auth required)
+ * GET    /auth/me               — return the caller's extended profile (auth required)
+ * PATCH  /auth/profile          — update user phone / full name (auth required) [P19-B]
  * POST   /auth/verify           — validate a JWT and return its decoded payload
- * POST   /auth/forgot-password  — initiate password reset (stores token in KV)
+ * POST   /auth/forgot-password  — initiate password reset — stores token in KV + sends email via Resend [P19-A]
  * POST   /auth/reset-password   — complete password reset using KV token
+ * POST   /auth/change-password  — change password for authenticated user (auth required)
+ * POST   /auth/logout           — server-side token blacklist + session cleanup (auth required) [P19-C]
  * DELETE /auth/me               — NDPR Article 3.1(9) Right to Erasure (auth required)
  */
 
@@ -18,6 +21,7 @@ import type { UserId, WorkspaceId, TenantId } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import { kvGetText } from '@webwaka/core';
+import { EmailService } from '../lib/email-service.js';
 import type { Env } from '../env.js';
 
 interface UserRow {
@@ -33,6 +37,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_MIN = 8;
 const PASSWORD_MAX = 128;
 const RESET_TOKEN_TTL = 3600;
+const RESET_TOKEN_TTL_HOURS = RESET_TOKEN_TTL / 3600;
 
 function validatePassword(pw: string): string | null {
   if (pw.length < PASSWORD_MIN || pw.length > PASSWORD_MAX) {
@@ -174,8 +179,9 @@ authRoutes.post('/login', async (c) => {
 
 // ---------------------------------------------------------------------------
 // POST /auth/register — self-service tenant registration
-// Creates a new tenant, workspace, and admin user in a single batch.
+// Creates a new tenant row, workspace, and admin user in a single batch.
 // T3: tenant_id is generated server-side — never accepted from the client.
+// P19-F: also inserts a row into the tenants table.
 // ---------------------------------------------------------------------------
 authRoutes.post('/register', async (c) => {
   const body = await c.req.json<{
@@ -221,6 +227,12 @@ authRoutes.post('/register', async (c) => {
   const businessName = body.businessName.trim();
 
   await db.batch([
+    // P19-F: Insert tenant row first (no FK constraints in D1 SQLite schema)
+    db.prepare(`
+      INSERT OR IGNORE INTO tenants (id, name, plan, status, created_at, updated_at)
+      VALUES (?, ?, 'free', 'active', unixepoch(), unixepoch())
+    `).bind(tenantId, businessName),
+
     db.prepare(`
       INSERT INTO workspaces
         (id, tenant_id, name, owner_type, owner_id,
@@ -301,9 +313,8 @@ authRoutes.post('/refresh', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// GET /auth/me — return the caller's profile
-// AUT-005 fix: return flat {id, email, tenantId, workspaceId, role} matching
-// the workspace-app AuthUser type (not the nested {data:{userId,...}} shape).
+// GET /auth/me — return the caller's extended profile
+// P19-B: returns phone, fullName, businessName in addition to core identity fields.
 // ---------------------------------------------------------------------------
 authRoutes.get('/me', async (c) => {
   const auth = c.get('auth');
@@ -312,12 +323,21 @@ authRoutes.get('/me', async (c) => {
   }
 
   const userRow = await c.env.DB.prepare(
-    'SELECT email FROM users WHERE id = ? AND tenant_id = ? LIMIT 1',
-  ).bind(auth.userId, auth.tenantId).first<{ email: string }>();
+    'SELECT email, phone, full_name FROM users WHERE id = ? AND tenant_id = ? LIMIT 1',
+  ).bind(auth.userId, auth.tenantId).first<{ email: string; phone: string | null; full_name: string | null }>();
+
+  const wsRow = auth.workspaceId
+    ? await c.env.DB.prepare(
+        'SELECT name FROM workspaces WHERE id = ? AND tenant_id = ? LIMIT 1',
+      ).bind(auth.workspaceId, auth.tenantId).first<{ name: string }>()
+    : null;
 
   return c.json({
     id: auth.userId,
     email: userRow?.email ?? '',
+    phone: userRow?.phone ?? null,
+    fullName: userRow?.full_name ?? null,
+    businessName: wsRow?.name ?? null,
     tenantId: auth.tenantId,
     workspaceId: auth.workspaceId,
     role: auth.role,
@@ -325,8 +345,49 @@ authRoutes.get('/me', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// PATCH /auth/profile — update mutable user profile fields (auth required)
+// P19-B: allows updating phone and/or fullName without a full PATCH on workspaces.
+// ---------------------------------------------------------------------------
+authRoutes.patch('/profile', async (c) => {
+  const auth = c.get('auth');
+  if (!auth) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
+  }
+
+  const body = await c.req.json<{ phone?: string; fullName?: string }>().catch(() => null);
+
+  if (!body || (body.phone === undefined && body.fullName === undefined)) {
+    return c.json(
+      errorResponse(ErrorCode.BadRequest, 'At least one field (phone, fullName) is required.'),
+      400,
+    );
+  }
+
+  const parts: string[] = [];
+  const bindings: unknown[] = [];
+
+  if (body.phone !== undefined) {
+    parts.push('phone = ?');
+    bindings.push(body.phone.trim() || null);
+  }
+  if (body.fullName !== undefined) {
+    parts.push('full_name = ?');
+    bindings.push(body.fullName.trim() || null);
+  }
+  parts.push('updated_at = unixepoch()');
+  bindings.push(auth.userId, auth.tenantId);
+
+  await c.env.DB.prepare(
+    `UPDATE users SET ${parts.join(', ')} WHERE id = ? AND tenant_id = ?`,
+  ).bind(...bindings).run();
+
+  return c.json({ message: 'Profile updated successfully.' });
+});
+
+// ---------------------------------------------------------------------------
 // POST /auth/forgot-password — initiate password reset
-// Stores a short-lived reset token in RATE_LIMIT_KV (TTL = 1 hour).
+// P19-A: Stores a short-lived reset token in RATE_LIMIT_KV (TTL = 1 hour)
+//        and sends a reset link via Resend transactional email.
 // Always returns 200 to avoid email enumeration (SEC baseline).
 // ---------------------------------------------------------------------------
 authRoutes.post('/forgot-password', async (c) => {
@@ -338,8 +399,8 @@ authRoutes.post('/forgot-password', async (c) => {
 
   const email = body.email.toLowerCase().trim();
   const userRow = await c.env.DB.prepare(
-    'SELECT id FROM users WHERE email = ? LIMIT 1',
-  ).bind(email).first<{ id: string }>();
+    'SELECT id, full_name FROM users WHERE email = ? LIMIT 1',
+  ).bind(email).first<{ id: string; full_name: string | null }>();
 
   if (userRow) {
     try {
@@ -349,8 +410,18 @@ authRoutes.post('/forgot-password', async (c) => {
         userRow.id,
         { expirationTtl: RESET_TOKEN_TTL },
       );
-      // In production, send email via RESEND_API_KEY.
-      // The token would be embedded in a link: /reset-password?token=<resetToken>
+
+      const appBase = c.env.APP_BASE_URL?.replace(/\/$/, '') ?? 'https://app.webwaka.com';
+      const resetUrl = `${appBase}/reset-password?token=${resetToken}`;
+      const userName = userRow.full_name?.split(' ')[0] ?? 'there';
+
+      const emailService = new EmailService(c.env.RESEND_API_KEY);
+      await emailService.sendTransactional(email, 'password-reset', {
+        name: userName,
+        reset_url: resetUrl,
+        expires_in_hours: RESET_TOKEN_TTL_HOURS,
+      });
+
       console.log(JSON.stringify({
         level: 'info',
         event: 'password_reset_initiated',
@@ -358,7 +429,7 @@ authRoutes.post('/forgot-password', async (c) => {
         timestamp: new Date().toISOString(),
       }));
     } catch {
-      // KV failure — still return 200 to avoid enumeration
+      // KV or email failure — still return 200 to avoid enumeration
     }
   }
 
@@ -402,6 +473,37 @@ authRoutes.post('/reset-password', async (c) => {
   }
 
   return c.json({ message: 'Password has been reset successfully. Please log in with your new password.' });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/logout — server-side token invalidation (auth required)
+// P19-C: Blacklists the current JWT in RATE_LIMIT_KV and deletes all active
+//        sessions for the user from the sessions table.
+// ---------------------------------------------------------------------------
+authRoutes.post('/logout', async (c) => {
+  const auth = c.get('auth');
+  if (!auth) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
+  }
+
+  const currentToken = c.req.header('Authorization')?.replace(/^Bearer\s+/i, '');
+  if (currentToken) {
+    try {
+      await c.env.RATE_LIMIT_KV.put(`blacklist:${currentToken}`, '1', { expirationTtl: 3600 });
+    } catch {
+      // KV unavailable — fail open; local token cleared by client regardless
+    }
+  }
+
+  try {
+    await c.env.DB.prepare(
+      `DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
+    ).bind(auth.userId, auth.tenantId).run();
+  } catch {
+    // sessions table may not exist — non-blocking
+  }
+
+  return c.json({ message: 'Logged out successfully.' });
 });
 
 // ---------------------------------------------------------------------------

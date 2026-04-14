@@ -81,21 +81,26 @@ export default function Dashboard() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
+  const isFreePlan = !loading && data.billing?.plan === 'free';
+
   const statCards = [
     {
       label: 'Revenue today',
       value: data.summary ? formatNaira(data.summary.totalKobo) : '—',
       icon: '💰',
+      locked: isFreePlan,
     },
     {
       label: 'Orders today',
       value: data.summary ? String(data.summary.orderCount) : '—',
       icon: '🛒',
+      locked: isFreePlan,
     },
     {
       label: 'Active offerings',
       value: data.productCount !== null ? String(data.productCount) : '—',
       icon: '📦',
+      locked: false,
     },
     {
       label: 'Plan',
@@ -103,6 +108,7 @@ export default function Dashboard() {
         ? `${data.billing.plan.charAt(0).toUpperCase()}${data.billing.plan.slice(1)}`
         : '—',
       icon: '💳',
+      locked: false,
     },
   ];
 
@@ -134,12 +140,39 @@ export default function Dashboard() {
           <article key={stat.label} style={styles.statCard}>
             <div style={{ fontSize: 28, marginBottom: 8 }} aria-hidden="true">{stat.icon}</div>
             <div style={styles.statValue}>
-              {loading ? <span style={{ color: '#d1d5db' }}>…</span> : stat.value}
+              {loading
+                ? <span style={{ color: '#d1d5db' }}>…</span>
+                : stat.locked
+                  ? <span style={{ color: '#d1d5db' }} title="Upgrade to access Commerce metrics">—</span>
+                  : stat.value}
             </div>
             <div style={styles.statLabel}>{stat.label}</div>
           </article>
         ))}
       </section>
+
+      {/* P19-E: Free-plan upgrade prompt — visible when on free plan after data loads */}
+      {isFreePlan && (
+        <div style={styles.upgradeBanner} role="complementary" aria-label="Plan upgrade prompt">
+          <div style={styles.upgradeBannerInner}>
+            <div style={{ fontSize: 28, marginRight: 16, flexShrink: 0 }} aria-hidden="true">🚀</div>
+            <div style={{ flex: 1 }}>
+              <div style={styles.upgradeTitle}>Revenue & sales metrics require the Growth plan</div>
+              <div style={styles.upgradeDesc}>
+                Your free plan includes the Discovery layer only. Upgrade to Growth to unlock the
+                Commerce layer — point-of-sale, revenue tracking, orders, and advanced analytics.
+              </div>
+            </div>
+            <Link
+              to="/settings"
+              style={styles.upgradeBtn}
+              aria-label="Go to Settings to upgrade your plan"
+            >
+              Upgrade plan
+            </Link>
+          </div>
+        </div>
+      )}
 
       <section aria-label="Quick actions" style={styles.section}>
         <h2 style={styles.sectionHeading}>Quick actions</h2>
@@ -160,6 +193,11 @@ export default function Dashboard() {
           {loading ? (
             <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
               Loading…
+            </div>
+          ) : isFreePlan ? (
+            <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
+              Sales history is available on the Growth plan.{' '}
+              <Link to="/settings" style={{ color: '#0F4C81', fontWeight: 600 }}>Upgrade to unlock</Link>
             </div>
           ) : data.recentSales.length === 0 ? (
             <div style={{ padding: '24px 16px', textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
@@ -203,13 +241,27 @@ const styles = {
   heading: { fontSize: 26, fontWeight: 700, color: '#111827', marginBottom: 4 } as React.CSSProperties,
   subheading: { fontSize: 14, color: '#6b7280' } as React.CSSProperties,
   tenantBadge: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 } as React.CSSProperties,
-  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16, marginBottom: 32 } as React.CSSProperties,
+  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16, marginBottom: 24 } as React.CSSProperties,
   statCard: {
     background: '#fff', borderRadius: 12, padding: '20px 18px',
     boxShadow: '0 1px 4px rgba(0,0,0,0.06)', border: '1px solid #f0f0f0',
   } as React.CSSProperties,
   statValue: { fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 2 } as React.CSSProperties,
   statLabel: { fontSize: 13, color: '#6b7280' } as React.CSSProperties,
+  upgradeBanner: {
+    marginBottom: 28, borderRadius: 12, overflow: 'hidden',
+    border: '1px solid #bfdbfe', background: '#eff6ff',
+  } as React.CSSProperties,
+  upgradeBannerInner: {
+    display: 'flex', alignItems: 'center', padding: '16px 20px', gap: 12, flexWrap: 'wrap',
+  } as React.CSSProperties,
+  upgradeTitle: { fontSize: 14, fontWeight: 700, color: '#1d4ed8', marginBottom: 4 } as React.CSSProperties,
+  upgradeDesc: { fontSize: 13, color: '#3b82f6', lineHeight: 1.5 } as React.CSSProperties,
+  upgradeBtn: {
+    flexShrink: 0, background: '#0F4C81', color: '#fff', padding: '10px 20px',
+    borderRadius: 8, textDecoration: 'none', fontWeight: 600, fontSize: 13,
+    whiteSpace: 'nowrap', minHeight: 44, display: 'flex', alignItems: 'center',
+  } as React.CSSProperties,
   section: { marginBottom: 32 } as React.CSSProperties,
   sectionHeading: { fontSize: 17, fontWeight: 700, color: '#111827', marginBottom: 14 } as React.CSSProperties,
   actionsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 } as React.CSSProperties,
