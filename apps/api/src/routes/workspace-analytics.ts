@@ -73,15 +73,17 @@ workspaceAnalyticsRoutes.get('/:workspaceId/summary', async (c) => {
     return c.json({ period, date, source: 'snapshot', ...snapshot });
   }
 
-  // Fallback: live aggregation from transactions table
+  // Fallback: live aggregation from bank_transfer_orders
+  // (primary payment table — has workspace_id, tenant_id, amount_kobo, buyer_id)
   const live = await db
     .prepare(
       `SELECT
          COUNT(*) as total_orders,
          COALESCE(SUM(amount_kobo), 0) as total_revenue_kobo,
-         COUNT(DISTINCT COALESCE(metadata_buyer_id, '')) as unique_customers
-       FROM transactions
-       WHERE tenant_id = ? AND workspace_id = ? AND date(created_at) = ?`,
+         COUNT(DISTINCT COALESCE(buyer_id, '')) as unique_customers
+       FROM bank_transfer_orders
+       WHERE tenant_id = ? AND workspace_id = ? AND status = 'confirmed'
+         AND date(created_at, 'unixepoch') = ?`,
     )
     .bind(auth.tenantId, workspaceId, date)
     .first<{
@@ -101,7 +103,7 @@ workspaceAnalyticsRoutes.get('/:workspaceId/summary', async (c) => {
     top_vertical: null,
     payment_cash_kobo: 0,
     payment_card_kobo: 0,
-    payment_transfer_kobo: 0,
+    payment_transfer_kobo: live?.total_revenue_kobo ?? 0,
     payment_ussd_kobo: 0,
   });
 });

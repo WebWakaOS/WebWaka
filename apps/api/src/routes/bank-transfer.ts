@@ -138,15 +138,19 @@ bankTransferRoutes.get('/', async (c) => {
 
   const db = c.env.DB as unknown as D1Like;
 
-  const statusFilter = status ? `AND status = '${status.replace(/'/g, '')}'` : '';
-  const orders = await db
-    .prepare(
-      `SELECT * FROM bank_transfer_orders
-       WHERE workspace_id = ? AND tenant_id = ? ${statusFilter}
-       ORDER BY created_at DESC LIMIT ?`,
-    )
-    .bind(workspaceId, auth.tenantId, limit)
-    .all<Record<string, unknown>>();
+  const VALID_BT_STATUSES = ['pending', 'proof_submitted', 'confirmed', 'rejected', 'expired'] as const;
+  if (status && !(VALID_BT_STATUSES as readonly string[]).includes(status)) {
+    return c.json({ error: `Invalid status. Must be one of: ${VALID_BT_STATUSES.join(', ')}` }, 400);
+  }
+
+  const querySql = status
+    ? `SELECT * FROM bank_transfer_orders WHERE workspace_id = ? AND tenant_id = ? AND status = ? ORDER BY created_at DESC LIMIT ?`
+    : `SELECT * FROM bank_transfer_orders WHERE workspace_id = ? AND tenant_id = ? ORDER BY created_at DESC LIMIT ?`;
+  const binds: unknown[] = status
+    ? [workspaceId, auth.tenantId, status, limit]
+    : [workspaceId, auth.tenantId, limit];
+
+  const orders = await db.prepare(querySql).bind(...binds).all<Record<string, unknown>>();
 
   return c.json({ orders: orders.results, total: orders.results.length });
 });

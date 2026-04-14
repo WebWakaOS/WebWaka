@@ -1084,7 +1084,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [open, bidding, awarded, cancelled, expired]
+            enum: [open, bidding, awarded, closed, expired]
         - name: category
           in: query
           schema:
@@ -1316,7 +1316,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [draft, sent, paid, overdue, disputed, cancelled]
+            enum: [draft, sent, paid, overdue, cancelled]
         - name: limit
           in: query
           schema:

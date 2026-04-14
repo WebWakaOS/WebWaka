@@ -177,7 +177,10 @@ fxRatesRoutes.get('/convert', async (c) => {
 
 fxRatesRoutes.post('/', async (c) => {
   const auth = c.get('auth') as AuthContext | undefined;
-  if ((auth as { role?: string } | undefined)?.role !== 'super_admin') {
+  if (!auth) {
+    return c.json({ error: 'Authentication required' }, 401);
+  }
+  if ((auth as { role?: string }).role !== 'super_admin') {
     return c.json({ error: 'super_admin role required' }, 403);
   }
 

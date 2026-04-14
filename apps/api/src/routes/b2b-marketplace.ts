@@ -122,18 +122,23 @@ b2bMarketplaceRoutes.get('/rfqs', async (c) => {
   const limit = Math.min(parseInt(c.req.query('limit') ?? '50'), 100);
   const db = c.env.DB as unknown as D1Like;
 
-  const statusFilter = status ? `AND status = '${status.replace(/'/g, '')}'` : '';
-  const categoryFilter = category ? `AND category = '${category.replace(/'/g, '')}'` : '';
+  const VALID_RFQ_STATUSES = ['open', 'bidding', 'awarded', 'closed', 'expired'] as const;
+  if (status && !(VALID_RFQ_STATUSES as readonly string[]).includes(status)) {
+    return c.json({ error: `Invalid status. Must be one of: ${VALID_RFQ_STATUSES.join(', ')}` }, 400);
+  }
 
-  const rfqs = await db
-    .prepare(
-      `SELECT r.*, (SELECT COUNT(*) FROM b2b_rfq_bids b WHERE b.rfq_id = r.id) as bid_count
-       FROM b2b_rfqs r
-       WHERE tenant_id = ? ${statusFilter} ${categoryFilter}
-       ORDER BY created_at DESC LIMIT ?`,
-    )
-    .bind(auth.tenantId, limit)
-    .all<Record<string, unknown>>();
+  const rfqSql =
+    `SELECT r.*, (SELECT COUNT(*) FROM b2b_rfq_bids b WHERE b.rfq_id = r.id) as bid_count` +
+    ` FROM b2b_rfqs r WHERE r.tenant_id = ?` +
+    (status ? ` AND r.status = ?` : ``) +
+    (category ? ` AND r.category = ?` : ``) +
+    ` ORDER BY r.created_at DESC LIMIT ?`;
+  const rfqBinds: unknown[] = [auth.tenantId];
+  if (status) rfqBinds.push(status);
+  if (category) rfqBinds.push(category);
+  rfqBinds.push(limit);
+
+  const rfqs = await db.prepare(rfqSql).bind(...rfqBinds).all<Record<string, unknown>>();
 
   return c.json({ rfqs: rfqs.results, total: rfqs.results.length });
 });
@@ -270,15 +275,17 @@ b2bMarketplaceRoutes.get('/purchase-orders', async (c) => {
   const limit = Math.min(parseInt(c.req.query('limit') ?? '50'), 100);
   const db = c.env.DB as unknown as D1Like;
 
-  const statusFilter = status ? `AND status = '${status.replace(/'/g, '')}'` : '';
-  const pos = await db
-    .prepare(
-      `SELECT * FROM b2b_purchase_orders
-       WHERE tenant_id = ? ${statusFilter}
-       ORDER BY created_at DESC LIMIT ?`,
-    )
-    .bind(auth.tenantId, limit)
-    .all<Record<string, unknown>>();
+  const VALID_PO_STATUSES = ['rfq_accepted', 'po_created', 'in_fulfillment', 'delivered', 'invoiced', 'paid', 'disputed', 'cancelled'] as const;
+  if (status && !(VALID_PO_STATUSES as readonly string[]).includes(status)) {
+    return c.json({ error: `Invalid status. Must be one of: ${VALID_PO_STATUSES.join(', ')}` }, 400);
+  }
+
+  const poSql = status
+    ? `SELECT * FROM b2b_purchase_orders WHERE tenant_id = ? AND status = ? ORDER BY created_at DESC LIMIT ?`
+    : `SELECT * FROM b2b_purchase_orders WHERE tenant_id = ? ORDER BY created_at DESC LIMIT ?`;
+  const poBinds: unknown[] = status ? [auth.tenantId, status, limit] : [auth.tenantId, limit];
+
+  const pos = await db.prepare(poSql).bind(...poBinds).all<Record<string, unknown>>();
 
   return c.json({ purchase_orders: pos.results, total: pos.results.length });
 });
@@ -377,14 +384,11 @@ b2bMarketplaceRoutes.post('/invoices', async (c) => {
     return c.json({ error: 'Total invoice amount must be a positive integer (P9 invariant)' }, 422);
   }
 
-  const invoiceSeq = await db
-    .prepare(`SELECT COUNT(*) as cnt FROM b2b_invoices WHERE tenant_id = ?`)
-    .bind(auth.tenantId)
-    .first<{ cnt: number }>();
-
-  const seq = ((invoiceSeq?.cnt ?? 0) + 1).toString().padStart(5, '0');
+  // Use a UUID-derived suffix to avoid TOCTOU race conditions under concurrent requests.
+  // COUNT(*)-based sequences are not safe on distributed edge workers.
   const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const invoiceNumber = `INV-${date}-${seq}`;
+  const uniqueSuffix = crypto.randomUUID().slice(0, 8).toUpperCase();
+  const invoiceNumber = `INV-${date}-${uniqueSuffix}`;
 
   const invoiceId = crypto.randomUUID();
   await db
@@ -425,13 +429,17 @@ b2bMarketplaceRoutes.get('/invoices', async (c) => {
   const limit = Math.min(parseInt(c.req.query('limit') ?? '50'), 100);
   const db = c.env.DB as unknown as D1Like;
 
-  const statusFilter = status ? `AND status = '${status.replace(/'/g, '')}'` : '';
-  const invoices = await db
-    .prepare(
-      `SELECT * FROM b2b_invoices WHERE tenant_id = ? ${statusFilter} ORDER BY created_at DESC LIMIT ?`,
-    )
-    .bind(auth.tenantId, limit)
-    .all<Record<string, unknown>>();
+  const VALID_INVOICE_STATUSES = ['draft', 'sent', 'paid', 'overdue', 'cancelled'] as const;
+  if (status && !(VALID_INVOICE_STATUSES as readonly string[]).includes(status)) {
+    return c.json({ error: `Invalid status. Must be one of: ${VALID_INVOICE_STATUSES.join(', ')}` }, 400);
+  }
+
+  const invoiceSql = status
+    ? `SELECT * FROM b2b_invoices WHERE tenant_id = ? AND status = ? ORDER BY created_at DESC LIMIT ?`
+    : `SELECT * FROM b2b_invoices WHERE tenant_id = ? ORDER BY created_at DESC LIMIT ?`;
+  const invoiceBinds: unknown[] = status ? [auth.tenantId, status, limit] : [auth.tenantId, limit];
+
+  const invoices = await db.prepare(invoiceSql).bind(...invoiceBinds).all<Record<string, unknown>>();
 
   return c.json({ invoices: invoices.results, total: invoices.results.length });
 });

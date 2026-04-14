@@ -107,6 +107,14 @@ export default function () {
     'GET /analytics/workspace without JWT → 401': (r) => r.status === 401,
   });
 
+  // P24: POST /fx-rates without JWT must return 401 (not 403) — SEC-002 regression guard
+  const noAuthFxPost = http.post(`${BASE_URL}/fx-rates`, JSON.stringify({}), {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  check(noAuthFxPost, {
+    'POST /fx-rates without JWT → 401': (r) => r.status === 401,
+  });
+
   sleep(0.1);
 
   // -------------------------------------------------------------------------
