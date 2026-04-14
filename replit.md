@@ -4,8 +4,8 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
-**Current State: Phase 17 (Sprint 14) COMPLETE — 2365 tests all green, 11/11 governance PASS**
-**Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P17 defined; v1.0.1 roadmap ≥93% complete**
+**Current State: Phase 18 (Checklist Items) IN PROGRESS — 2366 tests all green, 12/12 governance PASS**
+**Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P18 defined**
 
 ### Phase Progress (docs/ops/implementation-plan.md)
 | Phase | Status |
@@ -28,6 +28,7 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Phase 15 — Seed CSV Dedup + Final Gov Audit | ✅ COMPLETE (0 duplicates, UNIQUE constraint, 11/11 governance) |
 | Phase 16 QA Audit — Comprehensive E2E Verification | ✅ COMPLETE (9 bugs fixed, 11/11 governance, 2328 tests) |
 | Phase 17 — Sprint 14 Final Open Items | ✅ COMPLETE (MON-05 API, UX bundle, PERF-11, ARC-18, QA-12, docs — 2365 tests) |
+| Phase 18 — P18 Execution Checklist | 🔄 IN PROGRESS (T001–T004 + T006 done; T005 infra ready) |
 
 ## Milestone Status
 
@@ -48,21 +49,23 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 | Full Comprehensive QA Audit | ✅ COMPLETE — 6 bugs fixed, 22 routes restored, all governance green |
 | Phase 16 E2E QA Audit | ✅ COMPLETE — 9 additional fixes, 11/11 governance, 2328/2328 tests |
 | Phase 17 Sprint 14 | ✅ COMPLETE — MON-05 (7 billing routes), UX-05/06/09/10/12/13, ARC-18, PERF-11, QA-12, DEV-07/ARC-09/ARC-16 docs, 2365/2365 tests |
+| Phase 18 P18 Checklist | 🔄 IN PROGRESS — P18-C (revert_cancel audit, migration 0229), P18-E (API versioning governance, 12th check), P18-F (k6 billing + negotiation + geography), P18-D (full ARIA audit + responsive nav), P18-A (ADR-0018 updated), P18-B infra ready — 2366/2366 tests |
 
 ## Platform Scale
 
 | Metric | Count |
 |--------|-------|
 | Apps | 9 (api, platform-admin, admin-dashboard, partner-admin, brand-runtime, public-discovery, ussd-gateway, tenant-public, projections) |
-| Packages | 201 (all with pillar prefixes) |
+| Packages | 203 (all with pillar prefixes) |
 | Verticals | 159 registry entries, 159 packages |
 | Vertical route files | 132 (all mounted — BUG-005/BUG-006 fixed in QA audit) |
 | Vertical test files | 132 (1:1 perfect balance with routes) |
-| D1 migrations | 229 (all 229 have rollback scripts — 0228 adds subscription_plan_history) |
-| API tests (apps/api) | 2365 (166 test files, 0 failures) |
+| D1 migrations | 230 (all with rollback scripts — 0229 adds revert_cancel to CHECK constraint) |
+| API tests (apps/api) | 2366 (166 test files, 0 failures) |
 | Phone-repair-shop package tests | 15 (packages/verticals-phone-repair-shop) |
-| CI governance checks | 11 (all 11 PASS) |
+| CI governance checks | 12 (all 12 PASS — check-api-versioning.ts added in P18-E) |
 | Geography seeds | 774 LGAs, 37 states, 6 zones |
+| k6 load test scripts | 3 (billing, negotiation, geography — tests/k6/) |
 | Platform version | 1.0.1 |
 
 ## Comprehensive QA Audit — Bug Log (April 2026)

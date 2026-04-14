@@ -229,7 +229,7 @@
         </div>
 
         <div style="margin-bottom:1rem">
-          <button class="btn btn-primary" onclick="PartnerUI.showAddTenant()">+ Add Tenant</button>
+          <button class="btn btn-primary" onclick="PartnerUI.showAddTenant()" aria-label="Add new tenant">+ Add Tenant</button>
         </div>
 
         <!-- Add tenant form (UX-05) -->
@@ -247,7 +247,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="tenant-plan">Plan<span class="required" aria-hidden="true">*</span></label>
-            <select class="form-input" id="tenant-plan" aria-required="true">
+            <select class="form-input" id="tenant-plan" aria-required="true" aria-describedby="tenant-plan-error">
               <option value="">Select plan…</option>
               <option value="free">Free</option>
               <option value="starter">Starter</option>
@@ -430,6 +430,7 @@
       var el = document.createElement('div');
       el.className = 'toast toast-' + type;
       el.setAttribute('role', 'status');
+      el.setAttribute('aria-atomic', 'true');
       el.id = 'toast-' + id;
       el.innerHTML =
         '<span class="toast-icon" aria-hidden="true">' + (ICONS[type] || ICONS.info) + '</span>' +
@@ -437,7 +438,7 @@
           '<div class="toast-title">' + escapeHtml(title || TITLES[type]) + '</div>' +
           (msg ? '<div class="toast-msg">' + escapeHtml(msg) + '</div>' : '') +
         '</div>' +
-        '<button class="toast-close" aria-label="Dismiss" onclick="PartnerUI.dismissToast(' + id + ')">&#10005;</button>';
+        '<button class="toast-close" aria-label="Dismiss notification" onclick="PartnerUI.dismissToast(' + id + ')">&#10005;</button>';
       toastContainer.appendChild(el);
       setTimeout(function() { PartnerUI.dismissToast(id); }, duration);
     }
@@ -476,7 +477,12 @@
     });
     modalCancelBtn.addEventListener('click', function() { modal.classList.remove('open'); modalCb = null; });
     modal.addEventListener('click', function(e) { if (e.target === modal) { modal.classList.remove('open'); modalCb = null; } });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('open')) { modal.classList.remove('open'); modalCb = null; } });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (modal.classList.contains('open')) { modal.classList.remove('open'); modalCb = null; }
+        else if (sidebar.classList.contains('open')) { toggleNav(true); }
+      }
+    });
 
     // ── Form validation (UX-05) ──────────────────────────────────────────
     function setFieldValidity(input, valid) {
@@ -492,14 +498,16 @@
     var breadcrumbCurrent = document.getElementById('breadcrumb-current');
     var pageTitle = document.getElementById('page-title');
 
-    function toggleNav() {
+    function toggleNav(returnFocus) {
       var isOpen = sidebar.classList.toggle('open');
       overlay.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
+      hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      if (!isOpen && returnFocus) hamburger.focus();
     }
 
-    hamburger.addEventListener('click', toggleNav);
-    overlay.addEventListener('click', toggleNav);
+    hamburger.addEventListener('click', function() { toggleNav(false); });
+    overlay.addEventListener('click', function() { toggleNav(true); });
 
     document.querySelectorAll('.nav-item').forEach(function(item) {
       item.addEventListener('click', function() {
@@ -511,7 +519,7 @@
         document.getElementById('view-' + item.dataset.view).classList.add('active');
         pageTitle.textContent = label;
         breadcrumbCurrent.textContent = label;
-        if (sidebar.classList.contains('open')) toggleNav();
+        if (sidebar.classList.contains('open')) toggleNav(false);
       });
     });
 

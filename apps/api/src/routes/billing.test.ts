@@ -409,6 +409,50 @@ describe('POST /billing/revert-cancel', () => {
     const res = await app.fetch(post('/billing/revert-cancel', jwt), makeEnv(db));
     expect(res.status).toBe(404);
   });
+
+  it('records a revert_cancel history entry in subscription_plan_history', async () => {
+    // Use a SQL-capturing mock to verify that recordPlanHistory is called
+    // with changeType 'revert_cancel' after a successful revert.
+    const capturedSQL: string[] = [];
+    const capturedBinds: unknown[][] = [];
+    const sub = makeActiveSub({ cancel_at_period_end: 1 });
+
+    const db = {
+      prepare: vi.fn().mockImplementation((sql: string) => {
+        capturedSQL.push(sql);
+        const binds: unknown[] = [];
+        const stmt = {
+          bind: vi.fn().mockImplementation((...args: unknown[]) => {
+            binds.push(...args);
+            capturedBinds.push(binds);
+            return stmt;
+          }),
+          first: vi.fn().mockResolvedValue(sub),
+          run: vi.fn().mockResolvedValue({ success: true }),
+          all: vi.fn().mockResolvedValue({ results: [] }),
+        };
+        return stmt;
+      }),
+      batch: vi.fn().mockResolvedValue([{ results: [] }]),
+    };
+
+    const jwt = await makeJwt('ws_001');
+    const res = await app.fetch(post('/billing/revert-cancel', jwt), makeEnv(db));
+
+    expect(res.status).toBe(200);
+
+    // Verify the INSERT into subscription_plan_history was prepared
+    const historyInsert = capturedSQL.find(
+      (s) => s.includes('subscription_plan_history') && s.trim().toUpperCase().startsWith('INSERT'),
+    );
+    expect(historyInsert).toBeDefined();
+
+    // Verify the change_type bound was 'revert_cancel'
+    const revertCancelBound = capturedBinds.some((binds) =>
+      binds.includes('revert_cancel'),
+    );
+    expect(revertCancelBound).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------

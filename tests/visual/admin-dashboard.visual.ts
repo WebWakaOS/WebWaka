@@ -19,10 +19,8 @@
 
 import { test, expect } from '@playwright/test';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const STATIC_HTML = path.resolve(__dirname, '../../apps/admin-dashboard/public/index.html');
+const STATIC_HTML = path.resolve(process.cwd(), 'apps/admin-dashboard/public/index.html');
 const SERVER_URL = process.env['ADMIN_DASHBOARD_URL'];
 
 function getUrl(): string {

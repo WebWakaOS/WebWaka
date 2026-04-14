@@ -87,7 +87,7 @@ async function recordPlanHistory(
     changedBy: string;
     previousPlan: string;
     newPlan: string;
-    changeType: 'upgrade' | 'downgrade' | 'cancel' | 'reactivate';
+    changeType: 'upgrade' | 'downgrade' | 'cancel' | 'reactivate' | 'revert_cancel';
     effectiveAt: number;
     notes?: string;
   },
@@ -517,6 +517,19 @@ billingRoutes.post('/revert-cancel', async (c) => {
     )
     .bind(now, sub.id, auth.tenantId)
     .run();
+
+  // Audit trail — migration 0229 adds 'revert_cancel' to the CHECK constraint.
+  await recordPlanHistory(db, {
+    subscriptionId: sub.id,
+    workspaceId: sub.workspace_id,
+    tenantId: auth.tenantId,
+    changedBy: auth.userId,
+    previousPlan: sub.plan,
+    newPlan: sub.plan,
+    changeType: 'revert_cancel',
+    effectiveAt: now,
+    notes: 'Scheduled cancellation reverted; subscription will auto-renew at period end.',
+  });
 
   return c.json({
     reverted: true,

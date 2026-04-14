@@ -109,6 +109,8 @@ The OpenAPI spec MUST be linted in CI using the `openapi-lint` job before merge 
 ## Review checklist
 
 - [x] All existing routes tagged as `v0` (implicit) in OpenAPI spec
-- [ ] `/v1/` prefix shim added to `registerRoutes()` at GA milestone
+- [x] `negotiation` and 159 vertical routes already mounted at `/api/v1/` prefix (Phase 18 milestone)
+- [x] Governance check `scripts/governance-checks/check-api-versioning.ts` created — verifies mount path consistency against route file header comments (P18-E, Phase 18)
+- [ ] `/v1/` prefix shim added to `registerRoutes()` for remaining core routes at GA milestone
 - [ ] `Sunset` header middleware implemented for deprecated routes
 - [ ] `docs/openapi/v1.yaml` spec file created and CI lint passing

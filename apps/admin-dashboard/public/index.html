@@ -316,8 +316,8 @@
       </section>
 
       <!-- Verticals -->
-      <section id="view-verticals" class="view" aria-label="Verticals management">
-        <h3 class="section-title">Enabled Verticals</h3>
+      <section id="view-verticals" class="view" aria-labelledby="heading-verticals">
+        <h3 class="section-title" id="heading-verticals">Enabled Verticals</h3>
         <table aria-label="Verticals list">
           <thead>
             <tr>
@@ -335,8 +335,8 @@
       </section>
 
       <!-- Members -->
-      <section id="view-members" class="view" aria-label="Members management">
-        <h3 class="section-title">Workspace Members</h3>
+      <section id="view-members" class="view" aria-labelledby="heading-members">
+        <h3 class="section-title" id="heading-members">Workspace Members</h3>
         <div style="margin-bottom:1rem">
           <button class="btn btn-primary" onclick="WakaUI.showInviteMember()" aria-label="Invite a new member">+ Invite Member</button>
         </div>
@@ -350,7 +350,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="invite-role">Role<span class="required" aria-hidden="true">*</span></label>
-            <select class="form-input" id="invite-role" name="role" aria-required="true">
+            <select class="form-input" id="invite-role" name="role" aria-required="true" aria-describedby="invite-role-error">
               <option value="">Select a role…</option>
               <option value="member">Member</option>
               <option value="operator">Operator</option>
@@ -380,8 +380,8 @@
       </section>
 
       <!-- Claims -->
-      <section id="view-claims" class="view" aria-label="Claims management">
-        <h3 class="section-title">Pending Claims Queue</h3>
+      <section id="view-claims" class="view" aria-labelledby="heading-claims">
+        <h3 class="section-title" id="heading-claims">Pending Claims Queue</h3>
         <table aria-label="Claims list">
           <thead>
             <tr>
@@ -400,8 +400,8 @@
       </section>
 
       <!-- Entitlements / Subscription -->
-      <section id="view-entitlements" class="view" aria-label="Plan and entitlements">
-        <h3 class="section-title">Current Plan &amp; Feature Gates</h3>
+      <section id="view-entitlements" class="view" aria-labelledby="heading-entitlements">
+        <h3 class="section-title" id="heading-entitlements">Current Plan &amp; Feature Gates</h3>
         <div class="card-grid" role="list" aria-label="Plan details">
           <div class="card" role="listitem">
             <h4>Plan: Professional</h4>
@@ -418,7 +418,7 @@
         </div>
 
         <h3 class="section-title" style="margin-top:2rem">Change Plan</h3>
-        <div class="plan-cards" role="radiogroup" aria-label="Select a subscription plan">
+        <div class="plan-cards" role="group" aria-label="Select a subscription plan">
           <button class="plan-card" data-plan="free" aria-pressed="false">
             <div class="plan-name">Free</div>
             <div class="plan-desc">1 vertical, basic features</div>
@@ -445,8 +445,8 @@
       </section>
 
       <!-- Templates -->
-      <section id="view-templates" class="view" aria-label="Templates management">
-        <h3 class="section-title">Installed Templates</h3>
+      <section id="view-templates" class="view" aria-labelledby="heading-templates">
+        <h3 class="section-title" id="heading-templates">Installed Templates</h3>
         <div id="installed-templates" class="card-grid" role="list" aria-label="Installed templates">
           <div class="empty-state" style="grid-column:1/-1" role="listitem">
             <div class="icon" aria-hidden="true">&#129513;</div>
@@ -587,9 +587,13 @@
     });
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.classList.contains('open')) {
-        modal.classList.remove('open');
-        modalCallback = null;
+      if (e.key === 'Escape') {
+        if (modal.classList.contains('open')) {
+          modal.classList.remove('open');
+          modalCallback = null;
+        } else if (sidebar.classList.contains('open')) {
+          toggleNav(true);
+        }
       }
     });
 
@@ -611,14 +615,16 @@
     var sidebar = document.getElementById('sidebar');
     var overlay = document.getElementById('overlay');
 
-    function toggleNav() {
+    function toggleNav(returnFocus) {
       var isOpen = sidebar.classList.toggle('open');
       overlay.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
+      hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      if (!isOpen && returnFocus) hamburger.focus();
     }
 
-    hamburger.addEventListener('click', toggleNav);
-    overlay.addEventListener('click', toggleNav);
+    hamburger.addEventListener('click', function() { toggleNav(false); });
+    overlay.addEventListener('click', function() { toggleNav(true); });
 
     // ── Breadcrumb update ────────────────────────────────────────────────
     var breadcrumbCurrent = document.getElementById('breadcrumb-current');
@@ -640,7 +646,7 @@
         if (viewEl) viewEl.classList.add('active');
         pageTitle.textContent = label;
         breadcrumbCurrent.textContent = label;
-        if (sidebar.classList.contains('open')) toggleNav();
+        if (sidebar.classList.contains('open')) toggleNav(false);
       });
     });
 

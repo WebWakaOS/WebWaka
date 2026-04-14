@@ -1,0 +1,1 @@
+# Baseline snapshots pending — generate with:\n# pnpm test:visual:update\n#\n# Requires Chromium with X11 system libraries (run in CI / local dev).\n# GitHub Actions: ubuntu-latest has all required libs.\n# Command: playwright test --project=visual --update-snapshots
