@@ -65,6 +65,11 @@ import { supportRoutes } from './routes/support.js';
 import eduAgriExtendedRoutes from './routes/verticals-edu-agri-extended.js';
 import { adminMetricsRoutes } from './routes/admin-metrics.js';
 import { errorLogMiddleware } from './middleware/error-log.js';
+import { bankTransferRoutes } from './routes/bank-transfer.js';
+import { workspaceAnalyticsRoutes } from './routes/workspace-analytics.js';
+import { fxRatesRoutes } from './routes/fx-rates.js';
+import { b2bMarketplaceRoutes } from './routes/b2b-marketplace.js';
+import { emailVerificationEnforcement } from './middleware/email-verification.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -597,4 +602,43 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // Platform-wide support view (super_admin only)
   app.use('/platform/support/*', authMiddleware);
   app.route('/platform/support', supportRoutes);
+
+  // -------------------------------------------------------------------------
+  // P21: Bank Transfer Payment — auth + email verification required (T007/T008)
+  // Email verification enforcement: blocks unverified users after enforcement date.
+  // Audit trail mandatory for all payment state transitions.
+  // -------------------------------------------------------------------------
+
+  app.use('/bank-transfer/*', authMiddleware);
+  app.use('/bank-transfer/*', emailVerificationEnforcement);
+  app.use('/bank-transfer/*', auditLogMiddleware);
+  app.route('/bank-transfer', bankTransferRoutes);
+
+  // -------------------------------------------------------------------------
+  // P23: Workspace Analytics — tenant-scoped (different from /platform/analytics)
+  // auth required; routes enforce workspace ownership internally (T3)
+  // -------------------------------------------------------------------------
+
+  app.use('/analytics/workspace/*', authMiddleware);
+  app.route('/analytics/workspace', workspaceAnalyticsRoutes);
+
+  // -------------------------------------------------------------------------
+  // P24: FX Rates — GET routes are public; POST (upsert) requires super_admin.
+  // Auth middleware NOT applied at route level — the POST handler enforces
+  // super_admin role internally. This keeps GET /fx-rates* routes public
+  // for currency display without requiring authentication.
+  // -------------------------------------------------------------------------
+
+  app.route('/fx-rates', fxRatesRoutes);
+
+  // -------------------------------------------------------------------------
+  // P25: B2B Marketplace — auth + email verification required
+  // Audit log on all mutation routes (bid, accept, PO, invoice, dispute)
+  // Trust scores are read-only but still require auth (T3)
+  // -------------------------------------------------------------------------
+
+  app.use('/b2b/*', authMiddleware);
+  app.use('/b2b/*', emailVerificationEnforcement);
+  app.use('/b2b/*', auditLogMiddleware);
+  app.route('/b2b', b2bMarketplaceRoutes);
 }

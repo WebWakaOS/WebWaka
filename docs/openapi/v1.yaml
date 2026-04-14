@@ -54,6 +54,14 @@ tags:
     description: Partner and sub-partner management (M11)
   - name: SuperAgent
     description: AI spend controls, credit engine, and NDPR compliance layer
+  - name: BankTransfer
+    description: P21 — Bank transfer payment FSM (pending → proof_submitted → confirmed)
+  - name: WorkspaceAnalytics
+    description: P23 — Tenant-scoped analytics dashboard (snapshots + live fallback)
+  - name: FxRates
+    description: P24 — Multi-currency FX rate lookup and conversion (public GET, super_admin POST)
+  - name: B2B
+    description: P25 — B2B marketplace RFQ/bid/PO/invoice/dispute lifecycle
 
 paths:
   /health:
@@ -562,6 +570,844 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
 
+  # ---------------------------------------------------------------------------
+  # P21: Bank Transfer Payment — FSM routes
+  # ---------------------------------------------------------------------------
+
+  /bank-transfer:
+    post:
+      tags: [BankTransfer]
+      summary: Create a bank transfer order
+      operationId: createBankTransferOrder
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [workspace_id, seller_entity_id, amount_kobo]
+              properties:
+                workspace_id:
+                  type: string
+                seller_entity_id:
+                  type: string
+                amount_kobo:
+                  type: integer
+                  description: Amount in integer kobo (P9 invariant — no floats)
+                  minimum: 1
+                currency_code:
+                  type: string
+                  default: NGN
+                  enum: [NGN, GHS, KES, ZAR, USD, CFA]
+                bank_name:
+                  type: string
+                  nullable: true
+                account_number:
+                  type: string
+                  nullable: true
+                account_name:
+                  type: string
+                  nullable: true
+                expires_in_hours:
+                  type: integer
+                  default: 48
+      responses:
+        "201":
+          description: Bank transfer order created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: "#/components/schemas/BankTransferOrder"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+    get:
+      tags: [BankTransfer]
+      summary: List bank transfer orders for a workspace
+      operationId: listBankTransferOrders
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspace_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, proof_submitted, confirmed, rejected, expired]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 100
+      responses:
+        "200":
+          description: List of bank transfer orders
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /bank-transfer/{orderId}:
+    get:
+      tags: [BankTransfer]
+      summary: Get a single bank transfer order
+      operationId: getBankTransferOrder
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bank transfer order
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /bank-transfer/{orderId}/proof:
+    post:
+      tags: [BankTransfer]
+      summary: Submit proof of payment (buyer) — FSM pending → proof_submitted
+      operationId: submitBankTransferProof
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [proof_url]
+              properties:
+                proof_url:
+                  type: string
+                  format: uri
+      responses:
+        "200":
+          description: Proof submitted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: Order is not in pending status
+        "410":
+          description: Order has expired
+
+  /bank-transfer/{orderId}/confirm:
+    post:
+      tags: [BankTransfer]
+      summary: Confirm payment received (seller/admin) — FSM proof_submitted → confirmed
+      operationId: confirmBankTransfer
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Payment confirmed
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: Order is not in proof_submitted status
+
+  /bank-transfer/{orderId}/reject:
+    post:
+      tags: [BankTransfer]
+      summary: Reject proof (seller/admin) — FSM proof_submitted → rejected
+      operationId: rejectBankTransfer
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+      responses:
+        "200":
+          description: Proof rejected
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /bank-transfer/{orderId}/dispute:
+    post:
+      tags: [BankTransfer]
+      summary: Raise a dispute (buyer, within 24h of confirmation)
+      operationId: raiseBankTransferDispute
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason:
+                  type: string
+                disputed_amount_kobo:
+                  type: integer
+                  minimum: 1
+      responses:
+        "201":
+          description: Dispute raised
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: Order not confirmed or dispute already exists
+        "410":
+          description: Dispute window closed (>24h from confirmation)
+    get:
+      tags: [BankTransfer]
+      summary: Get dispute for a bank transfer order
+      operationId: getBankTransferDispute
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dispute details
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ---------------------------------------------------------------------------
+  # P23: Workspace Analytics (tenant-scoped)
+  # ---------------------------------------------------------------------------
+
+  /analytics/workspace/{workspaceId}/summary:
+    get:
+      tags: [WorkspaceAnalytics]
+      summary: Get daily/weekly/monthly summary for a workspace
+      operationId: getWorkspaceAnalyticsSummary
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month]
+            default: day
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+            description: ISO date (YYYY-MM-DD), defaults to yesterday
+      responses:
+        "200":
+          description: Analytics summary (from snapshot or live fallback)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /analytics/workspace/{workspaceId}/trend:
+    get:
+      tags: [WorkspaceAnalytics]
+      summary: Revenue and order trend for last N days
+      operationId: getWorkspaceAnalyticsTrend
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 30
+            maximum: 365
+      responses:
+        "200":
+          description: Revenue trend data points
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /analytics/workspace/{workspaceId}/payments:
+    get:
+      tags: [WorkspaceAnalytics]
+      summary: Payment method breakdown for a date range
+      operationId: getWorkspacePaymentBreakdown
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: since
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Payment method breakdown (cash/card/transfer/ussd in kobo)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # ---------------------------------------------------------------------------
+  # P24: FX Rates — Multi-currency foundation
+  # GET routes are public; POST requires super_admin JWT
+  # ---------------------------------------------------------------------------
+
+  /fx-rates:
+    get:
+      tags: [FxRates]
+      summary: List all active FX rates (public)
+      operationId: listFxRates
+      responses:
+        "200":
+          description: Active FX rates (rate integer × 1,000,000 for float avoidance)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rates:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FxRate"
+                  total:
+                    type: integer
+    post:
+      tags: [FxRates]
+      summary: Upsert an FX rate (super_admin only)
+      operationId: upsertFxRate
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [base_currency, quote_currency, rate, rate_inverse]
+              properties:
+                base_currency:
+                  type: string
+                  example: NGN
+                quote_currency:
+                  type: string
+                  example: USD
+                rate:
+                  type: integer
+                  description: Rate × 1,000,000 (e.g. 0.00065 NGN/USD = 650)
+                  minimum: 1
+                rate_inverse:
+                  type: integer
+                  description: Inverse rate × 1,000,000
+                  minimum: 1
+                source:
+                  type: string
+                  default: manual
+                expires_in_hours:
+                  type: integer
+      responses:
+        "201":
+          description: FX rate created
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /fx-rates/{base}/{quote}:
+    get:
+      tags: [FxRates]
+      summary: Get specific currency pair rate (public)
+      operationId: getFxRate
+      parameters:
+        - name: base
+          in: path
+          required: true
+          schema:
+            type: string
+            example: NGN
+        - name: quote
+          in: path
+          required: true
+          schema:
+            type: string
+            example: USD
+      responses:
+        "200":
+          description: FX rate for pair
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FxRate"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /fx-rates/convert:
+    get:
+      tags: [FxRates]
+      summary: Convert amount between currencies (public)
+      operationId: convertCurrency
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: amount
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            description: Amount in smallest currency unit (integer, P9 invariant)
+      responses:
+        "200":
+          description: Converted amount
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  # ---------------------------------------------------------------------------
+  # P25: B2B Marketplace
+  # ---------------------------------------------------------------------------
+
+  /b2b/rfqs:
+    post:
+      tags: [B2B]
+      summary: Create a Request for Quotation (RFQ)
+      operationId: createRfq
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [workspace_id, buyer_entity_id, category, title, description]
+              properties:
+                workspace_id:
+                  type: string
+                buyer_entity_id:
+                  type: string
+                category:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                quantity:
+                  type: number
+                  nullable: true
+                unit:
+                  type: string
+                  nullable: true
+                target_price_kobo:
+                  type: integer
+                  minimum: 1
+                  nullable: true
+                expires_in_hours:
+                  type: integer
+                  default: 72
+      responses:
+        "201":
+          description: RFQ created
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+    get:
+      tags: [B2B]
+      summary: List RFQs for tenant
+      operationId: listRfqs
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, bidding, awarded, cancelled, expired]
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: List of RFQs with bid count
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /b2b/rfqs/{rfqId}:
+    get:
+      tags: [B2B]
+      summary: Get RFQ with all bids
+      operationId: getRfq
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: rfqId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: RFQ with bids
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /b2b/rfqs/{rfqId}/bids:
+    post:
+      tags: [B2B]
+      summary: Submit a bid on an RFQ (seller)
+      operationId: submitBid
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: rfqId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [seller_entity_id, bid_amount_kobo]
+              properties:
+                seller_entity_id:
+                  type: string
+                bid_amount_kobo:
+                  type: integer
+                  minimum: 1
+                currency_code:
+                  type: string
+                  default: NGN
+                notes:
+                  type: string
+                  nullable: true
+      responses:
+        "201":
+          description: Bid submitted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: RFQ not open for bidding
+        "410":
+          description: RFQ has expired
+
+  /b2b/rfqs/{rfqId}/bids/{bidId}/accept:
+    post:
+      tags: [B2B]
+      summary: Accept a bid (buyer) — creates purchase order
+      operationId: acceptBid
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: rfqId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bidId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Bid accepted, purchase order created
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: RFQ not in bidding status
+
+  /b2b/purchase-orders:
+    get:
+      tags: [B2B]
+      summary: List purchase orders for tenant
+      operationId: listPurchaseOrders
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: List of purchase orders
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /b2b/purchase-orders/{poId}:
+    get:
+      tags: [B2B]
+      summary: Get purchase order details
+      operationId: getPurchaseOrder
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: poId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Purchase order details
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /b2b/purchase-orders/{poId}/deliver:
+    post:
+      tags: [B2B]
+      summary: Mark purchase order as delivered (seller)
+      operationId: markDelivered
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: poId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Purchase order marked delivered
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: Invalid status transition
+
+  /b2b/invoices:
+    post:
+      tags: [B2B]
+      summary: Create invoice for a purchase order
+      operationId: createInvoice
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [purchase_order_id, line_items]
+              properties:
+                purchase_order_id:
+                  type: string
+                line_items:
+                  type: array
+                  items:
+                    type: object
+                    required: [description, quantity, unit_price_kobo, total_kobo]
+                    properties:
+                      description:
+                        type: string
+                      quantity:
+                        type: number
+                      unit_price_kobo:
+                        type: integer
+                        minimum: 1
+                      total_kobo:
+                        type: integer
+                        minimum: 1
+                tax_kobo:
+                  type: integer
+                  default: 0
+                payment_terms:
+                  type: string
+                  default: bank_transfer
+                due_date:
+                  type: integer
+                  description: Unix timestamp
+      responses:
+        "201":
+          description: Invoice created
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    get:
+      tags: [B2B]
+      summary: List invoices for tenant
+      operationId: listInvoices
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, sent, paid, overdue, disputed, cancelled]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: List of invoices
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /b2b/invoices/{invoiceId}:
+    get:
+      tags: [B2B]
+      summary: Get invoice details
+      operationId: getInvoice
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Invoice details
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /b2b/disputes:
+    post:
+      tags: [B2B]
+      summary: Raise a B2B marketplace dispute
+      operationId: raiseB2bDispute
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [raised_by_entity, against_entity, reason]
+              properties:
+                purchase_order_id:
+                  type: string
+                  nullable: true
+                invoice_id:
+                  type: string
+                  nullable: true
+                raised_by_entity:
+                  type: string
+                against_entity:
+                  type: string
+                reason:
+                  type: string
+                evidence_urls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+      responses:
+        "201":
+          description: Dispute raised
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /b2b/trust/{entityId}:
+    get:
+      tags: [B2B]
+      summary: Get entity trust score
+      operationId: getEntityTrustScore
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: entityId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Trust score (defaults to 0 if no history)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
 components:
   securitySchemes:
     BearerAuth:
@@ -578,6 +1424,98 @@ components:
           type: string
         details:
           type: string
+
+    BankTransferOrder:
+      type: object
+      required: [id, workspace_id, tenant_id, seller_entity_id, amount_kobo, currency_code, reference, status, expires_at, created_at]
+      properties:
+        id:
+          type: string
+        workspace_id:
+          type: string
+        tenant_id:
+          type: string
+        buyer_id:
+          type: string
+          nullable: true
+        seller_entity_id:
+          type: string
+        amount_kobo:
+          type: integer
+          description: Amount in integer kobo (P9 invariant)
+        currency_code:
+          type: string
+        reference:
+          type: string
+          description: Human-readable reference e.g. WKA-20260414-AB123
+        bank_name:
+          type: string
+          nullable: true
+        account_number:
+          type: string
+          nullable: true
+        account_name:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [pending, proof_submitted, confirmed, rejected, expired]
+        proof_url:
+          type: string
+          nullable: true
+        proof_submitted_at:
+          type: integer
+          nullable: true
+        confirmed_at:
+          type: integer
+          nullable: true
+        confirmed_by:
+          type: string
+          nullable: true
+        rejection_reason:
+          type: string
+          nullable: true
+        expires_at:
+          type: integer
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+
+    FxRate:
+      type: object
+      required: [id, base_currency, quote_currency, rate, rate_inverse, source, effective_at]
+      properties:
+        id:
+          type: string
+        base_currency:
+          type: string
+          example: NGN
+        quote_currency:
+          type: string
+          example: USD
+        rate:
+          type: integer
+          description: Rate × 1,000,000 to avoid floats (actual = rate / 1_000_000)
+        rate_inverse:
+          type: integer
+          description: Inverse rate × 1,000,000
+        rate_actual:
+          type: number
+          description: Convenience field — rate / 1,000,000
+        rate_inverse_actual:
+          type: number
+          description: Convenience field — rate_inverse / 1,000,000
+        source:
+          type: string
+          enum: [manual, cbr, ecb, paystack]
+        effective_at:
+          type: integer
+          description: Unix timestamp when rate becomes effective
+        expires_at:
+          type: integer
+          nullable: true
+          description: Unix timestamp when rate expires (null = no expiry)
 
     AuthTokenResponse:
       type: object

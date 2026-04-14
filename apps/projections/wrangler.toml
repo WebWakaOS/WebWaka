@@ -45,6 +45,37 @@ binding = "DB"
 database_name = "webwaka-os-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
+# ---------------------------------------------------------------------------
+# Scheduled CRON triggers (Issue 4 — Projections CRON + checkpoint)
+# Issue 8 — HITL cross-tenant expiry + L3 escalation
+# ---------------------------------------------------------------------------
+[triggers]
+crons = [
+  "*/15 * * * *",  # Every 15 min: incremental search rebuild + HITL expiry sweep
+  "0 */4 * * *",   # Every 4h: HITL expiry + search rebuild (belt-and-suspenders)
+  "0 2 * * *",     # Daily 02:00 UTC: analytics snapshots + bank transfer expiry
+]
+
+# ---------------------------------------------------------------------------
+# Staging triggers
+# ---------------------------------------------------------------------------
+[env.staging.triggers]
+crons = [
+  "*/15 * * * *",
+  "0 */4 * * *",
+  "0 2 * * *",
+]
+
+# ---------------------------------------------------------------------------
+# Production triggers
+# ---------------------------------------------------------------------------
+[env.production.triggers]
+crons = [
+  "*/15 * * * *",
+  "0 */4 * * *",
+  "0 2 * * *",
+]
+
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:
 #   INTER_SERVICE_SECRET

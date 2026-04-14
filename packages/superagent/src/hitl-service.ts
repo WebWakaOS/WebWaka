@@ -297,6 +297,82 @@ export class HitlService {
     return result.meta?.changes ?? 0;
   }
 
+  /**
+   * Cross-tenant HITL expiry — for use by the projections CRON only.
+   * Expires ALL stale pending items across every tenant in a single sweep.
+   * For hitl_level = 3 (regulatory) items that expire, writes an escalation
+   * row to hitl_escalations so tenant admins are notified.
+   *
+   * T3 note: This is intentionally cross-tenant — only the CRON system
+   * (authenticated via INTER_SERVICE_SECRET) may call this path.
+   *
+   * @returns { expired: number; escalated: number }
+   */
+  static async expireAllStale(
+    db: D1Like,
+  ): Promise<{ expired: number; escalated: number }> {
+    const now = new Date().toISOString();
+
+    // Step 1: Find all pending stale items (cross-tenant)
+    const stale = await db
+      .prepare(
+        `SELECT id, tenant_id, workspace_id, hitl_level
+         FROM ai_hitl_queue
+         WHERE status = 'pending' AND expires_at < ?`,
+      )
+      .bind(now)
+      .all<{ id: string; tenant_id: string; workspace_id: string; hitl_level: number }>();
+
+    if (!stale.results.length) return { expired: 0, escalated: 0 };
+
+    // Step 2: Bulk-expire all stale items
+    const expireResult = await db
+      .prepare(
+        `UPDATE ai_hitl_queue SET status = 'expired'
+         WHERE status = 'pending' AND expires_at < ?`,
+      )
+      .bind(now)
+      .run();
+
+    const expired = expireResult.meta?.changes ?? 0;
+
+    // Step 3: Write escalation rows for level-3 regulatory items
+    const l3Items = stale.results.filter((r) => r.hitl_level === 3);
+    let escalated = 0;
+
+    for (const item of l3Items) {
+      await db
+        .prepare(
+          `INSERT OR IGNORE INTO hitl_escalations
+           (id, queue_item_id, tenant_id, workspace_id, escalation_type, created_at, updated_at)
+           VALUES (?, ?, ?, ?, 'expired_regulatory', ?, ?)`,
+        )
+        .bind(
+          crypto.randomUUID(),
+          item.id,
+          item.tenant_id,
+          item.workspace_id ?? '',
+          now,
+          now,
+        )
+        .run();
+
+      // Also write an event record on the HITL queue item
+      await db
+        .prepare(
+          `INSERT INTO ai_hitl_events
+           (id, tenant_id, queue_item_id, event_type, actor_id, note)
+           VALUES (?, ?, ?, 'expired', 'system', 'L3 regulatory item auto-expired — escalation raised')`,
+        )
+        .bind(crypto.randomUUID(), item.tenant_id, item.id)
+        .run();
+
+      escalated++;
+    }
+
+    return { expired, escalated };
+  }
+
   async countPending(tenantId: string): Promise<number> {
     const row = await this.db
       .prepare(`SELECT COUNT(*) as cnt FROM ai_hitl_queue WHERE tenant_id = ? AND status = 'pending'`)

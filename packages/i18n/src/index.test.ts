@@ -1,6 +1,6 @@
 /**
  * @webwaka/i18n — unit tests
- * UX-15 — 5 locales, typed keys, locale detection, variable interpolation
+ * UX-15 — 6 locales (en/ha/yo/ig/pcm/fr), typed keys, locale detection, variable interpolation
  */
 import { describe, it, expect } from 'vitest';
 import {
@@ -15,8 +15,8 @@ import {
 // SUPPORTED_LOCALES constant
 // ---------------------------------------------------------------------------
 describe('SUPPORTED_LOCALES', () => {
-  it('contains exactly 5 locales', () => {
-    expect(SUPPORTED_LOCALES).toHaveLength(5);
+  it('contains exactly 6 locales', () => {
+    expect(SUPPORTED_LOCALES).toHaveLength(6);
   });
 
   it('includes en, ha, yo, ig, pcm', () => {
@@ -25,6 +25,7 @@ describe('SUPPORTED_LOCALES', () => {
     expect(SUPPORTED_LOCALES).toContain('yo');
     expect(SUPPORTED_LOCALES).toContain('ig');
     expect(SUPPORTED_LOCALES).toContain('pcm');
+    expect(SUPPORTED_LOCALES).toContain('fr');
   });
 });
 
@@ -233,7 +234,7 @@ describe('detectLocale — ?lang= query param', () => {
   });
 
   it('ignores unsupported ?lang= values', () => {
-    const req = makeRequest('https://example.com/?lang=fr');
+    const req = makeRequest('https://example.com/?lang=xx');
     expect(detectLocale(req)).toBe('en');
   });
 });
@@ -265,7 +266,7 @@ describe('detectLocale — Accept-Language header', () => {
   });
 
   it('falls back to en when no supported locale in header', () => {
-    expect(detectLocale(makeReq('fr-FR,de;q=0.8'))).toBe('en');
+    expect(detectLocale(makeReq('zh-CN,de;q=0.8'))).toBe('en');
   });
 
   it('respects q-weight ordering (higher q wins)', () => {

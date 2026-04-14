@@ -377,6 +377,71 @@ superagentRoutes.post(
       );
     }
 
+    // Step 9b: Write fine-grained spend event to ai_spend_events (P22 — SA-4.4+)
+    // Fire-and-forget (ctx.waitUntil not available in route context) — best-effort only.
+    // Failures here must NOT block the AI response.
+    {
+      const spendEventId = crypto.randomUUID();
+      const spendDb = c.env.DB as unknown as D1Like;
+      spendDb
+        .prepare(
+          `INSERT INTO ai_spend_events
+           (id, tenant_id, workspace_id, user_id, vertical, capability, model_used,
+            wakaCU_cost, request_id, hitl_level, status, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completed',
+                   strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+        )
+        .bind(
+          spendEventId,
+          auth.tenantId,
+          auth.workspaceId ?? '',
+          auth.userId,
+          verticalSlug || null,
+          capability,
+          aiResponse.model ?? null,
+          burn.wakaCuCharged,
+          null,
+          complianceResult.hitlLevel ?? autonomyLevel,
+        )
+        .run()
+        .catch((err: unknown) => {
+          console.error('[superagent] ai_spend_events write failed (non-fatal):', err);
+        });
+
+      // Step 9c: Queue budget warning notification if spend just crossed 80% threshold (P22)
+      const budgetLimit = budgetCheck.limit ?? 0;
+      const budgetRemaining = budgetCheck.remaining ?? 0;
+      if (budgetLimit > 0 && budgetRemaining > 0 && burn.wakaCuCharged > 0) {
+        const newRemaining = budgetRemaining - burn.wakaCuCharged;
+        const threshold80pct = Math.floor(budgetLimit * 0.2);
+        if (newRemaining <= threshold80pct && budgetRemaining > threshold80pct) {
+          const notifId = crypto.randomUUID();
+          spendDb
+            .prepare(
+              `INSERT INTO ai_notification_queue
+               (id, tenant_id, user_id, notification_type, payload, channel, created_at)
+               VALUES (?, ?, ?, 'budget_warning_80pct', ?, 'both',
+                       strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+            )
+            .bind(
+              notifId,
+              auth.tenantId,
+              auth.userId,
+              JSON.stringify({
+                budget_scope: budgetCheck.budgetScope,
+                limit_waku_cu: budgetLimit,
+                remaining_waku_cu: newRemaining,
+                used_pct: Math.round(((budgetLimit - newRemaining) / budgetLimit) * 100),
+              }),
+            )
+            .run()
+            .catch((err: unknown) => {
+              console.error('[superagent] budget warning notification queue failed (non-fatal):', err);
+            });
+        }
+      }
+    }
+
     return c.json({
       provider: aiResponse.provider,
       model: aiResponse.model,

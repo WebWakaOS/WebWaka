@@ -67,8 +67,10 @@ export { aiConsentGate } from './middleware.js';
 
 export {
   VERTICAL_AI_CONFIGS,
+  DEFAULT_VERTICAL_AI_CONFIG,
   getVerticalAiConfig,
   isCapabilityAllowed,
+  getAllVerticalSlugs,
 } from './vertical-ai-config.js';
 export type { VerticalAiConfig } from './vertical-ai-config.js';
 

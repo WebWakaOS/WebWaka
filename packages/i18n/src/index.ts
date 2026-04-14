@@ -24,12 +24,13 @@ import { ha } from './locales/ha.js';
 import { yo } from './locales/yo.js';
 import { ig } from './locales/ig.js';
 import { pcm } from './locales/pcm.js';
+import { fr } from './locales/fr.js';
 import type { I18nKeys, I18nLocale } from './locales/en.js';
 
 export type { I18nKeys, I18nLocale };
-export type SupportedLocale = 'en' | 'ha' | 'yo' | 'ig' | 'pcm';
+export type SupportedLocale = 'en' | 'ha' | 'yo' | 'ig' | 'pcm' | 'fr';
 
-export const SUPPORTED_LOCALES: readonly SupportedLocale[] = ['en', 'ha', 'yo', 'ig', 'pcm'];
+export const SUPPORTED_LOCALES: readonly SupportedLocale[] = ['en', 'ha', 'yo', 'ig', 'pcm', 'fr'];
 
 export const LOCALE_LABELS: Record<SupportedLocale, string> = {
   en: 'English',
@@ -37,6 +38,7 @@ export const LOCALE_LABELS: Record<SupportedLocale, string> = {
   yo: 'Yorùbá',
   ig: 'Igbo',
   pcm: 'Naija (Pidgin)',
+  fr: 'Français',
 };
 
 // Locale data — partial locales fall back to English for missing keys
@@ -46,6 +48,7 @@ const LOCALES: Record<SupportedLocale, Partial<I18nLocale>> = {
   yo,
   ig,
   pcm,
+  fr,
 };
 
 /**
@@ -157,4 +160,4 @@ export function createLocaleMiddleware() {
 }
 
 // Re-export locale data for direct use
-export { en, ha, yo, ig, pcm };
+export { en, ha, yo, ig, pcm, fr };
