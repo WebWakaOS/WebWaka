@@ -856,3 +856,494 @@ describe('DELETE /auth/me', () => {
     expect(typeof body.erasedAt).toBe('string');
   });
 });
+
+// ===========================================================================
+// P20-A: Workspace Member Invitations
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// POST /auth/invite
+// ---------------------------------------------------------------------------
+describe('POST /auth/invite — P20-A', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(post('/auth/invite', { email: 'a@b.com' }), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 when caller role is not admin', async () => {
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'member');
+    const res = await app.fetch(post('/auth/invite', { email: 'a@b.com' }, jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(403);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/admins can invite/i);
+  });
+
+  it('returns 400 when email is missing', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(post('/auth/invite', {}, jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/email is required/i);
+  });
+
+  it('returns 400 for an invalid email address', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(post('/auth/invite', { email: 'not-an-email' }, jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/invalid email/i);
+  });
+
+  it('returns 400 for an invalid role', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(
+      post('/auth/invite', { email: 'a@b.com', role: 'superuser' }, jwt),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/invalid role/i);
+  });
+
+  it('returns 409 when a pending invite already exists (first DB call returns existing row)', async () => {
+    const db = makeDB({ existingEmail: { id: 'inv_exists' } });
+    const jwt = await makeJwt();
+    const res = await app.fetch(post('/auth/invite', { email: 'dupe@test.com' }, jwt), makeEnv(db));
+    expect(res.status).toBe(409);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/pending invitation/i);
+  });
+
+  it('returns 201 and inviteId when admin invites a valid new email', async () => {
+    // first call (existing invite check) → null = no conflict
+    const db = makeDB();
+    const jwt = await makeJwt();
+    const res = await app.fetch(post('/auth/invite', { email: 'new@test.com', role: 'member' }, jwt), makeEnv(db));
+    expect(res.status).toBe(201);
+    const body = await res.json() as { inviteId: string; email: string; role: string; expiresAt: number; message: string };
+    expect(body.inviteId).toBeDefined();
+    expect(body.email).toBe('new@test.com');
+    expect(body.role).toBe('member');
+    expect(body.message).toMatch(/invitation sent/i);
+  });
+
+  it('accepts super_admin role as admin-equivalent', async () => {
+    const db = makeDB();
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'super_admin');
+    const res = await app.fetch(post('/auth/invite', { email: 'x@y.com' }, jwt), makeEnv(db));
+    expect(res.status).toBe(201);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /auth/invite/pending
+// ---------------------------------------------------------------------------
+describe('GET /auth/invite/pending — P20-A', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(get('/auth/invite/pending'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 for a non-admin', async () => {
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'member');
+    const res = await app.fetch(get('/auth/invite/pending', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 200 with an empty invitations array when none exist', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(get('/auth/invite/pending', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { invitations: unknown[] };
+    expect(Array.isArray(body.invitations)).toBe(true);
+    expect(body.invitations).toHaveLength(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /auth/invite/:id
+// ---------------------------------------------------------------------------
+describe('DELETE /auth/invite/:id — P20-A', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(del('/auth/invite/inv_123'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 for a non-admin', async () => {
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'cashier');
+    const res = await app.fetch(del('/auth/invite/inv_123', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 404 when invitation not found', async () => {
+    // makeDB default: first().resolves(null) → not found
+    const jwt = await makeJwt();
+    const res = await app.fetch(del('/auth/invite/inv_missing', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(404);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/not found/i);
+  });
+
+  it('returns 200 and revokes a found invitation', async () => {
+    const db = makeDB({ existingEmail: { id: 'inv_abc' } });
+    const jwt = await makeJwt();
+    const res = await app.fetch(del('/auth/invite/inv_abc', jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/revoked/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/accept-invite
+// ---------------------------------------------------------------------------
+describe('POST /auth/accept-invite — P20-A', () => {
+  it('returns 400 when token is missing', async () => {
+    const res = await app.fetch(post('/auth/accept-invite', {}), makeEnv(makeDB()));
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/token is required/i);
+  });
+
+  it('returns 401 when KV has no matching invite (invalid/expired token)', async () => {
+    // RATE_LIMIT_KV.get returns null → invalid token
+    const res = await app.fetch(
+      post('/auth/accept-invite', { token: 'bad-token' }),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(401);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/invalid or has expired/i);
+  });
+
+  it('returns 200 when accepting a valid invite for an existing user', async () => {
+    // KV returns inviteId; DB first() calls:
+    //   idx 0 → invite row
+    //   idx 1 → existing user row
+    const inviteRow = {
+      id: 'inv_001',
+      workspace_id: 'ws_001',
+      tenant_id: 'tnt_001',
+      email: 'existing@test.com',
+      role: 'member',
+      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      accepted_at: null,
+    };
+    const userRow = { id: 'usr_existing', workspace_id: 'ws_001' };
+
+    let idx = 0;
+    const db = {
+      prepare: vi.fn().mockImplementation(() => ({
+        bind: vi.fn().mockReturnValue({
+          first: vi.fn().mockImplementation(() => {
+            const i = idx++;
+            if (i === 0) return Promise.resolve(inviteRow);
+            if (i === 1) return Promise.resolve(userRow);
+            return Promise.resolve(null);
+          }),
+          run: vi.fn().mockResolvedValue({ success: true }),
+          all: vi.fn().mockResolvedValue({ results: [] }),
+        }),
+        first: vi.fn().mockResolvedValue(null),
+        run: vi.fn().mockResolvedValue({ success: true }),
+        all: vi.fn().mockResolvedValue({ results: [] }),
+      })),
+      batch: vi.fn().mockResolvedValue([]),
+    };
+
+    const env: Env = {
+      DB: db,
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockResolvedValue('inv_001'), // KV returns inviteId
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+
+    const res = await app.fetch(post('/auth/accept-invite', { token: 'valid-token' }), env);
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string; userId: string };
+    expect(body.message).toMatch(/invitation accepted/i);
+    expect(body.userId).toBe('usr_existing');
+  });
+});
+
+// ===========================================================================
+// P20-B: Multi-Device Session Management
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// GET /auth/sessions
+// ---------------------------------------------------------------------------
+describe('GET /auth/sessions — P20-B', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(get('/auth/sessions'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 200 with empty sessions array when none exist', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(get('/auth/sessions', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { sessions: unknown[]; count: number };
+    expect(Array.isArray(body.sessions)).toBe(true);
+    expect(body.count).toBe(0);
+  });
+
+  it('returns 200 and maps session rows to camelCase shape', async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const sessionRow = {
+      id: 'sess_001', issued_at: now - 60, expires_at: now + 3540,
+      revoked_at: null, device_hint: 'Chrome on Windows', last_seen_at: now - 10,
+    };
+    const db = {
+      prepare: vi.fn().mockImplementation(() => ({
+        bind: vi.fn().mockReturnValue({
+          all: vi.fn().mockResolvedValue({ results: [sessionRow] }),
+          first: vi.fn().mockResolvedValue(null),
+          run: vi.fn().mockResolvedValue({ success: true }),
+        }),
+        first: vi.fn().mockResolvedValue(null),
+        run: vi.fn().mockResolvedValue({ success: true }),
+        all: vi.fn().mockResolvedValue({ results: [] }),
+      })),
+      batch: vi.fn().mockResolvedValue([]),
+    };
+    const jwt = await makeJwt();
+    const res = await app.fetch(get('/auth/sessions', jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { sessions: Array<{ id: string; deviceHint: string }> };
+    expect(body.sessions[0]?.id).toBe('sess_001');
+    expect(body.sessions[0]?.deviceHint).toBe('Chrome on Windows');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /auth/sessions/:id
+// ---------------------------------------------------------------------------
+describe('DELETE /auth/sessions/:id — P20-B', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(del('/auth/sessions/sess_001'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 404 when session not found or already revoked', async () => {
+    const jwt = await makeJwt();
+    // makeDB default: first() returns null → not found
+    const res = await app.fetch(del('/auth/sessions/sess_missing', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(404);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/not found or already revoked/i);
+  });
+
+  it('returns 200 and revokes a found session', async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const sessRow = { id: 'sess_001', jti: 'abc123hash', expires_at: now + 3600 };
+    const db = makeDB({ existingEmail: sessRow });
+    const jwt = await makeJwt();
+    const res = await app.fetch(del('/auth/sessions/sess_001', jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/session revoked/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /auth/sessions (revoke all)
+// ---------------------------------------------------------------------------
+describe('DELETE /auth/sessions — P20-B revoke all', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(del('/auth/sessions'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 200 and reports revokedCount of 0 when no other sessions exist', async () => {
+    const jwt = await makeJwt();
+    // all() returns [] — nothing to revoke
+    const res = await app.fetch(del('/auth/sessions', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string; revokedCount: number };
+    expect(body.revokedCount).toBe(0);
+    expect(body.message).toMatch(/revoked/i);
+  });
+});
+
+// ===========================================================================
+// P20-C: Email Verification
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// POST /auth/send-verification
+// ---------------------------------------------------------------------------
+describe('POST /auth/send-verification — P20-C', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(post('/auth/send-verification', {}), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 200 and sends verification email for unverified user', async () => {
+    const userRow = { email: 'u@b.com', full_name: 'Ade', email_verified_at: null };
+    const db = makeDB({ meUser: userRow });
+    const jwt = await makeJwt();
+    // RATE_LIMIT_KV.get → null (not throttled)
+    const res = await app.fetch(post('/auth/send-verification', {}, jwt), makeEnv(db, null));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/verification email sent/i);
+  });
+
+  it('returns 200 silently when email is already verified', async () => {
+    const userRow = {
+      email: 'verified@b.com',
+      full_name: 'Ada',
+      email_verified_at: Math.floor(Date.now() / 1000) - 3600,
+    };
+    const db = makeDB({ meUser: userRow });
+    const jwt = await makeJwt();
+    const res = await app.fetch(post('/auth/send-verification', {}, jwt), makeEnv(db));
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/already verified/i);
+  });
+
+  it('returns 429 when throttle KV key is set', async () => {
+    const userRow = { email: 'u@b.com', full_name: 'Emeka', email_verified_at: null };
+    const db = makeDB({ meUser: userRow });
+    const jwt = await makeJwt();
+    // Build a custom env where RATE_LIMIT_KV.get returns null for the JTI blacklist check
+    // (called first by auth middleware) but '1' for the throttle key (called second, in the handler).
+    let kvCallIdx = 0;
+    const env: Env = {
+      DB: db,
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockImplementation(() => {
+          const idx = kvCallIdx++;
+          // idx 0 = rate-limit middleware counter check → null
+          // idx 1 = auth middleware blacklist:${rawToken} check → null
+          // idx 2 = auth middleware blacklist:jti:${hash} check → null
+          // idx 3 = handler throttle key check → '1' (throttled)
+          return Promise.resolve(idx < 3 ? null : '1');
+        }),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+    const res = await app.fetch(post('/auth/send-verification', {}, jwt), env);
+    expect(res.status).toBe(429);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/already sent recently/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /auth/verify-email
+// ---------------------------------------------------------------------------
+describe('GET /auth/verify-email — P20-C', () => {
+  it('returns 400 when token query param is missing', async () => {
+    const res = await app.fetch(get('/auth/verify-email'), makeEnv(makeDB()));
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/token query parameter/i);
+  });
+
+  it('returns 401 when KV has no matching token (invalid/expired)', async () => {
+    // RATE_LIMIT_KV.get returns null
+    const res = await app.fetch(
+      get('/auth/verify-email?token=invalid-token-xyz'),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(401);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/invalid or has expired/i);
+  });
+
+  it('returns 200 and marks email verified when KV token is valid', async () => {
+    const env: Env = {
+      DB: makeDB(),
+      JWT_SECRET,
+      ENVIRONMENT: 'test',
+      KV: {
+        get: vi.fn().mockResolvedValue(null),
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      RATE_LIMIT_KV: {
+        get: vi.fn().mockResolvedValue('usr_001'), // valid → returns userId
+        put: vi.fn().mockResolvedValue(undefined),
+        delete: vi.fn().mockResolvedValue(undefined),
+      } as unknown as KVNamespace,
+      ASSETS: undefined as unknown as R2Bucket,
+    } as unknown as Env;
+
+    const res = await app.fetch(
+      get('/auth/verify-email?token=valid-verify-token'),
+      env,
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/verified successfully/i);
+  });
+});
+
+// ===========================================================================
+// P20-E: Admin Metrics
+// ===========================================================================
+
+describe('GET /admin/metrics — P20-E', () => {
+  it('returns 401 without a JWT', async () => {
+    const res = await app.fetch(get('/admin/metrics'), makeEnv(makeDB()));
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 for a non-admin role', async () => {
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'member');
+    const res = await app.fetch(get('/admin/metrics', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(403);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/admin role required/i);
+  });
+
+  it('returns 200 with all expected metric fields for an admin', async () => {
+    const jwt = await makeJwt();
+    const res = await app.fetch(get('/admin/metrics', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(200);
+    const body = await res.json() as {
+      generatedAt: string;
+      tenantId: string;
+      activeSessionCount: number;
+      pendingInvitations: number;
+      recentErrors: unknown[];
+      authFailures24h: number;
+      totalAuditLogs24h: number;
+    };
+    expect(typeof body.generatedAt).toBe('string');
+    expect(body.tenantId).toBe('tnt_001');
+    expect(typeof body.activeSessionCount).toBe('number');
+    expect(typeof body.pendingInvitations).toBe('number');
+    expect(Array.isArray(body.recentErrors)).toBe(true);
+    expect(typeof body.authFailures24h).toBe('number');
+    expect(typeof body.totalAuditLogs24h).toBe('number');
+  });
+
+  it('returns 200 for super_admin role', async () => {
+    const jwt = await makeJwt('usr_001', 'tnt_001', 'ws_001', 'super_admin');
+    const res = await app.fetch(get('/admin/metrics', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(200);
+  });
+});

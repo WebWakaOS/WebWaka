@@ -10,6 +10,8 @@ import POS from '@/pages/POS';
 import Offerings from '@/pages/Offerings';
 import VerticalView from '@/pages/VerticalView';
 import Settings from '@/pages/Settings';
+import VerifyEmail from '@/pages/VerifyEmail';
+import AcceptInvite from '@/pages/AcceptInvite';
 
 function NotFound() {
   return (
@@ -58,6 +60,11 @@ export default function App() {
             <Route path="/vertical" element={<VerticalView />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
+
+          {/* P20-C: Email verification — public, no auth needed */}
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          {/* P20-A: Invite acceptance — public, no auth needed */}
+          <Route path="/accept-invite" element={<AcceptInvite />} />
 
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<NotFound />} />

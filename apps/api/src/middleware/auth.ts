@@ -31,13 +31,26 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
     return c.json(errorResponse(ErrorCode.Unauthorized, result.message), result.status);
   }
 
-  // SEC-10: Check if token has been blacklisted (e.g. after refresh rotation)
+  // SEC-10: Check if token has been blacklisted (e.g. after refresh rotation or logout)
   // ARC-17: kvGetText never throws — fails open if KV is unavailable
   const rawToken = authHeader?.replace(/^Bearer\s+/i, '');
   if (rawToken) {
+    // Full-token blacklist (logout, refresh rotation)
     const blacklisted = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:${rawToken}`, null);
     if (blacklisted) {
       return c.json(errorResponse(ErrorCode.Unauthorized, 'Token has been revoked.'), 401);
+    }
+    // P20-B: Per-session revocation — check by SHA-256 hash of token (session management)
+    try {
+      const encoder = new TextEncoder();
+      const hashBuf = await crypto.subtle.digest('SHA-256', encoder.encode(rawToken));
+      const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+      const sessionRevoked = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:jti:${hashHex}`, null);
+      if (sessionRevoked) {
+        return c.json(errorResponse(ErrorCode.Unauthorized, 'Session has been revoked.'), 401);
+      }
+    } catch {
+      // Hash computation failure is non-blocking — fail open
     }
   }
 

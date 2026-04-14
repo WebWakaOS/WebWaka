@@ -20,6 +20,7 @@ import { csrfMiddleware } from './csrf.js';
 import { rateLimitMiddleware } from './rate-limit.js';
 import { monitoringMiddleware } from './monitoring.js';
 import { lowDataMiddleware } from './low-data.js';
+import { errorLogMiddleware } from './error-log.js';
 
 export function registerMiddleware(app: Hono<{ Bindings: Env }>): void {
   app.use('*', secureHeaders());
@@ -34,6 +35,9 @@ export function registerMiddleware(app: Hono<{ Bindings: Env }>): void {
 
   // DEV-04: Monitoring middleware — tracks latency, error rates, alerting webhook
   app.use('*', monitoringMiddleware);
+
+  // P20-E: Structured error logging — emits JSON for every 4xx/5xx response
+  app.use('*', errorLogMiddleware);
 
   // PERF-06: Response compression for JSON-heavy endpoints (gzip, threshold 1KB)
   // Only compress when client explicitly requests it (Accept-Encoding check)

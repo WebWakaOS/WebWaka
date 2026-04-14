@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, authApi } from '@/lib/api';
 import { formatNaira } from '@/lib/currency';
 
 interface BillingStatus {
@@ -74,14 +74,50 @@ function useDashboardData(workspaceId: string | undefined) {
   return { data, loading };
 }
 
+// P20-C: Email verification banner state
+function useEmailVerified() {
+  const [verified, setVerified] = useState<boolean | null>(null);
+  const [sending, setSending] = useState(false);
+  const [dismissed, setDismissed] = useState(
+    () => sessionStorage.getItem('ww_evbanner_dismissed') === '1',
+  );
+
+  useEffect(() => {
+    authApi.me()
+      .then(profile => setVerified(profile.emailVerifiedAt != null))
+      .catch(() => setVerified(null));
+  }, []);
+
+  const sendVerification = async () => {
+    setSending(true);
+    try {
+      await authApi.sendVerification();
+      alert('Verification email sent — check your inbox.');
+    } catch {
+      alert('Failed to send verification email. Please try again later.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const dismiss = () => {
+    sessionStorage.setItem('ww_evbanner_dismissed', '1');
+    setDismissed(true);
+  };
+
+  return { verified, sending, dismissed, sendVerification, dismiss };
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
   const { data, loading } = useDashboardData(user?.workspaceId);
+  const { verified, sending, dismissed, sendVerification, dismiss } = useEmailVerified();
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   const isFreePlan = !loading && data.billing?.plan === 'free';
+  const showVerifyBanner = verified === false && !dismissed;
 
   const statCards = [
     {
@@ -150,6 +186,46 @@ export default function Dashboard() {
           </article>
         ))}
       </section>
+
+      {/* P20-C: Email verification banner — shown when emailVerifiedAt is null */}
+      {showVerifyBanner && (
+        <div style={styles.verifyBanner} role="alert" aria-label="Email verification required">
+          <div style={styles.upgradeBannerInner}>
+            <div style={{ fontSize: 24, marginRight: 12, flexShrink: 0 }} aria-hidden="true">📧</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#92400e', marginBottom: 2 }}>
+                Verify your email address
+              </div>
+              <div style={{ fontSize: 13, color: '#b45309', lineHeight: 1.5 }}>
+                Confirm your email to secure your account and receive important notifications.
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexShrink: 0, flexWrap: 'wrap' }}>
+              <button
+                onClick={() => void sendVerification()}
+                disabled={sending}
+                style={{
+                  background: '#92400e', color: '#fff', border: 'none', cursor: sending ? 'not-allowed' : 'pointer',
+                  padding: '9px 16px', borderRadius: 8, fontWeight: 600, fontSize: 13, minHeight: 40,
+                  opacity: sending ? 0.7 : 1,
+                }}
+              >
+                {sending ? 'Sending…' : 'Send verification email'}
+              </button>
+              <button
+                onClick={dismiss}
+                aria-label="Dismiss email verification banner"
+                style={{
+                  background: 'transparent', border: '1px solid #d97706', color: '#92400e',
+                  cursor: 'pointer', padding: '9px 12px', borderRadius: 8, fontWeight: 600, fontSize: 13, minHeight: 40,
+                }}
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* P19-E: Free-plan upgrade prompt — visible when on free plan after data loads */}
       {isFreePlan && (
@@ -248,6 +324,10 @@ const styles = {
   } as React.CSSProperties,
   statValue: { fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 2 } as React.CSSProperties,
   statLabel: { fontSize: 13, color: '#6b7280' } as React.CSSProperties,
+  verifyBanner: {
+    marginBottom: 16, borderRadius: 12, overflow: 'hidden',
+    border: '1px solid #fcd34d', background: '#fffbeb',
+  } as React.CSSProperties,
   upgradeBanner: {
     marginBottom: 28, borderRadius: 12, overflow: 'hidden',
     border: '1px solid #bfdbfe', background: '#eff6ff',

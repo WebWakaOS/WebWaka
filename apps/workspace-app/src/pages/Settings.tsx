@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { toast } from '@/lib/toast';
-import { authApi, api, ApiError } from '@/lib/api';
+import { authApi, api, ApiError, type SessionInfo, type InvitationInfo } from '@/lib/api';
 
 const DARK_MODE_KEY = 'ww_dark_mode';
 
@@ -18,7 +18,11 @@ function applyDarkMode(enabled: boolean): void {
   localStorage.setItem(DARK_MODE_KEY, String(enabled));
 }
 
-type Tab = 'profile' | 'notifications' | 'appearance' | 'security';
+type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security';
+
+function isAdmin(role: string | undefined): boolean {
+  return role === 'admin' || role === 'super_admin';
+}
 
 export default function Settings() {
   const { user, logout } = useAuth();
@@ -37,6 +41,19 @@ export default function Settings() {
   const [confirmPw, setConfirmPw] = useState('');
   const [changingPw, setChangingPw] = useState(false);
 
+  // P20-B: Sessions
+  const [sessions, setSessions] = useState<SessionInfo[]>([]);
+  const [sessionsLoading, setSessionsLoading] = useState(false);
+  const [revokingSession, setRevokingSession] = useState<string | null>(null);
+  const [revokingAll, setRevokingAll] = useState(false);
+
+  // P20-A: Team / invitations
+  const [invitations, setInvitations] = useState<InvitationInfo[]>([]);
+  const [teamLoading, setTeamLoading] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState('member');
+  const [inviting, setInviting] = useState(false);
+
   useEffect(() => {
     applyDarkMode(darkMode);
   }, [darkMode]);
@@ -49,7 +66,6 @@ export default function Settings() {
         setPhone(profile.phone ?? '');
       })
       .catch(() => {
-        // Fall back to auth context values if fetch fails
         setBusinessName(user?.businessName ?? '');
         setPhone(user?.phone ?? '');
       })
@@ -57,8 +73,39 @@ export default function Settings() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // P19-B: Profile save — calls PATCH /workspaces/:id (business name)
-  //         and PATCH /auth/profile (phone) in parallel
+  // P20-B: Load sessions when Security tab is active
+  const loadSessions = useCallback(async () => {
+    setSessionsLoading(true);
+    try {
+      const res = await authApi.sessions();
+      setSessions(res.sessions);
+    } catch {
+      toast.error('Failed to load sessions');
+    } finally {
+      setSessionsLoading(false);
+    }
+  }, []);
+
+  // P20-A: Load pending invitations when Team tab is active
+  const loadInvitations = useCallback(async () => {
+    if (!isAdmin(user?.role)) return;
+    setTeamLoading(true);
+    try {
+      const res = await authApi.pendingInvitations();
+      setInvitations(res.invitations);
+    } catch {
+      toast.error('Failed to load invitations');
+    } finally {
+      setTeamLoading(false);
+    }
+  }, [user?.role]);
+
+  useEffect(() => {
+    if (tab === 'security') void loadSessions();
+    if (tab === 'team') void loadInvitations();
+  }, [tab, loadSessions, loadInvitations]);
+
+  // P19-B: Profile save
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user?.workspaceId) {
@@ -70,7 +117,6 @@ export default function Settings() {
       const updates: Promise<unknown>[] = [
         api.patch(`/workspaces/${user.workspaceId}`, { name: businessName || undefined }),
       ];
-      // phone is always a string; empty string clears the field (stored as null server-side)
       updates.push(authApi.updateProfile({ phone: phone || undefined }));
       await Promise.all(updates);
       toast.success('Settings saved');
@@ -102,6 +148,66 @@ export default function Settings() {
     }
   };
 
+  // P20-B: Revoke a specific session
+  const handleRevokeSession = async (sessionId: string) => {
+    setRevokingSession(sessionId);
+    try {
+      await authApi.revokeSession(sessionId);
+      setSessions(prev => prev.filter(s => s.id !== sessionId));
+      toast.success('Session revoked');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to revoke session';
+      toast.error(msg);
+    } finally {
+      setRevokingSession(null);
+    }
+  };
+
+  // P20-B: Revoke all sessions except current
+  const handleRevokeAllSessions = async () => {
+    setRevokingAll(true);
+    try {
+      const res = await authApi.revokeAllSessions();
+      toast.success(`Revoked ${res.revokedCount} other session${res.revokedCount !== 1 ? 's' : ''}`);
+      void loadSessions();
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to revoke sessions';
+      toast.error(msg);
+    } finally {
+      setRevokingAll(false);
+    }
+  };
+
+  // P20-A: Send an invitation
+  const handleInvite = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteEmail.trim()) { toast.error('Enter an email address'); return; }
+    setInviting(true);
+    try {
+      await authApi.invite(inviteEmail.trim(), inviteRole);
+      toast.success(`Invitation sent to ${inviteEmail.trim()}`);
+      setInviteEmail('');
+      void loadInvitations();
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to send invitation';
+      toast.error(msg);
+    } finally {
+      setInviting(false);
+    }
+  };
+
+  // P20-A: Revoke a pending invitation
+  const handleRevokeInvite = async (id: string, email: string) => {
+    try {
+      await authApi.revokeInvitation(id);
+      setInvitations(prev => prev.filter(i => i.id !== id));
+      toast.success(`Invitation to ${email} revoked`);
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to revoke invitation';
+      toast.error(msg);
+    }
+  };
+
   const requestPush = async () => {
     if (!('Notification' in window)) { toast.error('Push notifications not supported'); return; }
     const perm = await Notification.requestPermission();
@@ -113,6 +219,9 @@ export default function Settings() {
     }
   };
 
+  // P20-D: Build tabs — Team tab only visible to admins
+  const visibleTabs = TABS.filter(t => t.id !== 'team' || isAdmin(user?.role));
+
   return (
     <div style={styles.page}>
       <header style={{ marginBottom: 28 }}>
@@ -122,7 +231,7 @@ export default function Settings() {
 
       <div style={styles.layout}>
         <nav aria-label="Settings sections" style={styles.sideNav}>
-          {TABS.map(t => (
+          {visibleTabs.map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id as Tab)}
@@ -187,6 +296,77 @@ export default function Settings() {
                   Signing out clears your session on this device. Your account remains active.
                 </p>
                 <Button variant="danger" size="sm" onClick={() => void logout()}>Sign out</Button>
+              </div>
+            </section>
+          )}
+
+          {/* P20-A: Team tab — admin only */}
+          {tab === 'team' && isAdmin(user?.role) && (
+            <section aria-label="Team management">
+              <h2 style={styles.sectionHeading}>Team</h2>
+
+              <div style={{ marginBottom: 28 }}>
+                <h3 style={{ fontSize: 15, fontWeight: 600, color: '#374151', marginBottom: 12 }}>
+                  Invite a member
+                </h3>
+                <form onSubmit={handleInvite} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 2, minWidth: 200 }}>
+                    <Input
+                      label="Email address"
+                      type="email"
+                      value={inviteEmail}
+                      onChange={e => setInviteEmail(e.target.value)}
+                      placeholder="colleague@example.com"
+                    />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 140, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <label style={styles.label} htmlFor="invite-role">Role</label>
+                    <select
+                      id="invite-role"
+                      value={inviteRole}
+                      onChange={e => setInviteRole(e.target.value)}
+                      style={{ ...styles.readOnlyInput, background: '#fff', cursor: 'pointer' }}
+                    >
+                      <option value="member">Member</option>
+                      <option value="agent">Agent</option>
+                      <option value="cashier">Cashier</option>
+                      <option value="manager">Manager</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                  <Button type="submit" loading={inviting}>Send invite</Button>
+                </form>
+              </div>
+
+              <div>
+                <h3 style={{ fontSize: 15, fontWeight: 600, color: '#374151', marginBottom: 12 }}>
+                  Pending invitations
+                </h3>
+                {teamLoading ? (
+                  <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading…</p>
+                ) : invitations.length === 0 ? (
+                  <p style={{ color: '#9ca3af', fontSize: 14 }}>No pending invitations.</p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {invitations.map(inv => (
+                      <div key={inv.id} style={styles.inviteRow}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>{inv.email}</div>
+                          <div style={{ fontSize: 12, color: '#6b7280' }}>
+                            Role: {inv.role} &middot; Expires: {new Date(inv.expires_at * 1000).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => void handleRevokeInvite(inv.id, inv.email)}
+                        >
+                          Revoke
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </section>
           )}
@@ -276,6 +456,49 @@ export default function Settings() {
                 />
                 <Button type="submit" loading={changingPw}>Change password</Button>
               </form>
+
+              {/* P20-B: Active sessions panel */}
+              <div style={{ marginTop: 32 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#374151' }}>Active sessions</h3>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    loading={revokingAll}
+                    onClick={() => void handleRevokeAllSessions()}
+                  >
+                    Revoke all other sessions
+                  </Button>
+                </div>
+                {sessionsLoading ? (
+                  <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading sessions…</p>
+                ) : sessions.length === 0 ? (
+                  <p style={{ color: '#9ca3af', fontSize: 14 }}>No active sessions found.</p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {sessions.map(s => (
+                      <div key={s.id} style={styles.sessionRow}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>{s.deviceHint}</div>
+                          <div style={{ fontSize: 12, color: '#6b7280' }}>
+                            Started: {new Date(s.issuedAt * 1000).toLocaleString()} &middot;{' '}
+                            Last seen: {new Date(s.lastSeenAt * 1000).toLocaleString()}
+                          </div>
+                        </div>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          loading={revokingSession === s.id}
+                          onClick={() => void handleRevokeSession(s.id)}
+                        >
+                          Revoke
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div style={{ ...styles.dangerZone, marginTop: 32 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>Session</h3>
                 <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>
@@ -325,6 +548,7 @@ function ToggleSwitch({ defaultChecked, checked: controlledChecked, onChange }: 
 
 const TABS = [
   { id: 'profile',       icon: '👤', label: 'Profile' },
+  { id: 'team',          icon: '👥', label: 'Team' },
   { id: 'notifications', icon: '🔔', label: 'Notifications' },
   { id: 'appearance',    icon: '🎨', label: 'Appearance' },
   { id: 'security',      icon: '🔐', label: 'Security' },
@@ -344,4 +568,12 @@ const styles = {
   readOnlyInput: { border: '1.5px solid #e5e7eb', borderRadius: 8, padding: '11px 14px', fontSize: 15, background: '#f9fafb', color: '#6b7280', minHeight: 44 } as React.CSSProperties,
   dangerZone: { marginTop: 32, padding: '16px', border: '1px solid #fecaca', borderRadius: 8, background: '#fff5f5' } as React.CSSProperties,
   toggleRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', borderBottom: '1px solid #f3f4f6', gap: 16 } as React.CSSProperties,
+  sessionRow: {
+    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px',
+    background: '#f9fafb', borderRadius: 8, border: '1px solid #e5e7eb',
+  } as React.CSSProperties,
+  inviteRow: {
+    display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px',
+    background: '#f9fafb', borderRadius: 8, border: '1px solid #e5e7eb',
+  } as React.CSSProperties,
 };

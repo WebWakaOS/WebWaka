@@ -10,6 +10,7 @@
  *   workspace-invite      — invite someone to join a workspace
  *   payment-confirmation  — Paystack payment verified
  *   password-reset        — forgot-password reset link (P19-A)
+ *   email-verification    — verify email address (P20-C)
  *
  * P13 invariant: no PII is logged — only email address (required for delivery).
  * NDPR: email delivery is a service communication, not marketing — consent not required
@@ -21,7 +22,8 @@ export type EmailTemplate =
   | 'template-purchase-receipt'
   | 'workspace-invite'
   | 'payment-confirmation'
-  | 'password-reset';
+  | 'password-reset'
+  | 'email-verification';
 
 export interface WelcomeData {
   name: string;
@@ -58,12 +60,19 @@ export interface PasswordResetData {
   expires_in_hours: number;
 }
 
+export interface EmailVerificationData {
+  name: string;
+  verify_url: string;
+  expires_in_hours: number;
+}
+
 export type TemplateData<T extends EmailTemplate> =
   T extends 'welcome' ? WelcomeData :
   T extends 'template-purchase-receipt' ? TemplatePurchaseReceiptData :
   T extends 'workspace-invite' ? WorkspaceInviteData :
   T extends 'payment-confirmation' ? PaymentConfirmationData :
   T extends 'password-reset' ? PasswordResetData :
+  T extends 'email-verification' ? EmailVerificationData :
   never;
 
 const FROM_ADDRESS = 'WebWaka <noreply@webwaka.com>';
@@ -165,6 +174,34 @@ function renderPasswordReset(data: PasswordResetData): { subject: string; html: 
   };
 }
 
+function renderEmailVerification(data: EmailVerificationData): { subject: string; html: string } {
+  return {
+    subject: 'Verify your WebWaka email address',
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
+        <h2 style="color:#0F4C81">Verify your email address</h2>
+        <p>Hi ${data.name},</p>
+        <p>Please verify your email address to complete your WebWaka account setup and unlock all features.</p>
+        <p style="margin:28px 0">
+          <a href="${data.verify_url}"
+             style="background:#0F4C81;color:#fff;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">
+            Verify my email
+          </a>
+        </p>
+        <p style="color:#6b7280;font-size:0.875rem">
+          This link expires in <strong>${data.expires_in_hours} hour${data.expires_in_hours !== 1 ? 's' : ''}</strong>.
+          If you did not sign up for WebWaka, you can safely ignore this email.
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+        <p style="color:#9ca3af;font-size:0.75rem">
+          If the button above does not work, copy and paste this URL into your browser:<br />
+          <span style="word-break:break-all;color:#0F4C81">${data.verify_url}</span>
+        </p>
+        <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
+      </div>`,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Resend API client
 // ---------------------------------------------------------------------------
@@ -209,6 +246,9 @@ export class EmailService {
         break;
       case 'password-reset':
         rendered = renderPasswordReset(data as PasswordResetData);
+        break;
+      case 'email-verification':
+        rendered = renderEmailVerification(data as EmailVerificationData);
         break;
       default:
         return { ok: false, error: `Unknown template: ${String(template)}` };

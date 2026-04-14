@@ -1,0 +1,35 @@
+Phase 20 — Execution-Ready Checklist
+Theme: Workspace membership, invitation flows, multi-device session management, and operational observability
+
+P20-A — Workspace Member Invitations
+ POST /auth/invite — generate invite token, store in KV (24h TTL), send via workspace-invite email template
+ POST /auth/accept-invite — consume KV token, create user row (or associate existing), assign role
+ Add invitations table (migration 0231): id, workspace_id, tenant_id, email, role, token_hash, expires_at, accepted_at
+ Frontend: Settings → Team tab — list members, invite by email, revoke pending invites
+ Unit tests: invite generation, duplicate invite handling, expired token rejection, role assignment
+P20-B — Multi-Device Session Management
+ GET /auth/sessions — list all active sessions for the user (device, issued_at, last_seen_at)
+ DELETE /auth/sessions/:id — revoke a specific session (blacklist its token)
+ DELETE /auth/sessions — revoke ALL sessions except current (logout everywhere)
+ Extend sessions table: add device_hint TEXT, user_agent TEXT, last_seen_at INTEGER
+ Frontend: Settings → Security tab → "Active sessions" panel with revoke buttons
+ Unit tests: session listing, single revoke, global revoke
+P20-C — Email Verification Flow
+ Add email_verified_at INTEGER column to users (migration 0232)
+ POST /auth/send-verification — generate email verification token, send via new email-verification template
+ GET /auth/verify-email?token= — consume token, set email_verified_at
+ Middleware: soft-gate Commerce layer features behind email verification (warn, don't block)
+ Frontend: banner on Dashboard when email unverified
+ Unit tests: token issuance, re-send throttle, verification, already-verified idempotency
+P20-D — Role-Based Settings Access
+ Only admin or owner roles can access workspace billing and team settings
+ member role sees read-only profile + personal security settings only
+ API: 403 returned from /billing/* and invitation endpoints for non-admin callers
+ Frontend: hide/lock restricted tabs in Settings based on user.role
+ Unit tests: 403 enforcement for each restricted endpoint
+P20-E — Operational Observability
+ Structured error logging middleware: emit level, event, route, status, duration_ms, tenantId JSON on every 4xx/5xx
+ GET /admin/metrics — authenticated admin-only endpoint returning hourly error counts, auth failures, active sessions
+ Add audit_log table (migration 0233): id, tenant_id, user_id, action, resource_type, resource_id, created_at
+ Wire auditLogMiddleware to write to audit_log table (currently it only logs to stdout)
+ Unit tests: audit log writes, metrics aggregation

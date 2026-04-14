@@ -121,6 +121,24 @@ export type LoginResponse = {
   };
 };
 
+export type SessionInfo = {
+  id: string;
+  deviceHint: string;
+  issuedAt: number;
+  expiresAt: number;
+  lastSeenAt: number;
+  isExpired: boolean;
+};
+
+export type InvitationInfo = {
+  id: string;
+  email: string;
+  role: string;
+  invited_by: string;
+  expires_at: number;
+  created_at: number;
+};
+
 export const authApi = {
   login: (email: string, password: string) =>
     request<LoginResponse>('/auth/login', {
@@ -140,5 +158,35 @@ export const authApi = {
     request<{ message: string }>('/auth/profile', { method: 'PATCH', body: JSON.stringify(payload) }),
   logout: () =>
     request<{ message: string }>('/auth/logout', { method: 'POST' }),
-  me: () => request<LoginResponse['user']>('/auth/me'),
+  me: () => request<LoginResponse['user'] & { emailVerifiedAt?: number | null }>('/auth/me'),
+
+  // P20-A: Workspace Member Invitations
+  invite: (email: string, role?: string) =>
+    request<{ inviteId: string; email: string; role: string; expiresAt: number; message: string }>(
+      '/auth/invite',
+      { method: 'POST', body: JSON.stringify({ email, role }) },
+    ),
+  pendingInvitations: () =>
+    request<{ invitations: InvitationInfo[] }>('/auth/invite/pending'),
+  revokeInvitation: (id: string) =>
+    request<{ message: string }>(`/auth/invite/${id}`, { method: 'DELETE' }),
+  acceptInvite: (token: string, payload?: { name?: string; password?: string }) =>
+    request<{ message: string; userId: string; workspaceId: string; tenantId: string; role: string }>(
+      '/auth/accept-invite',
+      { method: 'POST', body: JSON.stringify({ token, ...payload }), skipAuth: true },
+    ),
+
+  // P20-B: Session Management
+  sessions: () =>
+    request<{ sessions: SessionInfo[]; count: number }>('/auth/sessions'),
+  revokeSession: (id: string) =>
+    request<{ message: string }>(`/auth/sessions/${id}`, { method: 'DELETE' }),
+  revokeAllSessions: () =>
+    request<{ message: string; revokedCount: number }>('/auth/sessions', { method: 'DELETE' }),
+
+  // P20-C: Email Verification
+  sendVerification: () =>
+    request<{ message: string }>('/auth/send-verification', { method: 'POST' }),
+  verifyEmail: (token: string) =>
+    request<{ message: string }>(`/auth/verify-email?token=${encodeURIComponent(token)}`, { skipAuth: true }),
 };

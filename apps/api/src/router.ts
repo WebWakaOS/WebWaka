@@ -63,6 +63,8 @@ import { billingRoutes } from './routes/billing.js';
 import { analyticsRoutes } from './routes/analytics.js';
 import { supportRoutes } from './routes/support.js';
 import eduAgriExtendedRoutes from './routes/verticals-edu-agri-extended.js';
+import { adminMetricsRoutes } from './routes/admin-metrics.js';
+import { errorLogMiddleware } from './middleware/error-log.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -87,6 +89,14 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/profile', authMiddleware);
   app.use('/auth/logout', authMiddleware);
   app.use('/auth/change-password', authMiddleware);
+  // P20-A: Invitation management — admin-only (role check is inside the route handler)
+  app.use('/auth/invite', authMiddleware);
+  app.use('/auth/invite/*', authMiddleware);
+  // P20-B: Session management — requires auth (revocation checked in route handlers)
+  app.use('/auth/sessions', authMiddleware);
+  app.use('/auth/sessions/*', authMiddleware);
+  // P20-C: Send-verification requires auth; /auth/verify-email is public (token-based)
+  app.use('/auth/send-verification', authMiddleware);
   // SEC-03: Login-specific rate limiting — 10 attempts per 5 minutes per IP
   app.use('/auth/login', rateLimitMiddleware({ keyPrefix: 'auth:login', maxRequests: 10, windowSeconds: 300 }));
   // SEC-03b: Registration rate limiting — 5 signups per 15 minutes per IP
@@ -98,6 +108,10 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/change-password', rateLimitMiddleware({ keyPrefix: 'auth:changepw', maxRequests: 10, windowSeconds: 900 }));
   // SEC-03e: Profile update rate limiting — 20 updates per 15 minutes per user
   app.use('/auth/profile', rateLimitMiddleware({ keyPrefix: 'auth:profile', maxRequests: 20, windowSeconds: 900 }));
+  // SEC-03f: Invite rate limiting — 10 invites per 15 minutes per admin user
+  app.use('/auth/invite', rateLimitMiddleware({ keyPrefix: 'auth:invite', maxRequests: 10, windowSeconds: 900 }));
+  // SEC-03g: Verification email rate limiting — handled by KV throttle inside handler + global limiter
+  app.use('/auth/send-verification', rateLimitMiddleware({ keyPrefix: 'auth:sendverify', maxRequests: 5, windowSeconds: 300 }));
   app.route('/auth', authRoutes);
 
   // -------------------------------------------------------------------------
@@ -151,7 +165,11 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // SEC-01: Admin dashboard routes now require auth to prevent data leakage.
   app.use('/admin/*', authMiddleware);
   app.use('/admin/*', auditLogMiddleware);
+  // P20-E: Structured error logging on all admin routes
+  app.use('/admin/*', errorLogMiddleware);
   app.route('/admin', adminPublicRoutes);
+  // P20-E: Admin metrics endpoint (admin/super_admin role enforced inside handler)
+  app.route('/admin', adminMetricsRoutes);
 
   // -------------------------------------------------------------------------
   // M6: Theme routes — auth required
