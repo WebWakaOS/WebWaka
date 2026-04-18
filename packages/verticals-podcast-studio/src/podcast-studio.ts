@@ -7,8 +7,8 @@
  */
 
 import type {
-  PodcastStudioProfile, PodcastShow, PodcastEpisode, PodcastSession, PodcastSponsorship,
-  PodcastStudioFSMState, SessionStatus, SponsorshipStatus,
+  PodcastStudioProfile, PodcastEpisode, PodcastSession,
+  PodcastStudioFSMState, SessionStatus,
   CreatePodcastStudioInput, CreatePodcastEpisodeInput, CreatePodcastSessionInput,
 } from './types.js';
 

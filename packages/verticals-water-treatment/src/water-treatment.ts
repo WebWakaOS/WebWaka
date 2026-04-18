@@ -6,7 +6,7 @@
  */
 
 import type {
-  WaterTreatmentProfile, WaterQualityLog, WaterSubscription, WaterBilling,
+  WaterTreatmentProfile, WaterQualityLog, WaterSubscription,
   WaterTreatmentFSMState, PropertyType, PaymentStatus,
   CreateWaterTreatmentInput, CreateWaterQualityLogInput, CreateWaterSubscriptionInput,
 } from './types.js';
