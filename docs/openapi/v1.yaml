@@ -69,6 +69,7 @@ paths:
       tags: [Health]
       summary: Liveness probe
       operationId: getHealth
+      security: []
       responses:
         "200":
           description: Service is healthy
