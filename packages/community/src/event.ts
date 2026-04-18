@@ -135,16 +135,6 @@ export interface EventRsvp {
   status: string;
   createdAt: number;
 }
-
-interface RsvpRow {
-  id: string;
-  tenant_id: string;
-  event_id: string;
-  user_id: string;
-  status: string;
-  created_at: number;
-}
-
 interface EventCountRow {
   rsvp_count: number;
   max_attendees: number;
