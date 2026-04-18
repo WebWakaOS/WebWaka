@@ -90,28 +90,6 @@ export interface LessonProgress {
   updatedAt: number;
 }
 
-interface ProgressRow {
-  id: string;
-  tenant_id: string;
-  lesson_id: string;
-  user_id: string;
-  progress_pct: number;
-  completed: number;
-  updated_at: number;
-}
-
-function rowToProgress(row: ProgressRow): LessonProgress {
-  return {
-    id: row.id,
-    tenantId: row.tenant_id,
-    lessonId: row.lesson_id,
-    userId: row.user_id,
-    progressPct: row.progress_pct,
-    completed: row.completed === 1,
-    updatedAt: row.updated_at,
-  };
-}
-
 export async function createCourseModule(
   db: D1Like,
   args: { communityId: string; title: string; sortOrder?: number; tenantId: string },

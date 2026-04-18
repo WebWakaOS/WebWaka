@@ -23,10 +23,8 @@ interface SessionRow { id: string; show_id: string; tenant_id: string; guest_ref
 interface SponsorshipRow { id: string; show_id: string; tenant_id: string; episode_id: string; sponsor_ref_id: string; deal_fee_kobo: number; status: string; created_at: number; updated_at: number; }
 
 function rowToProfile(r: ProfileRow): PodcastStudioProfile { return { id: r.id, workspaceId: r.workspace_id, tenantId: r.tenant_id, studioName: r.studio_name, nbcLicence: r.nbc_licence, nccRegistration: r.ncc_registration, apconForAds: r.apcon_for_ads, cacRc: r.cac_rc, status: r.status as PodcastStudioFSMState, createdAt: r.created_at, updatedAt: r.updated_at }; }
-function rowToShow(r: ShowRow): PodcastShow { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, showName: r.show_name, category: r.category, nbcReg: r.nbc_reg, distribution: r.distribution, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToEpisode(r: EpisodeRow): PodcastEpisode { return { id: r.id, showId: r.show_id, tenantId: r.tenant_id, episodeNumber: r.episode_number, recordingDate: r.recording_date, durationMinutes: r.duration_minutes, releaseDate: r.release_date, streamsCount: r.streams_count, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToSession(r: SessionRow): PodcastSession { return { id: r.id, showId: r.show_id, tenantId: r.tenant_id, guestRefId: r.guest_ref_id, sessionDate: r.session_date, sessionFeeKobo: r.session_fee_kobo, status: r.status as SessionStatus, createdAt: r.created_at, updatedAt: r.updated_at }; }
-function rowToSponsorship(r: SponsorshipRow): PodcastSponsorship { return { id: r.id, showId: r.show_id, tenantId: r.tenant_id, episodeId: r.episode_id, sponsorRefId: r.sponsor_ref_id, dealFeeKobo: r.deal_fee_kobo, status: r.status as SponsorshipStatus, createdAt: r.created_at, updatedAt: r.updated_at }; }
 
 export class PodcastStudioRepository {
   constructor(private db: D1Like) {}

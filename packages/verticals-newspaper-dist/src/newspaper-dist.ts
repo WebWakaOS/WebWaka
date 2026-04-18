@@ -6,7 +6,7 @@
  */
 
 import type {
-  NewspaperDistProfile, NewspaperPrintRun, NewspaperVendor, NewspaperAd,
+  NewspaperDistProfile, NewspaperPrintRun, NewspaperAd,
   NewspaperDistFSMState, Frequency, AdType, AdStatus,
   CreateNewspaperDistInput, CreateNewspaperPrintRunInput, CreateNewspaperAdInput,
 } from './types.js';
@@ -17,12 +17,10 @@ function now() { return Math.floor(Date.now() / 1000); }
 
 interface ProfileRow { id: string; workspace_id: string; tenant_id: string; publication_name: string; npc_registration: string | null; npan_membership: string | null; nuj_affiliation: string | null; frequency: string; status: string; created_at: number; updated_at: number; }
 interface PrintRunRow { id: string; profile_id: string; tenant_id: string; edition_date: number; print_run: number; distribution_count: number; copies_returned: number; cost_per_copy_kobo: number; created_at: number; updated_at: number; }
-interface VendorRow { id: string; profile_id: string; tenant_id: string; vendor_phone: string; vendor_name: string; credit_limit_kobo: number; balance_owing_kobo: number; created_at: number; updated_at: number; }
 interface AdRow { id: string; profile_id: string; tenant_id: string; advertiser_ref_id: string; edition_date: number; ad_type: string; ad_fee_kobo: number; status: string; created_at: number; updated_at: number; }
 
 function rowToProfile(r: ProfileRow): NewspaperDistProfile { return { id: r.id, workspaceId: r.workspace_id, tenantId: r.tenant_id, publicationName: r.publication_name, npcRegistration: r.npc_registration, npanMembership: r.npan_membership, nujAffiliation: r.nuj_affiliation, frequency: r.frequency as Frequency, status: r.status as NewspaperDistFSMState, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToPrintRun(r: PrintRunRow): NewspaperPrintRun { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, editionDate: r.edition_date, printRun: r.print_run, distributionCount: r.distribution_count, copiesReturned: r.copies_returned, costPerCopyKobo: r.cost_per_copy_kobo, createdAt: r.created_at, updatedAt: r.updated_at }; }
-function rowToVendor(r: VendorRow): NewspaperVendor { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, vendorPhone: r.vendor_phone, vendorName: r.vendor_name, creditLimitKobo: r.credit_limit_kobo, balanceOwingKobo: r.balance_owing_kobo, createdAt: r.created_at, updatedAt: r.updated_at }; }
 function rowToAd(r: AdRow): NewspaperAd { return { id: r.id, profileId: r.profile_id, tenantId: r.tenant_id, advertiserRefId: r.advertiser_ref_id, editionDate: r.edition_date, adType: r.ad_type as AdType, adFeeKobo: r.ad_fee_kobo, status: r.status as AdStatus, createdAt: r.created_at, updatedAt: r.updated_at }; }
 
 export class NewspaperDistRepository {
