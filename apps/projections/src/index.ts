@@ -11,9 +11,9 @@
  *   GET  /events/:aggregate/:id       — fetch events for an aggregate
  *
  * Scheduled CRON handlers (Issue 4 + Issue 8):
- *   */15 * * * *   — Search index incremental rebuild + HITL stale expiry
+ *   [every 15 min]  — Search index incremental rebuild + HITL stale expiry
  *   0 2 * * *      — Daily analytics snapshot computation
- *   0 */4 * * *    — HITL expiry sweep + L3 escalation notification
+ *   [every 4 hrs]   — HITL expiry sweep + L3 escalation notification
  *
  * SEC-009: POST /rebuild/* require X-Inter-Service-Secret header.
  */

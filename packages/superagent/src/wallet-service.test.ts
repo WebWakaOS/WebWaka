@@ -168,6 +168,7 @@ describe('WalletService.ensureWallet', () => {
     const db = { prepare: prepareSpy, batch: vi.fn() } as unknown as D1Database;
     const svc = makeService(db);
     await svc.ensureWallet('tenant-idempotent');
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const sqlCalled = (prepareSpy.mock.calls[0]?.[0] as string) ?? '';
     expect(sqlCalled).toContain('INSERT OR IGNORE');
   });

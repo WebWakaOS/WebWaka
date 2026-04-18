@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { HitlService } from './hitl-service.js';
 
 function makeMockDB(overrides: Record<string, { first?: unknown; results?: unknown[]; run?: { success: boolean; meta?: { changes?: number } } }> = {}) {
@@ -55,6 +55,7 @@ describe('HitlService', () => {
       });
 
       expect(result.queueItemId).toBeTruthy();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const batchCall = db.batch.mock.calls[0]![0] as unknown[];
       expect(batchCall.length).toBe(2);
     });

@@ -1,4 +1,4 @@
-openapi: "3.1.0"
+openapi: "3.0.3"
 info:
   title: WebWaka OS API
   version: "1.0.1"
@@ -96,6 +96,7 @@ paths:
       tags: [Auth]
       summary: Authenticate and receive a JWT
       operationId: login
+      security: []
       requestBody:
         required: true
         content:
@@ -443,6 +444,7 @@ paths:
       tags: [Templates]
       summary: List available templates (marketplace)
       operationId: listTemplates
+      security: []
       parameters:
         - name: category
           in: query
@@ -532,6 +534,7 @@ paths:
       tags: [Templates]
       summary: List ratings for a template (paginated)
       operationId: listTemplateRatings
+      security: []
       parameters:
         - name: slug
           in: path
@@ -908,6 +911,7 @@ paths:
       tags: [FxRates]
       summary: List all active FX rates (public)
       operationId: listFxRates
+      security: []
       responses:
         "200":
           description: Active FX rates (rate integer × 1,000,000 for float avoidance)
@@ -970,6 +974,7 @@ paths:
       tags: [FxRates]
       summary: Get specific currency pair rate (public)
       operationId: getFxRate
+      security: []
       parameters:
         - name: base
           in: path
@@ -998,6 +1003,7 @@ paths:
       tags: [FxRates]
       summary: Convert amount between currencies (public)
       operationId: convertCurrency
+      security: []
       parameters:
         - name: from
           in: query
