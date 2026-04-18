@@ -7,7 +7,7 @@ import { describe, it, expect } from 'vitest';
 import { normalizeContactChannels } from './normalize.js';
 import { getPreferredOTPChannel, resolveContactForOTP } from './channel-resolver.js';
 import { isChannelVerified, getVerifiedChannels } from './verification-state.js';
-import type { ContactChannelRecord, OTPPreference } from './types.js';
+import type { ContactChannelRecord } from './types.js';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

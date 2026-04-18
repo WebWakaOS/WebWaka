@@ -10,7 +10,7 @@
  *   P15 — classifyContent before post insert
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { classifyContent } from './moderation.js';
 import {
   FREE_COMMUNITY_ENTITLEMENTS,
@@ -26,7 +26,6 @@ import { createChannel, listChannels, createChannelPost, listChannelPosts } from
 import {
   createCourseModule,
   getCourseModules,
-  createCourseLesson,
   getLessonById,
   recordLessonProgress,
 } from './course.js';

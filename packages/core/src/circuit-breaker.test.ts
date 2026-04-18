@@ -11,7 +11,7 @@
  * subsequent calls must throw immediately without hitting the API.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { CircuitBreaker } from './circuit-breaker.js';
 
 // ---------------------------------------------------------------------------

@@ -33,7 +33,7 @@ export function guardClaimedToCacRegistered(input: { cacRc: string | null }): Gu
 }
 
 export function guardContributionAmountIsInteger(input: { amountKobo: unknown }): GuardResult {
-  if (typeof input.amountKobo !== 'number' || !Number.isInteger(input.amountKobo) || (input.amountKobo as number) <= 0)
+  if (typeof input.amountKobo !== 'number' || !Number.isInteger(input.amountKobo) || (input.amountKobo) <= 0)
     return { allowed: false, reason: 'Contribution amount must be positive integer kobo (P9)' };
   return { allowed: true };
 }

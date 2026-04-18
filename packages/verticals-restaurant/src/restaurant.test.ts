@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MenuRepository } from './restaurant.js';
-import type { CreateMenuItemInput } from './types.js';
 
 function makeDb() {
   const store: Record<string, unknown>[] = [];

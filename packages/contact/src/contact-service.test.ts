@@ -11,7 +11,6 @@ import {
   markChannelVerified,
   assertChannelConsent,
   assertPrimaryPhoneVerified,
-  removeContactChannel,
   ContactError,
 } from './contact-service.js';
 import { routeOTPByPurpose, OTPRoutingError } from './channel-resolver.js';

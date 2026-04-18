@@ -3,7 +3,7 @@
  * Target: 25 tests covering consent, BVN, NIN, CAC, FRSC, hashing
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { assertConsentExists, hashPII, maskPhone, maskEmail } from './consent.js';
 import { validateCACNumber } from './cac.js';
 import { IdentityError, type ConsentRecord } from './types.js';
@@ -172,7 +172,7 @@ describe('BVN format checks (consent gate)', () => {
   it('fails consent gate before hitting BVN format check', async () => {
     const { verifyBVN } = await import('./bvn.js');
     await expect(
-      verifyBVN('12345678901', null as unknown as ConsentRecord, '08012345678', {
+      verifyBVN('12345678901', null as unknown as '08012345678', {
         PREMBLY_API_KEY: 'test-key',
         PAYSTACK_SECRET_KEY: 'test-key',
         LOG_PII_SALT: 'test-salt',

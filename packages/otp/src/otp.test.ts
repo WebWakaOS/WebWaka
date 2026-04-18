@@ -3,7 +3,7 @@
  * Target: 20 tests covering phone validation, OTP generation, channel routing, waterfall
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { validateNigerianPhone } from './phone-validator.js';
 import { generateOTP, hashOTP, otpExpiresAt, isOTPExpired } from './otp-generator.js';
 import { resolveOTPChannels, rateLimitKey, lockKey, CHANNEL_RATE_LIMITS } from './channel-router.js';

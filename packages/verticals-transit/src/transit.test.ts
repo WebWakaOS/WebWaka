@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { TransitRepository } from './transit.js';
 import { isValidTransitTransition, VALID_TRANSIT_TRANSITIONS } from './types.js';
-import type { CreateTransitInput } from './types.js';
 
 function makeDb() {
   const store: Record<string, unknown>[] = [];

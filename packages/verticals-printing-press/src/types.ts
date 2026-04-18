@@ -57,7 +57,7 @@ export interface PressMaterial {
 
 export interface PrintingJob {
   id: string; profileId: string; tenantId: string; clientRefId: string;
-  jobType: 'business_card' | 'brochure' | 'banner' | 'book' | 'stationery' | 'packaging' | string;
+  jobType: 'business_card' | 'brochure' | 'banner' | 'book' | 'stationery' | 'packaging';
   quantity: number; descriptionSpec: string | null; setupCostKobo: number; printCostKobo: number;
   totalKobo: number; depositKobo: number; jobDate: number; deliveryDate: number | null;
   status: 'pending' | 'in_progress' | 'completed' | 'cancelled'; createdAt: number; updatedAt: number;
