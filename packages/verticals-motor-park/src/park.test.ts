@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { MotorParkRepository } from './park.js';
-import type { CreateParkInput, UpdateParkInput } from './types.js';
+import type { CreateParkInput } from './types.js';
 import { isValidParkTransition, VALID_PARK_TRANSITIONS } from './types.js';
 
 function makeDb() {
