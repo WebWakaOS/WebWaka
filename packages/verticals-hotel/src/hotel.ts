@@ -65,6 +65,6 @@ export class HotelRepository {
   }
 }
 
-export function guardSeedToClaimed(profile: HotelProfile): { allowed: boolean; reason?: string } {
+export function guardSeedToClaimed(_profile: HotelProfile): { allowed: boolean; reason?: string } {
   return { allowed: true };
 }

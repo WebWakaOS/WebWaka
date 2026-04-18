@@ -19,7 +19,9 @@ function makeDb() {
     const m = sql.match(/(?:INSERT INTO|UPDATE|SELECT\s.+?\sFROM|DELETE FROM)\s+(\w+)/i);
     const name = m?.[1] ?? 'default';
     if (!stores[name]) stores[name] = [];
-    return stores[name]!;
+    const store = stores[name];
+    if (!store) throw new Error(`Store not found: ${name}`);
+    return store;
   };
 
   const prep = (sql: string) => {
