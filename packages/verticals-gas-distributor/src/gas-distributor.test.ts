@@ -19,7 +19,8 @@ function makeDb() {
     const m = sql.match(/(?:INSERT INTO|UPDATE|SELECT\s.+?\sFROM|DELETE FROM)\s+(\w+)/i);
     const name = m?.[1] ?? 'default';
     if (!stores[name]) stores[name] = [];
-    return stores[name]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return stores[name] as Record<string, unknown>[];
   };
 
   const prep = (sql: string) => {
