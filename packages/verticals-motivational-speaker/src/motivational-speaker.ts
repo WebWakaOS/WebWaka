@@ -35,7 +35,7 @@ export class MotivationalSpeakerRepository {
     const id = crypto.randomUUID();
     await this.db.prepare('INSERT INTO training_enrollments (id,program_id,tenant_id,participant_ref,enrollment_date,fee_kobo,status,created_at) VALUES (?,?,?,?,?,?,\'enrolled\',unixepoch())').bind(id,programId,tenantId,input.participantRef,input.enrollmentDate,input.feeKobo).run();
     const r = await this.db.prepare('SELECT * FROM training_enrollments WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); if (!r) throw new Error('[motivational-speaker] enrollment create failed');
-    return { id: r['id'] as string, programId: r['program_id'] as string, tenantId: r['tenant_id'] as string, participantRef: r['participant_ref'] as string, enrollmentDate: r['enrollment_date'] as number, feeKobo: r['fee_kobo'] as number, status: r['status'] as unknown as EnrollmentStatus, createdAt: r['created_at'] as number };
+    return { id: r['id'] as string, programId: r['program_id'] as string, tenantId: r['tenant_id'] as string, participantRef: r['participant_ref'] as string, enrollmentDate: r['enrollment_date'] as number, feeKobo: r['fee_kobo'] as number, status: r['status'] as EnrollmentStatus, createdAt: r['created_at'] as number };
   }
 
   async addTestimonial(profileId: string, tenantId: string, input: { clientRefId: string; testimonialText: string; rating?: number; eventDate?: number }): Promise<Record<string, unknown>> {
