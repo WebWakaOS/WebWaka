@@ -21,14 +21,6 @@
 import type { Context, Next } from 'hono';
 import type { Env, Variables } from '../env.js';
 
-interface SubPartnerRow {
-  partner_id: string;
-}
-
-interface EntitlementRow {
-  value: string;
-}
-
 /**
  * Maximum depth to apply when no partner constraint exists.
  * Tenants without a partner relationship get full white-label depth.
@@ -57,7 +49,7 @@ export async function whiteLabelDepthMiddleware(
          LIMIT 1`,
       )
       .bind(tenantId)
-      .first() as SubPartnerRow | null;
+      .first();
 
     if (!subPartner) {
       // Not a sub-tenant — no partner constraint, full depth
@@ -72,7 +64,7 @@ export async function whiteLabelDepthMiddleware(
          WHERE partner_id = ? AND dimension = 'white_label_depth'`,
       )
       .bind(subPartner.partner_id)
-      .first() as EntitlementRow | null;
+      .first();
 
     if (!entitlement) {
       // Partner has no depth grant — default to depth 1 (basic)
@@ -84,7 +76,7 @@ export async function whiteLabelDepthMiddleware(
 
     if (isNaN(allowedDepth) || allowedDepth < 0 || allowedDepth > 2) {
       console.warn(
-        `[white-label-depth] Invalid depth value "${entitlement.value}" for partner ${subPartner.partner_id} — defaulting to 1`,
+        `[white-label-depth] Invalid depth value "${String(entitlement.value)}" for partner ${String(subPartner.partner_id)} — defaulting to 1`,
       );
       c.set('whiteLabelDepth', 1);
       return next();

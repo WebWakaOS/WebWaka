@@ -85,8 +85,8 @@ router.get('/login', async (c) => {
 router.post('/login', async (c) => {
   const slug = c.get('tenantSlug');
   const form = await c.req.formData();
-  const identifier = form.get('identifier') as string | null;
-  const password = form.get('password') as string | null;
+  const identifier = form.get('identifier');
+  const password = form.get('password');
 
   if (!identifier || !password) {
     return c.redirect(`/portal/login?error=missing_fields`);

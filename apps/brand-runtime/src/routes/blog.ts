@@ -25,7 +25,7 @@ export const blogRouter = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 blogRouter.get('/', async (c) => {
   const tenantSlug = c.get('tenantSlug') as string | undefined;
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   let cssVars = '';
   let logoUrl: string | null = null;
@@ -80,7 +80,7 @@ blogRouter.get('/', async (c) => {
 blogRouter.get('/:slug', async (c) => {
   const slug = c.req.param('slug');
   const tenantSlug = c.get('tenantSlug') as string | undefined;
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   let cssVars = '';
   let logoUrl: string | null = null;

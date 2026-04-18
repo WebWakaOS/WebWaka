@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 /**
  * public-discovery — Comprehensive route test suite
  * (Pillar 3 — CODE-2/PV-4)
@@ -34,7 +35,7 @@ import type { Env } from '../env.js';
 // Mock helpers
 // ---------------------------------------------------------------------------
 
-type Row = Record<string, unknown>;
+type Row = Record<string, string | number | null | boolean>;
 
 interface DBOpts {
   orgs?: Row[];
@@ -47,7 +48,6 @@ interface DBOpts {
 function makeDB(opts: DBOpts = {}): D1Database {
   const {
     orgs = [],
-    individuals = [],
     offerings = [],
     places = [],
     profile = null,
@@ -85,7 +85,7 @@ function makeDB(opts: DBOpts = {}): D1Database {
         }
         // slug lookup for brand URL
         if (lo.includes('select slug from organizations where id')) {
-          return profile ? { slug: (profile as Row).slug ?? null } as T : null;
+          return profile ? { slug: profile.slug ?? null } as unknown as T : null;
         }
         // count for sitemap-index
         if (lo.includes('count(*)')) {
@@ -93,7 +93,7 @@ function makeDB(opts: DBOpts = {}): D1Database {
         }
         return null;
       },
-      run: async () => ({ success: true, meta: {} as D1Meta }),
+      run: async () => ({ success: true, meta: {} as unknown as D1Meta }),
     };
   }
 
@@ -103,7 +103,7 @@ function makeDB(opts: DBOpts = {}): D1Database {
       ...bindResult(sql),
     }),
     batch: async (stmts: D1PreparedStatement[]) =>
-      stmts.map(() => ({ success: true, results: [], meta: {} as D1Meta })),
+      stmts.map(() => ({ success: true, results: [], meta: {} as unknown as D1Meta })),
     exec: async (_sql: string) => ({ count: 0, duration: 0 }),
     dump: async () => new ArrayBuffer(0),
   } as unknown as D1Database;
@@ -195,12 +195,13 @@ const PLACES_FIXTURE: Row[] = [
 // ---------------------------------------------------------------------------
 describe('D01: GET /health', () => {
   it('returns 200 with correct worker name', async () => {
-    const { app, env } = makeApp();
+    const { app: _app, env } = makeApp();
     const appWithHealth = new Hono<{ Bindings: Env }>();
     appWithHealth.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));
     appWithHealth.route('/discover', listingsRouter);
     const res = await appWithHealth.request('/health', {}, env);
     expect(res.status).toBe(200);
+     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const body = await res.json() as Record<string, unknown>;
     expect(body.ok).toBe(true);
     expect(body.worker).toBe('public-discovery');
@@ -212,7 +213,7 @@ describe('D01: GET /health', () => {
 // ---------------------------------------------------------------------------
 describe('D02: GET /robots.txt', () => {
   it('returns Allow: /discover and Disallow: /health', async () => {
-    const { app, env } = makeApp();
+    const { app: _app, env } = makeApp();
     const appWithRobots = new Hono<{ Bindings: Env }>();
     appWithRobots.get('/robots.txt', (c) =>
       c.text(
@@ -636,7 +637,7 @@ describe('G03: GET /discover/:stateSlug/:lgaSlug/:sectorSlug — three-level geo
 // ---------------------------------------------------------------------------
 describe('G04: GET /sitemap-index.xml — paginated sitemap index', () => {
   it('returns 200 XML with sitemapindex root element', async () => {
-    const { app, env } = makeGeoApp({ orgs: [] });
+    const { app: _app, env } = makeGeoApp({ orgs: [] });
     // Mount sitemap-index route directly for testing
     const sitemapApp = new Hono<{ Bindings: Env }>();
     sitemapApp.get('/sitemap-index.xml', async (c) => {

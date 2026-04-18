@@ -39,6 +39,7 @@ router.get('/:entityType/:id', async (c) => {
     website: string | null;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const cached = await c.env.DISCOVERY_CACHE.get(cacheKey, 'json') as ProfileRow | null;
   let profile: ProfileRow | null = cached;
 

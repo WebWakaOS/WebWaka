@@ -203,7 +203,8 @@ router.get('/in/:placeId', async (c) => {
     if (placeRow) placeName = placeRow.name;
   } catch { /* fallback */ }
 
-  const cached = await c.env.DISCOVERY_CACHE.get(cacheKey, 'json') as Array<{
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const cached = (await c.env.DISCOVERY_CACHE.get(cacheKey, 'json')) as Array<{
     id: string; name: string; category: string; place_name: string;
   }> | null;
 

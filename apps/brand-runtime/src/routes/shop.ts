@@ -70,7 +70,7 @@ type CartItem = { productId: string; name: string; price_kobo: number; qty: numb
 
 shopRouter.get('/', async (c) => {
   const theme = await resolveTheme(c);
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   let offerings: Offering[] = [];
   if (tenantId) {
@@ -122,7 +122,7 @@ shopRouter.get('/', async (c) => {
 
 shopRouter.get('/cart', async (c) => {
   const theme = await resolveTheme(c);
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
   const sessionId = c.req.header('Cookie')?.match(/ww_session=([^;]+)/)?.[1] ?? '';
   const cartKey = tenantId && sessionId ? `cart:${tenantId}:${sessionId}` : null;
 
@@ -173,7 +173,7 @@ shopRouter.get('/cart', async (c) => {
 // ---------------------------------------------------------------------------
 
 shopRouter.post('/cart/add', async (c) => {
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
   if (!tenantId) return c.redirect('/shop');
 
   let productId: string | undefined;
@@ -181,9 +181,10 @@ shopRouter.post('/cart/add', async (c) => {
   try {
     const ct = c.req.header('Content-Type') ?? '';
     if (ct.includes('application/json')) {
-      const b = await c.req.json() as { productId?: string; qty?: string | number };
-      productId = b.productId;
-      qtyRaw = b.qty ?? 1;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      const b = await c.req.json() as Record<string, unknown>;
+      productId = b['productId'] as string | undefined;
+      qtyRaw = (b['qty'] as string | number | undefined) ?? 1;
     } else {
       const form = await c.req.formData();
       productId = form.get('productId')?.toString();
@@ -236,7 +237,7 @@ shopRouter.post('/cart/add', async (c) => {
 
 shopRouter.post('/checkout', async (c) => {
   const theme = await resolveTheme(c);
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
   const sessionId = c.req.header('Cookie')?.match(/ww_session=([^;]+)/)?.[1] ?? '';
   const cartKey = tenantId && sessionId ? `cart:${tenantId}:${sessionId}` : null;
 
@@ -283,6 +284,7 @@ shopRouter.post('/checkout', async (c) => {
       }),
     });
     if (!res.ok) throw new Error(`Paystack HTTP ${res.status}`);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const json = await res.json() as { status: boolean; data?: { authorization_url: string } };
     if (!json.status || !json.data) throw new Error('Paystack init failed');
     return c.redirect(json.data.authorization_url, 302);
@@ -326,6 +328,7 @@ shopRouter.get('/checkout/callback', async (c) => {
         headers: { Authorization: `Bearer ${paystackKey}` },
       });
       if (res.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const json = await res.json() as { status: boolean; data?: { status: string; amount: number } };
         if (json.status && json.data?.status === 'success') {
           verified = true;
@@ -362,7 +365,7 @@ shopRouter.get('/checkout/callback', async (c) => {
 
 shopRouter.get('/:productId', async (c) => {
   const theme = await resolveTheme(c);
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
   const { productId } = c.req.param();
 
   let offering: Offering | null = null;

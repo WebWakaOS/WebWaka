@@ -42,10 +42,6 @@ function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/** Convert a display name to a URL slug */
-function toSlug(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-}
 
 /** Build a breadcrumb Schema.org node */
 function breadcrumb(items: Array<{ name: string; url: string }>): object {

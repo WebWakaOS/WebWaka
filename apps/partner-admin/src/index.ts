@@ -20,6 +20,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 export const APP_NAME = 'partner-admin' as const;
 
 interface Env {
@@ -53,6 +54,7 @@ app.use('*', async (c, next) => {
     allowHeaders: ['Authorization', 'Content-Type'],
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     maxAge: 86400,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   })(c, next);
 });
 

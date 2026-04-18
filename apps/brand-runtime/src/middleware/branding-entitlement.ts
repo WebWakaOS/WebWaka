@@ -51,7 +51,7 @@ const UPGRADE_HTML = `<!DOCTYPE html>
 </html>`;
 
 export async function brandingEntitlementMiddleware(c: Context<{ Bindings: Env; Variables: Variables }>, next: Next): Promise<Response | void> {
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   if (!tenantId) {
     return next();

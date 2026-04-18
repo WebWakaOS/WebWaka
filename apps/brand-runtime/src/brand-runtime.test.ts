@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 /**
  * brand-runtime — Comprehensive test suite
  * (Pillar 2 — CODE-1/PV-3)
@@ -191,7 +192,7 @@ describe('T01: GET /health', () => {
   it('returns 200 with worker name — no env required', async () => {
     const res = await app.request('/health');
     expect(res.status).toBe(200);
-    const body = await res.json() as Record<string, unknown>;
+    const body = await res.json();
     expect(body.ok).toBe(true);
     expect(body.worker).toBe('brand-runtime');
   });
@@ -225,7 +226,7 @@ describe('T03: GET /manifest.json', () => {
     const env = makeEnv({ org: ACME });
     const res = await app.request(brandReq('/manifest.json', 'acme'), {}, env);
     expect(res.status).toBe(200);
-    const manifest = await res.json() as Record<string, unknown>;
+    const manifest = await res.json();
     expect(manifest.name).toBe('Acme Nigeria Ltd');
     expect(manifest.start_url).toBe('/');
     expect(manifest.lang).toBe('en-NG');
@@ -417,7 +418,7 @@ describe('T10: POST /contact', () => {
       env,
     );
     expect(res.status).toBe(200);
-    const body = await res.json() as Record<string, unknown>;
+    const body = await res.json();
     expect(body.ok).toBe(true);
   });
 
@@ -433,7 +434,7 @@ describe('T10: POST /contact', () => {
       env,
     );
     expect(res.status).toBe(400);
-    const body = await res.json() as Record<string, unknown>;
+    const body = await res.json();
     expect(body.error).toBeTruthy();
   });
 
@@ -848,7 +849,7 @@ describe('T23: GET /manifest.webmanifest — dynamic PWA manifest', () => {
     const res = await app.request(brandReq('/manifest.webmanifest', 'acme'), {}, env);
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toContain('manifest');
-    const manifest = await res.json() as Record<string, unknown>;
+    const manifest = await res.json();
     expect(manifest.start_url).toBe('/');
     expect(manifest.display).toBe('standalone');
     expect(manifest.background_color).toBe('#ffffff');
@@ -940,7 +941,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     const app = makeDepthTestApp({ subPartner: null });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(2);
   });
 
@@ -951,7 +952,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(1);
   });
 
@@ -962,7 +963,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(2);
   });
 
@@ -973,7 +974,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(0);
   });
 
@@ -984,7 +985,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(1);
   });
 
@@ -995,7 +996,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
     });
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     expect(json.depth).toBe(1);
   });
 
@@ -1009,7 +1010,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
 
     const res = await app.request('/depth');
     expect(res.status).toBe(200);
-    const json = await res.json() as { depth: string | number };
+    const json = await res.json();
     // Middleware skipped — depth was never set by this middleware
     expect(json.depth).toBe('not-set');
   });
@@ -1021,7 +1022,7 @@ describe('T25: White-label depth enforcement — ENT-004 (P5)', () => {
       entitlement: { value: '1' },
     });
     const res = await app.request('/depth');
-    const json = await res.json() as { depth: number };
+    const json = await res.json();
     // Must be capped at 1 — cannot exceed partner's granted depth
     expect(json.depth).toBeLessThanOrEqual(1);
   });

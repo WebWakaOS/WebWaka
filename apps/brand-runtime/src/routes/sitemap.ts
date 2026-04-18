@@ -18,7 +18,7 @@ export const sitemapRouter = new Hono<{ Bindings: Env; Variables: Variables }>()
 // ---------------------------------------------------------------------------
 
 sitemapRouter.get('/sitemap.xml', async (c) => {
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   const host = c.req.header('Host') ?? 'localhost';
   const origin = `https://${host}`;
@@ -37,7 +37,7 @@ sitemapRouter.get('/sitemap.xml', async (c) => {
     `  <url><loc>${origin}${p.url}</loc><lastmod>${now}</lastmod><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
   );
 
-  let dynamicEntries: string[] = [];
+  const dynamicEntries: string[] = [];
   if (tenantId) {
     try {
       const offerings = await c.env.DB
@@ -78,7 +78,7 @@ ${[...staticEntries, ...dynamicEntries].join('\n')}
 // ---------------------------------------------------------------------------
 
 sitemapRouter.get('/manifest.webmanifest', async (c) => {
-  const tenantId = c.get('tenantId') as string | undefined;
+  const tenantId = c.get('tenantId');
 
   let name = 'WebWaka Business';
   let shortName = 'WebWaka';

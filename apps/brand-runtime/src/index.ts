@@ -115,7 +115,7 @@ app.use('/portal/*', tenantResolve);
 app.use('/*', tenantResolve);
 
 // ─── PWA manifest (tenant-dynamic, after tenant resolution) ──────────────
-app.get('/manifest.json', async (c) => {
+app.get('/manifest.json', (c) => {
   const tenantName = c.get('tenantName') ?? 'WebWaka';
   const themeColor = c.get('themeColor') ?? '#1a6b3a';
 
