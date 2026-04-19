@@ -15,8 +15,8 @@ crons = ["*/15 * * * *"]
 
 [[env.staging.d1_databases]]
 binding = "DB"
-database_name = "webwaka-os-staging"
-database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+database_name = "webwaka-staging"
+database_id = "ec52d7fc-79fe-4345-af36-7002fc5801d7"
 migrations_dir = "migrations"
 
 [[env.staging.kv_namespaces]]
@@ -60,7 +60,7 @@ crons = ["*/15 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
-database_name = "webwaka-os-production"
+database_name = "webwaka-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 migrations_dir = "migrations"
 

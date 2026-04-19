@@ -66,7 +66,7 @@ jobs:
           # Run from apps/api so pnpm can resolve the wrangler binary.
           if ls apps/api/migrations/*.sql 1>/dev/null 2>&1; then
             cd apps/api
-            npx wrangler d1 migrations apply webwaka-os-production \
+            npx wrangler d1 migrations apply webwaka-production \
               --env production \
               --remote
           else

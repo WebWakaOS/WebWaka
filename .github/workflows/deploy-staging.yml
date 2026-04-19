@@ -53,9 +53,9 @@ jobs:
       - name: Apply D1 migrations (staging)
         run: |
           # Run from apps/api so pnpm can resolve the wrangler binary.
-          # database_name in wrangler.toml is "webwaka-os-staging".
+          # database_name in wrangler.toml is "webwaka-staging".
           cd apps/api
-          echo "y" | npx wrangler d1 migrations apply webwaka-os-staging \
+          echo "y" | npx wrangler d1 migrations apply webwaka-staging \
             --env staging \
             --remote
         env:
