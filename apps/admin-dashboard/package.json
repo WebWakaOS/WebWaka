@@ -13,7 +13,7 @@
     "@webwaka/frontend": "workspace:*",
     "@webwaka/payments": "workspace:*",
     "@webwaka/types": "workspace:*",
-    "hono": "^4.3.0"
+    "hono": "^4.12.14"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240524.0",

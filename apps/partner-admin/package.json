@@ -2,7 +2,7 @@
   "name": "@webwaka/partner-admin",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 1] Partner/tenant management portal — M11 Partner & White-Label",
+  "description": "[Pillar 1] Partner/tenant management portal \u2014 M11 Partner & White-Label",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -13,7 +13,7 @@
     "dev": "wrangler dev --config wrangler.toml"
   },
   "dependencies": {
-    "hono": "^4.12.12"
+    "hono": "^4.12.14"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.0.0",

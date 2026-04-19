@@ -2,7 +2,7 @@
   "name": "@webwaka/brand-runtime",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 2] Brand / Website / Portal runtime — tenant-branded public pages and admin portals.",
+  "description": "[Pillar 2] Brand / Website / Portal runtime \u2014 tenant-branded public pages and admin portals.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -18,7 +18,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "hono": "^4.12.12",
+    "hono": "^4.12.14",
     "@webwaka/auth": "workspace:*",
     "@webwaka/types": "workspace:*",
     "@webwaka/entities": "workspace:*",

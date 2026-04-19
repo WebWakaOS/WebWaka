@@ -2,7 +2,7 @@
   "name": "@webwaka/workspace-app",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 2] WebWaka OS Workspace PWA — tenant dashboard, POS, offerings, vertical views",
+  "description": "[Pillar 2] WebWaka OS Workspace PWA \u2014 tenant dashboard, POS, offerings, vertical views",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5173",
@@ -25,7 +25,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.3.1",
+    "vite": "^5.4.21",
     "vite-plugin-pwa": "^0.20.0",
     "workbox-window": "^7.1.0",
     "typescript": "^5.5.2",

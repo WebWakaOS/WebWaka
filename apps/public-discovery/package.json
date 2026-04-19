@@ -2,7 +2,7 @@
   "name": "@webwaka/public-discovery",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 3] Public discovery Worker — geography-first listing and multi-vendor marketplace frontend.",
+  "description": "[Pillar 3] Public discovery Worker \u2014 geography-first listing and multi-vendor marketplace frontend.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -18,7 +18,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "hono": "^4.12.12",
+    "hono": "^4.12.14",
     "@webwaka/types": "workspace:*",
     "@webwaka/entities": "workspace:*",
     "@webwaka/i18n": "workspace:*",
