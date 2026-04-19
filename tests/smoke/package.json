@@ -2,6 +2,7 @@
   "name": "smoke",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "smoke:staging": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts && tsx superagent.smoke.ts",
     "smoke:production": "tsx api-health.smoke.ts && tsx discovery.smoke.ts && tsx claims.smoke.ts && tsx branding.smoke.ts && tsx superagent.smoke.ts",
