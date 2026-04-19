@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS template_registry (
   is_free INTEGER NOT NULL DEFAULT 1,
   price_kobo INTEGER NOT NULL DEFAULT 0,
   install_count INTEGER NOT NULL DEFAULT 0,
+  tags TEXT,
   created_at INTEGER NOT NULL,
   updated_at INTEGER NOT NULL
 );
