@@ -9,10 +9,10 @@
 CREATE INDEX IF NOT EXISTS idx_subscriptions_workspace_tenant
   ON subscriptions(workspace_id, tenant_id);
 
--- Entities: high-frequency listing query (GET /entities?workspace_id=...)
--- Used in workspace dashboards and discovery layer.
-CREATE INDEX IF NOT EXISTS idx_entities_tenant_workspace
-  ON entities(tenant_id, workspace_id);
+-- NOTE: There is no 'entities' table — the platform uses 'individuals' and
+-- 'organizations' tables (migration 0002). The intended entity-listing index
+-- is therefore on those two tables; see idx_individuals_tenant_id and
+-- idx_organizations_tenant_id created in 0002_init_entities.sql.
 
 -- Profiles: discovery search queries filter by tenant + status
 -- Used by GET /discovery/* and public B2B search.
