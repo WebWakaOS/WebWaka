@@ -22,7 +22,7 @@
 
 import { Hono } from 'hono';
 import { secureHeaders } from 'hono/secure-headers';
-import { getOrCreateSession, saveSession, deleteSession, type USSDSession } from './session.js';
+import { getOrCreateSession, saveSession, deleteSession } from './session.js';
 import { processUSSDInput } from './processor.js';
 import { mainMenu, type TrendingPostSnippet, type CommunityItem } from './menus.js';
 import { handleTelegramWebhook, type TelegramUpdate } from './telegram.js';

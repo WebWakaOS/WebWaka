@@ -217,8 +217,8 @@ function handleEnterPhoneAndAmount(session: USSDSession, fullText: string): Proc
 
 function handleSendMoneyConfirm(session: USSDSession, input: string): ProcessResult {
   if (input === '1') {
-    const recipient = session.data['recipient'] ?? 'Unknown';
-    const amount = session.data['amount'] ?? '0';
+    const recipient = String(session.data['recipient'] ?? 'Unknown');
+    const amount = String(session.data['amount'] ?? '0');
     return {
       text: endSession(`Transfer of \u20A6${amount} to ${recipient} initiated. Check the app for status.`),
       session,
@@ -359,7 +359,7 @@ function handleCommunityEvents(session: USSDSession, input: string): ProcessResu
   const idx = parseInt(input, 10) - 1;
   if (!isNaN(idx) && idx >= 0 && events[idx]) {
     return {
-      text: endSession(`Event: ${events[idx]!.title}. Register via the WebWaka app.`),
+      text: endSession(`Event: ${events[idx].title}. Register via the WebWaka app.`),
       session,
       ended: true,
     };
@@ -379,7 +379,7 @@ function handleCommunityGroups(session: USSDSession, input: string): ProcessResu
   const idx = parseInt(input, 10) - 1;
   if (!isNaN(idx) && idx >= 0 && groups[idx]) {
     return {
-      text: endSession(`Join ${groups[idx]!.name} via the WebWaka app.`),
+      text: endSession(`Join ${groups[idx].name} via the WebWaka app.`),
       session,
       ended: true,
     };

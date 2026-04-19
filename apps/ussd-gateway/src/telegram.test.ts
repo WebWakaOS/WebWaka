@@ -46,6 +46,7 @@ describe('handleTelegramWebhook', () => {
     };
 
     await handleTelegramWebhook(update, { DB: db as never, TELEGRAM_BOT_TOKEN: 'tok_test' });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const runCall = db.prepare.mock.results.find((r) => r.value?.bind()?.run);
     expect(runCall).toBeTruthy();
   });
@@ -118,7 +119,7 @@ describe('POST /telegram/webhook route', () => {
       await next();
     });
 
-    app.post('/telegram/webhook', async (c) => {
+    app.post('/telegram/webhook', (c) => {
       const secretToken = c.req.header('X-Telegram-Bot-Api-Secret-Token');
       if (!secretToken || secretToken !== c.env.TELEGRAM_WEBHOOK_SECRET) {
         return c.json({ error: 'Forbidden' }, 403);

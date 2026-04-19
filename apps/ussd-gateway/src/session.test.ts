@@ -12,9 +12,12 @@ function makeMockKV(initial?: USSDSession): {
   delete: ReturnType<typeof vi.fn>;
 } {
   return {
-    get: vi.fn().mockResolvedValue(initial ?? null),
-    put: vi.fn().mockResolvedValue(undefined),
-    delete: vi.fn().mockResolvedValue(undefined),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    get: vi.fn().mockResolvedValue(initial ?? null) as ReturnType<typeof vi.fn>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    put: vi.fn().mockResolvedValue(undefined) as ReturnType<typeof vi.fn>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete: vi.fn().mockResolvedValue(undefined) as ReturnType<typeof vi.fn>,
   };
 }
 
