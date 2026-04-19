@@ -49,7 +49,7 @@ export async function whiteLabelDepthMiddleware(
          LIMIT 1`,
       )
       .bind(tenantId)
-      .first();
+      .first<{ partner_id: string }>();
 
     if (!subPartner) {
       // Not a sub-tenant — no partner constraint, full depth
@@ -64,7 +64,7 @@ export async function whiteLabelDepthMiddleware(
          WHERE partner_id = ? AND dimension = 'white_label_depth'`,
       )
       .bind(subPartner.partner_id)
-      .first();
+      .first<{ value: string }>();
 
     if (!entitlement) {
       // Partner has no depth grant — default to depth 1 (basic)
