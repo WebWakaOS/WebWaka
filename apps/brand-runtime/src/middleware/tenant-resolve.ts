@@ -47,7 +47,7 @@ export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: Variab
 
     // 2. Subdomain pattern: brand-{slug}.webwaka.com
     if (!slug) {
-      const subMatch = host.match(/^brand-([a-z0-9-]+)\.webwaka\.ng(?::\d+)?$/i);
+      const subMatch = host.match(/^brand-([a-z0-9-]+)\.webwaka\.com(?::\d+)?$/i);
       if (subMatch) {
         slug = subMatch[1] ?? null;
       }
