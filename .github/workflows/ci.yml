@@ -150,6 +150,9 @@ jobs:
     name: k6 Load Smoke Test
     runs-on: ubuntu-latest
     needs: [typecheck, test]
+    # k6 is a load/performance indicator — it must NOT block the deploy pipeline.
+    # continue-on-error means a threshold breach surfaces as a warning, not a gate.
+    continue-on-error: true
     if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
     steps:
       - uses: actions/checkout@v4

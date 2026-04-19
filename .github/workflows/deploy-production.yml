@@ -3,7 +3,7 @@ name: Deploy — Production
 on:
   push:
     branches:
-      - staging
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -15,6 +15,7 @@ jobs:
   ci:
     name: CI Checks
     uses: ./.github/workflows/ci.yml
+    secrets: inherit
 
   # DEV-01: Staging validation gate — verify staging health before prod deploy
   validate-staging:
