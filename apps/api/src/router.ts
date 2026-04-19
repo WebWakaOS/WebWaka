@@ -627,8 +627,10 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // Auth middleware NOT applied at route level — the POST handler enforces
   // super_admin role internally. This keeps GET /fx-rates* routes public
   // for currency display without requiring authentication.
+  // SEC: Rate-limit public GET routes to prevent DoS / scraping abuse.
   // -------------------------------------------------------------------------
 
+  app.use('/fx-rates*', rateLimitMiddleware({ keyPrefix: 'fx-rates', maxRequests: 60, windowSeconds: 60 }));
   app.route('/fx-rates', fxRatesRoutes);
 
   // -------------------------------------------------------------------------

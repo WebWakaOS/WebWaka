@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { api, authApi } from '@/lib/api';
 import { formatNaira } from '@/lib/currency';
+import { toast } from '@/lib/toast';
 
 interface BillingStatus {
   plan: string;
@@ -46,6 +47,7 @@ function useDashboardData(workspaceId: string | undefined) {
     recentSales: [],
   });
   const [loading, setLoading] = useState(true);
+  const [partialError, setPartialError] = useState(false);
 
   useEffect(() => {
     if (!workspaceId) {
@@ -54,6 +56,7 @@ function useDashboardData(workspaceId: string | undefined) {
     }
 
     setLoading(true);
+    setPartialError(false);
 
     Promise.allSettled([
       api.get<BillingStatus>('/billing/status'),
@@ -61,6 +64,13 @@ function useDashboardData(workspaceId: string | undefined) {
       api.get<ProductCounts>(`/pos-business/products/${workspaceId}`),
       api.get<SalesResponse>(`/pos-business/sales/${workspaceId}?limit=5`),
     ]).then(([billingRes, summaryRes, productsRes, salesRes]) => {
+      const anyFailed = [billingRes, summaryRes, productsRes, salesRes].some(
+        r => r.status === 'rejected',
+      );
+      if (anyFailed) {
+        setPartialError(true);
+        toast.error('Some dashboard data failed to load. Retrying may help.');
+      }
       setData({
         billing: billingRes.status === 'fulfilled' ? billingRes.value : null,
         summary: summaryRes.status === 'fulfilled' ? summaryRes.value : null,
@@ -71,7 +81,7 @@ function useDashboardData(workspaceId: string | undefined) {
     });
   }, [workspaceId]);
 
-  return { data, loading };
+  return { data, loading, partialError };
 }
 
 // P20-C: Email verification banner state

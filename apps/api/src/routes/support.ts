@@ -107,9 +107,10 @@ supportRoutes.post('/tickets', async (c) => {
     .bind(id, workspaceId, auth.tenantId, body.subject, body.body, priority)
     .run();
 
+  // T3: scope readback to tenant to maintain invariant
   const ticket = await db
-    .prepare('SELECT * FROM support_tickets WHERE id = ?')
-    .bind(id)
+    .prepare('SELECT * FROM support_tickets WHERE id = ? AND tenant_id = ?')
+    .bind(id, auth.tenantId)
     .first<Record<string, unknown>>();
 
   return c.json({ ticket }, 201);
@@ -249,18 +250,30 @@ supportRoutes.patch('/tickets/:id', async (c) => {
   const newPriority = body.priority ?? ticket.priority;
   const newAssignee = body.assigneeId !== undefined ? body.assigneeId : ticket.assignee_id;
 
+  // T3: scope UPDATE to tenant — super_admin may update cross-tenant, admin is scoped.
   await db
     .prepare(
-      `UPDATE support_tickets
-       SET status = ?, priority = ?, assignee_id = ?, updated_at = unixepoch()
-       WHERE id = ?`,
+      tenantFilter
+        ? `UPDATE support_tickets
+           SET status = ?, priority = ?, assignee_id = ?, updated_at = unixepoch()
+           WHERE id = ? AND tenant_id = ?`
+        : `UPDATE support_tickets
+           SET status = ?, priority = ?, assignee_id = ?, updated_at = unixepoch()
+           WHERE id = ?`,
     )
-    .bind(newStatus, newPriority, newAssignee, ticketId)
+    .bind(...(tenantFilter
+      ? [newStatus, newPriority, newAssignee, ticketId, tenantFilter]
+      : [newStatus, newPriority, newAssignee, ticketId]))
     .run();
 
+  // T3: scope readback to tenant
   const updated = await db
-    .prepare('SELECT * FROM support_tickets WHERE id = ?')
-    .bind(ticketId)
+    .prepare(
+      tenantFilter
+        ? 'SELECT * FROM support_tickets WHERE id = ? AND tenant_id = ?'
+        : 'SELECT * FROM support_tickets WHERE id = ?',
+    )
+    .bind(...(tenantFilter ? [ticketId, tenantFilter] : [ticketId]))
     .first<Record<string, unknown>>();
 
   return c.json({ ticket: updated });

@@ -199,7 +199,18 @@ export default function POS() {
         </div>
 
         <div style={styles.cartPanel}>
-          <h2 style={styles.cartHeading}>Cart</h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <h2 style={styles.cartHeading}>Cart</h2>
+            {cart.length > 0 && (
+              <button
+                onClick={() => setCart([])}
+                style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: 12, cursor: 'pointer', fontWeight: 600, padding: '4px 8px' }}
+                aria-label="Clear cart"
+              >
+                Clear
+              </button>
+            )}
+          </div>
 
           {cart.length === 0 ? (
             <div style={styles.emptyCart}>

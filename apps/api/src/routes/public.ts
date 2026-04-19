@@ -143,13 +143,25 @@ adminPublicRoutes.get('/:workspaceId/dashboard', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// Theme update — POST /themes/:tenantId
+// Theme update — POST /themes/:workspaceId
+// SEC: auth is enforced by authMiddleware at the router level (/themes/* → authMiddleware).
+// T3: admin may only update workspaces belonging to their own tenant.
+//     super_admin may update any workspace (cross-tenant ops support).
+// ROLE: admin or super_admin required — plain members/agents cannot modify branding.
 // ---------------------------------------------------------------------------
 
 export const themeRoutes = new Hono<AppEnv>();
 
-themeRoutes.post('/:tenantId', async (c) => {
-  const tenantId = c.req.param('tenantId');
+themeRoutes.post('/:workspaceId', async (c) => {
+  const auth = c.get('auth') as AuthContext | undefined;
+  if (!auth?.userId || !auth.tenantId) {
+    return c.json({ error: 'Authentication required' }, 401);
+  }
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'admin or super_admin role required to update branding' }, 403);
+  }
+
+  const workspaceId = c.req.param('workspaceId');
   const db = c.env.DB as unknown as D1Like;
 
   let body: Record<string, unknown> = {};
@@ -164,23 +176,34 @@ themeRoutes.post('/:tenantId', async (c) => {
     return c.json({ error: 'Validation failed', details: validation.errors }, 422);
   }
 
-  // Load current branding
+  // T3: scope workspace lookup to caller's tenant (super_admin bypasses this guard)
   const row = await db
-    .prepare(`SELECT branding FROM workspaces WHERE id = ?`)
-    .bind(tenantId)
+    .prepare(
+      auth.role === 'super_admin'
+        ? `SELECT branding FROM workspaces WHERE id = ?`
+        : `SELECT branding FROM workspaces WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(...(auth.role === 'super_admin' ? [workspaceId] : [workspaceId, auth.tenantId]))
     .first<{ branding: string | null }>();
 
   if (!row) {
-    return c.json({ error: 'Tenant not found' }, 404);
+    return c.json({ error: 'Workspace not found' }, 404);
   }
 
   const current: Record<string, unknown> = row.branding ? JSON.parse(row.branding) as Record<string, unknown> : {};
   const merged = { ...current, ...validation.branding };
 
+  // T3: UPDATE scoped to tenant to prevent cross-tenant writes
   await db
-    .prepare(`UPDATE workspaces SET branding = ?, updated_at = unixepoch() WHERE id = ?`)
-    .bind(JSON.stringify(merged), tenantId)
+    .prepare(
+      auth.role === 'super_admin'
+        ? `UPDATE workspaces SET branding = ?, updated_at = unixepoch() WHERE id = ?`
+        : `UPDATE workspaces SET branding = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(...(auth.role === 'super_admin'
+      ? [JSON.stringify(merged), workspaceId]
+      : [JSON.stringify(merged), workspaceId, auth.tenantId]))
     .run();
 
-  return c.json({ tenantId, branding: merged });
+  return c.json({ workspaceId, branding: merged });
 });

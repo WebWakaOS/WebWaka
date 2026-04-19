@@ -110,7 +110,7 @@ entityRoutes.post('/individuals', async (c) => {
 
 entityRoutes.get('/individuals', async (c) => {
   const auth = c.get('auth');
-  const limit = Math.min(parseInt(c.req.query('limit') ?? '20', 10), 100);
+  const limit = Math.min(parseInt(c.req.query('limit') ?? '20', 10) || 20, 100);
   const cursor = c.req.query('cursor');
   const listOpts = { limit, ...(cursor !== undefined ? { cursor } : {}) };
 
@@ -170,7 +170,7 @@ entityRoutes.post('/organizations', async (c) => {
 
 entityRoutes.get('/organizations', async (c) => {
   const auth = c.get('auth');
-  const limit = Math.min(parseInt(c.req.query('limit') ?? '20', 10), 100);
+  const limit = Math.min(parseInt(c.req.query('limit') ?? '20', 10) || 20, 100);
   const cursor = c.req.query('cursor');
   const listOpts = { limit, ...(cursor !== undefined ? { cursor } : {}) };
 
