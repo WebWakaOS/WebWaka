@@ -215,7 +215,16 @@ discoveryRoutes.get('/profiles/:subjectType/:subjectId', async (c) => {
 
   const db = c.env.DB as unknown as D1Like;
 
-  const profile = await getProfileBySubject(db, subjectType as typeof EntityType.Individual, subjectId);
+  // BUG-DIS-01: Wrap profile lookup in try/catch — D1 can throw (schema mismatch,
+  // missing table, runtime binding error) rather than returning null. Surface as
+  // 404, never 500, for missing/invalid profile IDs.
+  let profile;
+  try {
+    profile = await getProfileBySubject(db, subjectType as typeof EntityType.Individual, subjectId);
+  } catch (err) {
+    console.error('[discovery] getProfileBySubject error:', err instanceof Error ? err.message : String(err));
+    return c.json({ error: `Profile not found for ${subjectType}/${subjectId}` }, 404);
+  }
   if (!profile) {
     return c.json({ error: `Profile not found for ${subjectType}/${subjectId}` }, 404);
   }

@@ -37,16 +37,17 @@ jobs:
             exit 0
           fi
           MINOR=$(echo "$LATEST" | cut -d. -f1,2)
-          echo "Required minor: ^$MINOR"
-          MISMATCHED=$(grep -r '"@webwaka/core"' --include="package.json" . | \
-            grep -v '"\\^$MINOR" | \
-            grep -v '"name"' | \
-            grep -v 'workspace:' | \
-            grep "@webwaka/core" || true)
+          echo "Required minor: ^${MINOR}"
+          EXPECTED_PREFIX="\"^${MINOR}"
+          MISMATCHED=$(grep -r '"@webwaka/core"' --include="package.json" . \
+            | grep -v "${EXPECTED_PREFIX}" \
+            | grep -v '"name"' \
+            | grep -v 'workspace:' \
+            | grep '@webwaka/core' || true)
           if [ -n "$MISMATCHED" ]; then
             echo "FAIL: Mismatched @webwaka/core version:"
             echo "$MISMATCHED"
             exit 1
           else
-            echo "OK: All @webwaka/core references are on ^$MINOR"
+            echo "OK: All @webwaka/core references are on ^${MINOR}"
           fi
