@@ -19,6 +19,10 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:8787';
+
+http.setResponseCallback(
+  http.expectedStatuses({ min: 200, max: 299 }, { min: 400, max: 499 }),
+);
 const JWT_TOKEN = __ENV.JWT_TOKEN || '';
 const SUPER_ADMIN_JWT = __ENV.SUPER_ADMIN_JWT || '';
 
