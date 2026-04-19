@@ -14,15 +14,19 @@ CREATE INDEX IF NOT EXISTS idx_subscriptions_workspace_tenant
 -- is therefore on those two tables; see idx_individuals_tenant_id and
 -- idx_organizations_tenant_id created in 0002_init_entities.sql.
 
--- Profiles: discovery search queries filter by tenant + status
+-- Profiles: discovery search queries filter by publication_state + claim_state.
+-- NOTE: profiles is a global discovery table — it is not tenant-scoped.
+-- The relevant columns are publication_state (published/unpublished) and
+-- claim_state (seeded/claimable/claim_pending/verified/managed/branded/monetized/delegated).
 -- Used by GET /discovery/* and public B2B search.
-CREATE INDEX IF NOT EXISTS idx_profiles_tenant_status
-  ON profiles(tenant_id, status);
+CREATE INDEX IF NOT EXISTS idx_profiles_publication_claim
+  ON profiles(publication_state, claim_state);
 
--- Event log: projection rebuild scans for incremental processing
--- Compound on aggregate_type + aggregate_id + created_at for ordered replay.
+-- Event log: projection rebuild scans for incremental processing.
+-- NOTE: the column is named 'aggregate' (not 'aggregate_type') in 0012_event_log.sql.
+-- Compound on aggregate + aggregate_id + created_at for ordered replay.
 CREATE INDEX IF NOT EXISTS idx_event_log_aggregate
-  ON event_log(aggregate_type, aggregate_id, created_at);
+  ON event_log(aggregate, aggregate_id, created_at);
 
 -- Sessions: active session listing and revoke-all queries
 -- Partial index — only indexes non-revoked sessions (smaller index, faster reads).
