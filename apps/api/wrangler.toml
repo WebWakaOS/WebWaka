@@ -16,7 +16,7 @@ crons = ["*/15 * * * *"]
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "webwaka-staging"
-database_id = "ec52d7fc-79fe-4345-af36-7002fc5801d7"
+database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 migrations_dir = "migrations"
 
 [[env.staging.kv_namespaces]]
