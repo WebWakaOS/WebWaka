@@ -1,25 +1,21 @@
--- Migration 0213: Shared delivery_orders table (M9)
--- Used by: logistics-delivery, restaurant, supermarket verticals
+-- Migration 0213: Shared delivery_orders table (M9) — column patch
+-- delivery_orders was first created in 0156_vertical_logistics_delivery.sql with
+-- the P13 opaque-reference schema.  This migration extends it with the
+-- workspace-centric columns required by the shared M9 delivery feature
+-- (logistics-delivery, restaurant, supermarket verticals).
+--
 -- P9: fee_kobo and cod_amount_kobo are integer kobo
 -- T3: tenant_id on all rows and queries
 
-CREATE TABLE IF NOT EXISTS delivery_orders (
-  id                TEXT    NOT NULL PRIMARY KEY,
-  workspace_id      TEXT    REFERENCES workspaces(id),
-  tenant_id         TEXT    NOT NULL,
-  vertical_slug     TEXT    NOT NULL DEFAULT 'logistics-delivery',
-  customer_phone    TEXT    NOT NULL,
-  origin_address    TEXT    NOT NULL,
-  dest_address      TEXT    NOT NULL,
-  rider_id          TEXT,
-  status            TEXT    NOT NULL DEFAULT 'pending'
-                    CHECK (status IN ('pending','assigned','picked_up','in_transit','delivered','returned','cancelled','failed')),
-  fee_kobo          INTEGER NOT NULL DEFAULT 0 CHECK (fee_kobo >= 0),
-  cod_amount_kobo   INTEGER NOT NULL DEFAULT 0 CHECK (cod_amount_kobo >= 0),
-  notes             TEXT,
-  created_at        INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at        INTEGER NOT NULL DEFAULT (unixepoch())
-);
+ALTER TABLE delivery_orders ADD COLUMN workspace_id    TEXT    REFERENCES workspaces(id);
+ALTER TABLE delivery_orders ADD COLUMN vertical_slug   TEXT    NOT NULL DEFAULT 'logistics-delivery';
+ALTER TABLE delivery_orders ADD COLUMN customer_phone  TEXT;
+ALTER TABLE delivery_orders ADD COLUMN origin_address  TEXT;
+ALTER TABLE delivery_orders ADD COLUMN dest_address    TEXT;
+ALTER TABLE delivery_orders ADD COLUMN rider_id        TEXT;
+ALTER TABLE delivery_orders ADD COLUMN fee_kobo        INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE delivery_orders ADD COLUMN cod_amount_kobo INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE delivery_orders ADD COLUMN notes           TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_delivery_orders_tenant
   ON delivery_orders(tenant_id);
