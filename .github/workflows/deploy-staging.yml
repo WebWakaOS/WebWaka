@@ -40,15 +40,17 @@ jobs:
       - name: Stage migrations for wrangler
         run: |
           # wrangler.toml migrations_dir = "migrations" (relative to apps/api/)
-          # Real migrations live in infra/db/migrations — create a hard copy so
-          # wrangler can walk the dir without symlink issues in the runner.
+          # Real migrations live in infra/db/migrations — copy only forward
+          # migrations (*.sql) and exclude rollback files (*.rollback.sql).
+          # wrangler applies all *.sql files alphabetically; rollback files would
+          # run before their forward migration and fail with "no such table".
           mkdir -p apps/api/migrations
-          if ls infra/db/migrations/*.sql 1>/dev/null 2>&1; then
-            cp infra/db/migrations/*.sql apps/api/migrations/
-            echo "Staged $(ls apps/api/migrations/*.sql | wc -l) migration files"
-          else
-            echo "No migration files found — skipping copy"
-          fi
+          for f in infra/db/migrations/*.sql; do
+            [[ "$f" == *.rollback.sql ]] && continue
+            cp "$f" apps/api/migrations/
+          done
+          COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
+          echo "Staged ${COUNT} forward migration files (rollbacks excluded)"
 
       - name: Apply D1 migrations (staging)
         run: |
