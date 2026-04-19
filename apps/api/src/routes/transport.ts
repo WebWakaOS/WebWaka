@@ -42,8 +42,8 @@ import { HaulageRepository } from '@webwaka/verticals-haulage';
 import { RtuRepository } from '@webwaka/verticals-road-transport-union';
 import { OkadaKekeRepository } from '@webwaka/verticals-okada-keke';
 import type {
-  ParkFSMState, CreateParkInput, UpdateParkInput,
-  RouteType, RouteStatus, VehicleType,
+  ParkFSMState, UpdateParkInput,
+  RouteType, VehicleType,
 } from '@webwaka/verticals-motor-park';
 import type { TransitFSMState } from '@webwaka/verticals-transit';
 import type { RideshareFSMState } from '@webwaka/verticals-rideshare';

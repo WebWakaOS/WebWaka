@@ -14,7 +14,6 @@ pharmacyChainRoutes.post('/', async (c) => {
   return c.json({ pharmacy_chain: profile }, 201);
 });
 pharmacyChainRoutes.get('/workspace/:workspaceId', async (c) => {
-  const auth = c.get('auth') as { userId: string; tenantId: string };
   return c.json({ pharmacy_chain: await new PharmacyChainRepository(c.env.DB).findProfileByWorkspace(c.req.param('workspaceId'), (c.get('auth') as { tenantId: string }).tenantId) });
 });
 pharmacyChainRoutes.get('/:id', async (c) => {

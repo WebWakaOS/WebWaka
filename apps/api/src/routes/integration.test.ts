@@ -367,7 +367,7 @@ describe('P4-C: Cross-pillar offering flow — workspace create → search index
     const insertRunSpy = vi.fn().mockResolvedValue({ success: true });
     const searchRunSpy = vi.fn().mockRejectedValue(new Error('Search index unavailable'));
 
-    let callCount = 0;
+    const _callCount = 0;
     const mockDB = {
       prepare: vi.fn().mockImplementation((sql: string) => {
         const lo = sql.toLowerCase();

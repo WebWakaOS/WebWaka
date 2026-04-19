@@ -14,7 +14,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Hono } from 'hono';
 import { geographyRoutes } from './geography.js';
-import { discoveryRoutes } from './discovery.js';
+import { discoveryRoutes as _discoveryRoutes } from './discovery.js';
 import app from '../index.js';
 
 const JWT_SECRET = 'test-secret-32-chars-minimum-length-required';
@@ -375,7 +375,7 @@ describe('PERF-08: Discovery search KV caching', () => {
   });
 
   it('returns X-Cache: HIT on subsequent identical search', async () => {
-    const { env, kv } = makeDiscoveryEnv(SEARCH_RESULTS);
+    const { env, kv: _kv } = makeDiscoveryEnv(SEARCH_RESULTS);
     const req1 = new Request('http://localhost/discovery/search?q=lagos&limit=20');
     await app.fetch(req1, env);
 
@@ -395,7 +395,7 @@ describe('PERF-08: Discovery search KV caching', () => {
   });
 
   it('does not cache when limit > 20', async () => {
-    const { env, kv } = makeDiscoveryEnv(SEARCH_RESULTS);
+    const { env, kv: _kv2 } = makeDiscoveryEnv(SEARCH_RESULTS);
     const req = new Request('http://localhost/discovery/search?q=lagos&limit=50');
     const res = await app.fetch(req, env);
     expect(res.status).toBe(200);

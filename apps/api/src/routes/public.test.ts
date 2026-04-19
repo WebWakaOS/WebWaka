@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import app from '../index.js';
 import type { Env } from '../env.js';
 import { issueJwt } from '@webwaka/auth';

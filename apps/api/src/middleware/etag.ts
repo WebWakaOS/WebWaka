@@ -60,8 +60,7 @@ export function etagMiddleware(opts: ETagOptions = {}): MiddlewareHandler {
           },
         });
       }
-    } catch {
-    }
+    } catch (_e) { /* intentionally empty — non-critical path */ }
   };
 }
 

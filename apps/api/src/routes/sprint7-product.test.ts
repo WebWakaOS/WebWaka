@@ -8,7 +8,7 @@
  * 25 tests total
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { Hono } from 'hono';
 import { onboardingRoutes } from './onboarding.js';
 import { templateRoutes } from './templates.js';

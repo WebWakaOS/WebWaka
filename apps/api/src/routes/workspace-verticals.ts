@@ -23,7 +23,6 @@ import {
   getVerticalBySlug,
   extractEntitlements,
   checkActivationRequirements,
-  VerticalActivationError,
 } from '@webwaka/verticals';
 import type { VerticalActivationContext } from '@webwaka/verticals';
 import type { Env } from '../env.js';

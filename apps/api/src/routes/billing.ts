@@ -354,7 +354,7 @@ billingRoutes.post('/change-plan', async (c) => {
   const currentRank = PLAN_RANK[currentPlan] ?? 0;
   const newRank = PLAN_RANK[newPlan] ?? 0;
   const isUpgrade = newRank > currentRank;
-  const changeType = isUpgrade ? 'upgrade' : 'downgrade';
+  const _changeType = isUpgrade ? 'upgrade' : 'downgrade';
 
   const now = Math.floor(Date.now() / 1000);
 

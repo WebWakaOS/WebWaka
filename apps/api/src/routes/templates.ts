@@ -22,7 +22,6 @@ import type { Env } from '../env.js';
 import { resolveAuthContext } from '@webwaka/auth';
 import { initializePayment, verifyPayment } from '@webwaka/payments';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
-import { EmailService } from '../lib/email-service.js';
 
 type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
@@ -51,7 +50,7 @@ function generateInstallId(): string {
 }
 
 const VALID_TEMPLATE_TYPES = ['dashboard', 'website', 'vertical-blueprint', 'workflow', 'email', 'module'] as const;
-const VALID_STATUSES = ['draft', 'pending_review', 'approved', 'deprecated'] as const;
+const _VALID_STATUSES = ['draft', 'pending_review', 'approved', 'deprecated'] as const;
 
 function isValidSemver(v: string): boolean {
   return /^\d+\.\d+\.\d+(-[\w.]+)?(\+[\w.]+)?$/.test(v);
