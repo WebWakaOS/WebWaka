@@ -261,7 +261,7 @@ INSERT OR IGNORE INTO users (
   kyc_tier
 ) VALUES (
   'user_superadmin_001',
-  'admin@webwaka.ng',
+  'admin@webwaka.com',
   'WebWaka Super Admin',
   'sW1pwz9G7XVBfoRNBx/a8A==:/YCp11+knrqLewuSodctrLD+A6ilM4ypZyT4imquP9U=',
   'ws_platform_001',
@@ -295,12 +295,12 @@ npx wrangler d1 execute webwaka-os-staging --env staging --remote \
 ```bash
 npx wrangler d1 execute webwaka-os-staging --env staging --remote \
   --config apps/api/wrangler.toml \
-  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.ng';"
+  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.com';"
 # Should return 1 row
 ```
 
 > **Default staging credentials:**  
-> Email: `admin@webwaka.ng`  
+> Email: `admin@webwaka.com`  
 > Password: `WebWaka@2026!`  
 > ⚠️ Change this password on first login or generate a new hash for production
 
@@ -341,7 +341,7 @@ curl https://webwaka-api-staging.<your-subdomain>.workers.dev/health/version
 ```bash
 curl -s -X POST https://webwaka-api-staging.<your-subdomain>.workers.dev/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@webwaka.ng","password":"WebWaka@2026!"}' | jq .
+  -d '{"email":"admin@webwaka.com","password":"WebWaka@2026!"}' | jq .
 # Expected: {"token": "eyJ..."}
 ```
 
@@ -383,7 +383,7 @@ Push to `main` (or merge a PR). The CI pipeline will:
 5. Pause at production deploy for your manual approval (Step 8)
 
 After you click **Approve** in GitHub:
-- Workers deploy to `api.webwaka.ng`
+- Workers deploy to `api.webwaka.com`
 - Smoke tests run against production
 
 ---
@@ -408,8 +408,8 @@ Then set production secrets (same as Step 1, but with `--env production`).
 | Item | Value |
 |---|---|
 | Staging API URL | `https://webwaka-api-staging.<your-cf-subdomain>.workers.dev` |
-| Production API URL | `https://api.webwaka.ng` |
-| Super Admin email | `admin@webwaka.ng` |
+| Production API URL | `https://api.webwaka.com` |
+| Super Admin email | `admin@webwaka.com` |
 | Staging password | `WebWaka@2026!` (change on production) |
 | Login endpoint | `POST /auth/login` → returns JWT |
 | Identity check | `GET /auth/me` with `Authorization: Bearer <token>` |

@@ -266,7 +266,7 @@ describe('D03: GET /discover — platform home page', () => {
     const { app, env } = makeApp();
     const res = await app.request('/discover', {}, env);
     const html = await res.text();
-    expect(html).toContain('webwaka.ng');
+    expect(html).toContain('webwaka.com');
   });
 });
 
@@ -396,7 +396,7 @@ describe('D07: GET /discover/profile/organization/:id', () => {
     const res = await app.request(`/discover/profile/organization/${ORG_FIXTURE.id}`, {}, env);
     const html = await res.text();
     expect(html).toContain('Claim This Business');
-    expect(html).toContain('webwaka.ng/claim/');
+    expect(html).toContain('webwaka.com/claim/');
   });
 
   it('includes LocalBusiness JSON-LD structured data', async () => {
@@ -641,7 +641,7 @@ describe('G04: GET /sitemap-index.xml — paginated sitemap index', () => {
     // Mount sitemap-index route directly for testing
     const sitemapApp = new Hono<{ Bindings: Env }>();
     sitemapApp.get('/sitemap-index.xml', async (c) => {
-      const base = 'https://discover.webwaka.ng';
+      const base = 'https://discover.webwaka.com';
       const now = new Date().toISOString().split('T')[0];
       const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

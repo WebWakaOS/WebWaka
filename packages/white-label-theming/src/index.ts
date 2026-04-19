@@ -120,7 +120,7 @@ export interface AttributionOptions {
 
 export function renderAttribution(opts?: AttributionOptions): string {
   if (opts?.removeAttribution) return '';
-  return `<p>Powered by <a href="https://webwaka.ng" target="_blank" rel="noopener">WebWaka</a></p>`;
+  return `<p>Powered by <a href="https://webwaka.com" target="_blank" rel="noopener">WebWaka</a></p>`;
 }
 
 // ---------------------------------------------------------------------------

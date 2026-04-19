@@ -105,7 +105,7 @@ Each app has its own `wrangler.toml` with `[env.staging]` and `[env.production]`
 
 - **wrangler.toml:** `apps/ussd-gateway/wrangler.toml`
 - **Worker names:** `webwaka-ussd-gateway-staging` / `webwaka-ussd-gateway-production`
-- **Routes:** `api-staging.webwaka.ng/ussd` / `api.webwaka.ng/ussd`
+- **Routes:** `api-staging.webwaka.com/ussd` / `api.webwaka.com/ussd`
 - **Bindings:** D1 (`DB`), KV (`RATE_LIMIT_KV`, `USSD_SESSION_KV`)
 - **Secrets:** `AFRICAS_TALKING_USERNAME`, `AFRICAS_TALKING_API_KEY`, `INTER_SERVICE_SECRET`, `JWT_SECRET`, `LOG_PII_SALT`
 
@@ -428,7 +428,7 @@ Located in `infra/db/migrations/`. Currently 19 migration files:
     GET https://api-staging.webwaka.com/health         → { ok: true }
     GET https://brand-runtime-staging.../health        → { ok: true }
     GET https://public-discovery-staging.../health     → { ok: true }
-    GET https://api-staging.webwaka.ng/ussd            → (Africa's Talking endpoint)
+    GET https://api-staging.webwaka.com/ussd            → (Africa's Talking endpoint)
     ```
 
 15. **API endpoint smoke tests:**
@@ -544,8 +544,8 @@ Before deployment, verify these Cloudflare resources exist:
 |---------|--------|
 | `api-staging.webwaka.com` | webwaka-api-staging |
 | `api.webwaka.com` | webwaka-api-production |
-| `api-staging.webwaka.ng/ussd` | webwaka-ussd-gateway-staging |
-| `api.webwaka.ng/ussd` | webwaka-ussd-gateway-production |
+| `api-staging.webwaka.com/ussd` | webwaka-ussd-gateway-staging |
+| `api.webwaka.com/ussd` | webwaka-ussd-gateway-production |
 
 ---
 

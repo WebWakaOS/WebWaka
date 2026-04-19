@@ -108,7 +108,7 @@ name = "webwaka-api-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
-APP_BASE_URL = "https://api-staging.webwaka.ng"
+APP_BASE_URL = "https://api-staging.webwaka.com"
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -131,7 +131,7 @@ name = "webwaka-api-production"
 
 [env.production.vars]
 ENVIRONMENT = "production"
-APP_BASE_URL = "https://api.webwaka.ng"
+APP_BASE_URL = "https://api.webwaka.com"
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -332,12 +332,12 @@ binding = "USSD_SESSION_KV"
 id = "<USSD_SESSION_KV_PRODUCTION_ID>"
 
 [env.staging.routes]
-pattern = "api-staging.webwaka.ng/ussd"
-zone_name = "webwaka.ng"
+pattern = "api-staging.webwaka.com/ussd"
+zone_name = "webwaka.com"
 
 [env.production.routes]
-pattern = "api.webwaka.ng/ussd"
-zone_name = "webwaka.ng"
+pattern = "api.webwaka.com/ussd"
+zone_name = "webwaka.com"
 
 # Secrets:
 #   AFRICAS_TALKING_USERNAME
@@ -748,7 +748,7 @@ packages:
 
 Add `STAGING_BASE_URL` and `PRODUCTION_BASE_URL` as GitHub Actions variables (not secrets — these are public URLs):
 - `STAGING_BASE_URL` = `https://webwaka-api-staging.<your-cf-subdomain>.workers.dev`
-- `PRODUCTION_BASE_URL` = `https://api.webwaka.ng`
+- `PRODUCTION_BASE_URL` = `https://api.webwaka.com`
 
 ---
 

@@ -377,7 +377,7 @@ TELEGRAM_BOT_TOKEN, LOG_PII_SALT, DM_MASTER_KEY, PRICE_LOCK_SECRET
 | `src/index.ts` | Worker entry: theme resolution, branded page serving, entitlement gate (ENT-003) |
 
 **Notes:**
-- Routes: `brand-*.webwaka.ng/*` and custom domains via Cloudflare for SaaS
+- Routes: `brand-*.webwaka.com/*` and custom domains via Cloudflare for SaaS
 - CNAME-based custom domain support
 - Branding entitlement check: `hasEntitlement(tenant.plan, PlatformLayer.Branding)` before any page render
 
@@ -1552,7 +1552,7 @@ Seven bugs identified and fixed in the QA audit:
 |---|---|---|---|---|---|---|
 | api | webwaka-api-production | webwaka-os-production | RATE_LIMIT_KV, GEOGRAPHY_CACHE | webwaka-os-assets-production | */15 * * * * | api.webwaka.com |
 | admin-dashboard | webwaka-admin-dashboard-production | webwaka-os-production | — | — | — | — |
-| brand-runtime | webwaka-brand-runtime-production | webwaka-os-production | THEME_CACHE | webwaka-os-assets-production | — | brand-*.webwaka.ng |
+| brand-runtime | webwaka-brand-runtime-production | webwaka-os-production | THEME_CACHE | webwaka-os-assets-production | — | brand-*.webwaka.com |
 | partner-admin | webwaka-partner-admin | webwaka-os-production | RATE_LIMIT_KV | — | — | — |
 | public-discovery | webwaka-public-discovery-production | webwaka-os-production | DISCOVERY_CACHE | — | — | — |
 | tenant-public | webwaka-tenant-public-production | webwaka-os-production | — | — | — | — |

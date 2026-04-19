@@ -5,7 +5,7 @@
  * Resolves the tenant from the request hostname or the :slug route param.
  * Priority:
  *   1. Custom domain match  (tenant_branding.custom_domain → organization slug)
- *   2. Subdomain slug       (brand-{slug}.webwaka.ng → slug)
+ *   2. Subdomain slug       (brand-{slug}.webwaka.com → slug)
  *   3. Route param :slug    (explicit slug in URL path)
  *
  * Sets `c.set('tenantSlug', slug)` and `c.set('tenantId', id)` for downstream.
@@ -45,7 +45,7 @@ export const tenantResolve = createMiddleware<{ Bindings: Env; Variables: Variab
       // tenant_branding table may not exist yet — skip custom domain resolution
     }
 
-    // 2. Subdomain pattern: brand-{slug}.webwaka.ng
+    // 2. Subdomain pattern: brand-{slug}.webwaka.com
     if (!slug) {
       const subMatch = host.match(/^brand-([a-z0-9-]+)\.webwaka\.ng(?::\d+)?$/i);
       if (subMatch) {

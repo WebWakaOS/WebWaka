@@ -482,7 +482,7 @@
 
 **QA Verification:**
 1. `curl -I https://webwaka-api-staging.workers.dev/health` → response includes `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security: max-age=31536000`
-2. `curl -X OPTIONS https://webwaka-api-staging.workers.dev/api/v1/geography/places -H "Origin: https://app.webwaka.ng" -I` → includes `Access-Control-Allow-Origin` (CORS not broken)
+2. `curl -X OPTIONS https://webwaka-api-staging.workers.dev/api/v1/geography/places -H "Origin: https://app.webwaka.com" -I` → includes `Access-Control-Allow-Origin` (CORS not broken)
 3. Run an online security header scanner (securityheaders.com) against the staging URL → A grade minimum
 
 **Risk if skipped:** Browser-based API clients are vulnerable to clickjacking, MIME-type sniffing attacks, and information leakage via `Referer` headers; fails basic security audit by any enterprise partner.
@@ -500,7 +500,7 @@
 
 **Acceptance Criteria:**
 - [ ] `callbackUrl` uses `c.env.APP_BASE_URL` — never a hardcoded domain string
-- [ ] `APP_BASE_URL` is defined in `[vars]` for development (`http://localhost:8787`), staging (`https://app.webwaka-staging.ng`), and production (`https://app.webwaka.ng`)
+- [ ] `APP_BASE_URL` is defined in `[vars]` for development (`http://localhost:8787`), staging (`https://app.webwaka-staging.ng`), and production (`https://app.webwaka.com`)
 - [ ] No occurrences of `app.webwaka.com` (old domain, non-HTTPS variant) remain in any route file
 - [ ] The `{PAYSTACK_REFERENCE}` placeholder in the callback URL template is replaced with the actual variable interpolation `${ref}`
 - [ ] Staging Paystack test transaction completes and redirects to the correct staging callback URL
@@ -511,7 +511,7 @@
 3. Add `APP_BASE_URL` to each environment block in `apps/api/wrangler.toml`:
    - `[vars]`: `APP_BASE_URL = "http://localhost:8787"`
    - `[env.staging.vars]`: `APP_BASE_URL = "https://app.webwaka-staging.ng"`
-   - `[env.production.vars]`: `APP_BASE_URL = "https://app.webwaka.ng"`
+   - `[env.production.vars]`: `APP_BASE_URL = "https://app.webwaka.com"`
 4. Search for `app.webwaka.com` across all files: `grep -r "app.webwaka.com" --include="*.ts" .` — fix any other occurrences found
 5. Run tsc to confirm no type errors introduced
 
@@ -1023,7 +1023,7 @@
 **Dependencies:** []
 
 **Acceptance Criteria:**
-- [ ] Privacy Policy v2 is publicly accessible at `https://webwaka.ng/legal/privacy`
+- [ ] Privacy Policy v2 is publicly accessible at `https://webwaka.com/legal/privacy`
 - [ ] Policy covers: data collected, purposes, legal basis (NDPR Articles 2.2–2.4), retention periods, rights (access, rectification, erasure), cross-border transfers, contact details of DPO
 - [ ] A legal counsel has reviewed and approved the policy
 - [ ] The policy URL is referenced in all consent collection flows (OTP consent, channel consent)
@@ -1037,7 +1037,7 @@
 4. Update all consent collection flows to link to the policy URL
 
 **QA Verification:**
-1. `curl https://webwaka.ng/legal/privacy` → returns HTML page with Privacy Policy content
+1. `curl https://webwaka.com/legal/privacy` → returns HTML page with Privacy Policy content
 2. Consent collection OTP screen includes a link to the Privacy Policy URL
 3. Legal counsel sign-off date is recorded in `docs/compliance/privacy-policy-v2.md`
 
@@ -1335,8 +1335,8 @@
 **Dependencies:** [2.7, 3.1]
 
 **Acceptance Criteria:**
-- [ ] Public marketplace at `https://discover.webwaka.ng` renders entity listings with images, prices, and search
-- [ ] Brand portal at `https://brand.<tenant>.webwaka.ng` renders tenant-branded public page
+- [ ] Public marketplace at `https://discover.webwaka.com` renders entity listings with images, prices, and search
+- [ ] Brand portal at `https://brand.<tenant>.webwaka.com` renders tenant-branded public page
 - [ ] All pages are mobile-responsive (320px minimum viewport width)
 - [ ] All pages achieve Lighthouse score ≥ 90 for Performance, Accessibility, Best Practices, SEO
 - [ ] WCAG 2.1 AA accessibility compliance
@@ -1410,7 +1410,7 @@
 
 ---
 
-### Task 4.4: DNS Configuration — `api.webwaka.ng`, `app.webwaka.ng`, `discover.webwaka.ng`
+### Task 4.4: DNS Configuration — `api.webwaka.com`, `app.webwaka.com`, `discover.webwaka.com`
 
 **Priority:** LONG-TERM (PENDING in milestone tracker)
 **Est:** 2h
@@ -1419,18 +1419,18 @@
 **Dependencies:** [1.2, 1.3, 2.1]
 
 **Acceptance Criteria:**
-- [ ] `api.webwaka.ng` CNAME → `webwaka-api-production.workers.dev` (or Workers route in Cloudflare)
-- [ ] `app.webwaka.ng` CNAME → `webwaka-brand-runtime-production.workers.dev`
-- [ ] `discover.webwaka.ng` CNAME → `webwaka-public-discovery-production.workers.dev`
-- [ ] `*.webwaka.ng` wildcard for tenant subdomains configured (Cloudflare for SaaS)
+- [ ] `api.webwaka.com` CNAME → `webwaka-api-production.workers.dev` (or Workers route in Cloudflare)
+- [ ] `app.webwaka.com` CNAME → `webwaka-brand-runtime-production.workers.dev`
+- [ ] `discover.webwaka.com` CNAME → `webwaka-public-discovery-production.workers.dev`
+- [ ] `*.webwaka.com` wildcard for tenant subdomains configured (Cloudflare for SaaS)
 - [ ] HTTPS enforced on all subdomains (Cloudflare Universal SSL)
-- [ ] HSTS preload submitted to hstspreload.org for `webwaka.ng`
+- [ ] HSTS preload submitted to hstspreload.org for `webwaka.com`
 - [ ] DNS propagation verified from Lagos, Abuja, Kano (use online DNS checker tools)
 
 **QA Verification:**
-1. `curl https://api.webwaka.ng/health` → `{ "ok": true }`
-2. `curl https://discover.webwaka.ng/discover?q=shop` → returns results
-3. `curl -I https://api.webwaka.ng/health` → includes `Strict-Transport-Security` header
+1. `curl https://api.webwaka.com/health` → `{ "ok": true }`
+2. `curl https://discover.webwaka.com/discover?q=shop` → returns results
+3. `curl -I https://api.webwaka.com/health` → includes `Strict-Transport-Security` header
 
 ---
 
@@ -1557,14 +1557,14 @@ Complete in order:
 1. **Database ready** — All 182+ migrations applied to production D1; verified with table count query
 2. **Secrets provisioned** — All 7+ Worker Secrets set in Cloudflare production environment
 3. **Workers deployed** — All 8 apps deployed to production via `wrangler deploy --env production`
-4. **DNS live** — `api.webwaka.ng`, `app.webwaka.ng`, `discover.webwaka.ng` resolving correctly
-5. **Health checks green** — `curl https://api.webwaka.ng/health` → `{ "ok": true }` from 3 locations
+4. **DNS live** — `api.webwaka.com`, `app.webwaka.com`, `discover.webwaka.com` resolving correctly
+5. **Health checks green** — `curl https://api.webwaka.com/health` → `{ "ok": true }` from 3 locations
 6. **Payments verified** — Paystack production keys active; test transaction of ₦100 initiated and completed
 7. **First tenant onboarded** — Pilot partner tenant created; workspace claimed; at least one listing active
 8. **Monitoring active** — Logpush running; first log lines arriving in Axiom/Better Stack; uptime monitor showing green
 9. **Alerts configured** — Error rate, latency, and uptime alerts verified to fire (test alert sent)
 10. **Smoke tests pass** — Production smoke test suite run and all tests pass
-11. **Privacy Policy accessible** — `https://webwaka.ng/legal/privacy` returns valid policy page
+11. **Privacy Policy accessible** — `https://webwaka.com/legal/privacy` returns valid policy page
 12. **Support channel open** — Customer support email, WhatsApp, or Telegram channel active for Day 1 issues
 13. **On-call engineer confirmed** — At least one engineer on-call for the first 48 hours post-launch
 14. **Rollback plan ready** — `wrangler rollback` command prepared; previous Worker version ID noted

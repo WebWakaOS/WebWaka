@@ -103,7 +103,7 @@ router.get('/', async (c) => {
     <div class="ww-cta-banner">
       <h3>Own a business in Nigeria?</h3>
       <p>Claim your listing, build your brand, and reach more customers with WebWaka.</p>
-      <a class="ww-cta-btn" href="https://webwaka.ng">Get Started Free</a>
+      <a class="ww-cta-btn" href="https://webwaka.com">Get Started Free</a>
     </div>`;
 
   const headExtra = `
@@ -123,11 +123,11 @@ router.get('/', async (c) => {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'WebWaka Discover',
-      url: 'https://discover.webwaka.ng',
+      url: 'https://discover.webwaka.com',
       description: "Nigeria's multi-vertical business directory and marketplace",
       potentialAction: {
         '@type': 'SearchAction',
-        target: 'https://discover.webwaka.ng/discover/search?q={search_term_string}',
+        target: 'https://discover.webwaka.com/discover/search?q={search_term_string}',
         'query-input': 'required name=search_term_string',
       },
     },
@@ -138,7 +138,7 @@ router.get('/', async (c) => {
 // Structured data helpers (SEO-03)
 // ---------------------------------------------------------------------------
 
-const DISCOVER_BASE = 'https://discover.webwaka.ng';
+const DISCOVER_BASE = 'https://discover.webwaka.com';
 
 /**
  * Build an ItemList schema node.
@@ -254,7 +254,7 @@ router.get('/in/:placeId', async (c) => {
     <div class="ww-cta-banner">
       <h3>Know a business in ${esc(placeName)}?</h3>
       <p>Help grow the directory by listing it on WebWaka.</p>
-      <a class="ww-cta-btn" href="https://webwaka.ng">List a Business</a>
+      <a class="ww-cta-btn" href="https://webwaka.com">List a Business</a>
     </div>` : ''}`;
 
   const headExtra = `
@@ -400,7 +400,7 @@ router.get('/category/:cat', async (c) => {
     <div class="ww-cta-banner">
       <h3>Run a ${esc(displayCat)} business?</h3>
       <p>Be the first to list in this category on WebWaka.</p>
-      <a class="ww-cta-btn" href="https://webwaka.ng">Get Started Free</a>
+      <a class="ww-cta-btn" href="https://webwaka.com">Get Started Free</a>
     </div>` : ''}`;
 
   const headExtra = `

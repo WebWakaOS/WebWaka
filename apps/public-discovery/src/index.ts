@@ -38,7 +38,7 @@ app.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));
 // SEO-01: robots.txt for public-facing discovery worker
 app.get('/robots.txt', (c) => {
   return c.text(
-    'User-agent: *\nAllow: /discover\nDisallow: /health\nSitemap: https://discover.webwaka.ng/sitemap-index.xml\nSitemap: https://discover.webwaka.ng/sitemap.xml\n',
+    'User-agent: *\nAllow: /discover\nDisallow: /health\nSitemap: https://discover.webwaka.com/sitemap-index.xml\nSitemap: https://discover.webwaka.com/sitemap.xml\n',
     200,
     { 'Content-Type': 'text/plain', 'Cache-Control': 'public, max-age=86400' },
   );
@@ -134,7 +134,7 @@ app.route('/discover', geographyRouter);
 
 // ─── P4-B: Sitemap index for large datasets ────────────────────────────────
 app.get('/sitemap-index.xml', async (c) => {
-  const base = 'https://discover.webwaka.ng';
+  const base = 'https://discover.webwaka.com';
   const now = new Date().toISOString().split('T')[0];
 
   // Main sitemap is already at /sitemap.xml
@@ -170,7 +170,7 @@ ${sitemapEntries.join('\n')}
 
 // Also upgrade /sitemap.xml to support ?page=N&type=orgs pagination
 app.get('/sitemap.xml', async (c) => {
-  const base = 'https://discover.webwaka.ng';
+  const base = 'https://discover.webwaka.com';
   const now = new Date().toISOString().split('T')[0];
   const page = Math.max(1, parseInt(c.req.query('page') ?? '1', 10));
   const type = c.req.query('type') ?? 'all';

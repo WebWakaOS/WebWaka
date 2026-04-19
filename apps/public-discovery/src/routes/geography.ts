@@ -33,7 +33,7 @@ import { detectLocale, createI18n } from '@webwaka/i18n';
 
 export const geographyRouter = new Hono<{ Bindings: Env }>();
 
-const DISCOVER_BASE = 'https://discover.webwaka.ng';
+const DISCOVER_BASE = 'https://discover.webwaka.com';
 
 type OrgRow = { id: string; name: string; category: string | null; place_name: string | null };
 type PlaceRow = { id: string; name: string; geography_type: string };

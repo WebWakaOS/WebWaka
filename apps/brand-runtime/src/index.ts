@@ -24,7 +24,7 @@
  *
  * Tenant resolution priority (tenantResolve middleware):
  *   1. Custom domain match (custom_domain in tenant_branding)
- *   2. brand-{slug}.webwaka.ng subdomain
+ *   2. brand-{slug}.webwaka.com subdomain
  *   3. /:slug route parameter
  *
  * PV-1.1 (scaffold) + PV-1.3 (white-label-theming wired)

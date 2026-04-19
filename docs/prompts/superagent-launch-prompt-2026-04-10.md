@@ -39,7 +39,7 @@ D1 staging database_id    = cfa62668-bbd0-4cf2-996a-53da76bab948
 D1 production database_name = webwaka-os-production
 D1 production database_id  = de1d0935-31ed-4a33-a0fd-0122d7a4fe43
 
-Super Admin email      = admin@webwaka.ng
+Super Admin email      = admin@webwaka.com
 Super Admin user ID    = user_superadmin_001
 Platform workspace ID  = ws_platform_001
 Platform tenant ID     = tenant_webwaka
@@ -306,7 +306,7 @@ INSERT OR IGNORE INTO users (
   workspace_id, tenant_id, role, kyc_status, kyc_tier
 ) VALUES (
   'user_superadmin_001',
-  'admin@webwaka.ng',
+  'admin@webwaka.com',
   'WebWaka Super Admin',
   '${ADMIN_HASH}',
   'ws_platform_001',
@@ -335,7 +335,7 @@ npx wrangler d1 execute webwaka-os-staging --env staging --remote \
 # Verify all 3 rows were inserted
 npx wrangler d1 execute webwaka-os-staging --env staging --remote \
   --config apps/api/wrangler.toml \
-  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.ng';" 2>&1
+  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.com';" 2>&1
 # Must return 1 row with role=super_admin
 
 npx wrangler d1 execute webwaka-os-staging --env staging --remote \
@@ -402,7 +402,7 @@ echo "=== GET /health/version ===" && \
 echo "=== POST /auth/login ===" && \
   TOKEN=$(curl -sf -X POST "$STAGING_URL/auth/login" \
     -H "Content-Type: application/json" \
-    -d '{"email":"admin@webwaka.ng","password":"WebWaka@2026!"}' | jq -r '.token') && \
+    -d '{"email":"admin@webwaka.com","password":"WebWaka@2026!"}' | jq -r '.token') && \
   echo "Token obtained: ${TOKEN:0:30}..." && echo "PASS"
 
 # Verify identity from JWT
@@ -417,7 +417,7 @@ echo "Role: $ROLE"
 ```
 
 **If login returns 401 or 500:**
-- Check the users table: `wrangler d1 execute` → `SELECT * FROM users WHERE email='admin@webwaka.ng';`
+- Check the users table: `wrangler d1 execute` → `SELECT * FROM users WHERE email='admin@webwaka.com';`
 - Check migration 0190 applied: `SELECT name FROM pragma_table_info('users') WHERE name='role';`
 - Check JWT_SECRET is set: `wrangler secret list --env staging --config apps/api/wrangler.toml | grep JWT_SECRET`
 
@@ -484,7 +484,7 @@ set_gh_var() {
 
 # Set CI variables (public — safe to print)
 set_gh_var "STAGING_BASE_URL"    "$STAGING_URL"
-set_gh_var "PRODUCTION_BASE_URL" "https://api.webwaka.ng"
+set_gh_var "PRODUCTION_BASE_URL" "https://api.webwaka.com"
 
 # Set secrets (use gh CLI if available)
 set_gh_secret "CLOUDFLARE_ACCOUNT_ID" "a5f5864b726209519e0c361f2bb90e79"
@@ -656,7 +656,7 @@ INSERT OR IGNORE INTO users (
   workspace_id, tenant_id, role, kyc_status, kyc_tier
 ) VALUES (
   'user_superadmin_001',
-  'admin@webwaka.ng',
+  'admin@webwaka.com',
   'WebWaka Super Admin',
   '${PROD_ADMIN_HASH}',
   'ws_platform_001',
@@ -744,7 +744,7 @@ echo "and click APPROVE on the 'Deploy API (Production)' job when ready."
 Run after production CI completes and operator approves production deploy:
 
 ```bash
-PROD_URL="https://api.webwaka.ng"
+PROD_URL="https://api.webwaka.com"
 
 echo "=== Production Health ===" && \
   curl -sf "$PROD_URL/health" | jq .
@@ -755,7 +755,7 @@ echo "=== Production Version ===" && \
 echo "=== Production Login ===" && \
   PROD_TOKEN=$(curl -sf -X POST "$PROD_URL/auth/login" \
     -H "Content-Type: application/json" \
-    -d "{\"email\":\"admin@webwaka.ng\",\"password\":\"$(cat /tmp/prod-credentials.txt | grep password | cut -d: -f2 | xargs)\"}" \
+    -d "{\"email\":\"admin@webwaka.com\",\"password\":\"$(cat /tmp/prod-credentials.txt | grep password | cut -d: -f2 | xargs)\"}" \
     | jq -r '.token') && \
   echo "Token: ${PROD_TOKEN:0:30}..."
 
@@ -777,7 +777,7 @@ At the end of execution, all of the following must be true:
 | Staging login works | `POST /auth/login` → JWT with `role: "super_admin"` |
 | Staging geography loaded | `SELECT COUNT(*) FROM places` → ≥ 817 rows |
 | Production migrations applied | CI output shows "Applied N migrations" |
-| Production deployed | `curl https://api.webwaka.ng/health` → `{"status":"ok"}` |
+| Production deployed | `curl https://api.webwaka.com/health` → `{"status":"ok"}` |
 | Production login works | `POST /auth/login` → JWT with `role: "super_admin"` |
 | CI pipeline green | All jobs green at `/actions` except pending human approval |
 | Operator instructions delivered | `/tmp/operator-manual-steps.txt` printed to output |

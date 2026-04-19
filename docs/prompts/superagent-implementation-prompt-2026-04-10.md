@@ -578,7 +578,7 @@ APP_BASE_URL = "https://webwaka-api-staging.workers.dev"
 
 [env.production.vars]
 ENVIRONMENT = "production"
-APP_BASE_URL = "https://api.webwaka.ng"
+APP_BASE_URL = "https://api.webwaka.com"
 ```
 
 **Remove all comment lines about "pending migrations"** from the top of the file — these are now tracked via the migration sequence, not via wrangler.toml comments.

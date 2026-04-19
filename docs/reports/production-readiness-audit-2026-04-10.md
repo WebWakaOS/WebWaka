@@ -483,7 +483,7 @@ Cloudflare Workers are globally distributed, but D1 is a single-writer SQLite â€
 | 4.8: Backup / restore drill | Docs + runbook | D1 point-in-time restore tested and documented | 1d |
 | 4.9: Generate OpenAPI spec | New file or tooling | Core 30 endpoints documented in OpenAPI 3.1 | 3d |
 | 4.10: NIBSS BVN integration | `packages/identity/src/` | Direct NIBSS verification path available as alternative to Prembly | 1w |
-| 4.11: DNS configuration | Cloudflare dashboard | `api.webwaka.ng`, `app.webwaka.ng`, `discover.webwaka.ng` configured | 2h |
+| 4.11: DNS configuration | Cloudflare dashboard | `api.webwaka.com`, `app.webwaka.com`, `discover.webwaka.com` configured | 2h |
 | 4.12: Staging â†’ production promotion process | `RELEASES.md` | Written runbook for promoting staging to production with sign-off | 1d |
 
 ---

@@ -1,7 +1,7 @@
 # apps/brand-runtime/wrangler.toml
 # Brand Runtime Worker — Pillar 2: Branding / Website / Portal
 # Serves tenant-branded public pages, portal login, and admin UI shell.
-# Routes: brand-*.webwaka.ng/* and custom domains (CNAME via Cloudflare for SaaS)
+# Routes: brand-*.webwaka.com/* and custom domains (CNAME via Cloudflare for SaaS)
 
 name = "webwaka-brand-runtime"
 main = "src/index.ts"

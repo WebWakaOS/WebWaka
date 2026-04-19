@@ -910,7 +910,7 @@ describe('Partner ID generation patterns', () => {
 
 describe('Email validation', () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const validEmails = ['admin@webwaka.ng', 'partner@company.com', 'test+tag@domain.co.ng'];
+  const validEmails = ['admin@webwaka.com', 'partner@company.com', 'test+tag@domain.co.ng'];
   const invalidEmails = ['notanemail', 'missing@', '@nodomain.com', ''];
 
   it.each(validEmails)('accepts valid email "%s"', (email) => {

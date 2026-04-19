@@ -114,10 +114,10 @@ After each migration run, execute the smoke test suite against the target enviro
 ```bash
 # Staging smoke test
 cd tests/smoke
-SMOKE_BASE_URL=https://api-staging.webwaka.ng pnpm test
+SMOKE_BASE_URL=https://api-staging.webwaka.com pnpm test
 
 # Production smoke test
-SMOKE_BASE_URL=https://api.webwaka.ng pnpm test
+SMOKE_BASE_URL=https://api.webwaka.com pnpm test
 ```
 
 The smoke suite (tests/smoke) checks:

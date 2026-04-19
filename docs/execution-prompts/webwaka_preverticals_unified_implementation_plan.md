@@ -263,7 +263,7 @@ You are an expert **Senior Full-Stack Engineer** specializing in Cloudflare Work
 
 **Skills required:**
 - Cloudflare Workers + Hono SSR patterns (no Node.js built-ins)
-- Multi-tenant subdomain routing (`{tenant-slug}.webwaka.ng` → resolve tenant config from KV)
+- Multi-tenant subdomain routing (`{tenant-slug}.webwaka.com` → resolve tenant config from KV)
 - White-label theming — CSS custom properties, per-tenant brand tokens from `packages/white-label-theming/`
 - Static asset serving from Workers (inline HTML, CSS, or R2 bucket)
 - TypeScript strict mode + Workers runtime types
@@ -286,7 +286,7 @@ You are an expert **Senior Full-Stack Engineer** specializing in Cloudflare Work
 - Research: CSS custom properties as a theming mechanism for multi-tenant apps
 
 Execution plan must cover:
-- **Objective:** A Workers app that resolves a tenant from the subdomain (`{slug}.webwaka.ng`) or custom domain (KV lookup), loads their brand config from `packages/white-label-theming/`, and renders an HTML page with correct colours, fonts, logo, and content.
+- **Objective:** A Workers app that resolves a tenant from the subdomain (`{slug}.webwaka.com`) or custom domain (KV lookup), loads their brand config from `packages/white-label-theming/`, and renders an HTML page with correct colours, fonts, logo, and content.
 - **MVP pages to implement (Phase 1 — enough to validate architecture):**
   1. Home page — entity name, description, hero image, primary CTA
   2. Offerings page — list of products/services from the entity's offerings (fetched from API)
@@ -317,14 +317,14 @@ apps/brand-runtime/
     types.ts            — BrandRuntimeEnv, TenantBrandConfig
   package.json
   tsconfig.json
-  wrangler.toml         — Workers config (routes: *.webwaka.ng/*, custom domains)
+  wrangler.toml         — Workers config (routes: *.webwaka.com/*, custom domains)
 ```
 
 **Tenant resolution flow:**
-1. Extract hostname from request: `brand.webwaka.ng` → slug = `brand`
+1. Extract hostname from request: `brand.webwaka.com` → slug = `brand`
 2. Look up tenant config from KV: `BRAND_KV.get('tenant:brand')` → `TenantBrandConfig`
 3. If not found → 404 (not a registered WebWaka tenant)
-4. Check `tenantConfig.pillar2Active` — if false → redirect to `app.webwaka.ng/upgrade` with message
+4. Check `tenantConfig.pillar2Active` — if false → redirect to `app.webwaka.com/upgrade` with message
 5. Inject brand tokens into base HTML template via CSS custom properties
 6. Render page with tenant-specific content fetched from API
 
@@ -449,7 +449,7 @@ apps/public-discovery/
 - `GET /:state/:vertical` — e.g. `/lagos/motor-park` → motor parks in Lagos (paginated, sortable)
 - `GET /:state/:vertical/:slug` — public entity profile
 - `GET /search` — cross-vertical, geography-aware search
-- `GET /claim/:vertical/:id` — CTA redirecting to `app.webwaka.ng/claim/{id}` (starts the claim flow)
+- `GET /claim/:vertical/:id` — CTA redirecting to `app.webwaka.com/claim/{id}` (starts the claim flow)
 
 **Public profile display rules:**
 - Seeded (unclaimed) entities: show display_name, category, geography, and a "Claim this listing" CTA

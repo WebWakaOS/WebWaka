@@ -152,7 +152,7 @@ INSERT OR IGNORE INTO users (
   id, email, full_name, password_hash,
   workspace_id, tenant_id, role, kyc_status, kyc_tier
 ) VALUES (
-  'user_superadmin_001', 'admin@webwaka.ng', 'WebWaka Super Admin',
+  'user_superadmin_001', 'admin@webwaka.com', 'WebWaka Super Admin',
   'sW1pwz9G7XVBfoRNBx/a8A==:/YCp11+knrqLewuSodctrLD+A6ilM4ypZyT4imquP9U=',
   'ws_platform_001', 'tenant_webwaka', 'super_admin', 'verified', 't3'
 );
@@ -177,10 +177,10 @@ Verify:
 ```bash
 npx wrangler d1 execute webwaka-os-staging --env staging --remote \
   --config apps/api/wrangler.toml \
-  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.ng';"
+  --command "SELECT id, email, role, tenant_id FROM users WHERE email='admin@webwaka.com';"
 ```
 
-> **Staging credentials:** Email: `admin@webwaka.ng` / Password: `WebWaka@2026!`
+> **Staging credentials:** Email: `admin@webwaka.com` / Password: `WebWaka@2026!`
 > **CHANGE THE PASSWORD on production** — generate a new PBKDF2 hash.
 
 ---
@@ -215,7 +215,7 @@ Expected:
 ```bash
 curl -s -X POST "$API_URL/auth/login" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@webwaka.ng","password":"WebWaka@2026!"}' | jq .
+  -d '{"email":"admin@webwaka.com","password":"WebWaka@2026!"}' | jq .
 ```
 
 **Verify identity with token:**
@@ -285,7 +285,7 @@ npx wrangler d1 execute webwaka-os-production --env production --remote \
 ### Step 10 — Production Smoke Tests
 
 ```bash
-SMOKE_API_KEY=<prod-key> BASE_URL=https://api.webwaka.ng pnpm --filter smoke run smoke:production
+SMOKE_API_KEY=<prod-key> BASE_URL=https://api.webwaka.com pnpm --filter smoke run smoke:production
 ```
 
 All 5 suites must pass.

@@ -15,7 +15,7 @@
  *  - Price rendering in integer kobo (P9)
  *
  * Strategy: mount the full Hono app (so middleware chains fire), supply a mock
- * D1 + KV env, send requests with `Host: brand-<slug>.webwaka.ng` to trigger
+ * D1 + KV env, send requests with `Host: brand-<slug>.webwaka.com` to trigger
  * subdomain-based tenant resolution.
  *
  * NOTE: Hono `app.request(requestOrUrl, requestInit, env)` — env is the 3rd arg.
@@ -166,12 +166,12 @@ function makeEnv(opts: MockOpts = {}): Env {
   };
 }
 
-/** Build a Request with Host header set to brand-<slug>.webwaka.ng */
+/** Build a Request with Host header set to brand-<slug>.webwaka.com */
 function brandReq(path: string, slug: string, init: RequestInit = {}): Request {
   const { headers: extraHeaders, ...rest } = init;
-  return new Request(`http://brand-${slug}.webwaka.ng${path}`, {
+  return new Request(`http://brand-${slug}.webwaka.com${path}`, {
     headers: {
-      host: `brand-${slug}.webwaka.ng`,
+      host: `brand-${slug}.webwaka.com`,
       ...(extraHeaders as Record<string, string> ?? {}),
     },
     ...rest,
@@ -441,9 +441,9 @@ describe('T10: POST /contact', () => {
   it('returns 404 when no tenant resolved during contact submission', async () => {
     const env = makeEnv({ org: null });
     const res = await app.request(
-      new Request('http://brand-ghost.webwaka.ng/contact', {
+      new Request('http://brand-ghost.webwaka.com/contact', {
         method: 'POST',
-        headers: { host: 'brand-ghost.webwaka.ng', 'content-type': 'application/json' },
+        headers: { host: 'brand-ghost.webwaka.com', 'content-type': 'application/json' },
         body: JSON.stringify({ name: 'X', phone: '+234', message: 'Hi' }),
       }),
       {},
@@ -524,7 +524,7 @@ describe('T15: Attribution rendered when subscription does not remove it', () =>
     const env = makeEnv({ org: ACME });
     const res = await app.request(brandReq('/', 'acme'), {}, env);
     const html = await res.text();
-    expect(html).toContain('webwaka.ng');
+    expect(html).toContain('webwaka.com');
   });
 });
 

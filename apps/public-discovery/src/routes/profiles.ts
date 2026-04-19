@@ -122,18 +122,18 @@ router.get('/:entityType/:id', async (c) => {
     .first<{ slug: string | null }>()
     .catch(() => null);
 
-  const brandSiteUrl = tenantSlug?.slug ? `https://brand-${tenantSlug.slug}.webwaka.ng` : null;
+  const brandSiteUrl = tenantSlug?.slug ? `https://brand-${tenantSlug.slug}.webwaka.com` : null;
 
   // P4-C: Cross-pillar order URL — links public profile back to Pillar 1 API
-  // Format: https://api.webwaka.ng/entities/{id}/order
+  // Format: https://api.webwaka.com/entities/{id}/order
   // This is the canonical ordering endpoint exposed by Pillar 1 (Operations API)
-  const apiOrderUrl = `https://api.webwaka.ng/entities/${esc(id)}/order`;
+  const apiOrderUrl = `https://api.webwaka.com/entities/${esc(id)}/order`;
 
   const claimCta = entityType === 'organization' ? `
     <div class="ww-cta-banner" style="margin-top:2rem">
       <h3>Is this your business?</h3>
       <p>Claim this listing to update your info, add offerings, and build your brand.</p>
-      <a class="ww-cta-btn" href="https://webwaka.ng/claim/${esc(id)}">Claim This Business</a>
+      <a class="ww-cta-btn" href="https://webwaka.com/claim/${esc(id)}">Claim This Business</a>
     </div>` : '';
 
   const body = `

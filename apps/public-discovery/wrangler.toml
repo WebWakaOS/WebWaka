@@ -1,7 +1,7 @@
 # apps/public-discovery/wrangler.toml
 # Public Discovery Worker — Pillar 3: Listing / Multi-Vendor Marketplace
 # Serves geography-first entity listings, public profiles, nearby search.
-# Routes: webwaka.ng/discover/* and webwaka.ng/near/* (no auth required)
+# Routes: webwaka.com/discover/* and webwaka.com/near/* (no auth required)
 
 name = "webwaka-public-discovery"
 main = "src/index.ts"

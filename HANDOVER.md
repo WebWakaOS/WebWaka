@@ -82,7 +82,7 @@ Add this secret to the GitHub repo so smoke tests can authenticate against stagi
 
 Once lint is clean and smoke key is provisioned:
 
-1. **DNS cutover** — point `api.webwaka.ng` (or the configured production domain) to the Cloudflare Worker production endpoint. Get the CF production subdomain from:
+1. **DNS cutover** — point `api.webwaka.com` (or the configured production domain) to the Cloudflare Worker production endpoint. Get the CF production subdomain from:
    ```bash
    cat apps/api/wrangler.toml | grep route
    ```

@@ -297,7 +297,7 @@ webwaka-os/
 **Purpose:** Renders tenant-branded public websites and portal login pages  
 **Tenant resolution (priority order):**
 1. Custom domain match (from `tenant_branding.custom_domain`)
-2. `brand-{slug}.webwaka.ng` subdomain
+2. `brand-{slug}.webwaka.com` subdomain
 3. `/:slug` path parameter
 
 **Routes:**
@@ -583,7 +583,7 @@ Every protected route runs `authMiddleware` which:
 ### Super Admin Seed Values (staging)
 
 ```
-email:        admin@webwaka.ng
+email:        admin@webwaka.com
 password:     WebWaka@2026!  ← STAGING ONLY, NEVER PRODUCTION
 user_id:      user_superadmin_001
 workspace_id: ws_platform_001
@@ -789,7 +789,7 @@ Account ID: a5f5864b726209519e0c361f2bb90e79
 | `PRICE_LOCK_SECRET` | HMAC key for price-lock tokens (generate 64-char hex) |
 | `INTER_SERVICE_SECRET` | API-to-API auth (ussd-gateway → api) |
 | `ALLOWED_ORIGINS` | Comma-separated CORS origins |
-| `APP_BASE_URL` | Public platform URL e.g. `https://api.webwaka.ng` |
+| `APP_BASE_URL` | Public platform URL e.g. `https://api.webwaka.com` |
 
 Optional:
 - `WHATSAPP_PROVIDER` — `'360dialog'` or `'termii'` (default)
@@ -1121,7 +1121,7 @@ cd apps/brand-runtime && npx wrangler deploy --env staging
 curl https://webwaka-api-staging.<account>.workers.dev/health
 # → {"status":"ok","version":"x.y.z"}
 
-curl -X POST .../auth/login -d '{"email":"admin@webwaka.ng","password":"WebWaka@2026!"}'
+curl -X POST .../auth/login -d '{"email":"admin@webwaka.com","password":"WebWaka@2026!"}'
 # → {"token":"eyJ..."} with role: "super_admin" in decoded payload
 ```
 
@@ -1137,7 +1137,7 @@ git push origin main
 
 **Step 9 — Verify production**
 ```bash
-curl https://api.webwaka.ng/health
+curl https://api.webwaka.com/health
 # → {"status":"ok"}
 ```
 

@@ -95,9 +95,9 @@ router.post('/login', async (c) => {
   // Delegate auth to API Worker (inter-service call)
   const apiBase =
     c.env.ENVIRONMENT === 'production'
-      ? 'https://api.webwaka.ng'
+      ? 'https://api.webwaka.com'
       : c.env.ENVIRONMENT === 'staging'
-        ? 'https://api-staging.webwaka.ng'
+        ? 'https://api-staging.webwaka.com'
         : 'http://localhost:8787';
 
   const resp = await fetch(`${apiBase}/auth/login`, {

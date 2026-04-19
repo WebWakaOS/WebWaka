@@ -71,7 +71,7 @@ Not a security or functionality issue — affects API discoverability for extern
 - **SUPER-ADMIN**: Seed super-admin account in production D1
 - **GH-VARS**: Set `STAGING_BASE_URL` + `PRODUCTION_BASE_URL` GitHub variables
 - **GH-SECRETS**: Set `STAGING_SMOKE_JWT`, `STAGING_SMOKE_SUPER_ADMIN_JWT`, `SMOKE_API_KEY` (real key)
-- **DNS-CUTOVER**: Point `api.webwaka.ng` to the Cloudflare Worker production endpoint
+- **DNS-CUTOVER**: Point `api.webwaka.com` to the Cloudflare Worker production endpoint
 - **ENTITLEMENT-CONFIRM**: Confirm whether Commerce P2/P3 verticals should require plan entitlement
 
 ### Phase Progress (docs/ops/implementation-plan.md)

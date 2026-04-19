@@ -88,7 +88,7 @@ function basePage(opts: { title: string; body: string; activeWorkspace?: string 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(opts.title)} — WebWaka Admin</title>
-  <link rel="icon" href="https://webwaka.ng/favicon.ico" fetchpriority="low" />
+  <link rel="icon" href="https://webwaka.com/favicon.ico" fetchpriority="low" />
   <style>
 :root {
   --ww-primary: #006400;

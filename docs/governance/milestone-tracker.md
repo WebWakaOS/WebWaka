@@ -498,7 +498,7 @@ Covers: purchase initiation, Paystack verify, 70/30 split, P9 integer invariant,
 | SEO-03 | `/discover/in/:placeId` — emits `ItemList` JSON-LD for geography business listings | ✅ DONE |
 | SEO-03 | `/discover/search` — emits `ItemList` JSON-LD for search result pages | ✅ DONE |
 | SEO-03 | `/discover/category/:cat` — enhanced to `@graph` combining `CollectionPage` + `ItemList` with `hasPart` entries | ✅ DONE |
-| SEO-05 | `DEFAULT_OG_IMAGE = 'https://webwaka.ng/og-default.png'` constant in `branded-page.ts` | ✅ DONE |
+| SEO-05 | `DEFAULT_OG_IMAGE = 'https://webwaka.com/og-default.png'` constant in `branded-page.ts` | ✅ DONE |
 | SEO-05 | `seoHead()` updated — OG image tag always emitted; uses tenant logo or platform default | ✅ DONE |
 
 ---

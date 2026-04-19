@@ -78,7 +78,7 @@ async function fetchProfile(env: Env, tenantId: string): Promise<ProfileRow | nu
   }
 }
 
-const DEFAULT_OG_IMAGE = 'https://webwaka.ng/og-default.png';
+const DEFAULT_OG_IMAGE = 'https://webwaka.com/og-default.png';
 
 function seoHead(opts: { title: string; description: string; url: string; image?: string | null; type?: string }): string {
   const desc = opts.description.slice(0, 160);

@@ -37,9 +37,9 @@ export function baseTemplate(opts: BaseTemplateOptions): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)} | WebWaka Discover</title>
   <!-- SEO-04: Resource hints — preconnect to origin for faster favicon/icon fetch -->
-  <link rel="preconnect" href="https://webwaka.ng" crossorigin />
-  <link rel="dns-prefetch" href="https://webwaka.ng" />
-  <link rel="icon" href="https://webwaka.ng/favicon.ico" fetchpriority="low" />
+  <link rel="preconnect" href="https://webwaka.com" crossorigin />
+  <link rel="dns-prefetch" href="https://webwaka.com" />
+  <link rel="icon" href="https://webwaka.com/favicon.ico" fetchpriority="low" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1a6b3a" />
   ${headExtra}
@@ -226,7 +226,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
       <a href="/discover">Browse</a>
       <a href="/discover" onclick="var i=document.querySelector('.ww-search input');if(i){event.preventDefault();i.focus();i.scrollIntoView({behavior:'smooth'})}">${esc(searchLabel)}</a>
     </div>
-    <a href="https://webwaka.ng" style="font-size:.875rem;color:var(--ww-text-muted);text-decoration:none;white-space:nowrap">List your business &rarr;</a>
+    <a href="https://webwaka.com" style="font-size:.875rem;color:var(--ww-text-muted);text-decoration:none;white-space:nowrap">List your business &rarr;</a>
   </nav>
   <main id="main-content" class="ww-content" role="main">${body}</main>
   <footer class="ww-footer" role="contentinfo">
