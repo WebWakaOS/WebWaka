@@ -61,7 +61,17 @@ publicRoutes.get('/:tenantSlug', async (c) => {
   const tenantSlug = c.req.param('tenantSlug');
   const db = c.env.DB as unknown as D1Like;
 
-  const manifest = await getTenantManifestBySlug(db, tenantSlug);
+  // BUG-PUB-01: Wrap manifest lookup in try/catch.
+  // D1 throws (not returns null) when queried columns don't exist in the schema.
+  // Fixed by migration 0253 (adds tenant_slug, display_name, branding, features, status).
+  // This try/catch provides defense-in-depth — surfaces as 404 never 500.
+  let manifest;
+  try {
+    manifest = await getTenantManifestBySlug(db, tenantSlug);
+  } catch (err) {
+    console.error('[public] getTenantManifestBySlug error:', err instanceof Error ? err.message : String(err));
+    return c.json({ error: 'Tenant not found' }, 404);
+  }
   if (!manifest) {
     return c.json({ error: 'Tenant not found' }, 404);
   }
