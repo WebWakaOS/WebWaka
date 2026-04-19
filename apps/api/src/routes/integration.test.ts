@@ -367,7 +367,6 @@ describe('P4-C: Cross-pillar offering flow — workspace create → search index
     const insertRunSpy = vi.fn().mockResolvedValue({ success: true });
     const searchRunSpy = vi.fn().mockRejectedValue(new Error('Search index unavailable'));
 
-    const _callCount = 0;
     const mockDB = {
       prepare: vi.fn().mockImplementation((sql: string) => {
         const lo = sql.toLowerCase();
@@ -375,7 +374,6 @@ describe('P4-C: Cross-pillar offering flow — workspace create → search index
           bind: (..._args: unknown[]) => ({
             run: lo.includes('search_entries') ? searchRunSpy : insertRunSpy,
             first: <T>() => {
-              callCount++;
               if (lo.includes('workspaces')) return Promise.resolve({ id: 'ws_001', tenant_id: 'tenant_123', plan: 'starter' } as T);
               if (lo.includes('subscriptions')) return Promise.resolve(null as T);
               if (lo.includes('count')) return Promise.resolve({ cnt: 0 } as T);
