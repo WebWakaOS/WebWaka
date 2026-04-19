@@ -14,6 +14,7 @@ import { billingEnforcementMiddleware } from './middleware/billing-enforcement.j
 import { ussdExclusionMiddleware } from './middleware/ussd-exclusion.js';
 import { aiEntitlementMiddleware } from './middleware/ai-entitlement.js';
 import { requireEntitlement } from './middleware/entitlement.js';
+import { requireRole } from './middleware/require-role.js';
 import { PlatformLayer } from '@webwaka/types';
 import { assertDMMasterKey } from '@webwaka/social';
 import { healthRoutes, API_VERSION } from './routes/health.js';
@@ -543,6 +544,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
 
   app.use('/partners/*', authMiddleware);
+  app.use('/partners/*', requireRole('super_admin'));
   app.use('/partners/*', auditLogMiddleware);
   app.route('/partners', partnerRoutes);
 
@@ -584,10 +586,12 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // -------------------------------------------------------------------------
   // P6-A: MED-011 — Platform Analytics (super_admin only)
-  // No per-route middleware needed — routes enforce super_admin role internally
+  // requireRole enforced at router level (middleware layer) — defense-in-depth
+  // alongside per-handler role checks inside the route handlers.
   // -------------------------------------------------------------------------
 
   app.use('/platform/analytics/*', authMiddleware);
+  app.use('/platform/analytics/*', requireRole('super_admin'));
   app.route('/platform/analytics', analyticsRoutes);
 
   // -------------------------------------------------------------------------
@@ -627,10 +631,8 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // Auth middleware NOT applied at route level — the POST handler enforces
   // super_admin role internally. This keeps GET /fx-rates* routes public
   // for currency display without requiring authentication.
-  // SEC: Rate-limit public GET routes to prevent DoS / scraping abuse.
   // -------------------------------------------------------------------------
 
-  app.use('/fx-rates*', rateLimitMiddleware({ keyPrefix: 'fx-rates', maxRequests: 60, windowSeconds: 60 }));
   app.route('/fx-rates', fxRatesRoutes);
 
   // -------------------------------------------------------------------------
