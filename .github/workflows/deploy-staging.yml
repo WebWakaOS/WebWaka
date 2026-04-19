@@ -37,7 +37,7 @@ jobs:
 
       - run: pnpm install --no-frozen-lockfile
 
-      - name: Symlink migrations for wrangler
+      - name: Stage migrations for wrangler
         run: |
           # wrangler.toml migrations_dir = "migrations" (relative to apps/api/)
           # Real migrations live in infra/db/migrations — create a hard copy so
@@ -52,11 +52,12 @@ jobs:
 
       - name: Apply D1 migrations (staging)
         run: |
-          # database_name in wrangler.toml is "webwaka-os-staging" — must match exactly
+          # Run from apps/api so pnpm can resolve the wrangler binary.
+          # database_name in wrangler.toml is "webwaka-os-staging".
+          cd apps/api
           echo "y" | npx wrangler d1 migrations apply webwaka-os-staging \
             --env staging \
-            --remote \
-            --config apps/api/wrangler.toml
+            --remote
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -83,21 +84,18 @@ jobs:
 
       - name: Deploy API to Cloudflare Workers (staging)
         run: |
-          npx wrangler deploy \
-            --env staging \
-            --config apps/api/wrangler.toml
+          cd apps/api
+          npx wrangler deploy --env staging
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Sync secrets to staging worker
-        # Only update secrets that are actually present in the environment.
         # wrangler secret put reads from stdin to avoid shell history leakage.
         run: |
-          echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET \
-            --env staging --config apps/api/wrangler.toml
-          echo "$INTER_SERVICE_SECRET" | npx wrangler secret put INTER_SERVICE_SECRET \
-            --env staging --config apps/api/wrangler.toml
+          cd apps/api
+          echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET --env staging
+          echo "$INTER_SERVICE_SECRET" | npx wrangler secret put INTER_SERVICE_SECRET --env staging
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
