@@ -1,5 +1,6 @@
 import type { Context, Next } from 'hono';
 import type { Env } from '../env.js';
+import { SlackWebhookChannel } from '@webwaka/notifications';
 
 interface RequestMetrics {
   method: string;
@@ -82,18 +83,32 @@ export async function monitoringMiddleware(
       );
 
       if (c.env.ALERT_WEBHOOK_URL) {
-        const webhookUrl = c.env.ALERT_WEBHOOK_URL;
-        const payload = JSON.stringify({
-          text: `[WebWaka API] Error rate spike: ${errorCountWindow.count} errors in last minute. Environment: ${c.env.ENVIRONMENT ?? 'unknown'}`,
-          severity: 'critical',
-          timestamp: new Date().toISOString(),
+        // N-055 (Phase 4): Route alert through SlackWebhookChannel instead of direct fetch.
+        // This routes platform monitoring alerts via the same INotificationChannel interface
+        // as all other notifications (G13), making it testable and provider-swappable.
+        const slackChannel = new SlackWebhookChannel({
+          platformWebhookUrl: c.env.ALERT_WEBHOOK_URL,
         });
+        const alertCtx = {
+          deliveryId: `alert-${Date.now()}`,
+          tenantId: 'platform',
+          recipientId: 'ops-team',
+          recipientType: 'system' as const,
+          channel: 'slack' as const,
+          idempotencyKey: `alert-error-spike-${Date.now()}`,
+          source: 'api' as const,
+          severity: 'critical' as const,
+          sandboxMode: false,
+          template: {
+            subject: '[WebWaka API] Error rate spike',
+            body: `Error rate spike: ${errorCountWindow.count} errors in last minute.\nEnvironment: ${c.env.ENVIRONMENT ?? 'unknown'}\nTimestamp: ${new Date().toISOString()}`,
+            locale: 'en' as const,
+            templateId: 'system.error_spike',
+            templateVersion: 1,
+          },
+        };
         c.executionCtx?.waitUntil?.(
-          fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: payload,
-          }).catch(() => {}),
+          slackChannel.dispatch(alertCtx).catch(() => {}),
         );
       }
     }

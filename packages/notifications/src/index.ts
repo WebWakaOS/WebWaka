@@ -68,6 +68,7 @@ export type { CreateDeliveryParams, UpdateDeliveryParams } from './delivery-serv
 export {
   createDeliveryRow,
   updateDeliveryStatus,
+  updateDeliveredByProviderMessageId,
   markNotifEventProcessed,
 } from './delivery-service.js';
 
@@ -80,7 +81,24 @@ export type { Phase2RenderedOutput } from './phase2-renderer.js';
 export { renderPhase2, buildRenderedTemplate } from './phase2-renderer.js';
 
 export { InAppChannel } from './channels/in-app-channel.js';
+export type { ResendEmailChannelOptions } from './channels/resend-channel.js';
 export { ResendEmailChannel } from './channels/resend-channel.js';
+
+// Phase 4 channels (N-043–N-049)
+export type { TermiiSmsChannelOptions } from './channels/termii-sms-channel.js';
+export { TermiiSmsChannel } from './channels/termii-sms-channel.js';
+export type { MetaWhatsAppChannelOptions } from './channels/meta-whatsapp-channel.js';
+export { MetaWhatsAppChannel } from './channels/meta-whatsapp-channel.js';
+export type { Dialog360WhatsAppChannelOptions } from './channels/dialog360-whatsapp-channel.js';
+export { Dialog360WhatsAppChannel } from './channels/dialog360-whatsapp-channel.js';
+export type { TelegramChannelOptions } from './channels/telegram-channel.js';
+export { TelegramChannel } from './channels/telegram-channel.js';
+export type { FcmPushChannelOptions } from './channels/fcm-push-channel.js';
+export { FcmPushChannel } from './channels/fcm-push-channel.js';
+export type { SlackWebhookChannelOptions } from './channels/slack-webhook-channel.js';
+export { SlackWebhookChannel } from './channels/slack-webhook-channel.js';
+export type { TeamsWebhookChannelOptions } from './channels/teams-webhook-channel.js';
+export { TeamsWebhookChannel } from './channels/teams-webhook-channel.js';
 
 export type { ProcessEventParams, SandboxConfig } from './notification-service.js';
 export { processEvent } from './notification-service.js';

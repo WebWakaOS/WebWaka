@@ -6,6 +6,8 @@
  *
  * N-008 (Phase 0): Initial env type scaffold.
  * N-012 (Phase 1): Queue consumer will add MessageBatch handling.
+ * N-042–N-049 (Phase 4): Channel-specific platform credentials added.
+ * N-131 (Phase 4): NOTIFICATION_QUEUE is now producer+consumer (webhook_delivery retry).
  */
 
 export interface Env {
@@ -20,7 +22,8 @@ export interface Env {
    */
   NOTIFICATION_KV: KVNamespace;
 
-  /** CF Queue binding — consumer side (N-012). Producer is in apps/api. */
+  /** CF Queue binding — consumer side (N-012). Producer is in apps/api.
+   *  Phase 4 (N-131): Also used as producer for webhook_delivery retry messages. */
   NOTIFICATION_QUEUE: Queue;
 
   /** Worker environment tag */
@@ -85,4 +88,82 @@ export interface Env {
 
   /** Inter-service authentication secret (SEC-009) */
   INTER_SERVICE_SECRET: string;
+
+  // -------------------------------------------------------------------------
+  // Phase 4 (N-042–N-049) — Channel-specific platform credentials
+  // All are optional: channels fall back to dev-skipped when absent.
+  // Set via: wrangler secret put <VAR_NAME> --env staging
+  // -------------------------------------------------------------------------
+
+  /**
+   * N-043: Termii SMS platform API key.
+   * Fallback when no tenant-specific key is found in KV.
+   * Set via: wrangler secret put TERMII_API_KEY --env staging
+   */
+  TERMII_API_KEY?: string;
+
+  /**
+   * N-043: Termii SMS platform sender ID (alphanumeric, max 11 chars).
+   * Example: 'WebWaka'
+   */
+  TERMII_SENDER_ID?: string;
+
+  /**
+   * N-044: Meta WhatsApp Business API access token (Meta Graph API v19).
+   * Fallback when no tenant-specific credentials in KV.
+   * Set via: wrangler secret put META_WA_ACCESS_TOKEN --env staging
+   */
+  META_WA_ACCESS_TOKEN?: string;
+
+  /**
+   * N-044: Meta WhatsApp Business phone number ID.
+   * The business number registered in Meta Business Manager.
+   */
+  META_WA_PHONE_NUMBER_ID?: string;
+
+  /**
+   * N-045: 360dialog WhatsApp platform API key.
+   * Fallback when no tenant-specific key in KV.
+   * Set via: wrangler secret put DIALOG360_API_KEY --env staging
+   */
+  DIALOG360_API_KEY?: string;
+
+  /**
+   * N-046: Telegram Bot API token.
+   * Fallback when no tenant-specific token in KV.
+   * Set via: wrangler secret put TELEGRAM_BOT_TOKEN --env staging
+   */
+  TELEGRAM_BOT_TOKEN?: string;
+
+  /**
+   * N-047: FCM v1 API access token (pre-generated from service account).
+   * Phase 7 (N-107) upgrades to automatic rotation.
+   * Set via: wrangler secret put FCM_ACCESS_TOKEN --env staging
+   */
+  FCM_ACCESS_TOKEN?: string;
+
+  /**
+   * N-047: Firebase project ID (e.g. 'webwaka-production').
+   */
+  FCM_PROJECT_ID?: string;
+
+  /**
+   * N-048/N-055: Slack incoming webhook URL for platform-level system alerts.
+   * Used by N-055 to replace direct ALERT_WEBHOOK_URL HTTP calls.
+   * Set via: wrangler secret put SLACK_ALERT_WEBHOOK_URL --env staging
+   */
+  SLACK_ALERT_WEBHOOK_URL?: string;
+
+  /**
+   * N-049: Microsoft Teams incoming webhook URL for system alerts.
+   * Set via: wrangler secret put TEAMS_ALERT_WEBHOOK_URL --env staging
+   */
+  TEAMS_ALERT_WEBHOOK_URL?: string;
+
+  /**
+   * N-053b: Resend API key for domain verification polling.
+   * Uses GET /domains/{id} endpoint to check verification status.
+   * Can be the same as RESEND_API_KEY.
+   */
+  RESEND_API_KEY_FOR_DOMAIN_POLL?: string;
 }

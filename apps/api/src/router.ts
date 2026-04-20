@@ -63,6 +63,7 @@ import { negotiationRouter } from './routes/negotiation.js';
 import { partnerRoutes } from './routes/partners.js';
 import { templateRoutes } from './routes/templates.js';
 import { webhookRoutes } from './routes/webhooks.js';
+import { resendBounceWebhook } from './routes/resend-bounce-webhook.js';
 import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
 import { onboardingRoutes } from './routes/onboarding.js';
 import { billingRoutes } from './routes/billing.js';
@@ -693,4 +694,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   app.use('/notifications/*', authMiddleware);
   app.route('/notifications', notificationRoutes);
+
+  // N-052 (Phase 4): Resend bounce/delivery webhook (NO auth — provider callback).
+  // Validates Svix signature using RESEND_WEBHOOK_SECRET before processing.
+  // POST /provider-webhooks/resend
+  app.route('/provider-webhooks/resend', resendBounceWebhook);
 }

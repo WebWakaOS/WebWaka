@@ -166,6 +166,47 @@ export async function updateDeliveryStatus(
 }
 
 // ---------------------------------------------------------------------------
+// updateDeliveredByProviderMessageId (N-051, Phase 4)
+// ---------------------------------------------------------------------------
+
+/**
+ * Transition a delivery row to 'delivered' status by looking it up via
+ * provider_message_id. Used by provider webhook callbacks (e.g. Resend bounce
+ * webhook N-052) to confirm actual delivery without knowing the deliveryId.
+ *
+ * G1: tenantId used as isolation guard in WHERE clause.
+ * N-051: Enables dispatched → delivered FSM transition driven by provider events.
+ */
+export async function updateDeliveredByProviderMessageId(
+  db: D1LikeFull,
+  tenantId: string,
+  providerMessageId: string,
+  status: 'delivered' | 'failed',
+  lastError?: string,
+): Promise<void> {
+  const now = Math.floor(Date.now() / 1000);
+
+  const timestampCol = status === 'delivered' ? 'delivered_at' : 'failed_at';
+
+  await db
+    .prepare(
+      `UPDATE notification_delivery
+       SET status = ?,
+           last_error = COALESCE(?, last_error),
+           ${timestampCol} = ?
+       WHERE provider_message_id = ? AND tenant_id = ?`,
+    )
+    .bind(
+      status,
+      lastError ?? null,
+      now,
+      providerMessageId,
+      tenantId,
+    )
+    .run();
+}
+
+// ---------------------------------------------------------------------------
 // markNotifEventProcessed
 // ---------------------------------------------------------------------------
 

@@ -1,23 +1,31 @@
 /**
- * WebhookDispatcher — PROD-04
+ * WebhookDispatcher — PROD-04 (N-131 Phase 4: CF Queues migration)
  *
- * HMAC-SHA256 signed webhook delivery with automatic retry.
- * Retry policy: max 3 attempts with exponential backoff (5s, 25s, 125s).
- * Failures are logged to webhook_deliveries table.
+ * HMAC-SHA256 signed webhook delivery with CF Queue-backed retry.
  *
- * Usage:
- *   const dispatcher = new WebhookDispatcher(db, tenantId);
- *   await dispatcher.dispatch('template.installed', { template_slug: 'my-tpl', ... });
+ * Phase 4 (N-131): Migrated from inline setTimeout retry to CF Queues.
+ * The dispatcher now:
+ *   1. Creates the webhook_deliveries row (status='pending')
+ *   2. Attempts first delivery synchronously (fast-path for the common case)
+ *   3. On failure: enqueues { type:'webhook_delivery', deliveryId, ... } to
+ *      NOTIFICATION_QUEUE for durable retry (max_retries=5 handled by CF)
+ *   4. On success: marks delivery 'delivered' immediately
  *
- * Registered events:
- *   template.installed        — fired on POST /templates/:slug/install success
- *   template.purchased        — fired on POST /templates/:slug/purchase/verify success
- *   workspace.member_added    — fired on POST /workspaces/:id/members success
- *   payment.completed         — fired on Paystack payment verification success
+ * CF Queue consumer (apps/notificator consumer.ts) handles 'webhook_delivery'
+ * messages with a single delivery attempt per message. CF Queue exponential
+ * backoff handles the retry schedule.
+ *
+ * This removes the problematic setTimeout-based inline retry which:
+ *   - Blocked the request context for up to 2 minutes
+ *   - Was not persistent (lost if Worker process died)
+ *   - Violated CF Worker CPU time limits for paid plans
+ *
+ * Registered events (N-132 expands to 30):
+ *   template.installed        — POST /templates/:slug/install
+ *   template.purchased        — POST /templates/:slug/purchase/verify
+ *   workspace.member_added    — POST /workspaces/:id/members
+ *   payment.completed         — Paystack payment verification
  */
-
-const MAX_ATTEMPTS = 3;
-const BACKOFF_DELAYS_MS = [5_000, 25_000, 125_000];  // 5s, 25s, ~2m
 
 export type WebhookEventType =
   | 'template.installed'
@@ -45,6 +53,21 @@ interface D1Like {
   };
 }
 
+interface QueueLike {
+  send(message: WebhookRetryMessage): Promise<void>;
+}
+
+export interface WebhookRetryMessage {
+  type: 'webhook_delivery';
+  deliveryId: string;
+  subscriptionId: string;
+  tenantId: string;
+  url: string;
+  payloadStr: string;
+  secret: string;
+  attempt: number;
+}
+
 /**
  * Sign the payload with HMAC-SHA256.
  * Signature format: sha256=<hex>
@@ -68,9 +91,8 @@ async function sign(secret: string, payload: string): Promise<string> {
 
 /**
  * Attempt a single delivery to a webhook URL.
- * Returns { ok: boolean; status: number | null; error: string | null }
  */
-async function attemptDelivery(
+export async function attemptDelivery(
   url: string,
   payloadStr: string,
   signature: string,
@@ -101,16 +123,22 @@ export class WebhookDispatcher {
   constructor(
     private readonly db: D1Like,
     private readonly tenantId: string,
+    /**
+     * N-131: CF Queue for durable retry.
+     * If undefined (test / legacy mode), retries are skipped and failure is final.
+     * Production always provides this binding.
+     */
+    private readonly queue?: QueueLike,
   ) {}
 
   /**
    * Dispatch an event to all active subscriptions for this tenant
-   * that are subscribed to the given event type.
+   * that subscribe to the given event type.
    *
-   * Delivery is best-effort: errors are logged but not re-thrown.
-   * For production, this should be called from a Cloudflare Queues consumer
-   * or a durable execution context. In the current implementation, dispatch
-   * is synchronous from the request handler (acceptable for low-volume events).
+   * N-131 Phase 4:
+   *   - Creates delivery record
+   *   - Attempts one synchronous delivery
+   *   - On failure: enqueues to CF Queue for durable retry (no setTimeout)
    */
   async dispatch(
     eventType: WebhookEventType,
@@ -125,7 +153,6 @@ export class WebhookDispatcher {
       .bind(this.tenantId)
       .all<WebhookSubscriptionRow>();
 
-    // Filter to subscriptions that include this event type
     const matching = subscriptions.filter((sub) => {
       try {
         const events = JSON.parse(sub.events) as string[];
@@ -135,8 +162,9 @@ export class WebhookDispatcher {
       }
     });
 
-    // Dispatch to each matching subscription
-    await Promise.allSettled(matching.map((sub) => this.deliverToSubscription(sub, eventType, eventData)));
+    await Promise.allSettled(
+      matching.map((sub) => this.deliverToSubscription(sub, eventType, eventData)),
+    );
   }
 
   private async deliverToSubscription(
@@ -155,7 +183,7 @@ export class WebhookDispatcher {
     const payloadStr = JSON.stringify(payload);
     const signature = await sign(sub.secret, payloadStr);
 
-    // Create delivery record
+    // Create delivery record (status='pending')
     const now = Math.floor(Date.now() / 1000);
     await this.db
       .prepare(
@@ -166,50 +194,118 @@ export class WebhookDispatcher {
       .bind(deliveryId, sub.id, this.tenantId, eventType, payloadStr, now, now)
       .run();
 
-    // Attempt delivery with retry
-    let lastError: string | null = null;
-    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-      if (attempt > 0) {
-        // Backoff: wait before retrying (best-effort — in a request context this blocks the response)
-        // In production this should be a Cloudflare Queue retry; here we do it inline
-        await new Promise((r) => setTimeout(r, BACKOFF_DELAYS_MS[attempt - 1] ?? 5_000));
-      }
+    // N-131: Single synchronous attempt (fast-path for successful deliveries)
+    const result = await attemptDelivery(sub.url, payloadStr, signature, deliveryId);
 
-      const result = await attemptDelivery(sub.url, payloadStr, signature, deliveryId);
-      lastError = result.error;
-
-      if (result.ok) {
-        const deliveredAt = Math.floor(Date.now() / 1000);
-        await this.db
-          .prepare(
-            `UPDATE webhook_deliveries
-                SET status = 'delivered', attempts = ?, delivered_at = ?, updated_at = ?
-              WHERE id = ?`,
-          )
-          .bind(attempt + 1, deliveredAt, deliveredAt, deliveryId)
-          .run();
-        return;
-      }
-
-      // Update attempt count after each failure
+    if (result.ok) {
+      const deliveredAt = Math.floor(Date.now() / 1000);
       await this.db
         .prepare(
           `UPDATE webhook_deliveries
-              SET attempts = ?, last_error = ?, updated_at = ?
+              SET status = 'delivered', attempts = 1, delivered_at = ?, updated_at = ?
             WHERE id = ?`,
         )
-        .bind(attempt + 1, result.error, Math.floor(Date.now() / 1000), deliveryId)
+        .bind(deliveredAt, deliveredAt, deliveryId)
         .run();
+      return;
     }
 
-    // All attempts exhausted — mark as failed
+    // N-131: First attempt failed — update attempt count then enqueue for CF Queue retry
     await this.db
       .prepare(
         `UPDATE webhook_deliveries
-            SET status = 'failed', last_error = ?, updated_at = ?
+            SET attempts = 1, last_error = ?, updated_at = ?
           WHERE id = ?`,
       )
-      .bind(lastError, Math.floor(Date.now() / 1000), deliveryId)
+      .bind(result.error, Math.floor(Date.now() / 1000), deliveryId)
       .run();
+
+    if (this.queue) {
+      // Enqueue for durable CF Queue retry (max_retries=5 configured in wrangler.toml)
+      // Each retry attempt is a new queue message; CF handles exponential backoff.
+      const retryMessage: WebhookRetryMessage = {
+        type: 'webhook_delivery',
+        deliveryId,
+        subscriptionId: sub.id,
+        tenantId: this.tenantId,
+        url: sub.url,
+        payloadStr,
+        secret: sub.secret,
+        attempt: 1,
+      };
+      await this.queue.send(retryMessage).catch((err) => {
+        console.error(
+          `[webhook-dispatcher] failed to enqueue retry — deliveryId=${deliveryId} ` +
+          `err=${err instanceof Error ? err.message : String(err)}`,
+        );
+      });
+    } else {
+      // No queue configured (test / legacy mode) — mark as failed
+      console.warn(
+        `[webhook-dispatcher] no queue configured for retry — ` +
+        `deliveryId=${deliveryId} marking failed`,
+      );
+      await this.db
+        .prepare(
+          `UPDATE webhook_deliveries
+              SET status = 'failed', updated_at = ?
+            WHERE id = ?`,
+        )
+        .bind(Math.floor(Date.now() / 1000), deliveryId)
+        .run();
+    }
   }
+}
+
+// ---------------------------------------------------------------------------
+// processWebhookDeliveryRetry — called by apps/notificator consumer (N-131)
+// ---------------------------------------------------------------------------
+
+/**
+ * Process a webhook_delivery retry message from the CF Queue.
+ *
+ * Called by apps/notificator consumer when type='webhook_delivery'.
+ * Makes one delivery attempt; on failure throws to allow CF Queue retry.
+ *
+ * @param db      - D1 database binding
+ * @param message - WebhookRetryMessage from queue
+ */
+export async function processWebhookDeliveryRetry(
+  db: D1Like,
+  message: WebhookRetryMessage,
+): Promise<void> {
+  const { deliveryId, url, payloadStr, secret, attempt, tenantId } = message;
+
+  const signature = await sign(secret, payloadStr);
+  const result = await attemptDelivery(url, payloadStr, signature, deliveryId);
+
+  const now = Math.floor(Date.now() / 1000);
+
+  if (result.ok) {
+    await db
+      .prepare(
+        `UPDATE webhook_deliveries
+            SET status = 'delivered', attempts = ?, delivered_at = ?, updated_at = ?
+          WHERE id = ? AND tenant_id = ?`,
+      )
+      .bind(attempt + 1, now, now, deliveryId, tenantId)
+      .run();
+    return;
+  }
+
+  // Update attempt count on failure — CF Queue will retry the message
+  await db
+    .prepare(
+      `UPDATE webhook_deliveries
+          SET attempts = ?, last_error = ?, updated_at = ?
+        WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(attempt + 1, result.error, now, deliveryId, tenantId)
+    .run();
+
+  // Throw to signal CF Queue to retry (CF handles backoff based on max_retries)
+  throw new Error(
+    `[webhook-dispatcher] delivery failed — ` +
+    `deliveryId=${deliveryId} attempt=${attempt + 1} error=${result.error ?? 'unknown'}`,
+  );
 }

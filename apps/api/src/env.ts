@@ -176,4 +176,19 @@ export interface Env {
    * Defaults to 'https://api.webwaka.com' if unset.
    */
   PLATFORM_BASE_URL?: string;
+
+  /**
+   * N-052 (Phase 4): Resend webhook secret for Svix signature verification.
+   * Provided by Resend in the webhook subscription settings page.
+   * Format: "whsec_{base64}" or a raw secret string.
+   * Set via: wrangler secret put RESEND_WEBHOOK_SECRET
+   */
+  RESEND_WEBHOOK_SECRET?: string;
+
+  /**
+   * N-048/N-055 (Phase 4): KV namespace for notification provider credentials (ADL-002).
+   * Shared with apps/notificator NOTIFICATION_KV binding.
+   * Used by N-055 to route system alerts through SlackWebhookChannel.
+   */
+  NOTIFICATION_KV?: KVNamespace;
 }

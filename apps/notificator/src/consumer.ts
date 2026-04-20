@@ -29,6 +29,13 @@ import {
   processEvent,
   InAppChannel,
   ResendEmailChannel,
+  TermiiSmsChannel,
+  MetaWhatsAppChannel,
+  Dialog360WhatsAppChannel,
+  TelegramChannel,
+  FcmPushChannel,
+  SlackWebhookChannel,
+  TeamsWebhookChannel,
   TemplateRenderer,
 } from '@webwaka/notifications';
 import type { ProcessEventParams, SandboxConfig, D1LikeFull } from '@webwaka/notifications';
@@ -41,9 +48,28 @@ import type { ProcessEventParams, SandboxConfig, D1LikeFull } from '@webwaka/not
 // complete notification_event row without an extra D1 read.
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// WebhookRetryMessage — N-131 (Phase 4) webhook delivery retry from CF Queue
+// ---------------------------------------------------------------------------
+
+export interface WebhookRetryMessage {
+  type: 'webhook_delivery';
+  deliveryId: string;
+  subscriptionId: string;
+  tenantId: string;
+  url: string;
+  payloadStr: string;
+  secret: string;
+  attempt: number;
+}
+
+// ---------------------------------------------------------------------------
+// NotificationQueueMessage — full shape for all queue message types
+// ---------------------------------------------------------------------------
+
 export interface NotificationQueueMessage {
   /** Discriminator — routes to the correct handler */
-  type: 'notification_event' | 'digest_batch';
+  type: 'notification_event' | 'digest_batch' | 'webhook_delivery';
 
   // --- notification_event fields ---
   /** event_log.id — used as idempotency key for notification_event row */
@@ -75,6 +101,15 @@ export interface NotificationQueueMessage {
   // --- digest_batch fields ---
   /** notification_digest_batch.id */
   batchId?: string;
+
+  // --- webhook_delivery fields (N-131, Phase 4) ---
+  /** notification_delivery.id for this webhook delivery attempt */
+  deliveryId?: string;
+  subscriptionId?: string;
+  url?: string;
+  payloadStr?: string;
+  secret?: string;
+  attempt?: number;
 }
 
 // D1LikeFull is imported from @webwaka/notifications (duck-typed D1Database).
@@ -117,11 +152,87 @@ export async function processQueueBatch(
     return;
   }
 
-  // Phase 2: Build channels once per batch (G3: platform sender; G24: sandbox redirect)
+  // Phase 2-4: Build channels once per batch (G3: platform sender; G24: sandbox redirect)
+  // Phase 4 (N-042–N-049): All external channel providers wired here.
   const db = env.DB as unknown as D1LikeFull;
+  const kvLike = env.NOTIFICATION_KV as {
+    get(key: string): Promise<string | null>;
+    put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+  };
+
+  const masterKeySpread = env.NOTIFICATION_KV_MASTER_KEY !== undefined
+    ? { masterKey: env.NOTIFICATION_KV_MASTER_KEY } as const
+    : ({} as Record<string, never>);
+
   const channels = [
     new InAppChannel(db),
-    new ResendEmailChannel(env.RESEND_API_KEY),
+
+    // N-042: Per-tenant FROM address + credentials from KV (G3, G16 ADL-002)
+    new ResendEmailChannel({
+      ...(env.RESEND_API_KEY !== undefined ? { platformApiKey: env.RESEND_API_KEY } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-043: Termii SMS (Nigerian networks, CBN R8 OTP)
+    new TermiiSmsChannel({
+      ...(env.TERMII_API_KEY !== undefined ? { platformApiKey: env.TERMII_API_KEY } : {}),
+      ...(env.TERMII_SENDER_ID !== undefined ? { platformSenderId: env.TERMII_SENDER_ID } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-044: Meta WhatsApp (G17: meta_approved gate)
+    new MetaWhatsAppChannel({
+      ...(env.META_WA_ACCESS_TOKEN !== undefined ? { platformApiKey: env.META_WA_ACCESS_TOKEN } : {}),
+      ...(env.META_WA_PHONE_NUMBER_ID !== undefined ? { platformPhoneNumberId: env.META_WA_PHONE_NUMBER_ID } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-045: 360dialog WhatsApp (G17: meta_approved gate)
+    new Dialog360WhatsAppChannel({
+      ...(env.DIALOG360_API_KEY !== undefined ? { platformApiKey: env.DIALOG360_API_KEY } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-046: Telegram messaging
+    new TelegramChannel({
+      ...(env.TELEGRAM_BOT_TOKEN !== undefined ? { platformBotToken: env.TELEGRAM_BOT_TOKEN } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-047: FCM v1 push notifications (G22: Phase 5 wires low_data_mode)
+    new FcmPushChannel({
+      ...(env.FCM_ACCESS_TOKEN !== undefined ? { platformAccessToken: env.FCM_ACCESS_TOKEN } : {}),
+      ...(env.FCM_PROJECT_ID !== undefined ? { platformProjectId: env.FCM_PROJECT_ID } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-048: Slack webhook (system alerts; N-055 replaces ALERT_WEBHOOK_URL)
+    new SlackWebhookChannel({
+      ...(env.SLACK_ALERT_WEBHOOK_URL !== undefined ? { platformWebhookUrl: env.SLACK_ALERT_WEBHOOK_URL } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
+
+    // N-049: Teams webhook (system alerts)
+    new TeamsWebhookChannel({
+      ...(env.TEAMS_ALERT_WEBHOOK_URL !== undefined ? { platformWebhookUrl: env.TEAMS_ALERT_WEBHOOK_URL } : {}),
+      db,
+      kv: kvLike,
+      ...masterKeySpread,
+    }),
   ];
 
   // Phase 3: Build TemplateRenderer once per batch (N-030, N-039).
@@ -190,6 +301,14 @@ export async function processQueueBatch(
         console.log(
           `${logPrefix} batchId=${body.batchId ?? 'unknown'} ` +
           `— digest_batch logged (Phase 5 DigestEngine pending)`,
+        );
+      } else if (body.type === 'webhook_delivery') {
+        // N-131 (Phase 4): Process webhook delivery retry from CF Queue.
+        // On failure, throws to let CF Queue retry (max_retries=5).
+        await processWebhookDeliveryRetry(body as WebhookRetryMessage, db);
+        console.log(
+          `${logPrefix} deliveryId=${body.deliveryId ?? 'unknown'} ` +
+          `url=${body.url ?? 'unknown'} — webhook_delivery attempt=${body.attempt ?? 1} complete`,
         );
       } else {
         // Unknown type: ack to prevent permanent DLQ buildup.
@@ -327,6 +446,106 @@ export async function processDigestBatch(
     `batchId=${msg.batchId ?? 'unknown'} tenant=${msg.tenantId} ` +
     `(Phase 5 DigestEngine pending)`,
   );
+}
+
+// ---------------------------------------------------------------------------
+// processWebhookDeliveryRetry — N-131 (Phase 4)
+// ---------------------------------------------------------------------------
+
+/**
+ * Process a webhook_delivery retry message from the CF Queue (N-131).
+ *
+ * Called when the primary WebhookDispatcher dispatch attempt failed.
+ * Makes one delivery attempt; on failure throws to let CF Queue retry.
+ * CF Queue handles exponential backoff (max_retries=5 in wrangler.toml).
+ *
+ * This function is inlined here (rather than importing from apps/api) because
+ * CF Workers are isolated — cross-app imports are not possible at runtime.
+ * apps/api/src/lib/webhook-dispatcher.ts has the identical implementation
+ * used for standalone testing; they must be kept in sync.
+ *
+ * @param message - WebhookRetryMessage from CF Queue
+ * @param db      - D1 database binding (G1: tenant_id in all queries)
+ */
+export async function processWebhookDeliveryRetry(
+  message: WebhookRetryMessage,
+  db: D1LikeFull,
+): Promise<void> {
+  const { deliveryId, url, payloadStr, secret, attempt, tenantId } = message;
+
+  const signature = await signWebhookPayload(secret, payloadStr);
+  const result = await attemptWebhookDelivery(url, payloadStr, signature, deliveryId);
+
+  const now = Math.floor(Date.now() / 1000);
+
+  if (result.ok) {
+    await db
+      .prepare(
+        `UPDATE webhook_deliveries
+            SET status = 'delivered', attempts = ?, delivered_at = ?, updated_at = ?
+          WHERE id = ? AND tenant_id = ?`,
+      )
+      .bind(attempt + 1, now, now, deliveryId, tenantId)
+      .run();
+    return;
+  }
+
+  // Update attempt count on failure — CF Queue retries the message
+  await db
+    .prepare(
+      `UPDATE webhook_deliveries
+          SET attempts = ?, last_error = ?, updated_at = ?
+        WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(attempt + 1, result.error, now, deliveryId, tenantId)
+    .run();
+
+  // Throw to signal CF Queue to retry
+  throw new Error(
+    `[webhook-delivery] attempt failed — ` +
+    `deliveryId=${deliveryId} attempt=${attempt + 1} error=${result.error ?? 'unknown'}`,
+  );
+}
+
+async function signWebhookPayload(secret: string, payload: string): Promise<string> {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
+  const hex = Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+  return `sha256=${hex}`;
+}
+
+async function attemptWebhookDelivery(
+  url: string,
+  payloadStr: string,
+  signature: string,
+  deliveryId: string,
+): Promise<{ ok: boolean; error: string | null }> {
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WebWaka-Signature': signature,
+        'X-WebWaka-Delivery-Id': deliveryId,
+        'X-WebWaka-Timestamp': String(Date.now()),
+        'User-Agent': 'WebWaka-Webhooks/1.0',
+      },
+      body: payloadStr,
+    });
+    if (res.ok) return { ok: true, error: null };
+    return { ok: false, error: `HTTP ${res.status}` };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'network error' };
+  }
 }
 
 // ---------------------------------------------------------------------------

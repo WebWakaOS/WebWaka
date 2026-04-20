@@ -206,18 +206,186 @@ export async function runRetentionSweep(env: Env): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// runDomainVerificationPoll — Phase 4 stub (N-053b)
+// runDomainVerificationPoll — N-053b (Phase 4)
 // ---------------------------------------------------------------------------
 
 /**
+ * D1Like for domain verification poll — extended with bind() + run/first/all
+ */
+interface D1ForDomainPoll {
+  prepare(sql: string): {
+    bind(...args: unknown[]): {
+      all<T>(): Promise<{ results: T[] }>;
+      run(): Promise<{ success: boolean }>;
+    };
+  };
+}
+
+interface ChannelProviderRow {
+  id: string;
+  tenant_id: string;
+  custom_from_domain: string;
+  domain_verification_token: string | null;
+}
+
+interface ResendDomainResponse {
+  id?: string;
+  status?: string;
+  records?: Array<{
+    type: string;
+    name: string;
+    value: string;
+    status: 'verified' | 'not_started' | 'pending';
+  }>;
+}
+
+/**
  * Run the Resend domain verification poll (N-053b, Phase 4).
- * Checks each unverified tenant domain against Resend API.
- * Called every 6 hours (cron expression: every-6h, i.e. minute=0 every 6th hour).
  *
- * Phase 1 skeleton: no-op.
- * Phase 4 (N-053b): Full verification poll implemented.
+ * Queries channel_provider rows with unverified custom email domains and
+ * polls the Resend API to check if the domain's DNS records are verified.
+ * Called every 6 hours (cron: runs at minute 0 every 6th hour).
+ *
+ * Flow per domain:
+ *   1. GET https://api.resend.com/domains/{domain} (using domain name as ID)
+ *   2. If status === 'verified' → UPDATE custom_from_domain_verified = 1
+ *   3. Update domain_last_checked_at in both cases
+ *
+ * Guardrails:
+ *   G1: tenant_id in all queries
+ *   LIMIT 20 per poll (CF Worker CPU budget)
+ *   Checks only rows where domain_last_checked_at < (now - 6h) to avoid hammering the API
  */
 export async function runDomainVerificationPoll(env: Env): Promise<void> {
-  console.log('[notificator:domain-verification] poll starting (Phase 4 implementation pending)');
-  void env;
+  console.log('[notificator:domain-verification] poll starting');
+
+  if (env.NOTIFICATION_PIPELINE_ENABLED !== '1') {
+    console.log('[notificator:domain-verification] pipeline disabled — poll skipped');
+    return;
+  }
+
+  const apiKey = env.RESEND_API_KEY_FOR_DOMAIN_POLL ?? env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn('[notificator:domain-verification] no Resend API key configured — poll skipped');
+    return;
+  }
+
+  await pollUnverifiedDomains(env.DB as unknown as D1ForDomainPoll, apiKey);
+}
+
+/**
+ * Core implementation — extracted for testability.
+ */
+export async function pollUnverifiedDomains(
+  db: D1ForDomainPoll,
+  resendApiKey: string,
+): Promise<void> {
+  const sixHoursAgo = Math.floor(Date.now() / 1000) - 21600;
+
+  const { results: unverified } = await db
+    .prepare(
+      `SELECT id, tenant_id, custom_from_domain, domain_verification_token
+       FROM channel_provider
+       WHERE channel = 'email'
+         AND custom_from_domain IS NOT NULL
+         AND custom_from_domain_verified = 0
+         AND (domain_last_checked_at IS NULL OR domain_last_checked_at < ?)
+       LIMIT 20`,
+    )
+    .bind(sixHoursAgo)
+    .all<ChannelProviderRow>();
+
+  if (unverified.length === 0) {
+    console.log('[notificator:domain-verification] no unverified domains to check');
+    return;
+  }
+
+  let verified = 0;
+  let errors = 0;
+  const now = Math.floor(Date.now() / 1000);
+
+  for (const row of unverified) {
+    try {
+      const isVerified = await checkResendDomainVerified(
+        resendApiKey,
+        row.custom_from_domain,
+      );
+
+      if (isVerified) {
+        await db
+          .prepare(
+            `UPDATE channel_provider
+             SET custom_from_domain_verified = 1, domain_last_checked_at = ?, updated_at = ?
+             WHERE id = ? AND tenant_id = ?`,
+          )
+          .bind(now, now, row.id, row.tenant_id)
+          .run();
+        verified++;
+        console.log(
+          `[notificator:domain-verification] domain verified — ` +
+          `domain=${row.custom_from_domain} tenant=${row.tenant_id}`,
+        );
+      } else {
+        await db
+          .prepare(
+            `UPDATE channel_provider
+             SET domain_last_checked_at = ?, updated_at = ?
+             WHERE id = ? AND tenant_id = ?`,
+          )
+          .bind(now, now, row.id, row.tenant_id)
+          .run();
+      }
+    } catch (err) {
+      errors++;
+      console.error(
+        `[notificator:domain-verification] check failed — ` +
+        `domain=${row.custom_from_domain} tenant=${row.tenant_id} ` +
+        `err=${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
+
+  console.log(
+    `[notificator:domain-verification] poll complete — ` +
+    `checked=${unverified.length} newly_verified=${verified} errors=${errors}`,
+  );
+}
+
+/**
+ * Check Resend API to see if a domain is verified.
+ *
+ * Resend GET /domains/{domain_name_or_id} returns domain status.
+ * A domain is considered verified when:
+ *   - response.status === 'verified'
+ *   - OR all DNS records have status === 'verified'
+ */
+async function checkResendDomainVerified(
+  apiKey: string,
+  domain: string,
+): Promise<boolean> {
+  const res = await fetch(`https://api.resend.com/domains/${encodeURIComponent(domain)}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Resend GET /domains/${domain} → ${res.status}: ${errText.slice(0, 200)}`);
+  }
+
+  const data = await res.json() as ResendDomainResponse;
+
+  if (data.status === 'verified') {
+    return true;
+  }
+
+  // Check if all DNS records are individually verified
+  if (data.records && data.records.length > 0) {
+    return data.records.every((r) => r.status === 'verified');
+  }
+
+  return false;
 }
