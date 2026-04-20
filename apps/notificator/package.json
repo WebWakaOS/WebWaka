@@ -5,6 +5,7 @@
   "description": "[Notification Engine] Dedicated Cloudflare Worker — CF Queue consumer and digest CRON sweep. OQ-001 resolution (N-008).",
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
     "deploy:staging": "wrangler deploy --env staging",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240524.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   }
 }

@@ -10,6 +10,40 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
 **Notification Engine — prior documents superseded by v2: `final-master-specification.md` (v1.0), `section13-resolution.md`, `notification-engine-review.md`, `notification-engine-audit.md`**
 
+## Notification Engine Phase 1 — COMPLETE (2026-04-20)
+
+Phase 1 (Core Event Infrastructure, N-012, N-012a, N-013) fully implemented. TypeScript 0 errors across all affected packages. 54 tests passing.
+
+| Task | ID | Description | Status |
+|---|---|---|---|
+| T008 | N-013 | Outbox pattern in `publishEvent()`. Added `QueueLike` duck-typed interface, `NotificationOutboxMessage` type, and optional `notificationQueue` + actor context fields to `PublishEventParams`. After event_log write, if `notificationQueue` provided: sends full outbox message to NOTIFICATION_QUEUE. Idempotency key (`notif_evt_xxx`) derived deterministically from eventId. 7 new outbox tests. | ✅ DONE |
+| T009 | N-012 | Full CF Queue consumer in `apps/notificator/src/consumer.ts`. `processNotificationEvent()`: writes to `notification_event` table (INSERT OR IGNORE idempotent), G1 tenant_id validation, derives domain/aggregateType from eventKey. `writeFailureAuditLog()`: writes to `notification_audit_log` on failure (G9). `processQueueBatch()`: kill-switch guard, sandbox logging, ack/retry lifecycle (G10). 18 consumer tests. | ✅ DONE |
+| T010 | N-012a | Full CRON digest sweep in `apps/notificator/src/digest.ts`. `sweepPendingBatches()`: queries `notification_digest_batch WHERE status='pending' AND window_type=? AND window_end<=? LIMIT 100`. Enqueues each as a `digest_batch` Queue message with tenantId (G12). Per-batch error isolation: one failed enqueue does not abort remaining batches. 10 digest sweep tests. | ✅ DONE |
+
+### Phase 1 Exit Criteria — ALL MET
+
+- ✅ 100+ event types (122+ from Phase 0)
+- ✅ apps/notificator receiving events from Queue (full consumer wired, not skeleton)
+- ✅ event_log persisting with correlation_id and source (from Phase 0)
+- ✅ publishEvent() → NOTIFICATION_QUEUE outbox pattern (N-013)
+- ✅ Migrations 0254-0273 written (Phase 0); staging D1 provisioning is ops task
+- ✅ TypeScript 0 errors: @webwaka/events, @webwaka/notifications, @webwaka/notificator, @webwaka/api
+- ✅ 54 tests: 26 packages/events + 28 apps/notificator (18 consumer + 10 digest)
+- ✅ NOTIFICATION_PIPELINE_ENABLED="0" in all environments (flip to "1" after staging QA)
+
+### Next: Phase 2 (N-020–N-028) — NotificationService + Rule Engine + First Delivery Channels
+
+- N-020: `NotificationService.raise()` — load notification_rules for event_key; evaluate enabled + min_severity + feature_flag
+- N-021: Audience resolution (actor, workspace_admins, super_admins)
+- N-022: Preference inheritance (platform → tenant → workspace → user, 4-tier)
+- N-023: Quiet hours enforcement (G12: critical severity bypasses)
+- N-024: Suppression check against notification_suppression_list
+- N-025: notification_delivery FSM row (queued → sending → delivered/failed/dead_lettered)
+- N-026: Email channel via Resend (per-tenant custom domain, G3 platform fallback)
+- N-027: In-app inbox write (notification_inbox_item)
+
+---
+
 ## Notification Engine Phase 0 — COMPLETE (2026-04-20)
 
 Phase 0 (Infrastructure and Standards, N-001–N-009, N-014) fully implemented. All tasks passed TypeScript typecheck with 0 errors.

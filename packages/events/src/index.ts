@@ -51,7 +51,7 @@ export {
   LegacyEventType,
 } from './event-types.js';
 
-export type { PublishEventParams } from './publisher.js';
+export type { PublishEventParams, NotificationOutboxMessage, QueueLike } from './publisher.js';
 export { publishEvent, getAggregateEvents } from './publisher.js';
 
 export type { EventHandler } from './subscriber.js';
