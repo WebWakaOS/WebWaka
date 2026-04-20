@@ -32,6 +32,7 @@
     "@webwaka/social": "workspace:*",
     "@webwaka/verticals": "workspace:*",
     "@webwaka/superagent": "workspace:*",
+    "@webwaka/notifications": "workspace:*",
     "@webwaka/ai": "workspace:*",
     "@webwaka/ai-adapters": "workspace:*",
     "@webwaka/verticals-politician": "workspace:*",

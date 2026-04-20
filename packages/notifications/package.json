@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "@webwaka/events": "workspace:*",
-    "@webwaka/types": "workspace:*"
+    "@webwaka/i18n": "workspace:*",
+    "@webwaka/types": "workspace:*",
+    "@webwaka/white-label-theming": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240524.0",

@@ -60,4 +60,16 @@ export const ha: Partial<I18nLocale> = {
   footer_tagline: 'An gina don Afirka. WebWaka ya ƙarfafa.',
   footer_privacy: 'Manufar Sirri',
   footer_terms: 'Sharuɗɗan Amfani',
+
+  // Notification email — N-041 Phase 3 (partial Hausa translations)
+  notif_legal_footer_ndpr: 'An aika wannan saƙon ne bisa daidaiton Dokar Kare Bayanai ta Najeriya (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. Haƙƙoƙin duk an kiyaye.',
+  notif_unsubscribe_text: 'Kuna karɓar wannan saboda kuna da asusun tare da {tenant_name}.',
+  notif_unsubscribe_action: 'Soke Rajista',
+  notif_unsubscribe_confirmed_title: 'An soke rajistar ku',
+  notif_unsubscribe_confirmed_body: 'Ba za ku ƙara karɓar sanarwa na {channel} daga {tenant_name} ba.',
+  notif_unsubscribe_invalid_link: 'Wannan haɗin soke rajista bai dace ba ko kuma ya ƙare.',
+  notif_powered_by: 'Ƙarfin WebWaka',
+  notif_marketing_address_label: 'Adireshi ta wasika:',
+  notif_too_many_emails: 'Kuna karɓar imeloli da yawa? Zaku iya sarrafa zaɓuɓɓukan sanarwa a cikin saitunan asusunka.',
 };

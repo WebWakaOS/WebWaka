@@ -112,4 +112,16 @@ export const fr: Partial<I18nLocale> = {
   footer_privacy: 'Politique de Confidentialité',
   footer_terms: 'Conditions d\'Utilisation',
   footer_contact: 'Contactez-nous',
+
+  // Notification email — N-041 Phase 3 (French translations)
+  notif_legal_footer_ndpr: 'Cette communication est envoyée conformément au Règlement nigérian sur la protection des données (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. Tous droits réservés.',
+  notif_unsubscribe_text: 'Vous recevez ceci parce que vous avez un compte chez {tenant_name}.',
+  notif_unsubscribe_action: 'Se désabonner',
+  notif_unsubscribe_confirmed_title: 'Vous avez été désabonné',
+  notif_unsubscribe_confirmed_body: 'Vous ne recevrez plus les notifications {channel} de {tenant_name}.',
+  notif_unsubscribe_invalid_link: 'Ce lien de désabonnement est invalide ou a expiré.',
+  notif_powered_by: 'Propulsé par WebWaka',
+  notif_marketing_address_label: 'Adresse postale :',
+  notif_too_many_emails: 'Vous recevez trop d\'e-mails ? Vous pouvez gérer vos préférences de notification dans les paramètres de votre compte.',
 };

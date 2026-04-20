@@ -26,8 +26,10 @@
       "@webwaka/contact": ["packages/contact/src/index.ts"],
       "@webwaka/events": ["packages/events/src/index.ts"],
       "@webwaka/frontend": ["packages/frontend/src/index.ts"],
+      "@webwaka/i18n": ["packages/i18n/src/index.ts"],
       "@webwaka/identity": ["packages/identity/src/index.ts"],
       "@webwaka/negotiation": ["packages/negotiation/src/index.ts"],
+      "@webwaka/notifications": ["packages/notifications/src/index.ts"],
       "@webwaka/offline-sync": ["packages/offline-sync/src/index.ts"],
       "@webwaka/otp": ["packages/otp/src/index.ts"],
       "@webwaka/payments": ["packages/payments/src/index.ts"],
@@ -184,7 +186,8 @@
       "@webwaka/verticals-wedding-planner": ["packages/verticals-wedding-planner/src/index.ts"],
       "@webwaka/verticals-welding-fabrication": ["packages/verticals-welding-fabrication/src/index.ts"],
       "@webwaka/verticals-womens-association": ["packages/verticals-womens-association/src/index.ts"],
-      "@webwaka/verticals-youth-organization": ["packages/verticals-youth-organization/src/index.ts"]
+      "@webwaka/verticals-youth-organization": ["packages/verticals-youth-organization/src/index.ts"],
+      "@webwaka/white-label-theming": ["packages/white-label-theming/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -59,4 +59,16 @@ export const yo: Partial<I18nLocale> = {
   footer_tagline: 'A kọ fún Áfríkà. WebWaka ṣe aláàánú.',
   footer_privacy: 'Ìlànà Àṣírí',
   footer_terms: 'Àwọn Ìlànà Ìlò',
+
+  // Notification email — N-041 Phase 3 (partial Yoruba translations)
+  notif_legal_footer_ndpr: 'A rán ìfítọ̀ntọ̀ yìí gẹ́gẹ́ bí ìtẹ̀lé Òfin Ìdáàbòbò Dátà ti Nàìjíríà (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. Gbogbo ẹ̀tọ́ ni a pa mọ́.',
+  notif_unsubscribe_text: 'O ń gba èyí nítorí pé o ní àkáǹtì pẹ̀lú {tenant_name}.',
+  notif_unsubscribe_action: 'Yọ kúrò',
+  notif_unsubscribe_confirmed_title: 'A ti yọ ọ kúrò',
+  notif_unsubscribe_confirmed_body: 'Ìwọ kò ní tún gba ìwífún {channel} lọ́wọ́ {tenant_name}.',
+  notif_unsubscribe_invalid_link: 'Atọ̀nà yiyọ kúrò yii kò wulo tabi ti pari.',
+  notif_powered_by: 'Agbára WebWaka',
+  notif_marketing_address_label: 'Àdírẹ́sì ifiweranṣẹ:',
+  notif_too_many_emails: 'Ṣe o ń gba ọ̀pọ̀lọpọ̀ ìmẹ́ẹ̀lì? O lè ṣàkóso àwọn àṣàyàn ìwífún ní ètò àkáǹtì rẹ.',
 };

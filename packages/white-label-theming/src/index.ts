@@ -8,7 +8,16 @@
  *   P1 — Build Once (no duplicated theming logic in individual apps)
  *   P2 — Nigeria First
  *   T3 — Tenant isolation (every DB query includes tenant_id / slug predicate)
+ *
+ * Phase 3 additions (N-033, N-033a):
+ *   - TenantTheme extended with sender / footer / attribution fields
+ *   - resolveBrandContext(workspaceId) — brand walk with brand_independence_mode
+ *   - resolveEmailSender(tenantId) — G3 FROM address from channel_provider
  */
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
 export interface TenantTheme {
   tenantId: string;
@@ -22,6 +31,22 @@ export interface TenantTheme {
   faviconUrl: string | null;
   borderRadiusPx: number;
   customDomain: string | null;
+
+  // N-033 Phase 3 — email branding fields
+  /** Custom FROM email for outbound email (from channel_provider). Null = platform sender. */
+  senderEmailAddress: string | null;
+  /** Custom FROM display name for outbound email (from channel_provider). */
+  senderDisplayName: string | null;
+  /** Tenant support email — shown in email footer. Null if not configured. */
+  tenantSupportEmail: string | null;
+  /** Tenant mailing address — NDPR-required for marketing email footer. */
+  tenantAddress: string | null;
+  /**
+   * Whether this tenant must show "Powered by WebWaka" attribution in emails.
+   * G17 OQ-003: free-plan tenants = true; paid plans = false (set via billing module).
+   * Phase 3 default: true for all tenants (Phase 4 billing module flips this).
+   */
+  requiresWebwakaAttribution: boolean;
 }
 
 export interface ThemeTokens {
@@ -52,9 +77,23 @@ interface D1Like {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
 const CACHE_TTL_SECONDS = 300;
 
-const DEFAULT_THEME: Omit<TenantTheme, 'tenantId' | 'tenantSlug' | 'displayName' | 'customDomain'> = {
+const DEFAULT_THEME: Omit<
+  TenantTheme,
+  | 'tenantId'
+  | 'tenantSlug'
+  | 'displayName'
+  | 'customDomain'
+  | 'senderEmailAddress'
+  | 'senderDisplayName'
+  | 'tenantSupportEmail'
+  | 'tenantAddress'
+> = {
   primaryColor: '#1a6b3a',
   secondaryColor: '#f5a623',
   accentColor: '#e8f5e9',
@@ -62,9 +101,31 @@ const DEFAULT_THEME: Omit<TenantTheme, 'tenantId' | 'tenantSlug' | 'displayName'
   logoUrl: null,
   faviconUrl: null,
   borderRadiusPx: 8,
+  requiresWebwakaAttribution: true,
+};
+
+/**
+ * Platform-level fallback TenantTheme used when no workspace / partner brand is found.
+ * G3: senderEmailAddress null → ResendEmailChannel must use PLATFORM_FROM.
+ */
+const PLATFORM_DEFAULT_THEME: TenantTheme = {
+  tenantId: 'platform',
+  tenantSlug: 'webwaka',
+  displayName: 'WebWaka',
+  ...DEFAULT_THEME,
+  customDomain: null,
+  senderEmailAddress: null,
+  senderDisplayName: null,
+  tenantSupportEmail: 'support@webwaka.com',
+  tenantAddress: null,
+  requiresWebwakaAttribution: false, // platform itself does not need to attribute itself
 };
 
 const HEX_COLOR_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+
+// ---------------------------------------------------------------------------
+// Validation
+// ---------------------------------------------------------------------------
 
 export function validateBrandConfig(config: BrandConfig): string[] {
   const errors: string[] = [];
@@ -90,6 +151,10 @@ export function validateBrandConfig(config: BrandConfig): string[] {
 
   return errors;
 }
+
+// ---------------------------------------------------------------------------
+// CSS generation
+// ---------------------------------------------------------------------------
 
 export function buildCssVars(theme: TenantTheme): string {
   return `:root {
@@ -124,7 +189,7 @@ export function renderAttribution(opts?: AttributionOptions): string {
 }
 
 // ---------------------------------------------------------------------------
-// Theme resolution
+// getBrandTokens — slug-based resolution (existing API, unchanged)
 // ---------------------------------------------------------------------------
 
 export async function getBrandTokens(
@@ -154,32 +219,240 @@ export async function getBrandTokens(
          tb.logo_url,
          tb.favicon_url,
          tb.border_radius_px,
-         tb.custom_domain
+         tb.custom_domain,
+         tb.support_email,
+         tb.mailing_address,
+         tb.requires_attribution,
+         cp.custom_from_email,
+         cp.custom_from_name
        FROM organizations o
        LEFT JOIN tenant_branding tb ON tb.tenant_id = o.id
+       LEFT JOIN channel_provider cp
+         ON cp.tenant_id = o.id AND cp.channel = 'email' AND cp.is_active = 1
        WHERE o.slug = ?
        LIMIT 1`,
     )
     .bind(tenantSlug)
-    .first<{
-      tenantId: string;
-      tenantSlug: string;
-      displayName: string;
-      primary_color: string | null;
-      secondary_color: string | null;
-      accent_color: string | null;
-      font_family: string | null;
-      logo_url: string | null;
-      favicon_url: string | null;
-      border_radius_px: number | null;
-      custom_domain: string | null;
-    }>();
+    .first<OrgBrandRow>();
 
   if (!row) {
     throw new Error(`Tenant not found: ${tenantSlug}`);
   }
 
-  const theme: TenantTheme = {
+  const theme = buildThemeFromRow(row);
+
+  if (cache) {
+    await cache.put(cacheKey, JSON.stringify(theme), {
+      expirationTtl: CACHE_TTL_SECONDS,
+    });
+  }
+
+  return { cssVars: buildCssVars(theme), theme };
+}
+
+// ---------------------------------------------------------------------------
+// resolveBrandContext — N-033a, workspaceId-based brand hierarchy walk
+//
+// Brand resolution order:
+//   1. Workspace's own tenant_branding (if any branding row exists)
+//   2. Sub-partner's workspace brand (if workspace belongs to a sub-partner)
+//      2a. If brand_independence_mode = 0: also try parent partner's brand
+//   3. Platform default (PLATFORM_DEFAULT_THEME)
+//
+// "Has branding" = the tenant_branding row exists for that workspace's org.
+// sender info (G3) is always pulled from channel_provider for the resolved level.
+// ---------------------------------------------------------------------------
+
+export async function resolveBrandContext(
+  workspaceId: string,
+  db: D1Like,
+  kv?: ThemeCacheKV,
+): Promise<TenantTheme> {
+  const cacheKey = `brand:ws:${workspaceId}`;
+
+  if (kv) {
+    const cached = await kv.get(cacheKey, 'json');
+    if (cached) return cached;
+  }
+
+  // Step 1: Load workspace org + branding + sender config
+  const wsRow = await queryOrgBrandById(workspaceId, db);
+
+  // "Has branding" means the org row exists AND there is a tenant_branding record
+  // for it (primary_color is a reliable indicator — NULL means no branding row or
+  // the row has no customisation, in which case we continue walking).
+  // We only skip the walk if ALL colour fields are set — a truly branded workspace.
+  const wsHasBranding = wsRow !== null && hasBrandingRow(wsRow);
+
+  if (wsHasBranding && wsRow !== null) {
+    const theme = buildThemeFromRow(wsRow);
+    if (kv) await kv.put(cacheKey, JSON.stringify(theme), { expirationTtl: CACHE_TTL_SECONDS });
+    return theme;
+  }
+
+  // Step 2: Check whether this workspace belongs to a sub-partner
+  const subPartnerRow = await db
+    .prepare(
+      `SELECT id, partner_id, brand_independence_mode
+       FROM sub_partners
+       WHERE workspace_id = ? AND status = 'active'
+       LIMIT 1`,
+    )
+    .bind(workspaceId)
+    .first<{ id: string; partner_id: string; brand_independence_mode: number }>();
+
+  if (subPartnerRow) {
+    // Try sub-partner's own workspace brand
+    const spOrgRow = await queryOrgBrandById(subPartnerRow.id, db);
+    if (spOrgRow !== null && hasBrandingRow(spOrgRow)) {
+      const theme = buildThemeFromRow(spOrgRow);
+      if (kv) await kv.put(cacheKey, JSON.stringify(theme), { expirationTtl: CACHE_TTL_SECONDS });
+      return theme;
+    }
+
+    // Step 2a: brand_independence_mode = 0 → escalate to parent partner
+    if (subPartnerRow.brand_independence_mode === 0) {
+      const partnerRow = await db
+        .prepare(
+          `SELECT workspace_id FROM partners WHERE id = ? LIMIT 1`,
+        )
+        .bind(subPartnerRow.partner_id)
+        .first<{ workspace_id: string }>();
+
+      if (partnerRow) {
+        const partnerOrgRow = await queryOrgBrandById(partnerRow.workspace_id, db);
+        if (partnerOrgRow !== null && hasBrandingRow(partnerOrgRow)) {
+          const theme = buildThemeFromRow(partnerOrgRow);
+          if (kv) await kv.put(cacheKey, JSON.stringify(theme), { expirationTtl: CACHE_TTL_SECONDS });
+          return theme;
+        }
+      }
+    }
+    // brand_independence_mode = 1: skip parent partner → fall to platform default
+  }
+
+  // Step 3: Platform default
+  if (kv) {
+    await kv.put(cacheKey, JSON.stringify(PLATFORM_DEFAULT_THEME), {
+      expirationTtl: CACHE_TTL_SECONDS,
+    });
+  }
+  return PLATFORM_DEFAULT_THEME;
+}
+
+// ---------------------------------------------------------------------------
+// resolveEmailSender — G3 FROM address resolution
+//
+// Returns the resolved FROM string for Resend: "DisplayName <email@domain.com>"
+// Priority: tenant channel_provider (verified domain only in Phase 4) → platform default.
+// Phase 3: uses custom_from_email if present regardless of domain verification
+//          (domain verification gating is Phase 4, N-053b).
+// ---------------------------------------------------------------------------
+
+const PLATFORM_SENDER_EMAIL = 'noreply@webwaka.com';
+const PLATFORM_SENDER_NAME = 'WebWaka';
+
+export function buildFromAddress(displayName: string | null, email: string | null): string {
+  const name = displayName ?? PLATFORM_SENDER_NAME;
+  const addr = email ?? PLATFORM_SENDER_EMAIL;
+  return `${name} <${addr}>`;
+}
+
+export async function resolveEmailSender(
+  tenantId: string,
+  db: D1Like,
+): Promise<{ fromAddress: string; senderFallbackUsed: boolean }> {
+  const cpRow = await db
+    .prepare(
+      `SELECT custom_from_email, custom_from_name, platform_sender_fallback
+       FROM channel_provider
+       WHERE tenant_id = ? AND channel = 'email' AND is_active = 1
+       LIMIT 1`,
+    )
+    .bind(tenantId)
+    .first<{
+      custom_from_email: string | null;
+      custom_from_name: string | null;
+      platform_sender_fallback: number;
+    }>();
+
+  if (cpRow?.custom_from_email) {
+    return {
+      fromAddress: buildFromAddress(cpRow.custom_from_name, cpRow.custom_from_email),
+      senderFallbackUsed: false,
+    };
+  }
+
+  // Fall back to platform sender (G3 OQ-004)
+  return {
+    fromAddress: buildFromAddress(PLATFORM_SENDER_NAME, PLATFORM_SENDER_EMAIL),
+    senderFallbackUsed: true,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+interface OrgBrandRow {
+  tenantId: string;
+  tenantSlug: string;
+  displayName: string;
+  primary_color: string | null;
+  secondary_color: string | null;
+  accent_color: string | null;
+  font_family: string | null;
+  logo_url: string | null;
+  favicon_url: string | null;
+  border_radius_px: number | null;
+  custom_domain: string | null;
+  support_email: string | null;
+  mailing_address: string | null;
+  requires_attribution: number | null;
+  custom_from_email: string | null;
+  custom_from_name: string | null;
+}
+
+async function queryOrgBrandById(orgId: string, db: D1Like): Promise<OrgBrandRow | null> {
+  return db
+    .prepare(
+      `SELECT
+         o.id            AS tenantId,
+         o.slug          AS tenantSlug,
+         o.name          AS displayName,
+         tb.primary_color,
+         tb.secondary_color,
+         tb.accent_color,
+         tb.font_family,
+         tb.logo_url,
+         tb.favicon_url,
+         tb.border_radius_px,
+         tb.custom_domain,
+         tb.support_email,
+         tb.mailing_address,
+         tb.requires_attribution,
+         cp.custom_from_email,
+         cp.custom_from_name
+       FROM organizations o
+       LEFT JOIN tenant_branding tb ON tb.tenant_id = o.id
+       LEFT JOIN channel_provider cp
+         ON cp.tenant_id = o.id AND cp.channel = 'email' AND cp.is_active = 1
+       WHERE o.id = ?
+       LIMIT 1`,
+    )
+    .bind(orgId)
+    .first<OrgBrandRow>();
+}
+
+/** Returns true if this org row has a meaningful tenant_branding record. */
+function hasBrandingRow(row: OrgBrandRow): boolean {
+  // A brand row is considered "set" if at least primaryColor is customised.
+  // If the LEFT JOIN found no tenant_branding row, all tb.* columns are NULL.
+  return row.primary_color !== null;
+}
+
+function buildThemeFromRow(row: OrgBrandRow): TenantTheme {
+  return {
     tenantId: row.tenantId,
     tenantSlug: row.tenantSlug,
     displayName: row.displayName,
@@ -191,13 +464,10 @@ export async function getBrandTokens(
     faviconUrl: row.favicon_url ?? null,
     borderRadiusPx: row.border_radius_px ?? DEFAULT_THEME.borderRadiusPx,
     customDomain: row.custom_domain ?? null,
+    senderEmailAddress: row.custom_from_email ?? null,
+    senderDisplayName: row.custom_from_name ?? null,
+    tenantSupportEmail: row.support_email ?? null,
+    tenantAddress: row.mailing_address ?? null,
+    requiresWebwakaAttribution: (row.requires_attribution ?? 1) === 1,
   };
-
-  if (cache) {
-    await cache.put(cacheKey, JSON.stringify(theme), {
-      expirationTtl: CACHE_TTL_SECONDS,
-    });
-  }
-
-  return { cssVars: buildCssVars(theme), theme };
 }

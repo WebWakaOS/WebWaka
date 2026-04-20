@@ -84,3 +84,38 @@ export { ResendEmailChannel } from './channels/resend-channel.js';
 
 export type { ProcessEventParams, SandboxConfig } from './notification-service.js';
 export { processEvent } from './notification-service.js';
+
+// Phase 3 additions (N-030–N-041, N-033a)
+export type { TemplateRendererOptions } from './template-renderer.js';
+export {
+  TemplateRenderer,
+  TemplateNotFoundError,
+  TemplateVariableError,
+  WhatsAppNotApprovedError,
+  TemplateUrlValidationError,
+  publishTemplate,
+  findTemplate,
+} from './template-renderer.js';
+
+export type { WrapEmailOptions, WrappedEmail } from './email-wrapper.js';
+export { wrapEmail, htmlToPlainText } from './email-wrapper.js';
+
+export type { LegalFooterOptions, DataTableRow, AlertBoxType } from './partials.js';
+export {
+  renderCtaButton,
+  renderDataTable,
+  renderAlertBox,
+  renderLegalFooter,
+  renderOtpDisplay,
+  escapeHtml,
+  escapeAttr,
+} from './partials.js';
+
+export type { UnsubscribeChannel, UnsubscribePayload, VerifyResult } from './unsubscribe.js';
+export {
+  signUnsubscribeToken,
+  verifyUnsubscribeToken,
+  generateUnsubscribeUrl,
+} from './unsubscribe.js';
+
+export type { D1RunMeta } from './db-types.js';

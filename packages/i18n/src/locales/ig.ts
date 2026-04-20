@@ -59,4 +59,16 @@ export const ig: Partial<I18nLocale> = {
   footer_tagline: 'Ewubere maka Afrịka. WebWaka na-eme ihe.',
   footer_privacy: 'Iwu Nzuzo',
   footer_terms: 'Usoro Ojiji',
+
+  // Notification email — N-041 Phase 3 (partial Igbo translations)
+  notif_legal_footer_ndpr: 'Ezigara ozi a na-eso Iwu Nchedo Data nke Nigeria (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. Nduzi niile echekwara.',
+  notif_unsubscribe_text: 'Ị na-anata nke a n\'ihi na ị nwere akaụntụ na {tenant_name}.',
+  notif_unsubscribe_action: 'Kpochie Ndekọ',
+  notif_unsubscribe_confirmed_title: 'Akpochiri ndekọ gị',
+  notif_unsubscribe_confirmed_body: 'Ọ gaghị abịakwasị gị ọkwa {channel} si {tenant_name}.',
+  notif_unsubscribe_invalid_link: 'Njikọ nkwụsị ndebanye aha a adịghị mma ma ọ bụ agwụọla.',
+  notif_powered_by: 'WebWaka na-akwado',
+  notif_marketing_address_label: 'Adreesị ozi:',
+  notif_too_many_emails: 'Ị na-anata ọtụtụ email? Ị nwere ike ijikwa ọchọchọ ọkwa gị na ntọala akaụntụ gị.',
 };

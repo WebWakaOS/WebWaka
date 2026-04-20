@@ -11,8 +11,15 @@
  *   G1 — all callers must include tenant_id in WHERE clauses
  */
 
+export interface D1RunMeta {
+  /** Number of rows changed by the last DML statement (INSERT/UPDATE/DELETE). */
+  changes?: number;
+  last_row_id?: number;
+  duration?: number;
+}
+
 export interface D1BoundStatement {
-  run(): Promise<{ success: boolean }>;
+  run(): Promise<{ success: boolean; meta?: D1RunMeta }>;
   first<T = Record<string, unknown>>(): Promise<T | null>;
   all<T = Record<string, unknown>>(): Promise<{ results: T[] }>;
 }

@@ -3,8 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@webwaka/events": ["../events/src/index.ts"]
+      "@webwaka/events": ["../events/src/index.ts"],
+      "@webwaka/i18n": ["../i18n/src/index.ts"],
+      "@webwaka/white-label-theming": ["../white-label-theming/src/index.ts"]
     },
+    "types": ["@cloudflare/workers-types"],
     "rootDir": "..",
     "outDir": "dist"
   },

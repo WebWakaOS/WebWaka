@@ -76,6 +76,7 @@ import { workspaceAnalyticsRoutes } from './routes/workspace-analytics.js';
 import { fxRatesRoutes } from './routes/fx-rates.js';
 import { b2bMarketplaceRoutes } from './routes/b2b-marketplace.js';
 import { emailVerificationEnforcement } from './middleware/email-verification.js';
+import { notificationRoutes } from './routes/notification-routes.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -677,4 +678,19 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/b2b/*', emailVerificationEnforcement);
   app.use('/b2b/*', auditLogMiddleware);
   app.route('/b2b', b2bMarketplaceRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 3: Notification Template Management — N-035, N-036, N-037
+  //   GET  /notifications/templates          — list accessible templates
+  //   GET  /notifications/templates/:id      — get template details
+  //   POST /notifications/templates/:id/preview    — render without dispatch (N-036)
+  //   POST /notifications/templates/:id/test-send  — render + dispatch to caller (N-037)
+  //   POST /notifications/templates/:id/publish    — activate a draft (N-035)
+  //
+  // Auth required (workspace_admin or super_admin — enforced per handler).
+  // GET /templates is readable by any authenticated user; mutations require admin role.
+  // -------------------------------------------------------------------------
+
+  app.use('/notifications/*', authMiddleware);
+  app.route('/notifications', notificationRoutes);
 }

@@ -159,4 +159,21 @@ export interface Env {
    * "0" = legacy EmailService path active (default until Phase 6 full rollout).
    */
   NOTIFICATION_PIPELINE_ENABLED?: '0' | '1';
+
+  /**
+   * N-039 (Phase 3): HMAC-SHA256 secret for unsubscribe token signing.
+   * Used by TemplateRenderer (preview + test-send endpoints) to generate
+   * cryptographically signed unsubscribe URLs injected into email bodies.
+   * Set via: wrangler secret put UNSUBSCRIBE_HMAC_SECRET
+   * Must be at least 32 characters (256-bit security).
+   */
+  UNSUBSCRIBE_HMAC_SECRET?: string;
+
+  /**
+   * N-039 (Phase 3): Platform API base URL for unsubscribe link generation.
+   * Injected into email templates as the base of the unsubscribe endpoint.
+   * Example: 'https://api.webwaka.com'
+   * Defaults to 'https://api.webwaka.com' if unset.
+   */
+  PLATFORM_BASE_URL?: string;
 }

@@ -118,6 +118,9 @@ importers:
       '@webwaka/negotiation':
         specifier: workspace:*
         version: link:../../packages/negotiation
+      '@webwaka/notifications':
+        specifier: workspace:*
+        version: link:../../packages/notifications
       '@webwaka/otp':
         specifier: workspace:*
         version: link:../../packages/otp
@@ -654,12 +657,18 @@ importers:
       '@webwaka/events':
         specifier: workspace:*
         version: link:../../packages/events
+      '@webwaka/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       '@webwaka/notifications':
         specifier: workspace:*
         version: link:../../packages/notifications
       '@webwaka/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
+      '@webwaka/white-label-theming':
+        specifier: workspace:*
+        version: link:../../packages/white-label-theming
       hono:
         specifier: ^4.12.14
         version: 4.12.14
@@ -1104,9 +1113,15 @@ importers:
       '@webwaka/events':
         specifier: workspace:*
         version: link:../events
+      '@webwaka/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@webwaka/types':
         specifier: workspace:*
         version: link:../types
+      '@webwaka/white-label-theming':
+        specifier: workspace:*
+        version: link:../white-label-theming
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20240524.0

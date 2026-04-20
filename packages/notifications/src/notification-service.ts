@@ -34,7 +34,13 @@
  */
 
 import type { D1LikeFull } from './db-types.js';
-import type { INotificationChannel, NotificationSeverity, SandboxRecipient } from './types.js';
+import type {
+  INotificationChannel,
+  ITemplateRenderer,
+  NotificationSeverity,
+  SandboxRecipient,
+  RenderedTemplate,
+} from './types.js';
 import { loadMatchingRules, evaluateRule, parseChannels } from './rule-engine.js';
 import {
   resolveAudience,
@@ -106,12 +112,16 @@ export interface SandboxConfig {
  * @param db       - D1LikeFull database binding (G1: tenant_id in every query)
  * @param channels - Array of INotificationChannel implementations available
  * @param sandbox  - G24 sandbox configuration (from env.NOTIFICATION_SANDBOX_MODE)
+ * @param renderer - Phase 3 TemplateRenderer (N-030). When provided, replaces
+ *                   renderPhase2() for all channels. Backward-compatible:
+ *                   if omitted, Phase 2 renderPhase2() is used.
  */
 export async function processEvent(
   params: ProcessEventParams,
   db: D1LikeFull,
   channels: INotificationChannel[],
   sandbox: SandboxConfig = { enabled: false },
+  renderer?: ITemplateRenderer,
 ): Promise<void> {
   const {
     notifEventId,
@@ -202,19 +212,58 @@ export async function processEvent(
       }
     }
 
-    // Pre-render template for all channels in this rule
-    const rendered = renderPhase2(rule.template_family, payload);
+    // Pre-render template per channel — Phase 3: renderer.render(); Phase 2 fallback: renderPhase2()
+    // Build a per-channel rendered template map so rendering is not repeated per recipient.
+    const channelRendered = new Map<string, RenderedTemplate>();
+    if (renderer) {
+      // Phase 3: DB-backed template rendering with brand context + variable validation (G14)
+      const eventLocale = (typeof payload['locale'] === 'string' ? payload['locale'] : 'en') as import('./types.js').TemplateLocale;
+      for (const channelName of ruleChannels) {
+        try {
+          const rt = await renderer.render({
+            templateFamily: rule.template_family,
+            channel: channelName as import('./types.js').NotificationChannel,
+            locale: eventLocale,
+            tenantId,
+            ...(workspaceId != null ? { workspaceId } : {}),
+            variables: payload as Record<string, unknown>,
+          });
+          channelRendered.set(channelName, rt);
+        } catch (err) {
+          // Template not found or variable error: log and skip this channel for all recipients
+          console.warn(
+            `[notification-service] renderer.render failed — ` +
+            `templateFamily=${rule.template_family} channel=${channelName} ` +
+            `err=${err instanceof Error ? err.message : String(err)}`,
+          );
+        }
+      }
+    } else {
+      // Phase 2 fallback: simple in-memory rendering via renderPhase2()
+      const phase2Rendered = renderPhase2(rule.template_family, payload);
+      for (const channelName of ruleChannels) {
+        channelRendered.set(
+          channelName,
+          buildRenderedTemplate(phase2Rendered, channelName, rule.template_family),
+        );
+      }
+    }
 
     // ── Step 5: Per-recipient × per-channel dispatch ─────────────────────
     for (const recipient of recipients) {
       for (const channelName of ruleChannels) {
+        const renderedTemplate = channelRendered.get(channelName);
+        if (!renderedTemplate) {
+          // Template for this channel not available (not found or render error)
+          continue;
+        }
         await dispatchToRecipient({
           notifEventId,
           tenantId,
           rule,
           recipient,
           channelName,
-          rendered,
+          renderedTemplate,
           db,
           channelMap,
           sandbox,
@@ -246,7 +295,8 @@ interface DispatchToRecipientParams {
   rule: import('./rule-engine.js').NotificationRuleRow;
   recipient: import('./audience-resolver.js').RecipientInfo;
   channelName: string;
-  rendered: import('./phase2-renderer.js').Phase2RenderedOutput;
+  /** Pre-rendered template — produced by Phase 3 TemplateRenderer or Phase 2 buildRenderedTemplate(). */
+  renderedTemplate: RenderedTemplate;
   db: D1LikeFull;
   channelMap: Map<string, INotificationChannel>;
   sandbox: SandboxConfig;
@@ -258,7 +308,7 @@ interface DispatchToRecipientParams {
 async function dispatchToRecipient(p: DispatchToRecipientParams): Promise<void> {
   const {
     notifEventId, tenantId, rule, recipient, channelName,
-    rendered, db, channelMap, sandbox, source, correlationId, severity,
+    renderedTemplate, db, channelMap, sandbox, source, correlationId, severity,
   } = p;
 
   // ── G7: Compute idempotency key ─────────────────────────────────────────
@@ -347,10 +397,9 @@ async function dispatchToRecipient(p: DispatchToRecipientParams): Promise<void> 
     return;
   }
 
-  // ── Render template for this channel ─────────────────────────────────────
-  const renderedTemplate = buildRenderedTemplate(rendered, channelName, rule.template_family);
-
   // ── Build dispatch context ────────────────────────────────────────────────
+  // renderedTemplate was pre-built per channel in processEvent (Phase 3: renderer.render();
+  // Phase 2 fallback: buildRenderedTemplate from renderPhase2).
   // exactOptionalPropertyTypes: conditional spread for all optional fields to avoid
   // setting optional properties to undefined (which TS rejects with this compiler flag).
   const ctx: import('./types.js').DispatchContext = {

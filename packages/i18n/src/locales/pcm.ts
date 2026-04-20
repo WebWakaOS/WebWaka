@@ -60,4 +60,16 @@ export const pcm: Partial<I18nLocale> = {
   footer_tagline: 'We build am for Africa. WebWaka power am.',
   footer_privacy: 'Privacy Policy',
   footer_terms: 'Terms of Service',
+
+  // Notification email — N-041 Phase 3 (Naija Pidgin translations)
+  notif_legal_footer_ndpr: 'We send dis message according to Nigeria Data Protection Regulation (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. All rights reserved.',
+  notif_unsubscribe_text: 'You dey receive dis because you get account with {tenant_name}.',
+  notif_unsubscribe_action: 'Unsubscribe',
+  notif_unsubscribe_confirmed_title: 'You don unsubscribe',
+  notif_unsubscribe_confirmed_body: 'You no go receive {channel} notification from {tenant_name} again.',
+  notif_unsubscribe_invalid_link: 'Dis unsubscribe link no valid or don expire.',
+  notif_powered_by: 'WebWaka power am',
+  notif_marketing_address_label: 'Mailing address:',
+  notif_too_many_emails: 'Too many emails dey bother you? You fit manage your notification settings for your account.',
 };

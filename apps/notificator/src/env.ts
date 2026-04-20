@@ -68,6 +68,21 @@ export interface Env {
    */
   RESEND_API_KEY?: string;
 
+  /**
+   * HMAC-SHA256 secret for unsubscribe token signing (N-039, Phase 3).
+   * Used by TemplateRenderer to generate signed unsubscribe URLs.
+   * Set via: wrangler secret put UNSUBSCRIBE_HMAC_SECRET --env staging
+   * Must be at least 32 characters (256-bit security).
+   */
+  UNSUBSCRIBE_HMAC_SECRET?: string;
+
+  /**
+   * Platform API base URL for unsubscribe link generation (N-039, Phase 3).
+   * Example: 'https://api.webwaka.com'
+   * Defaults to 'https://api.webwaka.com' if not set.
+   */
+  PLATFORM_BASE_URL?: string;
+
   /** Inter-service authentication secret (SEC-009) */
   INTER_SERVICE_SECRET: string;
 }

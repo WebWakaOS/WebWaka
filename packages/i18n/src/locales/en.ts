@@ -220,6 +220,22 @@ export const en = {
   settings_tab_notifications: 'Notifications',
   settings_tab_security: 'Security',
   settings_tab_currency: 'Currency',
+
+  // Notification email — N-041 Phase 3
+  // Legal footer (NDPR compliance)
+  notif_legal_footer_ndpr: 'This communication is sent in compliance with the Nigeria Data Protection Regulation (NDPR) 2019.',
+  notif_legal_footer_rights: '© {year} {company_name}. All rights reserved.',
+  // Unsubscribe
+  notif_unsubscribe_text: 'You are receiving this because you have an account with {tenant_name}.',
+  notif_unsubscribe_action: 'Unsubscribe',
+  notif_unsubscribe_confirmed_title: 'You have been unsubscribed',
+  notif_unsubscribe_confirmed_body: 'You will no longer receive {channel} notifications from {tenant_name}.',
+  notif_unsubscribe_invalid_link: 'This unsubscribe link is invalid or has expired.',
+  // Attribution
+  notif_powered_by: 'Powered by WebWaka',
+  // Marketing
+  notif_marketing_address_label: 'Mailing address:',
+  notif_too_many_emails: 'Receiving too many emails? You can manage your notification preferences in your account settings.',
 } as const;
 
 export type I18nKeys = keyof typeof en;

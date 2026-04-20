@@ -29,6 +29,7 @@ import {
   processEvent,
   InAppChannel,
   ResendEmailChannel,
+  TemplateRenderer,
 } from '@webwaka/notifications';
 import type { ProcessEventParams, SandboxConfig, D1LikeFull } from '@webwaka/notifications';
 
@@ -123,6 +124,26 @@ export async function processQueueBatch(
     new ResendEmailChannel(env.RESEND_API_KEY),
   ];
 
+  // Phase 3: Build TemplateRenderer once per batch (N-030, N-039).
+  // Uses DB-backed templates + brand context + signed unsubscribe tokens.
+  // Falls back gracefully to Phase 2 renderPhase2() if renderer is not passed.
+  const templateRenderer = new TemplateRenderer({
+    db,
+    ...(env.UNSUBSCRIBE_HMAC_SECRET !== undefined
+      ? { unsubscribeSecret: env.UNSUBSCRIBE_HMAC_SECRET }
+      : {}),
+    ...(env.PLATFORM_BASE_URL !== undefined
+      ? { platformBaseUrl: env.PLATFORM_BASE_URL }
+      : {}),
+    // NOTIFICATION_KV is used for brand context caching (G4).
+    // KVNamespace is structurally compatible with the kv option type.
+    kv: env.NOTIFICATION_KV as {
+      get(key: string, format: 'json'): Promise<unknown>;
+      put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+    },
+    platformName: 'WebWaka',
+  });
+
   // Phase 2: Build sandbox config for G24 redirect
   const notifSandbox: SandboxConfig = {
     enabled: sandboxConfig.enabled,
@@ -158,7 +179,7 @@ export async function processQueueBatch(
           severity: body.severity ?? 'info',
           correlationId: body.correlationId ?? null,
         };
-        await processEvent(phase2Params, db, channels, notifSandbox);
+        await processEvent(phase2Params, db, channels, notifSandbox, templateRenderer);
 
         console.log(
           `${logPrefix} eventKey=${body.eventKey ?? 'unknown'} ` +

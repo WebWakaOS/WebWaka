@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@webwaka/events": "workspace:*",
+    "@webwaka/i18n": "workspace:*",
     "@webwaka/notifications": "workspace:*",
     "@webwaka/shared-config": "workspace:*",
+    "@webwaka/white-label-theming": "workspace:*",
     "hono": "^4.12.14"
   },
   "devDependencies": {

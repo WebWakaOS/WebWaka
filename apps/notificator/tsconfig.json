@@ -15,8 +15,10 @@
     "types": ["@cloudflare/workers-types"],
     "paths": {
       "@webwaka/events": ["../../packages/events/src/index.ts"],
+      "@webwaka/i18n": ["../../packages/i18n/src/index.ts"],
       "@webwaka/notifications": ["../../packages/notifications/src/index.ts"],
-      "@webwaka/shared-config": ["../../packages/shared-config/src/index.ts"]
+      "@webwaka/shared-config": ["../../packages/shared-config/src/index.ts"],
+      "@webwaka/white-label-theming": ["../../packages/white-label-theming/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],
