@@ -46,7 +46,7 @@ ENVIRONMENT = "staging"
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "webwaka-os-staging"
-database_id = "7c264f00-c36d-4014-b2fe-c43e136e86f6"
+database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"

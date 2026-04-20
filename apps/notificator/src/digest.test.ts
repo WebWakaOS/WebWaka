@@ -58,22 +58,29 @@ function makeQueue() {
 // ---------------------------------------------------------------------------
 
 describe('resolveDigestType', () => {
-  it('maps hourly CRON expression', () => {
-    expect(resolveDigestType('0 * * * *')).toBe('hourly');
+  it('returns hourly when cron fires at a non-23 UTC hour (weekday)', () => {
+    const mon14utc = new Date('2026-04-20T14:00:00Z').getTime(); // Monday 14:00
+    expect(resolveDigestType('0 * * * *', mon14utc)).toBe('hourly');
   });
 
-  it('maps daily CRON expression (23:00 UTC = 00:00 WAT)', () => {
-    expect(resolveDigestType('0 23 * * *')).toBe('daily');
+  it('returns daily when cron fires at UTC hour 23 on a non-Sunday', () => {
+    const mon23utc = new Date('2026-04-20T23:00:00Z').getTime(); // Monday 23:00
+    expect(resolveDigestType('0 * * * *', mon23utc)).toBe('daily');
   });
 
-  it('maps weekly CRON expression (Sunday at 23:00 UTC)', () => {
-    expect(resolveDigestType('0 23 * * 0')).toBe('weekly');
+  it('returns weekly when cron fires at UTC hour 23 on a Sunday', () => {
+    const sun23utc = new Date('2026-04-19T23:00:00Z').getTime(); // Sunday 23:00
+    expect(resolveDigestType('0 * * * *', sun23utc)).toBe('weekly');
   });
 
-  it('returns null for non-digest CRON expressions', () => {
-    expect(resolveDigestType('0 2 * * *')).toBeNull();    // retention sweep
-    expect(resolveDigestType('0 */6 * * *')).toBeNull();  // domain verification
-    expect(resolveDigestType('* * * * *')).toBeNull();    // arbitrary
+  it('defaults to current time when scheduledTime is omitted (smoke test)', () => {
+    const result = resolveDigestType('0 * * * *');
+    expect(['hourly', 'daily', 'weekly']).toContain(result);
+  });
+
+  it('returns null for non-digest CRON expressions (retention, arbitrary)', () => {
+    expect(resolveDigestType('0 2 * * *')).toBeNull();
+    expect(resolveDigestType('* * * * *')).toBeNull();
   });
 });
 

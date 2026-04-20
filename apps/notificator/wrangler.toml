@@ -40,9 +40,9 @@ ENVIRONMENT = "staging"
 # Any delivery in staging is redirected to NOTIFICATION_SANDBOX_EMAIL/PHONE/PUSH_TOKEN.
 # CI/CD governance check asserts this before every staging deploy.
 NOTIFICATION_SANDBOX_MODE = "true"
-# NOTIFICATION_PIPELINE_ENABLED: set to "1" once Phase 1 consumer is deployed.
-# Start at "0" to avoid processing events before the consumer is ready.
-NOTIFICATION_PIPELINE_ENABLED = "0"
+# Production rollout Phase 0 (Day 1-3): pipeline enabled in staging for validation.
+# Set to "0" to disable (emergency kill-switch). See docs/ops/runbooks/production-rollout.md
+NOTIFICATION_PIPELINE_ENABLED = "1"
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -54,7 +54,7 @@ database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 # Then replace the placeholder id below.
 [[env.staging.kv_namespaces]]
 binding = "NOTIFICATION_KV"
-id = "<NOTIFICATION_KV_STAGING_ID>"
+id = "84c7fa6fdf564529825b5aeb22c7d765"
 
 # Queue consumer binding (N-007 / N-008)
 # Must match the queue name created for apps/api producer binding.
@@ -72,12 +72,14 @@ custom_domain = true
 # CRON triggers (N-012a — OQ-007 digest sweep)
 # Times in UTC; WAT = UTC+1, so "00:00 WAT" = "23:00 UTC previous day"
 [env.staging.triggers]
+# CF account plan: 5 cron slots account-wide. 3 used by api+projections workers.
+# 2 slots available for notificator.
+# resolveDigestType() detects daily (hour=23) and weekly (hour=23+Sunday) at runtime
+# on the single hourly cron, eliminating the need for separate '0 23 * * *' entries.
+# Domain verification (N-053b) folded into retention cron (both run at 03:00 WAT daily).
 crons = [
-  "0 23 * * *",    # 00:00 WAT daily digest sweep
-  "0 23 * * 0",    # 00:00 WAT Monday weekly digest sweep
-  "0 * * * *",     # Top of each hour: hourly digest sweep
-  "0 2 * * *",     # 03:00 WAT daily: data retention sweep (N-115, Phase 8)
-  "0 */6 * * *",   # Every 6h: Resend domain verification poll (N-053b, Phase 4)
+  "0 * * * *",     # Hourly digest; daily at hour=23; weekly at hour=23 on Sundays
+  "0 2 * * *",     # 03:00 WAT: data retention (N-115) + domain verification (N-053b)
 ]
 
 # ---------------------------------------------------------------------------
@@ -103,7 +105,7 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 # Provision: wrangler kv namespace create NOTIFICATION_KV --env production
 [[env.production.kv_namespaces]]
 binding = "NOTIFICATION_KV"
-id = "<NOTIFICATION_KV_PRODUCTION_ID>"
+id = "0916f78f0853426fa87dba38da41d560"
 
 # Queue consumer binding (N-007 / N-008)
 [[env.production.queues.consumers]]
@@ -119,12 +121,10 @@ custom_domain = true
 
 # CRON triggers
 [env.production.triggers]
+# Same 2-cron consolidation as staging (see staging comment above)
 crons = [
-  "0 23 * * *",
-  "0 23 * * 0",
   "0 * * * *",
   "0 2 * * *",
-  "0 */6 * * *",
 ]
 
 # ---------------------------------------------------------------------------

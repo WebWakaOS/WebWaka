@@ -63,16 +63,33 @@ interface QueueLike {
 // ---------------------------------------------------------------------------
 
 /**
- * Determine which digest window type to sweep based on the CRON expression.
+ * Determine which digest window type to sweep based on the CRON expression
+ * and the scheduled timestamp.
  * Returns null for non-digest CRON triggers (retention, domain verification).
+ *
+ * Account-plan cron consolidation (CF free/Workers plan: 5 account-wide cron slots).
+ * Notificator uses 2 slots:
+ *   '0 * * * *' → hourly sweep always; daily sweep at UTC hour 23;
+ *                 weekly sweep at UTC hour 23 on Sundays (day 0).
+ *   '0 2 * * *' → retention (N-115) + domain-verification (N-053b, daily at 03:00 WAT)
+ *
+ * The daily and weekly sweeps are folded into the hourly cron to eliminate the
+ * need for a separate '0 23 * * *' cron entry.
  */
-export function resolveDigestType(cron: string): DigestCronType | null {
-  switch (cron) {
-    case '0 * * * *':  return 'hourly';
-    case '0 23 * * *': return 'daily';
-    case '0 23 * * 0': return 'weekly';
-    default:           return null;
-  }
+export function resolveDigestType(
+  cron: string,
+  scheduledTime?: number,
+): DigestCronType | null {
+  if (cron !== '0 * * * *') return null;
+
+  const ts = scheduledTime !== undefined ? scheduledTime : Date.now();
+  const d = new Date(ts);
+  const utcHour = d.getUTCHours();
+  const utcDay  = d.getUTCDay(); // 0 = Sunday
+
+  if (utcHour === 23 && utcDay === 0) return 'weekly';
+  if (utcHour === 23)                 return 'daily';
+  return 'hourly';
 }
 
 // ---------------------------------------------------------------------------

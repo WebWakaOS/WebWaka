@@ -68,21 +68,23 @@ async function scheduled(
   assertSandboxConsistency(env);
 
   const cron = event.cron;
+  const scheduledTime = event.scheduledTime;
   console.log(`[notificator:cron] triggered — cron="${cron}" environment="${env.ENVIRONMENT}"`);
 
   // Digest sweeps (N-012a — OQ-007)
-  const digestType = resolveDigestType(cron);
+  // Hourly cron ('0 * * * *') fires every hour.
+  // resolveDigestType() detects daily (hour=23) and weekly (hour=23 + Sunday) at runtime.
+  // This eliminates the need for separate '0 23 * * *' and '0 23 * * 7' crons.
+  // (CF account plan: 5 cron slots account-wide; notificator uses 2 slots)
+  const digestType = resolveDigestType(cron, scheduledTime);
   if (digestType !== null) {
     await runDigestSweep(digestType, env);
   }
 
-  // Daily retention sweep (N-115, Phase 8) — runs at 03:00 WAT (02:00 UTC)
+  // Daily retention sweep (N-115, Phase 8) + domain verification poll (N-053b, Phase 4)
+  // Both folded into the '0 2 * * *' cron (03:00 WAT daily).
   if (cron === '0 2 * * *') {
     await runRetentionSweep(env);
-  }
-
-  // Domain verification poll (N-053b, Phase 4) — every 6 hours
-  if (cron === '0 */6 * * *') {
     await runDomainVerificationPoll(env);
   }
 }
