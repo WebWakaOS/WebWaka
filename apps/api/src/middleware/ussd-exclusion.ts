@@ -14,7 +14,7 @@ export const ussdExclusionMiddleware = createMiddleware<{ Bindings: Env }>(async
   if (ussdSession) {
     return c.json(
       { error: 'AI_USSD_BLOCKED', message: 'AI features are not available via USSD (P12).' },
-      400,
+      503,
     );
   }
 

@@ -40,6 +40,11 @@ import { airtimeRoutes } from './routes/airtime.js';
 import { verticalsRoutes } from './routes/verticals.js';
 import { workspaceVerticalsRoutes } from './routes/workspace-verticals.js';
 import { superagentRoutes } from './routes/superagent.js';
+import {
+  isSensitiveVertical,
+  getSensitiveSector,
+  preProcessCheck,
+} from '@webwaka/superagent';
 import { politicianRoutes } from './routes/politician.js';
 import { posBusinessRoutes } from './routes/pos-business.js';
 import { transportRoutes } from './routes/transport.js';
@@ -268,6 +273,33 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // ENT-002: AI entitlement check on all SuperAgent routes (before consent gate)
   // AI-004: USSD exclusion on all AI entry points (P12)
   // -------------------------------------------------------------------------
+
+  // SA-4.5: /superagent/compliance/check is a PUBLIC metadata endpoint.
+  // It returns vertical sensitivity + HITL requirements with no user data access.
+  // Registered BEFORE authMiddleware so smoke tests / partner portals can call it
+  // without a JWT. Hono matches the most-specific route first.
+  app.get('/superagent/compliance/check', (c) => {
+    const vertical = c.req.query('vertical');
+    if (!vertical) {
+      return c.json({ error: 'vertical query parameter required' }, 400);
+    }
+    const sensitive = isSensitiveVertical(vertical);
+    const sector = getSensitiveSector(vertical);
+    const complianceCheck = preProcessCheck(vertical, [], sensitive ? 3 : 1);
+    return c.json({
+      vertical,
+      is_sensitive: sensitive,
+      sector,
+      requires_hitl: complianceCheck.requiresHitl,
+      hitl_level: complianceCheck.hitlLevel ?? null,
+      disclaimers: complianceCheck.disclaimers,
+    });
+  });
+
+  // P12: USSD exclusion on /superagent/chat must run BEFORE authMiddleware
+  // so USSD sessions are rejected with 503 before JWT validation.
+  // This matches smoke test assertion (503 expected for X-USSD-Session).
+  app.use('/superagent/chat', ussdExclusionMiddleware);
 
   app.use('/superagent/*', authMiddleware);
   app.use('/superagent/*', ussdExclusionMiddleware);
