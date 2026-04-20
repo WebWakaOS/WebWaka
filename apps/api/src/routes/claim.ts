@@ -419,4 +419,74 @@ claimRoutes.get('/status/:profileId', async (c) => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// POST /claim/escalate — Escalate a pending claim request (admin only)
+// N-085/T5: claim.escalated event
+// ---------------------------------------------------------------------------
+
+claimRoutes.post('/escalate', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'Admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+
+  let body: { claimRequestId?: string; reason?: string; escalateTo?: string };
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const { claimRequestId, reason, escalateTo } = body;
+  if (!claimRequestId) {
+    return c.json({ error: 'claimRequestId is required' }, 400);
+  }
+
+  const claimRow = await db
+    .prepare(
+      `SELECT id, status, profile_id FROM claim_requests
+       WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
+    )
+    .bind(claimRequestId, auth.tenantId)
+    .first<{ id: string; status: string; profile_id: string }>();
+
+  if (!claimRow) {
+    return c.json({ error: 'Claim request not found' }, 404);
+  }
+  if (!['pending', 'under_review'].includes(claimRow.status)) {
+    return c.json({ error: `Cannot escalate a claim in '${claimRow.status}' status` }, 409);
+  }
+
+  await db
+    .prepare(
+      `UPDATE claim_requests
+       SET status = 'escalated', updated_at = unixepoch()
+       WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
+    )
+    .bind(claimRequestId, auth.tenantId)
+    .run();
+
+  // N-085/T5: claim.escalated event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: ClaimEventType.ClaimEscalated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: {
+      claim_request_id: claimRequestId,
+      profile_id: claimRow.profile_id,
+      reason: reason ?? null,
+      escalate_to: escalateTo ?? null,
+    },
+    source: 'api',
+    severity: 'warning',
+  });
+
+  return c.json({ claimRequestId, status: 'escalated', escalated: true });
+});
+
 export { claimRoutes };

@@ -270,4 +270,67 @@ onboardingRoutes.put('/:workspaceId/:step', async (c) => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// POST /onboarding/:workspaceId/mark-stalled — Mark onboarding as stalled (N-088/T9)
+// onboarding.stalled event — for admin use when a workspace is stuck mid-onboarding.
+// ---------------------------------------------------------------------------
+
+onboardingRoutes.post('/:workspaceId/mark-stalled', async (c) => {
+  const auth = c.get('auth') as Auth;
+  const workspaceId = c.req.param('workspaceId');
+  const db = c.env.DB;
+
+  if ((auth.role as string) !== 'admin' && (auth.role as string) !== 'super_admin') {
+    return c.json({ error: 'Admin role required' }, 403);
+  }
+
+  const workspace = await db.prepare(
+    'SELECT id FROM workspaces WHERE id = ? AND tenant_id = ?'
+  ).bind(workspaceId, auth.tenantId).first<{ id: string }>();
+
+  if (!workspace) {
+    return c.json({ error: 'Workspace not found' }, 404);
+  }
+
+  let body: { reason?: string; stalledStep?: string } = {};
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    body = {};
+  }
+
+  const countResult = await db.prepare(
+    'SELECT COUNT(*) AS cnt FROM onboarding_progress WHERE workspace_id = ? AND tenant_id = ? AND completed = 1'
+  ).bind(workspaceId, auth.tenantId).first<{ cnt: number }>();
+
+  const completedCount = countResult?.cnt ?? 0;
+
+  // N-088/T9: onboarding.stalled event — workspace is stuck mid-onboarding
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: OnboardingEventType.OnboardingStalled,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId,
+    payload: {
+      workspace_id: workspaceId,
+      steps_completed: completedCount,
+      total_steps: ONBOARDING_STEPS.length,
+      stalled_step: body.stalledStep ?? null,
+      reason: body.reason ?? null,
+      marked_by: auth.userId,
+    },
+    source: 'api',
+    severity: 'warning',
+  });
+
+  return c.json({
+    workspaceId,
+    stalled: true,
+    stepsCompleted: completedCount,
+    totalSteps: ONBOARDING_STEPS.length,
+  });
+});
+
 export { onboardingRoutes };

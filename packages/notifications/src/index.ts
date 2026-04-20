@@ -164,3 +164,9 @@ export type { D1RunMeta } from './db-types.js';
 // Phase 7 additions (N-110)
 export type { BounceRateOptions, BounceAnomalyResult } from './anomaly-alerts.js';
 export { checkBounceRateAnomalies } from './anomaly-alerts.js';
+
+// Phase 8 additions (N-116, N-117)
+export type { ErasureResult } from './erasure-service.js';
+export { propagateErasure } from './erasure-service.js';
+
+export { resolveEffectiveAttribution, isAttributionSuppressible } from './attribution.js';

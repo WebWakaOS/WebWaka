@@ -218,20 +218,191 @@ export async function sweepPendingBatches(
 }
 
 // ---------------------------------------------------------------------------
-// runRetentionSweep — Phase 8 stub (N-115)
+// N-115: Data retention sweep — Phase 8
 // ---------------------------------------------------------------------------
 
 /**
- * Run the data retention sweep (N-115, Phase 8).
- * Deletes delivery logs >90 days and inbox items >365 days.
- * Called daily at 03:00 WAT (cron = '0 2 * * *').
+ * Duck-typed D1 interface supporting both all() and run(), for testability.
+ * Extends the minimal D1Like interface (all-only) to also support run().
+ */
+export interface D1LikeRunnable {
+  prepare(query: string): {
+    bind(...args: unknown[]): {
+      all<T>(): Promise<{ results: T[] }>;
+      run(): Promise<{ success: boolean; meta?: { changes?: number } }>;
+    };
+  };
+}
+
+/**
+ * Retention counts returned by executeRetentionDeletes() for observability.
+ */
+export interface RetentionResult {
+  deliveriesDeleted: number;
+  inboxItemsDeleted: number;
+  eventsDeleted: number;
+  digestBatchItemsDeleted: number;
+  digestBatchesDeleted: number;
+}
+
+/**
+ * Execute all retention deletes. Extracted for testability — accepts a
+ * duck-typed DB so unit tests can inject mocks without CF runtime.
  *
- * Phase 1 skeleton: no-op.
- * Phase 8 (N-115): Full retention CRON implemented.
+ * Retention windows (per spec Section 7 / OQ-006):
+ *   notification_delivery        → 90 days
+ *   notification_inbox_item      → 365 days
+ *   notification_event           → 90 days
+ *   notification_digest_batch    → 90 days (+ items cascade manually)
+ *
+ * Guardrails:
+ *   G1  — deletes are time-based maintenance operations; not cross-tenant reads.
+ *   G23 — only deletes rows beyond TTL; NDPR erasure (N-116) handles user-specific deletion.
+ *
+ * Each statement uses LIMIT 500 to stay within CF D1 statement execution budgets.
+ * The CRON runs daily so accumulation between runs is bounded.
+ */
+export async function executeRetentionDeletes(
+  db: D1LikeRunnable,
+  nowUnix?: number,
+): Promise<RetentionResult> {
+  const now = nowUnix ?? Math.floor(Date.now() / 1000);
+
+  const cutoff90d  = now - 90  * 86_400;  // delivery, event, digest
+  const cutoff365d = now - 365 * 86_400;  // inbox items
+
+  // Step 1: Delete expired notification_delivery rows (>90 days).
+  // notification_digest_batch rows reference deliveries but have no FK constraint
+  // that would block deletion here; we delete batches separately below.
+  const deliveryResult = await db
+    .prepare(
+      `DELETE FROM notification_delivery
+       WHERE id IN (
+         SELECT id FROM notification_delivery
+         WHERE created_at < ?
+         LIMIT 500
+       )`,
+    )
+    .bind(cutoff90d)
+    .run();
+
+  const deliveriesDeleted = deliveryResult.meta?.changes ?? 0;
+
+  // Step 2: Delete expired notification_inbox_item rows (>365 days).
+  const inboxResult = await db
+    .prepare(
+      `DELETE FROM notification_inbox_item
+       WHERE id IN (
+         SELECT id FROM notification_inbox_item
+         WHERE created_at < ?
+         LIMIT 500
+       )`,
+    )
+    .bind(cutoff365d)
+    .run();
+
+  const inboxItemsDeleted = inboxResult.meta?.changes ?? 0;
+
+  // Step 3: Delete expired notification_event rows (>90 days).
+  const eventResult = await db
+    .prepare(
+      `DELETE FROM notification_event
+       WHERE id IN (
+         SELECT id FROM notification_event
+         WHERE created_at < ?
+         LIMIT 500
+       )`,
+    )
+    .bind(cutoff90d)
+    .run();
+
+  const eventsDeleted = eventResult.meta?.changes ?? 0;
+
+  // Step 4: Delete notification_digest_batch_item rows whose batch is expired.
+  // Must run before deleting the parent batch to avoid orphan references.
+  const batchItemResult = await db
+    .prepare(
+      `DELETE FROM notification_digest_batch_item
+       WHERE digest_batch_id IN (
+         SELECT id FROM notification_digest_batch
+         WHERE created_at < ?
+         LIMIT 500
+       )`,
+    )
+    .bind(cutoff90d)
+    .run();
+
+  const digestBatchItemsDeleted = batchItemResult.meta?.changes ?? 0;
+
+  // Step 5: Delete expired notification_digest_batch parent rows (>90 days).
+  const batchResult = await db
+    .prepare(
+      `DELETE FROM notification_digest_batch
+       WHERE id IN (
+         SELECT id FROM notification_digest_batch
+         WHERE created_at < ?
+         LIMIT 500
+       )`,
+    )
+    .bind(cutoff90d)
+    .run();
+
+  const digestBatchesDeleted = batchResult.meta?.changes ?? 0;
+
+  return {
+    deliveriesDeleted,
+    inboxItemsDeleted,
+    eventsDeleted,
+    digestBatchItemsDeleted,
+    digestBatchesDeleted,
+  };
+}
+
+/**
+ * Run the data retention sweep (N-115, Phase 8).
+ *
+ * Hard-deletes rows beyond their retention TTL across all notification tables:
+ *   - notification_delivery:         90 days
+ *   - notification_inbox_item:       365 days
+ *   - notification_event:            90 days
+ *   - notification_digest_batch:     90 days (with items)
+ *
+ * Called daily at 03:00 WAT by the CRON trigger '0 2 * * *'.
+ *
+ * This is a PLATFORM-WIDE maintenance operation (all tenants). It is distinct
+ * from NDPR erasure (N-116) which is user-specific and triggered by DELETE /auth/me.
+ *
+ * Guardrails:
+ *   G1  — time-based delete; no cross-tenant read — not a G1 violation.
+ *   G23 — audit_log rows are NEVER deleted; only NDPR PII fields are zeroed.
  */
 export async function runRetentionSweep(env: Env): Promise<void> {
-  console.log('[notificator:retention] sweep starting (Phase 8 implementation pending)');
-  void env;
+  console.log('[notificator:retention] N-115 retention sweep starting');
+
+  if (env.NOTIFICATION_PIPELINE_ENABLED !== '1') {
+    console.log('[notificator:retention] NOTIFICATION_PIPELINE_ENABLED=0 — sweep skipped');
+    return;
+  }
+
+  try {
+    const db = env.DB as unknown as D1LikeRunnable;
+    const result = await executeRetentionDeletes(db);
+
+    console.log(
+      `[notificator:retention] N-115 sweep complete — ` +
+      `deliveries=${result.deliveriesDeleted} ` +
+      `inbox=${result.inboxItemsDeleted} ` +
+      `events=${result.eventsDeleted} ` +
+      `batchItems=${result.digestBatchItemsDeleted} ` +
+      `batches=${result.digestBatchesDeleted}`,
+    );
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[notificator:retention] N-115 sweep FAILED — ${msg}`);
+    // Do not rethrow: CRON failures must not crash the Worker.
+    // The next daily run will retry. Persistent failures will surface
+    // in CF Logpush and the channel provider health dashboard.
+  }
 }
 
 // ---------------------------------------------------------------------------

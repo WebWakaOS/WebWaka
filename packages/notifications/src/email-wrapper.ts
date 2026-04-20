@@ -19,6 +19,7 @@
 
 import type { TenantTheme } from '@webwaka/white-label-theming';
 import { renderLegalFooter } from './partials.js';
+import { resolveEffectiveAttribution } from './attribution.js';
 import type { TemplateLocale } from './types.js';
 
 // ---------------------------------------------------------------------------
@@ -38,6 +39,14 @@ export interface WrapEmailOptions {
   locale: TemplateLocale;
   /** Pre-signed unsubscribe URL (N-039); MUST be HTTPS */
   unsubscribeUrl: string;
+  /**
+   * N-117 (Phase 8): Tenant plan tier for attribution enforcement.
+   * Overrides TenantTheme.requiresWebwakaAttribution for non-enterprise plans:
+   * free/starter/growth → attribution forced on regardless of DB flag.
+   * enterprise → DB flag respected.
+   * Omit (undefined) to fall back to theme.requiresWebwakaAttribution directly.
+   */
+  planTier?: string | undefined;
 }
 
 export interface WrappedEmail {
@@ -58,23 +67,33 @@ export interface WrappedEmail {
  *     (logo, colors, display name) is injected here, never in templates.
  */
 export function wrapEmail(opts: WrapEmailOptions): WrappedEmail {
-  const { subject, bodyHtml, preheader, theme, locale, unsubscribeUrl } = opts;
+  const { subject, bodyHtml, preheader, theme, locale, unsubscribeUrl, planTier } = opts;
 
-  const primaryColor = theme.primaryColor;
-  const displayName = escapeHtml(theme.displayName);
+  // N-117 (Phase 8): enforce plan-tier attribution policy.
+  // resolveEffectiveAttribution() returns true for all non-enterprise plans regardless of DB flag,
+  // ensuring free/starter/growth tenants cannot suppress the "Powered by WebWaka" footer even
+  // if they manipulate their TenantTheme.requiresWebwakaAttribution DB row.
+  const effectiveTheme: TenantTheme = planTier !== undefined
+    ? { ...theme, requiresWebwakaAttribution: resolveEffectiveAttribution(planTier, theme.requiresWebwakaAttribution) }
+    : theme;
+
+  const primaryColor = effectiveTheme.primaryColor;
+  const displayName = escapeHtml(effectiveTheme.displayName);
   const preheaderText = preheader ? escapeHtml(preheader) : escapeHtml(subject);
 
   // Logo or text header
-  const headerHtml = theme.logoUrl
-    ? `<img src="${escapeAttr(theme.logoUrl)}" alt="${displayName}" height="40"
+  const headerHtml = effectiveTheme.logoUrl
+    ? `<img src="${escapeAttr(effectiveTheme.logoUrl)}" alt="${displayName}" height="40"
             style="display:block;height:40px;width:auto;max-width:200px;" />`
     : `<span style="font-size:22px;font-weight:bold;color:#ffffff;font-family:Arial,sans-serif;">${displayName}</span>`;
 
+  // N-117: pass effectiveTheme (with attribution enforcement applied) to the footer renderer.
+  // This ensures renderLegalFooter sees the plan-tier-corrected requiresWebwakaAttribution flag.
   const footerHtml = renderLegalFooter({
-    theme,
+    theme: effectiveTheme,
     locale,
     unsubscribeUrl,
-    tenantName: theme.displayName,
+    tenantName: effectiveTheme.displayName,
     channel: 'email',
   });
 

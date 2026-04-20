@@ -28,6 +28,11 @@ binding = "DB"
 database_name = "webwaka-main"
 database_id = "local-dev-placeholder"
 
+# N-111/Phase 6: notification event pipeline (optional — skipped if not bound in local dev)
+[[queues.producers]]
+binding = "NOTIFICATION_QUEUE"
+queue = "webwaka-notification-pipeline"
+
 # ---------------------------------------------------------------------------
 # Staging
 # ---------------------------------------------------------------------------
@@ -49,6 +54,10 @@ id = "96c2ac8e8bbe49e39513106cbae8abe8"
 [[env.staging.kv_namespaces]]
 binding = "USSD_SESSION_KV"
 id = "67c95f1527114e4bac480a44c4169b85"
+
+[[env.staging.queues.producers]]
+binding = "NOTIFICATION_QUEUE"
+queue = "webwaka-notification-pipeline-staging"
 
 [[env.staging.routes]]
 pattern = "api-staging.webwaka.com/ussd"
@@ -75,6 +84,10 @@ id = "fae0d9a22e924d108ff8d71046832193"
 [[env.production.kv_namespaces]]
 binding = "USSD_SESSION_KV"
 id = "e34fb28b075b4362a8d4d840c19e670c"
+
+[[env.production.queues.producers]]
+binding = "NOTIFICATION_QUEUE"
+queue = "webwaka-notification-pipeline"
 
 [[env.production.routes]]
 pattern = "api.webwaka.com/ussd"

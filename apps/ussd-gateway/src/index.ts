@@ -46,6 +46,37 @@ interface Env {
    * TENANT_ID is always a trusted secret from the Worker runtime, never a user input.
    */
   TENANT_ID?: string;
+  /** Phase 6 / N-111: Notification pipeline queue (optional — skipped if unbound in local dev). */
+  NOTIFICATION_QUEUE?: Queue;
+  /** Phase 6 / N-111: Set to '0' to disable notification publishing from this Worker. */
+  NOTIFICATION_PIPELINE_ENABLED?: '0' | '1';
+}
+
+/**
+ * Enqueue a notification event from the USSD gateway.
+ * Source is always 'ussd_gateway' to distinguish from API-originated events.
+ * Fire-and-forget; errors are swallowed so USSD session processing is never gated.
+ */
+function publishUssdEvent(
+  env: Env,
+  params: {
+    eventKey: string;
+    tenantId: string;
+    payload: Record<string, unknown>;
+  },
+): void {
+  if (!env.NOTIFICATION_QUEUE || env.NOTIFICATION_PIPELINE_ENABLED === '0') return;
+  const message = {
+    eventId: crypto.randomUUID(),
+    eventKey: params.eventKey,
+    tenantId: params.tenantId,
+    actorType: 'system' as const,
+    payload: params.payload,
+    source: 'ussd_gateway',
+    severity: 'info',
+    occurredAt: new Date().toISOString(),
+  };
+  void env.NOTIFICATION_QUEUE.send(message).catch(() => { /* non-blocking */ });
 }
 
 const app = new Hono<{ Bindings: Env }>();
@@ -154,6 +185,12 @@ app.post('/ussd', async (c) => {
 
     // Fresh session — show main menu immediately
     if (!text) {
+      // N-111 / Phase 6: emit ussd.session_started with source='ussd_gateway'
+      publishUssdEvent(c.env, {
+        eventKey: 'ussd.session_started',
+        tenantId,
+        payload: { ussd_session_id: sessionId },
+      });
       const result = processUSSDInput(session, '');
       await saveSession(c.env.USSD_SESSION_KV, result.session);
       return c.text(result.ended ? result.text : mainMenu(), 200, { 'Content-Type': 'text/plain' });
@@ -177,6 +214,12 @@ app.post('/ussd', async (c) => {
 
     if (result.ended) {
       await deleteSession(c.env.USSD_SESSION_KV, sessionId);
+      // N-111 / Phase 6: emit ussd.session_completed with source='ussd_gateway'
+      publishUssdEvent(c.env, {
+        eventKey: 'ussd.session_completed',
+        tenantId,
+        payload: { ussd_session_id: sessionId, final_state: result.session?.state ?? 'unknown' },
+      });
     } else {
       await saveSession(c.env.USSD_SESSION_KV, result.session);
     }

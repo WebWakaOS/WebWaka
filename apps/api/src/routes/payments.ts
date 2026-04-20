@@ -24,7 +24,7 @@ import { initializePayment, verifyPayment, verifyWebhookSignature } from '@webwa
 import { syncPaymentToSubscription, recordFailedPayment } from '@webwaka/payments';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 import { publishEvent } from '../lib/publish-event.js';
-import { BillingEventType } from '@webwaka/events';
+import { BillingEventType, WorkspaceEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(query: string): {
@@ -202,6 +202,19 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         actorType: 'user',
         workspaceId,
         payload: { reference, amount_kobo: verified.amountKobo, plan: result.plan, billing_id: result.billingId },
+        source: 'api',
+        severity: 'info',
+      });
+
+      // N-081/T2: workspace.activated — payment verified; workspace is now on a paid plan
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: WorkspaceEventType.WorkspaceActivated,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId,
+        payload: { plan: result.plan, reference, billing_id: result.billingId },
         source: 'api',
         severity: 'info',
       });

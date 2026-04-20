@@ -467,7 +467,7 @@ app.get('/', (c) => {
       _notifPollInterval = setInterval(loadNotifications, 30000);
     }
 
-    let _base = '', _pid = '', _jwt = ''; = '', _pid = '', _jwt = '';
+    let _base = '', _pid = '', _jwt = '';
 
     function authHeaders() {
       return { 'Authorization': 'Bearer ' + _jwt, 'Content-Type': 'application/json' };

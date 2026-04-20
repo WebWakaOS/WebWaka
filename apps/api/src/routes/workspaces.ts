@@ -565,4 +565,120 @@ workspaceRoutes.get('/:id/analytics', async (c) => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// DELETE /workspaces/:id/members/:userId — Remove a member (N-081/T2)
+// workspace.member_removed event
+// ---------------------------------------------------------------------------
+
+workspaceRoutes.delete('/:id/members/:userId', async (c) => {
+  const auth = c.get('auth');
+  const workspaceId = c.req.param('id') as WorkspaceId;
+  const targetUserId = c.req.param('userId');
+  const db = c.env.DB as unknown as D1Like;
+
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    const workspace = await getWorkspaceById(db as Parameters<typeof getWorkspaceById>[0], auth.tenantId, workspaceId);
+    if (!workspace || (workspace.ownerId as string) !== (auth.userId as string)) {
+      return c.json({ error: 'Admin role or workspace ownership required' }, 403);
+    }
+  }
+
+  // Prevent self-removal
+  if (targetUserId === (auth.userId as string)) {
+    return c.json({ error: 'Cannot remove yourself from the workspace' }, 422);
+  }
+
+  const existing = await db
+    .prepare('SELECT id FROM memberships WHERE workspace_id = ? AND user_id = ? AND tenant_id = ?')
+    .bind(workspaceId, targetUserId, auth.tenantId)
+    .first<{ id: string }>();
+
+  if (!existing) {
+    return c.json({ error: 'Member not found in this workspace' }, 404);
+  }
+
+  await db
+    .prepare('DELETE FROM memberships WHERE workspace_id = ? AND user_id = ? AND tenant_id = ?')
+    .bind(workspaceId, targetUserId, auth.tenantId)
+    .run();
+
+  // N-081/T2: workspace.member_removed event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceMemberRemoved,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { removed_user_id: targetUserId, removed_by: auth.userId },
+    source: 'api',
+    severity: 'warning',
+  });
+
+  return c.json({ workspaceId, removedUserId: targetUserId, removed: true });
+});
+
+// ---------------------------------------------------------------------------
+// PATCH /workspaces/:id/members/:userId/role — Change a member's role (N-081/T2)
+// workspace.role_changed event
+// ---------------------------------------------------------------------------
+
+workspaceRoutes.patch('/:id/members/:userId/role', async (c) => {
+  const auth = c.get('auth');
+  const workspaceId = c.req.param('id') as WorkspaceId;
+  const targetUserId = c.req.param('userId');
+  const db = c.env.DB as unknown as D1Like;
+
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'Admin role required to change member roles' }, 403);
+  }
+
+  let body: { role?: string };
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const newRole = body.role;
+  if (!newRole) {
+    return c.json({ error: 'role is required' }, 400);
+  }
+  const validRoles: string[] = Object.values(Role);
+  if (!validRoles.includes(newRole)) {
+    return c.json({ error: `Invalid role. Must be one of: ${validRoles.join('|')}` }, 400);
+  }
+
+  const existing = await db
+    .prepare('SELECT id, role FROM memberships WHERE workspace_id = ? AND user_id = ? AND tenant_id = ?')
+    .bind(workspaceId, targetUserId, auth.tenantId)
+    .first<{ id: string; role: string }>();
+
+  if (!existing) {
+    return c.json({ error: 'Member not found in this workspace' }, 404);
+  }
+
+  const previousRole = existing.role;
+
+  await db
+    .prepare('UPDATE memberships SET role = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?')
+    .bind(newRole, existing.id, auth.tenantId)
+    .run();
+
+  // N-081/T2: workspace.role_changed event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceRoleChanged,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { target_user_id: targetUserId, previous_role: previousRole, new_role: newRole },
+    source: 'api',
+    severity: 'info',
+  });
+
+  return c.json({ workspaceId, userId: targetUserId, previousRole, newRole, updated: true });
+});
+
 export { workspaceRoutes };

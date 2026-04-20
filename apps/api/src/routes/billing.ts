@@ -21,7 +21,7 @@
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import { publishEvent } from '../lib/publish-event.js';
-import { BillingEventType } from '@webwaka/events';
+import { BillingEventType, WorkspaceEventType } from '@webwaka/events';
 
 type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
@@ -242,6 +242,19 @@ billingRoutes.post('/enforce', async (c) => {
       actorType: 'user',
       workspaceId: sub.workspace_id,
       payload: { subscription_id: sub.id },
+      source: 'api',
+      severity: 'critical',
+    });
+
+    // N-081/T2: workspace.suspended — billing enforcement suspended this workspace
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: WorkspaceEventType.WorkspaceSuspended,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id, reason: 'grace_period_expired' },
       source: 'api',
       severity: 'critical',
     });

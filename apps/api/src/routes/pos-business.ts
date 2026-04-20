@@ -29,6 +29,8 @@
  */
 
 import { Hono } from 'hono';
+import { publishEvent } from '../lib/publish-event.js';
+import { PosFinanceEventType } from '@webwaka/events';
 import {
   InventoryRepository,
   SalesRepository,
@@ -229,6 +231,23 @@ posBusinessRoutes.post('/sales', async (c) => {
       cashierId: auth.userId,
       paymentMethod: body.payment_method as PaymentMethod,
       items,
+    });
+    // N-089/T10: pos.sale_completed notification event
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: PosFinanceEventType.PosSaleCompleted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: body.workspace_id,
+      payload: {
+        sale_id: sale.id,
+        workspace_id: body.workspace_id,
+        payment_method: body.payment_method,
+        item_count: items.length,
+      },
+      source: 'api',
+      severity: 'info',
     });
     return c.json({ sale }, 201);
   } catch (err: unknown) {

@@ -454,6 +454,109 @@ bankTransferRoutes.post('/:orderId/dispute', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// DELETE /bank-transfer/:orderId — Cancel a bank transfer order (N-092/T13)
+// Only valid for orders in 'pending' status (before proof is submitted).
+// FSM: pending → cancelled
+// ---------------------------------------------------------------------------
+
+bankTransferRoutes.delete('/:orderId', async (c) => {
+  const auth = c.get('auth');
+  const orderId = c.req.param('orderId');
+  const db = c.env.DB as unknown as D1Like;
+
+  const order = await db
+    .prepare(
+      `SELECT id, status, user_id, tenant_id FROM bank_transfer_orders
+       WHERE id = ? AND tenant_id = ? LIMIT 1`,
+    )
+    .bind(orderId, auth.tenantId)
+    .first<{ id: string; status: string; user_id: string; tenant_id: string }>();
+
+  if (!order) return c.json({ error: 'Order not found' }, 404);
+  if (order.status !== 'pending') {
+    return c.json({ error: `Cannot cancel: order is in '${order.status}' status` }, 409);
+  }
+
+  // Only the order creator or admins can cancel
+  if (order.user_id !== (auth.userId as string) && auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'Not authorised to cancel this order' }, 403);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  await db
+    .prepare(
+      `UPDATE bank_transfer_orders
+       SET status = 'cancelled', updated_at = ?
+       WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(now, orderId, auth.tenantId)
+    .run();
+
+  // N-092/T13: bank_transfer.cancelled event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BankTransferEventType.BankTransferCancelled,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId, cancelled_by: auth.userId },
+    source: 'api',
+    severity: 'warning',
+  });
+
+  return c.json({ success: true, status: 'cancelled' });
+});
+
+// ---------------------------------------------------------------------------
+// POST /bank-transfer/:orderId/request-otp — Request OTP for transfer verification (N-092/T13)
+// Signals that the transfer is awaiting OTP confirmation before processing.
+// FSM: processing → awaiting_otp
+// ---------------------------------------------------------------------------
+
+bankTransferRoutes.post('/:orderId/request-otp', async (c) => {
+  const auth = c.get('auth');
+  const orderId = c.req.param('orderId');
+  const db = c.env.DB as unknown as D1Like;
+
+  const order = await db
+    .prepare(
+      `SELECT id, status, tenant_id FROM bank_transfer_orders
+       WHERE id = ? AND tenant_id = ? LIMIT 1`,
+    )
+    .bind(orderId, auth.tenantId)
+    .first<{ id: string; status: string; tenant_id: string }>();
+
+  if (!order) return c.json({ error: 'Order not found' }, 404);
+  if (!['processing', 'proof_submitted'].includes(order.status)) {
+    return c.json({ error: `Cannot request OTP: order is in '${order.status}' status` }, 409);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  await db
+    .prepare(
+      `UPDATE bank_transfer_orders
+       SET status = 'awaiting_otp', updated_at = ?
+       WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(now, orderId, auth.tenantId)
+    .run();
+
+  // N-092/T13: bank_transfer.awaiting_otp event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BankTransferEventType.BankTransferAwaitingOtp,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId, requested_by: auth.userId },
+    source: 'api',
+    severity: 'info',
+  });
+
+  return c.json({ success: true, status: 'awaiting_otp', message: 'OTP requested for this transfer' });
+});
+
+// ---------------------------------------------------------------------------
 // GET /bank-transfer/:orderId/dispute — Get dispute for an order
 // ---------------------------------------------------------------------------
 

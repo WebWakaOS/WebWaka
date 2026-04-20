@@ -779,9 +779,6 @@ importers:
       '@webwaka/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
-      '@webwaka/notifications':
-        specifier: workspace:*
-        version: link:../../packages/notifications
       '@webwaka/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
@@ -1304,6 +1301,16 @@ importers:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/vertical-events:
+    dependencies:
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
 
   packages/verticals:
     dependencies:

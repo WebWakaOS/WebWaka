@@ -39,6 +39,7 @@ import { kvGetText } from '@webwaka/core';
 import { EmailService } from '../lib/email-service.js';
 import { publishEvent } from '../lib/publish-event.js';
 import { AuthEventType, WorkspaceEventType } from '@webwaka/events';
+import { propagateErasure } from '@webwaka/notifications';
 import type { Env } from '../env.js';
 
 interface UserRow {
@@ -147,6 +148,27 @@ authRoutes.post('/login', async (c) => {
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
   }
 
+  // N-080: KV-based login lockout — check for active lock before attempting hash comparison.
+  // Lock is set for 15 minutes after MAX_LOGIN_FAIL consecutive bad-password attempts.
+  const LOGIN_FAIL_KEY = `login-fail:${userRow.tenant_id}:${userRow.id}`;
+  const LOGIN_LOCK_KEY = `login-lock:${userRow.tenant_id}:${userRow.id}`;
+  const MAX_LOGIN_FAIL = 5;
+
+  const lockValue = await c.env.RATE_LIMIT_KV.get(LOGIN_LOCK_KEY).catch(() => null);
+  if (lockValue) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AuthEventType.UserAccountLocked,
+      tenantId: userRow.tenant_id,
+      actorId: userRow.id,
+      actorType: 'user',
+      payload: { reason: 'login_lockout_active', locked_until: lockValue },
+      source: 'api',
+      severity: 'warning',
+    });
+    return c.json(errorResponse(ErrorCode.Forbidden, 'Account temporarily locked. Try again later.'), 429);
+  }
+
   const encoder = new TextEncoder();
   const [storedSalt, storedHash] = userRow.password_hash.split(':');
 
@@ -197,7 +219,39 @@ authRoutes.post('/login', async (c) => {
       source: 'api',
       severity: 'warning',
     });
+
+    // N-080: increment failed-attempt counter; lock account at MAX_LOGIN_FAIL threshold.
+    try {
+      const rawCount = await c.env.RATE_LIMIT_KV.get(LOGIN_FAIL_KEY);
+      const failCount = rawCount ? parseInt(rawCount, 10) + 1 : 1;
+      await c.env.RATE_LIMIT_KV.put(LOGIN_FAIL_KEY, String(failCount), { expirationTtl: 900 });
+      if (failCount >= MAX_LOGIN_FAIL) {
+        const lockedUntil = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+        await c.env.RATE_LIMIT_KV.put(LOGIN_LOCK_KEY, lockedUntil, { expirationTtl: 900 });
+        await c.env.RATE_LIMIT_KV.delete(LOGIN_FAIL_KEY);
+        void publishEvent(c.env, {
+          eventId: crypto.randomUUID(),
+          eventKey: AuthEventType.UserAccountLocked,
+          tenantId: userRow.tenant_id,
+          actorId: userRow.id,
+          actorType: 'user',
+          payload: { reason: 'too_many_failed_logins', locked_until: lockedUntil, attempts: failCount },
+          source: 'api',
+          severity: 'critical',
+        });
+      }
+    } catch {
+      // KV failure is non-blocking — login rejection is already being returned
+    }
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
+  }
+
+  // N-080: Clear failed-attempt counter on successful authentication.
+  try {
+    await c.env.RATE_LIMIT_KV.delete(LOGIN_FAIL_KEY);
+    await c.env.RATE_LIMIT_KV.delete(LOGIN_LOCK_KEY);
+  } catch {
+    // Non-blocking — success path must not be gated on KV
   }
 
   if (needsRehash) {
@@ -725,6 +779,31 @@ authRoutes.delete('/me', async (c) => {
     // sessions table may not exist — safe to ignore
   }
 
+  // N-116 (Phase 8): Propagate NDPR erasure to all notification tables.
+  // G23: audit_log PII zeroed; all other user-scoped notification rows hard-deleted.
+  // notification_suppression_list is intentionally preserved (G23).
+  try {
+    const result = await propagateErasure(
+      c.env.DB as unknown as Parameters<typeof propagateErasure>[0],
+      auth.userId as string,
+      auth.tenantId as string,
+    );
+    console.log(JSON.stringify({
+      level: 'info', event: 'ndpr_erasure_notification_propagated',
+      userId: auth.userId, tenantId: auth.tenantId,
+      auditRowsZeroed: result.auditLogRowsZeroed,
+      deliveriesDeleted: result.deliveriesDeleted,
+      inboxItemsDeleted: result.inboxItemsDeleted,
+      eventsDeleted: result.eventsDeleted,
+      preferencesDeleted: result.preferencesDeleted,
+      subscriptionsDeleted: result.subscriptionsDeleted,
+    }));
+  } catch (err) {
+    // Non-blocking: core user anonymization already succeeded.
+    // Log for compliance ops team follow-up; erasure will be retried on next audit cycle.
+    console.error('[auth:erasure] N-116 notification propagation failed:', err instanceof Error ? err.message : err);
+  }
+
   // N-080: auth.user.deleted event (NDPR right-to-erasure)
   void publishEvent(c.env, {
     eventId: crypto.randomUUID(),
@@ -1137,6 +1216,19 @@ authRoutes.post('/accept-invite', async (c) => {
     actorType: 'user',
     workspaceId,
     payload: { invite_id: inviteId, role },
+    source: 'api',
+    severity: 'info',
+  });
+
+  // N-081/T2: workspace.invite_accepted — workspace gained a new member
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceInviteAccepted,
+    tenantId,
+    actorId: userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { invite_id: inviteId, role, new_member_id: userId },
     source: 'api',
     severity: 'info',
   });
