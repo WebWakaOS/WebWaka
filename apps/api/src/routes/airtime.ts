@@ -17,6 +17,8 @@ import { validateNigerianPhone } from '@webwaka/otp';
 import { kvGetText } from '@webwaka/core';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { AirtimeEventType } from '@webwaka/events';
 
 const TERMII_AIRTIME_URL = 'https://api.ng.termii.com/api/topup';
 const MIN_KOBO = 5_000;     // ₦50 minimum
@@ -287,11 +289,34 @@ airtimeRoutes.post('/topup', async (c) => {
     });
     const errBody = await termiiRes.json().catch(() => ({})) as Record<string, unknown>;
     const msg = typeof errBody['message'] === 'string' ? errBody['message'] : `Termii error ${termiiRes.status}`;
+    // N-094: airtime.purchase_failed event
+    void publishEvent(c.env, {
+      eventId: termiiRef,
+      eventKey: AirtimeEventType.AirtimePurchaseFailed,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { phone, amount_kobo: amountKobo, network, error: msg },
+      source: 'api',
+      severity: 'warning',
+    });
     return c.json({ error: 'provider_error', message: msg }, 502);
   }
 
   // Increment rate limit counter (1 hour TTL)
   await c.env.RATE_LIMIT_KV.put(rateLimitKey, String(count + 1), { expirationTtl: 3600 });
+
+  // N-094: airtime.purchase_completed event
+  void publishEvent(c.env, {
+    eventId: termiiRef,
+    eventKey: AirtimeEventType.AirtimePurchaseCompleted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { phone, amount_kobo: amountKobo, network },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({
     transactionId: termiiRef,

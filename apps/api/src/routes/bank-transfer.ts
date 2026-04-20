@@ -26,6 +26,8 @@
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { BankTransferEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(query: string): {
@@ -118,6 +120,19 @@ bankTransferRoutes.post('/', async (c) => {
     .prepare(`SELECT * FROM bank_transfer_orders WHERE id = ? AND tenant_id = ? LIMIT 1`)
     .bind(id, auth.tenantId)
     .first<Record<string, unknown>>();
+
+  // N-092: bank_transfer.initiated event
+  void publishEvent(c.env, {
+    eventId: id,
+    eventKey: BankTransferEventType.BankTransferInitiated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: body.workspace_id,
+    payload: { order_id: id, amount_kobo: body.amount_kobo, reference },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ order }, 201);
 });
@@ -223,6 +238,18 @@ bankTransferRoutes.post('/:orderId/proof', async (c) => {
     .bind(body.proof_url, now, now, orderId, auth.tenantId)
     .run();
 
+  // N-092: bank_transfer.processing event (proof submitted → under review)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BankTransferEventType.BankTransferProcessing,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ success: true, status: 'proof_submitted' });
 });
 
@@ -258,6 +285,18 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
     )
     .bind(now, auth.userId, now, orderId, auth.tenantId)
     .run();
+
+  // N-092: bank_transfer.completed event (high severity — financial confirmation)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BankTransferEventType.BankTransferCompleted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId, confirmed_by: auth.userId },
+    source: 'api',
+    severity: 'critical',
+  });
 
   return c.json({ success: true, status: 'confirmed' });
 });
@@ -302,6 +341,18 @@ bankTransferRoutes.post('/:orderId/reject', async (c) => {
     )
     .bind(body.reason ?? null, now, orderId, auth.tenantId)
     .run();
+
+  // N-092: bank_transfer.failed event (high severity — proof rejected)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BankTransferEventType.BankTransferFailed,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId, reason: body.reason, type: 'proof_rejected' },
+    source: 'api',
+    severity: 'critical',
+  });
 
   return c.json({ success: true, status: 'rejected' });
 });
@@ -386,6 +437,18 @@ bankTransferRoutes.post('/:orderId/dispute', async (c) => {
       body.disputed_amount_kobo ?? null,
     )
     .run();
+
+  // N-092: bank_transfer.failed event (critical severity — dispute on confirmed transfer)
+  void publishEvent(c.env, {
+    eventId: disputeId,
+    eventKey: BankTransferEventType.BankTransferFailed,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { order_id: orderId, dispute_id: disputeId, type: 'disputed', reason: body.reason, disputed_amount_kobo: body.disputed_amount_kobo ?? null },
+    source: 'api',
+    severity: 'critical',
+  });
 
   return c.json({ dispute_id: disputeId, status: 'open' }, 201);
 });

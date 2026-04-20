@@ -23,6 +23,8 @@ import type { AuthContext } from '@webwaka/types';
 import { initializePayment, verifyPayment, verifyWebhookSignature } from '@webwaka/payments';
 import { syncPaymentToSubscription, recordFailedPayment } from '@webwaka/payments';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { BillingEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(query: string): {
@@ -191,6 +193,19 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         billing_id: result.billingId,
       }).catch(() => {});
 
+      // N-082: billing.payment_succeeded event
+      void publishEvent(c.env, {
+        eventId: reference,
+        eventKey: BillingEventType.BillingPaymentSucceeded,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId,
+        payload: { reference, amount_kobo: verified.amountKobo, plan: result.plan, billing_id: result.billingId },
+        source: 'api',
+        severity: 'info',
+      });
+
       return c.json({
         status: 'success',
         plan: result.plan,
@@ -199,6 +214,19 @@ paymentsVerifyRoute.post('/verify', async (c) => {
       });
     } else {
       await recordFailedPayment(db, workspaceId, reference, verified.amountKobo);
+
+      // N-082: billing.payment_failed event
+      void publishEvent(c.env, {
+        eventId: reference,
+        eventKey: BillingEventType.BillingPaymentFailed,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId,
+        payload: { reference, amount_kobo: verified.amountKobo, status: verified.status },
+        source: 'api',
+        severity: 'warning',
+      });
 
       return c.json({ status: verified.status, error: 'Payment was not successful' }, 402);
     }

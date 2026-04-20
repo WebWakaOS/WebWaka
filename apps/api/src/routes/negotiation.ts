@@ -54,6 +54,8 @@ import type {
   NegotiationSession,
 } from '@webwaka/negotiation';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { NegotiationEventType } from '@webwaka/events';
 
 export const negotiationRouter = new Hono<{ Bindings: Env }>();
 
@@ -341,6 +343,18 @@ negotiationRouter.post('/sessions', async (c) => {
       kycTier,
       sellerWorkspaceId,
     );
+    // N-085: negotiation.session_started event
+    void publishEvent(c.env, {
+      eventId: session.id,
+      eventKey: NegotiationEventType.NegotiationSessionStarted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sellerWorkspaceId,
+      payload: { session_id: session.id, listing_type: listingType, listing_id: listingId, initial_offer_kobo: initialOffer },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ session }, 201);
   } catch (err) {
     return handleEngineError(c, err);
@@ -425,6 +439,18 @@ negotiationRouter.post('/sessions/:id/offer', async (c) => {
       actor_workspace_id: actorWorkspaceId,
       ...(body.message ? { message: String(body.message) } : {}),
     });
+    // N-085: negotiation.offer_made event
+    void publishEvent(c.env, {
+      eventId: offer.id,
+      eventKey: NegotiationEventType.NegotiationOfferMade,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: actorWorkspaceId,
+      payload: { session_id: id, offer_id: offer.id, amount_kobo: amountKobo, offered_by: offeredBy },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ offer });
   } catch (err) {
     return handleEngineError(c, err);
@@ -453,6 +479,19 @@ negotiationRouter.post('/sessions/:id/accept', async (c) => {
       price_lock_token = null;
     }
 
+    // N-085: negotiation.accepted event
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: NegotiationEventType.NegotiationAccepted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: actorWorkspaceId,
+      payload: { session_id: id },
+      source: 'api',
+      severity: 'info',
+    });
+
     return c.json({ session, price_lock_token });
   } catch (err) {
     return handleEngineError(c, err);
@@ -473,6 +512,18 @@ negotiationRouter.post('/sessions/:id/decline', async (c) => {
 
   try {
     await engine.declineSession(id, auth.tenantId, actorWorkspaceId);
+    // N-085: negotiation.rejected event
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: NegotiationEventType.NegotiationRejected,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: actorWorkspaceId,
+      payload: { session_id: id },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ declined: true });
   } catch (err) {
     return handleEngineError(c, err);
@@ -491,6 +542,17 @@ negotiationRouter.post('/sessions/:id/cancel', async (c) => {
 
   try {
     await engine.cancelSession(id, auth.tenantId, auth.userId);
+    // N-085: negotiation.withdrawn event (buyer-initiated cancel)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: NegotiationEventType.NegotiationWithdrawn,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { session_id: id },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ cancelled: true });
   } catch (err) {
     return handleEngineError(c, err);

@@ -13,6 +13,8 @@
 
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { OnboardingEventType } from '@webwaka/events';
 
 type Auth = { userId: string; tenantId: string; role?: string };
 
@@ -225,6 +227,36 @@ onboardingRoutes.put('/:workspaceId/:step', async (c) => {
 
   const completedCount = countResult?.cnt ?? 0;
 
+  const isComplete = completedCount === ONBOARDING_STEPS.length;
+
+  // N-088: onboarding.started when first step is completed; onboarding.completed when all done
+  if (completedCount === 1) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: OnboardingEventType.OnboardingStarted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId,
+      payload: { workspace_id: workspaceId, first_step: step },
+      source: 'api',
+      severity: 'info',
+    });
+  }
+  if (isComplete) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: OnboardingEventType.OnboardingCompleted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId,
+      payload: { workspace_id: workspaceId },
+      source: 'api',
+      severity: 'info',
+    });
+  }
+
   return c.json({
     workspaceId,
     step,
@@ -233,7 +265,7 @@ onboardingRoutes.put('/:workspaceId/:step', async (c) => {
       completed: completedCount,
       total: ONBOARDING_STEPS.length,
       percentage: Math.round((completedCount / ONBOARDING_STEPS.length) * 100),
-      isComplete: completedCount === ONBOARDING_STEPS.length,
+      isComplete,
     },
   });
 });

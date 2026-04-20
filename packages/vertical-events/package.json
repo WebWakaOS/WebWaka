@@ -1,0 +1,24 @@
+{
+  "name": "@webwaka/vertical-events",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Infra] Vertical-specific event helpers — re-exports VerticalEventType + payload builders for all 100+ verticals. WebWaka OS Phase 6 Notification Engine.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "source": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@webwaka/events": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

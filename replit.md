@@ -10,6 +10,41 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
 **Notification Engine — prior documents superseded by v2: `final-master-specification.md` (v1.0), `section13-resolution.md`, `notification-engine-review.md`, `notification-engine-audit.md`**
 
+## Notification Engine Phase 6 — ROUTE + VERTICAL WIRING (2026-04-20)
+
+Phase 6 (N-080–N-133): 100+ events wired across all API routes, cron jobs, and infrastructure.
+
+| Task | ID | Description | Status |
+|---|---|---|---|
+| T4 | N-083 | KYC events: `kyc.approved` + `kyc.rejected` on BVN/NIN verify success/failure (identity.ts) | ✅ DONE |
+| T5 | N-084 | Claim events: `claim.submitted`, `claim.advanced`, `claim.approved`, `claim.rejected` (claim.ts) | ✅ DONE |
+| T6 | N-085/N-098 | Negotiation: `negotiation.session_expired` in negotiation-expiry cron per expired session | ✅ DONE |
+| T8 | N-087 | AI/Superagent events: `ai.hitl_required`, `ai.budget_exhausted`, `ai.response_generated`, `ai.response_failed` (superagent.ts) | ✅ DONE |
+| T9 | N-088/N-099 | Onboarding stalled cron: `onboarding.stalled` fired per workspace via new jobs/onboarding-stalled.ts | ✅ DONE |
+| T12 | N-091 | Partner events: `partner.onboarded`, `partner.application_approved/rejected`, `partner.sub_partner_created` — all with `category: 'partner'` payload | ✅ DONE |
+| T13 | N-092 | Bank-transfer dispute: `bank_transfer.failed` with `type: 'disputed'`, `severity: 'critical'` | ✅ DONE |
+| T14 | N-093 | B2B marketplace: `b2b.invoice_raised`, `b2b.dispute_raised` wired | ✅ DONE |
+| T17 | N-096/N-097 | Created `@webwaka/vertical-events` package with `VerticalEventType` re-export + `buildVerticalEvent()` helper + `ussdSource()` USSD tag | ✅ DONE |
+| T18 | N-091a | Notification bell added to `apps/partner-admin` with 30s polling of `GET /notifications/inbox?category=partner` | ✅ DONE |
+| T19 | N-133 | Tier-gated webhook API: `GET /webhooks/events` (plan-scoped event registry), G25 subscription limits (free=5, starter=25, growth=100, ent=∞) on POST /webhooks | ✅ DONE |
+| G2 | N-081 | Workspaces invite endpoint: `WorkspaceEventType.WorkspaceInviteSent` is primary; EmailService wrapped in kill-switch `NOTIFICATION_PIPELINE_ENABLED !== '1'` | ✅ DONE |
+
+### Catalog additions (packages/events/src/event-types.ts)
+- `PosFinanceEventType`: +PosFloatCredited, PosFloatDebited, PosFloatReversed
+- `SocialEventType`: +SocialFollowCreated
+- `B2bEventType`: +B2bPoDelivered
+- New package `@webwaka/vertical-events` (packages/vertical-events/)
+
+### Phase 6 Exit Criteria
+- ✅ TypeScript 0 errors: @webwaka/api, @webwaka/events, @webwaka/partner-admin
+- ✅ 2,463 API tests passing (168 test files)
+- ✅ 26 @webwaka/events tests passing
+- ✅ All business routes emit publishEvent with correct eventKey, tenantId, severity
+- ✅ Partner-admin has notification bell (polls /notifications/inbox?category=partner)
+- ✅ Webhook subscription API is tier-gated (G25)
+
+---
+
 ## Notification Engine Phase 1 — COMPLETE (2026-04-20)
 
 Phase 1 (Core Event Infrastructure, N-012, N-012a, N-013) fully implemented. TypeScript 0 errors across all affected packages. 54 tests passing.

@@ -25,6 +25,8 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { SocialEventType } from '@webwaka/events';
 import {
   setupSocialProfile,
   getSocialProfileByHandle,
@@ -136,6 +138,17 @@ socialRoutes.post('/follow/:id', async (c) => {
       followeeId,
       tenantId,
     });
+    // N-090: social.follow_created event
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: SocialEventType.SocialFollowCreated,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { follower_id: auth.userId, followee_id: followeeId },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ follow }, 201);
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Unknown error';
@@ -185,6 +198,17 @@ socialRoutes.post('/posts', async (c) => {
     content: parsed.data.content,
     ...(parsed.data.mediaUrls !== undefined ? { mediaUrls: parsed.data.mediaUrls } : {}),
     tenantId,
+  });
+  // N-090: social.post_published event
+  void publishEvent(c.env, {
+    eventId: post.id,
+    eventKey: SocialEventType.SocialPostPublished,
+    tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { post_id: post.id, author_id: auth.userId },
+    source: 'api',
+    severity: 'info',
   });
   return c.json({ post }, 201);
 });

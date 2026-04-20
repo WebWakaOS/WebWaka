@@ -38,7 +38,7 @@ import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import { kvGetText } from '@webwaka/core';
 import { EmailService } from '../lib/email-service.js';
 import { publishEvent } from '../lib/publish-event.js';
-import { AuthEventType } from '@webwaka/events';
+import { AuthEventType, WorkspaceEventType } from '@webwaka/events';
 import type { Env } from '../env.js';
 
 interface UserRow {
@@ -186,6 +186,17 @@ authRoutes.post('/login', async (c) => {
       level: 'warn', event: 'auth_failure', reason: 'wrong_password',
       userId: userRow.id, ip, timestamp: new Date().toISOString(),
     }));
+    // N-080: auth.user.login_failed event (wrong password)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AuthEventType.UserLoginFailed,
+      tenantId: userRow.tenant_id,
+      actorId: userRow.id,
+      actorType: 'user',
+      payload: { reason: 'wrong_password' },
+      source: 'api',
+      severity: 'warning',
+    });
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
   }
 
@@ -232,6 +243,19 @@ authRoutes.post('/login', async (c) => {
       // sessions table may not exist — non-blocking
     }
   }
+
+  // N-080: auth.user.login_success event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserLoginSuccess,
+    tenantId: userRow.tenant_id,
+    actorId: userRow.id,
+    actorType: 'user',
+    workspaceId: userRow.workspace_id,
+    payload: {},
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({
     token,
@@ -334,6 +358,30 @@ authRoutes.post('/register', async (c) => {
     },
     c.env.JWT_SECRET,
   );
+
+  // N-080: auth.user.registered + workspace.created events (fire-and-forget)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserRegistered,
+    tenantId,
+    actorId: userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { email, workspace_id: workspaceId },
+    source: 'api',
+    severity: 'info',
+  });
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceCreated,
+    tenantId,
+    actorId: userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { workspace_id: workspaceId, plan: 'free', business_name: businessName },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({
     token,
@@ -469,6 +517,7 @@ authRoutes.patch('/profile', async (c) => {
     `UPDATE users SET ${parts.join(', ')} WHERE id = ? AND tenant_id = ?`,
   ).bind(...bindings).run();
 
+  // N-080: no catalog event for profile_updated — log only
   return c.json({ message: 'Profile updated successfully.' });
 });
 
@@ -575,6 +624,24 @@ authRoutes.post('/reset-password', async (c) => {
     // Deletion failure is non-critical — token TTL will expire it
   }
 
+  // N-080: auth.user.password_changed event for completed password reset
+  const resetUserRow = await c.env.DB.prepare(
+    'SELECT tenant_id, workspace_id FROM users WHERE id = ? LIMIT 1',
+  ).bind(userId).first<{ tenant_id: string; workspace_id: string | null }>();
+  if (resetUserRow) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AuthEventType.UserPasswordChanged,
+      tenantId: resetUserRow.tenant_id,
+      actorId: userId,
+      actorType: 'user',
+      workspaceId: resetUserRow.workspace_id ?? undefined,
+      payload: { method: 'reset' },
+      source: 'api',
+      severity: 'info',
+    });
+  }
+
   return c.json({ message: 'Password has been reset successfully. Please log in with your new password.' });
 });
 
@@ -642,6 +709,19 @@ authRoutes.delete('/me', async (c) => {
   } catch {
     // sessions table may not exist — safe to ignore
   }
+
+  // N-080: auth.user.deleted event (NDPR right-to-erasure)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserDeleted,
+    tenantId: auth.tenantId as string,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId,
+    payload: { reason: 'ndpr_erasure_request' },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({
     message: 'Your personal data has been erased in compliance with NDPR Article 3.1(9).',
@@ -714,6 +794,19 @@ authRoutes.post('/change-password', async (c) => {
   await c.env.DB.prepare(
     `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
   ).bind(newHash, auth.userId, auth.tenantId).run();
+
+  // N-080: auth.user.password_changed event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserPasswordChanged,
+    tenantId: auth.tenantId as string,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId,
+    payload: { method: 'change' },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ message: 'Password changed successfully.' });
 });
@@ -1020,6 +1113,19 @@ authRoutes.post('/accept-invite', async (c) => {
     tenantId, timestamp: new Date().toISOString(),
   }));
 
+  // N-080: auth.user.invite_accepted event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserInviteAccepted,
+    tenantId,
+    actorId: userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { invite_id: inviteId, role },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({
     message: 'Invitation accepted. You have been added to the workspace.',
     userId, workspaceId, tenantId, role,
@@ -1102,6 +1208,19 @@ authRoutes.delete('/sessions/:id', async (c) => {
     }
   }
 
+  // N-080: auth.user.logout event for single session revocation
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserLogout,
+    tenantId: auth.tenantId as string,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId,
+    payload: { session_id: sessionId, scope: 'single' },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ message: 'Session revoked.' });
 });
 
@@ -1158,6 +1277,19 @@ authRoutes.delete('/sessions', async (c) => {
       }
     }
   }
+
+  // N-080: auth.user.logout event for all-sessions revocation
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserLogout,
+    tenantId: auth.tenantId as string,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId,
+    payload: { scope: 'all_other', revoked_count: activeSessions.length },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ message: 'All other sessions have been revoked.', revokedCount: activeSessions.length });
 });
@@ -1281,6 +1413,24 @@ authRoutes.get('/verify-email', async (c) => {
   console.log(JSON.stringify({
     level: 'info', event: 'email_verified', userId, timestamp: new Date().toISOString(),
   }));
+
+  // N-080: auth.user.email_verified event — fetch tenantId from DB (no auth context on public route)
+  const verifiedUserRow = await c.env.DB.prepare(
+    'SELECT tenant_id, workspace_id FROM users WHERE id = ? LIMIT 1',
+  ).bind(userId).first<{ tenant_id: string; workspace_id: string | null }>();
+  if (verifiedUserRow) {
+    void publishEvent(c.env, {
+      eventId: token,
+      eventKey: AuthEventType.UserEmailVerified,
+      tenantId: verifiedUserRow.tenant_id,
+      actorId: userId,
+      actorType: 'user',
+      workspaceId: verifiedUserRow.workspace_id ?? undefined,
+      payload: {},
+      source: 'api',
+      severity: 'info',
+    });
+  }
 
   return c.json({ message: 'Email address verified successfully.' });
 });

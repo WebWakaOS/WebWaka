@@ -247,8 +247,32 @@ app.get('/', (c) => {
       <div class="logo-text">WebWaka <span>OS</span></div>
       <span class="badge">Partner Admin</span>
     </div>
-    <span class="milestone-badge">Milestone 11 — Partner & White-Label</span>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <span class="milestone-badge">Milestone 11 — Partner & White-Label</span>
+      <div id="notifBell" style="position:relative;cursor:pointer" onclick="toggleNotifPanel()" title="Notifications">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span id="notifCount" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;align-items:center;justify-content:center;line-height:1">0</span>
+      </div>
+    </div>
   </header>
+
+  <div id="notifPanel" style="display:none;position:fixed;top:60px;right:1.5rem;z-index:1000;width:360px;background:#111827;border:1px solid #1f2937;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1rem;border-bottom:1px solid #1f2937">
+      <span style="font-weight:600;font-size:0.9rem">Partner Notifications</span>
+      <div style="display:flex;gap:0.5rem">
+        <button onclick="markAllRead()" style="background:none;border:1px solid #1f2937;color:#9ca3af;font-size:0.75rem;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px">Mark all read</button>
+        <button onclick="toggleNotifPanel()" style="background:none;border:none;color:#9ca3af;cursor:pointer;font-size:1.1rem;line-height:1">×</button>
+      </div>
+    </div>
+    <div id="notifList" style="max-height:380px;overflow-y:auto;padding:0.5rem">
+      <div style="color:#6b7280;font-size:0.85rem;padding:1rem;text-align:center">Loading…</div>
+    </div>
+    <div style="padding:0.75rem 1rem;border-top:1px solid #1f2937;text-align:center">
+      <button onclick="loadNotifications()" style="background:none;border:none;color:#3b82f6;font-size:0.8rem;cursor:pointer">Refresh</button>
+    </div>
+  </div>
 
   <main>
     <div class="hero">
@@ -374,7 +398,76 @@ app.get('/', (c) => {
   </footer>
 
   <script>
-    let _base = '', _pid = '', _jwt = '';
+    // N-091a: Notification Bell — polls GET /notifications/inbox?category=partner every 30s
+    let _notifPanelOpen = false;
+    let _notifPollInterval = null;
+
+    function toggleNotifPanel() {
+      _notifPanelOpen = !_notifPanelOpen;
+      document.getElementById('notifPanel').style.display = _notifPanelOpen ? 'block' : 'none';
+      if (_notifPanelOpen) loadNotifications();
+    }
+
+    async function loadNotifications() {
+      if (!_jwt) return;
+      const el = document.getElementById('notifList');
+      try {
+        const r = await fetch(_base + '/notifications/inbox?category=partner&limit=20', {
+          headers: { 'Authorization': 'Bearer ' + _jwt }
+        });
+        if (!r.ok) {
+          el.innerHTML = '<div style="color:#6b7280;font-size:0.85rem;padding:1rem;text-align:center">Could not load notifications.</div>';
+          return;
+        }
+        const d = await r.json();
+        const items = d.items || d.notifications || [];
+        const unreadCount = items.filter(function(n) { return !n.read_at; }).length;
+        updateNotifBadge(unreadCount);
+        if (items.length === 0) {
+          el.innerHTML = '<div style="color:#6b7280;font-size:0.85rem;padding:1.5rem;text-align:center">No partner notifications yet.</div>';
+          return;
+        }
+        el.innerHTML = items.map(function(n) {
+          const ts = n.created_at ? new Date(n.created_at * 1000).toLocaleString('en-NG') : '';
+          const unread = !n.read_at;
+          return '<div style="padding:0.75rem;border-bottom:1px solid #1f2937;' + (unread ? 'background:rgba(59,130,246,0.05)' : '') + '">' +
+            '<div style="display:flex;gap:0.5rem">' +
+            (unread ? '<div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin-top:5px;flex-shrink:0"></div>' : '<div style="width:6px;flex-shrink:0"></div>') +
+            '<div><div style="font-size:0.85rem;font-weight:' + (unread ? '600' : '400') + '">' + (n.title || n.event_key || 'Notification') + '</div>' +
+            '<div style="font-size:0.75rem;color:#6b7280">' + ts + '</div></div></div></div>';
+        }).join('');
+      } catch(e) {
+        el.innerHTML = '<div style="color:#6b7280;font-size:0.85rem;padding:1rem;text-align:center">Request failed.</div>';
+      }
+    }
+
+    function updateNotifBadge(count) {
+      const el = document.getElementById('notifCount');
+      if (!el) return;
+      if (count > 0) {
+        el.style.display = 'flex';
+        el.textContent = count > 99 ? '99+' : String(count);
+      } else { el.style.display = 'none'; }
+    }
+
+    async function markAllRead() {
+      if (!_jwt) return;
+      try {
+        await fetch(_base + '/notifications/inbox/read-all?category=partner', {
+          method: 'POST', headers: { 'Authorization': 'Bearer ' + _jwt }
+        });
+        updateNotifBadge(0);
+        await loadNotifications();
+      } catch(e) {}
+    }
+
+    function startNotifPolling() {
+      if (_notifPollInterval) clearInterval(_notifPollInterval);
+      loadNotifications();
+      _notifPollInterval = setInterval(loadNotifications, 30000);
+    }
+
+    let _base = '', _pid = '', _jwt = ''; = '', _pid = '', _jwt = '';
 
     function authHeaders() {
       return { 'Authorization': 'Bearer ' + _jwt, 'Content-Type': 'application/json' };
@@ -395,6 +488,7 @@ app.get('/', (c) => {
       document.getElementById('subPartnersPanel').style.display = 'block';
 
       await Promise.all([loadCredits(), loadSettlements(), loadSubPartners()]);
+      startNotifPolling();
     }
 
     async function loadCredits() {

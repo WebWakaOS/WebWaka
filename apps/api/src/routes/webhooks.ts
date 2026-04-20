@@ -1,19 +1,19 @@
 /**
- * Webhook Subscription Routes — PROD-04
+ * Webhook Subscription Routes — PROD-04 / N-133
  *
  * Provides CRUD management for workspace webhook subscriptions.
  * All routes are tenant-scoped (T3 invariant enforced).
  *
  * Routes:
- *   POST   /webhooks          — register a new webhook endpoint
+ *   GET    /webhooks/events    — list available event types by plan tier (N-133/G25)
+ *   POST   /webhooks          — register a new webhook endpoint (G25: tier-gated limit)
  *   GET    /webhooks          — list all subscriptions for the workspace
  *   GET    /webhooks/:id      — get a single subscription
  *   PATCH  /webhooks/:id      — update URL, events, active, or description
  *   DELETE /webhooks/:id      — delete a subscription (also cascades deliveries)
  *   GET    /webhooks/:id/deliveries — list delivery history for a subscription
  *
- * Registered events: template.installed, template.purchased,
- *                    workspace.member_added, payment.completed
+ * G25 subscription limits: standard=25, business=100, enterprise=unlimited
  */
 
 import { Hono } from 'hono';
@@ -22,11 +22,128 @@ import type { AuthContext } from '@webwaka/types';
 
 const webhookRoutes = new Hono<{ Bindings: Env }>();
 
+// ---------------------------------------------------------------------------
+// G25 tier limits for webhook subscriptions (N-133)
+// ---------------------------------------------------------------------------
+
+const WEBHOOK_TIER_LIMITS: Record<string, number> = {
+  free:       5,
+  starter:    25,
+  growth:     100,
+  enterprise: Infinity,
+};
+
+// Event types available per tier (cumulative — higher tiers include lower tiers)
+const TIER_EVENT_REGISTRY = {
+  free: [
+    'template.installed',
+    'workspace.member_added',
+    'payment.completed',
+  ],
+  starter: [
+    'template.installed',
+    'template.purchased',
+    'workspace.member_added',
+    'payment.completed',
+    'kyc.approved',
+    'kyc.rejected',
+    'bank_transfer.completed',
+    'bank_transfer.failed',
+    'pos.sale_completed',
+    'airtime.purchase_completed',
+    'airtime.purchase_failed',
+  ],
+  growth: [
+    'template.installed',
+    'template.purchased',
+    'workspace.member_added',
+    'payment.completed',
+    'kyc.approved',
+    'kyc.rejected',
+    'bank_transfer.completed',
+    'bank_transfer.failed',
+    'bank_transfer.initiated',
+    'bank_transfer.processing',
+    'pos.sale_completed',
+    'pos.float_credited',
+    'pos.float_debited',
+    'airtime.purchase_completed',
+    'airtime.purchase_failed',
+    'b2b.rfq_created',
+    'b2b.bid_submitted',
+    'b2b.bid_accepted',
+    'b2b.po_issued',
+    'b2b.po_delivered',
+    'b2b.invoice_raised',
+    'claim.submitted',
+    'claim.approved',
+    'claim.rejected',
+    'negotiation.session_started',
+    'negotiation.accepted',
+    'negotiation.rejected',
+    'support.ticket_created',
+    'support.ticket_resolved',
+    'partner.onboarded',
+    'partner.application_approved',
+    'onboarding.completed',
+    'transport.booking_created',
+    'transport.trip_completed',
+    '*',
+  ],
+  enterprise: ['*'],
+} as const;
+
 const VALID_EVENTS = [
   'template.installed',
   'template.purchased',
   'workspace.member_added',
   'payment.completed',
+  'kyc.approved',
+  'kyc.rejected',
+  'bank_transfer.completed',
+  'bank_transfer.failed',
+  'bank_transfer.initiated',
+  'bank_transfer.processing',
+  'pos.sale_completed',
+  'pos.float_credited',
+  'pos.float_debited',
+  'airtime.purchase_completed',
+  'airtime.purchase_failed',
+  'b2b.rfq_created',
+  'b2b.bid_submitted',
+  'b2b.bid_accepted',
+  'b2b.po_issued',
+  'b2b.po_delivered',
+  'b2b.invoice_raised',
+  'b2b.dispute_raised',
+  'claim.submitted',
+  'claim.approved',
+  'claim.rejected',
+  'claim.advanced',
+  'negotiation.session_started',
+  'negotiation.accepted',
+  'negotiation.rejected',
+  'negotiation.session_expired',
+  'support.ticket_created',
+  'support.ticket_resolved',
+  'support.ticket_closed',
+  'partner.onboarded',
+  'partner.application_approved',
+  'partner.application_rejected',
+  'partner.sub_partner_created',
+  'onboarding.started',
+  'onboarding.completed',
+  'onboarding.stalled',
+  'transport.booking_created',
+  'transport.booking_confirmed',
+  'transport.trip_started',
+  'transport.trip_completed',
+  'transport.booking_cancelled',
+  'ai.response_generated',
+  'ai.budget_warning',
+  'ai.budget_exhausted',
+  'social.post_published',
+  'social.follow_created',
   '*',
 ] as const;
 
@@ -35,6 +152,37 @@ type ValidEvent = typeof VALID_EVENTS[number];
 function isValidEvent(e: string): e is ValidEvent {
   return (VALID_EVENTS as readonly string[]).includes(e);
 }
+
+// ---------------------------------------------------------------------------
+// GET /webhooks/events — list available event types by plan tier (N-133)
+// ---------------------------------------------------------------------------
+
+webhookRoutes.get('/events', async (c) => {
+  const auth = c.get('auth') as AuthContext;
+  const db = c.env.DB;
+
+  let plan = 'free';
+  if (auth.workspaceId) {
+    const sub = await db
+      .prepare(
+        `SELECT plan FROM subscriptions WHERE workspace_id = ? AND tenant_id = ? ORDER BY created_at DESC LIMIT 1`,
+      )
+      .bind(String(auth.workspaceId), String(auth.tenantId))
+      .first<{ plan: string }>();
+    if (sub?.plan) plan = sub.plan;
+  }
+
+  const tierKey = (plan in TIER_EVENT_REGISTRY ? plan : 'starter') as keyof typeof TIER_EVENT_REGISTRY;
+  const availableEvents = TIER_EVENT_REGISTRY[tierKey];
+  const limit = WEBHOOK_TIER_LIMITS[plan] ?? WEBHOOK_TIER_LIMITS['starter']!;
+
+  return c.json({
+    plan,
+    subscription_limit: limit === Infinity ? null : limit,
+    available_events: availableEvents,
+    all_events: VALID_EVENTS,
+  });
+});
 
 /**
  * SSRF protection: reject URLs pointing to private/loopback/link-local addresses.
@@ -111,6 +259,35 @@ webhookRoutes.post('/', async (c) => {
     return c.json({
       error: `Invalid event types: ${String(invalidEvents.join(', '))}. Valid: ${VALID_EVENTS.join(', ')}`,
     }, 422);
+  }
+
+  // G25: enforce tier-based subscription limit (N-133)
+  const subRow = await db
+    .prepare(
+      `SELECT plan FROM subscriptions WHERE workspace_id = ? AND tenant_id = ? ORDER BY created_at DESC LIMIT 1`,
+    )
+    .bind(String(auth.workspaceId), String(auth.tenantId))
+    .first<{ plan: string }>();
+
+  const currentPlan = subRow?.plan ?? 'free';
+  const tierLimit = WEBHOOK_TIER_LIMITS[currentPlan] ?? WEBHOOK_TIER_LIMITS['free']!;
+
+  if (isFinite(tierLimit)) {
+    const countRow = await db
+      .prepare(
+        `SELECT COUNT(*) AS cnt FROM webhook_subscriptions WHERE workspace_id = ? AND tenant_id = ? AND active = 1`,
+      )
+      .bind(String(auth.workspaceId), String(auth.tenantId))
+      .first<{ cnt: number }>();
+
+    if ((countRow?.cnt ?? 0) >= tierLimit) {
+      return c.json({
+        error: `Webhook subscription limit reached for your plan (${currentPlan}: max ${tierLimit})`,
+        limit: tierLimit,
+        plan: currentPlan,
+        upgrade_url: `/workspaces/${String(auth.workspaceId)}/activate`,
+      }, 403);
+    }
   }
 
   const id = crypto.randomUUID();

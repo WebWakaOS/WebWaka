@@ -48,6 +48,8 @@ import type {
 import type { TransitFSMState } from '@webwaka/verticals-transit';
 import type { RideshareFSMState } from '@webwaka/verticals-rideshare';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { TransportEventType } from '@webwaka/events';
 
 export const transportRoutes = new Hono<{ Bindings: Env }>();
 
@@ -107,13 +109,27 @@ transportRoutes.patch('/motor-park/:id', async (c) => {
 });
 
 transportRoutes.post('/motor-park/:id/transition', async (c) => {
-  const auth = c.get('auth') as { tenantId: string };
+  const auth = c.get('auth') as { tenantId: string; userId?: string };
   let body: Record<string, unknown>;
   try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!body.status) return c.json({ error: 'status required' }, 400);
   const repo = new MotorParkRepository(c.env.DB);
   const park = await repo.transition(c.req.param('id'), auth.tenantId, body.status as ParkFSMState);
   if (!park) return c.json({ error: 'Not found or transition failed' }, 404);
+  // N-095: transport FSM event — map park status to canonical transport event
+  const parkStatus = body.status as string;
+  if (parkStatus === 'active') {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: TransportEventType.TransportBookingConfirmed,
+      tenantId: auth.tenantId,
+      actorId: auth.userId ?? 'system',
+      actorType: 'user',
+      payload: { entity_type: 'motor_park', entity_id: c.req.param('id'), status: parkStatus },
+      source: 'api',
+      severity: 'info',
+    });
+  }
   return c.json({ motor_park: park });
 });
 
@@ -222,13 +238,31 @@ transportRoutes.get('/transit/:id', async (c) => {
 });
 
 transportRoutes.post('/transit/:id/transition', async (c) => {
-  const auth = c.get('auth') as { tenantId: string };
+  const auth = c.get('auth') as { tenantId: string; userId?: string };
   let body: Record<string, unknown>;
   try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!body.status) return c.json({ error: 'status required' }, 400);
   const repo = new TransitRepository(c.env.DB);
   const transit = await repo.transition(c.req.param('id'), auth.tenantId, body.status as TransitFSMState);
   if (!transit) return c.json({ error: 'Not found' }, 404);
+  // N-095: transit FSM event
+  const transitStatus = body.status as string;
+  const transitEventKey =
+    transitStatus === 'active' ? TransportEventType.TransportTripStarted :
+    transitStatus === 'completed' ? TransportEventType.TransportTripCompleted :
+    transitStatus === 'suspended' ? TransportEventType.TransportBookingCancelled : null;
+  if (transitEventKey) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: transitEventKey,
+      tenantId: auth.tenantId,
+      actorId: auth.userId ?? 'system',
+      actorType: 'user',
+      payload: { entity_type: 'transit', entity_id: c.req.param('id'), status: transitStatus },
+      source: 'api',
+      severity: 'info',
+    });
+  }
   return c.json({ transit });
 });
 
@@ -260,13 +294,32 @@ transportRoutes.get('/rideshare/:id', async (c) => {
 });
 
 transportRoutes.post('/rideshare/:id/transition', async (c) => {
-  const auth = c.get('auth') as { tenantId: string };
+  const auth = c.get('auth') as { tenantId: string; userId?: string };
   let body: Record<string, unknown>;
   try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   if (!body.status) return c.json({ error: 'status required' }, 400);
   const repo = new RideshareRepository(c.env.DB);
   const driver = await repo.transition(c.req.param('id'), auth.tenantId, body.status as RideshareFSMState);
   if (!driver) return c.json({ error: 'Not found' }, 404);
+  // N-095: rideshare FSM event
+  const rideStatus = body.status as string;
+  const rideEventKey =
+    rideStatus === 'active' ? TransportEventType.TransportBookingConfirmed :
+    rideStatus === 'on_trip' ? TransportEventType.TransportTripStarted :
+    rideStatus === 'completed' ? TransportEventType.TransportTripCompleted :
+    rideStatus === 'suspended' ? TransportEventType.TransportBookingCancelled : null;
+  if (rideEventKey) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: rideEventKey,
+      tenantId: auth.tenantId,
+      actorId: auth.userId ?? 'system',
+      actorType: 'user',
+      payload: { entity_type: 'rideshare', entity_id: c.req.param('id'), status: rideStatus },
+      source: 'api',
+      severity: 'info',
+    });
+  }
   return c.json({ rideshare: driver });
 });
 

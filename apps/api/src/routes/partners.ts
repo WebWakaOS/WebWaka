@@ -27,6 +27,8 @@
 
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { PartnerEventType } from '@webwaka/events';
 
 const partnerRoutes = new Hono<{ Bindings: Env }>();
 
@@ -207,6 +209,19 @@ partnerRoutes.post('/', async (c) => {
     .bind(id)
     .first<Record<string, unknown>>();
 
+  // N-091: partner.onboarded event (category='partner' for inbox filtering)
+  void publishEvent(c.env, {
+    eventId: id,
+    eventKey: PartnerEventType.PartnerOnboarded,
+    tenantId: body.tenantId,
+    actorId: auth.userId as string,
+    actorType: 'user',
+    workspaceId: body.workspaceId,
+    payload: { partner_id: id, company_name: body.companyName, category: 'partner' },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ partner }, 201);
 });
 
@@ -306,6 +321,31 @@ partnerRoutes.patch('/:id/status', async (c) => {
     .prepare('SELECT * FROM partners WHERE id = ?')
     .bind(partnerId)
     .first<Record<string, unknown>>();
+
+  // N-091: partner.application_approved or rejected based on new status
+  if (body.status === 'active' && partner.status === 'pending') {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: PartnerEventType.PartnerApplicationApproved,
+      tenantId: auth.tenantId ?? 'platform',
+      actorId: auth.userId as string,
+      actorType: 'user',
+      payload: { partner_id: partnerId, category: 'partner' },
+      source: 'api',
+      severity: 'info',
+    });
+  } else if (body.status === 'suspended') {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: PartnerEventType.PartnerApplicationRejected,
+      tenantId: auth.tenantId ?? 'platform',
+      actorId: auth.userId as string,
+      actorType: 'user',
+      payload: { partner_id: partnerId, reason: 'suspended', category: 'partner' },
+      source: 'api',
+      severity: 'warning',
+    });
+  }
 
   return c.json({ partner: updated });
 });
@@ -481,6 +521,19 @@ partnerRoutes.post('/:id/sub-partners', async (c) => {
     .prepare('SELECT * FROM sub_partners WHERE id = ?')
     .bind(id)
     .first<Record<string, unknown>>();
+
+  // N-091: partner.sub_partner_created event (category='partner' for inbox filtering)
+  void publishEvent(c.env, {
+    eventId: id,
+    eventKey: PartnerEventType.PartnerSubPartnerCreated,
+    tenantId: body.tenantId,
+    actorId: auth.userId as string,
+    actorType: 'user',
+    workspaceId: body.workspaceId,
+    payload: { sub_partner_id: id, parent_partner_id: partnerId, tenant_id: body.tenantId, category: 'partner' },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ subPartner }, 201);
 });

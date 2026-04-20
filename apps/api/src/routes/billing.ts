@@ -20,6 +20,8 @@
 
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { BillingEventType } from '@webwaka/events';
 
 type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
@@ -196,6 +198,18 @@ billingRoutes.post('/enforce', async (c) => {
       )
       .bind(gracePeriodEnd, now, now, sub.id, tenantId)
       .run();
+    // N-082: billing.trial_ending for grace-period transition
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: BillingEventType.BillingTrialEnding,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id, plan: sub.plan, grace_period_end: gracePeriodEnd },
+      source: 'api',
+      severity: 'warning',
+    });
     transitionsToGrace++;
   }
 
@@ -219,6 +233,18 @@ billingRoutes.post('/enforce', async (c) => {
       )
       .bind(now, now, sub.id, tenantId)
       .run();
+    // N-082: billing.trial_expired for suspension transition
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: BillingEventType.BillingTrialExpired,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id },
+      source: 'api',
+      severity: 'critical',
+    });
     transitionsToSuspended++;
   }
 
@@ -290,6 +316,19 @@ billingRoutes.post('/reactivate', async (c) => {
     newPlan: sub.plan,
     changeType: 'reactivate',
     effectiveAt: now,
+  });
+
+  // N-082: billing.subscription_renewed for reactivation
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BillingEventType.BillingSubscriptionRenewed,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: sub.workspace_id,
+    payload: { subscription_id: sub.id, plan: sub.plan, change_type: 'reactivate' },
+    source: 'api',
+    severity: 'info',
   });
 
   return c.json({
@@ -382,6 +421,19 @@ billingRoutes.post('/change-plan', async (c) => {
       notes,
     });
 
+    // N-082: billing.subscription_renewed for plan upgrade
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: BillingEventType.BillingSubscriptionRenewed,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'upgrade' },
+      source: 'api',
+      severity: 'info',
+    });
+
     return c.json({
       changed: true,
       change_type: 'upgrade',
@@ -409,6 +461,19 @@ billingRoutes.post('/change-plan', async (c) => {
       changeType: 'downgrade',
       effectiveAt: now,
       notes,
+    });
+
+    // N-082: billing.subscription_renewed for plan downgrade
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: BillingEventType.BillingSubscriptionRenewed,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'downgrade' },
+      source: 'api',
+      severity: 'info',
     });
 
     return c.json({
@@ -478,6 +543,19 @@ billingRoutes.post('/cancel', async (c) => {
     effectiveAt: sub.current_period_end ?? now,
   });
 
+  // N-082: billing.subscription_cancelled event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BillingEventType.BillingSubscriptionCancelled,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: sub.workspace_id,
+    payload: { subscription_id: sub.id, plan: sub.plan, cancels_at: sub.current_period_end },
+    source: 'api',
+    severity: 'warning',
+  });
+
   return c.json({
     cancelled: true,
     cancels_at: sub.current_period_end
@@ -529,6 +607,19 @@ billingRoutes.post('/revert-cancel', async (c) => {
     changeType: 'revert_cancel',
     effectiveAt: now,
     notes: 'Scheduled cancellation reverted; subscription will auto-renew at period end.',
+  });
+
+  // N-082: billing.subscription_renewed for revert-cancel
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: BillingEventType.BillingSubscriptionRenewed,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: sub.workspace_id,
+    payload: { subscription_id: sub.id, plan: sub.plan, change_type: 'revert_cancel' },
+    source: 'api',
+    severity: 'info',
   });
 
   return c.json({

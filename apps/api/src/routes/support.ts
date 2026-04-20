@@ -20,6 +20,8 @@
 
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { SupportEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(query: string): {
@@ -112,6 +114,19 @@ supportRoutes.post('/tickets', async (c) => {
     .prepare('SELECT * FROM support_tickets WHERE id = ? AND tenant_id = ?')
     .bind(id, auth.tenantId)
     .first<Record<string, unknown>>();
+
+  // N-086: support.ticket_created event
+  void publishEvent(c.env, {
+    eventId: id,
+    eventKey: SupportEventType.SupportTicketCreated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId ?? workspaceId,
+    payload: { ticket_id: id, subject: body.subject, priority },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ ticket }, 201);
 });
@@ -275,6 +290,46 @@ supportRoutes.patch('/tickets/:id', async (c) => {
     )
     .bind(...(tenantFilter ? [ticketId, tenantFilter] : [ticketId]))
     .first<Record<string, unknown>>();
+
+  // N-086: fire status-change events for ticket FSM transitions
+  if (body.status !== undefined && body.status !== ticket.status) {
+    if (body.status === 'resolved') {
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: SupportEventType.SupportTicketResolved,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        payload: { ticket_id: ticketId, resolved_by: auth.userId },
+        source: 'api',
+        severity: 'info',
+      });
+    } else if (body.status === 'closed') {
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: SupportEventType.SupportTicketClosed,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        payload: { ticket_id: ticketId, closed_by: auth.userId },
+        source: 'api',
+        severity: 'info',
+      });
+    }
+  }
+  // N-086: fire assigned event when assignee changes
+  if (body.assigneeId !== undefined && body.assigneeId !== ticket.assignee_id && body.assigneeId) {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: SupportEventType.SupportTicketAssigned,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { ticket_id: ticketId, assigned_to: body.assigneeId },
+      source: 'api',
+      severity: 'info',
+    });
+  }
 
   return c.json({ ticket: updated });
 });

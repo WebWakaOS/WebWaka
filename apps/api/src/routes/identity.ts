@@ -19,6 +19,8 @@
 import { Hono } from 'hono';
 import { verifyBVN, verifyNIN, verifyCAC, verifyFRSC, hashPII, IdentityError, type ConsentRecord } from '@webwaka/identity';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { KycEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(sql: string): {
@@ -71,9 +73,31 @@ identityRoutes.post('/verify-bvn', async (c) => {
       bvn_hash,
     ).run();
 
+    // N-083: kyc.approved event (BVN)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: KycEventType.KycApproved,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { record_type: 'BVN', provider: result.provider, verified: result.verified },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ success: true, result: { verified: result.verified, full_name: result.full_name, phone_match: result.phone_match, provider: result.provider } });
   } catch (err) {
     if (err instanceof IdentityError) {
+      // N-083: kyc.rejected event on identity error
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: KycEventType.KycRejected,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        payload: { record_type: 'BVN', error_code: (err as IdentityError).code },
+        source: 'api',
+        severity: 'warning',
+      });
       return c.json({ error: err.code, message: err.message }, err.code === 'consent_missing' ? 403 : 422);
     }
     console.error('[identity/verify-bvn]', err instanceof Error ? err.message : err);
@@ -119,9 +143,30 @@ identityRoutes.post('/verify-nin', async (c) => {
       nin_hash,
     ).run();
 
+    // N-083: kyc.approved event (NIN)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: KycEventType.KycApproved,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { record_type: 'NIN', provider: result.provider, verified: result.verified },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ success: true, result: { verified: result.verified, full_name: result.full_name, gender: result.gender, dob: result.dob, provider: result.provider } });
   } catch (err) {
     if (err instanceof IdentityError) {
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: KycEventType.KycRejected,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        payload: { record_type: 'NIN', error_code: (err as IdentityError).code },
+        source: 'api',
+        severity: 'warning',
+      });
       return c.json({ error: err.code, message: err.message }, err.code === 'consent_missing' ? 403 : 422);
     }
     console.error('[identity/verify-nin]', err instanceof Error ? err.message : err);

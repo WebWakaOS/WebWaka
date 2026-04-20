@@ -27,6 +27,8 @@
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { B2bEventType } from '@webwaka/events';
 
 interface D1Like {
   prepare(query: string): {
@@ -111,6 +113,19 @@ b2bMarketplaceRoutes.post('/rfqs', async (c) => {
     .prepare(`SELECT * FROM b2b_rfqs WHERE id = ? AND tenant_id = ? LIMIT 1`)
     .bind(id, auth.tenantId)
     .first<Record<string, unknown>>();
+
+  // N-093: b2b.rfq_created event
+  void publishEvent(c.env, {
+    eventId: id,
+    eventKey: B2bEventType.B2bRfqCreated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: body.workspace_id,
+    payload: { rfq_id: id, category: body.category, title: body.title },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ rfq }, 201);
 });
@@ -215,6 +230,18 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids', async (c) => {
     .bind(rfqId)
     .run();
 
+  // N-093: b2b.bid_submitted event
+  void publishEvent(c.env, {
+    eventId: bidId,
+    eventKey: B2bEventType.B2bBidSubmitted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { rfq_id: rfqId, bid_id: bidId, bid_amount_kobo: body.bid_amount_kobo, seller_entity_id: body.seller_entity_id },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ bid_id: bidId, status: 'submitted' }, 201);
 });
 
@@ -261,6 +288,30 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids/:bidId/accept', async (c) => {
     .prepare(`UPDATE b2b_rfqs SET status = 'awarded', awarded_bid_id = ?, updated_at = unixepoch() WHERE id = ?`)
     .bind(bidId, rfqId)
     .run();
+
+  // N-093: b2b.bid_accepted + b2b.po_issued events
+  void publishEvent(c.env, {
+    eventId: bidId,
+    eventKey: B2bEventType.B2bBidAccepted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: rfq.workspace_id,
+    payload: { rfq_id: rfqId, bid_id: bidId, purchase_order_id: poId },
+    source: 'api',
+    severity: 'info',
+  });
+  void publishEvent(c.env, {
+    eventId: poId,
+    eventKey: B2bEventType.B2bPoIssued,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: rfq.workspace_id,
+    payload: { purchase_order_id: poId, rfq_id: rfqId, bid_id: bidId },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ purchase_order_id: poId, status: 'rfq_accepted' }, 201);
 });
@@ -328,6 +379,18 @@ b2bMarketplaceRoutes.post('/purchase-orders/:poId/deliver', async (c) => {
     )
     .bind(now, auth.userId, now, poId, auth.tenantId)
     .run();
+
+  // N-093: b2b.po_delivered event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: B2bEventType.B2bPoDelivered,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { purchase_order_id: poId, seller_entity_id: po.seller_entity_id },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ success: true, status: 'delivered' });
 });
@@ -420,6 +483,18 @@ b2bMarketplaceRoutes.post('/invoices', async (c) => {
     )
     .run();
 
+  // N-093: b2b.invoice_raised event
+  void publishEvent(c.env, {
+    eventId: invoiceId,
+    eventKey: B2bEventType.B2bInvoiceRaised,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { invoice_id: invoiceId, purchase_order_id: body.purchase_order_id, invoice_number: invoiceNumber, total_kobo: totalKobo },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ invoice_id: invoiceId, invoice_number: invoiceNumber, total_kobo: totalKobo }, 201);
 });
 
@@ -509,6 +584,25 @@ b2bMarketplaceRoutes.post('/disputes', async (c) => {
       JSON.stringify(body.evidence_urls ?? []),
     )
     .run();
+
+  // N-093: b2b.dispute_raised event (high severity — dispute impacts trust scores)
+  void publishEvent(c.env, {
+    eventId: disputeId,
+    eventKey: B2bEventType.B2bDisputeRaised,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: {
+      dispute_id: disputeId,
+      purchase_order_id: body.purchase_order_id ?? null,
+      invoice_id: body.invoice_id ?? null,
+      raised_by_entity: body.raised_by_entity,
+      against_entity: body.against_entity,
+      reason: body.reason,
+    },
+    source: 'api',
+    severity: 'critical',
+  });
 
   return c.json({ dispute_id: disputeId, status: 'open' }, 201);
 });

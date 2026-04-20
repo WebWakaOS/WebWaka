@@ -58,6 +58,8 @@ import { buildAIRoutingContext, AIAuthError } from '@webwaka/auth';
 import type { AiConsentPurpose, AiConsentLocale } from '@webwaka/superagent';
 import type { AICapabilityType, AIRequest } from '@webwaka/ai';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { AiEventType } from '@webwaka/events';
 
 // ---------------------------------------------------------------------------
 // D1Like (minimal — avoids direct CF Workers type import in route files)
@@ -243,6 +245,18 @@ superagentRoutes.post(
       return c.json({ error: 'COMPLIANCE_BLOCKED', warnings: complianceResult.warnings }, 403);
     }
     if (complianceResult.requiresHitl) {
+      // N-087: ai.hitl_required event
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: AiEventType.AiHitlRequired,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId: auth.workspaceId,
+        payload: { capability, vertical: verticalSlug, sector: complianceResult.sector, hitl_level: complianceResult.hitlLevel },
+        source: 'api',
+        severity: 'warning',
+      });
       return c.json({
         error: 'HITL_REQUIRED',
         sector: complianceResult.sector,
@@ -267,6 +281,18 @@ superagentRoutes.post(
       auth.workspaceId,
     );
     if (!budgetCheck.allowed) {
+      // N-087: ai.budget_exhausted event
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: AiEventType.AiBudgetExhausted,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId: auth.workspaceId,
+        payload: { capability, scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit },
+        source: 'api',
+        severity: 'critical',
+      });
       return c.json({
         error: 'BUDGET_EXCEEDED',
         scope: budgetCheck.budgetScope,
@@ -324,6 +350,18 @@ superagentRoutes.post(
       aiResponse = await adapter.complete(aiRequest);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Provider call failed';
+      // N-087: ai.response_failed event
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: AiEventType.AiResponseFailed,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId: auth.workspaceId,
+        payload: { capability, vertical: verticalSlug, provider: resolved.config.provider ?? 'unknown', error: message },
+        source: 'api',
+        severity: 'critical',
+      });
       return c.json({ error: 'AI_PROVIDER_ERROR', message }, 503);
     }
     const durationMs = Date.now() - startMs;
@@ -441,6 +479,28 @@ superagentRoutes.post(
         }
       }
     }
+
+    // N-087: ai.response_generated event (fire-and-forget; no PII — only metrics)
+    void publishEvent(c.env, {
+      eventId: burnRef,
+      eventKey: AiEventType.AiResponseGenerated,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: auth.workspaceId,
+      payload: {
+        capability,
+        vertical: verticalSlug || null,
+        provider: aiResponse.provider,
+        model: aiResponse.model,
+        tokens_used: aiResponse.tokensUsed,
+        waku_cu_charged: burn.wakaCuCharged,
+        duration_ms: durationMs,
+        routing_level: resolved.level,
+      },
+      source: 'api',
+      severity: 'info',
+    });
 
     return c.json({
       provider: aiResponse.provider,

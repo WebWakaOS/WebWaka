@@ -25,6 +25,8 @@ import {
   documentVerificationChecklist,
 } from '@webwaka/claims';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { ClaimEventType } from '@webwaka/events';
 
 const claimRoutes = new Hono<{ Bindings: Env }>();
 
@@ -132,6 +134,18 @@ claimRoutes.post('/intent', async (c) => {
     }
   }
 
+  // N-084: claim.submitted event
+  void publishEvent(c.env, {
+    eventId: claimId,
+    eventKey: ClaimEventType.ClaimSubmitted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { claim_id: claimId, profile_id: profileId, verification_method: verificationMethod },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ claimRequestId: claimId, status: 'pending', expiresAt }, 201);
 });
 
@@ -224,6 +238,18 @@ claimRoutes.post('/advance', async (c) => {
       throw err;
     }
   }
+
+  // N-084: claim.approved or claim.rejected event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: action === 'approve' ? ClaimEventType.ClaimApproved : ClaimEventType.ClaimRejected,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { claim_id: claimRequestId, profile_id: claimRow.profile_id, action, ...(rejectionReason ? { reason: rejectionReason } : {}) },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ claimRequestId, status: newStatus, profileState: newProfileState });
 });
@@ -324,6 +350,18 @@ claimRoutes.post('/verify', async (c) => {
     .prepare(`UPDATE claim_requests SET verification_data = ?, updated_at = unixepoch() WHERE id = ? AND (tenant_id = ? OR tenant_id IS NULL)`)
     .bind(updatedData, claimRequestId, auth.tenantId)
     .run();
+
+  // N-084: claim.advanced event (evidence submitted → pending admin review)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: ClaimEventType.ClaimAdvanced,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { claim_id: claimRequestId, profile_id: claimRow.profile_id, method: method ?? claimRow.verification_method },
+    source: 'api',
+    severity: 'info',
+  });
 
   return c.json({ claimRequestId, status: 'pending', message: 'Verification submitted — awaiting admin approval' });
 });

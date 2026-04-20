@@ -12,6 +12,8 @@
 
 import { NegotiationRepository } from '@webwaka/negotiation';
 import type { Env } from '../env.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { NegotiationEventType } from '@webwaka/events';
 
 export async function runNegotiationExpiry(env: Env): Promise<void> {
   const repo = new NegotiationRepository(env.DB);
@@ -37,6 +39,17 @@ export async function runNegotiationExpiry(env: Env): Promise<void> {
         } catch {
           // Audit failure must not halt the sweep
         }
+        // N-085/N-098: negotiation.session_expired event (fire-and-forget, system actor)
+        void publishEvent(env, {
+          eventId: `neg_exp_${session.id}`,
+          eventKey: NegotiationEventType.NegotiationSessionExpired,
+          tenantId: session.tenant_id,
+          actorId: 'system',
+          actorType: 'system',
+          payload: { session_id: session.id, expired_at: now },
+          source: 'api',
+          severity: 'info',
+        });
       }
     }
   } catch (err) {

@@ -17,6 +17,8 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { PosFinanceEventType } from '@webwaka/events';
 import {
   postLedgerEntry,
   reverseLedgerEntry,
@@ -176,6 +178,17 @@ posRoutes.post('/float/credit', async (c) => {
       reference,
       ...(description !== undefined ? { description } : {}),
     });
+    // N-089: pos.float_credited event
+    void publishEvent(c.env, {
+      eventId: reference,
+      eventKey: PosFinanceEventType.PosFloatCredited,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { agent_id: agentId, amount_kobo: amountKobo, reference, ledger_id: result.id },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {
     if (err instanceof Error && err.message.includes('UNIQUE')) {
@@ -212,6 +225,17 @@ posRoutes.post('/float/debit', async (c) => {
       transactionType: 'cash_out',
       reference,
       ...(description !== undefined ? { description } : {}),
+    });
+    // N-089: pos.float_debited event
+    void publishEvent(c.env, {
+      eventId: reference,
+      eventKey: PosFinanceEventType.PosFloatDebited,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { agent_id: agentId, amount_kobo: amountKobo, reference, ledger_id: result.id },
+      source: 'api',
+      severity: 'info',
     });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {

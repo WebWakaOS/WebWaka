@@ -173,6 +173,9 @@ export const OnboardingEventType = {
 
 export const PosFinanceEventType = {
   PosSaleCompleted:         'pos.sale_completed',
+  PosFloatCredited:         'pos.float_credited',
+  PosFloatDebited:          'pos.float_debited',
+  PosFloatReversed:         'pos.float_reversed',
   FinanceTransferInitiated: 'finance.transfer_initiated',
   FinanceTransferCompleted: 'finance.transfer_completed',
   FinanceTransferFailed:    'finance.transfer_failed',
@@ -185,6 +188,7 @@ export const PosFinanceEventType = {
 export const SocialEventType = {
   SocialPostPublished:       'social.post_published',
   SocialCommentAdded:        'social.comment_added',
+  SocialFollowCreated:       'social.follow_created',
   CommunityMemberJoined:     'community.member_joined',
   CommunityEventScheduled:   'community.event_scheduled',
   CommunityAnnouncementSent: 'community.announcement_sent',
@@ -226,6 +230,7 @@ export const B2bEventType = {
   B2bBidSubmitted:  'b2b.bid_submitted',
   B2bBidAccepted:   'b2b.bid_accepted',
   B2bPoIssued:      'b2b.po_issued',
+  B2bPoDelivered:   'b2b.po_delivered',
   B2bInvoiceRaised: 'b2b.invoice_raised',
   B2bDisputeRaised: 'b2b.dispute_raised',
 } as const;

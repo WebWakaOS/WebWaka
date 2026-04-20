@@ -28,6 +28,8 @@ import type { Env } from '../env.js';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 import { EmailService } from '../lib/email-service.js';
 import { indexOffering } from '../lib/search-index.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { WorkspaceEventType } from '@webwaka/events';
 
 const workspaceRoutes = new Hono<{ Bindings: Env }>();
 
@@ -269,8 +271,21 @@ workspaceRoutes.post('/:id/invite', async (c) => {
     invited_by: auth.userId,
   }).catch(() => {});
 
-  // PROD-05: send invite email if email provided (best effort)
-  if (body.email) {
+  // N-081: workspace.invite_sent event (publishEvent is primary; email is best-effort secondary)
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceInviteSent,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId,
+    payload: { workspace_id: workspaceId, invitee_id: userId, role: roleValue, has_email: !!body.email },
+    source: 'api',
+    severity: 'info',
+  });
+
+  // G2: email send is secondary/optional — kill-switch guards the notification pipeline
+  if (c.env.NOTIFICATION_PIPELINE_ENABLED !== '1' && body.email) {
     const emailService = new EmailService(c.env.RESEND_API_KEY);
     void emailService.sendTransactional(body.email, 'workspace-invite', {
       inviter_name: String(auth.userId),

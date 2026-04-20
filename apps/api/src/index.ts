@@ -23,6 +23,7 @@ import type { Env } from './env.js';
 import { registerMiddleware } from './middleware/index.js';
 import { registerRoutes } from './router.js';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
+import { runOnboardingStalled } from './jobs/onboarding-stalled.js';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -79,5 +80,6 @@ export default {
 
   async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
     await runNegotiationExpiry(env);
+    await runOnboardingStalled(env);
   },
 };
