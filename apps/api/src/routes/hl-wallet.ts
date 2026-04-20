@@ -52,6 +52,13 @@ import { generateId, generateWalletRef } from '@webwaka/hl-wallet';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
+// Minimal D1 interface for inline consent queries that bypass hl-wallet type boundary.
+interface D1Compat {
+  prepare(sql: string): {
+    bind(...args: unknown[]): { first<T>(): Promise<T | null> };
+  };
+}
+
 const walletRoutes = new Hono<AppEnv>();
 
 function getWalletKv(env: Env): KVNamespace {
@@ -82,6 +89,64 @@ function handleWalletError(err: unknown, c: Context<AppEnv, any>) {
 }
 
 // ---------------------------------------------------------------------------
+// WF-026: MLA referral chain commission recording helper (fire-and-forget)
+// Traverses up to 3 referral levels using the relationships table.
+// kind='referral', subject_type='user', object_type='user'
+// Records a pending hl_mla_earnings row for each active-wallet referrer found.
+// Never throws — individual level failures are caught and swallowed.
+// ---------------------------------------------------------------------------
+
+async function recordMlaChain(
+  db: D1Compat,
+  kv: KVNamespace,
+  spendingUserId: string,
+  tenantId: string,
+  spendEventId: string,
+  amountKobo: number,
+  verticalSlug?: string,
+  orderId?: string,
+): Promise<void> {
+  let currentUserId = spendingUserId;
+  for (let level = 1; level <= 3; level++) {
+    let referrerId: string | undefined;
+    try {
+      const rel = await db
+        .prepare(
+          `SELECT object_id FROM relationships
+           WHERE kind = 'referral' AND subject_type = 'user' AND subject_id = ?
+             AND object_type = 'user' AND tenant_id = ? LIMIT 1`,
+        )
+        .bind(currentUserId, tenantId)
+        .first<{ object_id: string }>();
+      if (!rel) break;
+      referrerId = rel.object_id;
+    } catch {
+      break;
+    }
+
+    try {
+      const referrerWallet = await getWalletByUser(db as never, referrerId, tenantId);
+      if (referrerWallet && referrerWallet.status === 'active') {
+        await recordMlaEarning(db as never, kv as never, {
+          walletId:            referrerWallet.id,
+          earnerUserId:        referrerId,
+          tenantId,
+          referralLevel:       level as 1 | 2 | 3,
+          baseAmountKobo:      amountKobo,
+          sourceVertical:      verticalSlug,
+          sourceOrderId:       orderId,
+          sourceSpendEventId:  spendEventId,
+        });
+      }
+    } catch {
+      // Per-level MLA failure must not block chain traversal or the spend response
+    }
+
+    currentUserId = referrerId;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // POST /wallet — Create wallet (idempotent)
 // ---------------------------------------------------------------------------
 
@@ -98,6 +163,22 @@ walletRoutes.post('/', async (c) => {
   const existing = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
   if (existing) {
     return c.json({ wallet: existing }, 200);
+  }
+
+  // WF-033: NDPR payment_data consent gate (Platform Invariant P10)
+  const consentRow = await (c.env.DB as unknown as D1Compat)
+    .prepare(
+      `SELECT id FROM consent_records
+       WHERE user_id = ? AND tenant_id = ? AND data_type = 'payment_data'
+         AND revoked_at IS NULL LIMIT 1`,
+    )
+    .bind(auth.userId, auth.tenantId)
+    .first<{ id: string }>();
+  if (!consentRow) {
+    return c.json({
+      error: 'NDPR_CONSENT_REQUIRED',
+      message: 'Payment data consent required before creating a wallet. Provide consent via POST /identity/consent.',
+    }, 403);
   }
 
   let body: { workspace_id?: string; kyc_tier?: number } = {};
@@ -309,6 +390,22 @@ walletRoutes.post('/spend', async (c) => {
     assertIntegerKobo(body.amount_kobo);
     await assertTenantEligible(kv, auth.tenantId);
 
+    // WF-033: NDPR payment_data consent gate (Platform Invariant P10)
+    const spendConsentRow = await (c.env.DB as unknown as D1Compat)
+      .prepare(
+        `SELECT id FROM consent_records
+         WHERE user_id = ? AND tenant_id = ? AND data_type = 'payment_data'
+           AND revoked_at IS NULL LIMIT 1`,
+      )
+      .bind(auth.userId, auth.tenantId)
+      .first<{ id: string }>();
+    if (!spendConsentRow) {
+      return c.json({
+        error: 'NDPR_CONSENT_REQUIRED',
+        message: 'Payment data consent required before using the wallet. Provide consent via POST /identity/consent.',
+      }, 403);
+    }
+
     const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
     if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found' }, 404);
 
@@ -341,6 +438,18 @@ walletRoutes.post('/spend', async (c) => {
           new_balance_kobo: wallet.balanceKobo - body.amount_kobo,
         },
       });
+
+      // WF-026: Record MLA commissions up the referral chain (fire-and-forget)
+      void recordMlaChain(
+        c.env.DB as unknown as D1Compat,
+        kv,
+        auth.userId,
+        auth.tenantId,
+        spendEvent.id,
+        body.amount_kobo!,
+        body.vertical_slug,
+        body.order_id,
+      );
     }
 
     return c.json({ spend_event: spendEvent }, 201);

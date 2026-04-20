@@ -27,7 +27,8 @@ import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 import { publishEvent } from '../lib/publish-event.js';
-import { BankTransferEventType } from '@webwaka/events';
+import { BankTransferEventType, WalletEventType } from '@webwaka/events';
+import { confirmFunding } from '@webwaka/hl-wallet';
 
 interface D1Like {
   prepare(query: string): {
@@ -297,6 +298,60 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
     source: 'api',
     severity: 'critical',
   });
+
+  // WF-021/022: Auto-credit wallet if this bank transfer has an associated hl_funding_request.
+  // If hitl_required = 1, skip auto-credit and notify super-admin to confirm via platform-admin.
+  try {
+    const fr = await db
+      .prepare(
+        `SELECT id, tenant_id, hitl_required FROM hl_funding_requests
+         WHERE bank_transfer_order_id = ? AND status = 'pending' LIMIT 1`,
+      )
+      .bind(orderId)
+      .first<{ id: string; tenant_id: string; hitl_required: number }>();
+
+    if (fr) {
+      if (fr.hitl_required === 0) {
+        // Auto-confirm: debit and credit wallet immediately
+        await confirmFunding(c.env.DB as never, fr.id, fr.tenant_id, auth.userId);
+        void publishEvent(c.env, {
+          eventId:   crypto.randomUUID(),
+          eventKey:  WalletEventType.WalletFundingConfirmed,
+          tenantId:  fr.tenant_id,
+          actorId:   auth.userId,
+          actorType: 'user',
+          severity:  'critical',
+          payload: {
+            funding_request_id:      fr.id,
+            bank_transfer_order_id:  orderId,
+            confirmed_by:            auth.userId,
+          },
+          source: 'api',
+        });
+      } else {
+        // HITL required: leave funding request pending, alert super-admin
+        void publishEvent(c.env, {
+          eventId:   crypto.randomUUID(),
+          eventKey:  WalletEventType.WalletFundingHitlRequired,
+          tenantId:  fr.tenant_id,
+          actorId:   'system',
+          actorType: 'system',
+          severity:  'critical',
+          payload: {
+            funding_request_id:      fr.id,
+            bank_transfer_order_id:  orderId,
+            triggered_by:            auth.userId,
+            action_required:         'Confirm or reject via /platform-admin/wallets/funding/:id/confirm',
+          },
+          source: 'api',
+        });
+      }
+    }
+  } catch (walletErr) {
+    // Never let wallet credit failure block the bank transfer confirmation response.
+    // Super-admin can manually confirm via POST /platform-admin/wallets/funding/:id/confirm.
+    console.error('[bank-transfer:confirm] wallet auto-confirm failed:', walletErr);
+  }
 
   return c.json({ success: true, status: 'confirmed' });
 });

@@ -231,6 +231,31 @@ export async function scheduled(
       console.error('[projections:cron] bank transfer expiry failed:', err);
     }
   }
+
+  // WF-028: Daily 02:00 — expire hl_funding_requests whose bank_transfer_order expired
+  if (cron === '0 2 * * *') {
+    try {
+      const now = Math.floor(Date.now() / 1000);
+      const result = await db
+        .prepare(
+          `UPDATE hl_funding_requests
+           SET status = 'expired', updated_at = ?
+           WHERE status = 'pending'
+             AND bank_transfer_order_id IN (
+               SELECT id FROM bank_transfer_orders WHERE status = 'expired'
+             )`,
+        )
+        .bind(now)
+        .run();
+      const expired = result.meta?.changes ?? 0;
+      if (expired > 0) {
+        console.log(`[projections:cron] hl_funding_requests expired=${expired}`);
+      }
+      await updateProjectionCheckpoint(db, 'wallet_funding_expiry', Date.now() - (Date.now() - 1));
+    } catch (err) {
+      console.error('[projections:cron] wallet funding expiry failed:', err);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -5,7 +5,8 @@
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
 **Current State: PRODUCTION READY — Staging + Production deployed green, 2514 tests passing (2463 + 51 wallet), TypeScript 0 errors, 10/10 governance checks green**
-**HandyLife Wallet (WF-001–WF-056): Phase W1 COMPLETE — `packages/hl-wallet` + 9 migrations (0279–0287) + API routes at `/wallet/*` + `/platform-admin/wallets/*` + WalletEventType + WALLET_KV binding. Phase W2–W5 PENDING (feature-flagged off: transfers, withdrawals, online funding, MLA payout).**
+**HandyLife Wallet: Phase W1 COMPLETE + Phase W2 COMPLETE. Phase W3–W5 PENDING (feature-flagged off).**
+**W2 additions: bank-transfer → auto-confirmFunding (WF-021), HITL routing (WF-022), MLA referral chain recording (WF-026), NDPR payment_data consent gate (WF-033), wallet funding expiry CRON (WF-028), platform-admin wallet UI at /wallet.html (WF-029), WalletFundingHitlRequired event type, governance doc at docs/governance/handylife-wallet-governance.md (WF-036).**
 **Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P25 defined**
 **Notification Engine v2 — CANONICAL IMPLEMENTATION-READY: `docs/webwaka-notification-engine-final-master-specification-v2.md` (all 13 OQ decisions resolved, 25 guardrails G1-G25, 16-entity domain model, ~180d revised effort, N-001–N-133 backlog, 9 phases — supersedes all 4 prior notification docs)**
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**

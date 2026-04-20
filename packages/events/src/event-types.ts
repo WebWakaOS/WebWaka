@@ -303,6 +303,7 @@ export const WalletEventType = {
   WalletWithdrawalDisabled:   'wallet.withdrawal.disabled',
   WalletAdminFrozen:          'wallet.admin.frozen',
   WalletAdminUnfrozen:        'wallet.admin.unfrozen',
+  WalletFundingHitlRequired:  'wallet.funding.hitl_required',
 } as const;
 
 // ---------------------------------------------------------------------------
