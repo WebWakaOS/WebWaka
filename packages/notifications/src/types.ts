@@ -65,6 +65,13 @@ export interface DispatchContext {
   severity: NotificationSeverity;
   sandboxMode: boolean;                     // G24: redirect to test address if true
   sandboxRecipient?: SandboxRecipient;
+  /**
+   * Pre-resolved channel delivery address for external channels (email, SMS, etc.).
+   * Phase 2: populated by NotificationService before calling channel.dispatch().
+   * Phase 3+: superseded by full template renderer address resolution.
+   * G20: suppression check uses this address; NEVER raw PII stored in audit log.
+   */
+  channelAddress?: string;
 }
 
 // ---------------------------------------------------------------------------

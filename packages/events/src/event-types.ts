@@ -45,8 +45,9 @@ export const AuthEventType = {
   UserMfaEnabled:             'auth.user.mfa_enabled',
   UserMfaDisabled:            'auth.user.mfa_disabled',
   UserDeleted:                'auth.user.deleted',
-  UserInvited:                'auth.user.invited',
-  UserInviteAccepted:         'auth.user.invite_accepted',
+  UserInvited:                    'auth.user.invited',
+  UserInviteAccepted:             'auth.user.invite_accepted',
+  UserEmailVerificationSent:      'auth.user.email_verification_sent',
 } as const;
 
 // ---------------------------------------------------------------------------

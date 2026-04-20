@@ -25,6 +25,12 @@
 
 import type { Env } from './env.js';
 import { getSandboxConfig } from './sandbox.js';
+import {
+  processEvent,
+  InAppChannel,
+  ResendEmailChannel,
+} from '@webwaka/notifications';
+import type { ProcessEventParams, SandboxConfig, D1LikeFull } from '@webwaka/notifications';
 
 // ---------------------------------------------------------------------------
 // NotificationQueueMessage — full shape for both queue message types
@@ -55,6 +61,8 @@ export interface NotificationQueueMessage {
   actorId?: string;
   subjectType?: string;
   subjectId?: string;
+  /** Workspace context — used for workspace_admins audience type resolution */
+  workspaceId?: string;
   payload?: Record<string, unknown>;
   /** N-011: cross-service distributed tracing */
   correlationId?: string;
@@ -68,18 +76,8 @@ export interface NotificationQueueMessage {
   batchId?: string;
 }
 
-// ---------------------------------------------------------------------------
-// D1Like — duck-typed D1Database interface for testability
-// Structurally compatible with Cloudflare D1Database.
-// ---------------------------------------------------------------------------
-
-interface D1Like {
-  prepare(query: string): {
-    bind(...args: unknown[]): {
-      run(): Promise<{ success: boolean }>;
-    };
-  };
-}
+// D1LikeFull is imported from @webwaka/notifications (duck-typed D1Database).
+// It extends the Phase 1 D1Like with first<T>() and all<T>() for Phase 2 queries.
 
 // ---------------------------------------------------------------------------
 // processQueueBatch — main entry point
@@ -118,6 +116,21 @@ export async function processQueueBatch(
     return;
   }
 
+  // Phase 2: Build channels once per batch (G3: platform sender; G24: sandbox redirect)
+  const db = env.DB as unknown as D1LikeFull;
+  const channels = [
+    new InAppChannel(db),
+    new ResendEmailChannel(env.RESEND_API_KEY),
+  ];
+
+  // Phase 2: Build sandbox config for G24 redirect
+  const notifSandbox: SandboxConfig = {
+    enabled: sandboxConfig.enabled,
+    ...(sandboxConfig.enabled && env.NOTIFICATION_SANDBOX_EMAIL
+      ? { sandboxRecipient: { email: env.NOTIFICATION_SANDBOX_EMAIL } }
+      : {}),
+  };
+
   for (const msg of batch.messages) {
     const body = msg.body;
     const logPrefix =
@@ -125,13 +138,34 @@ export async function processQueueBatch(
 
     try {
       if (body.type === 'notification_event') {
-        await processNotificationEvent(body, env.DB);
+        // Phase 1: Write notification_event row (idempotent INSERT OR IGNORE)
+        await processNotificationEvent(body, db);
+
+        // Phase 2: Run full notification pipeline (rule eval → audience → dispatch)
+        // The notif_event row is now written; processEvent marks processed_at on completion.
+        const notifEventId = `notif_${body.eventId!}`;
+        const phase2Params: ProcessEventParams = {
+          notifEventId,
+          eventKey: body.eventKey!,
+          tenantId: body.tenantId,
+          actorId: body.actorId ?? null,
+          actorType: body.actorType ?? 'system',
+          subjectId: body.subjectId ?? null,
+          subjectType: body.subjectType ?? null,
+          workspaceId: body.workspaceId ?? null,
+          payload: body.payload ?? {},
+          source: body.source ?? 'queue_consumer',
+          severity: body.severity ?? 'info',
+          correlationId: body.correlationId ?? null,
+        };
+        await processEvent(phase2Params, db, channels, notifSandbox);
+
         console.log(
           `${logPrefix} eventKey=${body.eventKey ?? 'unknown'} ` +
-          `eventId=${body.eventId ?? 'unknown'} — notification_event written`,
+          `eventId=${body.eventId ?? 'unknown'} — pipeline complete`,
         );
       } else if (body.type === 'digest_batch') {
-        await processDigestBatch(body, env.DB);
+        await processDigestBatch(body, db);
         console.log(
           `${logPrefix} batchId=${body.batchId ?? 'unknown'} ` +
           `— digest_batch logged (Phase 5 DigestEngine pending)`,
@@ -150,7 +184,7 @@ export async function processQueueBatch(
 
       // G9: Never silently discard a failed message.
       // Write a failure record to the audit log before retrying.
-      await writeFailureAuditLog(body, errorMessage, env.DB).catch((auditErr) => {
+      await writeFailureAuditLog(body, errorMessage, db).catch((auditErr) => {
         // Audit write failure is non-fatal — still retry the original message.
         // Ops can detect silent discard risk via absence of audit records.
         console.error(`${logPrefix} audit log write failed — ${String(auditErr)}`);
@@ -184,7 +218,7 @@ export async function processQueueBatch(
  */
 export async function processNotificationEvent(
   msg: NotificationQueueMessage,
-  db: D1Like,
+  db: D1LikeFull,
 ): Promise<void> {
   // G1: tenant_id always required. Hard reject to surface misconfiguration fast.
   if (!msg.tenantId) {
@@ -258,7 +292,7 @@ export async function processNotificationEvent(
  */
 export async function processDigestBatch(
   msg: NotificationQueueMessage,
-  db: D1Like,
+  db: D1LikeFull,
 ): Promise<void> {
   void db; // Phase 5 will query notification_digest_batch_item rows here
 
@@ -293,7 +327,7 @@ export async function processDigestBatch(
 async function writeFailureAuditLog(
   msg: NotificationQueueMessage,
   errorMessage: string,
-  db: D1Like,
+  db: D1LikeFull,
 ): Promise<void> {
   const auditId = `audit_notif_${crypto.randomUUID().replace(/-/g, '')}`;
 

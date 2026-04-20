@@ -38,6 +38,9 @@ function makeDb() {
             writes.push({ sql, args });
             return { success: true };
           },
+          // D1LikeFull: first() and all() stubs for Phase 2 processEvent queries
+          first: async <T>(): Promise<T | null> => null,
+          all: async <T>(): Promise<{ results: T[] }> => ({ results: [] }),
         }),
       };
     },
@@ -362,8 +365,13 @@ describe('processQueueBatch', () => {
 
     expect(batch.messages[0]?.ackCalled).toBe(true);
     expect(batch.messages[0]?.retryCalled).toBe(false);
-    expect(db._writes).toHaveLength(1);
-    expect(db._writes[0]?.sql).toContain('INSERT OR IGNORE INTO notification_event');
+    // Phase 2: processEvent adds extra writes (markNotifEventProcessed etc.), so filter
+    // to just the Phase 1 notification_event INSERT to keep this assertion stable.
+    const insertWrites = db._writes.filter((w) =>
+      w.sql.includes('INSERT OR IGNORE INTO notification_event'),
+    );
+    expect(insertWrites).toHaveLength(1);
+    expect(insertWrites[0]?.sql).toContain('INSERT OR IGNORE INTO notification_event');
   });
 
   it('retries a failed notification_event message and writes audit log (G9 + G10)', async () => {
@@ -422,9 +430,13 @@ describe('processQueueBatch', () => {
 
     expect(batch.messages[0]?.ackCalled).toBe(true);
     expect(batch.messages[1]?.ackCalled).toBe(true);
-    // Two notification_event writes — one per message
-    expect(db._writes).toHaveLength(2);
-    expect(db._writes[0]?.args[0]).toBe('notif_evt_batch001');
-    expect(db._writes[1]?.args[0]).toBe('notif_evt_batch002');
+    // Phase 2: processEvent adds extra writes (markNotifEventProcessed etc.), so filter to
+    // just the notification_event INSERT rows — one per message — to keep assertions stable.
+    const insertWrites = db._writes.filter((w) =>
+      w.sql.includes('INSERT OR IGNORE INTO notification_event'),
+    );
+    expect(insertWrites).toHaveLength(2);
+    expect(insertWrites[0]?.args[0]).toBe('notif_evt_batch001');
+    expect(insertWrites[1]?.args[0]).toBe('notif_evt_batch002');
   });
 });

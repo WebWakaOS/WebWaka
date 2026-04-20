@@ -37,6 +37,8 @@ import { asId } from '@webwaka/types';
 import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import { kvGetText } from '@webwaka/core';
 import { EmailService } from '../lib/email-service.js';
+import { publishEvent } from '../lib/publish-event.js';
+import { AuthEventType } from '@webwaka/events';
 import type { Env } from '../env.js';
 
 interface UserRow {
@@ -485,8 +487,8 @@ authRoutes.post('/forgot-password', async (c) => {
 
   const email = body.email.toLowerCase().trim();
   const userRow = await c.env.DB.prepare(
-    'SELECT id, full_name FROM users WHERE email = ? LIMIT 1',
-  ).bind(email).first<{ id: string; full_name: string | null }>();
+    'SELECT id, full_name, tenant_id FROM users WHERE email = ? LIMIT 1',
+  ).bind(email).first<{ id: string; full_name: string | null; tenant_id: string }>();
 
   if (userRow) {
     try {
@@ -501,12 +503,27 @@ authRoutes.post('/forgot-password', async (c) => {
       const resetUrl = `${appBase}/reset-password?token=${resetToken}`;
       const userName = userRow.full_name?.split(' ')[0] ?? 'there';
 
-      const emailService = new EmailService(c.env.RESEND_API_KEY);
-      await emailService.sendTransactional(email, 'password-reset', {
-        name: userName,
-        reset_url: resetUrl,
-        expires_in_hours: RESET_TOKEN_TTL_HOURS,
-      });
+      if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1') {
+        // N-026 Phase 2: fire via notification pipeline
+        await publishEvent(c.env, {
+          eventId: crypto.randomUUID(),
+          eventKey: AuthEventType.UserPasswordResetRequested,
+          tenantId: userRow.tenant_id,
+          actorId: userRow.id,
+          actorType: 'user',
+          payload: { name: userName, reset_url: resetUrl, expires_in_hours: RESET_TOKEN_TTL_HOURS },
+          source: 'api',
+          severity: 'info',
+        });
+      } else {
+        // Kill-switch fallback: legacy EmailService path
+        const emailService = new EmailService(c.env.RESEND_API_KEY);
+        await emailService.sendTransactional(email, 'password-reset', {
+          name: userName,
+          reset_url: resetUrl,
+          expires_in_hours: RESET_TOKEN_TTL_HOURS,
+        });
+      }
 
       console.log(JSON.stringify({
         level: 'info',
@@ -808,13 +825,35 @@ authRoutes.post('/invite', async (c) => {
   const workspaceName = wsRow?.name ?? 'your workspace';
 
   // Send invite email (best effort — failure does not abort the request)
-  const emailService = new EmailService(c.env.RESEND_API_KEY);
-  void emailService.sendTransactional(email, 'workspace-invite', {
-    inviter_name: auth.userId,
-    workspace_name: workspaceName,
-    invite_url: inviteUrl,
-    expires_in_hours: INVITE_TOKEN_TTL_HOURS,
-  });
+  if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1') {
+    // N-026 Phase 2: fire via notification pipeline (invited user = actor for email routing)
+    void publishEvent(c.env, {
+      eventId: inviteId,
+      eventKey: AuthEventType.UserInvited,
+      tenantId: tenantId as string,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: workspaceId as string,
+      payload: {
+        inviter_name: auth.userId,
+        workspace_name: workspaceName,
+        invite_url: inviteUrl,
+        expires_in_hours: INVITE_TOKEN_TTL_HOURS,
+        recipient_email: email,
+      },
+      source: 'api',
+      severity: 'info',
+    });
+  } else {
+    // Kill-switch fallback: legacy EmailService path
+    const emailService = new EmailService(c.env.RESEND_API_KEY);
+    void emailService.sendTransactional(email, 'workspace-invite', {
+      inviter_name: auth.userId,
+      workspace_name: workspaceName,
+      invite_url: inviteUrl,
+      expires_in_hours: INVITE_TOKEN_TTL_HOURS,
+    });
+  }
 
   console.log(JSON.stringify({
     level: 'info', event: 'invite_sent', inviteId, email, role, workspaceId,
@@ -1175,12 +1214,27 @@ authRoutes.post('/send-verification', async (c) => {
     const verifyUrl = `${appBase}/verify-email?token=${verifyToken}`;
     const name = userRow.full_name?.split(' ')[0] ?? 'there';
 
-    const emailService = new EmailService(c.env.RESEND_API_KEY);
-    await emailService.sendTransactional(userRow.email, 'email-verification', {
-      name,
-      verify_url: verifyUrl,
-      expires_in_hours: VERIFY_TOKEN_TTL / 3600,
-    });
+    if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1') {
+      // N-026 Phase 2: fire via notification pipeline
+      await publishEvent(c.env, {
+        eventId: verifyToken,
+        eventKey: AuthEventType.UserEmailVerificationSent,
+        tenantId: auth.tenantId as string,
+        actorId: auth.userId,
+        actorType: 'user',
+        payload: { name, verify_url: verifyUrl, expires_in_hours: VERIFY_TOKEN_TTL / 3600 },
+        source: 'api',
+        severity: 'info',
+      });
+    } else {
+      // Kill-switch fallback: legacy EmailService path
+      const emailService = new EmailService(c.env.RESEND_API_KEY);
+      await emailService.sendTransactional(userRow.email, 'email-verification', {
+        name,
+        verify_url: verifyUrl,
+        expires_in_hours: VERIFY_TOKEN_TTL / 3600,
+      });
+    }
 
     console.log(JSON.stringify({
       level: 'info', event: 'verification_email_sent',

@@ -145,4 +145,18 @@ export interface Env {
    * Set via: wrangler secret put RESEND_API_KEY
    */
   RESEND_API_KEY?: string;
+
+  /**
+   * N-009 (OQ-002, Phase 2): CF Queue producer binding for notification events.
+   * apps/api uses this as the producer; apps/notificator consumes.
+   * Used by N-026 auth-routes to enqueue notification events via publishEvent().
+   */
+  NOTIFICATION_QUEUE?: Queue;
+
+  /**
+   * N-009 (OQ-002, Phase 2): Kill-switch for notification pipeline.
+   * "1" = pipeline enabled (replace legacy EmailService with pipeline).
+   * "0" = legacy EmailService path active (default until Phase 6 full rollout).
+   */
+  NOTIFICATION_PIPELINE_ENABLED?: '0' | '1';
 }

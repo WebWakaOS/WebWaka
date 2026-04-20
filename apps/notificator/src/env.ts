@@ -61,6 +61,13 @@ export interface Env {
    */
   NOTIFICATION_KV_MASTER_KEY?: string;
 
+  /**
+   * Resend API key for transactional email dispatch (N-025, Phase 2).
+   * Used by ResendEmailChannel in NotificationService pipeline.
+   * Set via: wrangler secret put RESEND_API_KEY --env staging
+   */
+  RESEND_API_KEY?: string;
+
   /** Inter-service authentication secret (SEC-009) */
   INTER_SERVICE_SECRET: string;
 }
