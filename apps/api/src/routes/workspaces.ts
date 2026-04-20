@@ -197,6 +197,22 @@ workspaceRoutes.patch('/:id', async (c) => {
       .run();
   }
 
+  // N-081: workspace.settings_changed event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: WorkspaceEventType.WorkspaceSettingsChanged,
+    tenantId: auth.tenantId,
+    actorId: auth.userId as string,
+    actorType: 'user',
+    workspaceId,
+    payload: {
+      ...(body.name !== undefined ? { name: body.name } : {}),
+      ...(body.plan !== undefined ? { plan: body.plan } : {}),
+      ...(body.activeLayers !== undefined ? { active_layers: body.activeLayers } : {}),
+    },
+    source: 'api',
+    severity: 'info',
+  });
   return c.json({ workspaceId, updated: true, name: body.name, plan: body.plan });
 });
 

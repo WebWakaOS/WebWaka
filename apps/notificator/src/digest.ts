@@ -20,6 +20,8 @@
  */
 
 import type { Env } from './env.js';
+import { checkBounceRateAnomalies } from '@webwaka/notifications';
+import type { D1LikeFull } from '@webwaka/notifications';
 
 export type DigestCronType = 'hourly' | 'daily' | 'weekly';
 
@@ -102,6 +104,33 @@ export async function runDigestSweep(
   }
 
   await sweepPendingBatches(digestType, env.DB, env.NOTIFICATION_QUEUE);
+
+  // N-110 (Phase 7): Bounce rate anomaly detection — run once per digest sweep.
+  // If bounce rate > 5% for any provider+channel, log a warning for ops.
+  // Callers with full pipeline access should surface this as system.provider_down.
+  try {
+    const db = env.DB as unknown as D1LikeFull;
+    const anomalies = await checkBounceRateAnomalies(db, { windowHours: 1, threshold: 0.05 });
+    for (const anomaly of anomalies) {
+      console.warn(
+        `[notificator:anomaly] G24/N-110 BOUNCE RATE EXCEEDED — ` +
+        `provider=${anomaly.provider} channel=${anomaly.channel} ` +
+        `rate=${(anomaly.bounceRate * 100).toFixed(1)}% ` +
+        `(${anomaly.failed}/${anomaly.total} in last 1h) — ` +
+        `system.provider_down event should be raised`,
+      );
+    }
+    if (anomalies.length > 0) {
+      console.warn(
+        `[notificator:anomaly] ${anomalies.length} provider(s) exceeded bounce threshold — ` +
+        'check channel provider health dashboard',
+      );
+    }
+  } catch (err) {
+    // Anomaly check failure must not abort the digest sweep (non-critical observability path).
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[notificator:anomaly] bounce rate check failed — ${msg}`);
+  }
 }
 
 // ---------------------------------------------------------------------------

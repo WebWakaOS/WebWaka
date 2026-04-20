@@ -24,6 +24,8 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
+import { publishEvent } from '../lib/publish-event.js';
+import { SocialEventType } from '@webwaka/events';
 import {
   getCommunitySpace,
   joinCommunity,
@@ -99,6 +101,17 @@ communityRoutes.post('/channels/:id/posts', async (c) => {
       authorId: auth.userId,
       content: parsed.data.content,
       tenantId,
+    });
+    // N-090: social.comment_added event (channel post = community comment)
+    void publishEvent(c.env, {
+      eventId: post.id,
+      eventKey: SocialEventType.SocialCommentAdded,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { post_id: post.id, channel_id: id, author_id: auth.userId },
+      source: 'api',
+      severity: 'info',
     });
     return c.json({ post }, 201);
   } catch (err) {
@@ -228,6 +241,17 @@ communityRoutes.post('/join', async (c) => {
       tierId: parsed.data.tierId,
       kycTier: parsed.data.kycTier,
       tenantId,
+    });
+    // N-090: community.member_joined event
+    void publishEvent(c.env, {
+      eventId: membership.id,
+      eventKey: SocialEventType.CommunityMemberJoined,
+      tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { community_id: parsed.data.communityId, tier_id: parsed.data.tierId, membership_id: membership.id },
+      source: 'api',
+      severity: 'info',
     });
     return c.json({ membership }, 201);
   } catch (err) {

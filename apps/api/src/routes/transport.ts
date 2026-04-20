@@ -226,6 +226,17 @@ transportRoutes.post('/transit', async (c) => {
     ...(body.cac_reg_number !== undefined ? { cacRegNumber: body.cac_reg_number as string } : {}),
     ...(body.fleet_size !== undefined ? { fleetSize: Number(body.fleet_size) } : {}),
   });
+  // N-095: transport.booking_created event (transit operator registered)
+  void publishEvent(c.env, {
+    eventId: transit.id,
+    eventKey: TransportEventType.TransportBookingCreated,
+    tenantId: auth.tenantId,
+    actorId: (auth as { tenantId: string; userId?: string }).userId ?? 'system',
+    actorType: 'user',
+    payload: { entity_type: 'transit', entity_id: transit.id, operator_name: body.operator_name as string },
+    source: 'api',
+    severity: 'info',
+  });
   return c.json({ transit }, 201);
 });
 

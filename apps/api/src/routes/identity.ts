@@ -84,6 +84,17 @@ identityRoutes.post('/verify-bvn', async (c) => {
       source: 'api',
       severity: 'info',
     });
+    // N-083: identity.verified event (NDPR P10 — identity successfully confirmed)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: KycEventType.IdentityVerified,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { record_type: 'BVN', provider: result.provider },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ success: true, result: { verified: result.verified, full_name: result.full_name, phone_match: result.phone_match, provider: result.provider } });
   } catch (err) {
     if (err instanceof IdentityError) {
@@ -151,6 +162,17 @@ identityRoutes.post('/verify-nin', async (c) => {
       actorId: auth.userId,
       actorType: 'user',
       payload: { record_type: 'NIN', provider: result.provider, verified: result.verified },
+      source: 'api',
+      severity: 'info',
+    });
+    // N-083: identity.verified event (NDPR P10 — identity successfully confirmed)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: KycEventType.IdentityVerified,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { record_type: 'NIN', provider: result.provider },
       source: 'api',
       severity: 'info',
     });

@@ -137,6 +137,18 @@ superagentRoutes.post('/consent', async (c) => {
     },
   );
 
+  // N-087: ai.consent_granted event (NDPR P10 audit trail)
+  void publishEvent(c.env, {
+    eventId: consentId,
+    eventKey: AiEventType.AiConsentGranted,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { consent_id: consentId, purpose },
+    source: 'api',
+    severity: 'info',
+  });
+
   return c.json({ consent_id: consentId, purpose, granted: true }, 201);
 });
 
@@ -264,6 +276,19 @@ superagentRoutes.post(
         message: 'This action requires human-in-the-loop review before execution.',
       }, 403);
     }
+
+    // N-087: ai.request_submitted event (request passed compliance + HITL gate)
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AiEventType.AiRequestSubmitted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: auth.workspaceId,
+      payload: { capability, vertical: verticalSlug || null },
+      source: 'api',
+      severity: 'info',
+    });
 
     // Step 0c: Strip PII from messages before AI call (P13 enforcement)
     const sanitizedMessages = body.messages.map((m) => ({
@@ -453,6 +478,23 @@ superagentRoutes.post(
         const newRemaining = budgetRemaining - burn.wakaCuCharged;
         const threshold80pct = Math.floor(budgetLimit * 0.2);
         if (newRemaining <= threshold80pct && budgetRemaining > threshold80pct) {
+          // N-087: ai.budget_warning event (notification engine picks this up)
+          void publishEvent(c.env, {
+            eventId: burnRef,
+            eventKey: AiEventType.AiBudgetWarning,
+            tenantId: auth.tenantId,
+            actorId: auth.userId,
+            actorType: 'user',
+            workspaceId: auth.workspaceId,
+            payload: {
+              budget_scope: budgetCheck.budgetScope,
+              limit_waku_cu: budgetLimit,
+              remaining_waku_cu: newRemaining,
+              used_pct: Math.round(((budgetLimit - newRemaining) / budgetLimit) * 100),
+            },
+            source: 'api',
+            severity: 'warning',
+          });
           const notifId = crypto.randomUUID();
           spendDb
             .prepare(

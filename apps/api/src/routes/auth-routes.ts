@@ -517,7 +517,22 @@ authRoutes.patch('/profile', async (c) => {
     `UPDATE users SET ${parts.join(', ')} WHERE id = ? AND tenant_id = ?`,
   ).bind(...bindings).run();
 
-  // N-080: no catalog event for profile_updated — log only
+  // N-080: auth.user.profile_updated event
+  void publishEvent(c.env, {
+    eventId: crypto.randomUUID(),
+    eventKey: AuthEventType.UserProfileUpdated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: {
+      changed_fields: [
+        ...(body.phone !== undefined ? ['phone'] : []),
+        ...(body.fullName !== undefined ? ['full_name'] : []),
+      ],
+    },
+    source: 'api',
+    severity: 'info',
+  });
   return c.json({ message: 'Profile updated successfully.' });
 });
 

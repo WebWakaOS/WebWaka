@@ -421,6 +421,18 @@ billingRoutes.post('/change-plan', async (c) => {
       notes,
     });
 
+    // N-082: billing.subscription_created for plan upgrade (new active subscription tier)
+    void publishEvent(c.env, {
+      eventId: sub.id,
+      eventKey: BillingEventType.BillingSubscriptionCreated,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: sub.workspace_id,
+      payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'upgrade' },
+      source: 'api',
+      severity: 'info',
+    });
     // N-082: billing.subscription_renewed for plan upgrade
     void publishEvent(c.env, {
       eventId: crypto.randomUUID(),

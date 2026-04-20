@@ -264,6 +264,18 @@ airtimeRoutes.post('/topup', async (c) => {
     throw err;
   }
 
+  // N-094: airtime.purchase_initiated event (float deducted — purchase in flight)
+  void publishEvent(c.env, {
+    eventId: termiiRef,
+    eventKey: AirtimeEventType.AirtimePurchaseInitiated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { phone, amount_kobo: amountKobo, network },
+    source: 'api',
+    severity: 'info',
+  });
+
   // Step 2: Call Termii Airtime API. If this fails, we refund the deduction.
   // T4: division is presentation-only; kobo remains the stored unit.
   const termiiAmountNaira = amountKobo / 100; // T4: display conversion only — Termii API requires naira units

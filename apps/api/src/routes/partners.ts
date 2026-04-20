@@ -209,9 +209,21 @@ partnerRoutes.post('/', async (c) => {
     .bind(id)
     .first<Record<string, unknown>>();
 
-  // N-091: partner.onboarded event (category='partner' for inbox filtering)
+  // N-091: partner.application_submitted event (partner record created, status=pending)
   void publishEvent(c.env, {
     eventId: id,
+    eventKey: PartnerEventType.PartnerApplicationSubmitted,
+    tenantId: body.tenantId,
+    actorId: auth.userId as string,
+    actorType: 'user',
+    workspaceId: body.workspaceId,
+    payload: { partner_id: id, company_name: body.companyName, category: 'partner' },
+    source: 'api',
+    severity: 'info',
+  });
+  // N-091: partner.onboarded event (category='partner' for inbox filtering)
+  void publishEvent(c.env, {
+    eventId: `${id}_onboarded`,
     eventKey: PartnerEventType.PartnerOnboarded,
     tenantId: body.tenantId,
     actorId: auth.userId as string,
@@ -1136,6 +1148,26 @@ partnerRoutes.post('/:id/settlements/calculate', async (c) => {
     grossGmvKobo: body.grossGmvKobo,
     shareBasisPoints: body.shareBasisPoints,
     partnerShareKobo,
+  });
+
+  // N-091: partner.commission_earned event (settlement calculated — pending disbursement)
+  void publishEvent(c.env, {
+    eventId: settlementId,
+    eventKey: PartnerEventType.PartnerCommissionEarned,
+    tenantId: auth.tenantId ?? 'platform',
+    actorId: auth.userId as string,
+    actorType: 'user',
+    payload: {
+      partner_id: partnerId,
+      settlement_id: settlementId,
+      period_start: body.periodStart,
+      period_end: body.periodEnd,
+      partner_share_kobo: partnerShareKobo,
+      share_basis_points: body.shareBasisPoints,
+      category: 'partner',
+    },
+    source: 'api',
+    severity: 'info',
   });
 
   return c.json(

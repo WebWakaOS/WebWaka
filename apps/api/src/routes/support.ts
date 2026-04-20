@@ -317,6 +317,19 @@ supportRoutes.patch('/tickets/:id', async (c) => {
       });
     }
   }
+  // N-086: fire ticket_replied event when transitioning to waiting_on_customer
+  if (body.status !== undefined && body.status !== ticket.status && body.status === 'waiting_on_customer') {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: SupportEventType.SupportTicketReplied,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { ticket_id: ticketId, replied_by: auth.userId },
+      source: 'api',
+      severity: 'info',
+    });
+  }
   // N-086: fire assigned event when assignee changes
   if (body.assigneeId !== undefined && body.assigneeId !== ticket.assignee_id && body.assigneeId) {
     void publishEvent(c.env, {

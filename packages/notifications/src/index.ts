@@ -160,3 +160,7 @@ export {
 } from './unsubscribe.js';
 
 export type { D1RunMeta } from './db-types.js';
+
+// Phase 7 additions (N-110)
+export type { BounceRateOptions, BounceAnomalyResult } from './anomaly-alerts.js';
+export { checkBounceRateAnomalies } from './anomaly-alerts.js';

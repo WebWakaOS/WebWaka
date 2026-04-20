@@ -258,12 +258,20 @@ export async function processQueueBatch(
     platformName: 'WebWaka',
   });
 
-  // Phase 2: Build sandbox config for G24 redirect
+  // Phase 2: Build sandbox config for G24 redirect (N-111).
+  // Passes all three channel addresses so resolveSandboxRecipient() can redirect
+  // email → NOTIFICATION_SANDBOX_EMAIL, sms → NOTIFICATION_SANDBOX_PHONE,
+  // push → NOTIFICATION_SANDBOX_PUSH_TOKEN.
+  const sandboxRecipient = sandboxConfig.enabled
+    ? {
+        ...(env.NOTIFICATION_SANDBOX_EMAIL !== undefined ? { email: env.NOTIFICATION_SANDBOX_EMAIL } : {}),
+        ...(env.NOTIFICATION_SANDBOX_PHONE !== undefined ? { phone: env.NOTIFICATION_SANDBOX_PHONE } : {}),
+        ...(env.NOTIFICATION_SANDBOX_PUSH_TOKEN !== undefined ? { pushToken: env.NOTIFICATION_SANDBOX_PUSH_TOKEN } : {}),
+      }
+    : undefined;
   const notifSandbox: SandboxConfig = {
     enabled: sandboxConfig.enabled,
-    ...(sandboxConfig.enabled && env.NOTIFICATION_SANDBOX_EMAIL
-      ? { sandboxRecipient: { email: env.NOTIFICATION_SANDBOX_EMAIL } }
-      : {}),
+    ...(sandboxRecipient !== undefined ? { sandboxRecipient } : {}),
   };
 
   // Phase 5 (N-060, N-063): Build preference + digest services once per batch.

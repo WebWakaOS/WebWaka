@@ -80,6 +80,7 @@ import { emailVerificationEnforcement } from './middleware/email-verification.js
 import { notificationRoutes } from './routes/notification-routes.js';
 import { inboxRoutes } from './routes/inbox-routes.js';
 import { preferenceRoutes } from './routes/preference-routes.js';
+import { notificationAdminRoutes } from './routes/notification-admin-routes.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -703,6 +704,11 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // — Hono sub-routers handle this correctly when inboxRoutes is ordered properly.
   app.route('/notifications', inboxRoutes);
   app.route('/notifications', preferenceRoutes);
+
+  // N-105/N-106/N-107/N-108/N-109/N-114/N-118: Notification admin operations (super_admin only).
+  // Auth already applied by /notifications/* middleware above.
+  app.use('/notifications/admin/*', requireRole('super_admin'));
+  app.route('/notifications', notificationAdminRoutes);
 
   // N-052 (Phase 4): Resend bounce/delivery webhook (NO auth — provider callback).
   // Validates Svix signature using RESEND_WEBHOOK_SECRET before processing.

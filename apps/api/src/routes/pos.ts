@@ -278,6 +278,17 @@ posRoutes.post('/float/reverse', async (c) => {
 
   try {
     const result = await reverseLedgerEntry(db, originalReference, reversalReference, reason);
+    // N-089: pos.float_reversed event
+    void publishEvent(c.env, {
+      eventId: reversalReference,
+      eventKey: PosFinanceEventType.PosFloatReversed,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      payload: { original_reference: originalReference, reversal_reference: reversalReference, reason, ledger_id: result.id },
+      source: 'api',
+      severity: 'info',
+    });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : 'Unknown error' }, 500);

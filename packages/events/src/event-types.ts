@@ -45,6 +45,7 @@ export const AuthEventType = {
   UserMfaEnabled:             'auth.user.mfa_enabled',
   UserMfaDisabled:            'auth.user.mfa_disabled',
   UserDeleted:                'auth.user.deleted',
+  UserProfileUpdated:             'auth.user.profile_updated',
   UserInvited:                    'auth.user.invited',
   UserInviteAccepted:             'auth.user.invite_accepted',
   UserEmailVerificationSent:      'auth.user.email_verification_sent',
