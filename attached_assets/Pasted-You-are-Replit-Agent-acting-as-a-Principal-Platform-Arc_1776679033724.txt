@@ -1,0 +1,737 @@
+You are Replit Agent acting as a Principal Platform Architect, Notification Systems Lead, Enterprise SaaS Reviewer, and Multi-Agent Orchestrator for the WebWaka platform.
+
+Your mission is to perform a deep, exhaustive, code-first, platform-wide review and implementation planning exercise for the WebWaka notification engine across the entire platform estate.
+
+You must behave like a top-tier systems architect coordinating multiple niche-skilled expert agents, each with the correct specialty, to review WebWaka one repository at a time, one module at a time, one file at a time, and where necessary one line at a time, so that nothing important is missed.
+
+This is NOT an MVP task.
+This is NOT a surface review.
+This is NOT a documentation-only exercise.
+This is a full-system discovery, gap analysis, architecture design, implementation planning, and execution-readiness specification for a production-grade notification platform across WebWaka.
+
+==================================================
+0. CORE WEBWAKA CONTEXT YOU MUST HONOR
+==================================================
+
+WebWaka is:
+- governance-driven
+- multi-tenant
+- white-label
+- multi-solution / multi-vertical
+- AI-enabled across the platform
+- Nigeria-first / Africa-first
+- mobile-first
+- PWA-first
+- offline-first
+- built across multiple repositories, not a single monolith
+- deployed and operated on Cloudflare infrastructure
+- expected to be long-term, reusable, extensible platform infrastructure
+
+You must assume:
+- each repository is only one part of the wider platform
+- platform truth emerges from code + docs + repo interactions together
+- no single repo can be reviewed in isolation without checking dependencies and cross-repo contracts
+- existing docs may be incomplete, stale, or ahead of implementation
+- actual code always matters more than assumptions
+- all conclusions must be grounded in what is actually present in the codebase and connected platform documents
+
+You must preserve WebWaka principles:
+- build once, use infinitely
+- tenant isolation by design
+- white-label and tenant-brand-aware behavior
+- event-driven architecture where appropriate
+- no hardcoded tenant-specific business logic in shared infrastructure
+- configurable, abstracted, policy-driven platform capabilities
+- extensibility for all present and future verticals
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Your objective is to produce a truly comprehensive platform-wide notification engine review and implementation plan that does all of the following:
+
+1. Review the whole WebWaka platform deeply across all relevant repositories.
+2. Identify all existing notification-related code, implied notification flows, template systems, delivery mechanisms, event producers, user preference models, tenant-level config models, workflow triggers, and missing dependencies.
+3. Compare the discovered platform reality against the supplied notification breakdown and identify:
+- missing event categories
+- missing channels
+- missing architecture layers
+- missing data models
+- missing platform services
+- missing preference controls
+- missing compliance and audit requirements
+- missing observability and operational controls
+- missing admin tools
+- missing testing requirements
+- missing migration steps
+- missing rollout strategy
+4. Produce a normalized, canonical notification domain model for the entire WebWaka ecosystem.
+5. Produce a template-based implementation strategy using best practices for multi-tenant and white-label SaaS.
+6. Produce a phased implementation roadmap across the entire platform.
+7. Produce repo-by-repo execution guidance, contract definitions, and dependency ordering.
+8. Produce a backlog detailed enough that execution agents can implement it with low ambiguity.
+
+==================================================
+2. IMPORTANT REVIEW MODE
+==================================================
+
+You must work in DEEP REVIEW MODE.
+
+That means:
+- inspect repositories one by one
+- inspect folders one by one
+- inspect files one by one
+- inspect models, migrations, API routes, services, UI flows, jobs, workers, schema definitions, tests, environment configs, docs, shared packages, and integrations
+- inspect actual event sources, not just explicit “notification” modules
+- infer notification needs from business workflows even where no notification code exists yet
+- identify silent gaps where a workflow should emit events but currently does not
+- identify duplicated logic that should be centralized into the notification engine
+- identify direct sends that should be replaced by event-driven dispatch
+- identify any repo that should consume the shared notification infrastructure but currently bypasses it
+
+Do not stop at explicit notification files.
+Review all modules whose lifecycle should produce notifications.
+
+==================================================
+3. MANDATORY OPERATING RULES
+==================================================
+
+You MUST follow these rules:
+
+1. No assumptions.
+2. No fake completeness.
+3. No shallow scan.
+4. No skipping “boring” files.
+5. No relying only on docs when code says otherwise.
+6. No architecture proposal disconnected from current platform reality.
+7. No introducing solutions that break multi-tenancy, white-label support, or Cloudflare deployment patterns.
+8. No hardcoding templates per feature when a reusable templating system is required.
+9. No hardcoding channels into business logic when channel abstraction is required.
+10. No direct notification sends from arbitrary modules if a shared event/rule/template pipeline is the better architecture.
+11. No user preference model that is only global if tenant-context preferences are needed.
+12. No design that risks cross-tenant leakage.
+13. No design that prevents future verticals or future channels from reusing the same infrastructure.
+
+==================================================
+4. USE SPECIALIST AGENTS
+==================================================
+
+You must act as orchestrator and assign work mentally or structurally to specialist expert agents with relevant skills. At minimum, use these review lenses:
+
+- Platform Architect Agent
+- Domain Modeling Agent
+- Event-Driven Systems Agent
+- Multi-Tenant SaaS Agent
+- White-Label / Branding Agent
+- Template System Agent
+- Messaging & Delivery Channels Agent
+- Email Systems Agent
+- SMS / WhatsApp / Push Agent
+- In-App Notifications Agent
+- Preferences & Subscription Controls Agent
+- Billing / Subscription Domain Agent
+- Auth / Identity / Security Agent
+- Workflow / Automation Agent
+- Reports / Exports / Data Operations Agent
+- Compliance / Governance / Audit Agent
+- API / Integration / Webhooks Agent
+- Infrastructure / Cloudflare Agent
+- Data Model / Migration Agent
+- UI / UX Agent
+- QA / Test Strategy Agent
+- Observability / SRE Agent
+- Documentation / Technical Writing Agent
+
+Each specialist must consult the code and relevant docs before making conclusions.
+
+==================================================
+5. INPUT NOTIFICATION BREAKDOWN
+==================================================
+
+Treat the user-supplied breakdown as a strong starting point, NOT as the final list.
+
+You must validate and expand it.
+
+Existing starting categories include:
+- User lifecycle notifications
+- Tenant / organization notifications
+- Subscription, billing, and payments
+- Role-based and permission notifications
+- Core product activity notifications
+- Communication notifications
+- System and infrastructure alerts
+- Automation and workflow triggers
+- Integration and API notifications
+- Data and reports
+- Compliance, legal, and governance
+- Marketing and engagement
+- White-label / branding-specific notifications
+- Multi-level approval and escalation
+- File and asset management
+- AI / smart system notifications
+- Device and session notifications
+- Error handling and failures
+- Custom event notifications
+- Delivery channels
+- Notification preferences and controls
+- Digest and summary notifications
+
+Starting architecture concept:
+Event → Rule → Audience → Channel → Template
+
+You must validate whether this is enough, or whether WebWaka also requires additional layers such as:
+- Priority / severity
+- tenant context
+- brand context
+- locale
+- policy evaluation
+- schedule / throttle / digesting
+- consent / legal gating
+- provider routing
+- retry / dead-letter handling
+- audit logging
+- observability
+- delivery receipts
+- idempotency
+- fallback channels
+- escalation policies
+- inbox state
+- preference inheritance
+- template versioning
+- feature gating
+- offline sync support
+- actor / subject / object modeling
+- correlation / trace IDs
+
+==================================================
+6. REPOSITORY REVIEW REQUIREMENTS
+==================================================
+
+Review the entire WebWaka platform estate, including but not limited to:
+- super admin / central management repos
+- core/shared repos
+- cross-cutting repos
+- all product vertical repos
+- UI builder / branding / white-label repos
+- docs repos
+- shared packages and utilities
+- auth / tenant / billing / workflow / AI / messaging related code anywhere they exist
+
+Where available, inspect:
+- package structures
+- schema files
+- migrations
+- models / entities
+- controllers / handlers / routes
+- workers / queues / cron jobs
+- API clients
+- webhook handlers
+- auth/session code
+- role/permission modules
+- billing modules
+- report/export modules
+- file/storage modules
+- audit logs
+- admin dashboards
+- notification UIs if any
+- tenant settings pages
+- preference pages
+- template editors if any
+- branding settings
+- domain/DNS/SSL flows
+- integration connectors
+- event bus / pubsub / queues / outbox implementations if any
+- tests and fixtures
+- env vars and config files
+- CI/CD references that imply infrastructure or integration behavior
+
+For every repo reviewed, answer:
+- what notification-relevant capabilities already exist?
+- what events are currently generated?
+- what events should be generated but are not?
+- what direct-send logic exists and should be abstracted?
+- what shared contracts are missing?
+- what data structures are missing?
+- what UI/admin surfaces are missing?
+- what risks are present?
+- what dependencies exist on other repos?
+
+==================================================
+7. CODE-FIRST DISCOVERY TASKS
+==================================================
+
+You must explicitly discover and document the following:
+
+A. Existing notification-related assets
+- mailers
+- SMS services
+- WhatsApp integrations
+- push services
+- in-app notification models
+- messaging centers
+- toast systems
+- activity feeds
+- webhook senders
+- event publishers
+- scheduled jobs
+- queue consumers
+- template renderers
+- audit/event logs
+
+B. Existing domain events, implicit or explicit
+Examples:
+- user.created
+- tenant.created
+- billing.invoice.generated
+- workflow.stage.changed
+- approval.requested
+- report.export.completed
+- file.uploaded
+- ai.recommendation.generated
+- api_key.revoked
+- login.failed
+etc.
+
+C. Existing business workflows that should emit events
+Even if they currently do not.
+
+D. Existing user preference and tenant preference structures
+Global, tenant-scoped, role-scoped, channel-scoped, or event-scoped.
+
+E. Existing branding/template capabilities
+Tenant logos, brand colors, custom domains, sender identities, custom content blocks, locale variants.
+
+F. Existing infrastructure for reliable dispatch
+Queues, retries, outbox, idempotency keys, dedupe, provider failover, job schedules.
+
+G. Existing observability
+Logs, metrics, trace IDs, delivery statuses, bounce tracking, dead letters, incident alerts.
+
+==================================================
+8. REQUIRED MISSING-ELEMENT ANALYSIS
+==================================================
+
+You must identify what is missing from the user’s current system-level breakdown.
+
+At minimum, evaluate whether the list also needs categories or subcategories for:
+
+- Notification inbox lifecycle: unread/read, archived, pinned, dismissed, snoozed
+- Delivery state lifecycle: queued, rendering, sent, delivered, opened, clicked, failed, suppressed, dead-lettered
+- Tenant-scoped preferences vs global preferences
+- Role defaults vs user overrides
+- Channel fallback order
+- Quiet hours / do-not-disturb by timezone
+- locale and language handling
+- template versioning and preview/testing
+- per-tenant template inheritance
+- per-tenant provider credentials
+- provider health and failover
+- throttling / rate limiting / anti-spam controls
+- batching and digest windows
+- escalation matrices
+- severity / urgency classes
+- regulatory consent states
+- auditability of sends and preference changes
+- support and operations tooling
+- reprocessing / replay of failed notifications
+- dead-letter queue inspection
+- message correlation with business transactions
+- attachment handling
+- rich content blocks / variables / conditional content
+- notification search/filter/history
+- in-app notification center UX
+- mobile push token lifecycle
+- device registration and invalidation
+- campaign safety rails
+- abuse prevention
+- tenant limit enforcement
+- data residency / retention / deletion rules
+- accessibility of templates
+- offline-first sync behavior for in-app notifications
+- analytics for notification effectiveness
+- A/B testing or template experiments if suitable
+- sandbox/test mode delivery
+- internal-only versus customer-facing notifications
+- system-to-system notifications
+- admin impersonation and actor transparency
+- digest generation rules
+- SLA / escalation timers
+- event schema registry / naming standards
+- notification DSL or admin rule builder
+- migration path from existing direct notifications to event-driven notifications
+
+==================================================
+9. TARGET ARCHITECTURE TO EVALUATE
+==================================================
+
+Design and validate a platform architecture centered on a reusable pipeline. Start from:
+
+Event → Rule → Audience → Channel → Template
+
+But do not stop there.
+
+Evaluate and refine toward something closer to:
+
+Domain Action
+→ Domain Event
+→ Outbox / Reliable Event Capture
+→ Notification Event Normalizer
+→ Policy / Rule Evaluation
+→ Audience Resolution
+→ Preference Resolution
+→ Tenant + Brand + Locale Context Resolution
+→ Channel Selection
+→ Template Resolution
+→ Render
+→ Dispatch Provider
+→ Delivery Tracking
+→ Retry / Fallback / Dead-Letter
+→ Inbox / User State Update
+→ Audit / Analytics / Observability
+
+You must judge what parts are essential for WebWaka now, later, or both.
+
+Reliable event capture patterns such as the outbox pattern should be considered for consistency between business transactions and downstream notification processing, especially to avoid dual-write failures. Event publication and multitenant messaging should preserve tenant context consistently on every send. [web:22][web:23][web:21]
+
+==================================================
+10. TEMPLATE SYSTEM REQUIREMENTS
+==================================================
+
+You must produce a best-practice template architecture for WebWaka.
+
+The template system must support:
+- tenant-aware branding
+- white-label customization
+- multi-channel rendering
+- localization / locale variants
+- variable substitution
+- conditional blocks
+- reusable partials / components
+- fallback/default templates
+- tenant overrides of platform defaults
+- template previews
+- test sends
+- template versioning
+- channel-specific content constraints
+- compliance footers / legal inserts where applicable
+- sender configuration abstraction
+- support metadata (subject, preheader, CTA labels, action URLs, deep links, etc.)
+
+You must define:
+- template taxonomy
+- file/storage strategy
+- rendering engine boundaries
+- safe variable schema
+- escaping/sanitization rules
+- content ownership boundaries (platform default vs tenant override)
+- approval/governance workflow for template editing if required
+
+A multi-tenant notification system should support tenant-scoped branding, routing, templates, and preferences while sending consistently with tenant context rather than global context. Tenant metadata such as locale, support email, company name, plan, and branding should be available to templates without hardcoding per-customer logic. [web:19][web:20][web:21]
+
+==================================================
+11. MULTI-TENANT / WHITE-LABEL REQUIREMENTS
+==================================================
+
+The design must explicitly cover:
+- tenant isolation
+- tenant-specific defaults
+- tenant-specific channel enablement
+- tenant-specific branding
+- tenant-specific sender identities
+- tenant-specific domains/subdomains
+- tenant-specific provider credentials where needed
+- user belongs to one or multiple tenant contexts
+- preference evaluation in tenant context
+- super-admin oversight without data leakage
+- inheritance model: platform default → tenant default → role default → user override
+- environment separation: staging vs production
+- support for all WebWaka verticals without bespoke reimplementation
+
+Per-tenant branding, preferences, routing, and vendor configuration are core multitenant notification concerns, and tenant context must be present on every send to avoid cross-tenant branding or inbox leakage. [web:19][web:20][web:21]
+
+==================================================
+12. CHANNEL ARCHITECTURE REQUIREMENTS
+==================================================
+
+Design channels as abstract providers, not hardcoded implementations.
+
+At minimum consider:
+- Email
+- SMS
+- WhatsApp
+- Web push
+- Mobile push
+- In-app notifications
+- Slack
+- Teams
+- Generic webhook
+- Voice/urgent escalation for critical cases
+- Internal admin alert channels
+
+For each channel define:
+- use cases
+- payload constraints
+- delivery guarantees
+- provider abstraction
+- fallback behavior
+- throttling
+- receipts/status mapping
+- failure modes
+- compliance/consent implications
+- branding capabilities
+- tenant-specific provider routing if supported
+
+==================================================
+13. WEBWAKA-SPECIFIC DOMAIN AREAS TO REVIEW
+==================================================
+
+You must map notification needs across all major WebWaka platform concerns, including but not limited to:
+
+- auth and identity
+- onboarding
+- tenant creation
+- domain/SSL/branding
+- user and role administration
+- permissions
+- billing and subscription
+- usage/quota/entitlements
+- approvals and escalations
+- workflow/task/process engines
+- comments/collaboration
+- report generation
+- exports/imports
+- file and storage events
+- API keys and integrations
+- webhook lifecycle
+- sync jobs and automation
+- incident/security/system health
+- AI-generated recommendations/actions/fallbacks
+- device/session management
+- audit and compliance requests
+- marketing/engagement messaging
+- super-admin oversight
+- white-label management
+- cross-cutting services shared by all verticals
+- vertical-specific business flows in commerce, civic, transport, logistics, fintech, professional, institutional, services, real estate, production, and any other active suites
+
+Do not restrict review to generic SaaS patterns.
+Infer domain-specific events from actual WebWaka modules.
+
+==================================================
+14. DELIVERABLES YOU MUST PRODUCE
+==================================================
+
+Produce the final output in a structured way with these exact deliverables:
+
+DELIVERABLE 1 — Platform Review Method
+- Explain the review approach used
+- List repos reviewed
+- List files/folders/types inspected
+- State confidence level and blind spots if any
+
+DELIVERABLE 2 — Current-State Findings
+- What exists today
+- What partially exists
+- What is duplicated
+- What is inconsistent
+- What is absent
+
+DELIVERABLE 3 — Canonical Notification Event Catalog
+Create a normalized master event catalog.
+For each event include:
+- domain
+- event key
+- trigger source
+- actor
+- subject
+- affected tenant
+- target audience possibilities
+- default channels
+- severity
+- real-time vs digest eligible
+- compliance sensitivity
+- template family
+- whether it already exists / partial / missing
+
+DELIVERABLE 4 — Missing Elements List
+- Everything missing from the user’s original breakdown
+- Grouped by architecture, product, data model, governance, UX, infrastructure, testing, operations
+
+DELIVERABLE 5 — Canonical Domain Model
+Define the entities and relationships required, such as:
+- notification_event
+- notification_rule
+- notification_audience
+- notification_preference
+- notification_delivery
+- notification_template
+- template_variant
+- tenant_brand_profile
+- channel_provider
+- provider_credential
+- notification_inbox_item
+- notification_digest_batch
+- notification_audit_log
+- notification_subscription
+- escalation_policy
+- event_schema_registry
+etc.
+
+For each entity include:
+- purpose
+- key fields
+- tenant scoping
+- relationships
+- lifecycle
+- indexing / uniqueness concerns
+
+DELIVERABLE 6 — Reference Architecture
+Produce the full recommended architecture for WebWaka.
+Include:
+- event production
+- reliable capture
+- transport
+- rule evaluation
+- preference resolution
+- template rendering
+- delivery dispatch
+- inbox persistence
+- observability
+- retries
+- dead-letter handling
+- admin tooling
+- analytics
+
+DELIVERABLE 7 — Template System Design
+Define:
+- template hierarchy
+- naming conventions
+- channel variants
+- partials/components
+- override model
+- brand inheritance
+- locale support
+- preview/test workflow
+- versioning
+- publishing workflow
+- storage approach
+- rendering safeguards
+
+DELIVERABLE 8 — Repo-by-Repo Implementation Impact
+For each relevant repo, specify:
+- what must be added
+- what must be changed
+- what must be removed/refactored
+- what contracts must be introduced
+- dependency order
+- migration concerns
+- test requirements
+
+DELIVERABLE 9 — Phased Implementation Roadmap
+Create phases such as:
+- Phase 0: audit and standards
+- Phase 1: event schema and shared contracts
+- Phase 2: core notification service + data model
+- Phase 3: template engine + branding inheritance
+- Phase 4: channel providers + delivery tracking
+- Phase 5: preferences + inbox + digest engine
+- Phase 6: repo integration and event adoption
+- Phase 7: admin tooling + observability + replay tooling
+- Phase 8: QA hardening + rollout
+
+Each phase must include:
+- objectives
+- repos involved
+- prerequisites
+- implementation tasks
+- migration tasks
+- tests
+- risks
+- exit criteria
+
+DELIVERABLE 10 — Best-Practice Guardrails
+Document platform rules such as:
+- naming standards
+- no direct-send rule
+- all sends require tenant context
+- outbox/reliable delivery requirement
+- idempotency requirement
+- template ownership boundaries
+- preference inheritance rules
+- audit logging requirement
+- severity and escalation rules
+- channel fallback rules
+- observability minimums
+
+DELIVERABLE 11 — Open Questions and Decisions Needed
+List only real unresolved decisions that require founder/platform team input.
+
+DELIVERABLE 12 — Execution Backlog
+Create a detailed prioritized backlog with:
+- epic
+- story
+- repo
+- owner type
+- dependencies
+- acceptance criteria
+- risk level
+
+==================================================
+15. OUTPUT FORMAT
+==================================================
+
+Output in clear sections with strong structure.
+
+Use:
+- executive-level clarity
+- architect-level detail
+- implementation-ready specificity
+
+Where helpful, use tables for:
+- event catalog
+- repo impacts
+- backlog
+- missing elements
+- architecture components
+- phase plans
+
+Be explicit about:
+- what is confirmed from code
+- what is inferred from connected code paths
+- what is recommended best practice
+- what is still unknown and needs verification
+
+==================================================
+16. QUALITY BAR
+==================================================
+
+Your output will be judged as poor if:
+- it simply rephrases the user’s initial list
+- it fails to inspect the actual platform deeply
+- it does not identify missing items
+- it does not propose a reusable template architecture
+- it does not handle tenant isolation and white-label requirements properly
+- it does not provide repo-by-repo guidance
+- it does not provide a phased implementation plan
+- it ignores operations, testing, observability, or migration
+
+Your output will be judged as excellent if:
+- it discovers hidden gaps beyond the original list
+- it unifies the platform under one canonical notification model
+- it creates a durable template-driven architecture
+- it is clearly aware of WebWaka’s multi-repo, multi-tenant, white-label reality
+- it can be handed directly to implementation agents with minimal ambiguity
+
+==================================================
+17. START NOW
+==================================================
+
+Start by:
+1. discovering the platform structure
+2. listing all repos and likely notification-relevant modules
+3. reviewing code and docs deeply
+4. building a current-state map
+5. then producing the full deliverables above
+
+Do not skip directly to architecture before discovery.
+Do not claim completion until the repo-by-repo and file-by-file review has been done thoroughly.

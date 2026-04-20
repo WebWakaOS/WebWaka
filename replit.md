@@ -405,3 +405,29 @@ app.route('/api/v1', myRoutes); // via the aggregator
 | Sprint 12 | Polish + Marketplace Launch | ✅ DONE |
 | Sprint 13 | Skip nav, smoke CI, ETag, i18n, canary, resource hints | ✅ DONE |
 | Sprint 14 | MON-05 billing API, UX bundle (6 items), PERF-11, ARC-18, QA-12, 3 docs | ✅ DONE |
+
+## Notification Engine Review (2026-04-20)
+
+Deep code-first platform-wide review of all notification infrastructure completed.
+Authoritative specification saved to `docs/notification-engine-review.md` (1,838 lines, 11 deliverables).
+
+**Key findings:**
+- EmailService exists (Resend, 6 templates) but hardcodes FROM as `WebWaka <noreply@webwaka.com>` — never tenant-branded
+- OTP delivery is solid (Termii/Meta WA/360dialog/Telegram) but not unified with notification pipeline
+- Webhook outbound exists (4 types) but inline-blocking retry, no Cloudflare Queues backing
+- @webwaka/events has 16 event types but in-memory subscriber lost on Worker restart — no notification handlers wired
+- 160+ vertical packages produce zero notifications
+- Zero: notification inbox, preference model, notification templates, push, digest, dead-letter, escalation
+
+**Deliverables in docs/notification-engine-review.md:**
+1. Platform Review Method (all repos, confidence levels)
+2. Current-State Findings (code-grounded, repo-by-repo)
+3. Canonical Event Catalog (80+ events across all domains, with status: EXISTS/PARTIAL/MISSING)
+4. Missing Elements List (architecture, product, data model, governance, observability)
+5. Canonical Domain Model (13 new D1 tables with full schema)
+6. Reference Architecture (full pipeline from domain action → outbox → queues → rule engine → preference → brand context → template render → dispatch → inbox → dead-letter → audit)
+7. Template System Design (40+ template families, channel constraints, inheritance hierarchy, versioning)
+8. Repo-by-Repo Implementation Impact (all apps + packages)
+9. 8-Phase Roadmap (~150 engineering days)
+10. 15 Best-Practice Guardrails (G1–G15)
+11. Actionable Backlog (N-001 through N-118)
