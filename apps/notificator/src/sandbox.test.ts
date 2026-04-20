@@ -27,7 +27,6 @@ function makeEnv(overrides: Partial<Record<string, string>> = {}): Env {
     ENVIRONMENT: 'staging',
     NOTIFICATION_SANDBOX_MODE: 'true',
     NOTIFICATION_PIPELINE_ENABLED: '1',
-    HITL_LEGACY_NOTIFICATIONS_ENABLED: '1',
     INTER_SERVICE_SECRET: 'test-secret',
     ...overrides,
   } as unknown as Env;

@@ -43,13 +43,6 @@ export interface Env {
   NOTIFICATION_PIPELINE_ENABLED: '0' | '1';
 
   /**
-   * N-009 (OQ-002): HITL legacy notification kill-switch.
-   * "1" = apps/projections still handles HITL escalation dispatch.
-   * "0" = NotificationService.raise() handles it (set in Phase 6, N-100a).
-   */
-  HITL_LEGACY_NOTIFICATIONS_ENABLED: '0' | '1';
-
-  /**
    * Sandbox redirect addresses (G24 — OQ-012).
    * Only used when NOTIFICATION_SANDBOX_MODE = 'true'.
    * Set via: wrangler secret put NOTIFICATION_SANDBOX_EMAIL --env staging

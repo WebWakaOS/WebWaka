@@ -260,7 +260,8 @@ export interface IPreferenceStore {
  * Kill-switch interface.
  * All NotificationService.raise() calls must check this before enqueueing.
  * When disabled, the notification pipeline is bypassed entirely.
- * Used in conjunction with HITL_LEGACY_NOTIFICATIONS_ENABLED in apps/projections.
+ * N-100b (OQ-002, Phase 6): HITL legacy path fully retired; kill-switch
+ * controls only NOTIFICATION_PIPELINE_ENABLED.
  *
  * @see N-009 (OQ-002)
  */
@@ -272,8 +273,6 @@ export interface KillSwitch {
 export interface KillSwitchConfig {
   /** NOTIFICATION_PIPELINE_ENABLED env var value — "1" = enabled, "0" = disabled */
   notificationPipelineEnabled: string;
-  /** HITL_LEGACY_NOTIFICATIONS_ENABLED env var value — see apps/projections */
-  hitlLegacyNotificationsEnabled: string;
 }
 
 // ---------------------------------------------------------------------------

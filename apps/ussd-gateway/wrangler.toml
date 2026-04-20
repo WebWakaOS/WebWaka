@@ -29,9 +29,10 @@ database_name = "webwaka-main"
 database_id = "local-dev-placeholder"
 
 # N-111/Phase 6: notification event pipeline (optional — skipped if not bound in local dev)
+# DEF-001 fix: queue name must match apps/notificator consumer binding.
 [[queues.producers]]
 binding = "NOTIFICATION_QUEUE"
-queue = "webwaka-notification-pipeline"
+queue = "webwaka-notification-queue"
 
 # ---------------------------------------------------------------------------
 # Staging
@@ -57,7 +58,7 @@ id = "67c95f1527114e4bac480a44c4169b85"
 
 [[env.staging.queues.producers]]
 binding = "NOTIFICATION_QUEUE"
-queue = "webwaka-notification-pipeline-staging"
+queue = "webwaka-notification-queue-staging"
 
 [[env.staging.routes]]
 pattern = "api-staging.webwaka.com/ussd"
@@ -87,7 +88,7 @@ id = "e34fb28b075b4362a8d4d840c19e670c"
 
 [[env.production.queues.producers]]
 binding = "NOTIFICATION_QUEUE"
-queue = "webwaka-notification-pipeline"
+queue = "webwaka-notification-queue-production"
 
 [[env.production.routes]]
 pattern = "api.webwaka.com/ussd"

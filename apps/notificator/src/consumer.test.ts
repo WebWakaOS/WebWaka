@@ -93,7 +93,6 @@ function makeTestEnv(
     NOTIFICATION_PIPELINE_ENABLED: '1' as const,
     NOTIFICATION_SANDBOX_MODE: 'true' as const,
     ENVIRONMENT: 'staging' as const,
-    HITL_LEGACY_NOTIFICATIONS_ENABLED: '1' as const,
     INTER_SERVICE_SECRET: 'test-secret',
     DB: db,
     NOTIFICATION_KV: {},

@@ -42,7 +42,6 @@ app.get('/health', (c) =>
     app: 'notificator',
     pipeline: c.env.NOTIFICATION_PIPELINE_ENABLED,
     sandbox: c.env.NOTIFICATION_SANDBOX_MODE,
-    hitlLegacy: c.env.HITL_LEGACY_NOTIFICATIONS_ENABLED,
   }),
 );
 

@@ -20,7 +20,6 @@ ENVIRONMENT = "development"
 # Kill-switches (set in all environments)
 NOTIFICATION_PIPELINE_ENABLED = "0"
 NOTIFICATION_SANDBOX_MODE = "true"
-HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 
 # D1 — shared database (same instance as apps/api)
 [[d1_databases]]
@@ -41,8 +40,6 @@ ENVIRONMENT = "staging"
 # Any delivery in staging is redirected to NOTIFICATION_SANDBOX_EMAIL/PHONE/PUSH_TOKEN.
 # CI/CD governance check asserts this before every staging deploy.
 NOTIFICATION_SANDBOX_MODE = "true"
-# N-009 (OQ-002): Keep legacy HITL dispatch active until Phase 6 migration.
-HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 # NOTIFICATION_PIPELINE_ENABLED: set to "1" once Phase 1 consumer is deployed.
 # Start at "0" to avoid processing events before the consumer is ready.
 NOTIFICATION_PIPELINE_ENABLED = "0"
@@ -95,7 +92,6 @@ ENVIRONMENT = "production"
 # G24 (OQ-012): NOTIFICATION_SANDBOX_MODE must be "false" in production.
 # CI/CD governance check asserts this before every production deploy.
 NOTIFICATION_SANDBOX_MODE = "false"
-HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 NOTIFICATION_PIPELINE_ENABLED = "0"
 
 [[env.production.d1_databases]]
