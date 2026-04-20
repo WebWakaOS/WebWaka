@@ -6,6 +6,8 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 
 **Current State: PRODUCTION READY — Staging + Production deployed green, 2463 tests passing, TypeScript 0 errors, 10/10 governance checks green**
 **Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P25 defined**
+**Notification Engine Review: `docs/notification-engine-review.md` (11 deliverables, N-001–N-118 backlog)**
+**Notification Engine Audit: `docs/notification-engine-audit.md` (independent QA audit — PASS WITH MANDATORY CORRECTIONS)**
 
 ## Production Readiness Mission — COMPLETE (2026-04-19)
 
