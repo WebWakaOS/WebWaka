@@ -1,0 +1,282 @@
+You are Replit Agent acting as a Principal Platform Architect, Cloudflare Systems Architect, Notification Infrastructure Lead, and Decision Resolution Specialist for WebWaka.
+
+Your task is to produce a thorough, implementation-grade response to Section 13 (“Open Questions and Decisions Needed”) of the WebWaka Notification Engine Final Master Specification.
+
+You are NOT creating a new notification architecture from scratch.
+You are resolving the 13 unresolved architectural and operational decisions that remain open inside the existing final master specification.
+
+Your output must be strong enough to be inserted back into the master specification as the authoritative resolution document for Section 13.
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Read and deeply understand the attached final master specification, especially:
+- Section 8 Reference Architecture
+- Section 9 Template System Design
+- Section 10 Repo-by-Repo Implementation Impact
+- Section 11 Phased Implementation Roadmap
+- Section 12 Best-Practice Guardrails
+- Section 13 Open Questions and Decisions Needed
+
+Then produce a rigorous response that resolves all 13 unresolved decisions.
+
+For each unresolved decision, you must:
+1. Restate the question clearly.
+2. Identify why it matters.
+3. Identify all viable options.
+4. Compare the options against WebWaka’s constraints.
+5. Recommend a single preferred decision.
+6. Justify that recommendation in detail.
+7. State implementation consequences.
+8. State affected repos/packages/workers/routes.
+9. State what changes are required in roadmap/backlog/guardrails/spec sections.
+10. State acceptance criteria for considering the decision “resolved.”
+
+==================================================
+2. WEBWAKA CONTEXT YOU MUST HONOR
+==================================================
+
+You must align every decision with WebWaka’s established platform constraints:
+- multi-tenant
+- white-label
+- multi-vertical
+- Cloudflare-native
+- event-driven
+- governance-driven
+- AI-enabled
+- mobile-first
+- PWA-first
+- offline-first
+- Nigeria-first / Africa-first
+- multi-repo platform
+- build once, use infinitely
+
+You must not give generic SaaS answers.
+You must decide specifically for WebWaka.
+
+==================================================
+3. DECISION QUALITY STANDARD
+==================================================
+
+Your output must not be a generic pros/cons list.
+
+For each of the 13 decisions, you must produce:
+- Decision ID
+- Decision Title
+- Question
+- Why This Matters
+- Current Context From Spec
+- Option A
+- Option B
+- Option C (if realistic)
+- Comparative Analysis
+- Recommended Decision
+- Why This Is Best For WebWaka
+- Risks of This Decision
+- Risks of Alternative Decisions
+- Implementation Impact
+- Required Spec Changes
+- Required Backlog / Roadmap Changes
+- Acceptance Criteria
+- Decision Owner
+- Decision Deadline / Phase Gate
+
+If some options are invalid, say so explicitly and explain why.
+
+==================================================
+4. EXTERNAL BEST-PRACTICE REQUIREMENT
+==================================================
+
+Use current best practices to strengthen your reasoning, especially around:
+- Cloudflare Queues batching, retries, retry delay, message delay, consumer ownership, and DLQ behavior
+- event-driven delivery and idempotency
+- multitenant notification architecture
+- suppression and unsubscribe handling
+- sender domain verification in branded SaaS
+- WhatsApp Business template approval workflows
+- locale handling and i18n reuse
+- inbox sync and offline-first notification UX
+- queue-driven deferred delivery for quiet hours
+- critical alert bypass and escalation logic
+- compliance-safe retention and erasure handling
+
+Your answers must remain grounded in the master specification, but strengthened by real-world best practice.
+
+==================================================
+5. THE 13 DECISIONS YOU MUST RESOLVE
+==================================================
+
+You must explicitly resolve all 13 unresolved decisions from Section 13 of the master specification.
+
+At minimum, the document must cover:
+1. Queue Consumer Worker Location
+2. HITL Escalation Ownership After Notification Pipeline
+3. WhatsApp Template Approval Workflow Ownership and Process
+4. Tenant Email Sender Domain Verification Flow
+5. Partner / Sub-Partner / Tenant Brand Inheritance Resolution
+6. Notification Data Retention Policy and NDPR Erasure Handling
+7. Digest Engine Timing Model and Sweep Strategy
+8. Partner Notification Surface Model
+9. USSD-Triggered Notification Handling
+10. Real-Time Delivery Mechanism for In-App Notifications (e.g. polling vs SSE vs Durable Objects)
+11. Quiet-Hours Deferred Delivery Mechanism
+12. Sandbox / Test Mode Behavior Across Channels
+13. Notification Analytics and Tracking Scope Boundaries
+
+If the exact wording in the spec differs, use the spec’s wording as authoritative, but you must still ensure all 13 unresolved decisions are addressed fully.
+
+==================================================
+6. REQUIRED DECISION THEMES
+==================================================
+
+You must pay special attention to the following themes while resolving the 13 decisions:
+
+A. Cloudflare-Native Operations
+- Which worker owns async processing?
+- How should Queues producers and consumers be wired?
+- When should Queue delay be used vs CRON sweep?
+- How should DLQ and replay work operationally?
+- What belongs in appsapi vs appsprojections vs a new appsnotificator Worker?
+
+B. White-Label and Multitenancy
+- How should branding inheritance work across Platform → Partner → Sub-Partner → Tenant?
+- How should tenant sender domains be verified and approved?
+- What should happen while sender verification is pending?
+- Which preferences are tenant-scoped vs user-scoped vs role-scoped?
+
+C. Delivery Governance
+- Which notifications bypass quiet hours?
+- Which notifications are digest-eligible?
+- How should transactional vs marketing vs security notifications differ?
+- How should suppression and unsubscribe be enforced?
+
+D. Nigeria-First / Low-Bandwidth / Offline
+- What should happen for USSD-originated notifications?
+- What should happen in low-data mode?
+- How should offline inbox sync behave in the workspace PWA?
+- Which channels are most appropriate for different contexts?
+
+E. Template / Channel Compliance
+- How should WhatsApp template approval be handled operationally?
+- Who submits templates?
+- Who owns failures/rejections?
+- How should fallback to SMS/email work when WhatsApp template approval is not available?
+
+F. Observability and Lifecycle
+- What analytics should be collected?
+- What should not be collected for privacy reasons?
+- How should retention differ for delivery logs, inbox items, audit logs, and analytics aggregates?
+- What exact events need trace IDs and correlation IDs?
+
+==================================================
+7. HARD REQUIREMENTS FOR EACH DECISION
+==================================================
+
+For every decision, you must answer all of the following:
+
+1. What is the default decision?
+2. Why is it the best fit for WebWaka?
+3. Which codebases are affected?
+4. Which entities / tables / env vars are affected?
+5. Which APIs / UIs are affected?
+6. Which parts of the roadmap must be updated?
+7. Which guardrails must be added or changed?
+8. What test coverage is required?
+9. What rollback / fallback mechanism exists if the decision fails in production?
+10. What would go wrong if this decision is postponed?
+
+==================================================
+8. WHAT GOOD LOOKS LIKE
+==================================================
+
+A strong answer will:
+- resolve ambiguity instead of repeating it
+- choose concrete defaults
+- define ownership boundaries clearly
+- reduce implementation drift
+- align roadmap and backlog with the decisions
+- avoid future redesign
+- strengthen operational safety
+- fit WebWaka’s real repo and worker topology
+
+A weak answer will:
+- keep everything “open”
+- say “it depends” without deciding
+- avoid naming the impacted repos/workers/routes
+- ignore Cloudflare operational realities
+- ignore white-label hierarchy
+- ignore compliance and suppression rules
+- ignore fallback and rollback design
+
+==================================================
+9. OUTPUT FORMAT
+==================================================
+
+Produce one structured markdown document titled:
+
+# WebWaka Notification Engine — Section 13 Resolution Pack
+
+Use this exact top-level structure:
+
+1. Executive Summary
+2. Resolution Principles
+3. Decision Matrix Overview
+4. Detailed Decision Resolutions
+5. Required Master Spec Updates
+6. Required Roadmap / Backlog Adjustments
+7. New or Updated Guardrails
+8. Implementation Readiness Gate
+
+Inside “Detailed Decision Resolutions”, create 13 numbered subsections, one for each unresolved decision.
+
+For the “Decision Matrix Overview”, include a compact table with:
+- Decision ID
+- Title
+- Recommended Decision
+- Owner
+- Deadline / Phase Gate
+- Spec Sections Affected
+
+For each detailed decision section, use this exact sub-structure:
+
+### OQ-XXX Title
+- Question
+- Why This Matters
+- Current Context From Master Spec
+- Options Considered
+- Comparative Analysis
+- Recommended Decision
+- Why This Is Best For WebWaka
+- Required Architecture / Data / API / UI Changes
+- Repos / Workers / Packages Affected
+- Roadmap / Backlog Changes Needed
+- Guardrails / Compliance Implications
+- Testing Requirements
+- Rollback / Fallback Plan
+- Decision Owner
+- Decision Deadline
+- Acceptance Criteria
+
+==================================================
+10. SPECIAL INSTRUCTIONS
+==================================================
+
+- Be decisive.
+- Do not leave any of the 13 decisions unresolved.
+- If a decision requires a staged answer, state the stage-based decision explicitly.
+- If a decision requires a temporary default and a later evolution path, say so clearly.
+- If an open question should be split into “initial platform default” and “future enterprise option,” do that.
+- Keep the answer implementation-oriented, not academic.
+- Ensure the final recommendations can be handed directly to implementation agents and platform leadership.
+
+==================================================
+11. FINAL GOAL
+==================================================
+
+By the end, the WebWaka team should be able to:
+- replace Section 13 with your response,
+- update the roadmap/backlog accordingly,
+- and begin implementation with materially less ambiguity and lower architectural risk.
+
+Start by carefully reading the master specification, extracting the actual 13 unresolved decisions, then resolve them one by one.
