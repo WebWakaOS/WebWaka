@@ -1,0 +1,403 @@
+You are Replit Agent acting as a Senior Platform Architect, Technical Editor, and Notification Systems Integration Lead for the WebWaka platform.
+
+Your task is to merge two existing documents into one single, corrected, consolidated, implementation-ready “Final Master Specification” for the WebWaka notification engine.
+
+You must treat the two source documents as follows:
+- Document A: the main notification-engine review and implementation plan
+- Document B: the independent QA audit of Document A
+
+Your output must be one authoritative master specification that:
+- preserves the strongest parts of Document A,
+- incorporates every valid correction from Document B,
+- resolves contradictions,
+- removes duplication,
+- fills missing deliverables,
+- corrects architectural flaws,
+- and is ready to hand to implementation agents.
+
+This is a merge-and-correct task, not a rewrite-from-scratch task.
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Create a single final document that unifies both reports into one polished, corrected, implementation-ready specification for the WebWaka notification engine.
+
+The final document must:
+1. Merge the review and the audit into one coherent narrative.
+2. Correct all findings where the audit exposed omissions or flaws.
+3. Preserve only the strongest, non-duplicative, implementation-ready content.
+4. Expand the specification where the audit proved the original report was incomplete.
+5. Remove contradictions between the two documents.
+6. Normalize terminology, naming conventions, and architecture layers.
+7. Make the document suitable as the canonical source of truth for implementation agents.
+
+==================================================
+2. AUTHORITATIVE RULES
+==================================================
+
+When the two source documents conflict:
+- prefer the audited correction if it is clearly grounded and specific
+- preserve the review’s stronger broad architecture if the audit did not invalidate it
+- do not carry forward duplicate or inconsistent definitions
+- do not keep a weaker original version if a better corrected version exists
+
+When the audit identifies a missing item:
+- add it to the final master specification
+- place it in the correct section
+- mark it clearly as mandatory, required, or open decision as appropriate
+
+When the review includes a valid idea not contradicted by the audit:
+- keep it
+- but ensure it is normalized and aligned with the audit’s corrections
+
+==================================================
+3. WEBWAKA CONTEXT TO HONOR
+==================================================
+
+The merged specification must fully respect WebWaka’s platform reality:
+- multi-tenant
+- white-label
+- multi-vertical
+- Cloudflare-based
+- event-driven
+- Nigeria-first / Africa-first
+- mobile-first
+- PWA-first
+- offline-first
+- multi-repo, not monorepo
+- governance-driven
+- AI-enabled across the platform
+- build once, use infinitely
+
+The document must not drift into generic SaaS advice.
+It must remain specific to WebWaka and its actual architecture, operating model, and implementation constraints.
+
+==================================================
+4. MERGE SOURCES
+==================================================
+
+Your final specification must be built by reconciling the following areas from both documents:
+
+From the review document:
+- platform review method
+- current-state findings
+- canonical event catalog
+- missing elements list
+- canonical domain model
+- reference architecture
+- template system design
+- repo-by-repo implementation impact
+- phased implementation roadmap
+- best-practice guardrails
+- actionable backlog
+
+From the audit document:
+- mandatory corrections
+- missed apps, packages, routes, and workflow surfaces
+- missing deliverables
+- architecture fixes
+- security corrections
+- event catalog expansions
+- missing operational concerns
+- missing compliance concerns
+- missing data model details
+- missing repo impact details
+- missing roadmap dependencies
+- missing open questions
+- corrected backlog items
+
+==================================================
+5. REQUIRED CONSOLIDATION PRINCIPLES
+==================================================
+
+Your final document must:
+- remove duplication between the two reports
+- unify terminology
+- keep one canonical naming scheme for events, entities, phases, and guardrails
+- clearly separate:
+  - confirmed code findings
+  - inferred gaps
+  - recommended best practice
+  - unresolved decisions
+- explicitly mark mandatory corrections from the audit
+- clearly show which items were added because the audit revealed they were missing
+- retain implementation detail, not just summary prose
+
+==================================================
+6. MUST-FIX ITEMS FROM THE AUDIT
+==================================================
+
+Your final document must explicitly incorporate these corrections:
+
+A. Review coverage corrections
+- Add the missing deployed apps and packages that were not inspected.
+- Explicitly include `appspredictions` as a critical notification-adjacent worker.
+- Explicitly include `appstenant-public` if relevant to public notification-facing flows.
+- Include all relevant shared packages discovered by the audit.
+- Be honest about full-read vs sampled-read coverage.
+
+B. Event catalog corrections
+- Add missing partner ecosystem events.
+- Add missing bank-transfer FSM events.
+- Add missing transport vertical events.
+- Add missing B2B marketplace events.
+- Add missing airtime events.
+- Add missing auth and AI related events where applicable.
+- Fix naming inconsistencies in event keys.
+- Fix actor/subject definitions where they were incorrect.
+- Ensure the catalog is normalized and not generic placeholder coverage.
+
+C. Architecture corrections
+- Add Cloudflare Queues provisioning as a prerequisite.
+- Make the queue consumer worker decision explicit.
+- Add the application-level dead-letter design.
+- Add the rollback / kill-switch strategy.
+- Add explicit reuse of existing i18n infrastructure instead of inventing a parallel locale system.
+- Add explicit handling for partner/sub-partner branding inheritance.
+- Add explicit USSD considerations where notifications intersect with USSD flows.
+- Add explicit offline/PWA inbox sync considerations if relevant.
+
+D. Security corrections
+- Do not store provider secrets in plaintext D1 text fields.
+- Use the platform’s approved encrypted secret-handling pattern.
+- Separate non-secret config from secret credentials.
+- Include this as a hard guardrail in the final spec.
+
+E. Data model corrections
+- Add notification suppression list.
+- Add delivery-to-inbox traceability.
+- Replace digest batch JSON arrays with a join table.
+- Add created timestamps where needed.
+- Add template approval status for WhatsApp templates if required.
+- Add retention strategy for notification history and audit records.
+
+F. Deliverable corrections
+- Add the missing “Open Questions and Decisions Needed” deliverable.
+- Expand the roadmap to include queue provisioning and worker ownership decisions.
+- Fix backlog duplicates and numbering conflicts.
+- Make all deliverables consistent and complete.
+
+==================================================
+7. REQUIRED FINAL DOCUMENT STRUCTURE
+==================================================
+
+Your final merged specification must use this structure:
+
+1. Executive Summary
+- one authoritative summary of the notification engine vision
+- why WebWaka needs it
+- what the final spec covers
+- what was corrected from the original review
+
+2. Source Document Reconciliation
+- what Document A got right
+- what Document B corrected
+- what was removed or merged
+- what remains open
+
+3. Platform Review Method
+- one merged, honest review methodology
+- scope of repositories / apps / packages / routes / migrations / docs reviewed
+- what was fully reviewed vs sampled
+- known blind spots
+
+4. Current-State Findings
+- existing notification-like capabilities
+- partial capabilities
+- duplicated codepaths
+- absent capabilities
+- silent workflow gaps
+
+5. Canonical Notification Event Catalog
+- normalized master event list
+- include event domain, event key, trigger source, actor, subject, audience, default channels, severity, digest eligibility, compliance sensitivity, template family, status
+- include platform-wide, vertical, and workflow-specific events
+- explicitly add missing partner, bank-transfer, transport, B2B marketplace, airtime, and AI event families
+
+6. Missing Elements List
+- architectural gaps
+- product gaps
+- data model gaps
+- governance/compliance gaps
+- observability gaps
+- QA/testing gaps
+- infra gaps
+- multi-tenant/white-label gaps
+
+7. Canonical Domain Model
+- all entities
+- field-level intent
+- relationships
+- tenant scoping
+- lifecycle state
+- indexes / uniqueness considerations
+- security and retention notes
+- include suppression list, digest batch items, provider credential separation, inbox traceability, and WhatsApp approval state if applicable
+
+8. Reference Architecture
+- end-to-end notification pipeline
+- domain event capture
+- reliable transport
+- rule/policy evaluation
+- audience resolution
+- preference resolution
+- tenant/brand/locale resolution
+- channel routing
+- template rendering
+- dispatch
+- tracking
+- retries
+- fallback
+- dead-letter handling
+- inbox persistence
+- analytics and observability
+- worker ownership and Cloudflare Queues prerequisites
+
+9. Template System Design
+- template hierarchy
+- naming conventions
+- versioning
+- override model
+- tenant brand inheritance
+- locale handling via existing i18n package
+- channel variants
+- approvals / publish workflow
+- preview and test send
+- safety and sanitization
+- compliance footers
+- WhatsApp template approval state if needed
+
+10. Repo-by-Repo Implementation Impact
+- updated list of impacted apps/packages/routes
+- what changes each repo needs
+- what contracts are introduced
+- migration dependencies
+- test requirements
+- ownership implications
+- include previously missed workers and packages
+
+11. Phased Implementation Roadmap
+- phase 0 through final rollout
+- include queue provisioning in phase 0
+- include worker ownership decision in phase 0
+- include rollout and rollback strategy
+- include migration of legacy direct-send paths
+- include QA and observability gates
+- include exit criteria for each phase
+
+12. Best-Practice Guardrails
+- enforceable rules only
+- no direct-send bypasses
+- tenant context required on every send
+- secrets never stored in plaintext D1
+- idempotency required
+- preference inheritance rules
+- consent gating
+- retention policy
+- template approval rules
+- suppression list enforcement
+- channel fallback policy
+- audit logging requirements
+- kill-switch requirement
+
+13. Open Questions and Decisions Needed
+- only real unresolved decisions
+- queue consumer worker location
+- HITL escalation ownership
+- WhatsApp template approval workflow
+- tenant sender domain verification flow
+- partner/sub-partner branding hierarchy
+- data retention policy
+- digest timing model
+- USSD notification behavior
+- any other genuine unresolved platform decisions
+
+14. Execution Backlog
+- de-duplicated, prioritized backlog
+- grouped by epic
+- include repo
+- include dependencies
+- include acceptance criteria
+- include risk level
+- remove duplicate IDs and numbering errors
+
+15. Final Approval Criteria
+- explicit checklist for when implementation can begin
+- include what must be fixed before handoff
+- define what “implementation-ready” means for this platform
+
+==================================================
+8. EDITORIAL RULES
+==================================================
+
+When merging:
+- eliminate repetitive prose
+- use tables where useful
+- keep architecture exact, not vague
+- use consistent event key naming
+- use consistent entity names
+- use a single phase numbering scheme
+- use a single backlog numbering scheme
+- distinguish mandatory items from recommended items
+- preserve practical implementation detail
+
+Do not:
+- flatten the two reports into a generic summary
+- keep contradictory state descriptions
+- keep duplicate backlog items
+- hide audit corrections inside prose
+- invent facts not present in the source material
+- remove important implementation detail just to make the document shorter
+
+==================================================
+9. QUALITY BAR
+==================================================
+
+The final document will be considered successful only if it:
+- reads as one coherent authoritative specification
+- reflects both the original review and the QA audit accurately
+- includes all mandatory corrections from the audit
+- is free of duplicates and internal contradictions
+- is safe to hand to implementation agents
+- is detailed enough to be used as the source of truth for execution
+
+The final document will be considered poor if it:
+- merely concatenates the two reports
+- leaves unresolved contradictions
+- omits the mandatory audit corrections
+- loses implementation detail
+- or remains too generic to execute
+
+==================================================
+10. OUTPUT REQUIREMENTS
+==================================================
+
+Produce one final markdown document only.
+
+Name the document clearly as:
+- `webwaka-notification-engine-final-master-specification.md`
+
+The document must be structured, polished, and ready for immediate use by implementation agents.
+
+Before finalizing, perform a strict self-check:
+- no duplicate deliverables
+- no duplicate backlog IDs
+- no missing mandatory audit corrections
+- no unresolved contradictions
+- no insecure credential storage assumptions
+- no missing worker ownership decision
+- no missing queue provisioning prerequisite
+- no missing open-questions section
+
+==================================================
+11. START NOW
+==================================================
+
+Merge the two reports into a single corrected master specification.
+
+Preserve what was correct.
+Fix what was incomplete.
+Remove what was duplicated.
+Normalize what was inconsistent.
+Make it implementation-ready.
