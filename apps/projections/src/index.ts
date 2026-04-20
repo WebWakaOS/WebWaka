@@ -17,10 +17,9 @@
  *
  * SEC-009: POST /rebuild/* require X-Inter-Service-Secret header.
  *
- * N-009 (OQ-002): HITL_LEGACY_NOTIFICATIONS_ENABLED kill-switch controls whether
- * legacy HITL escalation dispatch runs here. Set to "0" in Phase 6 once
- * NotificationService.raise() handles ai.hitl_escalated_to_l3.
- * Kill-switch is declared in wrangler.toml as a var for all environments.
+ * N-100b (OQ-002, Phase 9): Legacy HITL notification dispatch removed.
+ * HitlService.expireAllStale() D1 status writes run unconditionally.
+ * Notification dispatch is handled by NotificationService via publishEvent().
  */
 
 import { Hono } from 'hono';
@@ -38,8 +37,6 @@ interface Env {
   ENVIRONMENT: 'development' | 'staging' | 'production';
   ALLOWED_ORIGINS?: string;
   INTER_SERVICE_SECRET: string;
-  /** N-009 (OQ-002): "1" = legacy HITL dispatch active; "0" = NotificationService handles it */
-  HITL_LEGACY_NOTIFICATIONS_ENABLED: string;
 }
 
 interface D1Like {
@@ -155,7 +152,7 @@ app.get('/events/:aggregate/:id', async (c) => {
 // ---------------------------------------------------------------------------
 // Scheduled CRON handler (Issue 4 — projections checkpoint + CRON trigger)
 // Issue 8 — HITL cross-tenant expiry + L3 escalation
-// N-009 (OQ-002) — HITL_LEGACY_NOTIFICATIONS_ENABLED kill-switch applied
+// N-100b (Phase 9): Legacy HITL dispatch removed. Expiry sweep runs unconditionally.
 // ---------------------------------------------------------------------------
 
 export async function scheduled(
@@ -168,25 +165,19 @@ export async function scheduled(
   console.log(`[projections:cron] triggered — cron="${cron}"`);
 
   // ---------------------------------------------------------------------------
-  // N-009 (OQ-002): HITL legacy dispatch kill-switch
-  // When HITL_LEGACY_NOTIFICATIONS_ENABLED = "1", run legacy HITL expiry sweep.
-  // When set to "0" (Phase 6+), NotificationService.raise() handles escalations.
+  // HITL stale expiry sweep (N-100b, Phase 9).
+  // D1 status writes (expire rows, write hitl_escalations) run unconditionally.
+  // Notification dispatch is handled by NotificationService.raise() via publishEvent().
   // ---------------------------------------------------------------------------
-  const hitlEnabled = env.HITL_LEGACY_NOTIFICATIONS_ENABLED !== '0';
-
-  if (hitlEnabled) {
-    try {
-      const hitlResult = await HitlService.expireAllStale(db);
-      if (hitlResult.expired > 0 || hitlResult.escalated > 0) {
-        console.log(
-          `[projections:cron] HITL expiry — expired=${hitlResult.expired} escalated=${hitlResult.escalated}`,
-        );
-      }
-    } catch (err) {
-      console.error('[projections:cron] HITL expiry failed:', err);
+  try {
+    const hitlResult = await HitlService.expireAllStale(db);
+    if (hitlResult.expired > 0 || hitlResult.escalated > 0) {
+      console.log(
+        `[projections:cron] HITL expiry — expired=${hitlResult.expired} escalated=${hitlResult.escalated}`,
+      );
     }
-  } else {
-    console.log('[projections:cron] HITL legacy dispatch disabled (HITL_LEGACY_NOTIFICATIONS_ENABLED=0); NotificationService handles escalations');
+  } catch (err) {
+    console.error('[projections:cron] HITL expiry failed:', err);
   }
 
   // Every 15 minutes: incremental search index rebuild

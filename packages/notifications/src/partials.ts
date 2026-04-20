@@ -71,7 +71,7 @@ function toSupportedLocale(locale: TemplateLocale): SupportedLocale {
  */
 export function renderCtaButton(label: string, url: string, primaryColor: string): string {
   const safeLabel = escapeHtml(label);
-  const safeUrl = escapeAttr(url);
+  const safeUrl = escapeHref(url);
   const safeColor = /^#[0-9a-fA-F]{3,6}$/.test(primaryColor) ? primaryColor : '#1a6b3a';
 
   return `<!--[if mso]>
@@ -243,7 +243,7 @@ export function renderLegalFooter(opts: LegalFooterOptions): string {
     ? `<p style="margin:8px 0 0;">${escapeHtml(t('notif_powered_by'))} — <a href="https://webwaka.com" style="color:#6b7280;" target="_blank" rel="noopener">webwaka.com</a></p>`
     : '';
 
-  const safeUnsubUrl = escapeAttr(opts.unsubscribeUrl);
+  const safeUnsubUrl = escapeHref(opts.unsubscribeUrl);
 
   return `<table cellpadding="0" cellspacing="0" border="0" width="100%"
     style="border-top:1px solid #e5e7eb;margin-top:32px;padding-top:20px;">
@@ -286,4 +286,30 @@ export function escapeHtml(text: string | number): string {
  */
 export function escapeAttr(text: string): string {
   return escapeHtml(text).replace(/`/g, '&#96;').replace(/=/g, '&#61;');
+}
+
+/**
+ * Block dangerous URL schemes (javascript:, data:) that can execute JS even inside
+ * href attributes. Returns '#blocked' for any URL starting with those schemes
+ * (case-insensitive, ignoring leading whitespace/null bytes).
+ *
+ * Used specifically for href values where `=` must NOT be escaped (query params).
+ */
+function sanitizeUrl(url: string): string {
+  const stripped = url.replace(/[\x00-\x1f\x7f]/g, '').trim().toLowerCase();
+  if (stripped.startsWith('javascript:') || stripped.startsWith('data:')) {
+    return '#blocked';
+  }
+  return url;
+}
+
+/**
+ * Escape a URL string for safe use in an href attribute.
+ *
+ * Unlike escapeAttr(), this does NOT escape `=` (which is valid in query strings).
+ * It DOES block javascript: and data: schemes via sanitizeUrl().
+ * Equivalent to: escapeHtml(sanitizeUrl(url)).
+ */
+function escapeHref(url: string): string {
+  return escapeHtml(sanitizeUrl(url));
 }

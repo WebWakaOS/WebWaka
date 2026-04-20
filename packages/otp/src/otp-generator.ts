@@ -5,7 +5,7 @@
  */
 
 export const OTP_LENGTH = 6;
-export const OTP_TTL_SECONDS = 600;  // 10 minutes
+export const OTP_TTL_SECONDS = 300;  // 5 minutes (CBN R14 maximum)
 
 /**
  * Generate a cryptographically secure 6-digit OTP.

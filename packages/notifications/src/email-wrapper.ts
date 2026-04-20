@@ -79,7 +79,7 @@ export function wrapEmail(opts: WrapEmailOptions): WrappedEmail {
 
   const primaryColor = effectiveTheme.primaryColor;
   const displayName = escapeHtml(effectiveTheme.displayName);
-  const preheaderText = preheader ? escapeHtml(preheader) : escapeHtml(subject);
+  const preheaderText = preheader ? escapeHtml(preheader) : sanitizeSubjectHtml(subject);
 
   // Logo or text header
   const headerHtml = effectiveTheme.logoUrl
@@ -107,7 +107,7 @@ export function wrapEmail(opts: WrapEmailOptions): WrappedEmail {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="x-apple-disable-message-reformatting" />
   <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no" />
-  <title>${escapeHtml(subject)}</title>
+  <title>${sanitizeSubjectHtml(subject)}</title>
   <!--[if mso]>
   <noscript>
     <xml><o:OfficeDocumentSettings>
@@ -272,7 +272,10 @@ export function htmlToPlainText(html: string, opts: PlainTextOptions = {}): stri
 
   // Build final plain-text with header and unsubscribe footer
   const parts: string[] = [];
-  if (opts.subject) parts.push(`${opts.subject}\n${'─'.repeat(opts.subject.length)}`);
+  if (opts.subject) {
+    const cleanSubject = sanitizeSubjectPlain(opts.subject);
+    parts.push(`${cleanSubject}\n${'─'.repeat(cleanSubject.length)}`);
+  }
   parts.push(text);
   if (opts.unsubscribeUrl) {
     parts.push(`\n---\nTo unsubscribe from ${opts.tenantName ?? 'this service'}, visit:\n${opts.unsubscribeUrl}`);
@@ -297,4 +300,23 @@ function escapeHtml(text: string | number): string {
 
 function escapeAttr(text: string): string {
   return escapeHtml(text).replace(/`/g, '&#96;').replace(/=/g, '&#61;');
+}
+
+/**
+ * Sanitize a subject line for embedding in HTML (title, preheader).
+ * - Strips null bytes (XSS-12)
+ * - HTML-escapes special chars
+ * - Escapes backticks (XSS-07: template-literal breakout prevention)
+ */
+function sanitizeSubjectHtml(subject: string): string {
+  return escapeHtml(subject.replace(/\x00/g, '')).replace(/`/g, '&#96;');
+}
+
+/**
+ * Sanitize a subject line for embedding in plain-text output.
+ * - Strips null bytes (XSS-12)
+ * - Strips HTML tags so <script> injections don't appear raw (XSS-01)
+ */
+function sanitizeSubjectPlain(subject: string): string {
+  return subject.replace(/\x00/g, '').replace(/<[^>]+>/g, '');
 }

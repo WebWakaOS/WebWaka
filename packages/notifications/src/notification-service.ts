@@ -173,6 +173,27 @@ export async function processEvent(
     channels.map((c) => [c.channel, c]),
   );
 
+  // ── G7 event-level idempotency gate ─────────────────────────────────────
+  // If notification_event row already exists for this notifEventId, it has already
+  // been processed. Skip all dispatch — INSERT OR IGNORE at delivery level also
+  // prevents duplicate rows, but checking here short-circuits expensive rule
+  // evaluation, audience resolution, and rendering on replays.
+  const existingEvent = await db
+    .prepare(
+      `SELECT id FROM notification_event
+       WHERE id = ? AND tenant_id = ?`,
+    )
+    .bind(notifEventId, tenantId)
+    .first<{ id: string }>();
+
+  if (existingEvent !== null && existingEvent !== undefined) {
+    console.log(
+      `[notification-service] event already processed — skipping (G7) ` +
+      `notifEventId=${notifEventId} tenant=${tenantId}`,
+    );
+    return;
+  }
+
   // ── Step 1: Load matching rules ─────────────────────────────────────────
   let rules;
   try {

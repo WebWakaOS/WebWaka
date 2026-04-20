@@ -51,9 +51,11 @@ export function resolveOTPChannels(
     channels.push({ channel: 'whatsapp', identifier: contact.whatsapp });
     if (contact.phone) channels.push({ channel: 'sms', identifier: contact.phone });
   } else if (preference === 'telegram' && contact.telegram) {
-    channels.push({ channel: 'telegram', identifier: contact.telegram });
+    // CBN compliance (CBN-10): Telegram must NEVER be the first/primary channel for any purpose.
+    // Even when user preference is telegram, attempt SMS and WhatsApp first.
     if (contact.phone) channels.push({ channel: 'sms', identifier: contact.phone });
     if (contact.whatsapp) channels.push({ channel: 'whatsapp', identifier: contact.whatsapp });
+    channels.push({ channel: 'telegram', identifier: contact.telegram });
   } else {
     if (contact.phone) channels.push({ channel: 'sms', identifier: contact.phone });
     if (contact.whatsapp) channels.push({ channel: 'whatsapp', identifier: contact.whatsapp });
