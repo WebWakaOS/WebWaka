@@ -1,8 +1,8 @@
 # WebWaka Notification Engine — Final Master Specification v2
 
-**Version:** 2.0 (Section 13 Resolved — Canonical Implementation-Ready)
+**Version:** 2.1 (Section 13 Resolved + QA Corrections — Canonical Implementation-Ready)
 **Date:** 2026-04-20
-**Status:** CANONICAL IMPLEMENTATION-READY — All 13 architectural decisions resolved and propagated
+**Status:** CANONICAL IMPLEMENTATION-READY — All 13 architectural decisions resolved and propagated. Four QA-identified defects corrected (see `docs/webwaka-notification-engine-v2-fix-report.md`).
 **Source Documents:**
 — Document A: `docs/notification-engine-review.md` (original review — superseded)
 — Document B: `docs/notification-engine-audit.md` (independent QA audit — superseded)
@@ -75,6 +75,15 @@ Five categories of verifiable defects in the original review were corrected in v
 ### What Changed in v2.0 (Section 13 Resolution Merge)
 
 Thirteen architectural and operational decisions that were unresolved in v1.0 have been decided, justified, and propagated throughout this document. The key decisions are summarised in Section 13. Changes to architecture, domain model, roadmap, backlog, and guardrails are integrated throughout each affected section.
+
+### What Changed in v2.1 (QA Correction Pass)
+
+Four defects identified by the strict QA verification audit were corrected:
+
+1. **G12 — digest engine tenant isolation clause added.** The resolution pack mandated an addition to G12 requiring per-batch tenant isolation in `processDigestBatch()`. This clause was missing from v2.0. Now present in G12.
+2. **OQ-013 Section 13 body — enterprise cap corrected; business tier added.** v2.0 stated "max 250 subscriptions" for enterprise (incorrect) and omitted the business-tier cap entirely. Corrected to: standard max 25; business max 100; enterprise unlimited — consistent with G25 and the resolution pack.
+3. **Section 15 phase gate — OQ-008 moved to correct phase.** v2.0 placed the OQ-008 gate under "Before Phase 5 Begins." N-091a is a Phase 6 task. Gate moved to "Before Phase 6 Begins."
+4. **N-012a — reconciliation note added; downstream N-008 reference corrected.** The resolution pack defined N-012a as the Worker skeleton scaffold (which v2.0 merged into the updated N-008). v2.0 silently repurposed N-012a for the CRON digest handler. A reconciliation note is now embedded in the N-012a backlog entry, and the OQ-001 rationale text that incorrectly cited N-012a as the 2d scaffold cost has been corrected to cite N-008.
 
 ---
 
@@ -1899,7 +1908,7 @@ After max retry attempts, notifications must enter `dead_lettered` state (not de
 `Africa/Lagos` (WAT, UTC+1) is the default timezone. A notification blocked by quiet hours must be scheduled for delivery via CF Queue message delay — not suppressed. `severity='critical'` bypasses quiet hours (G12).
 
 ### G12 — Critical Notifications Bypass Quiet Hours and Digest
-`severity='critical'` notifications (account locked, data breach, payment critical failure, workspace suspended) bypass quiet hours and digest windows. Delivered immediately on all configured channels.
+`severity='critical'` notifications (account locked, data breach, payment critical failure, workspace suspended) bypass quiet hours and digest windows. Delivered immediately on all configured channels. Additionally, the digest engine must never process a batch belonging to tenant A while processing a message for tenant B: each Queue message dispatched by the CRON sweep must contain `tenant_id`, and all DB queries within `processDigestBatch()` must include `AND tenant_id = :tenantId`. Cross-tenant batch processing is a T3 isolation violation (G1).
 
 ### G13 — Provider Abstraction Must Be Complete
 No channel-specific provider implementation code may appear in business logic, route handlers, or rule evaluation. All provider specifics must be behind `INotificationChannel`.
@@ -1970,7 +1979,7 @@ All 13 architectural and operational decisions that were unresolved in v1.0 have
 
 **Decision:** New dedicated `apps/notificator` Cloudflare Worker owns all CF Queue consumption and digest CRON sweeps.
 
-**Rationale:** `apps/projections` already handles search rebuilds, analytics snapshots, and HITL CRON. Adding notification dispatch creates CPU budget competition, coupled deployment risk, and mixed SLA concerns. A dedicated Worker gives independent scaling, deployment isolation, and a clean audit surface. The ~2d additional setup cost (N-012a) is justified by operational safety at scale.
+**Rationale:** `apps/projections` already handles search rebuilds, analytics snapshots, and HITL CRON. Adding notification dispatch creates CPU budget competition, coupled deployment risk, and mixed SLA concerns. A dedicated Worker gives independent scaling, deployment isolation, and a clean audit surface. The ~2d additional setup cost (N-008 Worker scaffold) is justified by operational safety at scale.
 
 ---
 
@@ -2064,7 +2073,7 @@ All 13 architectural and operational decisions that were unresolved in v1.0 have
 
 ### OQ-013 — Webhook Event Expansion Scope
 
-**Decision:** 30-event curated starter set available to standard-tier tenants (max 25 subscriptions). Full 100+ event catalog available to enterprise-tier tenants (max 250 subscriptions). Inline webhook retry must be migrated to CF Queues (N-131) before any expansion beyond current 4 events. New `webhook_event_types` registry table tracks availability and plan tier.
+**Decision:** 30-event curated starter set available to standard-tier tenants (max 25 active subscriptions per workspace). Business-tier tenants receive the 30-event starter set with a higher cap (max 100 active subscriptions). Full 100+ event catalog available to enterprise-tier tenants (unlimited active subscriptions). Inline webhook retry must be migrated to CF Queues (N-131) before any expansion beyond current 4 events. New `webhook_event_types` registry table tracks availability and plan tier.
 
 **Rationale:** Expanding to 100+ webhook event types with untested payloads and an inline-blocking retry mechanism creates cascading API latency risk. The curated 30-event starter set covers the highest-value integration scenarios. The plan-tier gate creates an enterprise upsell path. The Queues migration is a prerequisite — it de-couples webhook delivery reliability from API response latency.
 
@@ -2095,7 +2104,7 @@ De-duplicated, unique IDs, prioritized. Grouped by phase/epic.
 | N-010 | Expand @webwaka/events EventType catalog to 100+ types | packages/events | 3d | P0 | N-001 | Low |
 | N-011 | Add correlation_id to DomainEvent and publishEvent() | packages/events | 0.5d | P0 | N-010 | Low |
 | N-012 | Implement CF Queues consumer in apps/notificator | apps/notificator | 3d | P0 | N-007, N-008 | High |
-| N-012a | Add CRON digest sweep handler to apps/notificator (wrangler.toml triggers + digestSweepCron) | apps/notificator | 1d | P0 | N-012 | Medium |
+| N-012a | Add CRON digest sweep handler to apps/notificator (wrangler.toml CRON triggers + `digestSweepCron()` function). **Reconciliation note:** The resolution pack's Section 6 defined N-012a as the Worker skeleton scaffold and also updated N-008 with identical content. v2 merges both into the updated N-008; N-012a here covers the CRON handler that had no separate ID in the resolution pack. | apps/notificator | 1d | P0 | N-012 | Medium |
 | N-013 | Wire outbox pattern: publishEvent() within D1 transaction | packages/events | 2d | P0 | N-011, N-012 | Medium |
 | N-014 | Run and validate migrations 0254-0273 on staging | infra | 1d | P0 | N-002 | Medium |
 | N-015 | Write seed data for platform notification_rules and notification_templates | infra | 2d | P0 | N-014 | Low |
@@ -2287,12 +2296,12 @@ All 13 architectural decisions have been resolved. No items remain open. The fol
 | OQ-007 Digest timing model | ✅ Queue-continued CRON sweep; N-063/N-064/N-012a |
 | OQ-010 Real-time inbox push | ✅ Short-poll 30s; GET /notifications/inbox/unread-count; N-067 |
 | OQ-009 USSD notification handling | ✅ G21 added; `source` field in place; N-060 |
-| OQ-008 Partner admin inbox surface | ✅ Shared schema + `category='partner'`; N-091a |
 
 ### Before Phase 6 Begins
 
 | Gate | Status |
 |---|---|
+| OQ-008 Partner admin inbox surface | ✅ Shared schema + `category='partner'`; N-091a (Phase 6 task — gate confirmed at Phase 6 entry) |
 | OQ-002 kill-switch deployed to staging | Required: N-009 (config) + N-100a (validation) |
 | NOTIFICATION_PIPELINE_ENABLED kill-switch implemented and tested | Required: N-020 |
 | `NOTIFICATION_SANDBOX_MODE=true` deployed on staging | **Must be live before Phase 6 vertical wiring** — execute N-111 early |
