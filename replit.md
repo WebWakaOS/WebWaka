@@ -6,10 +6,9 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 
 **Current State: PRODUCTION READY — Staging + Production deployed green, 2463 tests passing, TypeScript 0 errors, 10/10 governance checks green**
 **Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P25 defined**
-**Notification Engine — Final Master Specification: `docs/webwaka-notification-engine-final-master-specification.md` (2,303 lines, 15 deliverables, N-001–N-130 backlog, 20 guardrails — supersedes both source documents)**
-**Notification Engine — Section 13 Resolution Pack: `docs/webwaka-notification-engine-section13-resolution.md` (1,646 lines, all 13 OQ decisions resolved, 5 new guardrails G21-G25, 12 new/updated backlog items, ~180d revised effort estimate)**
-**Notification Engine Review: `docs/notification-engine-review.md` (superseded — see final master spec)**
-**Notification Engine Audit: `docs/notification-engine-audit.md` (superseded — all 20 corrective actions incorporated into final master spec)**
+**Notification Engine v2 — CANONICAL IMPLEMENTATION-READY: `docs/webwaka-notification-engine-final-master-specification-v2.md` (all 13 OQ decisions resolved, 25 guardrails G1-G25, 16-entity domain model, ~180d revised effort, N-001–N-133 backlog, 9 phases — supersedes all 4 prior notification docs)**
+**Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
+**Notification Engine — prior documents superseded by v2: `final-master-specification.md` (v1.0), `section13-resolution.md`, `notification-engine-review.md`, `notification-engine-audit.md`**
 
 ## Production Readiness Mission — COMPLETE (2026-04-19)
 

@@ -1,0 +1,335 @@
+You are Replit Agent acting as a Principal Technical Editor, Platform Architect, Specification Integrator, and QA Merger for WebWaka.
+
+Your task is to fold the authoritative “Section 13 Resolution Pack” back into the existing “WebWaka Notification Engine Final Master Specification” and produce the final canonical Version 2 document.
+
+This is a controlled merge task, not a rewrite from scratch.
+
+You must preserve all valid content from the current master specification, replace all now-resolved open questions, and propagate every approved Section 13 resolution throughout the full document so the result is internally consistent, implementation-ready, and authoritative.
+
+==================================================
+0. SOURCE DOCUMENTS
+==================================================
+
+Primary base document:
+- webwaka-notification-engine-final-master-specification.md
+
+Authoritative resolution insert:
+- webwaka-notification-engine-section13-resolution.md
+
+Treat the resolution document as authoritative for all Section 13 decisions and all downstream impacts it explicitly calls out.
+
+==================================================
+1. PRIMARY OBJECTIVE
+==================================================
+
+Produce the final canonical merged specification as:
+
+- Version: 2.0
+- Status: CANONICAL IMPLEMENTATION-READY
+- Title: WebWaka Notification Engine Final Master Specification v2
+
+The output document must:
+1. Replace the old unresolved Section 13 with the resolved v2 position.
+2. Update all affected sections across the master spec.
+3. Remove all statements that imply these 13 questions are still unresolved.
+4. Update roadmap, backlog, repo impacts, domain model, architecture, guardrails, and readiness gates to reflect the adopted decisions.
+5. Recalculate effort totals and planning notes where the resolution pack changed estimates.
+6. Leave no contradiction anywhere in the document.
+
+==================================================
+2. MERGE AUTHORITY RULE
+==================================================
+
+If there is any conflict between:
+- the existing master specification, and
+- the Section 13 resolution pack
+
+then the Section 13 resolution pack wins.
+
+Do not “average” conflicting positions.
+Do not preserve obsolete unresolved wording.
+Do not keep hedged alternatives once a decision has been made.
+
+==================================================
+3. REQUIRED SECTION-LEVEL CHANGES
+==================================================
+
+You must make all changes explicitly required by the resolution pack, including but not limited to:
+
+A. Section 1 Executive Summary
+- Update any claim that there are still 13 unresolved questions.
+- Update implementation scope and planning summary where needed.
+- Update effort estimate from 165 engineering days to the revised total if the resolution pack states this change.
+
+B. Section 5 / Event or catalog references
+- Reflect any event expansion and webhook event scope decisions that were resolved.
+- Ensure wording matches the resolved starter-set and tier-gated expansion position.
+
+C. Section 7 Canonical Domain Model
+Apply all schema/entity updates from the resolution pack, including:
+- notificationwaapprovallog
+- source field additions
+- sender fallback tracking
+- sandbox redirect tracking
+- low data mode support
+- brand independence flag
+- webhook event registry updates
+- any other entity/field additions explicitly required
+
+D. Section 8 Reference Architecture
+Update the architecture to reflect the resolved decisions, including:
+- dedicated appsnotificator Worker
+- HITL migration bridge and legacy kill-switch pattern
+- digest engine timing model
+- low-data mode behavior
+- USSD handling
+- real-time inbox push default
+- sandbox mode enforcement
+- brand resolution behavior
+- any layer changes explicitly called out by the resolution pack
+
+E. Section 9 Template System
+Update for:
+- platform-operated WhatsApp approval workflow
+- Meta approval status handling
+- fallback behavior on rejection/pending approval
+- sender-domain verification fallback behavior
+- any template workflow or schema changes
+
+F. Section 10 Repo-by-Repo Implementation Impact
+Reflect all repo changes from the resolution pack, including:
+- new appsnotificator Worker
+- appsapi route additions
+- appspartner-admin notification bell
+- appsbrand-runtime verification UI
+- appsussd-gateway source tagging
+- packageswhite-label-theming updates
+- backlog-linked repo changes
+
+G. Section 11 Phased Implementation Roadmap
+Update phases and tasks exactly as required by the resolution pack, including:
+- N-012a
+- N-033a
+- N-053a
+- N-053b
+- N-060a
+- N-067a
+- N-091a
+- N-100a
+- N-100b
+- N-131
+- N-132
+- N-133
+- any scope changes to N-008, N-009, N-012, N-053, N-063, N-064, N-067, N-100, N-111, N-118
+- update prerequisite gates and phase readiness notes
+
+H. Section 12 Guardrails
+Add and/or update the guardrails required by the resolution pack, including:
+- updated G4
+- updated G17
+- new G21 if introduced through USSD handling
+- new G22 if introduced through low-data mode handling
+- new G23 NDPR erasure propagation
+- updated G3 sender fallback visibility if required
+- any sandbox or queue-processing constraints formalized as guardrails
+
+I. Section 13
+This section must no longer be “Open Questions and Decisions Needed.”
+Replace it with a resolved decisions section, for example:
+- “Section 13. Resolved Platform Decisions”
+or another equivalent final canonical title.
+
+This section must summarize the 13 adopted decisions in a clean canonical form, not as unresolved questions.
+
+J. Section 14 Execution Backlog
+Update backlog items, dependencies, estimates, priorities, and descriptions to match the resolution pack exactly.
+Ensure no duplicate IDs.
+Ensure new backlog items are inserted in the right phase/epic sections.
+
+K. Section 15 Final Approval Criteria / Readiness Gate
+Replace any outdated blocking list with the updated implementation readiness gates defined in the resolution pack.
+Make sure “before Phase 0”, “before Phase 3”, “before Phase 5”, “before Phase 6”, “before Phase 8”, and “before Phase 9” conditions reflect the resolved state.
+
+==================================================
+4. SPECIFIC RESOLUTIONS THAT MUST BE CANONICALIZED
+==================================================
+
+The merged v2 document must canonically reflect these decisions:
+
+1. Queue consumer location:
+- New dedicated appsnotificator Worker owns notification Queue consumption.
+
+2. HITL escalation migration:
+- Use kill-switch bridge pattern in Phase 6 via HITLLEGACYNOTIFICATIONSENABLED.
+- Resolve fully to unified pipeline later, delete legacy direct dispatch in Phase 9.
+
+3. WhatsApp template approval:
+- Platform-operated WABA model for standard/default path.
+- Platform submits templates on behalf of tenants.
+- Enterprise partner-operated path may exist later without schema redesign.
+
+4. Sender domain verification:
+- Fall back to platform sender during pending verification.
+- Track fallback in schema and delivery logs.
+- Show verification status in brand-runtime.
+
+5. Partner/Sub-Partner brand traversal:
+- Standard walk to platform default.
+- Sub-Partner may use brandIndependenceMode to skip parent partner.
+- Flag is superadmin-controlled.
+
+6. Retention and NDPR erasure:
+- Delivery logs 90 days.
+- Inbox 365 days.
+- Audit logs 7 years.
+- Audit rows retained but actorid and recipientid zeroed to ERASED.
+- Other notification tables hard-delete relevant personal rows.
+
+7. Digest timing model:
+- Queue-continued global CRON sweep.
+
+8. Partner admin notification surface:
+- Shared inbox schema.
+- category=partner surfaced in appspartner-admin.
+
+9. USSD handling:
+- SMS immediately outside session.
+- In-app queued.
+- Never interrupt USSD session flow.
+
+10. Real-time inbox updates:
+- Short-poll every 30s as default.
+- SSE upgrade path documented, not default.
+
+11. Low-data mode:
+- Push suspended.
+- In-app text-only.
+- Email deferred.
+- SMS for critical.
+
+12. Sandbox mode:
+- Strict redirect to test recipients based on NOTIFICATIONSANDBOXMODE and env-configured test addresses.
+
+13. Webhook expansion:
+- 30-event curated starter set.
+- Full catalog for enterprise plan.
+- 25 subscription cap on standard tier.
+
+==================================================
+5. DOCUMENT CONSISTENCY RULES
+==================================================
+
+Perform a full-document consistency pass after merging.
+
+You must find and fix every occurrence of outdated statements such as:
+- “unresolved”
+- “decision needed”
+- “see OQ-... for final choice”
+- “appsprojections or appsnotificator”
+- “SSE or Durable Objects see OQ-010”
+- “per OQ-001 decision”
+- “per OQ-007”
+- “before this question is resolved”
+- any planning text still treating resolved items as open
+
+Replace all such wording with final canonical v2 wording.
+
+==================================================
+6. EDITORIAL RULES
+==================================================
+
+The final v2 document must read as one coherent document authored in one pass.
+
+That means:
+- no patchwork tone
+- no duplicated paragraphs
+- no contradictory counts
+- no stale references to old section names
+- no dangling references to removed open questions
+- no “this will be decided later” language where already decided
+- no conflicting effort estimates
+
+Keep the style aligned with the master spec:
+- formal
+- implementation-ready
+- architect-level precision
+- strong section headers
+- concise but explicit
+
+==================================================
+7. REQUIRED QA CHECKLIST
+==================================================
+
+Before finalizing, verify all of the following:
+
+1. Section 13 is fully replaced with resolved decisions.
+2. Total engineering estimate is updated everywhere consistently.
+3. appsnotificator appears everywhere required.
+4. N-012 no longer says appsprojections or appsnotificator.
+5. N-100 is split correctly into N-100a and N-100b where required.
+6. Guardrails G4, G17, G23 and any new G21/G22 updates are present and consistent.
+7. Roadmap, backlog, repo impact, and architecture all agree on:
+   - digest model
+   - sandbox mode
+   - short-poll default
+   - low-data mode behavior
+   - WhatsApp approval process
+   - sender fallback logic
+8. No section still says the 13 questions are unresolved.
+9. Readiness gates are updated from the resolution pack.
+10. The final result is suitable to supersede Version 1.0 entirely.
+
+==================================================
+8. REQUIRED OUTPUTS
+==================================================
+
+Produce:
+
+OUTPUT A — the final merged markdown document
+- filename: webwaka-notification-engine-final-master-specification-v2.md
+
+OUTPUT B — a concise merge report
+- filename: webwaka-notification-engine-v2-merge-report.md
+
+The merge report must include:
+1. Summary of what changed
+2. Sections updated
+3. New backlog items added
+4. Existing backlog items modified
+5. Guardrails added/changed
+6. Effort estimate changes
+7. Any issues found and corrected during consistency pass
+
+==================================================
+9. EXECUTION INSTRUCTIONS
+==================================================
+
+Work in this order:
+
+Step 1:
+Read both source documents fully.
+
+Step 2:
+Create a merge map:
+- section by section
+- what gets replaced
+- what gets updated
+- what gets inserted
+
+Step 3:
+Generate the final v2 canonical merged markdown document.
+
+Step 4:
+Run a consistency pass across the full document and remove stale unresolved language.
+
+Step 5:
+Generate the merge report.
+
+Step 6:
+Present both files as final output.
+
+Do not stop after producing only a patch list.
+Do not produce commentary without the full merged document.
+Do not leave the master spec partially updated.
+
+The final result must be a complete, canonical, implementation-ready v2 specification.
