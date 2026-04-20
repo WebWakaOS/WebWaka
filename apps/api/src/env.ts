@@ -191,4 +191,17 @@ export interface Env {
    * Used by N-055 to route system alerts through SlackWebhookChannel.
    */
   NOTIFICATION_KV?: KVNamespace;
+
+  /**
+   * HandyLife Wallet feature flags and configuration (WF-012).
+   * Keys:
+   *   wallet:flag:{feature}_enabled   — '1' | '0'
+   *   wallet:eligible_tenants          — JSON array of tenant_id strings
+   *   wallet:hitl_threshold_kobo       — integer string (default '10000000' = ₦100k)
+   *   wallet:mla:commission_bps:{1|2|3} — integer string bps
+   *   wallet:daily_limit_kobo:{tier}   — CBN daily limit override
+   *   wallet:balance_cap_kobo:{tier}   — CBN balance cap override
+   * Provision: wrangler kv namespace create WALLET_KV --env staging
+   */
+  WALLET_KV?: KVNamespace;
 }

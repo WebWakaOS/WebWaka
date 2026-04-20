@@ -73,6 +73,7 @@ import eduAgriExtendedRoutes from './routes/verticals-edu-agri-extended.js';
 import { adminMetricsRoutes } from './routes/admin-metrics.js';
 import { errorLogMiddleware } from './middleware/error-log.js';
 import { bankTransferRoutes } from './routes/bank-transfer.js';
+import { walletRoutes, walletAdminRoutes } from './routes/hl-wallet.js';
 import { workspaceAnalyticsRoutes } from './routes/workspace-analytics.js';
 import { fxRatesRoutes } from './routes/fx-rates.js';
 import { b2bMarketplaceRoutes } from './routes/b2b-marketplace.js';
@@ -654,6 +655,23 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/bank-transfer/*', emailVerificationEnforcement);
   app.use('/bank-transfer/*', auditLogMiddleware);
   app.route('/bank-transfer', bankTransferRoutes);
+
+  // -------------------------------------------------------------------------
+  // HandyLife Wallet — user-level NGN wallet (WF-001 – WF-056)
+  // T3: tenant_id from JWT — all routes internally tenant-scoped.
+  // T5: assertTenantEligible() inside each handler — gated by KV allowlist.
+  // P9: all amounts validated as integer kobo in handlers.
+  // Super admin routes: /platform-admin/wallets/* (requireRole inside)
+  // -------------------------------------------------------------------------
+
+  app.use('/wallet/*', authMiddleware);
+  app.use('/wallet/*', auditLogMiddleware);
+  app.route('/wallet', walletRoutes);
+
+  app.use('/platform-admin/wallets/*', authMiddleware);
+  app.use('/platform-admin/wallets/*', requireRole('super_admin'));
+  app.use('/platform-admin/wallets/*', auditLogMiddleware);
+  app.route('/platform-admin/wallets', walletAdminRoutes);
 
   // -------------------------------------------------------------------------
   // P23: Workspace Analytics — tenant-scoped (different from /platform/analytics)

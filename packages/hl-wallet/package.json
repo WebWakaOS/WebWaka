@@ -1,0 +1,32 @@
+{
+  "name": "@webwaka/hl-wallet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Pillar 1] Operations-Management — HandyLife Wallet: shared ledger-backed user-level NGN wallet for WebWaka OS. Build Once Use Infinitely.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@webwaka/types": "workspace:*",
+    "@webwaka/entitlements": "workspace:*",
+    "@webwaka/events": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240620.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

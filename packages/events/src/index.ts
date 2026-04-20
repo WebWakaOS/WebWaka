@@ -48,6 +48,7 @@ export {
   TransportEventType,
   SystemEventType,
   VerticalEventType,
+  WalletEventType,
   LegacyEventType,
 } from './event-types.js';
 

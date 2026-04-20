@@ -28,6 +28,7 @@
     "@webwaka/shared-config": "workspace:*",
     "zod": "^3.22.4",
     "@webwaka/pos": "workspace:*",
+    "@webwaka/hl-wallet": "workspace:*",
     "@webwaka/community": "workspace:*",
     "@webwaka/social": "workspace:*",
     "@webwaka/verticals": "workspace:*",

@@ -112,6 +112,9 @@ importers:
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
+      '@webwaka/hl-wallet':
+        specifier: workspace:*
+        version: link:../../packages/hl-wallet
       '@webwaka/identity':
         specifier: workspace:*
         version: link:../../packages/identity
@@ -1054,6 +1057,28 @@ importers:
 
   packages/frontend:
     devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/hl-wallet:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240620.0
+        version: 4.20260405.1
       typescript:
         specifier: ^5.4.5
         version: 5.9.3

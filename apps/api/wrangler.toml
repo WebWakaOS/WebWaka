@@ -40,6 +40,13 @@ bucket_name = "webwaka-os-assets-staging"
 # binding = "KV"
 # id = "<AUDIT_KV_STAGING_ID>"
 
+# ── HandyLife Wallet feature flags + KYC limits KV (WF-012) ──────────────────
+# Provision: wrangler kv namespace create WALLET_KV --env staging
+# Then add the returned ID here and uncomment:
+# [[env.staging.kv_namespaces]]
+# binding = "WALLET_KV"
+# id = "<WALLET_KV_STAGING_ID>"
+
 # ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
 # Queue must be provisioned first:
 #   wrangler queues create webwaka-notification-queue-staging
@@ -91,6 +98,13 @@ bucket_name = "webwaka-os-assets-production"
 # [[env.production.kv_namespaces]]
 # binding = "KV"
 # id = "<AUDIT_KV_PRODUCTION_ID>"
+
+# ── HandyLife Wallet feature flags + KYC limits KV (WF-012) ──────────────────
+# Provision: wrangler kv namespace create WALLET_KV --env production
+# Then add the returned ID here and uncomment:
+# [[env.production.kv_namespaces]]
+# binding = "WALLET_KV"
+# id = "<WALLET_KV_PRODUCTION_ID>"
 
 # ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
 # Queue must be provisioned first:

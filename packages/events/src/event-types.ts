@@ -284,6 +284,28 @@ export const VerticalEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Wallet event types — HandyLife Wallet (WF-001 – WF-056)
+// P-wallet: user-level NGN wallet, offline-bank-funded, tenant-scoped.
+// ---------------------------------------------------------------------------
+
+export const WalletEventType = {
+  WalletFundingRequested:     'wallet.funding.requested',
+  WalletFundingProofSubmitted:'wallet.funding.proof_submitted',
+  WalletFundingConfirmed:     'wallet.funding.confirmed',
+  WalletFundingRejected:      'wallet.funding.rejected',
+  WalletFundingExpired:       'wallet.funding.expired',
+  WalletSpendCompleted:       'wallet.spend.completed',
+  WalletBalanceLow:           'wallet.balance.low',
+  WalletKycUpgradeRequired:   'wallet.kyc.upgrade_required',
+  WalletMlaEarned:            'wallet.mla.earned',
+  WalletMlaCredited:          'wallet.mla.credited',
+  WalletTransferDisabled:     'wallet.transfer.disabled',
+  WalletWithdrawalDisabled:   'wallet.withdrawal.disabled',
+  WalletAdminFrozen:          'wallet.admin.frozen',
+  WalletAdminUnfrozen:        'wallet.admin.unfrozen',
+} as const;
+
+// ---------------------------------------------------------------------------
 // Legacy event types (preserved for backwards compatibility — Milestone 6)
 // These constants are intentionally kept to avoid breaking existing callers.
 // ---------------------------------------------------------------------------
@@ -322,6 +344,7 @@ export const EventType = {
   ...TransportEventType,
   ...SystemEventType,
   ...VerticalEventType,
+  ...WalletEventType,
   ...LegacyEventType,
 } as const;
 

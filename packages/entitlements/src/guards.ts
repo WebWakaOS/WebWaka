@@ -100,3 +100,37 @@ export function requireSensitiveSectorAccess(ctx: EntitlementContext): void {
     );
   }
 }
+
+/**
+ * Guard: user must be in an eligible tenant to use HandyLife Wallet.
+ * Eligibility is governed by the WALLET_KV allowlist (wallet:eligible_tenants).
+ * This is a lightweight entitlement check — the full KV-based check happens
+ * inside the wallet route handlers via assertTenantEligible().
+ *
+ * Use this guard in non-wallet routes that need to check wallet access status
+ * without loading the WALLET_KV binding (e.g., dashboard permission checks).
+ *
+ * Phase 1: HandyLife-only (tenant_id = 'handylife').
+ * Phase 2+: Additional tenants added via PATCH /platform-admin/wallets/feature-flags.
+ */
+export function requireWalletEntitlement(
+  ctx: EntitlementContext,
+  eligibleTenantIds: string[],
+): void {
+  const isActive =
+    ctx.subscriptionStatus === SubscriptionStatus.Active ||
+    ctx.subscriptionStatus === SubscriptionStatus.Trialing;
+
+  if (!isActive) {
+    throw new EntitlementError(
+      `Wallet access denied: subscription is ${ctx.subscriptionStatus}.`,
+    );
+  }
+
+  const tenantId = (ctx as EntitlementContext & { tenantId?: string }).tenantId;
+  if (tenantId && !eligibleTenantIds.includes(tenantId)) {
+    throw new EntitlementError(
+      'Wallet access denied: your account is not yet eligible for HandyLife Wallet.',
+    );
+  }
+}
