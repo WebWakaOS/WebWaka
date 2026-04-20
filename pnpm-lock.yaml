@@ -649,6 +649,28 @@ importers:
         specifier: ^3.90.0
         version: 3.114.17(@cloudflare/workers-types@4.20260405.1)
 
+  apps/notificator:
+    dependencies:
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../../packages/events
+      '@webwaka/notifications':
+        specifier: workspace:*
+        version: link:../../packages/notifications
+      '@webwaka/shared-config':
+        specifier: workspace:*
+        version: link:../../packages/shared-config
+      hono:
+        specifier: ^4.12.14
+        version: 4.12.14
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240524.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+
   apps/partner-admin:
     dependencies:
       hono:
@@ -1066,6 +1088,25 @@ importers:
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20241205.0
+        version: 4.20260405.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/notifications:
+    dependencies:
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240524.0
         version: 4.20260405.1
       typescript:
         specifier: ^5.4.5

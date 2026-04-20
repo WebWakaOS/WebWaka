@@ -1,0 +1,23 @@
+{
+  "name": "@webwaka/notificator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Notification Engine] Dedicated Cloudflare Worker — CF Queue consumer and digest CRON sweep. OQ-001 resolution (N-008).",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production"
+  },
+  "dependencies": {
+    "@webwaka/events": "workspace:*",
+    "@webwaka/notifications": "workspace:*",
+    "@webwaka/shared-config": "workspace:*",
+    "hono": "^4.12.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240524.0",
+    "typescript": "^5.4.5"
+  }
+}

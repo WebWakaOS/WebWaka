@@ -2,6 +2,9 @@
 # Projections Worker — Infrastructure: Event Processing
 # Rebuilds search index projections from event_log.
 # ARC-01: Deploy config added for staging/production parity.
+# N-009: HITL_LEGACY_NOTIFICATIONS_ENABLED kill-switch added (OQ-002).
+#   Set to "1" to keep legacy HITL dispatch active (default during Phase 0-5).
+#   Set to "0" in Phase 6 after NotificationService handles HITL events.
 
 name = "webwaka-projections"
 main = "src/index.ts"
@@ -10,6 +13,9 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENVIRONMENT = "development"
+# Kill-switch: set to "0" to disable legacy HITL notifications once
+# NotificationService.raise() handles ai.hitl_escalated_to_l3 (N-100a, Phase 6).
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 
 # D1 — event_log and search index
 [[d1_databases]]
@@ -25,6 +31,7 @@ name = "webwaka-projections-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 
 [[env.staging.d1_databases]]
 binding = "DB"
@@ -39,6 +46,7 @@ name = "webwaka-projections-production"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
 
 [[env.production.d1_databases]]
 binding = "DB"

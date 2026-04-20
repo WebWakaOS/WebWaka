@@ -3,9 +3,10 @@
  * Uses optimistic versioning: fetches current max version and increments.
  *
  * Milestone 6 — Event Bus Layer
+ * Notification Engine v2 — N-011 (correlationId), N-060a (source)
  */
 
-import type { DomainEvent, EventType } from './event-types.js';
+import type { DomainEvent, EventType, NotificationEventSource } from './event-types.js';
 
 interface D1Like {
   prepare(query: string): {
@@ -26,6 +27,8 @@ export interface PublishEventParams<TPayload = Record<string, unknown>> {
   eventType: EventType;
   tenantId: string;
   payload: TPayload;
+  correlationId?: string;           // N-011: cross-service distributed tracing
+  source?: NotificationEventSource; // N-060a: origin tag for USSD quiet-hours bypass (G21)
 }
 
 /**
@@ -76,6 +79,9 @@ export async function publishEvent<TPayload = Record<string, unknown>>(
     payload: params.payload,
     version,
     createdAt: now,
+    // exactOptionalPropertyTypes: only include optional fields when defined
+    ...(params.correlationId !== undefined ? { correlationId: params.correlationId } : {}),
+    ...(params.source !== undefined ? { source: params.source } : {}),
   };
 }
 

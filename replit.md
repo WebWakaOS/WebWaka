@@ -10,6 +10,39 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
 **Notification Engine — prior documents superseded by v2: `final-master-specification.md` (v1.0), `section13-resolution.md`, `notification-engine-review.md`, `notification-engine-audit.md`**
 
+## Notification Engine Phase 0 — COMPLETE (2026-04-20)
+
+Phase 0 (Infrastructure and Standards, N-001–N-009, N-014) fully implemented. All tasks passed TypeScript typecheck with 0 errors.
+
+| Task | ID | Description | Status |
+|---|---|---|---|
+| T001 | N-001/N-010 | Expanded EventType from 16 → 122+ canonical events across 19 categories. Added `NotificationEventSource`, extended `DomainEvent` with `correlationId` (N-011) and `source` (N-060a). | ✅ DONE |
+| T002 | N-002/N-014 | 20 D1 migrations (0254–0273) + 20 rollbacks. 16 canonical tables created: notification_event, notification_rule, notification_preference, notification_template, notification_delivery, notification_inbox_item, notification_digest_batch, notification_digest_batch_item, notification_audit_log, notification_subscription, notification_suppression_list, escalation_policy, channel_provider, push_token, notification_wa_approval_log, webhook_event_type. Plus seed migrations 0268–0270, 0272. Migration 0273 adds brand_independence_mode to sub_partners. | ✅ DONE |
+| T003 | N-003/N-004 | Created `packages/notifications` skeleton: INotificationChannel, ITemplateRenderer, IPreferenceStore, KillSwitch interfaces. EnvKillSwitch + createKillSwitch factory. All exports clean. | ✅ DONE |
+| T004 | N-005/N-006 | Docs: `docs/notification-template-variable-schema.md` (escaping rules, reserved vars, sensitive var rules, G14 validation pseudocode) + `docs/notification-preference-inheritance.md` (4-level inheritance, G21 USSD bypass, G22 low-data mode, quiet hours, digest windows). | ✅ DONE |
+| T005 | N-007 | Added NOTIFICATION_QUEUE producer bindings to `apps/api/wrangler.toml` (staging + production). | ✅ DONE |
+| T006 | N-008 | Scaffolded `apps/notificator` Worker: env.ts, consumer.ts, digest.ts, sandbox.ts, index.ts. Queue consumer + scheduled CRON exported. G24 sandbox assertion enforced at startup. | ✅ DONE |
+| T007 | N-009 | Added HITL_LEGACY_NOTIFICATIONS_ENABLED kill-switch to `apps/projections/wrangler.toml` (all 3 envs) and gated HITL expiry CRON in `apps/projections/src/index.ts` (OQ-002). | ✅ DONE |
+
+### Phase 0 Guardrail Compliance
+
+All 25 guardrails (G1–G25) reviewed against Phase 0 deliverables:
+- **G1**: tenant_id NOT NULL in all 16 tables ✓
+- **G7**: idempotency_key UNIQUE in notification_delivery ✓
+- **G9**: notification_audit_log created (append-only, NDPR-safe) ✓
+- **G10**: dead_lettered status in delivery FSM; consumer retries via CF Queue ✓
+- **G12**: each Queue message contains tenant_id; digest batches T3-isolated ✓
+- **G13**: INotificationChannel interface defined; no provider leakage in types ✓
+- **G14**: variables_schema column in notification_template; TemplateVariableSchema type defined ✓
+- **G16**: credentials_kv_key only (never raw credentials) in channel_provider ✓
+- **G17**: whatsapp_approval_status; attribution flag noted in docs ✓
+- **G20**: notification_suppression_list uses address_hash (SHA-256; no PII) ✓
+- **G21**: source column in notification_event; USSD bypass documented ✓
+- **G22**: low_data_mode column in notification_preference; text_only_mode in inbox ✓
+- **G23**: NDPR notes in tables; audit log zeroing; suppression address_hash ✓
+- **G24**: NOTIFICATION_SANDBOX_MODE "true" in staging, "false" in production; assertSandboxConsistency() at Worker startup ✓
+- **G25**: NOTIFICATION_PIPELINE_ENABLED="0" (pipeline off until Phase 1 go-live) ✓
+
 ## Production Readiness Mission — COMPLETE (2026-04-19)
 
 Full-platform principal-engineer review and production deployment. All P0/P1 defects resolved.

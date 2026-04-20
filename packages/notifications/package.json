@@ -1,0 +1,35 @@
+{
+  "name": "@webwaka/notifications",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Notification Engine] Core notification service — channels, rules, templates, preferences, suppressions. Phase 0 skeleton.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@webwaka/events": "workspace:*",
+    "@webwaka/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240524.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "keywords": [
+    "notifications",
+    "email",
+    "sms",
+    "whatsapp",
+    "push",
+    "africa",
+    "nigeria",
+    "ndpr"
+  ]
+}

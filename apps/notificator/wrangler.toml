@@ -1,0 +1,144 @@
+# apps/notificator/wrangler.toml
+# WebWaka Notification Engine — Dedicated Cloudflare Worker
+# OQ-001 resolution: This Worker owns all CF Queue consumption and digest CRON sweeps.
+# See: docs/webwaka-notification-engine-final-master-specification-v2.md §8.0
+#
+# N-008 (Phase 0): Initial scaffold. Queue bindings require provisioning:
+#   wrangler queues create webwaka-notification-queue-staging
+#   wrangler queues create webwaka-notification-queue-production
+# N-012 (Phase 1): Queue consumer implementation wired to consumer.ts
+# N-012a (Phase 1): CRON digest sweep wired to digest.ts
+
+name = "webwaka-notificator"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+
+[vars]
+ENVIRONMENT = "development"
+# Kill-switches (set in all environments)
+NOTIFICATION_PIPELINE_ENABLED = "0"
+NOTIFICATION_SANDBOX_MODE = "true"
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
+
+# D1 — shared database (same instance as apps/api)
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-main"
+database_id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# Staging environment
+# ---------------------------------------------------------------------------
+[env.staging]
+name = "webwaka-notificator-staging"
+workers_dev = false
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+# G24 (OQ-012): NOTIFICATION_SANDBOX_MODE must be "true" in staging.
+# Any delivery in staging is redirected to NOTIFICATION_SANDBOX_EMAIL/PHONE/PUSH_TOKEN.
+# CI/CD governance check asserts this before every staging deploy.
+NOTIFICATION_SANDBOX_MODE = "true"
+# N-009 (OQ-002): Keep legacy HITL dispatch active until Phase 6 migration.
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
+# NOTIFICATION_PIPELINE_ENABLED: set to "1" once Phase 1 consumer is deployed.
+# Start at "0" to avoid processing events before the consumer is ready.
+NOTIFICATION_PIPELINE_ENABLED = "0"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-staging"
+database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
+
+# Notification KV namespace — for preference cache, credential refs, unread counts
+# Provision: wrangler kv namespace create NOTIFICATION_KV --env staging
+# Then replace the placeholder id below.
+[[env.staging.kv_namespaces]]
+binding = "NOTIFICATION_KV"
+id = "<NOTIFICATION_KV_STAGING_ID>"
+
+# Queue consumer binding (N-007 / N-008)
+# Must match the queue name created for apps/api producer binding.
+[[env.staging.queues.consumers]]
+queue = "webwaka-notification-queue-staging"
+max_batch_size = 100
+max_batch_timeout = 5
+max_retries = 5
+
+[[env.staging.routes]]
+pattern = "notificator-staging.webwaka.com"
+zone_name = "webwaka.com"
+custom_domain = true
+
+# CRON triggers (N-012a — OQ-007 digest sweep)
+# Times in UTC; WAT = UTC+1, so "00:00 WAT" = "23:00 UTC previous day"
+[env.staging.triggers]
+crons = [
+  "0 23 * * *",    # 00:00 WAT daily digest sweep
+  "0 23 * * 0",    # 00:00 WAT Monday weekly digest sweep
+  "0 * * * *",     # Top of each hour: hourly digest sweep
+  "0 2 * * *",     # 03:00 WAT daily: data retention sweep (N-115, Phase 8)
+  "0 */6 * * *",   # Every 6h: Resend domain verification poll (N-053b, Phase 4)
+]
+
+# ---------------------------------------------------------------------------
+# Production environment
+# ---------------------------------------------------------------------------
+[env.production]
+name = "webwaka-notificator-production"
+workers_dev = false
+
+[env.production.vars]
+ENVIRONMENT = "production"
+# G24 (OQ-012): NOTIFICATION_SANDBOX_MODE must be "false" in production.
+# CI/CD governance check asserts this before every production deploy.
+NOTIFICATION_SANDBOX_MODE = "false"
+HITL_LEGACY_NOTIFICATIONS_ENABLED = "1"
+NOTIFICATION_PIPELINE_ENABLED = "0"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-os-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+# Notification KV namespace
+# Provision: wrangler kv namespace create NOTIFICATION_KV --env production
+[[env.production.kv_namespaces]]
+binding = "NOTIFICATION_KV"
+id = "<NOTIFICATION_KV_PRODUCTION_ID>"
+
+# Queue consumer binding (N-007 / N-008)
+[[env.production.queues.consumers]]
+queue = "webwaka-notification-queue-production"
+max_batch_size = 100
+max_batch_timeout = 5
+max_retries = 5
+
+[[env.production.routes]]
+pattern = "notificator.webwaka.com"
+zone_name = "webwaka.com"
+custom_domain = true
+
+# CRON triggers
+[env.production.triggers]
+crons = [
+  "0 23 * * *",
+  "0 23 * * 0",
+  "0 * * * *",
+  "0 2 * * *",
+  "0 */6 * * *",
+]
+
+# ---------------------------------------------------------------------------
+# Secrets (set via: wrangler secret put SECRET_NAME --env <environment>)
+# ---------------------------------------------------------------------------
+# Required for sandbox mode (G24 — OQ-012):
+#   NOTIFICATION_SANDBOX_EMAIL   — staging test email address
+#   NOTIFICATION_SANDBOX_PHONE   — staging test phone number (E.164)
+#   NOTIFICATION_SANDBOX_PUSH_TOKEN — staging test FCM token
+# Required for credential encryption (G16 — ADL-002):
+#   NOTIFICATION_KV_MASTER_KEY   — AES-256-GCM master key for credential encryption
+# Required for inter-service:
+#   INTER_SERVICE_SECRET

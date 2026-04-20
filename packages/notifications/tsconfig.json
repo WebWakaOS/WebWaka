@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@webwaka/events": ["../events/src/index.ts"]
+    },
+    "rootDir": "..",
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"]
+}

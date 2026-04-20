@@ -2,45 +2,333 @@
  * Domain event type catalogue for WebWaka OS event bus.
  * All events follow: {aggregate, aggregate_id, event_type, tenant_id, payload, version}
  *
- * Milestone 6 — Event Bus Layer
+ * Notification Engine v2 — expanded from 16 to 122+ canonical event keys.
+ * Tasks N-001 and N-010. Supersedes all prior event-type constants.
+ *
+ * Categories:
+ *  - Auth/Identity (15 events)
+ *  - Workspace (11 events)
+ *  - Billing (12 events)
+ *  - KYC/Identity Verification (6 events)
+ *  - Claims (8 events)
+ *  - Negotiation (7 events)
+ *  - Support Tickets (5 events)
+ *  - AI / SuperAgent (9 events)
+ *  - Onboarding (3 events)
+ *  - POS / Finance (4 events)
+ *  - Social / Community (5 events)
+ *  - Partner Ecosystem (6 events)
+ *  - Bank Transfer FSM (7 events)
+ *  - B2B Marketplace (6 events)
+ *  - Airtime (3 events)
+ *  - Transport FSM (5 events)
+ *  - System / Platform (3 events)
+ *  - Canonical Vertical (8 events)
+ *  - Legacy (search/profile/entity/payment — preserved for backwards compatibility)
  */
 
 // ---------------------------------------------------------------------------
-// Event type constants
+// Auth / Identity Lifecycle (15 events)
+// ---------------------------------------------------------------------------
+
+export const AuthEventType = {
+  UserRegistered:             'auth.user.registered',
+  UserEmailVerified:          'auth.user.email_verified',
+  UserPhoneVerified:          'auth.user.phone_verified',
+  UserLoginSuccess:           'auth.user.login_success',
+  UserLoginFailed:            'auth.user.login_failed',
+  UserLogout:                 'auth.user.logout',
+  UserPasswordResetRequested: 'auth.user.password_reset_requested',
+  UserPasswordChanged:        'auth.user.password_changed',
+  UserAccountLocked:          'auth.user.account_locked',
+  UserAccountUnlocked:        'auth.user.account_unlocked',
+  UserMfaEnabled:             'auth.user.mfa_enabled',
+  UserMfaDisabled:            'auth.user.mfa_disabled',
+  UserDeleted:                'auth.user.deleted',
+  UserInvited:                'auth.user.invited',
+  UserInviteAccepted:         'auth.user.invite_accepted',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Workspace (11 events)
+// ---------------------------------------------------------------------------
+
+export const WorkspaceEventType = {
+  WorkspaceCreated:          'workspace.created',
+  WorkspaceActivated:        'workspace.activated',
+  WorkspaceSuspended:        'workspace.suspended',
+  WorkspaceDeprovisioned:    'workspace.deprovisioned',
+  WorkspaceInviteSent:       'workspace.invite_sent',
+  WorkspaceInviteAccepted:   'workspace.invite_accepted',
+  WorkspaceMemberRemoved:    'workspace.member_removed',
+  WorkspaceRoleChanged:      'workspace.role_changed',
+  WorkspacePlanUpgraded:     'workspace.plan_upgraded',
+  WorkspacePlanDowngraded:   'workspace.plan_downgraded',
+  WorkspaceSettingsChanged:  'workspace.settings_changed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Billing (12 events)
+// ---------------------------------------------------------------------------
+
+export const BillingEventType = {
+  BillingSubscriptionCreated:   'billing.subscription_created',
+  BillingSubscriptionRenewed:   'billing.subscription_renewed',
+  BillingSubscriptionCancelled: 'billing.subscription_cancelled',
+  BillingPaymentSucceeded:      'billing.payment_succeeded',
+  BillingPaymentFailed:         'billing.payment_failed',
+  BillingInvoiceGenerated:      'billing.invoice_generated',
+  BillingTrialStarted:          'billing.trial_started',
+  BillingTrialEnding:           'billing.trial_ending',
+  BillingTrialExpired:          'billing.trial_expired',
+  BillingRefundIssued:          'billing.refund_issued',
+  BillingCreditApplied:         'billing.credit_applied',
+  BillingSpendLimitReached:     'billing.spend_limit_reached',
+} as const;
+
+// ---------------------------------------------------------------------------
+// KYC / Identity Verification (6 events)
+// ---------------------------------------------------------------------------
+
+export const KycEventType = {
+  KycSubmitted:               'kyc.submitted',
+  KycApproved:                'kyc.approved',
+  KycRejected:                'kyc.rejected',
+  KycResubmissionRequired:    'kyc.resubmission_required',
+  IdentityVerified:           'identity.verified',
+  IdentityVerificationFailed: 'identity.verification_failed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Claims (8 events — includes claim.advanced from legacy)
+// ---------------------------------------------------------------------------
+
+export const ClaimEventType = {
+  ClaimIntentCaptured: 'claim.intent_captured',
+  ClaimSubmitted:      'claim.submitted',
+  ClaimAdvanced:       'claim.advanced',
+  ClaimApproved:       'claim.approved',
+  ClaimRejected:       'claim.rejected',
+  ClaimEscalated:      'claim.escalated',
+  ClaimWithdrawn:      'claim.withdrawn',
+  ClaimExpired:        'claim.expired',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Negotiation (7 events)
+// ---------------------------------------------------------------------------
+
+export const NegotiationEventType = {
+  NegotiationSessionStarted: 'negotiation.session_started',
+  NegotiationOfferMade:      'negotiation.offer_made',
+  NegotiationCounterOffered: 'negotiation.counter_offered',
+  NegotiationAccepted:       'negotiation.accepted',
+  NegotiationRejected:       'negotiation.rejected',
+  NegotiationWithdrawn:      'negotiation.withdrawn',
+  NegotiationSessionExpired: 'negotiation.session_expired',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Support Tickets (5 events)
+// ---------------------------------------------------------------------------
+
+export const SupportEventType = {
+  SupportTicketCreated:  'support.ticket_created',
+  SupportTicketAssigned: 'support.ticket_assigned',
+  SupportTicketReplied:  'support.ticket_replied',
+  SupportTicketResolved: 'support.ticket_resolved',
+  SupportTicketClosed:   'support.ticket_closed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// AI / SuperAgent (9 events)
+// ---------------------------------------------------------------------------
+
+export const AiEventType = {
+  AiRequestSubmitted:   'ai.request_submitted',
+  AiResponseGenerated:  'ai.response_generated',
+  AiResponseFailed:     'ai.response_failed',
+  AiHitlRequired:       'ai.hitl_required',
+  AiHitlRequestExpired: 'ai.hitl_request_expired',
+  AiHitlEscalatedToL3:  'ai.hitl_escalated_to_l3',
+  AiConsentGranted:     'ai.consent_granted',
+  AiBudgetWarning:      'ai.budget_warning',
+  AiBudgetExhausted:    'ai.budget_exhausted',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Onboarding (3 events)
+// ---------------------------------------------------------------------------
+
+export const OnboardingEventType = {
+  OnboardingStarted:   'onboarding.started',
+  OnboardingCompleted: 'onboarding.completed',
+  OnboardingStalled:   'onboarding.stalled',
+} as const;
+
+// ---------------------------------------------------------------------------
+// POS / Finance (4 events)
+// ---------------------------------------------------------------------------
+
+export const PosFinanceEventType = {
+  PosSaleCompleted:         'pos.sale_completed',
+  FinanceTransferInitiated: 'finance.transfer_initiated',
+  FinanceTransferCompleted: 'finance.transfer_completed',
+  FinanceTransferFailed:    'finance.transfer_failed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Social / Community (5 events)
+// ---------------------------------------------------------------------------
+
+export const SocialEventType = {
+  SocialPostPublished:       'social.post_published',
+  SocialCommentAdded:        'social.comment_added',
+  CommunityMemberJoined:     'community.member_joined',
+  CommunityEventScheduled:   'community.event_scheduled',
+  CommunityAnnouncementSent: 'community.announcement_sent',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Partner Ecosystem (6 events)
+// ---------------------------------------------------------------------------
+
+export const PartnerEventType = {
+  PartnerOnboarded:            'partner.onboarded',
+  PartnerApplicationSubmitted: 'partner.application_submitted',
+  PartnerApplicationApproved:  'partner.application_approved',
+  PartnerApplicationRejected:  'partner.application_rejected',
+  PartnerCommissionEarned:     'partner.commission_earned',
+  PartnerSubPartnerCreated:    'partner.sub_partner_created',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Bank Transfer FSM (7 events)
+// ---------------------------------------------------------------------------
+
+export const BankTransferEventType = {
+  BankTransferInitiated:   'bank_transfer.initiated',
+  BankTransferProcessing:  'bank_transfer.processing',
+  BankTransferCompleted:   'bank_transfer.completed',
+  BankTransferFailed:      'bank_transfer.failed',
+  BankTransferCancelled:   'bank_transfer.cancelled',
+  BankTransferAwaitingOtp: 'bank_transfer.awaiting_otp',
+  BankTransferOtpVerified: 'bank_transfer.otp_verified',
+} as const;
+
+// ---------------------------------------------------------------------------
+// B2B Marketplace (6 events)
+// ---------------------------------------------------------------------------
+
+export const B2bEventType = {
+  B2bRfqCreated:    'b2b.rfq_created',
+  B2bBidSubmitted:  'b2b.bid_submitted',
+  B2bBidAccepted:   'b2b.bid_accepted',
+  B2bPoIssued:      'b2b.po_issued',
+  B2bInvoiceRaised: 'b2b.invoice_raised',
+  B2bDisputeRaised: 'b2b.dispute_raised',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Airtime (3 events)
+// ---------------------------------------------------------------------------
+
+export const AirtimeEventType = {
+  AirtimePurchaseInitiated: 'airtime.purchase_initiated',
+  AirtimePurchaseCompleted: 'airtime.purchase_completed',
+  AirtimePurchaseFailed:    'airtime.purchase_failed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Transport FSM (5 events)
+// ---------------------------------------------------------------------------
+
+export const TransportEventType = {
+  TransportBookingCreated:   'transport.booking_created',
+  TransportBookingConfirmed: 'transport.booking_confirmed',
+  TransportTripStarted:      'transport.trip_started',
+  TransportTripCompleted:    'transport.trip_completed',
+  TransportBookingCancelled: 'transport.booking_cancelled',
+} as const;
+
+// ---------------------------------------------------------------------------
+// System / Platform (3 events)
+// ---------------------------------------------------------------------------
+
+export const SystemEventType = {
+  SystemProviderDown:     'system.provider_down',
+  SystemQueueDlqItem:     'system.queue_dlq_item',
+  SystemDailyDigestSweep: 'system.daily_digest_sweep',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Canonical Vertical (8 events — N-096/N-097; used across all 160+ verticals)
+// ---------------------------------------------------------------------------
+
+export const VerticalEventType = {
+  VerticalRecordCreated:     'vertical.record_created',
+  VerticalRecordUpdated:     'vertical.record_updated',
+  VerticalRecordDeleted:     'vertical.record_deleted',
+  VerticalStaffAssigned:     'vertical.staff_assigned',
+  VerticalPaymentReceived:   'vertical.payment_received',
+  VerticalServiceCompleted:  'vertical.service_completed',
+  VerticalAppointmentBooked: 'vertical.appointment_booked',
+  VerticalStockLow:          'vertical.stock_low',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Legacy event types (preserved for backwards compatibility — Milestone 6)
+// These constants are intentionally kept to avoid breaking existing callers.
+// ---------------------------------------------------------------------------
+
+export const LegacyEventType = {
+  EntityCreated:      'entity.created',
+  EntityUpdated:      'entity.updated',
+  PaymentInitialized: 'payment.initialized',
+  PaymentSuccess:     'payment.success',
+  PaymentFailed:      'payment.failed',
+  SearchIndexed:      'search.indexed',
+  SearchDeindexed:    'search.deindexed',
+  ProfileViewed:      'profile.viewed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Unified EventType constant — all 122+ event keys combined
 // ---------------------------------------------------------------------------
 
 export const EventType = {
-  // Entity lifecycle
-  EntityCreated:         'entity.created',
-  EntityUpdated:         'entity.updated',
-
-  // Claim lifecycle
-  ClaimIntentCaptured:   'claim.intent_captured',
-  ClaimAdvanced:         'claim.advanced',
-  ClaimApproved:         'claim.approved',
-  ClaimRejected:         'claim.rejected',
-
-  // Payment
-  PaymentInitialized:    'payment.initialized',
-  PaymentSuccess:        'payment.success',
-  PaymentFailed:         'payment.failed',
-
-  // Workspace
-  WorkspaceActivated:    'workspace.activated',
-  WorkspaceInviteSent:   'workspace.invite_sent',
-
-  // Search index
-  SearchIndexed:         'search.indexed',
-  SearchDeindexed:       'search.deindexed',
-
-  // Profile
-  ProfileViewed:         'profile.viewed',
+  ...AuthEventType,
+  ...WorkspaceEventType,
+  ...BillingEventType,
+  ...KycEventType,
+  ...ClaimEventType,
+  ...NegotiationEventType,
+  ...SupportEventType,
+  ...AiEventType,
+  ...OnboardingEventType,
+  ...PosFinanceEventType,
+  ...SocialEventType,
+  ...PartnerEventType,
+  ...BankTransferEventType,
+  ...B2bEventType,
+  ...AirtimeEventType,
+  ...TransportEventType,
+  ...SystemEventType,
+  ...VerticalEventType,
+  ...LegacyEventType,
 } as const;
 
 export type EventType = (typeof EventType)[keyof typeof EventType];
 
 // ---------------------------------------------------------------------------
-// Base event shape
+// Notification event source — N-060a (OQ-009)
+// Used to tag events originating from USSD gateway for immediate SMS routing (G21).
+// ---------------------------------------------------------------------------
+
+export type NotificationEventSource = 'api' | 'ussd_gateway' | 'cron' | 'queue_consumer';
+
+// ---------------------------------------------------------------------------
+// Base event shape — extended with correlationId (N-011) and source (N-060a)
 // ---------------------------------------------------------------------------
 
 export interface DomainEvent<TPayload = Record<string, unknown>> {
@@ -52,10 +340,12 @@ export interface DomainEvent<TPayload = Record<string, unknown>> {
   payload: TPayload;
   version: number;
   createdAt: string;
+  correlationId?: string;           // N-011: cross-service distributed tracing
+  source?: NotificationEventSource; // N-060a: origin tag for USSD quiet-hours bypass (G21)
 }
 
 // ---------------------------------------------------------------------------
-// Typed event payloads
+// Typed event payloads — existing (preserved) + notification-relevant additions
 // ---------------------------------------------------------------------------
 
 export interface EntityCreatedPayload {
@@ -89,4 +379,94 @@ export interface SearchIndexedPayload {
   entityType: string;
   displayName: string;
   placeId?: string;
+}
+
+export interface UserRegisteredPayload {
+  email: string;
+  workspaceId?: string;
+}
+
+export interface UserPasswordResetPayload {
+  email: string;
+}
+
+export interface UserLoginFailedPayload {
+  email: string;
+  reason: string;
+  attemptCount?: number;
+}
+
+export interface UserAccountLockedPayload {
+  email: string;
+  lockedUntil?: string;
+}
+
+export interface UserInvitedPayload {
+  inviteEmail: string;
+  invitedByUserId: string;
+  workspaceId: string;
+  role: string;
+}
+
+export interface BillingPaymentPayload {
+  workspaceId: string;
+  amountKobo: number;
+  currency: string;
+  plan?: string;
+  paystackRef?: string;
+  reason?: string;
+}
+
+export interface BillingSpendLimitPayload {
+  workspaceId: string;
+  currentSpendKobo: number;
+  limitKobo: number;
+  percentUsed: number;
+}
+
+export interface BankTransferPayload {
+  transferId: string;
+  workspaceId: string;
+  amountKobo: number;
+  recipientAccountNumber?: string;
+  recipientBankCode?: string;
+  status: string;
+  paystackRef?: string;
+  reason?: string;
+}
+
+export interface AiBudgetWarningPayload {
+  workspaceId: string;
+  currentSpendKobo: number;
+  budgetKobo: number;
+  percentUsed: number;
+}
+
+export interface AiHitlPayload {
+  requestId: string;
+  workspaceId: string;
+  agentType: string;
+  escalationLevel?: string;
+}
+
+export interface SystemProviderDownPayload {
+  provider: string;
+  channel: string;
+  reason: string;
+  templateId?: string;
+}
+
+export interface SystemQueueDlqPayload {
+  queueName: string;
+  messageId: string;
+  eventKey: string;
+  attempts: number;
+  lastError: string;
+}
+
+export interface VerticalEventPayload {
+  recordId: string;
+  recordType: string;
+  workspaceId: string;
+  details?: Record<string, unknown>;
 }

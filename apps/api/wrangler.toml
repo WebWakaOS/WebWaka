@@ -40,6 +40,14 @@ bucket_name = "webwaka-os-assets-staging"
 # binding = "KV"
 # id = "<AUDIT_KV_STAGING_ID>"
 
+# ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
+# Queue must be provisioned first:
+#   wrangler queues create webwaka-notification-queue-staging
+# Consumer is in apps/notificator (N-008).
+[[env.staging.queues.producers]]
+binding = "NOTIFICATION_QUEUE"
+queue = "webwaka-notification-queue-staging"
+
 [env.staging.vars]
 ENVIRONMENT = "staging"
 LOG_LEVEL = "debug"
@@ -84,6 +92,14 @@ bucket_name = "webwaka-os-assets-production"
 # binding = "KV"
 # id = "<AUDIT_KV_PRODUCTION_ID>"
 
+# ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
+# Queue must be provisioned first:
+#   wrangler queues create webwaka-notification-queue-production
+# Consumer is in apps/notificator (N-008).
+[[env.production.queues.producers]]
+binding = "NOTIFICATION_QUEUE"
+queue = "webwaka-notification-queue-production"
+
 [env.production.vars]
 ENVIRONMENT = "production"
 LOG_LEVEL = "warn"
@@ -106,4 +122,3 @@ custom_domain = true
 #   LOG_PII_SALT
 #   DM_MASTER_KEY
 #   PRICE_LOCK_SECRET
-
