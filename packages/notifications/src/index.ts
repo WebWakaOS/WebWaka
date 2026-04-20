@@ -100,8 +100,31 @@ export { SlackWebhookChannel } from './channels/slack-webhook-channel.js';
 export type { TeamsWebhookChannelOptions } from './channels/teams-webhook-channel.js';
 export { TeamsWebhookChannel } from './channels/teams-webhook-channel.js';
 
-export type { ProcessEventParams, SandboxConfig } from './notification-service.js';
+export type { ProcessEventParams, SandboxConfig, Phase5Config } from './notification-service.js';
 export { processEvent } from './notification-service.js';
+
+// Phase 5 additions (N-060–N-064)
+export type { KVLike } from './preference-service.js';
+export {
+  PreferenceService,
+  buildPrefCacheKey,
+  mergePreferenceRows,
+  applyOverrides,
+} from './preference-service.js';
+
+export type { QuietHoursConfig } from './quiet-hours.js';
+export { isInQuietHours, computeQueueDelayMs, QuietHoursService } from './quiet-hours.js';
+
+export type {
+  DigestBatchChannel,
+  DigestWindowType,
+  FindOrCreateDigestBatchParams,
+  AddToDigestBatchParams,
+} from './digest-service.js';
+export { DigestService } from './digest-service.js';
+
+export type { ProcessDigestBatchOptions } from './digest-engine.js';
+export { processDigestBatch } from './digest-engine.js';
 
 // Phase 3 additions (N-030–N-041, N-033a)
 export type { TemplateRendererOptions } from './template-renderer.js';

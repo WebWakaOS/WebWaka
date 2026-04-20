@@ -78,6 +78,8 @@ import { fxRatesRoutes } from './routes/fx-rates.js';
 import { b2bMarketplaceRoutes } from './routes/b2b-marketplace.js';
 import { emailVerificationEnforcement } from './middleware/email-verification.js';
 import { notificationRoutes } from './routes/notification-routes.js';
+import { inboxRoutes } from './routes/inbox-routes.js';
+import { preferenceRoutes } from './routes/preference-routes.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -694,6 +696,13 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   app.use('/notifications/*', authMiddleware);
   app.route('/notifications', notificationRoutes);
+
+  // Phase 5 (N-065, N-066, N-067): Inbox API + Preference Management API.
+  // Auth already applied by /notifications/* middleware above.
+  // NOTE: /notifications/inbox/unread-count MUST be registered before inbox/:id
+  // — Hono sub-routers handle this correctly when inboxRoutes is ordered properly.
+  app.route('/notifications', inboxRoutes);
+  app.route('/notifications', preferenceRoutes);
 
   // N-052 (Phase 4): Resend bounce/delivery webhook (NO auth — provider callback).
   // Validates Svix signature using RESEND_WEBHOOK_SECRET before processing.

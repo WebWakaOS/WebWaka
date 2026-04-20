@@ -60,10 +60,38 @@ export interface CourseContentItem {
   cachedAt: number;
 }
 
+/**
+ * N-068 — Offline notification inbox cache.
+ * Mirrors notification_inbox_item rows for offline access.
+ * TTL enforced by notification-store.ts cleanup (keep last 200 per tenant).
+ */
+export interface NotificationInboxItem {
+  id?: number;              // Dexie auto-increment (internal)
+  remoteId: string;         // server-side UUID from notification_inbox_item.id
+  tenantId: string;
+  userId: string;
+  title: string;
+  body: string;
+  severity: string;
+  category: string | null;
+  iconType: string;
+  ctaLabel: string | null;
+  ctaUrl: string | null;
+  isRead: boolean;
+  readAt: number | null;
+  archivedAt: number | null;
+  pinnedAt: number | null;
+  snoozedUntil: number | null;
+  createdAt: number;
+  expiresAt: number | null;
+  syncedAt: number;         // when this row was written to IndexedDB
+}
+
 export class WebWakaOfflineDB extends Dexie {
   syncQueue!: Table<OfflineQueueItem>;
   feedCache!: Table<FeedCacheItem>;
   courseContent!: Table<CourseContentItem>;
+  notificationInbox!: Table<NotificationInboxItem>;
 
   constructor() {
     super('webwaka_offline_v1');
@@ -76,6 +104,14 @@ export class WebWakaOfflineDB extends Dexie {
       syncQueue: '++id, clientId, status, priority, nextRetryAt, entity, createdAt',
       feedCache: '++id, postId, tenantId, authorId, postType, cachedAt, createdAt',
       courseContent: '++id, lessonId, tenantId, moduleId, cachedAt',
+    });
+
+    // N-068: notification inbox offline cache
+    this.version(3).stores({
+      syncQueue: '++id, clientId, status, priority, nextRetryAt, entity, createdAt',
+      feedCache: '++id, postId, tenantId, authorId, postType, cachedAt, createdAt',
+      courseContent: '++id, lessonId, tenantId, moduleId, cachedAt',
+      notificationInbox: '++id, remoteId, tenantId, userId, isRead, severity, createdAt, syncedAt',
     });
   }
 }

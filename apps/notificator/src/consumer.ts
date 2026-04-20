@@ -39,6 +39,9 @@ import {
   TemplateRenderer,
 } from '@webwaka/notifications';
 import type { ProcessEventParams, SandboxConfig, D1LikeFull } from '@webwaka/notifications';
+import { processDigestBatch as engineProcessDigestBatch } from '@webwaka/notifications';
+import { PreferenceService } from '@webwaka/notifications';
+import { DigestService } from '@webwaka/notifications';
 
 // ---------------------------------------------------------------------------
 // NotificationQueueMessage — full shape for both queue message types
@@ -263,6 +266,16 @@ export async function processQueueBatch(
       : {}),
   };
 
+  // Phase 5 (N-060, N-063): Build preference + digest services once per batch.
+  // Shared KV supports preference caching (N-061) and unread-count cache (N-067).
+  const kvForPref = env.NOTIFICATION_KV as {
+    get(key: string): Promise<string | null>;
+    put(key: string, value: string, opts?: { expirationTtl?: number }): Promise<void>;
+    delete(key: string): Promise<void>;
+  };
+  const preferenceService = new PreferenceService(db, kvForPref);
+  const digestService = new DigestService(db);
+
   for (const msg of batch.messages) {
     const body = msg.body;
     const logPrefix =
@@ -290,17 +303,22 @@ export async function processQueueBatch(
           severity: body.severity ?? 'info',
           correlationId: body.correlationId ?? null,
         };
-        await processEvent(phase2Params, db, channels, notifSandbox, templateRenderer);
+        // Phase 5 (N-060, N-062, N-063): pass preference + digest services.
+        await processEvent(phase2Params, db, channels, notifSandbox, templateRenderer, {
+          preferenceService,
+          digestService,
+        });
 
         console.log(
           `${logPrefix} eventKey=${body.eventKey ?? 'unknown'} ` +
           `eventId=${body.eventId ?? 'unknown'} — pipeline complete`,
         );
       } else if (body.type === 'digest_batch') {
-        await processDigestBatch(body, db);
+        // Phase 5 (N-064): real DigestEngine.processDigestBatch() now wired.
+        await processDigestBatch(body, db, channels, notifSandbox);
         console.log(
           `${logPrefix} batchId=${body.batchId ?? 'unknown'} ` +
-          `— digest_batch logged (Phase 5 DigestEngine pending)`,
+          `— digest_batch processed`,
         );
       } else if (body.type === 'webhook_delivery') {
         // N-131 (Phase 4): Process webhook delivery retry from CF Queue.
@@ -433,19 +451,26 @@ export async function processNotificationEvent(
 export async function processDigestBatch(
   msg: NotificationQueueMessage,
   db: D1LikeFull,
+  channels: import('@webwaka/notifications').INotificationChannel[] = [],
+  sandbox: SandboxConfig = { enabled: false },
 ): Promise<void> {
-  void db; // Phase 5 will query notification_digest_batch_item rows here
-
-  // G1: tenant_id always required on digest batch messages (G12).
+  // G1/G12: tenant_id always required on digest batch messages.
   if (!msg.tenantId) {
     throw new Error('processDigestBatch: tenantId is required (G1 / G12 violation)');
   }
+  if (!msg.batchId) {
+    throw new Error('processDigestBatch: batchId is required for digest_batch messages');
+  }
 
-  console.log(
-    `[notificator:consumer] digest_batch queued for processing — ` +
-    `batchId=${msg.batchId ?? 'unknown'} tenant=${msg.tenantId} ` +
-    `(Phase 5 DigestEngine pending)`,
-  );
+  // Phase 5 (N-064): call the real DigestEngine
+  await engineProcessDigestBatch(db, msg.batchId, {
+    tenantId: msg.tenantId,
+    channels,
+    sandbox: {
+      enabled: sandbox.enabled,
+      ...(sandbox.sandboxRecipient !== undefined ? { sandboxRecipient: sandbox.sandboxRecipient } : {}),
+    },
+  });
 }
 
 // ---------------------------------------------------------------------------

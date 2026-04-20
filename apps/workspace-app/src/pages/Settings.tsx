@@ -36,6 +36,11 @@ export default function Settings() {
   const [phone, setPhone] = useState('');
   const [profileLoading, setProfileLoading] = useState(true);
 
+  // N-070: Notification preference state (low-data mode)
+  const [lowDataMode, setLowDataMode] = useState(false);
+  const [lowDataLoading, setLowDataLoading] = useState(false);
+  const [prefLoaded, setPrefLoaded] = useState(false);
+
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
@@ -103,7 +108,23 @@ export default function Settings() {
   useEffect(() => {
     if (tab === 'security') void loadSessions();
     if (tab === 'team') void loadInvitations();
+    if (tab === 'notifications' && !prefLoaded) void loadNotificationPrefs();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, loadSessions, loadInvitations]);
+
+  // N-070: Load current low_data_mode preference from API
+  const loadNotificationPrefs = useCallback(async () => {
+    try {
+      const res = await api.get<{ preferences: Array<{ channel: string; lowDataMode: boolean }> }>(
+        '/notifications/preferences',
+      );
+      const emailPref = res.preferences.find((p) => p.channel === 'email');
+      if (emailPref) setLowDataMode(emailPref.lowDataMode);
+      setPrefLoaded(true);
+    } catch {
+      setPrefLoaded(true);
+    }
+  }, []);
 
   // P19-B: Profile save
   const handleSave = async (e: React.FormEvent) => {
@@ -207,6 +228,26 @@ export default function Settings() {
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to revoke invitation';
       toast.error(msg);
+    }
+  };
+
+  // N-070: Toggle low_data_mode via PUT /notifications/preferences
+  const handleLowDataToggle = async (enabled: boolean) => {
+    setLowDataLoading(true);
+    try {
+      for (const channel of ['email', 'sms', 'push', 'in_app'] as const) {
+        await api.put('/notifications/preferences', {
+          channel,
+          lowDataMode: enabled,
+        });
+      }
+      setLowDataMode(enabled);
+      toast.success(enabled ? 'Low-data mode enabled' : 'Low-data mode disabled');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to update notification preferences';
+      toast.error(msg);
+    } finally {
+      setLowDataLoading(false);
     }
   };
 
@@ -376,6 +417,8 @@ export default function Settings() {
           {tab === 'notifications' && (
             <section aria-label="Notification settings">
               <h2 style={styles.sectionHeading}>Notifications</h2>
+
+              {/* Push notifications */}
               <div style={styles.toggleRow}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Push notifications</div>
@@ -387,6 +430,8 @@ export default function Settings() {
                   <Button size="sm" onClick={requestPush}>Enable</Button>
                 )}
               </div>
+
+              {/* Email summaries */}
               <div style={styles.toggleRow}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Email summaries</div>
@@ -394,12 +439,47 @@ export default function Settings() {
                 </div>
                 <ToggleSwitch defaultChecked onChange={v => toast.info(v ? 'Email summaries on' : 'Email summaries off')} />
               </div>
+
+              {/* Low stock alerts */}
               <div style={styles.toggleRow}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Low stock alerts</div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>Notified when offering stock drops below threshold</div>
                 </div>
                 <ToggleSwitch defaultChecked onChange={v => toast.info(v ? 'Low stock alerts on' : 'Low stock alerts off')} />
+              </div>
+
+              {/* N-070: Low-data mode (G22) */}
+              <div style={{ ...styles.toggleRow, borderTop: '1px solid #e5e7eb', paddingTop: 16, marginTop: 8 }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>Low-data mode</div>
+                  <div style={{ fontSize: 13, color: '#6b7280' }}>
+                    Reduces notification data usage: suppresses push notifications, image attachments,
+                    and limits SMS to critical-only alerts. Ideal for slow or metered connections.
+                  </div>
+                  {lowDataMode && (
+                    <div style={{
+                      marginTop: 6,
+                      fontSize: 12,
+                      color: '#92400e',
+                      background: '#fffbeb',
+                      border: '1px solid #fde68a',
+                      borderRadius: 4,
+                      padding: '4px 8px',
+                      display: 'inline-block',
+                    }}>
+                      Low-data mode active — push & images suppressed
+                    </div>
+                  )}
+                </div>
+                {lowDataLoading ? (
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>Saving…</span>
+                ) : (
+                  <ToggleSwitch
+                    checked={lowDataMode}
+                    onChange={(v) => { void handleLowDataToggle(v); }}
+                  />
+                )}
               </div>
             </section>
           )}

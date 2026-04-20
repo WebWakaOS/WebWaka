@@ -16,7 +16,18 @@ export type {
 } from './types.js';
 
 export { WebWakaOfflineDB, db } from './db.js';
-export type { OfflineQueueItem, FeedCacheItem, CourseContentItem } from './db.js';
+export type { OfflineQueueItem, FeedCacheItem, CourseContentItem, NotificationInboxItem } from './db.js';
+
+// N-068: Offline notification store
+export type { RemoteInboxItem, GetItemsOptions } from './notification-store.js';
+export {
+  upsertItems,
+  getUnreadCount,
+  getItems,
+  markRead,
+  removeItem,
+  clearUserData,
+} from './notification-store.js';
 export { WebWakaSyncAdapter } from './adapter.js';
 export { SyncEngine } from './sync-engine.js';
 export type { SyncResult } from './sync-engine.js';

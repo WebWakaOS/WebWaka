@@ -1,5 +1,5 @@
 /**
- * @webwaka/notifications — NotificationService (N-020, Phase 2).
+ * @webwaka/notifications — NotificationService (N-020, Phase 2; Phase 5 extended).
  *
  * Core pipeline orchestrator. Called from apps/notificator consumer after
  * processNotificationEvent() writes the notification_event row.
@@ -10,13 +10,16 @@
  *   3. resolveAudience()        — map audience_type → [{ userId, email }] (N-022)
  *   4. lookupRecipientEmail()   — fill in missing emails for actor/subject types
  *   5. For each recipient × channel:
- *      a. computeIdempotencyKey() — SHA-256(notifEventId + recipientId + channel) (G7)
- *      b. createDeliveryRow()     — INSERT OR IGNORE 'queued' (G7 idempotency)
- *      c. checkSuppression()      — G20: skip suppressed addresses
- *      d. renderPhase2()          — produce subject/html/title/body
- *      e. channel.dispatch()      — send via INotificationChannel
- *      f. updateDeliveryStatus()  — transition FSM to dispatched/failed
- *      g. writeAuditLog()         — G9: record every attempt
+ *      a. Phase 5 (N-060): preference check — skip if disabled or low_data_mode blocks
+ *      b. Phase 5 (N-062): quiet hours check — skip if in quiet window (log deferral)
+ *      c. Phase 5 (N-063): digest window check — route to DigestService if windowed
+ *      d. computeIdempotencyKey() — SHA-256(notifEventId + recipientId + channel) (G7)
+ *      e. createDeliveryRow()     — INSERT OR IGNORE 'queued' (G7 idempotency)
+ *      f. checkSuppression()      — G20: skip suppressed addresses
+ *      g. renderPhase2()          — produce subject/html/title/body
+ *      h. channel.dispatch()      — send via INotificationChannel
+ *      i. updateDeliveryStatus()  — transition FSM to dispatched/failed
+ *      j. writeAuditLog()         — G9: record every attempt
  *   6. markNotifEventProcessed() — set processed_at on notification_event
  *
  * Kill-switch (N-009, G-KS):
@@ -28,7 +31,10 @@
  *   G7  — idempotency_key UNIQUE; INSERT OR IGNORE prevents duplicate deliveries
  *   G9  — audit log written for every send attempt (success AND failure)
  *   G10 — dead_lettered status for max-retry exhaustion (handled by consumer)
+ *   G11 — quiet hours: deferred delivery noted; Phase 8 CRON will re-sweep
  *   G20 — suppression checked before every external dispatch
+ *   G21 — USSD-origin: PreferenceService.resolve() applies SMS immediate bypass
+ *   G22 — low_data_mode: push disabled; SMS critical-only; in_app text_only_mode
  *   G23 — only userId stored in audit; email/phone never in audit log
  *   G24 — sandbox redirect via ResendEmailChannel
  */
@@ -37,10 +43,13 @@ import type { D1LikeFull } from './db-types.js';
 import type {
   INotificationChannel,
   ITemplateRenderer,
+  IPreferenceStore,
   NotificationSeverity,
   SandboxRecipient,
   RenderedTemplate,
 } from './types.js';
+import type { DigestService } from './digest-service.js';
+import { isInQuietHours } from './quiet-hours.js';
 import { loadMatchingRules, evaluateRule, parseChannels } from './rule-engine.js';
 import {
   resolveAudience,
@@ -96,6 +105,25 @@ export interface SandboxConfig {
 }
 
 // ---------------------------------------------------------------------------
+// Phase5Config — optional Phase 5 services for preference + digest routing
+// ---------------------------------------------------------------------------
+
+/**
+ * Phase 5 service dependencies for processEvent().
+ * All fields are optional; when absent, the pipeline works as Phase 2-4.
+ *
+ * preferenceService — N-060/N-061: IPreferenceStore for 4-level inheritance reads.
+ *   When provided, processEvent() skips dispatch for disabled channels and
+ *   routes digest-windowed channels to DigestService.
+ * digestService     — N-063: adds deferred events to notification_digest_batch_item.
+ *   Only consulted when preferenceService returns digestWindow !== 'none'.
+ */
+export interface Phase5Config {
+  preferenceService?: IPreferenceStore;
+  digestService?: DigestService;
+}
+
+// ---------------------------------------------------------------------------
 // processEvent — main pipeline orchestrator
 // ---------------------------------------------------------------------------
 
@@ -115,6 +143,7 @@ export interface SandboxConfig {
  * @param renderer - Phase 3 TemplateRenderer (N-030). When provided, replaces
  *                   renderPhase2() for all channels. Backward-compatible:
  *                   if omitted, Phase 2 renderPhase2() is used.
+ * @param phase5   - Phase 5 services (preference + digest). Optional; backward-compatible.
  */
 export async function processEvent(
   params: ProcessEventParams,
@@ -122,6 +151,7 @@ export async function processEvent(
   channels: INotificationChannel[],
   sandbox: SandboxConfig = { enabled: false },
   renderer?: ITemplateRenderer,
+  phase5?: Phase5Config,
 ): Promise<void> {
   const {
     notifEventId,
@@ -136,6 +166,7 @@ export async function processEvent(
   } = params;
 
   const severity = (params.severity ?? 'info') as NotificationSeverity;
+  const { preferenceService, digestService } = phase5 ?? {};
 
   // Build a channel map for O(1) lookup by channel name
   const channelMap = new Map<string, INotificationChannel>(
@@ -257,6 +288,100 @@ export async function processEvent(
           // Template for this channel not available (not found or render error)
           continue;
         }
+
+        // ── Phase 5 (N-060, N-061, N-062, N-063): Preference + digest routing ──
+        if (preferenceService) {
+          let pref: import('./types.js').ResolvedPreference;
+          try {
+            pref = await preferenceService.resolve(
+              tenantId,
+              recipient.userId,
+              channelName as import('./types.js').NotificationChannel,
+              source as import('@webwaka/events').NotificationEventSource,
+            );
+          } catch (err) {
+            // Preference resolution failure: degrade gracefully (send anyway)
+            console.warn(
+              `[notification-service] preference resolve failed — ` +
+              `userId=${recipient.userId} channel=${channelName} ` +
+              `err=${err instanceof Error ? err.message : String(err)} — proceeding`,
+            );
+            pref = { enabled: true, timezone: 'Africa/Lagos', digestWindow: 'none', lowDataMode: false };
+          }
+
+          // G22: channel disabled by user preference
+          if (!pref.enabled) {
+            console.log(
+              `[notification-service] pref.enabled=false — skipping ` +
+              `userId=${recipient.userId} channel=${channelName}`,
+            );
+            continue;
+          }
+
+          // G22: low_data_mode + SMS + non-critical → skip (SMS critical-only in low-data)
+          if (pref.lowDataMode && channelName === 'sms' && severity !== 'critical') {
+            console.log(
+              `[notification-service] low_data_mode: SMS blocked for severity=${severity} ` +
+              `userId=${recipient.userId}`,
+            );
+            continue;
+          }
+
+          // N-062 (G11): Quiet hours — defer delivery (Phase 8 will re-queue with delay)
+          if (isInQuietHours(pref, severity)) {
+            console.log(
+              `[notification-service] quiet hours: deferring ${channelName} for ` +
+              `userId=${recipient.userId} until ${pref.quietHoursEnd ?? '?'}:00 ${pref.timezone} ` +
+              `(Phase 8: re-queue with CF Queue delaySeconds)`,
+            );
+            // Phase 5: delivery is deferred, not lost. Phase 8 CRON will re-sweep
+            // notification_delivery rows in 'queued' status past the window end.
+            continue;
+          }
+
+          // N-063: Digest window — route to DigestService instead of immediate send
+          const digestableChannels = ['email', 'push', 'in_app'];
+          if (
+            pref.digestWindow !== 'none' &&
+            digestableChannels.includes(channelName) &&
+            digestService
+          ) {
+            try {
+              const batchId = await digestService.findOrCreateBatch({
+                tenantId,
+                userId: recipient.userId,
+                channel: channelName as import('./digest-service.js').DigestBatchChannel,
+                windowType: pref.digestWindow as import('./digest-service.js').DigestWindowType,
+              });
+              const titleStr = renderedTemplate.subject ?? eventKey;
+              const rawBody = renderedTemplate.bodyPlainText ?? renderedTemplate.body;
+              // Strip any HTML tags for bodySummary (max 140 chars)
+              const bodySummary = rawBody.replace(/<[^>]*>/g, '').slice(0, 140);
+              await digestService.addItem({
+                batchId,
+                tenantId,
+                notificationEventId: notifEventId,
+                userId: recipient.userId,
+                eventKey,
+                title: titleStr,
+                bodySummary,
+                severity,
+              });
+              console.log(
+                `[notification-service] digest: routed to batch=${batchId} ` +
+                `window=${pref.digestWindow} userId=${recipient.userId} channel=${channelName}`,
+              );
+            } catch (err) {
+              console.error(
+                `[notification-service] digest routing failed — falling back to immediate send. ` +
+                `err=${err instanceof Error ? err.message : String(err)}`,
+              );
+              // Fall through to immediate dispatch if digest routing fails
+            }
+            continue; // Skip immediate dispatch — digested
+          }
+        }
+
         await dispatchToRecipient({
           notifEventId,
           tenantId,

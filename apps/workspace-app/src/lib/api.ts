@@ -102,6 +102,8 @@ export const api = {
   get: <T>(path: string, opts?: RequestInit) => request<T>(path, { ...opts, method: 'GET' }),
   post: <T>(path: string, body?: unknown, opts?: RequestInit) =>
     request<T>(path, { ...opts, method: 'POST', body: body ? JSON.stringify(body) : undefined }),
+  put: <T>(path: string, body?: unknown, opts?: RequestInit) =>
+    request<T>(path, { ...opts, method: 'PUT', body: body ? JSON.stringify(body) : undefined }),
   patch: <T>(path: string, body?: unknown, opts?: RequestInit) =>
     request<T>(path, { ...opts, method: 'PATCH', body: body ? JSON.stringify(body) : undefined }),
   delete: <T>(path: string, opts?: RequestInit) => request<T>(path, { ...opts, method: 'DELETE' }),

@@ -779,6 +779,9 @@ importers:
       '@webwaka/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
+      '@webwaka/notifications':
+        specifier: workspace:*
+        version: link:../../packages/notifications
       '@webwaka/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
