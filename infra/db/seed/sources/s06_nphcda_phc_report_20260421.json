@@ -1,0 +1,796 @@
+{
+  "api_endpoint": "https://api.nphcda.gov.ng/indicators/e70967b3-10d8-416e-9c21-7f7278375ce9/?geo_json=false&country=09a25923-91c2-4412-87a1-310edfd878b9",
+  "api_total_count": 26711,
+  "api_total_facility_count": 26711,
+  "cross_source_nhia_exact_name_state_review": {
+    "exact_name_state_candidates": 44,
+    "examples": [
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Oke-Olola Primary Health Centre",
+        "lga_name": "ATIBA",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0383/P",
+            "provider_name": "OKE OLOLA PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88628",
+        "state_name": "OYO",
+        "ward_name": "AGUNPOPO I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Koso Primary Health Centre",
+        "lga_name": "ATIBA",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0384/P",
+            "provider_name": "KOSO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88633",
+        "state_name": "OYO",
+        "ward_name": "ASHIPA II"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Aafin Primary Health Centre",
+        "lga_name": "ATIBA",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0382/P",
+            "provider_name": "AAFIN PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88636",
+        "state_name": "OYO",
+        "ward_name": "OKE-AFIN I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Aafin Health Clinic",
+        "lga_name": "ATIBA",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0394/P",
+            "provider_name": "AAFIN HEALTH CLINIC",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88637",
+        "state_name": "OYO",
+        "ward_name": "OKE-AFIN II"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Agbongbon Primary Health Centre",
+        "lga_name": "IBADAN SOUTH EAST",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0380/P",
+            "provider_name": "AGBONGBON PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88679",
+        "state_name": "OYO",
+        "ward_name": "CI"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Mapo Primary Health Centre",
+        "lga_name": "IBADAN SOUTH EAST",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0378/P",
+            "provider_name": "MAPO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88682",
+        "state_name": "OYO",
+        "ward_name": "S2A"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Odinjo Primary Health Centre",
+        "lga_name": "IBADAN SOUTH EAST",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0376/P",
+            "provider_name": "ODINJO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88691",
+        "state_name": "OYO",
+        "ward_name": "S2B"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Molete Primary Health Centre",
+        "lga_name": "IBADAN SOUTH WEST",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0381/P",
+            "provider_name": "MOLETE PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88699",
+        "state_name": "OYO",
+        "ward_name": "SW9 (1)"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Koso Primary Health Centre",
+        "lga_name": "IREPO",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0384/P",
+            "provider_name": "KOSO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88763",
+        "state_name": "OYO",
+        "ward_name": "IBA III"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Mapo Primary Health Centre",
+        "lga_name": "IREPO",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0378/P",
+            "provider_name": "MAPO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88764",
+        "state_name": "OYO",
+        "ward_name": "IBA IV"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Koso Primary Health Centre",
+        "lga_name": "ISEYIN",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0384/P",
+            "provider_name": "KOSO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88774",
+        "state_name": "OYO",
+        "ward_name": "KOSO I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Ibrahim Taiwo Primary Health Centre",
+        "lga_name": "OGBOMOSHO NORTH",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0387/P",
+            "provider_name": "IBRAHIM TAIWO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "88826",
+        "state_name": "OYO",
+        "ward_name": "ISALE AFON"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Rimin Gado Comprehensive Health Centre",
+        "lga_name": "RIMIN GADO",
+        "nhia_candidates": [
+          {
+            "provider_code": "KN/0226/P",
+            "provider_name": "RIMIN GADO COMPREHENSIVE HEALTH CENTRE",
+            "state_name": "Kano"
+          }
+        ],
+        "nphcda_source_facility_id": "90952",
+        "state_name": "KANO",
+        "ward_name": "RIMIN GADO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Amuzu Primary Health Centre",
+        "lga_name": "ABOH MBAISE",
+        "nhia_candidates": [
+          {
+            "provider_code": "IM/0183/P",
+            "provider_name": "AMUZU PRIMARY HEALTH CENTRE",
+            "state_name": "Imo"
+          }
+        ],
+        "nphcda_source_facility_id": "107244",
+        "state_name": "IMO",
+        "ward_name": "AMUZU WARD"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Umuozu Health Centre",
+        "lga_name": "NWANGELE",
+        "nhia_candidates": [
+          {
+            "provider_code": "IM/0166/P",
+            "provider_name": "UMUOZU HEALTH CENTRE",
+            "state_name": "Imo"
+          }
+        ],
+        "nphcda_source_facility_id": "107433",
+        "state_name": "IMO",
+        "ward_name": "UMUOZU"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Shongo Health Clinic",
+        "lga_name": "AKKO",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0075/P",
+            "provider_name": "SHONGO HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "120865",
+        "state_name": "GOMBE",
+        "ward_name": "AKKO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Jabba Health Clinic",
+        "lga_name": "AKKO",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0068/P",
+            "provider_name": "JABBA HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "120917",
+        "state_name": "GOMBE",
+        "ward_name": "TUMU"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Pamadu Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0126/P",
+            "provider_name": "PAMADU HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "121273",
+        "state_name": "GOMBE",
+        "ward_name": "GWANDUM"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Popandi Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0125/P",
+            "provider_name": "POPANDI HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "121275",
+        "state_name": "GOMBE",
+        "ward_name": "GWANDUM"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Tedmuzu Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0133/P",
+            "provider_name": "TEDMUZU HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "121284",
+        "state_name": "GOMBE",
+        "ward_name": "LALAIPIDO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Amkolom Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0122/P",
+            "provider_name": "AMKOLOM HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "121285",
+        "state_name": "GOMBE",
+        "ward_name": "LALAIPIDO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Lasanjang Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0131/P",
+            "provider_name": "LASANJANG HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "121291",
+        "state_name": "GOMBE",
+        "ward_name": "LAPAN"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Amuzu Primary Health Centre",
+        "lga_name": "ABOH MBAISE",
+        "nhia_candidates": [
+          {
+            "provider_code": "IM/0183/P",
+            "provider_name": "AMUZU PRIMARY HEALTH CENTRE",
+            "state_name": "Imo"
+          }
+        ],
+        "nphcda_source_facility_id": "123377",
+        "state_name": "IMO",
+        "ward_name": "AMUZU WARD"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Umuneke Health Centre",
+        "lga_name": "NGOR OKPALA",
+        "nhia_candidates": [
+          {
+            "provider_code": "IM/0163/P",
+            "provider_name": "UMUNEKE HEALTH CENTRE",
+            "state_name": "Imo"
+          }
+        ],
+        "nphcda_source_facility_id": "123483",
+        "state_name": "IMO",
+        "ward_name": "NGOR"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Umuozu Health Centre",
+        "lga_name": "NWANGELE",
+        "nhia_candidates": [
+          {
+            "provider_code": "IM/0166/P",
+            "provider_name": "UMUOZU HEALTH CENTRE",
+            "state_name": "Imo"
+          }
+        ],
+        "nphcda_source_facility_id": "123520",
+        "state_name": "IMO",
+        "ward_name": "UMUOZU"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Holy Trinity Hospital",
+        "lga_name": "IKORODU",
+        "nhia_candidates": [
+          {
+            "provider_code": "LA/0187/P",
+            "provider_name": "HOLY TRINITY HOSPITAL",
+            "state_name": "Lagos"
+          }
+        ],
+        "nphcda_source_facility_id": "123720",
+        "state_name": "LAGOS",
+        "ward_name": "IBESHE"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Lobel Hospital",
+        "lga_name": "LAGOS MAINLAND",
+        "nhia_candidates": [
+          {
+            "provider_code": "LA/0287/P",
+            "provider_name": "LOBEL HOSPITAL",
+            "state_name": "Lagos"
+          }
+        ],
+        "nphcda_source_facility_id": "123740",
+        "state_name": "LAGOS",
+        "ward_name": "ALAGOMEJI"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Kuba Hospital",
+        "lga_name": "LAGOS MAINLAND",
+        "nhia_candidates": [
+          {
+            "provider_code": "LA/1487/P",
+            "provider_name": "KUBA HOSPITAL",
+            "state_name": "Lagos"
+          }
+        ],
+        "nphcda_source_facility_id": "123742",
+        "state_name": "LAGOS",
+        "ward_name": "OKO-BABA"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "St Luke's Hospital",
+        "lga_name": "LAGOS MAINLAND",
+        "nhia_candidates": [
+          {
+            "provider_code": "LA/0288/P",
+            "provider_name": "ST. LUKE`S HOSPITAL",
+            "state_name": "Lagos"
+          }
+        ],
+        "nphcda_source_facility_id": "123745",
+        "state_name": "LAGOS",
+        "ward_name": "YABA/IGBOBI WARD"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Isale Oyo Primary Health Centre",
+        "lga_name": "ATIBA",
+        "nhia_candidates": [
+          {
+            "provider_code": "OY/0390/P",
+            "provider_name": "ISALE OYO PRIMARY HEALTH CENTRE",
+            "state_name": "Oyo"
+          }
+        ],
+        "nphcda_source_facility_id": "125470",
+        "state_name": "OYO",
+        "ward_name": "ASHIPA I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "University Clinic",
+        "lga_name": "ALIERO",
+        "nhia_candidates": [
+          {
+            "provider_code": "KB/0204/P",
+            "provider_name": "UNIVERSITY CLINIC",
+            "state_name": "Kebbi"
+          },
+          {
+            "provider_code": "KB/0206/P",
+            "provider_name": "UNIVERSITY CLINIC",
+            "state_name": "Kebbi"
+          }
+        ],
+        "nphcda_source_facility_id": "131368",
+        "state_name": "KEBBI",
+        "ward_name": "ALIERO SARKIN FADA I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Haske Dominican Hospital",
+        "lga_name": "ZURU",
+        "nhia_candidates": [
+          {
+            "provider_code": "KB/0271/P",
+            "provider_name": "HASKE DOMINICAN HOSPITAL",
+            "state_name": "Kebbi"
+          }
+        ],
+        "nphcda_source_facility_id": "131995",
+        "state_name": "KEBBI",
+        "ward_name": "CIROMAN DABAI"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Godiya Hospital",
+        "lga_name": "ZURU",
+        "nhia_candidates": [
+          {
+            "provider_code": "KB/0023/P",
+            "provider_name": "GODIYA HOSPITAL",
+            "state_name": "Kebbi"
+          }
+        ],
+        "nphcda_source_facility_id": "132018",
+        "state_name": "KEBBI",
+        "ward_name": "RIKOTO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Ekkan Health Post",
+        "lga_name": "LAPAI",
+        "nhia_candidates": [
+          {
+            "provider_code": "NG/0242/P",
+            "provider_name": "EKKAN HEALTH POST",
+            "state_name": "Niger"
+          }
+        ],
+        "nphcda_source_facility_id": "139340",
+        "state_name": "NIGER",
+        "ward_name": "EVUTI/KPADA"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Ibrahim Bako Primary Health Centre",
+        "lga_name": "BAUCHI",
+        "nhia_candidates": [
+          {
+            "provider_code": "BA/0055/P",
+            "provider_name": "IBRAHIM BAKO PRIMARY HEALTH CENTRE",
+            "state_name": "Bauchi"
+          }
+        ],
+        "nphcda_source_facility_id": "142075",
+        "state_name": "BAUCHI",
+        "ward_name": "KANGYARE/TURWUN"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Oko Medical Centre",
+        "lga_name": "IREPODUN",
+        "nhia_candidates": [
+          {
+            "provider_code": "KW/0178/P",
+            "provider_name": "OKO MEDICAL CENTRE",
+            "state_name": "Kwara"
+          }
+        ],
+        "nphcda_source_facility_id": "142804",
+        "state_name": "KWARA",
+        "ward_name": "OKO"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Ummah Clinic",
+        "lga_name": "JALINGO",
+        "nhia_candidates": [
+          {
+            "provider_code": "TR/0062/P",
+            "provider_name": "UMMAH CLINIC",
+            "state_name": "Taraba"
+          }
+        ],
+        "nphcda_source_facility_id": "143018",
+        "state_name": "TARABA",
+        "ward_name": "TURAKI A"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Rafu Clinic",
+        "lga_name": "USSA",
+        "nhia_candidates": [
+          {
+            "provider_code": "TR/0010/P",
+            "provider_name": "RAFU CLINIC",
+            "state_name": "Taraba"
+          }
+        ],
+        "nphcda_source_facility_id": "143056",
+        "state_name": "TARABA",
+        "ward_name": "LISSAM I"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Police Clinic",
+        "lga_name": "LOKOJA",
+        "nhia_candidates": [
+          {
+            "provider_code": "KG/0074/P",
+            "provider_name": "POLICE CLINIC",
+            "state_name": "Kogi"
+          }
+        ],
+        "nphcda_source_facility_id": "143530",
+        "state_name": "KOGI",
+        "ward_name": "LOKOJA A"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Dss Clinic",
+        "lga_name": "LOKOJA",
+        "nhia_candidates": [
+          {
+            "provider_code": "KG/0060/P",
+            "provider_name": "DSS CLINIC",
+            "state_name": "Kogi"
+          }
+        ],
+        "nphcda_source_facility_id": "143812",
+        "state_name": "KOGI",
+        "ward_name": "LOKOJA A"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "The Rock Hospital",
+        "lga_name": "OREDO",
+        "nhia_candidates": [
+          {
+            "provider_code": "ED/0139/P",
+            "provider_name": "THE ROCK HOSPITAL",
+            "state_name": "Edo"
+          }
+        ],
+        "nphcda_source_facility_id": "146712",
+        "state_name": "EDO",
+        "ward_name": "IYEKOGBA"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Oreste Medical Centre",
+        "lga_name": "OREDO",
+        "nhia_candidates": [
+          {
+            "provider_code": "ED/0046/P",
+            "provider_name": "ORESTE MEDICAL CENTRE",
+            "state_name": "Edo"
+          }
+        ],
+        "nphcda_source_facility_id": "146728",
+        "state_name": "EDO",
+        "ward_name": "OGBE"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Christ Medical Centre",
+        "lga_name": "OREDO",
+        "nhia_candidates": [
+          {
+            "provider_code": "ED/0219/P",
+            "provider_name": "CHRIST MEDICAL CENTRE",
+            "state_name": "Edo"
+          }
+        ],
+        "nphcda_source_facility_id": "146878",
+        "state_name": "EDO",
+        "ward_name": "UNUERU/OGBOKA"
+      },
+      {
+        "auto_merge_decision": "not_merged_nhia_lacks_lga_ward_for_safe_cross_source_identity",
+        "facility_name": "Lasassap Health Clinic",
+        "lga_name": "SHOMGOM",
+        "nhia_candidates": [
+          {
+            "provider_code": "GM/0128/P",
+            "provider_name": "LASASSAP HEALTH CLINIC",
+            "state_name": "Gombe"
+          }
+        ],
+        "nphcda_source_facility_id": "146978",
+        "state_name": "GOMBE",
+        "ward_name": "LAPAN"
+      }
+    ],
+    "nhia_normalized_path": "infra/db/seed/sources/s06_nhia_hcp_normalized_20260421.json",
+    "status": "reviewed"
+  },
+  "duplicate_normalized_name_place_group_samples": {
+    "adabo primary health centre|place_ward_oyo_saki_west_okere_i": 2,
+    "ageva primary health centre|place_ward_kogi_okene_obehira_eba": 2,
+    "atelewo primary health centre|place_ward_osun_olorunda_atelewo": 2,
+    "ayede primary health centre|place_ward_oyo_ogo_oluwa_ayede": 2,
+    "babbangida primary health centre|place_lga_yobe_tarmua": 2,
+    "bagana primary health centre|place_ward_kogi_omala_bagana": 2,
+    "bolorunduro primary health centre|place_lga_osun_orolu": 2,
+    "challenge primary health centre|place_lga_oyo_saki_west": 2,
+    "dawasa primary health centre|place_ward_yobe_nangere_dawasa_g_baba": 2,
+    "duba health facility|place_ward_katsina_batsari_manawa": 2,
+    "ekiadolor primary health centre|place_ward_edo_ovia_north_east_adolor": 2,
+    "eteo primary health centre|place_ward_rivers_eleme_eteo": 2,
+    "faforiji primary health centre|place_ward_osun_atakumosa_east_faforiji": 2,
+    "gargari health post|place_ward_kano_dawakin_tofa_gargari": 2,
+    "garhi maternal and child health centre|place_ward_katsina_dutsin_ma_kutawa": 2,
+    "gboro primary health centre|place_ward_osun_isokan_olukoyi_oja_osun": 2,
+    "gio primary health centre|place_lga_rivers_tai": 2,
+    "giri primary health centre|place_ward_fct_gwagwalada_gwako": 2,
+    "gwanje primary health centre|place_ward_nasarawa_akwanga_gwanje": 2,
+    "ilie primary health centre|place_ward_osun_olorunda_ilie": 2,
+    "inike primary health centre|place_ward_kogi_okene_idoji": 2,
+    "kagare health centre|place_ward_katsina_sandamu_kagare": 2,
+    "kinugu health centre|place_ward_kaduna_kauru_bital": 2,
+    "kukuri primary health centre|place_ward_yobe_nangere_kukuri_chiromari": 2,
+    "lankaviri primary health centre|place_ward_taraba_yorro_sumbu_i": 2,
+    "maimakwami health centre|place_lga_katsina_baure": 2,
+    "makera primary health centre|place_ward_katsina_dutsin_ma_makera": 2,
+    "masifa primary health centre|place_ward_osun_ejigbo_ifeodan_b_masifa": 2,
+    "mayo kam primary health centre|place_ward_taraba_bali_badakoshi": 2,
+    "more health post|place_ward_sokoto_kware_g_rugga": 2,
+    "ndiofia noyo mdgs facility|place_ward_ebonyi_ikwo_noye_alike": 2,
+    "nkpolu primary health centre|place_lga_rivers_port_harcourt": 2,
+    "oba ile primary health centre|place_ward_osun_olorunda_oba_ile": 2,
+    "ochi ofago primary health centre|place_ward_kogi_ankpa_ankpa_suburb_ii": 2,
+    "odiemudie primary health centre|place_ward_rivers_ahoada_east_akoh_i": 2,
+    "ofiki primary health centre|place_ward_oyo_atisbo_ofiki": 2,
+    "ogagbo mdgs facility|place_ward_ebonyi_ikwo_igbudu_ii": 2,
+    "ogo oluwa primary health centre|place_ward_osun_osogbo_ataoja_d": 2,
+    "okaria mdgs facility|place_lga_ebonyi_onicha": 2,
+    "oke afo primary health centre|place_lga_osun_ifelodun": 2,
+    "okomi primary health centre|place_ward_osun_aiyedire_ileogbo_ii": 2,
+    "oloka primary health centre|place_lga_oyo_ori_ire": 2,
+    "onibambu primary health centre|place_ward_osun_ife_north_oyere_i": 2,
+    "owode primary health centre|place_lga_oyo_ibadan_south_east": 2,
+    "rataya primary health centre|place_ward_katsina_kafur_dutsin_kura_kanya": 2,
+    "rigasa primary health centre|place_ward_kaduna_igabi_rigasa": 2,
+    "sabon garin rangaza health clinic|place_ward_kano_ungogo_rangaza": 2,
+    "sabon gayan health centre|place_ward_kaduna_chikun_kakau": 2,
+    "tella primary health centre|place_ward_taraba_gassol_wuryo": 2,
+    "wagini comprehensive health centre|place_ward_katsina_batsari_wagini": 2
+  },
+  "duplicate_normalized_name_place_groups_count": 164,
+  "duplicate_source_ids": {},
+  "facility_type_counts": {
+    "others": 26711
+  },
+  "indicator_id": "e70967b3-10d8-416e-9c21-7f7278375ce9",
+  "last_updated": {
+    "last_updated": "2026-04-16T09:32:09.598612Z",
+    "last_updated_facility_functionality": "2026-04-03T18:42:46.264324Z",
+    "last_updated_phc": "2025-11-04T11:44:07.966703Z",
+    "last_updated_revitalization": "2026-04-16T09:32:09.598612Z"
+  },
+  "lga_count": 773,
+  "normalized_facility_count": 26711,
+  "normalized_sha256": "44c47a6761dd0a5e1beedcca69829c5bcb5b10b2f3c88e37edb9bd141689e58a",
+  "notes": "Official NPHCDA PHC dashboard API contains 26,711 row-level PHC facilities at retrieval. State/LGA names are source-provided and reconciled to canonical places. Wards are used only when exact canonical ward match succeeds; otherwise rows fall back to LGA. Exact NHIA name/state candidate overlaps are reported but not merged automatically because NHIA source lacks LGA/ward/coordinates.",
+  "raw_row_count": 26711,
+  "raw_sha256": "dec4241bf205ba9759fd1933e18e1ffd782ce63cacf47428499b92254da9ddda",
+  "rejected_row_count": 0,
+  "rejected_samples": [],
+  "resolution_counts": {
+    "local_government_area": 5471,
+    "ward": 21240
+  },
+  "retrieved_at": "2026-04-21",
+  "source_key": "nphcda:primary-health-care-facility-dashboard:2026-04-21",
+  "source_url": "https://phc.nphcda.gov.ng/",
+  "state_count": 37,
+  "state_counts": {
+    "ABIA": 757,
+    "ADAMAWA": 787,
+    "AKWA IBOM": 478,
+    "ANAMBRA": 594,
+    "BAUCHI": 1119,
+    "BAYELSA": 221,
+    "BENUE": 1007,
+    "BORNO": 376,
+    "CROSS RIVER": 1023,
+    "DELTA": 465,
+    "EBONYI": 509,
+    "EDO": 493,
+    "EKITI": 321,
+    "ENUGU": 556,
+    "FCT": 284,
+    "GOMBE": 606,
+    "IMO": 609,
+    "JIGAWA": 777,
+    "KADUNA": 1015,
+    "KANO": 1242,
+    "KATSINA": 1724,
+    "KEBBI": 885,
+    "KOGI": 928,
+    "KWARA": 536,
+    "LAGOS": 364,
+    "NASARAWA": 787,
+    "NIGER": 1406,
+    "OGUN": 520,
+    "ONDO": 595,
+    "OSUN": 885,
+    "OYO": 760,
+    "PLATEAU": 979,
+    "RIVERS": 360,
+    "SOKOTO": 724,
+    "TARABA": 791,
+    "YOBE": 543,
+    "ZAMFARA": 685
+  }
+}

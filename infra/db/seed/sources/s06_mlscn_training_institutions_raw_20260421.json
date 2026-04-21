@@ -1,0 +1,516 @@
+{
+  "api_base": "https://admin.mlscn.gov.ng/api/v1",
+  "endpoints": {
+    "mlat_training_institutions": {
+      "data": [
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6840-729a-92a4-05d27c6d9eda",
+          "name": "College of Health Tech. Aba",
+          "next_accreditation_date": "June, 2021",
+          "number_of_students_approved": "MLT-50",
+          "sort_order": 0,
+          "state": "Abia",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Provisional",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6844-71d1-b6f4-84b3cfcdb1f4",
+          "name": "Sch. of Health  Tech. Mubi",
+          "next_accreditation_date": "2020",
+          "number_of_students_approved": "MLT -50",
+          "sort_order": 0,
+          "state": "Adamawa",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Provisional",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6846-73c1-a0fa-e83b23ddd209",
+          "name": "Sch. of Health Tech, Etinan",
+          "next_accreditation_date": "2025",
+          "number_of_students_approved": "MLT - 40",
+          "sort_order": 0,
+          "state": "Akwa Ibom",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6848-701f-88a3-10f49fb6afbe",
+          "name": "Sch. of Med Lab. Technician, Nkpor",
+          "next_accreditation_date": "June, 2022",
+          "number_of_students_approved": "MLT50",
+          "sort_order": 0,
+          "state": "Anambra",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Partial",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-684a-7083-b57a-d893aa546e32",
+          "name": "School of Medical Laboratory Technicians, Our lady of Lourdes Hospital, Ihiala",
+          "next_accreditation_date": "June, 2025",
+          "number_of_students_approved": "MLT -50",
+          "sort_order": 0,
+          "state": "Anambra",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-684b-71fe-a015-87208518ccea",
+          "name": "Sch. of Health Tech. Obosi",
+          "next_accreditation_date": "October 2026",
+          "number_of_students_approved": "MLT-50",
+          "sort_order": 0,
+          "state": "Anambra",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-684d-708d-a732-67bb872bd174",
+          "name": "Iyi-Enu Mission Hospital Ogidi",
+          "next_accreditation_date": "Oct, 2024",
+          "number_of_students_approved": "MLT-50",
+          "sort_order": 0,
+          "state": "Anambra",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-684f-73b0-8223-2770812a358e",
+          "name": "School of Health Tech. Ningi, Bauchi State",
+          "next_accreditation_date": "November, 2020",
+          "number_of_students_approved": "MLT – 40, MLA -10",
+          "sort_order": 0,
+          "state": "Bauchi",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Approval to commence",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6851-73ba-874c-a874eaa036c5",
+          "name": "Malikiya College of Health Sciences and Technology, Bauchi",
+          "next_accreditation_date": "August, 2023",
+          "number_of_students_approved": "MLT- 45",
+          "sort_order": 0,
+          "state": "Bauchi",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6853-71e8-97ee-591e79eba5f4",
+          "name": "College of Health Technology Otuogidi-Ogbia",
+          "next_accreditation_date": "August, 2026",
+          "number_of_students_approved": "MLT – 50",
+          "sort_order": 0,
+          "state": "Bayelsa",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6855-7383-855c-50549d7bded4",
+          "name": "N.K.S.T School of Med Lab. Technician, Mkar-Gboko",
+          "next_accreditation_date": "November, 2021",
+          "number_of_students_approved": "MLT - 50",
+          "sort_order": 0,
+          "state": "Benue",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6856-7174-ac00-a67384090920",
+          "name": "College of Health Tech. Otukpo ( John Adah)",
+          "next_accreditation_date": "October, 2020",
+          "number_of_students_approved": "MLT - 50",
+          "sort_order": 0,
+          "state": "Benue",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Approval to Commence",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6858-7323-89dc-e564c6ca399b",
+          "name": "Makurdi College of Health & Medical Laboratory Science, makurdi",
+          "next_accreditation_date": "Feb.2020",
+          "number_of_students_approved": "MLT-30",
+          "sort_order": 0,
+          "state": "Benue",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Provisional Approval",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6859-7210-a1bd-a39c3e14aaab",
+          "name": "Mercy College of Medical Laboratory Science, Makurdi",
+          "next_accreditation_date": "March, 2025",
+          "number_of_students_approved": "MLT- 40",
+          "sort_order": 0,
+          "state": "Benue",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        },
+        {
+          "accreditation_status": "Approval to Commence",
+          "created_at": "2025-12-19T19:12:48.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-685b-710d-8ee9-4a10f7677602",
+          "name": "College of Health Technology, Aliade",
+          "next_accreditation_date": "June, 2021",
+          "number_of_students_approved": "MLT- 30",
+          "sort_order": 0,
+          "state": "Benue",
+          "updated_at": "2025-12-19T19:12:48.000000Z"
+        }
+      ],
+      "url": "https://admin.mlscn.gov.ng/api/v1/approved-m-l-a-t-training-institutions"
+    },
+    "mls_internship_institutions": {
+      "data": [
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-655f-738e-a071-1db34316a2a6",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Nigeria Teaching Hospital Enugu, Enugu State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6561-7392-9db6-475eb79b4304",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "Federal Teaching Hospital Abakaliki, Eboyi State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6563-7213-ade3-e2fb0122bcb2",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Uyo Teaching Hospital, Uyo,  Akwa-Ibom State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6564-70ad-b1d2-090bee0f6a74",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Calabar Teaching Hospital, Calabar, Cross Rivers State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6567-7027-a73b-3e5d48a7788b",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Benin Teaching Hospital, Edo State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6568-7065-88b3-823c7e1294fd",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Port-Harcourt Teaching Hospital, Rivers State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-656a-73db-ac2d-2578754d87d1",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "Lagos University Teaching Hospital, Idi-Araba, Lagos State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-656b-73b9-a979-2caec96a5903",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "OAU Teaching Hospital Ile-Ife, Osun State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-656d-7213-b8e3-a5565a854bc0",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University College Hospital Ibadan, Oyo State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-656e-72a6-a4f7-8fae7cfce936",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "Federal Teaching Hospital Ido Ekiti, Ekiti State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6570-705f-9005-69218816543a",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Ilorin Teaching Hospital, Ilorin, Kwara State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6571-705c-80b3-5b7f2c7e8c48",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "Jos University Teaching Hospital, Jos, Plateau State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6573-7201-83c9-3f661a973dc0",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Abuja Teaching Hospital, Gwagwalada, F.C.T",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6574-727b-bc3e-3a1c3d51a118",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "University of Maiduguri Teaching Hospital,Maiduguri, Borno State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        },
+        {
+          "created_at": "2025-12-19T19:12:47.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6576-71cf-8b37-5399fc06ea4c",
+          "institution_category": "FEDERAL UNIVERSITY TEACHING HOSPITALS",
+          "name": "Abubakar Tafawa Balewa University Teaching Hospital, Bauchi Bauchi State",
+          "sort_order": 0,
+          "updated_at": "2025-12-19T19:12:47.000000Z"
+        }
+      ],
+      "url": "https://admin.mlscn.gov.ng/api/v1/approved-institution-for-m-l-s-internships"
+    },
+    "mls_training_universities": {
+      "data": [
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 75,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6306-718d-9571-46ca76663c52",
+          "name": "University of Lagos",
+          "next_accreditation_date": "October, 2022",
+          "sort_order": 0,
+          "state": "Lagos",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Provisional",
+          "approved_quota": 71,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6309-70c3-94f0-9ed6915f08fa",
+          "name": "Babcock University Ilisan-Remo",
+          "next_accreditation_date": "September, 2023",
+          "sort_order": 0,
+          "state": "Ogun",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 70,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-630b-7351-81f6-4292bcabf498",
+          "name": "Ladoke Akintola University, Osogbo",
+          "next_accreditation_date": "October, 2029",
+          "sort_order": 0,
+          "state": "Osun",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 126,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-630d-70ab-a1c2-6d25397831a8",
+          "name": "Madonna university, Elele",
+          "next_accreditation_date": "July, 2028",
+          "sort_order": 0,
+          "state": "Rivers",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 120,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-630e-7317-84ce-5c7fc64b649c",
+          "name": "Ebonyi State University, Abakaliki",
+          "next_accreditation_date": "June, 2027",
+          "sort_order": 0,
+          "state": "Ebonyi",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 220,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6310-7280-8d4b-3d20c776f48d",
+          "name": "NnamdiAzikiwe University, Nnewi",
+          "next_accreditation_date": "March, 2025",
+          "sort_order": 0,
+          "state": "Anambra",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 80,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6312-7024-a50b-5b7e77ded8ab",
+          "name": "University of Nigeria, Enugu Campus",
+          "next_accreditation_date": "June 2029",
+          "sort_order": 0,
+          "state": "Enugu",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 70,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6313-7314-bf1f-509313f256c4",
+          "name": "Imo State University, Owerri",
+          "next_accreditation_date": "March, 2020",
+          "sort_order": 0,
+          "state": "Imo",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 100,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6315-72b6-b082-035de071dcff",
+          "name": "University of Calabar, Calabar",
+          "next_accreditation_date": "December, 2026",
+          "sort_order": 0,
+          "state": "Cross River",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 100,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6317-71e8-bfe1-a30f7b9bfb3e",
+          "name": "Ambrose Alli University, Ekpoma",
+          "next_accreditation_date": "July, 2022",
+          "sort_order": 0,
+          "state": "Edo State",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 85,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-6318-70af-97ff-01d05f1f85e8",
+          "name": "University of Benin",
+          "next_accreditation_date": "March, 2020",
+          "sort_order": 0,
+          "state": "Edo",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 72,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-631a-73c1-adc9-2c9c7d33a57a",
+          "name": "Niger-Delta University",
+          "next_accreditation_date": "Nov., 2024",
+          "sort_order": 0,
+          "state": "Bayelsa",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 140,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-631c-7315-aac1-e931073fa76b",
+          "name": "Usmanu Danfodiyo University, Sokoto",
+          "next_accreditation_date": "March 2027",
+          "sort_order": 0,
+          "state": "Sokoto",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 70,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-631d-712f-b134-0fe869f0d7b0",
+          "name": "University  of Jos",
+          "next_accreditation_date": "April, 2023",
+          "sort_order": 0,
+          "state": "Plateau",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        },
+        {
+          "accreditation_status": "Full",
+          "approved_quota": 80,
+          "created_at": "2025-12-19T19:12:46.000000Z",
+          "deleted_at": null,
+          "id": "019b3807-631f-7370-9fef-2713a814fc8d",
+          "name": "Rivers State University of Sci and Technology",
+          "next_accreditation_date": "Feb., 2023",
+          "sort_order": 0,
+          "state": "Rivers",
+          "updated_at": "2025-12-19T19:12:46.000000Z"
+        }
+      ],
+      "url": "https://admin.mlscn.gov.ng/api/v1/approved-m-l-s-training-institution-universities"
+    }
+  },
+  "retrieved_at": "2026-04-21"
+}

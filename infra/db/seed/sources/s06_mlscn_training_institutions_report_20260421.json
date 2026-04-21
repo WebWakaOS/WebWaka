@@ -1,0 +1,35 @@
+{
+  "api_base": "https://admin.mlscn.gov.ng/api/v1",
+  "decision": "Seed MLS and MLA/T training institutions as school organizations/profiles with state-level place resolution. Defer MLS internship institutions because they are health-facility training sites without explicit structured state/LGA fields and may overlap with HFR/NHIA/NPHCDA facility sources.",
+  "deferred_reason_counts": {
+    "deferred_facility_training_sites_lack_explicit_state_lga_and_may_duplicate_health_facility_sources": 15
+  },
+  "deferred_row_count": 15,
+  "raw_row_count": 45,
+  "retrieved_at": "2026-04-21",
+  "seeded_endpoint_counts": {
+    "mlat_training_institutions": 15,
+    "mls_training_universities": 15
+  },
+  "seeded_row_count": 30,
+  "seeded_state_counts": {
+    "Abia": 1,
+    "Adamawa": 1,
+    "Akwa Ibom": 1,
+    "Anambra": 5,
+    "Bauchi": 2,
+    "Bayelsa": 2,
+    "Benue": 5,
+    "Cross River": 1,
+    "Ebonyi": 1,
+    "Edo": 2,
+    "Enugu": 1,
+    "Imo": 1,
+    "Lagos": 1,
+    "Ogun": 1,
+    "Osun": 1,
+    "Plateau": 1,
+    "Rivers": 2,
+    "Sokoto": 1
+  }
+}

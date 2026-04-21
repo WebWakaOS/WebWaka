@@ -6,7 +6,7 @@ Continue Phase S06 after the NEMIS education batch by locating row-level health 
 
 ## Result
 
-One official health seed batch was generated after additional regulator research found NHIA's public participating health-care-provider table. Migration `0308_health_nhia_hcp_seed.sql` seeds 6,539 official NHIA-accredited provider organizations/profiles from 6,540 source rows after merging one exact duplicate. Direct HFR/NCDC bulk access remains blocked, and the HDX/eHealth Africa health-facility dataset remains `candidate_not_seeded`.
+Two official health seed batches have been generated after additional regulator research found NHIA's public participating health-care-provider table and NPHCDA's public PHC dashboard API. Migration `0308_health_nhia_hcp_seed.sql` seeds 6,539 official NHIA-accredited provider organizations/profiles from 6,540 source rows after merging one exact duplicate. Migration `0309_health_nphcda_phc_seed.sql` seeds 26,711 official NPHCDA primary-health-care facility organizations/profiles from 26,711 source rows. MLSCN's public API also yielded a scoped education/training batch of 30 approved MLS and MLA/T training institutions, documented separately because these are school/training records rather than health-facility registry rows. Direct HFR/NCDC bulk access remains blocked, and the HDX/eHealth Africa health-facility dataset remains `candidate_not_seeded`.
 
 ## Official Endpoint Attempts
 
@@ -19,7 +19,8 @@ One official health seed batch was generated after additional regulator research
 | NCDC Data Portal | `https://dataportal.ncdc.gov.ng/dataset/national-health-facility-registry` and CKAN API variants | Timed out or 504 through available access paths. | Not seeded. |
 | NHIA/NHIS accredited facilities | `https://www.nhia.gov.ng/hcps/` exposes an official public web table backed by a Ninja Tables AJAX JSON endpoint. | Seeded as scoped NHIA-accredited provider batch; state-only place resolution from NHIA provider-code prefix. |
 | NHIA HMO list | `https://www.nhia.gov.ng/hmo/` exposes HMO rows, but this is insurer/administrator data, not facility seed data for the current batch. | Deferred to regulated financial/insurance or later health-administration batch. |
-| NPHCDA PHC lists | Search found dashboard/interactive references, but `https://nphcda.gov.ng/facility-view/` returned a current site 404 from this environment. | Pending. |
+| NPHCDA PHC dashboard API | `https://phc.nphcda.gov.ng/` serves a Vite dashboard whose public JavaScript references `https://api.nphcda.gov.ng/` and PHC indicator id `e70967b3-10d8-416e-9c21-7f7278375ce9`; the indicator endpoint returns 26,711 row-level PHC `geo_data` records. | Seeded as scoped NPHCDA PHC batch; source state/LGA/ward fields reconciled to canonical places. |
+| MLSCN approved training institutions | `https://mlscn.gov.ng/` serves a Vite site whose public JavaScript references `https://admin.mlscn.gov.ng/api/v1` endpoints for approved MLS training universities, approved MLA/T training institutions, and MLS internship institutions. | MLS/MLA-T training institutions seeded as scoped education batch; internship health-facility training-site rows captured but deferred for facility reconciliation. |
 | PCN premises/pharmacist registers | Public search found verification portals, not a public bulk premises CSV. | Pending. |
 | MDCN/NMCN professional registers | Public search found official portals and MDCN housemanship-training hospital PDFs, but not a complete public bulk professional/facility register export suitable for nationwide health seeding. | Pending. |
 
@@ -59,6 +60,47 @@ SQLite validation against a minimal S00-S04/S06 schema confirmed:
 | Search entries inserted | 6,539 |
 | FTS rows rebuilt | 6,539 |
 | Invalid search place references | 0 |
+| Duplicate profile subjects | 0 |
+| Profiles missing search entry | 0 |
+
+## Official NPHCDA PHC Seed Batch
+
+| Field | Value |
+|---|---|
+| Source | NPHCDA Primary Health Care Facility Dashboard API |
+| Dashboard URL | `https://phc.nphcda.gov.ng/` |
+| API endpoint | `https://api.nphcda.gov.ng/indicators/e70967b3-10d8-416e-9c21-7f7278375ce9/?geo_json=false&country=09a25923-91c2-4412-87a1-310edfd878b9` |
+| Raw rows extracted | 26,711 |
+| Seeded PHC organizations/profiles | 26,711 |
+| Rejected rows | 0 |
+| Raw artifact SHA-256 | `dec4241bf205ba9759fd1933e18e1ffd782ce63cacf47428499b92254da9ddda` |
+| Normalized artifact SHA-256 | `44c47a6761dd0a5e1beedcca69829c5bcb5b10b2f3c88e37edb9bd141689e58a` |
+| Report SHA-256 | `56ed02f62fc8a7fcbc8c699a3705f1effe2ec790aa7a8fb1522eefa19ef14f62` |
+| Migration SHA-256 | `062d162154a276bcd8cce570f3aa985b4bdb0bfdefba54ca21ac09ff12f27f64` |
+
+### NPHCDA Reconciliation and Dedupe
+
+- Source-backed identity: NPHCDA numeric facility id, retained as `NPHCDA-PHC-<id>` in seeded organization/clinic references.
+- Place reconciliation: source state and LGA fields were resolved against the canonical S01/S03 geography seed. NPHCDA-specific LGA aliases such as `AMAC`, `MMC`, `Akamkpa Urban`, `Maiadua`, `Danmusa`, and `Kano Minicipal Council` were mapped only to the single canonical LGA they name.
+- Ward reconciliation: 21,240 facilities resolved to canonical ward; 5,471 facilities fell back to canonical LGA when ward labels did not match a canonical ward without guessing.
+- Cross-source dedupe: 44 exact NHIA name/state overlaps were reported in `s06_nphcda_phc_report_20260421.json` but not auto-merged because NHIA rows do not include LGA, ward, or coordinates needed for safe identity collapse across PHCs with repeated names.
+- Enrichment: NPHCDA source ward id, longitude, latitude, front-view photo URL, and rating fields are preserved in `seed_enrichment`.
+
+### NPHCDA Seed Validation
+
+SQLite validation against a minimal S00-S04/S06 schema confirmed:
+
+| Check | Result |
+|---|---:|
+| Organizations inserted | 26,711 |
+| Profiles inserted | 26,711 |
+| Clinic profiles inserted | 26,711 |
+| Search entries inserted | 26,711 |
+| Entity-source provenance rows | 26,711 |
+| Enrichment sidecar rows | 26,711 |
+| Place-resolution rows | 26,711 |
+| FTS rows rebuilt | 26,711 |
+| Invalid search/profile place references | 0 |
 | Duplicate profile subjects | 0 |
 | Profiles missing search entry | 0 |
 
@@ -104,15 +146,30 @@ SQLite validation against a minimal S00-S04/S06 schema confirmed:
 
 - `infra/db/seed/scripts/extract_s06_health_facilities_hdx_candidate.py`
 - `infra/db/seed/scripts/generate_s06_nhia_hcp_sql.py`
+- `infra/db/seed/scripts/generate_s06_nphcda_phc_sql.py`
+- `infra/db/seed/scripts/generate_s06_mlscn_training_institutions_sql.py`
 - `infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_20260421.csv`
 - `infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_normalized_20260421.json`
 - `infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_report_20260421.json`
 - `infra/db/seed/sources/s06_nhia_hcp_raw_20260421.json`
 - `infra/db/seed/sources/s06_nhia_hcp_normalized_20260421.json`
 - `infra/db/seed/sources/s06_nhia_hcp_report_20260421.json`
+- `infra/db/seed/sources/s06_nphcda_phc_raw_20260421.json`
+- `infra/db/seed/sources/s06_nphcda_phc_normalized_20260421.json`
+- `infra/db/seed/sources/s06_nphcda_phc_report_20260421.json`
+- `infra/db/seed/sources/s06_mlscn_training_institutions_raw_20260421.json`
+- `infra/db/seed/sources/s06_mlscn_training_institutions_normalized_20260421.json`
+- `infra/db/seed/sources/s06_mlscn_training_institutions_report_20260421.json`
 - `infra/db/migrations/0308_health_nhia_hcp_seed.sql`
 - `apps/api/migrations/0308_health_nhia_hcp_seed.sql`
 - `infra/db/seed/0009_nhia_hcp.sql`
+- `infra/db/migrations/0309_health_nphcda_phc_seed.sql`
+- `apps/api/migrations/0309_health_nphcda_phc_seed.sql`
+- `infra/db/seed/0010_nphcda_phc.sql`
+- `infra/db/migrations/0310_education_mlscn_training_institutions_seed.sql`
+- `apps/api/migrations/0310_education_mlscn_training_institutions_seed.sql`
+- `infra/db/seed/0011_mlscn_training_institutions.sql`
+- `docs/reports/phase-s06-education-mlscn-training-institutions-report-2026-04-21.md`
 
 ## Decision
 
@@ -122,12 +179,12 @@ This dataset is useful as a reconciliation candidate and fallback research artif
 2. The project owner explicitly approves the HDX/eHealth Africa mirror as seed-authoritative despite it not being direct HFR/FMoH publication.
 3. A regulator-published alternative row-level source is obtained for the specific health vertical being seeded.
 
-The NHIA HCP dataset is an official regulator-published row-level source and has therefore been seeded as its own scoped batch. It does not replace HFR because it covers NHIA-accredited participating providers only and does not provide LGA/ward/coordinate precision.
+The NHIA HCP dataset and NPHCDA PHC dashboard API are official row-level health sources and have therefore been seeded as scoped batches. They do not replace HFR: NHIA covers accredited participating providers with state-only resolution, while NPHCDA covers PHC-focused dashboard facilities with NPHCDA source ids and geography/coordinate fields. MLSCN approved training institutions are official row-level education/training records and were seeded as school profiles; MLSCN internship health-facility rows remain deferred.
 
 ## Next Step
 
 Continue source acquisition in this priority order:
 
 1. Obtain an official HFR/NCDC row-level export through an accessible endpoint or manually supplied file.
-2. If HFR remains inaccessible, continue regulator-scoped batches only where official row-level sources are available, starting with NPHCDA PHCs, PCN premises, MLSCN laboratories, MDCN facilities/professionals, and NMCN professionals.
+2. If HFR remains inaccessible, continue regulator-scoped batches only where official row-level sources are available, next targeting PCN premises, MLSCN laboratories/professional registers, MDCN housemanship facilities/professionals, and NMCN professionals/institutions.
 3. Keep PCN/MDCN/NMCN professional and pharmacy records pending until official bulk or verifiable registry extracts are available.
