@@ -311,25 +311,42 @@ export async function getLedger(
   input: GetLedgerInput,
 ): Promise<{ entries: HlLedgerEntry[]; nextCursor: string | null }> {
   const limit = Math.min(input.limit ?? 50, 100);
-  let cursor: number | null = null;
+
+  // Composite cursor: { t: created_at (unix), i: id } — prevents skips/duplicates
+  // when multiple transactions share the same created_at second.
+  let cursorCreatedAt: number | null = null;
+  let cursorId: string | null = null;
   if (input.cursor) {
-    try { cursor = parseInt(Buffer.from(input.cursor, 'base64').toString(), 10); } catch { cursor = null; }
+    try {
+      const decoded = JSON.parse(
+        Buffer.from(input.cursor, 'base64').toString(),
+      ) as { t: number; i: string };
+      cursorCreatedAt = typeof decoded.t === 'number' ? decoded.t : null;
+      cursorId        = typeof decoded.i === 'string'  ? decoded.i : null;
+    } catch { /* invalid cursor — start from beginning */ }
   }
+  const hasCursor = cursorCreatedAt !== null && cursorId !== null;
 
   const rows = await db.prepare(`
     SELECT * FROM hl_ledger
     WHERE wallet_id = ? AND tenant_id = ?
-      ${cursor ? 'AND created_at < ?' : ''}
-    ORDER BY created_at DESC
+      ${hasCursor ? 'AND (created_at < ? OR (created_at = ? AND id < ?))' : ''}
+    ORDER BY created_at DESC, id DESC
     LIMIT ?
   `).bind(
-    ...[input.walletId, input.tenantId, ...(cursor ? [cursor] : []), limit + 1],
+    ...[
+      input.walletId,
+      input.tenantId,
+      ...(hasCursor ? [cursorCreatedAt, cursorCreatedAt, cursorId] : []),
+      limit + 1,
+    ],
   ).all<LedgerRow>();
 
-  const entries = rows.results.slice(0, limit).map(mapLedgerRow);
-  const hasMore = rows.results.length > limit;
-  const nextCursor = hasMore && entries.length > 0
-    ? Buffer.from(String(entries[entries.length - 1]!.createdAt)).toString('base64')
+  const entries  = rows.results.slice(0, limit).map(mapLedgerRow);
+  const hasMore  = rows.results.length > limit;
+  const lastEntry = entries[entries.length - 1];
+  const nextCursor = hasMore && lastEntry
+    ? Buffer.from(JSON.stringify({ t: lastEntry.createdAt, i: lastEntry.id })).toString('base64')
     : null;
 
   return { entries, nextCursor };

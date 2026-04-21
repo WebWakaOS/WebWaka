@@ -215,12 +215,25 @@ walletRoutes.post('/', async (c) => {
     }, 403);
   }
 
-  let body: { workspace_id?: string; kyc_tier?: number } = {};
+  let body: { workspace_id?: string } = {};
   try { body = await c.req.json<typeof body>(); } catch { /* optional body */ }
 
   if (!body.workspace_id) {
     return c.json({ error: 'workspace_id is required' }, 400);
   }
+
+  // Look up verified KYC tier from the users table.
+  // Never accept kyc_tier from the client — self-reporting would let users claim unlimited T3 access.
+  // Mapping: t3 → 3, t2 → 2, t1/t0/missing → 1 (minimum wallet tier).
+  const userRow = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> } };
+  }).prepare('SELECT kyc_tier FROM users WHERE id = ?')
+    .bind(auth.userId)
+    .first<{ kyc_tier: string }>();
+  const kycTierText = userRow?.kyc_tier ?? 't0';
+  const kycTier: 1 | 2 | 3 =
+    kycTierText === 't3' ? 3 :
+    kycTierText === 't2' ? 2 : 1;
 
   try {
     const walletId = generateId('hlw');
@@ -229,13 +242,13 @@ walletRoutes.post('/', async (c) => {
       userId:      auth.userId,
       tenantId:    auth.tenantId,
       workspaceId: body.workspace_id,
-      kycTier:     (body.kyc_tier as 1 | 2 | 3) ?? 1,
+      kycTier,
     });
     // WF-034: audit log (fire-and-forget)
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
       tenantId:     auth.tenantId,
       userId:       auth.userId,
-      action:       'wallet.create',
+      action:       'wallet.created',
       method:       c.req.method,
       path:         c.req.path,
       resourceType: 'wallet',
@@ -327,8 +340,9 @@ walletRoutes.post('/fund/bank-transfer', async (c) => {
     if (wallet.status === 'frozen') return c.json({ error: 'WALLET_FROZEN', message: 'Wallet is frozen' }, 403);
     if (wallet.status === 'closed') return c.json({ error: 'WALLET_CLOSED', message: 'Wallet is closed' }, 403);
 
+    // Balance cap check: ensures deposit would not push balance over the CBN tier ceiling.
+    // Daily limit is NOT checked here — it gates spending (debits), not inbound funding (credits).
     await checkBalanceCap(kv, wallet.balanceKobo, body.amount_kobo, wallet.kycTier);
-    await checkDailyLimit(c.env.DB as never, kv, wallet.id, auth.tenantId, body.amount_kobo, wallet.kycTier);
 
     const { fundingRequest, bankTransferReference } = await createFundingRequest(
       c.env.DB as never,
@@ -773,6 +787,8 @@ walletAdminRoutes.patch('/feature-flags', async (c) => {
 });
 
 // GET /platform-admin/wallets/:walletId
+// GOVERNANCE_SKIP: intentional cross-tenant lookup (platform super-admin only).
+// Super-admins may inspect any wallet platform-wide; tenant scoping is enforced by role guard.
 walletAdminRoutes.get('/:walletId', async (c) => {
   const { walletId } = c.req.param();
   const auth         = c.get('auth');
@@ -785,7 +801,7 @@ walletAdminRoutes.get('/:walletId', async (c) => {
   };
 
   const walletRow = await db.prepare(
-    'SELECT * FROM hl_wallets WHERE id = ?',
+    'SELECT /* GOVERNANCE_SKIP */ * FROM hl_wallets WHERE id = ?',
   ).bind(walletId).first<Record<string, unknown>>();
 
   if (!walletRow) return c.json({ error: 'WALLET_NOT_FOUND' }, 404);
@@ -968,13 +984,15 @@ walletAdminRoutes.post('/funding/:id/reject', async (c) => {
 });
 
 // GET /platform-admin/wallets/reconciliation
+// GOVERNANCE_SKIP: intentional cross-tenant aggregate (platform super-admin reconciliation only).
+// Requires super_admin role. Shows all drifted wallets platform-wide.
 walletAdminRoutes.get('/reconciliation', async (c) => {
   const db = c.env.DB as never as {
     prepare(sql: string): { bind(...a: unknown[]): { all<T>(): Promise<{ results: T[] }> }};
   };
 
   const rows = await db.prepare(`
-    SELECT
+    SELECT /* GOVERNANCE_SKIP */
       w.id         AS wallet_id,
       w.tenant_id,
       w.balance_kobo AS wallet_balance_kobo,

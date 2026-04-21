@@ -10,6 +10,70 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { creditWallet, debitWallet, getLedger, createWallet } from '../ledger.js';
 import { WalletError } from '../errors.js';
 
+// ---------------------------------------------------------------------------
+// Fake DB for getLedger tests
+// ---------------------------------------------------------------------------
+
+type FakeLedgerRow = {
+  id: string;
+  wallet_id: string;
+  tenant_id: string;
+  entry_type: string;
+  amount_kobo: number;
+  balance_after: number;
+  tx_type: string;
+  reference: string;
+  description: string;
+  currency_code: string;
+  related_id: string | null;
+  related_type: string | null;
+  created_at: number;
+  user_id: string;
+};
+
+function makeLedgerDb(rows: FakeLedgerRow[]) {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...args: unknown[]) {
+          return {
+            async all<T>() {
+              const walletId = args[0] as string;
+              const tenantId = args[1] as string;
+              const isCompositeFilter = sql.includes('(created_at < ? OR (created_at = ? AND id < ?))');
+
+              let filtered = rows.filter(
+                r => r.wallet_id === walletId && r.tenant_id === tenantId,
+              );
+
+              if (isCompositeFilter) {
+                const cursorCreatedAt = args[2] as number;
+                const cursorId        = args[4] as string;
+                filtered = filtered.filter(
+                  r => r.created_at < cursorCreatedAt ||
+                    (r.created_at === cursorCreatedAt && r.id < cursorId),
+                );
+              }
+
+              // Sort DESC by (created_at, id)
+              filtered.sort((a, b) =>
+                b.created_at !== a.created_at
+                  ? b.created_at - a.created_at
+                  : b.id < a.id ? -1 : 1,
+              );
+
+              const limit = args[args.length - 1] as number;
+              return { results: filtered.slice(0, limit) as unknown as T[] };
+            },
+            async run() { return { success: true, meta: { changes: 0 } }; },
+            async first<T>() { return null as T; },
+          };
+        },
+      };
+    },
+  };
+}
+
 function makeDb(wallets: Record<string, { balance_kobo: number; status: string; user_id: string }> = {}): {
   db: ReturnType<typeof buildFakeDb>;
   wallets: typeof wallets;
@@ -209,5 +273,101 @@ describe('WalletError', () => {
     expect(err.code).toBe('INSUFFICIENT_BALANCE');
     expect(err.context.balanceKobo).toBe(100);
     expect(err.context.requiredKobo).toBe(500);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// getLedger — composite cursor (created_at, id) pagination
+// Regression tests for the non-unique created_at cursor fix.
+// ---------------------------------------------------------------------------
+
+function makeFakeRow(overrides: Partial<FakeLedgerRow> & { id: string }): FakeLedgerRow {
+  return {
+    wallet_id:    'w1',
+    tenant_id:    't1',
+    entry_type:   'credit',
+    amount_kobo:  1000,
+    balance_after: 1000,
+    tx_type:      'bank_fund',
+    reference:    'REF',
+    description:  'test',
+    currency_code: 'NGN',
+    related_id:   null,
+    related_type: null,
+    user_id:      '',
+    created_at:   1_700_000_000,
+    ...overrides,
+  };
+}
+
+describe('getLedger — composite cursor pagination', () => {
+  it('returns all rows when no cursor provided', async () => {
+    const rows = [
+      makeFakeRow({ id: 'hll_003', created_at: 1_700_000_003 }),
+      makeFakeRow({ id: 'hll_002', created_at: 1_700_000_002 }),
+      makeFakeRow({ id: 'hll_001', created_at: 1_700_000_001 }),
+    ];
+    const db = makeLedgerDb(rows);
+    const result = await getLedger(db as never, { walletId: 'w1', tenantId: 't1', limit: 10 });
+    expect(result.entries).toHaveLength(3);
+    expect(result.nextCursor).toBeNull();
+  });
+
+  it('returns nextCursor as base64-encoded JSON with t and i fields', async () => {
+    const rows = Array.from({ length: 6 }, (_, i) =>
+      makeFakeRow({ id: `hll_00${i + 1}`, created_at: 1_700_000_000 + i }),
+    );
+    const db = makeLedgerDb(rows);
+    const result = await getLedger(db as never, { walletId: 'w1', tenantId: 't1', limit: 5 });
+    expect(result.nextCursor).not.toBeNull();
+    const decoded = JSON.parse(Buffer.from(result.nextCursor!, 'base64').toString());
+    expect(typeof decoded.t).toBe('number');
+    expect(typeof decoded.i).toBe('string');
+  });
+
+  it('cursor correctly excludes already-seen rows (no duplicates)', async () => {
+    const rows = Array.from({ length: 6 }, (_, i) =>
+      makeFakeRow({ id: `hll_00${i + 1}`, created_at: 1_700_000_000 + i }),
+    );
+    const db = makeLedgerDb(rows);
+    const page1 = await getLedger(db as never, { walletId: 'w1', tenantId: 't1', limit: 3 });
+    expect(page1.entries).toHaveLength(3);
+    const page2 = await getLedger(db as never, {
+      walletId: 'w1', tenantId: 't1', limit: 3, cursor: page1.nextCursor ?? undefined,
+    });
+    const allIds = [...page1.entries.map(e => e.id), ...page2.entries.map(e => e.id)];
+    // No duplicates
+    expect(new Set(allIds).size).toBe(allIds.length);
+  });
+
+  it('handles two transactions with identical created_at without skipping either', async () => {
+    // Both rows share the same second — old cursor (pure timestamp) would skip one of them.
+    const rows = [
+      makeFakeRow({ id: 'hll_B', created_at: 1_700_000_001 }),
+      makeFakeRow({ id: 'hll_A', created_at: 1_700_000_001 }),
+      makeFakeRow({ id: 'hll_Z', created_at: 1_700_000_000 }),
+    ];
+    const db = makeLedgerDb(rows);
+    const page1 = await getLedger(db as never, { walletId: 'w1', tenantId: 't1', limit: 2 });
+    expect(page1.entries).toHaveLength(2);
+    expect(page1.nextCursor).not.toBeNull();
+    const page2 = await getLedger(db as never, {
+      walletId: 'w1', tenantId: 't1', limit: 2, cursor: page1.nextCursor ?? undefined,
+    });
+    expect(page2.entries).toHaveLength(1);
+    const allIds = [...page1.entries.map(e => e.id), ...page2.entries.map(e => e.id)];
+    expect(new Set(allIds).size).toBe(3);
+  });
+
+  it('gracefully starts from beginning when cursor is invalid (legacy or corrupt)', async () => {
+    const rows = [makeFakeRow({ id: 'hll_001', created_at: 1_700_000_001 })];
+    const db = makeLedgerDb(rows);
+    // Old cursor format: base64(plain number) — invalid for the composite format
+    const legacyCursor = Buffer.from('1700000002').toString('base64');
+    const result = await getLedger(db as never, {
+      walletId: 'w1', tenantId: 't1', limit: 10, cursor: legacyCursor,
+    });
+    // Invalid cursor is discarded — returns from beginning
+    expect(result.entries).toHaveLength(1);
   });
 });

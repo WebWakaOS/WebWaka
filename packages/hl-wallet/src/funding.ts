@@ -76,7 +76,9 @@ function mapFundingRow(row: FundingRow): HlFundingRequest {
 
 export async function getHitlThresholdKobo(kv: KVLike): Promise<number> {
   const raw = await kv.get('wallet:hitl_threshold_kobo');
-  return raw ? parseInt(raw, 10) : 10_000_000;
+  if (!raw) return 10_000_000;
+  const parsed = parseInt(raw, 10);
+  return Number.isNaN(parsed) || parsed <= 0 ? 10_000_000 : parsed;
 }
 
 export interface CreateFundingRequestInput {

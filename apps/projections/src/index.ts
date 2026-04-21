@@ -300,18 +300,32 @@ export async function scheduled(
             console.error('[projections:cron:mla] promote step failed:', promoteErr);
           }
 
-          // Step 2: Credit all payable earnings.
-          // For each, we: UPDATE wallet balance + INSERT ledger entry + mark earning credited.
-          // Each earning is processed in a try/catch so one failure does not block others.
+          // Step 2: Credit payable earnings — only for wallets whose cumulative payable
+          // commission meets or exceeds the minimum payout threshold (governance WF-042).
+          // Prevents crediting micro-commissions individually; they accumulate until threshold.
+          // Read min_payout_kobo from KV; fallback ₦500 (50_000 kobo). NaN-safe.
           try {
+            const minPayoutRaw    = await walletKv.get('wallet:mla:min_payout_kobo');
+            const minPayoutParsed = minPayoutRaw ? parseInt(minPayoutRaw, 10) : 50_000;
+            const minPayoutKobo   = Number.isNaN(minPayoutParsed) || minPayoutParsed < 0
+              ? 50_000
+              : minPayoutParsed;
+
             const payable = await db
               .prepare(
-                `SELECT id, wallet_id, tenant_id, commission_kobo, referral_level
-                 FROM hl_mla_earnings
-                 WHERE status = 'payable'
+                `SELECT e.id, e.wallet_id, e.tenant_id, e.commission_kobo, e.referral_level
+                 FROM hl_mla_earnings e
+                 WHERE e.status = 'payable'
+                   AND e.wallet_id IN (
+                     SELECT wallet_id
+                     FROM hl_mla_earnings
+                     WHERE status = 'payable'
+                     GROUP BY wallet_id
+                     HAVING SUM(commission_kobo) >= ?
+                   )
                  LIMIT ?`,
               )
-              .bind(BATCH_SIZE)
+              .bind(minPayoutKobo, BATCH_SIZE)
               .all<{
                 id: string;
                 wallet_id: string;

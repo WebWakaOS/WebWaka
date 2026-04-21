@@ -485,4 +485,21 @@ describe('getMinPayoutKobo', () => {
     const kv = makeKv({ 'wallet:mla:min_payout_kobo': '100000' });
     expect(await getMinPayoutKobo(kv)).toBe(100_000);
   });
+
+  it('falls back to default when KV value is NaN (invalid string)', async () => {
+    const kv = makeKv({ 'wallet:mla:min_payout_kobo': 'not-a-number' });
+    expect(await getMinPayoutKobo(kv)).toBe(50_000);
+  });
+
+  it('falls back to default when KV value is empty string', async () => {
+    expect(await getMinPayoutKobo(makeKv({ 'wallet:mla:min_payout_kobo': '' }))).toBe(50_000);
+  });
+
+  it('falls back to default when KV value is negative', async () => {
+    expect(await getMinPayoutKobo(makeKv({ 'wallet:mla:min_payout_kobo': '-1' }))).toBe(50_000);
+  });
+
+  it('accepts zero as a valid override (no minimum threshold)', async () => {
+    expect(await getMinPayoutKobo(makeKv({ 'wallet:mla:min_payout_kobo': '0' }))).toBe(0);
+  });
 });

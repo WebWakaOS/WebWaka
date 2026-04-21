@@ -95,7 +95,9 @@ export async function getCommissionBps(kv: KVLike, level: 1 | 2 | 3): Promise<nu
 
 export async function getMinPayoutKobo(kv: KVLike): Promise<number> {
   const raw = await kv.get('wallet:mla:min_payout_kobo');
-  return raw ? parseInt(raw, 10) : 50_000;
+  if (!raw) return 50_000;
+  const parsed = parseInt(raw, 10);
+  return Number.isNaN(parsed) || parsed < 0 ? 50_000 : parsed;
 }
 
 export function computeCommission(baseAmountKobo: number, bps: number): number {
