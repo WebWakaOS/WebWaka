@@ -30,11 +30,8 @@ import {
   assertIntegerKobo,
   checkDailyLimit,
   checkBalanceCap,
-  getWallet,
   getWalletByUser,
   createWallet,
-  creditWallet,
-  debitWallet,
   getBalance,
   getLedger,
   createFundingRequest,
@@ -46,10 +43,9 @@ import {
   completeSpend,
   reverseSpend,
   recordMlaEarning,
-  listMlaEarnings,
   listMlaEarningsPaginated,
+  generateId,
 } from '@webwaka/hl-wallet';
-import { generateId, generateWalletRef } from '@webwaka/hl-wallet';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
@@ -101,7 +97,7 @@ function getWalletKv(env: Env): KVNamespace {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function handleWalletError(err: unknown, c: Context<AppEnv, any>) {
+function handleWalletError(err: unknown, c: Context<AppEnv, any>): Response {
   if (err instanceof WalletError) {
     if (err.code === 'FEATURE_DISABLED') {
       const feature = String(err.context['feature'] ?? 'unknown');
@@ -711,8 +707,6 @@ export const walletAdminRoutes = new Hono<AppEnv>();
 
 // GET /platform-admin/wallets/stats
 walletAdminRoutes.get('/stats', async (c) => {
-  const auth = c.get('auth');
-
   // GOVERNANCE_SKIP: intentional cross-tenant aggregate (platform super-admin stats only).
   // This route requires super_admin role. No tenant filter — counts all wallets on the platform.
   const statsRow = await (c.env.DB as never as {
@@ -764,7 +758,6 @@ walletAdminRoutes.patch('/feature-flags', async (c) => {
   }
 
   const kv        = getWalletKv(c.env);
-  const auth      = c.get('auth');
   const validFlags = ['transfers', 'withdrawals', 'online_funding', 'mla_payout'];
 
   if (body.eligible_tenants !== undefined) {
@@ -791,7 +784,6 @@ walletAdminRoutes.patch('/feature-flags', async (c) => {
 // Super-admins may inspect any wallet platform-wide; tenant scoping is enforced by role guard.
 walletAdminRoutes.get('/:walletId', async (c) => {
   const { walletId } = c.req.param();
-  const auth         = c.get('auth');
 
   const db = c.env.DB as never as {
     prepare(sql: string): { bind(...a: unknown[]): {
