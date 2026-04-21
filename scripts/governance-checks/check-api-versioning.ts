@@ -18,14 +18,14 @@
  */
 
 import { readFileSync, readdirSync } from 'fs';
-import { join, basename } from 'path';
+import { join, basename, resolve } from 'path';
 
 // ---------------------------------------------------------------------------
 // Read router.ts and extract mount paths
 // ---------------------------------------------------------------------------
 
-const ROUTER_PATH = 'apps/api/src/router.ts';
-const ROUTES_DIR = 'apps/api/src/routes';
+const ROUTER_PATH = resolve(__dirname, '../../apps/api/src/router.ts');
+const ROUTES_DIR = resolve(__dirname, '../../apps/api/src/routes');
 
 const routerSrc = readFileSync(ROUTER_PATH, 'utf-8');
 

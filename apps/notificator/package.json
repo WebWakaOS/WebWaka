@@ -2,7 +2,7 @@
   "name": "@webwaka/notificator",
   "version": "0.1.0",
   "private": true,
-  "description": "[Notification Engine] Dedicated Cloudflare Worker — CF Queue consumer and digest CRON sweep. OQ-001 resolution (N-008).",
+  "description": "[Infra] Dedicated Cloudflare Worker — CF Queue consumer and digest CRON sweep. OQ-001 resolution (N-008).",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

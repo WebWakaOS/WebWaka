@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const APPS_DIR = path.resolve(__dirname, '../../apps');
-const EXEMPT_APPS = ['api', 'ussd-gateway', 'projections', 'partner-admin'];
+const EXEMPT_APPS = ['api', 'ussd-gateway', 'projections', 'partner-admin', 'notificator'];
 
 function hasManifestRoute(indexPath: string): boolean {
   if (!fs.existsSync(indexPath)) return false;

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const SEED_DIR = path.resolve('infra/db/seed');
+const SEED_DIR = path.resolve(__dirname, '../../infra/db/seed');
 const EXPECTED_LGAS = 774;
 const EXPECTED_ZONES = 6;
 const EXPECTED_STATES = 37;

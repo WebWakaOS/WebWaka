@@ -2,7 +2,7 @@
   "name": "@webwaka/notifications",
   "version": "0.1.0",
   "private": true,
-  "description": "[Notification Engine] Core notification service — channels, rules, templates, preferences, suppressions. Phase 0 skeleton.",
+  "description": "[Infra] Core notification service — channels, rules, templates, preferences, suppressions. Phase 0 skeleton.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
