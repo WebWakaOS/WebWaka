@@ -5,3 +5,4 @@ apps/api/migrations/0307_education_nemis_schools_seed.sql filter=lfs diff=lfs me
 infra/db/migrations/0307_education_nemis_schools_seed.sql filter=lfs diff=lfs merge=lfs -text
 infra/db/seed/0008_nemis_schools.sql filter=lfs diff=lfs merge=lfs -text
 infra/db/seed/sources/s06_nemis_schools_normalized_20260421.json filter=lfs diff=lfs merge=lfs -text
+infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_normalized_20260421.json filter=lfs diff=lfs merge=lfs -text

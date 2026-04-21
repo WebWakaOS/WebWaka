@@ -1,0 +1,3595 @@
+{
+  "category_counts_top_50": {
+    "": 34,
+    "Community Health Center": 8,
+    "Comprehensive Health Center": 458,
+    "Cottage Hospital": 223,
+    "Dispensary": 8626,
+    "District Hospital": 25,
+    "Educational Clinic": 249,
+    "Federal Medical Center": 46,
+    "Federal Staff Clinic": 110,
+    "General Hospital": 637,
+    "Laboratory": 234,
+    "Maternity Home": 4423,
+    "Medical Center": 956,
+    "Military and Paramilitary Clinic": 143,
+    "Others": 4,
+    "Pharmacy": 21,
+    "Primary Health Center": 28031,
+    "Private Non Profit": 1179,
+    "Research Hospital": 1,
+    "Specialist Hospital": 673,
+    "Teaching Hospital": 51,
+    "Veterinary Clinic": 14
+  },
+  "column_names": [
+    "id",
+    "name",
+    "global_id",
+    "alternate_name",
+    "functional_status",
+    "type",
+    "ward_code",
+    "category",
+    "timestamp",
+    "accessibility",
+    "lga_name",
+    "lga_code",
+    "state_code",
+    "state_name",
+    "FID"
+  ],
+  "csv_path": "infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_20260421.csv",
+  "csv_sha256": "5d18a31c8a46053c5e7c5ed3d7138393b7ba6f9de9155bbf03c569f862659630",
+  "dataset_metadata": {
+    "caveats": "Dataset extracted from https://africaopendata.org/dataset/nigeria-health-care-facilities-primary-secondary-and-tertiary",
+    "dataset_date": "[2020-10-06T00:00:00 TO 2020-10-06T23:59:59]",
+    "dataset_source": "e-health Africa",
+    "license_title": "Creative Commons Attribution International (CC BY)",
+    "maintainer": "7d7f5f8d-7e3b-483a-8de1-2b122010c1eb",
+    "metadata_modified": "2025-04-10T14:49:17.976497",
+    "title": "Nigeria: Health facilities"
+  },
+  "duplicate_source_record_ids": 0,
+  "facility_type_counts": {
+    "clinic": 37372,
+    "hospital": 2025,
+    "laboratory": 234,
+    "maternity": 4423,
+    "others": 2071,
+    "pharmacy": 21
+  },
+  "metadata_sha256": "f7c2214abc199652eee2c841390c43f67f31615ebf1e5b94d826aa1079ed73bd",
+  "metadata_url": "https://data.humdata.org/api/3/action/package_show?id=nigeria-health-facilities",
+  "normalized_path": "infra/db/seed/sources/s06_health_facilities_hdx_ehealth_candidate_normalized_20260421.json",
+  "resolution_counts": {
+    "alias": 533,
+    "exact": 44135,
+    "fuzzy:0.889": 52,
+    "fuzzy:0.909": 26,
+    "fuzzy:0.917": 29,
+    "fuzzy:0.923": 321,
+    "fuzzy:0.933": 143,
+    "fuzzy:0.941": 56,
+    "fuzzy:0.952": 109,
+    "fuzzy:0.957": 153,
+    "fuzzy:0.966": 95,
+    "unresolved": 494
+  },
+  "resolved_rows": 45652,
+  "retrieved_at": "2026-04-21",
+  "row_count": 46146,
+  "seed_authorization_status": "candidate_not_seeded",
+  "source_authority_assessment": "NCDC/HFR direct public endpoints were unavailable from this environment. The accessible HDX resource is row-level and source-backed, with dataset_source=e-health Africa and caveats pointing to africaopendata.org, but it is not being treated as sufficient for automatic WebWaka health seeding without official approval or successful official endpoint access.",
+  "source_type_counts": {
+    "Health Post Dispensary": 13,
+    "Primary": 43970,
+    "Primary Health Center": 4,
+    "Primary Health Clinic": 15,
+    "Secondary": 1338,
+    "Tertiary": 800,
+    "Unknown": 6
+  },
+  "source_url": "https://data.humdata.org/dataset/3b4a119a-309c-4d3f-900f-18a1f6ca2dfa/resource/4658aa59-0554-4fac-8473-377da4b7a0e9/download/nigeriahealthfacilities.csv",
+  "state_counts": {
+    "Abia": 1218,
+    "Adamawa": 1575,
+    "Akwa Ibom": 870,
+    "Anambra": 1648,
+    "Bauchi": 1331,
+    "Bayelsa": 387,
+    "Benue": 2192,
+    "Borno": 884,
+    "Cross River": 1470,
+    "Delta": 909,
+    "Ebonyi": 1112,
+    "Edo": 972,
+    "Ekiti": 679,
+    "Enugu": 1384,
+    "Fct": 576,
+    "Gombe": 776,
+    "Imo": 1661,
+    "Jigawa": 729,
+    "Kaduna": 1103,
+    "Kano": 1561,
+    "Katsina": 2228,
+    "Kebbi": 1091,
+    "Kogi": 1499,
+    "Kwara": 891,
+    "Lagos": 2320,
+    "Nasarawa": 1126,
+    "Niger": 2010,
+    "Ogun": 1721,
+    "Ondo": 1025,
+    "Osun": 1607,
+    "Oyo": 1713,
+    "Plateau": 1348,
+    "Rivers": 723,
+    "Sokoto": 914,
+    "Taraba": 1380,
+    "Yobe": 597,
+    "Zamfara": 916
+  },
+  "unresolved_rows": 494,
+  "unresolved_samples": [
+    {
+      "facility_name": "Itamerin Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 1649,
+      "source_record_id": "df68a795-6bea-4d58-aa29-bb6303bbe38a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Igi Idu Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 1772,
+      "source_record_id": "60a75585-7afe-4fd1-a4f9-7e9b13dbae7a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Oko Dowo Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 1935,
+      "source_record_id": "3fefdd05-60fc-45ca-b7b7-6a7812531bdf",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Dambaru Health Center",
+      "lga_name": "Dambam",
+      "row_number": 2348,
+      "source_record_id": "421b9d5a-494c-4879-99c2-509ef5e3ee50",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Labayo Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2463,
+      "source_record_id": "f0fbc9cf-1b70-4e46-822b-458c1513aeb2",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Aleyita Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 2474,
+      "source_record_id": "0abda6a5-103e-4404-bfa8-c372963e75c5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Galadinmawa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 2475,
+      "source_record_id": "ebedc02c-64f3-48c3-86d0-83b525a010e1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Apo Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 2477,
+      "source_record_id": "f917d0a1-5c2e-4ac3-8894-239668026c4d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Wumba Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 2478,
+      "source_record_id": "26aec85d-b7d6-475a-a9c4-cd3fd7d5f1c6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kobi Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 2479,
+      "source_record_id": "e0baa86a-de96-46e4-9056-8b8abe81682d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dagauda Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 2650,
+      "source_record_id": "f071bee6-2531-4d24-b889-adc807a00632",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Nawarke Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2688,
+      "source_record_id": "dbf48c56-284b-4702-b41a-964af16fd607",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lawu Yak Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2689,
+      "source_record_id": "96acca10-f37e-41aa-8dcc-625154db6c31",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gujuba Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2694,
+      "source_record_id": "5d78ab39-1529-4559-b2e7-7a9a2416399e",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Toro Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2697,
+      "source_record_id": "e7f78d5e-8ec4-49b6-9c90-206e176d35ef",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Tedmudu Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2698,
+      "source_record_id": "beabe487-a80c-4dc0-a54d-a76d1bc3934a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Wili Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 2831,
+      "source_record_id": "264bd610-776a-40dc-a61b-89d16fb69179",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gundale M Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 2838,
+      "source_record_id": "4555ea19-8663-4dff-a63d-6efa45f6260d",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "M Primary Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 2839,
+      "source_record_id": "6e8396e3-83a9-4073-a32a-c3ca95a7d11f",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Dambam General Hospital",
+      "lga_name": "Dambam",
+      "row_number": 3244,
+      "source_record_id": "008404a0-2a65-46a8-a68f-2ba59d130750",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Dagauda Primary Health Center",
+      "lga_name": "Dambam",
+      "row_number": 3285,
+      "source_record_id": "173ceb25-a7bf-4192-931c-f44ffdce44ff",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Ngaima Health Center",
+      "lga_name": "Dambam",
+      "row_number": 3286,
+      "source_record_id": "a51d1a97-466c-4e8b-bb07-673a63826fbc",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Jalam Primary Health Center",
+      "lga_name": "Dambam",
+      "row_number": 3287,
+      "source_record_id": "b85373fa-8ba6-42ae-8728-1a2440d63e13",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Matermity",
+      "lga_name": "Shomgom",
+      "row_number": 3315,
+      "source_record_id": "eb0e3745-fcde-4347-9654-1c22128479bb",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Massan Health Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 3994,
+      "source_record_id": "a926efa4-d855-47ab-babd-6293ad1dcc49",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwandum Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4022,
+      "source_record_id": "c1ea3c28-887b-419c-8c73-5b8ddc378803",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Dambam Maternity",
+      "lga_name": "Dambam",
+      "row_number": 4057,
+      "source_record_id": "41764716-6f96-4f61-ae2c-58015b86bbe7",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Garin Sura Health Post",
+      "lga_name": "Dambam",
+      "row_number": 4058,
+      "source_record_id": "4112c937-54c8-4f9c-900e-3cb4558cf164",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Pero Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4143,
+      "source_record_id": "480b5f5e-e09a-4219-bbc8-3d375a95ebc6",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Nyalimi Maternity Clinicy",
+      "lga_name": "Shomgom",
+      "row_number": 4144,
+      "source_record_id": "3e965c1a-2413-4f7c-9072-76f756c0c495",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Fugula Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4150,
+      "source_record_id": "d5829fcd-f8ec-4e59-902c-db8ad0271d4d",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lakentrum Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4152,
+      "source_record_id": "6f133dcd-451a-4fd5-8f0f-f55aac4ac609",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Kaloh Comprehensive Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 4154,
+      "source_record_id": "55b95d4a-a7fb-4ac8-9685-48de4b9799c6",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Pokato Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4155,
+      "source_record_id": "7f123aec-8499-45ce-b4c6-4ee5b77c0cac",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lapan Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4156,
+      "source_record_id": "9d659f43-8748-4600-a146-d851fef33c07",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gurwa Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4157,
+      "source_record_id": "7077d958-d6e8-4821-9979-42c8c3bb0215",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Dambam Town Maternity",
+      "lga_name": "Dambam",
+      "row_number": 4239,
+      "source_record_id": "e942b0c9-0827-4049-88ed-bd9997d2cd34",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Galdimaru Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4270,
+      "source_record_id": "bdff11fe-1f12-4def-bee5-4727eaf0a624",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Keffi Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4273,
+      "source_record_id": "7692292a-af6f-49d0-8421-ff35e02518c4",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Burak Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4275,
+      "source_record_id": "6ecf2051-b2eb-44c1-8a1f-c6816b541c83",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lashikoltok Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4276,
+      "source_record_id": "d7833cc7-1435-495f-b3f2-320d87529007",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Karel Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4277,
+      "source_record_id": "627fbd86-ba03-404e-9218-71eb2ae4b6a8",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Kushi Gomle Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4278,
+      "source_record_id": "0a5b495e-1b57-47e0-a729-67dbb4d62f43",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Majidadi Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 4279,
+      "source_record_id": "1136fd79-b4f6-46cc-aa29-f90e02ff9c1e",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Taprobane Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4337,
+      "source_record_id": "5d488993-e2d1-45e0-ba13-fd29195160a3",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Yame Primary Health Center",
+      "lga_name": "Dambam",
+      "row_number": 4345,
+      "source_record_id": "275f7de7-a2de-4e8d-aa53-cfb01c30aa6e",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Medical Mission of Mary",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4362,
+      "source_record_id": "26693763-36ea-4825-9068-34a789912302",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jabi Federal Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4363,
+      "source_record_id": "87d22620-5212-4c55-94c8-aff187eeb02c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Zinta Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4364,
+      "source_record_id": "0bb8a8c5-9384-4083-9987-51c005a1eb77",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Wassa Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4365,
+      "source_record_id": "bca44915-2df8-4b9f-9c3f-f1d0bb8f23d2",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Wahu Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 4577,
+      "source_record_id": "338a0b82-cdaa-4688-b711-989a1cd14ad3",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Biniyu Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 4578,
+      "source_record_id": "8d260bdc-2b39-4bab-9032-f0f262875fcd",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Badakoshi Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 4579,
+      "source_record_id": "8c84423c-ca92-4ea2-99b1-c0d59c4cd174",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Tale Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 4581,
+      "source_record_id": "69db9bea-09b2-4ac5-bbe4-3b1394557ad7",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Shadalafiya Primary Health Care Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 4765,
+      "source_record_id": "588ab12b-c997-4c07-a8d5-0b49e0e06fa5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "United Methodist Church Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4804,
+      "source_record_id": "94e481fd-d381-407f-9add-16cfe1fd26ba",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Dol Yamba Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4856,
+      "source_record_id": "c8f8149b-923b-457e-91ca-b6203ad1c64e",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Damjigri Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4888,
+      "source_record_id": "d0fd6ae5-5e34-4239-860b-6beb9834d840",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Amkolom Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4889,
+      "source_record_id": "daf3ec75-562d-42bd-b801-314d19008bb9",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Farinkasa Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4890,
+      "source_record_id": "6fc52275-871e-492f-ae5a-5e0b41d4057a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Ossap Mdgs Basic Health Center Majidadi Shongom",
+      "lga_name": "Shomgom",
+      "row_number": 4907,
+      "source_record_id": "4a95a14f-ec7b-413f-9987-1af8d984799a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Furmai Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 4944,
+      "source_record_id": "df00f4ef-fd4b-425c-9361-9ca48ac6ef4a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Wagu Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5172,
+      "source_record_id": "7f3df0c2-069d-42cf-8daf-fbc6c515587a",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Malatin Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5173,
+      "source_record_id": "9d5bdec1-b725-439e-a092-5be2d340605d",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Gwarmawa Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5174,
+      "source_record_id": "9ed16f4f-a883-4c89-932a-44156be1e4bc",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Luchambi Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5175,
+      "source_record_id": "9ebf0354-cf1e-4e2b-b6c7-21c159202dbd",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Tayyu Maina Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5176,
+      "source_record_id": "a417069f-bf4a-412e-b567-11769104838c",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Zaura Primary Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 5177,
+      "source_record_id": "78d838dc-f0cb-4c27-8cb2-45fbd232b84c",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Birniwa Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5178,
+      "source_record_id": "28b4b413-474a-405e-a3ad-4bc84e5e61c1",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Kwadata Maternity",
+      "lga_name": "Dambam",
+      "row_number": 5179,
+      "source_record_id": "9f280d2b-74c8-486b-8fab-68cc6d045e1d",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Garin Jarmai Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5180,
+      "source_record_id": "dc559df6-aae9-4e8e-a1d7-02e8f205dcff",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Tale Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5181,
+      "source_record_id": "69ee5641-2115-47d2-a6cb-e809a53a5b44",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Garin Jalo Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5182,
+      "source_record_id": "4eb2d994-1423-487b-8252-ef323b37a3eb",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Garin Jalo Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 5183,
+      "source_record_id": "33f070bd-0c4b-4ff0-82e8-006921781ab6",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Lubai Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 5184,
+      "source_record_id": "3a2f5986-bf85-4af3-a374-ff27df565024",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Layiro Popandi Primary Health Care Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 5211,
+      "source_record_id": "8b725489-ed59-44a4-bb20-a5a8842d71cb",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gaina Health Post",
+      "lga_name": "Dambam",
+      "row_number": 5515,
+      "source_record_id": "ced8f688-bc57-419d-86f3-91fda35d21fb",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Garin Mallam Shehu Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 5630,
+      "source_record_id": "623e6dcb-951c-4a49-8085-98d8bed5d8ef",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Latatar Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 5634,
+      "source_record_id": "a39877ac-780a-41a9-8ad2-8547d03bc706",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Tedmukzu Maternity Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 5639,
+      "source_record_id": "8eee3256-9cae-4d02-9db3-8c1fd0215ccb",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Umcn Dispensary Filiya",
+      "lga_name": "Shomgom",
+      "row_number": 5755,
+      "source_record_id": "ee7f7658-1471-4866-8de7-7c62e2ded1d7",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Jaurosajo Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 5757,
+      "source_record_id": "bded73dd-3490-4cc0-983c-085c55c03392",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Mokore Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 5927,
+      "source_record_id": "03c3d91b-b8e5-4148-b9d9-cd513a4fc644",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Jagun Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 5930,
+      "source_record_id": "49621d5b-b8eb-4914-bbb4-229a1e8e5aee",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Lagbaka Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 6083,
+      "source_record_id": "47246b33-3ff7-4586-b21e-96dbb6dde26b",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Olode Ayope Primary Health Center Apomu",
+      "lga_name": "Ayedade",
+      "row_number": 6161,
+      "source_record_id": "f420d80c-b629-4281-8c77-8ebdd4ed28ab",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Fagam Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 6554,
+      "source_record_id": "de33e3a9-683b-4f4b-a88c-b8167a13ba77",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Fagarau Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 6556,
+      "source_record_id": "62919dd9-8761-4c61-ac1c-4127dcdaa4d4",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Minchika Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 6557,
+      "source_record_id": "2a03fd27-4097-420f-a4d7-2a94904d97cf",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Muzuwa Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 6558,
+      "source_record_id": "82922cb6-6d5c-4fe3-97e0-a4c33b1d3d3f",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Filiya Primary Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 6585,
+      "source_record_id": "ae2d49df-a66a-46a7-b809-80723c8717e7",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Comfort Health Clinic Kamtiktik",
+      "lga_name": "Shomgom",
+      "row_number": 7085,
+      "source_record_id": "5e850aed-edb8-4601-989a-e0969ed4cfab",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Mol Mole Kalaku Lapan Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 7088,
+      "source_record_id": "cea3183d-6431-4028-aa0d-4044b5e9fc4f",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Ibrahim Abu Memorial Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 7090,
+      "source_record_id": "e30b74fa-8fb2-4e92-8839-9f988f1c1b24",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Lasanjang Commonly Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 7246,
+      "source_record_id": "f79f8ed2-b8ac-4fb9-8bc7-967d60ce1d16",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Pamadu Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 7247,
+      "source_record_id": "0cf5561a-294c-4576-9bcf-4f007dfa3afa",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Alafiatayo Hospital",
+      "lga_name": "Ayedade",
+      "row_number": 7251,
+      "source_record_id": "0fd089f0-dca9-47ee-ac5e-fb39140db8c4",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Temitayo Clinic",
+      "lga_name": "Ayedade",
+      "row_number": 7929,
+      "source_record_id": "c6944dac-f7b1-4b4e-b615-780beea01f13",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Module Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 7930,
+      "source_record_id": "8e8b4e62-ca10-4e53-925a-295cd295909a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Katagum Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 8782,
+      "source_record_id": "3639e3cb-9315-4aa8-b6bf-7a0e7d96f91d",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Alheri Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 8801,
+      "source_record_id": "ec63ad7d-9431-4dec-b352-f8a2489dbdae",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Graceland Medical Center",
+      "lga_name": "Ayedade",
+      "row_number": 8895,
+      "source_record_id": "9f537eed-c278-4b72-8d9a-860961ebe217",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Karu Ecwa Comprehensive Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 8925,
+      "source_record_id": "6b78bd8a-81ce-42c0-a1e0-7a01cd38f9c7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Acupuncture Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 8927,
+      "source_record_id": "5a093ab0-fec0-4b49-86f5-068b72827d11",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "National Hospital Abuja",
+      "lga_name": "Municipal Area Council",
+      "row_number": 8930,
+      "source_record_id": "040c5b54-5251-4fa8-90cf-39b38e98d362",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Boh Primary Health Care Center",
+      "lga_name": "Shomgom",
+      "row_number": 9539,
+      "source_record_id": "598af0e7-0ab0-480f-8614-ef7e3da8cdf9",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Kwanan Kukah Health Post",
+      "lga_name": "Shomgom",
+      "row_number": 9551,
+      "source_record_id": "fde37342-f554-452e-a966-1441286b82b2",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Kaure Primary Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 9557,
+      "source_record_id": "ed65a970-2f4c-4064-8502-270ec42df659",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lapandintai Maternity Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 9764,
+      "source_record_id": "9a1a0cc5-86e5-4b44-9bd4-e3e3707fe9dc",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gujuba Health Post",
+      "lga_name": "Shomgom",
+      "row_number": 9771,
+      "source_record_id": "5be2c6ea-e2ad-4dd8-9a2e-6a31ee30254a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Labake Health Post",
+      "lga_name": "Shomgom",
+      "row_number": 9779,
+      "source_record_id": "dc033545-9998-41b7-b58d-ea29af24495a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Ogunsola Arogundade Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 10138,
+      "source_record_id": "ca9eea21-546c-4713-80b7-3a5c28aca4d2",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Oloba Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 10292,
+      "source_record_id": "a1ea6c57-8068-4426-a4bb-37a7b8114cc0",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Moro Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 10426,
+      "source_record_id": "e26ae62e-95c5-4d3a-9df8-8099e4d98a20",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Uwakaonye Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 10497,
+      "source_record_id": "a6f7a87b-7620-478a-ab49-3d3357b82890",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Vigog Health Care Center",
+      "lga_name": "Shomgom",
+      "row_number": 10553,
+      "source_record_id": "8ee05be4-d050-43ce-8dd2-62b8b6ec940a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Yaghah Primary Health Care",
+      "lga_name": "Shomgom",
+      "row_number": 10604,
+      "source_record_id": "e57bbc5b-b5e0-40d0-84a2-3f276ab83d7e",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Wuse District Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 10624,
+      "source_record_id": "105f9e44-ac48-45ca-8e1e-04d14199d8f4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Hands Wellness Clinic Physiotherapi",
+      "lga_name": "Municipal Area Council",
+      "row_number": 10757,
+      "source_record_id": "154b22f4-37a7-497d-a689-eb84784287de",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Odeyinka Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 10783,
+      "source_record_id": "c3d46ee2-2620-4682-874b-a369591376cc",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Al Ameen Medical Center",
+      "lga_name": "Ayedade",
+      "row_number": 10970,
+      "source_record_id": "b52906e4-3c13-44a1-bfaa-76c9dcde972f",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Cornelian Maternity Gidan Mangoro",
+      "lga_name": "Municipal Area Council",
+      "row_number": 11053,
+      "source_record_id": "1308b16f-e5d4-4164-8fae-26887b1e3b7a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Takushara Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 11116,
+      "source_record_id": "b6ec571a-8523-477b-a563-b335ef1d255b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Labarye Primary Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 11205,
+      "source_record_id": "9bce3770-3165-47b8-b50e-81ddff620652",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lawishi Health Post",
+      "lga_name": "Shomgom",
+      "row_number": 11217,
+      "source_record_id": "67b191a2-e119-4e29-ad73-f287041df9bf",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Eziama Okwe Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 11538,
+      "source_record_id": "3456d70f-33dd-43cd-8ec4-49c4c879c91b",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Ore Ofe Nursing and Maternity",
+      "lga_name": "Ayedade",
+      "row_number": 12261,
+      "source_record_id": "6037bac6-df9b-417d-910e-3572333383f4",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Funmilayo Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 12271,
+      "source_record_id": "8fa4bd95-3e04-4378-a543-26759a5e29c6",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Umuagwo Maternity Home",
+      "lga_name": "Onuimo",
+      "row_number": 12279,
+      "source_record_id": "54c26c34-943d-41d5-8c85-8c5eac9cbddf",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Daughters of Mary Mother of Mercy Hosipal and Maternity",
+      "lga_name": "Onuimo",
+      "row_number": 12285,
+      "source_record_id": "7edd8ca0-fb71-4eb6-95fb-61382a8b2bcc",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Aviation Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 12593,
+      "source_record_id": "30208bfc-8e17-43b1-b508-5dd8ea5c673e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Okwe Maternal and Child Health Care",
+      "lga_name": "Onuimo",
+      "row_number": 12718,
+      "source_record_id": "0451f18c-e745-4816-8c79-139fba56f6b8",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Alabameta Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 12824,
+      "source_record_id": "a5bc492c-d0ac-4ec5-a71a-724d7127d409",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Garin Gidi Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 14605,
+      "source_record_id": "68d51e75-9fe8-4a33-a196-e613f223e9af",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sambe Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 14607,
+      "source_record_id": "c43a91aa-7036-45ad-bdef-8a9ebb505de0",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gesharau Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 14608,
+      "source_record_id": "759e6975-0f09-4060-b957-99b642841f3b",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tondi Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 14619,
+      "source_record_id": "42be7009-982a-4e38-a3d2-2b49a21ce5eb",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tugar Kungi Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 14643,
+      "source_record_id": "633a95ad-3eb6-4ba0-9e6e-67dea14e7100",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gidan Zana Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 14690,
+      "source_record_id": "8f04ac2c-6bad-487f-a426-c2fbae78dd59",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kalial Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 17386,
+      "source_record_id": "05bfcbe0-0cfe-4729-a052-15432ae1c5f0",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gendene Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 17398,
+      "source_record_id": "d2338756-f9ee-40e3-86c3-017f72f08c54",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "St Marys Hospital Annex",
+      "lga_name": "Onuimo",
+      "row_number": 18940,
+      "source_record_id": "48995624-bbbd-4ccc-b5f3-6969d40b7526",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Queen Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20300,
+      "source_record_id": "e7a613e3-90df-421f-bbee-1b89a924250a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Shekwonya Maternity Home",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20310,
+      "source_record_id": "1ddb5979-5e50-4332-822d-9971646064c4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "The Comforter Clinic and Diagnostic Center Limited",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20311,
+      "source_record_id": "df4cf9fa-0583-437c-b904-169cea2212ca",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "First Hospital Maternity Karu",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20312,
+      "source_record_id": "b8a6e2c7-4f8b-4aef-8c8d-bd8c3b360917",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Town Dispensary Katanga Warji",
+      "lga_name": "Shomgom",
+      "row_number": 20383,
+      "source_record_id": "58b6b5ca-3139-4f6f-b56f-1cee8c8a4132",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Katanga Maternity Warji",
+      "lga_name": "Shomgom",
+      "row_number": 20417,
+      "source_record_id": "150b70c2-bd2a-4202-a1ac-9331aba5e2f2",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Danbaba Medical Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 20418,
+      "source_record_id": "997f690e-5bf9-4802-9312-49f12cd28053",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Burga Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20419,
+      "source_record_id": "a37cc943-dd09-4ba4-864d-b531de123cf5",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Jaji Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20420,
+      "source_record_id": "c6b08d6e-f152-4aa4-8035-ad4c7cbc5075",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Clinic and Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 20421,
+      "source_record_id": "c8dc69f0-15fd-4fc2-8e20-074b25ec0fb1",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Rahamanu Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 20422,
+      "source_record_id": "d6cce55a-4588-4c01-89fc-8c0d360c0c94",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Saban Kafi Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20423,
+      "source_record_id": "d55cc654-d76d-4b62-adb3-a700fd112ebb",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Nasaru Primary Health Clinic and Mat",
+      "lga_name": "Shomgom",
+      "row_number": 20424,
+      "source_record_id": "9e159d47-cdd2-478c-a696-ac708084df34",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Gidan Baki Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 20425,
+      "source_record_id": "717201a7-5128-46c3-a458-fba6a1eff48a",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Haya Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20426,
+      "source_record_id": "4ce97d6e-0eff-4571-aaa5-d930cba49601",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Yayari Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20427,
+      "source_record_id": "f2fc958c-ad03-4235-a3c1-d2a2fbbbbdb3",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Wuha Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20428,
+      "source_record_id": "10b7dd20-7616-483a-b832-85c7a03a05df",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Popandi Dispensary",
+      "lga_name": "Shomgom",
+      "row_number": 20453,
+      "source_record_id": "5e794344-d58c-48e1-b1f8-d51070ed41a5",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Dr Ishaku Health Clinic",
+      "lga_name": "Shomgom",
+      "row_number": 20454,
+      "source_record_id": "0f6d7e36-fbcf-45de-b350-17d0ee20a0ff",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Ketti Comprehensive Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20466,
+      "source_record_id": "1a478ba2-ba0c-4c9a-988b-f2b25e5b89bf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jikwoyi Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 20467,
+      "source_record_id": "71b26653-63ab-4506-a121-3ae2f7d1ccdf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Latatar Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 20506,
+      "source_record_id": "5aa0b2fd-7d6f-4b76-ad6b-c755918f316c",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Atabintin Hospital",
+      "lga_name": "Ayedade",
+      "row_number": 20509,
+      "source_record_id": "fe600a25-18be-469e-b92c-8b8f6a396d10",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Glory Nursing and Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 20826,
+      "source_record_id": "2c5f75ef-39ad-4d75-b837-14177ff1ea4b",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Umunamu Maternityernal and Child Health",
+      "lga_name": "Onuimo",
+      "row_number": 20944,
+      "source_record_id": "e5c22b84-4674-41f1-b53a-92696ec8581a",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Bodi Primary Health Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21523,
+      "source_record_id": "0fb7be26-2807-4a9a-bd28-fd94c6d47572",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Garki Hospital Abuja",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21544,
+      "source_record_id": "0b13d1fc-42c1-4f1f-9ecd-f4e0bbfc9992",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Primus International Super Speciality Hosiptal",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21545,
+      "source_record_id": "fbbe431a-7583-409c-afaa-fbc1d33acc5c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Mabushi Public Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21552,
+      "source_record_id": "2c28b2ab-9924-4bd9-95f7-a99ab9ffeeff",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ozoro Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21566,
+      "source_record_id": "8d0d6f73-53ae-481a-b810-7a973146334c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Garki Village Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21567,
+      "source_record_id": "0fb67dd4-029e-4983-a9b7-a2c6fbb21df6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gasaki Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21569,
+      "source_record_id": "401e9d3d-3bb5-4066-a97b-4b2a415135a7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Pyakasa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21570,
+      "source_record_id": "13224d6a-c99b-407f-acfa-aa657a6c3421",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kabusa Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21571,
+      "source_record_id": "d8235608-1706-4a76-8842-1a30c684532f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Burum Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21572,
+      "source_record_id": "cd145a92-f0f1-4fad-bc89-e19470a936f0",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kurudu Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21573,
+      "source_record_id": "10c63f22-60ff-41a9-ad71-2a78b9708406",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Hulumi Health Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21574,
+      "source_record_id": "7287dfbf-9570-4977-9074-8a7c2632b7f6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Abuja Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21575,
+      "source_record_id": "fa68490e-1d02-411c-9a05-f32d9618dd1b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Stephen Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21576,
+      "source_record_id": "5e227dd3-dcdb-4749-8ee2-81e10c80a233",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Pigba Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21577,
+      "source_record_id": "918be923-16bc-4138-82df-69e8ba46bf3b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Moli Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21578,
+      "source_record_id": "ab941e2a-e88d-44a9-a0a4-f2a6c92ad5f0",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kagini Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21585,
+      "source_record_id": "fed1a776-aa0f-4503-b5f8-c9a690491b80",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwarinpa Primary Health Care Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21586,
+      "source_record_id": "4ca48dbc-e29f-4464-9f57-1bd15836536a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Customs Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21587,
+      "source_record_id": "cf7a25b8-46c5-4b77-a31c-98aed0d80d13",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "National Assembly Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21588,
+      "source_record_id": "1d286cb0-f8b3-462a-a891-d4dee6f3612f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwarinpa Federal Staff Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 21589,
+      "source_record_id": "fab9c5d7-d26a-428c-9a58-7fe5d7d3db4e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Karu Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22266,
+      "source_record_id": "981bed19-8911-45a4-90d3-bc66771cecc2",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gbagalape Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22267,
+      "source_record_id": "39d28b76-e95d-44dd-be8e-e20e3c460f4b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Piwoyi Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22269,
+      "source_record_id": "0abe2a17-3c2c-41f8-ad5f-fb1de25a4dd8",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gui Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22276,
+      "source_record_id": "6c374a9a-76d0-485c-ae27-3f05f51cc8a4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Lugbe Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22278,
+      "source_record_id": "7b57f132-713d-4ef1-8559-f2931677da01",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kuchigoro Primary Health Care Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 22279,
+      "source_record_id": "8dadced0-1b0c-42ba-b1a0-265ee3568930",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Chadi Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22299,
+      "source_record_id": "141b9496-846c-4725-b7bb-df38ae62e545",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Yanda Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22300,
+      "source_record_id": "b9619250-6273-409a-ae61-47d1530eec5a",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Lailai Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22301,
+      "source_record_id": "d8503ad6-cbf3-427a-9398-3b005fbc7c61",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Yayari Dispensary",
+      "lga_name": "Dambam",
+      "row_number": 22479,
+      "source_record_id": "859b8559-5286-4dd2-bf2c-04e3ece8931d",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Dambam Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22498,
+      "source_record_id": "78e431f5-3934-4887-a53f-a5fb2c400aec",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Durwari Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22500,
+      "source_record_id": "2905e758-be45-4501-b211-3031ee7c3ace",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Jauda Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22501,
+      "source_record_id": "701b7d8b-1e56-4e71-bb1a-4f6cae395b99",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Yayari Clinic",
+      "lga_name": "Dambam",
+      "row_number": 22535,
+      "source_record_id": "65f8f740-a7b8-4408-8a4e-0f16bc6c664b",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Karya Shinge Health Center",
+      "lga_name": "Dambam",
+      "row_number": 22537,
+      "source_record_id": "f034ee86-3707-4022-b21e-04a1de6ad451",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Obebe Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 23305,
+      "source_record_id": "47f441c3-368f-4f6a-99ac-1e026f66a260",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Iyanu Nursing Home",
+      "lga_name": "Ayedade",
+      "row_number": 23321,
+      "source_record_id": "81fd0f86-e82b-4091-a05e-d8eaa91efa53",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Obiohuru Primary Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 23623,
+      "source_record_id": "3fc5840e-b728-4151-b042-6239664eb2de",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Umuduru Primary Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 23626,
+      "source_record_id": "a3f75e86-f758-4074-8813-eb491979ab6a",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Odu Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 23756,
+      "source_record_id": "9822e7f1-d2cf-4073-bd35-2d5a878c3589",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Bangunji Maternity",
+      "lga_name": "Shomgom",
+      "row_number": 23883,
+      "source_record_id": "3bc44ec8-ec44-4a89-97fc-eb2f6b215cf1",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Madawai Health Clinic",
+      "lga_name": "Dambam",
+      "row_number": 23889,
+      "source_record_id": "f11c6ab3-1261-4d5b-8e66-677f26a86d85",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Dorauda Health Center",
+      "lga_name": "Dambam",
+      "row_number": 23939,
+      "source_record_id": "f89b470a-3e2c-4364-8aaf-cc8374b0cf75",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "63 Naf Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24308,
+      "source_record_id": "df5e6900-5549-420b-855e-e598c0bcd366",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Zhudi Amac Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24309,
+      "source_record_id": "7c4f9f9a-b058-468d-9dc2-b336727c2831",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Amac Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24310,
+      "source_record_id": "fdca12d8-9657-47de-a1ef-171131b7ecb1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gss Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24315,
+      "source_record_id": "c3930280-1186-42ad-9042-d9f5bb164cac",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Hammersmith Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24317,
+      "source_record_id": "afa0556b-9323-4ef0-b34b-b406a04163d9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Living Faith Church Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24318,
+      "source_record_id": "0226a187-7ab2-4f64-ac39-855fbefab546",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Saburi Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24343,
+      "source_record_id": "a99df27d-5a1f-4512-92ca-cd99e50e7a6f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kefat Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 24365,
+      "source_record_id": "544297c5-c377-4f2f-b3ec-c91775df53e4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Faith Clinic and Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 24533,
+      "source_record_id": "c5645895-ff9a-4a6f-a88d-a7e6e193a493",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Gbongan Comprehensive Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 24535,
+      "source_record_id": "3f32ad7c-54fb-48cb-ab54-3304ddfa3b39",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Diakuma Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 24611,
+      "source_record_id": "909f59fc-4f1e-4670-9406-7e9566e69553",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "St Valentine Hospital and Maternity Annex Umuna",
+      "lga_name": "Onuimo",
+      "row_number": 24613,
+      "source_record_id": "b6282072-af9c-4b18-abc1-3887617685d4",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Mercy Hospital and Maternity",
+      "lga_name": "Onuimo",
+      "row_number": 24623,
+      "source_record_id": "8666440c-d597-4708-a0fd-eb7d6e7c0bf5",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Oke Elu Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 24950,
+      "source_record_id": "b413d088-d666-42ba-8efb-5767108fd0f2",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Millennium Development Goals Health Center Umuohiri",
+      "lga_name": "Onuimo",
+      "row_number": 25102,
+      "source_record_id": "c1f31236-7d3c-4d5b-8a72-6ed2191d2b5c",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Kings Care Hospital Ltd",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27113,
+      "source_record_id": "b5c0a330-061a-444f-9e64-f1301ce552a9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Hi Fi Clinics",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27114,
+      "source_record_id": "9feced0a-3dfd-4918-80d7-9b65787cbfcd",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "St Georges Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27117,
+      "source_record_id": "5b4e6ad5-6443-460e-979f-e18ed12fa576",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Our Ladys Maternity Homes",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27118,
+      "source_record_id": "c3824cdc-94e5-4073-b75e-dbfe419fcc8f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Mayday Specialist Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27669,
+      "source_record_id": "abf6b64a-309f-431a-bfa1-0f310abbabc0",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Omega Medical Lab and Scan Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27670,
+      "source_record_id": "e5887195-7ba9-4e08-b6e6-a0872f0e04f5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ruz Medical and Diagnostic Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27671,
+      "source_record_id": "7e53f840-2835-4e96-b4e5-b4cf8888abed",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Arewa Specialist Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27672,
+      "source_record_id": "8bb39ddd-3e42-4587-be3c-653a6001e2bd",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Primed Clinic and Diagnostic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27673,
+      "source_record_id": "05f79f11-dc7c-4844-9fea-d4bd43896c9d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Princess Mary Specialist Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27675,
+      "source_record_id": "cc9d8be7-0ae8-46cd-b26d-73907a400298",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Iduna Specialist Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27676,
+      "source_record_id": "1a1d7440-e0dc-4b5a-83ec-b4258f430adf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ecwa Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27677,
+      "source_record_id": "1e6859fa-ec20-4239-b1f4-aa5ab407e552",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Decency Amana Specialist Medical",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27678,
+      "source_record_id": "b974b0e0-9627-4f62-b0a7-f82dba376b21",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "G and S Specialist Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27679,
+      "source_record_id": "dda31944-63f3-450d-9f56-1e2bff250f3b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Medicaid Radioagnostic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27680,
+      "source_record_id": "156b1b93-2841-43d6-84b0-e327c50fdb25",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwarimpa Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27742,
+      "source_record_id": "ea579e15-9cc3-4f58-a1d0-0988b360995b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Oogi Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 27794,
+      "source_record_id": "22a239dd-24e4-4665-8d3c-51b24acd4349",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Itamerin Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 27801,
+      "source_record_id": "e6743fb1-ccc6-41e4-872f-087d2d484230",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "King Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27885,
+      "source_record_id": "0861bc41-82e9-4304-8b15-408e68cd5510",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Blessed Trinity Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27886,
+      "source_record_id": "65f0dd73-8091-41b5-92d9-16c9bbe43bfa",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Fountain Head Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27887,
+      "source_record_id": "f7630fde-606c-4b1e-aa28-db98039588b1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Rouz Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27888,
+      "source_record_id": "73fe5592-8710-40ac-bf75-48c8bf2a31e6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Prolfa Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27889,
+      "source_record_id": "2127d16f-537d-40d0-bceb-f5da4383deea",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Fct Hospital Management Board",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27890,
+      "source_record_id": "e38ec536-ce11-4de4-a873-41cf016ccb92",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Abuja Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27891,
+      "source_record_id": "ff65258e-17f1-4fe6-8474-f951e32ad933",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Foundation Prevention Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27892,
+      "source_record_id": "b816831c-43ee-49b3-87b1-44eae2c282a2",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Limi Hospital and Maternity Limited",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27893,
+      "source_record_id": "90e3c86a-bf85-453b-87d3-226853424861",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Bepos Clini and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27894,
+      "source_record_id": "c7a2a19e-2720-429c-aaaf-dd331fb26304",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Rainbow Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27895,
+      "source_record_id": "31a5b853-9110-457d-8406-9181900fd6cf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Awmecare Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27896,
+      "source_record_id": "9ecabed4-dfca-4baf-9b53-29393a85a010",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "White Diamond Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27897,
+      "source_record_id": "150a8017-1a5b-4798-97bd-dc51a54d1ddf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Leblon Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27898,
+      "source_record_id": "887ab2d2-4bd9-461b-a89a-c74917b3a8c5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Egahi Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27899,
+      "source_record_id": "dffd597b-1457-4f5f-8305-b449403ccafa",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Nisa Premier Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27900,
+      "source_record_id": "6e25fb3f-3ddc-447c-9515-8703d3b8003c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Guinue Savannah Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27901,
+      "source_record_id": "327b20cb-db61-455f-9c93-85f519dbd20d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Vinette Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27903,
+      "source_record_id": "c75a35fb-6f9d-49de-8a4a-07320e53e324",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Diamond Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27904,
+      "source_record_id": "dcdaf09d-6f71-4fae-bd78-ec80c4f843a7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Our Lady Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27905,
+      "source_record_id": "b36ecb51-427b-433d-b2f1-d6548564b1f0",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Zenith Medical and Kidney Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27906,
+      "source_record_id": "c630a66c-a8d4-4db2-baf8-e3b60f5babf7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Bethel Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27907,
+      "source_record_id": "3d4d9c02-2d55-421c-97f4-962517f3ae4b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Faith Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27908,
+      "source_record_id": "74dc76ad-5fcd-4fa8-ad45-eaa84302723d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Sauki Good Samaritan Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27909,
+      "source_record_id": "f2b61183-0144-4e40-bf5e-48e2c837bfdb",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Karu Ecwa Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27910,
+      "source_record_id": "b74fe3b2-769c-4dd0-b7fa-6f9ff2ee7456",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "St Patrick Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27911,
+      "source_record_id": "c7f3308b-27bc-4ec1-ae43-09f24fc241fe",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kella Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27912,
+      "source_record_id": "2311a70e-433d-4032-93cf-b2430dfe362c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Alibu and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27914,
+      "source_record_id": "eea291a6-c704-49e2-9b03-14c0a7b2407b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Bismol Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27915,
+      "source_record_id": "2d86e8bb-7739-4daf-801e-9aa63c18ec4e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Saferon Hospital Ltd",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27917,
+      "source_record_id": "cab374d7-358b-4c1d-badd-84d49e764cc5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Albama Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27918,
+      "source_record_id": "30f25be5-6164-4afa-a323-e9820a4b942a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Nufin Allah Maternity Home",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27919,
+      "source_record_id": "eb75efb7-9e2b-4e6d-9a27-26b20e736d48",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Rapha Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27920,
+      "source_record_id": "eaf6d7ad-f990-47fc-92cd-7227a5a0e59f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Samrock Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27921,
+      "source_record_id": "3de262c6-622c-4f96-8fb2-8ee2e3ca804c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Mercy Maternity Home",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27922,
+      "source_record_id": "d6063429-d125-40a8-b758-6049f0d825f4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Rose of Sharon Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27923,
+      "source_record_id": "551439f8-923f-4ad4-ad35-bb4db1165c3a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Midland Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27924,
+      "source_record_id": "c250a444-1b4e-4727-816e-d05df21f5a67",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Fredrickson Mecal Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27925,
+      "source_record_id": "18cd7788-afaf-4aab-94eb-05ec28ab683e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Arewa Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27926,
+      "source_record_id": "5d7c2b9f-56f9-47cd-9d73-3c4806d40e4c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Femili Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27927,
+      "source_record_id": "1f97e800-6bc0-436a-bef6-bf3e7c42f9fc",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Comforter Place",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27928,
+      "source_record_id": "a751481a-da62-4bae-8c4a-be5e40ca81e6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Precious Life Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27929,
+      "source_record_id": "4c75209c-cb36-48fc-b1ca-87c853cfa710",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Mery Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27930,
+      "source_record_id": "32d962fb-0770-4080-b799-0077d2fd6000",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Al Nur Maternity Home",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27931,
+      "source_record_id": "56bd4b2f-fdf6-41c0-811a-d5ed21b9f90b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Peace Care Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27938,
+      "source_record_id": "94869723-56a0-41da-b809-103038a3346a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jilf Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27939,
+      "source_record_id": "03f8ba70-d8fb-4960-b3ad-9f3939cdb84b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Relina Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27940,
+      "source_record_id": "a81692e4-0475-4803-98ed-8e1d02491c76",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Camel Wood Medical Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27941,
+      "source_record_id": "6db6e17f-6ee7-4cbe-a615-00aca05cce46",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jedonec Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27942,
+      "source_record_id": "9b0343af-08e6-4234-95da-c89ad16f730e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ebony Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27943,
+      "source_record_id": "a9ff95d1-6867-4a72-95d5-c6f8b75bc6f1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "4 Bn Mrs Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27944,
+      "source_record_id": "0a663448-c42b-438b-8fe2-b43dc0b1628d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Wellpoint Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27945,
+      "source_record_id": "c1ef35c0-c7f6-4416-9448-2f0914d89539",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Recovery Medical Services",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27946,
+      "source_record_id": "72b255e4-7ac7-47a3-a95d-8818eeb36c70",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Faith Nursing Home",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27947,
+      "source_record_id": "9a1d7b51-94b6-4337-86fa-44404ce6023b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Camek Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27948,
+      "source_record_id": "00a3abc7-d6d6-4ae1-843a-0bf111271012",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kings House Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27949,
+      "source_record_id": "9f837072-f3c8-49f5-8dbf-5f1228f11984",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "The Crown Hosptal",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27950,
+      "source_record_id": "f5c99b2f-9238-46a7-a8ed-876f4aba509f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Viewpoint Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27951,
+      "source_record_id": "35e9c8fa-e6b0-47a1-8006-fb4cf5d4531e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Cream Medics and Materity Homes",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27952,
+      "source_record_id": "c26870dc-1bf8-4e40-8dc5-c62a8583d9e6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Suzzy Ville Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27953,
+      "source_record_id": "52f5bdee-557d-4dac-bf8c-17ffe266a3de",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Access Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27954,
+      "source_record_id": "b49bcd25-4b46-4600-80f9-93c6addd925b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Julius Berger Medical Services Ltd",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27955,
+      "source_record_id": "6cf8f67d-e027-4419-9d3e-b7f0b88f8bc1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dr Hassan Clinic and Diagnostic Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27956,
+      "source_record_id": "a08aca2e-dcf7-40f6-a9ae-9cc413c7cc62",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Abuja Clinics Ltd",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27957,
+      "source_record_id": "feb6e27a-89b5-4e8e-91da-736e585a2cd7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Smart Motherhood Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27969,
+      "source_record_id": "0a6eca72-deb6-42e6-ac12-f5b5ceca53cd",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Suleja Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27970,
+      "source_record_id": "ad621cb0-7027-44fa-9594-963aa215af32",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Azony Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27972,
+      "source_record_id": "a08eb10b-1159-4218-ba5d-2360d8aa1bff",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Luna Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27973,
+      "source_record_id": "5019bcfc-aa5e-469a-ae51-3b920014aea6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Samto Medical Services",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27975,
+      "source_record_id": "6eeb3bd4-b284-43de-999f-6b1e966669f9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jikwoyi Native Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27976,
+      "source_record_id": "c461da99-1922-4a08-8eed-72b828769fff",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Sophy Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27977,
+      "source_record_id": "401728ed-9ca7-482b-ae36-f9aa0609a7cf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Vintage Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27978,
+      "source_record_id": "1b810264-5676-403c-b8b9-8d64c7acd06f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Asher Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27979,
+      "source_record_id": "bc18207d-cc8e-4abc-8a96-9e5381fc73f1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "The Central Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27980,
+      "source_record_id": "6476674e-91d0-425b-86a8-71a3be3b932e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Asokoro District Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27997,
+      "source_record_id": "80c29a5b-a531-4f31-8cd5-6c09039e810c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Efab Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 27998,
+      "source_record_id": "3023b48c-b997-44e2-8d15-dd06e24a7f4f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ife Oluwa Nursing and Maternity Centr",
+      "lga_name": "Ayedade",
+      "row_number": 28150,
+      "source_record_id": "f1be8962-714d-4d94-be97-78d3a2f6d4c0",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Iperindo Healith Center",
+      "lga_name": "Ayedade",
+      "row_number": 28152,
+      "source_record_id": "229c9c32-4b86-4beb-832d-0e2304ca73d3",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ezike Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 28775,
+      "source_record_id": "2aae9ed3-621b-4ac5-9ff9-17d02ae2d1f0",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "St John Clinic",
+      "lga_name": "Onuimo",
+      "row_number": 28916,
+      "source_record_id": "19152804-b660-494c-b239-9b72a20e871b",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Bani Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 29682,
+      "source_record_id": "a45a3554-8617-401e-8664-fd37a38213d2",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tugan Madaki Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 30131,
+      "source_record_id": "f0a782a7-0d15-42ad-abbd-688f8dc6e75e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Wuse General Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 30487,
+      "source_record_id": "78e04705-ea9a-4de2-827b-3d00b24056f6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Akinlade Obisesan Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30837,
+      "source_record_id": "9dce0f47-b573-43c4-9b7f-3cd49ae304f0",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Araromi Owu Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30840,
+      "source_record_id": "50db0205-857d-48b4-b038-25837cf3781a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Akiriboto 1 Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30849,
+      "source_record_id": "a6ab650d-34a0-4721-922d-1bd6bef3b218",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Wakajaye Town Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30910,
+      "source_record_id": "73cca3fb-0a93-424c-837f-2a0fbfb2c5c5",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ayedade Ayegunle Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30921,
+      "source_record_id": "8796aa78-a5c5-42be-88b9-b85de6960b33",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Lasole Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 30987,
+      "source_record_id": "b8235872-b5b9-44e2-bdf0-c5b7970b102a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Akiriboto Oke Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31018,
+      "source_record_id": "0338aa22-1780-4dfb-8577-bbb46206c4d4",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Abimbola Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31025,
+      "source_record_id": "21a5a05b-279a-4a38-b9d5-ce255d3a2a2f",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Onikan Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31115,
+      "source_record_id": "42bce1b5-7c0d-4ce9-8390-659c29cd49fb",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Bembe Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31116,
+      "source_record_id": "88f2254a-6e53-450f-b650-0fa1e3b6a6b8",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Oloba Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 31122,
+      "source_record_id": "e2b59df9-4709-4179-b4b1-4e28ec6e9b63",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Agba Ogun Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31215,
+      "source_record_id": "b8c81497-2bd6-4d2d-b7c6-dc1949bbe9c8",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Egbeda Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31216,
+      "source_record_id": "20830228-0b22-40e1-b2f8-aa1fba961f88",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Araromi Tisa Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 31257,
+      "source_record_id": "24793600-9b5a-4a53-80ce-d281a58eb5ad",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Maitama General Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 31414,
+      "source_record_id": "a636faf1-caf6-45ea-99ec-664c0bc44c25",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Maitama District Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 31445,
+      "source_record_id": "e256e935-ee1a-44f1-b1af-bd893faf632b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dei Dei Comprehensive Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 31650,
+      "source_record_id": "01b220a3-7435-4083-9b66-d4fb12c4bbf5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Karshi Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32124,
+      "source_record_id": "9e961881-8f4a-448c-97ba-7972e6f96df3",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Crystal Paediatric Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32173,
+      "source_record_id": "67fcc951-46c5-4a08-83cc-e40550cbc1d6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "United Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32359,
+      "source_record_id": "2bf9df87-bff9-4701-90cd-65e8feccbfdf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Intergrated Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32360,
+      "source_record_id": "6d7520e8-b1f7-443c-8e4b-476d7db62710",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Shadalafiya Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32361,
+      "source_record_id": "9b19f724-6e45-45d4-ac21-702f5318392b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kobi Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32362,
+      "source_record_id": "e3f590ba-7aa0-48d1-bd47-7bc61c9b9e6a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Hulumi Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32363,
+      "source_record_id": "7ae4fdc4-ff20-4353-842b-b3ee0d066970",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kugbo Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32364,
+      "source_record_id": "ac5ad1a0-c009-431d-b156-58bef9dea471",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gugu Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32365,
+      "source_record_id": "86ceeade-abea-49f2-b384-186e6438d9fb",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kuseki Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32366,
+      "source_record_id": "a614c65f-03eb-40ca-98a8-05cc9eea6776",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gbagarape Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32382,
+      "source_record_id": "948ca5b9-df90-497a-bc20-3c5997c085f5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Base Primary Health Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32386,
+      "source_record_id": "499b8165-52d5-43cf-8b81-0c07cf9747f1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jikowyi Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32387,
+      "source_record_id": "ee239ce8-d8a3-44f4-be27-a5eea99b4a36",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kurudu Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32388,
+      "source_record_id": "d43246d1-fa68-40f5-b52a-6d31d65486ef",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dakwa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32392,
+      "source_record_id": "dd8888c4-220f-42ff-9ec7-cda009b1e032",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Army Headquarters Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32393,
+      "source_record_id": "b2987f50-1cb8-4be3-a183-be15031c9bf4",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Police Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32394,
+      "source_record_id": "2067ad7b-7e45-4b0c-9ef5-e629129352a5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Cbn Staff Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32395,
+      "source_record_id": "c6639211-304a-4602-a2a3-516e94a3b7aa",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Naval Headquarters Sickbay",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32396,
+      "source_record_id": "edd173ac-3adc-472b-b3da-42feda40a70a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Inec Staff Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32397,
+      "source_record_id": "1a8d43ab-1e02-4c33-8c5d-0d4228d020ec",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Mogadishu Cantonment Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32398,
+      "source_record_id": "c185e3c3-126d-4c3a-9076-de1de967472b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Garki Federal Staff Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32399,
+      "source_record_id": "e4606647-931f-4fbd-8f82-c676a5159a1f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Frsc Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32400,
+      "source_record_id": "3cd29dc0-323a-4487-a9b3-8d66fde60502",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Nnpc Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32402,
+      "source_record_id": "0f40401e-0e16-4013-903d-3c35caf6922e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Family Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32429,
+      "source_record_id": "799a36ef-3f08-406f-a743-261c9194b5db",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dutse Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32430,
+      "source_record_id": "132cf411-66ce-4dd7-a133-52c2e3ae8841",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwagwa Ward Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32432,
+      "source_record_id": "8bae724d-70d8-43a2-b2ad-16368444d07a",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Karshi General Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32443,
+      "source_record_id": "afd963b8-49b6-432a-9d13-eeb1252e9002",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gwarimpa General Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 32444,
+      "source_record_id": "238f6007-b578-40ec-9fe3-d80f6b8b4a00",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Aasa Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 32571,
+      "source_record_id": "7844010b-981d-4a0a-99c0-27750b91717a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Abudo Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 32587,
+      "source_record_id": "b9676c59-15d1-42be-bc5f-ade69dbb6c9e",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Akinboto I Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 32628,
+      "source_record_id": "bb680389-79e9-45c9-ac41-ffe11e8febf1",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Odeomu Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 33089,
+      "source_record_id": "b4ac72f0-dcc1-4e1e-a10e-7710abdb7648",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Jikwoyi Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33125,
+      "source_record_id": "64a335ce-6640-44f0-8805-373fbd937394",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "National Primary Health Institution Wulmo",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33303,
+      "source_record_id": "7453cbba-5951-4271-890d-296ad758b7b9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Sabon Lugbe Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33365,
+      "source_record_id": "2d7aa5f9-54c6-46fb-b9ce-e33230495364",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Biriri Dispensary",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33425,
+      "source_record_id": "49dc9f32-4a8b-4af8-8853-a6fdcd7f252f",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kurudu Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33427,
+      "source_record_id": "cf521238-61a4-43fd-af14-3da14947f549",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Damagaza Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33445,
+      "source_record_id": "4880b3d5-79c4-4ecb-b29c-c843f05fd9cb",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kabusa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33446,
+      "source_record_id": "c0721221-05d2-4635-bbe9-09ae52df5ad9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Waru Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33448,
+      "source_record_id": "0245ce0c-f53e-4cfd-9e35-8508b1d60cee",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gosa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33450,
+      "source_record_id": "881fe37d-0e21-41d4-80dc-458f50fa5799",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kpakuru Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33453,
+      "source_record_id": "ba9de5c7-1943-41da-8895-42f4c790f937",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Kpeyegyi Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33454,
+      "source_record_id": "bb54e456-1df2-4cad-a7da-1769388d1b67",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Chorin Bisa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33457,
+      "source_record_id": "6c2c185c-8337-4434-b65c-894912ba52e8",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Zhidu Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33460,
+      "source_record_id": "c046bb3d-951f-438c-a4f4-9a94f617b15b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gishiri Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33468,
+      "source_record_id": "fab66550-e2a9-4f71-b8b7-efd46fa42697",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Ture Berbere Health Post",
+      "lga_name": "Shomgom",
+      "row_number": 33472,
+      "source_record_id": "bcacddb6-caf9-437c-809f-4ca07944cbc7",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Lasassap Health Center",
+      "lga_name": "Shomgom",
+      "row_number": 33479,
+      "source_record_id": "4e5e68b6-0b39-4922-91c0-6dc35f25cb94",
+      "state_name": "Gombe"
+    },
+    {
+      "facility_name": "Holy Trinity Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 33517,
+      "source_record_id": "a93f9524-b2a6-4d0e-ad24-885a132ba21b",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Emmanuel Maternity",
+      "lga_name": "Ayedade",
+      "row_number": 33596,
+      "source_record_id": "6f0229ba-b000-4718-8f3a-6eeb655754ea",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Graceland Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 33701,
+      "source_record_id": "0de5d1af-a502-4b6d-8c60-86cc2d7cdd0d",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ise Oluwa Nursing and Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 33704,
+      "source_record_id": "576e1c45-cb8d-428f-87f9-0a65ae8ea9eb",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Temitayo Matanity",
+      "lga_name": "Ayedade",
+      "row_number": 33943,
+      "source_record_id": "5161fdff-40fa-4595-9fd0-05b61e467c66",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Oluwa Hospital Clinic and Maternity",
+      "lga_name": "Ayedade",
+      "row_number": 33944,
+      "source_record_id": "5d9f4aa5-2f09-4a4f-86a8-544215d7c65b",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ore Ofe Maternity",
+      "lga_name": "Ayedade",
+      "row_number": 33945,
+      "source_record_id": "7547701c-a1fe-4ec7-85a4-d962362549aa",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ilesanmi Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 33953,
+      "source_record_id": "7b008e1c-b7b7-4a9a-a437-77bf490ae87c",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Orisuniye Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 33954,
+      "source_record_id": "c84b0391-036a-478a-a3c4-8b936db7a263",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "State House Clinic Mambilla B",
+      "lga_name": "Municipal Area Council",
+      "row_number": 34129,
+      "source_record_id": "00a1e4a6-58eb-4272-a8c5-f9d72babe64c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Eereprod Medical Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 34131,
+      "source_record_id": "bd143ec5-edff-4db0-a8bc-ec2d0fe2ab8c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Spring Field Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 34133,
+      "source_record_id": "eac0fc4f-2a51-4f55-bbde-8cef9f0a9ba1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Okohia Health Center",
+      "lga_name": "Onuimo",
+      "row_number": 34191,
+      "source_record_id": "1a462f39-3392-42c8-b5a6-6afd2a62b218",
+      "state_name": "Imo"
+    },
+    {
+      "facility_name": "Gugugu Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35273,
+      "source_record_id": "96c5c198-7ec6-4090-b163-98fe3d44f109",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Sherreti Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35388,
+      "source_record_id": "723bd3a1-8495-4167-933a-e148138e56f1",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Apo Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35557,
+      "source_record_id": "0ff8a247-3830-4149-b642-f49c0a58add6",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Iddo Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35558,
+      "source_record_id": "e953ee12-4cfd-4d00-b23a-ed16dc39b36c",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jahi 1 Public Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35559,
+      "source_record_id": "a2538ca0-c8fb-49aa-8b1d-655f711afadf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Bassan Jiwa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35560,
+      "source_record_id": "d850f937-7e08-4265-8a69-4230b0a77f3e",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Dakwa Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35561,
+      "source_record_id": "f0209dd3-918d-450d-bbdc-7098ce264be3",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gidan Mangoro Comprehensive Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35562,
+      "source_record_id": "f8c48dd7-78e6-40c4-9bfc-a08bbb62cba3",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Lamingo Primary Health Center",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35629,
+      "source_record_id": "5183339b-13f4-4707-8d1e-a2d942608b01",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gongolong Health Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35630,
+      "source_record_id": "08781157-ce03-478c-8579-ad41f0a08dcf",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Munape Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35632,
+      "source_record_id": "e4734503-2757-4354-a092-07fddea98339",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Nyanya Genaral Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 35637,
+      "source_record_id": "fe9f1c46-94cf-4bc7-ac6e-7371500e7224",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Gurbana Model Primary Health Center",
+      "lga_name": "Dambam",
+      "row_number": 36652,
+      "source_record_id": "27e20ff6-5a75-41e0-ae9d-6c2f320773f9",
+      "state_name": "Bauchi"
+    },
+    {
+      "facility_name": "Lafagu Gantehealth Post",
+      "lga_name": "Bagudu",
+      "row_number": 36882,
+      "source_record_id": "f3a475ba-90b5-4b22-a863-20ac4bc0d6ab",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Maje Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 36939,
+      "source_record_id": "3d99f1c2-7c37-4cb7-af0c-1c7c6388b6fd",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Bakin Ruwa Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 36947,
+      "source_record_id": "1f3bcd30-f3cb-4ba6-b659-4b51fb50227c",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tungar Fata Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 36948,
+      "source_record_id": "91f3d580-2d90-4daa-890e-a1471478e31d",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Maidahini Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 36949,
+      "source_record_id": "99021386-7244-4ac5-8130-9dc816529ebb",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kwasara Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 36957,
+      "source_record_id": "45780fc8-d608-4e14-9396-35b8810751b0",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kende Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 36962,
+      "source_record_id": "bd5d5dd1-bc72-4445-b8cf-bddc319d79f5",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Bagudo Maternity and Child Health",
+      "lga_name": "Bagudu",
+      "row_number": 37069,
+      "source_record_id": "bc58d417-2d76-4e65-8337-721e75392792",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kawara Mdg Clinic",
+      "lga_name": "Bagudu",
+      "row_number": 37075,
+      "source_record_id": "d2465b0e-ea99-46d0-a5e2-08d24c37b81a",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "T Kwallo Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37101,
+      "source_record_id": "9b6725fa-88f0-419d-9ae6-68d443c62622",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Illo General Hospital",
+      "lga_name": "Bagudu",
+      "row_number": 37103,
+      "source_record_id": "ee3da61c-6bfe-42c0-a8a5-98138f38f41a",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kali Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37105,
+      "source_record_id": "8cfbaa42-834f-4cd4-b2c7-bc650e5de290",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sabon Mahuta Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37110,
+      "source_record_id": "ef80bbc5-3748-44ba-93c1-03a02eddf660",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sabon Gari Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37121,
+      "source_record_id": "c523d360-547b-4312-9218-a3bccbe86fca",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Bakin Ruwa Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37146,
+      "source_record_id": "a421cfa7-575c-4348-9987-16a0a1a5d945",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Dirinna Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37160,
+      "source_record_id": "cc4edc9c-0ee9-4585-938a-32136fb237d4",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Raha Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37162,
+      "source_record_id": "95eea708-5a03-47c8-8839-4fa361518eb3",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Yabusa Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37181,
+      "source_record_id": "117a4a8c-3109-41d3-b85d-3f89a2b3d0af",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kaoje General Hospital",
+      "lga_name": "Bagudu",
+      "row_number": 37199,
+      "source_record_id": "2f1e56e3-ca82-4cb8-9ac4-e51bb318731e",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Maitambari Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37209,
+      "source_record_id": "f021484a-1a35-446e-8dcb-79c2a0ebb4bd",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "B Doma Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37211,
+      "source_record_id": "8be47729-ed36-48fd-81fe-46a2ec726ea9",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Ganten Tudu Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37236,
+      "source_record_id": "923686f3-87f9-4fea-8958-4e4d66903abc",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sabo Gari Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37240,
+      "source_record_id": "8e470005-4057-4c02-8c3a-4298ad26d118",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kongoi Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37241,
+      "source_record_id": "32689fb7-878a-4278-a32c-ac2b3152ee24",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Bagudo General Hospital",
+      "lga_name": "Bagudu",
+      "row_number": 37252,
+      "source_record_id": "bf279767-73e3-42ea-8bc7-781830ed092b",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gante Fadama Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37256,
+      "source_record_id": "6e12743f-766b-41f6-9df1-63644616044a",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Lafagu Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37277,
+      "source_record_id": "42292fbb-2555-4cef-a892-369bfb17e0a5",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Geza Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37295,
+      "source_record_id": "39ce442b-2021-46f3-9a9d-bee8d2956f23",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Matsinkai Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37313,
+      "source_record_id": "0e97caa7-a6b5-4d76-b48e-da51b29b1541",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Taukin Simiti Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37600,
+      "source_record_id": "0c541daf-f99c-4f14-8a7b-2fb640c59ce6",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sanji Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37601,
+      "source_record_id": "527b4bce-380a-4955-947e-6340d8093c3c",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Kasati Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37602,
+      "source_record_id": "6a990405-d6fe-4020-a272-20ab12ff2f10",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tsamiya Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37620,
+      "source_record_id": "a7cbdc69-a839-48e5-8962-bc8110f8584a",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gwamba Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37645,
+      "source_record_id": "a0e556ab-ba4d-4aef-a4f0-f78ab5d22b05",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Mado Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37646,
+      "source_record_id": "17733d4b-a575-4921-9b95-7b35a2c25048",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Zagga Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37647,
+      "source_record_id": "210b5ce8-b22e-42b2-a11e-6292cfdf81f6",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gendene Primary Health Clinic",
+      "lga_name": "Bagudu",
+      "row_number": 37652,
+      "source_record_id": "d89307e6-bf2f-411c-a36b-2f8343210f79",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Tuga Health Clinic",
+      "lga_name": "Bagudu",
+      "row_number": 37653,
+      "source_record_id": "51dbdbe8-f693-42a6-be32-3585a6c8e138",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Lani Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 37658,
+      "source_record_id": "a2c92b57-3abb-4d94-8617-d092e0373fe6",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Lolo Primary Health Center",
+      "lga_name": "Bagudu",
+      "row_number": 37779,
+      "source_record_id": "2ed22f23-069f-4a94-a279-f05c6af5565e",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "T Lawal Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37782,
+      "source_record_id": "08ca7309-a8c9-4395-b7c5-e36e1df98e3f",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Illo Primary Health Clinic",
+      "lga_name": "Bagudu",
+      "row_number": 37783,
+      "source_record_id": "2e562006-e078-4ac7-af01-7b0e191f8b52",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sharabi Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37787,
+      "source_record_id": "f50ca255-e2df-4d03-81b0-917b75288132",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Gandu Dispensary",
+      "lga_name": "Bagudu",
+      "row_number": 37806,
+      "source_record_id": "b8005dfb-ae55-4e68-800b-a99196506ec6",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Feza Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 38567,
+      "source_record_id": "036b4256-e5e1-417c-b076-dabf2d00f41a",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Bani Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 38568,
+      "source_record_id": "35b02c06-9b3b-4c21-bf45-f6020d75fc08",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Sharabi Health Post",
+      "lga_name": "Bagudu",
+      "row_number": 39363,
+      "source_record_id": "cf5e5920-587c-4833-bf03-3f2d06ec702f",
+      "state_name": "Kebbi"
+    },
+    {
+      "facility_name": "Oluyoro Catholic Hospital",
+      "lga_name": "Ayedade",
+      "row_number": 43812,
+      "source_record_id": "fe634b73-d1d1-451e-b695-c25b174ca910",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Loving Spring Medical Center",
+      "lga_name": "Ayedade",
+      "row_number": 43890,
+      "source_record_id": "3b2efcf9-b9eb-4d3a-8503-2cb6686e6bb4",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Mojapa Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 43977,
+      "source_record_id": "4281552f-4332-4f76-8b90-077ad8ec82d0",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Get Well Hospital and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 44605,
+      "source_record_id": "05db945c-c123-44ce-aa43-28cac0383cf9",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Una Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 44639,
+      "source_record_id": "c829da92-7a14-4e43-be4d-44ac0f2bec0d",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Idu Karmo Health Post",
+      "lga_name": "Municipal Area Council",
+      "row_number": 44640,
+      "source_record_id": "f3ee9856-3c1a-46c1-99a0-a89d469d58c7",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Aso Hospital",
+      "lga_name": "Municipal Area Council",
+      "row_number": 44903,
+      "source_record_id": "75216a8b-d54b-4102-86a9-e364eaf3b9e5",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Life Clinic and Maternity",
+      "lga_name": "Municipal Area Council",
+      "row_number": 44904,
+      "source_record_id": "dd6ed0c5-40ba-4a9d-a2e3-529584780e37",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Jiwa Primary Health Care",
+      "lga_name": "Municipal Area Council",
+      "row_number": 45144,
+      "source_record_id": "cc44f94f-d01c-497e-aa38-892aaf8fa7fd",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Elan Clinic",
+      "lga_name": "Municipal Area Council",
+      "row_number": 45308,
+      "source_record_id": "4adac95b-4b15-41d8-85f1-dd1781eb5185",
+      "state_name": "Fct"
+    },
+    {
+      "facility_name": "Orile Owu Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45696,
+      "source_record_id": "20306e46-afd0-43c0-a245-2001616bb35d",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "National Primary Health Care Development Agency",
+      "lga_name": "Ayedade",
+      "row_number": 45718,
+      "source_record_id": "04292a6c-1ac3-4330-84a5-0bdf4c2af7db",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ilude Odeomu Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45773,
+      "source_record_id": "150127be-9e66-42b3-b5d4-a05931674d9b",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Wakajaiye Jun Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45774,
+      "source_record_id": "b67dd702-135a-4721-b628-1e7025b69f9a",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Oke Odo Mdgs",
+      "lga_name": "Ayedade",
+      "row_number": 45798,
+      "source_record_id": "57abe3ec-dc8d-47ac-9457-c5ee0345b9be",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Wakajaye Junction Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45899,
+      "source_record_id": "68b84b64-9a3f-48b1-abf3-b91ed978bd41",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Victory Medical Center",
+      "lga_name": "Ayedade",
+      "row_number": 45901,
+      "source_record_id": "ee2bfb9d-66d4-4057-8627-b0a6b28e7fa9",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Wonsebolatan Maternity Home",
+      "lga_name": "Ayedade",
+      "row_number": 45946,
+      "source_record_id": "2103b87a-e1e0-4c2d-8c81-00b094d1cecb",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Alaha Primary Health Care",
+      "lga_name": "Ayedade",
+      "row_number": 45984,
+      "source_record_id": "37c0bc6f-66dc-4d48-b667-890938b97ebe",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Odeyinka Model Hospital",
+      "lga_name": "Ayedade",
+      "row_number": 45986,
+      "source_record_id": "d5a857f2-5914-4d4c-81e7-07bd06332b1e",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Ode Omu Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45993,
+      "source_record_id": "d820c074-7c78-4e8e-82a6-2f955f35955b",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Orile Owu Model Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 45994,
+      "source_record_id": "19c8c07e-1a7c-4d43-84ac-e4764b951052",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Motako Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 46005,
+      "source_record_id": "c5bd2a66-561b-4883-9d2c-77012a9a00ad",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "His Bloob Health Care",
+      "lga_name": "Ayedade",
+      "row_number": 46019,
+      "source_record_id": "ce67e78a-2378-481a-8835-a0e9116099a2",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Omu Olounde Health Post",
+      "lga_name": "Ayedade",
+      "row_number": 46022,
+      "source_record_id": "90640c30-85c2-40a1-a04b-e8b054b25302",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Orileowu Primary Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 46027,
+      "source_record_id": "b25ff070-9f02-4efa-9f9a-36bb07065ae4",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Itunu Royal Convalescent Home",
+      "lga_name": "Ayedade",
+      "row_number": 46038,
+      "source_record_id": "7d19c596-19eb-4519-9fba-2cfa862f6dde",
+      "state_name": "Osun"
+    },
+    {
+      "facility_name": "Arinkinkin Health Center",
+      "lga_name": "Ayedade",
+      "row_number": 46098,
+      "source_record_id": "63c18172-4252-4749-9d47-b03201fc842d",
+      "state_name": "Osun"
+    }
+  ]
+}

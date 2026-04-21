@@ -652,9 +652,13 @@ S06 education batch 1 is complete for the official NEMIS Schools Directory. The 
 
 UBEC 2022 National Personnel Audit aggregate counts are recorded only as a benchmark because the available public UBEC source did not expose row-level records. The 130 unresolved NEMIS canonical school rows are intentionally not seeded: Osun `Ilesha` cannot be safely split between canonical Ilesa East and Ilesa West without an additional official key, while Imo `Onuimo` and Jigawa `Basirka` require a canonical source reconciliation before insertion.
 
-S06 remains in progress. Health facility, pharmacy, and health-professional batches are pending row-level official sources. Direct HFR access from the Replit network timed out or failed endpoint/SSL checks during the education batch, so the next S06 task is locating a reliable official HFR export/mirror or alternative NHIA/NPHCDA/PCN/MDCN/NMCN regulator source before seeding health rows.
+S06 remains in progress. Education/NEMIS and scoped NHIA health-care-provider batches are complete. HFR master health facilities, NPHCDA PHCs, PCN pharmacies, MDCN/NMCN/MLSCN professionals/facilities, and final health coverage reconciliation remain pending row-level official sources.
 
-S06 education reports are available at `docs/reports/phase-s06-education-nemis-schools-report-2026-04-21.md` and `docs/reports/phase-s06-education-health-source-manifest-2026-04-21.md`.
+Health source research continued on 2026-04-21. Direct HFR/NCDC access remained unavailable from the Replit environment: `www.hfr.health.gov.ng` public download/list pages timed out, `hfr.health.gov.ng` has a hostname certificate mismatch and returned current FMoH WordPress 404 pages when bypassed, and NCDC Data Portal CKAN/API paths timed out or returned gateway failures. A 46,146-row HDX/eHealth Africa health-facilities CSV was extracted and reconciled as a candidate artifact only: 45,652 rows resolved to canonical LGAs and 494 remained unresolved. It is explicitly marked `candidate_not_seeded` because its metadata source is eHealth Africa/Africa Open Data rather than direct HFR/FMoH publication.
+
+Additional official regulator research found NHIA's public Participating Health Care Providers table at `https://www.nhia.gov.ng/hcps/`. Migration `0308_health_nhia_hcp_seed.sql` (mirrored in `apps/api/migrations/` and `infra/db/seed/0009_nhia_hcp.sql`) seeds 6,539 NHIA-accredited provider organizations/profiles from 6,540 official rows after merging one exact duplicate. Because NHIA provides provider code, name, address, and facility tier but no LGA/ward coordinates, place resolution is state-only from the NHIA provider-code prefix. Validation confirmed 6,539 organizations, profiles, clinic profiles, search entries, and FTS rows, with 0 invalid place refs, 0 duplicate profile subjects, and 0 profiles missing search.
+
+S06 reports are available at `docs/reports/phase-s06-education-nemis-schools-report-2026-04-21.md`, `docs/reports/phase-s06-education-health-source-manifest-2026-04-21.md`, and `docs/reports/phase-s06-health-source-research-report-2026-04-21.md`.
 
 ---
 
