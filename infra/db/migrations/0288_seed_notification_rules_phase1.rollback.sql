@@ -1,0 +1,26 @@
+-- Rollback: 0288_seed_notification_rules_phase1
+DELETE FROM notification_rule WHERE id IN (
+  'rule_auth_registered_welcome_v1',
+  'rule_auth_pwreset_v1',
+  'rule_auth_locked_v1',
+  'rule_auth_invited_wsinvite_v1',
+  'rule_ws_invite_sent_v1',
+  'rule_auth_emailverify_sent_v1',
+  'rule_billing_pay_success_v1',
+  'rule_billing_pay_failed_v1',
+  'rule_banktransfer_completed_v1',
+  'rule_banktransfer_failed_v1',
+  'rule_ai_budget_warn_v1',
+  'rule_system_provider_down_v1',
+  'rule_wallet_funding_confirmed_v1',
+  'rule_wallet_funding_rejected_v1',
+  'rule_wallet_funding_expired_v1',
+  'rule_wallet_balance_low_v1',
+  'rule_wallet_kyc_upgrade_v1',
+  'rule_wallet_admin_frozen_v1',
+  'rule_wallet_admin_unfrozen_v1',
+  'rule_wallet_mla_earned_v1',
+  'rule_wallet_mla_credited_v1',
+  'rule_wallet_transfer_disabled_v1',
+  'rule_wallet_withdrawal_disabled_v1'
+);

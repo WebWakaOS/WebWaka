@@ -65,6 +65,7 @@
 - Staging version: uploaded successfully, all bindings active (RATE_LIMIT_KV, GEOGRAPHY_CACHE, KV, WALLET_KV)
 - Production version ID: `1af582b0-0d36-42fb-8d5e-5f8c7739fb81`, all bindings + cron `*/15 * * * *` + custom domain
 - D1 migrations: 0279–0287 applied to both staging and production (9 wallet migrations: hl_wallets, hl_ledger, hl_funding_requests, hl_spend_events, hl_mla_earnings, hl_withdrawal_requests, hl_transfer_requests, seed templates, seed webhook events)
+- D1 migrations: 0288–0300 applied to both staging and production 2026-04-21 (notification engine template library + rules — 13 migrations: rules for 22 existing families, 9 new domains × 1-3 channels = 147 templates total, 84 unique families, 95 enabled rules, 0 orphan rules)
 - Health: staging `api-staging.webwaka.com` → 200, production `api.webwaka.com` → 200
 
 **Cron trigger note (account plan limit = 5 triggers):**

@@ -7,10 +7,56 @@ WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operatin
 **Current State: PRODUCTION READY — Staging + Production deployed green, 2514 tests passing (2463 + 51 wallet), TypeScript 0 errors, 10/10 governance checks green**
 **HandyLife Wallet: Phase W1 COMPLETE + Phase W2 COMPLETE. Phase W3–W5 PENDING (feature-flagged off).**
 **W2 additions: bank-transfer → auto-confirmFunding (WF-021), HITL routing (WF-022), MLA referral chain recording (WF-026), NDPR payment_data consent gate (WF-033), wallet funding expiry CRON (WF-028), platform-admin wallet UI at /wallet.html (WF-029), WalletFundingHitlRequired event type, governance doc at docs/governance/handylife-wallet-governance.md (WF-036).**
+**Notification Engine — Template Library + Rules: 100% COMPLETE (2026-04-21). Migrations 0288–0300 applied to staging + production. 147 active templates (54 email + 72 in_app + 21 sms), 84 unique template families, 95 enabled platform-default rules, 0 orphan rules. Wallet rules (14) feature-flagged on wallet_enabled. Pipeline stays OFF (NOTIFICATION_PIPELINE_ENABLED=0) until Founder go-live (G25).**
 **Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P25 defined**
 **Notification Engine v2 — CANONICAL IMPLEMENTATION-READY: `docs/webwaka-notification-engine-final-master-specification-v2.md` (all 13 OQ decisions resolved, 25 guardrails G1-G25, 16-entity domain model, ~180d revised effort, N-001–N-133 backlog, 9 phases — supersedes all 4 prior notification docs)**
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
 **Notification Engine — prior documents superseded by v2: `final-master-specification.md` (v1.0), `section13-resolution.md`, `notification-engine-review.md`, `notification-engine-audit.md`**
+
+## Notification Engine — Template Library + Rules — 100% COMPLETE (2026-04-21)
+
+Migrations 0288–0300 applied to both staging and production D1.
+
+| Migration | Domain | Outcome |
+|---|---|---|
+| 0288 | Rules for 22 existing template families | ✅ 13 queries, 92 rows written |
+| 0289 | Auth / Workspace / Onboarding templates + rules | ✅ 16 queries |
+| 0290 | KYC / Identity templates + rules | ✅ 13 queries |
+| 0291 | Claims / Negotiation templates + rules | ✅ 18 queries |
+| 0292 | Support tickets templates + rules | ✅ 9 queries |
+| 0293 | Billing subscriptions templates + rules | ✅ 13 queries |
+| 0294 | B2B Marketplace templates + rules | ✅ 13 queries |
+| 0295 | Airtime / POS / Finance templates + rules | ✅ 11 queries |
+| 0296 | Social / Community / Transport templates + rules | ✅ 10 queries |
+| 0297 | Partners templates + rules | ✅ 8 queries |
+| 0298 | AI extended templates + rules | ✅ 6 queries |
+| 0299 | Wallet additional templates + rules | ✅ 6 queries |
+| 0300 | Fix orphan rule (bank_transfer.failed template) | ✅ Applied, 0 orphans remain |
+
+### Post-application governance counts (production, verified)
+
+| Metric | Count |
+|---|---|
+| Total active templates | 147 |
+| Unique template families | 84 |
+| Enabled platform-default rules | 95 |
+| Wallet-gated rules (feature_flag=wallet_enabled) | 14 |
+| Critical-priority rules | 10 |
+| Orphan rules (rule without matching template) | **0** |
+
+### Channel breakdown
+- Email: 54 templates
+- In-app: 72 templates
+- SMS: 21 templates
+
+### Design invariants
+- All templates: `tenant_id IS NULL`, `locale='en'`, `status='active'`
+- All rules: `tenant_id IS NULL`, `enabled=1`
+- Wallet rules: `feature_flag='wallet_enabled'` — off for non-wallet tenants
+- Pipeline kill-switch: `NOTIFICATION_PIPELINE_ENABLED=0` — flipped to `1` at go-live (G25)
+- Every rule has a matching template family (governance gate: 0 orphans enforced by migration 0300)
+
+---
 
 ## Notification Engine Phase 6 — ROUTE + VERTICAL WIRING (2026-04-20)
 
