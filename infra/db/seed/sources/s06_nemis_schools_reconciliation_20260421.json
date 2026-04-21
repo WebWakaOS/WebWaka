@@ -1,0 +1,988 @@
+{
+  "inserted_school_type_counts": {
+    "nursery": 1426,
+    "primary": 129522,
+    "secondary": 43320
+  },
+  "inserted_sector_counts": {
+    "PRIVATE": 92589,
+    "PUBLIC": 81679
+  },
+  "inserted_state_counts": {
+    "ABIA": 4116,
+    "ADAMAWA": 3438,
+    "AKWA-IBOM": 3460,
+    "ANAMBRA": 3427,
+    "BAUCHI": 5188,
+    "BAYELSA": 2376,
+    "BENUE": 5283,
+    "BORNO": 2215,
+    "CROSS-RIVER": 3126,
+    "DELTA": 4277,
+    "EBONYI": 2743,
+    "EDO": 3094,
+    "EKITI": 3079,
+    "ENUGU": 3959,
+    "FCT": 3684,
+    "GOMBE": 2843,
+    "IMO": 3138,
+    "JIGAWA": 3913,
+    "KADUNA": 5907,
+    "KANO": 10469,
+    "KATSINA": 4680,
+    "KEBBI": 5068,
+    "KOGI": 4721,
+    "KWARA": 4064,
+    "LAGOS": 15860,
+    "NASARAWA": 4648,
+    "NIGER": 6441,
+    "OGUN": 8838,
+    "ONDO": 4930,
+    "OSUN": 4416,
+    "OYO": 8474,
+    "PLATEAU": 5323,
+    "RIVERS": 5135,
+    "SOKOTO": 2692,
+    "TARABA": 4452,
+    "YOBE": 1411,
+    "ZAMFARA": 3380
+  },
+  "resolution_counts": {
+    "alias": 8957,
+    "exact": 162836,
+    "fuzzy:0.889": 258,
+    "fuzzy:0.909": 255,
+    "fuzzy:0.917": 142,
+    "fuzzy:0.923": 206,
+    "fuzzy:0.933": 538,
+    "fuzzy:0.941": 18,
+    "fuzzy:0.947": 120,
+    "fuzzy:0.952": 274,
+    "fuzzy:0.963": 542,
+    "fuzzy:0.966": 122,
+    "unresolved": 130
+  },
+  "resolved_canonical_schools": 174268,
+  "retrieved_at": "2026-04-21",
+  "source_rows": 174401,
+  "ubec_2022_npa_benchmark": {
+    "note": "UBEC aggregate benchmark is recorded for variance reporting only; row-level seeded entities come from NEMIS Schools Directory CSV exports.",
+    "private": 91252,
+    "public": 79775,
+    "ube_schools_total": 171027
+  },
+  "unresolved_canonical_schools": 130,
+  "unresolved_samples": [
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180003",
+      "school_name": "ACADEMIA NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180005",
+      "school_name": "ALPHA DAY NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180007",
+      "school_name": "AMAZING GRACE NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180008",
+      "school_name": "APOSTOLIC JUNIOR SECONDARY SCHOOL I, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180018",
+      "school_name": "BLESSED KIDS NUR/PRY IROJO ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180120",
+      "school_name": "BOLA NUR. &amp; PRY SCHOOL, ARALOPON IROJO, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180004",
+      "school_name": "BOLORUNDURO/ IREWOLEDE COMMUNITY PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180024",
+      "school_name": "BRILLIANCE PRIVATE SCHOOLS M38, OKE-ESO STREET,ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180026",
+      "school_name": "C.A.C PRIMARY SCHOOL A, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180036",
+      "school_name": "EBENEZARY NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180049",
+      "school_name": "HON. ISAAC MAKINWA PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180052",
+      "school_name": "IDO-IJESA COMMUNITY PRIMARY SCHOOL, IDO-IJESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180053",
+      "school_name": "IFE-OLUWA (C&amp;S) PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180057",
+      "school_name": "ILO-OLOMO COMMUNITY PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180058",
+      "school_name": "IROJO COMM. PRIMARY SCHOOL A, SABO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180033",
+      "school_name": "Irojo community primary school 2 sabo",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180059",
+      "school_name": "IROJO COMMUNITY PRIMARY SCHOOL B, SABO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180124",
+      "school_name": "KING JEDIDIAH ACADEMY",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180062",
+      "school_name": "LOCAL AUTHORITY PRIMARY SCHOOL A, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180063",
+      "school_name": "LOCAL AUTHORITY PRIMARY SCHOOL B, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180064",
+      "school_name": "LY-WUMI SCHOOL ARAROMI OKE-OPO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180065",
+      "school_name": "MERCY LAND NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180068",
+      "school_name": "METHODIST PRIMARY SCHOOL, OGUDU",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180069",
+      "school_name": "METHODIST PRIMARY SCHOOL, ORO-AJIMOKO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180070",
+      "school_name": "METHODIST PRIMARY SCHOOL, OTAPETE",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180119",
+      "school_name": "METHODIST PRY SCHOOL, OKE AGA ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180071",
+      "school_name": "N.U.D ISLAMIC NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180072",
+      "school_name": "N.U.D. PRIMARY SCHOOL, IGBAYE",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180075",
+      "school_name": "OKE-OPO COMMUNITY PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180079",
+      "school_name": "OMI-ASORO COMMUNITY PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180083",
+      "school_name": "ORIRE-OGEDENGBE UNITED PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180085",
+      "school_name": "POTTERS AND CLAY NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180086",
+      "school_name": "PRINCE AND PRINCESS SCHOOL IMO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180087",
+      "school_name": "REALITY NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180094",
+      "school_name": "ST MARY&#39;S (RCM) PRIMARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180095",
+      "school_name": "ST. JAMES NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180096",
+      "school_name": "ST. JOHN&#39;S ANGLICAN PRIMARY SCHOOL A, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180097",
+      "school_name": "ST. JOHNS KIDDIES ACADEMY",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180098",
+      "school_name": "ST. PETERS PRIMARY SCHOOL A, ISONA ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180001",
+      "school_name": "ST.JOHN SCHOOL 2",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180105",
+      "school_name": "SURE FOUNDATION NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180106",
+      "school_name": "THE APOSTOLIC CENTRAL PRIMARY SCHOOL, OKE-OOYE",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180107",
+      "school_name": "THE APOSTOLIC CHURCH NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180110",
+      "school_name": "THE APOSTOLIC PRIMARY SCHOOL, OKE-IRO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180115",
+      "school_name": "ULTIMATE NURSERY AND PRIMARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200001",
+      "school_name": "ALAIKE GROUP SCHOOL, ALAIKE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200002",
+      "school_name": "AMAZING GRACE ANGLICAN DAYCARE NURSERY &amp; PRIMARY SCHOOL OJIAMA OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200003",
+      "school_name": "AMAZU OKOROIGBO, AMAZU OKOROIGBO",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200004",
+      "school_name": "ANTIOCH BAPTIST NUR.&amp; PRI.SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200010",
+      "school_name": "DE MILLENIUM INTL NURSERY &amp; PRIMARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200012",
+      "school_name": "DEVELOPMENT PRIMARY SCHOOL, UMUOGELE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200013",
+      "school_name": "DIAKUMA PRIMARY SCHOOL, DIAKUMA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200014",
+      "school_name": "DIVINE SPRING SCHOOLS",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200015",
+      "school_name": "EMAFRANK FOUNDATION",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200017",
+      "school_name": "EZELU OKWE PRIMARY SCHOOL, EZELU",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200018",
+      "school_name": "EZIAMA PRIMARY SCHOOL, EZIAMA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200019",
+      "school_name": "EZIORIE NORMADIC PRIMARY SCHOOL, EZIORIE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200063",
+      "school_name": "GODS FAVOUR CHRISTIAN SCHOOL OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200020",
+      "school_name": "HIS GLORY MODEL ACADEMY",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200062",
+      "school_name": "HOLY CITY OF GOD NURSERY AND PRIMARY SCHOOL OJIAMA OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200021",
+      "school_name": "ICHIRIBE PRIMARY SCHOOL, EZIAMA OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200022",
+      "school_name": "IKPAGU OFEAHIA PRIMARY SCHOOL, IKPAGU",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200023",
+      "school_name": "IKPEKE PRIMARY SCHOOL, IKPEKE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200024",
+      "school_name": "MERCY PRI./NUR. SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200066",
+      "school_name": "MOTHERCARE NURSERY AND PRIMARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200064",
+      "school_name": "NATION BUIDERS NURSERY AND PRIMARY SCHOOL UMUCHEKE OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200025",
+      "school_name": "NDIAMAZU IKPAKWU COMMUNITY PRIMARY SCHOOL, ONUIMO L.G.E.A",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200026",
+      "school_name": "NDIANICHE IKPAENYI PRIMARY SCHOOL, NDIANICHE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200035",
+      "school_name": "OBINIKPA NOM PRIMARY SCHOOL, OBINIKPA NORMADIC PRIMARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200027",
+      "school_name": "OKAI COMMUNITY UNITY PRIMARY SCHOOL, OKAI",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200029",
+      "school_name": "OKOHIA COMMUNITY PRIMARY SCHOOL, OKOHIA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200041",
+      "school_name": "OKWE CENTRAL SCHOOL, ONUIMO (UBE)",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200030",
+      "school_name": "OKWELLE COMMUNITY UNITY SCHOOL, OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200031",
+      "school_name": "OKWELLE MODEL CENTRAL SCHOOL, OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200032",
+      "school_name": "OKWELLE PRIMARY SCHOOL, OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200034",
+      "school_name": "OKWELLE STATE PRIMARY SCHOOL, OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200036",
+      "school_name": "OZIMO COMMUNITY UNITY SCHOOL, OZIMO",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200042",
+      "school_name": "UMUAGWO TOWNSHIP SCHOOL, UMUAGWO",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200043",
+      "school_name": "UMUANUMEZE PRIMARY SCHOOL, UMUANUMEZE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200044",
+      "school_name": "UMUCHEKE COMMUNITY UNITY SCHOOL, UMUCHEKE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200045",
+      "school_name": "UMUCHEKE STATE PRIMARY SCHOOL, UMUCHEKE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200046",
+      "school_name": "UMUDURU EGBEAGURU CENTRAL SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200047",
+      "school_name": "UMUDURUEGBEAGURU MODEL PRIMARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200048",
+      "school_name": "UMUNA CENTRAL SCHOOL, UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200049",
+      "school_name": "UMUNA PRIMARY SCHOOL, UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200050",
+      "school_name": "UMUODE COMMUNITY PRIMARY SCHOOL, UMUODE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200051",
+      "school_name": "UMUOFEKE COMMUNITY UNITY SCHOOL, UMUOFEKE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200052",
+      "school_name": "UMUOMA NORMADIC PRIMARY SCHOOL, UMUOMA OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200054",
+      "school_name": "UNION MODEL ACADEMY NURSERY AND PRIMARY SCHOOL UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200055",
+      "school_name": "UNITY PRIMARY SCHOOL UMUDIKE, ONUIMO",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200056",
+      "school_name": "UWAKONYE PRIMARY SCHOOL, UWAKONYE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200057",
+      "school_name": "WISDOM NUR. &amp; PRI. SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180006",
+      "school_name": "AMAZING GRACE JUNIOR SECONDARY SCHOOL,OKE-OPO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180010",
+      "school_name": "APOSTOLIC TEACHERS COLLEGE, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180011",
+      "school_name": "BABALOLA JUNIOR SECONDARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180014",
+      "school_name": "BIBO-OLUWA ACADEMY",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180015",
+      "school_name": "BILADU GRAMMER SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180017",
+      "school_name": "BLESSED HIGH SCHOOL IROJO",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180122",
+      "school_name": "BOLA NUR. &amp; PRY SCHOOL, ARALOPON IROJO, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180028",
+      "school_name": "C&amp;S HIGH SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180025",
+      "school_name": "C.A.C COMMERCIAL JUNIOR SECONDARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200005",
+      "school_name": "CHRISTUS DOMINUS SECONDARY TECH.SCHOOL EZELU-OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200007",
+      "school_name": "COMMUNITY SECONDARY SCHOOL OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200008",
+      "school_name": "COMMUNITY SECONDARY SCHOOL, UMUDURU EGBEAGURU",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200009",
+      "school_name": "COMPREHENSIVE SEC.SCH.UMUCHEKE OKWE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200011",
+      "school_name": "DE-MILLENIUM INTL HIGH SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200016",
+      "school_name": "EMAFRANK FOUNDATION ACADEMY UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200065",
+      "school_name": "HIS GLORY CHRISTIAN INTERNATIONAL COLLEGE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180050",
+      "school_name": "HOPE JUNIOR SECONDARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180118",
+      "school_name": "IJESA MUSLIM COMPREHENSIVE HIGH SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180054",
+      "school_name": "IJESA MUSLIM JUNIOR SECONDARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180055",
+      "school_name": "ILESA GRAMMERS JUNIOR SECONDARY SCHOOL I, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180066",
+      "school_name": "MERCYLAND COMPENSIVE HIGH SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180121",
+      "school_name": "MUSLIM COMPREHENSIVE COLLEGE SABO IROJO, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180073",
+      "school_name": "OBOKUN JUNIOR SECONDARY SCHOOL I, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180074",
+      "school_name": "OBOKUN JUNIOR SECONDARY SCHOOL II, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200028",
+      "school_name": "OKIGWE NATIONAL GRAMMER SCHOOL UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200033",
+      "school_name": "OKWELLE SECONDARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180084",
+      "school_name": "POTTER AND CLAY SCHOOL ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200038",
+      "school_name": "REGINA CAELI SECONDARY TECHNICAL SCHOOL UMUDURU EGBUAGURU",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180090",
+      "school_name": "ST LAWRENCES JUNIOR SECONDARY SCHOOL, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180092",
+      "school_name": "ST MAGRET JUNIOR SECONDARY SCHOOL II, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200039",
+      "school_name": "ST.ANDREWS ANGLICAN SECONDARY SCHOOL, OKWELLE",
+      "state": "IMO"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200040",
+      "school_name": "ST.CHARLES INTERNATIONAL SECONDARY SCHOOL",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180104",
+      "school_name": "SURE FOUNDATION PRIVATE SEC SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180108",
+      "school_name": "THE APOSTOLIC JUNIOR SCHOOL 11, OKE-OOYE",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180114",
+      "school_name": "ULTIMATE GRAMMAR JUNIOR SECONDARY SCHOOL",
+      "state": "OSUN"
+    },
+    {
+      "lga": "ONUIMO",
+      "reason": "unresolved",
+      "school_code": "16200053",
+      "school_name": "UNION MODEL SEC. SCHOOL UMUNA",
+      "state": "IMO"
+    },
+    {
+      "lga": "ILESHA",
+      "reason": "unresolved",
+      "school_code": "29180116",
+      "school_name": "UNITED JUNIOR SECONDARY SCHOOL I, ILESA",
+      "state": "OSUN"
+    },
+    {
+      "lga": "BASIRKA",
+      "reason": "unresolved",
+      "school_code": "1181130007",
+      "school_name": "Gas Basirka",
+      "state": "JIGAWA"
+    }
+  ],
+  "valid_canonical_schools": 174398
+}

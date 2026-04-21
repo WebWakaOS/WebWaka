@@ -1,0 +1,110 @@
+{
+  "canonical_school_count": 174398,
+  "dedupe_method_counts": {
+    "official_school_code": 174398
+  },
+  "duplicate_source_record_count": 0,
+  "missing_school_code_row_count": 1,
+  "normalized_path": "infra/db/seed/sources/s06_nemis_schools_normalized_20260421.json",
+  "raw_csv_paths": [
+    "infra/db/seed/sources/s06_nemis_schools_type_1_pre_primary_20260421.csv",
+    "infra/db/seed/sources/s06_nemis_schools_type_2_primary_partitioned_20260421.csv",
+    "infra/db/seed/sources/s06_nemis_schools_type_3_junior_secondary_20260421.csv",
+    "infra/db/seed/sources/s06_nemis_schools_type_4_senior_secondary_20260421.csv"
+  ],
+  "raw_row_count": 174401,
+  "rejected_source_row_count": 3,
+  "rejection_reason_counts": {
+    "missing_state_or_lga": 3
+  },
+  "retrieved_at": "2026-04-21",
+  "school_type_counts": {
+    "nursery": 1426,
+    "primary": 129614,
+    "secondary": 43358
+  },
+  "sector_counts": {
+    "PRIVATE": 92638,
+    "PUBLIC": 81760
+  },
+  "source": {
+    "base_url": "https://nemis.education.gov.ng",
+    "lga_partition_count": 849,
+    "retrieved_at": "2026-04-21",
+    "school_type_exports": {
+      "1": {
+        "content_hash": "dea0a29cfad4201b55009a59eeee3ff6cf59d058d93708940c102b11a3b259d6",
+        "file_path": "infra/db/seed/sources/s06_nemis_schools_type_1_pre_primary_20260421.csv",
+        "label": "Pre-Primary",
+        "mode": "cached_file",
+        "row_count": 1426,
+        "url": "https://nemis.education.gov.ng/export-schools.php?lga=&school_type=1&search="
+      },
+      "2": {
+        "content_hash": "98ca9ed8da6ddd4eea2121795e96daa07231d3e1b9ae89ee0f92bd901c191615",
+        "file_path": "infra/db/seed/sources/s06_nemis_schools_type_2_primary_partitioned_20260421.csv",
+        "label": "Primary",
+        "mode": "cached_file",
+        "row_count": 129614,
+        "url": "https://nemis.education.gov.ng/export-schools.php?lga=&school_type=2&search="
+      },
+      "3": {
+        "content_hash": "aa9a1bc1c44ce7ccfea6533638644625b29b805bf36857c09cfb3c3f73988878",
+        "file_path": "infra/db/seed/sources/s06_nemis_schools_type_3_junior_secondary_20260421.csv",
+        "label": "Junior Secondary",
+        "mode": "cached_file",
+        "row_count": 38217,
+        "url": "https://nemis.education.gov.ng/export-schools.php?lga=&school_type=3&search="
+      },
+      "4": {
+        "content_hash": "75b78c0710582b671bda4ca448a61b9ade3f84590b1ae335bfdb8ee0a3e3b73d",
+        "file_path": "infra/db/seed/sources/s06_nemis_schools_type_4_senior_secondary_20260421.csv",
+        "label": "Senior Secondary",
+        "mode": "cached_file",
+        "row_count": 5144,
+        "url": "https://nemis.education.gov.ng/export-schools.php?lga=&school_type=4&search="
+      }
+    },
+    "source": "NEMIS Schools Directory CSV exports"
+  },
+  "state_counts": {
+    "ABIA": 4116,
+    "ADAMAWA": 3438,
+    "AKWA-IBOM": 3460,
+    "ANAMBRA": 3427,
+    "BAUCHI": 5188,
+    "BAYELSA": 2376,
+    "BENUE": 5283,
+    "BORNO": 2215,
+    "CROSS-RIVER": 3126,
+    "DELTA": 4277,
+    "EBONYI": 2743,
+    "EDO": 3094,
+    "EKITI": 3079,
+    "ENUGU": 3959,
+    "FCT": 3684,
+    "GOMBE": 2843,
+    "IMO": 3198,
+    "JIGAWA": 3914,
+    "KADUNA": 5907,
+    "KANO": 10469,
+    "KATSINA": 4680,
+    "KEBBI": 5068,
+    "KOGI": 4721,
+    "KWARA": 4064,
+    "LAGOS": 15860,
+    "NASARAWA": 4648,
+    "NIGER": 6441,
+    "OGUN": 8838,
+    "ONDO": 4930,
+    "OSUN": 4485,
+    "OYO": 8474,
+    "PLATEAU": 5323,
+    "RIVERS": 5135,
+    "SOKOTO": 2692,
+    "TARABA": 4452,
+    "YOBE": 1411,
+    "ZAMFARA": 3380
+  },
+  "unique_source_row_count": 174401
+}

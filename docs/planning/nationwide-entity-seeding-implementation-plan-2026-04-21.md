@@ -646,6 +646,16 @@ S05 reports are available at `docs/reports/phase-s05-political-foundation-progre
 - Every HFR facility has source ID, facility type, ownership, state, LGA, and status where available.
 - No school or health facility is seeded from market estimate alone.
 
+### Current implementation status — 2026-04-21
+
+S06 education batch 1 is complete for the official NEMIS Schools Directory. The batch extracted 174,401 official NEMIS CSV rows, deduped them to 174,398 canonical schools by official NEMIS school code, and seeded 174,268 schools that resolved to the canonical state/LGA geography. The seed writes school organizations, discovery profiles, `school_profiles`, `private_school_profiles` for private schools, search entries, and S00/S04 provenance sidecars through migration `0307_education_nemis_schools_seed.sql` and standalone seed `infra/db/seed/0008_nemis_schools.sql`.
+
+UBEC 2022 National Personnel Audit aggregate counts are recorded only as a benchmark because the available public UBEC source did not expose row-level records. The 130 unresolved NEMIS canonical school rows are intentionally not seeded: Osun `Ilesha` cannot be safely split between canonical Ilesa East and Ilesa West without an additional official key, while Imo `Onuimo` and Jigawa `Basirka` require a canonical source reconciliation before insertion.
+
+S06 remains in progress. Health facility, pharmacy, and health-professional batches are pending row-level official sources. Direct HFR access from the Replit network timed out or failed endpoint/SSL checks during the education batch, so the next S06 task is locating a reliable official HFR export/mirror or alternative NHIA/NPHCDA/PCN/MDCN/NMCN regulator source before seeding health rows.
+
+S06 education reports are available at `docs/reports/phase-s06-education-nemis-schools-report-2026-04-21.md` and `docs/reports/phase-s06-education-health-source-manifest-2026-04-21.md`.
+
 ---
 
 ## 13. Phase S07 — Regulated Commercial and Financial Registries
