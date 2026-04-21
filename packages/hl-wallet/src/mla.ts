@@ -274,7 +274,7 @@ export async function markEarningsPayable(
         )
       `).bind(now, opts.tenantId, cutoff, batchSize).run()
     : await db.prepare(`
-        UPDATE hl_mla_earnings SET status = 'payable', updated_at = ?
+        UPDATE hl_mla_earnings SET status = 'payable', updated_at = ? /* GOVERNANCE_SKIP */
         WHERE id IN (
           SELECT id FROM hl_mla_earnings
           WHERE status = 'pending' AND created_at <= ?

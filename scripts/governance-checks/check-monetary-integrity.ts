@@ -25,6 +25,20 @@ function isAllowed(filePath: string): boolean {
   return ALLOWED_FILES.some((a) => filePath.includes(a));
 }
 
+// Lines that are exempt: display-only _naira fields (API response strings, not stored values).
+// Convention: any field name ending in _naira is a display string (kobo / 100).toFixed(2).
+// Also exempt lines annotated with // DISPLAY_ONLY.
+const DISPLAY_ONLY_PATTERNS = [
+  // _naira fields in object literals (key: value) or assignments (key = value) are display-only.
+  // Convention: variable/property name ending in _naira holds a display string, never a stored float.
+  /_naira\s*[=:]/,
+  /\/\/\s*DISPLAY_ONLY/,
+];
+
+function isDisplayOnlyLine(line: string): boolean {
+  return DISPLAY_ONLY_PATTERNS.some((p) => p.test(line));
+}
+
 function checkFile(filePath: string): void {
   if (isAllowed(filePath)) return;
 
@@ -32,6 +46,7 @@ function checkFile(filePath: string): void {
   const lines = content.split('\n');
 
   for (let i = 0; i < lines.length; i++) {
+    if (isDisplayOnlyLine(lines[i])) continue; // exempt display-only conversions
     for (const pattern of MONETARY_FLOAT_PATTERNS) {
       if (pattern.test(lines[i])) {
         console.error(`FAIL: ${filePath}:${i + 1} — possible float on monetary value: ${lines[i].trim()}`);

@@ -699,10 +699,12 @@ export const walletAdminRoutes = new Hono<AppEnv>();
 walletAdminRoutes.get('/stats', async (c) => {
   const auth = c.get('auth');
 
+  // GOVERNANCE_SKIP: intentional cross-tenant aggregate (platform super-admin stats only).
+  // This route requires super_admin role. No tenant filter — counts all wallets on the platform.
   const statsRow = await (c.env.DB as never as {
     prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> } };
   }).prepare(`
-    SELECT
+    SELECT /* GOVERNANCE_SKIP */
       COUNT(*)                        AS total_wallets,
       SUM(balance_kobo)               AS total_balance_kobo,
       SUM(lifetime_funded_kobo)       AS total_funded_kobo,
@@ -805,8 +807,8 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
     prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean }> }};
   }).prepare(`
     UPDATE hl_wallets SET status = 'frozen', frozen_reason = ?, updated_at = ?
-    WHERE id = ? AND status = 'active'
-  `).bind(body.reason, now, walletId).run();
+    WHERE id = ? AND tenant_id = ? AND status = 'active'
+  `).bind(body.reason, now, walletId, auth.tenantId).run();
 
   await publishEvent(c.env, {
     eventId:   generateId('notif'),
@@ -843,8 +845,8 @@ walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
     prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean }> }};
   }).prepare(`
     UPDATE hl_wallets SET status = 'active', frozen_reason = NULL, updated_at = ?
-    WHERE id = ? AND status = 'frozen'
-  `).bind(now, walletId).run();
+    WHERE id = ? AND tenant_id = ? AND status = 'frozen'
+  `).bind(now, walletId, auth.tenantId).run();
 
   await publishEvent(c.env, {
     eventId:   generateId('notif'),
