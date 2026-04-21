@@ -1,0 +1,2251 @@
+{
+  "api_base": "https://nass.gov.ng/mps/get_legislators",
+  "endpoints": {
+    "reps": {
+      "data": [
+        [
+          "Abubakar Yabo Umaru",
+          "Sokoto",
+          "Shagari/Yabo",
+          "APC",
+          "5"
+        ],
+        [
+          "Sani Umar Bala",
+          "Kano",
+          "Tsanyawa/Kunchi",
+          "APC",
+          "7"
+        ],
+        [
+          "Makki Yalleman Abubakar",
+          "Jigawa",
+          "Mallam Madori/Kaugama",
+          "APC",
+          "12"
+        ],
+        [
+          "Bello A Kaoje",
+          "Kebbi",
+          "Bagudo/Suru",
+          "APC",
+          "19"
+        ],
+        [
+          "Abubakar Hassan Nalaraba",
+          "Nassarawa",
+          "Awe/Doma/Keana",
+          "APC",
+          "23"
+        ],
+        [
+          "Lawan Shettima Ali",
+          "Yobe",
+          "Bursari/Geidam/Yunusari",
+          "APC",
+          "30"
+        ],
+        [
+          "David Abel Fuoh",
+          "Taraba",
+          "Gashaka/Kurmi/Sardauna",
+          "APC",
+          "32"
+        ],
+        [
+          "Alex Egbona Egbona",
+          "Cross River",
+          "Yakurr/Abi",
+          "PDP",
+          "34"
+        ],
+        [
+          "Adedeji Stanley Olajide",
+          "Oyo",
+          "Ibadan North West/South West",
+          "PDP",
+          "38"
+        ],
+        [
+          "Adeyemi Taofeek Alli",
+          "Lagos",
+          "Mushin I",
+          "APC",
+          "49"
+        ],
+        [
+          "Ozurigbo  ugonna",
+          "Imo",
+          "Isu/Njaba/Nkwerre/Nwangele",
+          "APC",
+          "56"
+        ],
+        [
+          "Sada  Soli",
+          "Katsina",
+          "Kaita/Jibia",
+          "APC",
+          "57"
+        ],
+        [
+          "Sununu Tanko Yusuf",
+          "Kebbi",
+          "Yauri/Shanga/Ngaski",
+          "APC",
+          "58"
+        ],
+        [
+          "Awaji-inombek Dagomie Abiante",
+          "Rivers",
+          "Andoni/Opobo/Nkoro",
+          "PDP",
+          "61"
+        ],
+        [
+          "Nnolim John Nnaji",
+          "Enugu",
+          "Nkanu East/Nkanu West",
+          "PDP",
+          "63"
+        ],
+        [
+          "Gagdi Adamu Yusuf",
+          "Plateau",
+          "Pankshin/Kanke/Kanam",
+          "APC",
+          "64"
+        ],
+        [
+          "Abiola Peter Makinde",
+          "Ondo",
+          "Ondo East/Ondo West",
+          "APC",
+          "71"
+        ],
+        [
+          "Akinola Adekunle Alabi",
+          "Oyo",
+          "Ona-Ara/Egbeda",
+          "APC",
+          "75"
+        ],
+        [
+          "Olusola Steve Fatoba",
+          "Ekiti",
+          "Ado Ekiti/Irepodun-Ifelodun",
+          "APC",
+          "85"
+        ],
+        [
+          "Taofeek Abimbola Ajilesoro",
+          "Osun",
+          "Ife Central/East/North/South",
+          "APC",
+          "91"
+        ],
+        [
+          "Abbas  Tajudeen",
+          "Kaduna",
+          "Zaria Federal Constituency",
+          "APC",
+          "92"
+        ],
+        [
+          "Ali Ibrahim Abdullahi",
+          "Kogi",
+          "Ankpa/Omala/Olamaboro",
+          "APC",
+          "96"
+        ],
+        [
+          "Olufemi Richard Bamisile",
+          "Ekiti",
+          "Emure/Gbonyin/Ekiti East",
+          "APC",
+          "104"
+        ],
+        [
+          "Anayo Edwin Nwonu",
+          "Ebonyi",
+          "Ezza North/Ishielu",
+          "PDP",
+          "108"
+        ],
+        [
+          "Francis Ejiroghene Waive",
+          "Delta",
+          "Ughelli North/South/Udu",
+          "APC",
+          "111"
+        ],
+        [
+          "Beni Butmak Lar",
+          "Plateau",
+          "Langtang North/South",
+          "PDP",
+          "113"
+        ],
+        [
+          "Yusuf Ahmad Badau",
+          "Kano",
+          "Bagwai/Shanono",
+          "APC",
+          "114"
+        ],
+        [
+          "Emeka Martins Chinedu",
+          "Imo",
+          "Ahiazu Mbaise/Ezinihitte",
+          "PDP",
+          "118"
+        ],
+        [
+          "Aliyu Betara Muktar",
+          "Borno",
+          "Biu/Bayo/Shani/Kwaya Kusar",
+          "APC",
+          "122"
+        ],
+        [
+          "Mansur Manu Soro",
+          "Bauchi",
+          "Darazo/Gunjuwa",
+          "APC",
+          "124"
+        ],
+        [
+          "Zainab  Gimba",
+          "Borno",
+          "Bama/Ngala/Kalabalge",
+          "APC",
+          "127"
+        ],
+        [
+          "Olumide Babatunde Osoba",
+          "Ogun",
+          "Abeokuta North/ Obafemi- Owode/Odeda",
+          "APC",
+          "131"
+        ],
+        [
+          "Ahmadu Usman Jaha",
+          "Borno",
+          "Damboa/Gwoza/Chibok",
+          "APC",
+          "133"
+        ],
+        [
+          "Dachung Musa Bagos",
+          "Plateau",
+          "Jos South/East",
+          "PDP",
+          "136"
+        ],
+        [
+          "Olubunmi  Tunji-ojo",
+          "Ondo",
+          "Akoko North East/West",
+          "APC",
+          "138"
+        ],
+        [
+          "Ibrahim Almustapha Aliyu",
+          "Sokoto",
+          "Wurno/Rabah",
+          "APC",
+          "140"
+        ],
+        [
+          "Bamidele  Salam",
+          "Osun",
+          "Ede North,South/Egbedero/Ejigbo",
+          "PDP",
+          "141"
+        ],
+        [
+          "Kabir Tukura Ibrahim",
+          "Kebbi",
+          "Zuru/Fakai/Sakaba/D/Wasagu",
+          "APC",
+          "148"
+        ],
+        [
+          "Benjamin Okezie Kalu",
+          "Abia",
+          "Bende Federal Constituency",
+          "APC",
+          "149"
+        ],
+        [
+          "Adewunmi Oriyomi Onanuga",
+          "Ogun",
+          "Ikenne/Shagamu/Remo North",
+          "APC",
+          "151"
+        ],
+        [
+          "Amos Gwamna Magaji",
+          "Kaduna",
+          "Zangon Kataf/Jaba",
+          "APC",
+          "154"
+        ],
+        [
+          "Aliu Ademorin Kuye",
+          "Lagos",
+          "Somolu",
+          "APC",
+          "157"
+        ],
+        [
+          "Ismail Kayode Tijani",
+          "Kwara",
+          "Offa/Oyun/Ifelodun",
+          "APC",
+          "162"
+        ],
+        [
+          "Ereyitomi  Thomas",
+          "Delta",
+          "Warri",
+          "PDP",
+          "171"
+        ],
+        [
+          "Saidu Musa Abdullahi",
+          "Niger",
+          "Bida/Gbako/Katcha",
+          "APC",
+          "172"
+        ],
+        [
+          "Mohammed Omar Bio",
+          "Kwara",
+          "Baruten/Kaiama",
+          "APC",
+          "174"
+        ],
+        [
+          "Agbedi Yeitiemone Frederick",
+          "Bayelsa",
+          "Sagbama/Ekeremor",
+          "PDP",
+          "177"
+        ],
+        [
+          "Nazifi  Sani",
+          "Jigawa",
+          "Gumel/Maigatari/Sule Tankarkar/Gagarawa",
+          "APC",
+          "183"
+        ],
+        [
+          "Adelegbe Emmanuel Oluwatimehin",
+          "Ondo",
+          "Owo/Ose",
+          "APC",
+          "184"
+        ],
+        [
+          "Daniel Effiong Asuquo",
+          "Cross River",
+          "Akamkpa/Biase",
+          "PDP",
+          "192"
+        ],
+        [
+          "Abdulkadir  Rahis",
+          "Borno",
+          "Maiduguri (Metropolitan)",
+          "APC",
+          "197"
+        ],
+        [
+          "Usman  Zannah",
+          "Borno",
+          "Kaga/Gubio/Magumeri",
+          "APC",
+          "201"
+        ],
+        [
+          "Moshood Kayode Akiolu",
+          "Lagos",
+          "Lagos Island II",
+          "APC",
+          "203"
+        ],
+        [
+          "Tolulope Tiwalola Akande-sadipe",
+          "Oyo",
+          "Oluyole Local Govt.",
+          "APC",
+          "209"
+        ],
+        [
+          "Jafaru  Mohammed",
+          "Niger",
+          "Agwara/Borgu",
+          "APC",
+          "217"
+        ],
+        [
+          "Julius Gbabojor Pondi",
+          "Delta",
+          "Burutu",
+          "PDP",
+          "219"
+        ],
+        [
+          "Ibrahim Ayokunle Isiaka",
+          "Ogun",
+          "Ifo/Ewekoro",
+          "APC",
+          "221"
+        ],
+        [
+          "Unyime Josiah Idem",
+          "Akwa Ibom",
+          "Ukanafun/Orukanam",
+          "PDP",
+          "226"
+        ],
+        [
+          "Abdullahi  Mamudu",
+          "Niger",
+          "Agaie/Lapai",
+          "APC",
+          "238"
+        ],
+        [
+          "Essien Ekpenyong Ayi",
+          "Cross River",
+          "Akpabuyo/Bakassi/Calabar South",
+          "PDP",
+          "244"
+        ],
+        [
+          "Khadija Waziri Bukar abba ibrahim",
+          "Yobe",
+          "Damaturu/Gujba/Gulani/Tarmuwa",
+          "APC",
+          "256"
+        ],
+        [
+          "Tijjani Zannah Zakariya",
+          "Yobe",
+          "Machina/Nguru/Karasuwa/Yusufari",
+          "APC",
+          "257"
+        ],
+        [
+          "David Idris Zacharias",
+          "Kogi",
+          "Idah/Ibaji/Igalamela/Ofu",
+          "APC",
+          "263"
+        ],
+        [
+          "Dumnamene Robinson Dekor",
+          "Rivers",
+          "Khana/Gokana",
+          "PDP",
+          "265"
+        ],
+        [
+          "Abiodun James Faleke",
+          "Lagos",
+          "Ikeja",
+          "APC",
+          "268"
+        ],
+        [
+          "Leke Joseph Abejide",
+          "Kogi",
+          "Yagba East/Yagba West/Mopa-muro",
+          "PDP",
+          "269"
+        ],
+        [
+          "Prince olaide Adewale Akinremi",
+          "Oyo",
+          "Ibadan North",
+          "APC",
+          "278"
+        ],
+        [
+          "Solomon T Bob",
+          "Rivers",
+          "Ahoada-East/Abua/Odual",
+          "PDP",
+          "282"
+        ],
+        [
+          "Adamu Ibrahim Gamawa",
+          "Bauchi",
+          "Gamawa",
+          "APC",
+          "284"
+        ],
+        [
+          "Kabiru Alhassan Usman rurum",
+          "Kano",
+          "Rano/Bunkure/Kibiya",
+          "NNPP",
+          "292"
+        ],
+        [
+          "Tongo Bauchi Yaya",
+          "Gombe",
+          "Gombe,kwami &Funakaye",
+          "PDP",
+          "295"
+        ],
+        [
+          "Etaba Michael Irom",
+          "Cross River",
+          "Obubra/Etung",
+          "PDP",
+          "300"
+        ],
+        [
+          "Babajimi Adegoke Benson",
+          "Lagos",
+          "Ikorodu",
+          "APC",
+          "308"
+        ],
+        [
+          "Victor Onyemaechi Nwokolo",
+          "Delta",
+          "Ika",
+          "PDP",
+          "312"
+        ],
+        [
+          "Tasir Olawale Raji",
+          "Lagos",
+          "Epe",
+          "APC",
+          "315"
+        ],
+        [
+          "Abubakar Hassan Fulata",
+          "Jigawa",
+          "Birniwa/Guri/Kiri-Kasamma",
+          "APC",
+          "320"
+        ],
+        [
+          "Emmanuel Effiong Ukpong-udo",
+          "Akwa Ibom",
+          "Ikono/ Ini",
+          "PDP",
+          "325"
+        ],
+        [
+          "Adebayo Olusegun Balogun",
+          "Lagos",
+          "Ibeju-Lekki",
+          "APC",
+          "326"
+        ],
+        [
+          "Kingsley Ogundu Chinda",
+          "Rivers",
+          "Obio/Akpor",
+          "PDP",
+          "327"
+        ],
+        [
+          "Ahmad Abdullahi Kalambaina",
+          "Sokoto",
+          "Kware/Wamakko",
+          "APC",
+          "329"
+        ],
+        [
+          "Zakaria Dauda Nyampa",
+          "Adamawa",
+          "Michika/Madagali",
+          "PDP",
+          "330"
+        ],
+        [
+          "Nicholas Ebomo Mutu",
+          "Delta",
+          "Bomadi/Patani",
+          "PDP",
+          "334"
+        ],
+        [
+          "Abubakar Sarki Dahiru",
+          "Nassarawa",
+          "Lafia/Obi",
+          "SDP",
+          "336"
+        ],
+        [
+          "Kwamoti Bitrus Laori",
+          "Adamawa",
+          "Demsa/Numan/Lamurde",
+          "PDP",
+          "347"
+        ],
+        [
+          "Akeem Adeniyi Adeyemi",
+          "Oyo",
+          "Afijio/Oyo East/Oyo West/ Atiba",
+          "APC",
+          "350"
+        ],
+        [
+          "Abass Adekunle Adigun",
+          "Oyo",
+          "Ibadan North- East/South- East",
+          "PDP",
+          "351"
+        ],
+        [
+          "Abdulmumin Ari Mohammed",
+          "Nassarawa",
+          "Nasarawa/Toto",
+          "APC",
+          "357"
+        ],
+        [
+          "Ahmed Idris Wase",
+          "Plateau",
+          "Wase",
+          "APC",
+          "360"
+        ],
+        [
+          "Gaza Jonathan Gbefwi",
+          "Nassarawa",
+          "KARU/KEFFI/KOKONA",
+          "PDP",
+          "364"
+        ],
+        [
+          "Blessing Onyeche Onuh",
+          "Benue",
+          "Otukpo/Ohimini",
+          "APGA",
+          "370"
+        ],
+        [
+          "Akanni Enitan Dolapo-badru",
+          "Lagos",
+          "Lagos Island I",
+          "APC",
+          "371"
+        ],
+        [
+          "Tijjani Abdulkadir Jobe",
+          "Kano",
+          "Dawakin-Tofa/Tofa/Rimin Gado",
+          "NNPP",
+          "372"
+        ],
+        [
+          "Iduma Enwo Igariwey",
+          "Ebonyi",
+          "Afikpo North/Afikpo South",
+          "APC",
+          "378"
+        ],
+        [
+          "Dennis  Idahosa",
+          "Edo",
+          "Ovia South/West-Ovia North/East",
+          "APC",
+          "383"
+        ],
+        [
+          "Satomi  Alhaji ahmad",
+          "Borno",
+          "Jere",
+          "APC",
+          "387"
+        ],
+        [
+          "Abdulraheem Olatunji Olawuyi",
+          "Kwara",
+          "Ekiti/Isin/Irepodun/Oke-ero",
+          "APC",
+          "400"
+        ],
+        [
+          "Agah Avia Musa",
+          "Plateau",
+          "Bassa/Jos North",
+          "PDP",
+          "403"
+        ],
+        [
+          "Mallam Bukar Gana",
+          "Borno",
+          "Kukawa/Mobbar/Abadam/Guzamalai",
+          "APC",
+          "409"
+        ],
+        [
+          "Kumo Usman Bello",
+          "Gombe",
+          "Akko",
+          "APC",
+          "416"
+        ],
+        [
+          "Abdullahi Idris Garba",
+          "Niger",
+          "Kontagora/Wushishi/Mariga/Masheg",
+          "APC",
+          "420"
+        ],
+        [
+          "Oluwole  Oke",
+          "Osun",
+          "Obokon/Oriade",
+          "PDP",
+          "428"
+        ],
+        [
+          "Yusuf  Miga",
+          "Jigawa",
+          "Jahun/Miga",
+          "APC",
+          "429"
+        ],
+        [
+          "Ibrahim Mohammed Bukar",
+          "Borno",
+          "Dikwa/Mafaf/Konduga",
+          "APC",
+          "461"
+        ],
+        [
+          "Abubakar Kabir Abubakar",
+          "Kano",
+          "Bichi",
+          "APC",
+          "468"
+        ],
+        [
+          "Usman Ibrahim Auyo",
+          "Jigawa",
+          "Hadejia/Kafin Hausa/Auyo",
+          "APC",
+          "470"
+        ],
+        [
+          "Lawal Muhammadu Idirisu",
+          "Kogi",
+          "Ajaokuta",
+          "APC",
+          "472"
+        ],
+        [
+          "Bello Shinkafi Hassan",
+          "Zamfara",
+          "Zurmi/Shinkafi",
+          "PDP",
+          "473"
+        ],
+        [
+          "Kabiru  Amadu",
+          "Zamfara",
+          "Tsafe/Gusau",
+          "PDP",
+          "474"
+        ],
+        [
+          "Bashiru Ayinla Dawodu",
+          "Lagos",
+          "Oshodi-Isolo I",
+          "APC",
+          "475"
+        ],
+        [
+          "Sulaiman Gumi Abubakar",
+          "Zamfara",
+          "Gummi/Bukkuyum",
+          "PDP",
+          "477"
+        ],
+        [
+          "Boma  Goodhead",
+          "Rivers",
+          "Akuku-Toru/Asari-Toru",
+          "PDP",
+          "480"
+        ],
+        [
+          "Alhassan Ado Garba",
+          "Kano",
+          "Tudun-Wada/Doguwa",
+          "APC",
+          "488"
+        ],
+        [
+          "Boniface Sunday Emerengwa",
+          "Rivers",
+          "Ikwerre/ Emohua",
+          "PDP",
+          "490"
+        ],
+        [
+          "Yusuf Shitu Galambi",
+          "Jigawa",
+          "Gwaram",
+          "NNPP",
+          "497"
+        ],
+        [
+          "Ahmed  Munir",
+          "Kaduna",
+          "Lere",
+          "APC",
+          "500"
+        ],
+        [
+          " sanni  Abdulraheem",
+          "Kogi",
+          "Ajaokuta",
+          "APC",
+          "515"
+        ],
+        [
+          "Aminu  Jaji",
+          "Zamfara",
+          "Kaura Namoda/Birnin Magaji",
+          "APC",
+          "516"
+        ],
+        [
+          "Okpolupm  Etteh",
+          "Akwa Ibom",
+          "Eket/Onna/Esit Eket/Ibeno",
+          "PDP",
+          "517"
+        ],
+        [
+          "Sa'ad  Taura",
+          "Jigawa",
+          "Ringim/Taura",
+          "APC",
+          "522"
+        ],
+        [
+          "Ugochinyere Onyinye  Ikeagwuonu",
+          "Imo",
+          "Ideato North /South",
+          "PDP",
+          "524"
+        ],
+        [
+          "Ifeanyi Peter  uzokwe",
+          "Anambra",
+          "Nnewi North/South/Ekwusigo",
+          "YPP",
+          "525"
+        ],
+        [
+          "Balele  Aminu ",
+          "Katsina",
+          "Dutsin-ma/Kurfi",
+          "APC",
+          "526"
+        ],
+        [
+          "El-rasheed  Abdullahi ",
+          "Gombe",
+          "Dukku / Nafada",
+          "PDP",
+          "527"
+        ],
+        [
+          "Mansur  Musa",
+          "Kebbi",
+          "Gwandu/Aliero/Jega",
+          "PDP",
+          "529"
+        ],
+        [
+          "Mohammed  Chiroma",
+          "Kano",
+          "Gezawa/Gabasawa",
+          "NNPP",
+          "530"
+        ],
+        [
+          "Jonas  Okeke",
+          "Imo",
+          "Ehimembano/ihitte Uboma/Obowo",
+          "PDP",
+          "531"
+        ],
+        [
+          "Abdullahi  Sani",
+          "Kano",
+          "Karaye/Rogo",
+          "NNPP",
+          "532"
+        ],
+        [
+          "Isaac  Kwallu",
+          "Plateau",
+          "Mikang/Quan.Pan/Shendam",
+          "PDP",
+          "534"
+        ],
+        [
+          "Peter  Gyendeng",
+          "Plateau",
+          "Barkin Ladi/Riyom",
+          "PDP",
+          "535"
+        ],
+        [
+          "Miriam  Onuoha",
+          "Imo",
+          "Isiala Mbano/Okigwe/Onuimo",
+          "APC",
+          "536"
+        ],
+        [
+          "Befford Onwuegbu Anayo",
+          "Enugu",
+          "Aninri/Agwu/Oji River",
+          "PDP",
+          "537"
+        ],
+        [
+          "Dominic  Okafor",
+          "Anambra",
+          "Aguata",
+          "APGA",
+          "538"
+        ],
+        [
+          "Ahmed  Aliyu",
+          "Katsina",
+          "Musawa/Matazu",
+          "APC",
+          "539"
+        ],
+        [
+          "Usman  Murtala",
+          "Katsina",
+          "Rimi/Charanchi/Batagarawa",
+          "APC",
+          "541"
+        ],
+        [
+          "Ekene Abubakar Adams",
+          "Kaduna",
+          "Chikun/Kajuru",
+          "LP",
+          "542"
+        ],
+        [
+          "Uchenna  Okonkwo",
+          "Anambra",
+          "Idemili North/South",
+          "LP",
+          "543"
+        ],
+        [
+          "Mathew  Nwogu",
+          "Imo",
+          "Aboh Mbaise/Ngor Okpala",
+          "LP",
+          "545"
+        ],
+        [
+          "Aliyu  Bappa misau",
+          "Bauchi",
+          "Misau/Dambam",
+          "PDP",
+          "548"
+        ],
+        [
+          "Jeremiah  Umaru",
+          "Nassarawa",
+          "Akwanga/Nasarawa Eggon/Wamba",
+          "APC",
+          "549"
+        ],
+        [
+          "Sunday  Umeha",
+          "Enugu",
+          "Ezeagu/Udi",
+          "LP",
+          "550"
+        ],
+        [
+          "Ajilo  Umar",
+          "Kaduna",
+          "Makarfi/Kudan",
+          "PDP",
+          "551"
+        ],
+        [
+          "Muhammed  Ozigi",
+          "Kogi",
+          "Okene/Ogori-Magogo",
+          "APC",
+          "553"
+        ],
+        [
+          "Salisu  Yusuf",
+          "Katsina",
+          "Mashi/Dutsi",
+          "PDP",
+          "554"
+        ],
+        [
+          "Ismail  Dalha",
+          "Katsina",
+          "Kankia/Ingawa/Kusada",
+          "APC",
+          "555"
+        ],
+        [
+          "Aliyu  Iliyasu",
+          "Katsina",
+          "Safana/Batsari/Dan-Musa",
+          "PDP",
+          "556"
+        ],
+        [
+          "Abdulmalik  Zubairu",
+          "Zamfara",
+          "Bungudu/Maru",
+          "APC",
+          "558"
+        ],
+        [
+          "  ",
+          "Kano",
+          "Dawakin Kudu/Warawa",
+          "",
+          "562"
+        ],
+        [
+          "Ayuba  Dampar",
+          "Taraba",
+          "Ibi/Wukari",
+          "APC",
+          "563"
+        ],
+        [
+          "George  Olawande",
+          "Lagos",
+          "Amuwo Odofin",
+          "LP",
+          "565"
+        ],
+        [
+          "Abdulraheem  Abdulmaleek",
+          "Kogi",
+          "Adavi/Okehi",
+          "PDP",
+          "568"
+        ],
+        [
+          "Adewale  Hameed",
+          "Lagos",
+          "Agege",
+          "APC",
+          "569"
+        ],
+        [
+          "Saleh  Shehu ",
+          "Niger",
+          "Magama/Rijau",
+          "APC",
+          "570"
+        ],
+        [
+          "Offiono  Godwin ",
+          "Cross River",
+          "Ogoja/Yala",
+          "PDP",
+          "571"
+        ],
+        [
+          "Emeka   idu ",
+          "Anambra",
+          "Onitsha North/South",
+          "LP",
+          "573"
+        ],
+        [
+          "Mohammed  Salihu",
+          "Adamawa",
+          "Yola North/Yola South/Girei",
+          "PDP",
+          "574"
+        ],
+        [
+          "Obinna  Aguocha",
+          "Abia",
+          "Ikwuano/Umuahia North/South",
+          "LP",
+          "575"
+        ],
+        [
+          "Yusuf  Datti",
+          "Kano",
+          "Kura/Madobi/Garun Malam",
+          "NNPP",
+          "580"
+        ],
+        [
+          "Paul  Nnamchi",
+          "Enugu",
+          "Enugu East / Isi-Uzo",
+          "LP",
+          "581"
+        ],
+        [
+          "Sani  Adamu",
+          "Kano",
+          "Minjibir/Ungogo",
+          "NNPP",
+          "582"
+        ],
+        [
+          "Anthony Adebayo Adepoju",
+          "Oyo",
+          "Ibarapa Central/Ibarapa North",
+          "PDP",
+          "583"
+        ],
+        [
+          "Ganiyu  Ayuba",
+          "Lagos",
+          "Alimosho",
+          "APC",
+          "584"
+        ],
+        [
+          "Abdullahi  Dabai",
+          "Katsina",
+          "Bakori/Danja",
+          "PDP",
+          "586"
+        ],
+        [
+          "Lanre  okunlola",
+          "Lagos",
+          "Surulere II",
+          "APC",
+          "588"
+        ],
+        [
+          "Sesi  Whingan",
+          "Lagos",
+          "Badagry",
+          "APC",
+          "589"
+        ],
+        [
+          "Adamu  Tanko",
+          "Niger",
+          "Gurara/Suleja/Tafa",
+          "PDP",
+          "592"
+        ],
+        [
+          "Thaddeus  atta",
+          "Lagos",
+          "Eti-Osa",
+          "LP",
+          "593"
+        ],
+        [
+          "Oluwaseyi  Sowumi",
+          "Lagos",
+          "Ojo",
+          "LP",
+          "594"
+        ],
+        [
+          "Suleiman Richifa Yahaya",
+          "Kaduna",
+          "Soba",
+          "PDP",
+          "595"
+        ],
+        [
+          "Olufemi  Ogunbanwo",
+          "Ogun",
+          "Ijebu Ode/Odogbolu/Ijebu North East",
+          "APC",
+          "596"
+        ],
+        [
+          "Yakubu  Adamu",
+          "Jigawa",
+          "Birnin-Kudu/Buji",
+          "APC",
+          "597"
+        ],
+        [
+          "Bashir  Zubairu",
+          "Kaduna",
+          "Birnin-Gwari/Giwa",
+          "APC",
+          "598"
+        ],
+        [
+          "Abdulkadir  Danbuya",
+          "Sokoto",
+          "Isa-Sabon-Birni",
+          "APC",
+          "599"
+        ],
+        [
+          "Ime Bassey Okon",
+          "Akwa Ibom",
+          "Itu/Ibiono Ibom",
+          "PDP",
+          "601"
+        ],
+        [
+          "Joshua  Gana",
+          "Niger",
+          "Lavun/Mokwa/Edati",
+          "PDP",
+          "602"
+        ],
+        [
+          "Yusuf  Bashir",
+          "Kaduna",
+          "Kauru",
+          "PDP",
+          "604"
+        ],
+        [
+          "Chinedu  Ogah",
+          "Ebonyi",
+          "Ikwo/Ezza South",
+          "APC",
+          "606"
+        ],
+        [
+          "Adetunji Abidemi  Olusoji",
+          "Osun",
+          "Odo-Otin/Ifelodun/Boripe",
+          "PDP",
+          "607"
+        ],
+        [
+          "Jonathan Ajirioghene Ukodhiko",
+          "Delta",
+          "Isoko North/South",
+          "PDP",
+          "608"
+        ],
+        [
+          "Ali  Isa",
+          "Gombe",
+          "Balanga/Billiri",
+          "PDP",
+          "609"
+        ],
+        [
+          "Peter U. Aniekwe",
+          "Anambra",
+          "Anambra East/West",
+          "LP",
+          "610"
+        ],
+        [
+          "Ismail Modibo Musa",
+          "Niger",
+          "Shiroro/Rafi/Munya",
+          "APC",
+          "611"
+        ],
+        [
+          "Olaide Yusuf Mohammed",
+          "Oyo",
+          "Olurunsogo/Oorelope",
+          "APC",
+          "612"
+        ],
+        [
+          "Philip  Agbese",
+          "Benue",
+          "Ado/Obadigbo/Opkokwu",
+          "APC",
+          "613"
+        ],
+        [
+          "Ojema  Ojotu",
+          "Benue",
+          "Apa/Agatu",
+          "PDP",
+          "614"
+        ],
+        [
+          "Okunjimi John Odimayo",
+          "Ondo",
+          "Okitipupa/Irele",
+          "APC",
+          "615"
+        ],
+        [
+          "Sunday Anamero Dekeri",
+          "Edo",
+          "Etsako East/West/Central",
+          "APC",
+          "616"
+        ],
+        [
+          "Marcus  Onobun",
+          "Edo",
+          "Esan Central/West/Igueben",
+          "PDP",
+          "617"
+        ],
+        [
+          "Abonsizibe Oforji Obuku",
+          "Bayelsa",
+          "Yenagoa/Kolokuna/Opokuma",
+          "PDP",
+          "618"
+        ],
+        [
+          "Austin Asema Achado",
+          "Benue",
+          "Gwer East/Gwer West",
+          "APC",
+          "619"
+        ],
+        [
+          "Hassan Shehu Hussain",
+          "Kano",
+          "Nassarawa",
+          "NNPP",
+          "620"
+        ],
+        [
+          "Aminu  Chindo",
+          "Katsina",
+          "Katsina North Central",
+          "PDP",
+          "621"
+        ],
+        [
+          "Aliyu Wakili Boya",
+          "Adamawa",
+          "Fufore/Song",
+          "APC",
+          "622"
+        ],
+        [
+          "Marie Enenimiete Ebikake",
+          "Bayelsa",
+          "Brass/Nembe",
+          "PDP",
+          "625"
+        ],
+        [
+          "Allison Igbiks Anderson",
+          "Rivers",
+          "Okrika/Ogu-Bolo",
+          "APC",
+          "626"
+        ],
+        [
+          "Aminu Jamo Daura",
+          "Katsina",
+          "Daura/Sandamu/MaiAdua",
+          "APC",
+          "627"
+        ],
+        [
+          "Amobi  Ogah",
+          "Abia",
+          "Isuikwato/Umunneochi",
+          "LP",
+          "628"
+        ],
+        [
+          "Billy Famous Osawaru",
+          "Edo",
+          "Orhionmwon/Uhunmwode",
+          "APC",
+          "629"
+        ],
+        [
+          "Joseph  Bassey",
+          "Cross River",
+          "Akpabuyo/Bakassi/Calabar South",
+          "APC",
+          "630"
+        ],
+        [
+          "David Agada Ogewu",
+          "Benue",
+          "Oju/Obi",
+          "APC",
+          "631"
+        ],
+        [
+          "Sunday Makanjuola Ojo",
+          "Oyo",
+          "Ogo-Oluwa/Surulere",
+          "PDP",
+          "633"
+        ],
+        [
+          "Nnamdi  Ezechi",
+          "Delta",
+          "Ndokwa/Ukwani",
+          "PDP",
+          "634"
+        ],
+        [
+          "Yusuf Alhaji Kabiru",
+          "Bauchi",
+          "Alkaleri/Kirfi",
+          "APC",
+          "635"
+        ],
+        [
+          "Hussaini Ahmed Abdulkarim",
+          "Kaduna",
+          "Kaduna South",
+          "PDP",
+          "638"
+        ],
+        [
+          "Cornelius Abidun Aderin",
+          "Ondo",
+          "Akure North/South",
+          "APC",
+          "640"
+        ],
+        [
+          "Martins Etim Esin",
+          "Akwa Ibom",
+          "Mbo/Okobo/Oron/Udung Uko/Urue",
+          "PDP",
+          "641"
+        ],
+        [
+          "Rodney Ebikebina Ambiowei",
+          "Bayelsa",
+          "Southern Ijaw",
+          "PDP",
+          "642"
+        ],
+        [
+          "Paul Asuquo Ekpo",
+          "Akwa Ibom",
+          "Etinan/Nsit Ibom/Nsit Ubium",
+          "PDP",
+          "643"
+        ],
+        [
+          "Canice Moore Nwachukwu",
+          "Imo",
+          "Orlu/Oru East/Orsu",
+          "APC",
+          "644"
+        ],
+        [
+          "Obinna Ginger Onwusibe",
+          "Abia",
+          "Isiala Ngwa North/South",
+          "LP",
+          "645"
+        ],
+        [
+          "Fatima  Talba",
+          "Yobe",
+          "Nangere/Potiskum",
+          "APC",
+          "646"
+        ],
+        [
+          "Bukar  Talba",
+          "Borno",
+          "Monguno/Marte/Nganzai",
+          "APC",
+          "647"
+        ],
+        [
+          "Sani Ibrahim Tanko",
+          "Bauchi",
+          "Shira/Giade",
+          "PDP",
+          "648"
+        ],
+        [
+          "Aminu Garu Alyi",
+          "Bauchi",
+          "Bauchi",
+          "PDP",
+          "649"
+        ],
+        [
+          "Mohammed  Bassi",
+          "Adamawa",
+          "Jada/Ganye/Mayo Belwa/Toungo",
+          "PDP",
+          "650"
+        ],
+        [
+          "Adetola Kafilat Ogbara",
+          "Lagos",
+          "Kosofe",
+          "APC",
+          "653"
+        ],
+        [
+          "Adamu  Hashimu",
+          "Bauchi",
+          "Ningi/Warji",
+          "PDP",
+          "654"
+        ],
+        [
+          "Afolabi Moruf Afuape",
+          "Ogun",
+          "Abeokuta South",
+          "APC",
+          "655"
+        ],
+        [
+          "James Shuaibu Barka",
+          "Adamawa",
+          "Hong/Gombi",
+          "PDP",
+          "656"
+        ],
+        [
+          "Muhammed Buba Jajere",
+          "Yobe",
+          "Fika/Fune",
+          "PDP",
+          "657"
+        ],
+        [
+          "Olafisoye Wasiu Akinmoyede",
+          "Oyo",
+          "Lagelu/Akinyele",
+          "APC",
+          "658"
+        ],
+        [
+          "Mohammed  Audu",
+          "Taraba",
+          "Lau/K/Lamido/Ardo-Kola",
+          "PDP",
+          "659"
+        ],
+        [
+          "Lukman  Mudashiru",
+          "Osun",
+          "Ayedire/Iwo/Ola-Oluwa",
+          "PDP",
+          "660"
+        ],
+        [
+          "Ayodeji  Alao",
+          "Oyo",
+          "Ogbomosho/North/South/Orire",
+          "APC",
+          "661"
+        ],
+        [
+          "Donald  Ojogo",
+          "Ondo",
+          "Eseodo/Ilaje",
+          "APC",
+          "664"
+        ],
+        [
+          "Najimdeen  Oyedeji",
+          "Oyo",
+          "Iseyin/Itesiwaju/Kajola/Iwajowa",
+          "PDP",
+          "665"
+        ],
+        [
+          "Ayodele  Adefiranye",
+          "Ondo",
+          "Ileoluji-Okeibo/Odigbo",
+          "APC",
+          "666"
+        ],
+        [
+          "Adefarati  Adegboyega",
+          "Ondo",
+          "Akoko South East/South West",
+          "APC",
+          "669"
+        ],
+        [
+          "Adeyemi Benjamin Olabinjo",
+          "Lagos",
+          "Ifako-Ijaiye",
+          "APC",
+          "671"
+        ],
+        [
+          "Adeboye Paul Kalejaiye",
+          "Lagos",
+          "Ajeromi-Ifelodun",
+          "APC",
+          "674"
+        ],
+        [
+          "Aderemi Abasi Oseni",
+          "Oyo",
+          "Ibarapa East/Ido",
+          "APC",
+          "675"
+        ],
+        [
+          "Abdulhakeem Kamilu Ado",
+          "Kano",
+          "Wudil/Garko",
+          "NNPP",
+          "676"
+        ],
+        [
+          "Tajudeen  Kareem",
+          "Oyo",
+          "Atigbo/Saki East/Saki West",
+          "APC",
+          "677"
+        ],
+        [
+          "Saadu  Nabunkari",
+          "Sokoto",
+          "Binji/Silame",
+          "APC",
+          "678"
+        ],
+        [
+          "Ahmed  Adam Saba",
+          "Kwara",
+          "Edu/Moro/Patigi",
+          "APC",
+          "680"
+        ],
+        [
+          "Sani Muhammad Ahmad",
+          "Zamfara",
+          "Bakura/Maradun",
+          "APC",
+          "681"
+        ],
+        [
+          "Benedict  Etanabene",
+          "Delta",
+          "Opke/Sapele/Uvwie",
+          "LP",
+          "682"
+        ],
+        [
+          "Joseph  Adegbesan",
+          "Ogun",
+          "Ijebu North/Ijebu East/Ogun Waterside",
+          "APC",
+          "683"
+        ],
+        [
+          "Bello Ambarura Isah",
+          "Sokoto",
+          "Gwadabawa / Illela",
+          "APC",
+          "684"
+        ],
+        [
+          "Ahmed Doro Yusuf",
+          "Katsina",
+          "Mani/Bindawa",
+          "APC",
+          "685"
+        ],
+        [
+          "Abubakar Ahmad Mohammed",
+          "Katsina",
+          "Funtua/Dandume",
+          "APC",
+          "686"
+        ],
+        [
+          "Aliyu Abdullahi Ahmed",
+          "Katsina",
+          "Musawa/Matazu",
+          "APC",
+          "687"
+        ],
+        [
+          "Julius Omozuanvbo Ihonvbere",
+          "Edo",
+          "Owan West/East",
+          "APC",
+          "688"
+        ],
+        [
+          "Erhiatake   ibori suenu",
+          "Delta",
+          "Ethiope",
+          "APC",
+          "689"
+        ],
+        [
+          "Chinwe Clara Nnabuife",
+          "Anambra",
+          "Orumba North/South",
+          "YPP",
+          "691"
+        ],
+        [
+          "Simon Chukwuemeka Atigwe",
+          "Enugu",
+          "Igboeze North/Udenu",
+          "PDP",
+          "692"
+        ]
+      ],
+      "records_total_reported": 245,
+      "url": "https://nass.gov.ng/mps/get_legislators/?chamber=2&start=0&length=1000&draw=1"
+    },
+    "senate": {
+      "data": [
+        [
+          "Binos Dauda Yaroe",
+          "Adamawa",
+          "Adamawa South",
+          "PDP",
+          "87"
+        ],
+        [
+          "Ezenwa Francis Onyewuchi",
+          "Imo",
+          "Imo East",
+          "LP",
+          "94"
+        ],
+        [
+          "Orji Uzor Kalu",
+          "Abia",
+          "Abia-North",
+          "APC",
+          "97"
+        ],
+        [
+          "Jibrin  Isah",
+          "Kogi",
+          "Kogi East",
+          "APC",
+          "101"
+        ],
+        [
+          "Michael Opeyemi Bamidele",
+          "Ekiti",
+          "Ekiti Central",
+          "APC",
+          "158"
+        ],
+        [
+          "Mohammed Sani Musa",
+          "Niger",
+          "Niger East",
+          "APC",
+          "185"
+        ],
+        [
+          "Ashiru Oyelola Yisa",
+          "Kwara",
+          "Kwara South",
+          "APC",
+          "202"
+        ],
+        [
+          "Barinada Barry Mpigi",
+          "Rivers",
+          "Rivers South East",
+          "PDP",
+          "255"
+        ],
+        [
+          "Ishaku Elisha cliff Abbo",
+          "Adamawa",
+          "Adamawa North",
+          "APC",
+          "303"
+        ],
+        [
+          "Enyinnaya Harcourt Abaribe",
+          "Abia",
+          "Abia-South",
+          "APGA",
+          "318"
+        ],
+        [
+          "Buhari Abdulfatai Omotayo",
+          "Oyo",
+          "Oyo North",
+          "APC",
+          "337"
+        ],
+        [
+          "Abba Patrick Moro",
+          "Benue",
+          "Benue South",
+          "PDP",
+          "356"
+        ],
+        [
+          "Abdulaziz Abubakar Yari",
+          "Zamfara",
+          "Zamfara West",
+          "APC",
+          "358"
+        ],
+        [
+          "Francis Adenigba Fadahunsi",
+          "Osun",
+          "Osun East",
+          "PDP",
+          "393"
+        ],
+        [
+          "Godiya  Akwashiki",
+          "Nassarawa",
+          "Nasarawa North",
+          "SDP",
+          "394"
+        ],
+        [
+          "Aliyu Magatakarda Wamakko",
+          "Sokoto",
+          "Sokoto North",
+          "APC",
+          "404"
+        ],
+        [
+          "Danjuma Goje Mohammed",
+          "Gombe",
+          "Gombe Central",
+          "APC",
+          "408"
+        ],
+        [
+          "Mohammad Adamu Mainasara aliero",
+          "Kebbi",
+          "Kebbi Central",
+          "PDP",
+          "411"
+        ],
+        [
+          "Mohammed Ali Ndume",
+          "Borno",
+          "Borno South",
+          "APC",
+          "412"
+        ],
+        [
+          "Ahmad Ibrahim Lawan",
+          "Yobe",
+          "Yobe North",
+          "APC",
+          "424"
+        ],
+        [
+          "Ibrahim Barau Jibrin",
+          "Kano",
+          "Kano-North",
+          "APC",
+          "433"
+        ],
+        [
+          "Ibrahim Mohammed Bomai",
+          "Yobe",
+          "Yobe South",
+          "APC",
+          "434"
+        ],
+        [
+          "Mustapha  Musa",
+          "Yobe",
+          "Yobe East",
+          "APC",
+          "437"
+        ],
+        [
+          "Jarigbe Agom Jarigbe",
+          "Cross River",
+          "Cross River North",
+          "PDP",
+          "451"
+        ],
+        [
+          "Yahaya Abubakar Abdullahi",
+          "Kebbi",
+          "Kebbi North",
+          "PDP",
+          "452"
+        ],
+        [
+          "Sadiq Suleiman Umar",
+          "Kwara",
+          "Kwara North",
+          "APC",
+          "454"
+        ],
+        [
+          "Shuaibu Isa Lau",
+          "Taraba",
+          "Taraba North",
+          "PDP",
+          "456"
+        ],
+        [
+          "Adetokunbo Abiru Mukhail",
+          "Lagos",
+          "Lagos-East",
+          "APC",
+          "492"
+        ],
+        [
+          "Seriake Henry Dickson",
+          "Bayelsa",
+          "Bayelsa West",
+          "PDP",
+          "493"
+        ],
+        [
+          "Yau Sahabi Alhaji",
+          "Zamfara",
+          "Zamfara North",
+          "APC",
+          "505"
+        ],
+        [
+          "Godswill Obot Akpabio",
+          "Akwa Ibom",
+          "Akwa Ibom North-West",
+          "APC",
+          "513"
+        ],
+        [
+          "Kelvin  Chukwu",
+          "Enugu",
+          "Enugu East",
+          "LP",
+          "518"
+        ],
+        [
+          "Pam Mwadkon Dachungyang",
+          "Plateau",
+          "Plateau North",
+          "ADP",
+          "519"
+        ],
+        [
+          "Okechukwu  Ezea",
+          "Enugu",
+          "Enugu North",
+          "LP",
+          "520"
+        ],
+        [
+          "Ibrahim  Jimoh",
+          "Ondo",
+          "Ondo South",
+          "APC",
+          "521"
+        ],
+        [
+          "Augustine Okwudiri  Akobundu",
+          "Abia",
+          "Abia-Central",
+          "PDP",
+          "523"
+        ],
+        [
+          "Mohammed Tahir Monguno",
+          "Borno",
+          "Borno North",
+          "APC",
+          "528"
+        ],
+        [
+          "Babangida  Hussaini",
+          "Jigawa",
+          "North West",
+          "APC",
+          "533"
+        ],
+        [
+          "Aminu  Abbas",
+          "Adamawa",
+          "Adamawa Central",
+          "PDP",
+          "544"
+        ],
+        [
+          "Williams Eteng Jonah",
+          "Cross River",
+          "Cross River Central",
+          "APC",
+          "557"
+        ],
+        [
+          "Wasiu Sanni Eshilokun",
+          "Lagos",
+          "Lagos-Central",
+          "APC",
+          "559"
+        ],
+        [
+          "Justus Olugbenga Daniel",
+          "Ogun",
+          "Ogun East",
+          "APC",
+          "560"
+        ],
+        [
+          "Sunday Steve Karimi",
+          "Kogi",
+          "Kogi West",
+          "APC",
+          "561"
+        ],
+        [
+          "Nasiru  Sani zangon daura",
+          "Katsina",
+          "Katsina North",
+          "APC",
+          "566"
+        ],
+        [
+          "Abdul  Ningi",
+          "Bauchi",
+          "Bauchi Central",
+          "PDP",
+          "567"
+        ],
+        [
+          "Sunday  Katung",
+          "Kaduna",
+          "Kaduna South",
+          "PDP",
+          "576"
+        ],
+        [
+          "Benson  Agadaga",
+          "Bayelsa",
+          "Bayelsa East",
+          "PDP",
+          "577"
+        ],
+        [
+          "Onawo Mohammed Ogoshi",
+          "Nassarawa",
+          "Nasarawa South",
+          "PDP",
+          "579"
+        ],
+        [
+          "Kaka Shehu Lawan",
+          "Borno",
+          "Borno Central",
+          "APC",
+          "587"
+        ],
+        [
+          "Sani Abubakar Bello",
+          "Niger",
+          "Niger North",
+          "APC",
+          "590"
+        ],
+        [
+          "Bassey Aniekan Etim",
+          "Akwa Ibom",
+          "Akwa Ibom North-East",
+          "PDP",
+          "591"
+        ],
+        [
+          "Ned  Munir Nwoko",
+          "Delta",
+          "Delta North",
+          "PDP",
+          "600"
+        ],
+        [
+          "Victor  Umeh",
+          "Anambra",
+          "Anambra Central",
+          "LP",
+          "603"
+        ],
+        [
+          "Anthony Siyako Yaro",
+          "Gombe",
+          "Gombe South",
+          "PDP",
+          "605"
+        ],
+        [
+          "Ipinsagba Emmanuel Olajide",
+          "Ondo",
+          "Ondo North",
+          "APC",
+          "623"
+        ],
+        [
+          "Akpoti-uduaghan  Natasha",
+          "Kogi",
+          "Kogi Central",
+          "PDP",
+          "624"
+        ],
+        [
+          "David  Jimkuta",
+          "Taraba",
+          "Taraba South",
+          "APC",
+          "632"
+        ],
+        [
+          "Ireti Heebah Kingibe",
+          "Federal Capital Territory",
+          "FCT",
+          "LP",
+          "636"
+        ],
+        [
+          "Peter Ndalikali Jiya",
+          "Niger",
+          "Niger South",
+          "PDP",
+          "637"
+        ],
+        [
+          "Mallam-madori Ahmed Abdulhamid",
+          "Jigawa",
+          "North East",
+          "APC",
+          "639"
+        ],
+        [
+          "Samaila Dahuwa Kaila",
+          "Bauchi",
+          "Bauchi North",
+          "PDP",
+          "651"
+        ],
+        [
+          "Umar Shehu Buba",
+          "Bauchi",
+          "Bauchi South",
+          "APC",
+          "652"
+        ],
+        [
+          "Ikra  Aliyu Bilbis",
+          "Zamfara",
+          "Zamfara Central",
+          "APC",
+          "662"
+        ],
+        [
+          "Lawal  Usman",
+          "Kaduna",
+          "Kaduna Central",
+          "PDP",
+          "663"
+        ],
+        [
+          "Adeola Solomon Olamilekan",
+          "Ogun",
+          "Ogun West",
+          "APC",
+          "667"
+        ],
+        [
+          "Olalere  Oyewumi",
+          "Osun",
+          "Osun West",
+          "PDP",
+          "668"
+        ],
+        [
+          "Afolabi  Salisu",
+          "Ogun",
+          "Ogun Central",
+          "APC",
+          "670"
+        ],
+        [
+          "Adeniyi Ayodele Adegbonmire",
+          "Ondo",
+          "Ondo Central",
+          "APC",
+          "672"
+        ],
+        [
+          "Oluwole Fadeyi Olubiyi",
+          "Osun",
+          "Osun Central",
+          "PDP",
+          "673"
+        ],
+        [
+          "Ibrahim  Dankwambo",
+          "Gombe",
+          "Gombe North",
+          "PDP",
+          "679"
+        ],
+        [
+          "Allwell Heacho Onyesoh",
+          "Rivers",
+          "Rivers East",
+          "PDP",
+          "690"
+        ],
+        [
+          "Manu  Haruna",
+          "Taraba",
+          "Taraba Central",
+          "PDP",
+          "694"
+        ],
+        [
+          "Ahmed wadada  Aliyu",
+          "Nassarawa",
+          "Nasarawa West",
+          "SDP",
+          "695"
+        ],
+        [
+          "Nwachukwu  Emmanuel",
+          "Anambra",
+          "Anambra South",
+          "APGA",
+          "696"
+        ]
+      ],
+      "records_total_reported": 74,
+      "url": "https://nass.gov.ng/mps/get_legislators/?chamber=1&start=0&length=500&draw=1"
+    }
+  },
+  "retrieved_at": "2026-04-21"
+}

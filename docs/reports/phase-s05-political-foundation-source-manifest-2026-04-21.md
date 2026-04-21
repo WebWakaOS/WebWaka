@@ -45,3 +45,13 @@
 - `infra/db/seed/0007_polling_units.sql`
 - `docs/reports/phase-s05-political-foundation-progress-report-2026-04-21.md`
 - `docs/reports/phase-s05-political-foundation-polling-units-report-2026-04-21.md`
+
+## S05 Batch 3 — National Assembly Senators and Representatives (2026-04-21)
+
+| Source | Owner | Type | Confidence | Artifact path | SHA-256 | Records | Notes |
+|---|---|---|---|---|---|---|---|
+| NASS legislators API (chamber 1) | National Assembly of Nigeria | Official government API | official_verified | `infra/db/seed/sources/s05_nass_legislators_raw_20260421.json` | `b9c9ab4028de1c2ec1abd523598c7ad668cc49656c44476395e388e99972b379` | 74 senators (of 109 constitutional) | `https://nass.gov.ng/mps/get_legislators/?chamber=1`. NASS API itself omits 35 senators; documented gap, not fabricated. |
+| NASS legislators API (chamber 2) | National Assembly of Nigeria | Official government API | official_verified | `infra/db/seed/sources/s05_nass_legislators_raw_20260421.json` | (same file) | 245 reps (of 360 constitutional) | `https://nass.gov.ng/mps/get_legislators/?chamber=2`. NASS API itself omits 115 reps; documented gap, not fabricated. |
+| NASS legislators normalized | WebWaka OS | Generated normalization | official_verified | `infra/db/seed/sources/s05_nass_legislators_normalized_20260421.json` | `6e8121539d7d9cb70b82685f6d1837198a240073ab6eb53d69c34d801eb31ba6` | 319 normalized rows | Includes resolved place_id, party_id, dedupe canonical key, and place-decision provenance. |
+| NASS legislators reconciliation report | WebWaka OS | Generated reconciliation artifact | official_verified | `infra/db/seed/sources/s05_nass_legislators_report_20260421.json` | `5454f28ee8a26d87367fc84ca46fa642021e586a37c32a56f204d9fe20413321` | Counts of place-decisions, party-counts, and 1 deferred row | Documents 229 exact, 82 fuzzy, 7 fuzzy-unique, 1 deferred place resolutions; party APC=172/PDP=107/LP=19/NNPP=9/APGA=4/SDP=3/YPP=2/ADP=1/blank=1. |
+| S05 NASS legislators migration | WebWaka OS | Internal database migration | official_verified | `infra/db/migrations/0311_political_senators_reps_seed.sql`; `apps/api/migrations/0311_political_senators_reps_seed.sql`; `infra/db/seed/0012_political_senators_reps.sql` | `1203826126f6ed1f546ef8769bde53052d3bca328c827820bbba88a70e85738c` | 318 legislators | Idempotent migration for individuals, profiles, politician_profiles, political_assignments (term `term_ng_10th_national_assembly_2023_2027`), party_affiliations, S04 sidecars, search rows, and FTS rebuild. |

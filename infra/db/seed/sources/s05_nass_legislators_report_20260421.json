@@ -1,0 +1,50 @@
+{
+  "api_base": "https://nass.gov.ng/mps/get_legislators",
+  "decision": "Seed legislator individuals, politician_profiles, political_assignments, and party_affiliations from the official NASS legislators API. Where the NASS public dataset itself is incomplete, those missing legislators remain unseed pending publication of an additional official source; no individuals are fabricated. Deferred rows are recorded with explicit reasons for follow-up.",
+  "deferred_reason_counts": {
+    "no_match_best_0.33_second_0.00": 1
+  },
+  "deferred_row_count_per_chamber": {
+    "reps": 1,
+    "senate": 0
+  },
+  "expected_total_per_chamber": {
+    "reps": 360,
+    "senate": 109
+  },
+  "official_source_gap_per_chamber": {
+    "reps": 115,
+    "senate": 35
+  },
+  "party_counts": {
+    "": 1,
+    "ADP": 1,
+    "APC": 172,
+    "APGA": 4,
+    "LP": 19,
+    "NNPP": 9,
+    "PDP": 107,
+    "SDP": 3,
+    "YPP": 2
+  },
+  "place_decision_counts": {
+    "exact": 229,
+    "fuzzy_0.54": 1,
+    "fuzzy_0.60": 7,
+    "fuzzy_0.68": 8,
+    "fuzzy_0.72": 4,
+    "fuzzy_0.75": 2,
+    "fuzzy_0.90": 4,
+    "fuzzy_1.00": 56,
+    "fuzzy_unique_0.45": 7
+  },
+  "raw_row_count_per_chamber": {
+    "reps": 245,
+    "senate": 74
+  },
+  "retrieved_at": "2026-04-21",
+  "seeded_row_count_per_chamber": {
+    "reps": 244,
+    "senate": 74
+  }
+}
