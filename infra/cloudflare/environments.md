@@ -49,16 +49,28 @@
 
 ### Workers Projects
 
-Workers will be created automatically on first `wrangler deploy` run.
-The naming convention is: `webwaka-os-<app>-<env>`
-
 | App | Worker Name (staging) | Worker Name (production) | Status |
 |---|---|---|---|
-| API | `webwaka-os-api-staging` | `webwaka-os-api-production` | Pending (Milestone 2) |
-| Platform Admin | `webwaka-os-platform-admin-staging` | `webwaka-os-platform-admin-production` | Pending (Milestone 3) |
-| Partner Admin | `webwaka-os-partner-admin-staging` | `webwaka-os-partner-admin-production` | Pending (Milestone 3) |
-| Public Discovery | `webwaka-os-discovery-staging` | `webwaka-os-discovery-production` | Pending (Milestone 4) |
-| Brand Runtime | `webwaka-os-brand-runtime-staging` | `webwaka-os-brand-runtime-production` | Pending (Milestone 6) |
+| API | `webwaka-api-staging` | `webwaka-api-production` | ✅ DEPLOYED 2026-04-21 — commit c6a884896 |
+| Notificator | `webwaka-notificator-staging` | `webwaka-notificator-production` | ✅ Previously deployed |
+| Admin Dashboard | `webwaka-admin-dashboard-staging` | `webwaka-admin-dashboard-production` | ✅ Previously deployed |
+| Partner Admin | `webwaka-partner-admin-staging` | `webwaka-partner-admin` | ✅ Previously deployed |
+| Public Discovery | `webwaka-public-discovery-staging` | `webwaka-public-discovery-production` | ✅ Previously deployed |
+| Tenant Public | `webwaka-tenant-public-staging` | `webwaka-tenant-public-production` | ✅ Previously deployed |
+| Brand Runtime | `webwaka-brand-runtime-staging` | `webwaka-brand-runtime-production` | ✅ Previously deployed |
+| USSD Gateway | `webwaka-ussd-gateway-staging` | — | ✅ Previously deployed |
+| Projections | `webwaka-projections-staging` | — | ✅ Previously deployed |
+
+**API — 2026-04-21 Deployment Details:**
+- Staging version: uploaded successfully, all bindings active (RATE_LIMIT_KV, GEOGRAPHY_CACHE, KV, WALLET_KV)
+- Production version ID: `1af582b0-0d36-42fb-8d5e-5f8c7739fb81`, all bindings + cron `*/15 * * * *` + custom domain
+- D1 migrations: 0279–0287 applied to both staging and production (9 wallet migrations: hl_wallets, hl_ledger, hl_funding_requests, hl_spend_events, hl_mla_earnings, hl_withdrawal_requests, hl_transfer_requests, seed templates, seed webhook events)
+- Health: staging `api-staging.webwaka.com` → 200, production `api.webwaka.com` → 200
+
+**Cron trigger note (account plan limit = 5 triggers):**
+- Slots used: notificator-staging (2) + notificator-production (2) + api-production (1) = 5/5
+- Staging API cron omitted (staging expiry runs on HTTP-triggered reload — acceptable for non-prod)
+- To add staging API cron: upgrade account plan or remove notificator-staging `0 2 * * *` trigger
 
 ---
 

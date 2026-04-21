@@ -166,10 +166,17 @@ Not a security or functionality issue — affects API discoverability for extern
 
 ### Deployment Status
 
-| Environment | Status | Commit | D1 |
-|-------------|--------|--------|----|
-| Staging | ✅ DEPLOYED | 171bcbad | 52719457 (fresh DB, 256 migrations applied) |
-| Production | ✅ DEPLOYED | 181ae31d | 72fa5ec8 (256 migrations applied) |
+| Environment | Status | Commit | D1 | Version ID |
+|-------------|--------|--------|----|------------|
+| Staging | ✅ DEPLOYED | c6a884896 | 52719457 (287 migrations applied) | — |
+| Production | ✅ DEPLOYED | c6a884896 | 72fa5ec8 (287 migrations applied) | 1af582b0-0d36-42fb-8d5e-5f8c7739fb81 |
+
+**2026-04-21 Deploy (HandyLife Wallet W1–W4):**
+- Applied 9 new wallet migrations (0279–0287: hl_wallets, hl_ledger, hl_funding_requests, hl_spend_events, hl_mla_earnings, hl_withdrawal_requests, hl_transfer_requests + 2 seed migrations)
+- Provisioned 4 new KV namespaces: WALLET_KV (staging/production) + AUDIT_KV (staging/production)
+- Seeded WALLET_KV with 18 Phase 1 keys (eligible_tenants: `["handylife"]`, all feature flags OFF, CBN KYC tier limits, MLA commission rates, HITL threshold)
+- Both endpoints health-checked green: `api-staging.webwaka.com` + `api.webwaka.com` → HTTP 200
+- Auth gates confirmed: wallet + admin routes → 401, unknown routes → 404, no 500s
 
 ### Remaining Human Actions
 

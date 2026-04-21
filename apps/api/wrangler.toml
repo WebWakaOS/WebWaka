@@ -9,9 +9,8 @@ workers_dev = false
 name = "webwaka-api-staging"
 workers_dev = false
 
-# Negotiation expiry CRON — runs every 15 minutes
-[env.staging.triggers]
-crons = ["*/15 * * * *"]
+# Negotiation expiry CRON — intentionally omitted on staging (account cron limit: 5).
+# Production keeps the */15 trigger. Staging expiry runs on next HTTP-triggered reload.
 
 [[env.staging.d1_databases]]
 binding = "DB"

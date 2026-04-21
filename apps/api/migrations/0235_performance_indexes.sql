@@ -1,0 +1,43 @@
+-- Migration: 0235_performance_indexes
+-- Description: Compound performance indexes for high-frequency query paths (Issue 7).
+-- All indexes created with IF NOT EXISTS — safe to re-run.
+-- Based on query pattern audit: billing enforcement, entity listing, discovery,
+-- projection rebuilds, active session lookup, HITL expiry, and AI usage billing.
+
+-- Subscriptions: billing enforcement runs this on EVERY authenticated request.
+-- The middleware queries WHERE workspace_id = ? AND tenant_id = ? for plan status.
+CREATE INDEX IF NOT EXISTS idx_subscriptions_workspace_tenant
+  ON subscriptions(workspace_id, tenant_id);
+
+-- NOTE: There is no 'entities' table — the platform uses 'individuals' and
+-- 'organizations' tables (migration 0002). The intended entity-listing index
+-- is therefore on those two tables; see idx_individuals_tenant_id and
+-- idx_organizations_tenant_id created in 0002_init_entities.sql.
+
+-- Profiles: discovery search queries filter by publication_state + claim_state.
+-- NOTE: profiles is a global discovery table — it is not tenant-scoped.
+-- The relevant columns are publication_state (published/unpublished) and
+-- claim_state (seeded/claimable/claim_pending/verified/managed/branded/monetized/delegated).
+-- Used by GET /discovery/* and public B2B search.
+CREATE INDEX IF NOT EXISTS idx_profiles_publication_claim
+  ON profiles(publication_state, claim_state);
+
+-- Event log: projection rebuild scans for incremental processing.
+-- NOTE: the column is named 'aggregate' (not 'aggregate_type') in 0012_event_log.sql.
+-- Compound on aggregate + aggregate_id + created_at for ordered replay.
+CREATE INDEX IF NOT EXISTS idx_event_log_aggregate
+  ON event_log(aggregate, aggregate_id, created_at);
+
+-- Sessions: active session listing and revoke-all queries
+-- Partial index — only indexes non-revoked sessions (smaller index, faster reads).
+CREATE INDEX IF NOT EXISTS idx_sessions_user_active
+  ON sessions(user_id, tenant_id) WHERE revoked_at IS NULL;
+
+-- AI HITL queue: cross-tenant expiry sweep (CRON scans pending items globally)
+-- Partial index on status = 'pending' reduces index size significantly.
+CREATE INDEX IF NOT EXISTS idx_hitl_status_expires
+  ON ai_hitl_queue(status, expires_at) WHERE status = 'pending';
+
+-- AI usage events: billing aggregation queries for monthly budget calculations.
+CREATE INDEX IF NOT EXISTS idx_ai_usage_tenant_created
+  ON ai_usage_events(tenant_id, created_at);
