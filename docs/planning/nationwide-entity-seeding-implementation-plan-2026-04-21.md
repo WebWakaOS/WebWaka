@@ -563,6 +563,18 @@ S04 reports are available at `docs/reports/phase-s04-ingestion-tooling-completio
 - No duplicate politician exists for the same person/office/jurisdiction/term.
 - Every political profile is searchable by name, office, LGA/state, and party where applicable.
 
+### S05 Implementation Status — In Progress 2026-04-21
+
+S05 batch 1 has been implemented in `infra/db/migrations/0305_political_foundation_seed.sql`, mirrored to `apps/api/migrations/0305_political_foundation_seed.sql`, with standalone seed `infra/db/seed/0006_political_parties.sql`.
+
+The batch seeds the 21 current official INEC political parties as source-backed `organizations`, `profiles`, `political_party_profiles`, and `search_entries`; adds S04 `seed_ingestion_records`, `seed_identity_map`, `seed_place_resolutions`, `seed_enrichment`, and `seed_entity_sources` rows; creates `seed_election_cycles`; and records election-cycle and term scaffolds for later S05 assignment/candidate batches.
+
+Validation confirmed 21 party organizations, 21 discovery profiles, 21 political-party vertical profiles, 21 search entries, 21 organization source links, 21 identity-map rows, 21 ingestion sidecar rows, 21 country-level place resolutions, 2 election-cycle locator rows, 4 term scaffold rows, FTS search visibility for APC, no invalid party `primary_place_id` references, and idempotent reruns.
+
+Full S05 remains in progress. Polling units, current officeholders, politician profiles, political assignments, party affiliations, 2023 candidate records, ward representatives, constituency offices, campaign offices, and the final S05 political coverage report remain pending.
+
+S05 batch 1 reports are available at `docs/reports/phase-s05-political-foundation-progress-report-2026-04-21.md` and `docs/reports/phase-s05-political-foundation-source-manifest-2026-04-21.md`.
+
 ---
 
 ## 12. Phase S06 — Education and Health Official Registries
