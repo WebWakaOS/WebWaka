@@ -1,7 +1,28 @@
 # WebWaka — Nationwide Entity Seeding Inventory
 **Date:** 2026-04-21  
 **Scope:** All entity types — Individuals, Organizations, Places, Groups — across all 774 LGAs, 37 States, 6 Zones  
-**Status:** Research complete. All counts are verified against INEC, NBS, CBN, NUC, MDCN, CAC, PCN, and sector-specific sources.
+**Status:** Deep research review completed 2026-04-21. Official-registry counts were corrected where authoritative sources were available; market-estimate counts remain sizing assumptions and are marked for later verification.
+
+---
+
+## 0. Deep Research Review Addendum — 2026-04-21
+
+This review cross-checked the inventory against current public sources from INEC, Federal Ministry of Health/Nigeria HFR, UBEC, CBN/SANEF, NMDPRA, CAC, NUC, and sector registries. The inventory remains directionally useful, but the following corrections are now canonical for seed planning:
+
+| Area | Prior assumption | Corrected / reviewed position | Operational impact |
+|---|---:|---:|---|
+| INEC wards / registration areas | 8,814 | **8,809 official INEC registration areas/wards for 2023**; local `infra/db/seed/0003_wards.sql` currently states **8,810** and must be reconciled before production load | Use 8,809 for political counts; audit the extra local ward row |
+| Geography seed files | `nigeria_wards.sql` missing | Country, zones, states, LGAs, and `0003_wards.sql` all exist locally | Gap is no longer file creation; it is ward-count reconciliation and DB application |
+| Political parties | 91 parties | **21 current INEC-registered parties** as of 2026; **18 parties** contested the 2023 general election | Seed 21 party HQs now; use 18 only when modeling 2023 candidates/results |
+| Polling units | sometimes referenced as 19,000+ | **176,846 INEC polling units** | Master inventory and political seeding must use 176,846 |
+| Clinics / hospitals | ~57,000 | Nigeria HFR hospitals/clinics live registry shows about **38,815** entries; PHC/CHW networks should stay separate | Reduce clinic seed target and avoid double-counting PHC networks |
+| Basic education schools | ~96,023 govt/private split; ~111,000 general | UBEC 2022 UBE data: **171,027 schools** = 79,775 public + 91,252 private | Increase school seed targets where source lists are available |
+| Retail petroleum outlets | ~15,000 | NMDPRA-reported downstream retail outlets are about **22,681** | Update fuel/petrol-station target; treat fuel_station and petrol_station as duplicate/synonym verticals unless product requires both |
+| Bureaux de Change | 5,686 | Current CBN post-relicensing list is much smaller; use **82 fully licensed BDCs** until CBN updates the official list | Reduce BDC seed target to licensed entities only |
+| POS / mobile money agents | ~800,000 | SANEF/CBN ecosystem now reports **2,000,000+ active POS terminals**; terminals are not the same as unique human agents | Keep conservative named-agent seed target, but track terminal vs agent separately |
+| CAC registrations | ~3.2M formal/informal | CAC public statistics are stale; reported all-time registered entities are about **3.1M+**, with new annual registrations continuing | Mark CAC-derived organization counts as request/verification-needed, not fully verified |
+
+**Implementation rule after this review:** counts labeled “official” must come from regulator/bulk-register data; counts labeled “market estimate” are only sizing assumptions for discovery density and must not be presented as verified registries.
 
 ---
 
@@ -9,11 +30,11 @@
 
 | Super-type | Nationwide Estimated Count | Profile Tables |
 |---|---|---|
-| **Places** (geography + facilities) | 9,632 geography nodes + ~270,000 facility places | 16 vertical profile tables |
-| **Organizations** (businesses, institutions, parties, associations) | ~3,200,000 formal + informal | 114 vertical profile tables |
+| **Places** (geography + facilities) | 9,627 official geography nodes (or 9,628 local pending ward reconciliation) + ~252,000 facility places | 16 vertical profile tables |
+| **Organizations** (businesses, institutions, parties, associations) | ~3,100,000+ CAC-registered formal entities + informal/sector estimates | 114 vertical profile tables |
 | **Individuals** (politicians, professionals, traders, agents, creators) | ~12,000,000 economically active seedable | 29 vertical profile tables |
 | **Groups** (civic, religious, cooperative, community) | ~380,000 registered | Covered under organization verticals |
-| **TOTAL SEEDABLE UNIVERSE** | **~15,000,000+** | **143 profile tables** |
+| **TOTAL SEEDABLE UNIVERSE** | **~15,000,000+ market universe; official first-pass seed targets corrected below** | **143 profile tables** |
 
 > **Seeding philosophy:** The platform uses a claim-first model. Every entity is seeded at `claim_state = 'seeded'` with minimal verified data. Operators claim their profile and upgrade it. The goal of seeding is **discovery density** — every LGA must return results for every major vertical category.
 
@@ -49,9 +70,9 @@ All geography is tenant_id = NULL (shared platform infrastructure).
 | `nigeria_zones.sql` | 6 | Scripted |
 | `nigeria_states.sql` | 37 | Scripted |
 | `0002_lgas.sql` | 774 | Scripted (921 lines) |
-| `nigeria_wards.sql` | 8,814 | Referenced in README — file not yet created |
+| `0003_wards.sql` | 8,810 local rows; official INEC target is 8,809 | Scripted — requires one-row reconciliation before production load |
 
-**Sub-total geography nodes: 9,632**  
+**Sub-total geography nodes: 9,627 official target (1 country + 6 zones + 37 states/FCT + 774 LGAs + 8,809 wards); local scripted sub-total is 9,628 until `0003_wards.sql` is reconciled.**  
 All have pre-computed `ancestry_path` arrays. Apply via `wrangler d1 execute --file`.
 
 ### 3.2 The 37 States and Their LGA Counts
@@ -66,15 +87,15 @@ All have pre-computed `ancestry_path` arrays. Apply via `wrangler d1 execute --f
 | South West | Ekiti, Lagos, Ogun, Ondo, Osun, Oyo | 111 |
 | **Total** | **37** | **774** |
 
-### 3.3 Ward Seeds (to be scripted)
+### 3.3 Ward Seeds (scripted, pending reconciliation)
 
-**8,814 wards** — sourced from INEC ward boundary data (the same dataset that produces polling unit assignments). Each ward is a `place` record with:
+**8,809 official INEC registration areas/wards** — the local generated file `infra/db/seed/0003_wards.sql` currently declares **8,810** ward rows, so one extra or duplicated ward row must be audited before production seeding. Each ward is a `place` record with:
 - `geography_type = 'ward'`
 - `level = 5`
 - `parent_id` → LGA place ID
 - `ancestry_path` → `["place_nigeria_001", "<zone>", "<state>", "<lga>"]`
 
-Source: INEC 2023 electoral ward register (public domain, available at inec.gov.ng).
+Source: INEC 2023 delimitation data and polling-unit locator. INEC published 8,809 registration areas/wards and 176,846 polling units for the 2023 cycle.
 
 ---
 
@@ -128,7 +149,7 @@ Breakdown by category:
 **Entity type:** Individual  
 **Vertical:** `vtx_politician`  
 **Profile table:** `politician_profiles`  
-**National count:** ~11,120 elected officials (current 2023 cycle) + historical
+**National count:** ~11,891 elected officials (current cycle using 8,809 wards and ~991 state assembly seats) + historical
 
 | Office | Count | Territory Scope |
 |---|---|---|
@@ -138,19 +159,19 @@ Breakdown by category:
 | Deputy Governors | 36 | State |
 | Senators | 109 | Senatorial District (3 per state) |
 | House of Representatives Members | 360 | Federal Constituency |
-| State House of Assembly Members | ~993 | State Constituency (avg 27 per state) |
+| State House of Assembly Members | ~991 | State Constituency (24–40 per state) |
 | Local Government Chairmen | 774 | LGA |
 | Vice Chairmen / Deputies | 774 | LGA |
-| Councillors / Ward Reps | ~8,809 | Ward (avg ~9 per LGA) |
-| **Elected officials total** | **~11,893** | |
+| Councillors / Ward Reps | ~8,809 | Ward / Registration Area |
+| **Elected officials total** | **~11,891** | |
 
 **Additional political individuals to seed:**
-- Candidate records (2023 general election): ~15,000 INEC-registered candidates
+- Candidate records (2023 general election): 15,331 INEC-listed contestants/candidates
 - Former governors (1999–2023): 144
 - Former presidents (post-independence): 15
 - Former senators / HoR (1999–2023 cycles): ~3,000
 
-**Data source:** INEC official results portal (inec.gov.ng), National Assembly member directory, state assembly websites, TheyWorkForYou Nigeria equivalent scrapes.
+**Data source:** INEC official results/delimitation data, National Assembly member directory, state assembly websites, SIEC/LGA records for councillors.
 
 **Key fields per row:**
 ```
@@ -170,16 +191,16 @@ status ('seeded')
 **Entity type:** Organization  
 **Vertical:** `vtx_political_party`  
 **Profile table:** `political_party_profiles`  
-**National count:** 91 INEC-registered parties (2023) + state and LGA chapters
+**National count:** 21 current INEC-registered parties (2026) + state/LGA/ward chapters; use 18 parties for 2023 election-cycle data
 
 | Level | Count |
 |---|---|
-| National HQ (INEC registered parties) | 91 |
-| State chapters (91 × 37) | 3,367 |
-| LGA chapters (major 18 parties × 774) | 13,932 |
-| Ward chapters (major 10 parties × 8,814) | 88,140 |
+| National HQ (current INEC registered parties) | 21 |
+| State chapters (21 × 37) | 777 |
+| LGA chapters (top 6 parties × 774) | 4,644 |
+| Ward chapters (top 3 parties × 8,809) | 26,427 |
 
-**Seed priority:** Seed 91 national HQs first, then 18 major parties' state chapters (666 rows), then LGA chapters for the top 6 parties (APC, PDP, LP, NNPP, APGA, SDP).
+**Seed priority:** Seed 21 national HQs first, then all 21 state chapters (777 rows), then LGA chapters for the top 6 parties (APC, PDP, LP, NNPP, APGA, SDP). Ward chapters should be a later expansion because public structured ward-office data is inconsistent.
 
 **Data source:** INEC political party register (public), party official websites.
 
@@ -204,7 +225,7 @@ status ('seeded')
 #### 5A-5. Constituency Offices — `constituency_office_profiles`
 **Entity type:** Place  
 **Vertical:** `vtx_constituency_office`  
-**National count:** 1,462 (360 HoR + 109 Senate + 993 state assembly)  
+**National count:** 1,460 (360 HoR + 109 Senate + ~991 state assembly)  
 **Data source:** National Assembly directory, state assembly directories.
 
 ---
@@ -1044,7 +1065,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5F-1. Clinics / Hospitals — `clinic_profiles`
 **Entity type:** Organization  
 **Vertical:** `vtx_clinic`  
-**National count:** ~35,000 (MDCN + state ministries of health data)
+**National count:** ~38,815 hospitals/clinics in Nigeria HFR live registry; PHC and CHW networks counted separately
 
 | Facility type | Count |
 |---|---|
@@ -1053,10 +1074,10 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | State specialist hospitals | ~250 |
 | Private hospitals | ~8,000 |
 | Private clinics / maternity homes | ~15,000 |
-| Primary Health Care centres (PHC) | ~30,000 (target; ~18,000 functional) |
-| **Total** | **~57,000** |
+| Primary Health Care centres (PHC) | Count separately under community_health / PHC network seeds |
+| **Total** | **~38,815 HFR hospital/clinic entries** |
 
-**Data source:** MDCN hospital register, NHIS accredited facilities list, state Ministry of Health facility registers, NPHCDA (National Primary Health Care Development Agency) PHC list.
+**Data source:** Nigeria Health Facility Registry (Federal Ministry of Health), NHIA/NHIS accredited facilities list, state Ministry of Health facility registers. NPHCDA PHC data should be reconciled under community_health rather than double-counted here.
 
 ---
 
@@ -1140,14 +1161,13 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5G-1. Government Schools — `govt_school_profiles`
 **Entity type:** Organization  
 **Vertical:** `vtx_govt_school`  
-**National count:** ~46,000
+**National count:** 79,775 public UBE schools (UBEC 2022 National Personnel Audit)
 
 | Level | Count |
 |---|---|
-| Federal government colleges | 104 |
-| State government secondary schools | ~10,000 |
-| Government primary schools | ~35,000 |
-| **Total** | **~45,104** |
+| Public ECCDE / primary / junior secondary UBE schools | 79,775 |
+| Federal/state senior secondary schools | Add from FME/NEMIS when a current public extract is available |
+| **Total** | **79,775 public UBE schools, plus senior-secondary delta pending NEMIS** |
 
 **Data source:** UBEC (Universal Basic Education Commission) school census, FME (Federal Ministry of Education) school register, state SUBEB records.
 
@@ -1156,17 +1176,14 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5G-2. Private Schools — `private_school_profiles`
 **Entity type:** Organization  
 **Vertical:** `vtx_private_school`  
-**National count:** ~65,000
+**National count:** 91,252 private UBE schools (UBEC 2022 National Personnel Audit), plus tertiary institutions tracked separately
 
 | Level | Count |
 |---|---|
-| Private universities (NUC accredited) | 109 |
-| Polytechnics / monotechnics | ~160 |
-| Colleges of education | ~150 |
-| Private secondary schools | ~20,000 |
-| Private primary schools | ~30,000 |
-| Model schools / international schools | ~500 |
-| **Total** | **~50,919** |
+| Private ECCDE / primary / junior secondary UBE schools | 91,252 |
+| Private universities, polytechnics, monotechnics, colleges of education | Track via NUC/NBTE/NCCE as separate tertiary institution seeds |
+| Senior secondary / model / international schools | Add from FME/NEMIS or state education board extracts |
+| **Total** | **91,252 private UBE schools, plus tertiary/senior-secondary delta pending regulator extracts** |
 
 **Data source:** NUC (National Universities Commission) approved universities list, NBTE (National Board for Technical Education) polytechnic list, state education boards.
 
@@ -1175,7 +1192,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5G-3. General Schools — `school_profiles`
 **Entity type:** Organization  
 **Vertical:** `vtx_school`  
-**National count:** Combines govt + private; total ~111,000  
+**National count:** Combines public + private UBE schools; total **171,027** in UBEC 2022 NPA before senior-secondary/tertiary additions  
 
 ---
 
@@ -1333,8 +1350,8 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5I-3. Bureau de Change — `bdc_profiles`
 **Entity type:** Organization  
 **Vertical:** `vtx_bureau_de_change`  
-**National count:** ~5,686 CBN-licensed BDC operators (2023 CBN report)  
-**Data source:** CBN licensed BDC directory (published quarterly).
+**National count:** 82 CBN fully licensed BDC operators after the 2024/2025 re-licensing cycle; older 5,686 legacy count is no longer safe for seeded verification  
+**Data source:** CBN licensed BDC directory / current re-licensing notices; refresh directly before production seed.
 
 ---
 
@@ -1492,7 +1509,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 #### 5L-4. Community Halls / Town Halls — `community_hall_profiles`
 **Entity type:** Place  
 **Vertical:** `vtx_community_hall`  
-**National count:** ~8,814 (one per ward minimum)  
+**National count:** ~8,809 (one per official INEC ward / registration area minimum)  
 
 ---
 
@@ -1556,8 +1573,8 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 
 | # | Vertical | Entity Type | Profile Table | Nat. Count | Seed Target | Priority |
 |---|---|---|---|---|---|---|
-| 1 | politician | individual | politician_profiles | 11,893 | 11,893 | P1 |
-| 2 | political_party | organization | political_party_profiles | 91 HQ + 17,299 chapters | 18,000 | P1 |
+| 1 | politician | individual | politician_profiles | 11,891 | 11,891 | P1 |
+| 2 | political_party | organization | political_party_profiles | 21 HQ + 777 state + 4,644 top-party LGA chapters | 5,442 | P1 |
 | 3 | motor_park | place | motor_park_profiles | 5,400 | 5,400 | P1 |
 | 4 | transit | organization | transit_profiles | 200 | 200 | P1 |
 | 5 | rideshare | individual | rideshare_profiles | 500,000 | 50,000 | P2 |
@@ -1568,8 +1585,8 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 10 | pos_business | organization | pos_products / organizations | 500,000 | 50,000 | P2 |
 | 11 | market | place | market_stalls | 8,000 | 8,000 | P1 |
 | 12 | professional | individual | professional_profiles | 630,000 | 100,000 | P2 |
-| 13 | school | organization | school_profiles | 111,000 | 111,000 | P1 |
-| 14 | clinic | organization | clinic_profiles | 57,000 | 57,000 | P1 |
+| 13 | school | organization | school_profiles | 171,027 UBE schools | 171,027 | P1 |
+| 14 | clinic | organization | clinic_profiles | 38,815 HFR hospitals/clinics | 38,815 | P1 |
 | 15 | creator | individual | creator_profiles | 500,000 | 50,000 | P3 |
 | 16 | sole_trader | individual | sole_trader_profiles | 40,000,000 | 200,000 | P2 |
 | 17 | tech_hub | place | tech_hub_profiles | 120 | 120 | P1 |
@@ -1580,7 +1597,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 22 | beauty_salon | organization | beauty_salon_profiles | 1,000,000 | 50,000 | P2 |
 | 23 | laundry | organization | laundry_profiles | 50,000 | 10,000 | P3 |
 | 24 | auto_mechanic | organization | auto_mechanic_profiles | 500,000 | 15,000 | P2 |
-| 25 | fuel_station | place | fuel_station_profiles | 15,000 | 15,000 | P1 |
+| 25 | fuel_station | place | fuel_station_profiles | 22,681 | 22,681 | P1 |
 | 26 | tailor | individual | tailor_profiles | 2,000,000 | 100,000 | P2 |
 | 27 | event_hall | place | event_hall_profiles | 5,000 | 5,000 | P2 |
 | 28 | event_planner | individual | event_planner_profiles | 100,000 | 20,000 | P3 |
@@ -1588,7 +1605,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 30 | construction | organization | construction_profiles | 55,000 | 8,000 | P2 |
 | 31 | real_estate_agency | organization | real_estate_agency_profiles | 10,000 | 10,000 | P2 |
 | 32 | property_developer | organization | property_developer_profiles | 2,000 | 2,000 | P3 |
-| 33 | cleaning_service | organization | cleaning_service_profiles | 3,000 | 5,000 | P3 |
+| 33 | cleaning_service | organization | cleaning_service_profiles | 3,000 | 3,000 | P3 |
 | 34 | print_shop | organization | print_shop_profiles | 100,000 | 15,000 | P2 |
 | 35 | electronics_repair | organization | electronics_repair_profiles | 200,000 | 25,000 | P2 |
 | 36 | food_vendor | individual | food_vendor_profiles | 5,000,000 | 100,000 | P1 |
@@ -1642,8 +1659,8 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 84 | airport_shuttle | organization | airport_shuttle_profiles | 150 | 150 | P2 |
 | 85 | container_depot | place | container_depot_profiles | 50 | 50 | P2 |
 | 86 | airtime_reseller | individual | airtime_reseller_profiles | 500,000 | 50,000 | P2 |
-| 87 | mobile_money_agent | individual | mobile_money_agent_profiles | 800,000 | 100,000 | P1 |
-| 88 | bureau_de_change | organization | bdc_profiles | 5,686 | 5,686 | P2 |
+| 87 | mobile_money_agent | individual | mobile_money_agent_profiles | 2,000,000+ active POS terminals / agent endpoints | 100,000 named agents | P1 |
+| 88 | bureau_de_change | organization | bdc_profiles | 82 current fully licensed | 82 | P2 |
 | 89 | used_car_dealer | organization | used_car_dealer_profiles | 10,000 | 10,000 | P2 |
 | 90 | spare_parts | organization | spare_parts_profiles | 50,000 | 20,000 | P2 |
 | 91 | tyre_shop | organization | tyre_shop_profiles | 200,000 | 30,000 | P2 |
@@ -1659,15 +1676,15 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 101 | newspaper_dist | organization | newspaper_dist_profiles | 500 | 500 | P3 |
 | 102 | tax_consultant | individual | tax_consultant_profiles | 15,000 | 15,000 | P2 |
 | 103 | land_surveyor | individual | land_surveyor_profiles | 10,000 | 10,000 | P2 |
-| 104 | private_school | organization | private_school_profiles | 50,919 | 50,919 | P1 |
+| 104 | private_school | organization | private_school_profiles | 91,252 private UBE schools | 91,252 | P1 |
 | 105 | tutoring | individual | sole_trader_profiles | 1,000,000 | 50,000 | P3 |
 | 106 | creche | organization | creche_profiles | 40,000 | 10,000 | P2 |
 | 107 | wedding_planner | individual | wedding_planner_profiles | 20,000 | 20,000 | P3 |
 | 108 | funeral_home | organization | funeral_home_profiles | 1,500 | 1,500 | P3 |
-| 109 | community_hall | place | community_hall_profiles | 8,814 | 8,814 | P2 |
+| 109 | community_hall | place | community_hall_profiles | 8,809 | 8,809 | P2 |
 | 110 | produce_aggregator | organization | organizations | 2,000 | 2,000 | P3 |
 | 111 | hire_purchase | organization | hire_purchase_profiles | 1,000 | 1,000 | P3 |
-| 112 | govt_school | organization | govt_school_profiles | 45,104 | 45,104 | P1 |
+| 112 | govt_school | organization | govt_school_profiles | 79,775 public UBE schools | 79,775 | P1 |
 | 113 | community_health | organization | community_health_profiles | 18,774 | 18,774 | P1 |
 | 114 | sports_club | organization | sports_club_profiles | 20,000 | 5,000 | P3 |
 | 115 | book_club | organization | book_club_profiles | 2,000 | 500 | P3 |
@@ -1704,7 +1721,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 146 | cleaning_company | organization | cleaning_company_profiles | 3,000 | 3,000 | P3 |
 | 147 | events_centre | place | events_centre_profiles | 500 | 500 | P2 |
 | 148 | nursery_school | organization | nursery_school_profiles | 40,000 | 40,000 | P2 |
-| 149 | petrol_station | place | petrol_station_profiles | 15,000 | 15,000 | P1 |
+| 149 | petrol_station | place | petrol_station_profiles | 22,681 | 22,681 | P1 |
 | 150 | generator_dealer | organization | generator_dealer_profiles | 5,000 | 5,000 | P2 |
 | 151 | water_vendor | organization | water_vendor_profiles | 55,000 | 5,000 | P2 |
 | 152 | tailoring_fashion | individual | tailor_profiles | 2,000,000 | 100,000 | P2 |
@@ -1722,7 +1739,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 ## 7. Seeding Tiers — Ordered Execution Plan
 
 ### TIER 0 — Geography Foundation
-**Target: 9,632 records | Tables: places**
+**Target: 9,627 official records / 9,628 local pending reconciliation | Tables: places**
 
 | Step | File | Records |
 |---|---|---|
@@ -1730,7 +1747,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 0.2 | `infra/db/seed/nigeria_zones.sql` | 6 |
 | 0.3 | `infra/db/seed/nigeria_states.sql` | 37 |
 | 0.4 | `infra/db/seed/0002_lgas.sql` | 774 |
-| 0.5 | `infra/db/seed/nigeria_wards.sql` *(to be created)* | 8,814 |
+| 0.5 | `infra/db/seed/0003_wards.sql` *(exists; reconcile to INEC official count)* | 8,810 local / 8,809 official |
 
 **Blocking dependency:** Nothing in Layers 1–5 can be seeded until Tier 0 is complete. Every `primary_place_id` FK on `profiles` references a place from this tier.
 
@@ -1751,12 +1768,12 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 
 | Vertical | Seed Target | Root Table | Profile Table |
 |---|---|---|---|
-| government schools | 45,104 | organizations | govt_school_profiles |
-| private schools | 50,919 | organizations | private_school_profiles |
-| clinics / hospitals | 57,000 | organizations | clinic_profiles |
+| government schools | 79,775 | organizations | govt_school_profiles |
+| private schools | 91,252 | organizations | private_school_profiles |
+| clinics / hospitals | 38,815 | organizations | clinic_profiles |
 | pharmacies | 15,000 | organizations | pharmacy_chain_profiles |
-| fuel stations | 15,000 | places | fuel_station_profiles |
-| petrol stations | 15,000 | places | petrol_station_profiles |
+| fuel stations | 22,681 | places | fuel_station_profiles |
+| petrol stations | 22,681 | places | petrol_station_profiles |
 | motor parks | 5,400 | places | motor_park_profiles |
 | markets | 8,000 | places | market_association_profiles |
 | market associations | 8,000 | organizations | market_association_profiles |
@@ -1767,7 +1784,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | food vendors | 100,000 | individuals | food_vendor_profiles |
 | mobile money agents | 100,000 | individuals | mobile_money_agent_profiles |
 | polling units | 176,846 | places | polling_unit_profiles |
-| politicians | 11,893 | individuals | politician_profiles |
+| politicians | 11,891 | individuals | politician_profiles |
 | ward reps | 8,809 | individuals | ward_rep_profiles |
 | constituency offices | 1,462 | places | constituency_office_profiles |
 | LGA offices | 774 | places | government_agency_profiles |
@@ -1776,7 +1793,7 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | community health networks | 18,774 | organizations | community_health_profiles |
 | tech hubs | 120 | places | tech_hub_profiles |
 
-**Tier 2 total: ~747,013 seed rows**
+**Tier 2 total: ~819,000 gross seed rows before fuel/petrol de-duplication; ~796,500 if fuel_station and petrol_station are treated as the same NMDPRA retail-outlet universe.**
 
 ---
 
@@ -1802,16 +1819,16 @@ Covers: all P3-marked verticals — recording labels, podcast studios, book club
 
 | Source | What it covers | Access |
 |---|---|---|
-| INEC (inec.gov.ng) | Polling units (176,846), elected officials, candidates, parties (91), wards (8,814) | Public portal + bulk download |
-| UBEC school census | Government primary + secondary schools (~45,000) | UBEC open data |
-| NUC list | Private universities (109) | nuc.edu.ng public list |
+| INEC (inec.gov.ng) | Polling units (176,846), 2023 contestants (15,331), current parties (21), 2023 parties (18), wards/RAs (8,809) | Public portal + bulk download |
+| UBEC 2022 NPA / school directory | UBE schools: 171,027 total; 79,775 public; 91,252 private | UBEC public downloads |
+| NUC list | Universities / tertiary institutions; use current NUC list separately from UBEC basic-school counts | nuc.edu.ng public list |
 | NBTE list | Polytechnics, vocational schools | nbte.edu.ng |
 | MDCN register | Doctors, hospitals, clinics | mdcn.gov.ng |
 | PCN register | Pharmacies, pharmacists | pcn.gov.ng |
 | NBA directory | Lawyers, law firms | nigerianbar.org.ng |
 | ICAN register | Accountants, accounting firms | ican.org.ng |
-| NMDPRA / DPR | Fuel stations, gas distributors, oil & gas service companies | nmdpra.gov.ng |
-| CBN data | BDC operators (5,686), POS agents, mobile money | cbn.gov.ng |
+| NMDPRA / DPR | Retail petroleum outlets (~22,681), gas distributors, oil & gas service companies | nmdpra.gov.ng / licensing portals |
+| CBN / SANEF data | Current licensed BDCs (82 after relicensing), POS/mobile-money agents and terminals (2,000,000+ active terminals) | cbn.gov.ng |
 | CAC register | Registered businesses, NGOs, associations | search.cac.gov.ng |
 | NURTW secretariat | Motor parks, transport unions | Direct outreach |
 | NBS MSME census | Sole traders, food vendors, artisans | nigerianstat.gov.ng |
@@ -1819,7 +1836,7 @@ Covers: all P3-marked verticals — recording labels, podcast studios, book club
 | Google Maps Nigeria | Hotels, restaurants, salons, clinics, fuel stations (named + coordinates) | Places API |
 | FRSC CMRIS | Vehicles, driving schools, fleet operators | frscnigeria.org |
 | NIRSAL / FMARD | Registered farms, agro-input dealers, cooperatives | nirsal.com, fmard.gov.ng |
-| NPHCDA | Primary health care centres (30,000) | nphcda.gov.ng |
+| Nigeria HFR / NPHCDA | HFR hospitals/clinics (~38,815); PHC/community-health networks to be reconciled separately | hfr.health.gov.ng, nphcda.gov.ng |
 | FISON | Fish markets, fisheries | fison.org.ng |
 | NAFDAC | Food factories, pharmacies, water producers, abattoirs | nafdac.gov.ng |
 | AfriLabs | Tech hubs (120) | afrihubs.com directory |
@@ -1860,14 +1877,14 @@ This 72,000-row floor guarantees that no LGA returns an empty discovery page for
 
 | Gap | Impact | Action needed |
 |---|---|---|
-| `infra/db/seed/nigeria_wards.sql` — file referenced in README but not created | Blocking ward-level entity pinning | Create 8,814-row file from INEC ward data |
-| `infra/db/seed/nigeria_country.sql` — root country place | Blocking all LGA ancestry paths resolving to root | Create 1-row file |
+| `infra/db/seed/0003_wards.sql` has 8,810 local rows vs 8,809 INEC official wards/RAs | Potential one-row geography mismatch before production load | Audit duplicate/extra ward and either correct SQL or document accepted source variance |
+| Geography seed naming drift in README/report (`nigeria_lgas.sql`, `nigeria_wards.sql`) vs actual files (`0002_lgas.sql`, `0003_wards.sql`) | Operators may run wrong files or think seeds are missing | Update runbook references to actual filenames |
 | `verticals` table seed — CSV exists, no migration applies it | 160 vertical definitions missing from live DB | Convert CSV → SQL INSERT migration |
 | All `*_profiles` tables — 0 rows in both staging and production | Discovery pages return nothing | Execute Tiers 2–4 above |
 | `search_index` / `search_fts` — empty | Full-text search returns nothing | Rebuild after profile seeding |
 | `jurisdictions` table — 0 rows | Political assignment FK cannot resolve | Seed 1 jurisdiction per ward, LGA, state, federal constituency, senatorial district |
-| Ward-level `places` — 8,814 missing | Polling unit and ward rep profiles cannot resolve `primary_place_id` | Create `nigeria_wards.sql` |
+| Ward-level `places` — not confirmed applied to live DB | Polling unit and ward rep profiles cannot resolve `primary_place_id` until loaded | Apply reconciled `0003_wards.sql` and verify count equals accepted canonical value |
 
 ---
 
-*Document generated 2026-04-21. Counts sourced from INEC, NBS, CBN, MDCN, PCN, NBA, ICAN, NUC, UBEC, FMARD, NIPOST, NMDPRA, and sector association directories. All entity counts represent the nationwide universe; seed targets represent the realistically achievable first-pass seeding volume using publicly available structured data.*
+*Document generated 2026-04-21 and deep-reviewed the same day. Corrected counts reference INEC, Nigeria HFR/FMoH, UBEC, CBN/SANEF, NMDPRA, CAC, NUC, and sector registries where public data is available. Official counts should be refreshed immediately before production seed execution; market-estimate counts are discovery-density planning assumptions, not verified registry totals.*

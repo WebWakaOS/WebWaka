@@ -12,15 +12,15 @@ Per TDR-0011, the following data is seeded as part of Milestone 2 bootstrap:
 | Geopolitical Zones | 6 |
 | States (incl. FCT) | 37 |
 | LGAs | 774 |
-| Wards | 8,814 |
+| Wards | 8,809 official INEC target; `0003_wards.sql` currently contains 8,810 local rows pending reconciliation |
 
-### Files to be created (Milestone 2 completion):
+### Seed files:
 
 - `nigeria_country.sql` — Nigeria root place
 - `nigeria_zones.sql` — 6 geopolitical zones
 - `nigeria_states.sql` — 37 states + FCT
-- `nigeria_lgas.sql` — 774 LGAs (sourced from INEC official data)
-- `nigeria_wards.sql` — 8,814 wards (sourced from INEC official data)
+- `0002_lgas.sql` — 774 LGAs (sourced from INEC official data)
+- `0003_wards.sql` — 8,810 local ward rows; reconcile to INEC's 8,809 official registration areas/wards before production use
 
 ### Applying seed data:
 
@@ -28,8 +28,8 @@ Per TDR-0011, the following data is seeded as part of Milestone 2 bootstrap:
 wrangler d1 execute webwaka-os-staging --file=infra/db/seed/nigeria_country.sql --env staging
 wrangler d1 execute webwaka-os-staging --file=infra/db/seed/nigeria_zones.sql --env staging
 wrangler d1 execute webwaka-os-staging --file=infra/db/seed/nigeria_states.sql --env staging
-wrangler d1 execute webwaka-os-staging --file=infra/db/seed/nigeria_lgas.sql --env staging
-wrangler d1 execute webwaka-os-staging --file=infra/db/seed/nigeria_wards.sql --env staging
+wrangler d1 execute webwaka-os-staging --file=infra/db/seed/0002_lgas.sql --env staging
+wrangler d1 execute webwaka-os-staging --file=infra/db/seed/0003_wards.sql --env staging
 ```
 
 ### Data sources:

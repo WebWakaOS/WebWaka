@@ -649,7 +649,7 @@ notif:meta_waba_approved:{template_family}  "1" or "0"
 | Community halls | Ward level | LGA administration registers | P3 |
 | Filling stations | LGA level | DPR/NMDPRA retail outlet registry | P2 |
 | Mosques / Churches | Ward level | NPC (National Population Commission) data | P3 |
-| Polling units | Ward level | INEC polling unit register (19,000+ units) | P1 for political verticals |
+| Polling units | Ward level | INEC polling unit register (176,846 units) | P1 for political verticals |
 | Constituency offices | Constituency | INEC federal/state constituency map | P1 for political verticals |
 
 ---
@@ -716,7 +716,7 @@ MLA chain supports up to 3 referral levels:
 | `geo_zones` | 0002 | Static | 6 | National geography standard |
 | `geo_states` | 0002 | Static | 37 | National geography standard |
 | `geo_lgas` | 0003 | Static | 774 | NBS/INEC LGA roster |
-| `geo_wards` | 0004 | Partial | ~8,809 (full Nigeria) | INEC ward register |
+| `geo_wards` | 0004 | Script exists; DB application/reconciliation pending | 8,809 official / 8,810 local SQL | INEC ward register + local `0003_wards.sql` audit |
 | `verticals` | 0036 | Static | 160 | `infra/db/seeds/0004_verticals-master.csv` |
 | `plan_tiers` | 0287 | Static | 5 | Platform pricing (starter/growth/pro/business/enterprise) |
 
@@ -796,9 +796,9 @@ Each vertical has its own D1 table seeded in its corresponding migration:
 | Dataset | Source Agency | Format | Priority | Records Estimated |
 |---|---|---|---|---|
 | LGA boundaries & names | NBS / INEC / NIMC | Excel/PDF/KML | **P1** | 774 LGAs |
-| Ward register | INEC | Excel | **P1** | ~8,809 wards |
+| Ward register | INEC | Excel/SQL | **P1** | 8,809 official wards/RAs; local SQL has 8,810 |
 | Federal/State constituency map | INEC | PDF/Excel | P2 | 360 fed + 990+ state |
-| Polling unit register | INEC | Excel | P2 | 19,000+ polling units |
+| Polling unit register | INEC | Excel/API | P1 | 176,846 polling units |
 | CAC registered companies | CAC | Web API (basic) | **P1** | 2M+ (extract by LGA) |
 | FIRS TIN register | FIRS | Official request | P3 | Restricted — by sector |
 | NAFDAC registered products | NAFDAC | Web portal | P2 | ~50,000 products |
@@ -936,10 +936,10 @@ Sequence:
 
 ```
 Sequence:
-1. Seed geo_wards (~8,809 wards from INEC)
+1. Reconcile and seed geo_wards (8,809 official INEC wards/RAs; local `0003_wards.sql` currently has 8,810 rows)
 2. Seed jurisdictions (ward/LGA/state/fed-constituency/senatorial-district)
 3. Seed political_office_types (Councilor → President)
-4. Seed polling units (19,000+ from INEC RAAS)
+4. Seed polling units (176,846 from INEC polling-unit register)
 5. Seed constituency_offices per politician vertical
 6. Seed ward_reps per ward (as seeded FSM entities — not claimed yet)
 ```
@@ -989,7 +989,7 @@ infra/db/seeds/
 |---|---|---|
 | Wallet KV keys not initialized | Wallet creation will fail (eligibility check returns null) | Run `scripts/kv-init-wallet.sh` for prod + staging |
 | `webhook_event_types` empty | No webhook delivery for any event | Seed 36 event types from migration 0274/0287 |
-| `geo_wards` incomplete | Political vertical FSM gates cannot validate ward jurisdictions | Seed 8,809 wards from INEC data |
+| `geo_wards` not confirmed applied and local SQL count differs from INEC official count | Political vertical FSM gates cannot validate ward jurisdictions | Reconcile `0003_wards.sql` to 8,809 official wards/RAs or formally document the accepted local variance |
 | `plan_tiers` / subscription plans not seeded | Entitlement checks return empty — T5 fails gracefully but blocks features | Seed 5 plan tiers with entitlement JSON |
 | AI model routing KV unpopulated | SuperAgent will use hardcoded fallback instead of governance-approved routing | Seed model routing config in AI_KV |
 
@@ -1052,7 +1052,7 @@ Rankings are scored on four dimensions:
 | **15** | **Clinic & Pharmacy Profiles — All LGAs** | 17 | 24 | 23 | 22 | **86** | NHIS + PCN register |
 | **16** | **8,809 Ward Register** | 22 | 22 | 22 | 20 | **86** | INEC ward register |
 | **17** | **Politician Profiles — State Legislators** | 15 | 24 | 23 | 23 | **85** | INEC 2023 election data |
-| **18** | **Polling Unit Register — 19,000+ Units** | 18 | 23 | 22 | 22 | **85** | INEC RAAS published data |
+| **18** | **Polling Unit Register — 176,846 Units** | 24 | 24 | 24 | 24 | **96** | INEC polling-unit register |
 | **19** | **NGO Profiles — Federal + State** | 17 | 22 | 22 | 23 | **84** | CAC IT-registration data |
 | **20** | **Fuel Station / Petrol Station Profiles** | 16 | 22 | 24 | 22 | **84** | NMDPRA/DPR retail outlets |
 | **21** | **Tech Hub Profiles — Lagos + FCT** | 20 | 22 | 20 | 22 | **84** | NITDA + CcHUB network |
