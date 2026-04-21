@@ -1,0 +1,91 @@
+Act as a senior platform auditor, data architect, and research analyst. Perform a very deep, read-only review of the entire WebWaka platform across all repositories, source code, database schemas, migrations, seeders, API contracts, configs, docs, PRDs, roadmaps, notes, and any other project files. [1][2]
+
+Your goal is to identify **every category of real-world data that can be seeded into the platform** for all verticals, modules, roles, workflows, and geographies supported by WebWaka, including but not limited to markets, plazas, motor parks, transport routes, businesses, organizations, institutions, public offices, politicians, influencers, service providers, associations, landmarks, events, and all other establishments relevant to the platform. [3]
+
+Do not write code first. Start with a full discovery and analysis pass. Infer the complete platform domain model from the existing code and documents, then produce a **master seed-data inventory and extraction plan**.
+
+Deliver the output in this structure:
+
+1. **Platform map**  
+   List all products, verticals, modules, submodules, user roles, entities, and workflows discovered in the codebase and docs.
+
+2. **Seedable data inventory**  
+   For each module/vertical, list all entities that can be seeded, grouped by domain.  
+   For each entity include:
+   - entity name
+   - purpose in platform
+   - likely source tables/models
+   - related entities/dependencies
+   - minimum required fields
+   - recommended optional fields
+   - geographic scope, e.g. country, state, LGA, ward, district, neighborhood
+   - priority level: critical, high, medium, low
+   - whether data should be global, country-specific, state-specific, city-specific, plaza-specific, or market-specific
+
+3. **Coverage by sector**  
+   Create separate sections for every identifiable WebWaka vertical, such as governance/civic, transport, marketplace/commerce, business directory, organizations, public sector, creator/influencer ecosystem, and any other sector found in the project.
+
+4. **Coverage by place**  
+   Identify all place-based entities that can be seeded, including administrative regions, communities, markets, plazas, motor parks, terminals, streets, zones, business clusters, institutions, and venues.
+
+5. **Coverage by people**  
+   Identify all people-based entities that can be seeded, including elected officials, political appointees, traditional/community leaders, business owners, organization leaders, creators, influencers, transport operators, and notable public figures where relevant to the platform design.
+
+6. **Data requirements matrix**  
+   For each entity, specify:
+   - unique identifiers
+   - naming fields
+   - classification/tags
+   - address/location fields
+   - contact fields
+   - verification/status fields
+   - media fields
+   - relationship fields
+   - SEO/search fields
+   - moderation/governance fields
+   - timestamps/audit fields
+
+7. **Source and extraction plan**  
+   For each seedable entity, propose:
+   - best likely source types, e.g. official registries, government directories, associations, public datasets, structured websites, platform partnerships, manual curation
+   - extraction method, e.g. API, scraping, CSV import, manual research, partner uploads
+   - validation method
+   - deduplication strategy
+   - update frequency
+   - risks, gaps, and legal/compliance notes
+
+8. **Seeding strategy**  
+   Recommend the order of seeding by dependency:
+   - foundational geography
+   - taxonomy/classifications
+   - institutions/places
+   - organizations/businesses
+   - people
+   - listings/content/activity
+   - relationships and enrichment data
+
+9. **Gap analysis**  
+   Identify missing schemas, missing fields, missing taxonomies, inconsistent naming, duplicate concepts, and anything in the current platform that would block clean large-scale seeding.
+
+10. **Final outputs required**  
+   Produce:
+   - a master list of all seedable entities
+   - a dependency-aware seeding plan
+   - a proposed extraction backlog
+   - a list of immediate next actions for the team
+
+Important constraints:
+- This is a **read-only audit** unless I explicitly ask for implementation changes.
+- Do not invent platform modules that are not supported by code or documents; mark uncertain items as assumptions.
+- Be exhaustive and structured.
+- Prefer tables where useful.
+- If the platform spans multiple repos, synthesize across all of them into one unified model.
+- Highlight Nigeria/Africa-specific seeding opportunities wherever supported by the codebase or docs.
+- Flag any entity that requires human verification before seeding.
+- At the end, rank the **top 100 highest-value seed datasets** to pursue first.
+
+Output format:
+- Write the final report in Markdown.
+- Use clear headings.
+- Include a concise executive summary first.
+- Make the report practical enough that it can be handed directly to research, data, and engineering teams.
