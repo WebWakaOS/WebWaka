@@ -1,0 +1,69 @@
+{
+  "cross_validation_summary": {
+    "matched_exact": 23,
+    "matched_overlap": 13
+  },
+  "decision": "Seed 36 governors and 36 deputy governors (72 individuals) from the canonical Wikipedia state-governor table, after cross-validating every governor name against the official Nigeria Governors' Forum public listing. No row is fabricated.  Where a state's term ends in a non-2027 year (off-cycle), an explicit term row is created in this migration with start/end ISO dates derived from the Wikipedia table.  Source confidence is official_verified for governor names (NGF cross-confirmed) and editorial_verified for deputies, parties, and term years.",
+  "deferred": [],
+  "deferred_count": 0,
+  "individuals_seeded": 72,
+  "ngf_pair_count": 36,
+  "ngf_source_url": "https://nggovernorsforum.org/index.php/the-ngf/governors",
+  "off_cycle_terms": [
+    {
+      "end_iso": "2026-05-28",
+      "start_iso": "2022-05-29",
+      "term_id": "term_ng_state_executive_anambra_2022_2026"
+    },
+    {
+      "end_iso": "2028-05-28",
+      "start_iso": "2020-05-29",
+      "term_id": "term_ng_state_executive_bayelsa_2020_2028"
+    },
+    {
+      "end_iso": "2028-05-28",
+      "start_iso": "2024-05-29",
+      "term_id": "term_ng_state_executive_edo_2024_2028"
+    },
+    {
+      "end_iso": "2026-05-28",
+      "start_iso": "2022-05-29",
+      "term_id": "term_ng_state_executive_ekiti_2022_2026"
+    },
+    {
+      "end_iso": "2028-05-28",
+      "start_iso": "2020-05-29",
+      "term_id": "term_ng_state_executive_imo_2020_2028"
+    },
+    {
+      "end_iso": "2028-05-28",
+      "start_iso": "2024-05-29",
+      "term_id": "term_ng_state_executive_kogi_2024_2028"
+    },
+    {
+      "end_iso": "2029-05-28",
+      "start_iso": "2023-05-29",
+      "term_id": "term_ng_state_executive_ondo_2023_2029"
+    },
+    {
+      "end_iso": "2026-05-28",
+      "start_iso": "2022-05-29",
+      "term_id": "term_ng_state_executive_osun_2022_2026"
+    }
+  ],
+  "party_counts_per_individual": {
+    "A": 2,
+    "APC": 62,
+    "APGA": 2,
+    "LP": 2,
+    "PDP": 4
+  },
+  "retrieved_at": "2026-04-21",
+  "states_seeded": 36,
+  "term_kind_counts_per_state": {
+    "off_cycle": 8,
+    "on_cycle_2023_2027": 28
+  },
+  "wikipedia_source_url": "https://en.wikipedia.org/wiki/List_of_current_state_governors_in_Nigeria",
+  "wp_row_count": 36
+}
