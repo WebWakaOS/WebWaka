@@ -571,9 +571,13 @@ The batch seeds the 21 current official INEC political parties as source-backed 
 
 Validation confirmed 21 party organizations, 21 discovery profiles, 21 political-party vertical profiles, 21 search entries, 21 organization source links, 21 identity-map rows, 21 ingestion sidecar rows, 21 country-level place resolutions, 2 election-cycle locator rows, 4 term scaffold rows, FTS search visibility for APC, no invalid party `primary_place_id` references, and idempotent reruns.
 
-Full S05 remains in progress. Polling units, current officeholders, politician profiles, political assignments, party affiliations, 2023 candidate records, ward representatives, constituency offices, campaign offices, and the final S05 political coverage report remain pending.
+S05 batch 2 has been implemented in `infra/db/migrations/0306_political_polling_units_seed.sql`, mirrored to `apps/api/migrations/0306_political_polling_units_seed.sql`, with standalone seed `infra/db/seed/0007_polling_units.sql`. It seeds all 176,846 official INEC CVR polling units as source-backed polling-unit facility places, discovery profiles, `polling_unit_profiles`, search entries, S04 sidecars, source identity maps, place resolutions, and provenance links.
 
-S05 batch 1 reports are available at `docs/reports/phase-s05-political-foundation-progress-report-2026-04-21.md` and `docs/reports/phase-s05-political-foundation-source-manifest-2026-04-21.md`.
+Polling-unit reconciliation confirmed 176,846 unique source records, 176,846 unique official composite polling-unit codes, 0 duplicate codes, all 774 LGAs resolved to canonical S01 places, 8,603 of 8,810 INEC registration areas matched directly to canonical wards, and 207 registration-area rows covering 4,313 polling units resolved by documented LGA fallback with 0 state-only fallbacks.
+
+Full S05 remains in progress. Current officeholders, politician profiles, political assignments, party affiliations, 2023 candidate records, ward representatives, constituency offices, campaign offices, and the final S05 political coverage report remain pending.
+
+S05 reports are available at `docs/reports/phase-s05-political-foundation-progress-report-2026-04-21.md`, `docs/reports/phase-s05-political-foundation-source-manifest-2026-04-21.md`, and `docs/reports/phase-s05-political-foundation-polling-units-report-2026-04-21.md`.
 
 ---
 

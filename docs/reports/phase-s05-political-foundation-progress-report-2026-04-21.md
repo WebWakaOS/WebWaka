@@ -8,7 +8,7 @@ Begin Phase S05 in the implementation order stated by the nationwide seeding pla
 
 S05 is now in progress. The first S05 batch seeds the current official INEC political party register as source-backed platform-seed organizations, discovery profiles, political-party vertical profiles, search entries, S04 sidecar rows, source identity maps, place resolutions, and provenance links.
 
-This report does not mark full S05 complete. Polling units, current officeholders, politician profiles, assignments, affiliations, 2023 candidate records, ward reps, constituency offices, and campaign offices remain pending S05 batches.
+This report does not mark full S05 complete. Polling units are complete in batch 2; current officeholders, politician profiles, assignments, affiliations, 2023 candidate records, ward reps, constituency offices, and campaign offices remain pending S05 batches.
 
 ## Implemented Changes
 
@@ -20,6 +20,12 @@ This report does not mark full S05 complete. Polling units, current officeholder
 | `infra/db/seed/sources/s05_inec_political_parties_20260421.json` | Official INEC current-party extract with 21 party records and per-party source hashes. |
 | `infra/db/seed/sources/s05_official_electoral_source_locator_20260421.json` | Official source locator for INEC candidate lists, timetable PDF, polling-unit page, and CVR polling-unit locator. |
 | `docs/reports/phase-s05-political-foundation-source-manifest-2026-04-21.md` | Documents sources, hashes, extraction status, and pending S05 source work. |
+| `infra/db/migrations/0306_political_polling_units_seed.sql` | Seeds all 176,846 official INEC CVR polling units as source-backed polling-unit places, discovery profiles, vertical profiles, search entries, S04 sidecars, and provenance links. |
+| `apps/api/migrations/0306_political_polling_units_seed.sql` | Mirrors the polling-unit migration for API migration parity. |
+| `infra/db/seed/0007_polling_units.sql` | Standalone polling-unit seed equivalent to the migration. |
+| `infra/db/seed/sources/s05_inec_polling_units_cvr_20260421.json` | Official INEC CVR polling-unit source extract with 176,846 polling-unit rows and 9,621 response hashes. |
+| `infra/db/seed/sources/s05_inec_polling_units_reconciliation_20260421.json` | Reconciliation report for canonical state/LGA/ward resolution and documented LGA fallbacks. |
+| `docs/reports/phase-s05-political-foundation-polling-units-report-2026-04-21.md` | Dedicated S05 batch 2 polling-unit report. |
 
 ## Seeded Counts in This Batch
 
@@ -38,6 +44,14 @@ This report does not mark full S05 complete. Polling units, current officeholder
 | Party search-entry provenance links | 21 |
 | Election-cycle source locator rows | 2 |
 | Term scaffold rows | 4 |
+| Official INEC polling units | 176,846 |
+| Polling-unit discovery profiles | 176,846 |
+| Polling-unit vertical profiles | 176,846 |
+| Polling-unit search entries | 176,846 |
+| Polling-unit ingestion sidecars | 176,846 |
+| Polling-unit identity-map rows | 176,846 |
+| Polling-unit place-resolution rows | 176,846 |
+| Polling-unit provenance links | 176,846 |
 
 ## Current INEC Party Register Seeded
 
@@ -84,13 +98,17 @@ SQLite validation applied the required S05 dependencies in-memory, including S00
 | Search FTS match for `apc` | 1 | 1 |
 | Invalid party profile `primary_place_id` references | 0 | 0 |
 | Rerun duplicates | 0 new duplicates | Passed |
+| Polling-unit source rows | 176,846 | 176,846 |
+| Polling-unit duplicate official composite codes | 0 | 0 |
+| Polling-unit canonical LGA resolutions | 774 | 774 |
+| Polling-unit state-only fallbacks | 0 | 0 |
 
 ## Acceptance Status for Full S05
 
 | S05 acceptance check | Current status |
 |---|---|
 | 21 current parties are seeded with source links | Complete in this batch. |
-| 176,846 polling units are seeded or every missing unit is explained | Pending; official polling-unit sources have been located and hashed, but row extraction is not yet implemented. |
+| 176,846 polling units are seeded or every missing unit is explained | Complete in batch 2; all 176,846 official INEC CVR polling units are seeded, with 207 registration-area fallback rows documented. |
 | Every politician profile has a jurisdiction | Pending; politician profiles are not yet seeded. |
 | Every political assignment has a term | Pending; reusable term scaffolds exist, but assignments are not yet seeded. |
 | No duplicate politician exists for the same person/office/jurisdiction/term | Pending; duplicate rules will be applied during officeholder extraction. |
@@ -98,4 +116,4 @@ SQLite validation applied the required S05 dependencies in-memory, including S00
 
 ## Next S05 Batch
 
-Proceed to polling-unit extraction using the official INEC polling-unit page and CVR polling-unit locator captured in the S05 source locator. Polling units must dedupe by official PU code first, resolve to the most specific ward/LGA place available, and record every unresolved/ambiguous row in `seed_place_resolutions` before insertion.
+Proceed to current officeholder extraction in dependency order: senators, House of Representatives members, governors/deputies, and then LGA chairmen/deputies. Seed only named, source-backed people and assignments; do not infer ward reps or local officials from jurisdiction existence.

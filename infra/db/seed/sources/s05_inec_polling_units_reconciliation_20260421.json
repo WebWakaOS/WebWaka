@@ -1,0 +1,1881 @@
+{
+  "duplicate_official_polling_unit_codes": {},
+  "rows": 176846,
+  "source_hash": "aab26097e24a5a6b4ff8c26109979937fb381be3c11b8809390bea6c1454271c",
+  "source_path": "infra/db/seed/sources/s05_inec_polling_units_cvr_20260421.json",
+  "unique_official_polling_unit_codes": 176846,
+  "unique_source_records": 176846,
+  "unmatched_lgas": [],
+  "ward_resolution": {
+    "fallback_to_lga_or_state": 207,
+    "source_registration_areas": 8810,
+    "unmatched_ward_polling_units": 4313,
+    "unmatched_ward_rows": [
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_abia_obi_ngwa",
+        "lga_name": "OBINGWA",
+        "polling_units": 27,
+        "state_name": "ABIA",
+        "ward_api_id": "97",
+        "ward_name": "NDIAKATA / AMAIRINABUA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_adamawa_shelleng",
+        "lga_name": "SHELLENG",
+        "polling_units": 15,
+        "state_name": "ADAMAWA",
+        "ward_api_id": "365",
+        "ward_name": "LIBBO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_akwaibom_eket",
+        "lga_name": "EKET",
+        "polling_units": 36,
+        "state_name": "AKWA IBOM",
+        "ward_api_id": "435",
+        "ward_name": "URBAN 1V"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_akwaibom_ikono",
+        "lga_name": "IKONO",
+        "polling_units": 22,
+        "state_name": "AKWA IBOM",
+        "ward_api_id": "533",
+        "ward_name": "NDIYA/IKOT IDAHA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_akwaibom_ikono",
+        "lga_name": "IKONO",
+        "polling_units": 17,
+        "state_name": "AKWA IBOM",
+        "ward_api_id": "536",
+        "ward_name": "1TAK"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_akwaibom_oron",
+        "lga_name": "ORON",
+        "polling_units": 14,
+        "state_name": "AKWA IBOM",
+        "ward_api_id": "669",
+        "ward_name": "ORON URBAN V1"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_anambra_idemili_south",
+        "lga_name": "IDEMILI-SOUTH",
+        "polling_units": 12,
+        "state_name": "ANAMBRA",
+        "ward_api_id": "889",
+        "ward_name": "ALOR  II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_anambra_nnewi_south",
+        "lga_name": "NNEWI SOUTH",
+        "polling_units": 9,
+        "state_name": "ANAMBRA",
+        "ward_api_id": "954",
+        "ward_name": "EZINIFITE - I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_anambra_orumba_south",
+        "lga_name": "ORUMBA  SOUTH",
+        "polling_units": 5,
+        "state_name": "ANAMBRA",
+        "ward_api_id": "1041",
+        "ward_name": "UMUCHUKWU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_bayelsa_brass",
+        "lga_name": "BRASS",
+        "polling_units": 21,
+        "state_name": "BAYELSA",
+        "ward_api_id": "1283",
+        "ward_name": "CAPE FARMOSA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_bayelsa_brass",
+        "lga_name": "BRASS",
+        "polling_units": 16,
+        "state_name": "BAYELSA",
+        "ward_api_id": "1284",
+        "ward_name": "KONGHO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_bayelsa_brass",
+        "lga_name": "BRASS",
+        "polling_units": 12,
+        "state_name": "BAYELSA",
+        "ward_api_id": "1285",
+        "ward_name": "OGINIBIRI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_bayelsa_kolokuma_opokuma",
+        "lga_name": "KOLOKUMA/OPOKUMA",
+        "polling_units": 14,
+        "state_name": "BAYELSA",
+        "ward_api_id": "1307",
+        "ward_name": "OPOKUMASOUTH"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_ado",
+        "lga_name": "ADO",
+        "polling_units": 14,
+        "state_name": "BENUE",
+        "ward_api_id": "1383",
+        "ward_name": "AKPOGE/OGBILOLO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_gwer_west",
+        "lga_name": "GWER WEST",
+        "polling_units": 8,
+        "state_name": "BENUE",
+        "ward_api_id": "1478",
+        "ward_name": "SAGHEV/UKUSU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_gwer_west",
+        "lga_name": "GWER WEST",
+        "polling_units": 5,
+        "state_name": "BENUE",
+        "ward_api_id": "1482",
+        "ward_name": "TSAMBE/MBASEV"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_konshisha",
+        "lga_name": "KONSHISHA",
+        "polling_units": 14,
+        "state_name": "BENUE",
+        "ward_api_id": "1502",
+        "ward_name": "MBAVAA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_kwande",
+        "lga_name": "KWANDE",
+        "polling_units": 24,
+        "state_name": "BENUE",
+        "ward_api_id": "1513",
+        "ward_name": "MENEV"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_makurdi",
+        "lga_name": "MAKURDI",
+        "polling_units": 99,
+        "state_name": "BENUE",
+        "ward_api_id": "1536",
+        "ward_name": "FIIDI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_ushongo",
+        "lga_name": "USHONGO",
+        "polling_units": 21,
+        "state_name": "BENUE",
+        "ward_api_id": "1636",
+        "ward_name": "ATIRKYESE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_ushongo",
+        "lga_name": "USHONGO",
+        "polling_units": 22,
+        "state_name": "BENUE",
+        "ward_api_id": "1637",
+        "ward_name": "IKOV"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_benue_ushongo",
+        "lga_name": "USHONGO",
+        "polling_units": 14,
+        "state_name": "BENUE",
+        "ward_api_id": "1641",
+        "ward_name": "MBAAWE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_abadam",
+        "lga_name": "ABADAM",
+        "polling_units": 10,
+        "state_name": "BORNO",
+        "ward_api_id": "1661",
+        "ward_name": "FOUGUWA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_abadam",
+        "lga_name": "ABADAM",
+        "polling_units": 16,
+        "state_name": "BORNO",
+        "ward_api_id": "1664",
+        "ward_name": "MALLAM FATORI KESSA’A"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_abadam",
+        "lga_name": "ABADAM",
+        "polling_units": 6,
+        "state_name": "BORNO",
+        "ward_api_id": "1665",
+        "ward_name": "MALLAM KAUNARI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_damboa",
+        "lga_name": "DAMBOA",
+        "polling_units": 18,
+        "state_name": "BORNO",
+        "ward_api_id": "1728",
+        "ward_name": "AJIGIN (A)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_damboa",
+        "lga_name": "DAMBOA",
+        "polling_units": 9,
+        "state_name": "BORNO",
+        "ward_api_id": "1729",
+        "ward_name": "AJIGIN (B)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_damboa",
+        "lga_name": "DAMBOA",
+        "polling_units": 24,
+        "state_name": "BORNO",
+        "ward_api_id": "1736",
+        "ward_name": "NZUDA / WUYARAM"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_borno_marte",
+        "lga_name": "MARTE",
+        "polling_units": 14,
+        "state_name": "BORNO",
+        "ward_api_id": "1911",
+        "ward_name": "NGILEWA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_delta_warri_north",
+        "lga_name": "WARRI  NORTH",
+        "polling_units": 18,
+        "state_name": "DELTA",
+        "ward_api_id": "2409",
+        "ward_name": "TSEKELEWU  (EGBEMA  II)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_delta_warri_south",
+        "lga_name": "WARRI SOUTH",
+        "polling_units": 30,
+        "state_name": "DELTA",
+        "ward_api_id": "2412",
+        "ward_name": "OBODO/OMADINO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_delta_warri_south",
+        "lga_name": "WARRI SOUTH",
+        "polling_units": 21,
+        "state_name": "DELTA",
+        "ward_api_id": "2413",
+        "ward_name": "ODE-ITSEKIRI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ebonyi_ikwo",
+        "lga_name": "IKWO",
+        "polling_units": 12,
+        "state_name": "EBONYI",
+        "ward_api_id": "2522",
+        "ward_name": "NDUFU AMAGU II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ebonyi_ikwo",
+        "lga_name": "IKWO",
+        "polling_units": 13,
+        "state_name": "EBONYI",
+        "ward_api_id": "2525",
+        "ward_name": "NOYO ALIKE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ebonyi_ivo",
+        "lga_name": "IVO",
+        "polling_units": 15,
+        "state_name": "EBONYI",
+        "ward_api_id": "2543",
+        "ward_name": "AMAEZE ISHIAGU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_edo_akoko_edo",
+        "lga_name": "AKOKO EDO",
+        "polling_units": 36,
+        "state_name": "EDO",
+        "ward_api_id": "2613",
+        "ward_name": "UNEME-NEKHUA/AKPAMA/ AIYETORO/ EKPEDO/ ERHURUN/ UNEME OSU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_edo_esan_west",
+        "lga_name": "ESAN WEST",
+        "polling_units": 31,
+        "state_name": "EDO",
+        "ward_api_id": "2662",
+        "ward_name": "EMUHI/ UKPENU/ UJOELEN/IGOR"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_edo_orhionmwon",
+        "lga_name": "ORHIONMWON",
+        "polling_units": 22,
+        "state_name": "EDO",
+        "ward_api_id": "2731",
+        "ward_name": "AIBIOKUNLA II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_edo_owan_east",
+        "lga_name": "OWAN EAST",
+        "polling_units": 20,
+        "state_name": "EDO",
+        "ward_api_id": "2771",
+        "ward_name": "IVBIMION"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ekiti_emure",
+        "lga_name": "EMURE",
+        "polling_units": 10,
+        "state_name": "EKITI",
+        "ward_api_id": "2860",
+        "ward_name": "IDAMUDU I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ekiti_ijero",
+        "lga_name": "IJERO",
+        "polling_units": 11,
+        "state_name": "EKITI",
+        "ward_api_id": "2892",
+        "ward_name": "ILORO WARD 'A'"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ekiti_ikole",
+        "lga_name": "IKOLE",
+        "polling_units": 12,
+        "state_name": "EKITI",
+        "ward_api_id": "2916",
+        "ward_name": "ODO AYEDUN / AYEBODE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_enugu_north",
+        "lga_name": "ENUGU NORTH",
+        "polling_units": 38,
+        "state_name": "ENUGU",
+        "ward_api_id": "3014",
+        "ward_name": "OGUI NEW LAYOUT"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_ezeagu",
+        "lga_name": "EZEAGU",
+        "polling_units": 12,
+        "state_name": "ENUGU",
+        "ward_api_id": "3051",
+        "ward_name": "OBELEAGU UMANA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_ezeagu",
+        "lga_name": "EZEAGU",
+        "polling_units": 10,
+        "state_name": "ENUGU",
+        "ward_api_id": "3052",
+        "ward_name": "OLO/AMAGU-UMULOKPA II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_igbo_eze_south",
+        "lga_name": "IGBO EZE SOUTH",
+        "polling_units": 20,
+        "state_name": "ENUGU",
+        "ward_api_id": "3096",
+        "ward_name": "ECHARA/ISIAGU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_igbo_eze_south",
+        "lga_name": "IGBO EZE SOUTH",
+        "polling_units": 13,
+        "state_name": "ENUGU",
+        "ward_api_id": "3097",
+        "ward_name": "IHEAKA (UGO EKOYI)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_nkanu_east",
+        "lga_name": "NKANU EAST",
+        "polling_units": 14,
+        "state_name": "ENUGU",
+        "ward_api_id": "3122",
+        "ward_name": "AKPOFU/ISIENU/AMAGUNZE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_enugu_nkanu_east",
+        "lga_name": "NKANU EAST",
+        "polling_units": 15,
+        "state_name": "ENUGU",
+        "ward_api_id": "3128",
+        "ward_name": "OHUANI/ONICHA-AGU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_fct_abaji",
+        "lga_name": "ABAJI",
+        "polling_units": 12,
+        "state_name": "FCT",
+        "ward_api_id": "3242",
+        "ward_name": "GURIDI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_fct_bwari",
+        "lga_name": "BWARI",
+        "polling_units": 52,
+        "state_name": "FCT",
+        "ward_api_id": "3245",
+        "ward_name": "KUDURU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_fct_bwari",
+        "lga_name": "BWARI",
+        "polling_units": 79,
+        "state_name": "FCT",
+        "ward_api_id": "3253",
+        "ward_name": "USUMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_fct_amac",
+        "lga_name": "MUNICIPAL",
+        "polling_units": 199,
+        "state_name": "FCT",
+        "ward_api_id": "3288",
+        "ward_name": "GWARINPA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_fct_amac",
+        "lga_name": "MUNICIPAL",
+        "polling_units": 34,
+        "state_name": "FCT",
+        "ward_api_id": "3291",
+        "ward_name": "KARSHI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_gombe_gombe",
+        "lga_name": "GOMBE",
+        "polling_units": 25,
+        "state_name": "GOMBE",
+        "ward_api_id": "3355",
+        "ward_name": "KUMBIYA - KUMBIYA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_gombe_yamaltu_deba",
+        "lga_name": "YALMALTU/ DEBA",
+        "polling_units": 26,
+        "state_name": "GOMBE",
+        "ward_api_id": "3409",
+        "ward_name": "ZAMBUK / KWALI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_ideato_south",
+        "lga_name": "IDEATO SOUTH",
+        "polling_units": 12,
+        "state_name": "IMO",
+        "ward_api_id": "3472",
+        "ward_name": "DIKENAFAI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_ikeduru",
+        "lga_name": "IKEDURU",
+        "polling_units": 21,
+        "state_name": "IMO",
+        "ward_api_id": "3503",
+        "ward_name": "UGIRIKE / OKWU / EZIAMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_ngor_okpala",
+        "lga_name": "NGOR OKPALA",
+        "polling_units": 12,
+        "state_name": "IMO",
+        "ward_api_id": "3548",
+        "ward_name": "OHEKELEM NNORIE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_nwangele",
+        "lga_name": "NWANGELE",
+        "polling_units": 10,
+        "state_name": "IMO",
+        "ward_api_id": "3576",
+        "ward_name": "AMAJU COMMUNITY WARD (AMAIGBO III)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_oguta",
+        "lga_name": "OGUTA",
+        "polling_units": 9,
+        "state_name": "IMO",
+        "ward_api_id": "3603",
+        "ward_name": "OSSEMOTOR/ENUIGBO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_unuimo",
+        "lga_name": "ONUIMO",
+        "polling_units": 7,
+        "state_name": "IMO",
+        "ward_api_id": "3632",
+        "ward_name": "OFEAHIA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_unuimo",
+        "lga_name": "ONUIMO",
+        "polling_units": 13,
+        "state_name": "IMO",
+        "ward_api_id": "3634",
+        "ward_name": "OZIMO / UMUANUMEZE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_unuimo",
+        "lga_name": "ONUIMO",
+        "polling_units": 8,
+        "state_name": "IMO",
+        "ward_api_id": "3637",
+        "ward_name": "OKWELLE II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_orlu",
+        "lga_name": "ORLU",
+        "polling_units": 17,
+        "state_name": "IMO",
+        "ward_api_id": "3639",
+        "ward_name": "OHAEKE/OKPORO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_orlu",
+        "lga_name": "ORLU",
+        "polling_units": 14,
+        "state_name": "IMO",
+        "ward_api_id": "3641",
+        "ward_name": "OKWUA BALA/IHIOMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_oru_west",
+        "lga_name": "ORU WEST",
+        "polling_units": 19,
+        "state_name": "IMO",
+        "ward_api_id": "3672",
+        "ward_name": "NEMPI/ELEH"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_imo_owerri_north",
+        "lga_name": "OWERRI NORTH",
+        "polling_units": 20,
+        "state_name": "IMO",
+        "ward_api_id": "3696",
+        "ward_name": "EMII"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_birnin_gwari",
+        "lga_name": "BIRNIN GWARI",
+        "polling_units": 23,
+        "state_name": "KADUNA",
+        "ward_api_id": "4002",
+        "ward_name": "MAGAJIN GARI I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_birnin_gwari",
+        "lga_name": "BIRNIN GWARI",
+        "polling_units": 43,
+        "state_name": "KADUNA",
+        "ward_api_id": "4003",
+        "ward_name": "MAGAJIN GARI II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_birnin_gwari",
+        "lga_name": "BIRNIN GWARI",
+        "polling_units": 21,
+        "state_name": "KADUNA",
+        "ward_api_id": "4004",
+        "ward_name": "MAGAJIN GARI III"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_birnin_gwari",
+        "lga_name": "BIRNIN GWARI",
+        "polling_units": 20,
+        "state_name": "KADUNA",
+        "ward_api_id": "4007",
+        "ward_name": "KAZAGE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_chikun",
+        "lga_name": "CHIKUN",
+        "polling_units": 48,
+        "state_name": "KADUNA",
+        "ward_api_id": "4023",
+        "ward_name": "UNG. YELWA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_chikun",
+        "lga_name": "CHIKUN",
+        "polling_units": 35,
+        "state_name": "KADUNA",
+        "ward_api_id": "4024",
+        "ward_name": "S/GGARIN AREWA TIRKANIYA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_igabi",
+        "lga_name": "IGABI",
+        "polling_units": 71,
+        "state_name": "KADUNA",
+        "ward_api_id": "4041",
+        "ward_name": "RIGACHIKUN"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_igabi",
+        "lga_name": "IGABI",
+        "polling_units": 42,
+        "state_name": "KADUNA",
+        "ward_api_id": "4045",
+        "ward_name": "KWARAU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_jemaa",
+        "lga_name": "JEMA'A",
+        "polling_units": 27,
+        "state_name": "KADUNA",
+        "ward_api_id": "4074",
+        "ward_name": "GIDAN WAYA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_kaduna_south",
+        "lga_name": "KADUNA SOUTH",
+        "polling_units": 52,
+        "state_name": "KADUNA",
+        "ward_api_id": "4115",
+        "ward_name": "UNG. SANUSI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_lere",
+        "lga_name": "LERE",
+        "polling_units": 53,
+        "state_name": "KADUNA",
+        "ward_api_id": "4179",
+        "ward_name": "SABON BIRNIN"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_lere",
+        "lga_name": "LERE",
+        "polling_units": 29,
+        "state_name": "KADUNA",
+        "ward_api_id": "4184",
+        "ward_name": "RAMIN KURA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_makarfi",
+        "lga_name": "MAKARFI",
+        "polling_units": 18,
+        "state_name": "KADUNA",
+        "ward_api_id": "4193",
+        "ward_name": "DANGUZIRI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_sabon_gari",
+        "lga_name": "SABON GARI",
+        "polling_units": 35,
+        "state_name": "KADUNA",
+        "ward_api_id": "4206",
+        "ward_name": "JUSHIN WAJE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_zangon_kataf",
+        "lga_name": "ZANGON KATAF",
+        "polling_units": 16,
+        "state_name": "KADUNA",
+        "ward_api_id": "4243",
+        "ward_name": "ZANGO URBAN"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_zaria",
+        "lga_name": "ZARIA",
+        "polling_units": 38,
+        "state_name": "KADUNA",
+        "ward_api_id": "4246",
+        "ward_name": "UNG. JUMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kaduna_zaria",
+        "lga_name": "ZARIA",
+        "polling_units": 38,
+        "state_name": "KADUNA",
+        "ward_api_id": "4251",
+        "ward_name": "UNG. FATIKA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kano_tudun_wada",
+        "lga_name": "TUDUN WADA",
+        "polling_units": 41,
+        "state_name": "KANO",
+        "ward_api_id": "4702",
+        "ward_name": "TSOHOGARI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_katsina_katsina",
+        "lga_name": "KATSINA",
+        "polling_units": 39,
+        "state_name": "KATSINA",
+        "ward_api_id": "4958",
+        "ward_name": "WAKILIN YAMMA 1I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_arewa_dandi",
+        "lga_name": "AREWA",
+        "polling_units": 23,
+        "state_name": "KEBBI",
+        "ward_api_id": "5112",
+        "ward_name": "BUI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_argungu",
+        "lga_name": "ARGUNGU",
+        "polling_units": 11,
+        "state_name": "KEBBI",
+        "ward_api_id": "5128",
+        "ward_name": "GWAZANGE/KISAWA/U GYAGA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_birnin_kebbi",
+        "lga_name": "BIRNIN KEBBI",
+        "polling_units": 33,
+        "state_name": "KEBBI",
+        "ward_api_id": "5157",
+        "ward_name": "BIRNIN KEBBI MARAFA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_birnin_kebbi",
+        "lga_name": "BIRNIN KEBBI",
+        "polling_units": 25,
+        "state_name": "KEBBI",
+        "ward_api_id": "5162",
+        "ward_name": "GWADANGAJI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_birnin_kebbi",
+        "lga_name": "BIRNIN KEBBI",
+        "polling_units": 12,
+        "state_name": "KEBBI",
+        "ward_api_id": "5166",
+        "ward_name": "LAGGA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_maiyama",
+        "lga_name": "MAIYAMA",
+        "polling_units": 16,
+        "state_name": "KEBBI",
+        "ward_api_id": "5244",
+        "ward_name": "ANDARAI/ KURUNKUDU/ ZUGUN LIBA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_maiyama",
+        "lga_name": "MAIYAMA",
+        "polling_units": 10,
+        "state_name": "KEBBI",
+        "ward_api_id": "5249",
+        "ward_name": "KUBERI / GIDIGA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_shanga",
+        "lga_name": "SHANGA",
+        "polling_units": 20,
+        "state_name": "KEBBI",
+        "ward_api_id": "5276",
+        "ward_name": "BINUWA/GEBBE/BUKUNJI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_shanga",
+        "lga_name": "SHANGA",
+        "polling_units": 11,
+        "state_name": "KEBBI",
+        "ward_api_id": "5279",
+        "ward_name": "RAFIN KIRYA/TAFKI TARA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_shanga",
+        "lga_name": "SHANGA",
+        "polling_units": 21,
+        "state_name": "KEBBI",
+        "ward_api_id": "5280",
+        "ward_name": "SAKACE/GOLONGO/HUNDEJI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kebbi_suru",
+        "lga_name": "SURU",
+        "polling_units": 12,
+        "state_name": "KEBBI",
+        "ward_api_id": "5290",
+        "ward_name": "DANDANE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_adavi",
+        "lga_name": "ADAVI",
+        "polling_units": 45,
+        "state_name": "KOGI",
+        "ward_api_id": "5336",
+        "ward_name": "NAGAZI FARM CENTRE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_ajaokuta",
+        "lga_name": "AJAOKUTA",
+        "polling_units": 5,
+        "state_name": "KOGI",
+        "ward_api_id": "5344",
+        "ward_name": "ADOGO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_kogi",
+        "lga_name": "KOGI . K. K.",
+        "polling_units": 16,
+        "state_name": "KOGI",
+        "ward_api_id": "5449",
+        "ward_name": "KOTONKARFE SOUTH EAST"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_okehi",
+        "lga_name": "OKEHI",
+        "polling_units": 22,
+        "state_name": "KOGI",
+        "ward_api_id": "5499",
+        "ward_name": "OBEIBA  I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_okehi",
+        "lga_name": "OKEHI",
+        "polling_units": 15,
+        "state_name": "KOGI",
+        "ward_api_id": "5500",
+        "ward_name": "OBEIBA  II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_okehi",
+        "lga_name": "OKEHI",
+        "polling_units": 21,
+        "state_name": "KOGI",
+        "ward_api_id": "5501",
+        "ward_name": "IKUEHI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_okehi",
+        "lga_name": "OKEHI",
+        "polling_units": 14,
+        "state_name": "KOGI",
+        "ward_api_id": "5504",
+        "ward_name": "OBOROKE UVETE I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_okene",
+        "lga_name": "OKENE",
+        "polling_units": 20,
+        "state_name": "KOGI",
+        "ward_api_id": "5517",
+        "ward_name": "OBEHIRA UVETE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_omala",
+        "lga_name": "OMALA",
+        "polling_units": 8,
+        "state_name": "KOGI",
+        "ward_api_id": "5532",
+        "ward_name": "ABEJUKOLO  II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kogi_yagba_east",
+        "lga_name": "YAGBA EAST",
+        "polling_units": 9,
+        "state_name": "KOGI",
+        "ward_api_id": "5545",
+        "ward_name": "ALU/IGBAGUN/ORANRE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_isin",
+        "lga_name": "ISIN",
+        "polling_units": 9,
+        "state_name": "KWARA",
+        "ward_api_id": "5681",
+        "ward_name": "ISANLU 11"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_kaiama",
+        "lga_name": "KAIAMA",
+        "polling_units": 15,
+        "state_name": "KWARA",
+        "ward_api_id": "5693",
+        "ward_name": "GWARI A (GWARIA)"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_kaiama",
+        "lga_name": "KAIAMA",
+        "polling_units": 8,
+        "state_name": "KWARA",
+        "ward_api_id": "5696",
+        "ward_name": "KAIAMA 111"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_oke_ero",
+        "lga_name": "OKE - ERO",
+        "polling_units": 5,
+        "state_name": "KWARA",
+        "ward_api_id": "5734",
+        "ward_name": "IDOFIN IGBANA 11"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_pategi",
+        "lga_name": "PATIGI",
+        "polling_units": 11,
+        "state_name": "KWARA",
+        "ward_api_id": "5749",
+        "ward_name": "PATIGI 1"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_pategi",
+        "lga_name": "PATIGI",
+        "polling_units": 6,
+        "state_name": "KWARA",
+        "ward_api_id": "5750",
+        "ward_name": "PATIGI 11"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_pategi",
+        "lga_name": "PATIGI",
+        "polling_units": 8,
+        "state_name": "KWARA",
+        "ward_api_id": "5751",
+        "ward_name": "PATIGI 111"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_kwara_pategi",
+        "lga_name": "PATIGI",
+        "polling_units": 10,
+        "state_name": "KWARA",
+        "ward_api_id": "5752",
+        "ward_name": "PATIGI 1V"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_apapa",
+        "lga_name": "APAPA",
+        "polling_units": 58,
+        "state_name": "LAGOS",
+        "ward_api_id": "5808",
+        "ward_name": "OLODAN ST. OLOJOWOU ST/ALH.DOGO OLATOKUNBO ST. IGANMU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 19,
+        "state_name": "LAGOS",
+        "ward_api_id": "5854",
+        "ward_name": "IBEJU II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 16,
+        "state_name": "LAGOS",
+        "ward_api_id": "5856",
+        "ward_name": "ORIMEDU II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 15,
+        "state_name": "LAGOS",
+        "ward_api_id": "5857",
+        "ward_name": "ORIMEDU III"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 56,
+        "state_name": "LAGOS",
+        "ward_api_id": "5858",
+        "ward_name": "IWEREKUN I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 12,
+        "state_name": "LAGOS",
+        "ward_api_id": "5860",
+        "ward_name": "LEKKI I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 13,
+        "state_name": "LAGOS",
+        "ward_api_id": "5862",
+        "ward_name": "SIRIWON/IGBEKODO I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ibeju_lekki",
+        "lga_name": "IBEJU/LEKKI",
+        "polling_units": 11,
+        "state_name": "LAGOS",
+        "ward_api_id": "5863",
+        "ward_name": "SIRIWON/IGBEKODO II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ikeja",
+        "lga_name": "IKEJA",
+        "polling_units": 37,
+        "state_name": "LAGOS",
+        "ward_api_id": "5878",
+        "ward_name": "AIRPORT/ONIPETESI/ONILEKERE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ikeja",
+        "lga_name": "IKEJA",
+        "polling_units": 51,
+        "state_name": "LAGOS",
+        "ward_api_id": "5882",
+        "ward_name": "ONIGBONGBO/MILITARY CANTONMENT"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_ikorodu",
+        "lga_name": "IKORODU",
+        "polling_units": 21,
+        "state_name": "LAGOS",
+        "ward_api_id": "5897",
+        "ward_name": "IJEDE J"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_lagos_kosofe",
+        "lga_name": "KOSOFE",
+        "polling_units": 179,
+        "state_name": "LAGOS",
+        "ward_api_id": "5908",
+        "ward_name": "KETU/ALAPERE/AGIDI/ORISIGUN/KOSOFE/AJELOGO/AKANIMODO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_akwanga",
+        "lga_name": "AKWANGA",
+        "polling_units": 12,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6006",
+        "ward_name": "GWANJE\n.GWANJE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_keana",
+        "lga_name": "KEANA",
+        "polling_units": 10,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6055",
+        "ward_name": "GIZA GALADIMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_lafia",
+        "lga_name": "LAFIA",
+        "polling_units": 42,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6079",
+        "ward_name": "BAKIN RIJIYA/AKURBA/SARKIN PADA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_lafia",
+        "lga_name": "LAFIA",
+        "polling_units": 36,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6082",
+        "ward_name": "ASHIGIE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_toto",
+        "lga_name": "TOTO",
+        "polling_units": 18,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6137",
+        "ward_name": "SHAFAN ABAKPA I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_toto",
+        "lga_name": "TOTO",
+        "polling_units": 9,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6138",
+        "ward_name": "SHAFAN KWATTO I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_toto",
+        "lga_name": "TOTO",
+        "polling_units": 14,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6139",
+        "ward_name": "SHEGE I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_nasarawa_toto",
+        "lga_name": "TOTO",
+        "polling_units": 8,
+        "state_name": "NASARAWA",
+        "ward_api_id": "6140",
+        "ward_name": "KATAKPA I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_niger_bida",
+        "lga_name": "BIDA",
+        "polling_units": 13,
+        "state_name": "NIGER",
+        "ward_api_id": "6176",
+        "ward_name": "LANDZUN"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_niger_suleja",
+        "lga_name": "SULEJA",
+        "polling_units": 22,
+        "state_name": "NIGER",
+        "ward_api_id": "6394",
+        "ward_name": "BAGAMA 'A'"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ogun_ikenne",
+        "lga_name": "IKENNE",
+        "polling_units": 9,
+        "state_name": "OGUN",
+        "ward_api_id": "6559",
+        "ward_name": "IPERU  I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ogun_ipokia",
+        "lga_name": "IPOKIA",
+        "polling_units": 13,
+        "state_name": "OGUN",
+        "ward_api_id": "6578",
+        "ward_name": "IPOKIA  II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ogun_obafemi_owode",
+        "lga_name": "OBAFEMI/OWODE",
+        "polling_units": 12,
+        "state_name": "OGUN",
+        "ward_api_id": "6597",
+        "ward_name": "KAJOLA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ogun_odogbolu",
+        "lga_name": "ODOGBOLU",
+        "polling_units": 4,
+        "state_name": "OGUN",
+        "ward_api_id": "6623",
+        "ward_name": "JOBORE/IBIDO/IKISE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ondo_akoko_north_east",
+        "lga_name": "AKOKO NORTH EAST",
+        "polling_units": 14,
+        "state_name": "ONDO",
+        "ward_api_id": "6666",
+        "ward_name": "ILEPA II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_ondo_owo",
+        "lga_name": "OWO",
+        "polling_units": 21,
+        "state_name": "ONDO",
+        "ward_api_id": "6862",
+        "ward_name": "IYARE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_atakumosa_west",
+        "lga_name": "ATAKUMOSA WEST",
+        "polling_units": 6,
+        "state_name": "OSUN",
+        "ward_api_id": "6879",
+        "ward_name": "ITAGUNMODI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_aiyedire",
+        "lga_name": "AYEDIRE",
+        "polling_units": 7,
+        "state_name": "OSUN",
+        "ward_api_id": "6897",
+        "ward_name": "OLUPONNA  1I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_aiyedire",
+        "lga_name": "AYEDIRE",
+        "polling_units": 5,
+        "state_name": "OSUN",
+        "ward_api_id": "6898",
+        "ward_name": "OLUPONNA  1II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_egbedore",
+        "lga_name": "EGBEDORE",
+        "polling_units": 35,
+        "state_name": "OSUN",
+        "ward_api_id": "6957",
+        "ward_name": "OKINNI/OLORUNSOGO/OFATEDO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_oriade",
+        "lga_name": "ORIADE",
+        "polling_units": 15,
+        "state_name": "OSUN",
+        "ward_api_id": "7165",
+        "ward_name": "IKEJI ARAKEJI/OWENA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_osogbo",
+        "lga_name": "OSOGBO",
+        "polling_units": 15,
+        "state_name": "OSUN",
+        "ward_api_id": "7186",
+        "ward_name": "OTUN JAGUN 'B'"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_osun_irepodun",
+        "lga_name": "IREPODUN",
+        "polling_units": 16,
+        "state_name": "OSUN",
+        "ward_api_id": "7066",
+        "ward_name": "OLOBU 'B'"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_oyo_egbeda",
+        "lga_name": "EGBEDA",
+        "polling_units": 9,
+        "state_name": "OYO",
+        "ward_api_id": "7241",
+        "ward_name": "OLODAN/AJIWOGBO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_oyo_ibadan_north_east",
+        "lga_name": "IBADAN NORTH EAST",
+        "polling_units": 43,
+        "state_name": "OYO",
+        "ward_api_id": "7271",
+        "ward_name": "WARD XI  E9 I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_plateau_bokkos",
+        "lga_name": "BOKKOS",
+        "polling_units": 8,
+        "state_name": "PLATEAU",
+        "ward_api_id": "7577",
+        "ward_name": "KAMWAI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_plateau_langtang_north",
+        "lga_name": "LANGTANG NORTH",
+        "polling_units": 14,
+        "state_name": "PLATEAU",
+        "ward_api_id": "7653",
+        "ward_name": "KWANPE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_plateau_mangu",
+        "lga_name": "MANGU",
+        "polling_units": 15,
+        "state_name": "PLATEAU",
+        "ward_api_id": "7678",
+        "ward_name": "KADUNU"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 12,
+        "state_name": "RIVERS",
+        "ward_api_id": "7833",
+        "ward_name": "ORO-IGWE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 11,
+        "state_name": "RIVERS",
+        "ward_api_id": "7834",
+        "ward_name": "COURT/ ADA ALLISON"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 15,
+        "state_name": "RIVERS",
+        "ward_api_id": "7835",
+        "ward_name": "OROSIRIRI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 16,
+        "state_name": "RIVERS",
+        "ward_api_id": "7836",
+        "ward_name": "NEW LAYOUT"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 29,
+        "state_name": "RIVERS",
+        "ward_api_id": "7837",
+        "ward_name": "FINIMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 19,
+        "state_name": "RIVERS",
+        "ward_api_id": "7838",
+        "ward_name": "ABALAMABIE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 8,
+        "state_name": "RIVERS",
+        "ward_api_id": "7839",
+        "ward_name": "DEMA ABBEY"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 10,
+        "state_name": "RIVERS",
+        "ward_api_id": "7840",
+        "ward_name": "DAN JUMBO/ BERESIRI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 13,
+        "state_name": "RIVERS",
+        "ward_api_id": "7841",
+        "ward_name": "NANABIE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 13,
+        "state_name": "RIVERS",
+        "ward_api_id": "7842",
+        "ward_name": "OLOMA AYAMINIMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 6,
+        "state_name": "RIVERS",
+        "ward_api_id": "7843",
+        "ward_name": "PETERSIDE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_bonny",
+        "lga_name": "BONNY",
+        "polling_units": 13,
+        "state_name": "RIVERS",
+        "ward_api_id": "7844",
+        "ward_name": "KALAIBIAMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_degema",
+        "lga_name": "DEGEMA",
+        "polling_units": 13,
+        "state_name": "RIVERS",
+        "ward_api_id": "7851",
+        "ward_name": "TOMBIA  I"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_degema",
+        "lga_name": "DEGEMA",
+        "polling_units": 9,
+        "state_name": "RIVERS",
+        "ward_api_id": "7852",
+        "ward_name": "TOMBIA  II"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_degema",
+        "lga_name": "DEGEMA",
+        "polling_units": 10,
+        "state_name": "RIVERS",
+        "ward_api_id": "7853",
+        "ward_name": "TOMBIA  III"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_degema",
+        "lga_name": "DEGEMA",
+        "polling_units": 11,
+        "state_name": "RIVERS",
+        "ward_api_id": "7854",
+        "ward_name": "TOMBIA IV"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_ogba_egbema",
+        "lga_name": "OGBA/EGBEMA/NDONI",
+        "polling_units": 18,
+        "state_name": "RIVERS",
+        "ward_api_id": "7975",
+        "ward_name": "OBRIKOM"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_oyigbo",
+        "lga_name": "OYIGBO",
+        "polling_units": 38,
+        "state_name": "RIVERS",
+        "ward_api_id": "8040",
+        "ward_name": "OYIGBO WEST"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 12,
+        "state_name": "RIVERS",
+        "ward_api_id": "8063",
+        "ward_name": "BOTEM/GBENEO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 16,
+        "state_name": "RIVERS",
+        "ward_api_id": "8064",
+        "ward_name": "KPITE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 10,
+        "state_name": "RIVERS",
+        "ward_api_id": "8065",
+        "ward_name": "KOROKORO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 22,
+        "state_name": "RIVERS",
+        "ward_api_id": "8066",
+        "ward_name": "KOROMA/HORO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 14,
+        "state_name": "RIVERS",
+        "ward_api_id": "8067",
+        "ward_name": "KIRA/BOROBARA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 10,
+        "state_name": "RIVERS",
+        "ward_api_id": "8068",
+        "ward_name": "GIO/KPORGHOR/GBAM"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 24,
+        "state_name": "RIVERS",
+        "ward_api_id": "8069",
+        "ward_name": "NONWA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_rivers_tai",
+        "lga_name": "TAI",
+        "polling_units": 10,
+        "state_name": "RIVERS",
+        "ward_api_id": "8072",
+        "ward_name": "BAN-OGOI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 7,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8073",
+        "ward_name": "INNAME"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 5,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8074",
+        "ward_name": "SAMAMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 8,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8076",
+        "ward_name": "JAMMALI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 6,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8077",
+        "ward_name": "T/KOSE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 6,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8078",
+        "ward_name": "GAWAZZAI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 11,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8079",
+        "ward_name": "MAIKULKI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 11,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8080",
+        "ward_name": "BUNKARI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 9,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8081",
+        "ward_name": "SORO GABAS"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_binji",
+        "lga_name": "BINJI",
+        "polling_units": 10,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8082",
+        "ward_name": "SORO YAMMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_sokoto_kebbe",
+        "lga_name": "KEBBE",
+        "polling_units": 12,
+        "state_name": "SOKOTO",
+        "ward_api_id": "8184",
+        "ward_name": "KUCHI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_taraba_gashaka",
+        "lga_name": "GASHAKA",
+        "polling_units": 8,
+        "state_name": "TARABA",
+        "ward_api_id": "8348",
+        "ward_name": "GALUMJINA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_taraba_gashaka",
+        "lga_name": "GASHAKA",
+        "polling_units": 16,
+        "state_name": "TARABA",
+        "ward_api_id": "8349",
+        "ward_name": "GANGUMI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_yobe_damaturu",
+        "lga_name": "DAMATURU",
+        "polling_units": 31,
+        "state_name": "YOBE",
+        "ward_api_id": "8505",
+        "ward_name": "BINDIGARI/PAWARI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_yobe_damaturu",
+        "lga_name": "DAMATURU",
+        "polling_units": 7,
+        "state_name": "YOBE",
+        "ward_api_id": "8508",
+        "ward_name": "GAMBIR/MADURI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_yobe_jakusko",
+        "lga_name": "JAKUSKO",
+        "polling_units": 13,
+        "state_name": "YOBE",
+        "ward_api_id": "8575",
+        "ward_name": "GOGARAM"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_yobe_karasuwa",
+        "lga_name": "KARASAWA",
+        "polling_units": 13,
+        "state_name": "YOBE",
+        "ward_api_id": "8582",
+        "ward_name": "BUKARTI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_birnin_magaji",
+        "lga_name": "BIRNIN MAGAJI",
+        "polling_units": 15,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8689",
+        "ward_name": "MODOMAWA EAST"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_birnin_magaji",
+        "lga_name": "BIRNIN MAGAJI",
+        "polling_units": 21,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8690",
+        "ward_name": "MODOMAWA WEST"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_bukkuyum",
+        "lga_name": "BUKKUYUM",
+        "polling_units": 26,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8694",
+        "ward_name": "BUKKUYUM"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_bungudu",
+        "lga_name": "BUNGUDU",
+        "polling_units": 29,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8708",
+        "ward_name": "NAHUCE"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_kaura_namoda",
+        "lga_name": "KAURA NAMODA",
+        "polling_units": 39,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8739",
+        "ward_name": "GALADIMA DAN GALADIMA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_maru",
+        "lga_name": "MARU",
+        "polling_units": 21,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8758",
+        "ward_name": "BINGI"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_shinkafi",
+        "lga_name": "SHINKAFI",
+        "polling_units": 14,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8768",
+        "ward_name": "BIRNIN YARO"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_shinkafi",
+        "lga_name": "SHINKAFI",
+        "polling_units": 14,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8773",
+        "ward_name": "KURYA"
+      },
+      {
+        "fallback_level": "local_government_area",
+        "fallback_place_id": "place_lga_zamfara_tsafe",
+        "lga_name": "TSAFE",
+        "polling_units": 16,
+        "state_name": "ZAMFARA",
+        "ward_api_id": "8789",
+        "ward_name": "YAN KUZO \"B\""
+      }
+    ],
+    "unmatched_ward_rows_total": 207,
+    "ward_matched": 8603
+  }
+}
