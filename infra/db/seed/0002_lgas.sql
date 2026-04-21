@@ -827,8 +827,7 @@ INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancest
   ('place_lga_ogun_remo_north',        'Remo North',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
   ('place_lga_ogun_sagamu',            'Sagamu',           'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
   ('place_lga_ogun_yewa_north',        'Yewa North',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
-  ('place_lga_ogun_yewa_south',        'Yewa South',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL),
-  ('place_lga_ogun_shagamu',           'Shagamu',          'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL);
+  ('place_lga_ogun_yewa_south',        'Yewa South',       'local_government_area', 4, 'place_state_ogun', '["place_nigeria_001","place_zone_south_west","place_state_ogun"]', NULL);
 
 -- ---- Ondo (18 LGAs) --------------------------------------------------------
 INSERT OR IGNORE INTO places (id, name, geography_type, level, parent_id, ancestry_path, tenant_id) VALUES

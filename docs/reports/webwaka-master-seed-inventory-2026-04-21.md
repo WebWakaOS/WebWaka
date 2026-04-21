@@ -59,7 +59,7 @@ WebWaka's Pillar 3 (Marketplace/Directory) is a **claim-first** platform: entiti
 
 The audit confirms **7 categories of seedable data** across **287 migrations**:
 1. Geography hierarchy (774 LGAs, 37 states, 6 zones, ward-level data)
-2. Vertical category definitions (160 verticals, 14 categories)
+2. Vertical category definitions (159 verticals, 14 categories)
 3. Business/entity profiles per vertical (132 implemented route shapes)
 4. Notification configuration (23 templates, 36 webhook events, 5 providers)
 5. Wallet and financial configuration (KV keys, CBN limits, feature flags)
@@ -716,8 +716,8 @@ MLA chain supports up to 3 referral levels:
 | `geo_zones` | 0002 | Static | 6 | National geography standard |
 | `geo_states` | 0002 | Static | 37 | National geography standard |
 | `geo_lgas` | 0003 | Static | 774 | NBS/INEC LGA roster |
-| `geo_wards` | 0004 | Script exists; DB application/reconciliation pending | 8,809 official / 8,810 local SQL | INEC ward register + local `0003_wards.sql` audit |
-| `verticals` | 0036 | Static | 160 | `infra/db/seeds/0004_verticals-master.csv` |
+| `geo_wards` | 0004 | Reconciled static seed | 8,809 | INEC ward register + local `0003_wards.sql` audit |
+| `verticals` | 0036 + 0302 | Static | 159 | `infra/db/seeds/0004_verticals-master.csv` |
 | `plan_tiers` | 0287 | Static | 5 | Platform pricing (starter/growth/pro/business/enterprise) |
 
 ### 7.2 Notification Layer
@@ -881,7 +881,7 @@ GROUP BY kyc_tier;
 | 0.1 | 6 geopolitical zones | `geo_zones` | None |
 | 0.2 | 37 states | `geo_states` | geo_zones |
 | 0.3 | 774 LGAs | `geo_lgas` | geo_states |
-| 0.4 | 160 vertical definitions | `verticals` | None |
+| 0.4 | 159 vertical definitions | `verticals` | None |
 | 0.5 | 5 plan tiers | `plan_tiers` / `subscription_plans` | None |
 | 0.6 | 3 platform tenants | `tenants` | None |
 | 0.7 | 36 webhook event types | `webhook_event_types` | None |
@@ -951,7 +951,7 @@ infra/db/seeds/
   0001_geography.sql           ← geo_zones, geo_states, geo_lgas
   0002_ward_data.sql           ← geo_wards (priority states first)
   0003_platform_config.sql     ← plan_tiers, tenants, webhook_event_types
-  0004_verticals-master.csv    ← 160 verticals (already exists)
+  0004_verticals-master.csv    ← 159 verticals (already exists)
   0005_notification_templates.sql ← 23 notification template families
   0006_notification_rules.sql  ← default notification rules
   0007_entities_lagos.sql      ← Lagos entities (P1 highest density)
@@ -1169,7 +1169,7 @@ Rankings are scored on four dimensions:
 
 ## Appendix B — FSM State Reference
 
-**Universal base FSM (all 160 verticals):**
+**Universal base FSM (all 159 verticals):**
 ```
 seeded → claimed → active → suspended → deprecated
 ```

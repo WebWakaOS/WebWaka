@@ -69,10 +69,10 @@ All geography is tenant_id = NULL (shared platform infrastructure).
 | `nigeria_country.sql` | 1 | Scripted |
 | `nigeria_zones.sql` | 6 | Scripted |
 | `nigeria_states.sql` | 37 | Scripted |
-| `0002_lgas.sql` | 774 | Scripted (921 lines) |
-| `0003_wards.sql` | 8,810 local rows; official INEC target is 8,809 | Scripted — requires one-row reconciliation before production load |
+| `0002_lgas.sql` | 774 | Reconciled |
+| `0003_wards.sql` | 8,809 INEC-aligned wards/RAs | Reconciled and validated |
 
-**Sub-total geography nodes: 9,627 official target (1 country + 6 zones + 37 states/FCT + 774 LGAs + 8,809 wards); local scripted sub-total is 9,628 until `0003_wards.sql` is reconciled.**  
+**Sub-total geography nodes: 9,627 official target (1 country + 6 zones + 37 states/FCT + 774 LGAs + 8,809 wards), now matched by local scripted seed files.**  
 All have pre-computed `ancestry_path` arrays. Apply via `wrangler d1 execute --file`.
 
 ### 3.2 The 37 States and Their LGA Counts
@@ -87,9 +87,9 @@ All have pre-computed `ancestry_path` arrays. Apply via `wrangler d1 execute --f
 | South West | Ekiti, Lagos, Ogun, Ondo, Osun, Oyo | 111 |
 | **Total** | **37** | **774** |
 
-### 3.3 Ward Seeds (scripted, pending reconciliation)
+### 3.3 Ward Seeds (reconciled)
 
-**8,809 official INEC registration areas/wards** — the local generated file `infra/db/seed/0003_wards.sql` currently declares **8,810** ward rows, so one extra or duplicated ward row must be audited before production seeding. Each ward is a `place` record with:
+**8,809 official INEC registration areas/wards** — the local generated file `infra/db/seed/0003_wards.sql` has been reconciled to the official target and validates with all 774 LGAs represented as ward parents. Each ward is a `place` record with:
 - `geography_type = 'ward'`
 - `level = 5`
 - `parent_id` → LGA place ID
@@ -101,7 +101,7 @@ Source: INEC 2023 delimitation data and polling-unit locator. INEC published 8,8
 
 ## 4. Layer 1 — Verticals Registry
 
-**160 rows** — seeded from `infra/db/seeds/0004_verticals-master.csv` into the `verticals` table.  
+**159 rows** — seeded from `infra/db/seeds/0004_verticals-master.csv` into the `verticals` table.  
 Table: `verticals`  
 Current live count: **0** (not yet applied).
 
@@ -117,7 +117,7 @@ Breakdown by entity type:
 | organization | 114 | church, school, clinic, cooperative, hotel, court |
 | individual | 29 | politician, professional, creator, sole trader, agent |
 | place | 16 | motor park, market, fuel station, tech hub, event hall |
-| **Total** | **160** | |
+| **Total** | **159** | |
 
 Breakdown by category:
 
@@ -1747,14 +1747,14 @@ Minimum floor: 774 × 2 = 1,548 seed rows.
 | 0.2 | `infra/db/seed/nigeria_zones.sql` | 6 |
 | 0.3 | `infra/db/seed/nigeria_states.sql` | 37 |
 | 0.4 | `infra/db/seed/0002_lgas.sql` | 774 |
-| 0.5 | `infra/db/seed/0003_wards.sql` *(exists; reconcile to INEC official count)* | 8,810 local / 8,809 official |
+| 0.5 | `infra/db/seed/0003_wards.sql` | 8,809 |
 
 **Blocking dependency:** Nothing in Layers 1–5 can be seeded until Tier 0 is complete. Every `primary_place_id` FK on `profiles` references a place from this tier.
 
 ---
 
 ### TIER 1 — Vertical Registry
-**Target: 160 records | Table: verticals**
+**Target: 159 records | Table: verticals**
 
 | Step | Action |
 |---|---|
@@ -1877,9 +1877,9 @@ This 72,000-row floor guarantees that no LGA returns an empty discovery page for
 
 | Gap | Impact | Action needed |
 |---|---|---|
-| `infra/db/seed/0003_wards.sql` has 8,810 local rows vs 8,809 INEC official wards/RAs | Potential one-row geography mismatch before production load | Audit duplicate/extra ward and either correct SQL or document accepted source variance |
+| Ward reconciliation | Completed: `infra/db/seed/0003_wards.sql` now has 8,809 INEC-aligned wards/RAs and all 774 LGAs represented | Keep S01 source manifest and completion report with seed runbook |
 | Geography seed naming drift in README/report (`nigeria_lgas.sql`, `nigeria_wards.sql`) vs actual files (`0002_lgas.sql`, `0003_wards.sql`) | Operators may run wrong files or think seeds are missing | Update runbook references to actual filenames |
-| `verticals` table seed — CSV exists, no migration applies it | 160 vertical definitions missing from live DB | Convert CSV → SQL INSERT migration |
+| `verticals` table seed | Completed: migration `0302_vertical_registry_seed.sql` now loads 159 vertical definitions plus synonym and seedability metadata | Apply S02 migration before vertical profile seeding |
 | All `*_profiles` tables — 0 rows in both staging and production | Discovery pages return nothing | Execute Tiers 2–4 above |
 | `search_index` / `search_fts` — empty | Full-text search returns nothing | Rebuild after profile seeding |
 | `jurisdictions` table — 0 rows | Political assignment FK cannot resolve | Seed 1 jurisdiction per ward, LGA, state, federal constituency, senatorial district |
