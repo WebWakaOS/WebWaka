@@ -19,6 +19,11 @@ binding = "DB"
 database_name = "webwaka-main"
 database_id = "local-dev-placeholder"
 
+# WF-041: WALLET_KV — MLA payout feature flag + commission config
+[[kv_namespaces]]
+binding = "WALLET_KV"
+id = "local-dev-placeholder-wallet-kv"
+
 # ---------------------------------------------------------------------------
 # Staging
 # ---------------------------------------------------------------------------
@@ -33,6 +38,10 @@ binding = "DB"
 database_name = "webwaka-os-staging"
 database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
+[[env.staging.kv_namespaces]]
+binding = "WALLET_KV"
+id = "STAGING_WALLET_KV_ID_PLACEHOLDER"
+
 # ---------------------------------------------------------------------------
 # Production
 # ---------------------------------------------------------------------------
@@ -46,6 +55,10 @@ ENVIRONMENT = "production"
 binding = "DB"
 database_name = "webwaka-os-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+[[env.production.kv_namespaces]]
+binding = "WALLET_KV"
+id = "PRODUCTION_WALLET_KV_ID_PLACEHOLDER"
 
 # ---------------------------------------------------------------------------
 # Scheduled CRON triggers (Issue 4 — Projections CRON + checkpoint)

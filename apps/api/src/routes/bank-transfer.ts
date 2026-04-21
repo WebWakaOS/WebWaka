@@ -313,7 +313,10 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
     if (fr) {
       if (fr.hitl_required === 0) {
         // Auto-confirm: debit and credit wallet immediately
-        await confirmFunding(c.env.DB as never, fr.id, fr.tenant_id, auth.userId);
+        // WF-032: pass KV so balance cap is checked at confirmation time too.
+        // WALLET_KV is always bound in apps/api. Fallback to null KV (CBN defaults) if not.
+        const walletKv = c.env.WALLET_KV ?? { get: async (_: string): Promise<string | null> => null };
+        await confirmFunding(c.env.DB as never, walletKv as never, fr.id, fr.tenant_id, auth.userId);
         void publishEvent(c.env, {
           eventId:   crypto.randomUUID(),
           eventKey:  WalletEventType.WalletFundingConfirmed,

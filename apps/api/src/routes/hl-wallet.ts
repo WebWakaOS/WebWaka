@@ -47,16 +47,50 @@ import {
   reverseSpend,
   recordMlaEarning,
   listMlaEarnings,
+  listMlaEarningsPaginated,
 } from '@webwaka/hl-wallet';
 import { generateId, generateWalletRef } from '@webwaka/hl-wallet';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
-// Minimal D1 interface for inline consent queries that bypass hl-wallet type boundary.
+// Minimal D1 interface for inline consent queries and audit log writes.
 interface D1Compat {
   prepare(sql: string): {
-    bind(...args: unknown[]): { first<T>(): Promise<T | null> };
+    bind(...args: unknown[]): {
+      first<T>(): Promise<T | null>;
+      run(): Promise<{ success: boolean; meta?: { changes?: number } }>;
+    };
   };
+}
+
+// WF-034: Fire-and-forget audit log writer for all wallet mutations.
+// Never throws — audit log failure MUST NOT block any wallet operation.
+function writeWalletAuditLog(
+  db: D1Compat,
+  opts: {
+    tenantId:     string;
+    userId:       string;
+    action:       string;
+    method:       string;
+    path:         string;
+    resourceType: string;
+    resourceId:   string;
+    statusCode:   number;
+    metadata?:    Record<string, unknown>;
+  },
+): void {
+  const id   = crypto.randomUUID();
+  const meta = opts.metadata ? JSON.stringify(opts.metadata) : null;
+  db.prepare(
+    `INSERT INTO audit_logs
+       (id, tenant_id, user_id, action, method, path, resource_type, resource_id,
+        ip_masked, status_code, duration_ms, metadata)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, '?.?.?.?', ?, 0, ?)`,
+  ).bind(
+    id, opts.tenantId, opts.userId, opts.action,
+    opts.method, opts.path, opts.resourceType, opts.resourceId,
+    opts.statusCode, meta,
+  ).run().catch(() => {});
 }
 
 const walletRoutes = new Hono<AppEnv>();
@@ -197,6 +231,17 @@ walletRoutes.post('/', async (c) => {
       workspaceId: body.workspace_id,
       kycTier:     (body.kyc_tier as 1 | 2 | 3) ?? 1,
     });
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.create',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'wallet',
+      resourceId:   wallet.id,
+      statusCode:   201,
+    });
     return c.json({ wallet }, 201);
   } catch (err) {
     return handleWalletError(err, c);
@@ -313,6 +358,19 @@ walletRoutes.post('/fund/bank-transfer', async (c) => {
         amount_naira: (body.amount_kobo / 100).toFixed(2),
         reference:    bankTransferReference,
       },
+    });
+
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.fund.requested',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_funding_request',
+      resourceId:   fundingRequest.id,
+      statusCode:   201,
+      metadata:     { amount_kobo: fundingRequest.amountKobo, hitl_required: fundingRequest.hitlRequired },
     });
 
     return c.json({
@@ -452,6 +510,19 @@ walletRoutes.post('/spend', async (c) => {
       );
     }
 
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.spend',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_spend_event',
+      resourceId:   spendEvent.id,
+      statusCode:   201,
+      metadata:     { amount_kobo: spendEvent.amountKobo, status: spendEvent.status },
+    });
+
     return c.json({ spend_event: spendEvent }, 201);
   } catch (err) {
     return handleWalletError(err, c);
@@ -467,6 +538,17 @@ walletRoutes.post('/spend/:id/complete', async (c) => {
   const { id } = c.req.param();
   try {
     const spendEvent = await completeSpend(c.env.DB as never, id, auth.tenantId);
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.spend.completed',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_spend_event',
+      resourceId:   id,
+      statusCode:   200,
+    });
     return c.json({ spend_event: spendEvent });
   } catch (err) {
     return handleWalletError(err, c);
@@ -485,6 +567,18 @@ walletRoutes.post('/spend/:id/reverse', async (c) => {
 
   try {
     const spendEvent = await reverseSpend(c.env.DB as never, id, auth.tenantId, body.reason ?? 'User requested reversal');
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.spend.reversed',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_spend_event',
+      resourceId:   id,
+      statusCode:   200,
+      metadata:     { reason: body.reason ?? 'User requested reversal' },
+    });
     return c.json({ spend_event: spendEvent });
   } catch (err) {
     return handleWalletError(err, c);
@@ -492,18 +586,30 @@ walletRoutes.post('/spend/:id/reverse', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// GET /wallet/mla-earnings — MLA earnings history
+// GET /wallet/mla-earnings — MLA earnings history (WF-044: cursor-paginated)
+// Query params:
+//   status  — filter by status: pending | payable | credited | voided
+//   cursor  — pagination cursor (id of last seen row)
+//   limit   — page size (default 50, max 100)
+// Response: { earnings, next_cursor }
 // ---------------------------------------------------------------------------
 
 walletRoutes.get('/mla-earnings', async (c) => {
   const auth   = c.get('auth');
   const status = c.req.query('status') as ('pending' | 'payable' | 'credited' | 'voided') | undefined;
+  const cursor = c.req.query('cursor') ?? undefined;
+  const limit  = Math.min(parseInt(c.req.query('limit') ?? '50', 10), 100);
 
   try {
     const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
     if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found' }, 404);
-    const earnings = await listMlaEarnings(c.env.DB as never, wallet.id, auth.tenantId, status);
-    return c.json({ earnings });
+    const { earnings, nextCursor } = await listMlaEarningsPaginated(
+      c.env.DB as never,
+      wallet.id,
+      auth.tenantId,
+      { status, cursor, limit },
+    );
+    return c.json({ earnings, next_cursor: nextCursor });
   } catch (err) {
     return handleWalletError(err, c);
   }
@@ -711,6 +817,19 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
     payload:   { wallet_id: walletId, frozen_reason: body.reason },
   });
 
+  // WF-034: audit log (fire-and-forget)
+  writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+    tenantId:     auth.tenantId,
+    userId:       auth.userId,
+    action:       'wallet.admin.freeze',
+    method:       c.req.method,
+    path:         c.req.path,
+    resourceType: 'wallet',
+    resourceId:   walletId,
+    statusCode:   200,
+    metadata:     { reason: body.reason },
+  });
+
   return c.json({ wallet_id: walletId, status: 'frozen', frozen_reason: body.reason });
 });
 
@@ -736,6 +855,18 @@ walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
     payload:   { wallet_id: walletId },
   });
 
+  // WF-034: audit log (fire-and-forget)
+  writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+    tenantId:     auth.tenantId,
+    userId:       auth.userId,
+    action:       'wallet.admin.unfreeze',
+    method:       c.req.method,
+    path:         c.req.path,
+    resourceType: 'wallet',
+    resourceId:   walletId,
+    statusCode:   200,
+  });
+
   return c.json({ wallet_id: walletId, status: 'active' });
 });
 
@@ -743,9 +874,11 @@ walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
 walletAdminRoutes.post('/funding/:id/confirm', async (c) => {
   const { id } = c.req.param();
   const auth   = c.get('auth');
+  const kv     = getWalletKv(c.env);
 
   try {
-    const fr = await confirmFunding(c.env.DB as never, id, auth.tenantId, auth.userId);
+    // WF-032: Pass KV so balance cap is checked at confirmation time against fresh balance.
+    const fr = await confirmFunding(c.env.DB as never, kv, id, auth.tenantId, auth.userId);
 
     const walletRow = await (c.env.DB as never as {
       prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
@@ -768,6 +901,19 @@ walletAdminRoutes.post('/funding/:id/confirm', async (c) => {
         new_balance_naira:  ((walletRow?.balance_kobo ?? 0) / 100).toFixed(2),
         reference:          fr.bankTransferOrderId,
       },
+    });
+
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.funding.confirm',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_funding_request',
+      resourceId:   id,
+      statusCode:   200,
+      metadata:     { amount_kobo: fr.amountKobo, wallet_id: fr.walletId },
     });
 
     return c.json({ funding_request: fr });
@@ -800,6 +946,18 @@ walletAdminRoutes.post('/funding/:id/reject', async (c) => {
         reference:        fr.bankTransferOrderId,
         rejection_reason: body.reason,
       },
+    });
+    // WF-034: audit log (fire-and-forget)
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.funding.reject',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_funding_request',
+      resourceId:   id,
+      statusCode:   200,
+      metadata:     { reason: body.reason, amount_kobo: fr.amountKobo },
     });
     return c.json({ funding_request: fr });
   } catch (err) {

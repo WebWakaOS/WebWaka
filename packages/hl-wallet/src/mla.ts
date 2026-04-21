@@ -188,6 +188,103 @@ export async function listMlaEarnings(
   return rows.results.map(mapMlaRow);
 }
 
+// WF-044: cursor-based paginated variant.
+// Cursor is the `id` of the last item seen. Pagination direction: newest-first.
+export interface ListMlaEarningsPaginatedResult {
+  earnings:   HlMlaEarning[];
+  nextCursor: string | undefined;
+}
+
+export async function listMlaEarningsPaginated(
+  db: D1Like,
+  walletId: string,
+  tenantId: string,
+  opts: {
+    status?:  MlaEarningStatus;
+    cursor?:  string;            // id of the last seen row
+    limit?:   number;            // default 50, max 100
+  } = {},
+): Promise<ListMlaEarningsPaginatedResult> {
+  const pageSize = Math.min(opts.limit ?? 50, 100);
+  const fetchSize = pageSize + 1;     // fetch one extra to detect next page
+
+  let rows: { results: MlaRow[] };
+
+  if (opts.cursor && opts.status) {
+    rows = await db.prepare(`
+      SELECT * FROM hl_mla_earnings
+      WHERE wallet_id = ? AND tenant_id = ? AND status = ?
+        AND id < ?
+      ORDER BY id DESC LIMIT ?
+    `).bind(walletId, tenantId, opts.status, opts.cursor, fetchSize).all<MlaRow>();
+  } else if (opts.cursor) {
+    rows = await db.prepare(`
+      SELECT * FROM hl_mla_earnings
+      WHERE wallet_id = ? AND tenant_id = ?
+        AND id < ?
+      ORDER BY id DESC LIMIT ?
+    `).bind(walletId, tenantId, opts.cursor, fetchSize).all<MlaRow>();
+  } else if (opts.status) {
+    rows = await db.prepare(`
+      SELECT * FROM hl_mla_earnings
+      WHERE wallet_id = ? AND tenant_id = ? AND status = ?
+      ORDER BY id DESC LIMIT ?
+    `).bind(walletId, tenantId, opts.status, fetchSize).all<MlaRow>();
+  } else {
+    rows = await db.prepare(`
+      SELECT * FROM hl_mla_earnings
+      WHERE wallet_id = ? AND tenant_id = ?
+      ORDER BY id DESC LIMIT ?
+    `).bind(walletId, tenantId, fetchSize).all<MlaRow>();
+  }
+
+  const hasMore  = rows.results.length > pageSize;
+  const items    = hasMore ? rows.results.slice(0, pageSize) : rows.results;
+  const nextCursor = hasMore ? items[items.length - 1]?.id : undefined;
+
+  return { earnings: items.map(mapMlaRow), nextCursor };
+}
+
+// WF-042: promote pending earnings to payable after the settlement window has elapsed.
+// Uses a subquery to work around SQLite's lack of UPDATE...LIMIT.
+// P9: all amounts integer kobo; T3: tenant_id always included.
+export interface MarkPayableOptions {
+  tenantId?:            string;    // undefined = all tenants (used by system CRON)
+  settlementWindowSecs?: number;   // default 86400 (24h)
+  batchSize?:           number;    // default 100
+}
+
+export async function markEarningsPayable(
+  db: D1Like,
+  opts: MarkPayableOptions = {},
+): Promise<number> {
+  const windowSecs = opts.settlementWindowSecs ?? 86400;
+  const batchSize  = opts.batchSize ?? 100;
+  const cutoff     = Math.floor(Date.now() / 1000) - windowSecs;
+  const now        = Math.floor(Date.now() / 1000);
+
+  // SQLite does not support UPDATE...LIMIT in all builds — use subquery form.
+  const result = opts.tenantId
+    ? await db.prepare(`
+        UPDATE hl_mla_earnings SET status = 'payable', updated_at = ?
+        WHERE id IN (
+          SELECT id FROM hl_mla_earnings
+          WHERE status = 'pending' AND tenant_id = ? AND created_at <= ?
+          LIMIT ?
+        )
+      `).bind(now, opts.tenantId, cutoff, batchSize).run()
+    : await db.prepare(`
+        UPDATE hl_mla_earnings SET status = 'payable', updated_at = ?
+        WHERE id IN (
+          SELECT id FROM hl_mla_earnings
+          WHERE status = 'pending' AND created_at <= ?
+          LIMIT ?
+        )
+      `).bind(now, cutoff, batchSize).run();
+
+  return result.meta?.changes ?? 0;
+}
+
 export async function creditMlaEarning(
   db: D1Like,
   earningId: string,
@@ -198,6 +295,10 @@ export async function creditMlaEarning(
   ).bind(earningId, tenantId).first<MlaRow>();
 
   if (!row) throw new WalletError('MLA_EARNING_NOT_FOUND', { earningId });
+
+  // WF-042: idempotency guard — if already credited return the existing row unchanged.
+  if (row.status === 'credited') return mapMlaRow(row);
+
   if (row.status !== 'payable') {
     throw new WalletError('INVALID_FSM_TRANSITION', { from: row.status, to: 'credited', reason: 'must be payable first' });
   }

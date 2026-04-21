@@ -40,9 +40,14 @@ export async function getWalletLimits(kv: KVLike, kycTier: WalletKYCTier): Promi
     kv.get(`wallet:daily_limit_kobo:${kycTier}`),
     kv.get(`wallet:balance_cap_kobo:${kycTier}`),
   ]);
+  const parseKv = (raw: string | null, def: number): number => {
+    if (!raw) return def;
+    const n = parseInt(raw, 10);
+    return Number.isNaN(n) ? def : n;
+  };
   return {
-    dailyLimitKobo:          dailyRaw  ? parseInt(dailyRaw, 10)  : defaults.dailyLimitKobo,
-    balanceCapKobo:          capRaw    ? parseInt(capRaw, 10)    : defaults.balanceCapKobo,
+    dailyLimitKobo:          parseKv(dailyRaw, defaults.dailyLimitKobo),
+    balanceCapKobo:          parseKv(capRaw,   defaults.balanceCapKobo),
     singleTransferLimitKobo: defaults.singleTransferLimitKobo,
   };
 }

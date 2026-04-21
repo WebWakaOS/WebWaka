@@ -34,6 +34,7 @@ import { HitlService } from '@webwaka/superagent';
 
 interface Env {
   DB: D1Database;
+  WALLET_KV?: KVNamespace;         // WF-041: MLA payout feature flag + commission config
   ENVIRONMENT: 'development' | 'staging' | 'production';
   ALLOWED_ORIGINS?: string;
   INTER_SERVICE_SECRET: string;
@@ -256,11 +257,185 @@ export async function scheduled(
       console.error('[projections:cron] wallet funding expiry failed:', err);
     }
   }
+
+  // WF-041: Daily 02:00 — MLA payout (feature-flag-gated via wallet:flag:mla_payout_enabled)
+  // Phase 2+: disabled in Phase 1. Feature flag must be set to '1' by super-admin
+  // before payouts begin. Idempotent: credited earnings are never re-credited.
+  if (cron === '0 2 * * *') {
+    try {
+      const walletKv = env.WALLET_KV;
+      if (!walletKv) {
+        console.warn('[projections:cron:mla] WALLET_KV not bound — MLA payout skipped');
+      } else {
+        const payoutEnabled = await walletKv.get('wallet:flag:mla_payout_enabled');
+        if (payoutEnabled !== '1') {
+          console.log('[projections:cron:mla] mla_payout_enabled != 1 — payout skipped (Phase 1)');
+        } else {
+          const mlaCronStart = Date.now();
+          let promoted = 0;
+          let credited = 0;
+          let errors  = 0;
+
+          const SETTLEMENT_WINDOW_SECS = 86_400; // 24h
+          const BATCH_SIZE = 100;
+          const now = Math.floor(Date.now() / 1000);
+          const cutoff = now - SETTLEMENT_WINDOW_SECS;
+
+          // Step 1: Promote pending earnings older than settlement window → payable.
+          // Uses subquery form to satisfy SQLite UPDATE...LIMIT requirement.
+          try {
+            const promoteResult = await db
+              .prepare(
+                `UPDATE hl_mla_earnings SET status = 'payable', updated_at = ?
+                 WHERE id IN (
+                   SELECT id FROM hl_mla_earnings
+                   WHERE status = 'pending' AND created_at <= ?
+                   LIMIT ?
+                 )`,
+              )
+              .bind(now, cutoff, BATCH_SIZE)
+              .run();
+            promoted = promoteResult.meta?.changes ?? 0;
+          } catch (promoteErr) {
+            console.error('[projections:cron:mla] promote step failed:', promoteErr);
+          }
+
+          // Step 2: Credit all payable earnings.
+          // For each, we: UPDATE wallet balance + INSERT ledger entry + mark earning credited.
+          // Each earning is processed in a try/catch so one failure does not block others.
+          try {
+            const payable = await db
+              .prepare(
+                `SELECT id, wallet_id, tenant_id, commission_kobo, referral_level
+                 FROM hl_mla_earnings
+                 WHERE status = 'payable'
+                 LIMIT ?`,
+              )
+              .bind(BATCH_SIZE)
+              .all<{
+                id: string;
+                wallet_id: string;
+                tenant_id: string;
+                commission_kobo: number;
+                referral_level: number;
+              }>();
+
+            for (const earning of payable.results) {
+              try {
+                await creditPayableEarningInline(db, earning, now);
+                credited++;
+              } catch (creditErr) {
+                errors++;
+                console.error(
+                  `[projections:cron:mla] credit failed earning_id=${earning.id}:`,
+                  creditErr,
+                );
+              }
+            }
+          } catch (selectErr) {
+            console.error('[projections:cron:mla] payable SELECT failed:', selectErr);
+          }
+
+          const mlaDurationMs = Date.now() - mlaCronStart;
+          console.log(
+            `[projections:cron:mla] done — promoted=${promoted} credited=${credited} errors=${errors} durationMs=${mlaDurationMs}`,
+          );
+          await updateProjectionCheckpoint(db, 'mla_payout', mlaDurationMs,
+            errors > 0 ? `${errors} credit errors` : undefined);
+        }
+      }
+    } catch (err) {
+      console.error('[projections:cron:mla] MLA payout CRON failed:', err);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// WF-041: MLA payout inline helper
+// Performs the three-step atomic credit for a single payable MLA earning:
+//   1. Credit hl_wallets balance (mla_credit tx type → increments lifetime_funded_kobo)
+//   2. Insert hl_ledger entry
+//   3. Mark hl_mla_earnings as credited
+// IDs are generated inline to avoid importing @webwaka/hl-wallet.
+// T3 invariant: all queries are tenant-scoped.
+// ---------------------------------------------------------------------------
+
+async function creditPayableEarningInline(
+  db: D1Like,
+  earning: {
+    id: string;
+    wallet_id: string;
+    tenant_id: string;
+    commission_kobo: number;
+    referral_level: number;
+  },
+  now: number,
+): Promise<void> {
+  // Step 1: Credit wallet balance. mla_credit is a top-up so lifetime_funded_kobo increments.
+  const updateResult = await db
+    .prepare(
+      `UPDATE hl_wallets
+       SET balance_kobo         = balance_kobo + ?,
+           lifetime_funded_kobo = lifetime_funded_kobo + ?,
+           updated_at           = unixepoch()
+       WHERE id = ? AND tenant_id = ? AND status != 'closed'`,
+    )
+    .bind(earning.commission_kobo, earning.commission_kobo, earning.wallet_id, earning.tenant_id)
+    .run();
+
+  if (!updateResult.meta?.changes) {
+    // Wallet not found, closed, or frozen — leave earning as payable for retry
+    throw new Error(`wallet credit failed: wallet_id=${earning.wallet_id} — wallet may be closed`);
+  }
+
+  // Step 2: Read back balance_after for the ledger entry.
+  const walletRow = await db
+    .prepare('SELECT balance_kobo FROM hl_wallets WHERE id = ? AND tenant_id = ?')
+    .bind(earning.wallet_id, earning.tenant_id)
+    .first<{ balance_kobo: number }>();
+
+  const balanceAfter = walletRow?.balance_kobo ?? earning.commission_kobo;
+
+  // Step 3: Insert ledger entry.
+  const entryId  = `hll_${crypto.randomUUID().replace(/-/g, '')}`;
+  const date     = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const suffix   = Math.random().toString(36).toUpperCase().slice(2, 7);
+  const reference = `MLA-${date}-${suffix}`;
+
+  await db
+    .prepare(
+      `INSERT INTO hl_ledger
+         (id, wallet_id, user_id, tenant_id, entry_type, amount_kobo, balance_after,
+          tx_type, reference, description, currency_code, related_id, related_type, created_at)
+       VALUES (?, ?, '', ?, 'credit', ?, ?, 'mla_credit', ?, ?, 'NGN', ?, 'hl_mla_earning', ?)`,
+    )
+    .bind(
+      entryId,
+      earning.wallet_id,
+      earning.tenant_id,
+      earning.commission_kobo,
+      balanceAfter,
+      reference,
+      `MLA L${earning.referral_level} commission credit`,
+      earning.id,
+      now,
+    )
+    .run();
+
+  // Step 4: Mark earning as credited (idempotency: status must still be 'payable').
+  await db
+    .prepare(
+      `UPDATE hl_mla_earnings
+       SET status = 'credited', ledger_entry_id = ?, credited_at = ?, updated_at = ?
+       WHERE id = ? AND tenant_id = ? AND status = 'payable'`,
+    )
+    .bind(entryId, now, now, earning.id, earning.tenant_id)
+    .run();
+}
 
 /**
  * Upsert a projection checkpoint row after each run.

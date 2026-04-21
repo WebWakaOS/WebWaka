@@ -19,6 +19,7 @@
 import { WalletError } from './errors.js';
 import { generateId, generateWalletRef } from './reference.js';
 import { creditWallet } from './ledger.js';
+import { checkBalanceCap } from './kyc-gate.js';
 import type { HlFundingRequest, FundingRequestStatus } from './types.js';
 
 interface D1Like {
@@ -166,6 +167,7 @@ export async function getFundingRequest(
 
 export async function confirmFunding(
   db: D1Like,
+  kv: KVLike,
   fundingRequestId: string,
   tenantId: string,
   confirmedBy: string,
@@ -178,6 +180,15 @@ export async function confirmFunding(
   if (row.status === 'confirmed') throw new WalletError('FUNDING_ALREADY_CONFIRMED');
   if (row.status !== 'pending') {
     throw new WalletError('INVALID_FSM_TRANSITION', { from: row.status, to: 'confirmed' });
+  }
+
+  // WF-032: balance cap check — reject if credit would push balance over the KYC tier cap.
+  // Loaded fresh from DB so concurrent credits do not bypass the cap.
+  const walletRow = await db.prepare(
+    'SELECT balance_kobo, kyc_tier FROM hl_wallets WHERE id = ? AND tenant_id = ?',
+  ).bind(row.wallet_id, tenantId).first<{ balance_kobo: number; kyc_tier: number }>();
+  if (walletRow) {
+    await checkBalanceCap(kv, walletRow.balance_kobo, row.amount_kobo, walletRow.kyc_tier as 1 | 2 | 3);
   }
 
   const reference = generateWalletRef('FUND');
