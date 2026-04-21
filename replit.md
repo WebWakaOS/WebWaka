@@ -4,6 +4,10 @@
 
 WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It follows a governance-driven monorepo architecture with "Offline First," "Mobile First," and "Nigeria First" as core principles.
 
+## Replit Migration
+
+Completed Replit import migration on 2026-04-21. Dependencies are installed with pnpm, the `Start application` workflow serves `apps/platform-admin/server.js` on port 5000, and the local static server now reads `PORT` from the environment while rejecting requests that resolve outside `apps/platform-admin/public`.
+
 **Current State: PRODUCTION READY — Staging + Production deployed green, 2514 tests passing (2463 + 51 wallet), TypeScript 0 errors, 10/10 governance checks green**
 **HandyLife Wallet: Phase W1 COMPLETE + Phase W2 COMPLETE. Phase W3–W5 PENDING (feature-flagged off).**
 **W2 additions: bank-transfer → auto-confirmFunding (WF-021), HITL routing (WF-022), MLA referral chain recording (WF-026), NDPR payment_data consent gate (WF-033), wallet funding expiry CRON (WF-028), platform-admin wallet UI at /wallet.html (WF-029), WalletFundingHitlRequired event type, governance doc at docs/governance/handylife-wallet-governance.md (WF-036).**

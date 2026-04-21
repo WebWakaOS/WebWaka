@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const PORT = 5000;
+const PORT = Number.parseInt(process.env.PORT ?? '5000', 10);
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -35,8 +35,21 @@ const SECURITY_HEADERS = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'",
 };
 
+function resolvePublicPath(url) {
+  const rawPath = new URL(url ?? '/', `http://127.0.0.1:${PORT}`).pathname;
+  const requestPath = rawPath === '/' ? '/index.html' : rawPath;
+  const normalizedPath = path.normalize(decodeURIComponent(requestPath)).replace(/^(\.\.(\/|\\|$))+/, '');
+  const filePath = path.resolve(PUBLIC_DIR, `.${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`);
+
+  if (!filePath.startsWith(`${PUBLIC_DIR}${path.sep}`) && filePath !== PUBLIC_DIR) {
+    return null;
+  }
+
+  return filePath;
+}
+
 const server = http.createServer((req, res) => {
-  const requestPath = req.url === '/' ? '/index.html' : (req.url ?? '/index.html');
+  const requestPath = new URL(req.url ?? '/', `http://127.0.0.1:${PORT}`).pathname;
 
   if (requestPath === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json', ...SECURITY_HEADERS });
@@ -44,7 +57,14 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const filePath = path.join(PUBLIC_DIR, requestPath);
+  const filePath = resolvePublicPath(req.url);
+
+  if (!filePath) {
+    res.writeHead(403, { 'Content-Type': 'text/plain', ...SECURITY_HEADERS });
+    res.end('Forbidden');
+    return;
+  }
+
   const ext = path.extname(filePath);
   const contentType = MIME_TYPES[ext] ?? 'application/octet-stream';
 
