@@ -436,6 +436,12 @@ S05 through S12 can run in parallel only after S00 through S04 are complete. S13
 - State constituency count matches the accepted current assembly count after research.
 - No political profile phase can start until this phase passes.
 
+### Implementation status — 2026-04-21
+
+S03 has been implemented in `infra/db/migrations/0303_jurisdiction_seed.sql`, mirrored to `apps/api/migrations/0303_jurisdiction_seed.sql`, with standalone seed `infra/db/seed/0005_jurisdictions.sql`. Validation confirmed 11,080 jurisdictions and 11,080 jurisdiction provenance links.
+
+The official INEC constituency workbook retrieved during S03 contains 990 state constituency code rows. Public 2023 references to 993 State Houses of Assembly seats remain documented as a source variance in `docs/reports/phase-s03-jurisdiction-source-manifest-2026-04-21.md`; no unsupported extra rows were fabricated.
+
 ---
 
 ## 10. Phase S04 — Ingestion Tooling, Seed Tenant, and Search Rebuild Readiness
