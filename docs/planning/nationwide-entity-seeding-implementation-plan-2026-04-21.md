@@ -478,6 +478,16 @@ The official INEC constituency workbook retrieved during S03 contains 990 state 
 - Every inserted root entity has a source link.
 - Every inserted profile has a valid `primary_place_id`.
 
+### S04 Implementation Status — Completed 2026-04-21
+
+S04 has been implemented in `infra/db/migrations/0304_ingestion_tooling_seed.sql`, mirrored to `apps/api/migrations/0304_ingestion_tooling_seed.sql`, with reusable TypeScript tooling at `infra/db/seed/scripts/nationwide_ingestion_tooling.ts`.
+
+The implementation adds `seed_ingestion_records`, `seed_identity_map`, `seed_place_resolutions`, `seed_search_rebuild_jobs`, and `seed_qa_query_library`, plus S04 seed-run/source/artifact provenance and a source link for `org_platform_seed`.
+
+Validation confirmed deterministic ID generation, most-specific place resolution, duplicate candidate grouping, search-entry generation, FTS rebuild readiness, idempotent migration reruns, source-run isolation by `seed_run_id`, and 8 reusable QA checks for downstream batches.
+
+S04 reports are available at `docs/reports/phase-s04-ingestion-tooling-completion-report-2026-04-21.md` and `docs/reports/phase-s04-ingestion-tooling-source-manifest-2026-04-21.md`.
+
 ---
 
 ## 11. Phase S05 — Political and Electoral Foundation
