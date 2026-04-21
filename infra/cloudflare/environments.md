@@ -33,6 +33,10 @@
 | WEBWAKA_KV_PRODUCTION | production | `9f7573b954d743d79ba7b37480f9af85` | Tenant config, sessions | ✅ Created |
 | WEBWAKA_RATE_LIMIT_KV_STAGING | staging | `608eacac3eb941a68c716b14e84b4d10` | Rate limiting | ✅ Created |
 | WEBWAKA_RATE_LIMIT_KV_PRODUCTION | production | `af260e847d1e400e94cf13f6ae3214eb` | Rate limiting | ✅ Created |
+| webwaka-wallet-kv-staging | staging | `9ccb594b305f4e5a83b8c9fe39ad33cd` | Wallet feature flags, KYC limits (WALLET_KV) | ✅ Created 2026-04-21 |
+| webwaka-wallet-kv-production | production | `e28f499febf24482b81e0b5a1b1de65e` | Wallet feature flags, KYC limits (WALLET_KV) | ✅ Created 2026-04-21 |
+| webwaka-audit-kv-staging | staging | `1be2915ea0c74f33bbad76f5973474f4` | Audit log fallback (KV) | ✅ Created 2026-04-21 |
+| webwaka-audit-kv-production | production | `a43e090a1b344e0aa4dbc311089d3d86` | Audit log fallback (KV) | ✅ Created 2026-04-21 |
 
 > IDs also set as GitHub environment variables: `KV_NAMESPACE_ID`, `RATE_LIMIT_KV_ID`
 

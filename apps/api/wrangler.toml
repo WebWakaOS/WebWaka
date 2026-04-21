@@ -33,19 +33,15 @@ id = "4732f3a682964607bae2170f350e4fb4"
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-staging"
 
-# KV (audit-log fallback, feature flags) — optional binding
-# Provision: wrangler kv namespace create AUDIT_KV --env staging
-# Then add the returned ID here and uncomment:
-# [[env.staging.kv_namespaces]]
-# binding = "KV"
-# id = "<AUDIT_KV_STAGING_ID>"
+# KV (audit-log fallback, feature flags)
+[[env.staging.kv_namespaces]]
+binding = "KV"
+id = "1be2915ea0c74f33bbad76f5973474f4"
 
 # ── HandyLife Wallet feature flags + KYC limits KV (WF-012) ──────────────────
-# Provision: wrangler kv namespace create WALLET_KV --env staging
-# Then add the returned ID here and uncomment:
-# [[env.staging.kv_namespaces]]
-# binding = "WALLET_KV"
-# id = "<WALLET_KV_STAGING_ID>"
+[[env.staging.kv_namespaces]]
+binding = "WALLET_KV"
+id = "9ccb594b305f4e5a83b8c9fe39ad33cd"
 
 # ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
 # Queue must be provisioned first:
@@ -92,19 +88,15 @@ id = "5bd5695d963247d0b105a936827e0a89"
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-production"
 
-# KV (audit-log fallback, feature flags) — optional binding
-# Provision: wrangler kv namespace create AUDIT_KV --env production
-# Then add the returned ID here and uncomment:
-# [[env.production.kv_namespaces]]
-# binding = "KV"
-# id = "<AUDIT_KV_PRODUCTION_ID>"
+# KV (audit-log fallback, feature flags)
+[[env.production.kv_namespaces]]
+binding = "KV"
+id = "a43e090a1b344e0aa4dbc311089d3d86"
 
 # ── HandyLife Wallet feature flags + KYC limits KV (WF-012) ──────────────────
-# Provision: wrangler kv namespace create WALLET_KV --env production
-# Then add the returned ID here and uncomment:
-# [[env.production.kv_namespaces]]
-# binding = "WALLET_KV"
-# id = "<WALLET_KV_PRODUCTION_ID>"
+[[env.production.kv_namespaces]]
+binding = "WALLET_KV"
+id = "e28f499febf24482b81e0b5a1b1de65e"
 
 # ── Notification Queue — PRODUCER binding (N-007 — Phase 0) ──────────────────
 # Queue must be provisioned first:
