@@ -7,6 +7,7 @@ workers_dev = false
 # ── Staging environment ───────────────────────────────────────────────────────
 [env.staging]
 name = "webwaka-api-staging"
+account_id = "98174497603b3edc1ca0159402956161"
 workers_dev = false
 
 # Negotiation expiry CRON — intentionally omitted on staging (account cron limit: 5).
@@ -62,6 +63,7 @@ custom_domain = true
 # ── Production environment ────────────────────────────────────────────────────
 [env.production]
 name = "webwaka-api-production"
+account_id = "98174497603b3edc1ca0159402956161"
 workers_dev = false
 
 # Negotiation expiry CRON — runs every 15 minutes

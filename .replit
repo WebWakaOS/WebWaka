@@ -41,3 +41,8 @@ externalPort = 3000
 [deployment]
 deploymentTarget = "autoscale"
 run = ["node", "apps/platform-admin/server.js"]
+
+[userenv]
+
+[userenv.shared]
+CLOUDFLARE_ACCOUNT_ID = "98174497603b3edc1ca0159402956161"

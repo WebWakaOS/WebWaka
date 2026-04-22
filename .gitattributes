@@ -10,3 +10,6 @@ apps/api/migrations/0309_health_nphcda_phc_seed.sql filter=lfs diff=lfs merge=lf
 infra/db/migrations/0309_health_nphcda_phc_seed.sql filter=lfs diff=lfs merge=lfs -text
 infra/db/seed/0010_nphcda_phc.sql filter=lfs diff=lfs merge=lfs -text
 infra/db/seed/sources/s06_nphcda_phc_normalized_20260421.json filter=lfs diff=lfs merge=lfs -text
+apps/api/migrations/0306_political_polling_units_seed.sql.bak filter=lfs diff=lfs merge=lfs -text
+apps/api/migrations/0307_education_nemis_schools_seed.sql.bak filter=lfs diff=lfs merge=lfs -text
+apps/api/migrations/0309_health_nphcda_phc_seed.sql.bak filter=lfs diff=lfs merge=lfs -text
