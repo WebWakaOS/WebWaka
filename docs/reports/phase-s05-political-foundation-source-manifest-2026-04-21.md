@@ -86,3 +86,30 @@
 
 **SQL migration for batch 6 (0314_political_inec_hoa_candidates.sql): NOT YET GENERATED.** Generation requires schema review for candidate vs. officeholder records and bulk INSERT optimisation. Extraction JSON is ready and repeatable.
 
+
+## S05 Batch 6 SQL — INEC 2023 HoA Candidates Migration (2026-04-22 — COMPLETE)
+
+| File | SHA-256 | Records seeded | Notes |
+|---|---|---|---|
+| `infra/db/migrations/0314_political_inec_hoa_candidates_seed.sql` | `0b57bb9c4f3f13b69e21d1dcd892785ed3b48b386183a7e7c95871b16ce5cea7` | 4,499 individuals / 4,414 candidate_records | Part 1 of 2; includes seed_run + seed_source + artifact rows |
+| `apps/api/migrations/0314_political_inec_hoa_candidates_seed.sql` | `0b57bb9c4f3f13b69e21d1dcd892785ed3b48b386183a7e7c95871b16ce5cea7` | byte-identical to infra copy | Cloudflare D1 target |
+| `infra/db/seed/0015_political_inec_hoa_candidates.sql` | `0b57bb9c4f3f13b69e21d1dcd892785ed3b48b386183a7e7c95871b16ce5cea7` | byte-identical | Standalone seed |
+| `infra/db/migrations/0314b_political_inec_hoa_candidates_seed.sql` | `cd5afe68731135cf5002d4326a2943c566ede2405099af66ae504ae261dfc074` | 4,326 individuals / 4,075 candidate_records | Part 2 of 2 |
+| `apps/api/migrations/0314b_political_inec_hoa_candidates_seed.sql` | `cd5afe68731135cf5002d4326a2943c566ede2405099af66ae504ae261dfc074` | byte-identical to infra copy | Cloudflare D1 target |
+
+**Combined totals across 0314 + 0314b:**
+- individuals: 8,825
+- profiles: 8,825
+- politician_profiles: 8,825
+- party_affiliations: 8,825
+- candidate_records: 8,489 (337 candidates without resolved jurisdiction — individual still seeded)
+- seed_ingestion_records: 8,825
+- seed_identity_map: 8,825
+- seed_entity_sources: 8,825
+
+**Validation:** Both files pass stub-SQLite validation (20/20 table checks pass, idempotent double-apply stable).
+
+**145 garbled extraction rows skipped** (they contained PDF S/N digits merged into constituency column — not fabricated, not inserted).
+
+**Generator script:** `infra/db/seed/scripts/generate_s05_hoa_candidates_sql.py` (483 lines, fully re-runnable from source JSON).
+
