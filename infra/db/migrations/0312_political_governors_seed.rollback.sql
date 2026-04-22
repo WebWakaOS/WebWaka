@@ -1,0 +1,1 @@
+-- Rollback script for 0312_political_governors_seed
