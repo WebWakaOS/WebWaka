@@ -1,0 +1,2 @@
+-- Migration 0310_education_mlscn_training_institutions_seed.sql
+-- Placeholder for education mlscn training institutions seed

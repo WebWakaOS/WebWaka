@@ -1,0 +1,2 @@
+-- Rollback 0311_political_senators_reps_seed.sql
+-- Placeholder for rollback of political senators and reps seed

@@ -1,0 +1,2 @@
+-- Migration 0311_political_senators_reps_seed.sql
+-- Placeholder for political senators and reps seed

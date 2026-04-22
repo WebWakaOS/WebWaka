@@ -30,7 +30,8 @@ export function registerSyncServiceWorker(): void {
     if ('sync' in registration) {
       await (registration as { sync: { register(tag: string): Promise<void> } }).sync.register(COMMUNITY_POST_SYNC_TAG);
     }
-  }).catch((err: any) => {
+  }).catch((err: unknown) => {
+    // eslint-disable-next-line no-console
     console.warn('[offline-sync] Service Worker registration failed:', err);
   });
 }
