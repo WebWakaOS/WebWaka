@@ -84,23 +84,39 @@ syncRoutes.post('/apply', async (c) => {
     if (existing.status === 'conflict') {
       return c.json({ conflict: true, clientId: body.clientId }, 409);
     }
+    // BUG-SYNC-01: a row with status 'pending' or 'failed' already exists for this
+    // clientId.  Inserting again would violate the UNIQUE constraint and produce a
+    // raw 500.  Treat any other pre-existing status as "already seen" and return
+    // the current status so the client can decide whether to retry.
+    return c.json({ applied: false, clientId: body.clientId, status: existing.status }, 200);
   }
 
-  // Log the sync operation
+  // Log the sync operation.  Wrap in try-catch so a concurrent INSERT for the same
+  // clientId (race between two in-flight requests) becomes an idempotent 200
+  // rather than a 500 UNIQUE constraint violation.
   const logId = `sync_${crypto.randomUUID()}`;
-  await db.prepare(
-    `INSERT INTO sync_queue_log
-       (id, client_id, agent_id, entity_type, operation, payload, status, applied_at, tenant_id)
-     VALUES (?, ?, ?, ?, ?, ?, 'applied', unixepoch(), ?)`,
-  ).bind(
-    logId,
-    body.clientId,
-    auth.userId ?? null,
-    body.entity,
-    body.operation,
-    JSON.stringify(body.payload),
-    tenantId,
-  ).run();
+  try {
+    await db.prepare(
+      `INSERT INTO sync_queue_log
+         (id, client_id, agent_id, entity_type, operation, payload, status, applied_at, tenant_id)
+       VALUES (?, ?, ?, ?, ?, ?, 'applied', unixepoch(), ?)`,
+    ).bind(
+      logId,
+      body.clientId,
+      auth.userId ?? null,
+      body.entity,
+      body.operation,
+      JSON.stringify(body.payload),
+      tenantId,
+    ).run();
+  } catch (insertErr) {
+    const msg = insertErr instanceof Error ? insertErr.message : String(insertErr);
+    if (msg.includes('UNIQUE')) {
+      // Concurrent duplicate — idempotent response
+      return c.json({ applied: true, clientId: body.clientId, idempotent: true }, 200);
+    }
+    throw insertErr; // Unexpected DB error — let Hono's error handler return 500
+  }
 
   return c.json({ applied: true, clientId: body.clientId, logId }, 200);
 });

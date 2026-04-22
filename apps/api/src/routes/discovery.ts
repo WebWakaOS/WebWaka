@@ -128,8 +128,9 @@ discoveryRoutes.get('/search', async (c) => {
         c.header('X-Cache', 'HIT');
         return c.json(cached as Record<string, unknown>);
       }
-    } catch {
-      // KV read failure — fall through to D1
+    } catch (kvErr) {
+      // KV read failure — fall through to D1.  Log so persistent outages are observable.
+      console.error(JSON.stringify({ level: 'warn', event: 'discovery_cache_read_failed', error: String(kvErr) }));
     }
   }
 
@@ -149,15 +150,22 @@ discoveryRoutes.get('/search', async (c) => {
     WHERE search_fts MATCH ?
       AND se.visibility = 'public'
   `;
-  const binds: unknown[] = [q.replace(/[^a-zA-Z0-9À-ɏ\s]/g, ' ').trim() + '*'];
+  // FTS5-safe sanitization: strip all characters except alphanumerics, extended Latin,
+  // and spaces, then wrap in double-quotes to prevent FTS5 boolean operator injection
+  // (OR/AND/NOT/NEAR would otherwise change query semantics).
+  const sanitized = q.replace(/[^a-zA-Z0-9À-ɏ\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  const binds: unknown[] = [`"${sanitized}"*`];
 
   if (type) {
     sql += ` AND se.entity_type = ?`;
     binds.push(type);
   }
   if (placeId) {
-    sql += ` AND se.ancestry_path LIKE ?`;
-    binds.push(`%${placeId}%`);
+    // Escape LIKE special characters in placeId before embedding in pattern to
+    // prevent wildcard injection (e.g. a placeId of '%' would otherwise match all rows).
+    const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
+    sql += ` AND se.ancestry_path LIKE ? ESCAPE '\\'`;
+    binds.push(`%${safePlaceId}%`);
   }
   if (cursor) {
     sql += ` AND se.entity_id > ?`;
@@ -191,8 +199,9 @@ discoveryRoutes.get('/search', async (c) => {
         await c.env.GEOGRAPHY_CACHE.put(cacheKey, JSON.stringify(response), {
           expirationTtl: SEARCH_CACHE_TTL,
         });
-      } catch {
-        // Non-fatal: cache write failure
+      } catch (kvErr) {
+        // Non-fatal: cache write failure.  Log so persistent outages are observable.
+        console.error(JSON.stringify({ level: 'warn', event: 'discovery_cache_write_failed', error: String(kvErr) }));
       }
     }
   }
@@ -229,20 +238,27 @@ discoveryRoutes.get('/profiles/:subjectType/:subjectId', async (c) => {
     return c.json({ error: `Profile not found for ${subjectType}/${subjectId}` }, 404);
   }
 
+  // BUG-DIS-02: Pass the profile's own tenantId instead of the bogus 'any' literal.
+  // Discovery is cross-tenant for *reading* public profiles, but the underlying
+  // repository still requires a real tenantId to satisfy its WHERE tenant_id = ?
+  // predicate.  The profile row already contains the owning tenant, so we use it.
+  // If tenantId is null (platform-seeded entity with no owner), skip the detail lookup.
   let subject: Record<string, unknown> | null = null;
-  if (subjectType === EntityType.Individual) {
-    const ind = await getIndividualById(db, 'any' as never, subjectId as never);
-    if (ind) {
-      const row = (ind as unknown) as Record<string, unknown>;
-      const { tenantId: _t, tenant_id: _ti, ...rest } = row; // eslint-disable-line @typescript-eslint/no-unused-vars
-      subject = rest;
-    }
-  } else if (subjectType === EntityType.Organization) {
-    const org = await getOrganizationById(db, 'any' as never, subjectId as never);
-    if (org) {
-      const row = (org as unknown) as Record<string, unknown>;
-      const { tenantId: _t, tenant_id: _ti, ...rest } = row; // eslint-disable-line @typescript-eslint/no-unused-vars
-      subject = rest;
+  if (profile.tenantId) {
+    if (subjectType === EntityType.Individual) {
+      const ind = await getIndividualById(db, profile.tenantId as never, subjectId as never);
+      if (ind) {
+        const row = (ind as unknown) as Record<string, unknown>;
+        const { tenantId: _t, tenant_id: _ti, ...rest } = row; // eslint-disable-line @typescript-eslint/no-unused-vars
+        subject = rest;
+      }
+    } else if (subjectType === EntityType.Organization) {
+      const org = await getOrganizationById(db, profile.tenantId as never, subjectId as never);
+      if (org) {
+        const row = (org as unknown) as Record<string, unknown>;
+        const { tenantId: _t, tenant_id: _ti, ...rest } = row; // eslint-disable-line @typescript-eslint/no-unused-vars
+        subject = rest;
+      }
     }
   }
 
@@ -401,9 +417,12 @@ discoveryRoutes.get('/nearby/:placeId', async (c) => {
     SELECT entity_type, entity_id, display_name, place_id
     FROM search_entries
     WHERE visibility = 'public'
-      AND ancestry_path LIKE ?
+      AND ancestry_path LIKE ? ESCAPE '\\'
   `;
-  const binds: unknown[] = [`%${placeId}%`];
+  // Escape LIKE special characters for defence-in-depth even though the placeId
+  // has already been validated against the places table above.
+  const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
+  const binds: unknown[] = [`%${safePlaceId}%`];
 
   if (type) {
     sql += ` AND entity_type = ?`;

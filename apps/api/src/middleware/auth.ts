@@ -64,14 +64,24 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
   // Wrapped in an async IIFE so any synchronous throw from the DB mock (in tests) is converted
   // to a rejected Promise that is absorbed by the outer .catch() — never blocks the response.
   if (sessionHashHex && c.env.DB) {
+    // BUG-03 fix (continued): async IIFE correctly wraps any synchronous or async
+    // error into a rejected Promise.  The .catch() absorbs it so last_seen_at
+    // failures never propagate to the response.  We add structured logging here
+    // so that persistent DB failures are observable in production.
     (async () => {
       await c.env.DB.prepare(
         `UPDATE sessions SET last_seen_at = unixepoch()
          WHERE jti = ? AND user_id = ? AND revoked_at IS NULL
            AND (last_seen_at IS NULL OR unixepoch() - last_seen_at > 60)`,
       ).bind(sessionHashHex, result.context.userId).run();
-    })().catch(() => {
-      // Non-blocking — session activity update failure must never block the request
+    })().catch((err: unknown) => {
+      // Non-blocking — session activity update failure must never block the request.
+      // Log so that persistent failures are observable (e.g. schema drift or DB issues).
+      console.error(JSON.stringify({
+        level: 'warn',
+        event: 'session_last_seen_update_failed',
+        error: err instanceof Error ? err.message : String(err),
+      }));
     });
   }
 

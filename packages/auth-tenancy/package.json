@@ -11,5 +11,8 @@
     "typecheck": "echo 'skip'",
     "test": "echo 'skip'",
     "build": "echo 'skip'"
+  },
+  "dependencies": {
+    "@webwaka/auth": "workspace:*"
   }
 }

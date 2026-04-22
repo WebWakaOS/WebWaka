@@ -275,6 +275,11 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
   const orderId = c.req.param('orderId');
   const db = c.env.DB as unknown as D1Like;
 
+  // SEC-BT-01: only admins/super-admins (workspace sellers) may confirm proof
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'Admin role required to confirm bank transfers' }, 403);
+  }
+
   const order = await db
     .prepare(
       `SELECT id, status, tenant_id FROM bank_transfer_orders
@@ -313,12 +318,14 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
   // WF-021/022: Auto-credit wallet if this bank transfer has an associated hl_funding_request.
   // If hitl_required = 1, skip auto-credit and notify super-admin to confirm via platform-admin.
   try {
+    // T3 fix: scope hl_funding_requests lookup to the caller's tenant to prevent
+    // cross-tenant wallet auto-credit if an orderId is guessed by another tenant.
     const fr = await db
       .prepare(
         `SELECT id, tenant_id, hitl_required FROM hl_funding_requests
-         WHERE bank_transfer_order_id = ? AND status = 'pending' LIMIT 1`,
+         WHERE bank_transfer_order_id = ? AND tenant_id = ? AND status = 'pending' LIMIT 1`,
       )
-      .bind(orderId)
+      .bind(orderId, auth.tenantId)
       .first<{ id: string; tenant_id: string; hitl_required: number }>();
 
     if (fr) {
@@ -378,6 +385,11 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
 bankTransferRoutes.post('/:orderId/reject', async (c) => {
   const auth = c.get('auth');
   const orderId = c.req.param('orderId');
+
+  // SEC-BT-01: only admins/super-admins (workspace sellers) may reject proof
+  if (auth.role !== 'admin' && auth.role !== 'super_admin') {
+    return c.json({ error: 'Admin role required to reject bank transfers' }, 403);
+  }
 
   let body: { reason?: string } = {};
   try {
@@ -479,9 +491,10 @@ bankTransferRoutes.post('/:orderId/dispute', async (c) => {
     return c.json({ error: 'disputed_amount_kobo must be a positive integer (P9 invariant)' }, 422);
   }
 
+  // T3 fix: include tenant_id so one tenant cannot shadow another's dispute record.
   const existingDispute = await db
-    .prepare(`SELECT id FROM bank_transfer_disputes WHERE transfer_order_id = ? LIMIT 1`)
-    .bind(orderId)
+    .prepare(`SELECT id FROM bank_transfer_disputes WHERE transfer_order_id = ? AND tenant_id = ? LIMIT 1`)
+    .bind(orderId, auth.tenantId)
     .first<{ id: string }>();
 
   if (existingDispute) {

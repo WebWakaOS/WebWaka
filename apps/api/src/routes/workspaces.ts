@@ -251,12 +251,18 @@ workspaceRoutes.patch('/:id', async (c) => {
     if (!validPlans.includes(body.plan)) {
       return c.json({ error: `Invalid plan. Must be one of: ${validPlans.join('|')}` }, 400);
     }
+    // BUG-WS-03 fix: use INSERT OR REPLACE (upsert) so that a missing subscription
+    // row (workspace created before subscriptions table existed) doesn't silently
+    // drop the update.  REPLACE keeps atomicity without an extra read.
     await db
       .prepare(
-        `UPDATE subscriptions SET plan = ?, updated_at = unixepoch()
-         WHERE workspace_id = ? AND tenant_id = ?`,
+        `INSERT INTO subscriptions (workspace_id, tenant_id, plan, created_at, updated_at)
+         VALUES (?, ?, ?, unixepoch(), unixepoch())
+         ON CONFLICT(workspace_id, tenant_id) DO UPDATE SET
+           plan = excluded.plan,
+           updated_at = excluded.updated_at`,
       )
-      .bind(body.plan, workspaceId, auth.tenantId)
+      .bind(workspaceId, auth.tenantId, body.plan)
       .run();
   }
 
@@ -365,7 +371,10 @@ workspaceRoutes.post('/:id/invite', async (c) => {
       .prepare(`SELECT COUNT(*) AS cnt FROM memberships WHERE workspace_id = ? AND tenant_id = ?`)
       .bind(workspaceId, auth.tenantId)
       .first<{ cnt: number }>();
-    const decision = evaluateUserLimit(toSubscription(sub), memberCount?.cnt ?? 0);
+    // BUG-WS-02 fix: pass (current count + 1) to account for the member being added.
+    // Without +1, a workspace already AT the limit (e.g. 3/3 Free) would pass this
+    // check and allow a 4th member through.
+    const decision = evaluateUserLimit(toSubscription(sub), (memberCount?.cnt ?? 0) + 1);
     if (!decision.allowed) {
       return c.json({
         error: decision.reason ?? 'User limit reached for your current plan',
@@ -413,8 +422,10 @@ workspaceRoutes.post('/:id/invite', async (c) => {
     severity: 'info',
   });
 
-  // G2: email send is secondary/optional — kill-switch guards the notification pipeline
-  if (c.env.NOTIFICATION_PIPELINE_ENABLED !== '1' && body.email) {
+  // G2: email send is secondary/optional — kill-switch guards the notification pipeline.
+  // BUG-WS-01 fix: was `!== '1'` (inverted), meaning email was sent only when the
+  // pipeline was DISABLED.  Corrected to `=== '1'` so email fires when pipeline is ON.
+  if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1' && body.email) {
     const emailService = new EmailService(c.env.RESEND_API_KEY);
     void emailService.sendTransactional(body.email, 'workspace-invite', {
       inviter_name: String(auth.userId),

@@ -100,7 +100,9 @@ posRoutes.post('/terminals', async (c) => {
     if (msg.includes('UNIQUE')) {
       return c.json({ error: 'Terminal reference already registered.' }, 409);
     }
-    return c.json({ error: msg }, 500);
+    // SEC-POS-01: never leak internal error details (SQL schema, stack traces) to the client.
+    console.error(JSON.stringify({ level: 'error', event: 'pos_terminal_register_failed', error: msg }));
+    return c.json({ error: 'Failed to register terminal. Please try again.' }, 500);
   }
 });
 
@@ -194,7 +196,9 @@ posRoutes.post('/float/credit', async (c) => {
     if (err instanceof Error && err.message.includes('UNIQUE')) {
       return c.json({ error: 'Reference already exists (idempotency).' }, 409);
     }
-    return c.json({ error: err instanceof Error ? err.message : 'Unknown error' }, 500);
+    // SEC-POS-01: never leak internal error details to the client
+    console.error(JSON.stringify({ level: 'error', event: 'pos_float_credit_failed', error: err instanceof Error ? err.message : String(err) }));
+    return c.json({ error: 'Failed to credit float. Please try again.' }, 500);
   }
 });
 
@@ -245,7 +249,9 @@ posRoutes.post('/float/debit', async (c) => {
     if (err instanceof Error && err.message.includes('UNIQUE')) {
       return c.json({ error: 'Reference already exists (idempotency).' }, 409);
     }
-    return c.json({ error: err instanceof Error ? err.message : 'Unknown error' }, 500);
+    // SEC-POS-01: never leak internal error details to the client
+    console.error(JSON.stringify({ level: 'error', event: 'pos_float_debit_failed', error: err instanceof Error ? err.message : String(err) }));
+    return c.json({ error: 'Failed to debit float. Please try again.' }, 500);
   }
 });
 
@@ -291,6 +297,8 @@ posRoutes.post('/float/reverse', async (c) => {
     });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {
-    return c.json({ error: err instanceof Error ? err.message : 'Unknown error' }, 500);
+    // SEC-POS-01: never leak internal error details to the client
+    console.error(JSON.stringify({ level: 'error', event: 'pos_float_reverse_failed', error: err instanceof Error ? err.message : String(err) }));
+    return c.json({ error: 'Failed to reverse ledger entry. Please try again.' }, 500);
   }
 });
