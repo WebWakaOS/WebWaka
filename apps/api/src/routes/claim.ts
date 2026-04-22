@@ -116,13 +116,14 @@ claimRoutes.post('/intent', async (c) => {
   }
 
   // SEC-003: Include tenant_id on claim_requests INSERT (migration 0192)
+  // M0380: Include workspace_id to link profile→workspace on approval
   await db
     .prepare(
       `INSERT INTO claim_requests
-         (id, profile_id, requester_email, requester_name, status, verification_method, verification_data, expires_at, tenant_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, unixepoch(), unixepoch())`,
+         (id, profile_id, requester_email, requester_name, status, verification_method, verification_data, expires_at, tenant_id, workspace_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, unixepoch(), unixepoch())`,
     )
-    .bind(claimId, profileId, auth.userId, requesterName ?? null, verificationMethod, verificationData, expiresAt, auth.tenantId)
+    .bind(claimId, profileId, auth.userId, requesterName ?? null, verificationMethod, verificationData, expiresAt, auth.tenantId, auth.workspaceId ?? null)
     .run();
 
   // Advance profile state to claimable if still seeded
@@ -180,15 +181,16 @@ claimRoutes.post('/advance', async (c) => {
   }
 
   // SEC-003: added tenant_id predicate to claim_requests query
+  // M0380: select workspace_id to link profile on approval
   const claimRow = await db
     .prepare(
-      `SELECT cr.id, cr.profile_id, cr.status, p.claim_state
+      `SELECT cr.id, cr.profile_id, cr.status, cr.workspace_id, p.claim_state
        FROM claim_requests cr
        JOIN profiles p ON p.id = cr.profile_id
        WHERE cr.id = ? AND (cr.tenant_id = ? OR cr.tenant_id IS NULL)`,
     )
     .bind(claimRequestId, auth.tenantId)
-    .first<{ id: string; profile_id: string; status: string; claim_state: string }>();
+    .first<{ id: string; profile_id: string; status: string; workspace_id: string | null; claim_state: string }>();
 
   if (!claimRow) {
     return c.json({ error: 'Claim request not found' }, 404);
@@ -236,6 +238,24 @@ claimRoutes.post('/advance', async (c) => {
       // Profile may already be in target state — not fatal for claim_request update
     } else {
       throw err;
+    }
+  }
+
+  // M0380: When approving, link profile to the workspace that submitted the claim.
+  // This sets profiles.workspace_id so the workspace owner can later advance to 'managed'
+  // via PATCH /profiles/:id/claim-state after upgrading to a paid plan.
+  if (action === 'approve' && claimRow.workspace_id) {
+    try {
+      await db
+        .prepare(
+          `UPDATE profiles SET workspace_id = ?, updated_at = unixepoch()
+           WHERE id = ? AND (workspace_id IS NULL OR workspace_id LIKE '%seed%')`,
+        )
+        .bind(claimRow.workspace_id, claimRow.profile_id)
+        .run();
+    } catch (err) {
+      // Non-fatal: workspace link is best-effort; profile state is already advanced.
+      console.error('[claim] workspace link on approval failed (non-blocking):', err instanceof Error ? err.message : err);
     }
   }
 

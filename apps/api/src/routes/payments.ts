@@ -58,6 +58,25 @@ function parseBankAccount(raw: string | undefined): PlatformBankAccount {
 }
 
 /**
+ * Fetch the platform receiving bank account with the configured priority chain:
+ *   1. WALLET_KV key `platform:payment:bank_account`  (set via platform admin dashboard)
+ *   2. PLATFORM_BANK_ACCOUNT_JSON env var              (wrangler.toml / Cloudflare secret)
+ *   3. Safe "Not configured" default
+ */
+async function getPlatformBankAccount(
+  kv: KVNamespace | undefined,
+  envJson: string | undefined,
+): Promise<PlatformBankAccount> {
+  if (kv) {
+    try {
+      const raw = await kv.get('platform:payment:bank_account');
+      if (raw) return JSON.parse(raw) as PlatformBankAccount;
+    } catch { /* fall through */ }
+  }
+  return parseBankAccount(envJson);
+}
+
+/**
  * Generate a short, human-readable, traceable bank transfer reference.
  * Format: WKUP-{8-char workspace suffix}-{5-char random base36}
  * e.g.  WKUP-ABCD1234-X7K3M
@@ -146,7 +165,7 @@ workspaceUpgradeRoute.post('/:id/upgrade', async (c) => {
 
   // ── Bank transfer (manual) mode ────────────────────────────────────────────
   if (isBankTransferMode(c.env)) {
-    const bankAccount = parseBankAccount(c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    const bankAccount = await getPlatformBankAccount(c.env.WALLET_KV, c.env.PLATFORM_BANK_ACCOUNT_JSON);
     const reference   = generateUpgradeRef(workspaceId);
     const naira       = formatNaira(amountKobo);
 
@@ -393,7 +412,7 @@ paymentsMethodRoute.get('/method', async (c) => {
   };
 
   if (mode === 'bank_transfer') {
-    payload['bank_account'] = parseBankAccount(c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    payload['bank_account'] = await getPlatformBankAccount(c.env.WALLET_KV, c.env.PLATFORM_BANK_ACCOUNT_JSON);
     payload['instructions']  = 'Transfer the plan amount to the bank account above. Use your workspace ID or the reference provided during upgrade as your payment narration. Activation occurs within 1 business day of confirmation.';
   }
 

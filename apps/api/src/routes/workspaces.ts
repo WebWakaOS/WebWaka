@@ -2,7 +2,7 @@
  * Workspace management routes.
  *
  * POST /workspaces/:id/activate   — convert free → paid (Paystack)
- * PATCH /workspaces/:id           — update plan / active layers
+ * PATCH /workspaces/:id           — update plan / active layers / bank account
  * POST  /workspaces/:id/invite    — invite user → membership (MON-04: user limit)
  * POST  /workspaces/:id/offerings — create offering (MON-04: offering limit)
  * POST  /workspaces/:id/places    — create org/branch (MON-04: place limit)
@@ -127,8 +127,12 @@ workspaceRoutes.post('/:id/activate', async (c) => {
     let bankAccount: { bank_name: string; account_number: string; account_name: string; sort_code?: string } = {
       bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A',
     };
+    // Priority: WALLET_KV platform:payment:bank_account → PLATFORM_BANK_ACCOUNT_JSON env fallback
     try {
-      if (c.env.PLATFORM_BANK_ACCOUNT_JSON) {
+      const kvRaw = c.env.WALLET_KV ? await c.env.WALLET_KV.get('platform:payment:bank_account') : null;
+      if (kvRaw) {
+        bankAccount = JSON.parse(kvRaw) as typeof bankAccount;
+      } else if (c.env.PLATFORM_BANK_ACCOUNT_JSON) {
         bankAccount = JSON.parse(c.env.PLATFORM_BANK_ACCOUNT_JSON) as typeof bankAccount;
       }
     } catch { /* keep default */ }
@@ -195,15 +199,29 @@ workspaceRoutes.patch('/:id', async (c) => {
     return c.json({ error: 'Workspace not found' }, 404);
   }
 
-  let body: { name?: string; plan?: string; activeLayers?: string[] };
+  interface WorkspacePatchBody {
+    name?:                  string;
+    plan?:                  string;
+    activeLayers?:          string[];
+    defaultPaymentMethod?:  string;
+    bankAccount?: {
+      bank_name:      string;
+      account_number: string;
+      account_name:   string;
+      bank_code?:     string;
+      sort_code?:     string;
+    };
+  }
+
+  let body: WorkspacePatchBody;
   try {
-    body = await c.req.json<typeof body>();
+    body = await c.req.json<WorkspacePatchBody>();
   } catch {
     return c.json({ error: 'Invalid JSON body' }, 400);
   }
 
-  if (!body.name && !body.plan && !body.activeLayers) {
-    return c.json({ error: 'At least one field (name, plan, activeLayers) required' }, 400);
+  if (!body.name && !body.plan && !body.activeLayers && !body.defaultPaymentMethod && !body.bankAccount) {
+    return c.json({ error: 'At least one field (name, plan, activeLayers, defaultPaymentMethod, bankAccount) required' }, 400);
   }
 
   if (body.name !== undefined) {
@@ -227,6 +245,46 @@ workspaceRoutes.patch('/:id', async (c) => {
       .run();
   }
 
+  // Bug fix: activeLayers was fired in the event but never persisted to the DB.
+  if (body.activeLayers !== undefined) {
+    const validLayers = ['discovery', 'operations', 'commerce', 'community', 'government'];
+    const invalid = body.activeLayers.filter(l => !validLayers.includes(l));
+    if (invalid.length > 0) {
+      return c.json({ error: `Invalid layer(s): ${invalid.join(', ')}. Valid: ${validLayers.join('|')}` }, 400);
+    }
+    await db
+      .prepare('UPDATE workspaces SET active_layers = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?')
+      .bind(JSON.stringify(body.activeLayers), workspaceId, auth.tenantId)
+      .run();
+  }
+
+  if (body.defaultPaymentMethod !== undefined) {
+    const validMethods = ['bank_transfer', 'card', 'cash', 'ussd'];
+    if (!validMethods.includes(body.defaultPaymentMethod)) {
+      return c.json({ error: `Invalid defaultPaymentMethod. Must be one of: ${validMethods.join('|')}` }, 400);
+    }
+    await db
+      .prepare('UPDATE workspaces SET default_payment_method = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?')
+      .bind(body.defaultPaymentMethod, workspaceId, auth.tenantId)
+      .run();
+  }
+
+  // Per-workspace receiving bank account (for workspace owner's own business payments).
+  // This is different from the platform bank account (where subscription fees are paid to WebWaka).
+  if (body.bankAccount !== undefined) {
+    const ba = body.bankAccount;
+    if (!ba.bank_name || !ba.account_number || !ba.account_name) {
+      return c.json({ error: 'bankAccount requires bank_name, account_number, and account_name' }, 400);
+    }
+    if (!/^\d{10}$/.test(ba.account_number)) {
+      return c.json({ error: 'bankAccount.account_number must be exactly 10 digits (Nigerian NUBAN format)' }, 400);
+    }
+    await db
+      .prepare('UPDATE workspaces SET payment_bank_account_json = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?')
+      .bind(JSON.stringify(ba), workspaceId, auth.tenantId)
+      .run();
+  }
+
   // N-081: workspace.settings_changed event
   void publishEvent(c.env, {
     eventId: crypto.randomUUID(),
@@ -239,11 +297,21 @@ workspaceRoutes.patch('/:id', async (c) => {
       ...(body.name !== undefined ? { name: body.name } : {}),
       ...(body.plan !== undefined ? { plan: body.plan } : {}),
       ...(body.activeLayers !== undefined ? { active_layers: body.activeLayers } : {}),
+      ...(body.defaultPaymentMethod !== undefined ? { default_payment_method: body.defaultPaymentMethod } : {}),
+      ...(body.bankAccount !== undefined ? { bank_account_updated: true } : {}),
     },
     source: 'api',
     severity: 'info',
   });
-  return c.json({ workspaceId, updated: true, name: body.name, plan: body.plan });
+  return c.json({
+    workspaceId,
+    updated: true,
+    name:                  body.name,
+    plan:                  body.plan,
+    activeLayers:          body.activeLayers,
+    defaultPaymentMethod:  body.defaultPaymentMethod,
+    bankAccountUpdated:    body.bankAccount !== undefined,
+  });
 });
 
 // ---------------------------------------------------------------------------

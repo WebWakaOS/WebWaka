@@ -83,6 +83,9 @@ import { notificationRoutes } from './routes/notification-routes.js';
 import { inboxRoutes } from './routes/inbox-routes.js';
 import { preferenceRoutes } from './routes/preference-routes.js';
 import { notificationAdminRoutes } from './routes/notification-admin-routes.js';
+import { platformAdminSettingsRoutes } from './routes/platform-admin-settings.js';
+import { tenantBrandingRoutes } from './routes/tenant-branding.js';
+import { profileRoutes } from './routes/profiles.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -714,6 +717,40 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/platform-admin/wallets/*', requireRole('super_admin'));
   app.use('/platform-admin/wallets/*', auditLogMiddleware);
   app.route('/platform-admin/wallets', walletAdminRoutes);
+
+  // -------------------------------------------------------------------------
+  // Platform admin settings — payment bank account, platform configuration
+  // Super admin only; all routes require auth + super_admin role + audit log.
+  //   GET  /platform-admin/settings/payment  — read platform bank account
+  //   PATCH /platform-admin/settings/payment — update platform bank account (KV)
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/settings/*', authMiddleware);
+  app.use('/platform-admin/settings/*', requireRole('super_admin'));
+  app.use('/platform-admin/settings/*', auditLogMiddleware);
+  app.route('/platform-admin/settings', platformAdminSettingsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Tenant branding / white-label configuration (auth required, admin role)
+  //   GET  /tenant/branding              — read branding settings
+  //   PATCH /tenant/branding             — create or update branding
+  //   POST  /tenant/branding/domain      — register custom domain
+  //   GET   /tenant/branding/domain/verify — verify DNS TXT record
+  // -------------------------------------------------------------------------
+
+  app.use('/tenant/branding*', authMiddleware);
+  app.use('/tenant/branding*', auditLogMiddleware);
+  app.route('/tenant/branding', tenantBrandingRoutes);
+
+  // -------------------------------------------------------------------------
+  // Profile management — workspace-scoped visibility + claim state control
+  //   GET  /profiles                          — list workspace profiles
+  //   PATCH /profiles/:id/visibility          — set discovery visibility
+  //   PATCH /profiles/:id/claim-state         — advance to managed
+  // -------------------------------------------------------------------------
+
+  app.use('/profiles*', authMiddleware);
+  app.route('/profiles', profileRoutes);
 
   // -------------------------------------------------------------------------
   // P23: Workspace Analytics — tenant-scoped (different from /platform/analytics)
