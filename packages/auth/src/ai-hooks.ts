@@ -146,7 +146,7 @@ export function buildAIRoutingContext(
 export async function getNdprConsentStatus(
   userId: string,
   tenantId: string,
-  db: D1Database,
+  db: any,
 ): Promise<boolean> {
   // Queries superagent_consents (migration 0046 — dedicated AI consent table).
   // superagent_consents uses revoked_at IS NULL to indicate active consent.
@@ -159,7 +159,7 @@ export async function getNdprConsentStatus(
        LIMIT 1`,
     )
     .bind(userId, tenantId)
-    .first<{ granted: number }>();
+    .first() as any;
 
   return row !== null && row.granted === 1;
 }
