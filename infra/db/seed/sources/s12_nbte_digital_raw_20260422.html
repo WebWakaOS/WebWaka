@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TVET | Application</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/adminlte/fontawesome-free/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/adminlte/dist/css/adminlte.min.css">
+
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/adminlte/select2/css/select2.min.css">
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/adminlte/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/adminlte/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+
+    <link rel="stylesheet" href="https://www.digitalnbte.nbte.gov.ng/nbte.css">
+    
+
+    <style>
+        .card-nbte.card-outline {
+            border-top: 4px solid #00913e;
+        }
+        .btn-nbte {
+            color: #fff;
+            background-color: #00913e;
+            border-color: #00913e;
+            box-shadow: none;
+        }
+        .alert-nbte-error {
+            color: #fff;
+            background-color: #d9220a;
+            border-color: #d9220a;
+            border-radius: 0;
+            border-left:5px solid #891405;
+        }
+    </style>
+
+</head>
+<body style="margin-left:-62px;">
+
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-8 offset-2 mt-3">
+
+                <div class="card card-outline card-nbte">
+                    <div class="card-header text-center">
+                        <span class="h1"><b>New TVET Application</b><br><span style="color:red;">MCP,STC and VEI<b>(Please Do Not Apply Twice)</b></span></span>
+                    </div>
+                    <div class="card-body">
+                        <p class="login-box-msg">Please Fill The Form Below To Get Started <br>
+                            <span style="color:green;"><b>(Need Help? Contact NBTE via 02013306282)</b></span>
+                        </p>
+
+                        <form action="https://www.digitalnbte.nbte.gov.ng/TVET/TVETApplication2Save" id="TVETApplicationForm" method="post" enctype="multipart/form-data" autocomplete="off">
+                        <input type="hidden" name="_token" value="ncDWHNG5xYtIUrgK0e0CegALQ2WZnpfYg2Swvid3" autocomplete="off">                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="TVETName">Name of Institution/Master Craft Person <b>*</b></label>
+                                        <input type="text" class="form-control" id="TVETName" name="TVETName">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="password">Create Login Password to Portal<b>*</b></label>
+                                                <input type="password" class="form-control" id="password" name="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="passwordAgain">Re-Type Login Password <b>*</b></label>
+                                                <input type="password" class="form-control" id="passwordAgain" name="passwordAgain">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label> Category <b>*</b></label>
+                                                <select class="form-control select2bs4" style="width: 100%;" name="TVETCategory" id="TVETCategory">
+                                                    <option selected="selected" value="">Please Select a Category</option>
+                                                                                                            <option value="a8c54">Vocational Enterprise Institute (VEI)</option>
+                                                                                                            <option value="b1a38">Skill Training Center (STC)</option>
+                                                                                                            <option value="x35fq">Master Craft Person (MCP)</option>
+                                                                                                    </select>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-6 CACGroup">
+                                            <div class="form-group">
+                                                <label for="RCNumber">RC Number (CAC Number) <span id="CACspan"><b>*</b></span></label>
+                                                <input type="text" class="form-control" id="RCNumber" name="RCNumber">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>State <b>*</b></label>
+                                                <select class="form-control select2bs4" style="width: 100%;" name="stateCode" id="stateCode">
+                                                    <option selected="selected" value="">Please Select a State</option>
+                                                                                                            <option value="1">Abia</option>
+                                                                                                            <option value="2">Adamawa</option>
+                                                                                                            <option value="3">Akwa Ibom</option>
+                                                                                                            <option value="4">Anambra</option>
+                                                                                                            <option value="5">Bauchi</option>
+                                                                                                            <option value="6">Bayelsa</option>
+                                                                                                            <option value="7">Benue</option>
+                                                                                                            <option value="8">Borno</option>
+                                                                                                            <option value="9">Cross River</option>
+                                                                                                            <option value="10">Delta</option>
+                                                                                                            <option value="11">Ebonyi</option>
+                                                                                                            <option value="12">Edo</option>
+                                                                                                            <option value="13">Ekiti</option>
+                                                                                                            <option value="14">Enugu</option>
+                                                                                                            <option value="15">Federal Capital Territory</option>
+                                                                                                            <option value="16">Gombe</option>
+                                                                                                            <option value="17">Imo</option>
+                                                                                                            <option value="18">Jigawa</option>
+                                                                                                            <option value="19">Kaduna</option>
+                                                                                                            <option value="20">Kano</option>
+                                                                                                            <option value="21">Katsina</option>
+                                                                                                            <option value="22">Kebbi</option>
+                                                                                                            <option value="23">Kogi</option>
+                                                                                                            <option value="24">Kwara</option>
+                                                                                                            <option value="25">Lagos</option>
+                                                                                                            <option value="26">Nasarawa</option>
+                                                                                                            <option value="27">Niger</option>
+                                                                                                            <option value="28">Ogun</option>
+                                                                                                            <option value="29">Ondo</option>
+                                                                                                            <option value="30">Osun</option>
+                                                                                                            <option value="31">Oyo</option>
+                                                                                                            <option value="32">Plateau</option>
+                                                                                                            <option value="33">Rivers</option>
+                                                                                                            <option value="34">Sokoto</option>
+                                                                                                            <option value="35">Taraba</option>
+                                                                                                            <option value="36">Yobe</option>
+                                                                                                            <option value="37">Zamfara</option>
+                                                                                                    </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>LGA <b>*</b></label>
+                                                <select class="form-control select2bs4" style="width: 100%;" name="LGACode" id="LGACode">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Ownership <b>*</b></label>
+                                                <select class="form-control" name="ownership" id="ownership">
+                                                    <option selected="selected" value="">Select Ownership</option>
+                                                    <option value="Federal">Federal</option>
+                                                    <option value="Private">Private</option>
+                                                    <option value="State">State</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phoneNumber1">Phone Number<span style="color:red;"><b>(Use Valid)</b></span> <b>*</b></label>
+                                                <input type="text" class="form-control" id="phoneNumber1" name="phoneNumber1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emailAddress1">Email Address<span style="color:red;"><b>(Use Valid)</b></span> <b>*</b></label>
+                                        <input type="text" class="form-control" id="emailAddress1" name="emailAddress1">
+                                    </div>
+                                    
+
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Location Address (Institution/Workshop) <b>*</b></label>
+                                                <textarea class="form-control" name="locationAddress" id="locationAddress" rows="2" placeholder="Location Address" style="resize:none"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card card-nbte">
+                                        <div class="card-header">
+                                            <h3 class="card-title">TRADES FOR TVET INTERVENTION (Select Your Trade(s))</h3>
+                                        </div>
+                                        <div class="card-body renew">
+                                            <table id="" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Action</th>
+                                                        <th>Trade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="1" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Solar PV Installation &amp; Maintenance</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="2" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Painting, Decoration &amp; Finishes (Interior Design)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="3" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Electrical Installations</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="4" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Mechanized Agriculture (Mechanics)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="5" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Mechanized Agriculture (Operations)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="6" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Welding &amp; Fabrication</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="7" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Computer Hardware Repair &amp; Maintenance</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="8" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Home Electrical Appliances Repair and Maintenance</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="9" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Furniture Making &amp; Upholstery</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="10" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Floor Cladding</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="11" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Floor and Wall Tiling</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="12" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Social Media Communications</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="13" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Creative Media (Digital Media Production)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="14" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Motorcycle &amp; Tricycle Assembly, Repair and Maintenance </td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="15" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Vulcanising &amp; Tire Repair</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="16" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Auto-body Works (Panel Beating)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="17" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Fashion Design and Tailoring</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="18" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Automobile Mechanics</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="19" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Beauty Therapy &amp; Cosmetology</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="20" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Networking and System Security Installation</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="21" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Hospitality and Catering Training </td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="22" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Livestock Farming (Beekeeping)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="23" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Livestock Farming (Poultry)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="24" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Livestock Farming (Animal Husbandry)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="25" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Plumbing &amp; Pipe Fitting </td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="26" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Automobile CNG Conversion &amp; Maint.</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="27" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Refrigeration &amp; Air-Conditioning</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="28" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Bricklaying, Block laying &amp; Concreting and Interlocking</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="29" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Woodwork, Carpentry &amp; Joinery </td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="30" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Automotive Mechatronics</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="31" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Aluminium Fabrication</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="32" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Livestock Farming (Fisheries and Aquaculture)</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="33" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Satellite &amp; CCTV Installation and Maintenance</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="34" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Blacksmithing </td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="35" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Leather Work</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="36" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Rice Milling</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="37" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Crop Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="38" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Pasture Cultivation</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="39" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Agricultural Implement</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="40" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Horticulture Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="41" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Feed Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="42" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Beef Cattle Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="43" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Dairy Cattle Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="44" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Feed Mill</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="45" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Poultry House Maintenance and Installation</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="127" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Industrial Garment Manufacturing</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="128" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Leather Works</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="129" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Artisanal Textile Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="130" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Film Production</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="131" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Broadcasting Technical Services</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="132" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Live Production and Technical Services</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="133" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Touring Operations</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="134" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Catering</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="135" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Tourism and Travel</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" name="tradeCode[]" value="136" class="tradeCodeCheck">
+                                                        </td>
+                                                        <td>Immersive Technologies</td>
+                                                        <span id="headerCode" style="display:none"></span>
+                                                    </tr>
+                                                     
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="text-center" id="Loader" style="display:none">
+                                <img src="https://www.digitalnbte.nbte.gov.ng/TVET/Images/loader.gif" alt="loader" style="width:200px;height:15px" class="img-fluid">
+                            </div>
+                            <div id="ReturnedMessageDiv"></div>
+                            <p class="mt-1">
+                                <a href="https://www.digitalnbte.nbte.gov.ng/TVET/TVETLogin">Already Registered? Click to Login</a>
+                            </p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-nbte btn-block">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                            
+                
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="modal fade" id="TVETPromptModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:red;">Please Spare One Minute to Read Below</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol style="font-weight:bold;color:red;padding-left:20px;">
+                    <li>After Successfully Submitting, You will be Redirected to Application Page, Copy your User ID (You will use it to Login to the Portal together with the Password you created). Please Fill the Neccessary Information and Submit to NBTE.</li>
+                    <li>MOU's Shall no longer be acceptable as part of accreditation requirements in the TVET Initiative Program, only Centres with adequate facilities and resources can apply.</li>
+                    <li>Do not pay any amount until the system generates an invoice for you.</li>
+                    <li>Payments are not refundable.</li>
+                </ol>
+                <p><span style="font-weight:bold;color:#891405;text-decoration:underline;">By continuing with this application or clicking the button below, you formally acknowledge that you have read, understood, and accepted these terms and conditions as fully binding.</span></p>
+                <a href="https://www.digitalnbte.nbte.gov.ng/Public/DownloadTVETSOP/AccreditationMCPSTCVEI.pdf" class="btn btn-block btn-nbte btn-xs">Download Requirements For Free</a>
+                <button type="button" class="btn btn-block btn-warning btn-xs" data-dismiss="modal">I Accept & Close!</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="MCPModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:blue;">Master Craft Person (MCP) Requirement</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><span>
+                • CAC Registration or National Identification Number <br>
+                • Adoption of NSQ-Based Curricula <br>
+                • Minimum of one Qualified/Experienced Senior Artisan/Craftsperson per program with at least NSQ Level 3 certification (maintaining a ratio of one qualified junior artisan/craftsperson per five trainees)<br>
+                • Provision of Essential Physical Facilities including workshops and restrooms<br>
+                • Demonstrated Training Experience covering previous training programs, levels of training provided, and certifications awarded.<br>
+                </span></p>
+                <button type="button" class="btn btn-block btn-warning btn-xs" data-dismiss="modal">I have Read the Above, Close!</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="TCModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:blue;">SKILL TRAINING CENTRE (STC) Requirement</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><span>
+                • Proof of registration with the Corporate Affairs Commission (CAC) <br>
+    • Adoption of NSQ-Based Curricula<br>
+    • Minimum of one Qualified/Experienced Senior Artisan/Craftsperson or Qualified Instructor per program with at least NSQ Level 3 certification. <br>
+    • At least one Quality Assurance Assessor (QAA) per trade and one certified Internal Quality Assurance Manager (IQAM) assigned to the training center (If unavailable, centres are to engage part-time QAA & IQAM).<br>
+    • Adequate technical and support staff for each workshop<br>
+    • Provision of Essential Physical Facilities: including workshops/studios/field training areas, offices, and restrooms<br>
+    • Demonstrated training experience covering previous training programs, levels of training provided, and certifications awarded</span></p>
+                <button type="button" class="btn btn-block btn-warning btn-xs" data-dismiss="modal">I have Read the Above, Close!</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="VEIModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:blue;">VOCATIONAL ENTERPRISE INSTITUTION (VEI) Requirement</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><span>
+                • Proof of registration with the Corporate Affairs Commission (CAC) <br>
+    • Adoption of NSQ-Based Curricula <br>
+    • A minimum of one Qualified Instructor per trade, maintaining a ratio of 1 instructor to 40 students <br>
+    • At least one Quality Assurance Assessor (QAA) per trade and one certified Internal Quality Assurance Manager (IQAM) assigned to the training center (If unavailable, centres are to engage part-time QAA & IQAM). <br>
+    • Availability of essential physical infrastructure, including workshops/studios/field facilities, offices, classrooms, and restrooms <br>
+    • Documented training experience, including past training programs, levels of training offered, and certifications awarded </span></p>
+                <button type="button" class="btn btn-block btn-warning btn-xs" data-dismiss="modal">I have Read the Above, Close!</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/jquery/jquery.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/dist/js/adminlte.min.js"></script>
+
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/select2/js/select2.full.min.js"></script>
+
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables/jquery.dataTables.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/jszip/jszip.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/pdfmake/pdfmake.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/pdfmake/vfs_fonts.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="https://www.digitalnbte.nbte.gov.ng/adminlte/datatables-buttons/js/buttons.colVis.min.js"></script>
+    
+<script>
+
+    $(document).ready(function () {  
+        
+        $("#TVETPromptModal").modal({
+                backdrop : 'static',
+                keyboard: false
+            });
+        $("#TVETPromptModal").modal('show');
+
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        });
+
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+
+        $("#TVETCategory").on('change', function (e) {
+                
+            if ($(this).val() != "") {
+                
+                var TVETCategory = $(this).val();
+
+                if (TVETCategory == "x35fq") 
+                {
+                    $(".CACGroup").hide();
+                }
+                else
+                {
+                    $(".CACGroup").show();
+                }
+
+                switch (TVETCategory) {
+                    case "x35fq":
+                        $("#MCPModal").modal({
+                            backdrop : 'static',
+                            keyboard: false
+                        });
+                        $("#MCPModal").modal('show');
+                    break;
+
+                    case "a8c54":
+                        $("#VEIModal").modal({
+                            backdrop : 'static',
+                            keyboard: false
+                        });
+                        $("#VEIModal").modal('show');
+                    break;
+                
+                    case "b1a38":
+                        $("#TCModal").modal({
+                            backdrop : 'static',
+                            keyboard: false
+                        });
+                        $("#TCModal").modal('show');
+                    break;
+                }
+
+            }
+            
+
+        });
+
+   
+
+        $("#stateCode").on('change', function (e) {
+                
+            $("#LGACode").html("");
+
+            if ($(this).val() != "") {
+                
+                var stateCode = $(this).val();
+
+                $.ajax({
+                    url:"https://www.digitalnbte.nbte.gov.ng/GetLGAListPublic",
+                    method:"post",
+                    data:{"_token":"ncDWHNG5xYtIUrgK0e0CegALQ2WZnpfYg2Swvid3", "stateCode":stateCode},
+                    success:function(data){
+                        $("#LGACode").append(data);
+                    }
+                });
+
+
+            }
+
+            
+
+        });
+
+        $("#TVETApplicationForm").on('submit', function (e) {
+            
+            e.preventDefault(); 
+
+            swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Submit it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                        
+                    if (result.isConfirmed) {
+
+                        var tradeCode = [];
+
+                        $(".tradeCodeCheck:checked").each(function(){
+                            tradeCode.push($(this).val());
+                        });
+                        
+
+                        if(tradeCode.length > 0){
+
+                            $.ajax({
+                                url:$(this).attr('action'),
+                                method:$(this).attr('method'),
+                                data: new FormData(this),
+                                processData:false,
+                                dataType:'json',
+                                contentType:false,
+                                cache:false,
+                                processData:false,
+                                beforeSend:function(){
+                                    $('#Loader').show();
+                                    $('#ReturnedMessageDiv').html("");
+                                },
+                                success:function(data){
+                                    $('#Loader').hide();
+
+                                    if (data.Status == 1) {
+                                        $("#TVETApplicationForm")[0].reset();
+                                        alert(data.Message);
+                                        window.location.href = "https://www.digitalnbte.nbte.gov.ng/TVET/TVETApplication2/TAC2Application"
+                                        $('#ReturnedMessageDiv').html("<div class='alert alert-nbte-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+data.Message+"</div>");
+                                    }
+
+                                    if (data.Status == 0) {
+
+                                        var err = '';
+                                        $.each(data.error, function (prefix, val) {
+                                            err += val + "<br>";
+                                        })
+
+                                        $('#ReturnedMessageDiv').html("<div class='alert alert-nbte-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+err+"</div>");
+
+                                    }
+
+                                    if (data.Status == 0.5) {
+
+                                        $('#ReturnedMessageDiv').html("<div class='alert alert-nbte-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+data.Message+"</div>");
+
+                                    }
+
+                                    
+                                    
+                                },
+                                error:function(data){
+                                    $('#Loader').hide();
+                                    $('#ReturnedMessageDiv').html("<div class='alert alert-nbte-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>An Error has Occurred</div>");
+                                }
+                            });
+                    
+                    }else{
+                        $('#ReturnedMessageDiv').html("<div class='alert alert-nbte-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>Select At Least one Trade Before You Submit</div>");
+                        that.html('Submit');
+                        return;
+                    }
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    that.html('Submit');
+                }
+            });
+
+            
+
+        });
+        
+
+    });
+
+</script>
+
+</body>
+</html>

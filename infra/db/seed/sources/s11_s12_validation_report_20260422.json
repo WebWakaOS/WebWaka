@@ -1,0 +1,68 @@
+{
+  "validated_at": "2026-04-22",
+  "migrations": [
+    {
+      "file": "0366_s11_agro_farms_osm.sql",
+      "status": "PASS",
+      "orgs": 113,
+      "esrc": 113,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0367_s11_water_infrastructure_osm.sql",
+      "status": "PASS",
+      "orgs": 177,
+      "esrc": 177,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0368_s11_supply_chain_osm.sql",
+      "status": "PASS",
+      "orgs": 5,
+      "esrc": 5,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0369_s12_nuc_federal_universities.sql",
+      "status": "PASS",
+      "orgs": 74,
+      "esrc": 74,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0370_s12_nuc_state_universities.sql",
+      "status": "PASS",
+      "orgs": 66,
+      "esrc": 66,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0371_s12_nuc_private_universities.sql",
+      "status": "PASS",
+      "orgs": 167,
+      "esrc": 167,
+      "idempotent": true,
+      "error": ""
+    },
+    {
+      "file": "0372_s12_professional_services_osm.sql",
+      "status": "PASS",
+      "orgs": 102,
+      "esrc": 102,
+      "idempotent": true,
+      "error": ""
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "all_idempotent": true,
+    "esrc_matches_orgs": true
+  }
+}

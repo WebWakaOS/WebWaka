@@ -1,0 +1,130 @@
+{
+  "session": "S11_S12_Agriculture_Professional_2026-04-22",
+  "date": "2026-04-22",
+  "phase": "S11 (Agriculture, Food Systems, Supply Chain) + S12 (Professional, Creator, Media, Knowledge Economy)",
+  "migrations_generated": [
+    {
+      "file": "0366_s11_agro_farms_osm.sql",
+      "label": "S11 Agriculture \u2014 OSM Farmyards/Farm Shops Nigeria",
+      "entities": 113,
+      "source": "OpenStreetMap Overpass API",
+      "source_type": "public_data",
+      "vertical": "farm",
+      "quads_collected": "SW+SE+NE (NW rate-limited)",
+      "notes": "landuse=farmyard, amenity=farm_shop, building=farm"
+    },
+    {
+      "file": "0367_s11_water_infrastructure_osm.sql",
+      "label": "S11 Water Infrastructure \u2014 OSM Boreholes/Water Works",
+      "entities": 177,
+      "source": "OpenStreetMap Overpass API",
+      "source_type": "public_data",
+      "vertical": "water_infrastructure",
+      "quads_collected": "SW+SE (NW+NE rate-limited)",
+      "notes": "man_made=water_tower/water_works/water_well/pump_station/borehole"
+    },
+    {
+      "file": "0368_s11_supply_chain_osm.sql",
+      "label": "S11 Supply Chain \u2014 OSM Warehouses + Agro-Input Shops",
+      "entities": 5,
+      "source": "OpenStreetMap Overpass API",
+      "source_type": "public_data",
+      "vertical": "supply_chain",
+      "quads_collected": "SW+SE",
+      "notes": "building=warehouse + shop=agrarian/garden_centre; very sparse in OSM"
+    },
+    {
+      "file": "0369_s12_nuc_federal_universities.sql",
+      "label": "S12 Federal Universities \u2014 NUC Accredited",
+      "entities": 74,
+      "source": "National Universities Commission (NUC)",
+      "source_url": "https://www.nuc.edu.ng/nigerian-univerisities/federal-univeristies/",
+      "source_type": "official_register",
+      "vertical": "university",
+      "notes": "HTML extraction via regex parsing; year_est present for all"
+    },
+    {
+      "file": "0370_s12_nuc_state_universities.sql",
+      "label": "S12 State Universities \u2014 NUC Accredited",
+      "entities": 66,
+      "source": "National Universities Commission (NUC)",
+      "source_url": "https://www.nuc.edu.ng/nigerian-univerisities/state-univerisity/",
+      "source_type": "official_register",
+      "vertical": "university",
+      "notes": "HTML extraction; some names contain VC name artifacts cleaned by regex"
+    },
+    {
+      "file": "0371_s12_nuc_private_universities.sql",
+      "label": "S12 Private Universities \u2014 NUC Accredited",
+      "entities": 167,
+      "source": "National Universities Commission (NUC)",
+      "source_url": "https://www.nuc.edu.ng/nigerian-univerisities/private-univeristies/",
+      "source_type": "official_register",
+      "vertical": "university",
+      "notes": "Largest batch; includes all NUC-licensed private institutions"
+    },
+    {
+      "file": "0372_s12_professional_services_osm.sql",
+      "label": "S12 Professional Services \u2014 OSM Law Firms, Courthouses, Studios",
+      "entities": 102,
+      "source": "OpenStreetMap Overpass API + S13 OSM courthouse/law_firm data",
+      "source_type": "public_data",
+      "vertical": "legal_services / creative_media",
+      "breakdown": {
+        "courthouse": 90,
+        "law_firm": 10,
+        "studio_recording": 2
+      },
+      "notes": "courthouse data from S13 0345b; law_firm from S13 + S12 SW quad"
+    }
+  ],
+  "sources_researched": {
+    "accessible_and_extracted": [
+      "NUC (307 universities via HTML regex parsing)"
+    ],
+    "accessible_no_entity_list": [
+      "FMARD (agriculture.gov.ng \u2014 programme/news only, no entity register)",
+      "NAFDAC (food-database uses wpdatatable JS plugin, not static HTML)",
+      "agriculture.gov.ng (programmes page, no searchable entity database)"
+    ],
+    "inaccessible": [
+      "MDCN (Vue SPA, doctor register requires JS rendering)",
+      "NBC (no accessible licensee list on website)",
+      "NAFDAC food database (wpdatatable plugin \u2014 requires JS + server-side query)",
+      "NBTE (Drupal CMS \u2014 institution lists not accessible as static HTML)",
+      "ICAN (accountants directory inaccessible)",
+      "ARCON (architects register inaccessible)",
+      "PCN (pharmacists register inaccessible)"
+    ],
+    "osm_rate_limited": [
+      "NW quadrant (9.0\u201313.9\u00b0N, 2.7\u20138.75\u00b0E) for most categories",
+      "NE quadrant for most S12 categories"
+    ]
+  },
+  "totals": {
+    "migrations": 7,
+    "entities": 704,
+    "official_source_entities": 307,
+    "osm_entities": 397,
+    "sqlite_validation": "7/7 PASS",
+    "idempotent": true
+  },
+  "validation": {
+    "method": "SQLite in-memory with minimal schema (0002+0005+0008+0301+0304+0314c+0314d DDL)",
+    "result": "7/7 PASS",
+    "esrc_matches_orgs": true,
+    "all_idempotent": true,
+    "check_constraints_fixed": [
+      "seed_entity_sources.source_type: 'government_registry' \u2192 'official_register'",
+      "seed_entity_sources.confidence_level: 'government_official' \u2192 'source_verified'"
+    ]
+  },
+  "file_locations": {
+    "migrations": "apps/api/migrations/0366\u20130372 + infra/db/migrations/0366\u20130372",
+    "nuc_raw_artifacts": "infra/db/seed/sources/s12_nuc_*_raw_20260422.html",
+    "nuc_extracted_json": "infra/db/seed/sources/s12_nuc_universities_extracted_20260422.json",
+    "osm_compiled_s11": "infra/db/seed/sources/s11_osm_compiled_20260422.json",
+    "osm_compiled_s12": "infra/db/seed/sources/s12_osm_compiled_20260422.json",
+    "validation_report": "infra/db/seed/sources/s11_s12_validation_report_20260422.json"
+  }
+}

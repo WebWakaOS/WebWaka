@@ -1,0 +1,223 @@
+{
+  "federal": [
+    {
+      "name": "Michael Okpara University of Agricultural Umudike Professor Ursula Ngozi Akanwa",
+      "website": "https://www.mouau.edu.ng",
+      "year_est": "1992"
+    },
+    {
+      "name": "Nigeria Police Academy Wudil AIG Sadiq Idris Abubakar",
+      "website": "https://polac.edu.ng/",
+      "year_est": "2013"
+    },
+    {
+      "name": "Nigerian Defence Academy Kaduna Professor Isah Garba (Provost)",
+      "website": "https://www.nda.edu.ng",
+      "year_est": "1985"
+    },
+    {
+      "name": "Usumanu Danfodiyo University",
+      "website": "https://www.udusok.edu.ng",
+      "year_est": "1975"
+    },
+    {
+      "name": "Nigerian Army University Biu Lawan B. Buratai",
+      "website": "https://naub.edu.ng/",
+      "year_est": "2018"
+    },
+    {
+      "name": "African Aviation and Aerospace University",
+      "website": "https://aaau.edu.ng/",
+      "year_est": "2023"
+    }
+  ],
+  "state": [
+    {
+      "name": "Rivers State University",
+      "website": "https://www.rsu.edu.ng",
+      "year_est": "1979"
+    },
+    {
+      "name": "Ekiti State University",
+      "website": "https://www.eksu.edu.ng",
+      "year_est": "1982"
+    },
+    {
+      "name": "Delta State University Abraka",
+      "website": "https://www.delsu.edu.ng",
+      "year_est": "1992"
+    },
+    {
+      "name": "Prince Abubakar Audu University Anyigba",
+      "website": "https://www.ksu.edu.ng",
+      "year_est": "1999"
+    },
+    {
+      "name": "Niger Delta University Yenagoa",
+      "website": "https://www.ndu.edu.ng",
+      "year_est": "2000"
+    },
+    {
+      "name": "Adamawa State University Mubi",
+      "website": "https://www.adsu.edu.ng",
+      "year_est": "2002"
+    },
+    {
+      "name": "Nasarawa State University Keffi",
+      "website": "https://www.nsuk.edu.ng",
+      "year_est": "2002"
+    },
+    {
+      "name": "Plateau State University Bokkos",
+      "website": "https://www.plasu.edu.ng",
+      "year_est": "2005"
+    },
+    {
+      "name": "Osun State University Osogbo Prof Odunayo Clement Adeboye",
+      "website": "https://www.uniosun.edu.ng",
+      "year_est": "2006"
+    },
+    {
+      "name": "Sokoto State University",
+      "website": "https://www.ssu.edu.ng",
+      "year_est": "2009"
+    },
+    {
+      "name": "Northwest University Kano",
+      "website": "https://www.nwu.edu.ng",
+      "year_est": "2012"
+    },
+    {
+      "name": "First Technical University Ibadan",
+      "website": "https://tech-u.edu.ng/",
+      "year_est": "2012"
+    },
+    {
+      "name": "Moshood Abiola University of Science and Technology Abeokuta Prof Akinwale Coker",
+      "website": "",
+      "year_est": "2017"
+    },
+    {
+      "name": "Zamfara State University Prof Yahaya Zakari Abdullahi",
+      "website": "",
+      "year_est": "2018"
+    },
+    {
+      "name": "Bayelsa Medical University",
+      "website": "https://bmu.edu.ng/",
+      "year_est": "2019"
+    },
+    {
+      "name": "Lagos State University of Science and Technology Ikorodu",
+      "website": "",
+      "year_est": "2022"
+    },
+    {
+      "name": "Emanuel Alayande University of Education Oyo",
+      "website": "",
+      "year_est": "2022"
+    }
+  ],
+  "private": [
+    {
+      "name": "Igbinedion University Okada Professor Lawrence Ikechukwu Ezemonye",
+      "website": "https://www.iuokada.edu.ng",
+      "year_est": "1999"
+    },
+    {
+      "name": "Covenant University Ota",
+      "website": "https://www.covenantuniversity.edu.ng/",
+      "year_est": "2002"
+    },
+    {
+      "name": "Crawford University Igbesa",
+      "website": "https://www.crawforduniversity.edu.ng",
+      "year_est": "2005"
+    },
+    {
+      "name": "Crescent University Professor Ibrahim Gbajabiamila",
+      "website": "https://www.crescent-university.edu.ng",
+      "year_est": "2005"
+    },
+    {
+      "name": "Wesley University Ondo",
+      "website": "https://www.wesleyuni.edu.ng",
+      "year_est": "2007"
+    },
+    {
+      "name": "Baze University",
+      "website": "https://www.bazeuniversity.edu.ng",
+      "year_est": "2011"
+    },
+    {
+      "name": "Augustine University",
+      "website": "https://www.augustineuniversity.edu.ng/",
+      "year_est": "2015"
+    },
+    {
+      "name": "Chrisland University",
+      "website": "https://www.chrislanduniversity.edu.ng",
+      "year_est": "2015"
+    },
+    {
+      "name": "Mountain Top University Prof Elijah Ayolabi",
+      "website": "https://www.mtu.edu.ng",
+      "year_est": "2015"
+    },
+    {
+      "name": "Christopher University Mowe",
+      "website": "https://www.christopheruniversity.edu.ng/",
+      "year_est": "2015"
+    },
+    {
+      "name": "Anchor University Ayobo Lagos State",
+      "website": "https://www.aul.edu.ng/",
+      "year_est": "2016"
+    },
+    {
+      "name": "Dominican University Ibadan Oyo State",
+      "website": "https://www.dui.edu.ng/",
+      "year_est": "2016"
+    },
+    {
+      "name": "Arthur Javis University Akpoyubo Cross river State",
+      "website": "https://www.arthurjarvisuniversity.edu.ng/",
+      "year_est": "2016"
+    },
+    {
+      "name": "Coal City University Enugu State",
+      "website": "https://www.ccu.edu.ng/",
+      "year_est": "2016"
+    },
+    {
+      "name": "Clifford University Owerrinta Abia State",
+      "website": "https://www.clifforduni.edu.ng/",
+      "year_est": "2016"
+    },
+    {
+      "name": "Atiba University Oyo Prof Sunday Okeniyi",
+      "website": "",
+      "year_est": "2017"
+    },
+    {
+      "name": "Trinity University Ogun State",
+      "website": "https://www.trinityuniversity.edu.ng/",
+      "year_est": "2019"
+    },
+    {
+      "name": "NorthWest University Sokoto State",
+      "website": "https://nwus.edu.ng/",
+      "year_est": "2022"
+    },
+    {
+      "name": "Muhammad Kamalud University Kwara",
+      "website": "",
+      "year_est": "2023"
+    },
+    {
+      "name": "Cosmopolitan University Abuja",
+      "website": "",
+      "year_est": "2023"
+    }
+  ]
+}
