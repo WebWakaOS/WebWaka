@@ -1,5 +1,7 @@
 # GitHub Repository Variables and Secrets Setup
 
+**STATUS: Variables set 2026-04-22 via GitHub API (user: changerhydro, repo: WebWakaOS/WebWaka)**
+
 Required for CI/CD workflows (`deploy-staging.yml` and `deploy-production.yml`).
 
 ## Repository Variables (Settings → Secrets and variables → Actions → Variables)

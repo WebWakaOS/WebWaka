@@ -82,7 +82,9 @@ Phase S05 batch 3 (National Assembly current legislators) completed on 2026-04-2
 **Commerce P2/P3 Entitlement Gap CLOSED (2026-04-22, ENT-006): All 36 Commerce P2/P3 vertical routes now require `requireEntitlement(PlatformLayer.Commerce)` consistent with P1.**
 **Super-admin: One existing super_admin found at email admin@webwaka.com, tenant ten_platform. Migration 0377 is idempotent (INSERT OR IGNORE).**
 **DNS: api.webwaka.com → AAAA 100:: (proxied) ✓. api-staging.webwaka.com → AAAA 100:: (proxied) ✓. Both configured on zone ee14050f896d897ad93d300397d0d26d.**
-**GitHub Actions variables: STAGING_BASE_URL / PRODUCTION_BASE_URL / SMOKE_TENANT_ID — documented in docs/owner-actions/github-variables-setup.md. Must be set manually (no GitHub token in environment).**
+**GitHub Actions variables: STAGING_BASE_URL / PRODUCTION_BASE_URL / SMOKE_TENANT_ID — SET 2026-04-22 via GitHub API on repo WebWakaOS/WebWaka (user: changerhydro).**
+**Notificator Worker: DEPLOYED to production 2026-04-22. NOTIFICATION_PIPELINE_ENABLED="1" live. Consumer active on webwaka-notification-queue-production. Custom domain: notificator.webwaka.com.**
+**PAYSTACK_SECRET_KEY: PENDING — must be set via `wrangler secret put PAYSTACK_SECRET_KEY --env production` in apps/api/ once the Paystack key is available.**
 **Backlog tracking: `docs/ops/implementation-plan.md` — phases P1–P25 defined**
 **Notification Engine v2 — CANONICAL IMPLEMENTATION-READY: `docs/webwaka-notification-engine-final-master-specification-v2.md` (all 13 OQ decisions resolved, 25 guardrails G1-G25, 16-entity domain model, ~180d revised effort, N-001–N-133 backlog, 9 phases — supersedes all 4 prior notification docs)**
 **Notification Engine v2 Merge Report: `docs/webwaka-notification-engine-v2-merge-report.md` (full change log and QA checklist for the v1.0 + Section 13 merge)**
