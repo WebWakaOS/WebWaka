@@ -1,0 +1,1 @@
+-- Rollback script for 0302_vertical_registry_seed
