@@ -364,9 +364,10 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.route('/commerce', commerceRoutes);
 
   // -------------------------------------------------------------------------
-  // M9: Commerce P2 Batch 1 vertical routes — auth required (T3, P9, P10, P12, P13)
+  // M9: Commerce P2 Batch 1 vertical routes — auth + Commerce entitlement (T3, P9, P10, P12, P13)
   // Verticals: auto-mechanic, bakery, beauty-salon, bookshop, catering,
   //            cleaning-service, electronics-repair, florist, food-vendor
+  // ENT-006: Commerce entitlement added S14 — consistent with P1 /commerce/* and /pos-business/*
   // -------------------------------------------------------------------------
 
   app.use('/auto-mechanic/*', authMiddleware);
@@ -378,10 +379,20 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/electronics-repair/*', authMiddleware);
   app.use('/florist/*', authMiddleware);
   app.use('/food-vendor/*', authMiddleware);
+  app.use('/auto-mechanic/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/bakery/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/beauty-salon/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/bookshop/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/catering/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/cleaning-service/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/electronics-repair/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/florist/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/food-vendor/*', requireEntitlement(PlatformLayer.Commerce));
   app.route('/', commerceP2Routes);
 
   // -------------------------------------------------------------------------
-  // Commerce P2 Batch 2 (M9/M10): 12 verticals
+  // Commerce P2 Batch 2 (M9/M10): 12 verticals — auth + Commerce entitlement
+  // ENT-006: Commerce entitlement added S14
   // -------------------------------------------------------------------------
 
   app.use('/construction/*', authMiddleware);
@@ -396,10 +407,23 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/tailor/*', authMiddleware);
   app.use('/travel-agent/*', authMiddleware);
   app.use('/welding-fabrication/*', authMiddleware);
+  app.use('/construction/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/fuel-station/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/print-shop/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/property-developer/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/real-estate-agency/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/restaurant-chain/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/security-company/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/solar-installer/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/spa/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/tailor/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/travel-agent/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/welding-fabrication/*', requireEntitlement(PlatformLayer.Commerce));
   app.route('/', commerceP2Batch2Routes);
 
   // -------------------------------------------------------------------------
-  // Commerce P3 (M10/M11/M12): 15 verticals — auth required (T3, P9, P12, P13)
+  // Commerce P3 (M10/M11/M12): 15 verticals — auth + Commerce entitlement (T3, P9, P12, P13)
+  // ENT-006: Commerce entitlement added S14
   // -------------------------------------------------------------------------
 
   app.use('/api/v1/artisanal-mining/*', authMiddleware);
@@ -418,6 +442,22 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/api/v1/tyre-shop/*', authMiddleware);
   app.use('/api/v1/used-car-dealer/*', authMiddleware);
   app.use('/api/v1/water-vendor/*', authMiddleware);
+  app.use('/api/v1/artisanal-mining/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/borehole-driller/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/building-materials/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/car-wash/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/cleaning-company/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/electrical-fittings/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/generator-dealer/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/hair-salon/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/petrol-station/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/phone-repair-shop/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/shoemaker/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/sole-trader/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/spare-parts/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/tyre-shop/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/used-car-dealer/*', requireEntitlement(PlatformLayer.Commerce));
+  app.use('/api/v1/water-vendor/*', requireEntitlement(PlatformLayer.Commerce));
   app.route('/api/v1', commerceP3Routes);
 
   // -------------------------------------------------------------------------

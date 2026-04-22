@@ -1,0 +1,46 @@
+-- 0376_s14_completion.sql
+-- Phase S14: Record S14 completion in seed_runs and update coverage snapshots.
+
+INSERT OR IGNORE INTO seed_runs (
+  id,
+  phase_id,
+  phase_name,
+  batch_name,
+  environment,
+  status,
+  actor,
+  rows_inserted,
+  rows_updated,
+  rows_extracted,
+  rows_rejected,
+  total_input_rows,
+  total_inserted_rows,
+  total_rejected_rows,
+  started_at,
+  completed_at,
+  notes,
+  run_state,
+  created_at,
+  updated_at
+) VALUES (
+  'seed_run_s14_completion_20260422',
+  'S14',
+  'Phase S14 — Search, Claim Readiness, Publication, Refresh',
+  'claim_readiness_publication',
+  'production',
+  'completed',
+  'agent',
+  79620,
+  78,
+  287190,
+  0,
+  79620,
+  79620,
+  0,
+  strftime('%s', '2026-04-22'),
+  strftime('%s', '2026-04-22'),
+  'S14 completion: all 79620 platform-seed profiles transitioned seeded to claimable. 280938 search_entries with FTS in sync. Refresh cadence recorded for 78 seed sources. QA passed: 0 empty keywords, 0 missing primary_place_id.',
+  'completed',
+  strftime('%s', '2026-04-22'),
+  strftime('%s', '2026-04-22')
+);

@@ -318,9 +318,7 @@ export async function getLedger(
   let cursorId: string | null = null;
   if (input.cursor) {
     try {
-      const decoded = JSON.parse(
-        Buffer.from(input.cursor, 'base64').toString(),
-      ) as { t: number; i: string };
+      const decoded = JSON.parse(atob(input.cursor)) as { t: number; i: string };
       cursorCreatedAt = typeof decoded.t === 'number' ? decoded.t : null;
       cursorId        = typeof decoded.i === 'string'  ? decoded.i : null;
     } catch { /* invalid cursor — start from beginning */ }
@@ -346,7 +344,7 @@ export async function getLedger(
   const hasMore  = rows.results.length > limit;
   const lastEntry = entries[entries.length - 1];
   const nextCursor = hasMore && lastEntry
-    ? Buffer.from(JSON.stringify({ t: lastEntry.createdAt, i: lastEntry.id })).toString('base64')
+    ? btoa(JSON.stringify({ t: lastEntry.createdAt, i: lastEntry.id }))
     : null;
 
   return { entries, nextCursor };

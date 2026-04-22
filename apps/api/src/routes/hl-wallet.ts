@@ -45,6 +45,17 @@ import {
   recordMlaEarning,
   listMlaEarningsPaginated,
   generateId,
+  initiateTransfer,
+  getTransferRequest,
+  listTransferRequests,
+  initiateWithdrawal,
+  getWithdrawalRequest,
+  listWithdrawalRequests,
+  confirmWithdrawal,
+  rejectWithdrawal,
+  initializeOnlineFunding,
+  verifyAndCompleteOnlineFunding,
+  verifyPaystackWebhookSignature,
 } from '@webwaka/hl-wallet';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
@@ -626,7 +637,7 @@ walletRoutes.get('/mla-earnings', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// POST /wallet/transfer — DISABLED in Phase 1
+// POST /wallet/transfer — W3: wallet-to-wallet transfer
 // ---------------------------------------------------------------------------
 
 walletRoutes.post('/transfer', async (c) => {
@@ -650,11 +661,111 @@ walletRoutes.post('/transfer', async (c) => {
     }, 503);
   }
 
-  return c.json({ error: 'not_implemented', message: 'Transfers not yet implemented' }, 501);
+  let body: {
+    to_wallet_id?: string;
+    to_user_id?:   string;
+    amount_kobo?:  number;
+    description?:  string;
+  } = {};
+  try { body = await c.req.json<typeof body>(); } catch {
+    return c.json({ error: 'invalid_json', message: 'Request body must be valid JSON.' }, 400);
+  }
+
+  if (!body.to_wallet_id || typeof body.to_wallet_id !== 'string') {
+    return c.json({ error: 'validation_error', message: 'to_wallet_id is required.' }, 400);
+  }
+  if (!body.to_user_id || typeof body.to_user_id !== 'string') {
+    return c.json({ error: 'validation_error', message: 'to_user_id is required.' }, 400);
+  }
+
+  try {
+    assertIntegerKobo(body.amount_kobo);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+
+  const fromWallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
+  if (!fromWallet) {
+    return c.json({ error: 'WALLET_NOT_FOUND', message: 'Sender wallet not found.' }, 404);
+  }
+
+  try {
+    const transfer = await initiateTransfer(c.env.DB as never, kv, {
+      fromWalletId: fromWallet.id,
+      toWalletId:   body.to_wallet_id,
+      fromUserId:   auth.userId,
+      toUserId:     body.to_user_id,
+      tenantId:     auth.tenantId,
+      amountKobo:   body.amount_kobo as number,
+      description:  body.description,
+    });
+
+    await publishEvent(c.env, {
+      eventId:   generateId('notif'),
+      eventKey:  'wallet.transfer.completed',
+      tenantId:  auth.tenantId,
+      actorId:   auth.userId,
+      actorType: 'user',
+      payload: {
+        transfer_id:   transfer.id,
+        from_wallet_id: transfer.fromWalletId,
+        to_wallet_id:   transfer.toWalletId,
+        amount_kobo:    transfer.amountKobo,
+        amount_naira:   (transfer.amountKobo / 100).toFixed(2),
+        reference:      transfer.reference,
+      },
+    }).catch(() => {});
+
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.transfer',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_transfer_request',
+      resourceId:   transfer.id,
+      statusCode:   201,
+      metadata:     { amount_kobo: transfer.amountKobo, to_wallet_id: transfer.toWalletId },
+    });
+
+    return c.json({ transfer }, 201);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// GET /wallet/transfers — list transfers for the current user's wallet
+walletRoutes.get('/transfers', async (c) => {
+  const auth   = c.get('auth');
+  const limit  = Math.min(parseInt(c.req.query('limit') ?? '50', 10), 100);
+  const cursor = c.req.query('cursor') ?? undefined;
+
+  const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
+  if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND' }, 404);
+
+  try {
+    const result = await listTransferRequests(c.env.DB as never, wallet.id, auth.tenantId, limit, cursor);
+    return c.json(result);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// GET /wallet/transfers/:id — get a single transfer
+walletRoutes.get('/transfers/:id', async (c) => {
+  const { id } = c.req.param();
+  const auth   = c.get('auth');
+
+  try {
+    const transfer = await getTransferRequest(c.env.DB as never, id, auth.tenantId);
+    return c.json({ transfer });
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
 });
 
 // ---------------------------------------------------------------------------
-// POST /wallet/withdraw — DISABLED in Phase 1
+// POST /wallet/withdraw — W4: bank withdrawal
 // ---------------------------------------------------------------------------
 
 walletRoutes.post('/withdraw', async (c) => {
@@ -678,15 +789,125 @@ walletRoutes.post('/withdraw', async (c) => {
     }, 503);
   }
 
-  return c.json({ error: 'not_implemented', message: 'Withdrawals not yet implemented' }, 501);
+  let body: {
+    amount_kobo?:    number;
+    bank_code?:      string;
+    account_number?: string;
+    account_name?:   string;
+  } = {};
+  try { body = await c.req.json<typeof body>(); } catch {
+    return c.json({ error: 'invalid_json', message: 'Request body must be valid JSON.' }, 400);
+  }
+
+  if (!body.bank_code || typeof body.bank_code !== 'string') {
+    return c.json({ error: 'validation_error', message: 'bank_code is required.' }, 400);
+  }
+  if (!body.account_number || typeof body.account_number !== 'string') {
+    return c.json({ error: 'validation_error', message: 'account_number is required.' }, 400);
+  }
+  if (!body.account_name || typeof body.account_name !== 'string') {
+    return c.json({ error: 'validation_error', message: 'account_name is required.' }, 400);
+  }
+
+  try {
+    assertIntegerKobo(body.amount_kobo);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+
+  const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
+  if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found.' }, 404);
+
+  try {
+    const withdrawal = await initiateWithdrawal(c.env.DB as never, kv, {
+      walletId:      wallet.id,
+      userId:        auth.userId,
+      tenantId:      auth.tenantId,
+      amountKobo:    body.amount_kobo as number,
+      bankCode:      body.bank_code,
+      accountNumber: body.account_number,
+      accountName:   body.account_name,
+    });
+
+    await publishEvent(c.env, {
+      eventId:   generateId('notif'),
+      eventKey:  'wallet.withdrawal.initiated',
+      tenantId:  auth.tenantId,
+      actorId:   auth.userId,
+      actorType: 'user',
+      payload: {
+        withdrawal_id: withdrawal.id,
+        wallet_id:     withdrawal.walletId,
+        amount_kobo:   withdrawal.amountKobo,
+        amount_naira:  (withdrawal.amountKobo / 100).toFixed(2),
+        bank_code:     withdrawal.bankCode,
+        account_number: withdrawal.accountNumber,
+        account_name:  withdrawal.accountName,
+        reference:     withdrawal.reference,
+        status:        withdrawal.status,
+      },
+    }).catch(() => {});
+
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.withdrawal.initiate',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_withdrawal_request',
+      resourceId:   withdrawal.id,
+      statusCode:   201,
+      metadata: {
+        amount_kobo:    withdrawal.amountKobo,
+        bank_code:      withdrawal.bankCode,
+        account_number: withdrawal.accountNumber,
+      },
+    });
+
+    return c.json({ withdrawal }, 201);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// GET /wallet/withdrawals — list withdrawal requests for the current user's wallet
+walletRoutes.get('/withdrawals', async (c) => {
+  const auth   = c.get('auth');
+  const limit  = Math.min(parseInt(c.req.query('limit') ?? '50', 10), 100);
+  const cursor = c.req.query('cursor') ?? undefined;
+
+  const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
+  if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND' }, 404);
+
+  try {
+    const result = await listWithdrawalRequests(c.env.DB as never, wallet.id, auth.tenantId, limit, cursor);
+    return c.json(result);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// GET /wallet/withdrawals/:id — get a single withdrawal request
+walletRoutes.get('/withdrawals/:id', async (c) => {
+  const { id } = c.req.param();
+  const auth   = c.get('auth');
+
+  try {
+    const withdrawal = await getWithdrawalRequest(c.env.DB as never, id, auth.tenantId);
+    return c.json({ withdrawal });
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
 });
 
 // ---------------------------------------------------------------------------
-// POST /wallet/fund/online — DISABLED in Phase 1 (card / Paystack)
+// POST /wallet/fund/online — W5: Paystack card / bank-transfer online funding
 // ---------------------------------------------------------------------------
 
 walletRoutes.post('/fund/online', async (c) => {
-  const kv = getWalletKv(c.env);
+  const kv   = getWalletKv(c.env);
+  const auth = c.get('auth');
+
   const enabled = await isFeatureEnabled('online_funding', kv);
   if (!enabled) {
     return c.json({
@@ -695,7 +916,138 @@ walletRoutes.post('/fund/online', async (c) => {
       message: 'Online wallet funding is not yet available. Please use bank transfer instead.',
     }, 503);
   }
-  return c.json({ error: 'not_implemented', message: 'Online funding not yet implemented' }, 501);
+
+  let body: { amount_kobo?: number; email?: string } = {};
+  try { body = await c.req.json<typeof body>(); } catch {
+    return c.json({ error: 'invalid_json', message: 'Request body must be valid JSON.' }, 400);
+  }
+
+  if (!body.email || typeof body.email !== 'string') {
+    return c.json({ error: 'validation_error', message: 'email is required.' }, 400);
+  }
+
+  try {
+    assertIntegerKobo(body.amount_kobo);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+
+  const wallet = await getWalletByUser(c.env.DB as never, auth.userId, auth.tenantId);
+  if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found.' }, 404);
+
+  const paystackSecretKey = (c.env as unknown as { PAYSTACK_SECRET_KEY?: string }).PAYSTACK_SECRET_KEY ?? '';
+
+  try {
+    const init = await initializeOnlineFunding(c.env.DB as never, kv, {
+      walletId:          wallet.id,
+      userId:            auth.userId,
+      tenantId:          auth.tenantId,
+      workspaceId:       wallet.workspaceId,
+      amountKobo:        body.amount_kobo as number,
+      email:             body.email,
+      paystackSecretKey,
+    });
+
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     auth.tenantId,
+      userId:       auth.userId,
+      action:       'wallet.fund.online.init',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_funding_request',
+      resourceId:   init.fundingRequestId,
+      statusCode:   201,
+      metadata:     { amount_kobo: init.amountKobo, reference: init.reference },
+    });
+
+    return c.json(init, 201);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// GET /wallet/fund/online/verify — Paystack redirect callback (W5)
+// ---------------------------------------------------------------------------
+
+walletRoutes.get('/fund/online/verify', async (c) => {
+  const auth      = c.get('auth');
+  const kv        = getWalletKv(c.env);
+  const reference = c.req.query('reference');
+
+  if (!reference) {
+    return c.json({ error: 'validation_error', message: 'reference query parameter is required.' }, 400);
+  }
+
+  const paystackSecretKey = (c.env as unknown as { PAYSTACK_SECRET_KEY?: string }).PAYSTACK_SECRET_KEY ?? '';
+
+  try {
+    const result = await verifyAndCompleteOnlineFunding(
+      c.env.DB as never,
+      kv,
+      reference,
+      auth.tenantId,
+      paystackSecretKey,
+      auth.userId,
+    );
+    return c.json(result);
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// POST /wallet/fund/paystack-webhook — Paystack webhook (W5)
+// Public endpoint — no auth, signature-verified.
+// ---------------------------------------------------------------------------
+
+walletRoutes.post('/fund/paystack-webhook', async (c) => {
+  const signature = c.req.header('x-paystack-signature') ?? '';
+  const rawBody   = await c.req.text();
+  const paystackSecretKey = (c.env as unknown as { PAYSTACK_SECRET_KEY?: string }).PAYSTACK_SECRET_KEY ?? '';
+
+  if (!paystackSecretKey) {
+    return c.json({ error: 'not_configured' }, 400);
+  }
+
+  const valid = await verifyPaystackWebhookSignature(rawBody, signature, paystackSecretKey);
+  if (!valid) {
+    return c.json({ error: 'invalid_signature' }, 401);
+  }
+
+  let event: { event?: string; data?: { reference?: string; customer?: { email?: string } } };
+  try { event = JSON.parse(rawBody); } catch {
+    return c.json({ error: 'invalid_json' }, 400);
+  }
+
+  if (event.event !== 'charge.success') {
+    return c.json({ received: true, action: 'ignored' });
+  }
+
+  const reference = event.data?.reference;
+  if (!reference) return c.json({ received: true, action: 'no_reference' });
+
+  const kv = getWalletKv(c.env);
+
+  const orderRow = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
+  }).prepare(`
+    SELECT bto.id, bto.tenant_id, fr.id AS funding_id
+    FROM bank_transfer_orders bto
+    JOIN hl_funding_requests fr ON fr.bank_transfer_order_id = bto.id
+    WHERE bto.reference = ? AND bto.status != 'confirmed'
+    LIMIT 1
+  `).bind(reference).first<{ id: string; tenant_id: string; funding_id: string }>();
+
+  if (!orderRow) return c.json({ received: true, action: 'already_processed_or_not_found' });
+
+  try {
+    await confirmFunding(c.env.DB as never, kv, orderRow.funding_id, orderRow.tenant_id, 'paystack-webhook');
+    return c.json({ received: true, action: 'funded' });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return c.json({ received: true, action: 'error', error: msg }, 500);
+  }
 });
 
 // ===========================================================================
@@ -970,6 +1322,143 @@ walletAdminRoutes.post('/funding/:id/reject', async (c) => {
       metadata:     { reason: body.reason, amount_kobo: fr.amountKobo },
     });
     return c.json({ funding_request: fr });
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Admin: withdrawal confirm / reject
+// POST /platform-admin/wallets/withdrawals/:id/confirm
+// POST /platform-admin/wallets/withdrawals/:id/reject
+// GET  /platform-admin/wallets/withdrawals — list all pending withdrawals
+// ---------------------------------------------------------------------------
+
+walletAdminRoutes.get('/withdrawals', async (c) => {
+  const db = c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { all<T>(): Promise<{ results: T[] }> }};
+  };
+  const status = c.req.query('status') ?? 'pending';
+  const limit  = Math.min(parseInt(c.req.query('limit') ?? '50', 10), 200);
+
+  const { results } = await db.prepare(`
+    SELECT /* GOVERNANCE_SKIP */
+      w.id, w.wallet_id, w.user_id, w.tenant_id, w.amount_kobo,
+      w.bank_code, w.account_number, w.account_name,
+      w.status, w.reference, w.provider_ref, w.rejection_reason,
+      w.completed_at, w.created_at, w.updated_at
+    FROM hl_withdrawal_requests w
+    WHERE w.status = ?
+    ORDER BY w.created_at ASC
+    LIMIT ?
+  `).bind(status, limit).all<Record<string, unknown>>();
+
+  return c.json({ withdrawals: results, count: results.length });
+});
+
+walletAdminRoutes.post('/withdrawals/:id/confirm', async (c) => {
+  const { id } = c.req.param();
+  const auth   = c.get('auth');
+  let body: { provider_ref?: string } = {};
+  try { body = await c.req.json<typeof body>(); } catch { /* optional */ }
+
+  if (!body.provider_ref || typeof body.provider_ref !== 'string') {
+    return c.json({ error: 'provider_ref is required (bank transaction ID)' }, 400);
+  }
+
+  const kv = getWalletKv(c.env);
+  const wr = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
+  }).prepare(`SELECT tenant_id FROM hl_withdrawal_requests WHERE id = ? LIMIT 1`)
+    .bind(id).first<{ tenant_id: string }>();
+
+  if (!wr) return c.json({ error: 'WITHDRAWAL_NOT_FOUND' }, 404);
+
+  try {
+    const withdrawal = await confirmWithdrawal(c.env.DB as never, id, wr.tenant_id, body.provider_ref);
+
+    await publishEvent(c.env, {
+      eventId:   generateId('notif'),
+      eventKey:  'wallet.withdrawal.completed',
+      tenantId:  wr.tenant_id,
+      actorId:   auth.userId,
+      actorType: 'admin',
+      payload: {
+        withdrawal_id: withdrawal.id,
+        wallet_id:     withdrawal.walletId,
+        amount_kobo:   withdrawal.amountKobo,
+        amount_naira:  (withdrawal.amountKobo / 100).toFixed(2),
+        bank_code:     withdrawal.bankCode,
+        account_number: withdrawal.accountNumber,
+        provider_ref:  withdrawal.providerRef,
+      },
+    }).catch(() => {});
+
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     wr.tenant_id,
+      userId:       auth.userId,
+      action:       'wallet.withdrawal.confirm',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_withdrawal_request',
+      resourceId:   id,
+      statusCode:   200,
+      metadata:     { amount_kobo: withdrawal.amountKobo, provider_ref: body.provider_ref },
+    });
+
+    return c.json({ withdrawal });
+  } catch (err) {
+    return handleWalletError(err, c);
+  }
+});
+
+walletAdminRoutes.post('/withdrawals/:id/reject', async (c) => {
+  const { id } = c.req.param();
+  const auth   = c.get('auth');
+  let body: { reason?: string } = {};
+  try { body = await c.req.json<typeof body>(); } catch { /* optional */ }
+
+  if (!body.reason) return c.json({ error: 'reason is required' }, 400);
+
+  const wr = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
+  }).prepare(`SELECT tenant_id FROM hl_withdrawal_requests WHERE id = ? LIMIT 1`)
+    .bind(id).first<{ tenant_id: string }>();
+
+  if (!wr) return c.json({ error: 'WITHDRAWAL_NOT_FOUND' }, 404);
+
+  const kv = getWalletKv(c.env);
+  try {
+    const withdrawal = await rejectWithdrawal(c.env.DB as never, id, wr.tenant_id, body.reason);
+
+    await publishEvent(c.env, {
+      eventId:   generateId('notif'),
+      eventKey:  'wallet.withdrawal.rejected',
+      tenantId:  wr.tenant_id,
+      actorId:   auth.userId,
+      actorType: 'admin',
+      payload: {
+        withdrawal_id:    withdrawal.id,
+        wallet_id:        withdrawal.walletId,
+        amount_kobo:      withdrawal.amountKobo,
+        amount_naira:     (withdrawal.amountKobo / 100).toFixed(2),
+        rejection_reason: body.reason,
+      },
+    }).catch(() => {});
+
+    writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
+      tenantId:     wr.tenant_id,
+      userId:       auth.userId,
+      action:       'wallet.withdrawal.reject',
+      method:       c.req.method,
+      path:         c.req.path,
+      resourceType: 'hl_withdrawal_request',
+      resourceId:   id,
+      statusCode:   200,
+      metadata:     { reason: body.reason, amount_kobo: withdrawal.amountKobo },
+    });
+
+    return c.json({ withdrawal });
   } catch (err) {
     return handleWalletError(err, c);
   }

@@ -94,7 +94,7 @@ ENVIRONMENT = "production"
 # G24 (OQ-012): NOTIFICATION_SANDBOX_MODE must be "false" in production.
 # CI/CD governance check asserts this before every production deploy.
 NOTIFICATION_SANDBOX_MODE = "false"
-NOTIFICATION_PIPELINE_ENABLED = "0"
+NOTIFICATION_PIPELINE_ENABLED = "1"
 
 [[env.production.d1_databases]]
 binding = "DB"

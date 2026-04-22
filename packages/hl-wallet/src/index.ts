@@ -18,3 +18,6 @@ export * from './ledger.js';
 export * from './spend-controls.js';
 export * from './funding.js';
 export * from './mla.js';
+export * from './transfer.js';
+export * from './withdrawal.js';
+export * from './online-funding.js';
