@@ -1,0 +1,4897 @@
+{
+  "schema": "s09_osm_marketplace_ng",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API \u2014 amenity=marketplace tagged nodes with name in Nigeria",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query": "node[\"amenity\"=\"marketplace\"][\"name\"](4.2,2.7,13.9,14.7)",
+  "count": 306,
+  "elements": [
+    {
+      "type": "node",
+      "id": 501545729,
+      "lat": 4.861473,
+      "lon": 6.772233,
+      "tags": {
+        "GNS:dsg_code": "MKT",
+        "GNS:dsg_string": "market",
+        "GNS:id": "10281245",
+        "amenity": "marketplace",
+        "is_in:country": "Nigeria",
+        "name": "Rumuafo Water Side Market",
+        "source": "GNS"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 501545730,
+      "lat": 4.9122057,
+      "lon": 6.8807826,
+      "tags": {
+        "GNS:dsg_code": "MKT",
+        "GNS:dsg_string": "market",
+        "GNS:id": "10281275",
+        "amenity": "marketplace",
+        "is_in:country": "Nigeria",
+        "name": "Water Side market",
+        "source": "GNS"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 501545731,
+      "lat": 4.851028,
+      "lon": 6.7224955,
+      "tags": {
+        "GNS:dsg_code": "MKT",
+        "GNS:dsg_string": "market",
+        "GNS:id": "10281244",
+        "amenity": "marketplace",
+        "is_in:country": "Nigeria",
+        "name": "Elegedi Market",
+        "source": "GNS"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 1842628497,
+      "lat": 7.5536089,
+      "lon": 6.5931721,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Muslim Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 1842643011,
+      "lat": 7.5404483,
+      "lon": 6.6783282,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "ASCo Camp Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 1842720853,
+      "lat": 7.5598613,
+      "lon": 6.6446866,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "BB Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 1994158218,
+      "lat": 6.3765829,
+      "lon": 5.6302935,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 1995055421,
+      "lat": 6.3639917,
+      "lon": 5.5886739,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ogida Barrack's Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2072662364,
+      "lat": 6.3645793,
+      "lon": 5.586432,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Olomuza Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2072662774,
+      "lat": 6.364617,
+      "lon": 5.5828609,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Useh Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2154560066,
+      "lat": 6.3106723,
+      "lon": 5.6142995,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ihama Mini Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2157164435,
+      "lat": 8.274402,
+      "lon": 4.7984101,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2161050319,
+      "lat": 6.3361359,
+      "lon": 5.6179119,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Eyanga Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2161071882,
+      "lat": 6.2972448,
+      "lon": 5.5909413,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oko Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2344540222,
+      "lat": 6.3235272,
+      "lon": 5.5922484,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Mini-Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2349475773,
+      "lat": 6.3462032,
+      "lon": 5.6328665,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Vegetable Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2453679849,
+      "lat": 7.4371869,
+      "lon": 3.9157745,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Bodija Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2455133397,
+      "lat": 6.465918,
+      "lon": 7.59559,
+      "tags": {
+        "addr:postcode": "400.0",
+        "addr:street": "Eke Express",
+        "amenity": "marketplace",
+        "height": "150.300003",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A30ccdab5-c27b-41b3-a2ef-80aa6dfb68c1%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A30ccdab5-c27b-41b3-a2ef-80aa6dfb68c1%5D%2FPOI_Picture2",
+        "name": "Provision Shop"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2455133482,
+      "lat": 6.479254,
+      "lon": 7.503113,
+      "tags": {
+        "addr:housenumber": "9.0",
+        "addr:street": "Nike Lake Road",
+        "amenity": "marketplace",
+        "fixme": "many bad keys",
+        "height": "216.600006",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ae3c097d2-0e33-4e63-8d73-3ab68be71f50%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ae3c097d2-0e33-4e63-8d73-3ab68be71f50%5D%2FPOI_Picture2",
+        "name": "Victory Plaza"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2639209659,
+      "lat": 7.4378963,
+      "lon": 3.9096062,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Tolulope Plaza"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2639256357,
+      "lat": 7.3894283,
+      "lon": 3.8700502,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Aleshinloye Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2671699829,
+      "lat": 6.4982448,
+      "lon": 8.5524595,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ndack Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3023669230,
+      "lat": 6.4626347,
+      "lon": 3.2856179,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Obuzu Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3084824648,
+      "lat": 7.3742579,
+      "lon": 3.8951313,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja Oba Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3084974661,
+      "lat": 7.3762823,
+      "lon": 3.8957192,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Mapo Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3382496259,
+      "lat": 7.713417,
+      "lon": 4.4893936,
+      "tags": {
+        "addr:city": "Owode",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "marketplace",
+        "name": "Owode Market"
+      },
+      "_state": "",
+      "_lga": "Owode",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3822301364,
+      "lat": 7.7807451,
+      "lon": 4.5577879,
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "amenity": "marketplace",
+        "name": "Igboona Market"
+      },
+      "_state": "",
+      "_lga": "Osogbo",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4176683989,
+      "lat": 5.4950576,
+      "lon": 7.262282,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Eke Ngwuru"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4176683991,
+      "lat": 5.5009301,
+      "lon": 7.238206,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Nkwo Ogwu"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4302663992,
+      "lat": 6.359136,
+      "lon": 5.6004913,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ogida Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4699321347,
+      "lat": 7.732525,
+      "lon": 4.2851274,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Papa market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4866368110,
+      "lat": 6.2915445,
+      "lon": 5.6325371,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Santana Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4986133434,
+      "lat": 5.1147515,
+      "lon": 7.3797513,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "waterside market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5197102959,
+      "lat": 6.4349315,
+      "lon": 3.5079721,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Jakande Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5243410402,
+      "lat": 4.7914612,
+      "lon": 7.1200004,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Nchia Market",
+        "organic": "yes"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5330511804,
+      "lat": 6.2804212,
+      "lon": 5.6430883,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "PZ Market",
+        "type": "Groceries & Perishables"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5375675036,
+      "lat": 4.8894311,
+      "lon": 6.9005526,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Choba Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5807151888,
+      "lat": 5.9737551,
+      "lon": 8.3572662,
+      "tags": {
+        "amenity": "marketplace",
+        "building": "house",
+        "name": "Iyamoyyong village market",
+        "opening_hours": "Tu-Th"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5979341478,
+      "lat": 4.8643411,
+      "lon": 6.9280385,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Rumuokwachi Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074297,
+      "lat": 7.6726287,
+      "lon": 5.7575911,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Clothing Livestock Electronic Spareparts Food Stuff Mixed",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Oyin Akoko Market",
+        "opening_hours": "Mo-Su",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074298,
+      "lat": 7.681151,
+      "lon": 5.9061466,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Clothing Livestock Electronic Spareparts Food Stuff Mixed",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Ajowa Market",
+        "opening_hours": "Mo-Su",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074299,
+      "lat": 7.0181634,
+      "lon": 4.6324336,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Clothing Livestock Food Stuff",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Laje Market",
+        "opening_hours": "Th",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271074300,
+      "lat": 7.1956296,
+      "lon": 5.0198002,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Livestock Food Stuff",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owena-Aponmu",
+        "name": "Ilunla Market",
+        "opening_hours": "Tu",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Owena-Aponmu"
+    },
+    {
+      "type": "node",
+      "id": 6271074301,
+      "lat": 7.2494391,
+      "lon": 5.1601528,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Clothing Livestock",
+        "is_in:LGA": "Akure South",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure South",
+        "name": "Jilalu Market",
+        "opening_hours": "We",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure South",
+      "_ward": "Akure South"
+    },
+    {
+      "type": "node",
+      "id": 6271074302,
+      "lat": 6.1527784,
+      "lon": 4.7931338,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Mixed",
+        "is_in:LGA": "Ilaje",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ilaje",
+        "name": "Omuro International Market Ugbo Ilaje",
+        "opening_hours": "Mo-Su",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Ilaje",
+      "_ward": "Ilaje"
+    },
+    {
+      "type": "node",
+      "id": 6271074303,
+      "lat": 6.876774,
+      "lon": 5.0931871,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Food Stuff",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Isalu-Jigbokin",
+        "name": "Blessing Camp Market",
+        "opening_hours": "Tu",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Isalu-Jigbokin"
+    },
+    {
+      "type": "node",
+      "id": 6271074304,
+      "lat": 7.4004515,
+      "lon": 5.0067046,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Food Stuff",
+        "is_in:LGA": "Ifedore",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Isarun/Owena",
+        "name": "Owena Market",
+        "opening_hours": "Mo,Su",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Ifedore",
+      "_ward": "Isarun/Owena"
+    },
+    {
+      "type": "node",
+      "id": 6271074305,
+      "lat": 7.25289,
+      "lon": 5.19561,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akure South",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure South",
+        "name": "Akure Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure South",
+      "_ward": "Akure South"
+    },
+    {
+      "type": "node",
+      "id": 6271074306,
+      "lat": 7.0889671,
+      "lon": 5.6629354,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Clothing Electronic Spareparts Food Stuff Mixed Other",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Molege Market",
+        "opening_hours": "Mo-Su",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271074307,
+      "lat": 7.1673419,
+      "lon": 5.1350793,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Mixed",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Alade-Atosin",
+        "name": "Ita Oloorun market",
+        "opening_hours": "Tu",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Alade-Atosin"
+    },
+    {
+      "type": "node",
+      "id": 6271074308,
+      "lat": 7.1447477,
+      "lon": 5.0986294,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Mixed",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Alade-Atosin",
+        "name": "Alade Atosin Market",
+        "opening_hours": "Tu",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Alade-Atosin"
+    },
+    {
+      "type": "node",
+      "id": 6271074309,
+      "lat": 7.2513524,
+      "lon": 5.1952601,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Livestock Food Stuff",
+        "is_in:LGA": "Akure South",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure South",
+        "name": "Bagbe Akure Market",
+        "opening_hours": "Th",
+        "source": "GRID"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure South",
+      "_ward": "Akure South"
+    },
+    {
+      "type": "node",
+      "id": 6271074310,
+      "lat": 6.8444891,
+      "lon": 5.0767465,
+      "tags": {
+        "amenity": "marketplace",
+        "description": "Food Stuff",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ofosu-Onisere",
+        "name": "Atukpa Plantain Market",
+        "opening_hours": "We",
+        "source": "GRID",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Ofosu-Onisere"
+    },
+    {
+      "type": "node",
+      "id": 6271074311,
+      "lat": 7.4548,
+      "lon": 5.06666,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ifedore",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ero/Ibuji",
+        "name": "Ibuji Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Ifedore",
+      "_ward": "Ero/Ibuji"
+    },
+    {
+      "type": "node",
+      "id": 6271074312,
+      "lat": 7.3453,
+      "lon": 5.15055,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ikota/Irese",
+        "name": "Ikota Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "Yes"
+      },
+      "_state": "Ondo",
+      "_lga": "",
+      "_ward": "Ikota/Irese"
+    },
+    {
+      "type": "node",
+      "id": 6271074313,
+      "lat": 7.26887,
+      "lon": 5.01216,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kolawole Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074314,
+      "lat": 7.12063,
+      "lon": 4.74164,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ile Oluji/Okeigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Oke-Igbo 4",
+        "name": "Asana Tatonmi Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Ile Oluji/Okeigbo",
+      "_ward": "Oke-Igbo 4"
+    },
+    {
+      "type": "node",
+      "id": 6271074315,
+      "lat": 7.07776,
+      "lon": 5.14154,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Apefon Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074316,
+      "lat": 7.41171,
+      "lon": 5.05665,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Igbara Oke Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "Yes"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074317,
+      "lat": 7.40105,
+      "lon": 5.0692,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Isarun Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074318,
+      "lat": 7.38226,
+      "lon": 5.08498,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ero Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074319,
+      "lat": 7.36511,
+      "lon": 5.17369,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ifedore",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ijare-2",
+        "name": "Araromi Omoladun Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "Yes"
+      },
+      "_state": "Ondo",
+      "_lga": "Ifedore",
+      "_ward": "Ijare-2"
+    },
+    {
+      "type": "node",
+      "id": 6271074320,
+      "lat": 7.36011,
+      "lon": 5.17158,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ifedore",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ijare-2",
+        "name": "Ijare Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "Yes"
+      },
+      "_state": "Ondo",
+      "_lga": "Ifedore",
+      "_ward": "Ijare-2"
+    },
+    {
+      "type": "node",
+      "id": 6271074321,
+      "lat": 7.34852,
+      "lon": 5.11405,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ilara-1",
+        "name": "Ilaramoko Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "",
+      "_ward": "Ilara-1"
+    },
+    {
+      "type": "node",
+      "id": 6271074322,
+      "lat": 7.23497,
+      "lon": 5.06406,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Aponmu Long Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271074323,
+      "lat": 7.16953,
+      "lon": 4.72367,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ile Oluji/Okeigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Oke-Igbo 1",
+        "name": "General Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Ile Oluji/Okeigbo",
+      "_ward": "Oke-Igbo 1"
+    },
+    {
+      "type": "node",
+      "id": 6271074324,
+      "lat": 7.14105,
+      "lon": 5.0945,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Alade-Atosin",
+        "name": "Alade Idanre Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Alade-Atosin"
+    },
+    {
+      "type": "node",
+      "id": 6271074325,
+      "lat": 7.01674,
+      "lon": 5.15882,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Isalu-Jigbokin",
+        "name": "Ayede Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Isalu-Jigbokin"
+    },
+    {
+      "type": "node",
+      "id": 6271074326,
+      "lat": 7.00506,
+      "lon": 5.0156766,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Idanre",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ijomu-Isurin",
+        "name": "Owena Egbeda Market",
+        "source": "OSGOF",
+        "statecode": "ON",
+        "urban": "No"
+      },
+      "_state": "Ondo",
+      "_lga": "Idanre",
+      "_ward": "Ijomu-Isurin"
+    },
+    {
+      "type": "node",
+      "id": 6271074327,
+      "lat": 7.59311,
+      "lon": 5.74818,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Iye Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074328,
+      "lat": 7.55663,
+      "lon": 5.91628,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Auga Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074329,
+      "lat": 7.51275,
+      "lon": 5.91582,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Ise Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074330,
+      "lat": 7.4575,
+      "lon": 5.91592,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Isua Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074331,
+      "lat": 7.42727,
+      "lon": 5.92014,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Sosan Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074332,
+      "lat": 7.26453,
+      "lon": 5.46608,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Amurin Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271074333,
+      "lat": 7.2606,
+      "lon": 5.3849,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akure North",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure North",
+        "name": "Okeodo Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure North",
+      "_ward": "Akure North"
+    },
+    {
+      "type": "node",
+      "id": 6271074334,
+      "lat": 7.20925,
+      "lon": 5.26655,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akure North",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure North",
+        "name": "Ilado Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure North",
+      "_ward": "Akure North"
+    },
+    {
+      "type": "node",
+      "id": 6271074335,
+      "lat": 7.05585,
+      "lon": 4.62242,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Gbaghia Oja Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271074336,
+      "lat": 7.05569,
+      "lon": 4.62243,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Gbagia Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271074337,
+      "lat": 7.01926,
+      "lon": 4.72176,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Egure -Oba Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271074338,
+      "lat": 6.96302,
+      "lon": 5.74386,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Ori Ohin Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074339,
+      "lat": 6.92825,
+      "lon": 4.8832,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Igborowo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271074340,
+      "lat": 6.91328,
+      "lon": 4.56224,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Akinjala Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271074341,
+      "lat": 6.84744,
+      "lon": 4.9735,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Ariyo Ii Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271074342,
+      "lat": 6.58737,
+      "lon": 4.83013,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Agbabu Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271074343,
+      "lat": 6.49766,
+      "lon": 4.64572,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Ode Igbisin Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271074344,
+      "lat": 7.72393,
+      "lon": 5.79826,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Igasi Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074345,
+      "lat": 7.63819,
+      "lon": 5.88058,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Igedegede Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074346,
+      "lat": 7.63287,
+      "lon": 5.94162,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Akunnu Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074347,
+      "lat": 7.6111,
+      "lon": 5.6977,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Ese Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074348,
+      "lat": 7.60468,
+      "lon": 5.85613,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Ikaram Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074349,
+      "lat": 7.58842,
+      "lon": 5.67068,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Irun Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074350,
+      "lat": 7.58728,
+      "lon": 5.81543,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Erusu Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074351,
+      "lat": 7.57925,
+      "lon": 5.67157,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Oke Igbo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074352,
+      "lat": 7.57411,
+      "lon": 5.70678,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Ogbagi Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074353,
+      "lat": 7.56386,
+      "lon": 5.76612,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North West",
+        "name": "Arigidi Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North West",
+      "_ward": "Akoko North West"
+    },
+    {
+      "type": "node",
+      "id": 6271074354,
+      "lat": 7.53542,
+      "lon": 5.85232,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Iboropa Ako Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074355,
+      "lat": 7.53437,
+      "lon": 5.76616,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Ikareakoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074356,
+      "lat": 7.52879,
+      "lon": 5.78342,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Ugbe Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074357,
+      "lat": 7.52416,
+      "lon": 5.76347,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Alapata New Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074358,
+      "lat": 7.52273,
+      "lon": 5.7507,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Osele Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074359,
+      "lat": 7.52013,
+      "lon": 5.74813,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko North East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko North East",
+        "name": "Okore Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko North East",
+      "_ward": "Akoko North East"
+    },
+    {
+      "type": "node",
+      "id": 6271074360,
+      "lat": 7.46993,
+      "lon": 5.73595,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Akungba Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074361,
+      "lat": 7.45711,
+      "lon": 5.80326,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Oka Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074362,
+      "lat": 7.45689,
+      "lon": 5.86397,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Epinmi Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074363,
+      "lat": 7.44779,
+      "lon": 5.96149,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Eti Ose Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074364,
+      "lat": 7.44676,
+      "lon": 5.68954,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Supare Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074365,
+      "lat": 7.44337,
+      "lon": 5.76441,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Iwaro Oka Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074366,
+      "lat": 7.4397,
+      "lon": 5.77048,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Ebo Market Iwaro",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074367,
+      "lat": 7.41479,
+      "lon": 5.86105,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Ipe Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074368,
+      "lat": 7.40692,
+      "lon": 5.92286,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Federal Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074369,
+      "lat": 7.38896,
+      "lon": 5.91727,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Ifira Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074370,
+      "lat": 7.37563,
+      "lon": 5.78046,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Ikun Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074371,
+      "lat": 7.37518,
+      "lon": 5.7216,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Oba Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074372,
+      "lat": 7.37149,
+      "lon": 5.72745,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Oja Oba Ulede",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074373,
+      "lat": 7.36903,
+      "lon": 5.95177,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South East",
+        "name": "Ipesi Akoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South East",
+      "_ward": "Akoko South East"
+    },
+    {
+      "type": "node",
+      "id": 6271074374,
+      "lat": 7.36828,
+      "lon": 5.82763,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Afo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074375,
+      "lat": 7.31617,
+      "lon": 5.67165,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Ose Oba Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074376,
+      "lat": 7.30958,
+      "lon": 5.70788,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akoko South West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akoko South West",
+        "name": "Ugbowoye Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akoko South West",
+      "_ward": "Akoko South West"
+    },
+    {
+      "type": "node",
+      "id": 6271074377,
+      "lat": 7.30295,
+      "lon": 5.89903,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Market Oja Oba",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074378,
+      "lat": 7.30006,
+      "lon": 5.89772,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Sara Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074379,
+      "lat": 7.29629,
+      "lon": 5.84603,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Idoani Main Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074380,
+      "lat": 7.27863,
+      "lon": 5.62587,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ago Panu Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271074381,
+      "lat": 7.27351,
+      "lon": 5.3058,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akure North",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure North",
+        "name": "Eleyowo Camp Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure North",
+      "_ward": "Akure North"
+    },
+    {
+      "type": "node",
+      "id": 6271074382,
+      "lat": 7.2732621,
+      "lon": 5.4243537,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Uso Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271074383,
+      "lat": 7.26724,
+      "lon": 5.82246,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Owani Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271074384,
+      "lat": 7.25939,
+      "lon": 5.3737,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Akure North",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Akure North",
+        "name": "Ayede Ogbese Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Akure North",
+      "_ward": "Akure North"
+    },
+    {
+      "type": "node",
+      "id": 6271076185,
+      "lat": 7.25633,
+      "lon": 5.62,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Upenmen Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076186,
+      "lat": 7.24106,
+      "lon": 5.50624,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Express Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076187,
+      "lat": 7.22106,
+      "lon": 5.58391,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Isuada Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076188,
+      "lat": 7.20251,
+      "lon": 5.57204,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Sadibo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076189,
+      "lat": 7.19544,
+      "lon": 5.5837,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Oba'S Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076190,
+      "lat": 7.19305,
+      "lon": 5.59316,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ijebu-Owo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076191,
+      "lat": 7.1899,
+      "lon": 5.57706,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Anante Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076192,
+      "lat": 7.18711,
+      "lon": 5.6244,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Utelu I Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076193,
+      "lat": 7.17966,
+      "lon": 5.61351,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Annye Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076194,
+      "lat": 7.17742,
+      "lon": 5.61369,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Irowo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076195,
+      "lat": 7.17065,
+      "lon": 5.61859,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ayegunle Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076196,
+      "lat": 7.16891,
+      "lon": 4.96439,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo East",
+        "name": "Bolorunduro Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo East",
+      "_ward": "Ondo East"
+    },
+    {
+      "type": "node",
+      "id": 6271076197,
+      "lat": 7.16832,
+      "lon": 5.62518,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Jos Motors Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076198,
+      "lat": 7.1683,
+      "lon": 5.62527,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ajiyoko Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076199,
+      "lat": 7.15223,
+      "lon": 5.69655,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Alao Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076200,
+      "lat": 7.13732,
+      "lon": 5.56517,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ugboagbo I Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076201,
+      "lat": 7.13393,
+      "lon": 5.67348,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Ipele Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076202,
+      "lat": 7.1249,
+      "lon": 5.57883,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Amurin Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076203,
+      "lat": 7.1209,
+      "lon": 4.97138,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo East",
+        "name": "Fagbo Oja Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo East",
+      "_ward": "Ondo East"
+    },
+    {
+      "type": "node",
+      "id": 6271076204,
+      "lat": 7.11398,
+      "lon": 5.53485,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Opoporo Camp I Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076205,
+      "lat": 7.08378,
+      "lon": 5.50597,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Owo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Owo",
+        "name": "Dugbere I Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Owo",
+      "_ward": "Owo"
+    },
+    {
+      "type": "node",
+      "id": 6271076206,
+      "lat": 7.01052,
+      "lon": 5.71518,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Elegbeka Village Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076207,
+      "lat": 6.98944,
+      "lon": 4.95692,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo East",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo East",
+        "name": "Asanta Oja Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo East",
+      "_ward": "Ondo East"
+    },
+    {
+      "type": "node",
+      "id": 6271076208,
+      "lat": 6.963718,
+      "lon": 4.7165981,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ondo West",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ondo West",
+        "name": "Igbindo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ondo West",
+      "_ward": "Ondo West"
+    },
+    {
+      "type": "node",
+      "id": 6271076209,
+      "lat": 6.93807,
+      "lon": 5.78282,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Ikaro Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076210,
+      "lat": 6.93039,
+      "lon": 5.77513,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Okuta Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076211,
+      "lat": 6.928445,
+      "lon": 5.76587,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Ifon Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076212,
+      "lat": 6.90113,
+      "lon": 4.89739,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Oro Kingdom Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076213,
+      "lat": 6.89537,
+      "lon": 4.85419,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Ajue Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076214,
+      "lat": 6.86771,
+      "lon": 5.75729,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Imoru Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076215,
+      "lat": 6.84789,
+      "lon": 5.60559,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Ute Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076216,
+      "lat": 6.82861,
+      "lon": 4.86133,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Omifon Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076217,
+      "lat": 6.82562,
+      "lon": 5.70854,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Arimogija Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076218,
+      "lat": 6.82434,
+      "lon": 4.59108,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Legere Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076219,
+      "lat": 6.79505,
+      "lon": 4.87203,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Odigbo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076220,
+      "lat": 6.78327,
+      "lon": 5.5913,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ose",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ose",
+        "name": "Okeluse Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ose",
+      "_ward": "Ose"
+    },
+    {
+      "type": "node",
+      "id": 6271076221,
+      "lat": 6.75019,
+      "lon": 4.87987,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ore Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6271076222,
+      "lat": 6.72555,
+      "lon": 4.56668,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Mile 49 Mobolorunduro Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076223,
+      "lat": 6.72473,
+      "lon": 4.50954,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Kajola Camp Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076224,
+      "lat": 6.68614,
+      "lon": 4.54022,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Ifarapanu Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076225,
+      "lat": 6.67676,
+      "lon": 4.52534,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Koseru Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076226,
+      "lat": 6.65974,
+      "lon": 4.91192,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Odigbo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Odigbo",
+        "name": "Ipetu Camp Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Odigbo",
+      "_ward": "Odigbo"
+    },
+    {
+      "type": "node",
+      "id": 6271076227,
+      "lat": 6.57722,
+      "lon": 5.05928,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Irele",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Irele",
+        "name": "Atoranse Central Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Irele",
+      "_ward": "Irele"
+    },
+    {
+      "type": "node",
+      "id": 6271076228,
+      "lat": 6.57508,
+      "lon": 4.63807,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Igbotako Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076229,
+      "lat": 6.5491,
+      "lon": 4.74822,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Farm Settlement Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076230,
+      "lat": 6.52573,
+      "lon": 4.64016,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Ilutitun Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076231,
+      "lat": 6.50283,
+      "lon": 4.69188,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Ikoya Town Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076232,
+      "lat": 6.49577,
+      "lon": 4.78996,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Igbodigho Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076233,
+      "lat": 6.49242,
+      "lon": 4.7893,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Ayeka Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076234,
+      "lat": 6.49078,
+      "lon": 4.87122,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Irele",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Irele",
+        "name": "Ode-Irele Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Irele",
+      "_ward": "Irele"
+    },
+    {
+      "type": "node",
+      "id": 6271076235,
+      "lat": 6.47808,
+      "lon": 4.88949,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Irele",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Irele",
+        "name": "Ode Omi Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Irele",
+      "_ward": "Irele"
+    },
+    {
+      "type": "node",
+      "id": 6271076236,
+      "lat": 6.46329,
+      "lon": 5.12094,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Irele",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Irele",
+        "name": "Ode Iyansan Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Irele",
+      "_ward": "Irele"
+    },
+    {
+      "type": "node",
+      "id": 6271076237,
+      "lat": 6.44235,
+      "lon": 4.89205,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ese Odo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ese Odo",
+        "name": "Sabome Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ese Odo",
+      "_ward": "Ese Odo"
+    },
+    {
+      "type": "node",
+      "id": 6271076238,
+      "lat": 6.43321,
+      "lon": 4.72558,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Okitipupa",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Okitipupa",
+        "name": "Ode Erinje Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Okitipupa",
+      "_ward": "Okitipupa"
+    },
+    {
+      "type": "node",
+      "id": 6271076239,
+      "lat": 6.42685,
+      "lon": 4.92157,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ese Odo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ese Odo",
+        "name": "Ajagba Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ese Odo",
+      "_ward": "Ese Odo"
+    },
+    {
+      "type": "node",
+      "id": 6271076240,
+      "lat": 6.42275,
+      "lon": 4.85276,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ilaje",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ilaje",
+        "name": "Igbogi I Camp Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ilaje",
+      "_ward": "Ilaje"
+    },
+    {
+      "type": "node",
+      "id": 6271076241,
+      "lat": 6.34042,
+      "lon": 4.91964,
+      "tags": {
+        "amenity": "marketplace",
+        "is_in:LGA": "Ese Odo",
+        "is_in:state": "Ondo",
+        "is_in:ward": "Ese Odo",
+        "name": "Kiribo Market",
+        "source": "OSGOF",
+        "statecode": "ON"
+      },
+      "_state": "Ondo",
+      "_lga": "Ese Odo",
+      "_ward": "Ese Odo"
+    },
+    {
+      "type": "node",
+      "id": 6505118365,
+      "lat": 6.081965,
+      "lon": 7.0220492,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Orie Market, Obeledu",
+        "operator": "Obeledu Town Union"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6505118367,
+      "lat": 6.0817366,
+      "lon": 7.0037248,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Orie Market, Neni",
+        "name:ig": "Oye Neni",
+        "operator": "Neni Town Union"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6597731137,
+      "lat": 7.9038856,
+      "lon": 4.3153189,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ode Bara Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6773279266,
+      "lat": 8.1418703,
+      "lon": 4.242962,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja Titun"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6773279268,
+      "lat": 8.144466,
+      "lon": 4.2427262,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Atenda"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6783464817,
+      "lat": 8.1302552,
+      "lon": 4.2486256,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja 'gbo"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 6971530677,
+      "lat": 7.4831774,
+      "lon": 3.909866,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Sasa Market",
+        "place": "village",
+        "source": "survey;local knowledge"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 7108115534,
+      "lat": 4.7580586,
+      "lon": 7.0238115,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Creek Road Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 7340335731,
+      "lat": 5.482321,
+      "lon": 7.0019376,
+      "tags": {
+        "amenity": "marketplace",
+        "building": "yes",
+        "name": "World Bank Market",
+        "opening_hours": "Mo-Sa 07:00-18:00"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 7788530141,
+      "lat": 7.2775389,
+      "lon": 5.2437967,
+      "tags": {
+        "addr:city": "Akure",
+        "addr:street": "Akure-Owo Express Road",
+        "amenity": "marketplace",
+        "name": "Shasha market"
+      },
+      "_state": "",
+      "_lga": "Akure",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 7814299181,
+      "lat": 7.2508457,
+      "lon": 5.1825206,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Isikan Market",
+        "operator": "St. Loius Grammar School"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 7814299182,
+      "lat": 7.2507419,
+      "lon": 5.1829095,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Isikan Market",
+        "operator": "St. Loius Grammar School"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8286838267,
+      "lat": 5.6297123,
+      "lon": 7.2921042,
+      "tags": {
+        "addr:city": "Imo State",
+        "amenity": "marketplace",
+        "building": "retail",
+        "name": "Oriendu"
+      },
+      "_state": "",
+      "_lga": "Imo State",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753646612,
+      "lat": 6.4519199,
+      "lon": 7.4803376,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "New Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753676025,
+      "lat": 6.4354497,
+      "lon": 7.4815672,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ogbete main Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753676026,
+      "lat": 6.4538382,
+      "lon": 7.5011176,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Old Artisan Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753706769,
+      "lat": 6.4235355,
+      "lon": 7.4941516,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "-Kenyatta Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753756336,
+      "lat": 6.4957015,
+      "lon": 7.5024551,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Timber market Abakpa"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753757385,
+      "lat": 6.4787045,
+      "lon": 7.5784307,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oye emene Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8753773222,
+      "lat": 6.4687068,
+      "lon": 7.6010143,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Eke Obinagu Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8754448957,
+      "lat": 6.4597785,
+      "lon": 7.5084066,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Market Square"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8754496460,
+      "lat": 6.4821283,
+      "lon": 7.5160936,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Abakpa Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8851563692,
+      "lat": 7.8153022,
+      "lon": 6.7488564,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Old Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8982448606,
+      "lat": 7.9582464,
+      "lon": 3.6141063,
+      "tags": {
+        "addr:city": "Iseyin",
+        "addr:street": "Beside Union Bank, Barracks",
+        "amenity": "marketplace",
+        "building": "yes",
+        "name": "Ebedi Market",
+        "opening_hours": "Mo-Sa 08:00-18:00"
+      },
+      "_state": "",
+      "_lga": "Iseyin",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9751692879,
+      "lat": 6.7472871,
+      "lon": 6.6203785,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ifeku Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9751777795,
+      "lat": 8.723103,
+      "lon": 4.1566405,
+      "tags": {
+        "addr:city": "Igbeti",
+        "addr:postcode": "212102",
+        "addr:street": "Off Igbeti-Ogbomoso Road",
+        "amenity": "marketplace",
+        "building": "commercial",
+        "name": "Araromi Market",
+        "opening_hours": "24/7",
+        "operator": "Public"
+      },
+      "_state": "",
+      "_lga": "Igbeti",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9808539356,
+      "lat": 7.7903987,
+      "lon": 4.4987674,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Aje International Market, Ido-Osun"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10286519716,
+      "lat": 6.1577705,
+      "lon": 8.2900075,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Nwode Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10287532806,
+      "lat": 6.2804156,
+      "lon": 8.102239,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Mammy Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10550587635,
+      "lat": 8.8264279,
+      "lon": 7.575793,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Karshi",
+        "source": "Nigerian Red Cross Society"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10706561328,
+      "lat": 5.5150742,
+      "lon": 5.7496359,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:street": "Okere road",
+        "amenity": "marketplace",
+        "name": "Igbo Market",
+        "operator": "Warri South LGA",
+        "source": "local knowledge",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      },
+      "_state": "",
+      "_lga": "Warri",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10751485523,
+      "lat": 5.5034467,
+      "lon": 5.7548262,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332232",
+        "addr:street": "market road",
+        "amenity": "marketplace",
+        "name": "Pessu Market",
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "operator": "Warri South LGA"
+      },
+      "_state": "",
+      "_lga": "Warri",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10751591441,
+      "lat": 5.5112562,
+      "lon": 5.7478226,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332232",
+        "addr:street": "market road",
+        "amenity": "marketplace",
+        "name": "Mcciver Mrket"
+      },
+      "_state": "",
+      "_lga": "Warri",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10751591442,
+      "lat": 5.5132295,
+      "lon": 5.7468493,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332232",
+        "addr:street": "Warri Sapele Road",
+        "amenity": "marketplace",
+        "name": "San San Market"
+      },
+      "_state": "",
+      "_lga": "Warri",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10751591443,
+      "lat": 5.5133119,
+      "lon": 5.7455083,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332232",
+        "addr:street": "Warri Sapele Road",
+        "amenity": "marketplace",
+        "name": "Dore Numa Market",
+        "name:pcm": "Main Market",
+        "operator": "Warri South LGA"
+      },
+      "_state": "",
+      "_lga": "Warri",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10751634210,
+      "lat": 5.5120548,
+      "lon": 5.7461723,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ogbe-ijaw Market Warri"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10766245732,
+      "lat": 8.9491878,
+      "lon": 7.444705,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kabusa Marketplace",
+        "source": "Nigerian Red Cross Society"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10781592299,
+      "lat": 5.5397958,
+      "lon": 6.8048817,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Obokofia Market",
+        "source": "Nigerian Red Cross Society"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10781886268,
+      "lat": 5.3891,
+      "lon": 6.7740964,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Obile Market",
+        "source": "Nigerian Red Cross Society"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10781886269,
+      "lat": 5.3883256,
+      "lon": 6.7727161,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ekwo Market Obile",
+        "source": "Nigerian Red Cross Society"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10922065147,
+      "lat": 6.4681336,
+      "lon": 7.6023965,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2023-05-23",
+        "name": "Akpouga Nike Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11121904948,
+      "lat": 6.4715875,
+      "lon": 3.6316323,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "New Sangotedo market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11121934214,
+      "lat": 6.473159,
+      "lon": 3.6286505,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Children's place Plaza",
+        "shop": "mall"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11121934215,
+      "lat": 6.4732848,
+      "lon": 3.6284211,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Olad Plaza",
+        "shop": "mall"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11357448063,
+      "lat": 7.2320127,
+      "lon": 5.0937922,
+      "tags": {
+        "addr:street": "km 10, Akure-Ondo Road, Olokuta, Akure",
+        "amenity": "marketplace",
+        "description": "Market place",
+        "name": "Shasha Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11378392329,
+      "lat": 6.3281801,
+      "lon": 8.0783129,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2023-11-26",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Presco Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11569747508,
+      "lat": 4.8637753,
+      "lon": 7.0571594,
+      "tags": {
+        "amenity": "marketplace",
+        "building": "shed",
+        "name": "Tank market",
+        "operator": "Locals"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11569747509,
+      "lat": 4.8577216,
+      "lon": 7.0653907,
+      "tags": {
+        "amenity": "marketplace",
+        "building": "retail",
+        "name": "oil mill market",
+        "operator": "Locals"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11940703802,
+      "lat": 7.6559216,
+      "lon": 4.1886831,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Odo Ori"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11940703809,
+      "lat": 7.6445498,
+      "lon": 4.1675826,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oluwo Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11940706212,
+      "lat": 7.6311312,
+      "lon": 4.1731851,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11940706257,
+      "lat": 7.6345618,
+      "lon": 4.1799331,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja Ale"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11968673078,
+      "lat": 7.9027401,
+      "lon": 4.3137131,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2024-06-10",
+        "internet_access": "no",
+        "name": "Oja Ejigbo(Ejigbo Market)",
+        "opening_hours": "Sa 07:00-21:00",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11969121437,
+      "lat": 7.9014195,
+      "lon": 4.3133693,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2024-06-10",
+        "name": "Gbagede Market 2"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11969121438,
+      "lat": 7.9020517,
+      "lon": 4.3124781,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2024-06-10",
+        "name": "Gbagede Market 1"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12281469934,
+      "lat": 6.603018,
+      "lon": 3.418973,
+      "tags": {
+        "amenity": "marketplace",
+        "facility_manager": "private/Individual",
+        "name": "solomon banjo plaza",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12281469935,
+      "lat": 6.609835,
+      "lon": 3.41075,
+      "tags": {
+        "amenity": "marketplace",
+        "facility_manager": "community",
+        "name": "Owode oniri market",
+        "operator": "community",
+        "source:position": "gps",
+        "status": "functional"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12281469936,
+      "lat": 6.609141,
+      "lon": 3.430308,
+      "tags": {
+        "amenity": "marketplace",
+        "facility_manager": "community",
+        "name": "Community market",
+        "operator": "community",
+        "source:position": "gps",
+        "status": "functional"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12281469937,
+      "lat": 6.606184,
+      "lon": 3.409142,
+      "tags": {
+        "amenity": "marketplace",
+        "facility_manager": "private/Individual",
+        "name": "Bola kasim market",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12569309142,
+      "lat": 6.190765,
+      "lon": 6.7216044,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Market square"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974783,
+      "lat": 8.4872333,
+      "lon": 4.539085,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja Tuntun Market Kwara Baboko Road, Oja Oba, Oko Erin 240101, Kwara, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974785,
+      "lat": 8.4959867,
+      "lon": 4.5459987,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oja Oba, Ilorin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974793,
+      "lat": 8.4812118,
+      "lon": 4.561429,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Obbo fish and pork, Obo Road, Oko Erin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974809,
+      "lat": 8.5137076,
+      "lon": 4.589413,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "New Kulende Market, Jebba Road, Oko Erin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974842,
+      "lat": 8.5063938,
+      "lon": 4.5464478,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kankatu Market, Okelele Road, Oko Erin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974859,
+      "lat": 8.4993041,
+      "lon": 4.5616065,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ipata Market., Amilegbe Road, Ilorin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974963,
+      "lat": 8.4190329,
+      "lon": 4.6074199,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ganmo Market, Ilorin - Ajasse-Ipo Road, Ilorin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047974970,
+      "lat": 8.4949886,
+      "lon": 4.4973272,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Gaa saka Zone D, Unnamed Road, Oko Erin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047975008,
+      "lat": 8.4974465,
+      "lon": 4.5496303,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "FHW2+V3J, Gambari Rd, Oko Erin 240212, Kwara, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047975035,
+      "lat": 8.488025,
+      "lon": 4.5620467,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "FHQ6+6RM, Omu-Aran-Oja Oba, Oko Erin 240101, Kwara, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047975174,
+      "lat": 8.4943232,
+      "lon": 4.5441999,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "FGVV+JQH, Omu-Aran-Oja Oba, Ilorin 240101, Kwara, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13047975298,
+      "lat": 8.4926896,
+      "lon": 4.5498996,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ago Market Health Centre, Oko Erin, Nigeria"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048283342,
+      "lat": 8.4834246,
+      "lon": 4.5648112,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Yoruba Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048283343,
+      "lat": 8.4839951,
+      "lon": 4.5647195,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Yoruba Road Market Ilorin, Sulu Gambari Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286611,
+      "lat": 8.5004812,
+      "lon": 4.5602851,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ojagboro, Gambari Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286620,
+      "lat": 8.4814202,
+      "lon": 4.5614459,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Obo Market, south local government, Obo Road, Oko Erin Ilorin East, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286643,
+      "lat": 8.4752327,
+      "lon": 4.5057837,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Mandate Market, Western Reservoir Road, Ilorin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286695,
+      "lat": 8.49118,
+      "lon": 4.492831,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Gaa Saka Zone E, Ilorin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286727,
+      "lat": 8.4797135,
+      "lon": 4.5546413,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Computer Village, New Yidi Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286754,
+      "lat": 8.4894418,
+      "lon": 4.5431032,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Baboko, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13048286763,
+      "lat": 8.47471,
+      "lon": 4.5020899,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ankara lounge & more, Mandate Square, Oko Erin, Nigeria",
+        "source": "csv_import"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13052463573,
+      "lat": 6.3178141,
+      "lon": 8.1346134,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Abakaliki Rice Processing Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13153923117,
+      "lat": 6.3450008,
+      "lon": 7.3616759,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Wa-Afia"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13170584597,
+      "lat": 6.4526825,
+      "lon": 7.5417218,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "New Artisan"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13170601825,
+      "lat": 6.4231493,
+      "lon": 7.4984186,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kenyatta Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13170601832,
+      "lat": 6.4356538,
+      "lon": 7.4844225,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Ogbete Main Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13607668732,
+      "lat": 7.5681496,
+      "lon": 4.8938141,
+      "tags": {
+        "addr:city": "Erin-Ijesa",
+        "addr:postcode": "233118",
+        "addr:state": "Osun",
+        "addr:street": "Inisa Street, Erin-Ijesa, Osun State, Nigeria",
+        "addr:town": "Erin-Ijesa",
+        "amenity": "marketplace",
+        "name": "Community Market, Erin-Ijesa"
+      },
+      "_state": "Osun",
+      "_lga": "Erin-Ijesa",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 8649462881,
+      "lat": 6.2819628,
+      "lon": 10.2851136,
+      "tags": {
+        "addr:city": "Fundong",
+        "addr:street": "Rue Bimop",
+        "amenity": "marketplace",
+        "name": "Rue Bimop",
+        "name:fr": "Rue Bimop"
+      },
+      "_state": "",
+      "_lga": "Fundong",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9063166748,
+      "lat": 5.1654976,
+      "lon": 10.1934487,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "CTNMG1"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9063166758,
+      "lat": 5.166118,
+      "lon": 10.1938382,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "CTNMG8"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9063166759,
+      "lat": 5.1659842,
+      "lon": 10.1940871,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "CTNMG12"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9063467716,
+      "lat": 5.1663111,
+      "lon": 10.1948827,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "CTNMG23"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13140098016,
+      "lat": 6.388206,
+      "lon": 10.0772198,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Main Market Entrance"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2177220019,
+      "lat": 11.9748315,
+      "lon": 8.558977,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Tarauni Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2877344411,
+      "lat": 12.0050093,
+      "lon": 8.545088,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Central Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2990890928,
+      "lat": 12.0085803,
+      "lon": 8.5233096,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Wambai Market North",
+        "source": "ehealthafrica.org",
+        "source:date": "2014"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 2990890929,
+      "lat": 12.0068352,
+      "lon": 8.5241073,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Wambai Market South",
+        "source": "ehealthafrica.org",
+        "source:date": "2014"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 3353678925,
+      "lat": 13.5159231,
+      "lon": 7.1033604,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kasouwa Matta"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4549849151,
+      "lat": 9.0654585,
+      "lon": 7.4459657,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "New Utako Modern Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5825543423,
+      "lat": 12.9298237,
+      "lon": 5.1294163,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Dingyadi Market",
+        "source": "MSFsurvey",
+        "source:date": "04/05/2017"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5836503405,
+      "lat": 12.9875386,
+      "lon": 5.262258,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Mammy Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5836592707,
+      "lat": 13.0608598,
+      "lon": 5.2235926,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Central Market",
+        "source": "Sprime",
+        "source:date": "2014"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 9189356055,
+      "lat": 11.9736608,
+      "lon": 8.5109107,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Sharada Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10168829108,
+      "lat": 9.6174065,
+      "lon": 6.5308373,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Kure Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10225264360,
+      "lat": 9.1398468,
+      "lon": 7.3690453,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Gwanfara Plaza"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10225266564,
+      "lat": 9.1394031,
+      "lon": 7.3686073,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Oloye Olajumoke Akinjide Shopping Arcade Dutse Alhaji"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13208402551,
+      "lat": 12.04629,
+      "lon": 5.74157,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Nasarawa Central Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 13478552437,
+      "lat": 9.0689633,
+      "lon": 7.4366491,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Utako Farmers Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 4028267294,
+      "lat": 13.677503,
+      "lon": 13.9343496,
+      "tags": {
+        "addr:city": "\u062a\u0634\u0648\u0643\u0648\u062a\u0627\u0644\u064a\u0627",
+        "amenity": "marketplace",
+        "name": "\u0627\u0644\u0633\u0648\u0642 \u062a\u0634\u0648\u0643\u0648\u062a\u0627\u0644\u064a\u0627",
+        "name:ar": "\u0627\u0644\u0633\u0648\u0642 \u062a\u0634\u0648\u0643\u0648\u062a\u0627\u0644\u064a\u0627"
+      },
+      "_state": "",
+      "_lga": "\u062a\u0634\u0648\u0643\u0648\u062a\u0627\u0644\u064a\u0627",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5485396211,
+      "lat": 11.8703108,
+      "lon": 13.1241373,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Baga Road Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5499237775,
+      "lat": 12.3454796,
+      "lon": 13.4546812,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Bida Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 5913463694,
+      "lat": 11.8363842,
+      "lon": 13.1535094,
+      "tags": {
+        "addr:street": "Ahmadu Bello Way Maiduguri",
+        "amenity": "marketplace",
+        "building": "yes",
+        "name": "Maiduguri Monday Market",
+        "opening_hours": "Mo-Su 08:00-17:00",
+        "operator": "Borno State Govt"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 10003376709,
+      "lat": 10.2969846,
+      "lon": 9.8049999,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Old Dass Park"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11175903809,
+      "lat": 10.2868898,
+      "lon": 11.1807341,
+      "tags": {
+        "addr:city": "Gombe",
+        "addr:street": "MARKET WAY",
+        "amenity": "marketplace",
+        "name": "Layin en Carton",
+        "opening_hours": "12h"
+      },
+      "_state": "",
+      "_lga": "Gombe",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11175980349,
+      "lat": 10.2821376,
+      "lon": 11.1851426,
+      "tags": {
+        "addr:city": "Gombe",
+        "addr:street": "sunnah hospital street",
+        "amenity": "marketplace",
+        "building": "yes",
+        "name": "dangote cement branch"
+      },
+      "_state": "",
+      "_lga": "Gombe",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11176089293,
+      "lat": 10.2700542,
+      "lon": 11.1676892,
+      "tags": {
+        "addr:city": "Gombe",
+        "addr:street": "Malam Kuri Riyal Road",
+        "amenity": "marketplace",
+        "building": "commercial",
+        "name": "Phone Sellers"
+      },
+      "_state": "",
+      "_lga": "Gombe",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11351391976,
+      "lat": 9.9126116,
+      "lon": 8.9123024,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2023-11-15",
+        "name": "Kasuwan Mata",
+        "wheelchair": "yes"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 11752969616,
+      "lat": 11.8363143,
+      "lon": 13.1538565,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "monday market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12470725653,
+      "lat": 9.8360071,
+      "lon": 8.8647806,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2025-01-03",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Building Materials"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12626160444,
+      "lat": 9.3925175,
+      "lon": 9.566309,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2025-02-28",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Kadmuna Market"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12733123672,
+      "lat": 9.9435835,
+      "lon": 8.87771,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2025-04-06",
+        "name": "Katako Timber Shed"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    },
+    {
+      "type": "node",
+      "id": 12733123673,
+      "lat": 9.9430452,
+      "lon": 8.8781391,
+      "tags": {
+        "amenity": "marketplace",
+        "check_date": "2025-04-06",
+        "name": "Katako Yan Gwanjo"
+      },
+      "_state": "",
+      "_lga": "",
+      "_ward": ""
+    }
+  ]
+}
