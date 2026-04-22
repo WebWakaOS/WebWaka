@@ -741,3 +741,38 @@ NUC raw HTML artifacts: `s12_nuc_federal_raw_20260422.html`, `s12_nuc_state_raw_
 S12 blocked sources (2026-04-22): MDCN doctor register (Vue SPA, requires JS rendering). NBC broadcast licensee list (not accessible as static page). NBTE polytechnic/vocational lists (Drupal CMS, institution tables not rendered in HTML). ICAN accountants (inaccessible). ARCON architects (inaccessible). PCN pharmacists (inaccessible). Media offices, training/vocational schools, accountant offices, architect/engineer offices, tech/IT offices all returned 0 OSM entities in collected quads (rate-limited for NW+NE). Raw source artifacts: `s12_osm_law_firm_sw_ng_20260422.json`, `s12_osm_studio_recording_se_ng_20260422.json`, `s12_nbte_digital_raw_20260422.html`, `s12_mdcn_doctors_raw_20260422.html`.
 
 S11+S12 SQLite validation (2026-04-22): 7/7 PASS. All migrations idempotent. esrc==orgs for all 7 (provenance fully populated). One CHECK constraint fix applied: `seed_entity_sources.source_type='government_registry'→'official_register'`, `confidence_level='government_official'→'source_verified'` in NUC migrations. Validation report: `infra/db/seed/sources/s11_s12_validation_report_20260422.json`. Completion report: `infra/db/seed/sources/s11_s12_completion_report_20260422.json`. All 7 migrations mirrored to `infra/db/migrations/`. D1 apply deferred pending D1 Pro capacity. Total S11+S12: 704 entities (295 S11 OSM + 409 S12 NUC+OSM). Cumulative seed total post S11+S12: ~51,189 entities (excl. NEMIS 174,268).
+
+## Production D1 Migration Run — COMPLETE 2026-04-22
+
+All 66 pending migrations (0314c–0372) successfully applied to production D1 (`webwaka-production`, `72fa5ec8-52c2-4f41-b486-957d7b00c76f`). Final state: **569 migrations** total applied.
+
+### Production Row Counts (post-apply)
+| Table | Rows |
+|---|---|
+| organizations | 287,190 |
+| profiles | 296,444 |
+| search_entries | 280,938 |
+| seed_sources | 78 |
+| seed_runs | 107 |
+| seed_raw_artifacts | 85 |
+| seed_ingestion_records | 234,689 |
+| seed_identity_map | 296,241 |
+| seed_place_resolutions | 286,320 |
+| seed_entity_sources | 307,353 |
+| seed_dedupe_decisions | 0 |
+| seed_coverage_snapshots | 234 |
+
+### D1-Specific Bugs Encountered and Fixed
+
+1. **`parse_statements` inline-comment bug** — SQL parser split `CREATE TABLE` statements mid-column when a `--` comment contained a `;`. Fixed by adding comment-aware skip-to-EOL in the character scanner (`/tmp/d1_chunked_apply.py`).
+
+2. **D1_RESET_DO on heavy multi-rename transactions** — 0314d (multi-step schema migration with 8 table renames) caused `D1_RESET_DO` when applied as a single transaction. Worked around by applying 0314d in 8 sequential sections (orgs, profiles, search_entries, seed_sources, seed_runs, seed_identity_map, seed_place_resolutions, beauty_salon).
+
+3. **D1 enforces FK on DROP TABLE (non-standard SQLite behaviour)** — DROP TABLE on a parent table fails if child tables exist that reference it, even without `ON DELETE`. Worked around in 0314h by dropping child-before-parent: `seed_ingestion_records_new` first, then `seed_raw_artifacts`, then recreating `seed_ingestion_records` from `seed_ingestion_records_fk_fix_bak`.
+
+4. **0314d manual section created wrong `seed_sources` DDL** — The hardcoded section used `source_key TEXT NOT NULL UNIQUE` instead of the canonical `source_key TEXT UNIQUE` (nullable). This caused all 0315+ INSERTs (which omit `source_key`) to fail silently via `INSERT OR IGNORE`. Also missing `canonical_url`, `license_notes`, `row_count`. Fixed by: (a) `ALTER TABLE seed_sources ADD COLUMN canonical_url/license_notes/row_count`, (b) adding `inject_seed_sources_source_key()` to the chunked apply script to automatically inject `source_key = id` into any `seed_sources` INSERT that omits it. `PRAGMA writable_schema` and `ALTER TABLE ... ALTER COLUMN` are not available on D1; the only viable fix was the inject rewrite.
+
+5. **`INSERT OR IGNORE` does NOT suppress FK violations** — Confirmed D1 behaviour: `INSERT OR IGNORE` silently drops rows violating UNIQUE/NOT NULL/CHECK constraints, but raises hard errors for FK violations. This distinction mattered for debugging the `seed_raw_artifacts` FK failure (parent `seed_sources` row was not inserted due to NOT NULL suppression, so the FK on `seed_raw_artifacts.source_id` then hard-failed).
+
+### Tooling
+- `/tmp/d1_chunked_apply.py` — production-tested chunked apply script with: comment-aware SQL parser, 35KB per-INSERT size chunker, `inject_seed_sources_source_key()` rewriter, D1 migrations table registration. Apply with `python3 /tmp/d1_chunked_apply.py [staging|production] [optional_prefix]`.
