@@ -1,9 +1,11 @@
 /**
  * Payment routes — Paystack checkout + verification + billing history.
  *
- *   POST /workspaces/:id/upgrade          — initialise a Paystack checkout
+ *   POST /workspaces/:id/upgrade          — initialise a checkout
+ *                                           (bank_transfer instructions OR Paystack URL)
  *   POST /payments/verify                 — verify + sync a completed payment
  *   GET  /workspaces/:id/billing          — list billing history for workspace
+ *   GET  /payments/method                 — current payment mode + bank account details
  *
  * All routes require auth (applied at app level in index.ts).
  *
@@ -13,6 +15,12 @@
  *   T3 — Billing history queries are scoped to the authenticated workspace only.
  *   W1 — POST /payments/verify validates the x-paystack-signature HMAC before
  *         processing any payment state change.
+ *
+ * Payment mode selection:
+ *   DEFAULT_PAYMENT_MODE = 'bank_transfer' (default) — routes return bank account
+ *   details + a reference for manual transfer. No Paystack key required.
+ *   DEFAULT_PAYMENT_MODE = 'paystack' — routes initialise a Paystack checkout.
+ *   PAYSTACK_SECRET_KEY must be present; absence falls back to bank_transfer.
  *
  * Milestone 6 — Payments Layer
  */
@@ -25,6 +33,57 @@ import { syncPaymentToSubscription, recordFailedPayment } from '@webwaka/payment
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
 import { publishEvent } from '../lib/publish-event.js';
 import { BillingEventType, WorkspaceEventType } from '@webwaka/events';
+
+// ---------------------------------------------------------------------------
+// Shared helpers
+// ---------------------------------------------------------------------------
+
+interface PlatformBankAccount {
+  bank_name: string;
+  account_number: string;
+  account_name: string;
+  sort_code?: string;
+}
+
+/** Parse PLATFORM_BANK_ACCOUNT_JSON, returning a safe default on failure. */
+function parseBankAccount(raw: string | undefined): PlatformBankAccount {
+  if (!raw) {
+    return { bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A' };
+  }
+  try {
+    return JSON.parse(raw) as PlatformBankAccount;
+  } catch {
+    return { bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A' };
+  }
+}
+
+/**
+ * Generate a short, human-readable, traceable bank transfer reference.
+ * Format: WKUP-{8-char workspace suffix}-{5-char random base36}
+ * e.g.  WKUP-ABCD1234-X7K3M
+ */
+function generateUpgradeRef(workspaceId: string): string {
+  const suffix = workspaceId.replace(/-/g, '').slice(-8).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
+  return `WKUP-${suffix}-${rand}`;
+}
+
+/** Format kobo amount as human-readable Naira string: 500000 → "5,000.00" */
+function formatNaira(kobo: number): string {
+  return (kobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+const PLAN_AMOUNTS: Record<string, number> = {
+  starter:    500_000,
+  growth:   2_000_000,
+  enterprise: 10_000_000,
+};
+
+/** True when the platform is in manual (bank-transfer) mode. */
+function isBankTransferMode(env: Env): boolean {
+  if (!env.PAYSTACK_SECRET_KEY) return true;
+  return (env.DEFAULT_PAYMENT_MODE ?? 'bank_transfer') === 'bank_transfer';
+}
 
 interface D1Like {
   prepare(query: string): {
@@ -78,19 +137,37 @@ workspaceUpgradeRoute.post('/:id/upgrade', async (c) => {
     return c.json({ error: 'email is required' }, 400);
   }
 
-  const PLAN_AMOUNTS: Record<string, number> = {
-    starter:    5_000_00,
-    growth:    20_000_00,
-    enterprise: 100_000_00,
-  };
-
   const plan = body.plan ?? 'starter';
-  const amountKobo = PLAN_AMOUNTS[plan] ?? PLAN_AMOUNTS['starter']!;
-
-  const secretKey = c.env.PAYSTACK_SECRET_KEY;
-  if (!secretKey) {
-    return c.json({ error: 'Payment provider not configured' }, 503);
+  const validPlans = ['starter', 'growth', 'enterprise'];
+  if (!validPlans.includes(plan)) {
+    return c.json({ error: `Invalid plan. Must be one of: ${validPlans.join(' | ')}` }, 400);
   }
+  const amountKobo = PLAN_AMOUNTS[plan]!;
+
+  // ── Bank transfer (manual) mode ────────────────────────────────────────────
+  if (isBankTransferMode(c.env)) {
+    const bankAccount = parseBankAccount(c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    const reference   = generateUpgradeRef(workspaceId);
+    const naira       = formatNaira(amountKobo);
+
+    return c.json(
+      {
+        payment_mode:   'bank_transfer',
+        plan,
+        amount_kobo:    amountKobo,
+        amount_naira:   naira,
+        reference,
+        narration:      `WebWaka Plan Upgrade - ${reference}`,
+        bank_account:   bankAccount,
+        instructions:   `Transfer ₦${naira} to the account above. Use the reference ${reference} as your payment narration. Your workspace plan will be activated within 1 business day after payment confirmation by the platform team.`,
+        expires_at:     Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
+      },
+      200,
+    );
+  }
+
+  // ── Paystack (online) mode ─────────────────────────────────────────────────
+  const secretKey = c.env.PAYSTACK_SECRET_KEY!;
 
   try {
     const payment = await initializePayment(
@@ -106,10 +183,11 @@ workspaceUpgradeRoute.post('/:id/upgrade', async (c) => {
 
     return c.json(
       {
-        reference: payment.reference,
-        authorizationUrl: payment.authorizationUrl,
-        accessCode: payment.accessCode,
-        amountKobo: payment.amountKobo,
+        payment_mode:       'paystack',
+        reference:          payment.reference,
+        authorization_url:  payment.authorizationUrl,
+        access_code:        payment.accessCode,
+        amount_kobo:        payment.amountKobo,
         plan,
       },
       201,
@@ -289,4 +367,35 @@ workspaceBillingRoute.get('/:id/billing', async (c) => {
   }));
 
   return c.json({ workspaceId, records, total: records.length });
+});
+
+// ---------------------------------------------------------------------------
+// Payment method info — GET /payments/method
+//
+// Returns the current payment mode and, when in bank-transfer mode, the
+// platform receiving account details. Intended for the workspace app to
+// display appropriate payment UI without hard-coding logic client-side.
+// ---------------------------------------------------------------------------
+
+export const paymentsMethodRoute = new Hono<AppEnv>();
+
+paymentsMethodRoute.get('/method', async (c) => {
+  const mode = isBankTransferMode(c.env) ? 'bank_transfer' : 'paystack';
+
+  const payload: Record<string, unknown> = {
+    payment_mode:      mode,
+    gateway_available: !!(c.env.PAYSTACK_SECRET_KEY),
+    plans: {
+      starter:    { amount_kobo: PLAN_AMOUNTS['starter']!,    amount_naira: formatNaira(PLAN_AMOUNTS['starter']!)    },
+      growth:     { amount_kobo: PLAN_AMOUNTS['growth']!,     amount_naira: formatNaira(PLAN_AMOUNTS['growth']!)     },
+      enterprise: { amount_kobo: PLAN_AMOUNTS['enterprise']!, amount_naira: formatNaira(PLAN_AMOUNTS['enterprise']!) },
+    },
+  };
+
+  if (mode === 'bank_transfer') {
+    payload['bank_account'] = parseBankAccount(c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    payload['instructions']  = 'Transfer the plan amount to the bank account above. Use your workspace ID or the reference provided during upgrade as your payment narration. Activation occurs within 1 business day of confirmation.';
+  }
+
+  return c.json(payload);
 });

@@ -79,7 +79,8 @@ export interface KYCRecord {
 
 export interface IdentityEnv {
   readonly PREMBLY_API_KEY: string;
-  readonly PAYSTACK_SECRET_KEY: string;
+  /** Optional — only required when Prembly is unavailable and Paystack BVN fallback is used. */
+  readonly PAYSTACK_SECRET_KEY?: string;
   readonly LOG_PII_SALT: string;
 }
 

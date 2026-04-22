@@ -36,8 +36,29 @@ export interface Env {
    * Paystack secret key — stored as a CF Worker Secret.
    * Provisioned via CF Dashboard / wrangler secret put PAYSTACK_SECRET_KEY
    * Never hardcode or log this value.
+   * Optional: when absent the platform falls back to DEFAULT_PAYMENT_MODE.
    */
-  PAYSTACK_SECRET_KEY: string;
+  PAYSTACK_SECRET_KEY?: string;
+
+  /**
+   * Default payment mode for the platform.
+   * 'bank_transfer' — manual/offline mode; upgrade routes return bank account
+   *                   instructions instead of a Paystack checkout URL.
+   * 'paystack'      — online mode; Paystack checkout is the primary flow.
+   * Defaults to 'bank_transfer' when absent (safe default).
+   * Set via wrangler.toml [vars] — not a secret.
+   */
+  DEFAULT_PAYMENT_MODE?: 'bank_transfer' | 'paystack';
+
+  /**
+   * JSON-encoded platform receiving bank account for manual payments.
+   * Shape: { bank_name, account_number, account_name, sort_code? }
+   * Surfaced to callers when DEFAULT_PAYMENT_MODE = 'bank_transfer'.
+   * Set via wrangler.toml [vars] — this is NOT a secret (it is shared with payers).
+   * Example: '{"bank_name":"Access Bank","account_number":"0123456789","account_name":"WebWaka Technologies Ltd"}'
+   * UPDATE THIS before accepting live payments.
+   */
+  PLATFORM_BANK_ACCOUNT_JSON?: string;
 
   /**
    * Prembly API key — stored as a CF Worker Secret (M7a).

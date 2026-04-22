@@ -119,13 +119,42 @@ workspaceRoutes.post('/:id/activate', async (c) => {
   };
   const amountKobo = PLAN_AMOUNTS[plan] ?? PLAN_AMOUNTS['starter']!;
 
-  const secretKey = c.env.PAYSTACK_SECRET_KEY;
-  if (!secretKey) {
-    return c.json({ error: 'Payment provider not configured' }, 503);
+  // ── Bank transfer (manual) mode ─────────────────────────────────────────────
+  const isManualMode = !c.env.PAYSTACK_SECRET_KEY ||
+    (c.env.DEFAULT_PAYMENT_MODE ?? 'bank_transfer') === 'bank_transfer';
+
+  if (isManualMode) {
+    let bankAccount: { bank_name: string; account_number: string; account_name: string; sort_code?: string } = {
+      bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A',
+    };
+    try {
+      if (c.env.PLATFORM_BANK_ACCOUNT_JSON) {
+        bankAccount = JSON.parse(c.env.PLATFORM_BANK_ACCOUNT_JSON) as typeof bankAccount;
+      }
+    } catch { /* keep default */ }
+
+    const wsSuffix  = workspaceId.replace(/-/g, '').slice(-8).toUpperCase();
+    const rand      = Math.random().toString(36).slice(2, 7).toUpperCase();
+    const reference = `WKUP-${wsSuffix}-${rand}`;
+    const naira     = (amountKobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    return c.json({
+      payment_mode:  'bank_transfer',
+      workspaceId,
+      plan,
+      amount_kobo:   amountKobo,
+      amount_naira:  naira,
+      reference,
+      narration:     `WebWaka Plan Upgrade - ${reference}`,
+      bank_account:  bankAccount,
+      instructions:  `Transfer ₦${naira} to the account above. Use the reference ${reference} as your payment narration. Your workspace plan will be activated within 1 business day after payment confirmation by the platform team.`,
+      expires_at:    Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
+    }, 200);
   }
 
+  // ── Paystack (online) mode ───────────────────────────────────────────────────
   const payment = await initializePayment(
-    { secretKey },
+    { secretKey: c.env.PAYSTACK_SECRET_KEY! },
     {
       workspaceId,
       amountKobo,
@@ -136,13 +165,14 @@ workspaceRoutes.post('/:id/activate', async (c) => {
   );
 
   return c.json({
+    payment_mode:      'paystack',
     workspaceId,
     plan,
-    status: 'pending_payment',
-    reference: payment.reference,
-    authorizationUrl: payment.authorizationUrl,
-    accessCode: payment.accessCode,
-    amountKobo: payment.amountKobo,
+    status:            'pending_payment',
+    reference:         payment.reference,
+    authorization_url: payment.authorizationUrl,
+    access_code:       payment.accessCode,
+    amount_kobo:       payment.amountKobo,
   }, 200);
 });
 

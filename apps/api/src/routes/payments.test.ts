@@ -7,7 +7,7 @@
  *   - W1: Webhook signature validation (401 on bad/missing signature)
  *   - T3: Billing history scoped to caller's workspace
  *   - Input validation (422, 400)
- *   - PAYSTACK_SECRET_KEY absent (503)
+ *   - Bank transfer (manual) mode when PAYSTACK_SECRET_KEY absent (200 + instructions)
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -156,7 +156,7 @@ describe('POST /workspaces/:id/upgrade', () => {
     expect(body.error).toMatch(/workspace mismatch/i);
   });
 
-  it('returns 503 when PAYSTACK_SECRET_KEY is absent', async () => {
+  it('returns bank transfer instructions when PAYSTACK_SECRET_KEY is absent (manual mode)', async () => {
     const token = await makeJwt('wsp_001');
     const res = await app.fetch(
       new Request('http://localhost/workspaces/wsp_001/upgrade', {
@@ -167,9 +167,15 @@ describe('POST /workspaces/:id/upgrade', () => {
           Authorization: `Bearer ${token}`,
         },
       }),
-      makeEnv({ PAYSTACK_SECRET_KEY: '' as unknown as string }),
+      makeEnv({ PAYSTACK_SECRET_KEY: undefined }),
     );
-    expect(res.status).toBe(503);
+    expect(res.status).toBe(200);
+    const body = await res.json() as Record<string, unknown>;
+    expect(body['payment_mode']).toBe('bank_transfer');
+    expect(typeof body['reference']).toBe('string');
+    expect((body['reference'] as string).startsWith('WKUP-')).toBe(true);
+    expect(body['bank_account']).toBeDefined();
+    expect(body['instructions']).toBeDefined();
   });
 });
 

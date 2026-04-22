@@ -62,6 +62,9 @@ export async function verifyBVN(
     return await verifyBVNPrembly(bvn, userPhone, env.PREMBLY_API_KEY);
   } catch (err) {
     if (err instanceof IdentityError && err.code === 'provider_error') {
+      if (!env.PAYSTACK_SECRET_KEY) {
+        throw new IdentityError('provider_error', 'Prembly BVN check failed and Paystack fallback is not configured (PAYSTACK_SECRET_KEY absent).');
+      }
       return await verifyBVNPaystack(bvn, userPhone, env.PAYSTACK_SECRET_KEY);
     }
     throw err;

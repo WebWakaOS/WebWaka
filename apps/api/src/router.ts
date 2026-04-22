@@ -28,6 +28,7 @@ import {
   workspaceUpgradeRoute,
   workspaceBillingRoute,
   paymentsVerifyRoute,
+  paymentsMethodRoute,
 } from './routes/payments.js';
 import { publicRoutes, adminPublicRoutes, themeRoutes } from './routes/public.js';
 import { identityRoutes } from './routes/identity.js';
@@ -188,6 +189,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/payments/*', authMiddleware);
   app.use('/payments/*', auditLogMiddleware);
   app.route('/payments', paymentsVerifyRoute);
+  app.route('/payments', paymentsMethodRoute);
 
   // -------------------------------------------------------------------------
   // M6: Public tenant routes — no auth required
