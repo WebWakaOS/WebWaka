@@ -1,0 +1,1 @@
+-- Rollback script for 0305_political_foundation_seed

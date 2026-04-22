@@ -102,7 +102,7 @@ function bytesToBase64(bytes: Uint8Array): string {
 // ---------------------------------------------------------------------------
 
 interface ResendEmailEvent {
-  type: 'email.delivered' | 'email.bounced' | 'email.complained' | string;
+  type: 'email.delivered' | 'email.bounced' | 'email.complained' | (string & Record<never, never>);
   data: {
     email_id: string;       // Resend message ID — stored as provider_message_id
     to: string[];           // Recipient email addresses
