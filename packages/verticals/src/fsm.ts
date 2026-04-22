@@ -124,6 +124,12 @@ export const BASE_VERTICAL_FSM: VerticalFSMDefinition<BaseVerticalState> = {
       guard: 'admin',
       description: 'Suspended entity permanently removed',
     },
+    {
+      from: 'claimed',
+      to: 'deprecated',
+      guard: 'admin',
+      description: 'Pre-activation claim abandoned — workspace never verified',
+    },
   ],
 };
 

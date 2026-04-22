@@ -48,6 +48,17 @@ describe('assertValidTransition', () => {
     expect(t.to).toBe('deprecated');
   });
 
+  it('allows suspended → deprecated', () => {
+    const t = assertValidTransition(BASE_VERTICAL_FSM, 'suspended', 'deprecated');
+    expect(t.to).toBe('deprecated');
+  });
+
+  it('allows claimed → deprecated (pre-activation abandoned)', () => {
+    const t = assertValidTransition(BASE_VERTICAL_FSM, 'claimed', 'deprecated');
+    expect(t.from).toBe('claimed');
+    expect(t.to).toBe('deprecated');
+  });
+
   it('throws INVALID_TRANSITION for seeded → active (no direct path)', () => {
     expect(() =>
       assertValidTransition(BASE_VERTICAL_FSM, 'seeded', 'active'),

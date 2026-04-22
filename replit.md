@@ -839,4 +839,31 @@ All FSM transitions are validated by `assertValidTransition(BASE_VERTICAL_FSM, f
 
 **Router mounting**: `/platform-admin/verticals/*` requires `authMiddleware` + `requireRole('super_admin')` + `auditLogMiddleware`.
 
-**Test results (2026-04-22)**: 2,463 API tests pass, 16 payments tests pass, 77 verticals tests pass. Zero TypeScript errors.
+---
+
+### QA Bug Fixes & Hardening (2026-04-22)
+
+Four bugs identified and fixed after initial implementation:
+
+1. **FSM missing `claimed → deprecated` transition** — `BASE_VERTICAL_FSM` in `packages/verticals/src/fsm.ts` was missing the `claimed → deprecated` transition, meaning the admin `deprecate` route would throw 422 for any vertical still in `claimed` state. Added the transition with guard `admin` and description `"Pre-activation claim abandoned — workspace never verified"`.
+
+2. **Incorrect `as never` type cast** — `publishEvent` call in `platform-admin-billing.ts` used `workspaceId: row.workspace_id as never`. `publishEvent` accepts `workspaceId?: string`; `row.workspace_id` is already `string`. Removed the cast.
+
+3. **Expired upgrade request force-confirm** — The confirm route blocked all expired requests with a hard 410. In real deployments, bank transfers sometimes arrive after the 7-day window. Added `{ "force": true }` body flag: if `force=true`, the route skips the expiry guard and confirms anyway. Error response now includes actionable hint: `"Resend this request with { \"force\": true } to confirm anyway."`. `status=expired` records are also unblocked with `force=true`.
+
+4. **Admin-verticals docstring updated** — `platform-admin-verticals.ts` FSM transition table now includes `claimed → deprecated`.
+
+### New Test Coverage (2026-04-22)
+
+- **`apps/api/src/routes/platform-admin-billing.test.ts`** — 31 new tests covering: auth enforcement, role enforcement, list pagination, detail with `is_expired`, confirm (404/409/410/200/force/idempotent/no-downgrade), reject (400/404/409/200/event note).
+- **`apps/api/src/routes/platform-admin-verticals.test.ts`** — 44 new tests covering: auth/role enforcement, cross-workspace list (filters, empty, invalid state), workspace detail (404, verification flags), claim (404 ws, 404 vert, idempotent-claimed, idempotent-active, 201-new), activate (404, idempotent-active, 200, 422-unmet, 200-force), suspend (400-reason, 404-ws, 404-vert, 200-idempotent, 409-deprecated, 200-active, 200-claimed), reinstate (404, 409-not-suspended, 200-met, 200-force), deprecate (400-reason, 404-ws, 404-vert, 200-idempotent, 200-active, 200-suspended, **200-claimed** — new FSM transition).
+- **`packages/verticals/src/fsm.test.ts`** — 2 new tests: `allows suspended → deprecated` and `allows claimed → deprecated (pre-activation abandoned)`.
+
+**Final test counts**: 2,538 API tests (all pass) · 79 verticals package tests (all pass) · 16 payments tests (all pass). Zero TypeScript errors.
+
+### Deployment (2026-04-22)
+
+- D1 migrations 0378–0381 were already applied to both staging and production (verified via `wrangler d1 migrations list`).
+- Workers code deployed to **staging** (`api-staging.webwaka.com`) — Version `8797bf34-965a-4f25-902d-5e36ef7b9ae2`.
+- Workers code deployed to **production** (`api.webwaka.com`) — Version `fc6580c4-7801-43a1-8e09-b4a42b9aee5d`.
+- Smoke test: `/health` → 200 on both. New platform-admin routes return 401 as expected without JWT on both environments.

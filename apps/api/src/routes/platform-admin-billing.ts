@@ -180,8 +180,8 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/confirm', async (c) => {
   const auth = c.get('auth');
   const id   = c.req.param('id');
 
-  let body: { notes?: string } = {};
-  try { body = await c.req.json<{ notes?: string }>(); } catch { body = {}; }
+  let body: { notes?: string; force?: boolean } = {};
+  try { body = await c.req.json<{ notes?: string; force?: boolean }>(); } catch { body = {}; }
 
   const row = await db
     .prepare('SELECT * FROM workspace_upgrade_requests WHERE id = ? LIMIT 1')
@@ -200,17 +200,30 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/confirm', async (c) => {
   const now = Math.floor(Date.now() / 1000);
 
   if (row.status === 'pending' && row.expires_at < now) {
-    // Auto-expire and inform; allow admin to confirm anyway with a note
-    await db
-      .prepare('UPDATE workspace_upgrade_requests SET status = ?, updated_at = unixepoch() WHERE id = ?')
-      .bind('expired', id)
-      .run();
+    // If the admin explicitly forces confirmation (e.g. late bank transfer received
+    // after the 7-day window), proceed.  Otherwise block and surface the expiry.
+    if (!body.force) {
+      await db
+        .prepare('UPDATE workspace_upgrade_requests SET status = ?, updated_at = unixepoch() WHERE id = ?')
+        .bind('expired', id)
+        .run();
+      return c.json({
+        error:      'This upgrade request has expired (7-day window passed).',
+        hint:       'If payment was received late, resend this request with { "force": true } to confirm anyway.',
+        status:     'expired',
+        expires_at: row.expires_at,
+      }, 410);
+    }
+    // force=true: late payment confirmed by admin — continue but note it
+  }
+
+  // Allow re-confirmation of an already-expired request if force=true
+  if (row.status === 'expired' && !body.force) {
     return c.json({
-      error:   'This upgrade request has expired (7-day window passed). Re-issue a new request.',
-      hint:    'Ask the workspace owner to re-initiate the upgrade. Their payment may still need to be credited manually.',
-      status:  'expired',
-      expires_at: row.expires_at,
-    }, 410);
+      error:  'Upgrade request has already been marked expired.',
+      hint:   'If payment was received, resend with { "force": true } to confirm anyway.',
+      status: row.status,
+    }, 409);
   }
 
   // ── 1. Insert billing_history (idempotent via INSERT OR IGNORE) ──────────
@@ -314,7 +327,7 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/confirm', async (c) => {
     tenantId:  row.tenant_id,
     actorId:   auth.userId,
     actorType: 'admin',
-    workspaceId: row.workspace_id as never,
+    workspaceId: row.workspace_id,
     payload:   {
       plan:         targetPlan,
       reference:    row.reference,

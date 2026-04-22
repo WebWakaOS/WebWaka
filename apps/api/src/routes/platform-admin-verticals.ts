@@ -51,6 +51,7 @@
  *   claimed   → suspended    (admin: pre-activation compliance hold)
  *   active    → deprecated   (admin: permanent removal)
  *   suspended → deprecated   (admin: suspended entity permanently removed)
+ *   claimed   → deprecated   (admin: pre-activation claim abandoned)
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * Platform Invariants:
