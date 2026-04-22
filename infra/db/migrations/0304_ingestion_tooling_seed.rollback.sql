@@ -1,0 +1,2 @@
+-- Rollback 0304_ingestion_tooling_seed.sql
+-- Placeholder for rollback of ingestion tooling seed

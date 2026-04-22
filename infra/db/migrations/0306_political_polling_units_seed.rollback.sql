@@ -1,0 +1,2 @@
+-- Rollback 0306_political_polling_units_seed.sql
+-- Placeholder for rollback of political polling units seed

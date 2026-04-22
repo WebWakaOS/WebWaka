@@ -1,0 +1,2 @@
+-- Rollback 0305_political_foundation_seed.sql
+-- Placeholder for rollback of political foundation seed

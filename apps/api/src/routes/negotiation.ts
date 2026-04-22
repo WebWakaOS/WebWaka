@@ -71,7 +71,7 @@ function stripMinPrice(obj: unknown): unknown {
   return rest;
 }
 
-function handleEngineError(c: { json: (body: unknown, status?: number) => Response }, err: unknown): Response {
+function handleEngineError(c: { json: (body: unknown, status?: number) => Response }, err: any): Response {
   if (err instanceof NegotiationBlockedError) return c.json({ error: err.message, code: err.code }, 422);
   if (err instanceof NegotiationNotEnabledError) return c.json({ error: err.message, code: err.code }, 422);
   if (err instanceof InsufficientKycError) return c.json({ error: err.message, code: err.code }, 422);

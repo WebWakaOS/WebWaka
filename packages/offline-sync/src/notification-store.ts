@@ -126,7 +126,7 @@ export async function getItems(opts: GetItemsOptions): Promise<NotificationInbox
   const { userId, limit = 20, offset = 0, unreadOnly = false, category = null } = opts;
   const now = Math.floor(Date.now() / 1000);
 
-  let collection = db.notificationInbox
+  const collection = db.notificationInbox
     .where('userId').equals(userId)
     .and((r) =>
       r.archivedAt == null &&
