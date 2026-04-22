@@ -84,6 +84,8 @@ import { inboxRoutes } from './routes/inbox-routes.js';
 import { preferenceRoutes } from './routes/preference-routes.js';
 import { notificationAdminRoutes } from './routes/notification-admin-routes.js';
 import { platformAdminSettingsRoutes } from './routes/platform-admin-settings.js';
+import { platformAdminBillingRoutes } from './routes/platform-admin-billing.js';
+import { platformAdminVerticalsRoutes } from './routes/platform-admin-verticals.js';
 import { tenantBrandingRoutes } from './routes/tenant-branding.js';
 import { profileRoutes } from './routes/profiles.js';
 
@@ -729,6 +731,43 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/platform-admin/settings/*', requireRole('super_admin'));
   app.use('/platform-admin/settings/*', auditLogMiddleware);
   app.route('/platform-admin/settings', platformAdminSettingsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Platform-admin billing — workspace plan upgrade request confirmation
+  //
+  //   GET  /platform-admin/billing/upgrade-requests          — list pending
+  //   GET  /platform-admin/billing/upgrade-requests/:id      — single request
+  //   POST /platform-admin/billing/upgrade-requests/:id/confirm — confirm payment
+  //   POST /platform-admin/billing/upgrade-requests/:id/reject  — reject
+  //
+  // All routes: super_admin only.
+  // Confirm: upgrades subscription plan, enables 'operations' layer, fires
+  //          billing.payment_succeeded + workspace.activated events.
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/billing/*', authMiddleware);
+  app.use('/platform-admin/billing/*', requireRole('super_admin'));
+  app.use('/platform-admin/billing/*', auditLogMiddleware);
+  app.route('/platform-admin/billing', platformAdminBillingRoutes);
+
+  // -------------------------------------------------------------------------
+  // Platform-admin vertical FSM control — M8b
+  //
+  //   GET  /platform-admin/verticals                              — list all (cross-workspace)
+  //   GET  /platform-admin/verticals/:workspaceId                 — list for one workspace
+  //   POST /platform-admin/verticals/:workspaceId/:slug/claim     — register at claimed state
+  //   POST /platform-admin/verticals/:workspaceId/:slug/activate  — claimed → active
+  //   POST /platform-admin/verticals/:workspaceId/:slug/suspend   — active|claimed → suspended
+  //   POST /platform-admin/verticals/:workspaceId/:slug/reinstate — suspended → active
+  //   POST /platform-admin/verticals/:workspaceId/:slug/deprecate — any → deprecated
+  //
+  // All routes: super_admin only. Every state change fires an event.
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/verticals/*', authMiddleware);
+  app.use('/platform-admin/verticals/*', requireRole('super_admin'));
+  app.use('/platform-admin/verticals/*', auditLogMiddleware);
+  app.route('/platform-admin/verticals', platformAdminVerticalsRoutes);
 
   // -------------------------------------------------------------------------
   // Tenant branding / white-label configuration (auth required, admin role)

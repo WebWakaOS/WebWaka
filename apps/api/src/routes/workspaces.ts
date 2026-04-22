@@ -141,9 +141,24 @@ workspaceRoutes.post('/:id/activate', async (c) => {
     const rand      = Math.random().toString(36).slice(2, 7).toUpperCase();
     const reference = `WKUP-${wsSuffix}-${rand}`;
     const naira     = (amountKobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const expiresAt = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
+    const requestId = crypto.randomUUID().replace(/-/g, '');
+
+    // Persist the upgrade request so the platform admin can confirm or reject it.
+    await db
+      .prepare(
+        `INSERT OR IGNORE INTO workspace_upgrade_requests
+           (id, workspace_id, tenant_id, plan, amount_kobo, reference,
+            requester_email, status, expires_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
+      )
+      .bind(requestId, workspaceId, auth.tenantId, plan, amountKobo, reference,
+            email ?? null, expiresAt)
+      .run();
 
     return c.json({
       payment_mode:  'bank_transfer',
+      upgrade_request_id: requestId,
       workspaceId,
       plan,
       amount_kobo:   amountKobo,
@@ -152,7 +167,7 @@ workspaceRoutes.post('/:id/activate', async (c) => {
       narration:     `WebWaka Plan Upgrade - ${reference}`,
       bank_account:  bankAccount,
       instructions:  `Transfer ₦${naira} to the account above. Use the reference ${reference} as your payment narration. Your workspace plan will be activated within 1 business day after payment confirmation by the platform team.`,
-      expires_at:    Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
+      expires_at:    expiresAt,
     }, 200);
   }
 

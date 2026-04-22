@@ -786,3 +786,57 @@ All 66 pending migrations (0314c–0372) successfully applied to production D1 (
 
 ### Tooling
 - `/tmp/d1_chunked_apply.py` — production-tested chunked apply script with: comment-aware SQL parser, 35KB per-INSERT size chunker, `inject_seed_sources_source_key()` rewriter, D1 migrations table registration. Apply with `python3 /tmp/d1_chunked_apply.py [staging|production] [optional_prefix]`.
+
+---
+
+## Claim → Activation Flow — Full Implementation (2026-04-22)
+
+### Gap A: Platform admin bank transfer upgrade confirmation
+
+**Migration 0381** adds `workspace_upgrade_requests` table:
+- Tracks every WKUP bank-transfer upgrade request with status lifecycle `pending → confirmed | rejected | expired`
+- Columns: `id`, `workspace_id`, `tenant_id`, `plan`, `amount_kobo`, `reference` (UNIQUE), `requester_email`, `status`, `confirmed_by`, `rejected_by`, `rejection_reason`, `notes`, `confirmed_at`, `rejected_at`, `expires_at` (7 days), timestamps
+
+**Updated routes** (both now persist upgrade request before returning bank transfer instructions):
+- `POST /workspaces/:id/activate` (bank_transfer mode) — inserts `workspace_upgrade_requests` row, returns `upgrade_request_id` in response
+- `POST /workspaces/:id/upgrade` (bank_transfer mode) — same
+
+**New file `apps/api/src/routes/platform-admin-billing.ts`** — all routes require `super_admin` role:
+- `GET /platform-admin/billing/upgrade-requests` — list with `?status=pending|confirmed|rejected|expired|all` and `?workspaceId=` filters; cursor pagination
+- `GET /platform-admin/billing/upgrade-requests/:id` — single request with current subscription plan context and expiry status
+- `POST /platform-admin/billing/upgrade-requests/:id/confirm` — confirms payment received:
+  1. Inserts `billing_history` row (idempotent via `INSERT OR IGNORE`)
+  2. Upgrades `subscriptions.plan` (never downgrades — guarded by plan rank comparison)
+  3. Adds `operations` to `workspaces.active_layers` if not already present
+  4. Marks request `confirmed`
+  5. Fires `billing.payment_succeeded` + `workspace.activated` events
+- `POST /platform-admin/billing/upgrade-requests/:id/reject` — rejects with mandatory reason, fires `billing.payment_failed` event for notification subscribers
+
+**Router mounting**: `/platform-admin/billing/*` requires `authMiddleware` + `requireRole('super_admin')` + `auditLogMiddleware`.
+
+---
+
+### Gap B: Vertical `claimed` → `active` transition
+
+**Updated `apps/api/src/routes/workspace-verticals.ts`** (M8b):
+
+`POST /workspaces/:id/verticals/:slug/activate` — **auto-activation**: if `checkActivationRequirements` returns an empty unmet list (all KYC tier + verification flags already confirmed), advances **directly to `active`** state with `activated_at` set. No separate admin step needed. Returns 422 with structured requirements breakdown if any requirement is unmet. The `claimed` intermediate state is reserved for future M8c document-upload flows.
+
+`GET /workspaces/:id/verticals` — now includes `unmet_for_active` annotation on any `claimed` rows and returns a `summary` count by state.
+
+`GET /workspaces/:id/verticals/:slug` — new endpoint: full detail including vertical entitlements, workspace verification flags, current FSM state, `can_activate` boolean, and available FSM transitions.
+
+**New file `apps/api/src/routes/platform-admin-verticals.ts`** — all routes require `super_admin` role:
+- `GET /platform-admin/verticals` — cross-workspace list of all `workspace_verticals` rows; filterable by `state`, `slug`, `workspaceId`, `tenantId`; cursor pagination; includes workspace name and verification flags
+- `GET /platform-admin/verticals/:workspaceId` — all verticals for one workspace with per-row `unmet_for_active` annotation
+- `POST /platform-admin/verticals/:workspaceId/:slug/claim` — admin-initiated: inserts row in `claimed` state (idempotent)
+- `POST /platform-admin/verticals/:workspaceId/:slug/activate` — `claimed → active`; re-validates entitlements; supports `{ "force": true }` override for admin exceptions; fires `workspace.vertical_activated` event
+- `POST /platform-admin/verticals/:workspaceId/:slug/suspend` — `active|claimed → suspended`; requires reason; fires `workspace.vertical_suspended` event
+- `POST /platform-admin/verticals/:workspaceId/:slug/reinstate` — `suspended → active`; re-validates entitlements; fires `workspace.vertical_reinstated` event
+- `POST /platform-admin/verticals/:workspaceId/:slug/deprecate` — permanent, irreversible; requires reason; fires `workspace.vertical_deprecated` event with `severity: critical`
+
+All FSM transitions are validated by `assertValidTransition(BASE_VERTICAL_FSM, fromState, toState)` from `@webwaka/verticals` before any DB write.
+
+**Router mounting**: `/platform-admin/verticals/*` requires `authMiddleware` + `requireRole('super_admin')` + `auditLogMiddleware`.
+
+**Test results (2026-04-22)**: 2,463 API tests pass, 16 payments tests pass, 77 verticals tests pass. Zero TypeScript errors.
