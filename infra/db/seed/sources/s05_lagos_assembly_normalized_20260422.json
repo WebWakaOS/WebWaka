@@ -1,0 +1,406 @@
+{
+  "members": [
+    {
+      "full_name": "Mudashiru A. Obasa",
+      "position": "Speaker",
+      "constituency_wp": "Agege 01",
+      "constituency_inec": "AGEGE I",
+      "place_id": "place_state_constituency_sc_632_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Abdulkareem Jubreel Ayodeji",
+      "position": "Member",
+      "constituency_wp": "Agege 02",
+      "constituency_inec": "AGEGE II",
+      "place_id": "place_state_constituency_sc_633_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Olumoh Saad Lukman",
+      "position": "Member",
+      "constituency_wp": "Ajeromi-Ifelodun 01",
+      "constituency_inec": "AJEROMI/IFELODUN I",
+      "place_id": "place_state_constituency_sc_634_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Oluwa Sabur Akanbi",
+      "position": "Member",
+      "constituency_wp": "Ajeromiifelodun 02",
+      "constituency_inec": "AJEROMI/IFELODUN II",
+      "place_id": "place_state_constituency_sc_635_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Jimoh Orelope",
+      "position": "Member",
+      "constituency_wp": "Alimosho 01",
+      "constituency_inec": "ALIMOSHO I",
+      "place_id": "place_state_constituency_sc_636_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Kehinde O. Joseph",
+      "position": "Member",
+      "constituency_wp": "Alimosho 02",
+      "constituency_inec": "ALIMOSHO II",
+      "place_id": "place_state_constituency_sc_637_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Foluke Osafile",
+      "position": "Member",
+      "constituency_wp": "Amuwo Odofin 01",
+      "constituency_inec": "AMUWO ODOFIN I",
+      "place_id": "place_state_constituency_sc_638_la",
+      "party_abbrev": "LP",
+      "party_id": "org_political_party_lp",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Tunde Fashina",
+      "position": "Member",
+      "constituency_wp": "Amuwo Odofin 02",
+      "constituency_inec": "AMUWO ODOFIN II",
+      "place_id": "place_state_constituency_sc_639_la",
+      "party_abbrev": "LP",
+      "party_id": "org_political_party_lp",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Mojisola Lasbat Meranda",
+      "position": "Deputy Speaker",
+      "constituency_wp": "Apapa 01",
+      "constituency_inec": "APAPA I",
+      "place_id": "place_state_constituency_sc_640_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Aina Lawal",
+      "position": "Member",
+      "constituency_wp": "Apapa 02",
+      "constituency_inec": "APAPA II",
+      "place_id": "place_state_constituency_sc_641_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Solomon Bonu",
+      "position": "Member",
+      "constituency_wp": "Badagry 01",
+      "constituency_inec": "BADAGRY I",
+      "place_id": "place_state_constituency_sc_642_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Setonji David Samuel",
+      "position": "Deputy Chief Whip",
+      "constituency_wp": "Badagry 02",
+      "constituency_inec": "BADAGRY II",
+      "place_id": "place_state_constituency_sc_643_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Tobun Abiodun",
+      "position": "Member",
+      "constituency_wp": "Epe 01",
+      "constituency_inec": "EPE I",
+      "place_id": "place_state_constituency_sc_644_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Sylvester O. Ogunkelu",
+      "position": "Member",
+      "constituency_wp": "Epe 02",
+      "constituency_inec": "EPE II",
+      "place_id": "place_state_constituency_sc_645_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Noheem Adams",
+      "position": "Majority Leader",
+      "constituency_wp": "Eti Osa 01",
+      "constituency_inec": "ETI-OSA I",
+      "place_id": "place_state_constituency_sc_646_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Yishawu Olusegun Gbolahan",
+      "position": "Member",
+      "constituency_wp": "Eti Osa 02",
+      "constituency_inec": "ETI-OSA II",
+      "place_id": "place_state_constituency_sc_647_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Fatai Mojeed",
+      "position": "Chief Whip",
+      "constituency_wp": "Ibeju Lekki 01",
+      "constituency_inec": "IBEJU-LEKKI I",
+      "place_id": "place_state_constituency_sc_648_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Oladele Ajayi",
+      "position": "Member",
+      "constituency_wp": "Ibeju Lekki 02",
+      "constituency_inec": "IBEJU-LEKKI II",
+      "place_id": "place_state_constituency_sc_649_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Temitope Adedeji Adewale",
+      "position": "Member",
+      "constituency_wp": "Ifako Ijaiye 01",
+      "constituency_inec": "IFAKO / IJAIYE I",
+      "place_id": "place_state_constituency_sc_650_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Emmanuel Olotu",
+      "position": "Member",
+      "constituency_wp": "Ifako Ijaiye 02",
+      "constituency_inec": "IFAKO / IJAIYE II",
+      "place_id": "place_state_constituency_sc_651_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Adeseyi Lawal",
+      "position": "Member",
+      "constituency_wp": "Ikeja 01",
+      "constituency_inec": "IKEJA I",
+      "place_id": "place_state_constituency_sc_652_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Kasunmu Adedamola",
+      "position": "Deputy Majority Leader",
+      "constituency_wp": "Ikeja 02",
+      "constituency_inec": "IKEJA II",
+      "place_id": "place_state_constituency_sc_653_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Gbolahan Ogunleye",
+      "position": "Member",
+      "constituency_wp": "Ikorodu 01",
+      "constituency_inec": "IKORODU I",
+      "place_id": "place_state_constituency_sc_654_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Moshood Aro",
+      "position": "Member",
+      "constituency_wp": "Ikorodu 02",
+      "constituency_inec": "IKORODU II",
+      "place_id": "place_state_constituency_sc_655_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Sanni Ganiyu B.",
+      "position": "Member",
+      "constituency_wp": "Kosofe 01",
+      "constituency_inec": "KOSOFE I",
+      "place_id": "place_state_constituency_sc_656_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Saheed Femi",
+      "position": "Member",
+      "constituency_wp": "Kosofe 02",
+      "constituency_inec": "KOSOFE II",
+      "place_id": "place_state_constituency_sc_657_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Olumegbon Lawal",
+      "position": "Member",
+      "constituency_wp": "Lagos Island 01",
+      "constituency_inec": "LAGOS ISLAND I",
+      "place_id": "place_state_constituency_sc_658_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Olanrewaju S. Afinni",
+      "position": "Member",
+      "constituency_wp": "Lagos Island 02",
+      "constituency_inec": "LAGOS ISLAND II",
+      "place_id": "place_state_constituency_sc_659_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Owolabi Ibrahim A.",
+      "position": "Member",
+      "constituency_wp": "Lagos Mainland 01",
+      "constituency_inec": "LAGOS MAINLAND I",
+      "place_id": "place_state_constituency_sc_660_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Rasheed Adebola Shabi",
+      "position": "Member",
+      "constituency_wp": "Lagos Mainland 02",
+      "constituency_inec": "LAGOS MAINLAND II",
+      "place_id": "place_state_constituency_sc_661_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Akinsanya A. Nureni",
+      "position": "Member",
+      "constituency_wp": "Mushin 01",
+      "constituency_inec": "MUSHIN I",
+      "place_id": "place_state_constituency_sc_662_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Olayinka Kazeem",
+      "position": "Member",
+      "constituency_wp": "Mushin 02",
+      "constituency_inec": "MUSHIN II",
+      "place_id": "place_state_constituency_sc_663_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Olusegun Ege",
+      "position": "Member",
+      "constituency_wp": "Ojo 01",
+      "constituency_inec": "OJO I",
+      "place_id": "place_state_constituency_sc_664_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Tijani Suraju O.",
+      "position": "Member",
+      "constituency_wp": "Ojo 02",
+      "constituency_inec": "OJO II",
+      "place_id": "place_state_constituency_sc_665_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Stephen Ogundipe",
+      "position": "Member",
+      "constituency_wp": "Oshodi Isolo 01",
+      "constituency_inec": "OSHODI/ISOLO I",
+      "place_id": "place_state_constituency_sc_666_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Oladapo Ajomale",
+      "position": "Member",
+      "constituency_wp": "Oshodi Isolo 02",
+      "constituency_inec": "OSHODI/ISOLO II",
+      "place_id": "place_state_constituency_sc_667_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Orekoya Abiodun Abimbola",
+      "position": "Member",
+      "constituency_wp": "Somolu 01",
+      "constituency_inec": "SHOMOLU I",
+      "place_id": "place_state_constituency_sc_668_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Apata Samuel Olu",
+      "position": "Member",
+      "constituency_wp": "Somolu 02",
+      "constituency_inec": "SHOMOLU II",
+      "place_id": "place_state_constituency_sc_669_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Elliot Desmond O.",
+      "position": "Member",
+      "constituency_wp": "Surulere 01",
+      "constituency_inec": "SURULERE I",
+      "place_id": "place_state_constituency_sc_670_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    },
+    {
+      "full_name": "Sangodara Mosunmola Rotimi",
+      "position": "Member",
+      "constituency_wp": "Surulere 02",
+      "constituency_inec": "SURULERE II",
+      "place_id": "place_state_constituency_sc_671_la",
+      "party_abbrev": "APC",
+      "party_id": "org_political_party_apc",
+      "resolution_method": "alias"
+    }
+  ],
+  "total": 40,
+  "unresolved": []
+}
