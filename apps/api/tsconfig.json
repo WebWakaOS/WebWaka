@@ -32,6 +32,7 @@
       "@webwaka/notifications": ["packages/notifications/src/index.ts"],
       "@webwaka/offline-sync": ["packages/offline-sync/src/index.ts"],
       "@webwaka/otp": ["packages/otp/src/index.ts"],
+      "@webwaka/hl-wallet": ["packages/hl-wallet/src/index.ts"],
       "@webwaka/payments": ["packages/payments/src/index.ts"],
       "@webwaka/pos": ["packages/pos/src/index.ts"],
       "@webwaka/profiles": ["packages/profiles/src/index.ts"],

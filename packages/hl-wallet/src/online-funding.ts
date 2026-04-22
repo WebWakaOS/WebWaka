@@ -206,8 +206,8 @@ export async function verifyAndCompleteOnlineFunding(
   }
 
   const fundingReq = await db.prepare(`
-    SELECT id FROM hl_funding_requests WHERE bank_transfer_order_id = ? LIMIT 1
-  `).bind(order.id).first<{ id: string }>();
+    SELECT id FROM hl_funding_requests WHERE bank_transfer_order_id = ? AND tenant_id = ? LIMIT 1
+  `).bind(order.id, tenantId).first<{ id: string }>();
 
   if (!fundingReq) {
     throw new WalletError('FUNDING_NOT_FOUND', { order_id: order.id });

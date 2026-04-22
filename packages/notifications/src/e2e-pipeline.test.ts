@@ -393,7 +393,7 @@ describe('E2E-05 — quiet hours: delivery deferred, zero dispatches (G11)', () 
         digestWindow: 'none',
         lowDataMode: false,
         quietHoursStart: 0,
-        quietHoursEnd: 23,
+        quietHoursEnd: 0,
       } as ResolvedPreference),
       update: vi.fn(),
     };
@@ -421,7 +421,7 @@ describe('E2E-05 — quiet hours: delivery deferred, zero dispatches (G11)', () 
         digestWindow: 'none',
         lowDataMode: false,
         quietHoursStart: 0,
-        quietHoursEnd: 23,
+        quietHoursEnd: 0,
       } as ResolvedPreference),
       update: vi.fn(),
     };
