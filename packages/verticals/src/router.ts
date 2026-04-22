@@ -3,7 +3,11 @@
  * WebWaka OS M8 — Verticals Framework
  *
  * Routes vertical operations to the correct per-vertical package.
- * All lookups are tenant-scoped (T3).
+ *
+ * NOTE: getVerticalBySlug and listVerticalsByCategory are intentionally GLOBAL
+ * (not tenant-scoped) — they query the platform-wide vertical registry, which
+ * is shared across all tenants.  Only workspace_verticals (the activation
+ * records that link a specific workspace to a vertical) are tenant-scoped (T3).
  */
 
 import type {

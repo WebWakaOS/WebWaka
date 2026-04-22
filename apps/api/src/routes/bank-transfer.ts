@@ -229,6 +229,17 @@ bankTransferRoutes.post('/:orderId/proof', async (c) => {
     return c.json({ error: 'proof_url is required' }, 400);
   }
 
+  // Validate proof_url is a well-formed absolute URL to prevent injection of
+  // arbitrary or relative strings that would be stored and later rendered/fetched.
+  try {
+    const parsed = new URL(body.proof_url);
+    if (parsed.protocol !== 'https:') {
+      return c.json({ error: 'proof_url must be an HTTPS URL' }, 400);
+    }
+  } catch {
+    return c.json({ error: 'proof_url must be a valid absolute URL' }, 400);
+  }
+
   const now = Math.floor(Date.now() / 1000);
   await db
     .prepare(
@@ -524,19 +535,22 @@ bankTransferRoutes.delete('/:orderId', async (c) => {
 
   const order = await db
     .prepare(
-      `SELECT id, status, user_id, tenant_id FROM bank_transfer_orders
+      // buyer_id is the correct column name — the table was created with buyer_id
+      // (see INSERT at line ~100). Querying user_id would always return undefined
+      // and break the ownership check below.
+      `SELECT id, status, buyer_id, tenant_id FROM bank_transfer_orders
        WHERE id = ? AND tenant_id = ? LIMIT 1`,
     )
     .bind(orderId, auth.tenantId)
-    .first<{ id: string; status: string; user_id: string; tenant_id: string }>();
+    .first<{ id: string; status: string; buyer_id: string; tenant_id: string }>();
 
   if (!order) return c.json({ error: 'Order not found' }, 404);
   if (order.status !== 'pending') {
     return c.json({ error: `Cannot cancel: order is in '${order.status}' status` }, 409);
   }
 
-  // Only the order creator or admins can cancel
-  if (order.user_id !== (auth.userId as string) && auth.role !== 'admin' && auth.role !== 'super_admin') {
+  // Only the order creator (buyer) or admins can cancel.
+  if (order.buyer_id !== (auth.userId as string) && auth.role !== 'admin' && auth.role !== 'super_admin') {
     return c.json({ error: 'Not authorised to cancel this order' }, 403);
   }
 

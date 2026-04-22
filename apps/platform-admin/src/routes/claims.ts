@@ -275,7 +275,10 @@ claimsAdminRoutes.post('/:id/reject', async (c) => {
   try {
     body = await c.req.json<typeof body>();
   } catch {
-    // optional body
+    // Body is optional for rejection — no reason string is a valid call.
+    // A malformed JSON body (e.g. truncated payload) is treated the same as
+    // an absent body, so the rejection proceeds with reason = undefined.
+    // If strict validation is ever required, return 400 here instead.
   }
 
   const row = await db

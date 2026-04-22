@@ -309,13 +309,18 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
     });
   });
 
-  // P12: USSD exclusion on /superagent/chat must run BEFORE authMiddleware
-  // so USSD sessions are rejected with 503 before JWT validation.
-  // This matches smoke test assertion (503 expected for X-USSD-Session).
-  app.use('/superagent/chat', ussdExclusionMiddleware);
-
-  app.use('/superagent/*', authMiddleware);
+  // P12: USSD exclusion must run BEFORE authMiddleware for ALL /superagent/* routes
+  // so USSD sessions are rejected with 503 before JWT validation is attempted.
+  // Previously this was only applied specifically to /superagent/chat (pre-auth)
+  // and then duplicated on /superagent/* (post-auth), meaning:
+  //   - /chat: correctly blocked before auth (by the specific registration), but
+  //     middleware ran twice (harmless, but wasteful).
+  //   - other /superagent/* routes: USSD sessions were not blocked until AFTER
+  //     authMiddleware, so an authenticated USSD request could slip past auth
+  //     before being stopped — the wrong order.
+  // Fix: register ussdExclusionMiddleware once, on /superagent/*, before authMiddleware.
   app.use('/superagent/*', ussdExclusionMiddleware);
+  app.use('/superagent/*', authMiddleware);
   app.use('/superagent/*', aiEntitlementMiddleware);
   app.use('/superagent/*', auditLogMiddleware);
   app.route('/superagent', superagentRoutes);

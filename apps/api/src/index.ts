@@ -79,7 +79,17 @@ export default {
   fetch: app.fetch.bind(app),
 
   async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
-    await runNegotiationExpiry(env);
-    await runOnboardingStalled(env);
+    // Each job is wrapped independently so a failure in one does not prevent
+    // the others from running (Cloudflare scheduled handlers must not throw).
+    try {
+      await runNegotiationExpiry(env);
+    } catch (err) {
+      console.error('[scheduled] runNegotiationExpiry threw unexpectedly:', err);
+    }
+    try {
+      await runOnboardingStalled(env);
+    } catch (err) {
+      console.error('[scheduled] runOnboardingStalled threw unexpectedly:', err);
+    }
   },
 };

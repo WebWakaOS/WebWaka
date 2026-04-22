@@ -59,6 +59,20 @@ function assertIntegerKobo(amount: number, label = 'amountKobo'): void {
  *
  * Platform Invariant P9: All amounts are integer kobo. Never floats.
  * Ledger is append-only — no UPDATE or DELETE on float_ledger rows.
+ *
+ * Race-condition fix: the wallet balance is updated atomically via a single
+ * conditional UPDATE … RETURNING statement whose WHERE clause enforces the
+ * non-negative constraint at the database level.  This eliminates the
+ * time-of-check / time-of-use (TOCTOU) window that existed when a separate
+ * SELECT was used to read the balance before computing and writing the new value.
+ *
+ * Flow:
+ *   1. Attempt atomic UPDATE agent_wallets SET balance = balance + amount
+ *      WHERE id = ? AND (balance + amount) >= 0  RETURNING new_balance
+ *   2. If no row is returned → either the wallet is missing or the balance is
+ *      insufficient.  A follow-up read distinguishes the two cases so the
+ *      correct error is raised.
+ *   3. INSERT float_ledger row using the confirmed new balance.
  */
 export async function postLedgerEntry(
   db: D1Like,
@@ -66,28 +80,41 @@ export async function postLedgerEntry(
 ): Promise<LedgerResult> {
   assertIntegerKobo(entry.amountKobo);
 
-  const wallet = await db.prepare(
-    'SELECT balance_kobo FROM agent_wallets WHERE id = ?',
-  ).bind(entry.walletId).first<{ balance_kobo: number }>();
+  // Step 1 — atomic, race-free balance update.
+  // The constraint `(balance_kobo + ?) >= 0` is evaluated inside SQLite so no
+  // concurrent request can observe the pre-update balance and pass the same
+  // check; one of the two concurrent writes will match 0 rows and be rejected.
+  const updated = await db.prepare(
+    `UPDATE agent_wallets
+        SET balance_kobo = balance_kobo + ?,
+            updated_at   = unixepoch()
+      WHERE id = ?
+        AND (balance_kobo + ?) >= 0
+      RETURNING balance_kobo`,
+  ).bind(entry.amountKobo, entry.walletId, entry.amountKobo)
+   .first<{ balance_kobo: number }>();
 
-  if (!wallet) throw new Error(`Wallet not found: ${entry.walletId}`);
+  if (!updated) {
+    // Step 2 — distinguish "wallet missing" from "insufficient float".
+    const wallet = await db.prepare(
+      'SELECT balance_kobo FROM agent_wallets WHERE id = ?',
+    ).bind(entry.walletId).first<{ balance_kobo: number }>();
 
-  const newBalance = wallet.balance_kobo + entry.amountKobo;
+    if (!wallet) throw new Error(`Wallet not found: ${entry.walletId}`);
 
-  if (newBalance < 0) {
     throw new InsufficientFloatError(
       `Insufficient float: balance=${wallet.balance_kobo} kobo, debit=${Math.abs(entry.amountKobo)} kobo`,
     );
   }
 
+  const newBalance = updated.balance_kobo;
   const id = `flt_${crypto.randomUUID()}`;
 
-  const stmt1 = db.prepare(
-    'UPDATE agent_wallets SET balance_kobo = ?, updated_at = unixepoch() WHERE id = ?',
-  ).bind(newBalance, entry.walletId);
-
-  const stmt2 = db.prepare(
-    'INSERT INTO float_ledger (id, wallet_id, amount_kobo, running_balance_kobo, transaction_type, reference, description) VALUES (?, ?, ?, ?, ?, ?, ?)',
+  // Step 3 — append immutable ledger row (P9: append-only, no UPDATE/DELETE).
+  await db.prepare(
+    `INSERT INTO float_ledger
+       (id, wallet_id, amount_kobo, running_balance_kobo, transaction_type, reference, description)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
   ).bind(
     id,
     entry.walletId,
@@ -96,9 +123,7 @@ export async function postLedgerEntry(
     entry.transactionType,
     entry.reference,
     entry.description ?? null,
-  );
-
-  await db.batch([stmt1, stmt2]);
+  ).run();
 
   return { id, runningBalanceKobo: newBalance };
 }

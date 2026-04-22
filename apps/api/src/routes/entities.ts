@@ -102,7 +102,19 @@ entityRoutes.post('/individuals', async (c) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     await indexIndividual(c.env.DB as any, individual as any, auth.tenantId);
   } catch (err) {
-    console.error('[entities] search index failed for individual:', err);
+    // IMPORTANT: the entity is already committed to the database at this point.
+    // A failure here leaves a "ghost entity" that exists in D1 but is missing
+    // from the search index and will be invisible to /discovery queries.
+    // Log the full entity id and tenant so it can be manually re-indexed.
+    console.error(JSON.stringify({
+      level: 'error',
+      event: 'search_index_failed',
+      entity_type: 'individual',
+      entity_id: individual.id,
+      tenant_id: auth.tenantId,
+      action_required: 'manual re-index required',
+      error: err instanceof Error ? err.message : String(err),
+    }));
   }
 
   return c.json({ data: individual }, 201);
@@ -162,7 +174,19 @@ entityRoutes.post('/organizations', async (c) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     await indexOrganization(c.env.DB as any, org as any, auth.tenantId);
   } catch (err) {
-    console.error('[entities] search index failed for organization:', err);
+    // IMPORTANT: the entity is already committed to the database at this point.
+    // A failure here leaves a "ghost entity" that exists in D1 but is missing
+    // from the search index and will be invisible to /discovery queries.
+    // Log the full entity id and tenant so it can be manually re-indexed.
+    console.error(JSON.stringify({
+      level: 'error',
+      event: 'search_index_failed',
+      entity_type: 'organization',
+      entity_id: org.id,
+      tenant_id: auth.tenantId,
+      action_required: 'manual re-index required',
+      error: err instanceof Error ? err.message : String(err),
+    }));
   }
 
   return c.json({ data: org }, 201);

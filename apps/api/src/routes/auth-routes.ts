@@ -367,7 +367,10 @@ authRoutes.post('/register', async (c) => {
   const uid = crypto.randomUUID().replace(/-/g, '');
   const userId = `usr_${uid.slice(0, 20)}`;
   const tenantId = `tnt_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
-  const workspaceId = `ws_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
+  // Use 'wsp_' (4-char prefix like 'usr_' and 'tnt_') so all generated IDs have
+  // a consistent total length of 24 characters, making log aggregation and
+  // pattern-based routing unambiguous.
+  const workspaceId = `wsp_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
 
   const passwordHash = await hashPassword(body.password);
   const businessName = body.businessName.trim();
@@ -1069,7 +1072,10 @@ authRoutes.get('/invite/pending', async (c) => {
   const rows = await c.env.DB.prepare(
     `SELECT id, email, role, invited_by, expires_at, created_at
      FROM invitations
-     WHERE workspace_id = ? AND tenant_id = ? AND accepted_at IS NULL AND expires_at > unixepoch()
+     WHERE workspace_id = ? AND tenant_id = ?
+       AND accepted_at IS NULL
+       AND revoked_at IS NULL
+       AND expires_at > unixepoch()
      ORDER BY created_at DESC LIMIT 50`,
   ).bind(auth.workspaceId, auth.tenantId).all<{
     id: string; email: string; role: string;
@@ -1097,15 +1103,23 @@ authRoutes.delete('/invite/:id', async (c) => {
 
   const inviteId = c.req.param('id');
   const invite = await c.env.DB.prepare(
-    `SELECT id FROM invitations WHERE id = ? AND workspace_id = ? AND tenant_id = ? AND accepted_at IS NULL LIMIT 1`,
+    `SELECT id FROM invitations
+     WHERE id = ? AND workspace_id = ? AND tenant_id = ?
+       AND accepted_at IS NULL AND revoked_at IS NULL
+     LIMIT 1`,
   ).bind(inviteId, auth.workspaceId, auth.tenantId).first<{ id: string }>();
 
   if (!invite) {
-    return c.json(errorResponse(ErrorCode.NotFound, 'Invitation not found or already accepted.'), 404);
+    return c.json(errorResponse(ErrorCode.NotFound, 'Invitation not found, already accepted, or already revoked.'), 404);
   }
 
+  // Soft-delete: set revoked_at rather than deleting the row.
+  // This preserves the audit trail — a hard DELETE destroys evidence of who
+  // was invited, by whom, and when, which is required for compliance.
+  // Migration 0378_invitations_soft_delete.sql added the revoked_at column.
   await c.env.DB.prepare(
-    `DELETE FROM invitations WHERE id = ? AND workspace_id = ? AND tenant_id = ?`,
+    `UPDATE invitations SET revoked_at = unixepoch()
+     WHERE id = ? AND workspace_id = ? AND tenant_id = ?`,
   ).bind(inviteId, auth.workspaceId, auth.tenantId).run();
 
   return c.json({ message: 'Invitation revoked.' });
