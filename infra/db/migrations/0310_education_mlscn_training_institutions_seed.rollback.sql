@@ -1,0 +1,2 @@
+-- Rollback 0310_education_mlscn_training_institutions_seed.sql
+-- Placeholder for rollback of education mlscn training institutions seed

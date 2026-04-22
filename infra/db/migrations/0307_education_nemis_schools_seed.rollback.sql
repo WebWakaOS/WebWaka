@@ -1,0 +1,2 @@
+-- Rollback 0307_education_nemis_schools_seed.sql
+-- Placeholder for rollback of education nemis schools seed

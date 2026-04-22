@@ -78,7 +78,7 @@ posBusinessRoutes.post('/products', async (c) => {
       ...(body.category !== undefined ? { category: body.category } : {}),
     });
     return c.json({ product }, 201);
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Failed to create product';
     return c.json({ error: message }, 400);
   }
@@ -148,7 +148,7 @@ posBusinessRoutes.patch('/product/:id', async (c) => {
     });
     if (!updated) return c.json({ error: 'Product not found' }, 404);
     return c.json({ product: updated });
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Update failed';
     return c.json({ error: message }, 400);
   }
@@ -175,7 +175,7 @@ posBusinessRoutes.post('/product/:id/stock', async (c) => {
     });
     if (!updated) return c.json({ error: 'Product not found' }, 404);
     return c.json({ product: updated });
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Stock adjustment failed';
     return c.json({ error: message }, 400);
   }
@@ -250,7 +250,7 @@ posBusinessRoutes.post('/sales', async (c) => {
       severity: 'info',
     });
     return c.json({ sale }, 201);
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Failed to record sale';
     return c.json({ error: message }, 400);
   }
@@ -384,7 +384,7 @@ posBusinessRoutes.post('/customer/:id/loyalty/award', async (c) => {
     const updated = await repo.awardPoints(id, auth.tenantId, body.points);
     if (!updated) return c.json({ error: 'Customer not found' }, 404);
     return c.json({ customer: updated });
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Award failed';
     return c.json({ error: message }, 400);
   }
@@ -409,7 +409,7 @@ posBusinessRoutes.post('/customer/:id/loyalty/redeem', async (c) => {
     if (!customer) return c.json({ error: 'Customer not found' }, 404);
     if (!success) return c.json({ error: 'INSUFFICIENT_POINTS', customer }, 409);
     return c.json({ success: true, customer });
-  } catch (err: unknown) {
+  } catch (err: any) {
     const message = err instanceof Error ? err.message : 'Redeem failed';
     return c.json({ error: message }, 400);
   }

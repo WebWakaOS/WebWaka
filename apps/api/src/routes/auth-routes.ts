@@ -1374,16 +1374,14 @@ authRoutes.delete('/sessions', async (c) => {
 
   // Blacklist each revoked session's token hash in KV
   const now = Math.floor(Date.now() / 1000);
-  for (const s of activeSessions) {
-    if (s.jti) {
-      const ttl = Math.max(60, s.expires_at - now);
-      try {
-        await c.env.RATE_LIMIT_KV.put(`blacklist:jti:${s.jti}`, '1', { expirationTtl: ttl });
-      } catch {
-        // Non-blocking
-      }
-    }
-  }
+  await Promise.allSettled(
+    activeSessions
+      .filter((s) => s.jti)
+      .map((s) => {
+        const ttl = Math.max(60, s.expires_at - now);
+        return c.env.RATE_LIMIT_KV.put(`blacklist:jti:${s.jti}`, '1', { expirationTtl: ttl });
+      }),
+  );
 
   // N-080: auth.user.logout event for all-sessions revocation
   void publishEvent(c.env, {

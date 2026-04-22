@@ -97,7 +97,7 @@ function getWalletKv(env: Env): KVNamespace {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function handleWalletError(err: unknown, c: Context<AppEnv, any>): Response {
+function handleWalletError(err: any, c: Context<AppEnv, any>): Response {
   if (err instanceof WalletError) {
     if (err.code === 'FEATURE_DISABLED') {
       const feature = String(err.context['feature'] ?? 'unknown');
@@ -186,7 +186,7 @@ walletRoutes.post('/', async (c) => {
 
   try {
     await assertTenantEligible(kv, auth.tenantId);
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 
@@ -252,7 +252,7 @@ walletRoutes.post('/', async (c) => {
       statusCode:   201,
     });
     return c.json({ wallet }, 201);
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -273,7 +273,7 @@ walletRoutes.get('/balance', async (c) => {
       wallet_id:       wallet.id,
       currency_code:   wallet.currencyCode,
     });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -298,7 +298,7 @@ walletRoutes.get('/ledger', async (c) => {
       cursor,
     });
     return c.json({ entries, next_cursor: nextCursor });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -394,7 +394,7 @@ walletRoutes.post('/fund/bank-transfer', async (c) => {
       instructions:          'Transfer the exact amount to the configured bank account and upload your proof of payment.',
       expires_at:            Math.floor(Date.now() / 1000) + 48 * 3600,
     }, 201);
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -409,7 +409,7 @@ walletRoutes.get('/funding/:id', async (c) => {
   try {
     const fr = await getFundingRequest(c.env.DB as never, id, auth.tenantId);
     return c.json({ funding_request: fr });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -425,7 +425,7 @@ walletRoutes.get('/funding', async (c) => {
     if (!wallet) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found' }, 404);
     const requests = await listFundingRequests(c.env.DB as never, wallet.id, auth.tenantId);
     return c.json({ funding_requests: requests });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -534,7 +534,7 @@ walletRoutes.post('/spend', async (c) => {
     });
 
     return c.json({ spend_event: spendEvent }, 201);
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -560,7 +560,7 @@ walletRoutes.post('/spend/:id/complete', async (c) => {
       statusCode:   200,
     });
     return c.json({ spend_event: spendEvent });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -590,7 +590,7 @@ walletRoutes.post('/spend/:id/reverse', async (c) => {
       metadata:     { reason: body.reason ?? 'User requested reversal' },
     });
     return c.json({ spend_event: spendEvent });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -620,7 +620,7 @@ walletRoutes.get('/mla-earnings', async (c) => {
       { status, cursor, limit },
     );
     return c.json({ earnings, next_cursor: nextCursor });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -927,7 +927,7 @@ walletAdminRoutes.post('/funding/:id/confirm', async (c) => {
     });
 
     return c.json({ funding_request: fr });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });
@@ -970,7 +970,7 @@ walletAdminRoutes.post('/funding/:id/reject', async (c) => {
       metadata:     { reason: body.reason, amount_kobo: fr.amountKobo },
     });
     return c.json({ funding_request: fr });
-  } catch (err) {
+  } catch (err: any) {
     return handleWalletError(err, c);
   }
 });

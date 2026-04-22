@@ -353,7 +353,7 @@ superagentRoutes.post(
     let resolved;
     try {
       resolved = await resolveAdapter(routingCtx, envRecord);
-    } catch (err: unknown) {
+    } catch (err: any) {
       if (err instanceof AIAuthError) {
         return c.json({ error: err.code, message: err.message }, 403);
       }
@@ -373,7 +373,7 @@ superagentRoutes.post(
     let aiResponse: Awaited<ReturnType<typeof adapter.complete>>;
     try {
       aiResponse = await adapter.complete(aiRequest);
-    } catch (err: unknown) {
+    } catch (err: any) {
       const message = err instanceof Error ? err.message : 'Provider call failed';
       // N-087: ai.response_failed event
       void publishEvent(c.env, {
@@ -467,7 +467,7 @@ superagentRoutes.post(
           complianceResult.hitlLevel ?? autonomyLevel,
         )
         .run()
-        .catch((err: unknown) => {
+        .catch((err: any) => {
           console.error('[superagent] ai_spend_events write failed (non-fatal):', err);
         });
 
@@ -515,7 +515,7 @@ superagentRoutes.post(
               }),
             )
             .run()
-            .catch((err: unknown) => {
+            .catch((err: any) => {
               console.error('[superagent] budget warning notification queue failed (non-fatal):', err);
             });
         }
