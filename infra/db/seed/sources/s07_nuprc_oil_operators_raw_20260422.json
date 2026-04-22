@@ -1,0 +1,896 @@
+[
+  {
+    "key": "PEL-1",
+    "lic_type": "PEL",
+    "lic_num": "1",
+    "name": "TGS Petrodata",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2024/09/PEL-No.1-TGS-Petrodata.pdf"
+  },
+  {
+    "key": "PML-1",
+    "lic_type": "PML",
+    "lic_num": "1",
+    "name": "Ashgrove Ep",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PML-1-ASHGROVE-EP_31082023112454.pdf"
+  },
+  {
+    "key": "PML-10",
+    "lic_type": "PML",
+    "lic_num": "10",
+    "name": "Pml No. 10",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-10.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-11",
+    "lic_type": "PML",
+    "lic_num": "11",
+    "name": "Pml No. 11",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-11-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-12",
+    "lic_type": "PML",
+    "lic_num": "12",
+    "name": "Pml No. 12",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-12.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-14",
+    "lic_type": "PML",
+    "lic_num": "14",
+    "name": "Pml No. 14",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-14-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-16",
+    "lic_type": "PML",
+    "lic_num": "16",
+    "name": "Pml No. 16",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-16.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-17",
+    "lic_type": "PML",
+    "lic_num": "17",
+    "name": "Pml No. 17",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-17.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-18",
+    "lic_type": "PML",
+    "lic_num": "18",
+    "name": "Pml No. 18",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-18.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-2",
+    "lic_type": "PML",
+    "lic_num": "2",
+    "name": "Nnpc Total",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PML-2-NNPC-TOTAL-_31082023111923.pdf"
+  },
+  {
+    "key": "PML-20",
+    "lic_type": "PML",
+    "lic_num": "20",
+    "name": "Pml No. 20",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-20.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-21",
+    "lic_type": "PML",
+    "lic_num": "21",
+    "name": "Pml No. 21",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-21.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-22",
+    "lic_type": "PML",
+    "lic_num": "22",
+    "name": "Pml No. 22",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-22.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-25",
+    "lic_type": "PML",
+    "lic_num": "25",
+    "name": "Pml No. 25",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-25.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-26",
+    "lic_type": "PML",
+    "lic_num": "26",
+    "name": "Pml No. 26",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-26.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-27",
+    "lic_type": "PML",
+    "lic_num": "27",
+    "name": "Pml No. 27",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-27.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-28",
+    "lic_type": "PML",
+    "lic_num": "28",
+    "name": "Pml No. 28",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-28-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-29",
+    "lic_type": "PML",
+    "lic_num": "29",
+    "name": "Pml No. 29",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-29.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-3",
+    "lic_type": "PML",
+    "lic_num": "3",
+    "name": "NNPC TOTAL contract",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PML-3-NNPC-TOTAL-contract_31082023111544.pdf"
+  },
+  {
+    "key": "PML-30",
+    "lic_type": "PML",
+    "lic_num": "30",
+    "name": "Pml No. 30",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-30.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-31",
+    "lic_type": "PML",
+    "lic_num": "31",
+    "name": "Pml No. 31",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-31.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-32",
+    "lic_type": "PML",
+    "lic_num": "32",
+    "name": "Pml No. 32",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-32.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-33",
+    "lic_type": "PML",
+    "lic_num": "33",
+    "name": "Pml No. 33",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-33-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-34",
+    "lic_type": "PML",
+    "lic_num": "34",
+    "name": "Pml No. 34",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-34.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-35",
+    "lic_type": "PML",
+    "lic_num": "35",
+    "name": "Pml No. 35",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-35.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-36",
+    "lic_type": "PML",
+    "lic_num": "36",
+    "name": "Pml No. 36",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-36-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-37",
+    "lic_type": "PML",
+    "lic_num": "37",
+    "name": "Pml No. 37",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-37.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-38",
+    "lic_type": "PML",
+    "lic_num": "38",
+    "name": "Pml No. 38",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-38.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-39",
+    "lic_type": "PML",
+    "lic_num": "39",
+    "name": "Pml No. 39",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-39-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-4",
+    "lic_type": "PML",
+    "lic_num": "4",
+    "name": "Nnpc Total",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PML-4-NNPC-TOTAL_31082023111306.pdf"
+  },
+  {
+    "key": "PML-40",
+    "lic_type": "PML",
+    "lic_num": "40",
+    "name": "Pml No. 40",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-40.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-41",
+    "lic_type": "PML",
+    "lic_num": "41",
+    "name": "Pml No. 41",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-41-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-42",
+    "lic_type": "PML",
+    "lic_num": "42",
+    "name": "Pml No. 42",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-42.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-43",
+    "lic_type": "PML",
+    "lic_num": "43",
+    "name": "Pml No. 43",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-43.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-44",
+    "lic_type": "PML",
+    "lic_num": "44",
+    "name": "Pml No. 44",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-44.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-45",
+    "lic_type": "PML",
+    "lic_num": "45",
+    "name": "Pml No. 45",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-45.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-46",
+    "lic_type": "PML",
+    "lic_num": "46",
+    "name": "Pml No. 46",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-46-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-47",
+    "lic_type": "PML",
+    "lic_num": "47",
+    "name": "Pml No. 47",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-47.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-48",
+    "lic_type": "PML",
+    "lic_num": "48",
+    "name": "Pml No. 48",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-48-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-49",
+    "lic_type": "PML",
+    "lic_num": "49",
+    "name": "Pml No. 49",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-49.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-5",
+    "lic_type": "PML",
+    "lic_num": "5",
+    "name": "Pml No. 5",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-5.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-50",
+    "lic_type": "PML",
+    "lic_num": "50",
+    "name": "Pml No. 50",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-50-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-52",
+    "lic_type": "PML",
+    "lic_num": "52",
+    "name": "Pml No. 52",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-52.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-53",
+    "lic_type": "PML",
+    "lic_num": "53",
+    "name": "Pml No. 53",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-53.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-54",
+    "lic_type": "PML",
+    "lic_num": "54",
+    "name": "Pml No. 54",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-54.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-55",
+    "lic_type": "PML",
+    "lic_num": "55",
+    "name": "Pml No. 55",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-55.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-56",
+    "lic_type": "PML",
+    "lic_num": "56",
+    "name": "Pml No. 56",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-56.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-57",
+    "lic_type": "PML",
+    "lic_num": "57",
+    "name": "Pml No. 57",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-57.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-6",
+    "lic_type": "PML",
+    "lic_num": "6",
+    "name": "Pml No. 6",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-6.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-66",
+    "lic_type": "PML",
+    "lic_num": "66",
+    "name": "Pml No. 66",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-66.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-67",
+    "lic_type": "PML",
+    "lic_num": "67",
+    "name": "Pml No. 67",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-67.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PML-9",
+    "lic_type": "PML",
+    "lic_num": "9",
+    "name": "Pml No. 9",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PML-NO.-9.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-2003",
+    "lic_type": "PPL",
+    "lic_num": "2003",
+    "name": "Ppl No. 2003",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-2003.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-202",
+    "lic_type": "PPL",
+    "lic_num": "202",
+    "name": "suntrust oil company nig ld",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-202-suntrust-oil-company-nig-ld-_24082023132822.pdf"
+  },
+  {
+    "key": "PPL-203",
+    "lic_type": "PPL",
+    "lic_num": "203",
+    "name": "Ppl No. 203",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-203.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-204",
+    "lic_type": "PPL",
+    "lic_num": "204",
+    "name": "Ppl No. 204",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-204.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-205",
+    "lic_type": "PPL",
+    "lic_num": "205",
+    "name": "7 waves petroleum",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-205-7-waves-petroleum_25082023102347.pdf"
+  },
+  {
+    "key": "PPL-206",
+    "lic_type": "PPL",
+    "lic_num": "206",
+    "name": "Terra energy resources",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-206-Terra-energy-resources_24082023132310.pdf"
+  },
+  {
+    "key": "PPL-207",
+    "lic_type": "PPL",
+    "lic_num": "207",
+    "name": "Ppl No. 207",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-207.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-210",
+    "lic_type": "PPL",
+    "lic_num": "210",
+    "name": "Energia Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-210-Energia-Limited_25082023102154.pdf"
+  },
+  {
+    "key": "PPL-211",
+    "lic_type": "PPL",
+    "lic_num": "211",
+    "name": "Matrix Energy",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-211-MATRIX-ENERGY_24082023143904.pdf"
+  },
+  {
+    "key": "PPL-212",
+    "lic_type": "PPL",
+    "lic_num": "212",
+    "name": "Ppl No. 212",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-212.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-213",
+    "lic_type": "PPL",
+    "lic_num": "213",
+    "name": "Kalm Marine",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-213-KALM-MARINE_24082023141350.pdf"
+  },
+  {
+    "key": "PPL-214",
+    "lic_type": "PPL",
+    "lic_num": "214",
+    "name": "Seistech Energy Ltd",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-214-SEISTECH-ENERGY-LTD_25082023110406.pdf"
+  },
+  {
+    "key": "PPL-215",
+    "lic_type": "PPL",
+    "lic_num": "215",
+    "name": "Max Upstream Ltd",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-215-MAX-UPSTREAM-LTD_25082023105813.pdf"
+  },
+  {
+    "key": "PPL-216",
+    "lic_type": "PPL",
+    "lic_num": "216",
+    "name": "Bridgesite Nigeria Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-216-BRIDGESITE-NIGERIA-LIMITED-_25082023104649.pdf"
+  },
+  {
+    "key": "PPL-217",
+    "lic_type": "PPL",
+    "lic_num": "217",
+    "name": "Ppl No. 217",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-217.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-218",
+    "lic_type": "PPL",
+    "lic_num": "218",
+    "name": "Ppl No. 218",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-218.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-219",
+    "lic_type": "PPL",
+    "lic_num": "219",
+    "name": "Nuway Oaklane Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-219-NUWAY-OAKLANE-LIMITED_24082023142107.pdf"
+  },
+  {
+    "key": "PPL-220",
+    "lic_type": "PPL",
+    "lic_num": "220",
+    "name": "Ppl No. 220",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-220.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-221",
+    "lic_type": "PPL",
+    "lic_num": "221",
+    "name": "Transnational Energy Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-221-TRANSNATIONAL-ENERGY-LIMITED_31082023113137.pdf"
+  },
+  {
+    "key": "PPL-222",
+    "lic_type": "PPL",
+    "lic_num": "222",
+    "name": "Shepherdhill",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-222-SHEPHERDHILL_24082023140557.pdf"
+  },
+  {
+    "key": "PPL-223",
+    "lic_type": "PPL",
+    "lic_num": "223",
+    "name": "PPL NO. 223 Upd",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-223-Upd.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-224",
+    "lic_type": "PPL",
+    "lic_num": "224",
+    "name": "Ppl No. 224",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-224.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-226",
+    "lic_type": "PPL",
+    "lic_num": "226",
+    "name": "PPL NO. 226 Upd",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-226-Upd.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-227",
+    "lic_type": "PPL",
+    "lic_num": "227",
+    "name": "Ppl No. 227",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-227.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-228",
+    "lic_type": "PPL",
+    "lic_num": "228",
+    "name": "Sigmund Oil",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-228-SIGMUND-OIL_25082023110156.pdf"
+  },
+  {
+    "key": "PPL-230",
+    "lic_type": "PPL",
+    "lic_num": "230",
+    "name": "PPL NO. 230 Upd",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-230-Upd.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-231",
+    "lic_type": "PPL",
+    "lic_num": "231",
+    "name": "Ppl No. 231",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-231.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-232",
+    "lic_type": "PPL",
+    "lic_num": "232",
+    "name": "Ppl No. 232",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-232.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-234",
+    "lic_type": "PPL",
+    "lic_num": "234",
+    "name": "Harara Energy",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-234-HARARA-ENERGY_24082023143643.pdf"
+  },
+  {
+    "key": "PPL-235",
+    "lic_type": "PPL",
+    "lic_num": "235",
+    "name": "Ppl No. 235",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-235.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-236",
+    "lic_type": "PPL",
+    "lic_num": "236",
+    "name": "Ppl No. 236",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-236.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-237",
+    "lic_type": "PPL",
+    "lic_num": "237",
+    "name": "Dutchess energy limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-237-Dutchess-energy-limited_24082023133806.pdf"
+  },
+  {
+    "key": "PPL-239",
+    "lic_type": "PPL",
+    "lic_num": "239",
+    "name": "Mmb Petroleum Chemical",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-239-MMB-PETROLEUM-CHEMICAL_25082023111000.pdf"
+  },
+  {
+    "key": "PPL-240",
+    "lic_type": "PPL",
+    "lic_num": "240",
+    "name": "Transit oil",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-240-Transit-oil_24082023124622.pdf"
+  },
+  {
+    "key": "PPL-241",
+    "lic_type": "PPL",
+    "lic_num": "241",
+    "name": "Torxen Energy Resources",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-241-TORXEN-ENERGY-RESOURCES_24082023133250.pdf"
+  },
+  {
+    "key": "PPL-242",
+    "lic_type": "PPL",
+    "lic_num": "242",
+    "name": "Accord Petroleum",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-242-ACCORD-PETROLEUM_25082023102747.pdf"
+  },
+  {
+    "key": "PPL-243",
+    "lic_type": "PPL",
+    "lic_num": "243",
+    "name": "Ppl No. 243",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-243.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-244",
+    "lic_type": "PPL",
+    "lic_num": "244",
+    "name": "Tulcan Ep",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-244-TULCAN-EP_31082023114012.pdf"
+  },
+  {
+    "key": "PPL-245",
+    "lic_type": "PPL",
+    "lic_num": "245",
+    "name": "A.A Rano",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-245-A.A-RANO_25082023103238.pdf"
+  },
+  {
+    "key": "PPL-246",
+    "lic_type": "PPL",
+    "lic_num": "246",
+    "name": "Faceato petroleum",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-246-Faceato-petroleum-_24082023140330.pdf"
+  },
+  {
+    "key": "PPL-247",
+    "lic_type": "PPL",
+    "lic_num": "247",
+    "name": "Ppl No. 247",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-247-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-248",
+    "lic_type": "PPL",
+    "lic_num": "248",
+    "name": "Ppl No. 248",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-248.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-249",
+    "lic_type": "PPL",
+    "lic_num": "249",
+    "name": "Pioneer Global Resource",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-249-PIONEER-GLOBAL-RESOURCE_25082023105014-Copy.pdf"
+  },
+  {
+    "key": "PPL-250",
+    "lic_type": "PPL",
+    "lic_num": "250",
+    "name": "Ppl No. 250",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-250.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-251",
+    "lic_type": "PPL",
+    "lic_num": "251",
+    "name": "Wadata Group Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-251-WADATA-GROUP-LIMITED_25082023104248.pdf"
+  },
+  {
+    "key": "PPL-252",
+    "lic_type": "PPL",
+    "lic_num": "252",
+    "name": "Mmb Petroleum And Chemical Comp",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-252-MMB-PETROLEUM-AND-CHEMICAL-COMP_24082023141810.pdf"
+  },
+  {
+    "key": "PPL-253",
+    "lic_type": "PPL",
+    "lic_num": "253",
+    "name": "Casiva Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-253-CASIVA-LIMITED_24082023141052.pdf"
+  },
+  {
+    "key": "PPL-254",
+    "lic_type": "PPL",
+    "lic_num": "254",
+    "name": "Petraco Oil Contract",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-254-PETRACO-OIL-CONTRACT_24082023143611.pdf"
+  },
+  {
+    "key": "PPL-255",
+    "lic_type": "PPL",
+    "lic_num": "255",
+    "name": "Bluefin Energy Limited",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-255-BLUEFIN-ENERGY-LIMITED_25082023103747.pdf"
+  },
+  {
+    "key": "PPL-257",
+    "lic_type": "PPL",
+    "lic_num": "257",
+    "name": "Ppl No. 257",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-257.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-259",
+    "lic_type": "PPL",
+    "lic_num": "259",
+    "name": "Ppl No. 259",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-259.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-260",
+    "lic_type": "PPL",
+    "lic_num": "260",
+    "name": "Ppl No. 260",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-260.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-261",
+    "lic_type": "PPL",
+    "lic_num": "261",
+    "name": "Nnpc",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2023/09/PPL-261-NNPC_31082023112635.pdf"
+  },
+  {
+    "key": "PPL-262",
+    "lic_type": "PPL",
+    "lic_num": "262",
+    "name": "Ppl No. 262",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-262.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-263",
+    "lic_type": "PPL",
+    "lic_num": "263",
+    "name": "Ppl No. 263",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-263.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-264",
+    "lic_type": "PPL",
+    "lic_num": "264",
+    "name": "Ppl No. 264",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-264-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-265",
+    "lic_type": "PPL",
+    "lic_num": "265",
+    "name": "Ppl No. 265",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-265.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-266",
+    "lic_type": "PPL",
+    "lic_num": "266",
+    "name": "Ppl No. 266",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-266.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-272",
+    "lic_type": "PPL",
+    "lic_num": "272",
+    "name": "Ppl No. 272",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-272.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-273",
+    "lic_type": "PPL",
+    "lic_num": "273",
+    "name": "Ppl No. 273",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-273-.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-274",
+    "lic_type": "PPL",
+    "lic_num": "274",
+    "name": "Ppl No. 274",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-274.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-275",
+    "lic_type": "PPL",
+    "lic_num": "275",
+    "name": "Ppl No. 275",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-275.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-276",
+    "lic_type": "PPL",
+    "lic_num": "276",
+    "name": "Ppl No. 276",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-276.pdf",
+    "name_from_link_text": true
+  },
+  {
+    "key": "PPL-277",
+    "lic_type": "PPL",
+    "lic_num": "277",
+    "name": "Ppl No. 277",
+    "link": "https://www.nuprc.gov.ng/wp-content/uploads/2025/10/PPL-NO.-277.pdf",
+    "name_from_link_text": true
+  }
+]

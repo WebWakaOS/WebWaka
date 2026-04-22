@@ -1,0 +1,4697 @@
+[
+  {
+    "osm_id": "460345920",
+    "osm_type": "node",
+    "name": "Inter City Lines",
+    "lat": 11.1289517,
+    "lon": 2.93169,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Inter City Lines"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "557611495",
+    "osm_type": "node",
+    "name": "Dadi Motor Park, Kwangila",
+    "lat": 11.1294461,
+    "lon": 7.7048463,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Dadi Motor Park, Kwangila"
+    },
+    "state_name": "Kano",
+    "resolved_place_id": "place_state_ng_kn",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "981284618",
+    "osm_type": "node",
+    "name": "Edo Line",
+    "lat": 6.3435934,
+    "lon": 5.6282402,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Edo Line",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1068916223",
+    "osm_type": "node",
+    "name": "Ndop Motor Park",
+    "lat": 5.9869132,
+    "lon": 10.4360071,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ndop Motor Park"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1069053724",
+    "osm_type": "node",
+    "name": "Amour Mezam Travelling Agency",
+    "lat": 5.9938244,
+    "lon": 10.4401135,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Amour Mezam Travelling Agency"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1069146981",
+    "osm_type": "node",
+    "name": "Ndop Park",
+    "lat": 5.9843114,
+    "lon": 10.4301443,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ndop Park"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1082848060",
+    "osm_type": "node",
+    "name": "VATICAN EXPRESS",
+    "lat": 5.9614336,
+    "lon": 10.1522772,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "VATICAN EXPRESS"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1880810674",
+    "osm_type": "node",
+    "name": "Kantin Kwari",
+    "lat": 10.5200288,
+    "lon": 7.4305451,
+    "tags": {
+      "addr:street": "Ahmadu Bello Way",
+      "amenity": "bus_station",
+      "name": "Kantin Kwari"
+    },
+    "state_name": "Kaduna",
+    "resolved_place_id": "place_state_ng_ka",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2153201050",
+    "osm_type": "node",
+    "name": "ECTS (Comrade Bus)",
+    "lat": 6.3340996,
+    "lon": 5.6225742,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "ECTS (Comrade Bus)",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2177482930",
+    "osm_type": "node",
+    "name": "Mallam Karto Park",
+    "lat": 12.007106,
+    "lon": 8.5398965,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Mallam Karto Park"
+    },
+    "state_name": "Jigawa",
+    "resolved_place_id": "place_state_ng_ji",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2349475706",
+    "osm_type": "node",
+    "name": "Akwa Ibom Motor Park",
+    "lat": 6.3457435,
+    "lon": 5.6350974,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Akwa Ibom Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2349475716",
+    "osm_type": "node",
+    "name": "Bob Izua Motor Park",
+    "lat": 6.342684,
+    "lon": 5.6332002,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Bob Izua Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2349475726",
+    "osm_type": "node",
+    "name": "Crystay Line Park",
+    "lat": 6.3438095,
+    "lon": 5.6319149,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Crystay Line Park",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2349475731",
+    "osm_type": "node",
+    "name": "Glory Motor Park",
+    "lat": 6.3490552,
+    "lon": 5.6317854,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Glory Motor Park"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2349489921",
+    "osm_type": "node",
+    "name": "WOILA Voyage",
+    "lat": 9.3033148,
+    "lon": 13.3952153,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "WOILA Voyage",
+      "source": "MEADEN"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350849579",
+    "osm_type": "node",
+    "name": "Osaro Motors park",
+    "lat": 6.3363948,
+    "lon": 5.6207806,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Osaro Motors park",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350849580",
+    "osm_type": "node",
+    "name": "Osaro Motors Park",
+    "lat": 6.3372808,
+    "lon": 5.6205397,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Osaro Motors Park",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350879747",
+    "osm_type": "node",
+    "name": "Edegbe Line",
+    "lat": 6.3453079,
+    "lon": 5.6286195,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Edegbe Line",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350879761",
+    "osm_type": "node",
+    "name": "Owan West Mass Transit",
+    "lat": 6.3443351,
+    "lon": 5.6269471,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Owan West Mass Transit",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350899852",
+    "osm_type": "node",
+    "name": "Cliffosa Motor Park",
+    "lat": 6.3469551,
+    "lon": 5.6237987,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Cliffosa Motor Park"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350899853",
+    "osm_type": "node",
+    "name": "De Modern Bus Station",
+    "lat": 6.3474182,
+    "lon": 5.6233136,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "De Modern Bus Station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2350899867",
+    "osm_type": "node",
+    "name": "Iyare Motor Park",
+    "lat": 6.3485686,
+    "lon": 5.6220656,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Iyare Motor Park"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2354848295",
+    "osm_type": "node",
+    "name": "Touristique Express",
+    "lat": 9.2983171,
+    "lon": 13.4004458,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Touristique Express"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2358423352",
+    "osm_type": "node",
+    "name": "Stationnement de Poli et Tchollir\u00e9",
+    "lat": 9.2987,
+    "lon": 13.4030752,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Stationnement de Poli et Tchollir\u00e9",
+      "source": "MEADEN"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2360400621",
+    "osm_type": "node",
+    "name": "Narral Voyage",
+    "lat": 9.3037779,
+    "lon": 13.4005222,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Narral Voyage",
+      "source": "MEADEN"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2425327789",
+    "osm_type": "node",
+    "name": "Africa Assalam",
+    "lat": 13.0410213,
+    "lon": 3.1964425,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Africa Assalam",
+      "office": "travel_agent",
+      "project:mappingforniger": "yes",
+      "source": "survey"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2451951602",
+    "osm_type": "node",
+    "name": "NIJMA Transport Voyageurs",
+    "lat": 13.811876,
+    "lon": 8.9826422,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "NIJMA Transport Voyageurs",
+      "office": "travel_agent",
+      "project:mappingforniger": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2583682650",
+    "osm_type": "node",
+    "name": "Ogba Bus Park",
+    "lat": 6.6325013,
+    "lon": 3.3417422,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ogba Bus Park"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3084931569",
+    "osm_type": "node",
+    "name": "Boluwaji Bus Stop",
+    "lat": 7.3410092,
+    "lon": 3.906839,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Boluwaji Bus Stop"
+    },
+    "state_name": "Ogun",
+    "resolved_place_id": "place_state_ng_og",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3085114191",
+    "osm_type": "node",
+    "name": "Ikotun Terminal",
+    "lat": 6.548011,
+    "lon": 3.2677866,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ikotun Terminal"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3085114204",
+    "osm_type": "node",
+    "name": "Ikotun Bus Station",
+    "lat": 6.5493778,
+    "lon": 3.2679981,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ikotun Bus Station"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3178522893",
+    "osm_type": "node",
+    "name": "Rimbo Transport Voyageurs",
+    "lat": 13.633663,
+    "lon": 4.0344698,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Rimbo Transport Voyageurs",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3184325181",
+    "osm_type": "node",
+    "name": "Autogar",
+    "lat": 13.7644522,
+    "lon": 4.0038362,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Autogar",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3184325182",
+    "osm_type": "node",
+    "name": "Autogar",
+    "lat": 13.7695911,
+    "lon": 4.0056646,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Autogar"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3227894849",
+    "osm_type": "node",
+    "name": "Autocars",
+    "lat": 13.042097,
+    "lon": 3.1946768,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Autocars",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3249091263",
+    "osm_type": "node",
+    "name": "Cross Country Motor Park",
+    "lat": 13.055914,
+    "lon": 5.2153834,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Cross Country Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3353578958",
+    "osm_type": "node",
+    "name": "Autogare",
+    "lat": 13.4984424,
+    "lon": 7.1095809,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Autogare"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3353617190",
+    "osm_type": "node",
+    "name": "Agence Rimbo",
+    "lat": 13.4897566,
+    "lon": 7.1111602,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Agence Rimbo",
+      "project:pdevii": "yes",
+      "shop": "travel_agency",
+      "source": "survey",
+      "survey:date": "2016-07-22"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3651962628",
+    "osm_type": "node",
+    "name": "Benin Garage",
+    "lat": 7.274837,
+    "lon": 5.244901,
+    "tags": {
+      "amenity": "bus_station",
+      "building": "roof",
+      "name": "Benin Garage"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709708670",
+    "osm_type": "node",
+    "name": "AFRICA ASSALAM TRANSPORT",
+    "lat": 13.7998505,
+    "lon": 5.24464,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "AFRICA ASSALAM TRANSPORT"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709708671",
+    "osm_type": "node",
+    "name": "AZAWAD TRANSPORT",
+    "lat": 13.8023414,
+    "lon": 5.2479011,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "AZAWAD TRANSPORT",
+      "project:mappingforniger": "yes"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709708672",
+    "osm_type": "node",
+    "name": "NIJIMA TRANSPORT",
+    "lat": 13.8018599,
+    "lon": 5.247138,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "NIJIMA TRANSPORT",
+      "project:mappingforniger": "yes"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709708674",
+    "osm_type": "node",
+    "name": "RIMBO TRANSPORT",
+    "lat": 13.8013735,
+    "lon": 5.2463128,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "RIMBO TRANSPORT",
+      "project:mappingforniger": "yes"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709708675",
+    "osm_type": "node",
+    "name": "3 S T V TRANSPORT",
+    "lat": 13.8022349,
+    "lon": 5.2463516,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "3 S T V TRANSPORT",
+      "project:mappingforniger": "yes"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709724957",
+    "osm_type": "node",
+    "name": "SONEF TRANSPORT",
+    "lat": 13.8031195,
+    "lon": 5.2491012,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "SONEF TRANSPORT"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709724958",
+    "osm_type": "node",
+    "name": "SONITRAV TRANSPORT",
+    "lat": 13.8033331,
+    "lon": 5.2496174,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "SONITRAV TRANSPORT"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3709911776",
+    "osm_type": "node",
+    "name": "S T M Transport",
+    "lat": 13.7997981,
+    "lon": 5.2526409,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "S T M Transport"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3782415093",
+    "osm_type": "node",
+    "name": "Gare Routi\u00e8re de Foumban",
+    "lat": 5.7220028,
+    "lon": 10.8658478,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Gare Routi\u00e8re de Foumban"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3900153016",
+    "osm_type": "node",
+    "name": "Bonkaney Transport Voyageur",
+    "lat": 13.4816349,
+    "lon": 7.1120286,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Bonkaney Transport Voyageur",
+      "source": "survey"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3906067288",
+    "osm_type": "node",
+    "name": "Sonef",
+    "lat": 13.5021329,
+    "lon": 7.1079656,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sonef"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3906082244",
+    "osm_type": "node",
+    "name": "Nijima",
+    "lat": 13.5142388,
+    "lon": 7.1054291,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Nijima"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4200200892",
+    "osm_type": "node",
+    "name": "Gare routi\u00e8re de Baleveng",
+    "lat": 5.4953531,
+    "lon": 10.1528436,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Gare routi\u00e8re de Baleveng"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4302968300",
+    "osm_type": "node",
+    "name": "Balembo",
+    "lat": 5.1763559,
+    "lon": 10.3414419,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Balembo"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4307404995",
+    "osm_type": "node",
+    "name": "STM T\u00e9ner\u00e9",
+    "lat": 13.8058227,
+    "lon": 8.991947,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "STM T\u00e9ner\u00e9",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4307618291",
+    "osm_type": "node",
+    "name": "Amour Mezam Company Ltd",
+    "lat": 5.9677802,
+    "lon": 10.1715808,
+    "tags": {
+      "addr:housenumber": "P.O.Box 134",
+      "addr:street": "Nkwen Street",
+      "amenity": "bus_station",
+      "email": "amourmezam@gmail.com",
+      "name": "Amour Mezam Company Ltd",
+      "phone": "233363755",
+      "website": "https://amourmezam.com/"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "https://amourmezam.com/",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4308782091",
+    "osm_type": "node",
+    "name": "AZAWAD Transport",
+    "lat": 13.807741,
+    "lon": 8.9880115,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "AZAWAD Transport",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4308782093",
+    "osm_type": "node",
+    "name": "Autogare Tachale Agadez - Zinder",
+    "lat": 13.8205588,
+    "lon": 8.9802319,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Autogare Tachale Agadez - Zinder",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4308996852",
+    "osm_type": "node",
+    "name": "Rimbo Transport Voyageurs",
+    "lat": 13.8127442,
+    "lon": 8.9803739,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Rimbo Transport Voyageurs",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4308997973",
+    "osm_type": "node",
+    "name": "3 STV Transport Voyageurs",
+    "lat": 13.8204618,
+    "lon": 8.9783788,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "3 STV Transport Voyageurs",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4311479949",
+    "osm_type": "node",
+    "name": "Autogare Tasha Zermou",
+    "lat": 13.8087337,
+    "lon": 8.9983038,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Autogare Tasha Zermou",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4311481255",
+    "osm_type": "node",
+    "name": "3STV Soci\u00e9t\u00e9 de Transport Voyageur",
+    "lat": 13.8058846,
+    "lon": 8.9928463,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "3STV Soci\u00e9t\u00e9 de Transport Voyageur",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4316047155",
+    "osm_type": "node",
+    "name": "Societ\u00e9 de transport SONITRAV",
+    "lat": 13.4915493,
+    "lon": 7.1166863,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Societ\u00e9 de transport SONITRAV",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4318505192",
+    "osm_type": "node",
+    "name": "STM",
+    "lat": 13.4931772,
+    "lon": 7.1103187,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "STM",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4421938889",
+    "osm_type": "node",
+    "name": "Gare Routiere de Zinder",
+    "lat": 13.8068417,
+    "lon": 8.988138,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Gare Routiere de Zinder",
+      "name:ar": "\u0645\u062d\u0637\u0629 \u0632\u0646\u062f\u0631 \u0627\u0644\u062d\u0627\u0642\u0644\u0627\u062a",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4422468931",
+    "osm_type": "node",
+    "name": "Sonef Soci\u00e9t\u00e9 de Transport",
+    "lat": 13.8063801,
+    "lon": 8.9911377,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sonef Soci\u00e9t\u00e9 de Transport",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4422704527",
+    "osm_type": "node",
+    "name": "Jihad Transport Voyageur",
+    "lat": 13.8043559,
+    "lon": 8.9894688,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Jihad Transport Voyageur",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4422704538",
+    "osm_type": "node",
+    "name": "STM T\u00e9ner\u00e9",
+    "lat": 13.8052609,
+    "lon": 8.9908883,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "STM T\u00e9ner\u00e9",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4422704544",
+    "osm_type": "node",
+    "name": "Soci\u00e9t\u00e9 National De Transport Nigerien",
+    "lat": 13.8054669,
+    "lon": 8.9847669,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Soci\u00e9t\u00e9 National De Transport Nigerien",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4422704545",
+    "osm_type": "node",
+    "name": "Soci\u00e9t\u00e9 Nigerien De Transport Des Voyageurs",
+    "lat": 13.8053034,
+    "lon": 8.9851157,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Soci\u00e9t\u00e9 Nigerien De Transport Des Voyageurs",
+      "project:pdevii": "yes",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4455154973",
+    "osm_type": "node",
+    "name": "Butsis Plus Voyages",
+    "lat": 5.7302409,
+    "lon": 10.8730448,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Butsis Plus Voyages"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4465077889",
+    "osm_type": "node",
+    "name": "Zuba",
+    "lat": 9.0932366,
+    "lon": 7.2159666,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Zuba",
+      "name:en": "Zuba"
+    },
+    "state_name": "FCT",
+    "resolved_place_id": "place_state_ng_fc",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4471677089",
+    "osm_type": "node",
+    "name": "Danay Express",
+    "lat": 9.31154,
+    "lon": 13.4005749,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Danay Express",
+      "name:fr": "Danay Express"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4474393298",
+    "osm_type": "node",
+    "name": "Nkwen Park",
+    "lat": 5.992703,
+    "lon": 10.1848591,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Nkwen Park",
+      "name:en": "Nkwen Park"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4501372778",
+    "osm_type": "node",
+    "name": "Gare Routi\u00e8re de Ombessa",
+    "lat": 4.73187,
+    "lon": 11.2222759,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Gare Routi\u00e8re de Ombessa",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4513740794",
+    "osm_type": "node",
+    "name": "Sonef",
+    "lat": 13.3142755,
+    "lon": 12.6164655,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sonef",
+      "name:fr": "Sonef"
+    },
+    "state_name": "Yobe",
+    "resolved_place_id": "place_state_ng_yo",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4513741690",
+    "osm_type": "node",
+    "name": "3STV",
+    "lat": 13.3148253,
+    "lon": 12.6106198,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "3STV",
+      "name:fr": "3STV"
+    },
+    "state_name": "Yobe",
+    "resolved_place_id": "place_state_ng_yo",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4513760390",
+    "osm_type": "node",
+    "name": "Sonitrav",
+    "lat": 13.309838,
+    "lon": 12.6053823,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sonitrav",
+      "name:fr": "Sonitrav"
+    },
+    "state_name": "Yobe",
+    "resolved_place_id": "place_state_ng_yo",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4651026089",
+    "osm_type": "node",
+    "name": "Sonitrav",
+    "lat": 13.4917298,
+    "lon": 7.1160215,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sonitrav",
+      "name:fr": "Sonitrav"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4674898194",
+    "osm_type": "node",
+    "name": "Danay express",
+    "lat": 9.3116445,
+    "lon": 13.4006685,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Danay express",
+      "name:fr": "Danay express"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4755886707",
+    "osm_type": "node",
+    "name": "AKTC Motors",
+    "lat": 6.345332,
+    "lon": 5.6355293,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "AKTC Motors",
+      "name:en": "AKTC Motors",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4755886708",
+    "osm_type": "node",
+    "name": "Faith Motors",
+    "lat": 6.3443671,
+    "lon": 5.636357,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Faith Motors",
+      "name:en": "Faith Motors",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4755897332",
+    "osm_type": "node",
+    "name": "Obalende Motor Park",
+    "lat": 6.4496353,
+    "lon": 3.4073759,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Obalende Motor Park",
+      "name:en": "Obalende Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4756396721",
+    "osm_type": "node",
+    "name": "AKTC Park",
+    "lat": 5.0554817,
+    "lon": 7.884274,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "AKTC Park",
+      "name:en": "AKTC Park"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4932079181",
+    "osm_type": "node",
+    "name": "Liberty Bus-Stop",
+    "lat": 6.6129532,
+    "lon": 3.2664893,
+    "tags": {
+      "amenity": "bus_station",
+      "description": "Bus-Stop",
+      "name": "Liberty Bus-Stop"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4986297022",
+    "osm_type": "node",
+    "name": "Avenir Du Nde",
+    "lat": 5.1434472,
+    "lon": 10.5192427,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Avenir Du Nde",
+      "name:fr": "Avenir Du Nde",
+      "phone": "677451099"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5234383123",
+    "osm_type": "node",
+    "name": "Nyanya bus station",
+    "lat": 9.0234192,
+    "lon": 7.5706346,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Nyanya bus station"
+    },
+    "state_name": "FCT",
+    "resolved_place_id": "place_state_ng_fc",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5420967331",
+    "osm_type": "node",
+    "name": "PMT",
+    "lat": 5.5492656,
+    "lon": 5.7809723,
+    "tags": {
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "PMT"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5425359221",
+    "osm_type": "node",
+    "name": "AKTC",
+    "lat": 5.5481381,
+    "lon": 5.7805775,
+    "tags": {
+      "addr:housenumber": "138",
+      "addr:street": "138 Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "AKTC"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5427710121",
+    "osm_type": "node",
+    "name": "Libra Motors",
+    "lat": 5.5480203,
+    "lon": 5.7805541,
+    "tags": {
+      "addr:housenumber": "134",
+      "addr:street": "134 Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "Libra Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5427746036",
+    "osm_type": "node",
+    "name": "GIGM",
+    "lat": 5.5482393,
+    "lon": 5.7806147,
+    "tags": {
+      "addr:housenumber": "138",
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "GIGM"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5428871425",
+    "osm_type": "node",
+    "name": "PCM",
+    "lat": 5.5485783,
+    "lon": 5.7807085,
+    "tags": {
+      "addr:street": "Effurun Salele Road",
+      "amenity": "bus_station",
+      "name": "PCM"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5428928324",
+    "osm_type": "node",
+    "name": "Multi Line",
+    "lat": 5.5428198,
+    "lon": 5.7776007,
+    "tags": {
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "Multi Line"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5430017221",
+    "osm_type": "node",
+    "name": "Safe Transport Line",
+    "lat": 5.5484801,
+    "lon": 5.7806763,
+    "tags": {
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "Safe Transport Line"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5466670272",
+    "osm_type": "node",
+    "name": "Sunny Eru Motors",
+    "lat": 5.5672761,
+    "lon": 5.7971466,
+    "tags": {
+      "addr:street": "PTI Road",
+      "amenity": "bus_station",
+      "name": "Sunny Eru Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5467762827",
+    "osm_type": "node",
+    "name": "PMT",
+    "lat": 5.5489591,
+    "lon": 5.7808422,
+    "tags": {
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "PMT"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5467773426",
+    "osm_type": "node",
+    "name": "X-class Links",
+    "lat": 5.548798,
+    "lon": 5.7807597,
+    "tags": {
+      "addr:street": "Effurun Sapele Road",
+      "amenity": "bus_station",
+      "name": "X-class Links"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5468999125",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.9548468,
+    "lon": 6.358929,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5478678437",
+    "osm_type": "node",
+    "name": "Rahony Travels",
+    "lat": 4.9349491,
+    "lon": 6.3100829,
+    "tags": {
+      "addr:housenumber": "354",
+      "addr:street": "Melfold Okilo Road",
+      "amenity": "bus_station",
+      "name": "Rahony Travels"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5478686242",
+    "osm_type": "node",
+    "name": "GIGM",
+    "lat": 4.9348295,
+    "lon": 6.3099006,
+    "tags": {
+      "addr:housenumber": "352",
+      "addr:street": "Melfold Okilo Road",
+      "amenity": "bus_station",
+      "name": "GIGM"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5487627321",
+    "osm_type": "node",
+    "name": "Psalms 23",
+    "lat": 5.9819398,
+    "lon": 10.1799683,
+    "tags": {
+      "addr:street": "Mile 3",
+      "amenity": "bus_station",
+      "name": "Psalms 23"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5506376649",
+    "osm_type": "node",
+    "name": "Peace Park",
+    "lat": 4.9538131,
+    "lon": 6.3503122,
+    "tags": {
+      "addr:street": "Milford Okilo Road",
+      "amenity": "bus_station",
+      "name": "Peace Park"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5522405729",
+    "osm_type": "node",
+    "name": "Aduvie Motors",
+    "lat": 5.5501105,
+    "lon": 5.7812711,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Aduvie Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5577088245",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 5.5704485,
+    "lon": 5.7991187,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5577113928",
+    "osm_type": "node",
+    "name": "Dominion Express Motors",
+    "lat": 5.5611275,
+    "lon": 5.7932897,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Dominion Express Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5586214523",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.8158493,
+    "lon": 7.0070721,
+    "tags": {
+      "addr:street": "Olu Obansojo Road",
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5586215521",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.8984441,
+    "lon": 6.9064299,
+    "tags": {
+      "addr:street": "East - West Road",
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5589854921",
+    "osm_type": "node",
+    "name": "Eagle Transport Company",
+    "lat": 4.850521,
+    "lon": 7.0545524,
+    "tags": {
+      "addr:housenumber": "7",
+      "addr:street": "Rumuibekwe Road",
+      "amenity": "bus_station",
+      "name": "Eagle Transport Company"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5604821200",
+    "osm_type": "node",
+    "name": "Borno Express Station",
+    "lat": 11.8347094,
+    "lon": 13.1157226,
+    "tags": {
+      "addr:city": "Lamisula",
+      "addr:postcode": "600282",
+      "addr:street": "Kano-Maiduguri Highway",
+      "amenity": "bus_station",
+      "bus": "yes",
+      "landuse": "commercial",
+      "name": "Borno Express Station",
+      "operator": "Borno Express",
+      "public_transport": "station"
+    },
+    "state_name": "Yobe",
+    "resolved_place_id": "place_state_ng_yo",
+    "website": "",
+    "operator": "Borno Express",
+    "network": ""
+  },
+  {
+    "osm_id": "5617994522",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 5.5702906,
+    "lon": 5.7989727,
+    "tags": {
+      "addr:street": "PTI  Road",
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5617995027",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.815999,
+    "lon": 7.006933,
+    "tags": {
+      "addr:street": "Olu Obasanjo Road",
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5617995323",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.8984584,
+    "lon": 6.9062715,
+    "tags": {
+      "addr:street": "East - West Road",
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5617995921",
+    "osm_type": "node",
+    "name": "Delta Park",
+    "lat": 5.5722718,
+    "lon": 5.7856577,
+    "tags": {
+      "addr:street": "East West Road",
+      "amenity": "bus_station",
+      "name": "Delta Park"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5656741191",
+    "osm_type": "node",
+    "name": "Central Motor Park",
+    "lat": 12.9698971,
+    "lon": 7.6008343,
+    "tags": {
+      "addr:city": "Katsina",
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Central Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Kano",
+    "resolved_place_id": "place_state_ng_kn",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5666084148",
+    "osm_type": "node",
+    "name": "Katsina State Transport Authority",
+    "lat": 12.9810887,
+    "lon": 7.5869913,
+    "tags": {
+      "addr:street": "Batsari Road",
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Katsina State Transport Authority",
+      "operator": "eHealth Africa",
+      "public_transport": "station"
+    },
+    "state_name": "Kano",
+    "resolved_place_id": "place_state_ng_kn",
+    "website": "",
+    "operator": "eHealth Africa",
+    "network": ""
+  },
+  {
+    "osm_id": "5784351153",
+    "osm_type": "node",
+    "name": "Kano motor park",
+    "lat": 12.9695418,
+    "lon": 7.5997189,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Kano motor park"
+    },
+    "state_name": "Kano",
+    "resolved_place_id": "place_state_ng_kn",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5854068985",
+    "osm_type": "node",
+    "name": "Ijebu Ode Park to Lagos",
+    "lat": 6.8108372,
+    "lon": 3.9105063,
+    "tags": {
+      "addr:street": "Ejinrin Road, Ijebu Ode",
+      "amenity": "bus_station",
+      "name": "Ijebu Ode Park to Lagos"
+    },
+    "state_name": "Ogun",
+    "resolved_place_id": "place_state_ng_og",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5909851528",
+    "osm_type": "node",
+    "name": "Gare routi\u00e8re SONEF",
+    "lat": 11.1331804,
+    "lon": 2.9348114,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Gare routi\u00e8re SONEF",
+      "operator": "SONEF",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "SONEF",
+    "network": ""
+  },
+  {
+    "osm_id": "5986883885",
+    "osm_type": "node",
+    "name": "God is Good",
+    "lat": 9.0654954,
+    "lon": 7.4380756,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "God is Good",
+      "public_transport": "station"
+    },
+    "state_name": "FCT",
+    "resolved_place_id": "place_state_ng_fc",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6069107485",
+    "osm_type": "node",
+    "name": "Aghofure Motors",
+    "lat": 4.8666341,
+    "lon": 6.9998619,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Aghofure Motors"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6093496659",
+    "osm_type": "node",
+    "name": "Ogijo Bus Stop",
+    "lat": 6.7058511,
+    "lon": 3.5102654,
+    "tags": {
+      "addr:city": "OGIJO",
+      "addr:housenumber": "SAGAMU ROAD",
+      "addr:postcode": "121101",
+      "addr:street": "Sagamu Road",
+      "amenity": "bus_station",
+      "name": "Ogijo Bus Stop",
+      "operator": "ALPHA J",
+      "public_transport": "station",
+      "trolleybus": "yes"
+    },
+    "state_name": "Ogun",
+    "resolved_place_id": "place_state_ng_og",
+    "website": "",
+    "operator": "ALPHA J",
+    "network": ""
+  },
+  {
+    "osm_id": "6124544385",
+    "osm_type": "node",
+    "name": "ROCK CANAAN",
+    "lat": 6.7311541,
+    "lon": 3.2692076,
+    "tags": {
+      "addr:street": "ORE OFE STREET",
+      "amenity": "bus_station",
+      "name": "ROCK CANAAN",
+      "name:en": "CCC ROCK CANAAN",
+      "operator": "Rock Canaan"
+    },
+    "state_name": "Ogun",
+    "resolved_place_id": "place_state_ng_og",
+    "website": "",
+    "operator": "Rock Canaan",
+    "network": ""
+  },
+  {
+    "osm_id": "6128469994",
+    "osm_type": "node",
+    "name": "Sonitrav Doutchi",
+    "lat": 13.632352,
+    "lon": 4.03443,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Sonitrav Doutchi",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6128470504",
+    "osm_type": "node",
+    "name": "Africa Assalam Kandi",
+    "lat": 11.130625,
+    "lon": 2.9332421,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Africa Assalam Kandi"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6165036011",
+    "osm_type": "node",
+    "name": "Al-Izza Transport Voyageurs",
+    "lat": 13.8053824,
+    "lon": 8.9773961,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Al-Izza Transport Voyageurs"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6172863389",
+    "osm_type": "node",
+    "name": "Ihiebve Central Park",
+    "lat": 7.042394,
+    "lon": 6.1227771,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ihiebve Central Park",
+      "opening_hours": "24/7"
+    },
+    "state_name": "Kogi",
+    "resolved_place_id": "place_state_ng_ko",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6371384382",
+    "osm_type": "node",
+    "name": "Igbogbo Bus Terminus",
+    "lat": 6.5891618,
+    "lon": 3.5185824,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Igbogbo Bus Terminus",
+      "operator": "Lagos state Govt",
+      "public_transport": "station"
+    },
+    "state_name": "Lagos",
+    "resolved_place_id": "place_state_ng_la",
+    "website": "",
+    "operator": "Lagos state Govt",
+    "network": ""
+  },
+  {
+    "osm_id": "6773300987",
+    "osm_type": "node",
+    "name": "Takie Garage",
+    "lat": 8.136448,
+    "lon": 4.2376398,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Takie Garage",
+      "public_transport": "station"
+    },
+    "state_name": "Osun",
+    "resolved_place_id": "place_state_ng_os",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7051501885",
+    "osm_type": "node",
+    "name": "Nijma",
+    "lat": 13.6319118,
+    "lon": 4.0329719,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Nijma",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7051501985",
+    "osm_type": "node",
+    "name": "Sonef",
+    "lat": 13.6321243,
+    "lon": 4.0329177,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Sonef",
+      "public_transport": "station"
+    },
+    "state_name": "Kebbi",
+    "resolved_place_id": "place_state_ng_ke",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7058116188",
+    "osm_type": "node",
+    "name": "Peace Park Ogrute Enugu Ezike",
+    "lat": 6.9817983,
+    "lon": 7.4478683,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Peace Park Ogrute Enugu Ezike"
+    },
+    "state_name": "Kogi",
+    "resolved_place_id": "place_state_ng_ko",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7066344887",
+    "osm_type": "node",
+    "name": "Gare routi\u00e8re",
+    "lat": 4.2046069,
+    "lon": 8.9965825,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Gare routi\u00e8re",
+      "name:en": "Idenau Car Park",
+      "name:fr": "Gare routi\u00e8re",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7260806785",
+    "osm_type": "node",
+    "name": "Mobil Car station",
+    "lat": 10.3209257,
+    "lon": 9.8215429,
+    "tags": {
+      "addr:street": "Langtang - Bauchi Federal Road",
+      "amenity": "bus_station",
+      "name": "Mobil Car station"
+    },
+    "state_name": "Plateau",
+    "resolved_place_id": "place_state_ng_pl",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7497418592",
+    "osm_type": "node",
+    "name": "Monrawonkourou",
+    "lat": 9.2412977,
+    "lon": 3.0672079,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Monrawonkourou"
+    },
+    "state_name": "Kwara",
+    "resolved_place_id": "place_state_ng_kw",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956172597",
+    "osm_type": "node",
+    "name": "Rivers Transport Company RTC",
+    "lat": 4.8172483,
+    "lon": 7.007277,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Rivers Transport Company RTC"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956172598",
+    "osm_type": "node",
+    "name": "Imo Transport Company ITC Park",
+    "lat": 4.8159873,
+    "lon": 7.0076535,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Imo Transport Company ITC Park"
+    },
+    "state_name": "Rivers",
+    "resolved_place_id": "place_state_ng_ri",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956218499",
+    "osm_type": "node",
+    "name": "Peace Mass Transit Park",
+    "lat": 6.13447,
+    "lon": 6.7928472,
+    "tags": {
+      "addr:street": "Oguta Road",
+      "amenity": "bus_station",
+      "name": "Peace Mass Transit Park"
+    },
+    "state_name": "Anambra",
+    "resolved_place_id": "place_state_ng_an",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956224593",
+    "osm_type": "node",
+    "name": "Opolo Motor Park",
+    "lat": 4.9484499,
+    "lon": 6.334159,
+    "tags": {
+      "addr:housenumber": "809",
+      "addr:postcode": "234",
+      "addr:street": "Melford Okilo Road",
+      "amenity": "bus_station",
+      "name": "Opolo Motor Park"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956224609",
+    "osm_type": "node",
+    "name": "King Koko Express",
+    "lat": 4.9348548,
+    "lon": 6.28479,
+    "tags": {
+      "addr:street": "Imgbi Road",
+      "amenity": "bus_station",
+      "name": "King Koko Express"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956224800",
+    "osm_type": "node",
+    "name": "Sagbama Motor Park",
+    "lat": 5.1587601,
+    "lon": 6.1980458,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Sagbama Motor Park"
+    },
+    "state_name": "Delta",
+    "resolved_place_id": "place_state_ng_de",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956225491",
+    "osm_type": "node",
+    "name": "Ekeki Motor Park",
+    "lat": 4.9289213,
+    "lon": 6.29521,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Ekeki Motor Park"
+    },
+    "state_name": "Bayelsa",
+    "resolved_place_id": "place_state_ng_by",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956225897",
+    "osm_type": "node",
+    "name": "Peace Mass Transit Park",
+    "lat": 6.1294909,
+    "lon": 6.7950055,
+    "tags": {
+      "addr:street": "Onitsha - Owerri Road",
+      "amenity": "bus_station",
+      "name": "Peace Mass Transit Park"
+    },
+    "state_name": "Anambra",
+    "resolved_place_id": "place_state_ng_an",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7956231995",
+    "osm_type": "node",
+    "name": "Peace Mass Transit Park",
+    "lat": 6.135061,
+    "lon": 6.7928152,
+    "tags": {
+      "addr:street": "Oguta Road",
+      "amenity": "bus_station",
+      "name": "Peace Mass Transit Park"
+    },
+    "state_name": "Anambra",
+    "resolved_place_id": "place_state_ng_an",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7972408585",
+    "osm_type": "node",
+    "name": "Gombe State Transport Services (Gombe Line)",
+    "lat": 10.2868505,
+    "lon": 11.1655148,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "internet_access": "no",
+      "name": "Gombe State Transport Services (Gombe Line)",
+      "operator:type": "government",
+      "public_transport": "station"
+    },
+    "state_name": "Gombe",
+    "resolved_place_id": "place_state_ng_go",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "8328680117",
+    "osm_type": "node",
+    "name": "Maison Lapeuh",
+    "lat": 10.5768644,
+    "lon": 14.2792347,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Maison Lapeuh"
+    },
+    "state_name": "Borno",
+    "resolved_place_id": "place_state_ng_bo",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "8415712917",
+    "osm_type": "node",
+    "name": "General express",
+    "lat": 5.6266609,
+    "lon": 10.2557463,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "General express"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "9994500260",
+    "osm_type": "node",
+    "name": "Gare de Nakori",
+    "lat": 13.6613334,
+    "lon": 6.6981357,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Gare de Nakori",
+      "public_transport": "station"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10215240519",
+    "osm_type": "node",
+    "name": "Uselu motor park",
+    "lat": 6.3682028,
+    "lon": 5.6173701,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Uselu motor park"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10215240525",
+    "osm_type": "node",
+    "name": "Transport to Dschang and Bamenda",
+    "lat": 5.5204584,
+    "lon": 10.3424158,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Transport to Dschang and Bamenda"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10215240617",
+    "osm_type": "node",
+    "name": "Cars to Osogbo",
+    "lat": 7.4980228,
+    "lon": 4.5199071,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Cars to Osogbo"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10595938307",
+    "osm_type": "node",
+    "name": "March\u00e9 Zidim",
+    "lat": 10.4895933,
+    "lon": 13.9438233,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "March\u00e9 Zidim"
+    },
+    "state_name": "Adamawa",
+    "resolved_place_id": "place_state_ng_ad",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11013682842",
+    "osm_type": "node",
+    "name": "Yankari Motor park",
+    "lat": 10.3079133,
+    "lon": 9.8441618,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "check_date": "2023-06-29",
+      "name": "Yankari Motor park",
+      "public_transport": "station",
+      "source": "local knowledge",
+      "wheelchair": "limited"
+    },
+    "state_name": "Plateau",
+    "resolved_place_id": "place_state_ng_pl",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11016323872",
+    "osm_type": "node",
+    "name": "Shuttle Bus Park",
+    "lat": 10.2786146,
+    "lon": 9.7945818,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "check_date": "2023-06-30",
+      "name": "Shuttle Bus Park",
+      "public_transport": "station",
+      "source": "local knowledge"
+    },
+    "state_name": "Plateau",
+    "resolved_place_id": "place_state_ng_pl",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11030118031",
+    "osm_type": "node",
+    "name": "Nizar Agence Maradi",
+    "lat": 13.5123203,
+    "lon": 7.1059116,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Nizar Agence Maradi"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11030121637",
+    "osm_type": "node",
+    "name": "Hamdalla Transport Voyageurs",
+    "lat": 13.5088358,
+    "lon": 7.1065517,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Hamdalla Transport Voyageurs"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102627335",
+    "osm_type": "node",
+    "name": "Al Izza Transport Maradi",
+    "lat": 13.4920955,
+    "lon": 7.1105854,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Al Izza Transport Maradi"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102638457",
+    "osm_type": "node",
+    "name": "STM Maradi",
+    "lat": 13.4924184,
+    "lon": 7.1105859,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "STM Maradi"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102680506",
+    "osm_type": "node",
+    "name": "Escale STM Tsernaoua",
+    "lat": 13.8933518,
+    "lon": 5.3451442,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Escale STM Tsernaoua"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102687243",
+    "osm_type": "node",
+    "name": "Gare Sonef Maradi",
+    "lat": 13.5014753,
+    "lon": 7.1081018,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Gare Sonef Maradi"
+    },
+    "state_name": "Katsina",
+    "resolved_place_id": "place_state_ng_kt",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102693647",
+    "osm_type": "node",
+    "name": "Escale Sonef Tsernaoua",
+    "lat": 13.8935029,
+    "lon": 5.3452246,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Escale Sonef Tsernaoua"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102695216",
+    "osm_type": "node",
+    "name": "Escale Al Izza Tsernaoua",
+    "lat": 13.8932842,
+    "lon": 5.3451133,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Escale Al Izza Tsernaoua"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11102695607",
+    "osm_type": "node",
+    "name": "Escale Nour Tsernaoua",
+    "lat": 13.8934494,
+    "lon": 5.3451938,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Escale Nour Tsernaoua"
+    },
+    "state_name": "Sokoto",
+    "resolved_place_id": "place_state_ng_so",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11178545482",
+    "osm_type": "node",
+    "name": "Opposite FUTA Campus",
+    "lat": 7.3075583,
+    "lon": 5.1388217,
+    "tags": {
+      "addr:housenumber": "Nil",
+      "addr:street": "Akure-Owo Express Road",
+      "amenity": "bus_station",
+      "bus": "yes",
+      "check_date": "2023-09-09",
+      "name": "Opposite FUTA Campus",
+      "public_transport": "station"
+    },
+    "state_name": "Ondo",
+    "resolved_place_id": "place_state_ng_on",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11523791669",
+    "osm_type": "node",
+    "name": "Tashan Boi",
+    "lat": 9.5617056,
+    "lon": 9.5072718,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Tashan Boi"
+    },
+    "state_name": "Plateau",
+    "resolved_place_id": "place_state_ng_pl",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "12453461101",
+    "osm_type": "node",
+    "name": "Bluebird Express",
+    "lat": 5.4586626,
+    "lon": 10.4380964,
+    "tags": {
+      "amenity": "bus_station",
+      "name": "Bluebird Express"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "12574391840",
+    "osm_type": "node",
+    "name": "Terminus Motor Park",
+    "lat": 9.9192829,
+    "lon": 8.893104,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "check_date": "2025-02-10",
+      "name": "Terminus Motor Park",
+      "public_transport": "station"
+    },
+    "state_name": "Plateau",
+    "resolved_place_id": "place_state_ng_pl",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13047974726",
+    "osm_type": "node",
+    "name": "Soludero Bus Terminal, Muritala Muhamed Way, Oko Erin, Nigeria",
+    "lat": 8.487369,
+    "lon": 4.5644774,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Soludero Bus Terminal, Muritala Muhamed Way, Oko Erin, Nigeria",
+      "public_transport": "station"
+    },
+    "state_name": "Kwara",
+    "resolved_place_id": "place_state_ng_kw",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13048283366",
+    "osm_type": "node",
+    "name": "Station Road, Oko Erin, Nigeria",
+    "lat": 8.4807116,
+    "lon": 4.5893743,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Station Road, Oko Erin, Nigeria",
+      "public_transport": "station",
+      "source": "csv_import"
+    },
+    "state_name": "Kwara",
+    "resolved_place_id": "place_state_ng_kw",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13048283367",
+    "osm_type": "node",
+    "name": "Station Road, Oko Erin, Nigeria",
+    "lat": 8.4815895,
+    "lon": 4.5895064,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Station Road, Oko Erin, Nigeria",
+      "public_transport": "station",
+      "source": "csv_import"
+    },
+    "state_name": "Kwara",
+    "resolved_place_id": "place_state_ng_kw",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13383633683",
+    "osm_type": "node",
+    "name": "Mabushi Bus Terminal",
+    "lat": 9.0865699,
+    "lon": 7.4565142,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "name": "Mabushi Bus Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "FCT",
+    "resolved_place_id": "place_state_ng_fc",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1693429425",
+    "osm_type": "node",
+    "name": "Tin Can Island Jetty",
+    "lat": 6.4328981,
+    "lon": 3.3353271,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Tin Can Island Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "1931521270",
+    "osm_type": "node",
+    "name": "Snake Island",
+    "lat": 6.4275549,
+    "lon": 3.3348663,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Snake Island",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "2427782128",
+    "osm_type": "node",
+    "name": "Escale Sonef",
+    "lat": 11.8919936,
+    "lon": 3.4584544,
+    "tags": {
+      "name": "Escale Sonef",
+      "project:mappingforniger": "yes",
+      "public_transport": "station",
+      "source": "survey"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3392673444",
+    "osm_type": "node",
+    "name": "Gare de Mbangassina",
+    "lat": 4.7461209,
+    "lon": 11.2263128,
+    "tags": {
+      "name": "Gare de Mbangassina",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3602591460",
+    "osm_type": "node",
+    "name": "Bukuma Jetty",
+    "lat": 4.7389098,
+    "lon": 6.882189,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Bukuma Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3784488657",
+    "osm_type": "node",
+    "name": "Ifoko Jetty",
+    "lat": 4.7623007,
+    "lon": 6.8163348,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Ifoko Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3803620138",
+    "osm_type": "node",
+    "name": "Bugama Jetty",
+    "lat": 4.7313311,
+    "lon": 6.8629653,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Bugama Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "3962437095",
+    "osm_type": "node",
+    "name": "Oguta",
+    "lat": 5.7075908,
+    "lon": 6.7980552,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Oguta",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4332287269",
+    "osm_type": "node",
+    "name": "Naral Voyage",
+    "lat": 4.5755102,
+    "lon": 13.6816293,
+    "tags": {
+      "name": "Naral Voyage",
+      "operator": "Naral",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "Naral",
+    "network": ""
+  },
+  {
+    "osm_id": "4456127811",
+    "osm_type": "node",
+    "name": "Over Line Voyages",
+    "lat": 4.5748521,
+    "lon": 13.6707648,
+    "tags": {
+      "amenity": "bus_station",
+      "bus": "yes",
+      "description": "Horaires des bus VIP \u00e0 destination de Yaound\u00e9 (valables le 01/03/2026) - 7500 FCFA :\n06:00 ; 90:00 ; 10:30 ; 12:00 ; 14:00 ; 17:00 ; 22:00 ; 23:00 ; 00:00\nHoraires des bus VIP \u00e0 destination de Douala (valables le 01/03/2026) - 12000 FCFA :\n19:30 ; 20:00",
+      "name": "Over Line Voyages",
+      "phone": "+237 670 50 86 23;+237 670 49 92 11",
+      "public_transport": "station",
+      "toilets": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "4746498449",
+    "osm_type": "node",
+    "name": "Touristique Express",
+    "lat": 4.5749885,
+    "lon": 13.6726715,
+    "tags": {
+      "addr:city": "Bertoua",
+      "amenity": "bus_station",
+      "bus": "yes",
+      "ele": "655",
+      "name": "Touristique Express",
+      "operator": "Touristiqe Express SA",
+      "public_transport": "station",
+      "toilets": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "Touristiqe Express SA",
+    "network": ""
+  },
+  {
+    "osm_id": "5754031515",
+    "osm_type": "node",
+    "name": "Wupa",
+    "lat": 9.0246825,
+    "lon": 7.3948998,
+    "tags": {
+      "light_rail": "yes",
+      "name": "Wupa",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "5754032240",
+    "osm_type": "node",
+    "name": "Kukwaba I",
+    "lat": 9.0402465,
+    "lon": 7.4410513,
+    "tags": {
+      "light_rail": "yes",
+      "name": "Kukwaba I",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "wikidata": "Q109886465"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6249046145",
+    "osm_type": "node",
+    "name": "Tinapa Business and Resort",
+    "lat": 5.0512866,
+    "lon": 8.3160003,
+    "tags": {
+      "monorail": "yes",
+      "name": "Tinapa Business and Resort",
+      "public_transport": "station",
+      "railway": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274161420",
+    "osm_type": "node",
+    "name": "Badore Ferry Terminal",
+    "lat": 6.5121953,
+    "lon": 3.615234,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Badore Ferry Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274197913",
+    "osm_type": "node",
+    "name": "Bayeku Ferry Terminal",
+    "lat": 6.5360487,
+    "lon": 3.5529637,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Bayeku Ferry Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274484744",
+    "osm_type": "node",
+    "name": "Marina/CMS Ferry Terminal",
+    "lat": 6.4492076,
+    "lon": 3.389713,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Marina/CMS Ferry Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274662155",
+    "osm_type": "node",
+    "name": "Badore East Jetty",
+    "lat": 6.5153535,
+    "lon": 3.6053485,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Badore East Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274678046",
+    "osm_type": "node",
+    "name": "Ilaje Waterfront Jetty Terminal Bariga",
+    "lat": 6.5283141,
+    "lon": 3.4000365,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Ilaje Waterfront Jetty Terminal Bariga",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274736175",
+    "osm_type": "node",
+    "name": "Ebute Ero Ferry Terminal",
+    "lat": 6.4627705,
+    "lon": 3.382534,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Ebute Ero Ferry Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274815661",
+    "osm_type": "node",
+    "name": "Addax Jetty",
+    "lat": 6.4367024,
+    "lon": 3.4419824,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Addax Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274877388",
+    "osm_type": "node",
+    "name": "Oguta South",
+    "lat": 5.7038026,
+    "lon": 6.7964978,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Oguta South",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6274968417",
+    "osm_type": "node",
+    "name": "Iworo Ajido Jetty",
+    "lat": 6.4136127,
+    "lon": 3.007838,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Iworo Ajido Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275022885",
+    "osm_type": "node",
+    "name": "Langbasa Jetty",
+    "lat": 6.4897339,
+    "lon": 3.5795102,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Langbasa Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791303",
+    "osm_type": "node",
+    "name": "Ibeshe Ferry Terminal",
+    "lat": 6.5522628,
+    "lon": 3.4727116,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Ibeshe Ferry Terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791741",
+    "osm_type": "node",
+    "name": "Apapa Liverpool Jetty",
+    "lat": 6.4390643,
+    "lon": 3.3591728,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Apapa Liverpool Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791800",
+    "osm_type": "node",
+    "name": "Oworonsoki Jetty",
+    "lat": 6.5479311,
+    "lon": 3.4072016,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Oworonsoki Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791838",
+    "osm_type": "node",
+    "name": "Tin Can Island",
+    "lat": 6.4334868,
+    "lon": 3.3350936,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Tin Can Island",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791888",
+    "osm_type": "node",
+    "name": "Etegbin Jetty",
+    "lat": 6.4493808,
+    "lon": 3.1438995,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Etegbin Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6275791912",
+    "osm_type": "node",
+    "name": "Ijede Ferry terminal",
+    "lat": 6.5596115,
+    "lon": 3.6004257,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Ijede Ferry terminal",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "6288815547",
+    "osm_type": "node",
+    "name": "Apapa Jetty",
+    "lat": 6.4477051,
+    "lon": 3.3749215,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Apapa Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7158350349",
+    "osm_type": "node",
+    "name": "Angulama Jetty",
+    "lat": 4.7213766,
+    "lon": 6.8391929,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Angulama Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7158614046",
+    "osm_type": "node",
+    "name": "Degema Jetty",
+    "lat": 4.7557937,
+    "lon": 6.7815183,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Degema Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7158614051",
+    "osm_type": "node",
+    "name": "Krakrama Jetty",
+    "lat": 4.7554219,
+    "lon": 6.7828815,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Krakrama Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7158614062",
+    "osm_type": "node",
+    "name": "Sangana Jetty",
+    "lat": 4.7580268,
+    "lon": 6.8173815,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Sangana Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7158614076",
+    "osm_type": "node",
+    "name": "Abalama Jetty",
+    "lat": 4.7625851,
+    "lon": 6.8407693,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Abalama Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7434013540",
+    "osm_type": "node",
+    "name": "Gare routi\u00e8re de Kabo",
+    "lat": 9.1894632,
+    "lon": 3.0542019,
+    "tags": {
+      "area": "yes",
+      "name": "Gare routi\u00e8re de Kabo",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7649496107",
+    "osm_type": "node",
+    "name": "Dj\u00e9gou-Nagot",
+    "lat": 6.5339384,
+    "lon": 2.7065197,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "name": "Dj\u00e9gou-Nagot",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "7649496108",
+    "osm_type": "node",
+    "name": "Sado",
+    "lat": 6.5338317,
+    "lon": 2.7016228,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "name": "Sado",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "9675780836",
+    "osm_type": "node",
+    "name": "Brass Jetty",
+    "lat": 4.3195462,
+    "lon": 6.2415135,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Brass Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10580060973",
+    "osm_type": "node",
+    "name": "Iko Jetty",
+    "lat": 4.5215893,
+    "lon": 7.7544381,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "Iko Jetty",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10660799201",
+    "osm_type": "node",
+    "name": "Gwagwa",
+    "lat": 9.0898296,
+    "lon": 7.2851857,
+    "tags": {
+      "name": "Gwagwa",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "train": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10660799202",
+    "osm_type": "node",
+    "name": "Deidei",
+    "lat": 9.1062273,
+    "lon": 7.2872913,
+    "tags": {
+      "name": "Deidei",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "train": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10660799203",
+    "osm_type": "node",
+    "name": "Kagini",
+    "lat": 9.1245854,
+    "lon": 7.2921222,
+    "tags": {
+      "name": "Kagini",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "train": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10660849726",
+    "osm_type": "node",
+    "name": "Bassanjiwa",
+    "lat": 9.0138057,
+    "lon": 7.2825035,
+    "tags": {
+      "name": "Bassanjiwa",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "train": "yes"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "10700381871",
+    "osm_type": "node",
+    "name": "SeaExpress Transit Limited",
+    "lat": 4.9725443,
+    "lon": 8.3226136,
+    "tags": {
+      "amenity": "ferry_terminal",
+      "ferry": "yes",
+      "name": "SeaExpress Transit Limited",
+      "public_transport": "station",
+      "website": "https://www.seaexpresstransit.com/"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "https://www.seaexpresstransit.com/",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "11060729805",
+    "osm_type": "node",
+    "name": "Tashan Tafa Balewa",
+    "lat": 10.2738504,
+    "lon": 9.7968184,
+    "tags": {
+      "name": "Tashan Tafa Balewa",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "12625510505",
+    "osm_type": "node",
+    "name": "Benue Link",
+    "lat": 9.8904673,
+    "lon": 8.8775843,
+    "tags": {
+      "name": "Benue Link",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "12814049800",
+    "osm_type": "node",
+    "name": "Police",
+    "lat": 6.4119709,
+    "lon": 3.2524696,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "95",
+      "name": "Police",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051301",
+    "osm_type": "node",
+    "name": "Elegushi",
+    "lat": 6.411355,
+    "lon": 3.2542692,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "94",
+      "name": "Elegushi",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051304",
+    "osm_type": "node",
+    "name": "Cele",
+    "lat": 6.4278858,
+    "lon": 3.2558011,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "91",
+      "name": "Cele",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051317",
+    "osm_type": "node",
+    "name": "Oke Ira Nla (Ajah)",
+    "lat": 6.4906331,
+    "lon": 3.5790296,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Eti_Osa",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "74",
+      "name": "Oke Ira Nla (Ajah)",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051318",
+    "osm_type": "node",
+    "name": "Port/Checkpoint",
+    "lat": 6.4405074,
+    "lon": 3.4041996,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Lagos Island",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "73",
+      "name": "Port/Checkpoint",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051343",
+    "osm_type": "node",
+    "name": "Ikorodu Terminal",
+    "lat": 6.6017281,
+    "lon": 3.4861459,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Ikorodu",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry terminal with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "20",
+      "name": "Ikorodu Terminal",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051349",
+    "osm_type": "node",
+    "name": "Mile 2/NIWA",
+    "lat": 6.4590664,
+    "lon": 3.3077366,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "14",
+      "name": "Mile 2/NIWA",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814051351",
+    "osm_type": "node",
+    "name": "Offin",
+    "lat": 6.5393673,
+    "lon": 3.5008856,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Ikorodu",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "12",
+      "name": "Offin",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814687041",
+    "osm_type": "node",
+    "name": "Second Rainbow",
+    "lat": 6.4257939,
+    "lon": 3.2622631,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "84",
+      "name": "Second Rainbow",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814687042",
+    "osm_type": "node",
+    "name": "Ijegun Egba",
+    "lat": 6.4278627,
+    "lon": 3.2587021,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "65",
+      "name": "Ijegun Egba",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814687055",
+    "osm_type": "node",
+    "name": "Alluvia Marine/Afisco (Lekki 1)",
+    "lat": 6.447693,
+    "lon": 3.4593615,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Eti_Osa",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "68",
+      "name": "Alluvia Marine/Afisco (Lekki 1)",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814687079",
+    "osm_type": "node",
+    "name": "Five Cowries/Falomo (VI)",
+    "lat": 6.442098,
+    "lon": 3.4271765,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Eti_Osa",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry terminal with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "18",
+      "name": "Five Cowries/Falomo (VI)",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814687092",
+    "osm_type": "node",
+    "name": "Tarkwa Bay",
+    "lat": 6.4010718,
+    "lon": 3.3966117,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "44",
+      "name": "Tarkwa Bay",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814705879",
+    "osm_type": "node",
+    "name": "Ebute Ero",
+    "lat": 6.462741,
+    "lon": 3.3824812,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Lagos Island",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "16",
+      "name": "Ebute Ero",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706436",
+    "osm_type": "node",
+    "name": "Ito Agan",
+    "lat": 6.42766,
+    "lon": 3.3592554,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "37",
+      "name": "Ito Agan",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706438",
+    "osm_type": "node",
+    "name": "Liverpool (Apapa)",
+    "lat": 6.4390673,
+    "lon": 3.3591748,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Apapa",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "15",
+      "name": "Liverpool (Apapa)",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706439",
+    "osm_type": "node",
+    "name": "Capital Oil",
+    "lat": 6.4745902,
+    "lon": 3.2943095,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "133",
+      "name": "Capital Oil",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706460",
+    "osm_type": "node",
+    "name": "Bonny Camp (VI)",
+    "lat": 6.4359713,
+    "lon": 3.4048651,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Eti_Osa",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "104",
+      "name": "Bonny Camp (VI)",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706577",
+    "osm_type": "node",
+    "name": "Bariga Waterfront",
+    "lat": 6.528356,
+    "lon": 3.3999032,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Somolu",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "72",
+      "name": "Bariga Waterfront",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706580",
+    "osm_type": "node",
+    "name": "Ibasa",
+    "lat": 6.4250556,
+    "lon": 3.2553638,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "83",
+      "name": "Ibasa",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706589",
+    "osm_type": "node",
+    "name": "Ibeshe Palace",
+    "lat": 6.4115247,
+    "lon": 3.2556368,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry jetty with active commercial ferry activity.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "96",
+      "name": "Ibeshe Palace",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706730",
+    "osm_type": "node",
+    "name": "Jemuje",
+    "lat": 6.4175204,
+    "lon": 3.3507032,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "114",
+      "name": "Jemuje",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706733",
+    "osm_type": "node",
+    "name": "Agojedo",
+    "lat": 6.4176335,
+    "lon": 3.3588512,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "116",
+      "name": "Agojedo",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706734",
+    "osm_type": "node",
+    "name": "Tamaro",
+    "lat": 6.4179592,
+    "lon": 3.3622931,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "38",
+      "name": "Tamaro",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706793",
+    "osm_type": "node",
+    "name": "Ogogoro Village",
+    "lat": 6.4280397,
+    "lon": 3.3939332,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "false",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "36",
+      "name": "Ogogoro Village",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814706829",
+    "osm_type": "node",
+    "name": "Baba Shino",
+    "lat": 6.4246842,
+    "lon": 3.2575102,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "135",
+      "name": "Baba Shino",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814707236",
+    "osm_type": "node",
+    "name": "Coconut Landing",
+    "lat": 6.4379319,
+    "lon": 3.3358476,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "70",
+      "name": "Coconut Landing",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "private",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "private",
+    "network": ""
+  },
+  {
+    "osm_id": "12814707240",
+    "osm_type": "node",
+    "name": "Igbologun",
+    "lat": 6.4307724,
+    "lon": 3.3232663,
+    "tags": {
+      "admin_level": "6",
+      "admin_name": "Amuwo_Odofin",
+      "amenity": "ferry_terminal",
+      "amenity:note": "this location is a ferry landing with active commercial ferry activity; however, the facility is less developed and lacks well-engineered structures.",
+      "boat:rental": "true",
+      "cargo": "passengers",
+      "ferry": "yes",
+      "ferry_stop_id": "11",
+      "name": "Igbologun",
+      "notes": "admin_level 6 represents local government areas",
+      "operational_status": "operational",
+      "operator": "public",
+      "operator:name": "Lagos State Waterways Authority (LASWA)",
+      "public_transport": "station",
+      "source": "survey",
+      "source:name": "stears open data",
+      "survey:date": "2025-02-22"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "public",
+    "network": ""
+  },
+  {
+    "osm_id": "12969590090",
+    "osm_type": "node",
+    "name": "Stadium",
+    "lat": 9.0459071,
+    "lon": 7.4517151,
+    "tags": {
+      "light_rail": "yes",
+      "name": "Stadium",
+      "public_transport": "station",
+      "railway": "halt",
+      "station": "light_rail",
+      "wikidata": "Q109886591"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13047974822",
+    "osm_type": "node",
+    "name": "Maraba motor park, Maraba Motor Park, Oko Erin, Nigeria",
+    "lat": 8.4944893,
+    "lon": 4.5698803,
+    "tags": {
+      "name": "Maraba motor park, Maraba Motor Park, Oko Erin, Nigeria",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  },
+  {
+    "osm_id": "13047975303",
+    "osm_type": "node",
+    "name": "Afon Park, Afon Junction, Ilorin, Nigeria",
+    "lat": 8.423925,
+    "lon": 4.6001917,
+    "tags": {
+      "name": "Afon Park, Afon Junction, Ilorin, Nigeria",
+      "public_transport": "station"
+    },
+    "state_name": "Nigeria",
+    "resolved_place_id": "place_nigeria_001",
+    "website": "",
+    "operator": "",
+    "network": ""
+  }
+]

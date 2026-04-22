@@ -1,0 +1,6705 @@
+{
+  "brokers": [
+    {
+      "sn": "1",
+      "name": "A.B. Alhassan And Company Insurance Brokers Ltd",
+      "rbc_no": "60",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "2",
+      "name": "Abasco Insurance Brokers Ltd",
+      "rbc_no": "1098",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "3",
+      "name": "Abia Insurance Brokers Limited",
+      "rbc_no": "732",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "4",
+      "name": "Abigail T. Insurance Brokers Ltd",
+      "rbc_no": "1160",
+      "category": "Insurance",
+      "expiry_date": "31 July 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "5",
+      "name": "Ability Insurance Brokers Ltd",
+      "rbc_no": "1108",
+      "category": "Insurance",
+      "expiry_date": "15 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "6",
+      "name": "Absolute Insurance Brokers Ltd",
+      "rbc_no": "1182",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "7",
+      "name": "Acceptance Insurance Brokers Ltd",
+      "rbc_no": "618",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "8",
+      "name": "Access Insurance Brokers Ltd",
+      "rbc_no": "1036",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "9",
+      "name": "Aceline Insurance Brokers Ltd",
+      "rbc_no": "668",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "10",
+      "name": "Acorn Insurance Brokers Ltd",
+      "rbc_no": "371",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "11",
+      "name": "Addosser Insurance Brokers Ltd",
+      "rbc_no": "1021",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "12",
+      "name": "Adept Insurance Brokers Ltd",
+      "rbc_no": "957",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "13",
+      "name": "Adequate Alliance Insurance Brokers Ltd",
+      "rbc_no": "1125",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "14",
+      "name": "Advent Insurance Brokers Ltd",
+      "rbc_no": "489",
+      "category": "Insurance",
+      "expiry_date": "2 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "15",
+      "name": "Advocate Insurance Brokers Limited",
+      "rbc_no": "816",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "16",
+      "name": "Aegis Insurance Brokers Ltd",
+      "rbc_no": "1193",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "17",
+      "name": "AFN Insurance Brokers Ltd",
+      "rbc_no": "245",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "18",
+      "name": "African General Insurance Brokers Limited",
+      "rbc_no": "1145",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "19",
+      "name": "AfriGlobal Insurance Brokers Ltd",
+      "rbc_no": "135",
+      "category": "Ins/Re",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "20",
+      "name": "Afris-Ovis Insurance Brokers Ltd",
+      "rbc_no": "31",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "21",
+      "name": "Agglos Insurance Brokers Limited",
+      "rbc_no": "803",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "22",
+      "name": "AIS Insurance Brokers Ltd",
+      "rbc_no": "1181",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "23",
+      "name": "Akslom Insurance Brokers Ltd",
+      "rbc_no": "1159",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "24",
+      "name": "Albert Thomas Insurance Brokers Limited",
+      "rbc_no": "991",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "25",
+      "name": "Alexander Reisse Insurance Brokers Ltd",
+      "rbc_no": "279",
+      "category": "Insurance",
+      "expiry_date": "9 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "26",
+      "name": "Alfam Insurance Brokers Ltd",
+      "rbc_no": "162",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "27",
+      "name": "Alhikmah Takaful Insurance Brokers Ltd",
+      "rbc_no": "1047",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "28",
+      "name": "Allstar Insurance Brokers Limited",
+      "rbc_no": "715",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "29",
+      "name": "Alpha Choice Insurance Brokers Ltd",
+      "rbc_no": "550",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "30",
+      "name": "Alphasmith Insurance Brokers Ltd",
+      "rbc_no": "1256",
+      "category": "Insurance",
+      "expiry_date": "19 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "31",
+      "name": "Alpine Insurance Brokers Ltd",
+      "rbc_no": "1233",
+      "category": "Insurance",
+      "expiry_date": "15 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "32",
+      "name": "Alsan Insurance Brokers Ltd",
+      "rbc_no": "312",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "33",
+      "name": "Amana Insurance Brokers Ltd",
+      "rbc_no": "93",
+      "category": "Insurance",
+      "expiry_date": "4 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "34",
+      "name": "Amicable Insurance Brokers Ltd",
+      "rbc_no": "939",
+      "category": "Insurance",
+      "expiry_date": "4 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "35",
+      "name": "Anam Insurance Brokers Limited",
+      "rbc_no": "1111",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "36",
+      "name": "Anatole Insurance Brokers Limited",
+      "rbc_no": "785",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "37",
+      "name": "Anjie Consult Insurance Brokers Ltd",
+      "rbc_no": "1175",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "38",
+      "name": "Apple of God\u2019s Eye Insurance Brokers Ltd",
+      "rbc_no": "1092",
+      "category": "",
+      "expiry_date": "15 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "39",
+      "name": "Applus Insurance Brokers Ltd",
+      "rbc_no": "1153",
+      "category": "Insurance",
+      "expiry_date": "14 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "40",
+      "name": "Aremott Banwill & Co. Ltd",
+      "rbc_no": "849",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "41",
+      "name": "Arisco Insurance Brokers Ltd",
+      "rbc_no": "877",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "42",
+      "name": "Arizona Insurance Brokers Ltd",
+      "rbc_no": "541",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "43",
+      "name": "Ark Insurance Brokers Ltd",
+      "rbc_no": "29",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "44",
+      "name": "Arlington Insurance Brokers Ltd",
+      "rbc_no": "1094",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "45",
+      "name": "Armeta Insurance Brokers Ltd",
+      "rbc_no": "1072",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "46",
+      "name": "Armstrong Insurance Brks Ltd",
+      "rbc_no": "131",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "47",
+      "name": "Aru and Jay Insurance Brokers Ltd",
+      "rbc_no": "922",
+      "category": "Insurance",
+      "expiry_date": "5 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "48",
+      "name": "ASG Solutions Insurance Brokers Ltd",
+      "rbc_no": "938",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "49",
+      "name": "Ashmount Insurance Brokers Ltd",
+      "rbc_no": "193",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "50",
+      "name": "Assent Insurance Brokers Ltd",
+      "rbc_no": "1001",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "51",
+      "name": "Asset Insurance Brokers Limited",
+      "rbc_no": "948",
+      "category": "Insurance",
+      "expiry_date": "28 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "52",
+      "name": "Assure Capital Insurance Brokers Ltd",
+      "rbc_no": "561",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "53",
+      "name": "Asteric Insurance Brokers Limited",
+      "rbc_no": "1258",
+      "category": "Insurance",
+      "expiry_date": "20 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "54",
+      "name": "ATB Insurance Brokers Limited",
+      "rbc_no": "1172",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "55",
+      "name": "Atiat Insurance Brokers Ltd",
+      "rbc_no": "844",
+      "category": "Insurance",
+      "expiry_date": "26 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "56",
+      "name": "ATP Insurance Brokers Ltd",
+      "rbc_no": "1157",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "57",
+      "name": "August Insurance Brokers Ltd",
+      "rbc_no": "1148",
+      "category": "Insurance",
+      "expiry_date": "15 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "58",
+      "name": "Auphilma Insurance Brokers Ltd",
+      "rbc_no": "969",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "59",
+      "name": "Austin & Associates Insurance Brokers Ltd",
+      "rbc_no": "92",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "60",
+      "name": "Aut Insurance Brokers Ltd",
+      "rbc_no": "1154",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "61",
+      "name": "Avangarde Insurance Brokers Ltd",
+      "rbc_no": "1189",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "62",
+      "name": "Avenues Insurance Brokers Ltd",
+      "rbc_no": "914",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "63",
+      "name": "Avion Insurance Brokers Ltd",
+      "rbc_no": "1215",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "64",
+      "name": "Axis Insurance Brokers Limited",
+      "rbc_no": "871",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "65",
+      "name": "Axton Insurance Brokers Ltd",
+      "rbc_no": "1076",
+      "category": "Insurance",
+      "expiry_date": "31 August 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "66",
+      "name": "Aza Insurance Brokers Ltd",
+      "rbc_no": "559",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "67",
+      "name": "B.C. Madiebo & Co Ltd",
+      "rbc_no": "876",
+      "category": "Insurance",
+      "expiry_date": "30 June 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "68",
+      "name": "Bab Soul Insurance Brokers Ltd",
+      "rbc_no": "1195",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "69",
+      "name": "Backbone Insurance Brokers Ltd",
+      "rbc_no": "1133",
+      "category": "Insurance",
+      "expiry_date": "13 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "70",
+      "name": "Baklay Insurance Brokers Ltd",
+      "rbc_no": "1017",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "71",
+      "name": "Banksome Global Insurance Brokers Ltd",
+      "rbc_no": "909",
+      "category": "Insurance",
+      "expiry_date": "1 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "73",
+      "name": "Barbara & Walter Insurance Brokers Ltd",
+      "rbc_no": "584",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "74",
+      "name": "BAS Insurance Brokers Ltd",
+      "rbc_no": "1087",
+      "category": "Insurance",
+      "expiry_date": "15 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "75",
+      "name": "Basic Trust Insurance Brokers Ltd",
+      "rbc_no": "1237",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "76",
+      "name": "Belam Insurance Brokers Ltd",
+      "rbc_no": "1124",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "77",
+      "name": "Bellcrest Insurance Brokers Ltd",
+      "rbc_no": "286",
+      "category": "Insurance",
+      "expiry_date": "14 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "78",
+      "name": "Best Hand Insurance Brokers Ltd",
+      "rbc_no": "1229",
+      "category": "Insurance",
+      "expiry_date": "15 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "79",
+      "name": "Bestie Insurance Brokers Ltd",
+      "rbc_no": "1135",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "80",
+      "name": "Bethel Insurance Brokers Limited",
+      "rbc_no": "864",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "81",
+      "name": "BFAO Insurance Brokers Ltd",
+      "rbc_no": "945",
+      "category": "Insurance",
+      "expiry_date": "30 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "82",
+      "name": "BG Insurance Brokers Ltd",
+      "rbc_no": "1070",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "83",
+      "name": "BGIB Insurance Brokers Ltd",
+      "rbc_no": "1191",
+      "category": "Insurance",
+      "expiry_date": "14 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "84",
+      "name": "Bidac Insurance Brokers Ltd",
+      "rbc_no": "259",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "85",
+      "name": "Bisead Insurance Brokers Ltd",
+      "rbc_no": "1204",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "86",
+      "name": "Bishop & Knight Insurance Brokers Limited",
+      "rbc_no": "727",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "87",
+      "name": "Blackstone Insurance Brokers Limited",
+      "rbc_no": "1174",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "88",
+      "name": "Blossom Fobs Heritage Insurance Brokers Ltd",
+      "rbc_no": "592",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "89",
+      "name": "Blue Arrow Insurance Brokers Limited",
+      "rbc_no": "772",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "90",
+      "name": "Blue House Insurance Brokers Ltd",
+      "rbc_no": "1059",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "91",
+      "name": "Blueocean Insurance Brokers Ltd",
+      "rbc_no": "928",
+      "category": "Insurance",
+      "expiry_date": "26 July 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "92",
+      "name": "Bluewaters Insurance Brokers Limited",
+      "rbc_no": "832",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "93",
+      "name": "BNI Insurance Brokers Ltd",
+      "rbc_no": "1165",
+      "category": "Insurance",
+      "expiry_date": "15 August 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "94",
+      "name": "Boff & Company Insurance Brokers Ltd",
+      "rbc_no": "13",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "95",
+      "name": "BOI Insurance Brokers Ltd (a.k.a. Industrial And Development)",
+      "rbc_no": "318",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "96",
+      "name": "Bondwell Insurance Brokers Ltd",
+      "rbc_no": "370",
+      "category": "Ins/Re",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "97",
+      "name": "Boof Africa Insurance Brokers Ltd",
+      "rbc_no": "182",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "98",
+      "name": "Brexton Insurance Brokers Ltd",
+      "rbc_no": "1068",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "99",
+      "name": "Brickred Insurance Brokers Ltd",
+      "rbc_no": "1093",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "100",
+      "name": "Bridgegate Insurance Brokers Ltd",
+      "rbc_no": "987",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "101",
+      "name": "Bridgestone Insurance Brokers Limited",
+      "rbc_no": "624",
+      "category": "Insurance",
+      "expiry_date": "21 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "102",
+      "name": "Bridget Platinum Insurance Brokers Limited",
+      "rbc_no": "968",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "103",
+      "name": "Brightways Insurance Brokers Ltd",
+      "rbc_no": "230",
+      "category": "Insurance",
+      "expiry_date": "8 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "104",
+      "name": "BSL Insurance Brokers Ltd",
+      "rbc_no": "564",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "105",
+      "name": "Buffer Insurance Brokers Ltd",
+      "rbc_no": "1097",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "106",
+      "name": "Bundles Insurance Brokers Ltd",
+      "rbc_no": "1194",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "107",
+      "name": "Busag Insurance Brokers Ltd",
+      "rbc_no": "646",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "108",
+      "name": "BVM Insurance Brokers Ltd",
+      "rbc_no": "1027",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "109",
+      "name": "BYT (Risk Solutions) Insurance Brokers Ltd",
+      "rbc_no": "681",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "110",
+      "name": "C&I Insurance Brokers Ltd",
+      "rbc_no": "1033",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "111",
+      "name": "Cadence Insurance Brokers Ltd",
+      "rbc_no": "1218",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "112",
+      "name": "Capacity Search Insurance Brokers Limited",
+      "rbc_no": "769",
+      "category": "Ins/re",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "113",
+      "name": "Capital Alliance Services Insurance Brokers Ltd",
+      "rbc_no": "672",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "114",
+      "name": "Capstone Insurance Brokers Ltd",
+      "rbc_no": "494",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "115",
+      "name": "Truebond Insurance Brokers Ltd",
+      "rbc_no": "929",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "116",
+      "name": "Catrisk Global Insurance Brokers Ltd",
+      "rbc_no": "942",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "117",
+      "name": "CBO Insurance Brokers Ltd",
+      "rbc_no": "156",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "118",
+      "name": "CenterPoint Risk Insurance Brokers Ltd",
+      "rbc_no": "965",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "119",
+      "name": "Centrelink Insurance Brokers Ltd",
+      "rbc_no": "886",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "120",
+      "name": "Channels Insurance Brokers Ltd",
+      "rbc_no": "1162",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "121",
+      "name": "Charles & Gerald Insurance Brokers Ltd",
+      "rbc_no": "888",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "122",
+      "name": "Cherem Insurance Brokers Limited",
+      "rbc_no": "741",
+      "category": "Insurance",
+      "expiry_date": "7 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "123",
+      "name": "Chrome Insurance Brokers Limited",
+      "rbc_no": "1010",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "124",
+      "name": "Cita Insurance Brokers Ltd",
+      "rbc_no": "518",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "125",
+      "name": "City Covenant Insurance Brokers Limited",
+      "rbc_no": "713",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "126",
+      "name": "City Risk Generational Insurance Brokers Ltd",
+      "rbc_no": "1009",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "127",
+      "name": "CKK Insurance Brokers Ltd",
+      "rbc_no": "1212",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "128",
+      "name": "Clarkson Edu & Co. Ltd",
+      "rbc_no": "1186",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "129",
+      "name": "CleanTex Insurance Brokers Limited",
+      "rbc_no": "1242",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "130",
+      "name": "Clear Vision Insurance Brokers Ltd",
+      "rbc_no": "835",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "131",
+      "name": "Climax Insurance Brokers Ltd",
+      "rbc_no": "1084",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "132",
+      "name": "Colenson Brokers Nigeria Ltd",
+      "rbc_no": "44",
+      "category": "Ins/Re",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "133",
+      "name": "Colximate Insurance Brokers Ltd",
+      "rbc_no": "241",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "134",
+      "name": "Comin Insurance Brokers Nigeria Ltd",
+      "rbc_no": "1190",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "135",
+      "name": "Commonrisk Insurance Brokers ltd",
+      "rbc_no": "1231",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "136",
+      "name": "Competent Insurance Brokers Ltd",
+      "rbc_no": "82",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "137",
+      "name": "Confiance Insurance Brokers Ltd",
+      "rbc_no": "1054",
+      "category": "Insurance",
+      "expiry_date": "31 August 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "138",
+      "name": "Connex Insurance Brokers Limited",
+      "rbc_no": "937",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "139",
+      "name": "Continental Insurance Brokers Ltd",
+      "rbc_no": "74",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "140",
+      "name": "Cordros Insurance Brokers Limited",
+      "rbc_no": "1005",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "141",
+      "name": "Cosmic Insurance Brokers Ltd",
+      "rbc_no": "16",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "142",
+      "name": "Country And City Insurance Brokers Ltd",
+      "rbc_no": "85",
+      "category": "Insurance",
+      "expiry_date": "2 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "143",
+      "name": "Creative Edge Global Insurance Brokers Ltd",
+      "rbc_no": "1102",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "144",
+      "name": "Credible Insurance Brokers Ltd",
+      "rbc_no": "218",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "145",
+      "name": "Credo Insurance Brokers Ltd",
+      "rbc_no": "426",
+      "category": "Insurance",
+      "expiry_date": "30 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "146",
+      "name": "Creed Insurance Brokers Limited",
+      "rbc_no": "763",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "147",
+      "name": "Cristal Hope Insurance Brokers Ltd",
+      "rbc_no": "586",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "148",
+      "name": "Criterion International Link Insurance Brokers Ltd",
+      "rbc_no": "1201",
+      "category": "Insurance",
+      "expiry_date": "28 February 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "149",
+      "name": "Crown Insurance Brokers Ltd",
+      "rbc_no": "157",
+      "category": "Insurance",
+      "expiry_date": "14 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "150",
+      "name": "Crystal & Diamond Insurance Brokers Ltd",
+      "rbc_no": "662",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "151",
+      "name": "Crystal Bond Insurance Brokers Ltd",
+      "rbc_no": "1088",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "152",
+      "name": "Crystal Trust Insurance Brokers",
+      "rbc_no": "12",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "153",
+      "name": "CSI Insurance Brokers Ltd",
+      "rbc_no": "1034",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "154",
+      "name": "CTI Insurance Brokers Ltd",
+      "rbc_no": "884",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "155",
+      "name": "Damagix Insurance Brokers Limited",
+      "rbc_no": "993",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "156",
+      "name": "Danemteh Insurance Brokers Ltd",
+      "rbc_no": "1223",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "157",
+      "name": "Davisther Brokers Ltd",
+      "rbc_no": "305",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "158",
+      "name": "Decipher Insurance Brokers Ltd",
+      "rbc_no": "1234",
+      "category": "Insurance",
+      "expiry_date": "15 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "159",
+      "name": "Denon Global Insurance Brokers Ltd",
+      "rbc_no": "699",
+      "category": "Insurance",
+      "expiry_date": "14 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "160",
+      "name": "Denos Insurance Brokers Ltd",
+      "rbc_no": "698",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "161",
+      "name": "De-Protective Insurance Brokers Ltd",
+      "rbc_no": "1078",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "162",
+      "name": "Destiny Insurance Brokers Ltd",
+      "rbc_no": "921",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "163",
+      "name": "Dichmark Insurance Brokers Ltd",
+      "rbc_no": "675",
+      "category": "Insurance",
+      "expiry_date": "13 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "164",
+      "name": "Dig Insurance Brokers Ltd",
+      "rbc_no": "1020",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "165",
+      "name": "Dillas Insurance Brokers Ltd",
+      "rbc_no": "1019",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "166",
+      "name": "Dipod Insurance Brokers Ltd",
+      "rbc_no": "139",
+      "category": "Insurance",
+      "expiry_date": "20 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "167",
+      "name": "DIPT Insurance Brokers Ltd",
+      "rbc_no": "1209",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "168",
+      "name": "DOT Insurance Brokers Ltd (ATM Insurance Brokers Ltd)",
+      "rbc_no": "1095",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "169",
+      "name": "Dove Insurance Brokers Ltd",
+      "rbc_no": "556",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "170",
+      "name": "Down-stream Insurance Brokers Ltd",
+      "rbc_no": "1202",
+      "category": "Insurance",
+      "expiry_date": "28 February 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "171",
+      "name": "Dunbell Insurance Brokers Ltd",
+      "rbc_no": "1056",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "172",
+      "name": "Dwam Insurance Brokers Ltd",
+      "rbc_no": "1235",
+      "category": "Insurance",
+      "expiry_date": "15 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "173",
+      "name": "Dykes Insurance Brokers Ltd",
+      "rbc_no": "45",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "174",
+      "name": "EAS Insurance Brokers Limited",
+      "rbc_no": "1006",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "175",
+      "name": "Eastcoast Insurance Brokers Limited",
+      "rbc_no": "829",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "176",
+      "name": "Eastgate Insurance Brokers Ltd",
+      "rbc_no": "975",
+      "category": "Insurance",
+      "expiry_date": "23 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "177",
+      "name": "Eco Insurance Brokers Limited",
+      "rbc_no": "842",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "178",
+      "name": "Eco Pillar Insurance Brokers Ltd",
+      "rbc_no": "146",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "179",
+      "name": "Ecobed Insurance Brokers Ltd",
+      "rbc_no": "1167",
+      "category": "Insurance",
+      "expiry_date": "14 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "180",
+      "name": "Edison & Partners Insurance Brokers Ltd",
+      "rbc_no": "610",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "181",
+      "name": "EFFACC Insurance Brokers (EIB) Limited",
+      "rbc_no": "999",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "182",
+      "name": "El Gris Insurance Brokers Ltd",
+      "rbc_no": "1053",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "183",
+      "name": "ELA Insurance Brokers Ltd",
+      "rbc_no": "967",
+      "category": "Insurance",
+      "expiry_date": "26 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "184",
+      "name": "Eliwad Insurance Brokers Ltd",
+      "rbc_no": "224",
+      "category": "Insurance",
+      "expiry_date": "18 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "185",
+      "name": "Elsa Quest Insurance Brokers Ltd",
+      "rbc_no": "1208",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "186",
+      "name": "Emalizter Insurance Brokers Ltd",
+      "rbc_no": "1077",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "187",
+      "name": "Enterprise Trust Insurance Brokers Ltd",
+      "rbc_no": "511",
+      "category": "Ins/Re",
+      "expiry_date": "30 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "188",
+      "name": "Epicure Insurance Brokers Limited",
+      "rbc_no": "875",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "189",
+      "name": "Equilibrium Insurance Brokers Ltd",
+      "rbc_no": "1144",
+      "category": "Insurance",
+      "expiry_date": "15 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "190",
+      "name": "Equity Providers Insurance Brokers Ltd",
+      "rbc_no": "191",
+      "category": "Insurance",
+      "expiry_date": "14 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "191",
+      "name": "Erawell Insurance Brokers Ltd",
+      "rbc_no": "1042",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "192",
+      "name": "Eternalie Risks Insurance Brokers Ltd",
+      "rbc_no": "506",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "193",
+      "name": "EVG Insurance Brokers Ltd",
+      "rbc_no": "1216",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "194",
+      "name": "Evoa Insurance Brokers Ltd",
+      "rbc_no": "962",
+      "category": "Insurance",
+      "expiry_date": "22 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "195",
+      "name": "Exceptional Insurance Brokers Limited",
+      "rbc_no": "1000",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "196",
+      "name": "Express Security Insurance Brokers Ltd",
+      "rbc_no": "115",
+      "category": "Insurance",
+      "expiry_date": "31 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "197",
+      "name": "Fairfax Insurance Brokers Ltd",
+      "rbc_no": "1259",
+      "category": "Insurance",
+      "expiry_date": "15 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "198",
+      "name": "Faith Trust Insurance Brokers Ltd",
+      "rbc_no": "947",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "199",
+      "name": "Famek Insurance Brokers Ltd",
+      "rbc_no": "1067",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "200",
+      "name": "Fasaha Intercontinental Insurance Brokers Ltd",
+      "rbc_no": "982",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "201",
+      "name": "Favour Insurance Brokers Ltd",
+      "rbc_no": "375",
+      "category": "Insurance",
+      "expiry_date": "30 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "202",
+      "name": "FD Insurance Brokers Limited",
+      "rbc_no": "1261",
+      "category": "Insurance",
+      "expiry_date": "15 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "203",
+      "name": "Fefe-IY & Partners Insurance Brokers Limited",
+      "rbc_no": "808",
+      "category": "Insurance",
+      "expiry_date": "20 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "204",
+      "name": "Fengate Insurance Brokers Ltd",
+      "rbc_no": "243",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "205",
+      "name": "Feybil Insurance Brokers Ltd",
+      "rbc_no": "439",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "206",
+      "name": "FGIL Insurance Brokers Limited",
+      "rbc_no": "777",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "207",
+      "name": "Fifame Insurance Brokers Ltd",
+      "rbc_no": "1257",
+      "category": "Insurance",
+      "expiry_date": "14 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "208",
+      "name": "Finsure Insurance Brokers Ltd",
+      "rbc_no": "1151",
+      "category": "Insurance",
+      "expiry_date": "14 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "209",
+      "name": "Fintage Insurance Brokers Ltd",
+      "rbc_no": "1230",
+      "category": "Insurance",
+      "expiry_date": "15 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "210",
+      "name": "First  Insurance Brokers Ltd",
+      "rbc_no": "267",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "211",
+      "name": "First Adequate Insurance Brokers Limited",
+      "rbc_no": "719",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "212",
+      "name": "First Choice Insurance Brokers Ltd",
+      "rbc_no": "1115",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "213",
+      "name": "First City Global Insurance Brokers Limited",
+      "rbc_no": "717",
+      "category": "Ins/re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "214",
+      "name": "First Cornerstone Insurance Brokers Limited",
+      "rbc_no": "780",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "215",
+      "name": "First Dominion Insurance Brokers Ltd",
+      "rbc_no": "170",
+      "category": "Insurance",
+      "expiry_date": "16 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "216",
+      "name": "First Guaranty Risk Solutions Insurance Brokers",
+      "rbc_no": "349",
+      "category": "Insurance",
+      "expiry_date": "21 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "217",
+      "name": "First Matrix Insurance Brokers Ltd",
+      "rbc_no": "1014",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "218",
+      "name": "First Spring Insurance Brokers Ltd",
+      "rbc_no": "233",
+      "category": "Insurance",
+      "expiry_date": "13 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "219",
+      "name": "First Standard Insurance Brokers Ltd",
+      "rbc_no": "433",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "220",
+      "name": "First Trust Insurance Brokers Ltd",
+      "rbc_no": "161",
+      "category": "Insurance",
+      "expiry_date": "10 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "221",
+      "name": "FirstCare Insurance Brokers Ltd",
+      "rbc_no": "1200",
+      "category": "Insurance",
+      "expiry_date": "15 February 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "222",
+      "name": "Firstlink Insurance Brokers Ltd",
+      "rbc_no": "94",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "223",
+      "name": "Flawless Insurance Brokers Limited",
+      "rbc_no": "810",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "224",
+      "name": "Flexible Insurance Brokers Ltd",
+      "rbc_no": "1227",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "225",
+      "name": "Floodgate Insurance Brokers Limited",
+      "rbc_no": "973",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "226",
+      "name": "Flourish Insurance Brokers Ltd",
+      "rbc_no": "608",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "227",
+      "name": "FMG Insurance Brokers Ltd",
+      "rbc_no": "316",
+      "category": "Insurance",
+      "expiry_date": "16 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "228",
+      "name": "Fobex Insurance Brokers Ltd",
+      "rbc_no": "117",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "229",
+      "name": "Folsdam Insurance Brokers Limited",
+      "rbc_no": "1164",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "230",
+      "name": "Fortegate Insurance Brokers Limited",
+      "rbc_no": "966",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "231",
+      "name": "Fortitude Insurance Brokers Ltd",
+      "rbc_no": "1119",
+      "category": "Ins/Re",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "232",
+      "name": "Fountain Insurance Brokers Ltd",
+      "rbc_no": "52",
+      "category": "Ins/Re",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "233",
+      "name": "Franco Nigeria Insurance Brokers Ltd",
+      "rbc_no": "870",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "234",
+      "name": "Fravik Insurance Brokers Ltd",
+      "rbc_no": "1142",
+      "category": "Insurance",
+      "expiry_date": "31 May 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "235",
+      "name": "Front Runner Insurance Brokers Limited",
+      "rbc_no": "1260",
+      "category": "Insurance",
+      "expiry_date": "15 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "236",
+      "name": "FSL Insurance Brokers Ltd",
+      "rbc_no": "411",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "237",
+      "name": "Fulfilled Insurance Brokers Limited",
+      "rbc_no": "1116",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "238",
+      "name": "G.N Bishop Insurance Brokers Ltd",
+      "rbc_no": "56",
+      "category": "Insurance",
+      "expiry_date": "17 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "239",
+      "name": "Galaxy Insurance Brokers Ltd",
+      "rbc_no": "577",
+      "category": "Insurance",
+      "expiry_date": "20 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "240",
+      "name": "Gem Insurance Brokers Ltd",
+      "rbc_no": "202",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "241",
+      "name": "Genesis Insurance Brokers Limited",
+      "rbc_no": "840",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "242",
+      "name": "Germane Trust Insurance Brokers Ltd",
+      "rbc_no": "1225",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "243",
+      "name": "Giant Strides Insurance Brokers Ltd",
+      "rbc_no": "932",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "244",
+      "name": "Glanvill Enthoven Insurance Brokers and Pension Consult Ltd",
+      "rbc_no": "923",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "245",
+      "name": "Glanvill Enthoven ReInsurance Brokers Ltd",
+      "rbc_no": "924",
+      "category": "Reinsurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "246",
+      "name": "Global Allianz Insurance Brokers Limited",
+      "rbc_no": "436",
+      "category": "Insurance",
+      "expiry_date": "4 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "247",
+      "name": "Global Heritage Insurance Brokers Limited",
+      "rbc_no": "1046",
+      "category": "Insurance",
+      "expiry_date": "30 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "248",
+      "name": "Global Risk Associates Ltd",
+      "rbc_no": "221",
+      "category": "Insurance",
+      "expiry_date": "18 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "249",
+      "name": "Global Risk Perspective Limited",
+      "rbc_no": "574",
+      "category": "Insurance",
+      "expiry_date": "19 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "250",
+      "name": "Global Risks Network Insurance Brokers Ltd",
+      "rbc_no": "465",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "251",
+      "name": "Global Trend Insurance Brokers Ltd",
+      "rbc_no": "497",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "252",
+      "name": "Globe Trade Insurance Brokers Ltd",
+      "rbc_no": "503",
+      "category": "Ins/Re",
+      "expiry_date": "4 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "253",
+      "name": "Godson & Nelson Insurance Brokers Limited",
+      "rbc_no": "736",
+      "category": "Insurance",
+      "expiry_date": "31 May 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "254",
+      "name": "Golan Height Insurance Brokers Limited",
+      "rbc_no": "750",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "255",
+      "name": "Goldcrest Insurance Brokers Ltd",
+      "rbc_no": "582",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "256",
+      "name": "Gombot Insurance Brokers Ltd",
+      "rbc_no": "30",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "257",
+      "name": "Goshen Insurance Brokers Ltd",
+      "rbc_no": "566",
+      "category": "Insurance",
+      "expiry_date": "11 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "258",
+      "name": "Grace Insurance Brokers Ltd",
+      "rbc_no": "694",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "259",
+      "name": "Gracehill Insurance Brokers Ltd",
+      "rbc_no": "1262",
+      "category": "Insurance",
+      "expiry_date": "15 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "260",
+      "name": "Grand Union Insurance Brokers Ltd",
+      "rbc_no": "386",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "261",
+      "name": "Greenfort Insurance Brokers Ltd",
+      "rbc_no": "1105",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "262",
+      "name": "Green Pacific Insurance Brokers Ltd",
+      "rbc_no": "925",
+      "category": "Insurance",
+      "expiry_date": "9 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "263",
+      "name": "Greenleaf Insurance Brokers Ltd",
+      "rbc_no": "1057",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "264",
+      "name": "Greensprings Insurance Brokers Ltd",
+      "rbc_no": "911",
+      "category": "Ins/Re",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "265",
+      "name": "GRS Insurance Brokers Ltd",
+      "rbc_no": "462",
+      "category": "Ins/Re",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "266",
+      "name": "GT Insurance Brokers Ltd",
+      "rbc_no": "597",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "267",
+      "name": "Gulf Insurance Brokers Ltd",
+      "rbc_no": "521",
+      "category": "Insurance",
+      "expiry_date": "29 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "268",
+      "name": "Haggai Insurance Brokers Ltd",
+      "rbc_no": "700",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "269",
+      "name": "Hakash Insurance Brokers Ltd",
+      "rbc_no": "215",
+      "category": "Ins/Re",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "270",
+      "name": "Halton Insurance Brokers Ltd",
+      "rbc_no": "278",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "271",
+      "name": "Hamilton King Insurance Brokers Ltd",
+      "rbc_no": "250",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "272",
+      "name": "Hamstrings Insurance Brokers Limited",
+      "rbc_no": "1250",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "273",
+      "name": "Hannet Insurance Brokers Ltd",
+      "rbc_no": "635",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "274",
+      "name": "Hans-worth (W.A.) Insurance Brokers Limited",
+      "rbc_no": "788",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "275",
+      "name": "Haven Insurance Brokers Ltd",
+      "rbc_no": "1196",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "276",
+      "name": "Heirs Insurance Brokers Ltd",
+      "rbc_no": "684",
+      "category": "Ins/Re",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "277",
+      "name": "Helmsman Insurance Brokers Ltd",
+      "rbc_no": "236",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "278",
+      "name": "Herald & Hedge Insurance Brokers Ltd",
+      "rbc_no": "689",
+      "category": "Insurance",
+      "expiry_date": "30 June 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "279",
+      "name": "Herald Insurance Brokers Limited",
+      "rbc_no": "802",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "280",
+      "name": "HHL Insurance Brokers Ltd",
+      "rbc_no": "931",
+      "category": "Insurance",
+      "expiry_date": "13 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "281",
+      "name": "Highway Insurance Brokers Ltd",
+      "rbc_no": "545",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "282",
+      "name": "Hilltop Insurance Brokers Ltd",
+      "rbc_no": "531",
+      "category": "Insurance",
+      "expiry_date": "16 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "283",
+      "name": "Hilskin Insurance Brokers Ltd",
+      "rbc_no": "1138",
+      "category": "Insurance",
+      "expiry_date": "15 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "284",
+      "name": "Hippodrome Insurance Brokers Limited",
+      "rbc_no": "720",
+      "category": "Insurance",
+      "expiry_date": "11 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "285",
+      "name": "Hogg Robinson Nigeria Limited",
+      "rbc_no": "1",
+      "category": "Ins/Re",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "286",
+      "name": "Home & Overseas Insurance Brokers Ltd",
+      "rbc_no": "322",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "287",
+      "name": "Honestdeal Insurance Brokers Ltd",
+      "rbc_no": "487",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "288",
+      "name": "Hooba Insurance Brokers Ltd",
+      "rbc_no": "1180",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "289",
+      "name": "Hope Equity & Trust Insurance Brokers Ltd",
+      "rbc_no": "887",
+      "category": "Insurance",
+      "expiry_date": "28 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "290",
+      "name": "Hybrid Insurance Brokers Ltd",
+      "rbc_no": "695",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "291",
+      "name": "Icons Insurance Brokers Ltd",
+      "rbc_no": "510",
+      "category": "Ins/Re",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "292",
+      "name": "Ideal Insurance Brokers Ltd",
+      "rbc_no": "151",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "293",
+      "name": "Image Insurance Brokers Ltd",
+      "rbc_no": "126",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "294",
+      "name": "Impact Insurance Brokers Ltd",
+      "rbc_no": "248",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "295",
+      "name": "Indo Arab Insurance & ReInsurance Brokers Ltd",
+      "rbc_no": "1052",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "296",
+      "name": "Industrial Risk Insurance Brokers Ltd",
+      "rbc_no": "946",
+      "category": "Insurance",
+      "expiry_date": "20 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "297",
+      "name": "Insurance Brokers of Nigeria Ltd",
+      "rbc_no": "21",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "298",
+      "name": "Insure All the Way Insurance Brokers Ltd",
+      "rbc_no": "1255",
+      "category": "Insurance",
+      "expiry_date": "19 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "299",
+      "name": "Interglobal Insurance Brokers Limited",
+      "rbc_no": "795",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "300",
+      "name": "International Trust Insurance Brokers Ltd",
+      "rbc_no": "570",
+      "category": "Insurance",
+      "expiry_date": "4 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "301",
+      "name": "J. Akin George Insurance Brokers Limited",
+      "rbc_no": "848",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "302",
+      "name": "J. K. Towers Insurance Brokers Ltd",
+      "rbc_no": "1199",
+      "category": "Insurance",
+      "expiry_date": "31 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "303",
+      "name": "J.B Boda Insurance Brokers Ltd",
+      "rbc_no": "1210",
+      "category": "Reinsurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "304",
+      "name": "Jab Insurance Brokers Ltd",
+      "rbc_no": "670",
+      "category": "Insurance",
+      "expiry_date": "20 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "305",
+      "name": "Jacob & Caroline Insurance Brokers",
+      "rbc_no": "15",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "306",
+      "name": "Jamaa Insurance Brokers Ltd",
+      "rbc_no": "1155",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "307",
+      "name": "James Insurance Brokers of Africa Ltd",
+      "rbc_no": "977",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "308",
+      "name": "JE Insurance Brokers Limited",
+      "rbc_no": "1243",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "309",
+      "name": "Jedrick Insurance Brokers Ltd",
+      "rbc_no": "1132",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "310",
+      "name": "Jefeti Insurance Brokers Ltd",
+      "rbc_no": "1007",
+      "category": "Insurance",
+      "expiry_date": "29 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "311",
+      "name": "Johnhill Insurance Brokers Ltd",
+      "rbc_no": "502",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "312",
+      "name": "Joken Insurance Brokers Ltd",
+      "rbc_no": "484",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "313",
+      "name": "Jomola Insurance Brokers Limited",
+      "rbc_no": "730",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "314",
+      "name": "Jordans Global Insurance Brokers Limited",
+      "rbc_no": "794",
+      "category": "Ins/re",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "315",
+      "name": "Jovestar Insurance Brokers Ltd",
+      "rbc_no": "1016",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "316",
+      "name": "Jubilee Insurance Brokers Ltd",
+      "rbc_no": "1176",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "317",
+      "name": "Jully & Partners Insurance Brokers Ltd",
+      "rbc_no": "671",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "318",
+      "name": "Jupiter Insurance Brokers Limited",
+      "rbc_no": "988",
+      "category": "Insurance",
+      "expiry_date": "12 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "319",
+      "name": "Kabimya Insurance Brokers Ltd",
+      "rbc_no": "1131",
+      "category": "Insurance",
+      "expiry_date": "15 January 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "320",
+      "name": "Kapex Insurance Brokers Ltd",
+      "rbc_no": "1048",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "321",
+      "name": "Kedge Insurance Brokers Limited",
+      "rbc_no": "903",
+      "category": "Insurance",
+      "expiry_date": "3 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "322",
+      "name": "Kelsan Insurance Brokers Limited",
+      "rbc_no": "838",
+      "category": "Ins/Re",
+      "expiry_date": "24 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "323",
+      "name": "Ketakins Insurance Brokers Ltd",
+      "rbc_no": "1013",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "324",
+      "name": "KFI Insurance Brokers Limited",
+      "rbc_no": "853",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "325",
+      "name": "Kind Insurance Brokers And Consultant Ltd",
+      "rbc_no": "274",
+      "category": "Insurance",
+      "expiry_date": "23 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "326",
+      "name": "Kinetic Insurance Brokers Ltd",
+      "rbc_no": "1041",
+      "category": "Insurance",
+      "expiry_date": "4 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "327",
+      "name": "Kingdom Life Insurance Brokers Ltd",
+      "rbc_no": "1106",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "328",
+      "name": "Kingsley Insurance Brokers Limited",
+      "rbc_no": "837",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "329",
+      "name": "KOB Insurance Brokers Ltd",
+      "rbc_no": "663",
+      "category": "Ins/Re",
+      "expiry_date": "4 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "330",
+      "name": "Koguna Babura Insurance Brokers",
+      "rbc_no": "22",
+      "category": "Insurance",
+      "expiry_date": "24 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "331",
+      "name": "Krabond Insurance Brokers Limited",
+      "rbc_no": "748",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "332",
+      "name": "L & G Insurance Brokers Nig. Ltd (L&G)",
+      "rbc_no": "974",
+      "category": "Insurance",
+      "expiry_date": "14 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "333",
+      "name": "Ladder Treasure Insurance Brokers Ltd",
+      "rbc_no": "1071",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "334",
+      "name": "Lagoon Insurance Brokers Ltd",
+      "rbc_no": "377",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "335",
+      "name": "Laudable Insurance Brokers Ltd",
+      "rbc_no": "222",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "336",
+      "name": "Lawrisk Insurance Brokers Ltd",
+      "rbc_no": "1090",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "337",
+      "name": "Leaders Insurance Brokers Ltd",
+      "rbc_no": "1043",
+      "category": "Ins/Re",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "338",
+      "name": "Leadfort Insurance Brokers Ltd",
+      "rbc_no": "601",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "339",
+      "name": "Leadrite Insurance Brokers Ltd",
+      "rbc_no": "159",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "340",
+      "name": "Lectern Insurance Brokers Limited",
+      "rbc_no": "625",
+      "category": "Insurance",
+      "expiry_date": "19 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "341",
+      "name": "Leenkaz Insurance Brokers Ltd",
+      "rbc_no": "1184",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "342",
+      "name": "Legend Associates Insurance Brokers Ltd",
+      "rbc_no": "365",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "343",
+      "name": "Legit Insurance Brokers Ltd",
+      "rbc_no": "1228",
+      "category": "Insurance",
+      "expiry_date": "15 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "344",
+      "name": "Lektol Insurance Brokers Ltd",
+      "rbc_no": "1219",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "345",
+      "name": "Leseny Insurance Brokers Limited",
+      "rbc_no": "820",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "346",
+      "name": "Leverage Insurance Brokers Ltd",
+      "rbc_no": "214",
+      "category": "Ins/Re",
+      "expiry_date": "1 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "347",
+      "name": "LIB Insurance Brokers Limited",
+      "rbc_no": "845",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "348",
+      "name": "Liberty & Trust Insurance Brokers Ltd",
+      "rbc_no": "446",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "349",
+      "name": "Libra Insurance Brokers Limited",
+      "rbc_no": "831",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "350",
+      "name": "Lifetime Insurance Brokers Ltd",
+      "rbc_no": "1139",
+      "category": "Insurance",
+      "expiry_date": "15 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "351",
+      "name": "Limpid Insurance Brokers Limited",
+      "rbc_no": "805",
+      "category": "Insurance",
+      "expiry_date": "13 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "352",
+      "name": "Linkall Insurance Brokers Ltd",
+      "rbc_no": "86",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "353",
+      "name": "Linking Insurance Brokers Ltd",
+      "rbc_no": "1221",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "354",
+      "name": "Living Spring Insurance Brokers Limited",
+      "rbc_no": "981",
+      "category": "Insurance",
+      "expiry_date": "18 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "355",
+      "name": "Livingstone Insurance Brokers Ltd",
+      "rbc_no": "449",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "356",
+      "name": "Lizten Insurance Brokers Limited",
+      "rbc_no": "1239",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "357",
+      "name": "LMC Insurance Brokers Ltd",
+      "rbc_no": "913",
+      "category": "Insurance",
+      "expiry_date": "20 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "358",
+      "name": "Lomalinda Allianz Insurance Brokers Ltd",
+      "rbc_no": "1168",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "359",
+      "name": "M&M Insurance Brokers Ltd",
+      "rbc_no": "211",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "360",
+      "name": "Magnetic Insurance Brokers Limited",
+      "rbc_no": "934",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "361",
+      "name": "Magnum Trust Insurance Brokers Ltd",
+      "rbc_no": "113",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "362",
+      "name": "Mahozi Insurance Brokers Limited",
+      "rbc_no": "1248",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "363",
+      "name": "Mainstream (Global) Insurance Brokers Limited",
+      "rbc_no": "818",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "364",
+      "name": "Mainway Insurance Brokers Ltd",
+      "rbc_no": "103",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "365",
+      "name": "Manhill Global Insurance Brokers Ltd",
+      "rbc_no": "1031",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "366",
+      "name": "Man-Mountain And Co Ltd",
+      "rbc_no": "204",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "367",
+      "name": "Manny Insurance Brokers Ltd",
+      "rbc_no": "538",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "368",
+      "name": "Marsh Fjc International Insurance Brokers Ltd",
+      "rbc_no": "5",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "369",
+      "name": "Mascot Insurance Brokers Ltd",
+      "rbc_no": "277",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "370",
+      "name": "Masum Insurance Brokers Ltd",
+      "rbc_no": "207",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "371",
+      "name": "Maxicover Insurance Brokers Ltd",
+      "rbc_no": "971",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "372",
+      "name": "Mayas Insurance Brokers Ltd",
+      "rbc_no": "399",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "373",
+      "name": "Mayfair Insurance Brokers Ltd",
+      "rbc_no": "59",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "374",
+      "name": "Maza Maza Insurance Brokers Ltd",
+      "rbc_no": "1211",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "375",
+      "name": "MBC Insurance Brokers Ltd",
+      "rbc_no": "307",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "376",
+      "name": "MC Alfa Global Insurance Brokers Limited",
+      "rbc_no": "809",
+      "category": "Insurance",
+      "expiry_date": "1 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "377",
+      "name": "Mcrhonel Insurance Brokers Nigeria Limited",
+      "rbc_no": "1244",
+      "category": "Insurance",
+      "expiry_date": "15-Dec-26",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "378",
+      "name": "McRich Insurance Brokers Ltd",
+      "rbc_no": "1220",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "379",
+      "name": "Mcsinet Insurance Brokers Limited",
+      "rbc_no": "1118",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "380",
+      "name": "McSond Insurance Brokers Ltd",
+      "rbc_no": "1152",
+      "category": "Insurance",
+      "expiry_date": "15 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "381",
+      "name": "Median Insurance Brokers Ltd",
+      "rbc_no": "1185",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "382",
+      "name": "Megafunds Insurance Brokers Ltd",
+      "rbc_no": "1187",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "383",
+      "name": "Megalink Insurance Brokers Limited",
+      "rbc_no": "825",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "384",
+      "name": "Mega Trust Insurance Brokers Limited",
+      "rbc_no": "979",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "385",
+      "name": "Megawealth Insurance Brokers Ltd",
+      "rbc_no": "688",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "386",
+      "name": "Merchanthall Insurance Brokers Ltd",
+      "rbc_no": "936",
+      "category": "Ins/Re",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "387",
+      "name": "Meti Insurance Brokers Ltd",
+      "rbc_no": "605",
+      "category": "Insurance",
+      "expiry_date": "29 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "388",
+      "name": "Metric Insurance Brokers Ltd",
+      "rbc_no": "1183",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "389",
+      "name": "Metro Peril Insurance Brokers Ltd",
+      "rbc_no": "926",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "390",
+      "name": "Metro Risks Insurance Brokers Ltd",
+      "rbc_no": "933",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "391",
+      "name": "Metroslips Global Insurance Brokers Limited",
+      "rbc_no": "997",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "392",
+      "name": "Micmad Insurance Brokers Ltd",
+      "rbc_no": "1099",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "393",
+      "name": "Midfield Insurance Brokers Limited",
+      "rbc_no": "824",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "394",
+      "name": "Midlinks Insurance Brokers Limited",
+      "rbc_no": "843",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "395",
+      "name": "Mikky Trust Insurance Brokers Ltd",
+      "rbc_no": "949",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "396",
+      "name": "Millbank Insurance Brokers Ltd",
+      "rbc_no": "540",
+      "category": "Ins/Re",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "397",
+      "name": "Minet Insurance Brokers Ltd",
+      "rbc_no": "33",
+      "category": "Insurance",
+      "expiry_date": "27 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "398",
+      "name": "MIP Insurance Brokers Ltd",
+      "rbc_no": "686",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "399",
+      "name": "Modern Standard Insurance Brokers Ltd",
+      "rbc_no": "512",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "400",
+      "name": "Motak Insurance Brokers Ltd",
+      "rbc_no": "986",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "401",
+      "name": "MothersWorth Insurance Brokers Limited",
+      "rbc_no": "852",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "402",
+      "name": "Multilateral Insurance Brokers Ltd",
+      "rbc_no": "890",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "403",
+      "name": "Multiline Insurance Brokers Ltd",
+      "rbc_no": "1107",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "404",
+      "name": "Multiple Bond Trust Insurance Brokers Limited",
+      "rbc_no": "634",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "405",
+      "name": "Multi-Trade Insurance Brokers Limited",
+      "rbc_no": "846",
+      "category": "Ins/Re",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "406",
+      "name": "Mustard Insurance Brokers Ltd",
+      "rbc_no": "49",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "407",
+      "name": "Mutual Alliance Insurance Brokers Ltd",
+      "rbc_no": "722",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "408",
+      "name": "Mutual Equity Insurance Brokers Ltd",
+      "rbc_no": "702",
+      "category": "Ins/Re",
+      "expiry_date": "26 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "409",
+      "name": "Nahood Insurance Brokers Ltd",
+      "rbc_no": "1206",
+      "category": "Insurance",
+      "expiry_date": "15 February 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "410",
+      "name": "Naira Cheque Insurance Brokers Limited",
+      "rbc_no": "978",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "411",
+      "name": "Nal Insurance Brokers Ltd",
+      "rbc_no": "183",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "412",
+      "name": "Naingate Insurance Brokers Ltd",
+      "rbc_no": "1270",
+      "category": "Insurance",
+      "expiry_date": "30 June 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "413",
+      "name": "Nasco Insurance Brokers Limited",
+      "rbc_no": "826",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "414",
+      "name": "Nassif Insurance Brokers",
+      "rbc_no": "481",
+      "category": "Insurance",
+      "expiry_date": "2 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "415",
+      "name": "Nathaniel Insurance Brokers Ltd",
+      "rbc_no": "1253",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "416",
+      "name": "Neta Insurance Brokers Ltd",
+      "rbc_no": "669",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "417",
+      "name": "Network Insurance Brokers Ltd",
+      "rbc_no": "158",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "418",
+      "name": "New Alliance Insurance Brokers Ltd",
+      "rbc_no": "578",
+      "category": "Ins/re",
+      "expiry_date": "20 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "419",
+      "name": "New Season Insurance Brokers Limited",
+      "rbc_no": "753",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "420",
+      "name": "Newman Insurance Brokers Ltd",
+      "rbc_no": "1012",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "421",
+      "name": "Newtide Insurance Brokers Limited",
+      "rbc_no": "729",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "422",
+      "name": "Nigerian Life & Provident Consultants Ltd",
+      "rbc_no": "141",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "423",
+      "name": "Nino-Kay Insurance Brokers Ltd",
+      "rbc_no": "935",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "424",
+      "name": "Noble Insurance Brokers Ltd",
+      "rbc_no": "1161",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "425",
+      "name": "Noly Insurance Brokers Ltd",
+      "rbc_no": "1203",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "426",
+      "name": "Nonsuch Insurance Brokers Limited",
+      "rbc_no": "775",
+      "category": "Ins/Re",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "427",
+      "name": "Northlink Insurance Brokers Limited",
+      "rbc_no": "828",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "428",
+      "name": "Northlink Insurance Brokers Ltd",
+      "rbc_no": "282",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "429",
+      "name": "OAB Insurance Brokers Ltd",
+      "rbc_no": "1044",
+      "category": "Insurance",
+      "expiry_date": "22 April 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "430",
+      "name": "Oakland City Insurance Brokers Limited",
+      "rbc_no": "762",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "431",
+      "name": "Obetalink Insurance Brokers Ltd",
+      "rbc_no": "1063",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "432",
+      "name": "Obutrans Insurance Brokers Ltd",
+      "rbc_no": "1110",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "433",
+      "name": "Ocean & Land Insurance Brokers Limited",
+      "rbc_no": "801",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "434",
+      "name": "Oceanline Insurance Brokers Limited",
+      "rbc_no": "783",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "435",
+      "name": "Oilwater Insurance Brokers Ltd",
+      "rbc_no": "533",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "436",
+      "name": "Oluwafemi Ayodeji & Co. Insurance Brokers Ltd",
+      "rbc_no": "563",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "437",
+      "name": "Ombrella Insurance Brokers Ltd",
+      "rbc_no": "910",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "438",
+      "name": "OMI Insurance Brokers Nig. Ltd",
+      "rbc_no": "1089",
+      "category": "Insurance",
+      "expiry_date": "15 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "439",
+      "name": "Omo-Well Insurance Brokers Limited",
+      "rbc_no": "626",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "440",
+      "name": "One World Insurance Brokers Limited",
+      "rbc_no": "1177",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "441",
+      "name": "Ontop Insurance Brokers Ltd",
+      "rbc_no": "1073",
+      "category": "Insurance",
+      "expiry_date": "31 August 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "442",
+      "name": "Onward Insurance Brokers",
+      "rbc_no": "469",
+      "category": "Insurance",
+      "expiry_date": "15 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "443",
+      "name": "Opal Insurance Brokers Ltd",
+      "rbc_no": "944",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "444",
+      "name": "Optimal Insurance Brokers Limited",
+      "rbc_no": "774",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "445",
+      "name": "Optimum Trust Insurance Brokers Ltd",
+      "rbc_no": "572",
+      "category": "Insurance",
+      "expiry_date": "30 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "446",
+      "name": "Oracle Insurance Brokers Ltd",
+      "rbc_no": "573",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "447",
+      "name": "Orange Insurance Brokers Ltd",
+      "rbc_no": "811",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "448",
+      "name": "Oratib Insurance Consulting Limited",
+      "rbc_no": "799",
+      "category": "Insurance",
+      "expiry_date": "16 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "449",
+      "name": "Oremus Insurance Brokers Ltd",
+      "rbc_no": "1002",
+      "category": "Insurance",
+      "expiry_date": "30 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "450",
+      "name": "Oriwu Insurance Brokers Ltd",
+      "rbc_no": "104",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "451",
+      "name": "Orthodox Insurance Brokers Ltd",
+      "rbc_no": "705",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "452",
+      "name": "Oyam Insurance Brokers Ltd",
+      "rbc_no": "1140",
+      "category": "Insurance",
+      "expiry_date": "14 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "453",
+      "name": "Pages Insurance Brokers Ltd",
+      "rbc_no": "1058",
+      "category": "Insurance",
+      "expiry_date": "30 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "454",
+      "name": "Palms Insurance Brokers Limited",
+      "rbc_no": "1241",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "455",
+      "name": "Pao Insurance Brokers Limited",
+      "rbc_no": "723",
+      "category": "Insurance",
+      "expiry_date": "14 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "456",
+      "name": "Paramount Edge Insurance Brokers Ltd",
+      "rbc_no": "873",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "457",
+      "name": "Pasturelands Insurance Brokers Ltd",
+      "rbc_no": "1096",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "458",
+      "name": "Pater Noster Insurance Brokers Ltd",
+      "rbc_no": "1114",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "459",
+      "name": "Pathway Insurance Brokers Limited",
+      "rbc_no": "1136",
+      "category": "Insurance",
+      "expiry_date": "15 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "460",
+      "name": "Patmodit Insurance Brokers",
+      "rbc_no": "14",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "461",
+      "name": "Paulmore Insurance Brokers Limited",
+      "rbc_no": "740",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "462",
+      "name": "Peak Insurance Brokers Ltd",
+      "rbc_no": "154",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "463",
+      "name": "Peakthrust Insurance Brokers Ltd",
+      "rbc_no": "432",
+      "category": "Ins/Re",
+      "expiry_date": "28 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "464",
+      "name": "Peculiar Treasure Insurance Brokers Ltd",
+      "rbc_no": "1038",
+      "category": "Insurance",
+      "expiry_date": "5 April 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "465",
+      "name": "Pecuniary And Trust Insurance Brokers Ltd",
+      "rbc_no": "65",
+      "category": "Insurance",
+      "expiry_date": "28 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "466",
+      "name": "Pencraft Insurance Brokers Ltd",
+      "rbc_no": "1188",
+      "category": "Insurance",
+      "expiry_date": "15 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "467",
+      "name": "Penguin Insurance Brokers Ltd",
+      "rbc_no": "234",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "468",
+      "name": "Perfect Trust Insurance Brokers Ltd",
+      "rbc_no": "397",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "469",
+      "name": "Peril Guard Insurance Brokers Ltd",
+      "rbc_no": "583",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "470",
+      "name": "PGI PlatinumGold Insurance Brokers Ltd",
+      "rbc_no": "440",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "471",
+      "name": "Phindol Insurance Brokers Ltd",
+      "rbc_no": "1213",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "472",
+      "name": "PIFCL Insurance Brokers Ltd",
+      "rbc_no": "1163",
+      "category": "Insurance",
+      "expiry_date": "31 July 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "473",
+      "name": "Pierre Insurance Brokers Ltd",
+      "rbc_no": "565",
+      "category": "Insurance",
+      "expiry_date": "4 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "474",
+      "name": "Pinnacle Choice Insurance Brokers Limited",
+      "rbc_no": "1171",
+      "category": "Insurance",
+      "expiry_date": "30 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "475",
+      "name": "Pinnacle Insurance Brokers Ltd",
+      "rbc_no": "172",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "476",
+      "name": "Pivot Insurance Brokers Ltd",
+      "rbc_no": "1113",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "477",
+      "name": "Platform Insurance Brokers Ltd",
+      "rbc_no": "471",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "478",
+      "name": "Platiel Insurance Brokers Limited",
+      "rbc_no": "862",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "479",
+      "name": "Platinum Insurance Brokers Ltd",
+      "rbc_no": "342",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "480",
+      "name": "Platonic Insurance Brokers Limited",
+      "rbc_no": "710",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "481",
+      "name": "Platoon Insurance Brokers Limited",
+      "rbc_no": "994",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "482",
+      "name": "Plum Insurance Brokers Ltd",
+      "rbc_no": "47",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "483",
+      "name": "Plural Insurance Brokers",
+      "rbc_no": "95",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "484",
+      "name": "PMAS Treasure Insurance Brokers Limited",
+      "rbc_no": "739",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "485",
+      "name": "Policy Masters Insurance Brokers Ltd",
+      "rbc_no": "995",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "486",
+      "name": "Post Assurance Brokers Ltd",
+      "rbc_no": "328",
+      "category": "Ins/Re",
+      "expiry_date": "19 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "487",
+      "name": "PPPAT Insurance Brokers Ltd",
+      "rbc_no": "1123",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "488",
+      "name": "PRA Insurance Brokers Ltd",
+      "rbc_no": "1015",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "489",
+      "name": "Prax Insurance Brokers Ltd",
+      "rbc_no": "1226",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "490",
+      "name": "Precious Insurance Brokers Limited",
+      "rbc_no": "1170",
+      "category": "Insurance",
+      "expiry_date": "15 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "491",
+      "name": "Premier Insurance Brokers",
+      "rbc_no": "2",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "492",
+      "name": "Prestige Insurance Brokers Ltd",
+      "rbc_no": "100",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "493",
+      "name": "Prima Solution Insurance Brokers Ltd",
+      "rbc_no": "685",
+      "category": "Insurance",
+      "expiry_date": "30 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "494",
+      "name": "Primark Insurance Brokers Ltd",
+      "rbc_no": "697",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "495",
+      "name": "Prime Investments Insurance Brokers Ltd",
+      "rbc_no": "88",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "496",
+      "name": "Primo Insurance Brokers Ltd",
+      "rbc_no": "1075",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "497",
+      "name": "Priority Insurance Brokers Limited",
+      "rbc_no": "836",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "498",
+      "name": "Prisk Insurance Brokers Ltd",
+      "rbc_no": "106",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "499",
+      "name": "Profound Insurance Brokers Limited",
+      "rbc_no": "1178",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "500",
+      "name": "Property & Pecuniary Insurance Brokers Limited",
+      "rbc_no": "555",
+      "category": "Insurance",
+      "expiry_date": "29 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "501",
+      "name": "Prorisk Insurance Brokers Limited",
+      "rbc_no": "435",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "502",
+      "name": "Prosure Insurance Brokers Limited",
+      "rbc_no": "712",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "503",
+      "name": "Prowess Insurance Brokers Limited",
+      "rbc_no": "1120",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "504",
+      "name": "Proximate Insurance Brokers Ltd",
+      "rbc_no": "1029",
+      "category": "Insurance",
+      "expiry_date": "30 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "505",
+      "name": "Prudent Risk Advisors Insurance Brokers Ltd",
+      "rbc_no": "1079",
+      "category": "Insurance",
+      "expiry_date": "30 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "506",
+      "name": "Prudential Alliance Insurance Brokers Ltd",
+      "rbc_no": "292",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "507",
+      "name": "Pula Insurance Brokers Limited",
+      "rbc_no": "1238",
+      "category": "Insurance",
+      "expiry_date": "15 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "508",
+      "name": "Pure Surplus Insurance Brokers Ltd",
+      "rbc_no": "1121",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "509",
+      "name": "Purebond Insurance Brokers Ltd",
+      "rbc_no": "132",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "510",
+      "name": "Quality Insurance Brokers Ltd",
+      "rbc_no": "354",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "511",
+      "name": "Quantum Insurance Brokers Ltd",
+      "rbc_no": "344",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "512",
+      "name": "Quest Insurance Brokers Limited",
+      "rbc_no": "771",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "513",
+      "name": "Quicklink Insurance Brokers Ltd",
+      "rbc_no": "560",
+      "category": "Ins/Re",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "514",
+      "name": "Rachbuk Insurance Brokers Limited",
+      "rbc_no": "804",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "515",
+      "name": "Radiance Insurance Brokers Limited",
+      "rbc_no": "751",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "516",
+      "name": "Rania Insurance Brokers Ltd",
+      "rbc_no": "1197",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "517",
+      "name": "Rateon Insurance Brokers Ltd",
+      "rbc_no": "943",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "518",
+      "name": "RDS Insurance Brokers Ltd",
+      "rbc_no": "384",
+      "category": "Insurance",
+      "expiry_date": "21 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "519",
+      "name": "Reatyme Insurance Brokers Ltd",
+      "rbc_no": "1112",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "520",
+      "name": "Regeem Insurance Brokers Limited",
+      "rbc_no": "718",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "521",
+      "name": "Regent Alliance Insurance Brokers Ltd",
+      "rbc_no": "417",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "522",
+      "name": "Rehoboth Insurance Brokers Ltd",
+      "rbc_no": "614",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "523",
+      "name": "Relics Insurance Brokers Limited",
+      "rbc_no": "767",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "524",
+      "name": "Remedium Insurance Brokers Ltd",
+      "rbc_no": "1103",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "525",
+      "name": "Resolution Insurance Brokers Ltd",
+      "rbc_no": "1192",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "526",
+      "name": "Resort Insurance Brokers Ltd",
+      "rbc_no": "1267",
+      "category": "Inurance",
+      "expiry_date": "46583",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "527",
+      "name": "Rewards Insurance Brokers Ltd",
+      "rbc_no": "294",
+      "category": "Insurance",
+      "expiry_date": "4 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "528",
+      "name": "Rhythms Insurance Brokers Ltd",
+      "rbc_no": "1018",
+      "category": "Insurance",
+      "expiry_date": "5 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "529",
+      "name": "Ridges Insurance Brokers Ltd",
+      "rbc_no": "581",
+      "category": "Insurance",
+      "expiry_date": "3 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "530",
+      "name": "Right Option Global Insurance Brokers Ltd",
+      "rbc_no": "958",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "531",
+      "name": "Right Time Insurance Brokers Limited",
+      "rbc_no": "865",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "532",
+      "name": "RIM Insurance Brokers Ltd",
+      "rbc_no": "547",
+      "category": "Insurance",
+      "expiry_date": "20 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "533",
+      "name": "Risk Analyst Insurance Brokers Ltd",
+      "rbc_no": "457",
+      "category": "Ins/Re",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "534",
+      "name": "Risk Banner Insurance Brokers Ltd",
+      "rbc_no": "907",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "535",
+      "name": "Risk Hedge Insurance Brokers Limited",
+      "rbc_no": "627",
+      "category": "Insurance",
+      "expiry_date": "30 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "536",
+      "name": "Risk Manager Insurance Brokers Limited",
+      "rbc_no": "855",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "537",
+      "name": "Risk Monitor Insurance Brokers Limited",
+      "rbc_no": "621",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "538",
+      "name": "Risk Strength Insurance Brokers Ltd",
+      "rbc_no": "1128",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "539",
+      "name": "Riskbridge Insurance Brokers Ltd",
+      "rbc_no": "920",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "540",
+      "name": "Riskcall Insurance Brokers Ltd",
+      "rbc_no": "1251",
+      "category": "Insurance",
+      "expiry_date": "14 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "541",
+      "name": "Riskguard-Africa Insurance Brokers Limited",
+      "rbc_no": "834",
+      "category": "Ins/Re",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "542",
+      "name": "Riskview Insurance Brokers Ltd",
+      "rbc_no": "454",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "543",
+      "name": "Riskwatch Insurance Brokers Ltd",
+      "rbc_no": "26",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "544",
+      "name": "Rite Insurance Brokers Limited",
+      "rbc_no": "786",
+      "category": "Insurance",
+      "expiry_date": "25 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "545",
+      "name": "Roe Insurance Brokers Limited",
+      "rbc_no": "817",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "546",
+      "name": "Roomans Insurance Brokers Ltd",
+      "rbc_no": "149",
+      "category": "Insurance",
+      "expiry_date": "10 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "547",
+      "name": "Roseat Insurance Brokers Ltd",
+      "rbc_no": "122",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "548",
+      "name": "Royal Chambers Insurance Brokers Limited",
+      "rbc_no": "628",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "549",
+      "name": "Royal Choice Insurance Brokers",
+      "rbc_no": "1100",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "550",
+      "name": "Royal Golden Seal Insurance Brokers Limited",
+      "rbc_no": "964",
+      "category": "Insurance",
+      "expiry_date": "31 May 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "551",
+      "name": "Royal Indemnity Insurance Brokers Ltd",
+      "rbc_no": "1130",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "552",
+      "name": "Royal Link Insurance Brokers Ltd",
+      "rbc_no": "339",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "553",
+      "name": "Royal Spring Insurance Brokers Limited",
+      "rbc_no": "861",
+      "category": "Insurance",
+      "expiry_date": "31 May 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "554",
+      "name": "RoyalGate Insurance Brokers Limited",
+      "rbc_no": "1240",
+      "category": "Insurance",
+      "expiry_date": "15 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "555",
+      "name": "Royalshield Insurance Brokers Limited",
+      "rbc_no": "1086",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "556",
+      "name": "RSM (Risk Solution Masters) Insurance Brokers Ltd",
+      "rbc_no": "919",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "557",
+      "name": "RTS Global Insurance Brokers Ltd",
+      "rbc_no": "609",
+      "category": "Ins/Re",
+      "expiry_date": "29 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "558",
+      "name": "Ruby Insurance Brokers Limited",
+      "rbc_no": "1245",
+      "category": "Insurance",
+      "expiry_date": "15 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "559",
+      "name": "SAAT Insurance Brokers Ltd",
+      "rbc_no": "1091",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "560",
+      "name": "Safad Insurance Brokers Ltd",
+      "rbc_no": "201",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "561",
+      "name": "Safeguard Insurance Brokers Limited",
+      "rbc_no": "812",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "562",
+      "name": "Saferisk Insurance Brokers Ltd",
+      "rbc_no": "976",
+      "category": "Insurance",
+      "expiry_date": "1 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "563",
+      "name": "Sahab Insurance Brokers Limited",
+      "rbc_no": "437",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "564",
+      "name": "Sakiina Insurance Brokers Ltd",
+      "rbc_no": "1266",
+      "category": "Insurance",
+      "expiry_date": "30 June 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "565",
+      "name": "Sam-Vic Insurance Brokers Ltd",
+      "rbc_no": "525",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "566",
+      "name": "Sara Insurance Brokers Ltd",
+      "rbc_no": "387",
+      "category": "Insurance",
+      "expiry_date": "1 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "567",
+      "name": "SBG Insurance Brokers Ltd",
+      "rbc_no": "367",
+      "category": "Ins/Re",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "568",
+      "name": "Scib Nigeria and Company Limited",
+      "rbc_no": "28",
+      "category": "Ins/Re",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "569",
+      "name": "Seamless Insurance Brokers Ltd",
+      "rbc_no": "1050",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "570",
+      "name": "Securisk Insurance Brokers Limited",
+      "rbc_no": "866",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "571",
+      "name": "Senforce Insurance Brokers Ltd",
+      "rbc_no": "130",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "572",
+      "name": "Shellstone Insurance Brokers Ltd",
+      "rbc_no": "1224",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "573",
+      "name": "Shepherds Insurance Brokers Ltd",
+      "rbc_no": "9",
+      "category": "Insurance",
+      "expiry_date": "20 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "574",
+      "name": "Shinning Light Insurance Brokers Ltd",
+      "rbc_no": "568",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "575",
+      "name": "SIB Insurance Brokers Ltd",
+      "rbc_no": "1032",
+      "category": "Insurance",
+      "expiry_date": "16 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "576",
+      "name": "SICL REInsurance Brokers Ltd",
+      "rbc_no": "1126",
+      "category": "Reinsurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "577",
+      "name": "SIFJ Insurance Brokers Limited",
+      "rbc_no": "1246",
+      "category": "Insurance",
+      "expiry_date": "15 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "578",
+      "name": "Signature Insurance Brokers Ltd",
+      "rbc_no": "321",
+      "category": "Insurance",
+      "expiry_date": "7 December 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "579",
+      "name": "Silver Street Insurance Brokers Ltd",
+      "rbc_no": "1143",
+      "category": "Insurance",
+      "expiry_date": "30 June 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "580",
+      "name": "Silvercoin Insurance Brokers Ltd",
+      "rbc_no": "1024",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "581",
+      "name": "Silverlane Insurance Brokers Limited",
+      "rbc_no": "857",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "582",
+      "name": "Silvertrust Insurance Brokers Ltd",
+      "rbc_no": "882",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "583",
+      "name": "Smoothway Insurance Brokers Ltd",
+      "rbc_no": "195",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "584",
+      "name": "SOJ Insurance Brokers Ltd",
+      "rbc_no": "1049",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "585",
+      "name": "Solace Insurance Brokers Ltd",
+      "rbc_no": "983",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "586",
+      "name": "Solid Trust Insurance Brokers Ltd",
+      "rbc_no": "179",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "587",
+      "name": "Sonell Insurance Brokers Ltd",
+      "rbc_no": "1061",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "588",
+      "name": "Songhai Insurance Brokers Ltd",
+      "rbc_no": "393",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "589",
+      "name": "Source Insurance Brokers Ltd",
+      "rbc_no": "606",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "590",
+      "name": "Specon Insurance Brokers Limited",
+      "rbc_no": "821",
+      "category": "Insurance",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "591",
+      "name": "Speedy Insurance Brokers Ltd",
+      "rbc_no": "680",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "592",
+      "name": "Splendid Insurance Brokers Limited",
+      "rbc_no": "766",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "593",
+      "name": "Springboard Insurance Brokers Ltd",
+      "rbc_no": "1074",
+      "category": "Insurance",
+      "expiry_date": "14 September 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "594",
+      "name": "Square-Four Insurance Brokers Ltd",
+      "rbc_no": "1101",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "595",
+      "name": "Stalwart Insurance Brokers Ltd",
+      "rbc_no": "696",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "596",
+      "name": "Stanbic IBTC Insurance Brokers",
+      "rbc_no": "908",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "597",
+      "name": "Standard Insurance Consultant Ltd",
+      "rbc_no": "8",
+      "category": "Ins/Re",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "598",
+      "name": "Stanley Morgan Insurance Brokers Ltd",
+      "rbc_no": "203",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "599",
+      "name": "Star Insurance Brokers Ltd",
+      "rbc_no": "6",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "600",
+      "name": "Stargate Insurance Brokers Ltd",
+      "rbc_no": "666",
+      "category": "Insurance",
+      "expiry_date": "11 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "601",
+      "name": "Starship Insurance Brokers Limited",
+      "rbc_no": "620",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "602",
+      "name": "Stonebridge Insurance Brokers Limited",
+      "rbc_no": "734",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "603",
+      "name": "Strategic Alliance Insurance Brokers Ltd",
+      "rbc_no": "381",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "604",
+      "name": "Subtle Insurance Brokers Ltd",
+      "rbc_no": "637",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "605",
+      "name": "Summerfield Insurance Brokers Ltd",
+      "rbc_no": "501",
+      "category": "Insurance",
+      "expiry_date": "14 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "606",
+      "name": "Sunlay Insurance Brokers Ltd",
+      "rbc_no": "643",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "607",
+      "name": "Sunlight Insurance Brokers Ltd",
+      "rbc_no": "1028",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "608",
+      "name": "Supreme Adequate Insurance Brokers Limited",
+      "rbc_no": "784",
+      "category": "Insurance",
+      "expiry_date": "6 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "609",
+      "name": "Supreme Trust Insurance Brokers Ltd",
+      "rbc_no": "542",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "610",
+      "name": "Suremark Insurance Brokers Limited",
+      "rbc_no": "990",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "611",
+      "name": "Swat Insurance Brokers Ltd",
+      "rbc_no": "1003",
+      "category": "Insurance",
+      "expiry_date": "1 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "612",
+      "name": "Switch Risk Insurance Brokers Ltd",
+      "rbc_no": "1109",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "613",
+      "name": "T & C Insurance Brokers Ltd (Takaful and Conventional)",
+      "rbc_no": "1179",
+      "category": "Insurance",
+      "expiry_date": "15 November 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "614",
+      "name": "T.A. Braithwaite Insurance Brokers Limited",
+      "rbc_no": "847",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "615",
+      "name": "Talisa Insurance Brokers Ltd",
+      "rbc_no": "1051",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "616",
+      "name": "Tallman Insurance Brokers Limited",
+      "rbc_no": "735",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "617",
+      "name": "Tasala Insurance Brokers Limited",
+      "rbc_no": "1265",
+      "category": "Insurance",
+      "expiry_date": "19 June 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "618",
+      "name": "Technique International Insurance Brokers Ltd",
+      "rbc_no": "959",
+      "category": "Ins/Re",
+      "expiry_date": "20 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "619",
+      "name": "Teestubs Insurance Brokers Ltd",
+      "rbc_no": "1217",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "620",
+      "name": "Temple Insurance Brokers",
+      "rbc_no": "496",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "621",
+      "name": "Tenderflip Insurance Brokers Ltd",
+      "rbc_no": "1252",
+      "category": "Insurance",
+      "expiry_date": "15 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "622",
+      "name": "TGH Insurance Brokers Ltd",
+      "rbc_no": "1127",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "623",
+      "name": "Thames (Goldever) Insurance Brokers Ltd",
+      "rbc_no": "1069",
+      "category": "Insurance",
+      "expiry_date": "31 October 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "624",
+      "name": "The United African Insurance Brokers",
+      "rbc_no": "25",
+      "category": "Ins/Re",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "625",
+      "name": "Thomas Insurance Brokers Ltd",
+      "rbc_no": "68",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "626",
+      "name": "Thornedge Insurance Brokers Ltd",
+      "rbc_no": "324",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "627",
+      "name": "Threshold Insurance Brokers Ltd",
+      "rbc_no": "1085",
+      "category": "Insurance",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "628",
+      "name": "Thrive Insurance Brokers Ltd",
+      "rbc_no": "517",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "629",
+      "name": "Tikva Insurance Brokers Ltd",
+      "rbc_no": "524",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "630",
+      "name": "TIP Insurance Brokers Limited",
+      "rbc_no": "858",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "631",
+      "name": "Titan Insurance Brokers Ltd",
+      "rbc_no": "915",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "632",
+      "name": "Titpak Insurance Brokers Ltd",
+      "rbc_no": "1134",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "633",
+      "name": "TM Insurance Brokers Ltd",
+      "rbc_no": "1156",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "634",
+      "name": "Tonimas Insurance Brokers Ltd",
+      "rbc_no": "569",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "635",
+      "name": "Top Bracket Insurance Brokers Ltd",
+      "rbc_no": "175",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "636",
+      "name": "Topflight Insurance Brokers Ltd",
+      "rbc_no": "918",
+      "category": "Insurance",
+      "expiry_date": "19 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "637",
+      "name": "Total Exposure Insurance Brokers Ltd",
+      "rbc_no": "1023",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "638",
+      "name": "Total Security Insurance Brokers Ltd",
+      "rbc_no": "536",
+      "category": "Ins/Re",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "639",
+      "name": "Trademark (Tola Dosunmu) Insurance Brokers Limited",
+      "rbc_no": "839",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "640",
+      "name": "Trailblazers Insurance Brokers Limited",
+      "rbc_no": "996",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "641",
+      "name": "Transparency Scape Insurance Brokers Ltd",
+      "rbc_no": "1035",
+      "category": "Insurance",
+      "expiry_date": "31 March 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "642",
+      "name": "Treasure Coast Insurance Brokers Ltd",
+      "rbc_no": "458",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "643",
+      "name": "Tribute Insurance Brokers Ltd",
+      "rbc_no": "588",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "644",
+      "name": "Triple Resources Insurance Brokers Ltd",
+      "rbc_no": "406",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "645",
+      "name": "Triplebis Insurance Brokers Ltd",
+      "rbc_no": "1040",
+      "category": "Insurance",
+      "expiry_date": "30 April 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "646",
+      "name": "Tripod Insurance Brokers Ltd",
+      "rbc_no": "251",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "647",
+      "name": "Triumph Insurance Brokers Ltd",
+      "rbc_no": "1104",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "648",
+      "name": "True Vine Insurance Brokers Limited",
+      "rbc_no": "652",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "649",
+      "name": "Trusted Risk Managers Insurance Brokers Ltd",
+      "rbc_no": "548",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "650",
+      "name": "Trustforte Insurance Brokers Ltd",
+      "rbc_no": "434",
+      "category": "Ins/Re",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "651",
+      "name": "Trusthouse Insurance Brokers Ltd",
+      "rbc_no": "119",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "652",
+      "name": "Trustland Insurance Brokers Ltd",
+      "rbc_no": "693",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "653",
+      "name": "Trustlink Insurance Brokers Ltd",
+      "rbc_no": "495",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "654",
+      "name": "TrustPoint Insurance Brokers Ltd",
+      "rbc_no": "1232",
+      "category": "Insurance",
+      "expiry_date": "15 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "655",
+      "name": "Trustville Insurance Brokers Limited",
+      "rbc_no": "744",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "656",
+      "name": "Turbo Serv Insurance Brokers Ltd",
+      "rbc_no": "1169",
+      "category": "Insurance",
+      "expiry_date": "31 August 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "657",
+      "name": "UA Insurance Brokers Ltd",
+      "rbc_no": "1141",
+      "category": "Insurance",
+      "expiry_date": "15 May 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "658",
+      "name": "UBL Insurance Brokers Ltd",
+      "rbc_no": "295",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "659",
+      "name": "Union Commercial Insurance Brokers Ltd",
+      "rbc_no": "20",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "660",
+      "name": "Union Gate Insurance Brokers Ltd",
+      "rbc_no": "84",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "661",
+      "name": "Unique Fusion Insurance Brokers Ltd",
+      "rbc_no": "418",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "662",
+      "name": "Unisafe Insurance Brokers Limited",
+      "rbc_no": "1166",
+      "category": "Insurance",
+      "expiry_date": "31 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "663",
+      "name": "United Vanguard Insurance Ltd",
+      "rbc_no": "244",
+      "category": "Insurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "664",
+      "name": "Universal Assurance Consult Brokers Ltd",
+      "rbc_no": "537",
+      "category": "Ins/Re",
+      "expiry_date": "30 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "665",
+      "name": "Uraeus Insurance Brokers Ltd",
+      "rbc_no": "1129",
+      "category": "Insurance",
+      "expiry_date": "15 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "666",
+      "name": "UTIB Insurance Brokers Ltd",
+      "rbc_no": "228",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "667",
+      "name": "Utmost Good Faith Insurance Brokers Ltd",
+      "rbc_no": "1214",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "668",
+      "name": "Utopia Insurance Brokers Limited",
+      "rbc_no": "1247",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "669",
+      "name": "Valanis Insurance Brokers Ltd",
+      "rbc_no": "1064",
+      "category": "Insurance",
+      "expiry_date": "30 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "670",
+      "name": "Valid Insurance Brokers Ltd",
+      "rbc_no": "514",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "671",
+      "name": "Value Edge Insurance Brokers Limited",
+      "rbc_no": "383",
+      "category": "Ins/Re",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "672",
+      "name": "Vendpolicies Insurance Brokers Ltd",
+      "rbc_no": "1207",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "673",
+      "name": "Venite Insurance Brokers Ltd",
+      "rbc_no": "1066",
+      "category": "Insurance",
+      "expiry_date": "31 August 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "674",
+      "name": "Verve Insurance Brokers Ltd",
+      "rbc_no": "539",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "675",
+      "name": "VGD Insurance Brokers Ltd",
+      "rbc_no": "1205",
+      "category": "Insurance",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "676",
+      "name": "VH2 Insurance Brokers Ltd",
+      "rbc_no": "1065",
+      "category": "Insurance",
+      "expiry_date": "30 September 2025",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "677",
+      "name": "Vibe Insurance Brokers Limited",
+      "rbc_no": "989",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "678",
+      "name": "Vibrant Insurance Brokers Ltd",
+      "rbc_no": "111",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "679",
+      "name": "Victory Insurance Brokers Ltd",
+      "rbc_no": "403",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "680",
+      "name": "Viewpoint Insurance Brokers Ltd",
+      "rbc_no": "1147",
+      "category": "Insurance",
+      "expiry_date": "15 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "681",
+      "name": "Virtusso Insurance Brokers Ltd",
+      "rbc_no": "589",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "682",
+      "name": "Vision Trust Insurance Brokers Ltd",
+      "rbc_no": "499",
+      "category": "Insurance",
+      "expiry_date": "14 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "683",
+      "name": "Waltham Insurance Brokers Ltd",
+      "rbc_no": "874",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "684",
+      "name": "Wecare Insurance Brokers Limited",
+      "rbc_no": "800",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "685",
+      "name": "Westfield Insurance Brokers Ltd",
+      "rbc_no": "1083",
+      "category": "Insurance",
+      "expiry_date": "31 May 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "686",
+      "name": "Whitesands Insurance Brokers Ltd",
+      "rbc_no": "176",
+      "category": "Insurance",
+      "expiry_date": "31 August 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "687",
+      "name": "WIB Insurance Brokers Ltd",
+      "rbc_no": "261",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "688",
+      "name": "Wigma Plus Insurance Brokers & Consultants Ltd",
+      "rbc_no": "963",
+      "category": "Insurance",
+      "expiry_date": "28 February 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "689",
+      "name": "Willis Towers Watson Insurance Brokers Limited",
+      "rbc_no": "758",
+      "category": "Ins/Re",
+      "expiry_date": "30 April 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "690",
+      "name": "Winock Insurance Brokers Ltd",
+      "rbc_no": "1149",
+      "category": "Insurance",
+      "expiry_date": "15 July 2025",
+      "status": "EXPIRED"
+    },
+    {
+      "sn": "691",
+      "name": "Wiseway Insurance Brokers Ltd",
+      "rbc_no": "145",
+      "category": "Insurance",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "692",
+      "name": "Wohar Insurance Brokers Limited",
+      "rbc_no": "1173",
+      "category": "Insurance",
+      "expiry_date": "15 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "693",
+      "name": "Woodland Insurance Brokers Ltd",
+      "rbc_no": "270",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "694",
+      "name": "World Adequate Insurance Brokers Ltd",
+      "rbc_no": "1198",
+      "category": "Insurance",
+      "expiry_date": "15 January 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "695",
+      "name": "Worldlink Insurance Brokers Limited",
+      "rbc_no": "424",
+      "category": "Insurance",
+      "expiry_date": "26 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "696",
+      "name": "Worldmark Insurance Brokers",
+      "rbc_no": "87",
+      "category": "Insurance",
+      "expiry_date": "31 December 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "697",
+      "name": "WorldSynergy Insurance Brokers Limited",
+      "rbc_no": "1249",
+      "category": "Insurance",
+      "expiry_date": "31 January 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "698",
+      "name": "WSVA Favour Insurance Brokers Limited",
+      "rbc_no": "951",
+      "category": "Insurance",
+      "expiry_date": "30 November 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "699",
+      "name": "XCA Insurance Brokers Nigeria Ltd",
+      "rbc_no": "1222",
+      "category": "Insurance",
+      "expiry_date": "15 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "700",
+      "name": "Yadah-G Global Insurance Brokers Ltd",
+      "rbc_no": "567",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "701",
+      "name": "Yesbee Insurance Brokers  Ltd",
+      "rbc_no": "1146",
+      "category": "Ins/Re",
+      "expiry_date": "15 July 2027",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "702",
+      "name": "YOA Insurance Brokers Ltd",
+      "rbc_no": "463",
+      "category": "Ins/Re",
+      "expiry_date": "31 March 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "703",
+      "name": "YOA ReInsurance Brokers Ltd",
+      "rbc_no": "998",
+      "category": "Reinsurance",
+      "expiry_date": "30 June 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "704",
+      "name": "Zaphon Insurance Brokers Ltd",
+      "rbc_no": "602",
+      "category": "Insurance",
+      "expiry_date": "16 September 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "705",
+      "name": "Zebra Insurance Brokers Limited",
+      "rbc_no": "755",
+      "category": "Ins/Re",
+      "expiry_date": "31 July 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "706",
+      "name": "Zillion Insurance Brokers Ltd",
+      "rbc_no": "590",
+      "category": "Insurance",
+      "expiry_date": "31 October 2026",
+      "status": "ACTIVE"
+    },
+    {
+      "sn": "707",
+      "name": "Supreme Equatable Insurance Brokers LTD",
+      "rbc_no": "477",
+      "category": "Insurance",
+      "expiry_date": "4th August 2026",
+      "status": "ACTIVE"
+    }
+  ],
+  "life": [
+    [
+      "1",
+      "African Alliance Insurance Company Ltd",
+      "54, Awolowo Road, Ikoyi, Lagos.",
+      "www.africanallianceplc.com",
+      "Life",
+      "002"
+    ],
+    [
+      "2",
+      "Capital Express Life Assurance Limited",
+      "Capital Express House: 13 Bishop Kale Close Behind Saka Tinubu Street,Off Kasamu Ekemode Street, Victoria Island, Lagos.",
+      "www.capitalexpressassurance.com",
+      "Life",
+      "006"
+    ],
+    [
+      "3",
+      "CHI Life Assurance Ltd",
+      "Plot 33D, Bishop Aboyade Cole Street, Victoria Island Lagos",
+      "www.chimicroinsure.com",
+      "Life",
+      "099"
+    ],
+    [
+      "4",
+      "Coronation  Life Assurance Limited",
+      "No. 199, Awolowo Road,Ikoyi, Lagos.",
+      "www.coronation.ng/institutional",
+      "Life",
+      "046"
+    ],
+    [
+      "5",
+      "Custodian Life Assurance Limited",
+      "16A, Commercial Avenue, Sabo, Yaba, Lagos.",
+      "www.custodianplc.com.ng",
+      "Life",
+      "010"
+    ],
+    [
+      "6",
+      "Enterprise Life Assurance Co.  Ltd",
+      "46/48 Awolowo Rd, Ikoyi, Lagos 106104, Lagos",
+      "www.myenterprisegroup.io/ng",
+      "Life",
+      "096"
+    ],
+    [
+      "7",
+      "Heirs Life Assurance Ltd",
+      "Heirs Insurance Towers, Plot 107B, Ajose Adeogun Street, Victoria Island, Lagos-Nigeria.",
+      "www.heirsinsurancegroup.com",
+      "Life",
+      "094"
+    ],
+    [
+      "8",
+      "Mutual Benefits Life Assurance Ltd",
+      "Aret Adams House, 233 Ikorodu Road, Ilupeju, Lagos",
+      "www.mutualng.com/life/index",
+      "Life",
+      "027"
+    ],
+    [
+      "9",
+      "emPle Life Assurance Limited",
+      "3rd Floor, 1297 Akin Adesola Street, Victoria Island, Lagos.",
+      "https://www.emple.group",
+      "Life",
+      "032"
+    ],
+    [
+      "10",
+      "Prudential Zenith Assurance Company Limited",
+      "14th Floor Civic Towers, Plots GA & G1, Ozumba Mbadiwe Avenue, Victoria Island Lagos",
+      "www.prudentialzenith.com",
+      "Life",
+      "090"
+    ],
+    [
+      "11",
+      "Royal Exchange Prudential Life Plc",
+      "New Africa House. 31 Marina Lagos.",
+      "www.royalexchangelife.com",
+      "Life",
+      "035"
+    ],
+    [
+      "12",
+      "Sanlam|Allianz Life Insurance Nigeria Ltd.",
+      "34, Marina Street, Old NIPOST Building Lagos",
+      "www.sanlam.com.ng/our-purpose",
+      "Life",
+      "050"
+    ],
+    [
+      "13",
+      "Stanbic IBTC Insurance Limited",
+      "Stanbic IBTC Towers, Walter Carrington Crescent, Victoria Island, Lagos",
+      "www.stanbicibtcinsurance.com/nigeriainsurancelimited/life-insurance",
+      "Life",
+      "095"
+    ],
+    [
+      "14",
+      "Tangerine Life Insurance Limited",
+      "22 Funsho Williams Avenue, Alaka, Surelere, Lagos State.",
+      "www.life.tangerine.africa",
+      "Life",
+      "042"
+    ]
+  ],
+  "general": [
+    [
+      "1",
+      "Anchor Insurance Company Ltd",
+      "Plot 5A, Ayo Jagun Street, Lekki Phase 1 Lagos",
+      "www.anchorinsurance.ng",
+      "General",
+      "005"
+    ],
+    [
+      "2",
+      "Capital Express Indemnity Insurance Ltd",
+      "17, Bishop Kale Close, off Kasumu Ekemode Str, Victoria Island, Lagos",
+      "www.ceiil.ng",
+      "General",
+      "097"
+    ],
+    [
+      "3",
+      "Consolidated Hallmark Insurance Plc",
+      "266 Moshood Abiola Way, Formally Known Ikorodu Road, Obanikoro Lagos.",
+      "www.ch-insure.com",
+      "General",
+      "007"
+    ],
+    [
+      "4",
+      "Coronation Insurance Ltd.",
+      "No. 199, Awolowo Road,Ikoyi, Lagos.",
+      "www.coronation.ng/institutional/about-us/coronation-insurance/",
+      "General",
+      "046"
+    ],
+    [
+      "5",
+      "Custodian & Allied Insurance Limited",
+      "16A, Commercial Avenue, Sabo, Yaba, Lagos.",
+      "www.custodianplc.com.ng",
+      "General",
+      "010"
+    ],
+    [
+      "6",
+      "emPle General Insurance Company Nigeria Limited",
+      "4th Floor Plot 1297, Akin Adesola Street, Victoria Island, Lagos, Nigeria.",
+      "www.emple.group",
+      "General",
+      "032"
+    ],
+    [
+      "7",
+      "Fin Insurance Company Limited",
+      "No. 34 Gana Street, Maitama FCT Abuja.",
+      "www.finsurance.com.ng",
+      "General",
+      "047"
+    ],
+    [
+      "8",
+      "Guinea Insurance Plc",
+      "No.33, Ikorodu Road, Jibowu-Lagos.",
+      "www.guineainsurance.com",
+      "General",
+      "017"
+    ],
+    [
+      "9",
+      "Heirs Insurance Ltd",
+      "Heirs Insurance Towers, Plot 107B, Ajose Adeogun Street, Victoria Island, Lagos \u2013 Nigeria.",
+      "www.heirsinsurancegroup.com",
+      "General",
+      "093"
+    ],
+    [
+      "10",
+      "International Energy Insurance Plc",
+      "Plot 294, Jide Oki Street, Off Ligali Ayorinda, Street,Victoria Island, Lagos.",
+      "www.ieiplcng.com",
+      "General",
+      "020"
+    ],
+    [
+      "11",
+      "KBL Insurance Limited",
+      "Block 138, plot 5, Gabriel Olusanya Street, Lekki- Phase 1, Lagos.",
+      "www.kblinsurance.com",
+      "General",
+      "019"
+    ],
+    [
+      "12",
+      "Linkage Assurance Plc",
+      "Linkage Plaza, Plot 20 Block 94 Lekki-Epe Expressway P.O.Box 74175 Victoria Island, Lagos.",
+      "www.linkageassurance.com",
+      "General",
+      "026"
+    ],
+    [
+      "13",
+      "Mutual Benefits Assurance Plc",
+      "Aret Adams House, 233 Ikorodu Road, Ilupeju, Victoria Island Lagos.",
+      "www.mutualng.com",
+      "General",
+      "027"
+    ],
+    [
+      "14",
+      "NEM Insurance Plc",
+      "199 Ikorodu Road Obanikoro Lagos.",
+      "www.nem-insurance.com",
+      "General",
+      "028"
+    ],
+    [
+      "15",
+      "Nigerian Agricultural Insurance Corporation (NAIC)",
+      "Plot 590 Zone A.O. Central Area P.M.B 0178 Abuja.",
+      "www.naic.gov.ng",
+      "General",
+      "030"
+    ],
+    [
+      "16",
+      "NPF Insurance Co. Ltd",
+      "Behind Louis Edet House, Force Headquarters, Area 11, Garki \u2013 Abuja",
+      "www.npfinsurance.com",
+      "General",
+      "098"
+    ],
+    [
+      "17",
+      "Prestige Assurance Plc",
+      "19, Ligali Ayorinde Street Victoria Island, P.O.Box 650 Marina Lagos.",
+      "www.prestigeassuranceplc.com",
+      "General",
+      "033"
+    ],
+    [
+      "18",
+      "Regency Alliance Insurance Plc",
+      "2, Ebun Street, Gbagada Expressway Gbagada, P.O.Box 70333 Victoria Island Lagos.",
+      "www.regencyalliance.com",
+      "General",
+      "034"
+    ],
+    [
+      "19",
+      "REX Insurance Ltd",
+      "26E Abdulrahman Okene Close, Off Ligali Ayorinde Street, Victoria Island \u2013 Lagos",
+      "www.rexinsure.com",
+      "General",
+      "035"
+    ],
+    [
+      "20",
+      "Sanlam|Allianz General Insurance Nigeria Ltd.",
+      "298 Ikorodu Rd, Anthony, Lagos 102216, Lagos",
+      "www.sanlam.com.ng/corporate",
+      "General",
+      "031"
+    ],
+    [
+      "21",
+      "Sovereign Trust Insurance Plc",
+      "17, Adetokunbo Ademola Street, P.O.Box 74393 Victoria Island Lagos.",
+      "www.stiplc.com",
+      "General",
+      "037"
+    ],
+    [
+      "22",
+      "Staco Insurance Plc",
+      "209 Hebert Macaulay Street Ebute Metta P.M.B 1018 Sabo Yaba Lagos.",
+      "www.portals.stacoplc.com",
+      "General",
+      "038"
+    ],
+    [
+      "23",
+      "Sterling Assurance Nigeria Ltd",
+      "Sterling House, 284 Ikorodu Road Anthony,Lagos,Nigeria.",
+      "www.sterlingassure.com/",
+      "General",
+      "036"
+    ],
+    [
+      "24",
+      "Sunu Assurances Plc",
+      "Plot 1196, Bishop Oluwole Street Victoria Island Lagos.",
+      "www.sunuassurancesnigeria.com",
+      "General",
+      "011"
+    ],
+    [
+      "25",
+      "Tangerine General Insurance Ltd",
+      "House 14, Hughes Avenue, Alagbomeji, Yaba, P.O. Box 944 Marina, Lagos.",
+      "www.general.tangerine.africa",
+      "General",
+      "024"
+    ],
+    [
+      "26",
+      "Unitrust Insurance Nigeria Limited",
+      "Plot 105B, Ajose Adeogun Street, V/I Lagos.",
+      "www.unitrustinsurance.com",
+      "General",
+      "045"
+    ],
+    [
+      "27",
+      "Universal Insurance Plc",
+      "NO 11A, Ligali Ayorinde Street, Victoria Island Lagos.",
+      "www.universalinsuranceplc.com",
+      "General",
+      "041"
+    ],
+    [
+      "28",
+      "Veritas Kapital Assurance PLC",
+      "Plot 497 Abogo Largema Street Off Constitutions Avenue Central Business District P.O.Box 13233 Wuse Zone 3 Abuja.",
+      "www.veritaskapital.com",
+      "General",
+      "022"
+    ],
+    [
+      "29",
+      "Zenith General Insurance Company Limited",
+      "Plot 280, Ajose Adeogun Street, P.O.Box 75315 Victoria Island Lagos.",
+      "www.zenithinsurance.com.ng",
+      "General",
+      "048"
+    ]
+  ],
+  "composite": [
+    [
+      "1",
+      "AIICO Insurance PLC",
+      "Plot PC 12 Church Gate Street, Victoria island Lagos",
+      "www.aiicoplc.com",
+      "Composite",
+      "004"
+    ],
+    [
+      "2",
+      "Alliance & General Insurance Plc",
+      "A&G Tower. 12 Abibu Oki Street Off Marina, Lagos",
+      "www.aginsuranceplc.com",
+      "Composite",
+      "001"
+    ],
+    [
+      "3",
+      "AXA Mansard Insurance Plc",
+      "Santa Clara Court, Plot 1412 Ahmadu Bello Way, Victoria Island Lagos",
+      "www.axamansard.com",
+      "Composite",
+      "016"
+    ],
+    [
+      "4",
+      "Cornerstone Insurance Plc",
+      "21, Water Corporation Drive, Off Ligali Ayorinde Street, Victoria Island, Lagos.",
+      "www.cornerstone.com.ng",
+      "Composite",
+      "008"
+    ],
+    [
+      "5",
+      "Fortis Global Insurance PLC",
+      "Plot 20C, Akin Ogunlewe Street, Victoria Island, Lagos State.",
+      "www.fortisglobalinsurance.com",
+      "Composite",
+      "039"
+    ],
+    [
+      "6",
+      "GoldLink Insurance Plc",
+      "Goldlink Plaza 6 Emmanuel Street Onigbongbo Maryland. P.O.Box 5987 Marina Lagos.",
+      "www.goldlinkinsuranceplc.com",
+      "Composite",
+      "013"
+    ],
+    [
+      "7",
+      "Great Nigeria Insurance Plc",
+      "Great Nigeria House. 8, Omo-osagies Street Off Awolowo Road Ikoyi SWI, Lagos.",
+      "www.greatnigeriaplc.com",
+      "Composite",
+      "014"
+    ],
+    [
+      "8",
+      "Industrial & General Insurance Company Plc",
+      "Plot 741 Adeola Hopewell Street Victoria Island Lagos.",
+      "www.iginigeria.com",
+      "Composite",
+      "018"
+    ],
+    [
+      "9",
+      "Lasaco Assurance Plc",
+      "16, Acme Road Ogba, Ikeja Lagos.",
+      "www.lasacoassurance.com",
+      "Composite",
+      "023"
+    ],
+    [
+      "10",
+      "Leadway Assurance Company Limited",
+      "121/123 Funso Williams Avenue Iponri, Lagos.",
+      "www.leadway.com",
+      "Composite",
+      "025"
+    ],
+    [
+      "11",
+      "NICON Insurance Plc",
+      "NICON Plaza, Plot 242, Muhammadu Buhari Way, Central Business District, Abuja-FCT.",
+      "www.niconinsurance.com.ng",
+      "Composite",
+      "049"
+    ],
+    [
+      "12",
+      "NSIA Insurance Limited",
+      "3, Elsie Femi Pearse Street, Victoria Island, Lagos.",
+      "www.nsiainsurance.com",
+      "Composite",
+      "003"
+    ]
+  ],
+  "takaful": [
+    [
+      "1",
+      "Crown Takaful Insurance",
+      "Plot 72 Ahmadu Bello Way, Central Business District, Abuja 900211, Federal Capital Territory",
+      "www.crowntakaful.com",
+      "General and Family Takaful",
+      "RTC-097 (005)"
+    ],
+    [
+      "2",
+      "Hilal Takaful Nigeria Limited",
+      "191, Herbert Macaulay Way,Ebute Metta, Lagos.",
+      "www.hilaltakaful.com.ng",
+      "General and Family Takaful",
+      "RTC 003"
+    ],
+    [
+      "3",
+      "Jaiz Takaful Insurance Plc",
+      "Plot 1050, O.P Fingesi Street, Off Obafmi Awolowo Way Utako Abuja.",
+      "www.jaiztakafulinsurance.com",
+      "General and Family Takaful",
+      "RTC 092 (001)"
+    ],
+    [
+      "4",
+      "Noor Takaful Plc",
+      "No. 22 b, Oladipo Diya Crescent, 2nd Avenue Estate Ikoyi, P.O.Box 54478, Falomo Ikoyi, Lagos.",
+      "www.noortakaful.ng",
+      "General and Family Takaful",
+      "RTC 091 (002)"
+    ],
+    [
+      "5",
+      "Salam Takaful Insurance Limited",
+      "65 Ibrahim Taiwo Rd, Fagge, Kano",
+      "www.salamtakafulinsurance.com",
+      "General and Family Takaful",
+      "RTC 004"
+    ]
+  ],
+  "reinsurance": [
+    [
+      "1",
+      "Continental Reinsurance Plc",
+      "St. Nicholas House (8th Floor), 6 Catholic Mission Street Lagos.",
+      "www.continental-re.com",
+      "Reinsurance",
+      "RRC001"
+    ],
+    [
+      "2",
+      "FBS Reinsurance Ltd",
+      "22, Dunukofia Street, Area 11, Garki, Abuja, FCT.",
+      "www.fbsre.ng",
+      "Reinsurance",
+      "RRC 003"
+    ],
+    [
+      "3",
+      "Nigeria Reinsurance Corporation",
+      "Plot 784A Herbert Macaulay Way Central Business District, Abuja.",
+      "www.nigeriare.com.ng",
+      "Reinsurance",
+      "RRC 002"
+    ]
+  ],
+  "microinsurance": [
+    [
+      "1",
+      "1",
+      "GOXI MICROINSURANCE COMPANY LIMITED",
+      "STATE/18TH FEBRUARY 2019",
+      "SHINA GBADEGESIN",
+      "sgbadegeshin@goximicroinsurance.com",
+      "EITEBET HOUSE, 3RD FLOOR, 21 MOBOLAJI BANK ANTHONY WAY, IKEJA LAGOS.",
+      "2348023140939"
+    ],
+    [
+      "2",
+      "2",
+      "SAGAMU MICROINSURANCE LIMITED",
+      "STATE / 15TH JANUARY 2020",
+      "OMOLOLA ONAFOWAKAN",
+      "onafowokanomolola@gmail.com \najayioluwayemisi.smil@gmail.com",
+      "67, EWUSI STREET, MAKUN, SHAGAMU, OGUN STATE.",
+      "2348064785992"
+    ],
+    [
+      "3",
+      "3",
+      "CASAVA MICROINSURANCE LIMITED",
+      "STATE / 7TH MAY 2019",
+      "BODE PEDRO",
+      "bp@casava.co",
+      "ZARA\u2019S COURT, HOUSE 1, PLOT 22 OSITA OYENWE CLOSE, OFF AFRICA IANE LEKKI PHASE 1, LAGOS.",
+      "2348065447815"
+    ],
+    [
+      "4",
+      "4",
+      "CHI MICROINSURANCE COMPANY LIMITED",
+      "NATIONAL / 26TH NOVEMBER 2019",
+      "JULIUS OGHIE",
+      "joghie@chimicroinsure.com",
+      "1266 IKORODU ROAD, OBANIKORO, LAGOS.",
+      "2348060010563"
+    ],
+    [
+      "5",
+      "5",
+      "CREDITSTAR MICROINSURANCE LIMITED",
+      "STATE/25TH AUGUST 2021",
+      "MERIT EBERE",
+      "m.ebere@mycreditstar.com",
+      "3 TINACHRIS STREET, EJIGBO, ISOLO, LAGOS STATE.",
+      "2348109439770"
+    ],
+    [
+      "6",
+      "6",
+      "PRUDENT CHOICE MICROINSURANCE LIMITED",
+      "STATE / 12TH OCTOBER 2021",
+      "GLORIA ONOSOLEASE",
+      "Gloria.onosolease@prudentchoice.com",
+      "6 OSIFO STREET, BEHIND UBA BANK, IKPOBA OKHA LOCAL GOVERNMENT AREA, BENIN CITY, EDO STATE.",
+      "2348065085446"
+    ],
+    [
+      "7",
+      "7",
+      "LIFEGUARD MICROINSURANCE LIMITED",
+      "STATE/ 20TH JUNE 2022",
+      "ODION AIDELOJE",
+      "lifeguardinsure@gmail.com",
+      "3, DELO DOSUMU STREET IKEJA LAGOS.",
+      "2348030450524"
+    ],
+    [
+      "8",
+      "8",
+      "DOT MICROINSURANCE LIMITED",
+      "STATE / 20TH DECEMBER 2022",
+      "CHRIS AGBARA",
+      "agbarachrisu@gmail.com",
+      "PLOT 15, LEKKI-EPE EXPRESSWAY, IKATE LEKKI PHASE 1 LAGOS.",
+      "2348038354181"
+    ],
+    [
+      "9",
+      "9",
+      "YES, MICROINSURANCE LIMITED",
+      "STATE / \n1ST JUNE 2023",
+      "AUDU JOSEPH ODEH",
+      "agbarachrisu@gmail.com",
+      "4, ADENUBI CLOSE, OFF MAJEKODUNMI STREET, OFF ALLEN AVENUE IKEJA LAGOS.",
+      "2348175848057"
+    ],
+    [
+      "10",
+      "10",
+      "NEW DAWN MICROINSURACE LIMITED",
+      "STATE /1ST APRIL 2024",
+      "4",
+      "4",
+      "INEMESIT NELSON EKANEM",
+      "2, UDO UDOMA AVENUE, \nUYO, AKWA IBOM STATE.",
+      "10.00007236"
+    ],
+    [
+      "11",
+      "11",
+      "ALLY MICROINSURACE LIMITED",
+      "STATE / 10TH MAY 2024",
+      "4",
+      "7",
+      "INAOLAJI TELLA GBADE",
+      "gbadetelll@rocketmail.com",
+      "SUITE C4, N29A NDJAMENA CRESCENT, WUSE II, ABUJA FCT.",
+      "2348053099005"
+    ],
+    [
+      "12",
+      "12",
+      "NASSURE MICROINSURACE NIGERIA LIMITED",
+      "STATE/20TH AUGUST 2024",
+      "3",
+      "3",
+      "BABATUNDE OLARIDE OSHADIYA",
+      "oshadiyatunde@yahoo.com",
+      "4ED BUILDING, 47 MARINA DRIVE, LAGOS",
+      "2348121154930"
+    ],
+    [
+      "13",
+      "13",
+      "VERTEX MICROINSURANCE LIMITED",
+      "STATE/20TH MARCH 2025",
+      "3",
+      "6",
+      "Ogundeji Oluwafemi Babatunde",
+      "femideji2017@gmail.com",
+      "8A Olaitan Sebanjo Street off Admiralty way, Lekki phase I, Lekki Lagos State, Nigeria",
+      "2348023345671"
+    ],
+    [
+      "14",
+      "14",
+      "RUBIES MICROINSURACE LIMITED",
+      "STATE/ 23rd MAY 2025",
+      "4",
+      "3",
+      "Tesur Kajo-",
+      "tersur.kajo@gmail.com",
+      "4, Michael Olawale Cole Drive \nLekki Phase1, Lagos State.",
+      "2348033940763"
+    ],
+    [
+      "15",
+      "15",
+      "MUFASA MICROINSURACE LIMITED",
+      "STATE/ 23rd MAY 2025",
+      "4",
+      "5",
+      "Adekunle Bamidele",
+      "akinsolajimoh1@gmail.com",
+      "No 27, OYSHC Estate, Bashorun Zone 1, \nAkobo, Ibadan Oyo State",
+      "2348038694038"
+    ],
+    [
+      "16",
+      "16",
+      "NEST MICROINSURACE LIMITED",
+      "STATE/ 1ST September 2025",
+      "4",
+      "3",
+      "Josephine Chinyere Samson",
+      "samsonjosephine150@gmail.com",
+      "Grace- Divine Plaza by community living spring church, 5th Avenue, Gowon Estate, Egbeda, Alimosho, Lagos State",
+      "2347064649286"
+    ],
+    [
+      "17",
+      "17",
+      "Mutual Aid Specialist Microinsurance Ltd",
+      "STATE/ 3RD October 2025",
+      "2",
+      "11",
+      "Adetola Morufat Adegbayi",
+      "Smart@mutualspecialists.com",
+      "4th Floor, Zulikat Wuraola House \nNo. 362 Herbert Macaulay Way \nYaba, Lagos."
+    ]
+  ],
+  "adjusters": [
+    [
+      "1",
+      "Aura Trust Loss Adjusters Ltd",
+      "034",
+      "2 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "2",
+      "B. Heritage Loss Adjusters Ltd",
+      "054/52",
+      "31 July 2026",
+      "ACTIVE"
+    ],
+    [
+      "3",
+      "Benefits Loss Adjusters Ltd",
+      "010",
+      "31 December 2026",
+      "ACTIVE"
+    ],
+    [
+      "4",
+      "Benjamin Jones and Associates Ltd",
+      "072",
+      "28 February 2027",
+      "ACTIVE"
+    ],
+    [
+      "5",
+      "BHIS Loss Adjusting and Survey Services Ltd",
+      "075",
+      "31 August 2027",
+      "ACTIVE"
+    ],
+    [
+      "6",
+      "Bodman and Company Loss Adjusters Ltd",
+      "007",
+      "31 January 2027",
+      "ACTIVE"
+    ],
+    [
+      "7",
+      "Catland International Loss Adjusters Ltd",
+      "012",
+      "30 August 2026",
+      "ACTIVE"
+    ],
+    [
+      "8",
+      "Chartered Loss Adjusters Ltd",
+      "008",
+      "30 November 2026",
+      "ACTIVE"
+    ],
+    [
+      "9",
+      "City Loss Adjusters Ltd",
+      "002 (112)",
+      "31 October 2026",
+      "ACTIVE"
+    ],
+    [
+      "10",
+      "Claimswatch International Loss Adjusters Ltd",
+      "015",
+      "31 March 2026",
+      "ACTIVE"
+    ],
+    [
+      "11",
+      "Clearview Loss Adjuster Ltd",
+      "080",
+      "30 June 2026",
+      "ACTIVE"
+    ],
+    [
+      "12",
+      "Cofii Global Loss Adjusters Ltd",
+      "066",
+      "28 February 2027",
+      "ACTIVE"
+    ],
+    [
+      "13",
+      "Corporate Loss Adjusters Ltd",
+      "024",
+      "31 October 2026",
+      "ACTIVE"
+    ],
+    [
+      "14",
+      "Diamond Loss Adjusters Ltd",
+      "076",
+      "26 November 2025",
+      "ACTIVE"
+    ],
+    [
+      "15",
+      "Eminent International Loss Adjusters Ltd",
+      "069",
+      "1 November 2026",
+      "ACTIVE"
+    ],
+    [
+      "16",
+      "Equity Loss Adjusters Ltd",
+      "016",
+      "31 October 2026",
+      "ACTIVE"
+    ],
+    [
+      "17",
+      "Federated Loss Adjusters Ltd",
+      "011",
+      "17 February 2027",
+      "ACTIVE"
+    ],
+    [
+      "18",
+      "Fenesteedal Loss Adjusters Ltd",
+      "079",
+      "15 December 2025",
+      "ACTIVE"
+    ],
+    [
+      "19",
+      "First Engineering Loss Adjusters Ltd",
+      "067",
+      "31 May 2026",
+      "ACTIVE"
+    ],
+    [
+      "20",
+      "Foremost Independent Loss Adjusters Ltd",
+      "037",
+      "23 November 2026",
+      "ACTIVE"
+    ],
+    [
+      "21",
+      "Grand Metroplolitan Associates Loss Adjusters Ltd",
+      "004",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "22",
+      "Guardian Shield Loss Adjusters Ltd",
+      "068",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "23",
+      "Hamsard Vision Loss Adjusters Ltd",
+      "062",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "24",
+      "Integritas Loss Adjusters Ltd",
+      "64",
+      "31 January 2027",
+      "ACTIVE"
+    ],
+    [
+      "25",
+      "International Loss Adjusters Ltd",
+      "006",
+      "30 April 2026",
+      "ACTIVE"
+    ],
+    [
+      "26",
+      "Jodad int'l Loss Adjusters Ltd",
+      "043",
+      "31 December 2025",
+      "ACTIVE"
+    ],
+    [
+      "27",
+      "Livingstone & Association Loss Adjusters Ltd",
+      "065",
+      "30 June 2025",
+      "EXPIRED"
+    ],
+    [
+      "28",
+      "Lorem International Loss Adjusters Ltd",
+      "063",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "29",
+      "Majorisk International Loss Adjusters Ltd",
+      "035",
+      "31 January 2025",
+      "EXPIRED"
+    ],
+    [
+      "30",
+      "Midex Loss Adjusters Ltd",
+      "038",
+      "31 July 2026",
+      "ACTIVE"
+    ],
+    [
+      "31",
+      "New Trend Loss Adjusters Ltd",
+      "039",
+      "31 March 2026",
+      "ACTIVE"
+    ],
+    [
+      "32",
+      "Omega Loss Adjusters Ltd",
+      "061",
+      "31 January 2027",
+      "ACTIVE"
+    ],
+    [
+      "33",
+      "Orient International Loss Assessors Nig. Ltd",
+      "073",
+      "6 October 2025",
+      "ACTIVE"
+    ],
+    [
+      "34",
+      "Precision Loss Adjusters Ltd",
+      "013",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "35",
+      "PRO 1921 Loss Adjusters",
+      "077",
+      "11 December 2025",
+      "ACTIVE"
+    ],
+    [
+      "36",
+      "Professional Risk Surveyors Loss Adjusters Ltd",
+      "028",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "37",
+      "Secure Loss Adjusters Ltd",
+      "025",
+      "15 March 2027",
+      "ACTIVE"
+    ],
+    [
+      "38",
+      "Standard Loss Adjusters and Co Ltd",
+      "29",
+      "7 February 2027",
+      "ACTIVE"
+    ],
+    [
+      "39",
+      "Strategic International Loss Adjusters Ltd",
+      "070",
+      "30 November 2026",
+      "ACTIVE"
+    ],
+    [
+      "40",
+      "Technique Loss Adjusters Ltd",
+      "018",
+      "31 July 2026",
+      "ACTIVE"
+    ],
+    [
+      "41",
+      "Topclass Adjusters Consultant Limited",
+      "060",
+      "30 September 2026",
+      "ACTIVE"
+    ],
+    [
+      "42",
+      "ULA Loss Adjusters Ltd",
+      "071",
+      "29 November 2026",
+      "ACTIVE"
+    ],
+    [
+      "43",
+      "Venus Loss Assesors Ltd",
+      "074",
+      "31 August 2023",
+      "EXPIRED"
+    ],
+    [
+      "44",
+      "Vera International Loss Adjusters Ltd",
+      "014",
+      "31 August 2026",
+      "ACTIVE"
+    ],
+    [
+      "45",
+      "Yinka Omilani and Associates Loss Adjusters Ltd",
+      "017",
+      "31 October 2026",
+      "ACTIVE"
+    ],
+    [
+      "46",
+      "Y-Risk & Partners Loss Adjusters Limited",
+      "078",
+      "31 October 2025",
+      "ACTIVE"
+    ],
+    [
+      "47",
+      "Concordia Loss Adjusters Limited",
+      "081",
+      "15 May 2027",
+      "ACTIVE"
+    ]
+  ],
+  "aggregators": [
+    [
+      "1",
+      "Mp-Platform Ltd",
+      "001",
+      "1st Dec 2022 \u2013 30th Nov. 2024"
+    ],
+    [
+      "2",
+      "Insurance Hub Nig. Ltd",
+      "www.insurancehub.ng",
+      "002",
+      "1st Mar. 2023 \u2013 28th Feb. 2025"
+    ],
+    [
+      "3",
+      "P2Vest Tech. Ltd",
+      "www.p2vest.com",
+      "003",
+      "1st Mar 2023 \u2013 28th Feb 2025"
+    ]
+  ]
+}

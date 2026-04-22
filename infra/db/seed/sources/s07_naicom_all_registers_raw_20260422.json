@@ -1,0 +1,1097 @@
+{
+  "insurance-operators": {
+    "headers": [],
+    "rows": [],
+    "count": 0
+  },
+  "life": {
+    "headers": [
+      "S/N",
+      "Name of Company",
+      "Address",
+      "Website",
+      "Authorized Business",
+      "RIC"
+    ],
+    "rows": [
+      [
+        "1",
+        "African Alliance Insurance Company Ltd",
+        "54, Awolowo Road, Ikoyi, Lagos.",
+        "www.africanallianceplc.com",
+        "Life",
+        "002"
+      ],
+      [
+        "2",
+        "Capital Express Life Assurance Limited",
+        "Capital Express House: 13 Bishop Kale Close Behind Saka Tinubu Street,Off Kasamu Ekemode Street, Victoria Island, Lagos.",
+        "www.capitalexpressassurance.com",
+        "Life",
+        "006"
+      ],
+      [
+        "3",
+        "CHI Life Assurance Ltd",
+        "Plot 33D, Bishop Aboyade Cole Street, Victoria Island Lagos",
+        "www.chimicroinsure.com",
+        "Life",
+        "099"
+      ],
+      [
+        "4",
+        "Coronation  Life Assurance Limited",
+        "No. 199, Awolowo Road,Ikoyi, Lagos.",
+        "www.coronation.ng/institutional",
+        "Life",
+        "046"
+      ],
+      [
+        "5",
+        "Custodian Life Assurance Limited",
+        "16A, Commercial Avenue, Sabo, Yaba, Lagos.",
+        "www.custodianplc.com.ng",
+        "Life",
+        "010"
+      ],
+      [
+        "6",
+        "Enterprise Life Assurance Co.  Ltd",
+        "46/48 Awolowo Rd, Ikoyi, Lagos 106104, Lagos",
+        "www.myenterprisegroup.io/ng",
+        "Life",
+        "096"
+      ],
+      [
+        "7",
+        "Heirs Life Assurance Ltd",
+        "Heirs Insurance Towers, Plot 107B, Ajose Adeogun Street, Victoria Island, Lagos-Nigeria.",
+        "www.heirsinsurancegroup.com",
+        "Life",
+        "094"
+      ],
+      [
+        "8",
+        "Mutual Benefits Life Assurance Ltd",
+        "Aret Adams House, 233 Ikorodu Road, Ilupeju, Lagos",
+        "www.mutualng.com/life/index",
+        "Life",
+        "027"
+      ],
+      [
+        "9",
+        "emPle Life Assurance Limited",
+        "3rd Floor, 1297 Akin Adesola Street, Victoria Island, Lagos.",
+        "https://www.emple.group",
+        "Life",
+        "032"
+      ],
+      [
+        "10",
+        "Prudential Zenith Assurance Company Limited",
+        "14th Floor Civic Towers, Plots GA & G1, Ozumba Mbadiwe Avenue, Victoria Island Lagos",
+        "www.prudentialzenith.com",
+        "Life",
+        "090"
+      ],
+      [
+        "11",
+        "Royal Exchange Prudential Life Plc",
+        "New Africa House. 31 Marina Lagos.",
+        "www.royalexchangelife.com",
+        "Life",
+        "035"
+      ],
+      [
+        "12",
+        "Sanlam|Allianz Life Insurance Nigeria Ltd.",
+        "34, Marina Street, Old NIPOST Building Lagos",
+        "www.sanlam.com.ng/our-purpose",
+        "Life",
+        "050"
+      ],
+      [
+        "13",
+        "Stanbic IBTC Insurance Limited",
+        "Stanbic IBTC Towers, Walter Carrington Crescent, Victoria Island, Lagos",
+        "www.stanbicibtcinsurance.com/nigeriainsurancelimited/life-insurance",
+        "Life",
+        "095"
+      ],
+      [
+        "14",
+        "Tangerine Life Insurance Limited",
+        "22 Funsho Williams Avenue, Alaka, Surelere, Lagos State.",
+        "www.life.tangerine.africa",
+        "Life",
+        "042"
+      ]
+    ],
+    "count": 14
+  },
+  "general": {
+    "headers": [
+      "S/N",
+      "Name of Company",
+      "Address",
+      "Website",
+      "Authorized Business",
+      "RIC"
+    ],
+    "rows": [
+      [
+        "1",
+        "Anchor Insurance Company Ltd",
+        "Plot 5A, Ayo Jagun Street, Lekki Phase 1 Lagos",
+        "www.anchorinsurance.ng",
+        "General",
+        "005"
+      ],
+      [
+        "2",
+        "Capital Express Indemnity Insurance Ltd",
+        "17, Bishop Kale Close, off Kasumu Ekemode Str, Victoria Island, Lagos",
+        "www.ceiil.ng",
+        "General",
+        "097"
+      ],
+      [
+        "3",
+        "Consolidated Hallmark Insurance Plc",
+        "266 Moshood Abiola Way, Formally Known Ikorodu Road, Obanikoro Lagos.",
+        "www.ch-insure.com",
+        "General",
+        "007"
+      ],
+      [
+        "4",
+        "Coronation Insurance Ltd.",
+        "No. 199, Awolowo Road,Ikoyi, Lagos.",
+        "www.coronation.ng/institutional/about-us/coronation-insurance/",
+        "General",
+        "046"
+      ],
+      [
+        "5",
+        "Custodian & Allied Insurance Limited",
+        "16A, Commercial Avenue, Sabo, Yaba, Lagos.",
+        "www.custodianplc.com.ng",
+        "General",
+        "010"
+      ],
+      [
+        "6",
+        "emPle General Insurance Company Nigeria Limited",
+        "4th Floor Plot 1297, Akin Adesola Street, Victoria Island, Lagos, Nigeria.",
+        "www.emple.group",
+        "General",
+        "032"
+      ],
+      [
+        "7",
+        "Fin Insurance Company Limited",
+        "No. 34 Gana Street, Maitama FCT Abuja.",
+        "www.finsurance.com.ng",
+        "General",
+        "047"
+      ],
+      [
+        "8",
+        "Guinea Insurance Plc",
+        "No.33, Ikorodu Road, Jibowu-Lagos.",
+        "www.guineainsurance.com",
+        "General",
+        "017"
+      ],
+      [
+        "9",
+        "Heirs Insurance Ltd",
+        "Heirs Insurance Towers, Plot 107B, Ajose Adeogun Street, Victoria Island, Lagos \u2013 Nigeria.",
+        "www.heirsinsurancegroup.com",
+        "General",
+        "093"
+      ],
+      [
+        "10",
+        "International Energy Insurance Plc",
+        "Plot 294, Jide Oki Street, Off Ligali Ayorinda, Street,Victoria Island, Lagos.",
+        "www.ieiplcng.com",
+        "General",
+        "020"
+      ],
+      [
+        "11",
+        "KBL Insurance Limited",
+        "Block 138, plot 5, Gabriel Olusanya Street, Lekki- Phase 1, Lagos.",
+        "www.kblinsurance.com",
+        "General",
+        "019"
+      ],
+      [
+        "12",
+        "Linkage Assurance Plc",
+        "Linkage Plaza, Plot 20 Block 94 Lekki-Epe Expressway P.O.Box 74175 Victoria Island, Lagos.",
+        "www.linkageassurance.com",
+        "General",
+        "026"
+      ],
+      [
+        "13",
+        "Mutual Benefits Assurance Plc",
+        "Aret Adams House, 233 Ikorodu Road, Ilupeju, Victoria Island Lagos.",
+        "www.mutualng.com",
+        "General",
+        "027"
+      ],
+      [
+        "14",
+        "NEM Insurance Plc",
+        "199 Ikorodu Road Obanikoro Lagos.",
+        "www.nem-insurance.com",
+        "General",
+        "028"
+      ],
+      [
+        "15",
+        "Nigerian Agricultural Insurance Corporation (NAIC)",
+        "Plot 590 Zone A.O. Central Area P.M.B 0178 Abuja.",
+        "www.naic.gov.ng",
+        "General",
+        "030"
+      ],
+      [
+        "16",
+        "NPF Insurance Co. Ltd",
+        "Behind Louis Edet House, Force Headquarters, Area 11, Garki \u2013 Abuja",
+        "www.npfinsurance.com",
+        "General",
+        "098"
+      ],
+      [
+        "17",
+        "Prestige Assurance Plc",
+        "19, Ligali Ayorinde Street Victoria Island, P.O.Box 650 Marina Lagos.",
+        "www.prestigeassuranceplc.com",
+        "General",
+        "033"
+      ],
+      [
+        "18",
+        "Regency Alliance Insurance Plc",
+        "2, Ebun Street, Gbagada Expressway Gbagada, P.O.Box 70333 Victoria Island Lagos.",
+        "www.regencyalliance.com",
+        "General",
+        "034"
+      ],
+      [
+        "19",
+        "REX Insurance Ltd",
+        "26E Abdulrahman Okene Close, Off Ligali Ayorinde Street, Victoria Island \u2013 Lagos",
+        "www.rexinsure.com",
+        "General",
+        "035"
+      ],
+      [
+        "20",
+        "Sanlam|Allianz General Insurance Nigeria Ltd.",
+        "298 Ikorodu Rd, Anthony, Lagos 102216, Lagos",
+        "www.sanlam.com.ng/corporate",
+        "General",
+        "031"
+      ],
+      [
+        "21",
+        "Sovereign Trust Insurance Plc",
+        "17, Adetokunbo Ademola Street, P.O.Box 74393 Victoria Island Lagos.",
+        "www.stiplc.com",
+        "General",
+        "037"
+      ],
+      [
+        "22",
+        "Staco Insurance Plc",
+        "209 Hebert Macaulay Street Ebute Metta P.M.B 1018 Sabo Yaba Lagos.",
+        "www.portals.stacoplc.com",
+        "General",
+        "038"
+      ],
+      [
+        "23",
+        "Sterling Assurance Nigeria Ltd",
+        "Sterling House, 284 Ikorodu Road Anthony,Lagos,Nigeria.",
+        "www.sterlingassure.com/",
+        "General",
+        "036"
+      ],
+      [
+        "24",
+        "Sunu Assurances Plc",
+        "Plot 1196, Bishop Oluwole Street Victoria Island Lagos.",
+        "www.sunuassurancesnigeria.com",
+        "General",
+        "011"
+      ],
+      [
+        "25",
+        "Tangerine General Insurance Ltd",
+        "House 14, Hughes Avenue, Alagbomeji, Yaba, P.O. Box 944 Marina, Lagos.",
+        "www.general.tangerine.africa",
+        "General",
+        "024"
+      ],
+      [
+        "26",
+        "Unitrust Insurance Nigeria Limited",
+        "Plot 105B, Ajose Adeogun Street, V/I Lagos.",
+        "www.unitrustinsurance.com",
+        "General",
+        "045"
+      ],
+      [
+        "27",
+        "Universal Insurance Plc",
+        "NO 11A, Ligali Ayorinde Street, Victoria Island Lagos.",
+        "www.universalinsuranceplc.com",
+        "General",
+        "041"
+      ],
+      [
+        "28",
+        "Veritas Kapital Assurance PLC",
+        "Plot 497 Abogo Largema Street Off Constitutions Avenue Central Business District P.O.Box 13233 Wuse Zone 3 Abuja.",
+        "www.veritaskapital.com",
+        "General",
+        "022"
+      ],
+      [
+        "29",
+        "Zenith General Insurance Company Limited",
+        "Plot 280, Ajose Adeogun Street, P.O.Box 75315 Victoria Island Lagos.",
+        "www.zenithinsurance.com.ng",
+        "General",
+        "048"
+      ]
+    ],
+    "count": 29
+  },
+  "composite": {
+    "headers": [
+      "S/N",
+      "Name of Company",
+      "Address",
+      "Website",
+      "Authorized Business",
+      "RIC"
+    ],
+    "rows": [
+      [
+        "1",
+        "AIICO Insurance PLC",
+        "Plot PC 12 Church Gate Street, Victoria island Lagos",
+        "www.aiicoplc.com",
+        "Composite",
+        "004"
+      ],
+      [
+        "2",
+        "Alliance & General Insurance Plc",
+        "A&G Tower. 12 Abibu Oki Street Off Marina, Lagos",
+        "www.aginsuranceplc.com",
+        "Composite",
+        "001"
+      ],
+      [
+        "3",
+        "AXA Mansard Insurance Plc",
+        "Santa Clara Court, Plot 1412 Ahmadu Bello Way, Victoria Island Lagos",
+        "www.axamansard.com",
+        "Composite",
+        "016"
+      ],
+      [
+        "4",
+        "Cornerstone Insurance Plc",
+        "21, Water Corporation Drive, Off Ligali Ayorinde Street, Victoria Island, Lagos.",
+        "www.cornerstone.com.ng",
+        "Composite",
+        "008"
+      ],
+      [
+        "5",
+        "Fortis Global Insurance PLC",
+        "Plot 20C, Akin Ogunlewe Street, Victoria Island, Lagos State.",
+        "www.fortisglobalinsurance.com",
+        "Composite",
+        "039"
+      ],
+      [
+        "6",
+        "GoldLink Insurance Plc",
+        "Goldlink Plaza 6 Emmanuel Street Onigbongbo Maryland. P.O.Box 5987 Marina Lagos.",
+        "www.goldlinkinsuranceplc.com",
+        "Composite",
+        "013"
+      ],
+      [
+        "7",
+        "Great Nigeria Insurance Plc",
+        "Great Nigeria House. 8, Omo-osagies Street Off Awolowo Road Ikoyi SWI, Lagos.",
+        "www.greatnigeriaplc.com",
+        "Composite",
+        "014"
+      ],
+      [
+        "8",
+        "Industrial & General Insurance Company Plc",
+        "Plot 741 Adeola Hopewell Street Victoria Island Lagos.",
+        "www.iginigeria.com",
+        "Composite",
+        "018"
+      ],
+      [
+        "9",
+        "Lasaco Assurance Plc",
+        "16, Acme Road Ogba, Ikeja Lagos.",
+        "www.lasacoassurance.com",
+        "Composite",
+        "023"
+      ],
+      [
+        "10",
+        "Leadway Assurance Company Limited",
+        "121/123 Funso Williams Avenue Iponri, Lagos.",
+        "www.leadway.com",
+        "Composite",
+        "025"
+      ],
+      [
+        "11",
+        "NICON Insurance Plc",
+        "NICON Plaza, Plot 242, Muhammadu Buhari Way, Central Business District, Abuja-FCT.",
+        "www.niconinsurance.com.ng",
+        "Composite",
+        "049"
+      ],
+      [
+        "12",
+        "NSIA Insurance Limited",
+        "3, Elsie Femi Pearse Street, Victoria Island, Lagos.",
+        "www.nsiainsurance.com",
+        "Composite",
+        "003"
+      ]
+    ],
+    "count": 12
+  },
+  "reinsurance": {
+    "headers": [
+      "S/N",
+      "Name of Company",
+      "Address",
+      "Website",
+      "Authorized Business",
+      "RIC"
+    ],
+    "rows": [
+      [
+        "1",
+        "Continental Reinsurance Plc",
+        "St. Nicholas House (8th Floor), 6 Catholic Mission Street Lagos.",
+        "www.continental-re.com",
+        "Reinsurance",
+        "RRC001"
+      ],
+      [
+        "2",
+        "FBS Reinsurance Ltd",
+        "22, Dunukofia Street, Area 11, Garki, Abuja, FCT.",
+        "www.fbsre.ng",
+        "Reinsurance",
+        "RRC 003"
+      ],
+      [
+        "3",
+        "Nigeria Reinsurance Corporation",
+        "Plot 784A Herbert Macaulay Way Central Business District, Abuja.",
+        "www.nigeriare.com.ng",
+        "Reinsurance",
+        "RRC 002"
+      ]
+    ],
+    "count": 3
+  },
+  "microinsurance": {
+    "headers": [
+      "S/N",
+      "RMC",
+      "NAME OF COMPANY",
+      "CLASSIFICATION/DATE OF ISSUED",
+      "No. OF SLA APPROVED",
+      "No. OF PRODUCTS APPROVED",
+      "NAME OF CEO/CONTACT PERSON",
+      "EMAIL",
+      "ADDRESS",
+      "PHONE NO"
+    ],
+    "rows": [
+      [
+        "1",
+        "1",
+        "GOXI MICROINSURANCE COMPANY LIMITED",
+        "STATE/18TH FEBRUARY 2019",
+        "SHINA GBADEGESIN",
+        "sgbadegeshin@goximicroinsurance.com",
+        "EITEBET HOUSE, 3RD FLOOR, 21 MOBOLAJI BANK ANTHONY WAY, IKEJA LAGOS.",
+        "2348023140939"
+      ],
+      [
+        "2",
+        "2",
+        "SAGAMU MICROINSURANCE LIMITED",
+        "STATE / 15TH JANUARY 2020",
+        "OMOLOLA ONAFOWAKAN",
+        "onafowokanomolola@gmail.com \najayioluwayemisi.smil@gmail.com",
+        "67, EWUSI STREET, MAKUN, SHAGAMU, OGUN STATE.",
+        "2348064785992"
+      ],
+      [
+        "3",
+        "3",
+        "CASAVA MICROINSURANCE LIMITED",
+        "STATE / 7TH MAY 2019",
+        "BODE PEDRO",
+        "bp@casava.co",
+        "ZARA\u2019S COURT, HOUSE 1, PLOT 22 OSITA OYENWE CLOSE, OFF AFRICA IANE LEKKI PHASE 1, LAGOS.",
+        "2348065447815"
+      ],
+      [
+        "4",
+        "4",
+        "CHI MICROINSURANCE COMPANY LIMITED",
+        "NATIONAL / 26TH NOVEMBER 2019",
+        "JULIUS OGHIE",
+        "joghie@chimicroinsure.com",
+        "1266 IKORODU ROAD, OBANIKORO, LAGOS.",
+        "2348060010563"
+      ],
+      [
+        "5",
+        "5",
+        "CREDITSTAR MICROINSURANCE LIMITED",
+        "STATE/25TH AUGUST 2021",
+        "MERIT EBERE",
+        "m.ebere@mycreditstar.com",
+        "3 TINACHRIS STREET, EJIGBO, ISOLO, LAGOS STATE.",
+        "2348109439770"
+      ],
+      [
+        "6",
+        "6",
+        "PRUDENT CHOICE MICROINSURANCE LIMITED",
+        "STATE / 12TH OCTOBER 2021",
+        "GLORIA ONOSOLEASE",
+        "Gloria.onosolease@prudentchoice.com",
+        "6 OSIFO STREET, BEHIND UBA BANK, IKPOBA OKHA LOCAL GOVERNMENT AREA, BENIN CITY, EDO STATE.",
+        "2348065085446"
+      ],
+      [
+        "7",
+        "7",
+        "LIFEGUARD MICROINSURANCE LIMITED",
+        "STATE/ 20TH JUNE 2022",
+        "ODION AIDELOJE",
+        "lifeguardinsure@gmail.com",
+        "3, DELO DOSUMU STREET IKEJA LAGOS.",
+        "2348030450524"
+      ],
+      [
+        "8",
+        "8",
+        "DOT MICROINSURANCE LIMITED",
+        "STATE / 20TH DECEMBER 2022",
+        "CHRIS AGBARA",
+        "agbarachrisu@gmail.com",
+        "PLOT 15, LEKKI-EPE EXPRESSWAY, IKATE LEKKI PHASE 1 LAGOS.",
+        "2348038354181"
+      ],
+      [
+        "9",
+        "9",
+        "YES, MICROINSURANCE LIMITED",
+        "STATE / \n1ST JUNE 2023",
+        "AUDU JOSEPH ODEH",
+        "agbarachrisu@gmail.com",
+        "4, ADENUBI CLOSE, OFF MAJEKODUNMI STREET, OFF ALLEN AVENUE IKEJA LAGOS.",
+        "2348175848057"
+      ],
+      [
+        "10",
+        "10",
+        "NEW DAWN MICROINSURACE LIMITED",
+        "STATE /1ST APRIL 2024",
+        "4",
+        "4",
+        "INEMESIT NELSON EKANEM",
+        "2, UDO UDOMA AVENUE, \nUYO, AKWA IBOM STATE.",
+        "10.00007236"
+      ],
+      [
+        "11",
+        "11",
+        "ALLY MICROINSURACE LIMITED",
+        "STATE / 10TH MAY 2024",
+        "4",
+        "7",
+        "INAOLAJI TELLA GBADE",
+        "gbadetelll@rocketmail.com",
+        "SUITE C4, N29A NDJAMENA CRESCENT, WUSE II, ABUJA FCT.",
+        "2348053099005"
+      ],
+      [
+        "12",
+        "12",
+        "NASSURE MICROINSURACE NIGERIA LIMITED",
+        "STATE/20TH AUGUST 2024",
+        "3",
+        "3",
+        "BABATUNDE OLARIDE OSHADIYA",
+        "oshadiyatunde@yahoo.com",
+        "4ED BUILDING, 47 MARINA DRIVE, LAGOS",
+        "2348121154930"
+      ],
+      [
+        "13",
+        "13",
+        "VERTEX MICROINSURANCE LIMITED",
+        "STATE/20TH MARCH 2025",
+        "3",
+        "6",
+        "Ogundeji Oluwafemi Babatunde",
+        "femideji2017@gmail.com",
+        "8A Olaitan Sebanjo Street off Admiralty way, Lekki phase I, Lekki Lagos State, Nigeria",
+        "2348023345671"
+      ],
+      [
+        "14",
+        "14",
+        "RUBIES MICROINSURACE LIMITED",
+        "STATE/ 23rd MAY 2025",
+        "4",
+        "3",
+        "Tesur Kajo-",
+        "tersur.kajo@gmail.com",
+        "4, Michael Olawale Cole Drive \nLekki Phase1, Lagos State.",
+        "2348033940763"
+      ],
+      [
+        "15",
+        "15",
+        "MUFASA MICROINSURACE LIMITED",
+        "STATE/ 23rd MAY 2025",
+        "4",
+        "5",
+        "Adekunle Bamidele",
+        "akinsolajimoh1@gmail.com",
+        "No 27, OYSHC Estate, Bashorun Zone 1, \nAkobo, Ibadan Oyo State",
+        "2348038694038"
+      ],
+      [
+        "16",
+        "16",
+        "NEST MICROINSURACE LIMITED",
+        "STATE/ 1ST September 2025",
+        "4",
+        "3",
+        "Josephine Chinyere Samson",
+        "samsonjosephine150@gmail.com",
+        "Grace- Divine Plaza by community living spring church, 5th Avenue, Gowon Estate, Egbeda, Alimosho, Lagos State",
+        "2347064649286"
+      ],
+      [
+        "17",
+        "17",
+        "Mutual Aid Specialist Microinsurance Ltd",
+        "STATE/ 3RD October 2025",
+        "2",
+        "11",
+        "Adetola Morufat Adegbayi",
+        "Smart@mutualspecialists.com",
+        "4th Floor, Zulikat Wuraola House \nNo. 362 Herbert Macaulay Way \nYaba, Lagos."
+      ]
+    ],
+    "count": 17
+  },
+  "adjusters": {
+    "headers": [
+      "No.",
+      "NAME",
+      "RAC",
+      "EXPIRY DATE",
+      "STATUS"
+    ],
+    "rows": [
+      [
+        "1",
+        "Aura Trust Loss Adjusters Ltd",
+        "034",
+        "2 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "2",
+        "B. Heritage Loss Adjusters Ltd",
+        "054/52",
+        "31 July 2026",
+        "ACTIVE"
+      ],
+      [
+        "3",
+        "Benefits Loss Adjusters Ltd",
+        "010",
+        "31 December 2026",
+        "ACTIVE"
+      ],
+      [
+        "4",
+        "Benjamin Jones and Associates Ltd",
+        "072",
+        "28 February 2027",
+        "ACTIVE"
+      ],
+      [
+        "5",
+        "BHIS Loss Adjusting and Survey Services Ltd",
+        "075",
+        "31 August 2027",
+        "ACTIVE"
+      ],
+      [
+        "6",
+        "Bodman and Company Loss Adjusters Ltd",
+        "007",
+        "31 January 2027",
+        "ACTIVE"
+      ],
+      [
+        "7",
+        "Catland International Loss Adjusters Ltd",
+        "012",
+        "30 August 2026",
+        "ACTIVE"
+      ],
+      [
+        "8",
+        "Chartered Loss Adjusters Ltd",
+        "008",
+        "30 November 2026",
+        "ACTIVE"
+      ],
+      [
+        "9",
+        "City Loss Adjusters Ltd",
+        "002 (112)",
+        "31 October 2026",
+        "ACTIVE"
+      ],
+      [
+        "10",
+        "Claimswatch International Loss Adjusters Ltd",
+        "015",
+        "31 March 2026",
+        "ACTIVE"
+      ],
+      [
+        "11",
+        "Clearview Loss Adjuster Ltd",
+        "080",
+        "30 June 2026",
+        "ACTIVE"
+      ],
+      [
+        "12",
+        "Cofii Global Loss Adjusters Ltd",
+        "066",
+        "28 February 2027",
+        "ACTIVE"
+      ],
+      [
+        "13",
+        "Corporate Loss Adjusters Ltd",
+        "024",
+        "31 October 2026",
+        "ACTIVE"
+      ],
+      [
+        "14",
+        "Diamond Loss Adjusters Ltd",
+        "076",
+        "26 November 2025",
+        "ACTIVE"
+      ],
+      [
+        "15",
+        "Eminent International Loss Adjusters Ltd",
+        "069",
+        "1 November 2026",
+        "ACTIVE"
+      ],
+      [
+        "16",
+        "Equity Loss Adjusters Ltd",
+        "016",
+        "31 October 2026",
+        "ACTIVE"
+      ],
+      [
+        "17",
+        "Federated Loss Adjusters Ltd",
+        "011",
+        "17 February 2027",
+        "ACTIVE"
+      ],
+      [
+        "18",
+        "Fenesteedal Loss Adjusters Ltd",
+        "079",
+        "15 December 2025",
+        "ACTIVE"
+      ],
+      [
+        "19",
+        "First Engineering Loss Adjusters Ltd",
+        "067",
+        "31 May 2026",
+        "ACTIVE"
+      ],
+      [
+        "20",
+        "Foremost Independent Loss Adjusters Ltd",
+        "037",
+        "23 November 2026",
+        "ACTIVE"
+      ],
+      [
+        "21",
+        "Grand Metroplolitan Associates Loss Adjusters Ltd",
+        "004",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "22",
+        "Guardian Shield Loss Adjusters Ltd",
+        "068",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "23",
+        "Hamsard Vision Loss Adjusters Ltd",
+        "062",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "24",
+        "Integritas Loss Adjusters Ltd",
+        "64",
+        "31 January 2027",
+        "ACTIVE"
+      ],
+      [
+        "25",
+        "International Loss Adjusters Ltd",
+        "006",
+        "30 April 2026",
+        "ACTIVE"
+      ],
+      [
+        "26",
+        "Jodad int'l Loss Adjusters Ltd",
+        "043",
+        "31 December 2025",
+        "ACTIVE"
+      ],
+      [
+        "27",
+        "Livingstone & Association Loss Adjusters Ltd",
+        "065",
+        "30 June 2025",
+        "EXPIRED"
+      ],
+      [
+        "28",
+        "Lorem International Loss Adjusters Ltd",
+        "063",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "29",
+        "Majorisk International Loss Adjusters Ltd",
+        "035",
+        "31 January 2025",
+        "EXPIRED"
+      ],
+      [
+        "30",
+        "Midex Loss Adjusters Ltd",
+        "038",
+        "31 July 2026",
+        "ACTIVE"
+      ],
+      [
+        "31",
+        "New Trend Loss Adjusters Ltd",
+        "039",
+        "31 March 2026",
+        "ACTIVE"
+      ],
+      [
+        "32",
+        "Omega Loss Adjusters Ltd",
+        "061",
+        "31 January 2027",
+        "ACTIVE"
+      ],
+      [
+        "33",
+        "Orient International Loss Assessors Nig. Ltd",
+        "073",
+        "6 October 2025",
+        "ACTIVE"
+      ],
+      [
+        "34",
+        "Precision Loss Adjusters Ltd",
+        "013",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "35",
+        "PRO 1921 Loss Adjusters",
+        "077",
+        "11 December 2025",
+        "ACTIVE"
+      ],
+      [
+        "36",
+        "Professional Risk Surveyors Loss Adjusters Ltd",
+        "028",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "37",
+        "Secure Loss Adjusters Ltd",
+        "025",
+        "15 March 2027",
+        "ACTIVE"
+      ],
+      [
+        "38",
+        "Standard Loss Adjusters and Co Ltd",
+        "29",
+        "7 February 2027",
+        "ACTIVE"
+      ],
+      [
+        "39",
+        "Strategic International Loss Adjusters Ltd",
+        "070",
+        "30 November 2026",
+        "ACTIVE"
+      ],
+      [
+        "40",
+        "Technique Loss Adjusters Ltd",
+        "018",
+        "31 July 2026",
+        "ACTIVE"
+      ],
+      [
+        "41",
+        "Topclass Adjusters Consultant Limited",
+        "060",
+        "30 September 2026",
+        "ACTIVE"
+      ],
+      [
+        "42",
+        "ULA Loss Adjusters Ltd",
+        "071",
+        "29 November 2026",
+        "ACTIVE"
+      ],
+      [
+        "43",
+        "Venus Loss Assesors Ltd",
+        "074",
+        "31 August 2023",
+        "EXPIRED"
+      ],
+      [
+        "44",
+        "Vera International Loss Adjusters Ltd",
+        "014",
+        "31 August 2026",
+        "ACTIVE"
+      ],
+      [
+        "45",
+        "Yinka Omilani and Associates Loss Adjusters Ltd",
+        "017",
+        "31 October 2026",
+        "ACTIVE"
+      ],
+      [
+        "46",
+        "Y-Risk & Partners Loss Adjusters Limited",
+        "078",
+        "31 October 2025",
+        "ACTIVE"
+      ],
+      [
+        "47",
+        "Concordia Loss Adjusters Limited",
+        "081",
+        "15 May 2027",
+        "ACTIVE"
+      ]
+    ],
+    "count": 47
+  },
+  "aggregators": {
+    "headers": [
+      "S/N",
+      "Web Aggregator",
+      "Website",
+      "RWAC No",
+      "Licensed Anniversary"
+    ],
+    "rows": [
+      [
+        "1",
+        "Mp-Platform Ltd",
+        "001",
+        "1st Dec 2022 \u2013 30th Nov. 2024"
+      ],
+      [
+        "2",
+        "Insurance Hub Nig. Ltd",
+        "www.insurancehub.ng",
+        "002",
+        "1st Mar. 2023 \u2013 28th Feb. 2025"
+      ],
+      [
+        "3",
+        "P2Vest Tech. Ltd",
+        "www.p2vest.com",
+        "003",
+        "1st Mar 2023 \u2013 28th Feb 2025"
+      ]
+    ],
+    "count": 3
+  }
+}
