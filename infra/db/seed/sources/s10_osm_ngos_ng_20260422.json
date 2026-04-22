@@ -1,0 +1,3640 @@
+{
+  "schema": "s10_osm_ngo",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query_bbox": "4.2,2.7,13.9,14.7 (Nigeria)",
+  "count": 298,
+  "elements": [
+    {
+      "type": "node",
+      "id": 2161119621,
+      "lat": 6.3138811,
+      "lon": 5.610609,
+      "tags": {
+        "building": "yes",
+        "name": "Youth Resource Center Skill Aquisition by India Renaissance",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344466083,
+      "lat": 6.3287232,
+      "lon": 5.6274882,
+      "tags": {
+        "name": "lawyer chamber",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455132998,
+      "lat": 6.445004,
+      "lon": 7.490728,
+      "tags": {
+        "addr:housenumber": "1.0",
+        "addr:street": "Garden Avenue",
+        "amenity": "public_building",
+        "fixme": "many bad keys",
+        "height": "249.0",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Af9d609cb-78eb-4e58-b3b8-b62b2e146569%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Af9d609cb-78eb-4e58-b3b8-b62b2e146569%5D%2FPOI_Picture2",
+        "name": "Agricultural Development Programme",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133012,
+      "lat": 6.462338,
+      "lon": 7.502342,
+      "tags": {
+        "addr:housenumber": "2.0",
+        "addr:street": "Bent Lane",
+        "fixme": "many bad keys",
+        "height": "230.5",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ad22f7990-9a9c-43d5-8fd9-42853dc1efa1%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ad22f7990-9a9c-43d5-8fd9-42853dc1efa1%5D%2FPOI_Picture2",
+        "name": "Carmelite Prisoners Interest Organization",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133405,
+      "lat": 6.447818,
+      "lon": 7.489264,
+      "tags": {
+        "addr:housenumber": "1.0",
+        "addr:street": "Coalcity Gardens Estate",
+        "amenity": "public_building",
+        "fixme": "many bad keys",
+        "height": "232.300003",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Afaa206b7-b0ec-4cca-8a80-d9119f33792b%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Afaa206b7-b0ec-4cca-8a80-d9119f33792b%5D%2FPOI_Picture2",
+        "name": "Spart & Paths(DFID)",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133497,
+      "lat": 6.414614,
+      "lon": 7.495136,
+      "tags": {
+        "addr:housenumber": "151.0",
+        "addr:street": "Agbani Road",
+        "amenity": "public_building",
+        "contact:phone": "42250218",
+        "ele": "217.899994",
+        "fixme": "many bad keys",
+        "name": "Child Labour & Abuse Prevention Project",
+        "office": "ngo",
+        "phone": "42250218"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133503,
+      "lat": 6.416616,
+      "lon": 7.493618,
+      "tags": {
+        "addr:housenumber": "118.0",
+        "addr:street": "Agbani Road",
+        "amenity": "public_building",
+        "ele": "229.100006",
+        "fixme": "many bad keys",
+        "name": "Emmanuel Foundation International",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133611,
+      "lat": 6.431016,
+      "lon": 7.482905,
+      "tags": {
+        "addr:housenumber": "1.0",
+        "addr:street": "Dr Ernest Ugo Street",
+        "amenity": "public_building",
+        "contact:phone": "42250375",
+        "ele": "225.0",
+        "fixme": "many bad keys",
+        "name": "The International First Aid Society",
+        "office": "ngo",
+        "phone": "42250375"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133643,
+      "lat": 6.4336216,
+      "lon": 7.4977605,
+      "tags": {
+        "addr:housenumber": "22.0",
+        "addr:street": "Edinburgh",
+        "amenity": "public_building",
+        "ele": "260.799988",
+        "fixme": "many bad keys",
+        "name": "Civil Liberty Organization South East Zone",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133680,
+      "lat": 6.434914,
+      "lon": 7.489003,
+      "tags": {
+        "addr:street": "Holy Ghost",
+        "amenity": "community_centre",
+        "ele": "235.800003",
+        "fixme": "many bad keys",
+        "name": "Holy Child Motherless Babies Home",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133715,
+      "lat": 6.437685,
+      "lon": 7.48803,
+      "tags": {
+        "addr:street": "Market Road",
+        "amenity": "public_building",
+        "ele": "223.800003",
+        "fixme": "many bad keys",
+        "name": "Red Cross House",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133809,
+      "lat": 6.4445067,
+      "lon": 7.52467,
+      "tags": {
+        "addr:street": "Ishielu Street",
+        "amenity": "public_building",
+        "ele": "230.300003",
+        "fixme": "many bad keys",
+        "name": "World Health Organisation",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133812,
+      "lat": 6.444814,
+      "lon": 7.524714,
+      "tags": {
+        "addr:housenumber": "32.0",
+        "addr:street": "Ishielu Street",
+        "amenity": "public_building",
+        "ele": "226.600006",
+        "fixme": "many bad keys",
+        "name": "UNICEF Field Office",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133816,
+      "lat": 6.445192,
+      "lon": 7.527388,
+      "tags": {
+        "addr:housenumber": "11.0",
+        "addr:street": "Ezillo",
+        "amenity": "public_building",
+        "contact:phone": "048-488863",
+        "ele": "232.800003",
+        "fixme": "many bad keys",
+        "name": "Society For Family Health",
+        "office": "ngo",
+        "phone": "048-488863"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133817,
+      "lat": 6.4452,
+      "lon": 7.527473,
+      "tags": {
+        "addr:housenumber": "11.0",
+        "addr:street": "Ezillo",
+        "amenity": "public_building",
+        "ele": "229.399994",
+        "fixme": "many bad keys",
+        "name": "Ikeoha Foundation",
+        "office": "ngo",
+        "website": "https://ikeohafoundation.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639256387,
+      "lat": 7.3828741,
+      "lon": 3.8737812,
+      "tags": {
+        "addr:city": "Jericho",
+        "name": "Alliance Francaise",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6976170685,
+      "lat": 6.4934272,
+      "lon": 3.3821526,
+      "tags": {
+        "addr:street": "Makoko Road",
+        "name": "Nigeria Red Cross Society",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9282016067,
+      "lat": 6.6028574,
+      "lon": 5.9579562,
+      "tags": {
+        "name": "Jehowah witnesses branch in Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9311913717,
+      "lat": 6.8634287,
+      "lon": 7.3879166,
+      "tags": {
+        "addr:street": "Ugwuawara Onuiyi",
+        "name": "Motherless Babies Home Nsukka",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9588603881,
+      "lat": 5.1885457,
+      "lon": 7.7038646,
+      "tags": {
+        "addr:city": "Ikot Ekpene",
+        "addr:housenumber": "49",
+        "addr:postcode": "530001",
+        "addr:street": "Ibong Road",
+        "name": "Empowerment House",
+        "office": "ngo",
+        "phone": "+2347054973680"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11860374270,
+      "lat": 4.8999783,
+      "lon": 6.9209827,
+      "tags": {
+        "addr:postcode": "234",
+        "contact:facebook": "uniquemappersteam",
+        "email": "uniquemappersteam@gmail.com",
+        "name": "Unique Mappers Mapathon Center UNIPORT Mall",
+        "office": "ngo",
+        "operator": "Unique Mappers Network Nigeria",
+        "phone": "+2348063908020",
+        "website": "http://www.uniquemappers.org"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11860374271,
+      "lat": 4.8953554,
+      "lon": 6.9713694,
+      "tags": {
+        "addr:housenumber": "7",
+        "addr:postcode": "234",
+        "addr:street": "No 7 Road B , Washington DC County Garden Estate Behind NNPC fuel station off SARS Road",
+        "email": "maporphanage@gmail.com",
+        "name": "Constant Mercy and Praise  Orphanage Home",
+        "office": "ngo",
+        "opening_hours": "Mo-Su 09:00-18:00",
+        "operator": "Constant Mercy and Praise Development Foundation",
+        "phone": "+2348033177797"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11940706259,
+      "lat": 7.6340106,
+      "lon": 4.1808013,
+      "tags": {
+        "name": "SEAP Office",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13017210688,
+      "lat": 8.4655092,
+      "lon": 4.592999,
+      "tags": {
+        "addr:city": "Ilorin",
+        "addr:housenumber": "`15",
+        "addr:street": "Bamigboye Close",
+        "check_date:currency:XBT": "2025-09-07",
+        "currency:XBT": "yes",
+        "email": "info@bitkwa.org",
+        "image": "https://bitkwa.org/wp-content/uploads/2025/03/BitKwa-Logo-e1739955403396.png",
+        "name": "Bitkwa",
+        "office": "association",
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "yes",
+        "phone": "+2349163533000",
+        "website": "https://bitkwa.org/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974721,
+      "lat": 8.4804998,
+      "lon": 4.561959,
+      "tags": {
+        "name": "Suite 9, ikoyi plaza, Unity Rd, opp. First Bank of Nigeria, Oko Erin 240101, Kwara, Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974795,
+      "lat": 8.4593995,
+      "lon": 4.5264456,
+      "tags": {
+        "name": "NUT OFFICE, Asa-Dam Road, Ilorin, Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975392,
+      "lat": 8.4600662,
+      "lon": 4.5248982,
+      "tags": {
+        "name": "24 Asa-Dam Rd, Geri Alimi Area, Ilorin 240281, Kwara, Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286671,
+      "lat": 8.4574553,
+      "lon": 4.5292223,
+      "tags": {
+        "name": "ITF, Asa-Dam Road, Ilorin, Nigeria",
+        "office": "ngo",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286678,
+      "lat": 8.4582875,
+      "lon": 4.529026,
+      "tags": {
+        "name": "Industrial Training Fund, Oko Erin, Nigeria",
+        "office": "ngo",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13658128433,
+      "lat": 6.5854145,
+      "lon": 3.2916966,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "44",
+        "description": "Dir: Nearest bus stop Orelope Street, Egbeda, No. 44 Prince Abiodun Adebambo Street, Egbeda, Lagos, Nigeria",
+        "loc_name": "House of Mercy Children's Home",
+        "name": "House of Mercy Children's Home Lagos, Nigeria (HOM)",
+        "office": "ngo",
+        "opening_hours": "Mo-Su 09:00-17:00",
+        "phone": "+2348022499177",
+        "website": "https://www.homchildrenshome.org/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 47397512,
+      "center": {
+        "lat": 6.3342497,
+        "lon": 5.6169603
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Organisation for Edo Ogbeide-Ihama Foundation",
+        "office": "ngo"
+      },
+      "lat": 6.3342497,
+      "lon": 5.6169603
+    },
+    {
+      "type": "way",
+      "id": 47419668,
+      "center": {
+        "lat": 6.3318042,
+        "lon": 5.6053417
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Network Advocacy for Persons with Visible Disabilities (NAPVID)",
+        "office": "ngo"
+      },
+      "lat": 6.3318042,
+      "lon": 5.6053417
+    },
+    {
+      "type": "way",
+      "id": 567150414,
+      "center": {
+        "lat": 6.4523323,
+        "lon": 3.4343848
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "20",
+        "addr:street": "Thompson Avenue",
+        "landuse": "commercial",
+        "name": "British Council in Lagos",
+        "office": "quango"
+      },
+      "lat": 6.4523323,
+      "lon": 3.4343848
+    },
+    {
+      "type": "way",
+      "id": 738186621,
+      "center": {
+        "lat": 6.4437686,
+        "lon": 3.4104047
+      },
+      "tags": {
+        "building": "yes",
+        "name": "UNHCR Lagos",
+        "office": "ngo"
+      },
+      "lat": 6.4437686,
+      "lon": 3.4104047
+    },
+    {
+      "type": "way",
+      "id": 789351024,
+      "center": {
+        "lat": 6.461132,
+        "lon": 3.4321819
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "10",
+        "addr:street": "Osborne Road",
+        "name": "World Health Organization Lagos Office",
+        "office": "ngo"
+      },
+      "lat": 6.461132,
+      "lon": 3.4321819
+    },
+    {
+      "type": "way",
+      "id": 793732352,
+      "center": {
+        "lat": 6.4458116,
+        "lon": 3.4707929
+      },
+      "tags": {
+        "name": "Nigerian-British Chamber of Commerce",
+        "office": "quango"
+      },
+      "lat": 6.4458116,
+      "lon": 3.4707929
+    },
+    {
+      "type": "way",
+      "id": 1089345017,
+      "center": {
+        "lat": 8.9964422,
+        "lon": 7.4022229
+      },
+      "tags": {
+        "barrier": "fence",
+        "layer": "1",
+        "name": "ECOWAS Headquarters",
+        "office": "ngo"
+      },
+      "lat": 8.9964422,
+      "lon": 7.4022229
+    },
+    {
+      "type": "node",
+      "id": 2427772215,
+      "lat": 13.0481289,
+      "lon": 3.1726604,
+      "tags": {
+        "name": "SOS Village d'Enfant",
+        "office": "ngo",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2427780173,
+      "lat": 13.0506712,
+      "lon": 3.1945953,
+      "tags": {
+        "name": "Croix rouge Régionale",
+        "office": "ngo",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2428001710,
+      "lat": 13.0411757,
+      "lon": 3.2028831,
+      "tags": {
+        "name": "Village SOS de Dosso",
+        "office": "ngo",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2636808719,
+      "lat": 9.0519722,
+      "lon": 7.4826477,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housename": "Bassan Plaza, 2nd Floor, F Wing",
+        "addr:housenumber": "Plot 759",
+        "building": "apartments",
+        "name": "Connected Development [CODE]",
+        "office": "ngo",
+        "website": "https://www.connecteddevelopment.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3227880747,
+      "lat": 13.0342843,
+      "lon": 3.1949689,
+      "tags": {
+        "name": "Pamed",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3227894848,
+      "lat": 13.042687,
+      "lon": 3.1947831,
+      "tags": {
+        "government": "yes",
+        "name": "Association Rurale Nigérienne pour le Financement du Développement",
+        "office": "quango",
+        "short_name": "ARNFD"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353678926,
+      "lat": 13.5143481,
+      "lon": 7.1063128,
+      "tags": {
+        "name": "Sonidep",
+        "office": "quango"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153017,
+      "lat": 13.4851207,
+      "lon": 7.1119579,
+      "tags": {
+        "name": "Care International",
+        "office": "ngo",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3941205200,
+      "lat": 13.4822445,
+      "lon": 7.1104722,
+      "tags": {
+        "name": "Medecin Sans Frontiere",
+        "office": "ngo",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314552847,
+      "lat": 13.492415,
+      "lon": 7.1256153,
+      "tags": {
+        "name": "RAIL - PdevII",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314593527,
+      "lat": 13.4918769,
+      "lon": 7.1254465,
+      "tags": {
+        "name": "Programme d'Appui Sécurité Alimentaire",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "short_name": "PASAM-TAI",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314700225,
+      "lat": 13.4910636,
+      "lon": 7.1254151,
+      "tags": {
+        "name": "Fondation Damien Bureau de Maradi",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314707033,
+      "lat": 13.4863486,
+      "lon": 7.1271853,
+      "tags": {
+        "name": "Association des Jeunes pour la Lutte contre le Désoeuvrement",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138533,
+      "lat": 13.4878156,
+      "lon": 7.1243127,
+      "tags": {
+        "name": "Association Nigérienne de Marketing Sociale",
+        "office": "association",
+        "project:pdevii": "yes",
+        "short_name": "ANIMAS",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138534,
+      "lat": 13.4841733,
+      "lon": 7.1153905,
+      "tags": {
+        "name": "Association Nigérienne pour l’Irrigation Privé",
+        "office": "association",
+        "project:pdevii": "yes",
+        "short_name": "ANPIP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138535,
+      "lat": 13.4848295,
+      "lon": 7.1164523,
+      "tags": {
+        "name": "Collectif des Associations Pastorales du Niger",
+        "office": "association",
+        "project:pdevii": "yes",
+        "short_name": "CAPAN",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138536,
+      "lat": 13.4847189,
+      "lon": 7.1193048,
+      "tags": {
+        "name": "Coopérative d'Epargne et de Crédit Yarda Maggi",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138541,
+      "lat": 13.4872487,
+      "lon": 7.1172506,
+      "tags": {
+        "name": "ONG Karakara",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138542,
+      "lat": 13.484788,
+      "lon": 7.1148278,
+      "tags": {
+        "name": "ONG Nigérienne de Développement - Leadership Challenge",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138543,
+      "lat": 13.4850084,
+      "lon": 7.121149,
+      "tags": {
+        "name": "ONG Éco-Développement Participatif",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138545,
+      "lat": 13.4870405,
+      "lon": 7.1166602,
+      "tags": {
+        "name": "Programme d’Appui à la Qualité de l’Education - Cellule d’Assistance Technique",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316158347,
+      "lat": 13.4907199,
+      "lon": 7.1122568,
+      "tags": {
+        "name": "Caima Bureau de Maradi",
+        "office": "quango",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316158351,
+      "lat": 13.4904667,
+      "lon": 7.1145316,
+      "tags": {
+        "name": "Programme REGIS-ER/USAID",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316763009,
+      "lat": 13.4786664,
+      "lon": 7.12357,
+      "tags": {
+        "name": "SMAR Development Works",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317351508,
+      "lat": 13.4937892,
+      "lon": 7.1070324,
+      "tags": {
+        "name": "Association Nigérienne de Défense de Droit de l'Homme",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317351509,
+      "lat": 13.4947884,
+      "lon": 7.119507,
+      "tags": {
+        "name": "Association d'Appui au Développement Local HIMMA",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317449932,
+      "lat": 13.491817,
+      "lon": 7.1149398,
+      "tags": {
+        "int_name": "World Food Program",
+        "name": "Programme d'Alimentation Mondiale - Sous-Bureau de Maradi",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "short_name": "PAM",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317449933,
+      "lat": 13.4923038,
+      "lon": 7.1152938,
+      "tags": {
+        "name": "SOS Village d'Enfants - Bureau de Base Maradi",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317487501,
+      "lat": 13.4798734,
+      "lon": 7.118515,
+      "tags": {
+        "name": "Programme Lahia Save The Children",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318254844,
+      "lat": 13.4754484,
+      "lon": 7.107464,
+      "tags": {
+        "name": "Epicentre Quartier Bourdja",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318254845,
+      "lat": 13.4763427,
+      "lon": 7.1081496,
+      "tags": {
+        "name": "Epicentre Quartier Bourdja",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318254849,
+      "lat": 13.4775988,
+      "lon": 7.1093706,
+      "tags": {
+        "name": "ONG Médicle FORSANI - Forum de Santé au Niger",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318504988,
+      "lat": 13.491332,
+      "lon": 7.1119431,
+      "tags": {
+        "name": "ProDAF - Projet de Développement d'Agriculture Familial",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318505189,
+      "lat": 13.4923038,
+      "lon": 7.1123446,
+      "tags": {
+        "name": "Projet AREN - Base Régional de Maradi",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318505190,
+      "lat": 13.4914546,
+      "lon": 7.1121421,
+      "tags": {
+        "name": "Projet Fida - Pasadem",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318505196,
+      "lat": 13.4916954,
+      "lon": 7.1133772,
+      "tags": {
+        "name": "World Vision - Direction des Programmes Est",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562772,
+      "lat": 13.5019906,
+      "lon": 7.0968284,
+      "tags": {
+        "name": "Association des Femmes de Maradi",
+        "office": "association",
+        "project:pdevii": "yes",
+        "short_name": "AFN Maradi",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319351285,
+      "lat": 13.4743319,
+      "lon": 7.1077313,
+      "tags": {
+        "name": "Epicentre",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4362482922,
+      "lat": 13.5024465,
+      "lon": 7.0937018,
+      "tags": {
+        "name": "Croix Rouge Nigérienne",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4420820707,
+      "lat": 13.4783283,
+      "lon": 7.1100759,
+      "tags": {
+        "name": "ONG Gage Azihari",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4420820708,
+      "lat": 13.4756768,
+      "lon": 7.1098371,
+      "tags": {
+        "name": "Projet de Dévelopement des Exportations",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4862102994,
+      "lat": 9.038086,
+      "lon": 7.500648,
+      "tags": {
+        "addr:housenumber": "22",
+        "addr:street": "Port Harcourt Crescent",
+        "name": "Palladium Office",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4959357569,
+      "lat": 13.6399293,
+      "lon": 4.0473497,
+      "tags": {
+        "name": "Service de douane de Doutchi",
+        "office": "quango"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5651449446,
+      "lat": 12.9899317,
+      "lon": 7.5847777,
+      "tags": {
+        "name": "World Health Organization, Katsina Office",
+        "office": "ngo",
+        "source": "eHealth"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5836592715,
+      "lat": 13.0168998,
+      "lon": 5.226302,
+      "tags": {
+        "name": "Médecins Sans Frontières (MSF)",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6560585485,
+      "lat": 9.0197786,
+      "lon": 7.4736717,
+      "tags": {
+        "name": "Caritas Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6560585585,
+      "lat": 9.0198633,
+      "lon": 7.4734324,
+      "tags": {
+        "name": "Cafod",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6787764585,
+      "lat": 13.0392118,
+      "lon": 5.2161942,
+      "tags": {
+        "name": "Ministry of health",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6792756786,
+      "lat": 13.4832069,
+      "lon": 7.1173718,
+      "tags": {
+        "name": "Swisscontact Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8047552685,
+      "lat": 13.054443,
+      "lon": 3.1904307,
+      "tags": {
+        "name": "ONG",
+        "name:fr": "ONG ADLD WADATA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9809375827,
+      "lat": 13.0473135,
+      "lon": 3.2035969,
+      "tags": {
+        "brand": "Incubation des entreprises",
+        "name": "CIPMEN",
+        "office": "ngo",
+        "opening_hours": "Mo-Sa 08:00-18:00",
+        "operator": "Directeur",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10262213198,
+      "lat": 9.0874034,
+      "lon": 7.5269258,
+      "tags": {
+        "addr:street": "Dame Patience Str",
+        "description": "Military Wives",
+        "name": "NOAWA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10262242883,
+      "lat": 9.0877032,
+      "lon": 7.5268281,
+      "tags": {
+        "addr:street": "Dame Patience Str",
+        "name": "NOWA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10262254110,
+      "lat": 9.0879337,
+      "lon": 7.5267927,
+      "tags": {
+        "name": "NAFOWA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028250360,
+      "lat": 13.493819,
+      "lon": 7.1273168,
+      "tags": {
+        "addr:city": "Maradi",
+        "description": "Activité TerreEauVie du projet \"Résilience accrue au sahel\" RISE II de l\"USAID.",
+        "name": "Bureau Régional Winrock International",
+        "office": "ngo",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028743343,
+      "lat": 13.5115801,
+      "lon": 7.10893,
+      "tags": {
+        "name": "Marie Stopes Maradi",
+        "office": "ngo",
+        "source": "notes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028789744,
+      "lat": 13.4440143,
+      "lon": 7.1274265,
+      "tags": {
+        "name": "Humanity First Niger",
+        "office": "ngo",
+        "source": "notes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11030065876,
+      "lat": 13.6714112,
+      "lon": 6.9912459,
+      "tags": {
+        "description": "Antenne de Chadakori",
+        "name": "World Vison Niger",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11033292993,
+      "lat": 13.4888341,
+      "lon": 7.128003,
+      "tags": {
+        "name": "ONG Plan Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11033408767,
+      "lat": 13.4887607,
+      "lon": 7.1275715,
+      "tags": {
+        "name": "ONG Rescue Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11071710883,
+      "lat": 13.4858957,
+      "lon": 7.134355,
+      "tags": {
+        "name": "ONG DRC Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11073333970,
+      "lat": 13.4900712,
+      "lon": 7.1251847,
+      "tags": {
+        "name": "UNHCR Base Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11096845177,
+      "lat": 13.4893465,
+      "lon": 7.1161844,
+      "tags": {
+        "name": "OIM Base de Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11096845724,
+      "lat": 13.4878052,
+      "lon": 7.121136,
+      "tags": {
+        "name": "Base Caritas International Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11096857805,
+      "lat": 13.4873294,
+      "lon": 7.1207271,
+      "tags": {
+        "name": "ONG Cadev Maradi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13113177574,
+      "lat": 13.4859889,
+      "lon": 7.1290693,
+      "tags": {
+        "name": "ONG GARKOUA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13390080901,
+      "lat": 13.4802369,
+      "lon": 7.1306766,
+      "tags": {
+        "name": "MOJEDEC MARADI",
+        "office": "ngo",
+        "opening_hours": "Mo-Su 08:00-18:00",
+        "website": "https://mojedec.org"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13390084901,
+      "lat": 13.4802355,
+      "lon": 7.1306648,
+      "tags": {
+        "name": "MOJEDEC MARADI",
+        "office": "ngo",
+        "opening_hours": "Mo-Su 08:00-18:00",
+        "website": "https://mojedec.org/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 176918841,
+      "center": {
+        "lat": 9.0845139,
+        "lon": 7.4906333
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "3645",
+        "addr:street": "Ibrahim Babangida Way",
+        "alt_name": "British Council Maitama",
+        "building": "yes",
+        "name": "British Council Abuja",
+        "office": "quango",
+        "phone": "+234 201 460 3093",
+        "source": "Bing"
+      },
+      "lat": 9.0845139,
+      "lon": 7.4906333
+    },
+    {
+      "type": "way",
+      "id": 246623229,
+      "center": {
+        "lat": 9.070279,
+        "lon": 7.4356491
+      },
+      "tags": {
+        "addr:city": "ABUJA",
+        "addr:housename": "Hs 5 .16 P.O.W MAFEMI CRESCENT",
+        "addr:postcode": "23409",
+        "addr:street": "JABI",
+        "name": "PACT NIGERIA HQ",
+        "office": "ngo"
+      },
+      "lat": 9.070279,
+      "lon": 7.4356491
+    },
+    {
+      "type": "way",
+      "id": 312039418,
+      "center": {
+        "lat": 13.0576091,
+        "lon": 3.2073056
+      },
+      "tags": {
+        "building": "yes",
+        "name": "ONG-CRV",
+        "office": "ngo",
+        "source": "servey"
+      },
+      "lat": 13.0576091,
+      "lon": 3.2073056
+    },
+    {
+      "type": "way",
+      "id": 316860410,
+      "center": {
+        "lat": 13.0513441,
+        "lon": 3.2054177
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Association Liaison Solidarité Gakassinay",
+        "office": "ngo",
+        "source": "servey"
+      },
+      "lat": 13.0513441,
+      "lon": 3.2054177
+    },
+    {
+      "type": "way",
+      "id": 890086456,
+      "center": {
+        "lat": 9.0555077,
+        "lon": 7.5254077
+      },
+      "tags": {
+        "building": "yes",
+        "name": "World Food Programme Abuja",
+        "office": "association"
+      },
+      "lat": 9.0555077,
+      "lon": 7.5254077
+    },
+    {
+      "type": "node",
+      "id": 4748728806,
+      "lat": 7.3209585,
+      "lon": 13.584924,
+      "tags": {
+        "name": "Syndicat national des transporteurs - Bureau départemental de la vina",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5014764524,
+      "lat": 7.3190164,
+      "lon": 13.5801383,
+      "tags": {
+        "addr:city": "Ngaoundéré I",
+        "name": "Croix-rouge comité departemental de la vina",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5838016085,
+      "lat": 7.3281639,
+      "lon": 13.5746572,
+      "tags": {
+        "addr:full": "BP 110 Ngaoundéré",
+        "contact:email": "acagerj@yahoo.com",
+        "contact:phone": "+237222251844",
+        "contact:website": "acager.org",
+        "description": "Conception, planification, réalisation et suivi-évaluation des plans de développement communal et communautaire. Etudes, animation et formation dans les communautés en zone rurale et urbaine.",
+        "name": "Association pour la Cartographie et la Gestion des Ressources",
+        "office": "association",
+        "operator": "TCHOTSOUA Michel",
+        "operator:type": "private",
+        "short_name": "ACAGER",
+        "source": "Tchotsoua Michel",
+        "source:date": "2018-08-17",
+        "source:position": "Ngaoundéré, Cameroun",
+        "start_date": "2011-06-26"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911702,
+      "lat": 7.3334488,
+      "lon": 13.5656477,
+      "tags": {
+        "name": "UNICEF",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911703,
+      "lat": 7.3123289,
+      "lon": 13.5968191,
+      "tags": {
+        "name": "Centre de formation laoune mboum ndere",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911704,
+      "lat": 7.3029715,
+      "lon": 13.5998264,
+      "tags": {
+        "contact:phone": "677644774",
+        "name": "Association des guerisseurs et herboriste du Cameroun",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911706,
+      "lat": 7.3165931,
+      "lon": 13.596886,
+      "tags": {
+        "name": "APROFEF",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911707,
+      "lat": 7.4441675,
+      "lon": 13.5545099,
+      "tags": {
+        "name": "GIC Agropastoral Efficient de ľAdamaoua",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911708,
+      "lat": 7.3468346,
+      "lon": 13.5578049,
+      "tags": {
+        "contact:phone": "696143317/699553075",
+        "name": "Coopérative pionniere Wari",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911710,
+      "lat": 7.319339,
+      "lon": 13.580611,
+      "tags": {
+        "contact:phone": "699677680",
+        "name": "Assovie",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911711,
+      "lat": 7.3202672,
+      "lon": 13.5913263,
+      "tags": {
+        "name": "Stop AVC Ass.",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911712,
+      "lat": 7.3265828,
+      "lon": 13.5917608,
+      "tags": {
+        "name": "Assoc.camer.des droits du pelerin",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5911911713,
+      "lat": 7.3053674,
+      "lon": 13.5855418,
+      "tags": {
+        "name": "Appui a la santé et a la modernisation",
+        "office": "association",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5917987792,
+      "lat": 7.319178,
+      "lon": 13.5796461,
+      "tags": {
+        "addr:city": "Ngaoundéré II",
+        "addr:postcode": "BP: 239 Ngaoundéré",
+        "contact:email": "cndhl_ad@yahoo.fr",
+        "contact:phone": "222178675 / 222178679",
+        "name": "Commission nationale des droits de l'homme et des libertés - antenne régionale Adamaoua",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940244722,
+      "lat": 7.3290407,
+      "lon": 13.5734775,
+      "tags": {
+        "name": "ONG",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940244723,
+      "lat": 7.3224995,
+      "lon": 13.5751933,
+      "tags": {
+        "name": "US Peace Corps",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940244724,
+      "lat": 7.3287027,
+      "lon": 13.5660784,
+      "tags": {
+        "addr:postcode": "BP 592 NGAOUNDÉRÉ",
+        "contact:phone": "699871065",
+        "name": "ONG APROSPEN",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940244725,
+      "lat": 7.2995201,
+      "lon": 13.6029446,
+      "tags": {
+        "contact:phone": "677311277",
+        "name": "Organisme d'Appui au développement",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940244726,
+      "lat": 7.3208683,
+      "lon": 13.5771441,
+      "tags": {
+        "addr:postcode": "BP : 806 NGAOUNDÉRÉ",
+        "contact:phone": "233734789",
+        "name": "ONG CNJD",
+        "office": "ngo",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8410788987,
+      "lat": 5.4510065,
+      "lon": 10.1701296,
+      "tags": {
+        "name": "Foyer social Djoua",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8410788992,
+      "lat": 5.4449536,
+      "lon": 10.1644882,
+      "tags": {
+        "name": "Foyer social Toukooh",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10249499629,
+      "lat": 4.637277,
+      "lon": 9.4435279,
+      "tags": {
+        "addr:street": "Rue Lido",
+        "name": "Fondation Solidaire pour l'Humanité",
+        "name:fr": "Fondation Solidaire pour l'Humanité",
+        "office": "ngo",
+        "phone": "+237672498748"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10249499633,
+      "lat": 4.6308116,
+      "lon": 9.4437818,
+      "tags": {
+        "name": "Nouvelle Génération pour le Christ",
+        "name:fr": "Nouvelle Génération pour le Christ",
+        "office": "ngo",
+        "phone": "+237675552594",
+        "religion": "christian"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11330648569,
+      "lat": 4.6084937,
+      "lon": 9.4551614,
+      "tags": {
+        "addr:housenumber": "4",
+        "addr:postcode": "00237",
+        "addr:street": "BUEA ROAD PARK OPPOSITE PETROLGULF",
+        "name": "ACTION AGAINST HUNGER",
+        "office": "ngo",
+        "website": "https://actionagainsthunger.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11330648769,
+      "lat": 4.608605,
+      "lon": 9.4551427,
+      "tags": {
+        "name": "ACTION AGAINST HUNGER",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11331168670,
+      "lat": 4.6049385,
+      "lon": 9.3341129,
+      "tags": {
+        "name": "AAH mobile clinic site",
+        "office": "ngo",
+        "opening_hours": "Su-Fr 00:00-24:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11331180169,
+      "lat": 4.6049233,
+      "lon": 9.3341987,
+      "tags": {
+        "name": "AAH mobile clinic site",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12730619410,
+      "lat": 4.8697059,
+      "lon": 12.8136573,
+      "tags": {
+        "name": "Mairie de Bibey",
+        "office": "quango"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384503087,
+      "center": {
+        "lat": 5.4724966,
+        "lon": 10.4350045
+      },
+      "tags": {
+        "addr:city": "Bafoussam",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "ZenÜ Network",
+        "office": "ngo"
+      },
+      "lat": 5.4724966,
+      "lon": 10.4350045
+    },
+    {
+      "type": "way",
+      "id": 395631789,
+      "center": {
+        "lat": 5.4574924,
+        "lon": 10.0837525
+      },
+      "tags": {
+        "building": "yes",
+        "name": "poste agricole de Tsinbing",
+        "office": "association"
+      },
+      "lat": 5.4574924,
+      "lon": 10.0837525
+    },
+    {
+      "type": "way",
+      "id": 424764856,
+      "center": {
+        "lat": 5.4695221,
+        "lon": 10.4145618
+      },
+      "tags": {
+        "name": "Coopérative des Planteurs de la Mifi",
+        "office": "association",
+        "short_name": "CAPLAMI"
+      },
+      "lat": 5.4695221,
+      "lon": 10.4145618
+    },
+    {
+      "type": "way",
+      "id": 436686979,
+      "center": {
+        "lat": 5.0780111,
+        "lon": 10.5296703
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Fondation Gacha",
+        "office": "foundation"
+      },
+      "lat": 5.0780111,
+      "lon": 10.5296703
+    },
+    {
+      "type": "way",
+      "id": 445828088,
+      "center": {
+        "lat": 4.6327356,
+        "lon": 9.4430902
+      },
+      "tags": {
+        "addr:city": "Kumba",
+        "addr:housenumber": "P.O. Box 676",
+        "building": "yes",
+        "email": "info@ajesh.org",
+        "name": "AJEMALEBU SELF HELP (AJESH)",
+        "office": "ngo",
+        "phone": "+237 243 167 654",
+        "website": "https://ajesh.org/"
+      },
+      "lat": 4.6327356,
+      "lon": 9.4430902
+    },
+    {
+      "type": "way",
+      "id": 448519380,
+      "center": {
+        "lat": 5.7321202,
+        "lon": 10.9009654
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Fondation Monmafon",
+        "office": "foundation"
+      },
+      "lat": 5.7321202,
+      "lon": 10.9009654
+    },
+    {
+      "type": "way",
+      "id": 483118888,
+      "center": {
+        "lat": 5.5095476,
+        "lon": 10.1793048
+      },
+      "tags": {
+        "name": "AHVEC",
+        "office": "ngo",
+        "website": "https://www.ahvec.org/"
+      },
+      "lat": 5.5095476,
+      "lon": 10.1793048
+    },
+    {
+      "type": "way",
+      "id": 683999973,
+      "center": {
+        "lat": 4.4499474,
+        "lon": 14.3716503
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Comité Départemental de la Croix-Rouge",
+        "office": "ngo"
+      },
+      "lat": 4.4499474,
+      "lon": 14.3716503
+    },
+    {
+      "type": "way",
+      "id": 902733087,
+      "center": {
+        "lat": 5.4893968,
+        "lon": 10.1921456
+      },
+      "tags": {
+        "name": "Foyer social Lekouet",
+        "office": "association"
+      },
+      "lat": 5.4893968,
+      "lon": 10.1921456
+    },
+    {
+      "type": "way",
+      "id": 902733090,
+      "center": {
+        "lat": 5.4782998,
+        "lon": 10.1834952
+      },
+      "tags": {
+        "name": "Foyer social Mendza",
+        "office": "association"
+      },
+      "lat": 5.4782998,
+      "lon": 10.1834952
+    },
+    {
+      "type": "way",
+      "id": 902733091,
+      "center": {
+        "lat": 5.4732754,
+        "lon": 10.195376
+      },
+      "tags": {
+        "name": "Foyer social Negubi + Ecole Maternelle",
+        "office": "association"
+      },
+      "lat": 5.4732754,
+      "lon": 10.195376
+    },
+    {
+      "type": "way",
+      "id": 902733094,
+      "center": {
+        "lat": 5.4612875,
+        "lon": 10.2065027
+      },
+      "tags": {
+        "name": "Foyer social Leeh",
+        "office": "association"
+      },
+      "lat": 5.4612875,
+      "lon": 10.2065027
+    },
+    {
+      "type": "way",
+      "id": 902733095,
+      "center": {
+        "lat": 5.4522233,
+        "lon": 10.2142978
+      },
+      "tags": {
+        "name": "Foyer social Kemdon",
+        "office": "association"
+      },
+      "lat": 5.4522233,
+      "lon": 10.2142978
+    },
+    {
+      "type": "way",
+      "id": 902733096,
+      "center": {
+        "lat": 5.4594596,
+        "lon": 10.2121613
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Tapeu",
+        "office": "association"
+      },
+      "lat": 5.4594596,
+      "lon": 10.2121613
+    },
+    {
+      "type": "way",
+      "id": 902788506,
+      "center": {
+        "lat": 5.4511727,
+        "lon": 10.1480761
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Zemla",
+        "office": "association"
+      },
+      "lat": 5.4511727,
+      "lon": 10.1480761
+    },
+    {
+      "type": "way",
+      "id": 902788511,
+      "center": {
+        "lat": 5.460115,
+        "lon": 10.1523485
+      },
+      "tags": {
+        "name": "Foyer social Zinto",
+        "office": "association"
+      },
+      "lat": 5.460115,
+      "lon": 10.1523485
+    },
+    {
+      "type": "way",
+      "id": 904160104,
+      "center": {
+        "lat": 5.4034562,
+        "lon": 10.1386853
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Sessah",
+        "office": "association"
+      },
+      "lat": 5.4034562,
+      "lon": 10.1386853
+    },
+    {
+      "type": "way",
+      "id": 904160108,
+      "center": {
+        "lat": 5.4105836,
+        "lon": 10.1529926
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Ngui",
+        "office": "association"
+      },
+      "lat": 5.4105836,
+      "lon": 10.1529926
+    },
+    {
+      "type": "way",
+      "id": 904169553,
+      "center": {
+        "lat": 5.4156241,
+        "lon": 10.1561376
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Mbouo",
+        "office": "association"
+      },
+      "lat": 5.4156241,
+      "lon": 10.1561376
+    },
+    {
+      "type": "way",
+      "id": 904169559,
+      "center": {
+        "lat": 5.4283415,
+        "lon": 10.16571
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Tsang",
+        "office": "association"
+      },
+      "lat": 5.4283415,
+      "lon": 10.16571
+    },
+    {
+      "type": "way",
+      "id": 904182376,
+      "center": {
+        "lat": 5.4170979,
+        "lon": 10.1817531
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Messing",
+        "office": "association"
+      },
+      "lat": 5.4170979,
+      "lon": 10.1817531
+    },
+    {
+      "type": "way",
+      "id": 904182379,
+      "center": {
+        "lat": 5.4286472,
+        "lon": 10.1757567
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Melah",
+        "office": "association"
+      },
+      "lat": 5.4286472,
+      "lon": 10.1757567
+    },
+    {
+      "type": "way",
+      "id": 904182380,
+      "center": {
+        "lat": 5.4347027,
+        "lon": 10.1770985
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Messing II",
+        "office": "association"
+      },
+      "lat": 5.4347027,
+      "lon": 10.1770985
+    },
+    {
+      "type": "way",
+      "id": 904188168,
+      "center": {
+        "lat": 5.4633217,
+        "lon": 10.1543386
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Wopouo",
+        "office": "association"
+      },
+      "lat": 5.4633217,
+      "lon": 10.1543386
+    },
+    {
+      "type": "way",
+      "id": 905691522,
+      "center": {
+        "lat": 5.4378926,
+        "lon": 10.1536892
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Menah",
+        "office": "association"
+      },
+      "lat": 5.4378926,
+      "lon": 10.1536892
+    },
+    {
+      "type": "way",
+      "id": 905691534,
+      "center": {
+        "lat": 5.4484713,
+        "lon": 10.178285
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Anock",
+        "office": "association"
+      },
+      "lat": 5.4484713,
+      "lon": 10.178285
+    },
+    {
+      "type": "way",
+      "id": 905691535,
+      "center": {
+        "lat": 5.42879,
+        "lon": 10.1601242
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Fomelou",
+        "office": "association"
+      },
+      "lat": 5.42879,
+      "lon": 10.1601242
+    },
+    {
+      "type": "way",
+      "id": 905691537,
+      "center": {
+        "lat": 5.4415809,
+        "lon": 10.1970288
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Foyer social Leghong",
+        "office": "association"
+      },
+      "lat": 5.4415809,
+      "lon": 10.1970288
+    },
+    {
+      "type": "node",
+      "id": 3441462251,
+      "lat": 9.9616527,
+      "lon": 8.886475,
+      "tags": {
+        "name": "AISEC Jos",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4007053079,
+      "lat": 13.5409243,
+      "lon": 14.315379,
+      "tags": {
+        "name": "Organisation Internationale des Migrations",
+        "office": "ngo",
+        "short_name": "OIM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4217066394,
+      "lat": 13.5454528,
+      "lon": 14.310615,
+      "tags": {
+        "fixme": "In the middle of no where",
+        "name": "ACTED",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4217066395,
+      "lat": 13.5449567,
+      "lon": 14.3105177,
+      "tags": {
+        "fixme": "In the middle of no where. I saved the GPS coordinates when I went there. It is the correct location. The imagery is too old to reflect the parcel with the 3 buildings and containers.",
+        "name": "OCHA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4217066396,
+      "lat": 13.5451463,
+      "lon": 14.3104834,
+      "tags": {
+        "fixme": "In the middle of no where",
+        "name": "UNFPI",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304775046,
+      "lat": 13.8005891,
+      "lon": 8.9726441,
+      "tags": {
+        "name": "Search for Common Ground",
+        "office": "ngo",
+        "project:pdevii": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304796453,
+      "lat": 13.8010582,
+      "lon": 8.9684014,
+      "tags": {
+        "name": "IDB - Initiative pour un Dévelopement á la Base",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304796455,
+      "lat": 13.8059016,
+      "lon": 8.9704902,
+      "tags": {
+        "name": "ONG ATPF - Amménagement des Territoires et Production des Forestieres",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304796456,
+      "lat": 13.8062254,
+      "lon": 8.9704853,
+      "tags": {
+        "name": "ONG NODEF - Nouvelles Opportunités pour les Défavorisés",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304796457,
+      "lat": 13.7975361,
+      "lon": 8.9748896,
+      "tags": {
+        "name": "RAIL - Réseau d'Appui des Initiatives Locals",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304803362,
+      "lat": 13.8002596,
+      "lon": 8.9709639,
+      "tags": {
+        "name": "Association Nigerienne pour la promotion de la santé publique",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304822788,
+      "lat": 13.8023058,
+      "lon": 8.9802681,
+      "tags": {
+        "name": "Aide et Action",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4304823089,
+      "lat": 13.8004878,
+      "lon": 8.975067,
+      "tags": {
+        "name": "Care International/Zinder",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305072961,
+      "lat": 13.7996955,
+      "lon": 8.9798046,
+      "tags": {
+        "name": "HAI - Human Appeal International",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305072962,
+      "lat": 13.8013001,
+      "lon": 8.9802883,
+      "tags": {
+        "name": "ONG GOAL",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305072963,
+      "lat": 13.8000679,
+      "lon": 8.9804121,
+      "tags": {
+        "name": "Nations Unis / UN",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305141601,
+      "lat": 13.8001392,
+      "lon": 8.9666554,
+      "tags": {
+        "name": "Association au Coeur du Niger",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305141603,
+      "lat": 13.8002419,
+      "lon": 8.9703622,
+      "tags": {
+        "name": "ONG AFJE - Appui aux Femmes Jeunes et Enfants",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4305141604,
+      "lat": 13.8001318,
+      "lon": 8.9640121,
+      "tags": {
+        "name": "ONG AFV - Actions en Faveur des Vulnerables",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979959,
+      "lat": 13.8012793,
+      "lon": 8.9793285,
+      "tags": {
+        "name": "Hellen Keller International - Bureau de Zinder",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979960,
+      "lat": 13.8003655,
+      "lon": 8.9819776,
+      "tags": {
+        "name": "Impact Niger",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979962,
+      "lat": 13.8006575,
+      "lon": 8.9814965,
+      "tags": {
+        "name": "ONG Demi-E / Développement pour un Mieux Etre",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979963,
+      "lat": 13.8001867,
+      "lon": 8.9808222,
+      "tags": {
+        "name": "ONG Gasseme",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979964,
+      "lat": 13.80036,
+      "lon": 8.9819605,
+      "tags": {
+        "name": "Pathfinder International",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979968,
+      "lat": 13.8038744,
+      "lon": 8.9828355,
+      "tags": {
+        "name": "Save the Children",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979970,
+      "lat": 13.802029,
+      "lon": 8.9800006,
+      "tags": {
+        "name": "USAID - Hellen Keller International - Sawki - Africare - Mercy Corps",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307057114,
+      "lat": 13.8019562,
+      "lon": 8.9831826,
+      "tags": {
+        "name": "ONG Sentinelle - Centre de Soins Médico-Sociaux",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481858,
+      "lat": 13.813825,
+      "lon": 8.9848034,
+      "tags": {
+        "name": "Association Regionale des Anciens combattants, anciens millitaires, veuves et victimes de guerres.",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481859,
+      "lat": 13.8118123,
+      "lon": 8.985087,
+      "tags": {
+        "name": "Association des Taxi motos Raya Jaha",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481871,
+      "lat": 13.7994092,
+      "lon": 9.0040303,
+      "tags": {
+        "name": "ONG SAABI",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308782110,
+      "lat": 13.8301968,
+      "lon": 8.9829671,
+      "tags": {
+        "name": "PAM/WFP Warehouse",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167364,
+      "lat": 13.5394877,
+      "lon": 14.3140557,
+      "tags": {
+        "name": "UNICEF",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167365,
+      "lat": 13.5391183,
+      "lon": 14.3141529,
+      "tags": {
+        "name": "Action Contre la Faim",
+        "office": "ngo",
+        "short_name": "ACF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167368,
+      "lat": 13.5392751,
+      "lon": 14.314608,
+      "tags": {
+        "name": "CARE",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167370,
+      "lat": 13.5388609,
+      "lon": 14.3162858,
+      "tags": {
+        "name": "International Medical Corps",
+        "office": "ngo",
+        "short_name": "IMC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167372,
+      "lat": 13.5385605,
+      "lon": 14.3167138,
+      "tags": {
+        "name": "Médecins Sans Frontières Suisse",
+        "office": "ngo",
+        "short_name": "MSF Suisse"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314190903,
+      "lat": 13.7929446,
+      "lon": 8.9912559,
+      "tags": {
+        "name": "Projet Lutte Contre l'Ensablement des Cuvettes Oasiennes",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446756,
+      "lat": 13.8113531,
+      "lon": 8.9897691,
+      "tags": {
+        "name": "ONG FEVVF - Femmes et Enfants Victimes de la Violence Familial",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446757,
+      "lat": 13.8115008,
+      "lon": 8.9896118,
+      "tags": {
+        "name": "ONG Yanayi",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422468928,
+      "lat": 13.793878,
+      "lon": 8.9923859,
+      "tags": {
+        "name": "PRODAF - Programme de Développement d'Agriculture Familial",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704528,
+      "lat": 13.8036435,
+      "lon": 8.989181,
+      "tags": {
+        "name": "MSF- Médecins Sans Frontieres",
+        "office": "ngo",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422706935,
+      "lat": 13.8063739,
+      "lon": 8.9863922,
+      "tags": {
+        "name": "21 Association Pour l’Appuie Au Developpement Rural",
+        "office": "association",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4535939389,
+      "lat": 13.3093014,
+      "lon": 12.5968928,
+      "tags": {
+        "government": "social_services",
+        "name": "Save the children",
+        "name:fr": "Save the children",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5019235924,
+      "lat": 10.5926259,
+      "lon": 14.2954469,
+      "tags": {
+        "name": "H2",
+        "name:fr": "H2",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5634788143,
+      "lat": 13.3071992,
+      "lon": 12.5953844,
+      "tags": {
+        "name": "DRC",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5749240677,
+      "lat": 10.5942695,
+      "lon": 14.3091552,
+      "tags": {
+        "name": "Base-PUI Maroua",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6083261187,
+      "lat": 13.8042188,
+      "lon": 8.9946103,
+      "tags": {
+        "name": "Étage Limandi de Gouré",
+        "name:fr": "ONG APDC Bouladia",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6088954286,
+      "lat": 13.7814517,
+      "lon": 9.0010067,
+      "tags": {
+        "name": "ONG APDC Bouladia",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6290815986,
+      "lat": 13.802263,
+      "lon": 8.9732763,
+      "tags": {
+        "name": "ONG ATPF Zinder",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6469930086,
+      "lat": 9.3380226,
+      "lon": 13.4133503,
+      "tags": {
+        "name": "GIZ Antenne de Garoua",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6480566844,
+      "lat": 9.334966,
+      "lon": 13.4065765,
+      "tags": {
+        "name": "ONG FAVIDA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904792,
+      "lat": 9.3244068,
+      "lon": 13.376808,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Association Des Jeunes Pour Le Developpement Du Monde Rural",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904793,
+      "lat": 9.3021534,
+      "lon": 13.379169,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Associtaion D'aide a L'enfance En Difficulté",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904794,
+      "lat": 9.2971176,
+      "lon": 13.3742948,
+      "tags": {
+        "contact:phone": "(+237) 6 96018161",
+        "name": "Association Nationale Des Tradi Praticiens Chez Docteur Gadji",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904795,
+      "lat": 9.3006145,
+      "lon": 13.3957278,
+      "tags": {
+        "name": "Mutuelle Des Artisans De La Région Du Nord",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904796,
+      "lat": 9.298273,
+      "lon": 13.3978708,
+      "tags": {
+        "name": "Mutuelle D'aide Au Développement",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904797,
+      "lat": 9.2998631,
+      "lon": 13.3919899,
+      "tags": {
+        "name": "Gic Des Jeunes Rebobineurs Industriels Du Nord",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690904798,
+      "lat": 9.3009517,
+      "lon": 13.3948019,
+      "tags": {
+        "name": "Apevihan",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916200,
+      "lat": 9.3281957,
+      "lon": 13.3825117,
+      "tags": {
+        "name": "Omi",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916201,
+      "lat": 9.3194904,
+      "lon": 13.3621725,
+      "tags": {
+        "name": "Orphelinat Saare Jabbaama",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916202,
+      "lat": 9.3048643,
+      "lon": 13.3894409,
+      "tags": {
+        "name": "Helen Keller International",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916203,
+      "lat": 9.3053453,
+      "lon": 13.3902865,
+      "tags": {
+        "name": "Croix Rouge",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916204,
+      "lat": 9.3014655,
+      "lon": 13.3918299,
+      "tags": {
+        "name": "Ong Acassad Antenne De Garoua",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916205,
+      "lat": 9.3030267,
+      "lon": 13.388686,
+      "tags": {
+        "name": "Cpdv",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916206,
+      "lat": 9.2993318,
+      "lon": 13.3896223,
+      "tags": {
+        "name": "Centre D'expositions Des Realisations Feminines De Garoua",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916207,
+      "lat": 9.2945636,
+      "lon": 13.3905756,
+      "tags": {
+        "name": "Gic Creator",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690916208,
+      "lat": 9.2956667,
+      "lon": 13.3832455,
+      "tags": {
+        "name": "Eflc Secteur Du Développement Rural Programme D'action Pour La Sécurité Alimentaire Et La",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926655,
+      "lat": 9.3124935,
+      "lon": 13.363755,
+      "tags": {
+        "addr:postcode": "B.P 1371",
+        "contact:phone": "(+237) 675470518",
+        "name": "Fugpcv Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926656,
+      "lat": 9.3016298,
+      "lon": 13.3975739,
+      "tags": {
+        "contact:phone": "694216505",
+        "name": "Action Citoyenne Integre Bureau National",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926657,
+      "lat": 9.3031016,
+      "lon": 13.3960647,
+      "tags": {
+        "name": "Permanence Du Parti Rdpc",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926658,
+      "lat": 9.293696,
+      "lon": 13.3847826,
+      "tags": {
+        "name": "Associations Des Ressortissants Du Village Badenkop Et Sympathisants De Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926663,
+      "lat": 9.2933723,
+      "lon": 13.3864789,
+      "tags": {
+        "name": "Foyer Culturelle Banks De Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926664,
+      "lat": 9.293672,
+      "lon": 13.3875864,
+      "tags": {
+        "name": "Foyer Culturelle Bangoua De Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926665,
+      "lat": 9.2938931,
+      "lon": 13.3870142,
+      "tags": {
+        "name": "Communauté Des Départements Mifi,nkoung-khi, Haut Plateau",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926666,
+      "lat": 9.2936406,
+      "lon": 13.3877108,
+      "tags": {
+        "name": "Foyer Culturelle Haut Nkam Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926667,
+      "lat": 9.2930295,
+      "lon": 13.3877164,
+      "tags": {
+        "name": "Foyer Culturelle Bapa De Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690926668,
+      "lat": 9.2930112,
+      "lon": 13.3876012,
+      "tags": {
+        "name": "Foyer Bansoa De Garoua",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769406409,
+      "lat": 9.3518991,
+      "lon": 13.424499,
+      "tags": {
+        "name": "Gic Des Agros Eleveurs De Nassarao",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769406410,
+      "lat": 9.3425287,
+      "lon": 13.4271219,
+      "tags": {
+        "name": "Ligue Du Nord Des Droits Des L'homme",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769406411,
+      "lat": 9.3441566,
+      "lon": 13.4301213,
+      "tags": {
+        "name": "Groupement De Transporteurs Terrestre Du Cqmeroun",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769406412,
+      "lat": 9.3085563,
+      "lon": 13.3992259,
+      "tags": {
+        "name": "Cac Gzlop Cameroun",
+        "office": "association"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419249,
+      "lat": 9.3401238,
+      "lon": 13.4025695,
+      "tags": {
+        "name": "Usaid Globale Health Supply Chain Programme",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419250,
+      "lat": 9.3425439,
+      "lon": 13.3987496,
+      "tags": {
+        "name": "Programme D'accès Aux Services De La Santé Et De La Reproduction",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419251,
+      "lat": 9.3333462,
+      "lon": 13.4138024,
+      "tags": {
+        "name": "Ong Japsso Entenne Regionale Du Nord",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419252,
+      "lat": 9.3349505,
+      "lon": 13.4066492,
+      "tags": {
+        "name": "Favida",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419253,
+      "lat": 9.3369295,
+      "lon": 13.4032101,
+      "tags": {
+        "name": "Union Des Organismes D'appui Au Développement Durable",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419254,
+      "lat": 9.3357605,
+      "lon": 13.4053382,
+      "tags": {
+        "name": "Care Internationale Cameroun Bureau De Garoua",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419255,
+      "lat": 9.3220074,
+      "lon": 13.4000693,
+      "tags": {
+        "name": "Ofsad Bureau Du Nord",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769419256,
+      "lat": 9.3217404,
+      "lon": 13.4014564,
+      "tags": {
+        "name": "Programme De Promotion Du Crédit Solidaire Dans Le Grand Nord",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769525186,
+      "lat": 9.3732032,
+      "lon": 13.4101653,
+      "tags": {
+        "name": "Associations Pour La Promotion Des Guérisseurs Traditionnel Du Cameroun",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769525187,
+      "lat": 9.3675928,
+      "lon": 13.4268272,
+      "tags": {
+        "name": "Gic Gondal De Lainde Garoua 2",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769525188,
+      "lat": 9.3386157,
+      "lon": 13.4211382,
+      "tags": {
+        "name": "Syndicat National Des Transporteurs Routiers Du Cameroun",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769525189,
+      "lat": 9.320745,
+      "lon": 13.3918485,
+      "tags": {
+        "name": "Rdpc Sous Section Roumde Adja Iii",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7055016335,
+      "lat": 9.999815,
+      "lon": 13.5228852,
+      "tags": {
+        "name": "Gic de production rizicole",
+        "office": "foundation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7055016336,
+      "lat": 9.9624094,
+      "lon": 13.621873,
+      "tags": {
+        "name": "Scoop embouche promote",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7317073785,
+      "lat": 10.2991111,
+      "lon": 9.8094916,
+      "tags": {
+        "addr:street": "Behind Venilla, GRA, Bauchi",
+        "email": "emeruwaonyekachi91@gmail.com",
+        "name": "Pro-Health International",
+        "office": "ngo",
+        "opening_hours": "Mo-Fr 08:30-05:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7814801087,
+      "lat": 13.7925452,
+      "lon": 9.0014193,
+      "tags": {
+        "name": "orpheline 49024",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7814810985,
+      "lat": 13.789808,
+      "lon": 9.0051386,
+      "tags": {
+        "name": "orpheline 41006",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7814810986,
+      "lat": 13.7909265,
+      "lon": 8.9987335,
+      "tags": {
+        "name": "orpheline 49866",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7814811085,
+      "lat": 13.7969001,
+      "lon": 9.0013066,
+      "tags": {
+        "name": "orpheline 48480",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7864212685,
+      "lat": 13.792183,
+      "lon": 8.9093946,
+      "tags": {
+        "name": "bar-aman RN1",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7887053385,
+      "lat": 13.7855855,
+      "lon": 8.8848587,
+      "tags": {
+        "name": "bar aman site 2",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7887882985,
+      "lat": 13.7544099,
+      "lon": 9.0071182,
+      "tags": {
+        "name": "bar aman 3",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8193648317,
+      "lat": 13.5384769,
+      "lon": 14.31641,
+      "tags": {
+        "name": "CICR",
+        "name:en": "ICRC",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8193648517,
+      "lat": 13.5385904,
+      "lon": 14.3169588,
+      "tags": {
+        "name": "CICR",
+        "name:en": "ICRC",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8193648618,
+      "lat": 13.5383838,
+      "lon": 14.3173189,
+      "tags": {
+        "name": "Entrepôt CICR BGS",
+        "name:en": "Warehouse ICRC BGS",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8296207517,
+      "lat": 13.5417832,
+      "lon": 14.3085726,
+      "tags": {
+        "name": "Croix Rouge Du Tchad",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8296342518,
+      "lat": 13.5417834,
+      "lon": 14.3085945,
+      "tags": {
+        "name": "Croix Rouge du Tchad",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9063928217,
+      "lat": 13.8282688,
+      "lon": 8.9686888,
+      "tags": {
+        "name": "Rue paul",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9992880922,
+      "lat": 10.3103862,
+      "lon": 9.8259897,
+      "tags": {
+        "addr:street": "Bank Road",
+        "description": "United Nations organization",
+        "name": "Unicef",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10704047606,
+      "lat": 9.3048367,
+      "lon": 13.3889617,
+      "tags": {
+        "name": "Délégation régionale de la semaine",
+        "name:en": "Régional Délégation of Public Health",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10864318005,
+      "lat": 13.3125305,
+      "lon": 12.6012507,
+      "tags": {
+        "name": "HILFE ZUR SELBESTHILFE",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10864321405,
+      "lat": 13.3318413,
+      "lon": 12.5053516,
+      "tags": {
+        "email": "niger@help-ev.de",
+        "name": "HILFE ZUR SELBESTHILFE",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10936470805,
+      "lat": 9.109149,
+      "lon": 14.5783622,
+      "tags": {
+        "name": "ILOD Dari",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11011672584,
+      "lat": 10.3137027,
+      "lon": 9.8303972,
+      "tags": {
+        "addr:city": "Bauchi",
+        "check_date": "2023-06-28",
+        "name": "Nigerian Red Cross",
+        "office": "association",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028889801,
+      "lat": 9.9259007,
+      "lon": 8.9108871,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Bauchi Ring Road",
+        "name": "Great Commission Movement Of Nigeria",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028918621,
+      "lat": 9.8917091,
+      "lon": 8.8772601,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:housenumber": "10",
+        "addr:postcode": "930105",
+        "addr:street": "Secretariat Road",
+        "name": "Great Commission Movement of Nigeria National Headquarters",
+        "office": "ngo",
+        "website": "https://www.gcmnigeria.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109207522,
+      "lat": 9.903797,
+      "lon": 8.936466,
+      "tags": {
+        "check_date": "2023-08-12",
+        "name": "National Leadership Training Center",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12290575178,
+      "lat": 13.7965243,
+      "lon": 8.9769836,
+      "tags": {
+        "addr:street": "Quartier jeune cadre Zinder",
+        "name": "World vision Zinder",
+        "office": "ngo",
+        "phone": "92183115"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12909345701,
+      "lat": 9.341978,
+      "lon": 13.3988145,
+      "tags": {
+        "name": "Bureau IA",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12992760301,
+      "lat": 10.5936465,
+      "lon": 14.3068324,
+      "tags": {
+        "addr:street": "vers INADES",
+        "name": "Care base Maroua",
+        "office": "ngo",
+        "opening_hours": "Su-Th 08:00-17:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13114818401,
+      "lat": 12.573891,
+      "lon": 14.4543906,
+      "tags": {
+        "addr:street": "chez coordo saheli",
+        "name": "Makary",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416168846,
+      "center": {
+        "lat": 10.5965946,
+        "lon": 14.3453074
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Association famille LARE DE MAROUA ( AFLAM)",
+        "office": "association"
+      },
+      "lat": 10.5965946,
+      "lon": 14.3453074
+    },
+    {
+      "type": "way",
+      "id": 431691791,
+      "center": {
+        "lat": 13.5323116,
+        "lon": 14.3283754
+      },
+      "tags": {
+        "name": "UNHCR",
+        "office": "ngo"
+      },
+      "lat": 13.5323116,
+      "lon": 14.3283754
+    },
+    {
+      "type": "way",
+      "id": 586649108,
+      "center": {
+        "lat": 11.8144062,
+        "lon": 13.1351039
+      },
+      "tags": {
+        "building": "yes",
+        "name": "NRC",
+        "office": "ngo"
+      },
+      "lat": 11.8144062,
+      "lon": 13.1351039
+    },
+    {
+      "type": "way",
+      "id": 586649109,
+      "center": {
+        "lat": 11.8137508,
+        "lon": 13.1346835
+      },
+      "tags": {
+        "building": "yes",
+        "name": "UNHCR",
+        "office": "ngo"
+      },
+      "lat": 11.8137508,
+      "lon": 13.1346835
+    },
+    {
+      "type": "way",
+      "id": 594277652,
+      "center": {
+        "lat": 11.7231466,
+        "lon": 11.9694289
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Yobe EOC",
+        "office": "ngo"
+      },
+      "lat": 11.7231466,
+      "lon": 11.9694289
+    },
+    {
+      "type": "way",
+      "id": 606362802,
+      "center": {
+        "lat": 10.5943742,
+        "lon": 14.309219
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Base PUI-Maroua",
+        "office": "ngo"
+      },
+      "lat": 10.5943742,
+      "lon": 14.309219
+    },
+    {
+      "type": "way",
+      "id": 613789173,
+      "center": {
+        "lat": 12.9971652,
+        "lon": 8.9130209
+      },
+      "tags": {
+        "addr:city": "Magaria",
+        "name": "Coordenação de Médicos Sem Fronteiras - MSF",
+        "office": "quango",
+        "opening_hours": "Mo-Fr 08:00-17:00"
+      },
+      "lat": 12.9971652,
+      "lon": 8.9130209
+    },
+    {
+      "type": "way",
+      "id": 613789174,
+      "center": {
+        "lat": 12.997041,
+        "lon": 8.9131515
+      },
+      "tags": {
+        "addr:city": "Magaria",
+        "building": "yes",
+        "name": "Coordenação de Médicos Sem Fronteiras - MSF",
+        "office": "ngo",
+        "opening_hours": "Mo-Fr 08:00-17:00",
+        "smoking": "outside"
+      },
+      "lat": 12.997041,
+      "lon": 8.9131515
+    },
+    {
+      "type": "way",
+      "id": 613789175,
+      "center": {
+        "lat": 12.9973009,
+        "lon": 8.9131111
+      },
+      "tags": {
+        "addr:city": "Magaria",
+        "building": "yes",
+        "name": "Logística de Médicos Sem Fronteiras",
+        "office": "quango",
+        "opening_hours": "Mo-Fr 08:00-17:00"
+      },
+      "lat": 12.9973009,
+      "lon": 8.9131111
+    },
+    {
+      "type": "way",
+      "id": 782395177,
+      "center": {
+        "lat": 9.8183066,
+        "lon": 8.9053552
+      },
+      "tags": {
+        "building": "yes",
+        "name": "EDEN Creation Care Initiative",
+        "office": "association"
+      },
+      "lat": 9.8183066,
+      "lon": 8.9053552
+    }
+  ]
+}

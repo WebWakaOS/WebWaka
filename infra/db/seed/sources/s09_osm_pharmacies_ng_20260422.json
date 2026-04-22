@@ -1,0 +1,5967 @@
+{
+  "schema": "s09_osm_pharmacy",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query_bbox": "4.2,2.7,13.9,14.7 (Nigeria)",
+  "count": 454,
+  "elements": [
+    {
+      "type": "node",
+      "id": 1994157404,
+      "lat": 6.3729748,
+      "lon": 5.6357221,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Medicine Store",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1994159677,
+      "lat": 6.3667352,
+      "lon": 5.6262686,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Conic Patent Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1994159685,
+      "lat": 6.3674798,
+      "lon": 5.6270527,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Recall Life Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1995054549,
+      "lat": 6.3689088,
+      "lon": 5.587573,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Kelvin Medical Store",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1995055581,
+      "lat": 6.3628725,
+      "lon": 5.5897005,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Royal Okhia Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2000020871,
+      "lat": 6.3638667,
+      "lon": 5.5878529,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "reliance medical laboratary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2072621420,
+      "lat": 6.3621207,
+      "lon": 5.6230412,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacist Council, Edo State Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2072662184,
+      "lat": 6.3657613,
+      "lon": 5.5840048,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2072662363,
+      "lat": 6.3674497,
+      "lon": 5.5829417,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Okungbowa Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846061,
+      "lat": 6.3049454,
+      "lon": 5.6267665,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Coka Pharmarcy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2152941179,
+      "lat": 6.3191075,
+      "lon": 5.6274424,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Airen Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2153205718,
+      "lat": 6.3258164,
+      "lon": 5.625476,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "healthcare": "pharmacy",
+        "name": "Flowell Pharnacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2153205858,
+      "lat": 6.321158,
+      "lon": 5.6272356,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "healthcare": "pharmacy",
+        "name": "Flowell Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154550310,
+      "lat": 6.3205693,
+      "lon": 5.6273101,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Golden Berries"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154559627,
+      "lat": 6.3294953,
+      "lon": 5.6268802,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "IK Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154569173,
+      "lat": 6.3349736,
+      "lon": 5.6337064,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "healthcare": "pharmacy",
+        "name": "Itohan Chemist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154570763,
+      "lat": 6.3179519,
+      "lon": 5.6275495,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Korban Pharmacy & Stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155787295,
+      "lat": 6.329308,
+      "lon": 5.6191046,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Ladith centre pharmacy",
+        "ref": "Edith Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161060443,
+      "lat": 6.3245091,
+      "lon": 5.6263194,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Josaf Pharm"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161071405,
+      "lat": 6.3262624,
+      "lon": 5.6253009,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Nasi Pharmacy",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161074868,
+      "lat": 6.3267503,
+      "lon": 5.6303674,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Royal end pharmancy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161097166,
+      "lat": 6.3117789,
+      "lon": 5.5983393,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "name": "Spring Oak Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161111257,
+      "lat": 6.3208621,
+      "lon": 5.6272727,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Union Diagnostics"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161111550,
+      "lat": 6.3310291,
+      "lon": 5.6252603,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Valif Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344332416,
+      "lat": 6.3257442,
+      "lon": 5.5778757,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344543050,
+      "lat": 6.336216,
+      "lon": 5.6096868,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Newgate Trust Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344554585,
+      "lat": 6.3293745,
+      "lon": 5.620571,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "healthcare": "pharmacy",
+        "name": "Jofeg health and life pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596615,
+      "lat": 6.3423479,
+      "lon": 5.6099239,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Service Pharmacetical"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596628,
+      "lat": 6.3428393,
+      "lon": 5.6087966,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Toni Care Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350815002,
+      "lat": 6.3529911,
+      "lon": 5.616868,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Ladith Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350849577,
+      "lat": 6.3397699,
+      "lon": 5.6187768,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Ehibass Pharmacy Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350899870,
+      "lat": 6.3490212,
+      "lon": 5.6192296,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Julsam Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133125,
+      "lat": 6.458544,
+      "lon": 7.49453,
+      "tags": {
+        "addr:housenumber": "9.0",
+        "addr:street": "Hospital Road GRA Enugu",
+        "amenity": "pharmacy",
+        "fixme": "many bad keys",
+        "height": "215.100006",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ac8d73234-ae00-4133-8e2f-2be5098c4c7a%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Ac8d73234-ae00-4133-8e2f-2be5098c4c7a%5D%2FPOI_Picture2",
+        "name": "Health Of Ihe Sick Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133390,
+      "lat": 6.479049,
+      "lon": 7.516834,
+      "tags": {
+        "addr:housenumber": "36.0",
+        "addr:street": "Abakpa Nike Road 2nd Bus Stop",
+        "amenity": "pharmacy",
+        "fixme": "many bad keys",
+        "height": "199.100006",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A74bd4f43-fbaf-4fd4-9098-0e61c0e32f0d%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A74bd4f43-fbaf-4fd4-9098-0e61c0e32f0d%5D%2FPOI_Picture2",
+        "name": "Planet Medical Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133484,
+      "lat": 6.450652,
+      "lon": 7.485499,
+      "tags": {
+        "addr:housenumber": "15.0",
+        "addr:street": "Works Road",
+        "amenity": "pharmacy",
+        "fixme": "many bad keys",
+        "height": "228.5",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A3e03256c-921e-4fd1-9ea4-7467e1e38a24%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A3e03256c-921e-4fd1-9ea4-7467e1e38a24%5D%2FPOI_Picture2",
+        "name": "White Hall Medical Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871752,
+      "lat": 7.4414543,
+      "lon": 3.9078349,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Hilma Chemist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3084930065,
+      "lat": 7.3593327,
+      "lon": 3.8898038,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Moris Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3084979307,
+      "lat": 7.3754513,
+      "lon": 3.8869162,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Allahu Lateef Chemist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3358483583,
+      "lat": 7.7642358,
+      "lon": 4.5349776,
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "pharmacy",
+        "name": "Havilah Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3391696939,
+      "lat": 7.7772012,
+      "lon": 4.552628,
+      "tags": {
+        "addr:city": "Osogbo",
+        "amenity": "pharmacy",
+        "name": "AKOL Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3995343803,
+      "lat": 6.6873794,
+      "lon": 2.7662349,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "ITA SUMBA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3995348360,
+      "lat": 6.5702959,
+      "lon": 2.7021614,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "d"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3995348458,
+      "lat": 6.5555207,
+      "lon": 2.7428636,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "CLINIQUE LA PAIX"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4612339989,
+      "lat": 6.4487407,
+      "lon": 3.4307756,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Chemart Pharmacy",
+        "name:en": "Chemart Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4722581530,
+      "lat": 6.4299155,
+      "lon": 3.4525122,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Bay-Kins"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4987528630,
+      "lat": 6.3043897,
+      "lon": 5.5940109,
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Airport Road",
+        "amenity": "pharmacy",
+        "name": "EDMARK"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4987528631,
+      "lat": 6.3042523,
+      "lon": 5.5939703,
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Airport Road",
+        "amenity": "pharmacy",
+        "name": "COKA Pharmarcy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5144668739,
+      "lat": 6.4362779,
+      "lon": 3.4510757,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Medplus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5144668740,
+      "lat": 6.4359496,
+      "lon": 3.4514422,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "HealthPlus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5522257231,
+      "lat": 5.5532605,
+      "lon": 5.7830406,
+      "tags": {
+        "addr:housenumber": "173",
+        "addr:street": "Effurun Sapele Road",
+        "amenity": "pharmacy",
+        "name": "JJC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5596396128,
+      "lat": 4.834643,
+      "lon": 7.0278503,
+      "tags": {
+        "addr:housenumber": "11",
+        "amenity": "pharmacy",
+        "name": "Carlvon Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599578863,
+      "lat": 4.8251268,
+      "lon": 7.0505573,
+      "tags": {
+        "addr:housenumber": "15",
+        "addr:street": "Woji Road",
+        "amenity": "pharmacy",
+        "name": "JSK Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5604092021,
+      "lat": 5.0317076,
+      "lon": 7.9324305,
+      "tags": {
+        "addr:street": "Oron Road / Nwaniba Roundabout",
+        "amenity": "pharmacy",
+        "name": "Healthway"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5630743521,
+      "lat": 8.9901462,
+      "lon": 7.5038314,
+      "tags": {
+        "addr:housenumber": "Plot 147",
+        "addr:street": "PLOT 147, Zone A, Apo Resettlement",
+        "amenity": "pharmacy",
+        "email": "contact@Sfourng.com",
+        "name": "SFOUR HEALTH SERVICES LTD",
+        "name:ru": "ЭСФОР ХЕЛЬСЯ СЕРВИСИС ЛТД",
+        "opening_hours": "24/7",
+        "website": "http://www.sfourng.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5649291420,
+      "lat": 6.6138582,
+      "lon": 3.3581409,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "HealthPlus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5649641159,
+      "lat": 6.4385334,
+      "lon": 3.4320201,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "MedPlus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5665680242,
+      "lat": 6.5398804,
+      "lon": 3.3131285,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Slon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5665680244,
+      "lat": 6.5408178,
+      "lon": 3.2996301,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Semper"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5683475721,
+      "lat": 8.9901152,
+      "lon": 7.5038421,
+      "tags": {
+        "addr:housenumber": "PLOT 147",
+        "addr:street": "PLOT 147 , APO RESETTLEMENT ZONE A , APO",
+        "amenity": "pharmacy",
+        "email": "contact@sfourng.com",
+        "name": "SFOUR HEALTH SERVICES LTD",
+        "name:ru": "ЭСФОР ХЕЛЬСЯ СЕРВИСИС ЛТД",
+        "opening_hours": "24/7",
+        "website": "http://www.sfourng.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5902076590,
+      "lat": 6.5969362,
+      "lon": 3.3542673,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Health Plus",
+        "opening_hours": "Mo-Sa 07:00-22:00;Su 10:00-22:00",
+        "shop": "chemist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6150658487,
+      "lat": 7.4584528,
+      "lon": 3.8717307,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Dhal Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6465379773,
+      "lat": 6.497809,
+      "lon": 3.1955301,
+      "tags": {
+        "addr:street": "Obafemi Awolowo Road",
+        "amenity": "pharmacy",
+        "name": "Oriwu Pharmacy & Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6783310299,
+      "lat": 8.1513236,
+      "lon": 4.2514785,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Akol Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6988071163,
+      "lat": 6.4938677,
+      "lon": 3.389105,
+      "tags": {
+        "addr:street": "Migbewe I",
+        "amenity": "pharmacy",
+        "name": "Patient Medicine Shop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7234360265,
+      "lat": 6.4900979,
+      "lon": 3.3880884,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7260810872,
+      "lat": 6.6152964,
+      "lon": 3.5018932,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Megacare+ Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7267104685,
+      "lat": 6.6136417,
+      "lon": 3.5017451,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Helix Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7272034217,
+      "lat": 6.6170688,
+      "lon": 3.5028834,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7281003987,
+      "lat": 6.6267733,
+      "lon": 3.4838367,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7366843587,
+      "lat": 6.4296085,
+      "lon": 3.4568374,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Dr. Rita's"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7419153060,
+      "lat": 6.6270433,
+      "lon": 3.3541398,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7460533011,
+      "lat": 6.6024016,
+      "lon": 3.6215675,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7460585880,
+      "lat": 6.6319282,
+      "lon": 3.5356508,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Mayaflora Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7509441122,
+      "lat": 6.4872901,
+      "lon": 3.5778676,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Estandar Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8554836919,
+      "lat": 6.4562074,
+      "lon": 3.4453671,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "BPS"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8752943982,
+      "lat": 6.4597001,
+      "lon": 7.5134243,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Hanacy Stores and Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753087407,
+      "lat": 6.4582398,
+      "lon": 7.5175096,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "God's and Glory Pharmacy Ltd"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753126187,
+      "lat": 6.4586523,
+      "lon": 7.51807,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Crownpoint Pharmacy & Stores Ltd"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753151380,
+      "lat": 6.4580053,
+      "lon": 7.5206956,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Faith Durham Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753154011,
+      "lat": 6.4576314,
+      "lon": 7.5193543,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753159224,
+      "lat": 6.457982,
+      "lon": 7.5185318,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Chuks Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753187761,
+      "lat": 6.4581213,
+      "lon": 7.5200859,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Denis Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753188125,
+      "lat": 6.4580413,
+      "lon": 7.5210614,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Cleon Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753193039,
+      "lat": 6.4578583,
+      "lon": 7.5206463,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Paus Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753193040,
+      "lat": 6.4579872,
+      "lon": 7.521147,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Nigus PHarmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753214767,
+      "lat": 6.4587219,
+      "lon": 7.5213572,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Melody Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753232879,
+      "lat": 6.4579073,
+      "lon": 7.5227374,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Donald Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753235812,
+      "lat": 6.4588431,
+      "lon": 7.523482,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Dominic Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753251611,
+      "lat": 6.4581176,
+      "lon": 7.5319446,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Nagode Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753293779,
+      "lat": 6.4567884,
+      "lon": 7.5230254,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Johnson Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753305974,
+      "lat": 6.4579743,
+      "lon": 7.5264708,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Alex Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753307619,
+      "lat": 6.4580181,
+      "lon": 7.5256899,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Darlington Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753308108,
+      "lat": 6.457848,
+      "lon": 7.5287747,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pat Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753320313,
+      "lat": 6.457867,
+      "lon": 7.5271175,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Dalila Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753341669,
+      "lat": 6.4578662,
+      "lon": 7.5295437,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Monte Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753346785,
+      "lat": 6.4584856,
+      "lon": 7.5318091,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Author Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753349162,
+      "lat": 6.4582051,
+      "lon": 7.5301829,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Chuckstar Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753386234,
+      "lat": 6.4582702,
+      "lon": 7.531843,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Braunx Pharmaceuticals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753387087,
+      "lat": 6.4577666,
+      "lon": 7.5320859,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Edit Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753436798,
+      "lat": 6.4600095,
+      "lon": 7.5309644,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Godwin Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753457222,
+      "lat": 6.4580166,
+      "lon": 7.5343636,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Fegnolak Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753457223,
+      "lat": 6.4584116,
+      "lon": 7.534883,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Emly Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753465559,
+      "lat": 6.460768,
+      "lon": 7.5353054,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Dozzy Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753488436,
+      "lat": 6.4591836,
+      "lon": 7.5344742,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Ada Pharmacy Tech"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753499228,
+      "lat": 6.4608039,
+      "lon": 7.5348785,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Desmond Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753500145,
+      "lat": 6.4601957,
+      "lon": 7.5312738,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Babu Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753503652,
+      "lat": 6.4603169,
+      "lon": 7.533826,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Romchi Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753536618,
+      "lat": 6.4591207,
+      "lon": 7.5313596,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Darlington Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753550298,
+      "lat": 6.4567441,
+      "lon": 7.5224292,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Richard Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753556554,
+      "lat": 6.4567082,
+      "lon": 7.522183,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Alvine Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753557940,
+      "lat": 6.4568136,
+      "lon": 7.5186957,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "First Choice Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753558021,
+      "lat": 6.4565421,
+      "lon": 7.5210943,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pauline Medicine Shop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753559556,
+      "lat": 6.4567014,
+      "lon": 7.5190774,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Jonap Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8813139036,
+      "lat": 6.4674367,
+      "lon": 3.5850593,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853246,
+      "lat": 7.3811324,
+      "lon": 3.8915814,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Allahu Sammad Patent Medicine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853247,
+      "lat": 7.3820992,
+      "lon": 3.8908765,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Tommy Patent Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853248,
+      "lat": 7.3828156,
+      "lon": 3.8908444,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "God's Power Health Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853249,
+      "lat": 7.3821935,
+      "lon": 3.8876079,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Assamad Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853250,
+      "lat": 7.3824508,
+      "lon": 3.887958,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "B.B Omoniyi Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853251,
+      "lat": 7.3833294,
+      "lon": 3.8926463,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Bidemi Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853252,
+      "lat": 7.3832306,
+      "lon": 3.8919611,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Adex Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853253,
+      "lat": 7.3834196,
+      "lon": 3.889539,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "IfeOluwa Patent Medicine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8859853254,
+      "lat": 7.3831746,
+      "lon": 3.8872882,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Hasbuna Ilahu Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672305,
+      "lat": 7.4808739,
+      "lon": 3.911645,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "His Grace Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672306,
+      "lat": 7.4818447,
+      "lon": 3.913851,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Funmak Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672307,
+      "lat": 7.4827697,
+      "lon": 3.9058837,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Salaam Kaula Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672308,
+      "lat": 7.4857315,
+      "lon": 3.9121256,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Idera Oluwa Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672309,
+      "lat": 7.4850681,
+      "lon": 3.9101437,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Ifey Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672310,
+      "lat": 7.4827661,
+      "lon": 3.9096985,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Alnur Patent Medicine and Store (Ventures)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672311,
+      "lat": 7.4851448,
+      "lon": 3.9110018,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Yisau Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672312,
+      "lat": 7.4818251,
+      "lon": 3.9111722,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Warafanau Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672313,
+      "lat": 7.4832845,
+      "lon": 3.9074026,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Emmanuel Chosen"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672314,
+      "lat": 7.4809633,
+      "lon": 3.911064,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Al Qidan Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672315,
+      "lat": 7.4814979,
+      "lon": 3.9093544,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "As Salam Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865672316,
+      "lat": 7.4857579,
+      "lon": 3.9124534,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Divine Mercy Patent Medicine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865697917,
+      "lat": 7.4862241,
+      "lon": 3.9130233,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Moboluwaduro Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865697918,
+      "lat": 7.48329,
+      "lon": 3.909977,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "God First PPM (Patent and Preparatory Medicine Vendor)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8865697919,
+      "lat": 7.4828321,
+      "lon": 3.9098267,
+      "tags": {
+        "amenity": "pharmacy",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "God's Time Patent Medicine Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8957031048,
+      "lat": 6.5063686,
+      "lon": 3.374251,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "HealthPlus Pharmacy",
+        "note": "merged with n5781786543"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8959563921,
+      "lat": 7.414807,
+      "lon": 3.86321,
+      "tags": {
+        "addr:city": "Idikan",
+        "amenity": "pharmacy",
+        "description": "Pharmacy or chemist outside Idikan community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Oluyole Chemist, Eleyele Road"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8959563922,
+      "lat": 7.400367,
+      "lon": 3.899008,
+      "tags": {
+        "addr:city": "Idikan",
+        "amenity": "pharmacy",
+        "description": "Pharmacy or chemist outside Idikan community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Kunle Ara Pharmacy, Harboni Compound 2, Queen Elizabeth Road, Opp UCH, Ibadan"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8959563923,
+      "lat": 7.396143,
+      "lon": 3.886918,
+      "tags": {
+        "addr:city": "Ibadan",
+        "addr:housenumber": "Suite 28",
+        "addr:street": "Fajuyi Road",
+        "amenity": "pharmacy",
+        "description": "Suite 28 Danax Health Plaza Adekunle Adamasingba, Ibadan",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Danax Pharmacy, Adamasingba Junction, Ibadan"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415284,
+      "lat": 7.470298,
+      "lon": 3.91234,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community. Ojo, shobo complex, beside basco ojo Ibadan",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Portal-Gate Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415285,
+      "lat": 7.502807,
+      "lon": 3.91645,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Mummy Segun pharmacy, Sagbe Ibadan"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415286,
+      "lat": 7.442527,
+      "lon": 3.906867,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Omak Pharmacy, opposite UI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415287,
+      "lat": 7.522265,
+      "lon": 3.912367,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Iyawo Amuludun's Chemist (Toluwani Pharmacy) Moniya road"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415288,
+      "lat": 7.485582,
+      "lon": 3.914392,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Insta-pharm Pharmacy, Office bus-stop sasa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8960415289,
+      "lat": 7.466475,
+      "lon": 3.912508,
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "pharmacy",
+        "description": "pharmacy outside Sasa community",
+        "health_facility:type": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Diadem Pharmacy, Ojoo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8997305517,
+      "lat": 6.6405507,
+      "lon": 2.7308695,
+      "tags": {
+        "addr:housenumber": "BP 50 IGOLO",
+        "addr:street": "Issalè",
+        "amenity": "pharmacy",
+        "email": "randoviou@yahoo.fr",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie La Frontière",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9248888859,
+      "lat": 6.4307453,
+      "lon": 3.4230571,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Health"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9279926739,
+      "lat": 8.9921388,
+      "lon": 7.4266663,
+      "tags": {
+        "amenity": "pharmacy",
+        "beds": "0",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "God's Will Ogbonna Medical Complex",
+        "opening_hours": "07:00-22:00",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society",
+        "staff_count:doctors": "0",
+        "staff_count:nurses": "0"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9280131048,
+      "lat": 8.9914203,
+      "lon": 7.426118,
+      "tags": {
+        "amenity": "pharmacy",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "Medicine & Stores",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9651566344,
+      "lat": 6.4362155,
+      "lon": 3.4894435,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pills & Tabs"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9866201633,
+      "lat": 8.8246443,
+      "lon": 7.5798691,
+      "tags": {
+        "amenity": "pharmacy",
+        "beds": "0",
+        "dispensing": "yes",
+        "emergency": "yes",
+        "healthcare": "pharmacy",
+        "name": "Enord pharmacy",
+        "operator:type": "private",
+        "staff_count:nurses": "2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10032932538,
+      "lat": 4.8663601,
+      "lon": 7.0347459,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Basmard Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10097309846,
+      "lat": 8.828976,
+      "lon": 7.5728458,
+      "tags": {
+        "amenity": "pharmacy",
+        "beds": "1",
+        "dispensing": "yes",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "Reference health",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society",
+        "staff_count:doctors": "0",
+        "staff_count:nurses": "1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10550583552,
+      "lat": 8.8302583,
+      "lon": 7.5696951,
+      "tags": {
+        "addr:street": "Scc Junction",
+        "amenity": "pharmacy",
+        "beds": "0",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "Ezanol Pharmacy ltd",
+        "operator": "Ezanol Pharmacy ltd",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society",
+        "staff_count:nurses": "2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10750472007,
+      "lat": 8.9925415,
+      "lon": 7.4266102,
+      "tags": {
+        "addr:street": "Opposite Galadimawa Market, Galadimawa",
+        "amenity": "pharmacy",
+        "beds": "0",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "Ohbye Pharmacy Ltd.",
+        "operator": "Ohbye Limited",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society",
+        "staff_count:doctors": "0",
+        "staff_count:nurses": "1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10750539980,
+      "lat": 8.9956821,
+      "lon": 7.4237123,
+      "tags": {
+        "amenity": "pharmacy",
+        "emergency": "yes",
+        "healthcare": "pharmacy",
+        "name": "Prime Care Medicine Shop",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10750539981,
+      "lat": 8.9958329,
+      "lon": 7.4239426,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "White heart Pharmaceutical and Supermarket",
+        "shop": "convenience",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10759282336,
+      "lat": 8.9448755,
+      "lon": 7.4435052,
+      "tags": {
+        "amenity": "pharmacy",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "Keecee Pharmacy",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10991926505,
+      "lat": 4.8418533,
+      "lon": 7.0389898,
+      "tags": {
+        "addr:housenumber": "no.8",
+        "addr:street": "Okporo Road",
+        "amenity": "pharmacy",
+        "name": "beval pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10995573711,
+      "lat": 4.829487,
+      "lon": 6.98187,
+      "tags": {
+        "addr:housenumber": "332",
+        "addr:street": "Ikwerre Road",
+        "amenity": "pharmacy",
+        "name": "midline pharmacy",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "phone": "08033384930"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11505516690,
+      "lat": 8.9702175,
+      "lon": 7.4373732,
+      "tags": {
+        "addr:city": "Abuja",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "Cornemed Pharmacy and Stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11737904227,
+      "lat": 7.8300426,
+      "lon": 4.1296752,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Patent Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11795312540,
+      "lat": 8.9619997,
+      "lon": 7.4833662,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Ben Cee Divine Medical",
+        "opening_hours": "Mo-Sa 07:00-23:00; Su 10:00-23:00",
+        "phone": "+2348064362953, +2348086451956, +2349021015264"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11813530403,
+      "lat": 8.9692656,
+      "lon": 7.2566194,
+      "tags": {
+        "addr:unit": "32",
+        "amenity": "pharmacy",
+        "level": "0",
+        "name": "ACE Health & Medical Stores",
+        "phone": "+234 907 561 3478"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934291536,
+      "lat": 7.291875,
+      "lon": 5.1502656,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2024-05-26",
+        "healthcare": "pharmacy",
+        "name": "Will Of God Medicine & Supermarket",
+        "opening_hours": "Mo-Sa 08:00-20:00; Su off"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938989612,
+      "lat": 7.2895143,
+      "lon": 5.1526755,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2024-05-28",
+        "healthcare": "pharmacy",
+        "name": "PX Pharmacy",
+        "name:en": "PX Pharmacy",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11940703797,
+      "lat": 7.6347743,
+      "lon": 4.1816205,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Muttex Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11968658948,
+      "lat": 7.901402,
+      "lon": 4.3148204,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2024-06-10",
+        "healthcare": "pharmacy",
+        "name": "Sowaaf(Omo Daddy)",
+        "opening_hours": "Mo-Sa 09:00-23:00  Sunday 3 - 23:00",
+        "payment:cash": "yes",
+        "source": "local knowledge",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11968941797,
+      "lat": 7.9051167,
+      "lon": 4.3142863,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2024-06-10",
+        "healthcare": "pharmacy",
+        "internet_access": "no",
+        "name": "Adebayo",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555808,
+      "lat": 6.601651,
+      "lon": 3.413855,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "Hand of God medicine store",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555818,
+      "lat": 6.6070536,
+      "lon": 3.4149498,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "varg pharmacy",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555819,
+      "lat": 6.6082047,
+      "lon": 3.4250128,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "Seal Pharmacy",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555820,
+      "lat": 6.6055233,
+      "lon": 3.4307567,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "None",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555821,
+      "lat": 6.6050883,
+      "lon": 3.410075,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "Botschre",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555822,
+      "lat": 6.606035,
+      "lon": 3.4217333,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "Kojos Pharmacy",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281555823,
+      "lat": 6.6052303,
+      "lon": 3.4101254,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_manager": "private/individual",
+        "name": "Bosycare.",
+        "operator": "private/individual",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282723402,
+      "lat": 6.5280525,
+      "lon": 3.2357847,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_use": "selling of drugs",
+        "name": "Okerube pharmacy",
+        "operator": "private/ individual",
+        "source": "survey",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282723403,
+      "lat": 6.5225208,
+      "lon": 3.2332478,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_use": "selling of medical",
+        "name": "Pharmacy",
+        "operator": "private/ individual",
+        "source": "survey",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282723404,
+      "lat": 6.5226099,
+      "lon": 3.2344196,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_use": "health",
+        "name": "Favor chemist store",
+        "operator": "private/ individual",
+        "source": "survey",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282723405,
+      "lat": 6.5236471,
+      "lon": 3.2342547,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_use": "selling of drugs",
+        "name": "Phamarcy",
+        "operator": "private/ individual",
+        "source": "survey",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282723409,
+      "lat": 6.5292299,
+      "lon": 3.2353436,
+      "tags": {
+        "amenity": "pharmacy",
+        "facility_use": "sales of medicine",
+        "name": "Pharmaceutical shop",
+        "operator": "private/ individual",
+        "source": "survey",
+        "source:position": "gps",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12469043358,
+      "lat": 5.490648,
+      "lon": 7.0546568,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "MedPlus pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569299310,
+      "lat": 6.1946688,
+      "lon": 6.7219209,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dezubik"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569309424,
+      "lat": 6.1942773,
+      "lon": 6.7201924,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974997,
+      "lat": 8.5005888,
+      "lon": 4.5550872,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Fiolu Pharmacy Ltd, Gambari Road, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974998,
+      "lat": 8.5003917,
+      "lon": 4.5550417,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "FIOLU PHARMACY LTD Pharm Awotuyi G127, Isale, Gambari Rd, Oko Erin 240101, Kwara, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975282,
+      "lat": 8.4782876,
+      "lon": 4.562465,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Aromokeye pharmacy, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975283,
+      "lat": 8.4904,
+      "lon": 4.5642,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Aromokeye Pharmacy, Muritala Muhamed Way, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286603,
+      "lat": 8.4703269,
+      "lon": 4.5317561,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "One Step Pharm Ltd, Ilorin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13446154507,
+      "lat": 5.4928433,
+      "lon": 7.0387072,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "Orchad Pharmacy",
+        "opening_hours": "Mo-Sa 08:00-20:00; Su 14:00-20:00"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84396919,
+      "center": {
+        "lat": 6.3386095,
+        "lon": 5.6294861
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "ALF Pharmacy and Stores"
+      },
+      "lat": 6.3386095,
+      "lon": 5.6294861
+    },
+    {
+      "type": "way",
+      "id": 378297561,
+      "center": {
+        "lat": 7.7593469,
+        "lon": 4.530421
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "drive_through": "no",
+        "level": "2",
+        "name": "Trumax Pharmacy and Supermarket",
+        "phone": "+234 803 3886362",
+        "website": "www.trumaxpharm.com"
+      },
+      "lat": 7.7593469,
+      "lon": 4.530421
+    },
+    {
+      "type": "way",
+      "id": 378869322,
+      "center": {
+        "lat": 7.7806799,
+        "lon": 4.5564662
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "amenity": "pharmacy",
+        "building": "commercial",
+        "drive_through": "no",
+        "name": "Akol Mega Pharmacy",
+        "opening_hours": "24 hours"
+      },
+      "lat": 7.7806799,
+      "lon": 4.5564662
+    },
+    {
+      "type": "way",
+      "id": 540869064,
+      "center": {
+        "lat": 6.4458355,
+        "lon": 3.4501202
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "68",
+        "addr:street": "Alexander Avenue",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "healthcare": "pharmacy",
+        "name": "HealthPlus"
+      },
+      "lat": 6.4458355,
+      "lon": 3.4501202
+    },
+    {
+      "type": "way",
+      "id": 581983942,
+      "center": {
+        "lat": 7.2976114,
+        "lon": 5.1670068
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "36.6"
+      },
+      "lat": 7.2976114,
+      "lon": 5.1670068
+    },
+    {
+      "type": "way",
+      "id": 625815357,
+      "center": {
+        "lat": 6.4467799,
+        "lon": 3.472658
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "height": "10",
+        "name": "HealthPlus"
+      },
+      "lat": 6.4467799,
+      "lon": 3.472658
+    },
+    {
+      "type": "way",
+      "id": 632763108,
+      "center": {
+        "lat": 7.8005415,
+        "lon": 6.7443336
+      },
+      "tags": {
+        "addr:city": "Lokoja",
+        "addr:street": "Ibb way",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "building:levels": "3",
+        "landuse": "commercial",
+        "name": "Chucks Shopping Mall",
+        "shop": "supermarket"
+      },
+      "lat": 7.8005415,
+      "lon": 6.7443336
+    },
+    {
+      "type": "way",
+      "id": 653348028,
+      "center": {
+        "lat": 6.430642,
+        "lon": 3.4234046
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Careforte"
+      },
+      "lat": 6.430642,
+      "lon": 3.4234046
+    },
+    {
+      "type": "way",
+      "id": 1067483764,
+      "center": {
+        "lat": 6.4566304,
+        "lon": 7.5319067
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Bona Pharmacy"
+      },
+      "lat": 6.4566304,
+      "lon": 7.5319067
+    },
+    {
+      "type": "way",
+      "id": 1303733895,
+      "center": {
+        "lat": 8.9929094,
+        "lon": 7.3631162
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "building:levels": "3",
+        "building:use": "commercial",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Green Access Pharmacy Ltd.",
+        "opening_hours": "Mo-Sa 08:00-18:30; Su 16:00-18:30",
+        "wheelchair": "no"
+      },
+      "lat": 8.9929094,
+      "lon": 7.3631162
+    },
+    {
+      "type": "node",
+      "id": 1754869254,
+      "lat": 10.5077373,
+      "lon": 7.4335195,
+      "tags": {
+        "addr:street": "Maiduguri Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Zuman Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2624942377,
+      "lat": 13.7657748,
+      "lon": 4.0067676,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Dandi Abarchi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3218376481,
+      "lat": 13.0401854,
+      "lon": 3.2079246,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Tagour",
+        "source": "servey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353670792,
+      "lat": 13.5050738,
+      "lon": 7.1080301,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "17 Portes de maradi",
+        "name:ar": "17 أبواب مرادي"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353674819,
+      "lat": 13.5059682,
+      "lon": 7.1076739,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Barazaké",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911766,
+      "lat": 13.7955307,
+      "lon": 5.2532606,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "GOURAMA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911773,
+      "lat": 13.7991334,
+      "lon": 5.2546949,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Populaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709912090,
+      "lat": 13.7870306,
+      "lon": 5.251158,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "pharmacie Mounwadata 2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709912091,
+      "lat": 13.7974104,
+      "lon": 5.2509609,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "pharmacie Souley konni"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153027,
+      "lat": 13.4935187,
+      "lon": 7.1098304,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Bourdja",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3906045888,
+      "lat": 13.4989094,
+      "lon": 7.1081766,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Auto"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316158349,
+      "lat": 13.4908974,
+      "lon": 7.114964,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Global Phama SARL",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318183316,
+      "lat": 13.4872578,
+      "lon": 7.1051251,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Maradaoua",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562792,
+      "lat": 13.503571,
+      "lon": 7.1055404,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie 17portes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319251002,
+      "lat": 13.48802,
+      "lon": 7.1038903,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharma Store Sarl",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319550451,
+      "lat": 13.5039548,
+      "lon": 7.1053233,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie Islamique",
+        "name:ar": "صيدلية إسلامية",
+        "religion": "muslim"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319551495,
+      "lat": 13.4973153,
+      "lon": 7.0984984,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie Islamique",
+        "name:ar": "صيدلية إسلامية",
+        "religion": "muslim"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4402436093,
+      "lat": 11.1276428,
+      "lon": 2.9304851,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "NA SIARA",
+        "name:en": "NA SIARA",
+        "name:fr": "NA SIARA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4402557389,
+      "lat": 11.1326941,
+      "lon": 2.9266025,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Albarka",
+        "name:en": "Albarka",
+        "name:fr": "Albarka"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912505223,
+      "lat": 10.5449063,
+      "lon": 7.4468905,
+      "tags": {
+        "addr:city": "Unguwar Sarki",
+        "addr:postcode": "800242",
+        "addr:street": "Isa Kaita Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "electricity": "grid",
+        "emergency": "yes",
+        "healthcare": "pharmacy",
+        "insurance:health": "no",
+        "name": "Dialogue Pharmacy",
+        "opening_hours": "24/7",
+        "operational_status": "operational"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5225275431,
+      "lat": 13.0490994,
+      "lon": 3.2017379,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Saraounia"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5738249266,
+      "lat": 9.0440228,
+      "lon": 7.4636663,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Skylark Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5823887794,
+      "lat": 13.7111291,
+      "lon": 4.9649131,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Ruwa dispensary",
+        "source": "MSFsurvey",
+        "source:date": "24/02/2018"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5825026062,
+      "lat": 13.1427068,
+      "lon": 5.372185,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Alkamu Dispensary",
+        "source": "MSFsurvey",
+        "source:date": "2018-02"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5894943785,
+      "lat": 12.9783975,
+      "lon": 7.6406781,
+      "tags": {
+        "addr:street": "Kwado",
+        "amenity": "pharmacy",
+        "name": "Dan Hyrum Pharmacy",
+        "name:en": "Dan Guruf Pharmacy",
+        "opening_hours": "Mo-Su 09:00-10:00",
+        "phone": "08034324281"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6139347686,
+      "lat": 10.4500505,
+      "lon": 7.4586676,
+      "tags": {
+        "addr:housenumber": "92 Sabon Tasha",
+        "addr:street": "Kachia Road",
+        "amenity": "pharmacy",
+        "name": "Jerusaves pharmacy & Lab"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7512805485,
+      "lat": 10.5213683,
+      "lon": 7.4501574,
+      "tags": {
+        "addr:city": "Kabala",
+        "addr:postcode": "10B X",
+        "addr:street": "Tafawa Balewa Way",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "electricity": "grid",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "insurance:health": "no",
+        "name": "Dialogue Pharmacy",
+        "opening_hours": "24/7",
+        "operational_status": "operational",
+        "operator": "Dialogue ",
+        "url": "http://dialoguepharmacy.com/",
+        "water_source": "powered_pump",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7674190317,
+      "lat": 13.0446293,
+      "lon": 3.192103,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Dallol"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7720971886,
+      "lat": 13.0477838,
+      "lon": 3.2035142,
+      "tags": {
+        "addr:postcode": "+227",
+        "amenity": "pharmacy",
+        "name": "Pharmacie espoir"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7954283285,
+      "lat": 13.0515381,
+      "lon": 3.1996921,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépôt pharmaceutique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8415816450,
+      "lat": 9.0764303,
+      "lon": 7.4624923,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Tonia Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8429869876,
+      "lat": 10.0641312,
+      "lon": 6.7345789,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Ajata Aboki Dispensary",
+        "source": "MSFsurvey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10225180592,
+      "lat": 9.1417835,
+      "lon": 7.3722971,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Taonet Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10225283918,
+      "lat": 9.1395191,
+      "lon": 7.3693753,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Tarei Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739619216,
+      "lat": 9.0166476,
+      "lon": 7.4224001,
+      "tags": {
+        "addr:street": "Opposite AEDC office",
+        "amenity": "pharmacy",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "name": "RX pharmacy",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739640847,
+      "lat": 9.0147856,
+      "lon": 7.4204888,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Mane Sol Pharmacy",
+        "operator:type": "private",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11076453276,
+      "lat": 13.7533874,
+      "lon": 7.9909789,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépôt pharmacetique Al Amin"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11478728069,
+      "lat": 9.0712946,
+      "lon": 7.4689118,
+      "tags": {
+        "addr:housenumber": "29",
+        "addr:street": "Lingu Crescent",
+        "amenity": "pharmacy",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "name": "Skylark Pharmacy",
+        "opening_hours": "Mo-Sa 08:00-21:00",
+        "operator": "Skylark Pharmaceuticals & Chemical Co"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11576552394,
+      "lat": 9.1057007,
+      "lon": 7.4856653,
+      "tags": {
+        "addr:housenumber": "78",
+        "addr:street": "Ibrahim Babangida Boulevard",
+        "amenity": "pharmacy",
+        "name": "H-Medix pharmacy",
+        "opening_hours": "Mo-Sa 08:00-20:00; Su 15:00-19:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11595519293,
+      "lat": 9.0530742,
+      "lon": 7.4792411,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:street": "Mohammadu Buhari Way",
+        "amenity": "pharmacy",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "Tonia Pharmacy Ltd."
+      }
+    },
+    {
+      "type": "node",
+      "id": 11845377300,
+      "lat": 9.0233563,
+      "lon": 7.4850454,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "H-Medix Pharmacy & Supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12178748895,
+      "lat": 9.0612803,
+      "lon": 7.4685387,
+      "tags": {
+        "amenity": "pharmacy",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "name": "Zagbavi Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12178777204,
+      "lat": 9.0596188,
+      "lon": 7.4667062,
+      "tags": {
+        "addr:housenumber": "3",
+        "addr:street": "Conakry Street",
+        "amenity": "pharmacy",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "Skylark Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454144,
+      "lat": 11.9560162,
+      "lon": 8.4688578,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "ABDULFATAH PHARMACY",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "non-functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454145,
+      "lat": 11.9593129,
+      "lon": 8.4710588,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "GANO MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454146,
+      "lat": 11.9652713,
+      "lon": 8.4689775,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "no",
+        "name": "BILKISU MEDICAL CENTER TINGA",
+        "operator": "private_individual",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454147,
+      "lat": 11.9585426,
+      "lon": 8.4705178,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "ATTAUFIQ MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454148,
+      "lat": 11.9579772,
+      "lon": 8.4724427,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "GIDAN MAGANI",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454151,
+      "lat": 11.9629129,
+      "lon": 8.4666909,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "GIDAN MAGANI AL-MISBAH MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282454152,
+      "lat": 11.9596639,
+      "lon": 8.4717941,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "GANO RAHAMA CHEMIST",
+        "operator": "private_individual",
+        "pay_amount": "3000",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13228902902,
+      "lat": 9.1016168,
+      "lon": 7.4728139,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Sixchys Pharmacy"
+      }
+    },
+    {
+      "type": "way",
+      "id": 450572805,
+      "center": {
+        "lat": 10.8152839,
+        "lon": 4.1948921
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "36.6"
+      },
+      "lat": 10.8152839,
+      "lon": 4.1948921
+    },
+    {
+      "type": "way",
+      "id": 520072031,
+      "center": {
+        "lat": 10.2729618,
+        "lon": 6.0285237
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "36.6"
+      },
+      "lat": 10.2729618,
+      "lon": 6.0285237
+    },
+    {
+      "type": "way",
+      "id": 1244954245,
+      "center": {
+        "lat": 10.5095783,
+        "lon": 7.4335497
+      },
+      "tags": {
+        "addr:city": "Dadi Riba",
+        "addr:housename": "Gidan Kobo",
+        "addr:housenumber": "AZ 33",
+        "addr:postcode": "10B X",
+        "addr:street": "Daura Road",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "electricity": "grid",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "insurance:health": "no",
+        "name": "Nasiru Dokta Chemist",
+        "operational_status": "operational",
+        "source": "microsoft/BuildingFootprints",
+        "water_source": "groundwater",
+        "wheelchair": "no"
+      },
+      "lat": 10.5095783,
+      "lon": 7.4335497
+    },
+    {
+      "type": "way",
+      "id": 1245244502,
+      "center": {
+        "lat": 10.5149752,
+        "lon": 7.4327316
+      },
+      "tags": {
+        "addr:city": "Shaba",
+        "addr:postcode": "10B X",
+        "addr:street": "Abeokuta Street",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "electricity": "other",
+        "emergency": "no",
+        "healthcare": "pharmacy",
+        "insurance:health": "no",
+        "name": "Radex Pharmacy",
+        "opening_hours": "Mo-Fr 08:00-21:00",
+        "source": "microsoft/BuildingFootprints"
+      },
+      "lat": 10.5149752,
+      "lon": 7.4327316
+    },
+    {
+      "type": "node",
+      "id": 1069146913,
+      "lat": 5.9874847,
+      "lon": 10.4346599,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "Diamond Phamacy",
+        "name": "Faith pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3021902094,
+      "lat": 5.4808768,
+      "lon": 10.4130095,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "name": "Nouvelle Pharmacie du Bénin"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3116264554,
+      "lat": 7.3210125,
+      "lon": 13.5751594,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Adama"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4409603501,
+      "lat": 5.8425896,
+      "lon": 10.4010447,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pinpoh pharmaciy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4455404450,
+      "lat": 4.5746379,
+      "lon": 13.6818732,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie la Générale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4455405630,
+      "lat": 4.579299,
+      "lon": 13.6841366,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Mokolo",
+        "name:en": "Mokolo Pharmacy",
+        "phone": "+237222242540"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4534873636,
+      "lat": 5.444414,
+      "lon": 10.0554768,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie du Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4979030622,
+      "lat": 5.1421589,
+      "lon": 10.5208055,
+      "tags": {
+        "addr:postcode": "BP 9945",
+        "amenity": "pharmacy",
+        "name": "Pharmacie De L'espoir",
+        "name:fr": "Pharmacie De L'espoir",
+        "phone": "33484513"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5126030895,
+      "lat": 7.3256641,
+      "lon": 13.5849246,
+      "tags": {
+        "addr:street": "Rue de la Gare",
+        "amenity": "pharmacy",
+        "name": "Pharmacie Oxygène"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5671968923,
+      "lat": 4.6344068,
+      "lon": 9.441044,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Prestige Pharmacy",
+        "name:fr": "Pharmacie Prestige"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5714563884,
+      "lat": 7.4114884,
+      "lon": 13.547933,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "243710988",
+        "name": "Pharlacie du campus",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5759180822,
+      "lat": 4.6301602,
+      "lon": 9.4425948,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Wisdom Pharmacy",
+        "name:fr": "Pharmacie Wisdom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279339,
+      "lat": 7.3211319,
+      "lon": 13.5790409,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "222251176",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Pharmacie de L'esperance",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279340,
+      "lat": 7.333106,
+      "lon": 13.5871131,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie de la Gare",
+        "place": "SABONGARI GARE",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279341,
+      "lat": 7.3268497,
+      "lon": 13.5832497,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie le Saare",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279342,
+      "lat": 7.3264088,
+      "lon": 13.585692,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Oxygene",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279344,
+      "lat": 7.311846,
+      "lon": 13.5506028,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "654819415",
+        "name": "Pharmacie de Beka-hossere",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279345,
+      "lat": 7.3190732,
+      "lon": 13.5851314,
+      "tags": {
+        "amenity": "pharmacy",
+        "fixme": "BALI",
+        "name": "Pharmacie de L'enttente",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279346,
+      "lat": 7.3215403,
+      "lon": 13.5826483,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie de La Vina",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279347,
+      "lat": 7.2940144,
+      "lon": 13.5743036,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "695220824",
+        "name": "Pharmacie Coop Univers",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279348,
+      "lat": 7.3191906,
+      "lon": 13.5899123,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Awal",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279349,
+      "lat": 7.3191263,
+      "lon": 13.5878922,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Garou",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5940279350,
+      "lat": 7.3197974,
+      "lon": 13.5927438,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "699630238",
+        "name": "Pharmacie Ngaha Clovis",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362785,
+      "lat": 5.4402491,
+      "lon": 10.0500801,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Phamarcie de la Gare",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362786,
+      "lat": 5.4426714,
+      "lon": 10.0535936,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Phamarcie du Marché",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362787,
+      "lat": 5.4462702,
+      "lon": 10.0561683,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Grande pharmacie Lah",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362788,
+      "lat": 5.4478425,
+      "lon": 10.0600194,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Phamarcie de la Menoua",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362789,
+      "lat": 5.4582812,
+      "lon": 10.0692694,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Phamarcie de l'Unité",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6352362790,
+      "lat": 5.452106,
+      "lon": 10.0674435,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Phamarcie Départementale",
+        "opening_hours": "Mo-Su 07:00-20:00",
+        "operator": "MINSANTE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6555260790,
+      "lat": 4.5756739,
+      "lon": 13.6827337,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "name": "Pharamacie de Bertoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6555260791,
+      "lat": 4.5774887,
+      "lon": 13.686422,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie Galien",
+        "operator": "Dr Nguele"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6555283687,
+      "lat": 4.5751983,
+      "lon": 13.6809435,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie la générale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066255881,
+      "lat": 4.2038695,
+      "lon": 8.9923125,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Idenau pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7815381492,
+      "lat": 5.3729973,
+      "lon": 10.4148181,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "new todjon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7815381493,
+      "lat": 5.3717708,
+      "lon": 10.4126455,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "koung khi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8676482528,
+      "lat": 5.4827335,
+      "lon": 10.4291904,
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie BINAM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9063451640,
+      "lat": 5.1627255,
+      "lon": 10.1912603,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "pharmacie banka"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10249499611,
+      "lat": 4.6390629,
+      "lon": 9.448743,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie Rapido Fiango",
+        "name:fr": "Pharmacie Rapido Fiango"
+      }
+    },
+    {
+      "type": "way",
+      "id": 282240345,
+      "center": {
+        "lat": 4.3623152,
+        "lon": 11.4399521
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "commercial",
+        "name": "Pharmacie de Sa'a",
+        "source": "Spot"
+      },
+      "lat": 4.3623152,
+      "lon": 11.4399521
+    },
+    {
+      "type": "way",
+      "id": 324955652,
+      "center": {
+        "lat": 4.7421709,
+        "lon": 11.2250904
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Bafia"
+      },
+      "lat": 4.7421709,
+      "lon": 11.2250904
+    },
+    {
+      "type": "way",
+      "id": 332390869,
+      "center": {
+        "lat": 4.7432912,
+        "lon": 11.2251908
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie AIDA"
+      },
+      "lat": 4.7432912,
+      "lon": 11.2251908
+    },
+    {
+      "type": "way",
+      "id": 349167282,
+      "center": {
+        "lat": 5.5409983,
+        "lon": 12.3186904
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "public",
+        "name": "Pro-pharmacie"
+      },
+      "lat": 5.5409983,
+      "lon": 12.3186904
+    },
+    {
+      "type": "way",
+      "id": 372956626,
+      "center": {
+        "lat": 5.4777978,
+        "lon": 10.416742
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie des Martyrs"
+      },
+      "lat": 5.4777978,
+      "lon": 10.416742
+    },
+    {
+      "type": "way",
+      "id": 372956835,
+      "center": {
+        "lat": 5.4785929,
+        "lon": 10.415214
+      },
+      "tags": {
+        "addr:city": "Bafoussam I",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Pharmacie des Martyrs"
+      },
+      "lat": 5.4785929,
+      "lon": 10.415214
+    },
+    {
+      "type": "way",
+      "id": 372975478,
+      "center": {
+        "lat": 5.4801771,
+        "lon": 10.4228954
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie la grace"
+      },
+      "lat": 5.4801771,
+      "lon": 10.4228954
+    },
+    {
+      "type": "way",
+      "id": 384479420,
+      "center": {
+        "lat": 5.4800769,
+        "lon": 10.4161428
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie la vision"
+      },
+      "lat": 5.4800769,
+      "lon": 10.4161428
+    },
+    {
+      "type": "way",
+      "id": 384822849,
+      "center": {
+        "lat": 5.4781648,
+        "lon": 10.4189688
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie pierre Moyo"
+      },
+      "lat": 5.4781648,
+      "lon": 10.4189688
+    },
+    {
+      "type": "way",
+      "id": 384964681,
+      "center": {
+        "lat": 5.4800181,
+        "lon": 10.4135681
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie du Benin"
+      },
+      "lat": 5.4800181,
+      "lon": 10.4135681
+    },
+    {
+      "type": "way",
+      "id": 384964746,
+      "center": {
+        "lat": 5.4798952,
+        "lon": 10.4136871
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Nouvele Pharmacie du Benin"
+      },
+      "lat": 5.4798952,
+      "lon": 10.4136871
+    },
+    {
+      "type": "way",
+      "id": 395447253,
+      "center": {
+        "lat": 5.4894513,
+        "lon": 10.4056805
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie SALVIA"
+      },
+      "lat": 5.4894513,
+      "lon": 10.4056805
+    },
+    {
+      "type": "way",
+      "id": 395465452,
+      "center": {
+        "lat": 5.4859965,
+        "lon": 10.4091119
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie du Marché B"
+      },
+      "lat": 5.4859965,
+      "lon": 10.4091119
+    },
+    {
+      "type": "way",
+      "id": 424738603,
+      "center": {
+        "lat": 5.4703727,
+        "lon": 10.4214663
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Phamarcie du Secours"
+      },
+      "lat": 5.4703727,
+      "lon": 10.4214663
+    },
+    {
+      "type": "way",
+      "id": 424738604,
+      "center": {
+        "lat": 5.4761661,
+        "lon": 10.4187008
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie des Montagnes"
+      },
+      "lat": 5.4761661,
+      "lon": 10.4187008
+    },
+    {
+      "type": "way",
+      "id": 424739322,
+      "center": {
+        "lat": 5.4717794,
+        "lon": 10.4212428
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Noubissi"
+      },
+      "lat": 5.4717794,
+      "lon": 10.4212428
+    },
+    {
+      "type": "way",
+      "id": 424740417,
+      "center": {
+        "lat": 5.470068,
+        "lon": 10.4174216
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Amienoise"
+      },
+      "lat": 5.470068,
+      "lon": 10.4174216
+    },
+    {
+      "type": "way",
+      "id": 424940901,
+      "center": {
+        "lat": 5.4635963,
+        "lon": 10.4243995
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "commercial",
+        "name": "Pharmacie Madelon"
+      },
+      "lat": 5.4635963,
+      "lon": 10.4243995
+    },
+    {
+      "type": "way",
+      "id": 425149117,
+      "center": {
+        "lat": 5.4618517,
+        "lon": 10.4277697
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie Sainte Monique"
+      },
+      "lat": 5.4618517,
+      "lon": 10.4277697
+    },
+    {
+      "type": "way",
+      "id": 425152125,
+      "center": {
+        "lat": 5.4719666,
+        "lon": 10.4215761
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Noubissi"
+      },
+      "lat": 5.4719666,
+      "lon": 10.4215761
+    },
+    {
+      "type": "way",
+      "id": 425152127,
+      "center": {
+        "lat": 5.4782911,
+        "lon": 10.4189548
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Pierre Moyo"
+      },
+      "lat": 5.4782911,
+      "lon": 10.4189548
+    },
+    {
+      "type": "way",
+      "id": 425155470,
+      "center": {
+        "lat": 5.4802001,
+        "lon": 10.4232115
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie la Grâce"
+      },
+      "lat": 5.4802001,
+      "lon": 10.4232115
+    },
+    {
+      "type": "way",
+      "id": 425155472,
+      "center": {
+        "lat": 5.4806769,
+        "lon": 10.4251086
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Polypharma"
+      },
+      "lat": 5.4806769,
+      "lon": 10.4251086
+    },
+    {
+      "type": "way",
+      "id": 425159783,
+      "center": {
+        "lat": 5.4844189,
+        "lon": 10.4377372
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Nectar"
+      },
+      "lat": 5.4844189,
+      "lon": 10.4377372
+    },
+    {
+      "type": "way",
+      "id": 1286256396,
+      "center": {
+        "lat": 7.1420166,
+        "lon": 13.7208068
+      },
+      "tags": {
+        "addr:housenumber": "121",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "healthcare": "pharmacy",
+        "name": "pharmacie1",
+        "opening_hours": "8h"
+      },
+      "lat": 7.1420166,
+      "lon": 13.7208068
+    },
+    {
+      "type": "way",
+      "id": 1286256397,
+      "center": {
+        "lat": 7.1421728,
+        "lon": 13.7210077
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "healthcare": "pharmacy",
+        "name": "pharmacie2"
+      },
+      "lat": 7.1421728,
+      "lon": 13.7210077
+    },
+    {
+      "type": "node",
+      "id": 2318362169,
+      "lat": 9.3064553,
+      "lon": 13.3951274,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacie du centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2352021450,
+      "lat": 9.3042325,
+      "lon": 13.3967556,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacie de Djamboutou",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2352021451,
+      "lat": 9.3072574,
+      "lon": 13.3964666,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacie de Garoua",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2353391716,
+      "lat": 9.3168363,
+      "lon": 13.4043696,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Populaire",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2353471794,
+      "lat": 9.3030541,
+      "lon": 13.3964911,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "no",
+        "name": "Pharmacie de l'Amitié"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2353500536,
+      "lat": 9.2966502,
+      "lon": 13.3889622,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie de l'Etoile"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2554016955,
+      "lat": 9.8902425,
+      "lon": 8.8783887,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "LA Med Pharmacy",
+        "source": "common knowledge",
+        "source:position": "Bing Imagery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306357780,
+      "lat": 13.8087462,
+      "lon": 8.9837114,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Assemblée",
+        "phone": "00227 21 510 432",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306357781,
+      "lat": 13.8085844,
+      "lon": 8.9807278,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie N'wala",
+        "phone": "00227 98 08 77 20",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307057115,
+      "lat": 13.8044535,
+      "lon": 8.9865561,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Populaire de Zinder",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481862,
+      "lat": 13.8124945,
+      "lon": 8.9815655,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépot Pharmaceutique Tassigui",
+        "phone": "00227 96037150",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308782102,
+      "lat": 13.8106402,
+      "lon": 8.9825575,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépot Pharmaceutique Fataha",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446749,
+      "lat": 13.8074979,
+      "lon": 8.9921277,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépot Pharmaceutique Fataha",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446750,
+      "lat": 13.8072948,
+      "lon": 8.9922882,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dépot Pharmaceutique Malezia",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704514,
+      "lat": 13.8047844,
+      "lon": 8.990718,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Damagaram",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704518,
+      "lat": 13.8055768,
+      "lon": 8.9879633,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Depot Des Produits Pharmaceutique Chez Bally",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704519,
+      "lat": 13.8052541,
+      "lon": 8.9843936,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Depot Pharmaceutique Temaco",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4510327289,
+      "lat": 13.3173744,
+      "lon": 12.613447,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "CSI Diffa Urbain",
+        "name:fr": "CSI Diffa Urbain"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4513765392,
+      "lat": 13.3135098,
+      "lon": 12.6098159,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie populaire de Diffa",
+        "name:fr": "Pharmacie populaire de Diffa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4956776222,
+      "lat": 13.8174828,
+      "lon": 8.9612952,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Dr Ibrahim house",
+        "name:fr": "Dr Ibrahim house"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992919222,
+      "lat": 13.2147624,
+      "lon": 12.0258302,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Madina",
+        "name:fr": "Pharmacie Madina"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992928821,
+      "lat": 13.2146491,
+      "lon": 12.0246083,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Populaire",
+        "name:fr": "Pharmacie Populaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6452149486,
+      "lat": 11.80602,
+      "lon": 13.1834325,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Rauda Street"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571945,
+      "lat": 9.2967464,
+      "lon": 13.3891945,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "(+237) 658939357",
+        "name": "Pharmacie Jade"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571947,
+      "lat": 9.3037535,
+      "lon": 13.3925284,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "(+237) 6",
+        "name": "Pharmacie Mere D'enfants Ni"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571948,
+      "lat": 9.3066683,
+      "lon": 13.3953641,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:phone": "699909104",
+        "name": "Pharmacie Veterinaire Cema Vs Sarl"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571949,
+      "lat": 9.3058088,
+      "lon": 13.395963,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Sodiprovet Sarl Pharmacie Veterinaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571950,
+      "lat": 9.3059256,
+      "lon": 13.3982345,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Du Lamidat Dr Souleymanou Saly"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571955,
+      "lat": 9.3027124,
+      "lon": 13.3964018,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Md Vet Distribution Des Medicament Veterinaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731571956,
+      "lat": 9.2978343,
+      "lon": 13.3995927,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie De La Persévérance"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738329,
+      "lat": 9.3347384,
+      "lon": 13.4059221,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Fondation Médicale Adluchem Pharmacie Centrale Entenne De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738331,
+      "lat": 9.3188883,
+      "lon": 13.4057598,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Provinciale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738332,
+      "lat": 9.3122831,
+      "lon": 13.4008138,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Populaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738333,
+      "lat": 9.3071764,
+      "lon": 13.3990798,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Barka"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738334,
+      "lat": 9.3078875,
+      "lon": 13.3995071,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Du Grand Marché"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769738335,
+      "lat": 9.3075596,
+      "lon": 13.4024969,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Pharmacie Assalam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9768983617,
+      "lat": 9.9310585,
+      "lon": 8.8773653,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "drive_through": "no",
+        "name": "De-Mercy pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769004997,
+      "lat": 9.9313468,
+      "lon": 8.8790596,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Miam pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769138586,
+      "lat": 9.9255594,
+      "lon": 8.8855573,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "La Healing Dew pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769145239,
+      "lat": 9.9252121,
+      "lon": 8.8856997,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Prince O.K Wood"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769155166,
+      "lat": 9.9250813,
+      "lon": 8.885861,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Noble-Med"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769166047,
+      "lat": 9.9250058,
+      "lon": 8.8852214,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "El-laz"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769218868,
+      "lat": 9.9236606,
+      "lon": 8.8870062,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Pfemex pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769223628,
+      "lat": 9.9233997,
+      "lon": 8.8870979,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Delimi central pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769225700,
+      "lat": 9.9223782,
+      "lon": 8.8835424,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Lifeway pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769236006,
+      "lat": 9.9219128,
+      "lon": 8.8858003,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Lesco pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769247201,
+      "lat": 9.9234246,
+      "lon": 8.8840489,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Chyle pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769288573,
+      "lat": 9.9197376,
+      "lon": 8.8854002,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Cass pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769359087,
+      "lat": 9.9224442,
+      "lon": 8.8896843,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Sparsh pharmacy and stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769369942,
+      "lat": 9.922551,
+      "lon": 8.8890742,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Delimi pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769427319,
+      "lat": 9.9206761,
+      "lon": 8.8894059,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Dumjos pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769428176,
+      "lat": 9.9208396,
+      "lon": 8.8894074,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Hexo pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769457511,
+      "lat": 9.9191553,
+      "lon": 8.8887655,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "JKF pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769472265,
+      "lat": 9.9180466,
+      "lon": 8.8892647,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Tinna pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769481174,
+      "lat": 9.9183535,
+      "lon": 8.8882377,
+      "tags": {
+        "addr:city": "jos",
+        "amenity": "pharmacy",
+        "name": "Delimi central pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769482085,
+      "lat": 9.9167234,
+      "lon": 8.8890517,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Nasara pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769514604,
+      "lat": 9.9147533,
+      "lon": 8.8896331,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Wadata pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769535657,
+      "lat": 9.9136563,
+      "lon": 8.8901622,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Micony pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769537652,
+      "lat": 9.9135802,
+      "lon": 8.8899145,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Adacon pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769599889,
+      "lat": 9.9103726,
+      "lon": 8.8891614,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Ecwa central pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769700995,
+      "lat": 9.9580681,
+      "lon": 8.8590941,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:housenumber": "64",
+        "amenity": "pharmacy",
+        "description": "Pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Kunook Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769790065,
+      "lat": 9.9330008,
+      "lon": 8.9120814,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Old Lamingo Road",
+        "amenity": "pharmacy",
+        "description": "Pharmacy and Super market",
+        "healthcare": "pharmacy",
+        "name": "Healthy You Pharmacy & Superstore"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769822675,
+      "lat": 9.9403696,
+      "lon": 8.8675143,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "description": "drugs",
+        "healthcare": "pharmacy",
+        "name": "La Med Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769939631,
+      "lat": 9.9403117,
+      "lon": 8.8674667,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "description": "pharmacy and clinic",
+        "healthcare": "pharmacy",
+        "name": "Julimate Vet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769959286,
+      "lat": 9.9152728,
+      "lon": 8.8917768,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Paba pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9770021852,
+      "lat": 9.9119987,
+      "lon": 8.8930044,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Emergency pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9770029556,
+      "lat": 9.9162478,
+      "lon": 8.8909102,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Tahaf pharmacy and stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771271989,
+      "lat": 9.9291221,
+      "lon": 8.9021721,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Duwala junction jos",
+        "amenity": "pharmacy",
+        "description": "Alhaji Dan ladi Doctor Pharmacy Duwala junction Nassarawa Jos",
+        "healthcare": "pharmacy",
+        "name": "Alhaji Dan ladi Doctor pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771754957,
+      "lat": 9.9053492,
+      "lon": 8.8867479,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Kalyto pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771791162,
+      "lat": 9.9094581,
+      "lon": 8.8820122,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Noro pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771883902,
+      "lat": 9.8983198,
+      "lon": 8.8847367,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Elton pharmacy and store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771929420,
+      "lat": 9.9015176,
+      "lon": 8.8918526,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Pills & potions pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771966362,
+      "lat": 9.8979818,
+      "lon": 8.8906148,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Waterboard Road Jos",
+        "amenity": "pharmacy",
+        "description": "Drug Dispensary along Water board Road Jos",
+        "healthcare": "pharmacy",
+        "name": "Edmark pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772014346,
+      "lat": 9.8966234,
+      "lon": 8.8835737,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Kyenpia pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772329880,
+      "lat": 9.9359462,
+      "lon": 8.8770362,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Gilgal Medicare Complex",
+        "opening_hours": "Mo-Su 07:00-21:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772360221,
+      "lat": 9.8986789,
+      "lon": 8.8756695,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Apollo Cresent pharmacy & stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772408721,
+      "lat": 9.9397666,
+      "lon": 8.8665887,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "ResQ Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772413392,
+      "lat": 9.897796,
+      "lon": 8.8653144,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Josh pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772453345,
+      "lat": 9.9291553,
+      "lon": 8.8725292,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "kabong",
+        "amenity": "pharmacy",
+        "description": "before polo round about",
+        "healthcare": "pharmacy",
+        "name": "De havilah pharmacy kabong"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772582514,
+      "lat": 9.9026077,
+      "lon": 8.8684644,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Hasppaleez pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772591252,
+      "lat": 9.9041814,
+      "lon": 8.8700087,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Carniela pharmacy and stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772672925,
+      "lat": 9.9056549,
+      "lon": 8.8741213,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "Orit pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772788306,
+      "lat": 9.9201723,
+      "lon": 8.8794096,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Cedar med"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772814372,
+      "lat": 9.9286635,
+      "lon": 8.875515,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "De laroy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774450916,
+      "lat": 9.9217673,
+      "lon": 8.8751542,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Pharmacy Angaz"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774573320,
+      "lat": 9.9014866,
+      "lon": 8.8666436,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "name": "JK pharmacy tudun wada jos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774591177,
+      "lat": 9.9247146,
+      "lon": 8.8748687,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Jenta Adamu",
+        "amenity": "pharmacy",
+        "name": "Anzior Pharmaceuticals LTD"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774631691,
+      "lat": 9.8894566,
+      "lon": 8.9193757,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Lamingo Dam Road",
+        "amenity": "pharmacy",
+        "description": "Drug dispensary",
+        "healthcare": "pharmacy",
+        "name": "Kimky Pharmacy",
+        "phone": "08065909268"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9776644648,
+      "lat": 9.9455031,
+      "lon": 8.8885545,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Angwan",
+        "amenity": "pharmacy",
+        "description": "Mal.chai street Angwan Rogo Jos",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Abu hajara pharmacy and stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9808221855,
+      "lat": 9.9581697,
+      "lon": 8.8560044,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Ruka-Med pharmacy and stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10840374704,
+      "lat": 9.9291794,
+      "lon": 8.8987843,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Congo Road",
+        "amenity": "pharmacy",
+        "healthcare": "hospital",
+        "name": "Ramadan Pharmacy",
+        "operator": "Opposites The red mandion"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11004256571,
+      "lat": 9.9263196,
+      "lon": 8.9129706,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-06-11",
+        "healthcare": "pharmacy",
+        "name": "Priesnhood Pharmacy and Stores"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109293481,
+      "lat": 9.9077105,
+      "lon": 8.9441021,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-08-12",
+        "healthcare": "pharmacy",
+        "name": "pastorate Patent Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109423595,
+      "lat": 9.9104988,
+      "lon": 8.9479066,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-08-12",
+        "healthcare": "pharmacy",
+        "name": "MedicPlus Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109423597,
+      "lat": 9.9098822,
+      "lon": 8.9518633,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-08-12",
+        "healthcare": "pharmacy",
+        "name": "Iceme Central Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109423598,
+      "lat": 9.9102783,
+      "lon": 8.9519008,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-08-12",
+        "healthcare": "pharmacy",
+        "name": "Kauthar Pharmacy and Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109423599,
+      "lat": 9.9103153,
+      "lon": 8.9520213,
+      "tags": {
+        "amenity": "pharmacy",
+        "check_date": "2023-08-12",
+        "healthcare": "pharmacy",
+        "name": "Moland Jones Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153548707,
+      "lat": 10.3046298,
+      "lon": 11.147866,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "amenity": "pharmacy",
+        "name": "Pharmacy",
+        "name:en": "Shendei pat. Med. Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165058312,
+      "lat": 10.3003337,
+      "lon": 11.1463905,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan road",
+        "amenity": "pharmacy",
+        "name": "LizkebePharmaceutical Services"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165059905,
+      "lat": 10.295984,
+      "lon": 11.146828,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan road",
+        "amenity": "pharmacy",
+        "name": "Gadali Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175323738,
+      "lat": 10.2984267,
+      "lon": 11.1465872,
+      "tags": {
+        "addr:street": "Goodluck EbeleJonathan road",
+        "amenity": "pharmacy",
+        "name": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11176243237,
+      "lat": 10.295772,
+      "lon": 11.1814488,
+      "tags": {
+        "addr:postcode": "760211",
+        "addr:street": "Alhaji Malam street",
+        "amenity": "pharmacy",
+        "name": "Albarka patient Medicine Store",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340284,
+      "lat": 12.0488822,
+      "lon": 8.570315,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "ABU HANNEFA MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "Unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340285,
+      "lat": 12.0440522,
+      "lon": 8.5643177,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "SALMA MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "2000",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340286,
+      "lat": 12.049793,
+      "lon": 8.576876,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "NAZEE ALBARKA MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "100",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340287,
+      "lat": 12.0544615,
+      "lon": 8.5835705,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "A.Y CHEMIST KARSHEN AIKI",
+        "operator": "private_individual",
+        "pay_amount": "100",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340288,
+      "lat": 12.0381121,
+      "lon": 8.5664664,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "RIMIN KEBE MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "4000",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340289,
+      "lat": 12.0400256,
+      "lon": 8.5710698,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "DISCOUNT MEDICINE",
+        "operator": "private_individual",
+        "pay_amount": "unknownl",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340290,
+      "lat": 12.0452327,
+      "lon": 8.5637335,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "B KABO MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "20000",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340291,
+      "lat": 12.0411135,
+      "lon": 8.5723149,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "SARIRA 2",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340293,
+      "lat": 12.04774,
+      "lon": 8.5790033,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "AFUWA CHEMIST",
+        "operator": "private_individual",
+        "pay_amount": "200",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340295,
+      "lat": 12.0500876,
+      "lon": 8.5805583,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "DR KHALID TRADITIONAL HERBAL",
+        "operator": "private_individual",
+        "pay_amount": "300",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340296,
+      "lat": 12.0555229,
+      "lon": 8.5837926,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "no",
+        "name": "ZUMUNTA PROVISION AND MEDICAL STORE",
+        "operator": "private_individual",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340297,
+      "lat": 12.0551924,
+      "lon": 8.5821882,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "no",
+        "name": "NGY KORE CHEMIST",
+        "operator": "private_individual",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282340298,
+      "lat": 12.0548906,
+      "lon": 8.5806474,
+      "tags": {
+        "amenity": "pharmacy",
+        "fac_pay": "yes",
+        "name": "MEDICINE STORE",
+        "operator": "private_individual",
+        "pay_amount": "100",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pharmacy",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226562537,
+      "center": {
+        "lat": 9.303648,
+        "lon": 13.4006208
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Provinciale",
+        "source": "MEADEN"
+      },
+      "lat": 9.303648,
+      "lon": 13.4006208
+    },
+    {
+      "type": "way",
+      "id": 227130459,
+      "center": {
+        "lat": 9.2996212,
+        "lon": 13.3904095
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie du Nord",
+        "source": "MEADEN"
+      },
+      "lat": 9.2996212,
+      "lon": 13.3904095
+    },
+    {
+      "type": "way",
+      "id": 295383220,
+      "center": {
+        "lat": 11.9671011,
+        "lon": 8.5485351
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Lamco Pharmacy"
+      },
+      "lat": 11.9671011,
+      "lon": 8.5485351
+    },
+    {
+      "type": "way",
+      "id": 377493645,
+      "center": {
+        "lat": 11.9784324,
+        "lon": 8.5398033
+      },
+      "tags": {
+        "addr:city": "Gyadi Gyadi Arewa",
+        "addr:street": "Zoo Road",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Dangi Pharmacy",
+        "source": "steadfast.com.ng"
+      },
+      "lat": 11.9784324,
+      "lon": 8.5398033
+    },
+    {
+      "type": "way",
+      "id": 416933638,
+      "center": {
+        "lat": 10.5911831,
+        "lon": 14.3106417
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie de domayo"
+      },
+      "lat": 10.5911831,
+      "lon": 14.3106417
+    },
+    {
+      "type": "way",
+      "id": 416948038,
+      "center": {
+        "lat": 10.5945889,
+        "lon": 14.3148331
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Ferngo"
+      },
+      "lat": 10.5945889,
+      "lon": 14.3148331
+    },
+    {
+      "type": "way",
+      "id": 417500711,
+      "center": {
+        "lat": 10.5941316,
+        "lon": 14.3218412
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie du Boulevard",
+        "name:en": "Boulevard Pharmacy",
+        "phone": "+237222293219"
+      },
+      "lat": 10.5941316,
+      "lon": 14.3218412
+    },
+    {
+      "type": "way",
+      "id": 417508592,
+      "center": {
+        "lat": 10.5953292,
+        "lon": 14.3305074
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie du Sahel"
+      },
+      "lat": 10.5953292,
+      "lon": 14.3305074
+    },
+    {
+      "type": "way",
+      "id": 417527996,
+      "center": {
+        "lat": 10.6013586,
+        "lon": 14.3215949
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie EMERAUDE"
+      },
+      "lat": 10.6013586,
+      "lon": 14.3215949
+    },
+    {
+      "type": "way",
+      "id": 417527997,
+      "center": {
+        "lat": 10.6009259,
+        "lon": 14.3214742
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie EMERAUDE"
+      },
+      "lat": 10.6009259,
+      "lon": 14.3214742
+    },
+    {
+      "type": "way",
+      "id": 417527998,
+      "center": {
+        "lat": 10.5997372,
+        "lon": 14.3177771
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie KALIAO"
+      },
+      "lat": 10.5997372,
+      "lon": 14.3177771
+    },
+    {
+      "type": "way",
+      "id": 417579446,
+      "center": {
+        "lat": 10.6050154,
+        "lon": 14.3258706
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie Masseboeuf"
+      },
+      "lat": 10.6050154,
+      "lon": 14.3258706
+    },
+    {
+      "type": "way",
+      "id": 417579447,
+      "center": {
+        "lat": 10.6033749,
+        "lon": 14.3291326
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie de lextrème nord"
+      },
+      "lat": 10.6033749,
+      "lon": 14.3291326
+    },
+    {
+      "type": "way",
+      "id": 417617546,
+      "center": {
+        "lat": 10.6013264,
+        "lon": 14.3361618
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie de Maroua"
+      },
+      "lat": 10.6013264,
+      "lon": 14.3361618
+    },
+    {
+      "type": "way",
+      "id": 417617548,
+      "center": {
+        "lat": 10.605619,
+        "lon": 14.3343796
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Pharmacie du Centre"
+      },
+      "lat": 10.605619,
+      "lon": 14.3343796
+    },
+    {
+      "type": "way",
+      "id": 426140753,
+      "center": {
+        "lat": 10.1095197,
+        "lon": 14.4474219
+      },
+      "tags": {
+        "amenity": "pharmacy",
+        "building": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharmacie de Kaélé",
+        "name:fr": "Pharmacie de Kaélé"
+      },
+      "lat": 10.1095197,
+      "lon": 14.4474219
+    },
+    {
+      "type": "way",
+      "id": 1302388897,
+      "center": {
+        "lat": 9.8938289,
+        "lon": 8.8648115
+      },
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "name": "Keychel pharmacy",
+        "source": "microsoft/BuildingFootprints"
+      },
+      "lat": 9.8938289,
+      "lon": 8.8648115
+    }
+  ]
+}

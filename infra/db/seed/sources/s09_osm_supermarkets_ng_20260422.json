@@ -1,0 +1,6078 @@
+{
+  "schema": "s09_osm_supermarket",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query_bbox": "4.2,2.7,13.9,14.7 (Nigeria)",
+  "count": 458,
+  "elements": [
+    {
+      "type": "node",
+      "id": 1829731068,
+      "lat": 4.829518,
+      "lon": 7.0488385,
+      "tags": {
+        "name": "Welcome U Shopping Mall",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1995055868,
+      "lat": 6.3636792,
+      "lon": 5.5890833,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846193,
+      "lat": 6.324686,
+      "lon": 5.6147072,
+      "tags": {
+        "name": "Mall of America",
+        "opening_hours": "Mo-Fr 08:30-20:00",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154493767,
+      "lat": 6.3141321,
+      "lon": 5.6099926,
+      "tags": {
+        "building": "yes",
+        "name": "Bulwark doors",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155730225,
+      "lat": 6.3088475,
+      "lon": 5.6178219,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155730286,
+      "lat": 6.3092785,
+      "lon": 5.6182148,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2160850278,
+      "lat": 6.301588,
+      "lon": 5.6025788,
+      "tags": {
+        "name": "Stores",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161072908,
+      "lat": 6.3315013,
+      "lon": 5.6240724,
+      "tags": {
+        "name": "Phil Hallmark Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161077884,
+      "lat": 6.3071707,
+      "lon": 5.6170941,
+      "tags": {
+        "name": "Shopping Complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161077921,
+      "lat": 6.298522,
+      "lon": 5.6025771,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161102700,
+      "lat": 6.3014553,
+      "lon": 5.6028013,
+      "tags": {
+        "name": "Stores",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161102932,
+      "lat": 6.3019298,
+      "lon": 5.6050883,
+      "tags": {
+        "name": "Stores",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161119675,
+      "lat": 6.3247182,
+      "lon": 5.6138385,
+      "tags": {
+        "name": "Zoro Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236540,
+      "lat": 6.328423,
+      "lon": 5.5938777,
+      "tags": {
+        "name": "Shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236541,
+      "lat": 6.3287969,
+      "lon": 5.5935025,
+      "tags": {
+        "name": "Shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236542,
+      "lat": 6.3290982,
+      "lon": 5.594774,
+      "tags": {
+        "name": "Shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236543,
+      "lat": 6.3291563,
+      "lon": 5.5935907,
+      "tags": {
+        "name": "Shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236544,
+      "lat": 6.3292473,
+      "lon": 5.5949168,
+      "tags": {
+        "name": "Shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236550,
+      "lat": 6.3284704,
+      "lon": 5.5946225,
+      "tags": {
+        "name": "shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344258139,
+      "lat": 6.34396,
+      "lon": 5.610133,
+      "tags": {
+        "name": "Shopping Complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344263203,
+      "lat": 6.3309861,
+      "lon": 5.5968471,
+      "tags": {
+        "name": "Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344305776,
+      "lat": 6.3334891,
+      "lon": 5.5965007,
+      "tags": {
+        "name": "Faith plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344305799,
+      "lat": 6.330907,
+      "lon": 5.5961805,
+      "tags": {
+        "name": "shops",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344316147,
+      "lat": 6.3336934,
+      "lon": 5.6056248,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328610,
+      "lat": 6.3447245,
+      "lon": 5.5976309,
+      "tags": {
+        "name": "shop",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344414250,
+      "lat": 6.3336965,
+      "lon": 5.6051729,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344414251,
+      "lat": 6.3350375,
+      "lon": 5.6074628,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344414252,
+      "lat": 6.3353548,
+      "lon": 5.608007,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432004,
+      "lat": 6.3377512,
+      "lon": 5.6120342,
+      "tags": {
+        "name": "Shopping Complex & Offices",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432005,
+      "lat": 6.3385044,
+      "lon": 5.6109491,
+      "tags": {
+        "name": "Shopping Mall",
+        "operator": "Erhunmun Shopping & Office",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344466065,
+      "lat": 6.3266538,
+      "lon": 5.6249398,
+      "tags": {
+        "name": "Patanne medical equipment shop",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344466078,
+      "lat": 6.3297624,
+      "lon": 5.6267698,
+      "tags": {
+        "name": "Sunroni bussiness center",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344512202,
+      "lat": 6.3348133,
+      "lon": 5.6188545,
+      "tags": {
+        "name": "Asemota Shopping Plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344512265,
+      "lat": 6.3359506,
+      "lon": 5.6199977,
+      "tags": {
+        "name": "Shopping complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344590799,
+      "lat": 6.3295769,
+      "lon": 5.5868335,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596608,
+      "lat": 6.3429276,
+      "lon": 5.609902,
+      "tags": {
+        "name": "Merrigold Plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596616,
+      "lat": 6.3422012,
+      "lon": 5.6099261,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349297905,
+      "lat": 6.323292,
+      "lon": 5.6120401,
+      "tags": {
+        "name": "Jesunogie",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397483,
+      "lat": 6.3376113,
+      "lon": 5.6155552,
+      "tags": {
+        "name": "Aye Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397498,
+      "lat": 6.3375015,
+      "lon": 5.6159445,
+      "tags": {
+        "name": "Shopping plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483353,
+      "lat": 6.3346596,
+      "lon": 5.6150021,
+      "tags": {
+        "name": "Bobizua Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483359,
+      "lat": 6.3336042,
+      "lon": 5.6146504,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483360,
+      "lat": 6.3343122,
+      "lon": 5.6149149,
+      "tags": {
+        "name": "Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350899860,
+      "lat": 6.3490638,
+      "lon": 5.621576,
+      "tags": {
+        "name": "Ero Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2453679844,
+      "lat": 7.4184493,
+      "lon": 3.911149,
+      "tags": {
+        "addr:housenumber": "1",
+        "addr:street": "Oluyole Way",
+        "name": "Favos Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2492315499,
+      "lat": 6.436776,
+      "lon": 7.513594,
+      "tags": {
+        "addr:street": "NTA Road",
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "brand:wikipedia": "en:Spar (retailer)",
+        "fixme": "many bad keys",
+        "height": "258.5",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A5e5282e3-eb9a-4981-8ed0-b2177095b552%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A5e5282e3-eb9a-4981-8ed0-b2177095b552%5D%2FPOI_Picture2",
+        "name": "Spar",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2499343134,
+      "lat": 7.6253485,
+      "lon": 5.2230837,
+      "tags": {
+        "name": "juli pharmacy",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871631,
+      "lat": 7.4223904,
+      "lon": 3.9098231,
+      "tags": {
+        "addr:city": "Ibadan",
+        "addr:street": "Kenneth Dike Way",
+        "alt_name": "Foodco Bodija",
+        "name": "Foodco SuperMarket",
+        "phone": "+234 906 505 0081",
+        "shop": "supermarket",
+        "website": "https://foodco.ng/ibadan/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871636,
+      "lat": 7.4233213,
+      "lon": 3.9102683,
+      "tags": {
+        "addr:city": "Ibadan",
+        "addr:street": "Kenneth Dike Way",
+        "name": "Big Treat",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871653,
+      "lat": 7.4403725,
+      "lon": 3.9073608,
+      "tags": {
+        "addr:city": "Ibadan",
+        "name": "Agbowo Shopping Complex",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871681,
+      "lat": 7.4387621,
+      "lon": 3.9076559,
+      "tags": {
+        "name": "Preboye's World",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2987189855,
+      "lat": 6.4364898,
+      "lon": 3.4513348,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:postcode": "106104",
+        "addr:street": "Bisway Street",
+        "alt_name": "Shoprite Palms Lekki",
+        "brand": "Shoprite",
+        "brand:wikidata": "Q130474676",
+        "name": "Shoprite",
+        "name:zh": "超市shoprite",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "phone": "+234 90 1400 0001",
+        "shop": "supermarket",
+        "website": "https://shoprite.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3391605680,
+      "lat": 7.7785499,
+      "lon": 4.5483043,
+      "tags": {
+        "addr:city": "Osogbo",
+        "name": "New Orisunbare Market",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3711163925,
+      "lat": 7.4355332,
+      "lon": 3.9460131,
+      "tags": {
+        "name": "Ace Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3712817763,
+      "lat": 7.436514,
+      "lon": 3.9461095,
+      "tags": {
+        "name": "Graceys",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3712820912,
+      "lat": 7.4356716,
+      "lon": 3.944919,
+      "tags": {
+        "name": "Renicot",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3833636852,
+      "lat": 6.6138016,
+      "lon": 3.3582672,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:street": "Obafemi Awolowo Way",
+        "name": "Shoprite",
+        "note": "opening_hours tag read \"< 08:30 | sunrise>-< 05:00 | sunset>\", unclear how to translate that into valid syntax",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4132771112,
+      "lat": 6.4262545,
+      "lon": 3.4147722,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "20",
+        "addr:street": "Oju Olobun Close",
+        "name": "9to7",
+        "operator": "Savemart",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4136197111,
+      "lat": 4.8123825,
+      "lon": 6.981421,
+      "tags": {
+        "name": "Shopping Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4248416489,
+      "lat": 6.6880326,
+      "lon": 3.2456696,
+      "tags": {
+        "addr:street": "living gospel Avenue",
+        "name": "supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4261263389,
+      "lat": 6.7741154,
+      "lon": 3.5077684,
+      "tags": {
+        "addr:housenumber": "1",
+        "addr:postcode": "23401",
+        "addr:street": "Pole 32 kanuyi road opposite treasure park simawa ogun state",
+        "email": "olaclemo@yahoo.com",
+        "internet_access": "wlan",
+        "name": "Olaclemo Ventures",
+        "operator": "Mr Dayo",
+        "phone": "08054883058",
+        "shop": "supermarket",
+        "website": "www.olaclemo.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4795617181,
+      "lat": 7.8320551,
+      "lon": 3.9284063,
+      "tags": {
+        "addr:street": "Owode - Oyo",
+        "name": "Ace Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4801781950,
+      "lat": 6.5655672,
+      "lon": 3.3661061,
+      "tags": {
+        "addr:city": "Maryland",
+        "addr:housenumber": "299",
+        "addr:postcode": "100271",
+        "addr:street": "Ikorodu Road",
+        "name": "Ilupeju Supermarket, Olatunji House",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4872057131,
+      "lat": 6.2140708,
+      "lon": 6.7015169,
+      "tags": {
+        "building": "yes",
+        "name": "Shoprite Asaba",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4882131769,
+      "lat": 6.5847916,
+      "lon": 3.3334789,
+      "tags": {
+        "addr:housename": "Murtala Mohammed Domestic Airport Terminal 2",
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "name": "Spar",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4907424601,
+      "lat": 4.824461,
+      "lon": 7.0589453,
+      "tags": {
+        "name": "smile and shop supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4994567223,
+      "lat": 8.9909315,
+      "lon": 7.3550821,
+      "tags": {
+        "addr:city": "fct abuja",
+        "addr:street": "Phase 2, FHA",
+        "name": "lugbe Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5154214231,
+      "lat": 6.4383616,
+      "lon": 3.5087208,
+      "tags": {
+        "name": "ShopRite",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5413181121,
+      "lat": 5.5414404,
+      "lon": 5.7633247,
+      "tags": {
+        "addr:street": "Airport road,  Ugborikoko",
+        "name": "Ugborikoko Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5427710122,
+      "lat": 5.5422975,
+      "lon": 5.7666748,
+      "tags": {
+        "addr:street": "Airport Road",
+        "name": "Tivo Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5485185983,
+      "lat": 8.9848745,
+      "lon": 7.4929275,
+      "tags": {
+        "brand": "Shoprite",
+        "brand:wikidata": "Q130474676",
+        "brand:wikipedia": "en:Shoprite (South Africa)",
+        "name": "Shoprite",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5499891275,
+      "lat": 4.9293628,
+      "lon": 6.3219395,
+      "tags": {
+        "addr:housenumber": "2",
+        "addr:street": "Otiotio Road",
+        "name": "Delasantos Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5509059229,
+      "lat": 4.947838,
+      "lon": 6.3333164,
+      "tags": {
+        "addr:street": "Milford Okilo Road",
+        "name": "Market Square",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5512170421,
+      "lat": 4.9474762,
+      "lon": 6.3319631,
+      "tags": {
+        "addr:housenumber": "787",
+        "addr:street": "Milford Okilo Road",
+        "name": "Anchor Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5512206422,
+      "lat": 4.9388172,
+      "lon": 6.3365804,
+      "tags": {
+        "addr:street": "Isaac Boro Expressway",
+        "name": "Surplus Value Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5517105023,
+      "lat": 4.9491251,
+      "lon": 6.3356647,
+      "tags": {
+        "name": "Opolo Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5553348221,
+      "lat": 5.5604177,
+      "lon": 5.7753846,
+      "tags": {
+        "name": "Jakpa Small Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5556152322,
+      "lat": 5.5648679,
+      "lon": 5.7626457,
+      "tags": {
+        "addr:housenumber": "202",
+        "name": "El-Vanna Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5567184408,
+      "lat": 5.5404116,
+      "lon": 6.0755038,
+      "tags": {
+        "name": "Agbaro-Otor Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5582797234,
+      "lat": 5.5290412,
+      "lon": 5.7508116,
+      "tags": {
+        "name": "Lee Oasis Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5586213223,
+      "lat": 4.8375536,
+      "lon": 6.9887684,
+      "tags": {
+        "name": "Success Superstore",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5586872021,
+      "lat": 4.8172609,
+      "lon": 7.059246,
+      "tags": {
+        "addr:housenumber": "23",
+        "addr:street": "Alcon Road",
+        "name": "Shopping Centre",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5590588021,
+      "lat": 5.0280591,
+      "lon": 7.9709675,
+      "tags": {
+        "addr:housenumber": "300",
+        "addr:postcode": "234",
+        "addr:street": "nwaniba road",
+        "name": "King  star",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5593033521,
+      "lat": 4.8345119,
+      "lon": 7.0254052,
+      "tags": {
+        "addr:housenumber": "6",
+        "addr:street": "Market Road",
+        "name": "Richie Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5597055426,
+      "lat": 4.8393497,
+      "lon": 7.0293691,
+      "tags": {
+        "addr:housenumber": "268",
+        "addr:street": "Port Harcourt - Aba Expressway",
+        "name": "Linjo Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599578827,
+      "lat": 4.846913,
+      "lon": 7.0468457,
+      "tags": {
+        "addr:street": "Enugu - Port Harcourt Expressway",
+        "name": "Everyday Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599601025,
+      "lat": 4.8267034,
+      "lon": 7.0488663,
+      "tags": {
+        "addr:housenumber": "11",
+        "addr:street": "Woji Road",
+        "name": "Petroriv Integrated Resources",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5600363623,
+      "lat": 4.8360422,
+      "lon": 7.0483541,
+      "tags": {
+        "addr:street": "Woji Road",
+        "name": "Rumurolu Mordern Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5622954421,
+      "lat": 4.8345425,
+      "lon": 7.025431,
+      "tags": {
+        "addr:housenumber": "6",
+        "addr:street": "Market Road",
+        "name": "Richie Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5624967923,
+      "lat": 8.9913364,
+      "lon": 7.3935682,
+      "tags": {
+        "addr:street": "Umaru Musa Yar'Adua Expressway",
+        "brand": "Shoprite",
+        "brand:wikidata": "Q130474676",
+        "brand:wikipedia": "en:Shoprite (South Africa)",
+        "level": "0",
+        "name": "Shoprite",
+        "opening_hours": "Mo-Su 09:00-21:00; PH open",
+        "shop": "supermarket",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5649641160,
+      "lat": 6.4385334,
+      "lon": 3.4318991,
+      "tags": {
+        "name": "Mandy's Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5665334410,
+      "lat": 6.4711722,
+      "lon": 3.3068416,
+      "tags": {
+        "name": "One Source Mart",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5674250823,
+      "lat": 6.6190188,
+      "lon": 3.4756552,
+      "tags": {
+        "name": "Just Rite",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5781787336,
+      "lat": 6.5063761,
+      "lon": 3.3741433,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "11",
+        "addr:street": "Commercial Avenue",
+        "name": "Domino",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5908348927,
+      "lat": 5.4762162,
+      "lon": 7.056452,
+      "tags": {
+        "name": "ShopRite",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6465379773,
+      "lat": 6.497809,
+      "lon": 3.1955301,
+      "tags": {
+        "addr:street": "Obafemi Awolowo Road",
+        "amenity": "pharmacy",
+        "name": "Oriwu Pharmacy & Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6576791279,
+      "lat": 7.3980958,
+      "lon": 3.8683621,
+      "tags": {
+        "name": "Foodco",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6579591576,
+      "lat": 7.3642475,
+      "lon": 3.8650798,
+      "tags": {
+        "name": "Palms Shopping Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6718443909,
+      "lat": 4.6881095,
+      "lon": 7.3442486,
+      "tags": {
+        "name": "Nugbee Market Square",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6718482834,
+      "lat": 4.68607,
+      "lon": 7.3445479,
+      "tags": {
+        "name": "Nukpor Market Square",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773145354,
+      "lat": 8.135642,
+      "lon": 4.2368846,
+      "tags": {
+        "name": "Brent Shopping Mall",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Brent",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773145367,
+      "lat": 8.1411967,
+      "lon": 4.2441211,
+      "tags": {
+        "name": "Alata Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773178290,
+      "lat": 8.1530908,
+      "lon": 4.2544111,
+      "tags": {
+        "name": "ACE Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6781683580,
+      "lat": 7.8424998,
+      "lon": 3.9491737,
+      "tags": {
+        "name": "Iya Khadijah Shop",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "operator": "Iya Khadijah",
+        "payment:cash": "yes",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6967861136,
+      "lat": 6.4921338,
+      "lon": 3.1994531,
+      "tags": {
+        "name": "Twins Faja",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7055759634,
+      "lat": 4.7752123,
+      "lon": 7.0135924,
+      "tags": {
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "brand:wikipedia": "en:Spar (retailer)",
+        "name": "Spar",
+        "name:ar": "سبار",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7260810871,
+      "lat": 6.6153677,
+      "lon": 3.5019062,
+      "tags": {
+        "name": "Domino",
+        "shop": "supermarket",
+        "website": "http://thedominogroup.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7424583546,
+      "lat": 6.4551674,
+      "lon": 3.4378663,
+      "tags": {
+        "name": "Reneé Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7500805491,
+      "lat": 6.5019364,
+      "lon": 3.5830403,
+      "tags": {
+        "name": "Flex Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7922825459,
+      "lat": 7.7807641,
+      "lon": 4.5528233,
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:housenumber": "35",
+        "addr:street": "Obafemi Awolowo Way",
+        "name": "Jumia Pick up Station",
+        "opening_hours": "Mo-Fr 09:00-15:00",
+        "operator": "JUMIA NIGERIA",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956218495,
+      "lat": 4.9399048,
+      "lon": 6.3151218,
+      "tags": {
+        "addr:street": "Melford Okilo Road",
+        "name": "General Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956224602,
+      "lat": 4.8334182,
+      "lon": 7.0052046,
+      "tags": {
+        "name": "Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225497,
+      "lat": 8.1356778,
+      "lon": 4.2360938,
+      "tags": {
+        "name": "Brent Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231188,
+      "lat": 5.1602437,
+      "lon": 6.1986982,
+      "tags": {
+        "name": "Pereowei Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231189,
+      "lat": 4.9313273,
+      "lon": 6.2883355,
+      "tags": {
+        "addr:street": "Melford Okilo Road",
+        "name": "Amby Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7982146854,
+      "lat": 4.5797247,
+      "lon": 7.5813946,
+      "tags": {
+        "addr:city": "Ikot Akpan-Ata",
+        "addr:housenumber": "231",
+        "addr:postcode": "534101",
+        "addr:street": "Ibekwe Road",
+        "air_conditioning": "yes",
+        "currency:NGN": "yes",
+        "currency:USD": "yes",
+        "name": "JON KAMSY SUPPER MARKET",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8059167390,
+      "lat": 5.4996726,
+      "lon": 5.801701,
+      "tags": {
+        "name": "Gemstone Ultramart",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8111929251,
+      "lat": 6.545767,
+      "lon": 3.2705729,
+      "tags": {
+        "addr:city": "Egbe",
+        "addr:housenumber": "7",
+        "addr:postcode": "100263",
+        "addr:street": "Nik Chuks Street",
+        "currency:EUR": "yes",
+        "currency:GBP": "yes",
+        "currency:NGN": "yes",
+        "currency:USD": "yes",
+        "description": "An E commerce Super Store that allows you and I the power to sell our wares and services at a controlled price and shipping expectations,",
+        "email": "info@agora.com.ng",
+        "name": "Agora Marketplace",
+        "opening_hours": "Mo-Sa 08:00-18:00",
+        "operator": "CTRONS INFOTECH COMMUNIQUE",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:visa": "yes",
+        "phone": "+2349079579400",
+        "shop": "supermarket",
+        "website": "https://agora.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8126987110,
+      "lat": 6.5923956,
+      "lon": 3.3605026,
+      "tags": {
+        "addr:city": "Ikeja",
+        "addr:housenumber": "23A",
+        "addr:postcode": "100281",
+        "addr:street": "Opebi Link Road",
+        "description": "Wholesale and retail dealer in virgin human hair accessories, hair extensions, wigs, cosmetics and fashion accessories",
+        "email": "sales@shaddash.com",
+        "name": "Shaddash",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "operator": "Shaddash",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "phone": "+234 8029702046",
+        "shop": "supermarket",
+        "website": "https://shaddash.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8128856154,
+      "lat": 5.8971538,
+      "lon": 5.6780867,
+      "tags": {
+        "addr:city": "sapele delta state",
+        "addr:housenumber": "65",
+        "addr:postcode": "100001",
+        "addr:street": "adeola road",
+        "name": "DeTinselsSignature",
+        "operator": "Mr Malachy Uradu",
+        "payment:notes": "yes",
+        "phone": "+2348063723849",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8230762653,
+      "lat": 7.6395209,
+      "lon": 5.2044737,
+      "tags": {
+        "description": "located along Awelede Ado-Ekiti",
+        "name": "Adedoyin Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8487211885,
+      "lat": 6.1525014,
+      "lon": 6.7820478,
+      "tags": {
+        "contact:facebook": "https://www.facebook.com/Ike-Dunukofia-Shopping-Plaza-Onitsha-101791848232647/",
+        "name": "Ike Dunkofia Plaza Onitsha",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8554838219,
+      "lat": 6.4565067,
+      "lon": 3.4455048,
+      "tags": {
+        "name": "Hartley's",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753070715,
+      "lat": 6.4581986,
+      "lon": 7.5167962,
+      "tags": {
+        "name": "Frank Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753126649,
+      "lat": 6.4581367,
+      "lon": 7.5177094,
+      "tags": {
+        "name": "Friendly Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753150412,
+      "lat": 6.458508,
+      "lon": 7.5231681,
+      "tags": {
+        "name": "Movin Star Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753227879,
+      "lat": 6.4585337,
+      "lon": 7.5229865,
+      "tags": {
+        "name": "Akalaka House",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753246687,
+      "lat": 6.4577077,
+      "lon": 7.5236002,
+      "tags": {
+        "name": "Discovery Plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8841784057,
+      "lat": 7.4322115,
+      "lon": 3.9418112,
+      "tags": {
+        "addr:street": "Akobo",
+        "name": "Foodco Akobo",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9401736367,
+      "lat": 8.9547127,
+      "lon": 7.3645318,
+      "tags": {
+        "name": "PROGNOSY PHARMACY AND SUPERMARKET",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9401822342,
+      "lat": 8.9681812,
+      "lon": 7.3591618,
+      "tags": {
+        "name": "Oliver Twist",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9436743205,
+      "lat": 4.3847786,
+      "lon": 7.1793088,
+      "tags": {
+        "name": "NLNG SHOPPING MALL",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9582157844,
+      "lat": 6.3370036,
+      "lon": 8.0930616,
+      "tags": {
+        "addr:city": "Abakaliki",
+        "air_conditioning": "yes",
+        "name": "Roban Stores",
+        "opening_hours": "Mo-Sa 09:00-20:30",
+        "operator": "Roban Stores",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+2349080887536",
+        "shop": "mall",
+        "website": "https://www.robanstores.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9624452703,
+      "lat": 6.4991588,
+      "lon": 3.1166964,
+      "tags": {
+        "name": "Grocery Barzar",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9851466892,
+      "lat": 4.8300237,
+      "lon": 7.056318,
+      "tags": {
+        "addr:city": "Port Harcort",
+        "addr:postcode": "500211",
+        "addr:street": "Ogbatai",
+        "check_date:currency:XBT": "2023-02-07",
+        "currency:XBT": "yes",
+        "currency:naira": "yes",
+        "name": "c.g supermarket",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:lightning": "no",
+        "payment:lightning_contactless": "no",
+        "payment:mastercard": "yes",
+        "payment:onchain": "yes",
+        "payment:visa": "yes",
+        "phone": "+2347014568425",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10106319017,
+      "lat": 4.8994935,
+      "lon": 6.9215027,
+      "tags": {
+        "name": "Beloved Super Store",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10287518642,
+      "lat": 6.308059,
+      "lon": 8.103425,
+      "tags": {
+        "name": "Ebonyi Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10726475200,
+      "lat": 5.5710047,
+      "lon": 5.7829427,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:housenumber": "1",
+        "addr:street": "Effurun Roundabout",
+        "name": "Shoprite Delta Mall",
+        "opening_hours": "Mo-Su 08:00-23:00",
+        "operator": "Delta State Government",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10922038202,
+      "lat": 6.4668142,
+      "lon": 7.5980978,
+      "tags": {
+        "check_date": "2023-05-23",
+        "name": "Simple Aim Paza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10990484805,
+      "lat": 4.82927,
+      "lon": 6.9820334,
+      "tags": {
+        "addr:street": "Ikwerre Road",
+        "name": "Moonbase",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11121934211,
+      "lat": 6.4726181,
+      "lon": 3.6315981,
+      "tags": {
+        "name": "Target Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11121934212,
+      "lat": 6.4730603,
+      "lon": 3.6302218,
+      "tags": {
+        "name": "Builders Mart",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11121934214,
+      "lat": 6.473159,
+      "lon": 3.6286505,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Children's place Plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11121934215,
+      "lat": 6.4732848,
+      "lon": 3.6284211,
+      "tags": {
+        "amenity": "marketplace",
+        "name": "Olad Plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11121957034,
+      "lat": 6.4719284,
+      "lon": 3.6301102,
+      "tags": {
+        "name": "Templehill Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11136179332,
+      "lat": 5.0285469,
+      "lon": 7.9617198,
+      "tags": {
+        "air_conditioning": "yes",
+        "name": "EFG MART",
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "operator": "EFG GROUP",
+        "payment:app": "yes",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+2348129261004",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11243769938,
+      "lat": 7.2452863,
+      "lon": 5.2018453,
+      "tags": {
+        "name": "NEPA Ultra Modern Market",
+        "shop": "mall",
+        "source": "https://www.openstreetmap.org/note/3035868"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11357438860,
+      "lat": 7.255179,
+      "lon": 5.2196803,
+      "tags": {
+        "name": "Iyeoma Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11396393143,
+      "lat": 6.4358114,
+      "lon": 7.4919994,
+      "tags": {
+        "check_date": "2023-12-05",
+        "name": "Coal City Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11505512910,
+      "lat": 8.9700775,
+      "lon": 7.4374199,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:suite": "A3",
+        "level": "0",
+        "name": "Food Alacarte",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "payment:cash": "yes",
+        "payment:coins": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+234 802 449 7833",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11505525251,
+      "lat": 8.9701042,
+      "lon": 7.4373367,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:unit": "B2",
+        "level": "0",
+        "name": "Gracemade supermarket",
+        "opening_hours": "Mo-Su 09:00-19:15, 08:00-20:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11569815835,
+      "lat": 7.292929,
+      "lon": 5.1513753,
+      "tags": {
+        "addr:city": "Akure",
+        "addr:street": "Oduduwa Road",
+        "name": "Adejuyigbe Shopping Center",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11579290288,
+      "lat": 8.9857173,
+      "lon": 7.4464856,
+      "tags": {
+        "check_date": "2024-02-02",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Sunnyvale Mall",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "shop": "mall",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11670181844,
+      "lat": 7.7801207,
+      "lon": 4.5281557,
+      "tags": {
+        "description": "A supermarket located in the building",
+        "name": "Wellspring Superstore",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11746384743,
+      "lat": 8.9852348,
+      "lon": 7.4472906,
+      "tags": {
+        "contact:email": "vincetobe123@gmail.com",
+        "name": "Flourish Superstores",
+        "phone": "+2348081191759, +2349038005328",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11750139937,
+      "lat": 6.8912348,
+      "lon": 3.7204419,
+      "tags": {
+        "name": "BU Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11750260577,
+      "lat": 6.8920535,
+      "lon": 3.7237593,
+      "tags": {
+        "name": "BUSA House",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938908270,
+      "lat": 7.2878452,
+      "lon": 5.151946,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "D'Luxury Supermarket",
+        "name:en": "D'Luxury",
+        "opening_hours": "24/7",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11940681524,
+      "lat": 7.6281151,
+      "lon": 4.1602245,
+      "tags": {
+        "name": "Solademi shopping complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11940706203,
+      "lat": 7.6301471,
+      "lon": 4.1695374,
+      "tags": {
+        "name": "Galaxy Electronics Store",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11969026619,
+      "lat": 7.9016139,
+      "lon": 4.3140444,
+      "tags": {
+        "check_date": "2024-06-10",
+        "internet_access": "no",
+        "name": "Shopping Complex Ejigbo",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:wire_transfer": "yes",
+        "shop": "mall",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11969097666,
+      "lat": 7.9014521,
+      "lon": 4.3152023,
+      "tags": {
+        "check_date": "2024-06-10",
+        "name": "Adeeyo Shopping Complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12066359339,
+      "lat": 8.9680162,
+      "lon": 7.4395378,
+      "tags": {
+        "addr:block": "C1",
+        "addr:housename": "House 2",
+        "addr:street": "Road 1",
+        "baby_feeding": "no",
+        "level": "0",
+        "name": "Dis And More Supermarket",
+        "opening_hours": "Mo-Sa 08:00-22:30; Su 12:30-22:30",
+        "shop": "supermarket",
+        "toilets": "no",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12073716124,
+      "lat": 8.9692794,
+      "lon": 7.2567505,
+      "tags": {
+        "addr:unit": "27",
+        "level": "0",
+        "name": "Tripple J Supermarket",
+        "phone": "+2347034471010",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594059,
+      "lat": 6.60061,
+      "lon": 3.421381,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Mira mart supermarket",
+        "operator": "private/individual",
+        "shop": "supermarket",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594060,
+      "lat": 6.60886,
+      "lon": 3.42245,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Over comers Plaza",
+        "operator": "private/individual",
+        "shop": "supermarket",
+        "source:position": "gps",
+        "status": "needs repair",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594061,
+      "lat": 6.600292,
+      "lon": 3.413012,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Boly Sam super mart",
+        "operator": "private/individual",
+        "shop": "supermarket",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594062,
+      "lat": 6.599073,
+      "lon": 3.412998,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Mini supermarket",
+        "operator": "private/individual",
+        "shop": "small super market",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594063,
+      "lat": 6.601655,
+      "lon": 3.412943,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "S square",
+        "operator": "private/individual",
+        "shop": "small super market",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795074,
+      "lat": 6.5282659,
+      "lon": 3.2381855,
+      "tags": {
+        "facility_use": "selling of goods, offices, Stores and shops",
+        "name": "Apata plaza",
+        "operator": "private/ individual",
+        "shop": "mall",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569308966,
+      "lat": 6.1838552,
+      "lon": 6.7321312,
+      "tags": {
+        "name": "Peace",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12774568269,
+      "lat": 8.9789647,
+      "lon": 7.4688141,
+      "tags": {
+        "contact:phone": "+234 815 090 3409;+234 905 369 9101",
+        "level": "0",
+        "name": "Bakan Gizo Pharmacy And Stores",
+        "shop": "supermarket",
+        "website": "https://bakangizo.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13011527303,
+      "lat": 6.6524157,
+      "lon": 3.3102877,
+      "tags": {
+        "addr:housenumber": "51",
+        "addr:postcode": "101232",
+        "addr:street": "Charity Road",
+        "email": "info@oldenglishsuperstores.com",
+        "name": "Old English Superstores",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "phone": "+2348076885752",
+        "shop": "supermarket",
+        "website": "https://oldenglishsuperstores.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974729,
+      "lat": 8.4990801,
+      "lon": 4.5861224,
+      "tags": {
+        "name": "Shoprite Kwara Mall, Fate Road, Oko Erin, Nigeria",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974730,
+      "lat": 8.5090244,
+      "lon": 4.5852876,
+      "tags": {
+        "name": "Shop 46 Sango Shopping Complex Kwara, Oko Erin 240102, Kwara, Nigeria",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974820,
+      "lat": 8.4842833,
+      "lon": 4.5636571,
+      "tags": {
+        "name": "Matanmi Shopping Complex, Oko Erin 240101, Kwara, Nigeria",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974821,
+      "lat": 8.4825562,
+      "lon": 4.5713084,
+      "tags": {
+        "name": "Martrite Superstores, Ahmadu Bello Way, Ilorin, Nigeria",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975002,
+      "lat": 8.4976709,
+      "lon": 4.5856171,
+      "tags": {
+        "name": "FHXP+25X, Fate Rd, Oko Erin 240102, Kwara, Nigeria",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975222,
+      "lat": 8.484171,
+      "lon": 4.6022637,
+      "tags": {
+        "name": "Edinwo Supermarket, Tanke Road, Oko Erin, Nigeria",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975223,
+      "lat": 8.4842486,
+      "lon": 4.6021617,
+      "tags": {
+        "name": "Edinwo Mall, Fate Tanke Road, Oko Erin, Nigeria",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975255,
+      "lat": 8.4826178,
+      "lon": 4.5629364,
+      "tags": {
+        "name": "Challenge shopping complex, Muritala Muhamed Way, Oko Erin, Nigeria",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975428,
+      "lat": 8.4863416,
+      "lon": 4.538669,
+      "tags": {
+        "name": "130 Surulere Rd, Oja Oba, Kwara, Nigeria",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048283387,
+      "lat": 8.4850449,
+      "lon": 4.563748,
+      "tags": {
+        "amenity": "school",
+        "name": "Edinwo Plaza Muritala, Ilorin, Kwara, Nigeria",
+        "shop": "supermarket",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286666,
+      "lat": 8.4437971,
+      "lon": 4.5045246,
+      "tags": {
+        "name": "JSS junction gbagba ilorin, Oko Erin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286674,
+      "lat": 8.500171,
+      "lon": 4.5506967,
+      "tags": {
+        "name": "ITA AJIA Shopping Complex, Oko Erin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286709,
+      "lat": 8.4974731,
+      "lon": 4.5861419,
+      "tags": {
+        "name": "Femtech Electromall, Fate Road, Ilorin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286710,
+      "lat": 8.4979691,
+      "lon": 4.5850037,
+      "tags": {
+        "name": "Fate Road, Oko Erin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286713,
+      "lat": 8.4478302,
+      "lon": 4.5085593,
+      "tags": {
+        "name": "Emirate Mall Ilorin, Airforce base street, off Lagos-Ogbomosho road, Ilorin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286735,
+      "lat": 8.4880286,
+      "lon": 4.5628804,
+      "tags": {
+        "name": "Charis Shopping Complex, Post Office, Ilorin, Nigeria",
+        "shop": "mall",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286777,
+      "lat": 8.4806197,
+      "lon": 4.5578743,
+      "tags": {
+        "name": "Ace Supermarket, Unity Road, Ilorin, Nigeria",
+        "shop": "supermarket",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13062065151,
+      "lat": 8.4786897,
+      "lon": 4.5207037,
+      "tags": {
+        "name": "Nd Super-Market. Adewole, Ilorin",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13171397012,
+      "lat": 6.4599176,
+      "lon": 7.4962077,
+      "tags": {
+        "name": "Shoprite Mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13432551145,
+      "lat": 5.4935647,
+      "lon": 7.0393412,
+      "tags": {
+        "contact:phone": "+234 803 706 7374",
+        "level": "0;1;2",
+        "name": "Destiny Supermarket",
+        "organic": "no",
+        "shop": "supermarket",
+        "toilets": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13442806419,
+      "lat": 5.4884809,
+      "lon": 7.0394536,
+      "tags": {
+        "level": "0",
+        "name": "Greenwich Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44618871,
+      "center": {
+        "lat": 6.3354442,
+        "lon": 5.6210955
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Osawaru Mega Plaza",
+        "shop": "mall"
+      },
+      "lat": 6.3354442,
+      "lon": 5.6210955
+    },
+    {
+      "type": "way",
+      "id": 44923972,
+      "center": {
+        "lat": 6.3471279,
+        "lon": 5.6080052
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Uwa Shopping Plaza",
+        "shop": "mall"
+      },
+      "lat": 6.3471279,
+      "lon": 5.6080052
+    },
+    {
+      "type": "way",
+      "id": 47145059,
+      "center": {
+        "lat": 6.3164412,
+        "lon": 5.6114325
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Crown Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 6.3164412,
+      "lon": 5.6114325
+    },
+    {
+      "type": "way",
+      "id": 84172448,
+      "center": {
+        "lat": 6.3356174,
+        "lon": 5.6205087
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Shopping Mall (Phone village)",
+        "shop": "mall"
+      },
+      "lat": 6.3356174,
+      "lon": 5.6205087
+    },
+    {
+      "type": "way",
+      "id": 84396569,
+      "center": {
+        "lat": 6.3376089,
+        "lon": 5.6175971
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 6.3376089,
+      "lon": 5.6175971
+    },
+    {
+      "type": "way",
+      "id": 84396951,
+      "center": {
+        "lat": 6.3394135,
+        "lon": 5.6185754
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Osasco Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 6.3394135,
+      "lon": 5.6185754
+    },
+    {
+      "type": "way",
+      "id": 84463429,
+      "center": {
+        "lat": 6.3374484,
+        "lon": 5.6202686
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 6.3374484,
+      "lon": 5.6202686
+    },
+    {
+      "type": "way",
+      "id": 85516038,
+      "center": {
+        "lat": 6.3116568,
+        "lon": 5.6091406
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Abi Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 6.3116568,
+      "lon": 5.6091406
+    },
+    {
+      "type": "way",
+      "id": 131672299,
+      "center": {
+        "lat": 6.6394637,
+        "lon": 3.3678406
+      },
+      "tags": {
+        "name": "Sherryville",
+        "shop": "mall"
+      },
+      "lat": 6.6394637,
+      "lon": 3.3678406
+    },
+    {
+      "type": "way",
+      "id": 297477176,
+      "center": {
+        "lat": 6.4909787,
+        "lon": 3.3570587
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Shoprite",
+        "shop": "supermarket"
+      },
+      "lat": 6.4909787,
+      "lon": 3.3570587
+    },
+    {
+      "type": "way",
+      "id": 316707040,
+      "center": {
+        "lat": 6.4395551,
+        "lon": 3.4958624
+      },
+      "tags": {
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "brand:wikipedia": "en:Spar (retailer)",
+        "building": "yes",
+        "name": "Spar",
+        "shop": "supermarket"
+      },
+      "lat": 6.4395551,
+      "lon": 3.4958624
+    },
+    {
+      "type": "way",
+      "id": 378869329,
+      "center": {
+        "lat": 7.7804981,
+        "lon": 4.5568316
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Betsay Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 7.7804981,
+      "lon": 4.5568316
+    },
+    {
+      "type": "way",
+      "id": 378869330,
+      "center": {
+        "lat": 7.7813251,
+        "lon": 4.5565847
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Treasure Plaza",
+        "shop": "mall"
+      },
+      "lat": 7.7813251,
+      "lon": 4.5565847
+    },
+    {
+      "type": "way",
+      "id": 378869333,
+      "center": {
+        "lat": 7.7813451,
+        "lon": 4.5567329
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Treasure Plaza",
+        "shop": "mall"
+      },
+      "lat": 7.7813451,
+      "lon": 4.5567329
+    },
+    {
+      "type": "way",
+      "id": 378869335,
+      "center": {
+        "lat": 7.7814336,
+        "lon": 4.5560913
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Olatundun Shopping Plaza",
+        "shop": "mall"
+      },
+      "lat": 7.7814336,
+      "lon": 4.5560913
+    },
+    {
+      "type": "way",
+      "id": 378869339,
+      "center": {
+        "lat": 7.7812371,
+        "lon": 4.5547139
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Oba Oyewole Shopping Plaza",
+        "shop": "mall"
+      },
+      "lat": 7.7812371,
+      "lon": 4.5547139
+    },
+    {
+      "type": "way",
+      "id": 378869342,
+      "center": {
+        "lat": 7.7809645,
+        "lon": 4.5619212
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Obafemi Awolowo Way",
+        "building": "yes",
+        "name": "Boorepo Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 7.7809645,
+      "lon": 4.5619212
+    },
+    {
+      "type": "way",
+      "id": 415803709,
+      "center": {
+        "lat": 6.4356163,
+        "lon": 3.4206612
+      },
+      "tags": {
+        "addr:city": "Lagaos",
+        "addr:country": "NG",
+        "addr:housenumber": "237",
+        "addr:place": "Victoria Island",
+        "addr:street": "Kofo Abayomi Road",
+        "building": "yes",
+        "name": "Goodies Supermarket",
+        "phone": "+234 1 2672345",
+        "shop": "supermarket"
+      },
+      "lat": 6.4356163,
+      "lon": 3.4206612
+    },
+    {
+      "type": "way",
+      "id": 514466054,
+      "center": {
+        "lat": 4.7938296,
+        "lon": 7.0309005
+      },
+      "tags": {
+        "building": "yes",
+        "name": "De Current",
+        "shop": "supermarket"
+      },
+      "lat": 4.7938296,
+      "lon": 7.0309005
+    },
+    {
+      "type": "way",
+      "id": 518124114,
+      "center": {
+        "lat": 6.4601783,
+        "lon": 7.4959705
+      },
+      "tags": {
+        "building": "yes",
+        "layer": "1",
+        "name": "Polo Park Mall",
+        "shop": "mall"
+      },
+      "lat": 6.4601783,
+      "lon": 7.4959705
+    },
+    {
+      "type": "way",
+      "id": 536736961,
+      "center": {
+        "lat": 6.4550043,
+        "lon": 3.4293117
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "23A",
+        "addr:street": "Glover Road",
+        "building": "yes",
+        "height": "9",
+        "name": "Stamart",
+        "shop": "supermarket"
+      },
+      "lat": 6.4550043,
+      "lon": 3.4293117
+    },
+    {
+      "type": "way",
+      "id": 542661178,
+      "center": {
+        "lat": 6.4674942,
+        "lon": 3.638915
+      },
+      "tags": {
+        "building": "yes",
+        "height": "9",
+        "name": "Novare Lekki Mall",
+        "shop": "mall"
+      },
+      "lat": 6.4674942,
+      "lon": 3.638915
+    },
+    {
+      "type": "way",
+      "id": 570496234,
+      "center": {
+        "lat": 6.4394343,
+        "lon": 3.4717284
+      },
+      "tags": {
+        "landuse": "retail",
+        "name": "Trocadero Square",
+        "shop": "mall"
+      },
+      "lat": 6.4394343,
+      "lon": 3.4717284
+    },
+    {
+      "type": "way",
+      "id": 594763846,
+      "center": {
+        "lat": 6.4301035,
+        "lon": 3.4205954
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "47",
+        "addr:street": "Adeola Odeku Street",
+        "alt_name": "Spar Adeola Odeku",
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "email": "customercare@sparnigeria.com",
+        "landuse": "retail",
+        "name": "Spar",
+        "payment:notes": "yes",
+        "phone": "+234-1-7616185",
+        "shop": "supermarket",
+        "website": "https://www.sparnigeria.com/"
+      },
+      "lat": 6.4301035,
+      "lon": 3.4205954
+    },
+    {
+      "type": "way",
+      "id": 595620121,
+      "center": {
+        "lat": 6.4309663,
+        "lon": 3.4201407
+      },
+      "tags": {
+        "landuse": "retail",
+        "name": "La Pointe Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 6.4309663,
+      "lon": 3.4201407
+    },
+    {
+      "type": "way",
+      "id": 625792635,
+      "center": {
+        "lat": 5.4765146,
+        "lon": 7.0559911
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Owerri City Mall",
+        "shop": "mall"
+      },
+      "lat": 5.4765146,
+      "lon": 7.0559911
+    },
+    {
+      "type": "way",
+      "id": 626246877,
+      "center": {
+        "lat": 6.5984968,
+        "lon": 3.3532082
+      },
+      "tags": {
+        "addr:city": "Ikeja",
+        "addr:country": "NG",
+        "addr:housenumber": "21",
+        "addr:postcode": "100281",
+        "addr:state": "Lagos",
+        "addr:street": "Allen Avenue",
+        "building": "yes",
+        "name": "Emporium Plaza",
+        "shop": "mall"
+      },
+      "lat": 6.5984968,
+      "lon": 3.3532082
+    },
+    {
+      "type": "way",
+      "id": 626685823,
+      "center": {
+        "lat": 5.5088223,
+        "lon": 7.0373359
+      },
+      "tags": {
+        "name": "Shop D World Plaza",
+        "shop": "mall"
+      },
+      "lat": 5.5088223,
+      "lon": 7.0373359
+    },
+    {
+      "type": "way",
+      "id": 632763108,
+      "center": {
+        "lat": 7.8005415,
+        "lon": 6.7443336
+      },
+      "tags": {
+        "addr:city": "Lokoja",
+        "addr:street": "Ibb way",
+        "amenity": "pharmacy",
+        "building": "yes",
+        "building:levels": "3",
+        "landuse": "commercial",
+        "name": "Chucks Shopping Mall",
+        "shop": "supermarket"
+      },
+      "lat": 7.8005415,
+      "lon": 6.7443336
+    },
+    {
+      "type": "way",
+      "id": 653305667,
+      "center": {
+        "lat": 6.4305264,
+        "lon": 3.4243357
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Delis",
+        "shop": "supermarket"
+      },
+      "lat": 6.4305264,
+      "lon": 3.4243357
+    },
+    {
+      "type": "way",
+      "id": 653305671,
+      "center": {
+        "lat": 6.4301905,
+        "lon": 3.4244867
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "1292",
+        "addr:street": "Akin Adesola Street",
+        "alt_name": "Pick n Pay Victoria Island",
+        "building": "yes",
+        "contact:phone": "+234 811 162 1102",
+        "name": "Pick n Pay",
+        "shop": "supermarket",
+        "website": "https://picknpayng.com/"
+      },
+      "lat": 6.4301905,
+      "lon": 3.4244867
+    },
+    {
+      "type": "way",
+      "id": 669758906,
+      "center": {
+        "lat": 4.9608844,
+        "lon": 8.3267103
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Calabar Mall",
+        "shop": "mall"
+      },
+      "lat": 4.9608844,
+      "lon": 8.3267103
+    },
+    {
+      "type": "way",
+      "id": 671850898,
+      "center": {
+        "lat": 6.5081485,
+        "lon": 3.3697531
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:street": "Ojuelegba Road",
+        "alt_name": "Tejuosho Ultramodern Shopping Centre",
+        "landuse": "retail",
+        "name": "Tejuosho Shopping Centre",
+        "shop": "mall",
+        "website": "https://tejuoshoshoppingcentre.com",
+        "wikidata": "Q25052787",
+        "wikipedia": "en:Tejuosho Market"
+      },
+      "lat": 6.5081485,
+      "lon": 3.3697531
+    },
+    {
+      "type": "way",
+      "id": 671991294,
+      "center": {
+        "lat": 6.4445918,
+        "lon": 3.4024639
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "landuse": "retail",
+        "name": "City Mall",
+        "shop": "mall",
+        "website": "http://www.lagoscitymall.com/",
+        "wikidata": "Q22080765",
+        "wikipedia": "en:City Mall, Lagos"
+      },
+      "lat": 6.4445918,
+      "lon": 3.4024639
+    },
+    {
+      "type": "way",
+      "id": 699200992,
+      "center": {
+        "lat": 6.4294724,
+        "lon": 3.4092164
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:country": "NG",
+        "addr:housenumber": "2",
+        "addr:street": "Adeola Odeku Street",
+        "building": "supermarket",
+        "building:levels": "1",
+        "man_made": "surveillance",
+        "name": "Food Corner",
+        "payment:cash": "yes",
+        "phone": "+234809344442",
+        "shop": "supermarket"
+      },
+      "lat": 6.4294724,
+      "lon": 3.4092164
+    },
+    {
+      "type": "way",
+      "id": 700217906,
+      "center": {
+        "lat": 5.5414539,
+        "lon": 7.4980769
+      },
+      "tags": {
+        "addr:street": "Uwalaka St",
+        "building": "yes",
+        "description": "Its a mall located in the city of Umuahia in Abia state, Nigeria",
+        "name": "Abia Mall",
+        "opening_hours": "Mo-Sa 08:00-21:00, Su 09:00-21:00",
+        "operator": "Shoprite",
+        "payment:cash": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "shop": "mall"
+      },
+      "lat": 5.5414539,
+      "lon": 7.4980769
+    },
+    {
+      "type": "way",
+      "id": 704783397,
+      "center": {
+        "lat": 6.4574663,
+        "lon": 3.3868973
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Oluwole Urban Mall",
+        "shop": "mall"
+      },
+      "lat": 6.4574663,
+      "lon": 3.3868973
+    },
+    {
+      "type": "way",
+      "id": 705854749,
+      "center": {
+        "lat": 6.6975554,
+        "lon": 3.2559454
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Palms Mall",
+        "shop": "mall",
+        "website": "https://www.thepalmsmall.com"
+      },
+      "lat": 6.6975554,
+      "lon": 3.2559454
+    },
+    {
+      "type": "way",
+      "id": 738664064,
+      "center": {
+        "lat": 6.4379487,
+        "lon": 3.4302854
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "8a",
+        "addr:street": "Adetokunbo Ademola Street",
+        "alt_name": "Grand Square Supermarket & Stores",
+        "building": "yes",
+        "name": "Grand Square",
+        "shop": "supermarket",
+        "source": "mapillary"
+      },
+      "lat": 6.4379487,
+      "lon": 3.4302854
+    },
+    {
+      "type": "way",
+      "id": 747279120,
+      "center": {
+        "lat": 6.5995962,
+        "lon": 3.3814776
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Supersaver",
+        "shop": "supermarket"
+      },
+      "lat": 6.5995962,
+      "lon": 3.3814776
+    },
+    {
+      "type": "way",
+      "id": 755344367,
+      "center": {
+        "lat": 4.7753434,
+        "lon": 7.0133801
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Port Harcourt Mall",
+        "shop": "mall"
+      },
+      "lat": 4.7753434,
+      "lon": 7.0133801
+    },
+    {
+      "type": "way",
+      "id": 779131263,
+      "center": {
+        "lat": 6.6399282,
+        "lon": 3.4806026
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Addide",
+        "shop": "supermarket"
+      },
+      "lat": 6.6399282,
+      "lon": 3.4806026
+    },
+    {
+      "type": "way",
+      "id": 785246903,
+      "center": {
+        "lat": 6.4794196,
+        "lon": 3.571586
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Blenco",
+        "shop": "supermarket",
+        "website": "http://blenco.com.ng/"
+      },
+      "lat": 6.4794196,
+      "lon": 3.571586
+    },
+    {
+      "type": "way",
+      "id": 801924049,
+      "center": {
+        "lat": 6.4963988,
+        "lon": 3.5846168
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Payless Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 6.4963988,
+      "lon": 3.5846168
+    },
+    {
+      "type": "way",
+      "id": 802787475,
+      "center": {
+        "lat": 6.4878169,
+        "lon": 3.5786224
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Spinneys Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 6.4878169,
+      "lon": 3.5786224
+    },
+    {
+      "type": "way",
+      "id": 837683775,
+      "center": {
+        "lat": 7.2364706,
+        "lon": 5.2143689
+      },
+      "tags": {
+        "addr:street": "Igbatoto Road",
+        "building": "yes",
+        "name": "Akure Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 7.2364706,
+      "lon": 5.2143689
+    },
+    {
+      "type": "way",
+      "id": 838860388,
+      "center": {
+        "lat": 7.2515881,
+        "lon": 5.2114382
+      },
+      "tags": {
+        "addr:city": "Akure",
+        "addr:street": "Oba Adesida Road",
+        "building": "yes",
+        "name": "Ceci Plaza Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 7.2515881,
+      "lon": 5.2114382
+    },
+    {
+      "type": "way",
+      "id": 885971779,
+      "center": {
+        "lat": 8.9805692,
+        "lon": 7.4625389
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Prince Ebeano Supermarket",
+        "opening_hours": "Mo-Sa 08:00-21:00; Su 11:00-21:00; PH 08:00-21:00 open",
+        "shop": "supermarket",
+        "toilets": "yes",
+        "toilets:access": "customers",
+        "wheelchair": "limited"
+      },
+      "lat": 8.9805692,
+      "lon": 7.4625389
+    },
+    {
+      "type": "way",
+      "id": 898047980,
+      "center": {
+        "lat": 8.9847138,
+        "lon": 7.493035
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:street": "Murtala Mohammed Express Way",
+        "building": "yes",
+        "name": "Novare Apo",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Novare",
+        "shop": "mall"
+      },
+      "lat": 8.9847138,
+      "lon": 7.493035
+    },
+    {
+      "type": "way",
+      "id": 898047983,
+      "center": {
+        "lat": 8.9910482,
+        "lon": 7.3937994
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Novare Gateway",
+        "operator": "Novare",
+        "shop": "mall"
+      },
+      "lat": 8.9910482,
+      "lon": 7.3937994
+    },
+    {
+      "type": "way",
+      "id": 941038668,
+      "center": {
+        "lat": 6.4429126,
+        "lon": 3.4769261
+      },
+      "tags": {
+        "addr:city": "lekki",
+        "addr:housenumber": "13b",
+        "addr:street": "Emma Abimbola Cole Street",
+        "alt_name": "Miskay Boutique Lekki",
+        "branch": "Lekki",
+        "building": "yes",
+        "name": "Miskay Boutique",
+        "opening_hours": "Mo-Sa 10:00-19:00",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2348082709999",
+        "shop": "mall",
+        "website": "https://miskayboutique.com/"
+      },
+      "lat": 6.4429126,
+      "lon": 3.4769261
+    },
+    {
+      "type": "way",
+      "id": 1080662309,
+      "center": {
+        "lat": 4.5798405,
+        "lon": 7.5813721
+      },
+      "tags": {
+        "building": "yes",
+        "name": "JON KAMSY SUPERMARKET",
+        "shop": "supermarket",
+        "source": "microsoft/BuildingFootprints"
+      },
+      "lat": 4.5798405,
+      "lon": 7.5813721
+    },
+    {
+      "type": "way",
+      "id": 1154013012,
+      "center": {
+        "lat": 5.5256854,
+        "lon": 5.7608205
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:street": "Okumagba Avenue Warri",
+        "building": "yes",
+        "layer": "1",
+        "name": "Robinson Plaza Warri",
+        "shop": "mall"
+      },
+      "lat": 5.5256854,
+      "lon": 5.7608205
+    },
+    {
+      "type": "way",
+      "id": 1238916929,
+      "center": {
+        "lat": 8.9701265,
+        "lon": 7.437394
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:neighbourhood": "Faplins Estate",
+        "building": "commercial",
+        "building:levels": "2",
+        "changing_table": "no",
+        "name": "Faplins Estate Mall",
+        "not:name": "Faplins Estate Plaza",
+        "roof:shape": "hipped",
+        "shop": "mall",
+        "toilets": "yes",
+        "toilets:access": "private",
+        "toilets:wheelchair": "no",
+        "wheelchair": "no"
+      },
+      "lat": 8.9701265,
+      "lon": 7.437394
+    },
+    {
+      "type": "way",
+      "id": 1288899865,
+      "center": {
+        "lat": 7.7567221,
+        "lon": 4.5653766
+      },
+      "tags": {
+        "addr:city": "Oshogbo",
+        "addr:housenumber": "QH48+M4G",
+        "addr:postcode": "230284",
+        "addr:street": "Oshogbo - Ilesa Road",
+        "building": "yes",
+        "name": "Big Mummy",
+        "shop": "supermarket",
+        "source": "microsoft/BuildingFootprints",
+        "wheelchair": "no"
+      },
+      "lat": 7.7567221,
+      "lon": 4.5653766
+    },
+    {
+      "type": "way",
+      "id": 1306193103,
+      "center": {
+        "lat": 5.0053164,
+        "lon": 7.8973188
+      },
+      "tags": {
+        "addr:city": "Uyo",
+        "addr:street": "Atan Offot Street",
+        "building": "yes",
+        "description": "Provision stores and LPG Retailers",
+        "name": "WIN-P",
+        "opening_hours": "Mo-Su 08:00-22:00",
+        "operator": "WIN-P GAS",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:cryptocurrencies": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:notes": "yes",
+        "payment:visa": "yes",
+        "shop": "supermarket"
+      },
+      "lat": 5.0053164,
+      "lon": 7.8973188
+    },
+    {
+      "type": "way",
+      "id": 1348006274,
+      "center": {
+        "lat": 5.4905816,
+        "lon": 7.0549047
+      },
+      "tags": {
+        "kids_area:indoor": "yes",
+        "name": "Everyday Supermarket",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "shop": "supermarket"
+      },
+      "lat": 5.4905816,
+      "lon": 7.0549047
+    },
+    {
+      "type": "way",
+      "id": 1373912839,
+      "center": {
+        "lat": 6.4448121,
+        "lon": 3.4282062
+      },
+      "tags": {
+        "addr:city": "Ikoyi",
+        "addr:housenumber": "1",
+        "addr:street": "Alfred Rewane Road",
+        "name": "Falomo Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 6.4448121,
+      "lon": 3.4282062
+    },
+    {
+      "type": "way",
+      "id": 1379646813,
+      "center": {
+        "lat": 8.9790334,
+        "lon": 7.4688899
+      },
+      "tags": {
+        "building:levels": "4",
+        "name": "Sunflower Mall",
+        "shop": "mall"
+      },
+      "lat": 8.9790334,
+      "lon": 7.4688899
+    },
+    {
+      "type": "way",
+      "id": 1419580731,
+      "center": {
+        "lat": 4.9002197,
+        "lon": 6.9210559
+      },
+      "tags": {
+        "addr:city": "University of Port Harcourt, Abuja Campus, Choba, Rivers State.",
+        "addr:street": "Prof. Owunari Abraham Georgewill Drive",
+        "building": "yes",
+        "name": "Uniport Mall",
+        "shop": "mall"
+      },
+      "lat": 4.9002197,
+      "lon": 6.9210559
+    },
+    {
+      "type": "way",
+      "id": 1431372606,
+      "center": {
+        "lat": 8.9943945,
+        "lon": 7.4691102
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "5",
+        "building:use": "commercial",
+        "name": "Iyemi Plaza",
+        "shop": "mall"
+      },
+      "lat": 8.9943945,
+      "lon": 7.4691102
+    },
+    {
+      "type": "way",
+      "id": 1465627346,
+      "center": {
+        "lat": 5.4912003,
+        "lon": 7.0365432
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "3",
+        "name": "Hytel Plaza",
+        "shop": "mall"
+      },
+      "lat": 5.4912003,
+      "lon": 7.0365432
+    },
+    {
+      "type": "way",
+      "id": 1465638401,
+      "center": {
+        "lat": 5.4962156,
+        "lon": 7.0363145
+      },
+      "tags": {
+        "addr:housenumber": "34",
+        "addr:street": "Item Street",
+        "building": "yes",
+        "building:levels": "3",
+        "name": "Ononuju House",
+        "shop": "mall"
+      },
+      "lat": 5.4962156,
+      "lon": 7.0363145
+    },
+    {
+      "type": "way",
+      "id": 1465641073,
+      "center": {
+        "lat": 5.4891947,
+        "lon": 7.0380259
+      },
+      "tags": {
+        "addr:housenumber": "37",
+        "addr:street": "Wetheral Road",
+        "building": "yes",
+        "building:levels": "3",
+        "name": "N. Wasco Electronics plaza",
+        "shop": "mall"
+      },
+      "lat": 5.4891947,
+      "lon": 7.0380259
+    },
+    {
+      "type": "way",
+      "id": 1465643473,
+      "center": {
+        "lat": 5.4885615,
+        "lon": 7.0394961
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "3",
+        "name": "Greenwich Mall",
+        "shop": "mall"
+      },
+      "lat": 5.4885615,
+      "lon": 7.0394961
+    },
+    {
+      "type": "way",
+      "id": 1466331526,
+      "center": {
+        "lat": 6.4217283,
+        "lon": 3.4183635
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "3",
+        "name": "ORCA Mall",
+        "shop": "mall"
+      },
+      "lat": 6.4217283,
+      "lon": 3.4183635
+    },
+    {
+      "type": "way",
+      "id": 1472810285,
+      "center": {
+        "lat": 6.4717798,
+        "lon": 3.7226375
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Blenco Supermarket",
+        "shop": "supermarket"
+      },
+      "lat": 6.4717798,
+      "lon": 3.7226375
+    },
+    {
+      "type": "node",
+      "id": 31445570,
+      "lat": 9.0327607,
+      "lon": 7.4430199,
+      "tags": {
+        "name": "Millipat Plaza",
+        "note": "indoor_shopping_centre",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 541871957,
+      "lat": 9.0405241,
+      "lon": 7.525267,
+      "tags": {
+        "name": "Manan",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1754869251,
+      "lat": 10.5078012,
+      "lon": 7.4333218,
+      "tags": {
+        "addr:street": "Maiduguri Road",
+        "name": "Shagon Buba",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3906097876,
+      "lat": 13.4938678,
+      "lon": 7.1096995,
+      "tags": {
+        "name": "Etablissement Hadadad Khalil",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4237933928,
+      "lat": 9.0772175,
+      "lon": 7.4258386,
+      "tags": {
+        "brand": "Game",
+        "brand:wikidata": "Q126811048",
+        "name": "Game",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4237933929,
+      "lat": 9.0755695,
+      "lon": 7.4250593,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "Plot 1265",
+        "addr:postcode": "240102",
+        "addr:street": "Jabi Lake Mall",
+        "brand": "Shoprite",
+        "brand:wikidata": "Q1857639",
+        "brand:wikipedia": "en:Shoprite (South Africa)",
+        "name": "Shoprite",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "shop": "supermarket",
+        "website": "https://www.shoprite.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4239609893,
+      "lat": 9.0656797,
+      "lon": 7.4288178,
+      "tags": {
+        "name": "O'Neil Centre",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4239611289,
+      "lat": 9.0652842,
+      "lon": 7.4278349,
+      "tags": {
+        "name": "Classic",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314700229,
+      "lat": 13.491438,
+      "lon": 7.1244628,
+      "tags": {
+        "name": "Supermarché PLAZA",
+        "project:pdevii": "yes",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317311380,
+      "lat": 13.4948219,
+      "lon": 7.1119938,
+      "tags": {
+        "name": "Alimentation City Market",
+        "project:pdevii": "yes",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562770,
+      "lat": 13.5087677,
+      "lon": 7.1036341,
+      "tags": {
+        "name": "Alimentation Centrale BDZ",
+        "project:pdevii": "yes",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4549849154,
+      "lat": 9.0777921,
+      "lon": 7.4979244,
+      "tags": {
+        "name": "salt source",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4804068125,
+      "lat": 13.8344246,
+      "lon": 4.7268765,
+      "tags": {
+        "name": "vente du lait de vache",
+        "name:fr": "vente du lait de vache",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4910976254,
+      "lat": 10.5471733,
+      "lon": 7.4638146,
+      "tags": {
+        "name": "Hadidi Shopping Complex",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5562040376,
+      "lat": 13.0388689,
+      "lon": 5.249789,
+      "tags": {
+        "name": "AGG Mall",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5666277313,
+      "lat": 12.9898568,
+      "lon": 7.598943,
+      "tags": {
+        "name": "Jifatu",
+        "operator": "eHealth Africa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5666280724,
+      "lat": 12.9900752,
+      "lon": 7.5988971,
+      "tags": {
+        "name": "Umar Store",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5666284726,
+      "lat": 12.9906329,
+      "lon": 7.5987952,
+      "tags": {
+        "name": "Green House",
+        "operator": "eHealth Africa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5781785678,
+      "lat": 13.5060208,
+      "lon": 7.1078634,
+      "tags": {
+        "name": "KalaTransa Mall",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5836592709,
+      "lat": 13.056873,
+      "lon": 5.2214001,
+      "tags": {
+        "name": "Fodio mall",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6068313290,
+      "lat": 9.0641235,
+      "lon": 7.4588344,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:postcode": "240102",
+        "addr:street": "Dalaba",
+        "brand": "Shoprite",
+        "brand:wikidata": "Q1857639",
+        "brand:wikipedia": "en:Shoprite (South Africa)",
+        "level": "0",
+        "name": "Shoprite",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Shoprite",
+        "shop": "supermarket",
+        "website": "https://www.shoprite.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6787751987,
+      "lat": 13.0166019,
+      "lon": 5.2149118,
+      "tags": {
+        "addr:street": "Bafarawa Fly over",
+        "name": "Alkanci supermarket",
+        "name:en": "Alkanci super market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7320365386,
+      "lat": 13.7440659,
+      "lon": 7.9880934,
+      "tags": {
+        "name": "Marché Tessaoua",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7359763585,
+      "lat": 13.7366176,
+      "lon": 5.294381,
+      "tags": {
+        "addr:street": "ILLELA TRADE CENTRE",
+        "email": "nasirudanhajjiya@gmail.com",
+        "internet_access": "wlan",
+        "name": "ILLELA TRADE CENTRE",
+        "opening_hours": "24/7",
+        "operator": "NASIRU DAN HAJIYA",
+        "phone": "+2348094138989",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7936852092,
+      "lat": 13.0510816,
+      "lon": 3.1947238,
+      "tags": {
+        "name": "Filin banza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7936854698,
+      "lat": 13.0494604,
+      "lon": 3.1948713,
+      "tags": {
+        "name": "Dépôt laban",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8117578517,
+      "lat": 9.0155913,
+      "lon": 7.6100068,
+      "tags": {
+        "name": "Karu int'l market, Mararaba",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8284170918,
+      "lat": 9.0837131,
+      "lon": 7.4682673,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "740",
+        "addr:street": "Aminu Kano Crescent",
+        "alt_name": "Spar Wuse II",
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "brand:wikipedia": "en:Spar (retailer)",
+        "contact:phone": "+234 7080653800",
+        "name": "Spar",
+        "shop": "supermarket",
+        "website": "https://sparnigeria.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8341496210,
+      "lat": 9.0677552,
+      "lon": 7.4853226,
+      "tags": {
+        "brand": "Shoprite",
+        "brand:wikidata": "Q130474676",
+        "brand:wikipedia": "en:Shoprite (South Africa)",
+        "level": "-1",
+        "name": "Shoprite",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "shop": "supermarket",
+        "website": "https://www.shoprite.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8367587217,
+      "lat": 9.0552474,
+      "lon": 7.4898654,
+      "tags": {
+        "brand": "Spar",
+        "brand:wikidata": "Q610492",
+        "name": "Spar",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8589415842,
+      "lat": 9.086303,
+      "lon": 7.4943136,
+      "tags": {
+        "name": "FARMERS MARKET",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9541785662,
+      "lat": 9.0819572,
+      "lon": 7.4697225,
+      "tags": {
+        "addr:street": "Monrovia Street",
+        "name": "Vmart",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "phone": "+2349088988547",
+        "shop": "supermarket",
+        "website": "https://www.vmart.com.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9577867316,
+      "lat": 9.0767303,
+      "lon": 7.4770943,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "48",
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "alt_name": "Hmedix Adetokunbo Ademola Crescent",
+        "name": "H-Medix",
+        "phone": "+234 8064690993",
+        "shop": "supermarket",
+        "website": "https://h-medix.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9961441591,
+      "lat": 9.0784585,
+      "lon": 7.479024,
+      "tags": {
+        "name": "Vintage Hubb",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11073313343,
+      "lat": 13.4914064,
+      "lon": 7.1256183,
+      "tags": {
+        "name": "Complexe SGB",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11097269501,
+      "lat": 13.4933692,
+      "lon": 7.109803,
+      "tags": {
+        "name": "Établissement Sabiou Moussa Kalla",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11102638456,
+      "lat": 13.5016097,
+      "lon": 7.108528,
+      "tags": {
+        "name": "Établissement Oriba",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11102656835,
+      "lat": 13.4945705,
+      "lon": 7.1093737,
+      "tags": {
+        "name": "Boutique Komma Bagori et Fils",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175703239,
+      "lat": 11.9826912,
+      "lon": 8.4717822,
+      "tags": {
+        "addr:street": "Kano-Gwarzo Road",
+        "name": "Hamman",
+        "opening_hours": "24/7",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175729237,
+      "lat": 11.9821121,
+      "lon": 8.4705448,
+      "tags": {
+        "addr:street": "Kano-Gwarzo Road",
+        "name": "Jujin labu store",
+        "opening_hours": "Mo-Su 09:00-09:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11186215725,
+      "lat": 13.662652,
+      "lon": 7.0313861,
+      "tags": {
+        "fixme": "what is this node, mall or school? addr: Guidan Roumdji = district; mairie = commune",
+        "name": "Chadakori",
+        "school": "ecole quartier",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11224664461,
+      "lat": 10.5296491,
+      "lon": 7.4311063,
+      "tags": {
+        "name": "N.N.D.C Mall",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11746111947,
+      "lat": 9.0040255,
+      "lon": 7.4647109,
+      "tags": {
+        "name": "Graceland Supermarket & Gift Shop",
+        "phone": "+2348065841351",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11916576220,
+      "lat": 9.0242602,
+      "lon": 7.4875599,
+      "tags": {
+        "addr:plot": "247",
+        "addr:street": "Lagos Street",
+        "contact:email": "info@abujamobilemarket.com",
+        "contact:phone": "+234 818 777 7725;+234 704 666 0888;+234 803 307 6844",
+        "level": "0",
+        "name": "Abuja Mobile Market",
+        "shop": "supermarket",
+        "toilets:wheelchair": "no",
+        "website": "www.abujamobilemarket.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11922113357,
+      "lat": 9.016579,
+      "lon": 7.4105306,
+      "tags": {
+        "contact:phone": "+2349131242462",
+        "level": "1",
+        "name": "Oliver Twist Supermarket",
+        "shop": "supermarket",
+        "website": "https://www.olivertwiststore.com/",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569304845,
+      "lat": 9.0824504,
+      "lon": 7.4652096,
+      "tags": {
+        "name": "Olive plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569308810,
+      "lat": 9.0826277,
+      "lon": 7.4769937,
+      "tags": {
+        "name": "Sims digital Center",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13031332520,
+      "lat": 9.0863811,
+      "lon": 7.4591628,
+      "tags": {
+        "addr:city": "ABUJA",
+        "addr:street": "GA247 PLAZA",
+        "air_conditioning": "yes",
+        "email": "daveonelove12@gmail.com",
+        "name": "M633 supermarket",
+        "opening_hours": "24/7",
+        "operator": "Jada-Baruch",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2348065329033",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "way",
+      "id": 176918852,
+      "center": {
+        "lat": 9.000913,
+        "lon": 7.4721859
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "building": "commercial",
+        "building:levels": "7",
+        "name": "MKK Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.000913,
+      "lon": 7.4721859
+    },
+    {
+      "type": "way",
+      "id": 181653525,
+      "center": {
+        "lat": 9.0316143,
+        "lon": 7.4835719
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Abuja Shopping Complex",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0316143,
+      "lon": 7.4835719
+    },
+    {
+      "type": "way",
+      "id": 182162677,
+      "center": {
+        "lat": 9.0385339,
+        "lon": 7.5025336
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Legends Supermarket",
+        "shop": "supermarket",
+        "source": "Bing"
+      },
+      "lat": 9.0385339,
+      "lon": 7.5025336
+    },
+    {
+      "type": "way",
+      "id": 183435074,
+      "center": {
+        "lat": 9.0922955,
+        "lon": 7.499408
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Landmark Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0922955,
+      "lon": 7.499408
+    },
+    {
+      "type": "way",
+      "id": 183435075,
+      "center": {
+        "lat": 9.0926726,
+        "lon": 7.4998347
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Landmark Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0926726,
+      "lon": 7.4998347
+    },
+    {
+      "type": "way",
+      "id": 211556830,
+      "center": {
+        "lat": 9.0667948,
+        "lon": 7.46301
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Wuse Shopping Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0667948,
+      "lon": 7.46301
+    },
+    {
+      "type": "way",
+      "id": 211556832,
+      "center": {
+        "lat": 9.0669911,
+        "lon": 7.4629505
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Wuse Shopping Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0669911,
+      "lon": 7.4629505
+    },
+    {
+      "type": "way",
+      "id": 211556845,
+      "center": {
+        "lat": 9.0671915,
+        "lon": 7.463038
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Wuse Shopping Plaza",
+        "shop": "mall",
+        "source": "Bing"
+      },
+      "lat": 9.0671915,
+      "lon": 7.463038
+    },
+    {
+      "type": "way",
+      "id": 212189426,
+      "center": {
+        "lat": 9.0676135,
+        "lon": 7.4854453
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "4",
+        "name": "Silverbird Cinemas & Shopping Centre",
+        "shop": "mall"
+      },
+      "lat": 9.0676135,
+      "lon": 7.4854453
+    },
+    {
+      "type": "way",
+      "id": 218599847,
+      "center": {
+        "lat": 9.0836547,
+        "lon": 7.4681067
+      },
+      "tags": {
+        "addr:housename": "Park 'N' Shop",
+        "addr:housenumber": "Plot 740",
+        "addr:postcode": "900288",
+        "addr:street": "Aminu Kano Crescent",
+        "building": "retail",
+        "name": "Park 'N' Shop",
+        "shop": "mall"
+      },
+      "lat": 9.0836547,
+      "lon": 7.4681067
+    },
+    {
+      "type": "way",
+      "id": 302294835,
+      "center": {
+        "lat": 9.0551949,
+        "lon": 7.4897822
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "1",
+        "addr:street": "Phase",
+        "building": "yes",
+        "name": "Ceddi Plaza",
+        "roof:shape": "flat",
+        "shop": "mall"
+      },
+      "lat": 9.0551949,
+      "lon": 7.4897822
+    },
+    {
+      "type": "way",
+      "id": 483252182,
+      "center": {
+        "lat": 11.1572614,
+        "lon": 7.6501101
+      },
+      "tags": {
+        "name": "Aniki Super",
+        "shop": "supermarket",
+        "source": "Survey"
+      },
+      "lat": 11.1572614,
+      "lon": 7.6501101
+    },
+    {
+      "type": "way",
+      "id": 500109317,
+      "center": {
+        "lat": 10.5476487,
+        "lon": 7.454423
+      },
+      "tags": {
+        "landuse": "retail",
+        "name": "Coorperate Plaza",
+        "shop": "mall"
+      },
+      "lat": 10.5476487,
+      "lon": 7.454423
+    },
+    {
+      "type": "way",
+      "id": 712903753,
+      "center": {
+        "lat": 9.0774181,
+        "lon": 7.4879449
+      },
+      "tags": {
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "building": "yes",
+        "name": "Exclusive stores",
+        "shop": "department_store;supermarket"
+      },
+      "lat": 9.0774181,
+      "lon": 7.4879449
+    },
+    {
+      "type": "way",
+      "id": 777033935,
+      "center": {
+        "lat": 9.069912,
+        "lon": 7.4785198
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:postcode": "904101",
+        "addr:street": "Atakpame Street",
+        "building": "yes",
+        "name": "Chocolate Mall",
+        "roof:shape": "gabled",
+        "shop": "mall"
+      },
+      "lat": 9.069912,
+      "lon": 7.4785198
+    },
+    {
+      "type": "way",
+      "id": 779453564,
+      "center": {
+        "lat": 9.0529833,
+        "lon": 7.4791605
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:district": "Central Business District",
+        "addr:plot": "270",
+        "addr:street": "Mohammadu Buhari Way",
+        "building": "yes",
+        "building:levels": "2",
+        "email": "abuja@grandproductscompany.com",
+        "name": "Grand Square",
+        "operator": "Grand Products Co. Ltd.",
+        "phone": "+2348155207051;+2348155207052",
+        "shop": "mall",
+        "website": "grandproductscompany.com"
+      },
+      "lat": 9.0529833,
+      "lon": 7.4791605
+    },
+    {
+      "type": "way",
+      "id": 780720767,
+      "center": {
+        "lat": 9.0717573,
+        "lon": 7.4856372
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "48",
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "alt_name": "H-Medix Wuse 2",
+        "building": "yes",
+        "name": "H-Medix",
+        "opening_hours": "24/7",
+        "phone": "+234 8064690993",
+        "roof:shape": "flat",
+        "shop": "supermarket",
+        "website": "https://h-medix.com/"
+      },
+      "lat": 9.0717573,
+      "lon": 7.4856372
+    },
+    {
+      "type": "way",
+      "id": 780720790,
+      "center": {
+        "lat": 9.0718903,
+        "lon": 7.4839849
+      },
+      "tags": {
+        "addr:housename": "Amigo Supermarket",
+        "addr:housenumber": "58",
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "building": "yes",
+        "name": "4U Supermarket",
+        "name:en": "4U Supermarket",
+        "not:name": "Amigo Supermarket",
+        "opening_hours": "Mo-Sa 09:00-22:00; Su 11:00-20:00",
+        "phone": "+2348026359797",
+        "shop": "supermarket",
+        "source": "Teasy International Ltd"
+      },
+      "lat": 9.0718903,
+      "lon": 7.4839849
+    },
+    {
+      "type": "way",
+      "id": 794284800,
+      "center": {
+        "lat": 10.5142196,
+        "lon": 7.4406443
+      },
+      "tags": {
+        "addr:city": "KADUNA",
+        "addr:street": "Independence Way",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "name": "ASD Mall",
+        "opening_hours": "Mo-Sa 08:00-20:00",
+        "operator": "ASD",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "shop": "mall"
+      },
+      "lat": 10.5142196,
+      "lon": 7.4406443
+    },
+    {
+      "type": "way",
+      "id": 898047978,
+      "center": {
+        "lat": 9.0643606,
+        "lon": 7.4585838
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "Plot 502",
+        "addr:postcode": "900285",
+        "addr:street": "Dalaba Street",
+        "building": "yes",
+        "name": "Novare Central Mall",
+        "opening_hours": "Mo-Sa 09:00-21:00; Su 10:00-21:00",
+        "phone": "+234 818 807 0066",
+        "shop": "mall",
+        "website": "https://novare-central.com/"
+      },
+      "lat": 9.0643606,
+      "lon": 7.4585838
+    },
+    {
+      "type": "way",
+      "id": 898053992,
+      "center": {
+        "lat": 9.0601214,
+        "lon": 7.454607
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Zuma",
+        "shop": "mall"
+      },
+      "lat": 9.0601214,
+      "lon": 7.454607
+    },
+    {
+      "type": "way",
+      "id": 898053993,
+      "center": {
+        "lat": 9.0660629,
+        "lon": 7.4689975
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Febson Mall",
+        "shop": "mall"
+      },
+      "lat": 9.0660629,
+      "lon": 7.4689975
+    },
+    {
+      "type": "way",
+      "id": 1117329702,
+      "center": {
+        "lat": 9.0890881,
+        "lon": 7.4127148
+      },
+      "tags": {
+        "addr:city": "Gwarinpa",
+        "addr:housenumber": "House 20",
+        "addr:postcode": "900108",
+        "addr:street": "1st Avenue",
+        "air_conditioning": "yes",
+        "branch": "Gwarinpa",
+        "brand": "Bakan Gizo Pharmarcy & Stores",
+        "building": "commercial",
+        "currency:NGN": "yes",
+        "description": "One of Nigeria's biggest internet retailers is Bakan Gizo Pharmacy & Stores. Our objective has been and still is to be the most dependable commercial trade and retail business in Africa. We started operating in 2017 and were incorporated on February 24, 2",
+        "name": "Bakan Gizo Pharmacy & Stores",
+        "opening_hours": "Mo-Fr 06:30-18:30",
+        "operator": "Bakan Gizo Pharmacy & Stores",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:pos": "yes",
+        "payment:visa": "yes",
+        "phone": "+234 815 084 8383",
+        "retail": "grocery store",
+        "shop": "supermarket"
+      },
+      "lat": 9.0890881,
+      "lon": 7.4127148
+    },
+    {
+      "type": "way",
+      "id": 1207250025,
+      "center": {
+        "lat": 9.0268676,
+        "lon": 7.4567587
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Lasad super market",
+        "shop": "supermarket"
+      },
+      "lat": 9.0268676,
+      "lon": 7.4567587
+    },
+    {
+      "type": "way",
+      "id": 1210540946,
+      "center": {
+        "lat": 12.1702141,
+        "lon": 6.6756828
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Nana Firdausi Plaza",
+        "shop": "mall"
+      },
+      "lat": 12.1702141,
+      "lon": 6.6756828
+    },
+    {
+      "type": "way",
+      "id": 1245661622,
+      "center": {
+        "lat": 10.5140333,
+        "lon": 7.4412935
+      },
+      "tags": {
+        "addr:city": "KADUNA",
+        "addr:street": "Independence Way",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "currency:NGN": "yes",
+        "name": "Rahama Stores",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Sidi and Sons",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "shop": "supermarket",
+        "source": "microsoft/BuildingFootprints",
+        "stroller": "yes"
+      },
+      "lat": 10.5140333,
+      "lon": 7.4412935
+    },
+    {
+      "type": "way",
+      "id": 1247387205,
+      "center": {
+        "lat": 9.0619009,
+        "lon": 7.4705538
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "building": "yes",
+        "building:levels": "3",
+        "name": "Intercontinental Plaza",
+        "shop": "mall"
+      },
+      "lat": 9.0619009,
+      "lon": 7.4705538
+    },
+    {
+      "type": "way",
+      "id": 1250868129,
+      "center": {
+        "lat": 9.0121895,
+        "lon": 7.4737041
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "building": "yes",
+        "name": "Barbieplace Supermarket",
+        "note": "These opening hours are temporary. May need to be checked again at a later date",
+        "opening_hours": "Mo-Sa 08:00-22:00",
+        "shop": "supermarket"
+      },
+      "lat": 9.0121895,
+      "lon": 7.4737041
+    },
+    {
+      "type": "way",
+      "id": 1272064812,
+      "center": {
+        "lat": 9.0010332,
+        "lon": 7.4639929
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:street": "Markus Kangye Boulevard",
+        "brand": "Prixair",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "Prixair Supermarket",
+        "shop": "supermarket",
+        "website": "https://prixair.com/"
+      },
+      "lat": 9.0010332,
+      "lon": 7.4639929
+    },
+    {
+      "type": "way",
+      "id": 1274817963,
+      "center": {
+        "lat": 9.0649785,
+        "lon": 7.4729627
+      },
+      "tags": {
+        "building": "retail",
+        "building:use": "retail",
+        "name": "Prince Ebeano Supermarket",
+        "shop": "supermarket",
+        "source": "microsoft/BuildingFootprints"
+      },
+      "lat": 9.0649785,
+      "lon": 7.4729627
+    },
+    {
+      "type": "way",
+      "id": 1283367530,
+      "center": {
+        "lat": 9.0432899,
+        "lon": 7.5265203
+      },
+      "tags": {
+        "addr:street": "Yakubu Gowon Crescent",
+        "level": "3",
+        "name": "H-Medix",
+        "shop": "mall"
+      },
+      "lat": 9.0432899,
+      "lon": 7.5265203
+    },
+    {
+      "type": "way",
+      "id": 1313192781,
+      "center": {
+        "lat": 9.0329128,
+        "lon": 7.4718234
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "4",
+        "kids_area": "no",
+        "name": "Dummec Plaza",
+        "roof:shape": "gabled",
+        "shop": "mall"
+      },
+      "lat": 9.0329128,
+      "lon": 7.4718234
+    },
+    {
+      "type": "way",
+      "id": 1315760044,
+      "center": {
+        "lat": 9.0183055,
+        "lon": 7.4928114
+      },
+      "tags": {
+        "addr:housenumber": "73",
+        "addr:street": "Ladoke Akintola Boulevard",
+        "building": "yes",
+        "building:levels": "3",
+        "name": "Dabo Mall",
+        "shop": "mall"
+      },
+      "lat": 9.0183055,
+      "lon": 7.4928114
+    },
+    {
+      "type": "way",
+      "id": 1323129089,
+      "center": {
+        "lat": 9.1463746,
+        "lon": 7.3063843
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "3",
+        "building:use": "commercial",
+        "name": "Cok Best Mall",
+        "shop": "mall"
+      },
+      "lat": 9.1463746,
+      "lon": 7.3063843
+    },
+    {
+      "type": "way",
+      "id": 1327897357,
+      "center": {
+        "lat": 9.1170668,
+        "lon": 7.3821292
+      },
+      "tags": {
+        "addr:city": "Gwarinpa Estate",
+        "addr:housenumber": "Plot 896",
+        "addr:street": "69 Road, 6th Avenue",
+        "building": "yes",
+        "building:levels": "2",
+        "name": "Big Ideas Supermarket and Pharmacy",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2348052216000",
+        "shop": "supermarket"
+      },
+      "lat": 9.1170668,
+      "lon": 7.3821292
+    },
+    {
+      "type": "way",
+      "id": 1455149783,
+      "center": {
+        "lat": 9.0024895,
+        "lon": 7.4700999
+      },
+      "tags": {
+        "name": "Century Mall",
+        "shop": "mall"
+      },
+      "lat": 9.0024895,
+      "lon": 7.4700999
+    },
+    {
+      "type": "node",
+      "id": 1068916116,
+      "lat": 5.9872898,
+      "lon": 10.43615,
+      "tags": {
+        "name": "Ndop Central Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3116256103,
+      "lat": 7.3223028,
+      "lon": 13.5780093,
+      "tags": {
+        "name": "Madam Eli",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4407984717,
+      "lat": 5.8433402,
+      "lon": 10.4018057,
+      "tags": {
+        "name": "Renaissance Central",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4409603497,
+      "lat": 5.8423321,
+      "lon": 10.4000362,
+      "tags": {
+        "name": "Kings shop",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4409603505,
+      "lat": 5.8433047,
+      "lon": 10.401431,
+      "tags": {
+        "name": "Fish Slap at",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4411317414,
+      "lat": 5.988096,
+      "lon": 10.4355997,
+      "tags": {
+        "name": "Central shop",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4411317415,
+      "lat": 5.9880907,
+      "lon": 10.4349774,
+      "tags": {
+        "name": "Africana plus",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4411317418,
+      "lat": 5.9868796,
+      "lon": 10.4342318,
+      "tags": {
+        "name": "SUPER GOAL",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4810543221,
+      "lat": 6.4601209,
+      "lon": 10.7061838,
+      "tags": {
+        "name": "Wat Market Donga Mantung",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5671968921,
+      "lat": 4.6310897,
+      "lon": 9.4416338,
+      "tags": {
+        "addr:street": "Opposite Eneo",
+        "email": "linsaybrith@gmail.com",
+        "internet_access": "wlan",
+        "name": "Rapido Supermarket",
+        "opening_hours": "Mo-Su 07:00-23:55",
+        "phone": "+237675275201",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429089,
+      "lat": 7.3224934,
+      "lon": 13.5791741,
+      "tags": {
+        "contact:phone": "22252064",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "DJOUDJOU THOMAS",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429090,
+      "lat": 7.3226983,
+      "lon": 13.5792658,
+      "tags": {
+        "contact:phone": "222251945",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "SUPER MARCHE SODIAL",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429091,
+      "lat": 7.3196663,
+      "lon": 13.5768581,
+      "tags": {
+        "contact:phone": "690501185",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "ETS A. NZIKO. SARL",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429092,
+      "lat": 7.2950687,
+      "lon": 13.5758593,
+      "tags": {
+        "contact:phone": "33441171/33441847",
+        "name": "Société des porovenderies du cameroun",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429093,
+      "lat": 7.2977077,
+      "lon": 13.5767343,
+      "tags": {
+        "contact:phone": "242858653",
+        "name": "SOCIADAM SARL",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429094,
+      "lat": 7.3239983,
+      "lon": 13.5918562,
+      "tags": {
+        "contact:phone": "674864061",
+        "name": "OUMAROU",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943429095,
+      "lat": 7.3239282,
+      "lon": 13.5923943,
+      "tags": {
+        "contact:phone": "696685503",
+        "name": "SOULEYMANOU",
+        "shop": "supermarket",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6555283701,
+      "lat": 4.5814955,
+      "lon": 13.6819298,
+      "tags": {
+        "name": "Pain d'or",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8390614026,
+      "lat": 5.1185657,
+      "lon": 9.9462639,
+      "tags": {
+        "addr:city": "MELONG",
+        "name": "CONGELCAM",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9993035533,
+      "lat": 6.4147179,
+      "lon": 9.9157138,
+      "tags": {
+        "addr:city": "Benakuma",
+        "name": "Benakuma local Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10790775006,
+      "lat": 5.4755872,
+      "lon": 10.4187008,
+      "tags": {
+        "name": "Supermarché Yatch Center",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11340973769,
+      "lat": 4.7254571,
+      "lon": 9.4876937,
+      "tags": {
+        "name": "IKILIWINDI MAIN MARKET",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11386920970,
+      "lat": 5.7373869,
+      "lon": 10.1635179,
+      "tags": {
+        "name": "Marché de Kombou",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13586368601,
+      "lat": 7.0059375,
+      "lon": 11.2645243,
+      "tags": {
+        "name": "Alpha Emmanuel's shop",
+        "phone": "+2347086741924",
+        "shop": "grocery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 219927965,
+      "center": {
+        "lat": 5.4802638,
+        "lon": 10.4253928
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Ets NZIKO",
+        "shop": "supermarket"
+      },
+      "lat": 5.4802638,
+      "lon": 10.4253928
+    },
+    {
+      "type": "way",
+      "id": 268625768,
+      "center": {
+        "lat": 4.625104,
+        "lon": 11.2781668
+      },
+      "tags": {
+        "name": "BB Center",
+        "shop": "supermarket"
+      },
+      "lat": 4.625104,
+      "lon": 11.2781668
+    },
+    {
+      "type": "way",
+      "id": 324996416,
+      "center": {
+        "lat": 4.7447614,
+        "lon": 11.2262571
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Super Marché Milan Minsi",
+        "shop": "supermarket"
+      },
+      "lat": 4.7447614,
+      "lon": 11.2262571
+    },
+    {
+      "type": "way",
+      "id": 354325762,
+      "center": {
+        "lat": 5.5390697,
+        "lon": 12.3206407
+      },
+      "tags": {
+        "name": "Centre commercial",
+        "shop": "mall"
+      },
+      "lat": 5.5390697,
+      "lon": 12.3206407
+    },
+    {
+      "type": "way",
+      "id": 354882433,
+      "center": {
+        "lat": 4.3625326,
+        "lon": 11.440022
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Ets Ndongo Essomba",
+        "shop": "mall"
+      },
+      "lat": 4.3625326,
+      "lon": 11.440022
+    },
+    {
+      "type": "way",
+      "id": 355768240,
+      "center": {
+        "lat": 4.3648419,
+        "lon": 11.4413043
+      },
+      "tags": {
+        "amenity": "commercial",
+        "name": "Complexe commercial de Sa'a",
+        "shop": "supermarket"
+      },
+      "lat": 4.3648419,
+      "lon": 11.4413043
+    },
+    {
+      "type": "way",
+      "id": 372730743,
+      "center": {
+        "lat": 5.4774571,
+        "lon": 10.4172918
+      },
+      "tags": {
+        "addr:city": "Bafoussam I",
+        "addr:street": "Rond point BIAO",
+        "building": "yes",
+        "name": "Le Point Plus",
+        "shop": "supermarket"
+      },
+      "lat": 5.4774571,
+      "lon": 10.4172918
+    },
+    {
+      "type": "way",
+      "id": 372967005,
+      "center": {
+        "lat": 5.4797439,
+        "lon": 10.4237887
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Le Repère",
+        "shop": "supermarket"
+      },
+      "lat": 5.4797439,
+      "lon": 10.4237887
+    },
+    {
+      "type": "way",
+      "id": 373246757,
+      "center": {
+        "lat": 5.4651267,
+        "lon": 10.4242683
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Sim Delice",
+        "shop": "supermarket"
+      },
+      "lat": 5.4651267,
+      "lon": 10.4242683
+    },
+    {
+      "type": "way",
+      "id": 384821283,
+      "center": {
+        "lat": 5.4785251,
+        "lon": 10.4189411
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Centre Commercial Tchuente",
+        "operator": "Tchuente Michel",
+        "shop": "supermarket"
+      },
+      "lat": 5.4785251,
+      "lon": 10.4189411
+    },
+    {
+      "type": "way",
+      "id": 424940913,
+      "center": {
+        "lat": 5.463993,
+        "lon": 10.4080102
+      },
+      "tags": {
+        "name": "Supermarché Fokou",
+        "shop": "supermarket"
+      },
+      "lat": 5.463993,
+      "lon": 10.4080102
+    },
+    {
+      "type": "way",
+      "id": 480193099,
+      "center": {
+        "lat": 5.1782972,
+        "lon": 10.3823165
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boutique avec money",
+        "shop": "supermarket"
+      },
+      "lat": 5.1782972,
+      "lon": 10.3823165
+    },
+    {
+      "type": "way",
+      "id": 838713823,
+      "center": {
+        "lat": 4.8813796,
+        "lon": 9.8940605
+      },
+      "tags": {
+        "building": "yes",
+        "building:levels": "2",
+        "name": "Centre commercial d'Ebone",
+        "shop": "mall"
+      },
+      "lat": 4.8813796,
+      "lon": 9.8940605
+    },
+    {
+      "type": "way",
+      "id": 1302778776,
+      "center": {
+        "lat": 8.9332986,
+        "lon": 11.338826
+      },
+      "tags": {
+        "name": "Jalingo Shopping Mall",
+        "shop": "mall"
+      },
+      "lat": 8.9332986,
+      "lon": 11.338826
+    },
+    {
+      "type": "node",
+      "id": 1067301106,
+      "lat": 9.4597133,
+      "lon": 13.5069288,
+      "tags": {
+        "name": "Magasin de stockage Sodecoton de Banaye",
+        "organic": "only",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306263,
+      "lat": 9.3877798,
+      "lon": 13.5093105,
+      "tags": {
+        "name": "Magasin SODECOTON Ouro Bocki",
+        "organic": "only",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306382,
+      "lat": 9.4044945,
+      "lon": 13.5149433,
+      "tags": {
+        "name": "Super Marche de Pitoa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2177177726,
+      "lat": 11.9862375,
+      "lon": 8.5685041,
+      "tags": {
+        "name": "Shopping Time",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317291652,
+      "lat": 9.3064791,
+      "lon": 13.3974341,
+      "tags": {
+        "name": "KANDRE",
+        "shop": "supermarket",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2451961209,
+      "lat": 13.8068897,
+      "lon": 8.9863885,
+      "tags": {
+        "name": "CFAO",
+        "project:pdevii": "yes",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2872937565,
+      "lat": 12.0076303,
+      "lon": 8.5484522,
+      "tags": {
+        "name": "Grand Square",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2996971195,
+      "lat": 12.0064639,
+      "lon": 8.5586644,
+      "tags": {
+        "name": "Well Care",
+        "shop": "supermarket",
+        "source": "local_knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3698433628,
+      "lat": 12.0084782,
+      "lon": 8.5760499,
+      "tags": {
+        "addr:city": "Kano",
+        "addr:street": "Hadejia Road",
+        "name": "AG Stores",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3813046270,
+      "lat": 11.9779104,
+      "lon": 8.5346188,
+      "tags": {
+        "addr:city": "Kano",
+        "addr:street": "Zoo Road",
+        "atm": "yes",
+        "name": "Shoprite",
+        "operator": "Shoprite",
+        "parking": "surface",
+        "shop": "mall",
+        "source": "steadfast.com.ng"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3813047438,
+      "lat": 11.9773026,
+      "lon": 8.5346464,
+      "tags": {
+        "addr:city": "Kano",
+        "addr:street": "Zoo Road",
+        "name": "Game",
+        "operator": "Game",
+        "shop": "mall",
+        "source": "steadfast.com.ng"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4252209289,
+      "lat": 10.5961068,
+      "lon": 14.3174489,
+      "tags": {
+        "addr:street": "Dadé Mayo",
+        "name": "Marché pont rouge",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254035694,
+      "lat": 10.5939807,
+      "lon": 14.3174249,
+      "tags": {
+        "addr:street": "Boulevard de domayo",
+        "name": "Septentrion",
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254080789,
+      "lat": 10.59393,
+      "lon": 14.3166888,
+      "tags": {
+        "addr:street": "Boulevard de domayo",
+        "name": "Épicerie du coin",
+        "opening_hours": "Mo-Su 08:30-22:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254080889,
+      "lat": 10.6056826,
+      "lon": 14.3344722,
+      "tags": {
+        "addr:street": "Moroua-Pouss",
+        "name": "Ziko",
+        "opening_hours": "Mo-Sa 08:00-17:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254309396,
+      "lat": 10.6054516,
+      "lon": 14.3331481,
+      "tags": {
+        "addr:street": "Moroua-Pouss",
+        "name": "FOKOU",
+        "opening_hours": "Mo-Sa 08:00-17:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254483590,
+      "lat": 10.6014139,
+      "lon": 14.3435082,
+      "tags": {
+        "addr:street": "Tassa",
+        "name": "Friperie",
+        "opening_hours": "Mo-Su 09:00-17:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254498789,
+      "lat": 10.6004359,
+      "lon": 14.3440344,
+      "tags": {
+        "addr:street": "Tassa",
+        "name": "Loumo Babba",
+        "opening_hours": "Su 08:00-18:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254498790,
+      "lat": 10.6016551,
+      "lon": 14.3424876,
+      "tags": {
+        "addr:street": "Dougoy",
+        "name": "Petit Marché",
+        "opening_hours": "Mo-Su 08:00-17:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481867,
+      "lat": 13.8131227,
+      "lon": 8.9869364,
+      "tags": {
+        "name": "Kantin Sauki Quincaillerie et Divers",
+        "project:pdevii": "yes",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4459229893,
+      "lat": 10.603155,
+      "lon": 14.3304116,
+      "tags": {
+        "name": "SOCONORD DIRECTION",
+        "name:fr": "SOCONORD DIRECTION",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4459229894,
+      "lat": 10.603599,
+      "lon": 14.3330405,
+      "tags": {
+        "name": "DAMING",
+        "name:fr": "DAMING",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4459230291,
+      "lat": 10.6037153,
+      "lon": 14.332026,
+      "tags": {
+        "addr:street": "Marché centrale",
+        "name": "SOCONORD BOUTIQUE",
+        "name:fr": "SOCONORD BOUTIQUE",
+        "opening_hours": "Mo-Sa 09:30-17:30; Su 09:30-13:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4729004592,
+      "lat": 10.6039578,
+      "lon": 14.3316439,
+      "tags": {
+        "name": "Boutique Sadou Holding SA",
+        "name:fr": "Boutique Sadou Holding SA",
+        "phone": "699890072",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5418226668,
+      "lat": 9.8648287,
+      "lon": 8.8926029,
+      "tags": {
+        "name": "Hier Thermocool Showroom",
+        "operator": "Hier Thermocool",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5437237442,
+      "lat": 9.8648973,
+      "lon": 8.894388,
+      "tags": {
+        "addr:city": "Jos",
+        "name": "Ike supermaket",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "operator": "Mr. Ike",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5566990121,
+      "lat": 12.0013124,
+      "lon": 8.5674271,
+      "tags": {
+        "name": "CEDARS Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6018666180,
+      "lat": 9.3228019,
+      "lon": 13.4108842,
+      "tags": {
+        "name": "boutique ISAC",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6121081029,
+      "lat": 9.8489373,
+      "lon": 8.867882,
+      "tags": {
+        "addr:street": "Zarmaganda",
+        "name": "Gidan Kalwa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670494233,
+      "lat": 9.3033947,
+      "lon": 13.3973546,
+      "tags": {
+        "name": "Alimentation Barka",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744138,
+      "lat": 9.3072158,
+      "lon": 13.3965297,
+      "tags": {
+        "name": "Repro Service",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744139,
+      "lat": 9.3070356,
+      "lon": 13.396775,
+      "tags": {
+        "name": "Supermarché",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744140,
+      "lat": 9.3037442,
+      "lon": 13.3976689,
+      "tags": {
+        "name": "Amariya Boutique",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744141,
+      "lat": 9.2978562,
+      "lon": 13.3994984,
+      "tags": {
+        "name": "Afrilux Sa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744142,
+      "lat": 9.297803,
+      "lon": 13.3996948,
+      "tags": {
+        "name": "Office Sa",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673744143,
+      "lat": 9.2965153,
+      "lon": 13.4013627,
+      "tags": {
+        "name": "Supermarche Saphir",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253718186,
+      "lat": 10.2991849,
+      "lon": 11.1720994,
+      "tags": {
+        "name": "Kasuwan Mata",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7312493988,
+      "lat": 10.2747674,
+      "lon": 11.1959945,
+      "tags": {
+        "name": "Sadiq shopping complex",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7327941087,
+      "lat": 10.2776876,
+      "lon": 11.1991094,
+      "tags": {
+        "name": "Nassarawo plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7345603186,
+      "lat": 10.2915408,
+      "lon": 11.1059316,
+      "tags": {
+        "name": "ABU SHURAHBIL SUPER STORE",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7972408385,
+      "lat": 10.2791051,
+      "lon": 11.1863136,
+      "tags": {
+        "name": "Gombe Timber market junction",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7972408485,
+      "lat": 10.2812028,
+      "lon": 11.1765067,
+      "tags": {
+        "name": "Makay, super market Gombe",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8546970618,
+      "lat": 10.2876061,
+      "lon": 11.1643719,
+      "tags": {
+        "name": "San Hussain supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8592850217,
+      "lat": 9.3086734,
+      "lon": 13.397392,
+      "tags": {
+        "addr:street": "Rue de BEAC",
+        "name": "YB SARLE",
+        "opening_hours": "24/7",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9181892332,
+      "lat": 11.9780293,
+      "lon": 8.544405,
+      "tags": {
+        "addr:city": "Kano",
+        "addr:housenumber": "No.23",
+        "addr:postcode": "N/A",
+        "addr:street": "Guda Abdullaahi Road Off Justice Dahiru Mustafa Avenue, Farm Centre Road",
+        "name": "Customz Place",
+        "opening_hours": "Mo-Su 09:00-22:00",
+        "phone": "+2348036439295",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9181892333,
+      "lat": 11.9740462,
+      "lon": 8.5469826,
+      "tags": {
+        "addr:city": "Kano",
+        "addr:housenumber": "Tarauni 700102",
+        "addr:postcode": "N/A",
+        "addr:street": "Farm Centre Road",
+        "name": "Country Mall",
+        "opening_hours": "Mo-Su 10:00-21:00",
+        "shop": "supermarket",
+        "website": "N/A"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10267681820,
+      "lat": 9.6525705,
+      "lon": 14.3415725,
+      "tags": {
+        "name": "Marché de Guetallet",
+        "opening_hours": "Mo-Su 10:00-21:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10568545207,
+      "lat": 9.5703314,
+      "lon": 11.7940045,
+      "tags": {
+        "name": "Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10840487948,
+      "lat": 10.0205128,
+      "lon": 8.9410383,
+      "tags": {
+        "name": "Mamman Paul's Supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10844471585,
+      "lat": 9.8949251,
+      "lon": 8.9143587,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "lamigo road",
+        "name": "Sandami super market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11013703999,
+      "lat": 10.3045779,
+      "lon": 9.808873,
+      "tags": {
+        "check_date": "2023-06-29",
+        "name": "Shagari Shopping Complex",
+        "shop": "supermarket",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11084333728,
+      "lat": 10.314847,
+      "lon": 9.8162004,
+      "tags": {
+        "check_date": "2023-08-02",
+        "name": "HD plaza",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109574401,
+      "lat": 9.9077873,
+      "lon": 8.9437114,
+      "tags": {
+        "check_date": "2023-08-12",
+        "name": "One Stop Super Market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11115052486,
+      "lat": 9.9336466,
+      "lon": 8.9092597,
+      "tags": {
+        "check_date": "2023-08-14",
+        "name": "Emmaculate",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11148631305,
+      "lat": 10.290308,
+      "lon": 11.179011,
+      "tags": {
+        "addr:street": "MARKET WAY",
+        "name": "main market",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153550005,
+      "lat": 10.3030868,
+      "lon": 11.1471686,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "name": "Supermarket",
+        "name:en": "A.M.I Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165053206,
+      "lat": 10.3075191,
+      "lon": 11.149117,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "name": "Seiman Plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11225832637,
+      "lat": 10.2858421,
+      "lon": 11.1447734,
+      "tags": {
+        "name": "nasara mart",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11225843738,
+      "lat": 10.2879086,
+      "lon": 11.1647078,
+      "tags": {
+        "name": "san Hussain supermarket",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11336944369,
+      "lat": 10.2868526,
+      "lon": 11.1407515,
+      "tags": {
+        "addr:street": "Dua Plaza",
+        "name": "Gombe CBN Road",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11337328369,
+      "lat": 10.2853511,
+      "lon": 11.1390215,
+      "tags": {
+        "name": "Duwa plaza",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11418009042,
+      "lat": 9.9309735,
+      "lon": 8.9118853,
+      "tags": {
+        "check_date": "2023-12-14",
+        "name": "Gondola",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11445895573,
+      "lat": 9.3072068,
+      "lon": 13.3444736,
+      "tags": {
+        "name": "mkt",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12458454222,
+      "lat": 9.2917703,
+      "lon": 12.2345612,
+      "tags": {
+        "addr:city": "Adamawa State",
+        "addr:street": "Yola Main Road",
+        "email": "adamutafidah@gmail.com",
+        "name": "Ngurore Market",
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "operator": "Peoples",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2349064044747",
+        "shop": "supermarket",
+        "website": "https://youthmappers.org"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13098850642,
+      "lat": 10.3194351,
+      "lon": 9.8206067,
+      "tags": {
+        "check_date": "2025-08-26",
+        "name": "Jifatu",
+        "shop": "mall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 207553171,
+      "center": {
+        "lat": 11.9861756,
+        "lon": 8.5684828
+      },
+      "tags": {
+        "name": "Shopping Time",
+        "shop": "mall"
+      },
+      "lat": 11.9861756,
+      "lon": 8.5684828
+    },
+    {
+      "type": "way",
+      "id": 248639369,
+      "center": {
+        "lat": 9.9023235,
+        "lon": 8.8913125
+      },
+      "tags": {
+        "name": "Flourish",
+        "shop": "supermarket",
+        "source": "common knowledge",
+        "source:position": "Bing Imagery"
+      },
+      "lat": 9.9023235,
+      "lon": 8.8913125
+    },
+    {
+      "type": "way",
+      "id": 283109888,
+      "center": {
+        "lat": 11.9748016,
+        "lon": 8.5355129
+      },
+      "tags": {
+        "addr:city": "Kano",
+        "addr:postcode": "700224",
+        "addr:street": "Zoo Road",
+        "atm": "yes",
+        "building": "yes",
+        "name": "Sahad Stores",
+        "operator": "Sahad",
+        "shop": "mall"
+      },
+      "lat": 11.9748016,
+      "lon": 8.5355129
+    },
+    {
+      "type": "way",
+      "id": 320784910,
+      "center": {
+        "lat": 10.1119471,
+        "lon": 14.4479373
+      },
+      "tags": {
+        "name": "Marché de Kaélé",
+        "shop": "supermarket"
+      },
+      "lat": 10.1119471,
+      "lon": 14.4479373
+    },
+    {
+      "type": "way",
+      "id": 417508589,
+      "center": {
+        "lat": 10.5950979,
+        "lon": 14.3275074
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Paris couture",
+        "shop": "mall"
+      },
+      "lat": 10.5950979,
+      "lon": 14.3275074
+    },
+    {
+      "type": "way",
+      "id": 417866031,
+      "center": {
+        "lat": 10.5884437,
+        "lon": 14.3211275
+      },
+      "tags": {
+        "barrier": "hedge",
+        "name": "comice",
+        "shop": "supermarket"
+      },
+      "lat": 10.5884437,
+      "lon": 14.3211275
+    },
+    {
+      "type": "way",
+      "id": 613826319,
+      "center": {
+        "lat": 12.9996839,
+        "lon": 8.9110427
+      },
+      "tags": {
+        "addr:city": "Magaria",
+        "building": "yes",
+        "name": "loja de alimentos, produtos de higiene",
+        "shop": "supermarket"
+      },
+      "lat": 12.9996839,
+      "lon": 8.9110427
+    },
+    {
+      "type": "way",
+      "id": 613826320,
+      "center": {
+        "lat": 12.9994113,
+        "lon": 8.9110636
+      },
+      "tags": {
+        "addr:city": "Magaria",
+        "description": "Mercado Municipal - vários tipos de produtos, e serviços",
+        "name": "Mercado Municipal de Magaria",
+        "operator": "vários",
+        "shop": "supermarket"
+      },
+      "lat": 12.9994113,
+      "lon": 8.9110636
+    },
+    {
+      "type": "way",
+      "id": 1005061395,
+      "center": {
+        "lat": 11.9565088,
+        "lon": 8.5863121
+      },
+      "tags": {
+        "addr:city": "Hotoro",
+        "addr:housenumber": "112",
+        "addr:street": "windsor ave",
+        "air_conditioning": "yes",
+        "brand": "Acme",
+        "brand:wikidata": "Q341975",
+        "brand:wikipedia": "en:Acme Markets",
+        "building": "retail",
+        "height": "10",
+        "layer": "-1",
+        "name": "Acme",
+        "opening_hours": "Mo-Su 08:00-22:00",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "shop": "supermarket",
+        "website": "www.acme.com"
+      },
+      "lat": 11.9565088,
+      "lon": 8.5863121
+    },
+    {
+      "type": "way",
+      "id": 1178004111,
+      "center": {
+        "lat": 9.8552329,
+        "lon": 8.8620738
+      },
+      "tags": {
+        "addr:street": "Dadin Kowa Market",
+        "building": "yes",
+        "name": "Kanti Sauki",
+        "opening_hours": "mo - su 9 to 4",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "shop": "mall"
+      },
+      "lat": 9.8552329,
+      "lon": 8.8620738
+    }
+  ]
+}

@@ -1,0 +1,5788 @@
+{
+  "schema": "s09_osm_salon",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query_bbox": "4.2,2.7,13.9,14.7 (Nigeria)",
+  "count": 464,
+  "elements": [
+    {
+      "type": "node",
+      "id": 2344328619,
+      "lat": 6.3260663,
+      "lon": 5.6010793,
+      "tags": {
+        "name": "Hairdresser Salon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344503124,
+      "lat": 6.332273,
+      "lon": 5.5934018,
+      "tags": {
+        "name": "Hair Dressing Salon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344543056,
+      "lat": 6.3361662,
+      "lon": 5.6096479,
+      "tags": {
+        "name": "Tessy Beauty World",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349297909,
+      "lat": 6.3229933,
+      "lon": 5.6115429,
+      "tags": {
+        "name": "Pee Beauty,Skin & Spa",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4612317990,
+      "lat": 6.4486002,
+      "lon": 3.4306724,
+      "tags": {
+        "name": "Theolandbrian Beauty Place",
+        "name:en": "Theolandbrian",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4680969297,
+      "lat": 5.5640972,
+      "lon": 5.7342578,
+      "tags": {
+        "name": "barbers shop",
+        "name:en": "barbers shop",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5407631423,
+      "lat": 5.5528579,
+      "lon": 5.7706935,
+      "tags": {
+        "name": "Nath Barbing Shop",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5427746021,
+      "lat": 5.5402112,
+      "lon": 5.7622627,
+      "tags": {
+        "addr:housenumber": "9",
+        "addr:street": "9 Adjomo Street",
+        "name": "House of Cintas",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5506376645,
+      "lat": 4.9538716,
+      "lon": 6.3530307,
+      "tags": {
+        "addr:street": "Akali Junction",
+        "name": "May Exclusive Paradise",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5512132503,
+      "lat": 4.9477395,
+      "lon": 6.332413,
+      "tags": {
+        "addr:street": "Milford Okilo Road",
+        "name": "Braids",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5557469227,
+      "lat": 5.5419958,
+      "lon": 5.7763461,
+      "tags": {
+        "addr:housenumber": "6",
+        "addr:street": "Okuarume Close",
+        "name": "Falcon Bridge Fashion and Design",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5560446823,
+      "lat": 5.5637124,
+      "lon": 5.7525029,
+      "tags": {
+        "addr:housenumber": "45",
+        "addr:street": "Hospital Road",
+        "name": "Children's World and Motherhood Shop",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5562440825,
+      "lat": 5.5447279,
+      "lon": 5.7711643,
+      "tags": {
+        "name": "African Fashion Housy",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5579266621,
+      "lat": 5.5371379,
+      "lon": 5.7511991,
+      "tags": {
+        "addr:street": "Giwa-Amu Street",
+        "name": "Kiten Kiddos",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5593776022,
+      "lat": 4.8326088,
+      "lon": 7.0253591,
+      "tags": {
+        "addr:housenumber": "32",
+        "addr:street": "Market Road",
+        "name": "Shakers",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5596425322,
+      "lat": 4.8339185,
+      "lon": 7.0277164,
+      "tags": {
+        "addr:housenumber": "22",
+        "name": "Emerald Fashion Academy",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5597053721,
+      "lat": 4.8359214,
+      "lon": 7.0287448,
+      "tags": {
+        "addr:housenumber": "67",
+        "addr:street": "Old Aba Road",
+        "name": "Ifex Collection",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6462559962,
+      "lat": 6.6000925,
+      "lon": 3.3444746,
+      "tags": {
+        "addr:housenumber": "20",
+        "addr:street": "Adeshina Street",
+        "name": "Mo Bella",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6793997374,
+      "lat": 6.3093215,
+      "lon": 5.6174435,
+      "tags": {
+        "addr:housenumber": "53",
+        "addr:street": "Ihama Road",
+        "bar": "yes",
+        "name": "Valkel Unisex Salon & Bar",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7770758113,
+      "lat": 6.5917517,
+      "lon": 3.3607034,
+      "tags": {
+        "addr:housenumber": "25",
+        "addr:street": "Irewole Avenue",
+        "beauty": "skin_care",
+        "contact:facebook": "https://www.facebook.com/debbiebarbieskincare/",
+        "name": "Debbiebarbie Luxury Skin Care",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7887759749,
+      "lat": 6.4475207,
+      "lon": 3.473689,
+      "tags": {
+        "beauty": "nails",
+        "contact:facebook": "https://www.facebook.com/emirastouch-101661231631501/",
+        "name": "Emirastouch Salon And Studio",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8486630201,
+      "lat": 8.1538765,
+      "lon": 4.7140521,
+      "tags": {
+        "contact:facebook": "https://www.facebook.com/hollyglamz/",
+        "name": "Horlaheton Makeover",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753037922,
+      "lat": 6.457304,
+      "lon": 7.5134441,
+      "tags": {
+        "name": "Clara Beauty Salon",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753071772,
+      "lat": 6.4587426,
+      "lon": 7.5167417,
+      "tags": {
+        "name": "Tinas Beauty Saloon",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753186571,
+      "lat": 6.4579099,
+      "lon": 7.519279,
+      "tags": {
+        "name": "H2N.Hair Hub Naturelle Beauty salons",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753348475,
+      "lat": 6.4582186,
+      "lon": 7.5302845,
+      "tags": {
+        "name": "Nel's Salon",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753430734,
+      "lat": 6.4581939,
+      "lon": 7.5328142,
+      "tags": {
+        "name": "PicturePerfect Beauty",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753471286,
+      "lat": 6.4577495,
+      "lon": 7.5349034,
+      "tags": {
+        "name": "Double M. Collection & Hair Cut",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753527738,
+      "lat": 6.4605526,
+      "lon": 7.5303388,
+      "tags": {
+        "name": "Fuzohairport Natural Hair Spa",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753560185,
+      "lat": 6.4573074,
+      "lon": 7.51793,
+      "tags": {
+        "name": "Ikemis Beauty Concepts",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753565875,
+      "lat": 6.4574645,
+      "lon": 7.5180407,
+      "tags": {
+        "name": "N.D Beauty",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753568372,
+      "lat": 6.4573859,
+      "lon": 7.517842,
+      "tags": {
+        "name": "Gossip Cosmetics",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9651566350,
+      "lat": 6.4362627,
+      "lon": 3.4906197,
+      "tags": {
+        "beauty": "nails",
+        "name": "Family Affair Beauty Salon and Spa",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10980388586,
+      "lat": 6.4820533,
+      "lon": 2.7076136,
+      "tags": {
+        "name": "Dieu est grand coiffure",
+        "phone": "54117231",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10980452627,
+      "lat": 6.4882814,
+      "lon": 2.7043389,
+      "tags": {
+        "description": "tresse- tissage - make-up -pedicule -emballage - décoration - mariage",
+        "name": "Ets Chantal coiffure mina okpè",
+        "phone": "90398323",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10980478762,
+      "lat": 6.4820533,
+      "lon": 2.7076136,
+      "tags": {
+        "name": "Dieu est grand coiffure",
+        "phone": "54117231",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10980484202,
+      "lat": 6.4895847,
+      "lon": 2.7026258,
+      "tags": {
+        "name": "Denis coiffure Grâce à Dieu",
+        "phone": "51554862",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11384633104,
+      "lat": 6.4356119,
+      "lon": 3.4808976,
+      "tags": {
+        "addr:city": "lekki",
+        "addr:housenumber": "15",
+        "addr:postcode": "101244",
+        "addr:street": "Oladimeji Alo Street",
+        "air_conditioning": "yes",
+        "beauty": "cosmetics;makeup",
+        "brand": "BEAUTYBYAD",
+        "description": "AWARD WINING NIGERIAN MAKEUP BRAND",
+        "email": "beautybyad10@gmail.come",
+        "name": "BeautybyAD",
+        "opening_hours": "Mo-Sa 09:00-18:00",
+        "operator": "Kazzy",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "phone": "+234 809 948 3333",
+        "shop": "beauty",
+        "website": "https://www.beautybyad.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11505505541,
+      "lat": 8.9701566,
+      "lon": 7.4373585,
+      "tags": {
+        "addr:city": "Abuja",
+        "beauty": "hair;nails;eyelash",
+        "female": "yes",
+        "kids_area": "no",
+        "kids_area:indoor": "no",
+        "kids_area:outdoor": "no",
+        "level": "0",
+        "male": "yes",
+        "name": "Express Unisex Salon",
+        "phone": "+234 813 235 5715",
+        "shop": "beauty",
+        "unisex": "yes",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934184042,
+      "lat": 7.2918229,
+      "lon": 5.1503406,
+      "tags": {
+        "check_date": "2024-05-26",
+        "name": "Hairmo NY & Styles",
+        "name:en": "Hairmo NY & Styles",
+        "opening_hours": "Mo-Sa 08:00-20:00; Su off",
+        "payment:cash": "yes",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934210463,
+      "lat": 7.2928078,
+      "lon": 5.1500639,
+      "tags": {
+        "check_date": "2024-05-26",
+        "name": "Everest Beauty",
+        "name:en": "Everest Beauty",
+        "opening_hours": "Mo-Sa 08:00-18:45; Su off",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934274004,
+      "lat": 7.2918524,
+      "lon": 5.1499189,
+      "tags": {
+        "check_date": "2024-05-26",
+        "internet_access": "no",
+        "name": "Nation Executive Hair Cut",
+        "name:en": "Nation Executive Hair Cut",
+        "opening_hours": "Mo-Sa 08:00-20:00; Su off",
+        "payment:cards": "no",
+        "payment:cash": "yes",
+        "payment:credit_cards": "no",
+        "payment:debit_cards": "no",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934362662,
+      "lat": 7.2929949,
+      "lon": 5.1504098,
+      "tags": {
+        "check_date": "2024-05-26",
+        "name": "De Kings Unisex Salon",
+        "name:en": "De Kings Unisex Salon",
+        "opening_hours": "Mo-Sa 08:00-19:30; Su off",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934870618,
+      "lat": 7.2896742,
+      "lon": 5.1492537,
+      "tags": {
+        "check_date": "2024-05-26",
+        "name": "Beauty Edge Palace",
+        "name:en": "Beauty Edge Palace",
+        "opening_hours": "Mo-Sa 08:00-19:30; Su off",
+        "payment:cash": "yes",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938817803,
+      "lat": 7.2890267,
+      "lon": 5.149027,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Home Service",
+        "name:en": "Our Service",
+        "opening_hours": "Mo-Sa 08:00-18:30; Su off",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938847718,
+      "lat": 7.2877322,
+      "lon": 5.1500197,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Spark Barbing Shop",
+        "name:en": "Spark Barbing Shop",
+        "opening_hours": "24/7",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938878873,
+      "lat": 7.285407,
+      "lon": 5.1494403,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Divine Grace Empire",
+        "name:en": "Divine Grace Empire",
+        "opening_hours": "Mo-Sa 08:00-18:30; Su off",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938924769,
+      "lat": 7.287195,
+      "lon": 5.1514326,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Mighty Hand Of God",
+        "name:en": "Mighty Hand Of God",
+        "opening_hours": "24/7",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938965015,
+      "lat": 7.2863232,
+      "lon": 5.1528932,
+      "tags": {
+        "beauty": "skin;hair",
+        "check_date": "2024-05-28",
+        "name": "Olympic SkinCare",
+        "name:en": "Olympic SkinCare",
+        "opening_hours": "24/7",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938974021,
+      "lat": 7.2899199,
+      "lon": 5.1526987,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Unique Hair Cut",
+        "name:en": "Unique Hair Cut",
+        "opening_hours": "24/7",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938979123,
+      "lat": 7.2877691,
+      "lon": 5.151714,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Snow Cut Barbing Salon",
+        "name:en": "Snow Cut Barbing Salon",
+        "opening_hours": "24/7",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938981474,
+      "lat": 7.288884,
+      "lon": 5.1523904,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "BT Babyfaces Salon",
+        "opening_hours": "24/7",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938993623,
+      "lat": 7.2896535,
+      "lon": 5.1525998,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Tosmart Beads Accessories",
+        "name:en": "Tosmart Beads Accessories",
+        "opening_hours": "24/7",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12066359338,
+      "lat": 8.9680615,
+      "lon": 7.4395832,
+      "tags": {
+        "addr:block": "C1",
+        "addr:housename": "House 2",
+        "addr:street": "Road 1",
+        "contact:email": "bigtimersadvantage@gmail.com",
+        "female": "yes",
+        "level": "1",
+        "male": "yes",
+        "name": "Bigtimers Barbershop",
+        "opening_hours": "Mo-Sa 08:00-21:00 open \"Might extend opening to 22:00 during high traffic\"; Su 12:30-21:00 open \"Might extend opening to 22:00 during high traffic\"",
+        "phone": "+2348065694857",
+        "shop": "hairdresser",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12198546248,
+      "lat": 6.451359,
+      "lon": 3.4708376,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "38",
+        "addr:postcode": "106104",
+        "addr:street": "Shakiru Anjorin Street",
+        "air_conditioning": "yes",
+        "email": "theolivespang@gmail.com",
+        "name": "Olive Spa",
+        "opening_hours": "24/7",
+        "operator": "jada abruch",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "phone": "+2348107891063",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594032,
+      "lat": 6.609075,
+      "lon": 3.432159,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "G.Glow",
+        "operator": "private/individual",
+        "shop": "beauty",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594034,
+      "lat": 6.609093,
+      "lon": 3.428511,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Lady B",
+        "operator": "private/individual",
+        "shop": "beauty",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594073,
+      "lat": 6.603156,
+      "lon": 3.420023,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Sumbo Beauty Affairs",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594074,
+      "lat": 6.602695,
+      "lon": 3.418841,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Peace place unisex salon",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594075,
+      "lat": 6.606045,
+      "lon": 3.421887,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Beauty signature wig",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594076,
+      "lat": 6.60498,
+      "lon": 3.420319,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Mgold unisex beauty palace",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594082,
+      "lat": 6.608333,
+      "lon": 3.426583,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "BEE EGAS BEAUTY SALON",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594089,
+      "lat": 6.597524,
+      "lon": 3.421139,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Tersor concept",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594092,
+      "lat": 6.602419,
+      "lon": 3.415078,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Precious Beauty Place",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594093,
+      "lat": 6.599684,
+      "lon": 3.424301,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Tbarbs Cutz",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594094,
+      "lat": 6.599155,
+      "lon": 3.423251,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Hair concept",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594095,
+      "lat": 6.603298,
+      "lon": 3.416709,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Yahoo Barber",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "no",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594096,
+      "lat": 6.605345,
+      "lon": 3.42517,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Kiki's empire cutz",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594097,
+      "lat": 6.606354,
+      "lon": 3.42853,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Omoluabi",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594098,
+      "lat": 6.60912,
+      "lon": 3.42876,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Kazo",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594099,
+      "lat": 6.605397,
+      "lon": 3.410279,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Tb unisex salon",
+        "operator": "private/individual",
+        "shop": "hairdresser",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795080,
+      "lat": 6.526975,
+      "lon": 3.23904,
+      "tags": {
+        "facility_use": "unisex salon",
+        "name": "JAY YOUNG UNISEX SALON",
+        "operator": "private/ individual",
+        "shop": "beauty",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795081,
+      "lat": 6.5242534,
+      "lon": 3.2371941,
+      "tags": {
+        "facility_use": "saloon",
+        "name": "Mide Star Empire",
+        "operator": "private/ individual",
+        "shop": "hairdresser",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795082,
+      "lat": 6.5337339,
+      "lon": 3.2366455,
+      "tags": {
+        "facility_use": "beauty home",
+        "name": "Beauty by bukky",
+        "operator": "private/ individual",
+        "shop": "beauty",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795083,
+      "lat": 6.5296817,
+      "lon": 3.237967,
+      "tags": {
+        "facility_use": "hair salon and selling of cloths",
+        "name": "Salon",
+        "operator": "private/ individual",
+        "shop": "hairdresser",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12469070062,
+      "lat": 5.490811,
+      "lon": 7.0548831,
+      "tags": {
+        "name": "Duke and Duchess",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12988238391,
+      "lat": 6.2015611,
+      "lon": 7.0473132,
+      "tags": {
+        "addr:city": "Amawbia",
+        "addr:housenumber": "42,",
+        "addr:postcode": "420108",
+        "addr:street": "Okpora Street, Umueze,",
+        "barber": "barber",
+        "hairdresser": "barber",
+        "name": "Gideon's Barber Shop",
+        "opening_hours": "Mo-Su 07:30-22:30",
+        "operator": "Gideon's Barber Shop",
+        "phone": "+234 901 363 7898",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974717,
+      "lat": 8.4855297,
+      "lon": 4.6067893,
+      "tags": {
+        "name": "Take Beauty Salon, Tipper Garage Road, Ilorin, Nigeria",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13328352836,
+      "lat": 6.4880019,
+      "lon": 3.3052327,
+      "tags": {
+        "addr:housenumber": "34",
+        "addr:postcode": "100263",
+        "addr:street": "Ojefia Crescent",
+        "beauty": "makeup;semi_permanent_brows;lash_installations;brow_lamination_and_tint",
+        "name": "Beauty By Caesignatures",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "phone": "07063432913",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13339164964,
+      "lat": 7.6153444,
+      "lon": 5.2543408,
+      "tags": {
+        "check_date": "2025-11-28",
+        "currency:XBT": "yes",
+        "hairdresser": "barber",
+        "name": "Diamond Barbing Saloon",
+        "opening_hours": "Mo-Sa 08:00-20:00",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "yes",
+        "payment:onchain": "yes",
+        "phone": "+234 9063 251047",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13353371939,
+      "lat": 6.4423436,
+      "lon": 3.4750843,
+      "tags": {
+        "addr:city": "lekki",
+        "addr:housenumber": "2a",
+        "addr:postcode": "105102",
+        "addr:street": "Hakeem Dickson Road",
+        "beauty": "facials;nails;massage;waxing;teeth_whitening",
+        "name": "Spaland",
+        "opening_hours": "Mo-Sa 09:00-20:00",
+        "operator": "Spaland",
+        "payment:debit_cards": "yes",
+        "phone": "+2349039251171",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13369918913,
+      "lat": 8.4745078,
+      "lon": 4.6287877,
+      "tags": {
+        "check_date": "2025-12-11",
+        "currency:XBT": "yes",
+        "hairdresser": "barber",
+        "male": "yes",
+        "name": "Space Cutz",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "yes",
+        "payment:onchain": "no",
+        "phone": "081 3410 9664‬",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13416176287,
+      "lat": 6.7486956,
+      "lon": 6.0954022,
+      "tags": {
+        "addr:city": "Ekpoma",
+        "addr:housenumber": "27 idumebo",
+        "addr:postcode": "310101",
+        "addr:street": "Ihumudum-Ujumen Road",
+        "beauty": "nails;tanning;cosmetics;spa;skin_care;hair_removal;waxing;hair;eyelash;aesthetic;eyebrow;massage;pedicure",
+        "contact:facebook": "https://www.facebook.com/niva.ng",
+        "image": "https://ibb.co/3Y4d9qVD",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Niva Spa & Salon",
+        "opening_hours": "Mo-Su 9:00-22:00",
+        "operator": "NIVA SPA AND SALON",
+        "payment:american_express": "yes",
+        "payment:app": "yes",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:coins": "yes",
+        "payment:contactless": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:notes": "yes",
+        "payment:visa": "yes",
+        "phone": "+234 815 956 0802",
+        "shop": "beauty",
+        "short_name": "NIVA",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13438136744,
+      "lat": 6.6964617,
+      "lon": 3.4859761,
+      "tags": {
+        "addr:city": "IIkorodu",
+        "addr:housenumber": "13",
+        "addr:postcode": "101104",
+        "addr:street": "Bamgbose street",
+        "check_date": "2026-03-31",
+        "check_date:currency:XBT": "2026-03-31",
+        "currency:XBT": "yes",
+        "hairdresser": "barber",
+        "male": "yes",
+        "name": "Ellygant Unisex Salon",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Ola",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "no",
+        "phone": "+234 80 333 799 88",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13510745197,
+      "lat": 5.0537065,
+      "lon": 8.357638,
+      "tags": {
+        "check_date": "2026-01-29",
+        "currency:XBT": "yes",
+        "hairdresser": "barber",
+        "male": "yes",
+        "name": "V Brown Barbing Clinic",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "yes",
+        "phone": "070 8525 3266",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "way",
+      "id": 47392196,
+      "center": {
+        "lat": 6.3280068,
+        "lon": 5.6018397
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Hairdresser Salon",
+        "shop": "hairdresser"
+      },
+      "lat": 6.3280068,
+      "lon": 5.6018397
+    },
+    {
+      "type": "way",
+      "id": 625093253,
+      "center": {
+        "lat": 6.5968763,
+        "lon": 3.3543351
+      },
+      "tags": {
+        "building": "commercial",
+        "building:levels": "1",
+        "name": "Casa Bella",
+        "opening_hours": "Mo-Sa 08:00-21:00;Su 12:00-21:00",
+        "shop": "beauty"
+      },
+      "lat": 6.5968763,
+      "lon": 3.3543351
+    },
+    {
+      "type": "way",
+      "id": 626246875,
+      "center": {
+        "lat": 6.5986359,
+        "lon": 3.3531978
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Abi Glow",
+        "shop": "beauty"
+      },
+      "lat": 6.5986359,
+      "lon": 3.3531978
+    },
+    {
+      "type": "way",
+      "id": 1135552236,
+      "center": {
+        "lat": 6.4663188,
+        "lon": 7.4977946
+      },
+      "tags": {
+        "addr:city": "Enugu",
+        "addr:housenumber": "2",
+        "addr:postcode": "40102",
+        "addr:street": "Emole Street, GRA",
+        "building": "yes",
+        "name": "Ifenzi Beauty Salon",
+        "opening_hours": "Mo-Su 08:00-22:00",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+2347073551432",
+        "shop": "hairdresser"
+      },
+      "lat": 6.4663188,
+      "lon": 7.4977946
+    },
+    {
+      "type": "node",
+      "id": 2428047911,
+      "lat": 11.8957796,
+      "lon": 3.4621728,
+      "tags": {
+        "name": "salon de coiffure",
+        "project:mappingforniger": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224613354,
+      "lat": 13.0451123,
+      "lon": 3.1931386,
+      "tags": {
+        "name": "coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224883799,
+      "lat": 13.0521609,
+      "lon": 3.1911692,
+      "tags": {
+        "name": "Bernabeu Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3906056482,
+      "lat": 13.5019834,
+      "lon": 7.1080971,
+      "tags": {
+        "name": "Belerine Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314700218,
+      "lat": 13.4882084,
+      "lon": 7.1174884,
+      "tags": {
+        "name": "AHOEFA",
+        "project:pdevii": "yes",
+        "shop": "hairdresser",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316138540,
+      "lat": 13.486985,
+      "lon": 7.1167543,
+      "tags": {
+        "name": "Marhaba Coiffure",
+        "project:pdevii": "yes",
+        "shop": "hairdresser",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6938544085,
+      "lat": 11.1590563,
+      "lon": 7.6531489,
+      "tags": {
+        "addr:street": "Dan Rakka",
+        "name": "FreshKutz",
+        "opening_hours": "Mo-Su 08:00-23:00",
+        "phone": "+234703 834 2489",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6960416750,
+      "lat": 9.0816145,
+      "lon": 7.4775223,
+      "tags": {
+        "name": "Tulip Hair Salon & Spa",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7050383585,
+      "lat": 12.9949495,
+      "lon": 5.2105164,
+      "tags": {
+        "addr:street": "COE,SOKOTO",
+        "name": "Mike barbing saloon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9961441590,
+      "lat": 9.0783974,
+      "lon": 7.478971,
+      "tags": {
+        "name": "Khrome",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10548919877,
+      "lat": 9.080564,
+      "lon": 7.4855774,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "170",
+        "addr:postcode": "904101",
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "check_date:currency:XBT": "2024-07-10",
+        "contact:instagram": "@bigleaguesng",
+        "currency:XBT": "yes",
+        "description": "BARBER SHOP AND SPA",
+        "male": "yes",
+        "name": "BIG LEAGUES",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "yes",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10750438183,
+      "lat": 9.0191692,
+      "lon": 7.4221075,
+      "tags": {
+        "name": "Binta Beauty Ultimate Salon",
+        "shop": "hairdresser",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11017002169,
+      "lat": 9.0779335,
+      "lon": 7.480851,
+      "tags": {
+        "addr:city": "abuja",
+        "addr:housenumber": "9",
+        "addr:postcode": "900288",
+        "addr:street": "kampala street wuse 2",
+        "air_conditioning": "yes",
+        "beauty": "nails;tanning;cosmetics;spa;skin_care;hair;waxing;hair_removal;eyelash",
+        "name": "VOG WOMAN",
+        "opening_hours": "Mo-Su 08:00-21:00",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "phone": "+2349065904082",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11075595046,
+      "lat": 9.348159,
+      "lon": 2.7085451,
+      "tags": {
+        "name": "Salon coiffure miséricorde",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11950713430,
+      "lat": 9.0779149,
+      "lon": 7.4784224,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "131b",
+        "addr:postcode": "900288",
+        "addr:street": "Adetokunbo Ademola Crescent",
+        "air_conditioning": "yes",
+        "beauty": "skin_care;nails;cosmetics;spa;waxing;eyebrow;hair_removal;tanning;massage",
+        "email": "barabeautyaesthetique@gmail.com",
+        "name": "Bara’s Beauty and Aesthetics",
+        "opening_hours": "Mo-Su 09:00-22:00",
+        "operator": "Jada-Baruch",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2348102916716",
+        "shop": "beauty",
+        "website": "https://www.barabeautyaesthetique.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11964828740,
+      "lat": 9.0232429,
+      "lon": 7.4864268,
+      "tags": {
+        "beauty": "hair;nails",
+        "level": "0",
+        "name": "Ultra Hair and Nail Care",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282357138,
+      "lat": 11.9655857,
+      "lon": 8.478562,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "INFINITY BERBING",
+        "operator": "private_individual",
+        "pay_amount": "300",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12423310654,
+      "lat": 9.0724365,
+      "lon": 7.4755737,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "2",
+        "addr:postcode": "900288",
+        "addr:street": "Sakono Street",
+        "air_conditioning": "yes",
+        "beauty": "nails",
+        "currency:NGN": "yes",
+        "currency:USD": "yes",
+        "email": "thenaillabng@gmail.com",
+        "name": "The Nail Lab",
+        "opening_hours": "24/7",
+        "operator": "JADABARUCH",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2347069090130",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12810997012,
+      "lat": 10.5883497,
+      "lon": 7.4332581,
+      "tags": {
+        "addr:city": "kaduna",
+        "addr:street": "Mando Road",
+        "air_conditioning": "yes",
+        "beauty": "spa;skin_care;nails",
+        "name": "MAFZEE COLLECTION AND SPA",
+        "opening_hours": "Mo-Fr 09:00-18:00",
+        "operator": "MAFZEE",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "08023730515",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12837053737,
+      "lat": 9.0707456,
+      "lon": 7.4351653,
+      "tags": {
+        "addr:city": "ABUJA",
+        "addr:housenumber": "D10",
+        "addr:postcode": "23409",
+        "addr:street": "P.O.W MAFEMI CRESCENT",
+        "air_conditioning": "yes",
+        "beauty": "skin_care;cosmetics",
+        "email": "Keeksglam25@gmail.com",
+        "mobile": "+2347032262200",
+        "name": "Keeksglam beauty",
+        "opening_hours": "Mo-Su 09:00-18:00",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2347032262200",
+        "shop": "beauty",
+        "website": "https://keeksglambeauty.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12967017411,
+      "lat": 9.0878947,
+      "lon": 7.4737009,
+      "tags": {
+        "addr:city": "abuja",
+        "addr:housenumber": "1",
+        "addr:postcode": "900271",
+        "addr:street": "Indus Close",
+        "air_conditioning": "yes",
+        "beauty": "hair;haircut;nails",
+        "email": "Strandsorganics@gmail.com",
+        "name": "Strands Salon",
+        "opening_hours": "Tu-Sa 9:00-19:00",
+        "operator": "jada-baruch",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2347072485859",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13113105983,
+      "lat": 13.4854951,
+      "lon": 7.1294716,
+      "tags": {
+        "hairdresser": "barber",
+        "name": "Haske Express",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1274785881,
+      "center": {
+        "lat": 9.0853497,
+        "lon": 7.4712844
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "26",
+        "addr:postcode": "904101",
+        "addr:street": "Buchanan Crescent, Aminu Kano Cres, Wuse 2",
+        "air_conditioning": "yes",
+        "beauty": "nails;cosmetics;skin_care;spa;hair_removal;waxing;hair;eyelash;eyebrow;aesthetic;massage;pedicure;tanning",
+        "building": "commercial",
+        "contact:facebook": "https://www.facebook.com/annishsalonspa",
+        "description": "Annish Unisex Salon & Spa is your go-to beauty destination in Abuja. Specializing in hairstyling, wig installation, facials, waxing, and nail care — all in a serene, hygienic environment.",
+        "email": "info@annishsalonspa.com.ng",
+        "name": "Annish Unisex Salon & Spa",
+        "opening_hours": "24/7",
+        "payment:app": "yes",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:notes": "yes",
+        "payment:visa": "yes",
+        "phone": "0803 384 5944",
+        "shop": "beauty",
+        "start_date": "2021-09-17",
+        "toilets": "yes",
+        "website": "https://annishsalonspa.com.ng"
+      },
+      "lat": 9.0853497,
+      "lon": 7.4712844
+    },
+    {
+      "type": "node",
+      "id": 4359053498,
+      "lat": 4.7243327,
+      "lon": 9.4843109,
+      "tags": {
+        "name": "Usman Barber Shop",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752680,
+      "lat": 7.3053992,
+      "lon": 13.5904749,
+      "tags": {
+        "contact:phone": "674579857",
+        "name": "Oumarou Sanda",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752681,
+      "lat": 7.303758,
+      "lon": 13.589939,
+      "tags": {
+        "contact:phone": "664382710/677168100",
+        "name": "Ibrahim Sherif",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752682,
+      "lat": 7.320577,
+      "lon": 13.576404,
+      "tags": {
+        "contact:phone": "695539689",
+        "name": "Felix Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752683,
+      "lat": 7.320638,
+      "lon": 13.576542,
+      "tags": {
+        "contact:phone": "697769539",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Gervais Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752684,
+      "lat": 7.3208247,
+      "lon": 13.5770151,
+      "tags": {
+        "contact:phone": "694808070",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Formen Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752685,
+      "lat": 7.3208798,
+      "lon": 13.5773282,
+      "tags": {
+        "contact:phone": "672634814",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Salon Coiffure 7 Etoiles Vip",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752686,
+      "lat": 7.3194487,
+      "lon": 13.5770254,
+      "tags": {
+        "contact:phone": "660889998",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Senateur Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752687,
+      "lat": 7.3197067,
+      "lon": 13.5780886,
+      "tags": {
+        "name": "Salon de Coiffure Docteur Koumalo",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752690,
+      "lat": 7.316736,
+      "lon": 13.5966147,
+      "tags": {
+        "contact:phone": "677958371",
+        "name": "Nsono Nicolas",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752691,
+      "lat": 7.3298567,
+      "lon": 13.5927081,
+      "tags": {
+        "name": "Vip Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752692,
+      "lat": 7.3313953,
+      "lon": 13.5933134,
+      "tags": {
+        "contact:phone": "676433480",
+        "name": "Love Beauty Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752693,
+      "lat": 7.3267231,
+      "lon": 13.591937,
+      "tags": {
+        "name": "Ahmed",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752694,
+      "lat": 7.331645,
+      "lon": 13.5931779,
+      "tags": {
+        "contact:phone": "697584457",
+        "name": "Luc Desiree",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752695,
+      "lat": 7.3306395,
+      "lon": 13.5913713,
+      "tags": {
+        "contact:phone": "699314173",
+        "name": "Bachirou",
+        "place": "SABONGARI",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752696,
+      "lat": 7.3274941,
+      "lon": 13.5897144,
+      "tags": {
+        "contact:phone": "697476215",
+        "name": "Michel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752699,
+      "lat": 7.3264329,
+      "lon": 13.585496,
+      "tags": {
+        "contact:phone": "675873569",
+        "name": "Membre",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752700,
+      "lat": 7.2959715,
+      "lon": 13.5685832,
+      "tags": {
+        "contact:phone": "698104238",
+        "name": "Guirokomi Youssouphou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752701,
+      "lat": 7.294318,
+      "lon": 13.5733578,
+      "tags": {
+        "contact:phone": "673144090",
+        "name": "Suzanne",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752703,
+      "lat": 7.292275,
+      "lon": 13.557121,
+      "tags": {
+        "contact:phone": "661256499",
+        "fixme": "WAKWA",
+        "name": "Mamoudou Abdouraman",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752704,
+      "lat": 7.2923674,
+      "lon": 13.585673,
+      "tags": {
+        "name": "Youssoupha Ousmanou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752706,
+      "lat": 7.2922967,
+      "lon": 13.5765745,
+      "tags": {
+        "contact:phone": "662812471",
+        "name": "Hadja Nafissa",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752707,
+      "lat": 7.292267,
+      "lon": 13.5763579,
+      "tags": {
+        "contact:phone": "678852094",
+        "fixme": "BAMYANGA SOMENO",
+        "name": "Chez Gabson Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752709,
+      "lat": 7.2922417,
+      "lon": 13.5771058,
+      "tags": {
+        "contact:phone": "660937230",
+        "name": "Dawai Blaise",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752710,
+      "lat": 7.2935873,
+      "lon": 13.5752565,
+      "tags": {
+        "contact:phone": "661300938",
+        "name": "Saide",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752711,
+      "lat": 7.2937,
+      "lon": 13.5762,
+      "tags": {
+        "contact:phone": "665274289",
+        "name": "Sini",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752712,
+      "lat": 7.293831,
+      "lon": 13.576189,
+      "tags": {
+        "contact:phone": "664823701",
+        "name": "Deli Ernestina John",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752714,
+      "lat": 7.2893758,
+      "lon": 13.5772512,
+      "tags": {
+        "contact:phone": "661845401",
+        "name": "Nesbeto Moise",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752715,
+      "lat": 7.2861061,
+      "lon": 13.5601347,
+      "tags": {
+        "name": "Moussa",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752716,
+      "lat": 7.2940084,
+      "lon": 13.5743355,
+      "tags": {
+        "name": "Copine Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752717,
+      "lat": 7.2969,
+      "lon": 13.5688,
+      "tags": {
+        "contact:phone": "676334464",
+        "name": "Marie Noel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752720,
+      "lat": 7.295445,
+      "lon": 13.572853,
+      "tags": {
+        "name": "Excellence Coiffure Vip",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752721,
+      "lat": 7.3280216,
+      "lon": 13.5825505,
+      "tags": {
+        "contact:phone": "674754589",
+        "name": "Neneda Clarisse",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752722,
+      "lat": 7.3289048,
+      "lon": 13.584878,
+      "tags": {
+        "contact:phone": "677144805",
+        "name": "Toukam",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752723,
+      "lat": 7.325791,
+      "lon": 13.581233,
+      "tags": {
+        "fixme": "BALADJI 1",
+        "name": "Kardashian Beauty",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752724,
+      "lat": 7.3257723,
+      "lon": 13.5819774,
+      "tags": {
+        "contact:phone": "656933808/698687334",
+        "fixme": "BALADJI 1",
+        "name": "Odilya Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752725,
+      "lat": 7.32577,
+      "lon": 13.5824943,
+      "tags": {
+        "contact:phone": "699061790",
+        "fixme": "BALADJI 1",
+        "name": "Holiwood Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752726,
+      "lat": 7.326801,
+      "lon": 13.580381,
+      "tags": {
+        "contact:phone": "690566501",
+        "name": "Anne Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752727,
+      "lat": 7.32602,
+      "lon": 13.5812954,
+      "tags": {
+        "fixme": "PETIT MARCHE",
+        "name": "No Comment Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752728,
+      "lat": 7.327182,
+      "lon": 13.5824017,
+      "tags": {
+        "contact:phone": "675171135",
+        "name": "Caroline",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752729,
+      "lat": 7.3208437,
+      "lon": 13.5753841,
+      "tags": {
+        "contact:phone": "698682707",
+        "name": "Royale",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752730,
+      "lat": 7.3280163,
+      "lon": 13.5825295,
+      "tags": {
+        "contact:phone": "699527997",
+        "name": "Shekina",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752731,
+      "lat": 7.3261648,
+      "lon": 13.5818258,
+      "tags": {
+        "contact:phone": "697511973",
+        "fixme": "JOLI SOIR",
+        "name": "Marino",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752732,
+      "lat": 7.324757,
+      "lon": 13.579916,
+      "tags": {
+        "contact:phone": "655001570",
+        "fixme": "BALADJI 1",
+        "name": "Souli",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752733,
+      "lat": 7.3260125,
+      "lon": 13.5813131,
+      "tags": {
+        "contact:phone": "677820388",
+        "fixme": "BALADJI 1",
+        "name": "Priscillia",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752734,
+      "lat": 7.3274293,
+      "lon": 13.5819436,
+      "tags": {
+        "contact:phone": "693970325",
+        "name": "Paul",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752735,
+      "lat": 7.3273787,
+      "lon": 13.5819584,
+      "tags": {
+        "contact:phone": "694888742",
+        "fixme": "BALADJI 1",
+        "name": "Nafissatou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752736,
+      "lat": 7.325777,
+      "lon": 13.581373,
+      "tags": {
+        "contact:phone": "674213649",
+        "fixme": "BALADJI 1",
+        "name": "Le Doigter",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752737,
+      "lat": 7.327332,
+      "lon": 13.583077,
+      "tags": {
+        "contact:phone": "675252823",
+        "name": "Ngameni Marie",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752738,
+      "lat": 7.328245,
+      "lon": 13.583136,
+      "tags": {
+        "contact:phone": "677817763",
+        "name": "Nyandem Jasmine",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752739,
+      "lat": 7.326408,
+      "lon": 13.5823331,
+      "tags": {
+        "contact:phone": "699684594",
+        "fixme": "PETIT MARCHE",
+        "name": "Kenfack Nadege",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752741,
+      "lat": 7.3262493,
+      "lon": 13.5817189,
+      "tags": {
+        "contact:phone": "693899604",
+        "fixme": "PETIT MARCHE",
+        "name": "Toumi Fallone",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752742,
+      "lat": 7.3264963,
+      "lon": 13.5824108,
+      "tags": {
+        "contact:phone": "650212913",
+        "name": "Bito",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752743,
+      "lat": 7.3278673,
+      "lon": 13.5821116,
+      "tags": {
+        "contact:phone": "653403390",
+        "name": "Kolade Michael",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752744,
+      "lat": 7.3282239,
+      "lon": 13.5831147,
+      "tags": {
+        "contact:phone": "655111096",
+        "name": "Toumissim Patouma Nadine",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752745,
+      "lat": 7.3261438,
+      "lon": 13.5818408,
+      "tags": {
+        "contact:phone": "674641131",
+        "fixme": "PETIT MARCHE",
+        "name": "Vip Salon",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752746,
+      "lat": 7.3328492,
+      "lon": 13.5811525,
+      "tags": {
+        "contact:phone": "676909007",
+        "name": "Mounira",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752747,
+      "lat": 7.3279163,
+      "lon": 13.5828718,
+      "tags": {
+        "contact:phone": "671138237",
+        "name": "Kitio",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752748,
+      "lat": 7.3277636,
+      "lon": 13.5817485,
+      "tags": {
+        "contact:phone": "698323977",
+        "name": "Leonce Mbah",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752754,
+      "lat": 7.4268547,
+      "lon": 13.5554323,
+      "tags": {
+        "contact:phone": "693569352",
+        "name": "Fashion Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752758,
+      "lat": 7.4203494,
+      "lon": 13.5522036,
+      "tags": {
+        "contact:phone": "662703670",
+        "name": "Reference Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752763,
+      "lat": 7.418466,
+      "lon": 13.5514217,
+      "tags": {
+        "contact:phone": "694100390",
+        "name": "Lady Fashion",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752766,
+      "lat": 7.4325099,
+      "lon": 13.5561434,
+      "tags": {
+        "contact:phone": "698141432",
+        "name": "Sylvie Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752775,
+      "lat": 7.31133,
+      "lon": 13.55013,
+      "tags": {
+        "contact:phone": "675669135",
+        "name": "Mr Kabirou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752777,
+      "lat": 7.305348,
+      "lon": 13.5699383,
+      "tags": {
+        "contact:phone": "694378442",
+        "name": "Yorogans Coiffure",
+        "place": "CETUBA",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752778,
+      "lat": 7.305687,
+      "lon": 13.569814,
+      "tags": {
+        "fixme": "BAMYANGA SITUBA",
+        "name": "Fany Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752779,
+      "lat": 7.3109749,
+      "lon": 13.5732244,
+      "tags": {
+        "fixme": "SOCARET",
+        "name": "Amy Fashion Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752780,
+      "lat": 7.3191437,
+      "lon": 13.5736691,
+      "tags": {
+        "contact:phone": "697079720",
+        "fixme": "ONAREF",
+        "name": "Nathalie Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752781,
+      "lat": 7.318417,
+      "lon": 13.565576,
+      "tags": {
+        "contact:phone": "698863791",
+        "name": "Reine Alicia Fashion",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752782,
+      "lat": 7.3184301,
+      "lon": 13.5738302,
+      "tags": {
+        "contact:phone": "679176102",
+        "name": "Coiffure Cédric",
+        "place": "ONAREF",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752784,
+      "lat": 7.3193167,
+      "lon": 13.5734566,
+      "tags": {
+        "contact:phone": "670459030",
+        "fixme": "ONAREF",
+        "name": "Solange Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752885,
+      "lat": 7.3193298,
+      "lon": 13.5732824,
+      "tags": {
+        "contact:phone": "697792091",
+        "name": "Sophie",
+        "place": "ONAREF",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752886,
+      "lat": 7.3120622,
+      "lon": 13.5733499,
+      "tags": {
+        "fixme": "ONAREF",
+        "name": "Comportement Fashion",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752887,
+      "lat": 7.3120742,
+      "lon": 13.5733719,
+      "tags": {
+        "fixme": "ONAREF",
+        "name": "Nasser",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752888,
+      "lat": 7.3144432,
+      "lon": 13.5743317,
+      "tags": {
+        "contact:phone": "695281552",
+        "fixme": "ONAREF",
+        "name": "Michel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752889,
+      "lat": 7.3198438,
+      "lon": 13.5752789,
+      "tags": {
+        "contact:phone": "675665301",
+        "fixme": "ONAREF",
+        "name": "Norvelas Beauty",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752890,
+      "lat": 7.3139627,
+      "lon": 13.5722506,
+      "tags": {
+        "fixme": "ONAREF",
+        "name": "Andro?de",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752891,
+      "lat": 7.3204224,
+      "lon": 13.573543,
+      "tags": {
+        "name": "Joseph Nkuh",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752892,
+      "lat": 7.3196393,
+      "lon": 13.5735442,
+      "tags": {
+        "name": "Georges",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752893,
+      "lat": 7.3192677,
+      "lon": 13.5731448,
+      "tags": {
+        "name": "Claudi",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752894,
+      "lat": 7.3218454,
+      "lon": 13.5818034,
+      "tags": {
+        "contact:phone": "691723365",
+        "fixme": "Tongo",
+        "name": "Natural Misty //amna",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752895,
+      "lat": 7.32,
+      "lon": 13.57971,
+      "tags": {
+        "contact:phone": "699228665",
+        "fixme": "BALI",
+        "name": "Ange Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752896,
+      "lat": 7.320373,
+      "lon": 13.58539,
+      "tags": {
+        "name": "Almahdji Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752898,
+      "lat": 7.31992,
+      "lon": 13.58535,
+      "tags": {
+        "contact:phone": "677777779",
+        "name": "Hassan Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752899,
+      "lat": 7.31946,
+      "lon": 13.585211,
+      "tags": {
+        "contact:phone": "699783482",
+        "fixme": "BALI",
+        "name": "Doli Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752900,
+      "lat": 7.320691,
+      "lon": 13.583853,
+      "tags": {
+        "contact:phone": "699240016",
+        "name": "Bia Dalailou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752901,
+      "lat": 7.321048,
+      "lon": 13.581607,
+      "tags": {
+        "contact:phone": "675142567",
+        "fixme": "BALI",
+        "name": "Salon Patou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752902,
+      "lat": 7.321536,
+      "lon": 13.580109,
+      "tags": {
+        "contact:phone": "697515350",
+        "fixme": "TONGO FALINGO",
+        "name": "Kabila Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752903,
+      "lat": 7.32149,
+      "lon": 13.58049,
+      "tags": {
+        "contact:phone": "679382966",
+        "fixme": "TONGO FALINGO",
+        "name": "Deco Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752904,
+      "lat": 7.3223787,
+      "lon": 13.5811267,
+      "tags": {
+        "contact:phone": "676135001",
+        "fixme": "TONGO FALINGO",
+        "name": "Chez Tantine Etre Belle A Tous Pris",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752905,
+      "lat": 7.321504,
+      "lon": 13.582959,
+      "tags": {
+        "contact:phone": "679192707",
+        "fixme": "Tongo",
+        "name": "Vip Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752906,
+      "lat": 7.3213162,
+      "lon": 13.5849207,
+      "tags": {
+        "name": "Shalom Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752908,
+      "lat": 7.3214068,
+      "lon": 13.584891,
+      "tags": {
+        "contact:phone": "670267464",
+        "name": "Sorabai Calvin",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752909,
+      "lat": 7.3213848,
+      "lon": 13.584897,
+      "tags": {
+        "contact:phone": "651768583",
+        "name": "Hassan",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752910,
+      "lat": 7.3214938,
+      "lon": 13.5848451,
+      "tags": {
+        "contact:phone": "696453977",
+        "name": "Ibrahim Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752911,
+      "lat": 7.32199,
+      "lon": 13.5848024,
+      "tags": {
+        "contact:phone": "696453977",
+        "name": "Daiga",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752912,
+      "lat": 7.322026,
+      "lon": 13.584787,
+      "tags": {
+        "name": "Diamare Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752913,
+      "lat": 7.3226467,
+      "lon": 13.5839022,
+      "tags": {
+        "contact:phone": "695667454",
+        "name": "Salon De Coiffure Annour",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752914,
+      "lat": 7.3187433,
+      "lon": 13.5759678,
+      "tags": {
+        "contact:phone": "676436513",
+        "name": "Gales Winthe",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752915,
+      "lat": 7.318981,
+      "lon": 13.576083,
+      "tags": {
+        "contact:phone": "681455491",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "Ousmanou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752917,
+      "lat": 7.3259273,
+      "lon": 13.5826921,
+      "tags": {
+        "contact:phone": "697068656",
+        "fixme": "TONGO GALDIMA",
+        "name": "Ali",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752918,
+      "lat": 7.3261207,
+      "lon": 13.5825379,
+      "tags": {
+        "contact:phone": "697068656",
+        "fixme": "TONGO GALDIMA",
+        "name": "Issa",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752919,
+      "lat": 7.3257174,
+      "lon": 13.5818734,
+      "tags": {
+        "contact:phone": "694581166",
+        "fixme": "TONGO GALDIMA",
+        "name": "Djonomegni Grace",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752920,
+      "lat": 7.32532,
+      "lon": 13.58224,
+      "tags": {
+        "contact:phone": "674564928",
+        "fixme": "TONGO GALDIMA",
+        "name": "Ngo Gouet Bridget Marthe",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752921,
+      "lat": 7.3251443,
+      "lon": 13.5811954,
+      "tags": {
+        "contact:phone": "675239433",
+        "fixme": "TONGO GALDIMA",
+        "name": "Demgne Amelie Chantal",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752922,
+      "lat": 7.3234393,
+      "lon": 13.5805452,
+      "tags": {
+        "contact:phone": "677837640",
+        "fixme": "TONGO GALDIMA",
+        "name": "Wandji",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752923,
+      "lat": 7.323676,
+      "lon": 13.5801834,
+      "tags": {
+        "contact:phone": "650806255",
+        "fixme": "TONGO GALDIMA",
+        "name": "Sesuh Yvonne",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752924,
+      "lat": 7.3106454,
+      "lon": 13.5968097,
+      "tags": {
+        "contact:phone": "654 22 12 46",
+        "name": "Ndongo Isaac",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752925,
+      "lat": 7.3121097,
+      "lon": 13.5968461,
+      "tags": {
+        "contact:phone": "698 23 22 54",
+        "fixme": "NORVEGIEN",
+        "name": "Aie Honorine",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752926,
+      "lat": 7.3119885,
+      "lon": 13.596634,
+      "tags": {
+        "contact:phone": "693 97 66 57",
+        "name": "Hawa Emilie",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752927,
+      "lat": 7.3128086,
+      "lon": 13.5966677,
+      "tags": {
+        "contact:phone": "699 33 3931",
+        "name": "Sokeng Hermine",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752928,
+      "lat": 7.3152778,
+      "lon": 13.5956265,
+      "tags": {
+        "contact:phone": "674 31 25 10",
+        "name": "Etoundi Anne",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752929,
+      "lat": 7.3134612,
+      "lon": 13.5962637,
+      "tags": {
+        "contact:phone": "653 73 62 01",
+        "name": "Timyi Shella",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752930,
+      "lat": 7.3132,
+      "lon": 13.596337,
+      "tags": {
+        "contact:phone": "654 23 32 87",
+        "name": "Abou Nidal",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752931,
+      "lat": 7.3128613,
+      "lon": 13.5965873,
+      "tags": {
+        "contact:phone": "695 59 88 53",
+        "name": "Hermine",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752932,
+      "lat": 7.303485,
+      "lon": 13.6000829,
+      "tags": {
+        "contact:phone": "678 15 92 98",
+        "name": "Kassaoudou Koumna",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752933,
+      "lat": 7.3022167,
+      "lon": 13.6006977,
+      "tags": {
+        "contact:phone": "672 71 35 42",
+        "name": "Deni Danbai",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752934,
+      "lat": 7.3013503,
+      "lon": 13.6009952,
+      "tags": {
+        "contact:phone": "675 84 69 39",
+        "fixme": "BURKINA",
+        "name": "Sawalda Simon",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752935,
+      "lat": 7.3041434,
+      "lon": 13.6061128,
+      "tags": {
+        "contact:phone": "664 28 92 47",
+        "name": "Larina Asta",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752936,
+      "lat": 7.3038336,
+      "lon": 13.6053159,
+      "tags": {
+        "contact:phone": "676 62 71 11",
+        "name": "Severin",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752937,
+      "lat": 7.2992693,
+      "lon": 13.6037694,
+      "tags": {
+        "contact:phone": "677 02 61 79",
+        "name": "Housseni Salaman",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752938,
+      "lat": 7.2991343,
+      "lon": 13.6038571,
+      "tags": {
+        "contact:phone": "697 96 72 45",
+        "name": "Walza Jean Claude",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752939,
+      "lat": 7.3033303,
+      "lon": 13.6051017,
+      "tags": {
+        "contact:phone": "678 30 05 24",
+        "name": "Aliou Moustapha",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752940,
+      "lat": 7.3030947,
+      "lon": 13.5964885,
+      "tags": {
+        "contact:phone": "671 30 32 22",
+        "name": "Laoudji Odette",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752941,
+      "lat": 7.3056623,
+      "lon": 13.5989795,
+      "tags": {
+        "name": "Nguimgou Nkengni Laure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752942,
+      "lat": 7.3055251,
+      "lon": 13.5989819,
+      "tags": {
+        "contact:phone": "656 56 09 89",
+        "name": "Demtale Bebbe Marthe",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752943,
+      "lat": 7.305887,
+      "lon": 13.599043,
+      "tags": {
+        "contact:phone": "677 49 32 54",
+        "fixme": "BURKINA",
+        "name": "Ndelme Angele",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752944,
+      "lat": 7.3055742,
+      "lon": 13.5997742,
+      "tags": {
+        "contact:phone": "699 03 50 42",
+        "name": "Libassou Richard",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752945,
+      "lat": 7.3043189,
+      "lon": 13.5999144,
+      "tags": {
+        "contact:phone": "699 35 99 87",
+        "name": "Yerimi Rosalie Esther",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752946,
+      "lat": 7.3042994,
+      "lon": 13.5997501,
+      "tags": {
+        "contact:phone": "675 79 76 85",
+        "name": "Diabi Oumarou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752947,
+      "lat": 7.28971,
+      "lon": 13.575493,
+      "tags": {
+        "name": "Princess Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752948,
+      "lat": 7.293099,
+      "lon": 13.5796441,
+      "tags": {
+        "contact:phone": "6563028",
+        "fixme": "HAUT PLATEAU",
+        "name": "Ambassa Rose Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752949,
+      "lat": 7.291627,
+      "lon": 13.58586,
+      "tags": {
+        "contact:phone": "694497600",
+        "name": "Ahmadou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752950,
+      "lat": 7.2865223,
+      "lon": 13.5604673,
+      "tags": {
+        "contact:phone": "653536306",
+        "name": "Tonton Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752951,
+      "lat": 7.2914547,
+      "lon": 13.5771092,
+      "tags": {
+        "contact:phone": "681491153/661404000",
+        "name": "Biya Emmanuel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752952,
+      "lat": 7.2915494,
+      "lon": 13.5771049,
+      "tags": {
+        "name": "Clariss Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752953,
+      "lat": 7.294852,
+      "lon": 13.57608,
+      "tags": {
+        "contact:phone": "678370951",
+        "name": "Abdoulramane",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752954,
+      "lat": 7.300247,
+      "lon": 13.577767,
+      "tags": {
+        "contact:phone": "695395499",
+        "name": "Abdoul Aziz",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752955,
+      "lat": 7.304648,
+      "lon": 13.57759,
+      "tags": {
+        "contact:phone": "675793177",
+        "name": "Gambo Hassan",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752956,
+      "lat": 7.2963264,
+      "lon": 13.570355,
+      "tags": {
+        "contact:phone": "6792078951",
+        "name": "Nicolas",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752957,
+      "lat": 7.2921,
+      "lon": 13.57373,
+      "tags": {
+        "contact:phone": "67700742",
+        "name": "Hassana Moussa",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752958,
+      "lat": 7.2916226,
+      "lon": 13.5741543,
+      "tags": {
+        "contact:phone": "666588768",
+        "name": "Djafarou Sadjo",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752959,
+      "lat": 7.2940407,
+      "lon": 13.5742332,
+      "tags": {
+        "contact:phone": "681477360",
+        "name": "Baba",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752964,
+      "lat": 7.29389,
+      "lon": 13.57471,
+      "tags": {
+        "contact:phone": "660029040",
+        "name": "Kodji",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752965,
+      "lat": 7.293862,
+      "lon": 13.574704,
+      "tags": {
+        "name": "Nouhou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752966,
+      "lat": 7.2877217,
+      "lon": 13.5615988,
+      "tags": {
+        "contact:phone": "656094020",
+        "name": "Ahmadou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752967,
+      "lat": 7.2874286,
+      "lon": 13.5743996,
+      "tags": {
+        "contact:phone": "698266697",
+        "name": "Murielle",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752968,
+      "lat": 7.2873729,
+      "lon": 13.5743903,
+      "tags": {
+        "contact:phone": "676586425",
+        "name": "Monique",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752969,
+      "lat": 7.3217561,
+      "lon": 13.5849229,
+      "tags": {
+        "contact:phone": "666980067",
+        "name": "Basile",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752970,
+      "lat": 7.3225412,
+      "lon": 13.5866687,
+      "tags": {
+        "contact:phone": "666609898",
+        "name": "Sandra",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752971,
+      "lat": 7.325248,
+      "lon": 13.589648,
+      "tags": {
+        "contact:phone": "679943354",
+        "name": "Garga",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752972,
+      "lat": 7.3217908,
+      "lon": 13.5849055,
+      "tags": {
+        "contact:phone": "661844414",
+        "name": "Yaouba",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752973,
+      "lat": 7.3218235,
+      "lon": 13.5848907,
+      "tags": {
+        "contact:phone": "661618151",
+        "name": "Ibrahima",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752974,
+      "lat": 7.3243656,
+      "lon": 13.5896911,
+      "tags": {
+        "contact:phone": "672563443",
+        "fixme": "DAMARIS",
+        "name": "Ibrahima Baba",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752975,
+      "lat": 7.324065,
+      "lon": 13.5891454,
+      "tags": {
+        "contact:phone": "679595379",
+        "name": "Ousseini",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752978,
+      "lat": 7.3244573,
+      "lon": 13.5928408,
+      "tags": {
+        "contact:phone": "670572655",
+        "name": "Eric",
+        "place": "HAOUSSA",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752980,
+      "lat": 7.3183606,
+      "lon": 13.5945487,
+      "tags": {
+        "contact:phone": "675661366",
+        "name": "Takougaing",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752981,
+      "lat": 7.320283,
+      "lon": 13.5955953,
+      "tags": {
+        "contact:phone": "697341087",
+        "name": "Ruth",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942752983,
+      "lat": 7.32066,
+      "lon": 13.5955976,
+      "tags": {
+        "name": "Bilo'o Angone",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753385,
+      "lat": 7.32042,
+      "lon": 13.59549,
+      "tags": {
+        "contact:phone": "697080545",
+        "name": "Bilo'o Ango'o",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753386,
+      "lat": 7.3208926,
+      "lon": 13.595371,
+      "tags": {
+        "contact:phone": "694989957",
+        "name": "Haoua",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753387,
+      "lat": 7.3193287,
+      "lon": 13.5954836,
+      "tags": {
+        "contact:phone": "656815635",
+        "name": "Gboutounou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753389,
+      "lat": 7.3197824,
+      "lon": 13.5959367,
+      "tags": {
+        "contact:phone": "698569538",
+        "name": "Mendo Christelle",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753390,
+      "lat": 7.320232,
+      "lon": 13.595044,
+      "tags": {
+        "contact:phone": "698233032",
+        "name": "Ndoulou Kevin",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753391,
+      "lat": 7.3191713,
+      "lon": 13.5949153,
+      "tags": {
+        "contact:phone": "673312199",
+        "fixme": "BANTAI",
+        "name": "Daro Salam",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753392,
+      "lat": 7.31884,
+      "lon": 13.59441,
+      "tags": {
+        "contact:phone": "699069458",
+        "name": "Mbanga",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753393,
+      "lat": 7.3197893,
+      "lon": 13.5948418,
+      "tags": {
+        "contact:phone": "677752913",
+        "name": "Mohaamadou Bagodji",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753394,
+      "lat": 7.322994,
+      "lon": 13.587681,
+      "tags": {
+        "name": "Nana Blaise",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753395,
+      "lat": 7.3194432,
+      "lon": 13.5949438,
+      "tags": {
+        "contact:phone": "654215113",
+        "name": "Valantin",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753396,
+      "lat": 7.319416,
+      "lon": 13.5952864,
+      "tags": {
+        "contact:phone": "661387224",
+        "name": "Mabelle",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753397,
+      "lat": 7.31924,
+      "lon": 13.5924,
+      "tags": {
+        "contact:phone": "694576020",
+        "fixme": "BANTAI",
+        "name": "Maidje",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753398,
+      "lat": 7.3171381,
+      "lon": 13.5948123,
+      "tags": {
+        "contact:phone": "653628533",
+        "name": "Neuffeussie Angel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753399,
+      "lat": 7.319155,
+      "lon": 13.58924,
+      "tags": {
+        "contact:phone": "696585810",
+        "name": "Zakari",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753400,
+      "lat": 7.31807,
+      "lon": 13.58803,
+      "tags": {
+        "contact:phone": "676581000",
+        "fixme": "BOUMDJERE",
+        "name": "Zouairou Amadou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753401,
+      "lat": 7.319751,
+      "lon": 13.59188,
+      "tags": {
+        "contact:phone": "674046254",
+        "fixme": "BOUMDJERE",
+        "name": "Edouard",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753402,
+      "lat": 7.319249,
+      "lon": 13.593755,
+      "tags": {
+        "contact:phone": "67451228",
+        "name": "Horty",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753403,
+      "lat": 7.317243,
+      "lon": 13.588788,
+      "tags": {
+        "contact:phone": "674140125",
+        "fixme": "DJAKBOL",
+        "name": "Doko Meiri Jean Daniel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753404,
+      "lat": 7.317209,
+      "lon": 13.588901,
+      "tags": {
+        "contact:phone": "670527740",
+        "fixme": "DJAKBOL",
+        "name": "Alycia",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753406,
+      "lat": 7.317271,
+      "lon": 13.592663,
+      "tags": {
+        "contact:phone": "672200795",
+        "name": "Mekoilou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753407,
+      "lat": 7.317823,
+      "lon": 13.593529,
+      "tags": {
+        "contact:phone": "695534449",
+        "fixme": "BANTAI",
+        "name": "Mira",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753408,
+      "lat": 7.318463,
+      "lon": 13.594096,
+      "tags": {
+        "contact:phone": "674086127",
+        "name": "Valerie",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753409,
+      "lat": 7.356493,
+      "lon": 13.580946,
+      "tags": {
+        "contact:phone": "681015629",
+        "name": "Kouserel Dieudonn?",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753410,
+      "lat": 7.354403,
+      "lon": 13.579055,
+      "tags": {
+        "contact:phone": "660828299",
+        "name": "Debol Nicolas",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753411,
+      "lat": 7.354142,
+      "lon": 13.578615,
+      "tags": {
+        "contact:phone": "691941610",
+        "name": "Olive",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753412,
+      "lat": 7.3359259,
+      "lon": 13.5886748,
+      "tags": {
+        "contact:phone": "667210811",
+        "name": "Ahmad",
+        "name:ar": "أحمد",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753414,
+      "lat": 7.3570999,
+      "lon": 13.5812186,
+      "tags": {
+        "contact:phone": "697998594",
+        "fixme": "GADA MABANGA",
+        "name": "Dounia Boniface",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753416,
+      "lat": 7.3570189,
+      "lon": 13.5811876,
+      "tags": {
+        "contact:phone": "693928974",
+        "name": "Toumba Gilbert",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753417,
+      "lat": 7.345549,
+      "lon": 13.5900931,
+      "tags": {
+        "contact:phone": "653536596",
+        "name": "Sammuel",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753418,
+      "lat": 7.3451086,
+      "lon": 13.5906518,
+      "tags": {
+        "contact:phone": "660680684",
+        "name": "Salemon",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753419,
+      "lat": 7.3438347,
+      "lon": 13.5909303,
+      "tags": {
+        "name": "Best Net Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5942753420,
+      "lat": 7.3428933,
+      "lon": 13.5913158,
+      "tags": {
+        "contact:phone": "680590791",
+        "fixme": "DJALINGO",
+        "name": "Merizoukou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6881972086,
+      "lat": 5.478464,
+      "lon": 10.4164353,
+      "tags": {
+        "name": "Mama",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066228139,
+      "lat": 4.2094029,
+      "lon": 8.9887831,
+      "tags": {
+        "name": "Godbless fashion couture",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9370839743,
+      "lat": 7.2877218,
+      "lon": 13.5615981,
+      "tags": {
+        "contact:phone": "656094020",
+        "name": "Ahmadou",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9370839748,
+      "lat": 7.2865225,
+      "lon": 13.5604669,
+      "tags": {
+        "contact:phone": "653536306",
+        "name": "Tonton Coiffure",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9370839749,
+      "lat": 7.2861056,
+      "lon": 13.5601357,
+      "tags": {
+        "name": "Moussa",
+        "shop": "hairdresser",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "way",
+      "id": 363140052,
+      "center": {
+        "lat": 4.2129875,
+        "lon": 9.6099378
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Obama Fashion/ Marie Coiffure",
+        "shop": "hairdresser"
+      },
+      "lat": 4.2129875,
+      "lon": 9.6099378
+    },
+    {
+      "type": "node",
+      "id": 1067306392,
+      "lat": 9.3880576,
+      "lon": 13.5040302,
+      "tags": {
+        "name": "Cosmetics",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306357782,
+      "lat": 13.8092359,
+      "lon": 8.9866957,
+      "tags": {
+        "name": "Salon de Coiffure Sai Godiya",
+        "phone": "00227 99 33 85 23",
+        "project:pdevii": "yes",
+        "shop": "hairdresser",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306358108,
+      "lat": 13.8101121,
+      "lon": 8.9883886,
+      "tags": {
+        "name": "Hamdane Store",
+        "project:pdevii": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311479964,
+      "lat": 13.8060632,
+      "lon": 8.9925266,
+      "tags": {
+        "name": "Boutique Afua",
+        "project:pdevii": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316032634,
+      "lat": 13.8106489,
+      "lon": 9.0001799,
+      "tags": {
+        "name": "depot Produits cosmetique Amoré",
+        "project:pdevii": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446755,
+      "lat": 13.8096826,
+      "lon": 8.9889926,
+      "tags": {
+        "name": "Niger Beauté",
+        "name:ar": "النيجر للتجميل",
+        "project:pdevii": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446758,
+      "lat": 13.806831,
+      "lon": 8.9926012,
+      "tags": {
+        "name": "Parfumerie Géneral Macha Allah",
+        "name:ar": "العطور العامة ما شاء الله",
+        "project:pdevii": "yes",
+        "shop": "beauty",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317446760,
+      "lat": 13.809683,
+      "lon": 8.9911575,
+      "tags": {
+        "name": "Salon de Coiffure Félicité Chawa",
+        "project:pdevii": "yes",
+        "shop": "hairdresser",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4788771421,
+      "lat": 10.5940572,
+      "lon": 14.3180584,
+      "tags": {
+        "addr:street": "Domayo",
+        "name": "MARDOMS COIFFURE",
+        "name:fr": "MARDOMS COIFFURE",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4996591022,
+      "lat": 12.0030267,
+      "lon": 8.5710483,
+      "tags": {
+        "addr:housenumber": "6",
+        "addr:street": "Badawa Bus Stop, Badawa, Kano",
+        "name": "Divine Restoration Beauty Parlor",
+        "name:en": "Divine Restoration Beauty Parlor",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5344810221,
+      "lat": 10.5945103,
+      "lon": 14.3225371,
+      "tags": {
+        "addr:street": "Boulevard de Domayo",
+        "name": "YAK STYLE SERVICES 237",
+        "opening_hours": "Mo-Su 08:00-23:00",
+        "phone": "694784394",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684833127,
+      "lat": 9.3124493,
+      "lon": 13.3772099,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684833128,
+      "lat": 9.3124875,
+      "lon": 13.3771759,
+      "tags": {
+        "name": "Parisienne Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684833177,
+      "lat": 9.3061378,
+      "lon": 13.396492,
+      "tags": {
+        "name": "Bakanjdja Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842598,
+      "lat": 9.2899576,
+      "lon": 13.3845996,
+      "tags": {
+        "name": "Sarah Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842599,
+      "lat": 9.2899467,
+      "lon": 13.3846403,
+      "tags": {
+        "name": "Steve Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842600,
+      "lat": 9.2841677,
+      "lon": 13.3817044,
+      "tags": {
+        "name": "Design Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842601,
+      "lat": 9.28773,
+      "lon": 13.3809346,
+      "tags": {
+        "contact:phone": "(+237) 690966070",
+        "name": "Intelligencia Fashion",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842602,
+      "lat": 9.3015402,
+      "lon": 13.3825296,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842603,
+      "lat": 9.3040848,
+      "lon": 13.3812815,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842604,
+      "lat": 9.3015328,
+      "lon": 13.3791238,
+      "tags": {
+        "name": "Fan Club Zoua Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842605,
+      "lat": 9.3042352,
+      "lon": 13.3771073,
+      "tags": {
+        "name": "Android Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842606,
+      "lat": 9.303273,
+      "lon": 13.3727328,
+      "tags": {
+        "name": "Elegance Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842607,
+      "lat": 9.3046178,
+      "lon": 13.3690949,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842608,
+      "lat": 9.2990092,
+      "lon": 13.3640016,
+      "tags": {
+        "name": "Soins Et Esthétique",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842609,
+      "lat": 9.2996173,
+      "lon": 13.3631812,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842610,
+      "lat": 9.3004964,
+      "lon": 13.3456716,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842614,
+      "lat": 9.3158936,
+      "lon": 13.3534994,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842615,
+      "lat": 9.3160922,
+      "lon": 13.3472267,
+      "tags": {
+        "name": "Salon De Coiffure Labamba",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842616,
+      "lat": 9.3160547,
+      "lon": 13.3481881,
+      "tags": {
+        "name": "Salon Matuidi",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842622,
+      "lat": 9.3131312,
+      "lon": 13.3531387,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842623,
+      "lat": 9.2946851,
+      "lon": 13.3732559,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842624,
+      "lat": 9.2949423,
+      "lon": 13.3746617,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842625,
+      "lat": 9.2940639,
+      "lon": 13.3693931,
+      "tags": {
+        "name": "Très Très Fort Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842626,
+      "lat": 9.2945543,
+      "lon": 13.3727599,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842627,
+      "lat": 9.2942841,
+      "lon": 13.3689514,
+      "tags": {
+        "name": "Salon Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842630,
+      "lat": 9.2947899,
+      "lon": 13.3739373,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842631,
+      "lat": 9.2951781,
+      "lon": 13.3761164,
+      "tags": {
+        "name": "Atelier De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842632,
+      "lat": 9.2896831,
+      "lon": 13.3790729,
+      "tags": {
+        "name": "Hpk Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842633,
+      "lat": 9.2914406,
+      "lon": 13.3794173,
+      "tags": {
+        "name": "Salon De Coiffure Le Cotonier",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842634,
+      "lat": 9.2927783,
+      "lon": 13.3770767,
+      "tags": {
+        "name": "Salon De Coiffure La Main Sur",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842635,
+      "lat": 9.2968587,
+      "lon": 13.3818679,
+      "tags": {
+        "name": "Redongo Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842636,
+      "lat": 9.2974056,
+      "lon": 13.3876295,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842637,
+      "lat": 9.2927674,
+      "lon": 13.3862187,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842638,
+      "lat": 9.2928276,
+      "lon": 13.3865708,
+      "tags": {
+        "name": "Yanzy Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842639,
+      "lat": 9.2930424,
+      "lon": 13.3861023,
+      "tags": {
+        "name": "Salon De Coiffure Chipolopolo",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842649,
+      "lat": 9.2941075,
+      "lon": 13.3870412,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842650,
+      "lat": 9.2938443,
+      "lon": 13.388318,
+      "tags": {
+        "name": "Marimar Fashion",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842651,
+      "lat": 9.2944255,
+      "lon": 13.3882914,
+      "tags": {
+        "name": "Jehnny Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842652,
+      "lat": 9.2943132,
+      "lon": 13.3886239,
+      "tags": {
+        "name": "Institut De Beauté Élise",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842653,
+      "lat": 9.2944748,
+      "lon": 13.3882949,
+      "tags": {
+        "name": "Salon De Coiffure La Grâce",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842654,
+      "lat": 9.2942979,
+      "lon": 13.3882581,
+      "tags": {
+        "name": "Jordan Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842655,
+      "lat": 9.2963425,
+      "lon": 13.386758,
+      "tags": {
+        "name": "Salon De Coiffure Elegancia",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842656,
+      "lat": 9.2964353,
+      "lon": 13.3872076,
+      "tags": {
+        "name": "Mely Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842657,
+      "lat": 9.2961662,
+      "lon": 13.3882214,
+      "tags": {
+        "name": "Fallu Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842658,
+      "lat": 9.2957235,
+      "lon": 13.3883106,
+      "tags": {
+        "contact:phone": "(+237) 697265132",
+        "name": "Fally Fashion",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842659,
+      "lat": 9.2961011,
+      "lon": 13.3869682,
+      "tags": {
+        "contact:phone": "(+237) 676188716",
+        "name": "Le Charme Coiffure Femme",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842660,
+      "lat": 9.2961202,
+      "lon": 13.3870118,
+      "tags": {
+        "name": "Nzoumanto Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842661,
+      "lat": 9.2965454,
+      "lon": 13.3876712,
+      "tags": {
+        "name": "Shalom Boma Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842662,
+      "lat": 9.2969349,
+      "lon": 13.3888978,
+      "tags": {
+        "contact:phone": "(+237) 655814440",
+        "name": "Bristanna Beauty",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842663,
+      "lat": 9.2964945,
+      "lon": 13.3874607,
+      "tags": {
+        "name": "Charlotte Fashion Mixte",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842664,
+      "lat": 9.2965214,
+      "lon": 13.3875846,
+      "tags": {
+        "name": "Abdou Lazare Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842665,
+      "lat": 9.2964414,
+      "lon": 13.3872278,
+      "tags": {
+        "name": "La Dimension",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842666,
+      "lat": 9.2964756,
+      "lon": 13.3873825,
+      "tags": {
+        "name": "Belle Africaine",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842667,
+      "lat": 9.2956899,
+      "lon": 13.3878964,
+      "tags": {
+        "name": "Dynamique Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842668,
+      "lat": 9.2957291,
+      "lon": 13.3869213,
+      "tags": {
+        "name": "Esther Beauty Saloon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842669,
+      "lat": 9.2962333,
+      "lon": 13.3877299,
+      "tags": {
+        "name": "Monique Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842670,
+      "lat": 9.2952489,
+      "lon": 13.3870182,
+      "tags": {
+        "name": "Kate Beauty",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842671,
+      "lat": 9.2962209,
+      "lon": 13.3875471,
+      "tags": {
+        "name": "Gertrude Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842672,
+      "lat": 9.2962152,
+      "lon": 13.3874956,
+      "tags": {
+        "contact:phone": "(+237) 699343716",
+        "name": "Champion Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842673,
+      "lat": 9.2964988,
+      "lon": 13.3885858,
+      "tags": {
+        "name": "Zen Et Charmante",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842674,
+      "lat": 9.2965182,
+      "lon": 13.3886251,
+      "tags": {
+        "contact:phone": "(+237) 677801419",
+        "name": "Mirage Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842675,
+      "lat": 9.2956469,
+      "lon": 13.3910222,
+      "tags": {
+        "name": "Salon De Coiffure Le Catalyseur",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842676,
+      "lat": 9.2958282,
+      "lon": 13.3906362,
+      "tags": {
+        "name": "Dimension Fashion",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842677,
+      "lat": 9.2960526,
+      "lon": 13.3905773,
+      "tags": {
+        "name": "Kalusha Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842678,
+      "lat": 9.2961541,
+      "lon": 13.3903978,
+      "tags": {
+        "contact:phone": "(+237) 691561050",
+        "name": "Micheline Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842679,
+      "lat": 9.2957977,
+      "lon": 13.3904637,
+      "tags": {
+        "name": "Philadelfi Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842680,
+      "lat": 9.2955903,
+      "lon": 13.3905235,
+      "tags": {
+        "name": "Mct De La Hoya 1e",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842681,
+      "lat": 9.2957788,
+      "lon": 13.3904219,
+      "tags": {
+        "name": "Cella Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842682,
+      "lat": 9.2956176,
+      "lon": 13.3899229,
+      "tags": {
+        "contact:phone": "(+237) 655614660",
+        "name": "L'émirat Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842683,
+      "lat": 9.2980268,
+      "lon": 13.3904189,
+      "tags": {
+        "name": "Clara Beauty",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842684,
+      "lat": 9.298218,
+      "lon": 13.3902059,
+      "tags": {
+        "name": "Senateur Coiffurz",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842685,
+      "lat": 9.2985809,
+      "lon": 13.3902593,
+      "tags": {
+        "contact:phone": "(+237) 697319978",
+        "name": "Haute Coiffure Chez Kevino",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842686,
+      "lat": 9.2974132,
+      "lon": 13.3903265,
+      "tags": {
+        "name": "Hollywood Fashon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842687,
+      "lat": 9.2969639,
+      "lon": 13.3902326,
+      "tags": {
+        "name": "La Grâce Jeanine",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842688,
+      "lat": 9.2978081,
+      "lon": 13.3902874,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842689,
+      "lat": 9.2977791,
+      "lon": 13.3902868,
+      "tags": {
+        "name": "Djibo Le Pro Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842690,
+      "lat": 9.2986715,
+      "lon": 13.3906855,
+      "tags": {
+        "name": "Salon De Coiffure Telde Zaïre",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842691,
+      "lat": 9.2981117,
+      "lon": 13.392112,
+      "tags": {
+        "name": "Salon De Coiffure Oméga",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842692,
+      "lat": 9.2988064,
+      "lon": 13.3918469,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842694,
+      "lat": 9.2997525,
+      "lon": 13.3907482,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842695,
+      "lat": 9.2997103,
+      "lon": 13.391789,
+      "tags": {
+        "name": "Vals Fashion Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842696,
+      "lat": 9.299726,
+      "lon": 13.3919887,
+      "tags": {
+        "name": "Mengaka Mollah Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842697,
+      "lat": 9.3022611,
+      "lon": 13.3918768,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842698,
+      "lat": 9.3023153,
+      "lon": 13.3919216,
+      "tags": {
+        "name": "Marielle Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842699,
+      "lat": 9.3015982,
+      "lon": 13.3916376,
+      "tags": {
+        "name": "Salon Royal Bebe",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842700,
+      "lat": 9.3018953,
+      "lon": 13.39172,
+      "tags": {
+        "name": "Yvette Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842701,
+      "lat": 9.3006998,
+      "lon": 13.3912443,
+      "tags": {
+        "name": "Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842702,
+      "lat": 9.3013905,
+      "lon": 13.391485,
+      "tags": {
+        "name": "Phifi Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842703,
+      "lat": 9.30147,
+      "lon": 13.3918517,
+      "tags": {
+        "name": "Christ Fashion",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842704,
+      "lat": 9.3014288,
+      "lon": 13.3918261,
+      "tags": {
+        "name": "Nani Make Up",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842705,
+      "lat": 9.3027231,
+      "lon": 13.3950893,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842706,
+      "lat": 9.3013773,
+      "lon": 13.3935215,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842707,
+      "lat": 9.3047982,
+      "lon": 13.3968079,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842708,
+      "lat": 9.3047562,
+      "lon": 13.3968723,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842709,
+      "lat": 9.3047737,
+      "lon": 13.3968359,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842710,
+      "lat": 9.3037106,
+      "lon": 13.3976232,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842711,
+      "lat": 9.3042267,
+      "lon": 13.3970173,
+      "tags": {
+        "name": "Aliaf Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842712,
+      "lat": 9.3043496,
+      "lon": 13.3973379,
+      "tags": {
+        "name": "Melinda Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842717,
+      "lat": 9.3054724,
+      "lon": 13.398914,
+      "tags": {
+        "name": "Daouda Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842718,
+      "lat": 9.3059164,
+      "lon": 13.3986825,
+      "tags": {
+        "name": "Kalla Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842719,
+      "lat": 9.3038696,
+      "lon": 13.4000242,
+      "tags": {
+        "name": "Coiffure Le Doubou",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842720,
+      "lat": 9.3050891,
+      "lon": 13.3993078,
+      "tags": {
+        "name": "Salon Ee Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842721,
+      "lat": 9.3019502,
+      "lon": 13.3954621,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842722,
+      "lat": 9.3020012,
+      "lon": 13.3973158,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842723,
+      "lat": 9.3010669,
+      "lon": 13.3980035,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842728,
+      "lat": 9.3007355,
+      "lon": 13.4017173,
+      "tags": {
+        "name": "Excellence Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842729,
+      "lat": 9.3016483,
+      "lon": 13.4012022,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842730,
+      "lat": 9.300451,
+      "lon": 13.4018443,
+      "tags": {
+        "name": "Docteur En Pellicules",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842731,
+      "lat": 9.2984388,
+      "lon": 13.3998784,
+      "tags": {
+        "name": "Doubai Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842732,
+      "lat": 9.2989304,
+      "lon": 13.4006038,
+      "tags": {
+        "name": "Mignoncite Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842733,
+      "lat": 9.2986693,
+      "lon": 13.3961583,
+      "tags": {
+        "name": "Salon De Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842734,
+      "lat": 9.2988649,
+      "lon": 13.3961987,
+      "tags": {
+        "name": "Parigo",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842735,
+      "lat": 9.2984575,
+      "lon": 13.3977997,
+      "tags": {
+        "name": "Salon De Coiffure La Référence",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842736,
+      "lat": 9.2984562,
+      "lon": 13.3970808,
+      "tags": {
+        "name": "Salon De Coiffure Les",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6684842737,
+      "lat": 9.298237,
+      "lon": 13.3986376,
+      "tags": {
+        "name": "Le Choix Du Cœur Style Coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929813,
+      "lat": 9.047164,
+      "lon": 13.6664504,
+      "tags": {
+        "name": "Salon de coiffure rio",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929815,
+      "lat": 9.0587869,
+      "lon": 13.6605388,
+      "tags": {
+        "name": "Salon de coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929816,
+      "lat": 9.0631908,
+      "lon": 13.6646651,
+      "tags": {
+        "name": "Salon coiffure homme",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929817,
+      "lat": 9.0637924,
+      "lon": 13.665156,
+      "tags": {
+        "name": "Salon Coiffure femme",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929820,
+      "lat": 9.0643817,
+      "lon": 13.6656065,
+      "tags": {
+        "name": "Salon coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929823,
+      "lat": 9.0645047,
+      "lon": 13.6640476,
+      "tags": {
+        "name": "Salon de coiffure homme",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929824,
+      "lat": 9.0645883,
+      "lon": 13.6643696,
+      "tags": {
+        "name": "Salon de coiffure main d'or",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929826,
+      "lat": 9.0689217,
+      "lon": 13.6668027,
+      "tags": {
+        "name": "Salon de coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929827,
+      "lat": 9.065449,
+      "lon": 13.6684031,
+      "tags": {
+        "name": "Salon coiffure el capo",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929828,
+      "lat": 9.0674158,
+      "lon": 13.6656838,
+      "tags": {
+        "name": "Gaha le coiffeur",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032929829,
+      "lat": 9.0690555,
+      "lon": 13.6667965,
+      "tags": {
+        "name": "Salon de coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054841728,
+      "lat": 9.2524897,
+      "lon": 13.7739178,
+      "tags": {
+        "OBJET": "Soins et Esthetiques",
+        "name": "Salon de coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054841729,
+      "lat": 9.2500033,
+      "lon": 13.7673905,
+      "tags": {
+        "OBJET": "Soins et Esthetiques",
+        "name": "Emergence coiffure",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8829665517,
+      "lat": 10.6023999,
+      "lon": 14.3454665,
+      "tags": {
+        "name": "Barbershop",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9777670042,
+      "lat": 9.9207785,
+      "lon": 8.913551,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Bauchi Ring Road",
+        "description": "Barbing Saloon",
+        "name": "Fabulous Barbing Saloon",
+        "phone": "08069690670",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10839766722,
+      "lat": 9.9547969,
+      "lon": 8.8578128,
+      "tags": {
+        "addr:city": "jos",
+        "addr:street": "Down Base farin gada",
+        "currency:NGN": "yes",
+        "male": "yes",
+        "name": "ballo's cutz",
+        "opening_hours": "Mo-Su 10:00-22:00",
+        "operator": "Sunday Ali Azis",
+        "payment:cash": "yes",
+        "phone": "08133311046",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153548705,
+      "lat": 10.3056285,
+      "lon": 11.1482408,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "name": "Beauty Shop",
+        "name:en": "Fine Cut Barbing Saloon",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153548708,
+      "lat": 10.3043123,
+      "lon": 11.1479598,
+      "tags": {
+        "addr:street": "Goodluck Ebele Road",
+        "name": "Hairdresser",
+        "name:en": "Head Masters Barbing Saloon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153548710,
+      "lat": 10.3033059,
+      "lon": 11.1473385,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "name": "Hairdresser",
+        "name:en": "Eldave's Classy Cuts",
+        "opening_hours": "Mo-Su 07:00-21:00",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175230838,
+      "lat": 10.2720323,
+      "lon": 11.1808228,
+      "tags": {
+        "addr:housenumber": "40",
+        "addr:postcode": "105140",
+        "addr:street": "MARKET WAY",
+        "name": "A.S TAFIDAH",
+        "phone": "08132368052",
+        "shop": "beauty"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11418009041,
+      "lat": 9.9299752,
+      "lon": 8.9117177,
+      "tags": {
+        "check_date": "2023-12-14",
+        "name": "Hepzibah",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11418019887,
+      "lat": 9.9328167,
+      "lon": 8.9102018,
+      "tags": {
+        "check_date": "2023-12-14",
+        "male": "yes",
+        "name": "De Prince Saloon",
+        "shop": "hairdresser"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020510,
+      "lat": 12.0531262,
+      "lon": 8.5828342,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "CUT''N''SHOP",
+        "operator": "private_individual",
+        "pay_amount": "200",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020511,
+      "lat": 12.0370091,
+      "lon": 8.5672082,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "KB SHOW",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020512,
+      "lat": 12.0373856,
+      "lon": 8.5676441,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "SHABBABI",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020513,
+      "lat": 12.0370718,
+      "lon": 8.5671439,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "BABAWO KB SHOW BARBING SALON",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020514,
+      "lat": 12.037802,
+      "lon": 8.5681064,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "SALAS BARBING SALOON",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282020516,
+      "lat": 12.045795,
+      "lon": 8.5709324,
+      "tags": {
+        "fac_pay": "yes",
+        "hairdresser": "barber",
+        "name": "S.K. SOJA",
+        "operator": "private_individual",
+        "pay_amount": "200",
+        "shop": "hairdresser",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "barbershop",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416908048,
+      "center": {
+        "lat": 10.5682753,
+        "lon": 14.2749749
+      },
+      "tags": {
+        "building": "yes",
+        "name": "DIASPRO Coiffure",
+        "shop": "hairdresser"
+      },
+      "lat": 10.5682753,
+      "lon": 14.2749749
+    }
+  ]
+}

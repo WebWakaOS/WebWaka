@@ -1,0 +1,574 @@
+{
+  "schema": "s10_osm_cooperative",
+  "retrieval_date": "2026-04-22",
+  "source": "OpenStreetMap Overpass API",
+  "source_url": "https://overpass-api.de/api/interpreter",
+  "query_bbox": "4.2,2.7,13.9,14.7 (Nigeria)",
+  "count": 30,
+  "elements": [
+    {
+      "type": "node",
+      "id": 11030106425,
+      "lat": 13.6754872,
+      "lon": 6.988764,
+      "tags": {
+        "name": "Cooperation des Jeunes Bouchers",
+        "office": "cooperative"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12989239886,
+      "lat": 9.8729188,
+      "lon": 2.7185108,
+      "tags": {
+        "addr:full": "Ndali Keri, Ndali, Borgou",
+        "contact:phone": "+229 167666848",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Sutisua",
+        "office": "cooperative",
+        "panoramax": "c045333b-2c33-47a6-9f6d-1c8dc4d17f9a",
+        "produce": "corn;soya;cotton;cassava;yam;cashew_nuts",
+        "start_date": "2023"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491072,
+      "lat": 11.2891016,
+      "lon": 3.0228953,
+      "tags": {
+        "addr:full": "Zongo, Angaradebou Thuy, Kandi, Alibori",
+        "contact:phone": "+229 164960564",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tiller;plough;small_manual",
+        "name": "CUMA Thuy 1",
+        "office": "cooperative",
+        "produce": "arachide;cotton;corn;soya;rice",
+        "start_date": "2008"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491224,
+      "lat": 9.9183843,
+      "lon": 2.7150883,
+      "tags": {
+        "addr:full": "Ina Wodora, Bembereke, Borgou",
+        "contact:phone": "+229 165541852",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "horticulture",
+        "cooperative:network": "CUMA",
+        "equipment": "irrigation",
+        "name": "CUMA Nonnin",
+        "office": "cooperative",
+        "panoramax": "9aa5e8a5-e203-42bf-9071-e5570c1c633b",
+        "produce": "okra;lettuce",
+        "start_date": "2019"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491226,
+      "lat": 9.9649258,
+      "lon": 2.7262266,
+      "tags": {
+        "addr:full": "Ina Ina, Bembereke, Borgou",
+        "contact:phone": "+229 144817418",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Ina 4",
+        "office": "cooperative",
+        "panoramax": "14d42255-1c18-4ed1-8d9f-bd12f1e0fac0",
+        "produce": "soya;corn;cassava",
+        "start_date": "2020"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491231,
+      "lat": 10.694904,
+      "lon": 2.7016621,
+      "tags": {
+        "addr:full": "Quartier Ouidah, Wara Soukarou, Gogounou, Alibori",
+        "contact:phone": "+229 143703633",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "processing",
+        "cooperative:network": "CUMA",
+        "equipment": "basins;small_manual",
+        "name": "CUMA Suu Non Nè",
+        "office": "cooperative",
+        "panoramax": "51fa1167-457a-4758-b48c-891a339f5534",
+        "produce": "shea",
+        "start_date": "2025"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491234,
+      "lat": 9.3049825,
+      "lon": 2.7316309,
+      "tags": {
+        "addr:full": "Kika Kpassa, Tchaourou, Borgou",
+        "contact:phone": "+229 194052701",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Nannin",
+        "office": "cooperative",
+        "panoramax": "5ede4ca0-43d7-4adc-ae93-bfff324e7d04",
+        "produce": "corn;soya",
+        "start_date": "2024"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491246,
+      "lat": 11.1190336,
+      "lon": 2.8548694,
+      "tags": {
+        "addr:full": "2 Kilos, Donwari Donwari, Kandi, Alibori",
+        "contact:phone": "+229 168495881",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;small_manual;pumps;irrigation;tiller",
+        "name": "CUMA 2 Kilos",
+        "office": "cooperative",
+        "panoramax": "13e73788-a9cc-4192-b595-21de96b2693b",
+        "produce": "cotton;arachide;corn;soya;rice",
+        "start_date": "2016"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491247,
+      "lat": 10.84003,
+      "lon": 2.8348475,
+      "tags": {
+        "addr:full": "Bouanri Wonrou, Gogounou-Nassabara, Gogounou, Alibori",
+        "contact:phone": "+229 164341008",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;tiller;small_manual;tricycle",
+        "name": "CUMA N'kossa",
+        "office": "cooperative",
+        "panoramax": "ec190de0-f294-4189-b361-c524033796e2",
+        "produce": "cotton;corn;soya;yam;rice;sorghum",
+        "start_date": "2006"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491252,
+      "lat": 9.9627334,
+      "lon": 2.7267865,
+      "tags": {
+        "addr:full": "Ina Ina, Bembereke, Borgou",
+        "contact:phone": "+229 196264201",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;trailer;huller;thresher",
+        "name": "CUMA Ina 3",
+        "office": "cooperative",
+        "panoramax": "2b05943d-a7ed-46bb-a7e4-1924c5733783",
+        "produce": "corn;soya;rice",
+        "start_date": "2020"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491265,
+      "lat": 9.8992835,
+      "lon": 2.7141109,
+      "tags": {
+        "addr:full": "Suanin, Ndali, Borgou",
+        "contact:phone": "+229 166178230",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "horticulture",
+        "cooperative:network": "CUMA",
+        "equipment": "pumps;water_tank;fences;small_manual;store;mobile_solar_panel",
+        "name": "CUMA Anti Sua An.Koua An Mon",
+        "office": "cooperative",
+        "panoramax": "f42d0800-aa77-4d7c-94a7-61f2c6733a2b",
+        "produce": "fruits;vegetables;onions;eggplant;hibiscus;lettuce;tomatoes;crincrin;peppers;lemongrass;cabbage;papaya;lemon",
+        "short_name": "ASAKAM",
+        "start_date": "2019"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491268,
+      "lat": 11.1256309,
+      "lon": 2.8760371,
+      "tags": {
+        "addr:full": "Sékogborou, Donwari Tissarou, Kandi, Alibori",
+        "contact:phone": "+229 166427864",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "processing",
+        "cooperative:network": "CUMA",
+        "equipment": "motor_driven_equipment",
+        "name": "CUMA Anti Sua",
+        "office": "cooperative",
+        "panoramax": "15387470-0740-47fd-9122-83cd94adb615",
+        "produce": "soya",
+        "start_date": "2020"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491271,
+      "lat": 9.8340679,
+      "lon": 2.7701473,
+      "tags": {
+        "addr:full": "Gah-Dèbou, Ndali-Peulh, Ndali, Borgou",
+        "contact:phone": "+229 194770893",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Yidi wadi",
+        "office": "cooperative",
+        "panoramax": "1a1f1671-c4d8-4d2b-bce4-38d32dc6f847",
+        "produce": "corn;soya;yam;sorghum",
+        "start_date": "2025"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491280,
+      "lat": 10.9441808,
+      "lon": 2.7175468,
+      "tags": {
+        "addr:full": "Bio Dabarou, Sam Wonga, Kandi, Alibori",
+        "contact:phone": "+229 148591503",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;tiller;plough;tilling_others;seeding;trailer;small_manual;tricycle",
+        "name": "CUMA Tonwan Uti",
+        "office": "cooperative",
+        "panoramax": "a979854e-c85c-43f3-ad3b-b60fb191793c",
+        "produce": "corn;soya;arachide;rice;sorghum",
+        "start_date": "2017"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491284,
+      "lat": 9.9085158,
+      "lon": 2.7823257,
+      "tags": {
+        "addr:full": "Ndali Tepa, Ndali, Borgou",
+        "contact:phone": "+229 169365056",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Yaadu Yeeso",
+        "office": "cooperative",
+        "panoramax": "1a3e00a0-66e8-48e5-886e-6be11ad75be0",
+        "produce": "soya;corn;sorghum",
+        "start_date": "2024"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491285,
+      "lat": 9.9037059,
+      "lon": 2.9034075,
+      "tags": {
+        "addr:full": "Biro Gnanhoun, Nikki, Borgou",
+        "contact:phone": "+229 164742318",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tiller;sheller;huller",
+        "name": "CUMA Sutiisua",
+        "office": "cooperative",
+        "panoramax": "51403d24-3004-450b-8a4e-42faa408b1b0",
+        "produce": "corn;soya;cassava;yam;;rice;cashew_nuts;sorghum",
+        "start_date": "2024"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491287,
+      "lat": 9.9039815,
+      "lon": 2.9037839,
+      "tags": {
+        "addr:full": "Biro Gnanhoun, Nikki, Borgou",
+        "contact:phone": "+229 169980736",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "rice_parboiling_kit",
+        "name": "CUMA Su Non Tia Ko",
+        "office": "cooperative",
+        "panoramax": "d7c68a3b-9fb4-48ac-83c9-754e52df2f4f",
+        "produce": "soya;cassava;corn;yam;arachide;rice;cashew_nuts",
+        "start_date": "2024"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491289,
+      "lat": 10.2111653,
+      "lon": 3.1293791,
+      "tags": {
+        "addr:full": "Bouca Bouca, Kalale, Borgou",
+        "contact:phone": "+229 195929037",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;fences;storage_store;office;sewing_machine;moisture_meter;plough",
+        "name": "CUMA Grenier du Bénin",
+        "office": "cooperative",
+        "panoramax": "8223c086-469a-4031-8ea4-51913c70cbac",
+        "produce": "corn;soya;peanut;rice;cashew",
+        "short_name": "GB",
+        "start_date": "2019"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491294,
+      "lat": 10.8102118,
+      "lon": 2.7270365,
+      "tags": {
+        "addr:full": "Bagou-Sinkparou, Gogounou, Alibori",
+        "contact:phone": "+229 195102227",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;tiller;plough;tilling_others;seeding;trailer;small_manual",
+        "name": "CUMA Wanru Suru",
+        "office": "cooperative",
+        "panoramax": "ed5349ae-6577-4553-804e-d92a5d605055",
+        "produce": "arachide;cotton;yam;corn;soya;rice;sorghum",
+        "start_date": "2018"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491297,
+      "lat": 11.2185681,
+      "lon": 2.9853483,
+      "tags": {
+        "addr:full": "Gala, Kandi 1 Pede, Kandi, Alibori",
+        "contact:phone": "+229 164728513",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;tiller;trailer;small_manual",
+        "name": "CUMA Pèdè",
+        "office": "cooperative",
+        "panoramax": "ed904f68-bafa-4220-b97d-f60446f80802",
+        "produce": "arachide;cotton;corn;soya",
+        "short_name": "IJUMA",
+        "start_date": "2007"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491298,
+      "lat": 9.9024422,
+      "lon": 2.9066403,
+      "tags": {
+        "addr:full": "Biro Gnanhoun, Nikki, Borgou",
+        "contact:phone": "+229 162281261",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "horticulture",
+        "cooperative:network": "CUMA",
+        "equipment": "well;water_tank",
+        "name": "CUMA Non Ga Nera",
+        "office": "cooperative",
+        "panoramax": "c7fd6347-7b24-4f75-9787-a023b8159bff",
+        "produce": "vegetables;okra;tomatoes;peppers;gboma;crincrin",
+        "start_date": "2021"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491300,
+      "lat": 10.1662817,
+      "lon": 2.740087,
+      "tags": {
+        "addr:full": "Wanrarou, Bembereke, Borgou",
+        "contact:phone": "+229 165286489",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;trailer",
+        "name": "CUMA Kinassi",
+        "office": "cooperative",
+        "panoramax": "43c37ba8-d01e-44ab-b97f-bca99e9e2fe3",
+        "produce": "cotton;yam;corn;soya;cassava;fruits;cashew;banana",
+        "start_date": "2020"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491301,
+      "lat": 10.5409322,
+      "lon": 2.7236802,
+      "tags": {
+        "addr:full": "Beroubouay-Ouest, Bembereke, Borgou",
+        "contact:phone": "+229 197414867",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "plough;trailer;35_hp_tractor;dethatcher",
+        "name": "CUMA Nannin",
+        "office": "cooperative",
+        "panoramax": "f4801827-5b28-4ee8-8e08-a302b8845f4b",
+        "produce": "corn;soya;yam;rice ;sorghum",
+        "start_date": "2019"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491308,
+      "lat": 11.1181758,
+      "lon": 2.7752136,
+      "tags": {
+        "addr:full": "Alafiarou, Sonsoro Sinawongourou, Kandi, Alibori",
+        "contact:email": "bkoratamou@gmail.com",
+        "contact:phone": "+229 165343476",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;seeding;trailer;small_manual;tricycle",
+        "name": "CUMA La Panthère",
+        "office": "cooperative",
+        "panoramax": "b799472b-22d6-4d71-8014-127f5cdef161",
+        "produce": "arachide;cotton;corn;soya;rice;cowpea",
+        "start_date": "2006"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491313,
+      "lat": 10.10796,
+      "lon": 2.8478812,
+      "tags": {
+        "addr:full": "Gnonkourokali Woroumangassarou, Nikki, Borgou",
+        "contact:phone": "+229 164793425",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "none",
+        "name": "CUMA Soudomsé",
+        "office": "cooperative",
+        "panoramax": "b588d551-efa3-4566-b638-7dc81c767204",
+        "produce": "corn;soya;cotton;yam;cassava;rice",
+        "start_date": "2021"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491315,
+      "lat": 9.9016217,
+      "lon": 2.9017203,
+      "tags": {
+        "addr:full": "Biro Gnanhoun, Nikki, Borgou",
+        "contact:phone": "+229 169847720",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "tractor;plough;trailer;cultivator;roller",
+        "name": "CUMA Nonganera",
+        "office": "cooperative",
+        "panoramax": "cd185fbd-8d65-4e8b-a1d8-be1eff2dffca",
+        "produce": "corn;cassava;soya;yam;srice;cashew_nuts;sorghum",
+        "start_date": "2024"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491321,
+      "lat": 11.1161953,
+      "lon": 2.7752345,
+      "tags": {
+        "addr:full": "Gando Baga, Sonsoro Sinawongourou, Kandi, Alibori",
+        "contact:phone": "+229 164827279",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "processing",
+        "cooperative:network": "CUMA",
+        "equipment": "motor_driven_equipment",
+        "name": "CUMA Antii Sua",
+        "office": "cooperative",
+        "panoramax": "fc50d1b8-a205-4923-aca8-8a6df41b2b6b",
+        "produce": "soya;corn",
+        "start_date": "2019"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491322,
+      "lat": 10.8694173,
+      "lon": 2.8469244,
+      "tags": {
+        "addr:full": "Yorou Non, Gounarou Gounarou, Gogounou, Alibori",
+        "contact:phone": "+229 165694526",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "processing",
+        "cooperative:network": "CUMA",
+        "equipment": "basins;small_manual",
+        "name": "CUMA Antii sua",
+        "office": "cooperative",
+        "panoramax": "f77c6d7a-ef9e-4442-b65f-6b81eabacea3",
+        "produce": "soya;corn;cotton;arachide",
+        "start_date": "2023"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491327,
+      "lat": 9.2921515,
+      "lon": 2.7269683,
+      "tags": {
+        "addr:full": "Kika Kpassa, Tchaourou, Borgou",
+        "contact:phone": "+229 197541546",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "horticulture",
+        "cooperative:network": "CUMA",
+        "equipment": "pumps;store;office;drying_area",
+        "name": "CUMA Yeakana",
+        "office": "cooperative",
+        "panoramax": "10d8d76a-e7ca-486d-bd42-6d3f397afa0a",
+        "produce": "lettuce;cabbage;carrots;banana;pawpaw;watermelon;chili;tomatoes;eggplant;okra;rice;bell;pepper",
+        "start_date": "2021"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12991491329,
+      "lat": 11.1280033,
+      "lon": 2.8767693,
+      "tags": {
+        "addr:full": "Donwari Tissarou, Kandi, Alibori",
+        "contact:phone": "+229 197190420",
+        "cooperative": "agricultural",
+        "cooperative:agricultural": "tillage",
+        "cooperative:network": "CUMA",
+        "equipment": "plough;tractor;trailer;tricycle",
+        "name": "CUMA Non Nin",
+        "office": "cooperative",
+        "panoramax": "436efbd0-5c73-472c-8d26-377664fa1f54",
+        "produce": "cotton;corn;soya;rice;chili",
+        "start_date": "2007"
+      }
+    }
+  ]
+}
