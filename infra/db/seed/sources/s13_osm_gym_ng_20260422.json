@@ -1,0 +1,228 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 4609112190,
+      "lat": 6.7836402,
+      "lon": 4.8739898,
+      "tags": {
+        "addr:street": "Baptist church",
+        "leisure": "fitness_centre",
+        "name": "DANTAI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5132762721,
+      "lat": 7.4611065,
+      "lon": 3.9180627,
+      "tags": {
+        "leisure": "fitness_centre",
+        "name:zh": "IBD\u673a\u623f"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599600226,
+      "lat": 4.8437619,
+      "lon": 7.0410778,
+      "tags": {
+        "addr:housenumber": "39a",
+        "addr:street": "Old Aba Road",
+        "leisure": "fitness_centre",
+        "name": "Sans Frontier Divine Health Club"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7400942455,
+      "lat": 7.30405,
+      "lon": 5.1394182,
+      "tags": {
+        "addr:city": "Akure",
+        "addr:postcode": "704",
+        "addr:street": "Behind SUB",
+        "charge": "#500 per Semester",
+        "fee": "yes",
+        "internet_access": "wlan",
+        "leisure": "fitness_centre",
+        "name": "FUTA GYM CENTER",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "sport": "fitness"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7403375273,
+      "lat": 6.5625148,
+      "lon": 3.3840143,
+      "tags": {
+        "addr:housenumber": "20",
+        "addr:street": "Adekunle Osomo Street",
+        "leisure": "fitness_centre",
+        "name": "Fod Gym",
+        "opening_hours": "Mo-Sa 06:00-21:00; Su 12:00-20:00",
+        "phone": "+2348186931864",
+        "sport": "fitness;gymnastics"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938979907,
+      "lat": 7.2895861,
+      "lon": 5.1524412,
+      "tags": {
+        "check_date": "2024-05-28",
+        "leisure": "fitness_centre",
+        "name": "Shape Up Fitness",
+        "name:en": "Shape Up Fitness",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12537539072,
+      "lat": 7.252627,
+      "lon": 5.1657011,
+      "tags": {
+        "leisure": "fitness_centre",
+        "name": "Tofowomo Arena",
+        "opening_hours": "Mo-Su,PH 08:00-23:00+"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13368021022,
+      "lat": 8.480775,
+      "lon": 4.6296213,
+      "tags": {
+        "addr:street": "Babatunde Idiagbon Road",
+        "check_date": "2025-12-10",
+        "currency:XBT": "yes",
+        "leisure": "fitness_centre",
+        "name": "Dr Dre Fitness",
+        "opening_hours": "Mo-Fr 07:30-22:30",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "yes",
+        "payment:onchain": "no",
+        "phone": "081 6945 9167",
+        "website": "https://drdrefitness.com/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 538086543,
+      "center": {
+        "lat": 6.4550233,
+        "lon": 3.4368817
+      },
+      "tags": {
+        "building": "yes",
+        "height": "5.0",
+        "leisure": "fitness_centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 540869085,
+      "center": {
+        "lat": 6.5836185,
+        "lon": 3.3613566
+      },
+      "tags": {
+        "building": "yes",
+        "leisure": "fitness_centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 958980544,
+      "center": {
+        "lat": 6.4536034,
+        "lon": 3.4588186
+      },
+      "tags": {
+        "building": "yes",
+        "leisure": "fitness_centre",
+        "name": "Movamo Court Gym"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1207250020,
+      "center": {
+        "lat": 8.9980959,
+        "lon": 7.4300609
+      },
+      "tags": {
+        "building": "yes",
+        "leisure": "fitness_centre",
+        "name": "mainstream fitness center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4989918591,
+      "lat": 5.1451569,
+      "lon": 10.2773033,
+      "tags": {
+        "leisure": "fitness_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912680261,
+      "lat": 10.535844,
+      "lon": 7.4414403,
+      "tags": {
+        "leisure": "fitness_centre",
+        "name": "GYM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6080572445,
+      "lat": 9.0707475,
+      "lon": 7.4737355,
+      "tags": {
+        "leisure": "fitness_centre",
+        "name": "amberjack studio"
+      }
+    },
+    {
+      "type": "way",
+      "id": 988008358,
+      "center": {
+        "lat": 11.9571941,
+        "lon": 8.5862421
+      },
+      "tags": {
+        "addr:city": "Hotoro",
+        "addr:housenumber": "67",
+        "addr:street": "grove st",
+        "brand": "F45 Training",
+        "brand:wikidata": "Q64390973",
+        "building": "yes",
+        "leisure": "fitness_centre",
+        "name": "F45 Training",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "sport": "soccer;basketball"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1005061385,
+      "center": {
+        "lat": 11.9571941,
+        "lon": 8.5862421
+      },
+      "tags": {
+        "building": "yes",
+        "leisure": "fitness_centre"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

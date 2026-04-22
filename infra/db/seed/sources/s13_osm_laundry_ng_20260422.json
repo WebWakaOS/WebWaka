@@ -1,0 +1,653 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2154487255,
+      "lat": 6.3143472,
+      "lon": 5.6114431,
+      "tags": {
+        "building": "yes",
+        "name": "Beck & Call Cleans",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155805949,
+      "lat": 6.3140671,
+      "lon": 5.6100961,
+      "tags": {
+        "building": "yes",
+        "name": "zenox cleaners",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2160851573,
+      "lat": 6.2989278,
+      "lon": 5.5978666,
+      "tags": {
+        "name": "WashTech Laundry And Dry Cleaning Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161118827,
+      "lat": 6.2988504,
+      "lon": 5.5976775,
+      "tags": {
+        "name": "WashTech Laundry And Dry Cleaning Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344316138,
+      "lat": 6.3323339,
+      "lon": 5.6067831,
+      "tags": {
+        "name": "Elite Luxury Suites",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639220727,
+      "lat": 7.3923987,
+      "lon": 3.8825796,
+      "tags": {
+        "name": "Westernb Laundry Limited",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4748828623,
+      "lat": 6.6713136,
+      "lon": 3.322109,
+      "tags": {
+        "addr:housenumber": "44",
+        "addr:postcode": "23401",
+        "addr:street": "Agbado road , iju - ishaga",
+        "name": "Sea-Mountain Washateria",
+        "name:en": "Sea-Mountain Washateria",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599585527,
+      "lat": 4.8426875,
+      "lon": 7.0403373,
+      "tags": {
+        "addr:housenumber": "28",
+        "addr:street": "Old Aba Road",
+        "name": "Primewash",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7030245517,
+      "lat": 5.0366705,
+      "lon": 7.9295482,
+      "tags": {
+        "addr:housenumber": "1/6C",
+        "addr:street": "Udo Street",
+        "contact:facebook": "https://www.facebook.com/marwinclean",
+        "contact:instagram": "marwinclean",
+        "dry_cleaning": "yes",
+        "email": "marwinclean@gmail.com",
+        "name": "Marwin Professional Laundry and Dry-Cleaning Services",
+        "phone": "+234 07062053922; +234 07059213313",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956172601,
+      "lat": 4.9338677,
+      "lon": 6.2840732,
+      "tags": {
+        "name": "Prime Wash",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753567670,
+      "lat": 6.4567328,
+      "lon": 7.5182214,
+      "tags": {
+        "name": "ND Laundry and Dry Cleaning Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9651566346,
+      "lat": 6.4362132,
+      "lon": 3.4897891,
+      "tags": {
+        "name": "Kendux Laundry",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9874674783,
+      "lat": 5.3225134,
+      "lon": 6.8224224,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11524798996,
+      "lat": 8.9700771,
+      "lon": 7.4373223,
+      "tags": {
+        "addr:district": "Dakwo district",
+        "addr:unit": "D1",
+        "amenity": "internet_cafe",
+        "kids_area": "no",
+        "laundry_service": "yes",
+        "level": "1",
+        "name": "A.O Laundry Services & Business Centre",
+        "phone": "+234 818 536 0681",
+        "self_service": "no",
+        "shop": "laundry",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938935175,
+      "lat": 7.2868685,
+      "lon": 5.1518467,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "FabriCare Laundry",
+        "name:en": "FabriCare Laundry",
+        "opening_hours": "24/7",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938991102,
+      "lat": 7.2899935,
+      "lon": 5.1527366,
+      "tags": {
+        "check_date": "2024-05-28",
+        "name": "Dejon Laundry Services",
+        "name:en": "Dejon Laundry Services",
+        "opening_hours": "24/7",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594040,
+      "lat": 6.607749,
+      "lon": 3.426534,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Hillary's laundry and dry cleaning",
+        "operator": "private/individual",
+        "shop": "laundry",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594041,
+      "lat": 6.597843,
+      "lon": 3.422928,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Feod international service",
+        "operator": "private/individual",
+        "shop": "laundry",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13395342825,
+      "lat": 7.6147399,
+      "lon": 5.2521897,
+      "tags": {
+        "check_date": "2025-12-22",
+        "currency:XBT": "yes",
+        "name": "Ebonydud",
+        "opening_hours": "Mo-Sa 08:00-18:00",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "yes",
+        "payment:onchain": "yes",
+        "phone": "090 740 74567",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13418604292,
+      "lat": 8.4656033,
+      "lon": 4.5928957,
+      "tags": {
+        "addr:city": "Ilorin",
+        "addr:housenumber": "16",
+        "addr:street": "Bamigboye Close",
+        "check_date": "2025-12-30",
+        "currency:XBT": "yes",
+        "name": "OgoOluwa",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "no",
+        "phone": "090 380 27457",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13418653973,
+      "lat": 8.483364,
+      "lon": 4.6668732,
+      "tags": {
+        "addr:city": "Ilorin",
+        "check_date": "2025-12-30",
+        "currency:XBT": "yes",
+        "name": "Mega Standard",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "no",
+        "phone": "081 337 63355",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 85516097,
+      "center": {
+        "lat": 6.3171738,
+        "lon": 5.6137211
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Gwemo Cleans and Laundry Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10125920355,
+      "lat": 8.4364978,
+      "lon": 9.1003182,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10125920360,
+      "lat": 8.4362103,
+      "lon": 9.1004602,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126428253,
+      "lat": 8.7499225,
+      "lon": 8.7566098,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425502893,
+      "center": {
+        "lat": 5.477067,
+        "lon": 10.4185448
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Laverie akwa 1",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425502895,
+      "center": {
+        "lat": 5.4763583,
+        "lon": 10.419265
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Laverie Akwa 2",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 582204038,
+      "center": {
+        "lat": 7.3194882,
+        "lon": 13.5845518
+      },
+      "tags": {
+        "name": "laverie auto",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2428047909,
+      "lat": 11.8943481,
+      "lon": 3.4613697,
+      "tags": {
+        "name": "pr\u00e9ssing de dendi",
+        "project:mappingforniger": "yes",
+        "shop": "laundry",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317487492,
+      "lat": 13.4801603,
+      "lon": 7.1172433,
+      "tags": {
+        "name": "La maison de nettoyage",
+        "project:pdevii": "yes",
+        "shop": "laundry",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13738730255,
+      "lat": 9.1413182,
+      "lon": 7.3066196,
+      "tags": {
+        "addr:city": "Kubwa",
+        "addr:housenumber": "1",
+        "addr:postcode": "901101",
+        "addr:street": "Cyprian Ukpabia Sreet",
+        "check_date": "2026-04-17",
+        "currency:XBT": "yes",
+        "name": "Kubba lavers",
+        "opening_hours": "Mo-Sa 08:00-19:00",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "no",
+        "payment:onchain": "no",
+        "phone": "+234 708 008 7599",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1411618299,
+      "center": {
+        "lat": 9.1102246,
+        "lon": 7.4291141
+      },
+      "tags": {
+        "addr:city": "abuja",
+        "addr:housenumber": "738",
+        "addr:postcode": "900108",
+        "addr:street": "fola daniel cres.",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "email": "talktowashwise@gmail.com",
+        "name": "Wash Wise Laundry",
+        "opening_hours": "24/7",
+        "operator": "Jadabaruch",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+2348169163239",
+        "self_service": "no",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4729001589,
+      "lat": 10.594745,
+      "lon": 14.3152231,
+      "tags": {
+        "name": "TOP Pressing",
+        "name:fr": "TOP Pressing",
+        "phone": "695286165",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9885605048,
+      "lat": 12.5876105,
+      "lon": 8.8362465,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9885605078,
+      "lat": 12.5882679,
+      "lon": 8.8371334,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897307663,
+      "lat": 11.3269285,
+      "lon": 9.4659005,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897412868,
+      "lat": 11.3628996,
+      "lon": 9.4411626,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897644704,
+      "lat": 11.9170724,
+      "lon": 9.3919933,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897644708,
+      "lat": 11.9183981,
+      "lon": 9.391737,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897652588,
+      "lat": 11.9898392,
+      "lon": 9.4903168,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897664818,
+      "lat": 11.9987687,
+      "lon": 9.4604211,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10042314959,
+      "lat": 11.6740705,
+      "lon": 9.6425452,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10208341001,
+      "lat": 12.4808524,
+      "lon": 8.6720779,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10208395945,
+      "lat": 11.3457597,
+      "lon": 8.9114036,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10208411981,
+      "lat": 11.3671523,
+      "lon": 8.6026435,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10208579594,
+      "lat": 12.0061391,
+      "lon": 9.6815404,
+      "tags": {
+        "shop": "laundry",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11067423095,
+      "lat": 10.2717878,
+      "lon": 9.795714,
+      "tags": {
+        "check_date": "2023-07-25",
+        "name": "Amsag Laundry",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165058212,
+      "lat": 10.296746,
+      "lon": 11.1465409,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan road",
+        "name": "De J's laundry and Dry Cleaning Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165058505,
+      "lat": 10.3042265,
+      "lon": 11.1476435,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan Road",
+        "name": "Ba Matsala laundry Services",
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 291338583,
+      "center": {
+        "lat": 12.0063941,
+        "lon": 8.5561533
+      },
+      "tags": {
+        "shop": "laundry"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417508581,
+      "center": {
+        "lat": 10.5946567,
+        "lon": 14.337402
+      },
+      "tags": {
+        "name": "LAV AUTO Prestige",
+        "shop": "laundry"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

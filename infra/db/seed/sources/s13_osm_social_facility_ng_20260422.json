@@ -1,0 +1,356 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 6988071164,
+      "lat": 6.4939383,
+      "lon": 3.3906656,
+      "tags": {
+        "addr:street": "Migbewe II",
+        "amenity": "social_facility",
+        "name": "Minanghan Health Centre",
+        "operator": "Private",
+        "social_facility": "nursing_home"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11989708304,
+      "lat": 7.8917776,
+      "lon": 4.3147482,
+      "tags": {
+        "amenity": "social_facility",
+        "check_date": "2024-06-18",
+        "name": "Ibukun Oluwa Nursing Home And Maternity Center",
+        "social_facility": "nursing_home",
+        "social_facility:for": "senior"
+      }
+    },
+    {
+      "type": "way",
+      "id": 97622322,
+      "center": {
+        "lat": 7.444472,
+        "lon": 3.8983064
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Student Union Building",
+        "social_facility": "group_home",
+        "source": "Yahoo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 742652357,
+      "center": {
+        "lat": 6.6056448,
+        "lon": 3.5854842
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Rockgarden Homes for the Elderly",
+        "social_facility": "group_home",
+        "social_facility:for": "senior"
+      }
+    },
+    {
+      "type": "way",
+      "id": 952167551,
+      "center": {
+        "lat": 4.8205573,
+        "lon": 7.0619028
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Daughters of St Joseph Convent",
+        "social_facility": "group_home",
+        "social_facility:for": "senior"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6862964298,
+      "lat": 4.9183909,
+      "lon": 13.290569,
+      "tags": {
+        "amenity": "social_facility",
+        "description": "Survey Instance: 70f35aef-85c3-431c-86a9-51514e9ea996",
+        "extrude": "0",
+        "name": "Centre social",
+        "social_facility": "outreach",
+        "tessellate": "-1",
+        "visibility": "-1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6862993966,
+      "lat": 4.9183889,
+      "lon": 13.2905693,
+      "tags": {
+        "amenity": "social_facility",
+        "description": "Survey Instance: 70f35aef-85c3-431c-86a9-51514e9ea996",
+        "extrude": "0",
+        "name": "Centre social",
+        "social_facility": "outreach",
+        "tessellate": "-1",
+        "visibility": "-1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6869717755,
+      "lat": 4.9188686,
+      "lon": 13.2895893,
+      "tags": {
+        "amenity": "social_facility",
+        "description": "Survey Instance: 683726b8-36f2-4261-8143-9c33ec707146",
+        "extrude": "0",
+        "name": "Centre d'accueil Maa Moussa",
+        "social_facility": "assisted_living",
+        "tessellate": "-1",
+        "visibility": "-1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9009126393,
+      "lat": 5.1636205,
+      "lon": 10.1915356,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Foyer Batcho",
+        "social_facility": "shelter",
+        "social_facility:for": "homeless"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12760835748,
+      "lat": 4.4009902,
+      "lon": 11.4154522,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Orphelinat de Nkolmebanga",
+        "social_facility": "assisted_living"
+      }
+    },
+    {
+      "type": "way",
+      "id": 219927968,
+      "center": {
+        "lat": 5.4808516,
+        "lon": 10.4253903
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Agence R\u00e9gionale Emploi Service",
+        "social_facility": "workshop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 372967009,
+      "center": {
+        "lat": 5.4794629,
+        "lon": 10.4215832
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "FODEC",
+        "social_facility": "workshop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 372975472,
+      "center": {
+        "lat": 5.4801235,
+        "lon": 10.4224591
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Sirpacam",
+        "social_facility": "workshop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 377062890,
+      "center": {
+        "lat": 5.3215609,
+        "lon": 10.1474482
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Foyer communautaire"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384502877,
+      "center": {
+        "lat": 5.4703909,
+        "lon": 10.4349804
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "CEPROJEF",
+        "official_name": "Centre d\u2019Education et de Promotion des Jeunes Filles D\u00e9sh\u00e9rit\u00e9es"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395325931,
+      "center": {
+        "lat": 5.4412774,
+        "lon": 10.0582632
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "centre des services sociaux",
+        "social_facility": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 396167330,
+      "center": {
+        "lat": 5.5094428,
+        "lon": 10.1790291
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "name": "Centre d'acceuil et d'h\u00e9bergement",
+        "social_facility:for": "orphan"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425103498,
+      "center": {
+        "lat": 5.4410889,
+        "lon": 10.4248279
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Orphelinat de Mbouo",
+        "social_facility": "orphanage"
+      }
+    },
+    {
+      "type": "way",
+      "id": 553573894,
+      "center": {
+        "lat": 5.951622,
+        "lon": 10.0018234
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "opening_hours": "24/7",
+        "social_facility": "nursing_home",
+        "social_facility:for": "child"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317449929,
+      "lat": 13.492282,
+      "lon": 7.1146155,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Centre M\u00e9dico-Sociale de Maradi",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5664206188,
+      "lat": 12.8975694,
+      "lon": 7.5875519,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "UMYU Social centre",
+        "operator": "eHealth Africa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6244366780,
+      "lat": 9.1159665,
+      "lon": 4.824862,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "jacque repos",
+        "social_facility": "nursing_home",
+        "social_facility:for": "senior"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7734863343,
+      "lat": 13.7348737,
+      "lon": 5.2968438,
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Aminci nursing home",
+        "social_facility": "nursing_home",
+        "social_facility:for": "senior",
+        "source": "MSFsurvey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10278509125,
+      "lat": 13.4744896,
+      "lon": 7.1192104,
+      "tags": {
+        "addr:housenumber": "1",
+        "amenity": "social_facility",
+        "name": "Antenne r\u00e9gionale de volontariat/ANVD Maradi",
+        "opening_hours": "Mo-Fr 08:00-17:30"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417853627,
+      "center": {
+        "lat": 10.5881063,
+        "lon": 14.3052208
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "name": "Zone de stockage des denr\u00e9es pour r\u00e9fugi\u00e9s",
+        "social_facility": "shelter"
+      }
+    },
+    {
+      "type": "way",
+      "id": 633063109,
+      "center": {
+        "lat": 13.0325912,
+        "lon": 10.3286141
+      },
+      "tags": {
+        "amenity": "social_facility",
+        "building": "yes",
+        "social_facility": "shelter",
+        "social_facility:for": "homeless"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

@@ -1,0 +1,216 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2154559295,
+      "lat": 6.3340814,
+      "lon": 5.6143876,
+      "tags": {
+        "amenity": "dentist",
+        "healthcare": "dentist",
+        "name": "Horatio Dential Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161071550,
+      "lat": 6.3266028,
+      "lon": 5.6252333,
+      "tags": {
+        "amenity": "dentist",
+        "healthcare": "dentist",
+        "name": "New Smile Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133057,
+      "lat": 6.4492,
+      "lon": 7.50105,
+      "tags": {
+        "addr:housenumber": "184.0",
+        "addr:street": "Ogui Road",
+        "amenity": "dentist",
+        "fixme": "many bad keys",
+        "height": "217.199997",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A0c1205b3-25c1-41e3-b04d-1f25c331cdfa%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A0c1205b3-25c1-41e3-b04d-1f25c331cdfa%5D%2FPOI_Picture2",
+        "name": "First dental consultants dental centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5564699824,
+      "lat": 5.5686959,
+      "lon": 5.7824398,
+      "tags": {
+        "addr:housenumber": "7",
+        "addr:street": "Obada Close",
+        "amenity": "dentist",
+        "healthcare": "dentist",
+        "name": "Dentoba Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6538838858,
+      "lat": 7.4484413,
+      "lon": 4.0311563,
+      "tags": {
+        "amenity": "dentist",
+        "healthcare": "dentist",
+        "healthcare:speciality": "dentist",
+        "name": "Standard dental design",
+        "opening_hours": "Mo-Fr 08:00-18:00",
+        "operator": "Private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7480515292,
+      "lat": 6.6310345,
+      "lon": 3.3388835,
+      "tags": {
+        "amenity": "dentist",
+        "healthcare": "dentist",
+        "name": "Top Dental Clinic"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84169383,
+      "center": {
+        "lat": 6.312993,
+        "lon": 5.6119286
+      },
+      "tags": {
+        "amenity": "dentist",
+        "building": "yes",
+        "healthcare": "dentist"
+      }
+    },
+    {
+      "type": "way",
+      "id": 85516068,
+      "center": {
+        "lat": 6.3172342,
+        "lon": 5.6219271
+      },
+      "tags": {
+        "amenity": "dentist",
+        "building": "yes",
+        "healthcare": "dentist",
+        "name": "Shalom Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1340257742,
+      "lat": 5.948886,
+      "lon": 10.1451702,
+      "tags": {
+        "amenity": "dentist",
+        "name": "Mezam Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353504295,
+      "lat": 13.4842078,
+      "lon": 7.1031263,
+      "tags": {
+        "amenity": "dentist",
+        "name": "Centre Bucco dentaire",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7428640585,
+      "lat": 10.5177294,
+      "lon": 7.4483441,
+      "tags": {
+        "addr:city": "Kaduna North",
+        "addr:postcode": "800211",
+        "addr:street": "Tafawa Balewa Way",
+        "amenity": "dentist",
+        "dispensing": "yes",
+        "electricity": "grid",
+        "emergency": "yes",
+        "health_amenity:type": "laboratory;x_ray",
+        "healthcare": "dentist",
+        "healthcare:speciality": "dentist;dentistry",
+        "insurance:health": "private;public",
+        "name": "KASU Dental Clinic",
+        "opening_hours": "24/7",
+        "operational_status": "operational",
+        "operator": "Kaduna State Government",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13289320133,
+      "lat": 9.0425912,
+      "lon": 7.4958224,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:country": "NG",
+        "addr:postcode": "900247",
+        "addr:street": "Area 11, Alliance Hospital, 5 Malumfashi Cl, off Emeka Anyaoku Street, Garki",
+        "amenity": "dentist",
+        "contact:facebook": "https://www.facebook.com/novacaredentalclinic",
+        "description": "Novacare Dental & Maxillofacial Surgery offers expert dental services and surgical solutions for patients of all ages in Abuja. Our clinic provides general dentistry, braces, crowns, bridges, implants, root canals, and oral and maxillofacial surgery.",
+        "email": "novacaredentalabuja@gmail.com",
+        "healthcare": "dentist",
+        "healthcare:speciality": "dentist;dental_oral_maxillo_facial_surgery;dentistry",
+        "name": "Novacare Dental & Maxillofacial Surgery",
+        "opening_hours": "Mo-Sa 09:00-18:00",
+        "payment:app": "yes",
+        "payment:cards": "yes",
+        "payment:cash": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "0813 355 7279",
+        "website": "https://novacaredentalandmaxillofacial.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731310753,
+      "lat": 9.3080878,
+      "lon": 13.3940627,
+      "tags": {
+        "amenity": "dentist",
+        "name": "Cabinet Dentaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731343726,
+      "lat": 9.3043292,
+      "lon": 13.376002,
+      "tags": {
+        "amenity": "dentist",
+        "name": "Cabinet Dentaire Et Ophtalmologie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417923938,
+      "center": {
+        "lat": 10.5830871,
+        "lon": 14.2982402
+      },
+      "tags": {
+        "amenity": "dentist",
+        "building": "yes",
+        "name": "Cabinet dentaire le Cactus"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

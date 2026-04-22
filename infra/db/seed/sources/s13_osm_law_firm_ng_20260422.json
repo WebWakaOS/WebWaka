@@ -1,0 +1,169 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2344503121,
+      "lat": 6.3308018,
+      "lon": 5.5942049,
+      "tags": {
+        "name": "Don Idada Ikponmwen & Co.Legal Practioners",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5624735721,
+      "lat": 6.6646913,
+      "lon": 3.3106622,
+      "tags": {
+        "addr:housenumber": "18",
+        "addr:street": "Ajoke Lewis Street",
+        "email": "Legal.ademike@yahoo.com",
+        "name": "M. O. A. Pitan Legal Advocates (Right-Angel Chambers)",
+        "office": "lawyer",
+        "opening_hours": "Mo-Fr 09:00-18:00, Sa 12:00-17:00",
+        "phone": "08032422692"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753434343,
+      "lat": 6.4603753,
+      "lon": 7.5341919,
+      "tags": {
+        "name": "Okaw House of Law",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8754472384,
+      "lat": 6.4398783,
+      "lon": 7.5223903,
+      "tags": {
+        "name": "Court of appeal Enugu",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286717,
+      "lat": 8.4832713,
+      "lon": 4.5926794,
+      "tags": {
+        "name": "EFCC Ilorin, Catchment Road, Oko Erin, Nigeria",
+        "office": "lawyer",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "way",
+      "id": 47419690,
+      "center": {
+        "lat": 6.3334164,
+        "lon": 5.6103912
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Omonuwa and Co Legal Practitioners",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "way",
+      "id": 85841678,
+      "center": {
+        "lat": 6.3161574,
+        "lon": 5.6113452
+      },
+      "tags": {
+        "building": "yes",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701208464,
+      "center": {
+        "lat": 7.8957359,
+        "lon": 4.3177253
+      },
+      "tags": {
+        "building": "office",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353614043,
+      "lat": 13.4912752,
+      "lon": 7.1109582,
+      "tags": {
+        "lawyer": "notary",
+        "name": "Cabinet Notaire",
+        "office": "lawyer",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5664061410,
+      "lat": 12.9884887,
+      "lon": 7.6389257,
+      "tags": {
+        "name": "Katsina State High Court",
+        "office": "lawyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11892104631,
+      "lat": 9.0522686,
+      "lon": 7.4464649,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "690",
+        "addr:postcode": "900271",
+        "addr:street": "Idris Gidado Street",
+        "air_conditioning": "yes",
+        "description": "Principle Legal Consult is a prominent Nigerian Law Firm providing exceptional legal services.",
+        "name": "Principle Legal Consult",
+        "office": "lawyer",
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "phone": "+2347048747061",
+        "website": "https://www.principlelegalconsult.com/scholarship"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13289259843,
+      "lat": 9.078912,
+      "lon": 7.4818038,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "122Y",
+        "addr:postcode": "900288",
+        "addr:street": "Morija Cl, off Adetokunbo Ademola Crescent, Wuse 2",
+        "description": "Polaris Solicitors is one of Abuja\u2019s leading law firms, specializing in corporate and commercial law, litigation, and business advisory. We help individuals and organizations navigate complex legal issues with clarity and confidence.",
+        "email": "legal@polarissolicitors.com",
+        "name": "Polaris Solicitors",
+        "office": "lawyer",
+        "opening_hours": "24/7",
+        "phone": "0803 435 8887",
+        "start_date": "2013-11-05",
+        "website": "https://polarissolicitors.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054297824,
+      "lat": 9.9608937,
+      "lon": 13.6231745,
+      "tags": {
+        "office": "lawyer"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

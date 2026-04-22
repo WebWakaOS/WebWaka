@@ -1,0 +1,4027 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 979962730,
+      "lat": 6.332328,
+      "lon": 5.646953,
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Murtala Mohammed Way",
+        "amenity": "college",
+        "contact:phone": "+234 7061954202",
+        "name": "Edo College",
+        "website": "https://edocollegebenin.com/w_home"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1533380498,
+      "lat": 5.8972763,
+      "lon": 7.1152679,
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1994158128,
+      "lat": 6.3824181,
+      "lon": 5.629915,
+      "tags": {
+        "amenity": "college",
+        "name": "government science and tecnology"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846254,
+      "lat": 6.3071452,
+      "lon": 5.6226636,
+      "tags": {
+        "amenity": "college",
+        "name": "Nigeria Institute of Management"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155695714,
+      "lat": 6.3224616,
+      "lon": 5.6277692,
+      "tags": {
+        "amenity": "college",
+        "name": "Imaguero College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161056238,
+      "lat": 6.3313979,
+      "lon": 5.6263792,
+      "tags": {
+        "amenity": "college",
+        "name": "Harvesters Int'l Theological Seminary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161071632,
+      "lat": 6.296694,
+      "lon": 5.6011788,
+      "tags": {
+        "amenity": "college",
+        "name": "Oba Ewuare College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344316142,
+      "lat": 6.3340758,
+      "lon": 5.6088617,
+      "tags": {
+        "amenity": "college",
+        "name": "KDG Consultant (HR training)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350879799,
+      "lat": 6.3387568,
+      "lon": 5.6244887,
+      "tags": {
+        "amenity": "college",
+        "name": "Universal Basic Education"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350899858,
+      "lat": 6.3468653,
+      "lon": 5.6195052,
+      "tags": {
+        "amenity": "college",
+        "name": "Emotan College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350899866,
+      "lat": 6.3452652,
+      "lon": 5.621606,
+      "tags": {
+        "amenity": "college",
+        "name": "Idia College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350899882,
+      "lat": 6.3411742,
+      "lon": 5.6197609,
+      "tags": {
+        "amenity": "college",
+        "name": "Spring Com Computer School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350920100,
+      "lat": 6.3430723,
+      "lon": 5.6184136,
+      "tags": {
+        "amenity": "college",
+        "name": "Old Edo College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455132994,
+      "lat": 6.465779,
+      "lon": 7.50298,
+      "tags": {
+        "addr:housenumber": "19.0",
+        "addr:street": "Akpabio",
+        "amenity": "college",
+        "contact:phone": "8034536349",
+        "fixme": "many bad keys",
+        "height": "231.899994",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abf51212a-9c70-41a3-951a-12b6ea845842%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abf51212a-9c70-41a3-951a-12b6ea845842%5D%2FPOI_Picture2",
+        "name": "Academy Of Leadership & Enterprise",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133099,
+      "lat": 6.459873,
+      "lon": 7.500532,
+      "tags": {
+        "addr:housenumber": "7.0",
+        "addr:street": "Ogbolu Street Off Abakiliki Road",
+        "amenity": "college",
+        "fixme": "many bad keys",
+        "height": "210.5",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abf02f6db-aa63-48ee-83a5-0630387f3699%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abf02f6db-aa63-48ee-83a5-0630387f3699%5D%2FPOI_Picture2",
+        "name": "Graceland Private School",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133522,
+      "lat": 6.419208,
+      "lon": 7.487365,
+      "tags": {
+        "addr:housenumber": "80.0",
+        "addr:street": "Agbani Road",
+        "amenity": "college",
+        "ele": "234.899994",
+        "fixme": "many bad keys",
+        "name": "Methodist College",
+        "operator:type": "Others"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133575,
+      "lat": 6.4294247,
+      "lon": 7.4953809,
+      "tags": {
+        "addr:city": "Enugu",
+        "addr:street": "Zik Avenue",
+        "amenity": "college",
+        "ele": "244.199997",
+        "isced:level": "3",
+        "name": "Holy Rosary College Uwani, Enugu",
+        "note": "Educational institution",
+        "operator": "Catholic Church",
+        "operator:type": "ngo",
+        "source": "School website",
+        "website": "http://hrcuwani.com/",
+        "wheelchair": "limited",
+        "wikidata": "Q25053714",
+        "wikipedia": "en:Holy Rosary College, Enugu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133616,
+      "lat": 6.43145,
+      "lon": 7.478238,
+      "tags": {
+        "addr:street": "Ngenevu",
+        "amenity": "college",
+        "contact:email": "oluakadimma@yahoo.com",
+        "ele": "243.199997",
+        "email": "oluakadimma@yahoo.com",
+        "fixme": "many bad keys",
+        "name": "Olu Aka Di Mma Vocational Technical Training Centre",
+        "operator:type": "ngo",
+        "phone": "8038793083"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133709,
+      "lat": 6.436922,
+      "lon": 7.478114,
+      "tags": {
+        "addr:street": "UNTH",
+        "amenity": "college",
+        "ele": "250.800003",
+        "fixme": "many bad keys",
+        "name": "School Of Nursing UNTH",
+        "operator:type": "public"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2460130988,
+      "lat": 6.460075,
+      "lon": 7.498636,
+      "tags": {
+        "addr:street": "Abakaliki Road",
+        "amenity": "college",
+        "fixme": "many bad keys",
+        "height": "216.899994",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A4c6cc28a-0b85-4e56-b8ed-a577c327991f%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A4c6cc28a-0b85-4e56-b8ed-a577c327991f%5D%2FPOI_Picture2",
+        "name": "Enugu State College Of Education (Technical), Enugu",
+        "operator:type": "public"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2460130989,
+      "lat": 6.45951,
+      "lon": 7.499036,
+      "tags": {
+        "addr:housenumber": "4.0",
+        "addr:street": "Abakaliki Road",
+        "amenity": "college",
+        "fixme": "many bad keys",
+        "height": "214.600006",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A484edcd6-e5f0-482b-bd63-11a770a84a52%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A484edcd6-e5f0-482b-bd63-11a770a84a52%5D%2FPOI_Picture2",
+        "name": "Enugu State College Of Education Technical Enugu",
+        "operator:type": "public"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2460131293,
+      "lat": 6.442606,
+      "lon": 7.510234,
+      "tags": {
+        "addr:housenumber": "6.0",
+        "addr:street": "Midland Close",
+        "amenity": "college",
+        "fixme": "many bad keys",
+        "height": "223.5",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A7585e894-8d2c-4261-af4e-b3b2863f3275%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A7585e894-8d2c-4261-af4e-b3b2863f3275%5D%2FPOI_Picture2",
+        "name": "Rockland International",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639220714,
+      "lat": 7.4113026,
+      "lon": 3.8674361,
+      "tags": {
+        "amenity": "college",
+        "name": "School of Hygiene"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639220715,
+      "lat": 7.4120899,
+      "lon": 3.8707191,
+      "tags": {
+        "amenity": "college",
+        "name": "Fedeal Cooperative College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639256385,
+      "lat": 7.4067946,
+      "lon": 3.8477209,
+      "tags": {
+        "addr:city": "Idi-ishin, Ibadan",
+        "amenity": "college",
+        "name": "NIHORT"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5415928321,
+      "lat": 5.5467251,
+      "lon": 5.7791975,
+      "tags": {
+        "addr:street": "Effurun Sapele Road",
+        "amenity": "college",
+        "name": "Our Lady High School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5421895326,
+      "lat": 5.5220926,
+      "lon": 5.7612594,
+      "tags": {
+        "amenity": "college",
+        "name": "Classical Int.  School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5428871424,
+      "lat": 5.5487851,
+      "lon": 5.7813919,
+      "tags": {
+        "addr:street": "Effurun Sapele Road",
+        "amenity": "college",
+        "name": "Mother of Redeemer Cat. Sec School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5428928424,
+      "lat": 5.546704,
+      "lon": 5.7820627,
+      "tags": {
+        "addr:housenumber": "5",
+        "addr:street": "Enerhen Road",
+        "amenity": "college",
+        "name": "Holy Martyrs of Uganda Seminary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5443784326,
+      "lat": 5.5627722,
+      "lon": 5.7470577,
+      "tags": {
+        "addr:street": "Hospital Road",
+        "amenity": "college",
+        "name": "Ekpan Secondary School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5443807722,
+      "lat": 5.5692827,
+      "lon": 5.7954715,
+      "tags": {
+        "addr:street": "PTI Road",
+        "amenity": "college",
+        "name": "PTI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5478686244,
+      "lat": 4.9493803,
+      "lon": 6.3369186,
+      "tags": {
+        "amenity": "college",
+        "name": "Center Epie Secondary School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5506376634,
+      "lat": 4.9504712,
+      "lon": 6.3530965,
+      "tags": {
+        "addr:street": "Isaac Boro Expressway",
+        "amenity": "college",
+        "name": "LPII"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5506384925,
+      "lat": 4.9518063,
+      "lon": 6.3491686,
+      "tags": {
+        "addr:street": "School Road",
+        "amenity": "college",
+        "name": "Faith Comprehensive Sec Sch"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5509093323,
+      "lat": 4.9458484,
+      "lon": 6.3369488,
+      "tags": {
+        "addr:street": "Opolo JTF Road",
+        "amenity": "college",
+        "name": "NESEC Academy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5533350323,
+      "lat": 5.5454556,
+      "lon": 5.7818689,
+      "tags": {
+        "addr:street": "Enerhen Road",
+        "amenity": "college",
+        "name": "Staford House Intl. College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5560444224,
+      "lat": 5.5645614,
+      "lon": 5.7555265,
+      "tags": {
+        "addr:housenumber": "69",
+        "addr:street": "Hospital Road",
+        "amenity": "college",
+        "name": "Edulyn College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5573503728,
+      "lat": 5.5387039,
+      "lon": 5.757393,
+      "tags": {
+        "addr:housenumber": "4/6",
+        "addr:street": "Chief Eboh  Obhiemi Street",
+        "amenity": "college",
+        "name": "Izisco Obos Institute of Maritime Studies and Texh"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5580360521,
+      "lat": 5.531383,
+      "lon": 5.7448769,
+      "tags": {
+        "addr:housenumber": "9",
+        "amenity": "college",
+        "name": "Roof Computer Academy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599585550,
+      "lat": 4.8277818,
+      "lon": 7.0473253,
+      "tags": {
+        "addr:street": "Church of God Mission Road",
+        "amenity": "college",
+        "name": "All Nations for Christ Bible Institute"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599590228,
+      "lat": 4.8439541,
+      "lon": 7.0426234,
+      "tags": {
+        "addr:street": "Enugu - Port Harcourt Expressway",
+        "amenity": "college",
+        "name": "CIWA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599599628,
+      "lat": 4.8454611,
+      "lon": 7.0447092,
+      "tags": {
+        "addr:street": "Enugu - Port Harcourt Expressway",
+        "amenity": "college",
+        "name": "Sacred Heart Seminary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599601129,
+      "lat": 4.8285041,
+      "lon": 7.0399411,
+      "tags": {
+        "addr:street": "Oginigba Link Road",
+        "amenity": "college",
+        "name": "Oginigba Comprehensive Secondary School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5610166223,
+      "lat": 5.06644,
+      "lon": 6.4378992,
+      "tags": {
+        "addr:street": "Mbiama",
+        "amenity": "college",
+        "name": "Government Comprehensive Secondary School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5617995026,
+      "lat": 4.8347439,
+      "lon": 6.9952044,
+      "tags": {
+        "addr:street": "Rumuola Road",
+        "amenity": "college",
+        "name": "Captain Amadi Polytecnic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773178298,
+      "lat": 8.1598278,
+      "lon": 4.2584741,
+      "tags": {
+        "amenity": "college",
+        "name": "LAUTECH Medical College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773279270,
+      "lat": 8.1473958,
+      "lon": 4.2422018,
+      "tags": {
+        "amenity": "college",
+        "name": "Ori Oke Community High Schools"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6783464861,
+      "lat": 8.1454222,
+      "lon": 4.2433236,
+      "tags": {
+        "amenity": "college",
+        "name": "Anglican Grammar School 2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6783473668,
+      "lat": 8.1544736,
+      "lon": 4.229205,
+      "tags": {
+        "amenity": "college",
+        "name": "Federal Government College, Ogbomoso"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6786096372,
+      "lat": 8.1358463,
+      "lon": 4.2112475,
+      "tags": {
+        "amenity": "college",
+        "name": "ADENIRAN MEMORIAL GRAMMAR SCHOOL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956218497,
+      "lat": 5.1505461,
+      "lon": 6.1940895,
+      "tags": {
+        "amenity": "college",
+        "name": "Isaac Jasper Boro College of Education, Sagbama"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956218500,
+      "lat": 7.6781633,
+      "lon": 4.4600885,
+      "tags": {
+        "amenity": "college",
+        "name": "Redeemers University, Ede"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956218501,
+      "lat": 8.1673148,
+      "lon": 4.2670422,
+      "tags": {
+        "amenity": "college",
+        "name": "Ladoke Akintola University of Technology (LAUTECH)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956224613,
+      "lat": 5.1001673,
+      "lon": 6.0660924,
+      "tags": {
+        "amenity": "college",
+        "name": "University of Africa, Toru-Orua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225498,
+      "lat": 7.5419277,
+      "lon": 4.4703772,
+      "tags": {
+        "amenity": "college",
+        "name": "Obafemi Awolowo University, Moro Campus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225499,
+      "lat": 5.5746716,
+      "lon": 5.7975963,
+      "tags": {
+        "amenity": "college",
+        "name": "Petroleum Training Institute (PTI)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231993,
+      "lat": 5.1306103,
+      "lon": 6.1714875,
+      "tags": {
+        "addr:street": "Tungbo",
+        "amenity": "college",
+        "name": "Federal Science and Technical College, Tungbo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231996,
+      "lat": 8.1667555,
+      "lon": 4.2680408,
+      "tags": {
+        "amenity": "college",
+        "name": "Ladoke Akintola University of Technology (LAUTECH)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956232288,
+      "lat": 5.1007727,
+      "lon": 6.0665333,
+      "tags": {
+        "amenity": "college",
+        "name": "Marine Police Training School, Toru-Orua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8117618417,
+      "lat": 8.5656344,
+      "lon": 7.7251227,
+      "tags": {
+        "amenity": "college",
+        "name": "Fed poly Nasarawa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8851563702,
+      "lat": 7.656645,
+      "lon": 6.360058,
+      "tags": {
+        "amenity": "college",
+        "name": "School of Engineering",
+        "operator": "KOGI POLY"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8851563706,
+      "lat": 7.6116323,
+      "lon": 6.2629835,
+      "tags": {
+        "amenity": "college",
+        "name": "FCE Okene"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9583603587,
+      "lat": 7.3944075,
+      "lon": 3.9423645,
+      "tags": {
+        "amenity": "college",
+        "name": "Mufutau Lanihun College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9695838327,
+      "lat": 5.5077296,
+      "lon": 5.7623308,
+      "tags": {
+        "addr:city": "Warri City",
+        "addr:postcode": "332232",
+        "addr:street": "Iyara road, Warri City",
+        "amenity": "college",
+        "grades": "7-12",
+        "name": "Dore Numa College, Warri",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9932503717,
+      "lat": 6.4925463,
+      "lon": 3.3757771,
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10677825033,
+      "lat": 5.5213946,
+      "lon": 5.7402073,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:housenumber": "No",
+        "addr:postcode": "320242",
+        "addr:street": "Mabiaku Road",
+        "amenity": "college",
+        "name": "Nana College Warri",
+        "operator": "Delta State Government",
+        "operator:type": "public",
+        "website": "https://www.nanamodelcollege.com/index.php",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10719551032,
+      "lat": 5.537994,
+      "lon": 5.7430788,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332104",
+        "addr:street": "Ejeba road",
+        "amenity": "college",
+        "name": "Dom Domingos College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10722078631,
+      "lat": 5.5301099,
+      "lon": 5.7238818,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:street": "Ekurede-Urhobo st",
+        "amenity": "college",
+        "name": "Federal Government College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "website": "https://www.fgcwarri.sch.ng/home"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10722247328,
+      "lat": 5.5287731,
+      "lon": 5.7172959,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:street": "Yonwuren College Road, Ugbuwangue",
+        "amenity": "college",
+        "name": "Yonwuren College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10760011023,
+      "lat": 5.5230028,
+      "lon": 5.7493543,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332104",
+        "addr:street": "Upper Erejuwa Road",
+        "amenity": "college",
+        "name": "Hussey College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q5949904",
+        "wikipedia": "en:Hussey College Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11904341827,
+      "lat": 7.4222499,
+      "lon": 3.9406187,
+      "tags": {
+        "addr:city": "Ibadan",
+        "addr:postcode": "200222",
+        "addr:street": "Genral Gas road Akobo",
+        "amenity": "college",
+        "name": "Isabatudeen Girls Grammar School",
+        "operator": "Edcation",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938928276,
+      "lat": 7.2866993,
+      "lon": 5.1518721,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2024-05-28",
+        "name": "REHOBOTH COLLEGE GATE",
+        "name:en": "REHOBOTH COLLEGE GATE",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11938932569,
+      "lat": 7.2863062,
+      "lon": 5.1514981,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2024-05-28",
+        "description": "Rehoboth College Of Health Technology, Akure",
+        "name": "Rehoboth College Of Health",
+        "name:en": "Rehoboth College Of Health",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11944678279,
+      "lat": 7.6497327,
+      "lon": 4.1611873,
+      "tags": {
+        "amenity": "college",
+        "name": "Newton College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11944678280,
+      "lat": 7.6418101,
+      "lon": 4.167042,
+      "tags": {
+        "amenity": "college",
+        "name": "The wings school"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11944678286,
+      "lat": 7.6512762,
+      "lon": 4.1742411,
+      "tags": {
+        "amenity": "college",
+        "name": "Vico Hope International College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11994572169,
+      "lat": 6.0507989,
+      "lon": 7.1072662,
+      "tags": {
+        "addr:street": "Anambra State, Nigeria",
+        "amenity": "college",
+        "name": "Federal Polytechnic Oko"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286693,
+      "lat": 8.4810139,
+      "lon": 4.6121565,
+      "tags": {
+        "amenity": "college",
+        "name": "Galad College Of Advanced Studies, Tanke Road, Ilorin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13284041124,
+      "lat": 6.7448609,
+      "lon": 5.4044354,
+      "tags": {
+        "access": "yes",
+        "amenity": "college",
+        "door": "yes/manual",
+        "education": "college",
+        "entrance": "yes",
+        "name": "College of Law",
+        "operator": "daniel",
+        "operator:type": "university"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13285839243,
+      "lat": 6.7422024,
+      "lon": 5.4058618,
+      "tags": {
+        "access": "yes",
+        "addr:street": "Igbinedion univesity okada",
+        "amenity": "college",
+        "door": "no",
+        "education": "college",
+        "entrance": "main",
+        "name": "Arts and social science",
+        "operator": "daniel abisola onigbogi",
+        "operator:type": "university",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13286199785,
+      "lat": 6.7418407,
+      "lon": 5.4066579,
+      "tags": {
+        "access": "yes",
+        "amenity": "college",
+        "door": "no",
+        "education": "college",
+        "entrance": "main",
+        "name": "College of Engineering",
+        "operator": "daniel",
+        "operator:type": "university"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13286199788,
+      "lat": 6.7412516,
+      "lon": 5.4055424,
+      "tags": {
+        "access": "yes",
+        "amenity": "college",
+        "door": "no",
+        "education": "college",
+        "entrance": "main",
+        "name": "College of natural and applied science",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13287588789,
+      "lat": 6.7446794,
+      "lon": 5.4032929,
+      "tags": {
+        "access": "yes",
+        "amenity": "college",
+        "denomination": "landmark",
+        "education": "college",
+        "entrance": "main",
+        "internet_access": "no",
+        "name": "College Of Law Administrative Building",
+        "official_name": "OBA EREDIAUWA COLLEGE OF LAW ADMINISTRATIVE BUILDING| IGBINEDION UNIVERSITY ASABA",
+        "operator": "daniel",
+        "operator:type": "university",
+        "website": "https://www.iuokada.edu.ng/",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13287626242,
+      "lat": 6.7406336,
+      "lon": 5.405661,
+      "tags": {
+        "addr:street": "Theatre Arts Department",
+        "amenity": "college",
+        "education": "college",
+        "entrance": "main",
+        "internet_access": "no",
+        "name": "Theatre Art Department",
+        "operator": "lecturers",
+        "operator:type": "university",
+        "website": "https://www.iuokada.edu.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13288667410,
+      "lat": 6.7404955,
+      "lon": 5.4047007,
+      "tags": {
+        "addr:street": "SANUSI LAMIDO SANUSI College Of Business & Management Studies",
+        "amenity": "college",
+        "education": "college",
+        "entrance": "main",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "College Of Business & Management Studies",
+        "operator": "Lecturers",
+        "operator:type": "university",
+        "website": "https://www.iuokada.edu.ng/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463254,
+      "center": {
+        "lat": 6.3842249,
+        "lon": 5.6301013
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463255,
+      "center": {
+        "lat": 6.3848695,
+        "lon": 5.6308093
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463256,
+      "center": {
+        "lat": 6.3845448,
+        "lon": 5.6304789
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463257,
+      "center": {
+        "lat": 6.3837046,
+        "lon": 5.6303674
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463258,
+      "center": {
+        "lat": 6.3839563,
+        "lon": 5.6307664
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44463332,
+      "center": {
+        "lat": 6.3832142,
+        "lon": 5.6310196
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44466664,
+      "center": {
+        "lat": 6.3839264,
+        "lon": 5.6312326
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44466668,
+      "center": {
+        "lat": 6.3835042,
+        "lon": 5.6307321
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44466678,
+      "center": {
+        "lat": 6.383581,
+        "lon": 5.631466
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44659575,
+      "center": {
+        "lat": 6.3271815,
+        "lon": 5.6206122
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "Centre for Community Development Education"
+      }
+    },
+    {
+      "type": "way",
+      "id": 124697969,
+      "center": {
+        "lat": 6.3246159,
+        "lon": 5.5891753
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "Jatto Memorial Christian College"
+      }
+    },
+    {
+      "type": "way",
+      "id": 124707691,
+      "center": {
+        "lat": 6.3245685,
+        "lon": 5.5887556
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "Jatto Memorial Christian College"
+      }
+    },
+    {
+      "type": "way",
+      "id": 129725828,
+      "center": {
+        "lat": 6.4470211,
+        "lon": 3.4117795
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Saint Gregory's College"
+      }
+    },
+    {
+      "type": "way",
+      "id": 225786231,
+      "center": {
+        "lat": 6.3488545,
+        "lon": 5.6115163
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Baptist College Of Theology"
+      }
+    },
+    {
+      "type": "way",
+      "id": 225786232,
+      "center": {
+        "lat": 6.3486879,
+        "lon": 5.6108841
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Baptist High School"
+      }
+    },
+    {
+      "type": "way",
+      "id": 537017565,
+      "center": {
+        "lat": 6.4362912,
+        "lon": 3.4261186
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "King's College \"Annex\" Victoria Island Campus"
+      }
+    },
+    {
+      "type": "way",
+      "id": 537017586,
+      "center": {
+        "lat": 6.4334195,
+        "lon": 3.4133281
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "11",
+        "addr:street": "Waziri Ibrahim Crescent",
+        "amenity": "college",
+        "name": "Government Junior College Victoria Island"
+      }
+    },
+    {
+      "type": "way",
+      "id": 539288427,
+      "center": {
+        "lat": 6.4722337,
+        "lon": 3.6034181
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:street": "Lekki-Epe Expressway",
+        "amenity": "college",
+        "name": "Lagos Business School",
+        "phone": "+234 8025014623",
+        "website": "https://www.lbs.edu.ng/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 618642097,
+      "center": {
+        "lat": 7.5162338,
+        "lon": 4.5299963
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Postgraduate College"
+      }
+    },
+    {
+      "type": "way",
+      "id": 630976321,
+      "center": {
+        "lat": 4.7402447,
+        "lon": 6.8572227
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Kalabari National College",
+        "office": "educational_institution"
+      }
+    },
+    {
+      "type": "way",
+      "id": 667066126,
+      "center": {
+        "lat": 5.5311286,
+        "lon": 5.7234518
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:place": "Warri Kingdom",
+        "addr:state": "Delta State",
+        "addr:street": "Ogunu Road, Warri",
+        "amenity": "college",
+        "name": "Federal Government College Warri",
+        "website": "https://fgcwarri.com.ng"
+      }
+    },
+    {
+      "type": "way",
+      "id": 671850885,
+      "center": {
+        "lat": 6.5185678,
+        "lon": 3.3742354
+      },
+      "tags": {
+        "addr:street": "Herbert Macaulay Way",
+        "alt_name": "Yabatech",
+        "amenity": "college",
+        "contact:phone": "+234 7037431055",
+        "loc_name": "YabaTech",
+        "name": "Yaba College of Technology",
+        "short_name": "YCT",
+        "surface": "unpaved",
+        "website": "https://www.yabatech.edu.ng/",
+        "wikidata": "Q8046341",
+        "wikipedia": "en:Yaba College of Technology"
+      }
+    },
+    {
+      "type": "way",
+      "id": 696902857,
+      "center": {
+        "lat": 6.8494811,
+        "lon": 4.2132341
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 714077258,
+      "center": {
+        "lat": 4.7362774,
+        "lon": 7.2265843
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "fence"
+      }
+    },
+    {
+      "type": "way",
+      "id": 723216593,
+      "center": {
+        "lat": 8.1438228,
+        "lon": 4.2445768
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Anglican Grammar School"
+      }
+    },
+    {
+      "type": "way",
+      "id": 723225256,
+      "center": {
+        "lat": 8.1562182,
+        "lon": 4.2342235
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Federal Government College Ogbomoso"
+      }
+    },
+    {
+      "type": "way",
+      "id": 818312539,
+      "center": {
+        "lat": 6.6620713,
+        "lon": 2.7186562
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "wall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 874599959,
+      "center": {
+        "lat": 5.6390039,
+        "lon": 7.4346216
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Secondary Technical School, Ofeme (SETESCO)",
+        "operator": "Abia State Government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 886054520,
+      "center": {
+        "lat": 7.1341938,
+        "lon": 6.3025193
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Edo University"
+      }
+    },
+    {
+      "type": "way",
+      "id": 886054521,
+      "center": {
+        "lat": 7.0633434,
+        "lon": 6.2733033
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Auchi Polytechnic"
+      }
+    },
+    {
+      "type": "way",
+      "id": 925509991,
+      "center": {
+        "lat": 6.1667623,
+        "lon": 6.5757787
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Admiralty University of Nigeria (ADUN)"
+      }
+    },
+    {
+      "type": "way",
+      "id": 964089910,
+      "center": {
+        "lat": 5.330872,
+        "lon": 6.6498874
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "fence",
+        "name": "The Federal College of Education (Technical), Omoku",
+        "website": "https://www.fcetomoku.edu.ng/n/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 966303720,
+      "center": {
+        "lat": 8.4572058,
+        "lon": 4.5879462
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1056296235,
+      "center": {
+        "lat": 5.5166679,
+        "lon": 5.7459713
+      },
+      "tags": {
+        "addr:city": "Warri city",
+        "addr:street": "Mission Road",
+        "amenity": "college",
+        "name": "Uwangue College Warri",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1056296238,
+      "center": {
+        "lat": 5.518653,
+        "lon": 5.7468415
+      },
+      "tags": {
+        "addr:city": "Warri Delta State",
+        "addr:street": "Okere road, Warri, Nigeria",
+        "amenity": "college",
+        "name": "Institution of continuing education Warri",
+        "name:en": "I.C.E",
+        "operator": "Warri South LGA",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1139085975,
+      "center": {
+        "lat": 5.5074928,
+        "lon": 5.7623542
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332232",
+        "addr:street": "Iyara road, Warri City",
+        "amenity": "college",
+        "name": "Dore Numa College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1147549308,
+      "center": {
+        "lat": 5.5212526,
+        "lon": 5.7398751
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:housenumber": "No 3",
+        "addr:postcode": "320242",
+        "addr:street": "Mabiaku Road",
+        "amenity": "college",
+        "name": "Nana Model College, Warri",
+        "operator": "Delta State Government",
+        "operator:type": "public",
+        "source": "local knowledge",
+        "website": "https://www.nanamodelcollege.com/index.php",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1152772059,
+      "center": {
+        "lat": 5.5288461,
+        "lon": 5.7172655
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:street": "Yonwuren College Road, Ugbuwangue",
+        "amenity": "college",
+        "name": "Yonwuren College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1157057461,
+      "center": {
+        "lat": 5.5236964,
+        "lon": 5.7489414
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "332104",
+        "addr:street": "Upper Erejuwa Road",
+        "amenity": "college",
+        "name": "Hussey College Warri",
+        "operator": "Warri South LGA",
+        "operator:type": "government",
+        "wikidata": "Q5949904",
+        "wikipedia": "en:Hussey College Warri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1267995986,
+      "center": {
+        "lat": 8.1422886,
+        "lon": 4.2409995
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1310649156,
+      "center": {
+        "lat": 6.5391708,
+        "lon": 3.518245
+      },
+      "tags": {
+        "addr:city": "Ikorodu",
+        "addr:postcode": "104102",
+        "addr:street": "Offin Oreta Road",
+        "amenity": "college",
+        "name": "Reri Secoundry School"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1388962898,
+      "center": {
+        "lat": 4.4316721,
+        "lon": 7.1934961
+      },
+      "tags": {
+        "addr:city": "Bonny",
+        "addr:street": "Abalamabie Road",
+        "amenity": "college",
+        "name": "Oil and Gas Polytechnic,",
+        "operator": "NLNG"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1476104263,
+      "center": {
+        "lat": 6.3256739,
+        "lon": 5.5868915
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "Jatto Memorial Christian College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 983497843,
+      "lat": 6.0005003,
+      "lon": 10.3554408,
+      "tags": {
+        "Infomation": "No data sheet available",
+        "amenity": "college",
+        "name": "Gov't Technical college Bamessing"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067136120,
+      "lat": 5.8899327,
+      "lon": 10.5218422,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "122",
+        "education:students": "357",
+        "education:teachers": "27",
+        "name": "Christ the King College Bambalang"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067136127,
+      "lat": 5.8809453,
+      "lon": 10.5416323,
+      "tags": {
+        "Infomation": "No data sheet available",
+        "amenity": "college",
+        "name": "PSS Mbamong"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1068916176,
+      "lat": 5.985194,
+      "lon": 10.4411775,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "60",
+        "education:repetition_rate": "10%",
+        "education:students": "83",
+        "education:students_female": "11",
+        "education:students_male": "72",
+        "education:teachers": "18",
+        "name": "SAR-SM Ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053711,
+      "lat": 5.9914902,
+      "lon": 10.4384329,
+      "tags": {
+        "amenity": "college",
+        "name": "Common Initiative High School",
+        "note:en": "No data sheet filled"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053735,
+      "lat": 5.9968922,
+      "lon": 10.4456045,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "100",
+        "education:repetition_rate": "Form 3-2%;Form 4-2%;Form 3-10%",
+        "education:students": "226",
+        "education:students_female": "143",
+        "education:students_male": "123",
+        "education:teachers": "22",
+        "facilities": "Pit Toilet",
+        "name": "Standard Bilingual College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053774,
+      "lat": 6.0012367,
+      "lon": 10.4489843,
+      "tags": {
+        "amenity": "college",
+        "name": "Standard Bilingual comprehensive College",
+        "note:en": "No data sheet filled"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053792,
+      "lat": 5.9890158,
+      "lon": 10.4460736,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "146",
+        "education:students": "216",
+        "education:students_female": "110",
+        "education:students_male": "106",
+        "education:teachers": "20",
+        "facilities": "Pit Toilet",
+        "name": "Cameroon College of Education"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069081731,
+      "lat": 6.0014394,
+      "lon": 10.4490667,
+      "tags": {
+        "amenity": "college",
+        "name": "Standford Bilingual College",
+        "note:en": "No data sheet filled"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069081736,
+      "lat": 5.9992911,
+      "lon": 10.4525038,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "50",
+        "education:repetition_rate": "No data",
+        "education:students": "68",
+        "education:students_female": "33",
+        "education:students_male": "35",
+        "education:teachers": "3",
+        "facilities": "None",
+        "name": "Njoko Memorial Comprehensive College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069146928,
+      "lat": 6.0018549,
+      "lon": 10.4425521,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "159",
+        "education:students": "346",
+        "education:students_female": "171",
+        "education:students_male": "175",
+        "education:teachers": "doubtful data",
+        "name": "Baptist High School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069146989,
+      "lat": 5.9911307,
+      "lon": 10.4339729,
+      "tags": {
+        "amenity": "college",
+        "education:students_female": "192",
+        "education:students_male": "62",
+        "name": "ENIEGE NDOP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069146998,
+      "lat": 6.0011813,
+      "lon": 10.4429556,
+      "tags": {
+        "amenity": "college",
+        "education:benches": "236",
+        "education:students": "246",
+        "education:students_female": "175",
+        "education:students_male": "61",
+        "education:teachers": "15",
+        "facilities": "Ligtht,Pit Toilet and Tap",
+        "name": "Baptist Teachers training college"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069147027,
+      "lat": 5.9897759,
+      "lon": 10.4202517,
+      "tags": {
+        "amenity": "college",
+        "name": "Government Technical High School Ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069147028,
+      "lat": 5.9854454,
+      "lon": 10.4266382,
+      "tags": {
+        "amenity": "college",
+        "name": "Ndop Comprehensive High School",
+        "note:en": "No data sheet filled"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069886195,
+      "lat": 5.9808592,
+      "lon": 10.3862064,
+      "tags": {
+        "amenity": "college",
+        "education:students_female": "621",
+        "education:students_male": "446",
+        "education:teachers": "39",
+        "name": "GBHS Bamessing"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546941,
+      "lat": 7.3086795,
+      "lon": 13.5990985,
+      "tags": {
+        "amenity": "college",
+        "name": "IFSO"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546942,
+      "lat": 7.3093698,
+      "lon": 13.549674,
+      "tags": {
+        "amenity": "college",
+        "name": "CEFAPH"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546943,
+      "lat": 7.3329059,
+      "lon": 13.5760084,
+      "tags": {
+        "amenity": "college",
+        "name": "2IPT"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546944,
+      "lat": 7.3188248,
+      "lon": 13.5786478,
+      "tags": {
+        "amenity": "college",
+        "name": "IFOM Informatique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546945,
+      "lat": 7.3201381,
+      "lon": 13.5771585,
+      "tags": {
+        "amenity": "college",
+        "name": "CERFORCIHA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546946,
+      "lat": 7.3192498,
+      "lon": 13.5870057,
+      "tags": {
+        "amenity": "college",
+        "name": "CABUSCO"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546947,
+      "lat": 7.3212041,
+      "lon": 13.5772366,
+      "tags": {
+        "amenity": "college",
+        "name": "ITI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546948,
+      "lat": 7.3211289,
+      "lon": 13.5819531,
+      "tags": {
+        "amenity": "college",
+        "name": "TANY Couture"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546949,
+      "lat": 7.3185863,
+      "lon": 13.5813005,
+      "tags": {
+        "amenity": "college",
+        "name": "IFOPLI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546950,
+      "lat": 7.3297657,
+      "lon": 13.5902523,
+      "tags": {
+        "amenity": "college",
+        "name": "CEFPE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546951,
+      "lat": 7.2866057,
+      "lon": 13.574611,
+      "tags": {
+        "amenity": "college",
+        "name": "CEFAPI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546952,
+      "lat": 7.2998115,
+      "lon": 13.5856892,
+      "tags": {
+        "amenity": "college",
+        "name": "CEDEV"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546953,
+      "lat": 7.3301941,
+      "lon": 13.584146,
+      "tags": {
+        "amenity": "college",
+        "name": "Centre Socio-menager"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546954,
+      "lat": 7.33327,
+      "lon": 13.579545,
+      "tags": {
+        "amenity": "college",
+        "name": "Francisca Design"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546955,
+      "lat": 7.334556,
+      "lon": 13.553593,
+      "tags": {
+        "amenity": "college",
+        "name": "SAR/SM de Ngaound\u00e9r\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546956,
+      "lat": 7.3233866,
+      "lon": 13.5806263,
+      "tags": {
+        "amenity": "college",
+        "name": "FIDA Conseil"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546957,
+      "lat": 7.315233,
+      "lon": 13.574276,
+      "tags": {
+        "amenity": "college",
+        "name": "SATEP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546958,
+      "lat": 7.3214073,
+      "lon": 13.5815874,
+      "tags": {
+        "amenity": "college",
+        "name": "CAP'S"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546959,
+      "lat": 7.3214093,
+      "lon": 13.5815103,
+      "tags": {
+        "amenity": "college",
+        "name": "COPYTECH"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546960,
+      "lat": 7.2927469,
+      "lon": 13.5900593,
+      "tags": {
+        "amenity": "college",
+        "name": "CEFORCHA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546961,
+      "lat": 7.327543,
+      "lon": 13.576754,
+      "tags": {
+        "amenity": "college",
+        "name": "INESBIN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546962,
+      "lat": 7.4135057,
+      "lon": 13.5482187,
+      "tags": {
+        "amenity": "college",
+        "name": "AFD"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546963,
+      "lat": 7.4118359,
+      "lon": 13.5495812,
+      "tags": {
+        "amenity": "college",
+        "company:size:FR": "tpe",
+        "contact:email": "info@msacad.com",
+        "contact:phone": "655811916",
+        "contact:website": "http://msacad.com",
+        "description": "Formation dans les fili\u00e8res S\u00e9cr\u00e9tariat Bureautique, Maintenance Informatique, Comptabilit\u00e9 Informatis\u00e9e et de Gestion, Anglais, etc...",
+        "name": "Centre de Formation Professionnelle MULTISOFT ACADEMY",
+        "office": "company",
+        "operator": "FENDJI Jean Louis",
+        "project:oif-dfen_carteinnov": "yes",
+        "short_name": "MSACAD",
+        "source": "MSACAD",
+        "source:position": "Ngaound\u00e9r\u00e9",
+        "start_date": "2009-05-16"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6086546965,
+      "lat": 7.3564172,
+      "lon": 13.5826813,
+      "tags": {
+        "amenity": "college",
+        "date": "2011",
+        "name": "GADAMABANGA (Centre professionnel de haute couture)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6105233674,
+      "lat": 4.7677842,
+      "lon": 11.2370811,
+      "tags": {
+        "amenity": "college",
+        "name": "campus FASA bafia"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6266305548,
+      "lat": 7.328153,
+      "lon": 13.5747457,
+      "tags": {
+        "amenity": "college",
+        "name": "Centre de Formation Professionnelle Multidimentionnelle"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6383826285,
+      "lat": 5.418922,
+      "lon": 9.9724002,
+      "tags": {
+        "amenity": "college",
+        "name": "CETIC de Meguang",
+        "operator": "minesec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6383826287,
+      "lat": 5.429971,
+      "lon": 9.9958915,
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6555260808,
+      "lat": 4.5799414,
+      "lon": 13.6857896,
+      "tags": {
+        "amenity": "college",
+        "name": "Ecole des infirmiers",
+        "operator": "Minist\u00e8re de la Sant\u00e9 Publique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066259557,
+      "lat": 4.2099628,
+      "lon": 8.9881374,
+      "tags": {
+        "amenity": "college",
+        "name": "Ideneau Bible training center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066259558,
+      "lat": 4.2104915,
+      "lon": 8.9879201,
+      "tags": {
+        "amenity": "college",
+        "name": "Divine wisdom computer training center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8117622017,
+      "lat": 8.5458481,
+      "lon": 8.5352801,
+      "tags": {
+        "amenity": "college",
+        "name": "Nasarawa state poly, Lafia"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697384337,
+      "lat": 5.2563254,
+      "lon": 10.3876301,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e Technique de Bangou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697384361,
+      "lat": 5.2566524,
+      "lon": 10.3958637,
+      "tags": {
+        "amenity": "college",
+        "name": "SAR SM Bangou Ville"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697384363,
+      "lat": 5.2532325,
+      "lon": 10.391973,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e de Bangou-ville"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697384364,
+      "lat": 5.2550593,
+      "lon": 10.3920878,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e Technique (annexe) Bangou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9139536118,
+      "lat": 4.6485085,
+      "lon": 9.425206,
+      "tags": {
+        "amenity": "college",
+        "name": "GBTTC ENIEG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591280110,
+      "lat": 4.5945482,
+      "lon": 9.4611362,
+      "tags": {
+        "amenity": "college",
+        "name": "G.S.S KANG BAROMBI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591280112,
+      "lat": 4.6418092,
+      "lon": 9.4531823,
+      "tags": {
+        "amenity": "college",
+        "name": "CCCHS Kumba"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591287509,
+      "lat": 4.6174694,
+      "lon": 9.455725,
+      "tags": {
+        "amenity": "college",
+        "name": "CCAS KUMBA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591287510,
+      "lat": 4.6200834,
+      "lon": 9.4550041,
+      "tags": {
+        "amenity": "college",
+        "name": "SOFATI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591290006,
+      "lat": 4.6433361,
+      "lon": 9.4205042,
+      "tags": {
+        "amenity": "college",
+        "name": "GBHS Kumba"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591290107,
+      "lat": 4.6188125,
+      "lon": 9.4596822,
+      "tags": {
+        "amenity": "college",
+        "name": "CETIC KUMBA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591290108,
+      "lat": 4.6153786,
+      "lon": 9.456112,
+      "tags": {
+        "amenity": "college",
+        "name": "KUCAS KUMBA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591297107,
+      "lat": 4.6519701,
+      "lon": 9.4507631,
+      "tags": {
+        "amenity": "college",
+        "name": "GSS KOSALA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11134376626,
+      "lat": 5.138128,
+      "lon": 10.5393339,
+      "tags": {
+        "amenity": "college",
+        "name": "TechnoPark",
+        "operator": "Seuleu Njotho",
+        "operator:type": "private",
+        "website": "https://www.njotho.org"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12153422322,
+      "lat": 5.7344495,
+      "lon": 10.7610655,
+      "tags": {
+        "amenity": "college",
+        "name": "Lycee technique de Koupa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12153422323,
+      "lat": 5.7340651,
+      "lon": 10.7645631,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e de Koupa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12726219208,
+      "lat": 4.2228758,
+      "lon": 11.2710657,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e de Monabo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12728863859,
+      "lat": 4.6431842,
+      "lon": 12.377283,
+      "tags": {
+        "amenity": "college",
+        "name": "College Notre Dame de la Merci",
+        "religion": "roman_catholic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12729869474,
+      "lat": 4.2680428,
+      "lon": 11.3426019,
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge"
+      }
+    },
+    {
+      "type": "way",
+      "id": 225860263,
+      "center": {
+        "lat": 6.6790756,
+        "lon": 9.1730314
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "wall",
+        "email": "info@fceobudu.edu.ng",
+        "name": "Federal College of Education, Obudu",
+        "website": "https://www.fceobudu.edu.ng/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 305094993,
+      "center": {
+        "lat": 5.5484928,
+        "lon": 10.1490325
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "ACREST Campus",
+        "official_name": "African Centre for Renewable Energy & Sustainable Technology",
+        "website": "https://www.acrest.org"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332250149,
+      "center": {
+        "lat": 4.75481,
+        "lon": 11.2284354
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Anvcien ENIEG"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332250150,
+      "center": {
+        "lat": 4.7525793,
+        "lon": 11.2370961
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge Sabaya"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332250155,
+      "center": {
+        "lat": 4.7483607,
+        "lon": 11.2444096
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "ENIEG"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354296686,
+      "center": {
+        "lat": 4.3706203,
+        "lon": 11.4417766
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Sup\u00e9rieur des Sciences de l'Environnement et de l'Entreprenariat Rural",
+        "short_name": "ISSAEER"
+      }
+    },
+    {
+      "type": "way",
+      "id": 362438903,
+      "center": {
+        "lat": 4.6369225,
+        "lon": 11.2627838
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Sup\u00e9rieur des Techniques Agricoles d'Ombessa",
+        "short_name": "ISTAO"
+      }
+    },
+    {
+      "type": "way",
+      "id": 392651010,
+      "center": {
+        "lat": 5.5591129,
+        "lon": 10.1529619
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "Enseigenement g\u00e9n\u00e9ral et technique, non fonctionnel",
+        "name": "bureau administratif EFFENZI MOMO",
+        "office": "educational_institution",
+        "operator": "MINESEC"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395625005,
+      "center": {
+        "lat": 5.4492778,
+        "lon": 10.0638514
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "IPPR",
+        "operator": "minfop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395626370,
+      "center": {
+        "lat": 5.4491787,
+        "lon": 10.0642448
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "IPPR",
+        "operator": "minfop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395628594,
+      "center": {
+        "lat": 5.4490126,
+        "lon": 10.0639689
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "IPPR",
+        "operator": "minfop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395630318,
+      "center": {
+        "lat": 5.4493599,
+        "lon": 10.0639996
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "IPPR",
+        "operator": "minfop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395725837,
+      "center": {
+        "lat": 5.4553439,
+        "lon": 10.0703545
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "college menoua espoir",
+        "operator": "minsec"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395725897,
+      "center": {
+        "lat": 5.4554629,
+        "lon": 10.0702077
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "name": "college menoua espoir",
+        "operator": "minsec"
+      }
+    },
+    {
+      "type": "way",
+      "id": 401880374,
+      "center": {
+        "lat": 6.0107064,
+        "lon": 10.2541241
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Cameroon College of Arts Science and Technology",
+        "short_name": "CCAST"
+      }
+    },
+    {
+      "type": "way",
+      "id": 403265413,
+      "center": {
+        "lat": 6.008045,
+        "lon": 10.2170954
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "National Polytechnic Bamenda",
+        "old_name": "Polytechnic Bambui",
+        "short_name": "NPB"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424950560,
+      "center": {
+        "lat": 5.4649266,
+        "lon": 10.4092613
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Sup\u00e9rieur de Bafoussam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425298484,
+      "center": {
+        "lat": 5.4888086,
+        "lon": 10.4004034
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "ENIEG de Bafoussam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425506950,
+      "center": {
+        "lat": 5.4880318,
+        "lon": 10.4320455
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole de Formation Lafofani Foright"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425514480,
+      "center": {
+        "lat": 5.4512593,
+        "lon": 10.4324467
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Sup\u00e9rieur de Gestion D'\u00e9conomie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 433068150,
+      "center": {
+        "lat": 5.9823191,
+        "lon": 10.2001801
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Taniform University Bamenda"
+      }
+    },
+    {
+      "type": "way",
+      "id": 449526054,
+      "center": {
+        "lat": 6.1855208,
+        "lon": 10.3447357
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Saint Bede's College",
+        "short_name": "SABECO"
+      }
+    },
+    {
+      "type": "way",
+      "id": 449530927,
+      "center": {
+        "lat": 6.0164692,
+        "lon": 10.4512069
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Government Bilingual High School Ndop",
+        "short_name": "GBHS Ndop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 479489579,
+      "center": {
+        "lat": 6.0211233,
+        "lon": 10.2320668
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Saint Thomas Aquinas Major Seminary",
+        "name:en": "Saint Thomas Aquinas Major Seminary",
+        "name:fr": "Grand S\u00e9minaire Saint Thomas d'Aquin",
+        "short_name": "STAMS"
+      }
+    },
+    {
+      "type": "way",
+      "id": 676491808,
+      "center": {
+        "lat": 5.4058366,
+        "lon": 10.0433178
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "functional, public",
+        "name": "lycee technique de apouh foreke",
+        "operator": "minesec",
+        "student:count": "1000"
+      }
+    },
+    {
+      "type": "way",
+      "id": 676491810,
+      "center": {
+        "lat": 5.4060291,
+        "lon": 10.043471
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "functional, public",
+        "name": "lycee technique de apouh foreke",
+        "operator": "minesec",
+        "student:count": "1000"
+      }
+    },
+    {
+      "type": "way",
+      "id": 676491812,
+      "center": {
+        "lat": 5.4060871,
+        "lon": 10.0436754
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "functional, public",
+        "name": "lycee technique de apouh foreke",
+        "operator": "minesec",
+        "student:count": "1000"
+      }
+    },
+    {
+      "type": "way",
+      "id": 676491814,
+      "center": {
+        "lat": 5.4063065,
+        "lon": 10.0434906
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "functional, public",
+        "name": "lycee technique de apouh foreke",
+        "operator": "minesec",
+        "student:count": "1000"
+      }
+    },
+    {
+      "type": "way",
+      "id": 676491815,
+      "center": {
+        "lat": 5.4061283,
+        "lon": 10.0427814
+      },
+      "tags": {
+        "amenity": "college",
+        "building": "yes",
+        "description": "functional, public",
+        "name": "lycee technique de apouh foreke",
+        "operator": "minesec",
+        "student:count": "1000"
+      }
+    },
+    {
+      "type": "way",
+      "id": 740307601,
+      "center": {
+        "lat": 4.9249935,
+        "lon": 13.2950905
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "SAR/SM"
+      }
+    },
+    {
+      "type": "way",
+      "id": 765825789,
+      "center": {
+        "lat": 5.2566145,
+        "lon": 10.3959892
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 765825833,
+      "center": {
+        "lat": 5.2552125,
+        "lon": 10.387114
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 968466423,
+      "center": {
+        "lat": 4.3986517,
+        "lon": 11.4144268
+      },
+      "tags": {
+        "amenity": "college",
+        "denomination": "roman_catholic",
+        "description": "Dioc\u00e8se d'Obala",
+        "name": "Coll\u00e8ge Agricole Bullier",
+        "phone": "+237677273827",
+        "religion": "christian"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1076869786,
+      "center": {
+        "lat": 6.9232878,
+        "lon": 8.9315708
+      },
+      "tags": {
+        "addr:street": "along korinya _ihugh road",
+        "amenity": "college",
+        "building:levels": "1",
+        "height": "5",
+        "layer": "-1",
+        "name": "adzer beke college korinya city"
+      }
+    },
+    {
+      "type": "node",
+      "id": 317739747,
+      "lat": 11.1507324,
+      "lon": 7.6546841,
+      "tags": {
+        "amenity": "college",
+        "name": "Ahmadu Bello University Senate building"
+      }
+    },
+    {
+      "type": "node",
+      "id": 557728663,
+      "lat": 10.6203744,
+      "lon": 7.4698018,
+      "tags": {
+        "amenity": "college",
+        "name": "National Teachers Institute"
+      }
+    },
+    {
+      "type": "node",
+      "id": 557728665,
+      "lat": 10.6138093,
+      "lon": 7.4684833,
+      "tags": {
+        "amenity": "college",
+        "name": "National Open University"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2609172506,
+      "lat": 13.7735711,
+      "lon": 4.007133,
+      "tags": {
+        "amenity": "college",
+        "name": "Complexe d'Enseignement Secondaire de Matankari",
+        "name:en": "Matankari High school",
+        "opening_hours": "Mo-Su 08:00-13:00; Jun off; Oct off",
+        "operator:type": "public",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224559764,
+      "lat": 13.0319039,
+      "lon": 3.2107537,
+      "tags": {
+        "amenity": "college",
+        "name": "CEG 5"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224990473,
+      "lat": 13.0460693,
+      "lon": 3.1907615,
+      "tags": {
+        "amenity": "college",
+        "name": "Complexe Scolaire Nouvelle Humanitaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353667023,
+      "lat": 13.4912691,
+      "lon": 7.129011,
+      "tags": {
+        "amenity": "college",
+        "name": "Universit\u00e9 Libre de Maradi",
+        "project:pdevii": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3650710252,
+      "lat": 12.3037872,
+      "lon": 4.4820544,
+      "tags": {
+        "amenity": "college",
+        "name": "Government Science College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314700220,
+      "lat": 13.4881765,
+      "lon": 7.1253151,
+      "tags": {
+        "amenity": "college",
+        "fixme": "is it really there?",
+        "name": "COTEG Cycle Sup\u00e9rieur",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314700227,
+      "lat": 13.4868774,
+      "lon": 7.1186289,
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Superieur Polytechnique(INSUP)",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912505214,
+      "lat": 10.5464057,
+      "lon": 7.4394465,
+      "tags": {
+        "amenity": "college",
+        "name": "Dialogue Computer Training School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6615112758,
+      "lat": 13.6149988,
+      "lon": 4.0286122,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e Technique de Doutchi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6915092785,
+      "lat": 9.6075152,
+      "lon": 6.5517289,
+      "tags": {
+        "amenity": "college",
+        "name": "PTS Minna"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6915092885,
+      "lat": 9.6065921,
+      "lon": 6.5517622,
+      "tags": {
+        "amenity": "college",
+        "name": "PTS Minna"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8246141608,
+      "lat": 11.123271,
+      "lon": 2.9414393,
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole primaire priv\u00e9e A K"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8246141609,
+      "lat": 11.0684236,
+      "lon": 2.8997369,
+      "tags": {
+        "amenity": "college",
+        "name": "CEG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11434732830,
+      "lat": 13.0554803,
+      "lon": 3.2051672,
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole Normale d'Instituteurs Mali Bero",
+        "name:fr": "\u00c9cole Normale d'Instituteurs Mali Bero"
+      }
+    },
+    {
+      "type": "way",
+      "id": 38876202,
+      "center": {
+        "lat": 10.5086858,
+        "lon": 7.443363
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Nigeria Police Training School"
+      }
+    },
+    {
+      "type": "way",
+      "id": 246845601,
+      "center": {
+        "lat": 13.0457962,
+        "lon": 3.180166
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "wall",
+        "name": "Lyc\u00e9e Saraounia Mangou",
+        "name:en": "High School Saraounia Mangou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 353259078,
+      "center": {
+        "lat": 10.3437964,
+        "lon": 3.2693589
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'enseignement g\u00e9n\u00e9ral public de P\u00e9onga"
+      }
+    },
+    {
+      "type": "way",
+      "id": 414733970,
+      "center": {
+        "lat": 10.3491083,
+        "lon": 3.147467
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'enseignement g\u00e9n\u00e9eral de Dunkassa",
+        "operator": "Beninese Ministry of Secondary Education",
+        "operator:type": "public",
+        "source": "http://eaururalebenin.org/donnees/infrastructures/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 421755139,
+      "center": {
+        "lat": 9.0474692,
+        "lon": 7.4873585
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "National Defence College"
+      }
+    },
+    {
+      "type": "way",
+      "id": 443482227,
+      "center": {
+        "lat": 10.533346,
+        "lon": 2.7329602
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "CEG Beroubouay"
+      }
+    },
+    {
+      "type": "way",
+      "id": 717507292,
+      "center": {
+        "lat": 11.1078634,
+        "lon": 3.3816325
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge de Lougou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 722948564,
+      "center": {
+        "lat": 10.7760733,
+        "lon": 3.5910098
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge de Libant\u00e8"
+      }
+    },
+    {
+      "type": "way",
+      "id": 724268995,
+      "center": {
+        "lat": 10.3837623,
+        "lon": 3.4615142
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 724416794,
+      "center": {
+        "lat": 10.1536359,
+        "lon": 3.2627919
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge de D\u00e9rassi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 724676177,
+      "center": {
+        "lat": 9.8510777,
+        "lon": 3.0852511
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 724676922,
+      "center": {
+        "lat": 9.9198431,
+        "lon": 3.0508357
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge de S\u00e9r\u00e9kal\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 725101261,
+      "center": {
+        "lat": 9.7251601,
+        "lon": 2.858465
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 725759651,
+      "center": {
+        "lat": 9.5604776,
+        "lon": 2.9375392
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge de Guingourou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 725889721,
+      "center": {
+        "lat": 9.5134061,
+        "lon": 2.8246329
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 725913196,
+      "center": {
+        "lat": 9.4385896,
+        "lon": 2.7361402
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'enseignement g\u00e9n\u00e9ral public de Gb\u00e9gourou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 735419741,
+      "center": {
+        "lat": 10.4000532,
+        "lon": 2.7222624
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'\u00e9ducation g\u00e9n\u00e9rale publique de Gamia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 737022456,
+      "center": {
+        "lat": 10.1177615,
+        "lon": 2.8911799
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'enseignement g\u00e9n\u00e9ral publique de Gnonkourakali"
+      }
+    },
+    {
+      "type": "way",
+      "id": 738471771,
+      "center": {
+        "lat": 9.9756583,
+        "lon": 2.7234372
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 742623981,
+      "center": {
+        "lat": 9.2871556,
+        "lon": 2.7749169
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge d'enseignement g\u00e9n\u00e9ral public de Kika"
+      }
+    },
+    {
+      "type": "way",
+      "id": 794828078,
+      "center": {
+        "lat": 9.1982061,
+        "lon": 3.0399272
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "way",
+      "id": 798326217,
+      "center": {
+        "lat": 9.4592322,
+        "lon": 2.9439819
+      },
+      "tags": {
+        "amenity": "college"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306267,
+      "lat": 9.3821079,
+      "lon": 13.4985638,
+      "tags": {
+        "amenity": "college",
+        "name": "Institute de research et developpement(ONG)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306355,
+      "lat": 9.3996419,
+      "lon": 13.5125403,
+      "tags": {
+        "amenity": "college",
+        "drinking_water": "yes",
+        "education:benches": "502",
+        "education:students": "1607",
+        "education:students_female": "417",
+        "education:teachers": "30",
+        "name": "Lycee de Pitoa",
+        "toilets": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2451951582,
+      "lat": 13.8240557,
+      "lon": 8.9941048,
+      "tags": {
+        "amenity": "college",
+        "name": "CEG 8",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2451961231,
+      "lat": 13.8047412,
+      "lon": 8.9795424,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e Amadou Kouran Daga",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306980674,
+      "lat": 13.8030795,
+      "lon": 8.9834277,
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole National de la Sant\u00e9 Publique Sup\u00e9rieur",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307057401,
+      "lat": 13.8045168,
+      "lon": 8.9853156,
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole National de la Sant\u00e9 Publique Moyen",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307404474,
+      "lat": 13.7922237,
+      "lon": 8.9955611,
+      "tags": {
+        "amenity": "college",
+        "name": "Complexe d'Enseignement Secondaire Barma Moustapha",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307404487,
+      "lat": 13.7934549,
+      "lon": 8.9911911,
+      "tags": {
+        "amenity": "college",
+        "name": "Lyc\u00e9e Professionnel",
+        "project:pdevii": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314190895,
+      "lat": 13.7923284,
+      "lon": 8.9871111,
+      "tags": {
+        "amenity": "college",
+        "name": "Complexe Scolaire Mission des Assembl\u00e9es de Dieu",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314190900,
+      "lat": 13.7931585,
+      "lon": 8.9857564,
+      "tags": {
+        "amenity": "college",
+        "name": "Ecole Priv\u00e9e de Sant\u00e9 Publique et de l' Action Sociale",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704525,
+      "lat": 13.8052969,
+      "lon": 8.9832165,
+      "tags": {
+        "amenity": "college",
+        "name": "ISDC - Institue Superieur Priv\u00e9e De La Sant\u00e9 Et De Developpement Communautaire",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6507223214,
+      "lat": 9.0301315,
+      "lon": 13.5065317,
+      "tags": {
+        "amenity": "college",
+        "date": "2007",
+        "name": "Institut Professionnel Des Sciences et Technologies",
+        "operator": "Priv\u00e9/confessionnel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6507236005,
+      "lat": 9.0226587,
+      "lon": 13.5049197,
+      "tags": {
+        "amenity": "college",
+        "date": "2017",
+        "name": "Institut Des Sciences Appliqu\u00e9es",
+        "operator": "Priv\u00e9/confessionnel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691399599,
+      "lat": 9.3129541,
+      "lon": 13.3512023,
+      "tags": {
+        "amenity": "college",
+        "contact:phone": "(+237) 6",
+        "name": "Ecole De Musique Djamboutou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691399600,
+      "lat": 9.3105282,
+      "lon": 13.3542305,
+      "tags": {
+        "addr:postcode": "B.P 631 Garoua",
+        "amenity": "college",
+        "contact:phone": "(+237) 699500270",
+        "name": "Centre Technique De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691399601,
+      "lat": 9.2972592,
+      "lon": 13.3559364,
+      "tags": {
+        "amenity": "college",
+        "contact:phone": "(+237) 699500270",
+        "name": "Centre Technique Garoua ( Uebc)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691399602,
+      "lat": 9.3059068,
+      "lon": 13.395334,
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Glamour Street",
+        "name:fr": "Institut Glamour Street"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691399603,
+      "lat": 9.2990115,
+      "lon": 13.3947882,
+      "tags": {
+        "amenity": "college",
+        "name": "\u00c9cole Coranique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771820570,
+      "lat": 9.327139,
+      "lon": 13.4016571,
+      "tags": {
+        "amenity": "college",
+        "name": "Enbieg"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771820571,
+      "lat": 9.3193323,
+      "lon": 13.3990528,
+      "tags": {
+        "amenity": "college",
+        "name": "Centre De Formation Professionnelle Et Rapide D'employ\u00e9s De Bureau"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771820572,
+      "lat": 9.3259932,
+      "lon": 13.4035728,
+      "tags": {
+        "amenity": "college",
+        "name": "Ecole Des Infirmiers"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771820573,
+      "lat": 9.3244083,
+      "lon": 13.4052275,
+      "tags": {
+        "amenity": "college",
+        "name": "Institut De Formation Des Travailleurs Sociaux Et L'action Humanitaire De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035989065,
+      "lat": 9.0627339,
+      "lon": 13.6607349,
+      "tags": {
+        "amenity": "college",
+        "name": "Centre de multifonction des jeunes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035989066,
+      "lat": 9.0575099,
+      "lon": 13.6575532,
+      "tags": {
+        "amenity": "college",
+        "name": "Centre de formation feminine de lagdo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252695488,
+      "lat": 10.3033759,
+      "lon": 11.1746645,
+      "tags": {
+        "amenity": "college",
+        "name": "College of Medical sciences"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252704287,
+      "lat": 10.3037496,
+      "lon": 11.1751292,
+      "tags": {
+        "amenity": "college",
+        "name": "Biochemistry and microbiology department"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252720193,
+      "lat": 10.3052966,
+      "lon": 11.1712799,
+      "tags": {
+        "amenity": "college",
+        "name": "Ibrahim Waziri Abubakar"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252720194,
+      "lat": 10.305536,
+      "lon": 11.1720578,
+      "tags": {
+        "amenity": "college",
+        "name": "Rufai Ahmad Alkali"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252838889,
+      "lat": 10.3080899,
+      "lon": 11.1730928,
+      "tags": {
+        "amenity": "college",
+        "name": "Haruna Kadir Rashid"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252839888,
+      "lat": 10.3060358,
+      "lon": 11.173712,
+      "tags": {
+        "amenity": "college",
+        "name": "Faculty Rooms"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252839889,
+      "lat": 10.3060111,
+      "lon": 11.1731113,
+      "tags": {
+        "amenity": "college",
+        "name": "Block C"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252872288,
+      "lat": 10.3064918,
+      "lon": 11.1722979,
+      "tags": {
+        "amenity": "college",
+        "name": "A-BLOCK"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252879285,
+      "lat": 10.3063185,
+      "lon": 11.1731143,
+      "tags": {
+        "amenity": "college",
+        "name": "B-BLOCK"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252880786,
+      "lat": 10.3053635,
+      "lon": 11.1709804,
+      "tags": {
+        "amenity": "college",
+        "name": "JWD Somasundara"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253015688,
+      "lat": 10.3060658,
+      "lon": 11.1714413,
+      "tags": {
+        "amenity": "college",
+        "name": "Musa Babayo",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253015689,
+      "lat": 10.3056459,
+      "lon": 11.1715808,
+      "tags": {
+        "amenity": "college",
+        "name": "School of Post graduate studies",
+        "opening_hours": "Mo-Sa 08:00-16:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253015786,
+      "lat": 10.3052618,
+      "lon": 11.1715862,
+      "tags": {
+        "amenity": "college",
+        "name": "DEPARTMENT OF ENGLISH AND HISTORY",
+        "opening_hours": "Mo-Sa 08:00-16:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7256326151,
+      "lat": 10.3063766,
+      "lon": 11.1745112,
+      "tags": {
+        "amenity": "college",
+        "name": "Politcal Science Department"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7256326152,
+      "lat": 10.3064733,
+      "lon": 11.1742852,
+      "tags": {
+        "amenity": "college",
+        "name": "Economics Department"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7327941089,
+      "lat": 10.3044574,
+      "lon": 11.1751134,
+      "tags": {
+        "amenity": "college",
+        "internet_access": "no",
+        "name": "science garden"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9057010464,
+      "lat": 11.7279887,
+      "lon": 11.9597207,
+      "tags": {
+        "amenity": "college",
+        "name": "college of nursing/midwifery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10271771962,
+      "lat": 9.6304262,
+      "lon": 14.3266561,
+      "tags": {
+        "addr:city": "Guetallet",
+        "amenity": "college",
+        "name": "Lyc\u00e9e Bilingue de Guetallet",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11010221445,
+      "lat": 10.2840215,
+      "lon": 9.797502,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2023-06-27",
+        "name": "College of Agric"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11013629236,
+      "lat": 10.3361462,
+      "lon": 9.8449098,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2023-06-29",
+        "internet_access": "yes",
+        "name": "School of Nursing and Midwifery",
+        "operator:type": "government",
+        "religion": "all",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11060716814,
+      "lat": 10.2719197,
+      "lon": 9.7961569,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2023-07-25",
+        "name": "Thomas Moore College of Health Technology"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11060735407,
+      "lat": 10.3197985,
+      "lon": 9.8333771,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2023-07-22",
+        "name": "Thomas Moore College of Health Technology"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11109304623,
+      "lat": 9.9073329,
+      "lon": 8.9449136,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2023-08-12",
+        "name": "Baptist College of Theology"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11162424505,
+      "lat": 10.3030118,
+      "lon": 11.1754462,
+      "tags": {
+        "amenity": "college",
+        "name": "NURSING DEPARTMENT"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175720237,
+      "lat": 10.3050737,
+      "lon": 11.137734,
+      "tags": {
+        "amenity": "college",
+        "name": "Gombe state university College",
+        "opening_hours": "Su-Fr 08:00-06:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13707878512,
+      "lat": 10.3050408,
+      "lon": 9.7878839,
+      "tags": {
+        "amenity": "college",
+        "check_date": "2026-04-05",
+        "name": "Garu Islamic College Of Health Technology Bauchi",
+        "operator:type": "religious"
+      }
+    },
+    {
+      "type": "way",
+      "id": 222757442,
+      "center": {
+        "lat": 9.3274428,
+        "lon": 13.4017473
+      },
+      "tags": {
+        "amenity": "college",
+        "comment": "Teachers Training School",
+        "name": "ENIEG Bilingue de Garoua",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 222778715,
+      "center": {
+        "lat": 9.3195303,
+        "lon": 13.3987645
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "fence",
+        "name": "Centre rapide de formation professionnelle des employ\u00e9s du Bureau",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 322401865,
+      "center": {
+        "lat": 13.0944132,
+        "lon": 13.8200953
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Baga primary school"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417326207,
+      "center": {
+        "lat": 10.5843889,
+        "lon": 14.3029278
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Coll\u00e8ge r\u00e9gional d'agriculture"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417327247,
+      "center": {
+        "lat": 10.5882186,
+        "lon": 14.286046
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Universit\u00e9 de Maroua,Campus de l'espoir"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417328259,
+      "center": {
+        "lat": 10.5911636,
+        "lon": 14.3148955
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Centre medico social"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417328261,
+      "center": {
+        "lat": 10.5906542,
+        "lon": 14.3149761
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Superieur des Techniques Appliqu\u00e9es et de Management"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417334358,
+      "center": {
+        "lat": 10.5927229,
+        "lon": 14.3068321
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Africain de d\u00e9veloppement Economique et Social"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417334363,
+      "center": {
+        "lat": 10.5944575,
+        "lon": 14.3072402
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Superieur du Sahel"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417334366,
+      "center": {
+        "lat": 10.5943147,
+        "lon": 14.3080442
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Institut Sup\u00e9rieur (ISS)"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417523181,
+      "center": {
+        "lat": 10.6087472,
+        "lon": 14.3373944
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "SAR/SA"
+      }
+    },
+    {
+      "type": "way",
+      "id": 432344660,
+      "center": {
+        "lat": 13.7917612,
+        "lon": 8.9862314
+      },
+      "tags": {
+        "amenity": "college",
+        "barrier": "wall",
+        "name": "Complexe Scolaire Priv\u00e9 Amadou Dan Bassa 2",
+        "project:pdevii": "yes",
+        "source": "bing"
+      }
+    },
+    {
+      "type": "way",
+      "id": 586649112,
+      "center": {
+        "lat": 11.8329369,
+        "lon": 13.1123262
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "College of Islamic Theology - Elkanemi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 641595089,
+      "center": {
+        "lat": 12.878446,
+        "lon": 10.4664645
+      },
+      "tags": {
+        "amenity": "college",
+        "name": "Kadawa Primary School"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1202218519,
+      "center": {
+        "lat": 9.8277846,
+        "lon": 11.2881302
+      },
+      "tags": {
+        "addr:city": "Gombe.",
+        "addr:street": "Kalorgu",
+        "amenity": "college",
+        "internet_access": "yes",
+        "name": "federal polytechnic kaltungo,",
+        "operator": "Government",
+        "operator:type": "government",
+        "website": "https://fedpolyklt.edu.ng/"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

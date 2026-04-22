@@ -1,0 +1,2309 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2072662365,
+      "lat": 6.3648231,
+      "lon": 5.5825113,
+      "tags": {
+        "building": "yes",
+        "name": "Our Lady Bakary",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344280069,
+      "lat": 6.3370434,
+      "lon": 5.603826,
+      "tags": {
+        "name": "Benos United Bread",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2345400482,
+      "lat": 6.3508236,
+      "lon": 5.6105253,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308308189,
+      "lat": 6.500888,
+      "lon": 3.3851383,
+      "tags": {
+        "addr:housenumber": "19",
+        "addr:postcode": "+234",
+        "addr:street": "Sariyu Street",
+        "name": "Ade Bread",
+        "opening_hours": "Mo-Su 10:00-22:00",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4612445992,
+      "lat": 6.4488034,
+      "lon": 3.430817,
+      "tags": {
+        "addr:housenumber": "2",
+        "addr:street": "Olawale Daudu Road",
+        "name": "Mrs. Makers Bakery",
+        "name:en": "Mrs. Makers Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6783464863,
+      "lat": 8.1450824,
+      "lon": 4.2481935,
+      "tags": {
+        "name": "Onile Ayo Bread Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6967737951,
+      "lat": 6.5556872,
+      "lon": 3.3470166,
+      "tags": {
+        "name": "Palmtree Bakery Services",
+        "shop": "bakery",
+        "source": "mapillary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7056217385,
+      "lat": 4.9795304,
+      "lon": 8.3421495,
+      "tags": {
+        "addr:housenumber": "102",
+        "addr:street": "Ndidem Usong Iso",
+        "alt_name": "High Quality Bakery",
+        "name": "Hi-Quality Bakery",
+        "opening_hours": "Mo-Su 06:00-21:00",
+        "shop": "bakery",
+        "website": "https://www.facebook.com/hiqualitybakery/about"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956224598,
+      "lat": 4.8271356,
+      "lon": 7.0820055,
+      "tags": {
+        "addr:street": "Old Refinery Road",
+        "name": "Tilda Bread",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9374549517,
+      "lat": 6.2418231,
+      "lon": 6.698972,
+      "tags": {
+        "name": "INDOMIE JOINT 74",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9637998805,
+      "lat": 6.4602101,
+      "lon": 3.4321794,
+      "tags": {
+        "air_conditioning": "yes",
+        "branch": "Ikoyi Alliance Fran\u00e7aise",
+        "brand": "Eric Kayser",
+        "name": "Eric Kayser Ikoyi",
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "operator": "Eric Kayser",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "phone": "+234 906 0007 275",
+        "shop": "bakery",
+        "website": "https://www.maison-kayser.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9800998020,
+      "lat": 5.576062,
+      "lon": 5.7703762,
+      "tags": {
+        "name": "INDOMIE EFFURU CANT",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11345835053,
+      "lat": 7.6467638,
+      "lon": 4.1708017,
+      "tags": {
+        "name": "Oloruntoyin Special Bread",
+        "operator": "Alhaji Oloruntoyin",
+        "phone": "08033635904",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594029,
+      "lat": 6.597586,
+      "lon": 3.420962,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "AMY",
+        "operator": "private/individual",
+        "shop": "bakery",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594033,
+      "lat": 6.599362,
+      "lon": 3.424848,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Groda Confectionery",
+        "operator": "private/individual",
+        "shop": "bakery",
+        "source:position": "gps",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795079,
+      "lat": 6.5209811,
+      "lon": 3.2364848,
+      "tags": {
+        "facility_use": "baking Bread",
+        "name": "Labico bakery",
+        "operator": "Private/ Individual",
+        "shop": "bakery",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12788145428,
+      "lat": 6.297894,
+      "lon": 5.6299295,
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Evbuomwan Street",
+        "name": "Wanmore Bakery",
+        "opening_hours": "Mo-Su 10:00-20:00",
+        "operator": "Chinese Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13022889383,
+      "lat": 6.5372678,
+      "lon": 3.3872161,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "34",
+        "addr:postcode": "100001",
+        "addr:street": "Abule Okuta Road",
+        "name": "bokku MART",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "payment:cash": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "0916 486 7254",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13027884588,
+      "lat": 5.0294716,
+      "lon": 7.9524873,
+      "tags": {
+        "addr:city": "Uyo",
+        "addr:postcode": "520101",
+        "addr:street": "11, Etim Okon Usanga, off Waterfountain, Nwaniba road",
+        "name": "Mavispee Bakery and Events",
+        "opening_hours": "8-7",
+        "operator": "Mrs. Peace Ukeme Udom",
+        "phone": "+234-703 675 6114",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13287626231,
+      "lat": 6.7399846,
+      "lon": 5.406117,
+      "tags": {
+        "addr:street": "fabulous Snacks Bar Bakery",
+        "entrance": "main",
+        "name": "Fabulous Snacks Bar Bakery",
+        "operator": "Baker",
+        "shop": "bakery",
+        "stroller": "no"
+      }
+    },
+    {
+      "type": "way",
+      "id": 555290513,
+      "center": {
+        "lat": 6.4430249,
+        "lon": 3.4716463
+      },
+      "tags": {
+        "building": "yes",
+        "height": "6",
+        "name": "Divine Loaves and Pastries",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 556783742,
+      "center": {
+        "lat": 4.8774985,
+        "lon": 6.9117155
+      },
+      "tags": {
+        "addr:city": "Choba/Port Harcourt",
+        "building": "yes",
+        "description": "Bread production Company",
+        "name": "Ochiko Bread Industry",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 627612208,
+      "center": {
+        "lat": 6.4381703,
+        "lon": 3.4371539
+      },
+      "tags": {
+        "building": "yes",
+        "height": "5",
+        "name": "XO Boutique Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 750784040,
+      "center": {
+        "lat": 8.9433357,
+        "lon": 7.0887509
+      },
+      "tags": {
+        "addr:street": "Nepa Qtrs",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1058328420,
+      "center": {
+        "lat": 7.5965401,
+        "lon": 5.2814636
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Toluwani Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1490260174,
+      "center": {
+        "lat": 7.1629124,
+        "lon": 5.5814238
+      },
+      "tags": {
+        "building": "yes",
+        "name": "University Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053793,
+      "lat": 5.9970164,
+      "lon": 10.4436165,
+      "tags": {
+        "name": "Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4336501589,
+      "lat": 5.333241,
+      "lon": 10.36884,
+      "tags": {
+        "name": "hanana",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4378115845,
+      "lat": 4.5748676,
+      "lon": 13.6762949,
+      "tags": {
+        "name": "La Mie Dor\u00e9e",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4455405602,
+      "lat": 4.5754857,
+      "lon": 13.6820418,
+      "tags": {
+        "name": "Diva Est",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4468655089,
+      "lat": 5.4863017,
+      "lon": 10.4051274,
+      "tags": {
+        "name": "Boulangerie du Peuple",
+        "name:fr": "Boulangerie du Peuple",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4726512873,
+      "lat": 5.1213251,
+      "lon": 9.9446977,
+      "tags": {
+        "name": "Boulangerie BBM",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4979312925,
+      "lat": 5.1419693,
+      "lon": 10.5210921,
+      "tags": {
+        "name": "Boulangerie Patisserie Djoteng",
+        "name:fr": "Boulangerie Patisserie Djoteng",
+        "phone": "677749704",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5162016964,
+      "lat": 7.3257733,
+      "lon": 13.5849568,
+      "tags": {
+        "name": "Boulangerie Patisserie Id\u00e9ale",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5487635822,
+      "lat": 5.9686115,
+      "lon": 10.1727887,
+      "tags": {
+        "addr:street": "Foncha Street",
+        "name": "Mr Baker",
+        "name:en": "My Baker",
+        "opening_hours": "Mo-Su 06:00-20:00",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5487641021,
+      "lat": 5.9691935,
+      "lon": 10.1750197,
+      "tags": {
+        "addr:street": "Nkwen Street",
+        "name": "NJEIFORBI",
+        "name:en": "NJIERFORBI",
+        "name:fr": "NJIERFORBI",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916011673,
+      "lat": 7.3199502,
+      "lon": 13.5922893,
+      "tags": {
+        "name": "Boulangerie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916101140,
+      "lat": 7.3379335,
+      "lon": 13.5881406,
+      "tags": {
+        "ele": "1100",
+        "name": "Boulangerie Patisserie Helou \u00ab\u00e9pis d'or\u00bb",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205961,
+      "lat": 7.4118159,
+      "lon": 13.5480733,
+      "tags": {
+        "name": "Baguette d'Or",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205962,
+      "lat": 7.3209781,
+      "lon": 13.579062,
+      "tags": {
+        "contact:phone": "699661023",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "BOULANGERIE ZATTAR",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205963,
+      "lat": 7.3204068,
+      "lon": 13.5786471,
+      "tags": {
+        "contact:phone": "675253633",
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "PATISSERIE CENTRALE",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205964,
+      "lat": 7.3322396,
+      "lon": 13.593294,
+      "tags": {
+        "contact:phone": "/",
+        "fixme": "SABONGARI",
+        "name": "SABGA",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205965,
+      "lat": 7.3277699,
+      "lon": 13.5897146,
+      "tags": {
+        "contact:phone": "652525217",
+        "name": "BOULANGERE PATISSERIE L'AVENIR",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205966,
+      "lat": 7.3261521,
+      "lon": 13.5850725,
+      "tags": {
+        "contact:phone": "/",
+        "name": "BOULANGERIE PATISSERIE IDEALE",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205967,
+      "lat": 7.3208899,
+      "lon": 13.5753107,
+      "tags": {
+        "fixme": "CENTRE COMMERCIAL",
+        "name": "DABADJI FAYAT",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205968,
+      "lat": 7.3268788,
+      "lon": 13.580437,
+      "tags": {
+        "contact:phone": "677654268",
+        "name": "GAEL",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205969,
+      "lat": 7.4171134,
+      "lon": 13.5507653,
+      "tags": {
+        "name": "Patisserie Centrale",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205970,
+      "lat": 7.4592675,
+      "lon": 13.5533932,
+      "tags": {
+        "contact:phone": "696492017",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205971,
+      "lat": 7.4117123,
+      "lon": 13.5479844,
+      "tags": {
+        "contact:phone": "243287560",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205972,
+      "lat": 7.31169,
+      "lon": 13.55066,
+      "tags": {
+        "name": "BPH BEKA",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205973,
+      "lat": 7.3061327,
+      "lon": 13.5710106,
+      "tags": {
+        "contact:phone": "661171368",
+        "name": "NICOLAS",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205974,
+      "lat": 7.30603,
+      "lon": 13.5713376,
+      "tags": {
+        "contact:phone": "660384528",
+        "name": "MANI",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205975,
+      "lat": 7.3199908,
+      "lon": 13.5751723,
+      "tags": {
+        "name": "Marhaba",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205976,
+      "lat": 7.319755,
+      "lon": 13.5860781,
+      "tags": {
+        "contact:phone": "696492017",
+        "name": "BOULANGERIE PATISSERIE CENTRALE",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205977,
+      "lat": 7.3188352,
+      "lon": 13.5847793,
+      "tags": {
+        "contact:phone": "694656434",
+        "fixme": "BALI",
+        "name": "ABANAI SOUKITANG",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205978,
+      "lat": 7.3205754,
+      "lon": 13.584618,
+      "tags": {
+        "name": "BOULANGERIE HELOU",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205979,
+      "lat": 7.3213667,
+      "lon": 13.5816817,
+      "tags": {
+        "contact:phone": "680052453",
+        "fixme": "BALI",
+        "name": "BOULANGERIE CYAM",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205980,
+      "lat": 7.3045884,
+      "lon": 13.5996038,
+      "tags": {
+        "contact:phone": "694 97 91 00",
+        "name": "ALIOU BELLO",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205981,
+      "lat": 7.2949587,
+      "lon": 13.5761055,
+      "tags": {
+        "contact:phone": "661362744",
+        "name": "ALHADJI BOBBO",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205982,
+      "lat": 7.2940332,
+      "lon": 13.5763413,
+      "tags": {
+        "contact:phone": "677280856",
+        "name": "BOULANGERIE PATISSERIE SOCADIS SARL",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205983,
+      "lat": 7.3073377,
+      "lon": 13.5778058,
+      "tags": {
+        "contact:phone": "/",
+        "name": "HAYATOU",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916205984,
+      "lat": 7.294386,
+      "lon": 13.5747158,
+      "tags": {
+        "contact:phone": "/",
+        "name": "AHMADOU",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916206785,
+      "lat": 7.2967915,
+      "lon": 13.5695658,
+      "tags": {
+        "name": "Oumarou Faycal",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916206786,
+      "lat": 7.2968454,
+      "lon": 13.5695214,
+      "tags": {
+        "name": "Saidou",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916206787,
+      "lat": 7.3183389,
+      "lon": 13.5939218,
+      "tags": {
+        "contact:phone": "664990596",
+        "name": "BOULANGERIE",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916206788,
+      "lat": 7.3182909,
+      "lon": 13.5946342,
+      "tags": {
+        "contact:phone": "676622151",
+        "fixme": "BANTAI",
+        "name": "PATISSERIE",
+        "shop": "bakery",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6849249085,
+      "lat": 5.482058,
+      "lon": 10.4061594,
+      "tags": {
+        "name": "La miniature",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6853780795,
+      "lat": 5.4820341,
+      "lon": 10.4058002,
+      "tags": {
+        "name": "Quotidien +",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7062984914,
+      "lat": 4.2149555,
+      "lon": 8.9886053,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7387382985,
+      "lat": 4.95732,
+      "lon": 9.9375845,
+      "tags": {
+        "name": "Parthenon",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7519587185,
+      "lat": 5.4980403,
+      "lon": 10.3934188,
+      "tags": {
+        "name": "Groupe Maga",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7724570586,
+      "lat": 5.4631012,
+      "lon": 10.4256853,
+      "tags": {
+        "addr:street": "Carrefour le maire",
+        "internet_access": "wlan",
+        "name": "Boulangerie le peuple",
+        "opening_hours": "24/7",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12451519701,
+      "lat": 5.4610113,
+      "lon": 10.4273515,
+      "tags": {
+        "name": "Boulangerie la Paix",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 268587862,
+      "center": {
+        "lat": 4.6033227,
+        "lon": 11.2566945
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 324955637,
+      "center": {
+        "lat": 4.7423787,
+        "lon": 11.2246678
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie LEVY BORD",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 324996331,
+      "center": {
+        "lat": 4.7456459,
+        "lon": 11.2266181
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Boulangerie Kuissi",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 324996425,
+      "center": {
+        "lat": 4.7446061,
+        "lon": 11.2260666
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie Patisserie Alimentation Ibrahim le Mbamois",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326753317,
+      "center": {
+        "lat": 4.7513152,
+        "lon": 11.2295472
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332151765,
+      "center": {
+        "lat": 4.7474282,
+        "lon": 11.2275588
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Boulangerie du Plateau",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 349167861,
+      "center": {
+        "lat": 5.5419994,
+        "lon": 12.3173605
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Patisserie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 355690655,
+      "center": {
+        "lat": 4.3620463,
+        "lon": 11.4387877
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "SOCADIP Sarl",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 355724957,
+      "center": {
+        "lat": 4.3630067,
+        "lon": 11.4390627
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 355763943,
+      "center": {
+        "lat": 4.3641607,
+        "lon": 11.4393841
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 372730734,
+      "center": {
+        "lat": 5.4798253,
+        "lon": 10.4202272
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "La Paix",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384490359,
+      "center": {
+        "lat": 5.4818908,
+        "lon": 10.4285628
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie Hananah",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384509008,
+      "center": {
+        "lat": 5.46311,
+        "lon": 10.4256777
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie le Peuple",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 385541910,
+      "center": {
+        "lat": 5.4810962,
+        "lon": 10.4134469
+      },
+      "tags": {
+        "addr:city": "Bafoussam I",
+        "addr:street": "Carrefour auberge",
+        "building": "yes",
+        "name": "Boulangerie la Conjoncture",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424740604,
+      "center": {
+        "lat": 5.4690369,
+        "lon": 10.4219861
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "La Paix-Plus",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424940903,
+      "center": {
+        "lat": 5.4632337,
+        "lon": 10.4267177
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Douffe",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424945458,
+      "center": {
+        "lat": 5.4840197,
+        "lon": 10.4385413
+      },
+      "tags": {
+        "building": "commercial",
+        "name": "Boulangerie de la Mosqu\u00e9e Centrale",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 426597418,
+      "center": {
+        "lat": 5.4668049,
+        "lon": 10.4012302
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie Le Peuple",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 605461696,
+      "center": {
+        "lat": 7.330521,
+        "lon": 13.5875526
+      },
+      "tags": {
+        "building": "yes",
+        "ele": "1111",
+        "name": "Boulangerie le progr\u00e8s",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 559767929,
+      "lat": 10.5483703,
+      "lon": 7.4521461,
+      "tags": {
+        "addr:city": "Kaduna",
+        "addr:housenumber": "37B Square",
+        "addr:postcode": "800273",
+        "addr:street": "Isa Kaita Road",
+        "name": "Ostrich Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2428047633,
+      "lat": 11.8954258,
+      "lon": 3.4624208,
+      "tags": {
+        "name": "boulang\u00e9rie",
+        "project:mappingforniger": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3218387295,
+      "lat": 13.0425418,
+      "lon": 3.2009837,
+      "tags": {
+        "name": "Boulangerie Moderne",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224990475,
+      "lat": 13.0515781,
+      "lon": 3.1974754,
+      "tags": {
+        "name": "Mouderne",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3248993978,
+      "lat": 13.0601065,
+      "lon": 5.2185215,
+      "tags": {
+        "name": "Oasis Bakery",
+        "opening_hours": "08:00-22:00",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353664000,
+      "lat": 13.49147,
+      "lon": 7.1246447,
+      "tags": {
+        "indoor_seating": "yes",
+        "name": "Boulangerie Plaza",
+        "opening_hours": "24/7",
+        "outdoor_seating": "no",
+        "payment:credit_cards": "no",
+        "payment:debit_cards": "no",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "smoking": "no",
+        "source": "survey",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153033,
+      "lat": 13.49113,
+      "lon": 7.105191,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317351511,
+      "lat": 13.4931432,
+      "lon": 7.1197545,
+      "tags": {
+        "name": "Boulangerie Delas",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318504977,
+      "lat": 13.4958001,
+      "lon": 7.1097957,
+      "tags": {
+        "name": "Boulangerie Mairey",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319550431,
+      "lat": 13.5003531,
+      "lon": 7.100738,
+      "tags": {
+        "name": "Boulangerie Gousaou",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4362482918,
+      "lat": 13.5030459,
+      "lon": 7.1022628,
+      "tags": {
+        "name": "Boulangerie La Racine",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4420878534,
+      "lat": 13.5034632,
+      "lon": 7.1044084,
+      "tags": {
+        "name": "Boulangerie Nassarou Minallahi",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4910976255,
+      "lat": 10.5469299,
+      "lon": 7.4667888,
+      "tags": {
+        "name": "Dalema",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912868596,
+      "lat": 10.5291347,
+      "lon": 7.4297956,
+      "tags": {
+        "name": "Ostritch",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5764210155,
+      "lat": 13.4913082,
+      "lon": 7.1127506,
+      "tags": {
+        "name": "Boulangerie Pattisserie Laracine",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11071722339,
+      "lat": 13.4858019,
+      "lon": 7.1342196,
+      "tags": {
+        "name": "Boulangerie La R\u00e9f\u00e9rence",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11074155268,
+      "lat": 13.4912615,
+      "lon": 7.1115703,
+      "tags": {
+        "name": "Boulangerie P\u00e2tisserie Bab Salam",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 514999034,
+      "center": {
+        "lat": 10.1349419,
+        "lon": 6.0204502
+      },
+      "tags": {
+        "addr:city": "MARIGA",
+        "addr:street": "Kantudu",
+        "building": "yes",
+        "operator": "Zuma Bread.",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049493890,
+      "lat": 9.4918638,
+      "lon": 13.6781201,
+      "tags": {
+        "name": "Magasin Sodecotton de Badjengo",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049493918,
+      "lat": 9.6042986,
+      "lon": 13.7142511,
+      "tags": {
+        "name": "Magasin Sodecotton de Babanguel I",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049493948,
+      "lat": 9.604577,
+      "lon": 13.7134367,
+      "tags": {
+        "name": "Moulin a ecraser de Babanguel I",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049705781,
+      "lat": 9.4850936,
+      "lon": 13.7200656,
+      "tags": {
+        "name": "Magasin Sodecotton de Mboulouwol",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049705978,
+      "lat": 9.520473,
+      "lon": 13.675931,
+      "tags": {
+        "name": "Magasin Sodecotton de Mbor Partidje",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049706029,
+      "lat": 9.5134247,
+      "lon": 13.7319209,
+      "tags": {
+        "name": "Moulin a ecraser de Mayo Libri",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049706063,
+      "lat": 9.492147,
+      "lon": 13.6789397,
+      "tags": {
+        "name": "Moulin a ecraser de Mbor",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1049849465,
+      "lat": 9.4062495,
+      "lon": 13.6122489,
+      "tags": {
+        "name": "Magasin Sodecotton de Mayo Habaye",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1050198387,
+      "lat": 9.3329028,
+      "lon": 13.6042796,
+      "tags": {
+        "name": "Magasin GIC Langui Centre",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067301003,
+      "lat": 9.4184171,
+      "lon": 13.4817812,
+      "tags": {
+        "name": "Moulin a ecraser de Boulgou",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067301046,
+      "lat": 9.3296582,
+      "lon": 13.5773362,
+      "tags": {
+        "name": "Moulin a ecraser de Bouli Mal Alim",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067301051,
+      "lat": 9.4017343,
+      "lon": 13.3784855,
+      "tags": {
+        "name": "Grenier communautaire de Tinguelin",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067301058,
+      "lat": 9.3340155,
+      "lon": 13.6003087,
+      "tags": {
+        "name": "Moulin a ecraser de Langui",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067301070,
+      "lat": 9.3623221,
+      "lon": 13.6214872,
+      "tags": {
+        "name": "Moulin a ecraser de Ballare II",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1827676066,
+      "lat": 9.8903054,
+      "lon": 8.8786661,
+      "tags": {
+        "addr:city": "Jos",
+        "name": "Oasis",
+        "shop": "bakery",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2177220018,
+      "lat": 11.9819788,
+      "lon": 8.5579443,
+      "tags": {
+        "name": "Oasis Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2177220020,
+      "lat": 11.9818528,
+      "lon": 8.5581965,
+      "tags": {
+        "name": "Bakers Deligh",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2208277187,
+      "lat": 9.9219943,
+      "lon": 8.8909932,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Bauchi Road",
+        "description": "Oasis Bakery Along Bauchi Road Jos",
+        "name": "Oasis bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317291639,
+      "lat": 9.3068452,
+      "lon": 13.3970217,
+      "tags": {
+        "name": "Boulangerie du March\u00e9",
+        "shop": "bakery",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2456741269,
+      "lat": 13.8158208,
+      "lon": 8.9794429,
+      "tags": {
+        "name": "Boulangerie La Racine",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey",
+        "survey:date": "2016-07-16"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3132295819,
+      "lat": 11.6854862,
+      "lon": 10.1886466,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306357766,
+      "lat": 13.8086638,
+      "lon": 8.9842865,
+      "tags": {
+        "name": "Boulangerie Albarka",
+        "name:ar": "\u0645\u062e\u0628\u0632\u0629 \u0627\u0644\u0628\u0631\u0643\u0629",
+        "phone": "00227 96 47 48 66/96 08 59 50",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306357767,
+      "lat": 13.8091731,
+      "lon": 8.9857444,
+      "tags": {
+        "name": "Boulangerie de l'Espoir",
+        "phone": "00227 91 45 43 96",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307404470,
+      "lat": 13.8063159,
+      "lon": 8.9928603,
+      "tags": {
+        "name": "Boulangerie du Grand March\u00e9",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307404471,
+      "lat": 13.8008123,
+      "lon": 8.9968389,
+      "tags": {
+        "name": "Boulangerie la Racine",
+        "name:ar": "\u0645\u062e\u0628\u0632 \u0627\u0644\u062c\u0630\u0631",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704511,
+      "lat": 13.8054869,
+      "lon": 8.9833451,
+      "tags": {
+        "name": "Boulangerie Patisserie Darido",
+        "project:pdevii": "yes",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4920287621,
+      "lat": 10.6061032,
+      "lon": 14.3344546,
+      "tags": {
+        "name": "Boulangerie HOLDING",
+        "name:fr": "Boulangerie HOLDING",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4953274632,
+      "lat": 12.0052767,
+      "lon": 8.5453617,
+      "tags": {
+        "addr:housenumber": "3",
+        "addr:street": "Bompai Road",
+        "name": "Big Treat",
+        "name:en": "Big Treat",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6516923156,
+      "lat": 9.0259998,
+      "lon": 13.5075617,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6516937839,
+      "lat": 9.0274329,
+      "lon": 13.5074088,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6545736361,
+      "lat": 9.0942182,
+      "lon": 13.5040285,
+      "tags": {
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6661367082,
+      "lat": 9.315904,
+      "lon": 13.3561456,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Boulangerie P\u00e2tisserie Du Petit March\u00e9",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6661367083,
+      "lat": 9.294779,
+      "lon": 13.3740306,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6661367084,
+      "lat": 9.2997169,
+      "lon": 13.3800723,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Boulnagerie Patisseria Africaine",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6661437385,
+      "lat": 9.2929076,
+      "lon": 13.3856647,
+      "tags": {
+        "name": "Boulangerie Artisanale",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6661437386,
+      "lat": 9.2989255,
+      "lon": 13.390203,
+      "tags": {
+        "name": "Boulnagerie Patisserie Du Petit March\u00e9 Yelwa",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6665504942,
+      "lat": 9.2947684,
+      "lon": 13.3740306,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6665504943,
+      "lat": 9.2997189,
+      "lon": 13.3800709,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Boulnagerie Patisseria Africaine",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6665504944,
+      "lat": 9.2989255,
+      "lon": 13.3902097,
+      "tags": {
+        "name": "Boulnagerie Patisserie Du Petit March\u00e9 Yelwa",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6665504946,
+      "lat": 9.3068265,
+      "lon": 13.397056,
+      "tags": {
+        "name": "Boulangerie P\u00e2tisserie Du Lamidat",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515985,
+      "lat": 9.3559483,
+      "lon": 13.4154707,
+      "tags": {
+        "name": "Depot Boulangerie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515986,
+      "lat": 9.3441022,
+      "lon": 13.4290051,
+      "tags": {
+        "name": "Depot Boulangerie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515987,
+      "lat": 9.333918,
+      "lon": 13.414713,
+      "tags": {
+        "name": "Boulangerie De L'avenir",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515988,
+      "lat": 9.3332455,
+      "lon": 13.4141541,
+      "tags": {
+        "contact:phone": "(+237) 674518196",
+        "name": "P\u00e2tisserie Lyst",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515989,
+      "lat": 9.3288256,
+      "lon": 13.4097844,
+      "tags": {
+        "name": "Boulangerie P\u00e2tisserie De La Grande Mosqu\u00e9e",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515990,
+      "lat": 9.3166186,
+      "lon": 13.393034,
+      "tags": {
+        "name": "Pain Magique",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515991,
+      "lat": 9.3037545,
+      "lon": 13.4004519,
+      "tags": {
+        "name": "Boulangerie P\u00e2tisserie Holding Sa",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515992,
+      "lat": 9.3066794,
+      "lon": 13.3990755,
+      "tags": {
+        "name": "Boulangerie Bargane",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6749515993,
+      "lat": 9.307302,
+      "lon": 13.3991134,
+      "tags": {
+        "contact:phone": "655222202",
+        "name": "Boulangerie Liza",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7031745530,
+      "lat": 9.0651741,
+      "lon": 13.6671958,
+      "tags": {
+        "name": "Boulangerie patisserie liza",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7031745531,
+      "lat": 9.0647644,
+      "lon": 13.6635508,
+      "tags": {
+        "name": "Boucherie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253556885,
+      "lat": 10.2563688,
+      "lon": 11.18434,
+      "tags": {
+        "addr:street": "BYE PASS ROAD",
+        "name": "White Light Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253719585,
+      "lat": 10.3114787,
+      "lon": 11.1748262,
+      "tags": {
+        "name": "Mohgis",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253719587,
+      "lat": 10.3125215,
+      "lon": 11.1742027,
+      "tags": {
+        "name": "Dada",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8878281021,
+      "lat": 10.3164368,
+      "lon": 11.1925891,
+      "tags": {
+        "addr:street": "TUKULMA ROAD",
+        "name": "DAKE BAKERY",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9189059025,
+      "lat": 11.9673639,
+      "lon": 8.5491345,
+      "tags": {
+        "name": "Halal Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769166999,
+      "lat": 9.9248835,
+      "lon": 8.8825969,
+      "tags": {
+        "addr:city": "Jos",
+        "name": "Brains bakery and kitchen",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769431811,
+      "lat": 9.9209341,
+      "lon": 8.8894538,
+      "tags": {
+        "addr:city": "Jos",
+        "name": "Frentch Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772081063,
+      "lat": 9.9395681,
+      "lon": 8.8681946,
+      "tags": {
+        "addr:city": "Jos",
+        "description": "snacks",
+        "name": "Miss Pepe's bakery",
+        "payment:cash": "yes",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772367452,
+      "lat": 9.9295236,
+      "lon": 8.8732077,
+      "tags": {
+        "description": "bread and snacks bakery",
+        "name": "Shadorc premium bakery kabong",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772403417,
+      "lat": 9.9297054,
+      "lon": 8.8754822,
+      "tags": {
+        "addr:city": "Jos",
+        "description": "sharwama And bakery close to polo",
+        "name": "Karibajo sharwama kabong",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772676807,
+      "lat": 9.9292872,
+      "lon": 8.8698842,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "kabong",
+        "description": "kabong opposite Living faith church kabong",
+        "name": "French Bakery kabong",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11004256565,
+      "lat": 9.9217508,
+      "lon": 8.9137408,
+      "tags": {
+        "check_date": "2023-06-11",
+        "name": "Debby County",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11114994189,
+      "lat": 9.9334195,
+      "lon": 8.9118337,
+      "tags": {
+        "check_date": "2023-08-14",
+        "name": "Folley Bread",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11225331837,
+      "lat": 10.2810798,
+      "lon": 11.1765204,
+      "tags": {
+        "name": "makey super market",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12625510504,
+      "lat": 9.8903567,
+      "lon": 8.877481,
+      "tags": {
+        "check_date": "2025-02-28",
+        "name": "Life's Fountain Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12910884530,
+      "lat": 13.8055679,
+      "lon": 8.9706585,
+      "tags": {
+        "name": "Boulangerie Tawakali",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "payment:cash": "yes",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13098824982,
+      "lat": 10.3182977,
+      "lon": 9.8199969,
+      "tags": {
+        "check_date": "2025-08-26",
+        "name": "Wusnami Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13098850643,
+      "lat": 10.319554,
+      "lon": 9.8212893,
+      "tags": {
+        "check_date": "2025-08-26",
+        "name": "G7 Bakary",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226529245,
+      "center": {
+        "lat": 9.3339349,
+        "lon": 13.4147919
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226562531,
+      "center": {
+        "lat": 9.301987,
+        "lon": 13.400989
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie du Lamida",
+        "shop": "bakery",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 227325616,
+      "center": {
+        "lat": 9.2997556,
+        "lon": 13.3800196
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie ABAMO",
+        "shop": "bakery",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 292308243,
+      "center": {
+        "lat": 11.9786774,
+        "lon": 8.5400443
+      },
+      "tags": {
+        "addr:city": "Kano",
+        "addr:postcode": "700224",
+        "addr:street": "Zoo Road",
+        "building": "yes",
+        "name": "Oasis Bakery",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417500694,
+      "center": {
+        "lat": 10.5941519,
+        "lon": 14.322175
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie SACROPOL",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417500715,
+      "center": {
+        "lat": 10.5941266,
+        "lon": 14.3217303
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Superette la colombe",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417520759,
+      "center": {
+        "lat": 10.5975774,
+        "lon": 14.3383451
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Patisserie du Chateau",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417579434,
+      "center": {
+        "lat": 10.6018796,
+        "lon": 14.326858
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie la Baguette",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417579449,
+      "center": {
+        "lat": 10.6039123,
+        "lon": 14.3277484
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Super Boulangerie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417617361,
+      "center": {
+        "lat": 10.605562,
+        "lon": 14.3322187
+      },
+      "tags": {
+        "addr:street": "Abba Zazou",
+        "building": "yes",
+        "name": "Boulangerie Zatar",
+        "opening_hours": "24/7",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417617363,
+      "center": {
+        "lat": 10.6048029,
+        "lon": 14.3302778
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Boulangerie du March\u00e9 Central",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417617520,
+      "center": {
+        "lat": 10.6033023,
+        "lon": 14.3313945
+      },
+      "tags": {
+        "building": "yes",
+        "name": "M\u00e9tropole Boulangerie Patisserie",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 673956214,
+      "center": {
+        "lat": 13.0344294,
+        "lon": 10.3281581
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1156171794,
+      "center": {
+        "lat": 9.878174,
+        "lon": 8.9255041
+      },
+      "tags": {
+        "building": "yes",
+        "name": "stanel bakery and fuel station",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1303126769,
+      "center": {
+        "lat": 9.9289766,
+        "lon": 8.8676053
+      },
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "kabong",
+        "building": "yes",
+        "description": "along rukuba road kabong",
+        "name": "ZHEL ICE Sweet",
+        "shop": "bakery",
+        "source": "microsoft/BuildingFootprints"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1390092304,
+      "center": {
+        "lat": 9.4918242,
+        "lon": 13.6781181
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "bakery"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

@@ -1,0 +1,4240 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 1994157492,
+      "lat": 6.3670581,
+      "lon": 5.6311329,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575310,
+      "lat": 6.3086276,
+      "lon": 5.6027162,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575311,
+      "lat": 6.3137832,
+      "lon": 5.6013267,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575312,
+      "lat": 6.3308836,
+      "lon": 5.627242,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575313,
+      "lat": 6.3311264,
+      "lon": 5.6266745,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575330,
+      "lat": 6.331176,
+      "lon": 5.6299767,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575366,
+      "lat": 6.3312032,
+      "lon": 5.6263255,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575442,
+      "lat": 6.3319352,
+      "lon": 5.6319676,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575934,
+      "lat": 6.3325158,
+      "lon": 5.6268346,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575936,
+      "lat": 6.3329403,
+      "lon": 5.6270065,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575937,
+      "lat": 6.3330162,
+      "lon": 5.6328612,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575939,
+      "lat": 6.3339831,
+      "lon": 5.6281162,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154575943,
+      "lat": 6.3367592,
+      "lon": 5.632215,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068108,
+      "lat": 6.331862,
+      "lon": 5.6262259,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068119,
+      "lat": 6.3328871,
+      "lon": 5.6319031,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068217,
+      "lat": 6.3338599,
+      "lon": 5.6288539,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068401,
+      "lat": 6.3346096,
+      "lon": 5.6335652,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068574,
+      "lat": 6.3347176,
+      "lon": 5.6315607,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068596,
+      "lat": 6.3361298,
+      "lon": 5.6310319,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161068600,
+      "lat": 6.3373782,
+      "lon": 5.6317395,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161119696,
+      "lat": 6.3109419,
+      "lon": 5.5982237,
+      "tags": {
+        "name": "mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344236539,
+      "lat": 6.3290813,
+      "lon": 5.5934072,
+      "tags": {
+        "name": "Mechanic workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328639,
+      "lat": 6.3252795,
+      "lon": 5.6039203,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328641,
+      "lat": 6.3258771,
+      "lon": 5.603801,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328645,
+      "lat": 6.3262393,
+      "lon": 5.601581,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328661,
+      "lat": 6.328088,
+      "lon": 5.6039093,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328662,
+      "lat": 6.3282635,
+      "lon": 5.6033225,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328664,
+      "lat": 6.3285119,
+      "lon": 5.6035665,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344328665,
+      "lat": 6.3284536,
+      "lon": 5.6037514,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344414246,
+      "lat": 6.3364293,
+      "lon": 5.6074322,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344424485,
+      "lat": 6.325333,
+      "lon": 5.603946,
+      "tags": {
+        "amenity": "waste_basket",
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344424486,
+      "lat": 6.330131,
+      "lon": 5.604495,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344424487,
+      "lat": 6.331534,
+      "lon": 5.6054752,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432001,
+      "lat": 6.338491,
+      "lon": 5.6149733,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432002,
+      "lat": 6.3399414,
+      "lon": 5.6141018,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432018,
+      "lat": 6.3380093,
+      "lon": 5.6132706,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344432033,
+      "lat": 6.3388987,
+      "lon": 5.6108436,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344466063,
+      "lat": 6.3274016,
+      "lon": 5.6272159,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344503134,
+      "lat": 6.3296577,
+      "lon": 5.5921649,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344503138,
+      "lat": 6.3302532,
+      "lon": 5.5942379,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344503144,
+      "lat": 6.3316103,
+      "lon": 5.5926106,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344503146,
+      "lat": 6.3318619,
+      "lon": 5.5937173,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344512234,
+      "lat": 6.3314969,
+      "lon": 5.615555,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344512239,
+      "lat": 6.3333103,
+      "lon": 5.6168701,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344540220,
+      "lat": 6.3230704,
+      "lon": 5.5917533,
+      "tags": {
+        "brand": "Bez Mechanic",
+        "name": "Godwin Technical Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344540231,
+      "lat": 6.3233381,
+      "lon": 5.5910175,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344554563,
+      "lat": 6.3256426,
+      "lon": 5.6185933,
+      "tags": {
+        "name": "Bob Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344590785,
+      "lat": 6.3290727,
+      "lon": 5.5851802,
+      "tags": {
+        "name": "Good Trust Motors",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344590793,
+      "lat": 6.3279677,
+      "lon": 5.5820351,
+      "tags": {
+        "name": "Mechanic workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596605,
+      "lat": 6.3424726,
+      "lon": 5.6058746,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596606,
+      "lat": 6.3430977,
+      "lon": 5.607128,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2344596607,
+      "lat": 6.3431442,
+      "lon": 5.6044277,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397494,
+      "lat": 6.3349244,
+      "lon": 5.6160837,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397495,
+      "lat": 6.3370722,
+      "lon": 5.6145793,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397496,
+      "lat": 6.3376033,
+      "lon": 5.6147215,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349397510,
+      "lat": 6.3344547,
+      "lon": 5.6148822,
+      "tags": {
+        "name": "m",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483355,
+      "lat": 6.3315083,
+      "lon": 5.6154029,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483356,
+      "lat": 6.3335975,
+      "lon": 5.6163402,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2349483357,
+      "lat": 6.3339475,
+      "lon": 5.6147376,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350807718,
+      "lat": 6.3513923,
+      "lon": 5.6179762,
+      "tags": {
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2519756647,
+      "lat": 6.2029008,
+      "lon": 6.6996218,
+      "tags": {
+        "name": "Mercedes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3011769550,
+      "lat": 6.4706719,
+      "lon": 3.3066966,
+      "tags": {
+        "name": "Procuremax Autocare",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3342413292,
+      "lat": 7.769341,
+      "lon": 4.5391798,
+      "tags": {
+        "addr:city": "Osogbo",
+        "name": "TJ Toyota Repairs",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3752452657,
+      "lat": 7.7619481,
+      "lon": 4.5322328,
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "name": "Ogo Oluwa Motors",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5528062559,
+      "lat": 5.5827386,
+      "lon": 5.7139746,
+      "tags": {
+        "addr:street": "Jeddo Road",
+        "name": "F. M. Tech",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5533323628,
+      "lat": 5.5409311,
+      "lon": 5.7828253,
+      "tags": {
+        "addr:housenumber": "65",
+        "addr:street": "Enerhen Road",
+        "name": "Vincent Intl. Services",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5533349933,
+      "lat": 5.5445962,
+      "lon": 5.7816227,
+      "tags": {
+        "addr:housenumber": "188",
+        "addr:street": "Enerhen Road",
+        "name": "A. G. H Trust Motors",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5542943524,
+      "lat": 6.4446907,
+      "lon": 3.5409284,
+      "tags": {
+        "name": "Landrover repairs",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5553348230,
+      "lat": 5.5620214,
+      "lon": 5.7717832,
+      "tags": {
+        "name": "Uwessan Motors",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5553352901,
+      "lat": 5.5673869,
+      "lon": 5.7724929,
+      "tags": {
+        "addr:street": "Adidi Street",
+        "name": "Lugin Automobile Technical Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5557747026,
+      "lat": 5.5423437,
+      "lon": 5.7698993,
+      "tags": {
+        "addr:housenumber": "12",
+        "addr:street": "Sonia Crescent",
+        "name": "Auto Center",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5564688845,
+      "lat": 5.5660032,
+      "lon": 5.7792568,
+      "tags": {
+        "name": "De Boss Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5579266844,
+      "lat": 5.5272445,
+      "lon": 5.7582856,
+      "tags": {
+        "name": "EG. Auto Service",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5803882455,
+      "lat": 7.1452221,
+      "lon": 3.3353603,
+      "tags": {
+        "addr:street": "Ijeja street, behind lake stadium",
+        "name": "Automobile centre",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6400279260,
+      "lat": 6.5682677,
+      "lon": 3.3342775,
+      "tags": {
+        "name": "Popoola Battery Clinic",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6611228850,
+      "lat": 7.8966493,
+      "lon": 4.3169068,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7029846770,
+      "lat": 6.4401263,
+      "lon": 7.4987201,
+      "tags": {
+        "name": "Makesense Alex Car AC Mechanic",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231989,
+      "lat": 4.9463623,
+      "lon": 6.3567193,
+      "tags": {
+        "name": "Mechanic Village",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9213584375,
+      "lat": 6.6262136,
+      "lon": 3.5000014,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860317695,
+      "lat": 6.8543403,
+      "lon": 4.5299663,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899609313,
+      "lat": 8.4617948,
+      "lon": 4.2401429,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899621250,
+      "lat": 8.4556039,
+      "lon": 4.2426321,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899621273,
+      "lat": 8.455441,
+      "lon": 4.2427117,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899857535,
+      "lat": 7.8356756,
+      "lon": 3.226637,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899857603,
+      "lat": 7.8435977,
+      "lon": 3.2246541,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899895560,
+      "lat": 8.561214,
+      "lon": 2.761853,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911415667,
+      "lat": 5.6380228,
+      "lon": 8.1942454,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939679159,
+      "lat": 8.4727703,
+      "lon": 8.162949,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9979523117,
+      "lat": 6.3175191,
+      "lon": 5.6170041,
+      "tags": {
+        "name": "1021 axis",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9989986431,
+      "lat": 7.523381,
+      "lon": 6.8425906,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028036638,
+      "lat": 8.8896406,
+      "lon": 5.2507287,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029629303,
+      "lat": 8.8491382,
+      "lon": 3.0055946,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029630837,
+      "lat": 8.8486957,
+      "lon": 3.0019763,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10115720883,
+      "lat": 7.697547,
+      "lon": 3.3340848,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10751496805,
+      "lat": 6.6139186,
+      "lon": 5.9781574,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11648773467,
+      "lat": 8.9939361,
+      "lon": 7.4680813,
+      "tags": {
+        "description": "Engine Carbon cleaning. Mechanical and General car repairs",
+        "name": "El-One Auto Service Centre",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12060847458,
+      "lat": 8.9952072,
+      "lon": 7.4369987,
+      "tags": {
+        "name": "Danjay Auto",
+        "phone": "+234 803 388 4848;+234 818 180 8886;+234 706 948 7543",
+        "service": "parts;repair;tyres",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281594087,
+      "lat": 6.605258,
+      "lon": 3.415286,
+      "tags": {
+        "facility_manager": "private/individual",
+        "name": "Mechanical & Electrical Engineering",
+        "operator": "private/individual",
+        "shop": "car_repair",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795076,
+      "lat": 6.528837,
+      "lon": 3.2355964,
+      "tags": {
+        "facility_use": "repair and painting of vehicles",
+        "name": "mechanic workshop",
+        "operator": "private/ individual",
+        "shop": "car_repair",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282795077,
+      "lat": 6.5276876,
+      "lon": 3.2347799,
+      "tags": {
+        "facility_use": "automobile repair",
+        "name": "mechanic workshop",
+        "operator": "private/ individual",
+        "shop": "car_repair",
+        "source": "survey",
+        "source:position": "gps",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_elderly": "no",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13430877101,
+      "lat": 6.3179602,
+      "lon": 5.6180477,
+      "tags": {
+        "name": "1021 BDE WKSP NAEME",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84169120,
+      "center": {
+        "lat": 6.3360621,
+        "lon": 5.6153074
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Mechanic Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84480381,
+      "center": {
+        "lat": 6.3533955,
+        "lon": 5.612712
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Uwa Spare Part Market",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84480478,
+      "center": {
+        "lat": 6.3533488,
+        "lon": 5.6127735
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Uwa Spare Part Market",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 378163678,
+      "center": {
+        "lat": 7.7619368,
+        "lon": 4.5322591
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 700933743,
+      "center": {
+        "lat": 6.7848232,
+        "lon": 4.2783217
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701538167,
+      "center": {
+        "lat": 7.8895259,
+        "lon": 4.3186881
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701538204,
+      "center": {
+        "lat": 7.8887581,
+        "lon": 4.3159794
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701538205,
+      "center": {
+        "lat": 7.8888231,
+        "lon": 4.3159961
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701538646,
+      "center": {
+        "lat": 7.8850219,
+        "lon": 4.3200882
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701538650,
+      "center": {
+        "lat": 7.8844584,
+        "lon": 4.3206154
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 702161854,
+      "center": {
+        "lat": 7.8843721,
+        "lon": 4.3200481
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 702161859,
+      "center": {
+        "lat": 7.8865182,
+        "lon": 4.3195099
+      },
+      "tags": {
+        "landuse": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 702161865,
+      "center": {
+        "lat": 7.8890714,
+        "lon": 4.3196427
+      },
+      "tags": {
+        "landuse": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 760459310,
+      "center": {
+        "lat": 6.5169888,
+        "lon": 3.3737489
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Mechanical maintainance Workshop",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1259342017,
+      "center": {
+        "lat": 7.7755403,
+        "lon": 4.5272418
+      },
+      "tags": {
+        "building": "shed",
+        "name": "vulcaniser",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4391709341,
+      "lat": 7.3144076,
+      "lon": 13.5902785,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894815,
+      "lat": 7.325005,
+      "lon": 13.575704,
+      "tags": {
+        "contact:phone": "678618168",
+        "fixme": "GARE MARCHANDISE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894816,
+      "lat": 7.3230795,
+      "lon": 13.5733559,
+      "tags": {
+        "contact:phone": "699511218",
+        "fixme": "BALADJI 2",
+        "name": "MINCO",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894817,
+      "lat": 7.3229835,
+      "lon": 13.5734834,
+      "tags": {
+        "contact:phone": "661994040",
+        "fixme": "BALADJI 2",
+        "name": "Ets MALOUM ET FILS",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894818,
+      "lat": 7.3155443,
+      "lon": 13.5884586,
+      "tags": {
+        "date": "2003",
+        "name": "GARAGE COMMUNAUTE URBAINE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894819,
+      "lat": 7.3149334,
+      "lon": 13.5886515,
+      "tags": {
+        "contact:phone": "696045731",
+        "name": "GARAGE COMMUNE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894820,
+      "lat": 7.391224,
+      "lon": 13.5512656,
+      "tags": {
+        "date": "2005",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894821,
+      "lat": 7.3008073,
+      "lon": 13.5534974,
+      "tags": {
+        "date": "2013",
+        "fixme": "BEKA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894822,
+      "lat": 7.2977353,
+      "lon": 13.5551705,
+      "tags": {
+        "date": "2015",
+        "fixme": "BEKA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894823,
+      "lat": 7.31545,
+      "lon": 13.55186,
+      "tags": {
+        "contact:phone": "664897521",
+        "date": "2013",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894824,
+      "lat": 7.30423,
+      "lon": 13.57058,
+      "tags": {
+        "contact:phone": "661417220",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894825,
+      "lat": 7.3204675,
+      "lon": 13.5735383,
+      "tags": {
+        "contact:phone": "696460534",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894826,
+      "lat": 7.3187725,
+      "lon": 13.5722895,
+      "tags": {
+        "contact:phone": "670458514",
+        "fixme": "ONAREF",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894827,
+      "lat": 7.3174647,
+      "lon": 13.5855851,
+      "tags": {
+        "contact:phone": "699851883",
+        "name": "GARRAGE HASSANA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894828,
+      "lat": 7.3175703,
+      "lon": 13.585315,
+      "tags": {
+        "contact:phone": "699318595",
+        "name": "ETS ADAMAOUA GARAGE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894829,
+      "lat": 7.3177224,
+      "lon": 13.5862861,
+      "tags": {
+        "contact:phone": "675462070",
+        "fixme": "BOUMDJERE",
+        "name": "ETS ALHADJI ISSA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894830,
+      "lat": 7.3176048,
+      "lon": 13.5863148,
+      "tags": {
+        "contact:phone": "675462070",
+        "fixme": "BOUMDJERE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894831,
+      "lat": 7.31576,
+      "lon": 13.559551,
+      "tags": {
+        "contact:phone": "694 02 36 31",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894832,
+      "lat": 7.3162544,
+      "lon": 13.5953666,
+      "tags": {
+        "contact:phone": "674 69 34 23",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894833,
+      "lat": 7.3176568,
+      "lon": 13.5951337,
+      "tags": {
+        "contact:phone": "699 87 00 02",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894834,
+      "lat": 7.330081,
+      "lon": 13.588761,
+      "tags": {
+        "contact:phone": "696823601",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894835,
+      "lat": 7.3319201,
+      "lon": 13.5928787,
+      "tags": {
+        "contact:phone": "698233981",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894836,
+      "lat": 7.324819,
+      "lon": 13.601592,
+      "tags": {
+        "contact:phone": "678822600",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894837,
+      "lat": 7.330853,
+      "lon": 13.5926198,
+      "tags": {
+        "contact:phone": "675222340",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894838,
+      "lat": 7.3302681,
+      "lon": 13.5928094,
+      "tags": {
+        "contact:phone": "677741014",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894839,
+      "lat": 7.3323745,
+      "lon": 13.5928365,
+      "tags": {
+        "contact:phone": "699617137",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894840,
+      "lat": 7.3317615,
+      "lon": 13.5909127,
+      "tags": {
+        "contact:phone": "679373796",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894841,
+      "lat": 7.3337007,
+      "lon": 13.5915833,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894842,
+      "lat": 7.3328387,
+      "lon": 13.5933761,
+      "tags": {
+        "contact:phone": "673107370",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894843,
+      "lat": 7.3307322,
+      "lon": 13.58914,
+      "tags": {
+        "contact:phone": "678404326",
+        "fixme": "SABONGARI",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894844,
+      "lat": 7.3306075,
+      "lon": 13.5871245,
+      "tags": {
+        "contact:phone": "699854426",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894845,
+      "lat": 7.3299915,
+      "lon": 13.5879711,
+      "tags": {
+        "contact:phone": "669705007",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894846,
+      "lat": 7.3309561,
+      "lon": 13.5869697,
+      "tags": {
+        "contact:phone": "683307944",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894847,
+      "lat": 7.327786,
+      "lon": 13.5890705,
+      "tags": {
+        "contact:phone": "676259716",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894848,
+      "lat": 7.32667,
+      "lon": 13.58891,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894849,
+      "lat": 7.324284,
+      "lon": 13.5854148,
+      "tags": {
+        "fixme": "Tongo Galdima",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894850,
+      "lat": 7.323554,
+      "lon": 13.584788,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894851,
+      "lat": 7.3250867,
+      "lon": 13.584792,
+      "tags": {
+        "contact:phone": "675571744",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894852,
+      "lat": 7.32752,
+      "lon": 13.59239,
+      "tags": {
+        "contact:phone": "670449997",
+        "fixme": "SABONGARI AMERICA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894853,
+      "lat": 7.3272807,
+      "lon": 13.5923188,
+      "tags": {
+        "contact:phone": "696590238",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894854,
+      "lat": 7.3266406,
+      "lon": 13.5922241,
+      "tags": {
+        "contact:phone": "666043549",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894855,
+      "lat": 7.3325866,
+      "lon": 13.5936301,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894856,
+      "lat": 7.3349386,
+      "lon": 13.5942308,
+      "tags": {
+        "contact:phone": "675170879",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894857,
+      "lat": 7.3275185,
+      "lon": 13.5853279,
+      "tags": {
+        "contact:phone": "675098266",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894858,
+      "lat": 7.328247,
+      "lon": 13.587933,
+      "tags": {
+        "contact:phone": "699282360",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894859,
+      "lat": 7.328,
+      "lon": 13.5879,
+      "tags": {
+        "contact:phone": "677908620",
+        "fixme": "Troua Mala",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894860,
+      "lat": 7.3283168,
+      "lon": 13.5866624,
+      "tags": {
+        "contact:phone": "678622598",
+        "fixme": "Troua Mala",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894861,
+      "lat": 7.3347129,
+      "lon": 13.5942,
+      "tags": {
+        "contact:phone": "675170879",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894862,
+      "lat": 7.3324853,
+      "lon": 13.5936071,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894863,
+      "lat": 7.2960533,
+      "lon": 13.5726159,
+      "tags": {
+        "contact:phone": "674304361",
+        "date": "2013",
+        "name": "ADAMOU BOUBA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894864,
+      "lat": 7.294092,
+      "lon": 13.5778553,
+      "tags": {
+        "date": "2010",
+        "name": "GARAGE LOUMO",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894865,
+      "lat": 7.2932878,
+      "lon": 13.578391,
+      "tags": {
+        "name": "AHMADOU TIDJANI",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894866,
+      "lat": 7.3243725,
+      "lon": 13.5896699,
+      "tags": {
+        "contact:phone": "675034818",
+        "name": "ATELIER DE REPARTION VEHICULE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894867,
+      "lat": 7.31679,
+      "lon": 13.59217,
+      "tags": {
+        "contact:phone": "670751816",
+        "name": "TOLERIE BELAKA",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894868,
+      "lat": 7.32315,
+      "lon": 13.59517,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894869,
+      "lat": 7.32277,
+      "lon": 13.5953,
+      "tags": {
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894870,
+      "lat": 7.3167097,
+      "lon": 13.59089,
+      "tags": {
+        "contact:phone": "675856992",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894871,
+      "lat": 7.3167086,
+      "lon": 13.5904077,
+      "tags": {
+        "contact:phone": "694023269",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894872,
+      "lat": 7.3246911,
+      "lon": 13.5941134,
+      "tags": {
+        "name": "REPARATION MOTO",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894873,
+      "lat": 7.3256489,
+      "lon": 13.5918962,
+      "tags": {
+        "fixme": "HAOUSSA",
+        "name": "REPARATION VEHICULE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894874,
+      "lat": 7.3260843,
+      "lon": 13.5921147,
+      "tags": {
+        "contact:phone": "699110702",
+        "name": "ATELIER DE REPARTION VEHICULE",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894875,
+      "lat": 7.3261929,
+      "lon": 13.5920639,
+      "tags": {
+        "contact:phone": "677071067",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894876,
+      "lat": 7.3621026,
+      "lon": 13.5809006,
+      "tags": {
+        "date": "2013",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915894877,
+      "lat": 7.3567728,
+      "lon": 13.5817551,
+      "tags": {
+        "contact:phone": "663657675",
+        "service": "parts;tyres;repair",
+        "shop": "car_repair",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066187890,
+      "lat": 4.2093571,
+      "lon": 8.9922464,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911449091,
+      "lat": 6.8426147,
+      "lon": 8.6069373,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911453453,
+      "lat": 6.2760486,
+      "lon": 9.054357,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911467261,
+      "lat": 6.2577637,
+      "lon": 8.9838852,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126333873,
+      "lat": 8.634582,
+      "lon": 8.6782463,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126333901,
+      "lat": 8.6380261,
+      "lon": 8.678552,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "way",
+      "id": 245513882,
+      "center": {
+        "lat": 4.6025293,
+        "lon": 11.2567689
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 245513938,
+      "center": {
+        "lat": 4.6023507,
+        "lon": 11.2568209
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 281393553,
+      "center": {
+        "lat": 4.3620608,
+        "lon": 11.4385585
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair",
+        "source": "Spot"
+      }
+    },
+    {
+      "type": "way",
+      "id": 346259508,
+      "center": {
+        "lat": 4.6022284,
+        "lon": 11.2558746
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354807635,
+      "center": {
+        "lat": 4.361205,
+        "lon": 11.4406092
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354807641,
+      "center": {
+        "lat": 4.3612976,
+        "lon": 11.4401828
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354826189,
+      "center": {
+        "lat": 4.3611954,
+        "lon": 11.4406478
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354830214,
+      "center": {
+        "lat": 4.3626634,
+        "lon": 11.4404021
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 355681553,
+      "center": {
+        "lat": 4.3616487,
+        "lon": 11.4387941
+      },
+      "tags": {
+        "building": "commercial",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384840050,
+      "center": {
+        "lat": 5.4667326,
+        "lon": 10.4099768
+      },
+      "tags": {
+        "addr:city": "Bafoussam",
+        "addr:street": "Socada",
+        "building": "yes",
+        "name": "GARAGE LA SURPRISE",
+        "operator": "FOPOUSI Albani",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395329651,
+      "center": {
+        "lat": 5.4399763,
+        "lon": 10.4193835
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Centre de Visite Technique de auto DAC",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395465251,
+      "center": {
+        "lat": 5.4856314,
+        "lon": 10.4094755
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Cami Toyota",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424739197,
+      "center": {
+        "lat": 5.4700269,
+        "lon": 10.4198785
+      },
+      "tags": {
+        "addr:city": "Bafoussam",
+        "addr:street": "2e Rue HOTEL DES FINANCE",
+        "building": "yes",
+        "name": "GARAGE LE REPERE",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 427476290,
+      "center": {
+        "lat": 5.4819844,
+        "lon": 10.4290788
+      },
+      "tags": {
+        "name": "Talom",
+        "operator": "Talom",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 431223086,
+      "center": {
+        "lat": 5.48628,
+        "lon": 10.4445004
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Camp Camion",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1217044631,
+      "center": {
+        "lat": 4.9682641,
+        "lon": 9.904438
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2427781886,
+      "lat": 11.8934772,
+      "lon": 3.4609107,
+      "tags": {
+        "name": "garage de soudure",
+        "project:mappingforniger": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2427781887,
+      "lat": 11.8941061,
+      "lon": 3.4601868,
+      "tags": {
+        "name": "garage de v\u00e9hicules",
+        "project:mappingforniger": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2428047639,
+      "lat": 11.8947149,
+      "lon": 3.463177,
+      "tags": {
+        "project:mappingforniger": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3227877017,
+      "lat": 13.0422425,
+      "lon": 3.198943,
+      "tags": {
+        "name": "Service Auto de la Gendermerie National",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911785,
+      "lat": 13.7994201,
+      "lon": 5.2466006,
+      "tags": {
+        "name": "Garage \u00e9lectrique",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911933,
+      "lat": 13.797212,
+      "lon": 5.2543513,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709912003,
+      "lat": 13.7990296,
+      "lon": 5.2425057,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709912078,
+      "lat": 13.8059925,
+      "lon": 5.2562466,
+      "tags": {
+        "barrier": "wall",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709912080,
+      "lat": 13.8063274,
+      "lon": 5.2550248,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709920570,
+      "lat": 13.8054945,
+      "lon": 5.2512292,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316158354,
+      "lat": 13.4891838,
+      "lon": 7.1112763,
+      "tags": {
+        "brand": "Mercedes-Benz",
+        "project:pdevii": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562782,
+      "lat": 13.5066681,
+      "lon": 7.1040652,
+      "tags": {
+        "name": "Garage Adaidata sahu",
+        "project:pdevii": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912656914,
+      "lat": 10.5294479,
+      "lon": 7.4407918,
+      "tags": {
+        "name": "Mechanics",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6652644585,
+      "lat": 13.7898609,
+      "lon": 5.2505305,
+      "tags": {
+        "name": "Boubakar",
+        "phone": "9784 1991",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6658260486,
+      "lat": 13.8021719,
+      "lon": 5.2533963,
+      "tags": {
+        "name": "Garage konni",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029603370,
+      "lat": 9.1054063,
+      "lon": 3.1088398,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029603410,
+      "lat": 9.1044153,
+      "lon": 3.1115961,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029622467,
+      "lat": 9.3171691,
+      "lon": 3.4859821,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029631080,
+      "lat": 9.0484116,
+      "lon": 3.6519172,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029632117,
+      "lat": 9.0500117,
+      "lon": 3.6503379,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11048079101,
+      "lat": 13.5487928,
+      "lon": 7.4519019,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11922113361,
+      "lat": 9.016347,
+      "lon": 7.4106555,
+      "tags": {
+        "brand": "Honda;Hyundai;Kia;Mercedes-Benz;Toyota",
+        "name": "Salama Auto Care Ltd",
+        "service": "repair;tyres",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12486851968,
+      "lat": 9.051148,
+      "lon": 7.4794793,
+      "tags": {
+        "name": "Coscharis Motors",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13228902904,
+      "lat": 9.0997069,
+      "lon": 7.4738273,
+      "tags": {
+        "name": "Katampe Mechanic",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 500168223,
+      "center": {
+        "lat": 10.5262193,
+        "lon": 7.4278867
+      },
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 813694595,
+      "center": {
+        "lat": 9.2482249,
+        "lon": 7.1608149
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1293690229,
+      "center": {
+        "lat": 9.029582,
+        "lon": 7.4924655
+      },
+      "tags": {
+        "building": "yes",
+        "contact:instagram": "autoprince.ng",
+        "contact:phone": "+234 809 627 7434",
+        "contact:whatsapp": "+2348096277434",
+        "name": "Auto Prince Auto Centre",
+        "service": "parts;repair",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2178392580,
+      "lat": 9.3261258,
+      "lon": 13.3765422,
+      "tags": {
+        "operator": "Minist\u00e8re des postes et T\u00e9l\u00e9communications",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2352021507,
+      "lat": 9.3059762,
+      "lon": 13.3979229,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254958490,
+      "lat": 10.5903042,
+      "lon": 14.324613,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308481864,
+      "lat": 13.797934,
+      "lon": 8.9983573,
+      "tags": {
+        "name": "Garge Auto Lala",
+        "project:pdevii": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311479957,
+      "lat": 13.8079023,
+      "lon": 8.9956684,
+      "tags": {
+        "name": "Garage Niyya da kokari",
+        "project:pdevii": "yes",
+        "shop": "car_repair",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704524,
+      "lat": 13.8054811,
+      "lon": 8.9891054,
+      "tags": {
+        "project:pdevii": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6203768286,
+      "lat": 11.6853906,
+      "lon": 9.3543657,
+      "tags": {
+        "name": "Mechanic Village, Dutse",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6480509465,
+      "lat": 9.3228386,
+      "lon": 13.4132277,
+      "tags": {
+        "name": "GARAGE BAKA",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6480561879,
+      "lat": 9.3310621,
+      "lon": 13.4016332,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6658198888,
+      "lat": 13.8143769,
+      "lon": 8.9816832,
+      "tags": {
+        "name": "Garage v\u00e9hicules",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086399,
+      "lat": 9.3575534,
+      "lon": 13.3620465,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086400,
+      "lat": 9.3098162,
+      "lon": 13.3485657,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Yelware",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086401,
+      "lat": 9.3163121,
+      "lon": 13.3501396,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Maliqui",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086402,
+      "lat": 9.3163077,
+      "lon": 13.354541,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Petit March\u00e9",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086403,
+      "lat": 9.3162831,
+      "lon": 13.3534385,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Mamoudou",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086404,
+      "lat": 9.3168484,
+      "lon": 13.3548775,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Petit March\u00e9",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086405,
+      "lat": 9.3130605,
+      "lon": 13.3591387,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086406,
+      "lat": 9.3133585,
+      "lon": 13.3547833,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086407,
+      "lat": 9.312429,
+      "lon": 13.3694273,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Mairie",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086408,
+      "lat": 9.3125755,
+      "lon": 13.3697647,
+      "tags": {
+        "addr:postcode": "Croisi\u00e8re",
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086409,
+      "lat": 9.312656,
+      "lon": 13.3761234,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086410,
+      "lat": 9.3086781,
+      "lon": 13.3734995,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086411,
+      "lat": 9.3038395,
+      "lon": 13.3764231,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Douroube",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086412,
+      "lat": 9.3035113,
+      "lon": 13.3768737,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086413,
+      "lat": 9.3015896,
+      "lon": 13.3831018,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086414,
+      "lat": 9.3015737,
+      "lon": 13.383648,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086415,
+      "lat": 9.301595,
+      "lon": 13.3827166,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086416,
+      "lat": 9.2986727,
+      "lon": 13.3760047,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086417,
+      "lat": 9.2939174,
+      "lon": 13.3721228,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086418,
+      "lat": 9.2938283,
+      "lon": 13.3715747,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086419,
+      "lat": 9.2942435,
+      "lon": 13.37163,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086420,
+      "lat": 9.2942818,
+      "lon": 13.3713196,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086421,
+      "lat": 9.2950114,
+      "lon": 13.3752099,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086422,
+      "lat": 9.2969355,
+      "lon": 13.3750305,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Petit Garage Camp Chinoi",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086423,
+      "lat": 9.295512,
+      "lon": 13.3784815,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086424,
+      "lat": 9.2956818,
+      "lon": 13.3778946,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086425,
+      "lat": 9.2981197,
+      "lon": 13.3804694,
+      "tags": {
+        "name": "Gararge Cecep",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086426,
+      "lat": 9.2956999,
+      "lon": 13.3804342,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086427,
+      "lat": 9.2975639,
+      "lon": 13.380467,
+      "tags": {
+        "addr:postcode": "B.P 191",
+        "contact:phone": "(+237) 22271265",
+        "name": "Garage Administratif De Garoua",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086428,
+      "lat": 9.2961427,
+      "lon": 13.3829403,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086430,
+      "lat": 9.296135,
+      "lon": 13.3834449,
+      "tags": {
+        "name": "Synamotac",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086431,
+      "lat": 9.2937652,
+      "lon": 13.3837107,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086432,
+      "lat": 9.2946599,
+      "lon": 13.3878868,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086433,
+      "lat": 9.2946824,
+      "lon": 13.388178,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086434,
+      "lat": 9.2953031,
+      "lon": 13.3875127,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086435,
+      "lat": 9.2960266,
+      "lon": 13.3866146,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086436,
+      "lat": 9.2954611,
+      "lon": 13.3870993,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086437,
+      "lat": 9.2964149,
+      "lon": 13.388231,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086438,
+      "lat": 9.2965395,
+      "lon": 13.3886615,
+      "tags": {
+        "contact:phone": "(+237) 695672814",
+        "name": "Pwa Hidjo",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086439,
+      "lat": 9.2917641,
+      "lon": 13.3933479,
+      "tags": {
+        "contact:phone": "(+237) 6",
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086440,
+      "lat": 9.3008275,
+      "lon": 13.3912273,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086441,
+      "lat": 9.3005572,
+      "lon": 13.3912519,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086442,
+      "lat": 9.303039,
+      "lon": 13.3944912,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086443,
+      "lat": 9.3023081,
+      "lon": 13.3957208,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086444,
+      "lat": 9.3030031,
+      "lon": 13.3982563,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086445,
+      "lat": 9.2968926,
+      "lon": 13.3981235,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086446,
+      "lat": 9.2972304,
+      "lon": 13.4004155,
+      "tags": {
+        "name": "Garage Flora Sarl",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086447,
+      "lat": 9.2960593,
+      "lon": 13.4012842,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6677086448,
+      "lat": 9.2981733,
+      "lon": 13.3993697,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160445,
+      "lat": 9.3530702,
+      "lon": 13.4222151,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160446,
+      "lat": 9.3633876,
+      "lon": 13.4190139,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160447,
+      "lat": 9.3561646,
+      "lon": 13.4107431,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160448,
+      "lat": 9.3525985,
+      "lon": 13.4141151,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160449,
+      "lat": 9.3584618,
+      "lon": 13.3931896,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160450,
+      "lat": 9.3523172,
+      "lon": 13.3997101,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160451,
+      "lat": 9.3499551,
+      "lon": 13.3897246,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160452,
+      "lat": 9.3503072,
+      "lon": 13.3938624,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160453,
+      "lat": 9.3464233,
+      "lon": 13.3844671,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160454,
+      "lat": 9.3433578,
+      "lon": 13.3853758,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160455,
+      "lat": 9.3439023,
+      "lon": 13.3851954,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160456,
+      "lat": 9.3427883,
+      "lon": 13.3857576,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160457,
+      "lat": 9.3432415,
+      "lon": 13.3866301,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160458,
+      "lat": 9.3424645,
+      "lon": 13.3951146,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160459,
+      "lat": 9.3419288,
+      "lon": 13.3918869,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160460,
+      "lat": 9.345159,
+      "lon": 13.413272,
+      "tags": {
+        "name": "Garage Du Carrefour Iya Mohamed",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160461,
+      "lat": 9.344644,
+      "lon": 13.4129595,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160462,
+      "lat": 9.3483824,
+      "lon": 13.4270343,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160463,
+      "lat": 9.3478148,
+      "lon": 13.4264109,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160464,
+      "lat": 9.3454308,
+      "lon": 13.4326529,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160465,
+      "lat": 9.3430297,
+      "lon": 13.4290975,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160466,
+      "lat": 9.3448148,
+      "lon": 13.4319813,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160467,
+      "lat": 9.3373427,
+      "lon": 13.4253788,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160468,
+      "lat": 9.3376497,
+      "lon": 13.4136415,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160469,
+      "lat": 9.3297027,
+      "lon": 13.4111393,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160470,
+      "lat": 9.3328926,
+      "lon": 13.4149526,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160471,
+      "lat": 9.331483,
+      "lon": 13.4128707,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160472,
+      "lat": 9.3308001,
+      "lon": 13.3962607,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160473,
+      "lat": 9.3230016,
+      "lon": 13.3914234,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160474,
+      "lat": 9.3208072,
+      "lon": 13.3975682,
+      "tags": {
+        "name": "Garage Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160475,
+      "lat": 9.3206838,
+      "lon": 13.3971135,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160476,
+      "lat": 9.323236,
+      "lon": 13.3936043,
+      "tags": {
+        "name": "Depannage Velos",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160477,
+      "lat": 9.3240368,
+      "lon": 13.4095853,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160478,
+      "lat": 9.3207406,
+      "lon": 13.4120986,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160479,
+      "lat": 9.3226523,
+      "lon": 13.4137279,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160480,
+      "lat": 9.3228139,
+      "lon": 13.4130365,
+      "tags": {
+        "name": "Garage Automobile",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160481,
+      "lat": 9.3180316,
+      "lon": 13.4093477,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160482,
+      "lat": 9.3172034,
+      "lon": 13.4040521,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160483,
+      "lat": 9.3194854,
+      "lon": 13.4069657,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757160484,
+      "lat": 9.3129078,
+      "lon": 13.4054553,
+      "tags": {
+        "name": "Depannage Electroniques",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757175085,
+      "lat": 9.3045572,
+      "lon": 13.3999624,
+      "tags": {
+        "name": "Depannage Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757175086,
+      "lat": 9.306727,
+      "lon": 13.3998439,
+      "tags": {
+        "name": "Depannage Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757175087,
+      "lat": 9.3028125,
+      "lon": 13.4024459,
+      "tags": {
+        "name": "Garage Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757175088,
+      "lat": 9.3009285,
+      "lon": 13.4033166,
+      "tags": {
+        "name": "Garage Auto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6757175089,
+      "lat": 9.3018458,
+      "lon": 13.4034393,
+      "tags": {
+        "name": "Garage Moto",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792735,
+      "lat": 9.0386346,
+      "lon": 13.6446655,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792736,
+      "lat": 9.0523557,
+      "lon": 13.6686873,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792737,
+      "lat": 9.0672681,
+      "lon": 13.6668634,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792738,
+      "lat": 9.063173,
+      "lon": 13.6646113,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792739,
+      "lat": 9.0626944,
+      "lon": 13.6642152,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792740,
+      "lat": 9.0647116,
+      "lon": 13.6640301,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792741,
+      "lat": 9.0658227,
+      "lon": 13.6693697,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792742,
+      "lat": 9.0657805,
+      "lon": 13.6690965,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792743,
+      "lat": 9.0655843,
+      "lon": 13.6680534,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792744,
+      "lat": 9.0655675,
+      "lon": 13.668845,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792745,
+      "lat": 9.0653576,
+      "lon": 13.6677494,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792746,
+      "lat": 9.0660744,
+      "lon": 13.670387,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7032792747,
+      "lat": 9.0657246,
+      "lon": 13.669483,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889510,
+      "lat": 9.3484722,
+      "lon": 13.1331057,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889511,
+      "lat": 9.3477462,
+      "lon": 13.1332308,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889512,
+      "lat": 9.3478302,
+      "lon": 13.1331699,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889513,
+      "lat": 9.3425632,
+      "lon": 12.974642,
+      "tags": {
+        "amenity": "water_point",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889514,
+      "lat": 9.3460435,
+      "lon": 12.9736681,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035889515,
+      "lat": 9.3460269,
+      "lon": 12.9735523,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607288,
+      "lat": 9.9699364,
+      "lon": 13.6179024,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607289,
+      "lat": 9.9665968,
+      "lon": 13.6166884,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607290,
+      "lat": 9.9643839,
+      "lon": 13.6191807,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607291,
+      "lat": 9.9851791,
+      "lon": 13.5199033,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607292,
+      "lat": 9.9848612,
+      "lon": 13.5201888,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607293,
+      "lat": 9.9646952,
+      "lon": 13.6171594,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607294,
+      "lat": 9.9849148,
+      "lon": 13.5200727,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7052607295,
+      "lat": 9.9853421,
+      "lon": 13.520875,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832018,
+      "lat": 9.3066511,
+      "lon": 13.8795202,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832019,
+      "lat": 9.3074428,
+      "lon": 13.8764544,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832020,
+      "lat": 9.3102965,
+      "lon": 13.8727258,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832021,
+      "lat": 9.3073543,
+      "lon": 13.8738225,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832022,
+      "lat": 9.3139236,
+      "lon": 13.8702495,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832023,
+      "lat": 9.3109667,
+      "lon": 13.8789542,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832024,
+      "lat": 9.2526381,
+      "lon": 13.7792089,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832025,
+      "lat": 9.2526467,
+      "lon": 13.768687,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054832026,
+      "lat": 9.2494862,
+      "lon": 13.7707753,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179716798,
+      "lat": 11.4504921,
+      "lon": 8.9478136,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179716801,
+      "lat": 11.4522803,
+      "lon": 8.9491174,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179716802,
+      "lat": 11.4523322,
+      "lon": 8.9492629,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179716809,
+      "lat": 11.4516117,
+      "lon": 8.949,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720831,
+      "lat": 11.5694544,
+      "lon": 8.7176739,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720833,
+      "lat": 12.1995691,
+      "lon": 8.7592384,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720836,
+      "lat": 11.1981017,
+      "lon": 8.807875,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720846,
+      "lat": 11.1988533,
+      "lon": 8.807695,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720850,
+      "lat": 11.1972578,
+      "lon": 8.8078016,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8179720871,
+      "lat": 12.1994083,
+      "lon": 8.7589549,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9870608173,
+      "lat": 12.8095897,
+      "lon": 9.2991864,
+      "tags": {
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9888149824,
+      "lat": 12.6543825,
+      "lon": 8.7056044,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9888537861,
+      "lat": 12.6673217,
+      "lon": 8.8013923,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10042309546,
+      "lat": 11.6739614,
+      "lon": 9.5620501,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10076486536,
+      "lat": 11.6702204,
+      "lon": 9.5811651,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092008977,
+      "lat": 9.6616162,
+      "lon": 9.0644983,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10173504345,
+      "lat": 12.6129855,
+      "lon": 9.1420275,
+      "tags": {
+        "shop": "car_repair",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10828113768,
+      "lat": 9.9531176,
+      "lon": 8.9047948,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Bauchi Ring Road",
+        "name": "Tunji Automobile Workshop",
+        "opening_hours": "Mo-Sa 08:00-18:00",
+        "service:vehicle:electrical": "yes",
+        "service:vehicle:oil_change": "yes",
+        "service:vehicle:transmission": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175905237,
+      "lat": 10.3074324,
+      "lon": 11.1493506,
+      "tags": {
+        "addr:street": "Goodluck Ebele Jonathan road",
+        "name": "vulcanizer",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175911638,
+      "lat": 10.3053298,
+      "lon": 11.1515702,
+      "tags": {
+        "addr:street": "Dukku road",
+        "name": "Trailers Garage",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11181562037,
+      "lat": 10.2599531,
+      "lon": 11.1478944,
+      "tags": {
+        "addr:postcode": "760253",
+        "addr:street": "BYE PASS ROAD",
+        "name": "car repair",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11337909869,
+      "lat": 10.2886532,
+      "lon": 11.1316555,
+      "tags": {
+        "addr:street": "This way to Whitehall Hotel",
+        "opening_hours": "Su-Fr 00:00-24:00",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11417960040,
+      "lat": 9.9285891,
+      "lon": 8.9120155,
+      "tags": {
+        "check_date": "2023-12-14",
+        "name": "Ishaku Spray Auto",
+        "service:vehicle:body_repair": "yes",
+        "service:vehicle:painting": "yes",
+        "shop": "car_repair"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226093207,
+      "center": {
+        "lat": 9.3038687,
+        "lon": 13.392274
+      },
+      "tags": {
+        "name": "Garage Administratif et municipal",
+        "shop": "car_repair",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 227815604,
+      "center": {
+        "lat": 9.2974,
+        "lon": 13.380523
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Garage Administratif Annexe de Garoua",
+        "shop": "car_repair",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 227942652,
+      "center": {
+        "lat": 9.3123189,
+        "lon": 13.3691645
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Garage Commune",
+        "shop": "car_repair",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 228369864,
+      "center": {
+        "lat": 9.3114492,
+        "lon": 13.3550714
+      },
+      "tags": {
+        "barrier": "wall",
+        "name": "SOCAPREM Industrie",
+        "shop": "car_repair",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 655720461,
+      "center": {
+        "lat": 13.0328749,
+        "lon": 10.3281398
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "car_repair"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

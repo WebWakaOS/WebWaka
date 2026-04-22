@@ -1,0 +1,757 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 4313425289,
+      "lat": 6.5143665,
+      "lon": 3.3189621,
+      "tags": {
+        "addr:street": "oyinlola close",
+        "amenity": "veterinary",
+        "name": "Gracie vet clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4423832326,
+      "lat": 6.383199,
+      "lon": 2.7024538,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Poste de Contr\u00f4le V\u00e9t\u00e9rinaire / Phytosanitaire",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899600721,
+      "lat": 8.233772,
+      "lon": 4.0718005,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939679142,
+      "lat": 8.468728,
+      "lon": 8.1635827,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939679213,
+      "lat": 8.4693946,
+      "lon": 8.1631156,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939680092,
+      "lat": 8.2888487,
+      "lon": 7.9827013,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939685055,
+      "lat": 8.4687514,
+      "lon": 8.1636999,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939685078,
+      "lat": 8.4691846,
+      "lon": 8.1628938,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939685091,
+      "lat": 8.4691527,
+      "lon": 8.1634545,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939685822,
+      "lat": 8.2887643,
+      "lon": 7.9823834,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939691418,
+      "lat": 8.1231025,
+      "lon": 7.963889,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939691421,
+      "lat": 8.1224445,
+      "lon": 7.9660145,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939695937,
+      "lat": 8.6930722,
+      "lon": 7.5848478,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9945368478,
+      "lat": 8.7260672,
+      "lon": 7.3736714,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10004601754,
+      "lat": 7.9978556,
+      "lon": 7.3188579,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10004601762,
+      "lat": 7.997859,
+      "lon": 7.3180163,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10004601770,
+      "lat": 7.9976396,
+      "lon": 7.3194118,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029629255,
+      "lat": 8.7325293,
+      "lon": 2.9128405,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126075077,
+      "lat": 7.9427435,
+      "lon": 8.0742907,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10209537197,
+      "lat": 8.0128014,
+      "lon": 8.1192508,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11243769937,
+      "lat": 7.2461005,
+      "lon": 5.2028257,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "https://www.openstreetmap.org/note/3035883"
+      }
+    },
+    {
+      "type": "way",
+      "id": 923603226,
+      "center": {
+        "lat": 6.4341888,
+        "lon": 7.4932316
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "State Vertinary Hospital Enugu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101429943,
+      "lat": 8.5505839,
+      "lon": 9.1397342,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101429961,
+      "lat": 8.5501642,
+      "lon": 9.1395497,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10125920337,
+      "lat": 8.4378298,
+      "lon": 9.1007583,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126445937,
+      "lat": 8.755314,
+      "lon": 8.7557493,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424898795,
+      "center": {
+        "lat": 5.4748611,
+        "lon": 10.4155489
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "Centre Zootechnique et V\u00e9t\u00e9rinaire de Bafoussam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2632432323,
+      "lat": 13.7716236,
+      "lon": 4.009808,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Elevage"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9078616769,
+      "lat": 13.5058983,
+      "lon": 7.7691773,
+      "tags": {
+        "amenity": "veterinary",
+        "name:en": "Animal Market"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899929644,
+      "lat": 11.4960501,
+      "lon": 8.0446814,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028636266,
+      "lat": 9.3930016,
+      "lon": 3.3804031,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028641626,
+      "lat": 9.4951768,
+      "lon": 3.6041774,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028641642,
+      "lat": 9.4953197,
+      "lon": 3.6042631,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029591889,
+      "lat": 9.3156253,
+      "lon": 3.6752403,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029591915,
+      "lat": 9.3164785,
+      "lon": 3.6748706,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029622417,
+      "lat": 9.3182222,
+      "lon": 3.4864433,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029623364,
+      "lat": 9.0156032,
+      "lon": 3.536555,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029623403,
+      "lat": 9.0161252,
+      "lon": 3.5367092,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029623423,
+      "lat": 9.3156731,
+      "lon": 3.6757197,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029627631,
+      "lat": 9.0841716,
+      "lon": 3.5330566,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029630958,
+      "lat": 9.0556714,
+      "lon": 2.9296527,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11782398016,
+      "lat": 10.5041396,
+      "lon": 7.4089426,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Zango abateure",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "way",
+      "id": 531660632,
+      "center": {
+        "lat": 13.6572622,
+        "lon": 7.5499953
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Elevage et Agriculture",
+        "opening_hours": "tous les jours"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306293,
+      "lat": 9.3882161,
+      "lon": 13.5065917,
+      "tags": {
+        "GIC": "GIC vente de medicament veterinaires",
+        "amenity": "veterinary",
+        "description": "GIC vente de medicament veterinaires",
+        "name": "GIC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317291687,
+      "lat": 9.3058566,
+      "lon": 13.3976666,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Vetafric",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6731343728,
+      "lat": 9.3049301,
+      "lon": 13.396309,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Sep Vet Septentrion Veterinaire Sarl"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769042426,
+      "lat": 9.9303361,
+      "lon": 8.8805625,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "veterinary",
+        "name": "Global I.K.J vet pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769121599,
+      "lat": 9.9250333,
+      "lon": 8.8855534,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "veterinary",
+        "name": "Maas veterinary clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769145240,
+      "lat": 9.924986,
+      "lon": 8.8856026,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "veterinary",
+        "name": "Maas vetenary, Jos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772391884,
+      "lat": 9.9295681,
+      "lon": 8.874956,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "veterinary",
+        "description": "veterinary close to polo",
+        "name": "Veterinary teaching hospital unijos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772605430,
+      "lat": 9.9040455,
+      "lon": 8.8696408,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "veterinary",
+        "name": "Maas veterinary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9885583158,
+      "lat": 12.3670611,
+      "lon": 8.9144319,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9895456694,
+      "lat": 11.020392,
+      "lon": 10.0796524,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9896944840,
+      "lat": 11.0725179,
+      "lon": 10.1630836,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9896944906,
+      "lat": 11.0727336,
+      "lon": 10.1649612,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897264992,
+      "lat": 11.3445962,
+      "lon": 9.3858941,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897265094,
+      "lat": 11.3415797,
+      "lon": 9.3806784,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897265118,
+      "lat": 11.3440842,
+      "lon": 9.3847002,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092010622,
+      "lat": 9.6704572,
+      "lon": 9.0046217,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092015342,
+      "lat": 9.4966001,
+      "lon": 10.3134494,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101430469,
+      "lat": 9.1247656,
+      "lon": 8.8743776,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10173510624,
+      "lat": 11.8434966,
+      "lon": 9.5447063,
+      "tags": {
+        "amenity": "veterinary",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10271798805,
+      "lat": 9.6472819,
+      "lon": 14.3407744,
+      "tags": {
+        "amenity": "veterinary",
+        "name": "Centre de vaccination des betails de Guetallet",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226524953,
+      "center": {
+        "lat": 9.3359966,
+        "lon": 13.4112147
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "Pharmacie V\u00e9t\u00e9rinaire",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226524954,
+      "center": {
+        "lat": 9.3402787,
+        "lon": 13.4113518
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "Pharmacie V\u00e9t\u00e9rinaire de Marouar\u00e9",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417928550,
+      "center": {
+        "lat": 10.5919396,
+        "lon": 14.3260731
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "CAPHAVET Sarl"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417928555,
+      "center": {
+        "lat": 10.5892585,
+        "lon": 14.3201012
+      },
+      "tags": {
+        "amenity": "veterinary",
+        "building": "yes",
+        "name": "Cabinet veterinaire du Sahel"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

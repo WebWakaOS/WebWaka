@@ -1,0 +1,5996 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 639043270,
+      "lat": 6.4894158,
+      "lon": 3.3572033,
+      "tags": {
+        "amenity": "police",
+        "historic": "Police Station",
+        "name": "Bode Thomas Police Station",
+        "operator": "Nigerian Police Force",
+        "shop": "doityourself"
+      }
+    },
+    {
+      "type": "node",
+      "id": 959812792,
+      "lat": 7.4034669,
+      "lon": 3.9296969,
+      "tags": {
+        "amenity": "police",
+        "name": "Testing ground Police Barack"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1994157676,
+      "lat": 6.3774717,
+      "lon": 5.6389815,
+      "tags": {
+        "amenity": "police",
+        "name": "Okhoro Division Police Headquater"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1995056083,
+      "lat": 6.3642773,
+      "lon": 5.5879433,
+      "tags": {
+        "amenity": "police",
+        "name": "The Nigeria Police Divisional Headquarters, Ogida"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846255,
+      "lat": 6.3202833,
+      "lon": 5.6249893,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police Headquarters/State CID"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846256,
+      "lat": 6.3141603,
+      "lon": 5.6263651,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police Officers Mess"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846302,
+      "lat": 6.3159106,
+      "lon": 5.6226243,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Cottage Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846305,
+      "lat": 6.3130977,
+      "lon": 5.6249209,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Qtr"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846308,
+      "lat": 6.3133761,
+      "lon": 5.624519,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Qtr"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846339,
+      "lat": 6.3211473,
+      "lon": 5.6244236,
+      "tags": {
+        "amenity": "police",
+        "name": "SSS"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155671729,
+      "lat": 6.3188453,
+      "lon": 5.6071278,
+      "tags": {
+        "amenity": "police",
+        "name": "Air port police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2155711301,
+      "lat": 6.3287871,
+      "lon": 5.616927,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Barrack"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2157135110,
+      "lat": 8.2758063,
+      "lon": 4.7927533,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161071614,
+      "lat": 6.3039752,
+      "lon": 5.6264473,
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Adesuwa Road",
+        "alt_name": "Adesuwa Police Station",
+        "amenity": "police",
+        "name": "Nigeria Police Zone 5 HQ"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2350879759,
+      "lat": 6.3367821,
+      "lon": 5.6223821,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Police Force"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871732,
+      "lat": 7.4250381,
+      "lon": 3.8981327,
+      "tags": {
+        "amenity": "police",
+        "name": "Polic Barracks"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2639220713,
+      "lat": 7.4071213,
+      "lon": 3.867597,
+      "tags": {
+        "amenity": "police",
+        "name": "Eleyele Police College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3084933445,
+      "lat": 7.3950887,
+      "lon": 3.9180417,
+      "tags": {
+        "amenity": "police",
+        "name": "police sataion idiogun"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3085002625,
+      "lat": 7.3762915,
+      "lon": 3.8977132,
+      "tags": {
+        "amenity": "police",
+        "name": "Mapo Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3352119181,
+      "lat": 7.7255405,
+      "lon": 4.5058545,
+      "tags": {
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "police",
+        "name": "Nigerian Police Zonal Headquater"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3675574526,
+      "lat": 7.4333013,
+      "lon": 3.9429882,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Police Divisional Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3703244315,
+      "lat": 7.7524151,
+      "lon": 4.440102,
+      "tags": {
+        "amenity": "police",
+        "name": "Federal Road Safety Corp, Ede Office",
+        "operator": "FRSC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3793175078,
+      "lat": 7.7685568,
+      "lon": 4.3921876,
+      "tags": {
+        "addr:city": "Awo",
+        "addr:street": "Awo Road",
+        "amenity": "police",
+        "name": "Nigeria Police Force Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3799232987,
+      "lat": 7.7518865,
+      "lon": 4.5209658,
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "police",
+        "name": "Nigeria Police Force"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4115245090,
+      "lat": 6.4405446,
+      "lon": 3.3210474,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4115245091,
+      "lat": 6.4413099,
+      "lon": 3.3196197,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4115245591,
+      "lat": 6.4421638,
+      "lon": 3.3199144,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4115245592,
+      "lat": 6.4376655,
+      "lon": 3.3231428,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4169929591,
+      "lat": 4.8356251,
+      "lon": 7.0201227,
+      "tags": {
+        "addr:housenumber": "1",
+        "addr:street": "Port Harcourt - Aba Expressway",
+        "amenity": "police",
+        "name": "Rumuomasi Police Post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4198918402,
+      "lat": 7.8945588,
+      "lon": 4.3073706,
+      "tags": {
+        "addr:city": "Ejigbo",
+        "addr:street": "Iwo - Ejigbo Road",
+        "amenity": "police",
+        "check_date": "2024-06-10",
+        "name": "Nigeria Police Station( EJIGBO)",
+        "operator": "Nigeria Police Force",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4247701496,
+      "lat": 7.1670486,
+      "lon": 4.7259045,
+      "tags": {
+        "addr:street": "post office",
+        "amenity": "police",
+        "name": "Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311338857,
+      "lat": 6.3808898,
+      "lon": 2.7040265,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de S\u00e8m\u00e8 Krak\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311418212,
+      "lat": 6.3808632,
+      "lon": 2.7038601,
+      "tags": {
+        "amenity": "police",
+        "name": "Douane B\u00e9ninoise"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311418213,
+      "lat": 6.3809002,
+      "lon": 2.7059395,
+      "tags": {
+        "amenity": "police",
+        "name": "Douane Nigeriane"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4311418215,
+      "lat": 6.3813112,
+      "lon": 2.7064456,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste Avanc\u00e9 Brigarde Territorial de S\u00e8m\u00e8 Krak\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312386798,
+      "lat": 6.3828732,
+      "lon": 2.7019268,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312386799,
+      "lat": 6.3829712,
+      "lon": 2.7021715,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312392158,
+      "lat": 6.3831658,
+      "lon": 2.703688,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le du Palais",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312401261,
+      "lat": 6.3831737,
+      "lon": 2.7061838,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le de la Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312401262,
+      "lat": 6.3831881,
+      "lon": 2.7058777,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le des sages"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312401263,
+      "lat": 6.3831661,
+      "lon": 2.7061426,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le sanitaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312403076,
+      "lat": 6.3830313,
+      "lon": 2.7063694,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le de la Gendarmerie",
+        "name:en": "Benin Border Control"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4312403077,
+      "lat": 6.3830425,
+      "lon": 2.7063466,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le de la Police Krak\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4423832327,
+      "lat": 6.3830366,
+      "lon": 2.7063528,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Contr\u00f4le sanitaire"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4440476590,
+      "lat": 6.4174437,
+      "lon": 7.5096079,
+      "tags": {
+        "addr:street": "Ugwuaji Road",
+        "amenity": "police",
+        "name": "Maryland Police Post",
+        "name:en": "Maryland Police Post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4519487492,
+      "lat": 5.7982143,
+      "lon": 7.9348592,
+      "tags": {
+        "addr:housenumber": "68",
+        "addr:postcode": "480845",
+        "addr:street": "afikpo road",
+        "amenity": "police",
+        "email": "zazyiceboy1@gmail.com",
+        "name": "Police station",
+        "name:en": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4535553592,
+      "lat": 7.477185,
+      "lon": 2.7149803,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de police, compagnie de Gengarmerie, poste forestier"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4869710421,
+      "lat": 7.4131067,
+      "lon": 2.74217,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Police d'Illarra"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5326846775,
+      "lat": 6.5511288,
+      "lon": 3.2388137,
+      "tags": {
+        "amenity": "police",
+        "name": "Igando Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5427710221,
+      "lat": 5.5462685,
+      "lon": 5.7652357,
+      "tags": {
+        "addr:street": "Bendel Estate,  Ugborikoko",
+        "amenity": "police",
+        "name": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5427746127,
+      "lat": 5.5688929,
+      "lon": 5.7437751,
+      "tags": {
+        "addr:street": "Kilometer 4, Refinery Road",
+        "amenity": "police",
+        "name": "NPF Ekpan"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5448372199,
+      "lat": 6.380086,
+      "lon": 2.706487,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste Avanc\u00e9 Brigarde Territorial de S\u00e8m\u00e8 Krak\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5467762869,
+      "lat": 5.0929737,
+      "lon": 6.4760283,
+      "tags": {
+        "addr:street": "Akinima",
+        "amenity": "police",
+        "name": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5503564521,
+      "lat": 4.9441668,
+      "lon": 6.342848,
+      "tags": {
+        "addr:street": "Isaac Boro Expressway",
+        "amenity": "police",
+        "name": "Ali Sokoto VNG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5509012525,
+      "lat": 4.947358,
+      "lon": 6.3362147,
+      "tags": {
+        "addr:housenumber": "15",
+        "addr:street": "Opolo JTF Road",
+        "amenity": "police",
+        "name": "NSCDC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5593028023,
+      "lat": 4.8513914,
+      "lon": 7.0632908,
+      "tags": {
+        "amenity": "police",
+        "name": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599578833,
+      "lat": 4.8374517,
+      "lon": 7.0375487,
+      "tags": {
+        "addr:street": "Old Aba Road",
+        "amenity": "police",
+        "name": "Mini Okoro Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599585544,
+      "lat": 4.8201471,
+      "lon": 7.0412027,
+      "tags": {
+        "addr:street": "Trans-Amadi Road",
+        "amenity": "police",
+        "name": "NPF Oginigba Trans-Amadi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5600372722,
+      "lat": 4.8383222,
+      "lon": 7.0450562,
+      "tags": {
+        "addr:housenumber": "24/26",
+        "addr:street": "Woji Road",
+        "amenity": "police",
+        "name": "Nigerian Navy Barracks"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5618995022,
+      "lat": 4.714893,
+      "lon": 7.2648293,
+      "tags": {
+        "addr:street": "Bori Road",
+        "amenity": "police",
+        "name": "Police Barracks"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5678712721,
+      "lat": 5.5188905,
+      "lon": 5.7361962,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "320242",
+        "addr:street": "general hospital road",
+        "amenity": "police",
+        "name": "A Division",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5905198004,
+      "lat": 5.8396352,
+      "lon": 7.0836443,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Mobile Force No. 64 Squadron Ideato",
+        "operator": "Nigeria Police Force"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6172862686,
+      "lat": 5.5786939,
+      "lon": 5.8241721,
+      "tags": {
+        "addr:postcode": "332",
+        "amenity": "police",
+        "name": "Okuokoko Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6371384381,
+      "lat": 6.5896054,
+      "lon": 3.5179266,
+      "tags": {
+        "amenity": "police",
+        "name": "Mobile Police station",
+        "operator": "Lagos state Govt"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6931102286,
+      "lat": 6.7557736,
+      "lon": 7.474473,
+      "tags": {
+        "amenity": "police",
+        "name": "Check Point"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6976631185,
+      "lat": 6.4954088,
+      "lon": 3.3857543,
+      "tags": {
+        "amenity": "police",
+        "name": "Makoko police post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7016422127,
+      "lat": 8.9693022,
+      "lon": 2.7847445,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7019118109,
+      "lat": 8.8763795,
+      "lon": 2.7602532,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7401025179,
+      "lat": 7.3043926,
+      "lon": 5.1395624,
+      "tags": {
+        "amenity": "police",
+        "name": "MAN O WAR OFFICE",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7676789985,
+      "lat": 8.826848,
+      "lon": 8.473129,
+      "tags": {
+        "amenity": "police",
+        "name": "Mobile police training school Wana"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7728269385,
+      "lat": 8.8400723,
+      "lon": 8.4729026,
+      "tags": {
+        "amenity": "police",
+        "name": "Mobile police training school, uwana Akwanga"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956224603,
+      "lat": 4.4348669,
+      "lon": 7.1777365,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police, Bonny Divisional Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225495,
+      "lat": 5.1629184,
+      "lon": 6.2092179,
+      "tags": {
+        "amenity": "police",
+        "name": "Divisional Police Headquarters, Sagbama"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225894,
+      "lat": 4.9383526,
+      "lon": 6.2695943,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police, Bayelsa State Command"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956225896,
+      "lat": 5.1638691,
+      "lon": 6.2078282,
+      "tags": {
+        "amenity": "police",
+        "name": "Area Command Sagbama, Nigeria Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8191209117,
+      "lat": 5.6329074,
+      "lon": 6.4048409,
+      "tags": {
+        "amenity": "police",
+        "name": "Ashaka Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753833961,
+      "lat": 6.444614,
+      "lon": 7.484979,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Command Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8754457772,
+      "lat": 6.4192042,
+      "lon": 7.5074641,
+      "tags": {
+        "amenity": "police",
+        "name": "Police post Maryland"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8845867389,
+      "lat": 8.983983,
+      "lon": 7.5641475,
+      "tags": {
+        "addr:city": "Jikwoyi, Karu",
+        "addr:street": "Phase 1Nyanya-Karshi Road",
+        "amenity": "police",
+        "name": "Jikwoyi Police Station",
+        "operator": "AMAC LGA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8851563687,
+      "lat": 7.803323,
+      "lon": 6.7368777,
+      "tags": {
+        "amenity": "police",
+        "name": "A division"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9534954211,
+      "lat": 6.4730965,
+      "lon": 3.1852905,
+      "tags": {
+        "amenity": "police",
+        "name": "Okoko Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9717326117,
+      "lat": 6.5270258,
+      "lon": 3.3763331,
+      "tags": {
+        "amenity": "police",
+        "name": "Bajulaye Police Post",
+        "survey:date": "2022-05-05",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899847277,
+      "lat": 7.8801199,
+      "lon": 3.144626,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899857597,
+      "lat": 7.8311033,
+      "lon": 3.2216863,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909861957,
+      "lat": 4.7016242,
+      "lon": 6.0267581,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909948112,
+      "lat": 4.805941,
+      "lon": 6.0808098,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909989191,
+      "lat": 4.7475975,
+      "lon": 6.0091055,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912647380,
+      "lat": 4.7197712,
+      "lon": 6.467768,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939680044,
+      "lat": 8.2885322,
+      "lon": 7.9804842,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939684798,
+      "lat": 8.1240914,
+      "lon": 7.9616195,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990036716,
+      "lat": 8.4122803,
+      "lon": 6.4335964,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990045040,
+      "lat": 8.562526,
+      "lon": 6.2419407,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990172078,
+      "lat": 6.8114048,
+      "lon": 6.7773197,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990179477,
+      "lat": 6.8327999,
+      "lon": 6.7554675,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029628307,
+      "lat": 8.9528383,
+      "lon": 2.9273104,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029629277,
+      "lat": 8.848945,
+      "lon": 3.0047938,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10056650841,
+      "lat": 7.6817024,
+      "lon": 7.7530673,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10056653089,
+      "lat": 7.563479,
+      "lon": 7.7979619,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059659245,
+      "lat": 6.866268,
+      "lon": 8.1709222,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059671603,
+      "lat": 6.7274438,
+      "lon": 8.1211167,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10115726492,
+      "lat": 8.4759362,
+      "lon": 3.0130613,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10115727952,
+      "lat": 8.3437507,
+      "lon": 3.2511311,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126085851,
+      "lat": 7.9682016,
+      "lon": 8.0520094,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10209528947,
+      "lat": 8.0103261,
+      "lon": 8.1194269,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10209537751,
+      "lat": 8.0170328,
+      "lon": 8.1200121,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10303749996,
+      "lat": 6.3285979,
+      "lon": 8.1064556,
+      "tags": {
+        "amenity": "police",
+        "name": "Ebonyi State Police Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10568157407,
+      "lat": 8.8384137,
+      "lon": 7.5731585,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police Divisional Headquarters",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10700358088,
+      "lat": 4.9564921,
+      "lon": 8.3108486,
+      "tags": {
+        "amenity": "police",
+        "name": "Marine Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745639609,
+      "lat": 6.3083656,
+      "lon": 8.1471056,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745644306,
+      "lat": 6.4586762,
+      "lon": 7.6877119,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10747822705,
+      "lat": 6.2905103,
+      "lon": 7.3037429,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10747822706,
+      "lat": 6.2638587,
+      "lon": 7.1888199,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10759773306,
+      "lat": 6.4978844,
+      "lon": 3.08858,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10760691505,
+      "lat": 6.4165769,
+      "lon": 2.8604262,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10980392637,
+      "lat": 6.5011721,
+      "lon": 2.702625,
+      "tags": {
+        "amenity": "police",
+        "name": "Direction g\u00e9n\u00e9rale de la police r\u00e9publicaine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11185535837,
+      "lat": 5.5086467,
+      "lon": 5.7534716,
+      "tags": {
+        "amenity": "police",
+        "name": "Daudu Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11396426694,
+      "lat": 6.4417471,
+      "lon": 7.4952698,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2023-12-05",
+        "name": "Ogui Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11737926883,
+      "lat": 7.8309188,
+      "lon": 4.1296242,
+      "tags": {
+        "amenity": "police",
+        "name": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12192734280,
+      "lat": 4.9345896,
+      "lon": 8.316613,
+      "tags": {
+        "addr:city": "Calabar, Cross River, Nigeria",
+        "addr:street": "Mbukpa Road",
+        "amenity": "police",
+        "name": "Mbukpa Police Station",
+        "opening_hours": "24/7",
+        "operator": "Nigeria Police, CRS Command"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281565201,
+      "lat": 6.6083405,
+      "lon": 3.4249289,
+      "tags": {
+        "amenity": "police",
+        "description": "The Nigeria police divisional police headquarters Owode-Onirin Lagos State Command",
+        "operator:type": "state government",
+        "source:position": "gps"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281565202,
+      "lat": 6.6027571,
+      "lon": 3.4124504,
+      "tags": {
+        "amenity": "police",
+        "branch": "Ifelodun Street",
+        "operator": "community",
+        "operator:type": "local government",
+        "source:position": "gps"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12353602200,
+      "lat": 6.6888042,
+      "lon": 3.4142252,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2024-11-19",
+        "description": "The Nigeria police station, Warewa, Ogun state",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12845281516,
+      "lat": 7.4638529,
+      "lon": 5.4050384,
+      "tags": {
+        "amenity": "police",
+        "name": "Ise Police Station",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974749,
+      "lat": 8.4773643,
+      "lon": 4.5662899,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Rd, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975207,
+      "lat": 8.4899357,
+      "lon": 4.6106657,
+      "tags": {
+        "amenity": "police",
+        "name": "f division police station, F division, Tanke Road, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975285,
+      "lat": 8.5032735,
+      "lon": 4.625856,
+      "tags": {
+        "amenity": "police",
+        "name": "Aremo, After F Division Police Station, Tanke, Ilorin, aremo, Ilorin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975307,
+      "lat": 8.4795096,
+      "lon": 4.5632524,
+      "tags": {
+        "amenity": "police",
+        "name": "A Division Police Station, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047975328,
+      "lat": 8.4772918,
+      "lon": 4.566278,
+      "tags": {
+        "amenity": "police",
+        "name": "78 Police Rd, Oko Erin 240101, Kwara, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048286756,
+      "lat": 8.4805084,
+      "lon": 4.536168,
+      "tags": {
+        "amenity": "police",
+        "name": "B Division, Surulere Police Station, Ilorin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13613907953,
+      "lat": 7.5696619,
+      "lon": 4.8907464,
+      "tags": {
+        "addr:postcode": "233118",
+        "addr:state": "Osun",
+        "addr:street": "Off Toso Akinleye way, Erin-Ijesa",
+        "addr:town": "Erin-Ijesa",
+        "amenity": "police",
+        "name": "Erin-Ijesa Police station",
+        "operator": "Nigeria Police Force"
+      }
+    },
+    {
+      "type": "way",
+      "id": 47159969,
+      "center": {
+        "lat": 6.3248333,
+        "lon": 5.6170903
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "police station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 84172387,
+      "center": {
+        "lat": 6.3357782,
+        "lon": 5.6203519
+      },
+      "tags": {
+        "addr:city": "Benin City",
+        "addr:street": "Oba Market Road",
+        "alt_name": "Oba Market Police Station",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Central Police Station, Oba Market Division"
+      }
+    },
+    {
+      "type": "way",
+      "id": 328326627,
+      "center": {
+        "lat": 7.7541211,
+        "lon": 4.526037
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "police",
+        "name": "Directorate of State Security"
+      }
+    },
+    {
+      "type": "way",
+      "id": 372633248,
+      "center": {
+        "lat": 7.753228,
+        "lon": 4.527101
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Immigration Service"
+      }
+    },
+    {
+      "type": "way",
+      "id": 378297564,
+      "center": {
+        "lat": 7.7565205,
+        "lon": 4.5270519
+      },
+      "tags": {
+        "addr:city": "Osogbo",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Federal Road Safety Corp",
+        "name:en": "FRSC"
+      }
+    },
+    {
+      "type": "way",
+      "id": 482468534,
+      "center": {
+        "lat": 7.2518101,
+        "lon": 5.2044932
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "A Division Police Station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 493020610,
+      "center": {
+        "lat": 7.2718096,
+        "lon": 5.2159424
+      },
+      "tags": {
+        "addr:street": "Fiwasaye Road",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Ijapo police station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 533927350,
+      "center": {
+        "lat": 7.7256266,
+        "lon": 4.5055907
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 536707277,
+      "center": {
+        "lat": 7.8351886,
+        "lon": 3.9365461
+      },
+      "tags": {
+        "addr:city": "oyo east",
+        "addr:street": "Oyo",
+        "amenity": "police",
+        "building": "house"
+      }
+    },
+    {
+      "type": "way",
+      "id": 540869073,
+      "center": {
+        "lat": 6.4519945,
+        "lon": 3.4485667
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Police House"
+      }
+    },
+    {
+      "type": "way",
+      "id": 554313075,
+      "center": {
+        "lat": 6.4549438,
+        "lon": 3.4269431
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "height": "5.0"
+      }
+    },
+    {
+      "type": "way",
+      "id": 592191559,
+      "center": {
+        "lat": 6.4431065,
+        "lon": 3.4093919
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "26",
+        "addr:street": "Awolowo Road",
+        "amenity": "police",
+        "name": "Nigerian Police State Marine HQ"
+      }
+    },
+    {
+      "type": "way",
+      "id": 598999071,
+      "center": {
+        "lat": 6.423871,
+        "lon": 3.4119597
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police Division HQ Victoria Island"
+      }
+    },
+    {
+      "type": "way",
+      "id": 604386606,
+      "center": {
+        "lat": 6.4418843,
+        "lon": 3.4030487
+      },
+      "tags": {
+        "amenity": "police",
+        "check_date": "2026-03-03",
+        "name": "Nigerian Police Zone 2 Command HQ"
+      }
+    },
+    {
+      "type": "way",
+      "id": 617859911,
+      "center": {
+        "lat": 7.8443128,
+        "lon": 3.9480093
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 626391058,
+      "center": {
+        "lat": 4.7679579,
+        "lon": 7.0201787
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "check_date": "2026-03-18",
+        "name": "Rivers State Police Headquarters"
+      }
+    },
+    {
+      "type": "way",
+      "id": 627287112,
+      "center": {
+        "lat": 5.8669289,
+        "lon": 7.1017203
+      },
+      "tags": {
+        "addr:city": "Urualla",
+        "addr:street": "Orlu 0 Urualla - Akokwa Road",
+        "amenity": "police",
+        "name": "Urualla Divisional Police Station",
+        "operator": "Government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 629314728,
+      "center": {
+        "lat": 6.1981774,
+        "lon": 8.2305203
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Noyo Police Station Ikwo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 629314960,
+      "center": {
+        "lat": 6.1987479,
+        "lon": 8.230583
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Noyo Police Division"
+      }
+    },
+    {
+      "type": "way",
+      "id": 641988309,
+      "center": {
+        "lat": 6.4472079,
+        "lon": 3.4162126
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Police No. 2 Squadron"
+      }
+    },
+    {
+      "type": "way",
+      "id": 641988311,
+      "center": {
+        "lat": 6.446445,
+        "lon": 3.4179248
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "37",
+        "addr:street": "Ribadu Road",
+        "amenity": "police",
+        "name": "Nigerian Police Mounted Troop F"
+      }
+    },
+    {
+      "type": "way",
+      "id": 643481478,
+      "center": {
+        "lat": 6.4334478,
+        "lon": 3.5030192
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Police Ilasan Division"
+      }
+    },
+    {
+      "type": "way",
+      "id": 738186686,
+      "center": {
+        "lat": 6.447468,
+        "lon": 3.4087229
+      },
+      "tags": {
+        "amenity": "police",
+        "landuse": "residential",
+        "name": "Police Barracks"
+      }
+    },
+    {
+      "type": "way",
+      "id": 747457381,
+      "center": {
+        "lat": 6.6195507,
+        "lon": 3.3610061
+      },
+      "tags": {
+        "amenity": "police",
+        "landuse": "commercial",
+        "name": "Nigeria Police Force Divisional Headquarters"
+      }
+    },
+    {
+      "type": "way",
+      "id": 779131262,
+      "center": {
+        "lat": 6.6406793,
+        "lon": 3.4804597
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "The Nigeria Police - Owutu Ikorodu HQT"
+      }
+    },
+    {
+      "type": "way",
+      "id": 780974098,
+      "center": {
+        "lat": 6.5824742,
+        "lon": 3.3842824
+      },
+      "tags": {
+        "addr:city": "Ogudu",
+        "amenity": "police",
+        "name": "The Nigeria Police, Ogudu"
+      }
+    },
+    {
+      "type": "way",
+      "id": 827612452,
+      "center": {
+        "lat": 8.1573327,
+        "lon": 4.7238242
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "OFFA POLICE STATION"
+      }
+    },
+    {
+      "type": "way",
+      "id": 928308974,
+      "center": {
+        "lat": 6.5602791,
+        "lon": 3.3715496
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Nigerian Police Force Area G Command"
+      }
+    },
+    {
+      "type": "way",
+      "id": 929099788,
+      "center": {
+        "lat": 8.9915946,
+        "lon": 7.4230655
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 951452213,
+      "center": {
+        "lat": 4.5470444,
+        "lon": 8.002448
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Mkpanak Police Station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1152378835,
+      "center": {
+        "lat": 5.5190256,
+        "lon": 5.7362331
+      },
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "320242",
+        "addr:street": "Mabiaku Road",
+        "amenity": "police",
+        "building": "yes",
+        "name": "A Division Police Station Warri",
+        "operator": "Delta State Government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1157677735,
+      "center": {
+        "lat": 8.9523733,
+        "lon": 7.4449721
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Kabusa Police Station",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1173770066,
+      "center": {
+        "lat": 6.8595819,
+        "lon": 7.3986145
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "operator": "University of Nigeria Nsukka",
+        "source": "microsoft/BuildingFootprints"
+      }
+    },
+    {
+      "type": "node",
+      "id": 976599054,
+      "lat": 5.8932121,
+      "lon": 10.5176173,
+      "tags": {
+        "amenity": "police",
+        "name": "National Gendarmarie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053712,
+      "lat": 5.9998552,
+      "lon": 10.4434368,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendamarie Companie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053768,
+      "lat": 5.9904296,
+      "lon": 10.4391998,
+      "tags": {
+        "access": "permissive",
+        "amenity": "police",
+        "description": "Special Branch police post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053778,
+      "lat": 6.0007752,
+      "lon": 10.4463903,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendamarie Brigade Ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069147044,
+      "lat": 5.9909387,
+      "lon": 10.4375471,
+      "tags": {
+        "amenity": "police",
+        "name": "Police post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1749635568,
+      "lat": 5.9542097,
+      "lon": 10.1484395,
+      "tags": {
+        "amenity": "police",
+        "name": "3rd District Police Station",
+        "name:fr": "Poste de Police du 3e District"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136200763,
+      "lat": 6.58205,
+      "lon": 10.6954668,
+      "tags": {
+        "amenity": "police",
+        "name": "Customs Nkambe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136200764,
+      "lat": 6.8340525,
+      "lon": 10.7197832,
+      "tags": {
+        "amenity": "police",
+        "name": "Immigration Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136200766,
+      "lat": 6.8446383,
+      "lon": 10.7141308,
+      "tags": {
+        "amenity": "police",
+        "name": "Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2671711111,
+      "lat": 6.4967417,
+      "lon": 8.5518747,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Police Force Station",
+        "operator": "Federal Government of Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3637208563,
+      "lat": 6.9079289,
+      "lon": 14.08829,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie - Brigade de Nyambaka",
+        "note": "Il s'agit de la gendarmerie mais je n'ai pas pu trouver d'autre ic\u00f4ne"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3804182269,
+      "lat": 5.4689108,
+      "lon": 10.2412008,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3810629811,
+      "lat": 5.655269,
+      "lon": 10.6112115,
+      "tags": {
+        "amenity": "police",
+        "name": "Comissariat Sp\u00e9cial de Kouoptamo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3810629812,
+      "lat": 5.6552506,
+      "lon": 10.6112577,
+      "tags": {
+        "amenity": "police",
+        "name": "Comissariat de S\u00e9curit\u00e9 Publique de Kouoptamo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3810629813,
+      "lat": 5.6550315,
+      "lon": 10.6093691,
+      "tags": {
+        "amenity": "police",
+        "name": "Brigarde de Gendarmerie de Kouoptamo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4336501489,
+      "lat": 5.3346983,
+      "lon": 10.3687166,
+      "tags": {
+        "amenity": "police",
+        "name": "s\u00e9curit\u00e9 public"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4358994389,
+      "lat": 4.7161969,
+      "lon": 9.4886687,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4361327190,
+      "lat": 5.3896528,
+      "lon": 10.33071,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie brigade Bamendjou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4368466790,
+      "lat": 5.4497299,
+      "lon": 10.0607158,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat central"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4378115842,
+      "lat": 4.5796557,
+      "lon": 13.6776245,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4590268393,
+      "lat": 4.7218282,
+      "lon": 9.73356,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de loum",
+        "name:fr": "Commissariat de loum"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4746464141,
+      "lat": 5.5093552,
+      "lon": 14.1269307,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4746505870,
+      "lat": 4.5286322,
+      "lon": 13.6116115,
+      "tags": {
+        "amenity": "police",
+        "ele": "670"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4873588922,
+      "lat": 4.8602844,
+      "lon": 11.0989192,
+      "tags": {
+        "addr:street": "Nationale 4",
+        "amenity": "police",
+        "name": "Brigade De Kon-Yambetta",
+        "name:fr": "Brigade De Kon-Yambetta",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5004889928,
+      "lat": 7.7027188,
+      "lon": 8.5312905,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria Security and Civil Defence Corps, Benue State Command",
+        "name:en": "Nigeria Security and Civil Defence Corps, Benue State Command"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5014762217,
+      "lat": 7.3182781,
+      "lon": 13.5774802,
+      "tags": {
+        "addr:city": "Ngaound\u00e9r\u00e9 I",
+        "amenity": "police",
+        "ele": "1124",
+        "name": "Groupement mobile d'intervention n\u00b09",
+        "operator": "DGSN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5555956909,
+      "lat": 4.5091911,
+      "lon": 12.1267411,
+      "tags": {
+        "amenity": "police",
+        "name": "Escadron mobile de nkoteng"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5671967323,
+      "lat": 4.6320454,
+      "lon": 9.4426873,
+      "tags": {
+        "addr:street": "Central Police Kumba",
+        "amenity": "police",
+        "name": "Central Police Station Kumba",
+        "name:fr": "Police Centrale Kumba"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5909906785,
+      "lat": 7.3202728,
+      "lon": 13.574741,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat Central de Ngaound\u00e9r\u00e9",
+        "name:en": "Ngaound\u00e9r\u00e9 Central Police Station",
+        "phone": "+237222251101"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918420354,
+      "lat": 7.3154332,
+      "lon": 13.5769149,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale Ngaound\u00e9r\u00e9",
+        "office": "government",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200238,
+      "lat": 7.3061798,
+      "lon": 13.5934387,
+      "tags": {
+        "amenity": "police",
+        "name": "commissariat sp\u00e9cial de ndere 1",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200239,
+      "lat": 7.426875,
+      "lon": 13.5553603,
+      "tags": {
+        "amenity": "police",
+        "name": "commissariat de ngaounder\u00e9 3\u00e8me",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200240,
+      "lat": 7.3286272,
+      "lon": 13.5872098,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de s\u00e9curit\u00e9 publique",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200241,
+      "lat": 7.3286632,
+      "lon": 13.5870462,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de l'immigration de l'adamoua",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200243,
+      "lat": 7.3190662,
+      "lon": 13.580311,
+      "tags": {
+        "amenity": "police",
+        "name": "Brigarde de recherche",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200244,
+      "lat": 7.3462779,
+      "lon": 13.5779777,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste police de la plate-forme",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200245,
+      "lat": 7.3198265,
+      "lon": 13.5750026,
+      "tags": {
+        "amenity": "police",
+        "name": "commissariat",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200246,
+      "lat": 7.3373308,
+      "lon": 13.5680465,
+      "tags": {
+        "amenity": "police",
+        "name": "L\u00e9gion Gendarmerie Adamaoua",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200247,
+      "lat": 7.3404353,
+      "lon": 13.5799015,
+      "tags": {
+        "amenity": "police",
+        "name": "Division Regionale de la Police Judiciaire",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200248,
+      "lat": 7.3557437,
+      "lon": 13.5796653,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie nationale 3e region-brigade de Mabanga",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200249,
+      "lat": 7.3375011,
+      "lon": 13.5681188,
+      "tags": {
+        "amenity": "police",
+        "name": "Etat-Major Region de l'Adamaoua",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200250,
+      "lat": 7.2999712,
+      "lon": 13.5774385,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de s\u00e9curit\u00e9 publique du 3\u00e9me",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200252,
+      "lat": 7.4211132,
+      "lon": 13.5525122,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Ngaound\u00e9r\u00e9 3\u00e8me",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200253,
+      "lat": 7.3384697,
+      "lon": 13.5903954,
+      "tags": {
+        "amenity": "police",
+        "name": "Commisariat de la police speciale des chemins de fer de Ngaoundere",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200254,
+      "lat": 7.3575354,
+      "lon": 13.5628828,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmeries a\u00e9roport",
+        "name:ar": "\u0634\u0631\u0637\u0629 \u0627\u0644\u0645\u0637\u0627\u0631",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200255,
+      "lat": 7.3222244,
+      "lon": 13.575369,
+      "tags": {
+        "amenity": "police",
+        "fixme": "Baladji",
+        "name": "Commissariat sp\u00e9cial Ngaound\u00e9r\u00e9",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5943200257,
+      "lat": 7.4278007,
+      "lon": 13.555116,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de police de Dang",
+        "place": "Bini",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6820665487,
+      "lat": 7.6820936,
+      "lon": 13.5496198,
+      "tags": {
+        "amenity": "police",
+        "name": "Contr\u00f4le"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6869669683,
+      "lat": 4.9205495,
+      "lon": 13.2874703,
+      "tags": {
+        "amenity": "police",
+        "description": "Survey Instance: 4fa13e23-0982-441d-8702-392a10faaa14",
+        "extrude": "0",
+        "tessellate": "-1",
+        "visibility": "-1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066230706,
+      "lat": 4.2158175,
+      "lon": 8.9880911,
+      "tags": {
+        "amenity": "police",
+        "name": "Station de police idenau"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7066236543,
+      "lat": 4.2115342,
+      "lon": 8.9902507,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie idenau"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8232912317,
+      "lat": 6.6370076,
+      "lon": 10.0738329,
+      "tags": {
+        "addr:street": "06\u00b038\u203213.35\u2033N 10\u00b004\u203225.43\u2033E",
+        "amenity": "police",
+        "name": "Kunyang"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697384621,
+      "lat": 5.2522157,
+      "lon": 10.4002048,
+      "tags": {
+        "amenity": "police",
+        "name": "Brigade Gendarmerie Bangou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8794225817,
+      "lat": 5.6190134,
+      "lon": 14.3624578,
+      "tags": {
+        "amenity": "police",
+        "name": "Camp BIR MOMBAL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8985832719,
+      "lat": 5.2496545,
+      "lon": 10.3949872,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Bangou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9009718317,
+      "lat": 4.3491888,
+      "lon": 11.2808415,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9611881118,
+      "lat": 4.6446356,
+      "lon": 9.4230827,
+      "tags": {
+        "amenity": "police",
+        "name": "Kumba Central Prison"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059743224,
+      "lat": 6.8022604,
+      "lon": 8.6025044,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10064193743,
+      "lat": 7.7147894,
+      "lon": 9.6063585,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101429967,
+      "lat": 8.549871,
+      "lon": 9.1382878,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10125920323,
+      "lat": 8.4383054,
+      "lon": 9.1008541,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126148301,
+      "lat": 8.4304057,
+      "lon": 9.0636615,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126360413,
+      "lat": 8.6930798,
+      "lon": 8.8076412,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10729344405,
+      "lat": 7.546913,
+      "lon": 13.9469451,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10732115005,
+      "lat": 7.2679797,
+      "lon": 13.5519331,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10732115006,
+      "lat": 7.2883377,
+      "lon": 13.3061282,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10732434707,
+      "lat": 6.5951648,
+      "lon": 13.0714234,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10732713905,
+      "lat": 6.5321085,
+      "lon": 12.6155403,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10732761305,
+      "lat": 6.4490725,
+      "lon": 12.6164072,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10733311205,
+      "lat": 6.4912092,
+      "lon": 12.5704471,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10734575905,
+      "lat": 6.5878063,
+      "lon": 12.2460989,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10734576005,
+      "lat": 6.6779882,
+      "lon": 12.0248534,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739058007,
+      "lat": 6.8510598,
+      "lon": 11.5609875,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Health"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739058008,
+      "lat": 6.9071808,
+      "lon": 11.4537933,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739061207,
+      "lat": 6.7527644,
+      "lon": 11.7840329,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739061308,
+      "lat": 6.8296135,
+      "lon": 11.6950168,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739061309,
+      "lat": 6.8518129,
+      "lon": 11.5620035,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigeria immigration"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739065605,
+      "lat": 6.7574934,
+      "lon": 11.8431898,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739065905,
+      "lat": 6.8509015,
+      "lon": 11.5596469,
+      "tags": {
+        "amenity": "police",
+        "name": "Nigerian Customs"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739679805,
+      "lat": 6.9754523,
+      "lon": 11.0987213,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739679905,
+      "lat": 7.2768903,
+      "lon": 11.121888,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739680005,
+      "lat": 7.2948859,
+      "lon": 11.1471981,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10739680105,
+      "lat": 7.4834793,
+      "lon": 11.3312474,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10741525005,
+      "lat": 7.8071049,
+      "lon": 11.2508762,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10741525205,
+      "lat": 7.6907685,
+      "lon": 10.4698178,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10741525305,
+      "lat": 7.6181324,
+      "lon": 10.3960401,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10742029005,
+      "lat": 7.2524421,
+      "lon": 10.0087114,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10742029006,
+      "lat": 7.242224,
+      "lon": 9.9122117,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10744573205,
+      "lat": 7.1178686,
+      "lon": 9.2666981,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745639605,
+      "lat": 6.922793,
+      "lon": 9.2524209,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745639606,
+      "lat": 6.3738684,
+      "lon": 8.6799556,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745639607,
+      "lat": 6.5004231,
+      "lon": 8.5605223,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745639608,
+      "lat": 6.4700728,
+      "lon": 8.5006095,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745641105,
+      "lat": 6.7832576,
+      "lon": 9.0059737,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745641106,
+      "lat": 6.6727695,
+      "lon": 8.8618895,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745641107,
+      "lat": 6.6647117,
+      "lon": 8.8456062,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10745644305,
+      "lat": 6.5899125,
+      "lon": 8.7865483,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11331045770,
+      "lat": 4.6255847,
+      "lon": 9.42022,
+      "tags": {
+        "amenity": "police",
+        "name": "Mile one police station",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11331078469,
+      "lat": 4.6255454,
+      "lon": 9.4201867,
+      "tags": {
+        "amenity": "police",
+        "name": "Mile one police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11331189270,
+      "lat": 4.6263882,
+      "lon": 9.4219809,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11332615869,
+      "lat": 4.6513431,
+      "lon": 9.4840496,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT MAMBANDA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11332660969,
+      "lat": 4.7127686,
+      "lon": 9.4882153,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT ikiliwindiI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11332661269,
+      "lat": 4.9448472,
+      "lon": 9.475676,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT KONYE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11332737669,
+      "lat": 5.3329136,
+      "lon": 9.4220676,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT NGUTI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11333129569,
+      "lat": 4.7072634,
+      "lon": 9.4882561,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF CHECKPOINT IKILIWINDI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11333132070,
+      "lat": 4.64648,
+      "lon": 9.4841767,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF BIR CAMP",
+        "operator": "Unknown"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11335465969,
+      "lat": 4.6489146,
+      "lon": 9.4844032,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF ( B.I.R) CAMP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11338007669,
+      "lat": 5.2131179,
+      "lon": 9.3955186,
+      "tags": {
+        "amenity": "police",
+        "name": "AYONG JUNCTION (NSAG HOTSPOT AREA)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11368872269,
+      "lat": 4.7305271,
+      "lon": 9.681184,
+      "tags": {
+        "amenity": "police",
+        "name": "SSFsub Base"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11368874569,
+      "lat": 4.7346883,
+      "lon": 9.6766667,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF MIX CP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11370450669,
+      "lat": 4.7219178,
+      "lon": 9.6064817,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF Camp",
+        "name:fr": "Camp SSF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11372996569,
+      "lat": 5.0720822,
+      "lon": 9.7689673,
+      "tags": {
+        "amenity": "police",
+        "name": "SSF MIX CP BANGEM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11377174970,
+      "lat": 5.1001292,
+      "lon": 9.7776232,
+      "tags": {
+        "amenity": "police",
+        "name": "MIX SSF CP BANGEM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11377238970,
+      "lat": 5.131574,
+      "lon": 9.955182,
+      "tags": {
+        "amenity": "police",
+        "name": "MX SSF CP MELONG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11536877775,
+      "lat": 4.4604427,
+      "lon": 13.6221914,
+      "tags": {
+        "amenity": "police",
+        "name": "Radar de la gendarmerie poste de contr\u00f4le"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12607524908,
+      "lat": 4.9792633,
+      "lon": 10.7038404,
+      "tags": {
+        "amenity": "police",
+        "name": "Checkpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12730670937,
+      "lat": 4.8740721,
+      "lon": 12.8122439,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale de Bibey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12731327700,
+      "lat": 4.6491688,
+      "lon": 12.3391227,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12731350049,
+      "lat": 4.50599,
+      "lon": 12.1069698,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13007146381,
+      "lat": 7.1628644,
+      "lon": 9.2817235,
+      "tags": {
+        "amenity": "police",
+        "name": "The Nigeria Police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 244978892,
+      "center": {
+        "lat": 4.6124379,
+        "lon": 11.2558658
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigade Gendarmerie d'OMBESSA"
+      }
+    },
+    {
+      "type": "way",
+      "id": 244978909,
+      "center": {
+        "lat": 4.6128239,
+        "lon": 11.2557242
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigade Gendarmerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 244997505,
+      "center": {
+        "lat": 4.6037203,
+        "lon": 11.256797
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "poste de securit\u00e9 public"
+      }
+    },
+    {
+      "type": "way",
+      "id": 277880886,
+      "center": {
+        "lat": 5.2154988,
+        "lon": 10.427673
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Comissariat 7"
+      }
+    },
+    {
+      "type": "way",
+      "id": 277880979,
+      "center": {
+        "lat": 5.4426967,
+        "lon": 10.057626
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat du 2e Arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 287851706,
+      "center": {
+        "lat": 5.1762207,
+        "lon": 10.3485223
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Brigade de Balambo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 315541108,
+      "center": {
+        "lat": 4.2519445,
+        "lon": 13.4765067
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Brigade de Doum\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326537687,
+      "center": {
+        "lat": 4.7580454,
+        "lon": 11.2300315
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Gendarmerie Nationale Peleton Motoris\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326537767,
+      "center": {
+        "lat": 4.7580142,
+        "lon": 11.230844
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat de S\u00e9curit\u00e9 Publique"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326542198,
+      "center": {
+        "lat": 4.7554477,
+        "lon": 11.2338114
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Brigarde Terre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332250151,
+      "center": {
+        "lat": 4.7621069,
+        "lon": 11.2263426
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Compagnie de Gendarmerie de Bafia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 349167292,
+      "center": {
+        "lat": 5.5397471,
+        "lon": 12.3189455
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat de securite publique"
+      }
+    },
+    {
+      "type": "way",
+      "id": 349173123,
+      "center": {
+        "lat": 5.5388092,
+        "lon": 12.3198185
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Gendarmerie de Yoko"
+      }
+    },
+    {
+      "type": "way",
+      "id": 353893009,
+      "center": {
+        "lat": 4.3682871,
+        "lon": 11.4405384
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat de S\u00e9curit\u00e9 Publique"
+      }
+    },
+    {
+      "type": "way",
+      "id": 354826162,
+      "center": {
+        "lat": 4.361837,
+        "lon": 11.4391402
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Brigarde de SA'A"
+      }
+    },
+    {
+      "type": "way",
+      "id": 358818308,
+      "center": {
+        "lat": 7.3384378,
+        "lon": 13.5904142
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat de la police sp\u00e9ciale des chemins de fer"
+      }
+    },
+    {
+      "type": "way",
+      "id": 364950890,
+      "center": {
+        "lat": 6.2076005,
+        "lon": 10.675419
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 364950893,
+      "center": {
+        "lat": 6.2075812,
+        "lon": 10.6756483
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Duditial Police",
+        "name:fr": "Police Judiciaire"
+      }
+    },
+    {
+      "type": "way",
+      "id": 365665301,
+      "center": {
+        "lat": 5.1195557,
+        "lon": 9.9441009
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Gendamerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366510892,
+      "center": {
+        "lat": 6.2036799,
+        "lon": 10.6777207
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Company Gendamerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366510896,
+      "center": {
+        "lat": 6.2055324,
+        "lon": 10.6829249
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale",
+        "name:fr": "Gendarmerie Nationale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366510907,
+      "center": {
+        "lat": 6.2041894,
+        "lon": 10.6753
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Police Station",
+        "name:fr": "Poste de Police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 368939886,
+      "center": {
+        "lat": 4.2236628,
+        "lon": 9.6120995
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigade de Nkapa"
+      }
+    },
+    {
+      "type": "way",
+      "id": 374598230,
+      "center": {
+        "lat": 4.578802,
+        "lon": 13.6984365
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 374601203,
+      "center": {
+        "lat": 4.578636,
+        "lon": 13.6880681
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall",
+        "name": "Gendarmerie Nationale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 377158469,
+      "center": {
+        "lat": 5.1588498,
+        "lon": 10.1796765
+      },
+      "tags": {
+        "addr:city": "Bafang",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat de bafang"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384496514,
+      "center": {
+        "lat": 5.4736688,
+        "lon": 10.4365839
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Nouvelle Brigade de Bamendzi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 384964704,
+      "center": {
+        "lat": 5.4785521,
+        "lon": 10.4144478
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigade de Djeleng 5"
+      }
+    },
+    {
+      "type": "way",
+      "id": 385130466,
+      "center": {
+        "lat": 5.4584516,
+        "lon": 10.4309059
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigarde de Ndiengdam"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394675795,
+      "center": {
+        "lat": 5.4490258,
+        "lon": 10.0608981
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 400150338,
+      "center": {
+        "lat": 5.9089093,
+        "lon": 10.0367524
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Comisar\u00eda de Policia",
+        "name:en": "Police Station",
+        "name:es": "Comisar\u00eda de Policia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738538,
+      "center": {
+        "lat": 5.474115,
+        "lon": 10.4185663
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Comisariat Central aux Renseignements G\u00e9n\u00e9raux de la Mifi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738539,
+      "center": {
+        "lat": 5.4710801,
+        "lon": 10.4207819
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat de l'Emi-Immigration"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738540,
+      "center": {
+        "lat": 5.472232,
+        "lon": 10.4226192
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat du 1er Arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738545,
+      "center": {
+        "lat": 5.4742705,
+        "lon": 10.419403
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Direction G\u00e9n\u00e9rale de la Suret\u00e9 Nationale de l'Ouest"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738572,
+      "center": {
+        "lat": 5.4732828,
+        "lon": 10.421228
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "fence",
+        "name": "Gendarmerie Nationale Brigade Terre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738573,
+      "center": {
+        "lat": 5.4729412,
+        "lon": 10.4214751
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "fence",
+        "name": "Gendarmerie Nationale Brigade de Recherche"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738574,
+      "center": {
+        "lat": 5.4727398,
+        "lon": 10.4220092
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "fence",
+        "name": "Gendarmerie Nationale L\u00e9gion de l'Ouest"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738606,
+      "center": {
+        "lat": 5.4753174,
+        "lon": 10.4204
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "office",
+        "name": "Police Judiciaire"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424754945,
+      "center": {
+        "lat": 5.4837112,
+        "lon": 10.4389221
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commisariat du 2\u00e9me"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424758167,
+      "center": {
+        "lat": 5.4568148,
+        "lon": 10.4311616
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "GMI Police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425302877,
+      "center": {
+        "lat": 5.4936918,
+        "lon": 10.4013342
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat du 3e arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425306943,
+      "center": {
+        "lat": 5.5081224,
+        "lon": 10.4018009
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Brigade de Lafe"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425510249,
+      "center": {
+        "lat": 5.4839429,
+        "lon": 10.4385956
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de 2e Arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 435616156,
+      "center": {
+        "lat": 4.575836,
+        "lon": 13.6776232
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat"
+      }
+    },
+    {
+      "type": "way",
+      "id": 918638357,
+      "center": {
+        "lat": 7.3511054,
+        "lon": 13.5739048
+      },
+      "tags": {
+        "addr:place": "Mardock",
+        "amenity": "police",
+        "name": "Douanes Camerounaises",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1076863179,
+      "center": {
+        "lat": 6.9130302,
+        "lon": 8.9187565
+      },
+      "tags": {
+        "addr:street": "korinya city police stattion,wuese road",
+        "amenity": "police",
+        "building": "yes",
+        "building:levels": "1",
+        "height": "4",
+        "name": "korinya city police station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1335050434,
+      "center": {
+        "lat": 5.4463907,
+        "lon": 10.0626052
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Gendarmerie - BRIGADE TER DSCHANG"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1337824032,
+      "center": {
+        "lat": 4.4249846,
+        "lon": 14.3648708
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat de police de Batouri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 541790978,
+      "lat": 10.470971,
+      "lon": 7.4213419,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 557713193,
+      "lat": 10.5575825,
+      "lon": 7.4536274,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1754875885,
+      "lat": 10.508895,
+      "lon": 7.4308271,
+      "tags": {
+        "amenity": "police",
+        "designation": "Magajin Gari Police Station",
+        "name": "Police Station",
+        "source": "kaduna State Police Command"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2425321369,
+      "lat": 13.0456324,
+      "lon": 3.195073,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Dosso",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2429045245,
+      "lat": 11.8828594,
+      "lon": 3.3976994,
+      "tags": {
+        "amenity": "police",
+        "barrier": "spikes",
+        "name": "Poste de Police de Gaya",
+        "name:ar": "\u0645\u062a\u062c\u0631 \u0634\u0631\u0637\u0629 \u0627\u0644\u0646\u064a\u062c\u0631;\u0645\u062a\u062c\u0631 \u0645\u0631\u0643\u0632 \u0627\u0644\u0634\u0631\u0637\u0629 \u0627\u0644\u0646\u064a\u062c\u0631;\u0645\u0631\u0643\u0632 \u0627\u0644\u062c\u0645\u0627\u0631\u0643 \u0627\u0644\u0646\u064a\u062c\u0631",
+        "project:mappingforniger": "yes",
+        "shop": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2429045474,
+      "lat": 11.9427887,
+      "lon": 3.4990879,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Police de Gaya",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2429045475,
+      "lat": 11.8782471,
+      "lon": 3.3956853,
+      "tags": {
+        "amenity": "police",
+        "name": "poste de police malanville",
+        "name:ar": "\u0645\u062a\u062c\u0631 \u0634\u0631\u0637\u0629 \u0645\u0627\u0644\u0627\u0646\u0641\u064a\u0644",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2609171866,
+      "lat": 13.7704544,
+      "lon": 4.0088466,
+      "tags": {
+        "amenity": "police",
+        "name": "P\u00e9l\u00e9ton Militaire",
+        "name:en": "Police Station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2636387849,
+      "lat": 13.7637394,
+      "lon": 4.0037361,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2692408080,
+      "lat": 9.2963647,
+      "lon": 7.2262977,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Post"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3353547176,
+      "lat": 13.4954268,
+      "lon": 7.1046617,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Police de Maradi",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318183312,
+      "lat": 13.4853265,
+      "lon": 7.1078637,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5618514909,
+      "lat": 12.9793666,
+      "lon": 3.1999833,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5744469345,
+      "lat": 9.058086,
+      "lon": 7.4974139,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5744469924,
+      "lat": 9.0061095,
+      "lon": 7.280119,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5909851529,
+      "lat": 11.132637,
+      "lon": 2.9344238,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Kandi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6591910220,
+      "lat": 13.8047172,
+      "lon": 5.2519663,
+      "tags": {
+        "amenity": "police",
+        "name": "Direction D\u00e9partementale de la Police Nationale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6758778873,
+      "lat": 11.1373214,
+      "lon": 2.9425871,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6903379741,
+      "lat": 9.9016015,
+      "lon": 2.9480427,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6914937174,
+      "lat": 9.9605595,
+      "lon": 2.7281593,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6933352685,
+      "lat": 12.9889074,
+      "lon": 7.6367791,
+      "tags": {
+        "addr:street": "Daura Road",
+        "amenity": "police",
+        "name": "Katsina Police Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6957205385,
+      "lat": 13.0580234,
+      "lon": 5.2429292,
+      "tags": {
+        "amenity": "police",
+        "name": "Marina police barraks"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7006387332,
+      "lat": 9.0829401,
+      "lon": 2.7394286,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7359471306,
+      "lat": 10.4553056,
+      "lon": 7.4283455,
+      "tags": {
+        "amenity": "police",
+        "name": "MOPOL Barrack"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8260766588,
+      "lat": 11.0734725,
+      "lon": 2.9007616,
+      "tags": {
+        "amenity": "police",
+        "name": "Police r\u00e9publicaine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939676182,
+      "lat": 9.1931383,
+      "lon": 7.7658952,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9995052294,
+      "lat": 13.6565924,
+      "lon": 6.6884865,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Police de Guidan Roumdji"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028636278,
+      "lat": 9.3921626,
+      "lon": 3.3819534,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028641683,
+      "lat": 9.4949827,
+      "lon": 3.6030341,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028649137,
+      "lat": 9.4897495,
+      "lon": 3.5047624,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028650055,
+      "lat": 9.359435,
+      "lon": 3.5185435,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028653181,
+      "lat": 9.5239987,
+      "lon": 3.3404572,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028653465,
+      "lat": 9.6675726,
+      "lon": 3.4438216,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028653510,
+      "lat": 9.6665318,
+      "lon": 3.4410267,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029619142,
+      "lat": 9.1067914,
+      "lon": 3.1121063,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029621609,
+      "lat": 9.2384878,
+      "lon": 3.7250328,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029622418,
+      "lat": 9.3168773,
+      "lon": 3.4858365,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029623431,
+      "lat": 9.3154406,
+      "lon": 3.6759945,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029627663,
+      "lat": 9.0835631,
+      "lon": 3.5329821,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029631076,
+      "lat": 9.0498286,
+      "lon": 3.6499726,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029631248,
+      "lat": 9.0583829,
+      "lon": 2.9393588,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029633851,
+      "lat": 9.0567827,
+      "lon": 2.9338723,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10104437841,
+      "lat": 11.8642663,
+      "lon": 3.394059,
+      "tags": {
+        "amenity": "police",
+        "name": "Police r\u00e9publicaine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10225272539,
+      "lat": 9.1396687,
+      "lon": 7.3699466,
+      "tags": {
+        "amenity": "police",
+        "name": "Market outpost Nigeria Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11028868949,
+      "lat": 9.6193928,
+      "lon": 6.5464925,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11050488820,
+      "lat": 13.5484549,
+      "lon": 7.4486629,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Police de Tchadoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11905781260,
+      "lat": 13.1067274,
+      "lon": 2.837872,
+      "tags": {
+        "addr:street": "Transaharien Highway",
+        "amenity": "police",
+        "name": "Poste de contr\u00f4le"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12569309423,
+      "lat": 9.0060975,
+      "lon": 7.2802931,
+      "tags": {
+        "amenity": "police",
+        "name": "Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13208448902,
+      "lat": 12.04111,
+      "lon": 5.74472,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Station Nasarawa Division"
+      }
+    },
+    {
+      "type": "way",
+      "id": 479666486,
+      "center": {
+        "lat": 10.517702,
+        "lon": 7.441228
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Kaduna Convict Prisons"
+      }
+    },
+    {
+      "type": "way",
+      "id": 479771839,
+      "center": {
+        "lat": 10.5204945,
+        "lon": 7.4335523
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Kaduna State Police Command"
+      }
+    },
+    {
+      "type": "way",
+      "id": 715834664,
+      "center": {
+        "lat": 12.061158,
+        "lon": 3.1876928
+      },
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 717534838,
+      "center": {
+        "lat": 10.9888679,
+        "lon": 3.1500708
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 719315370,
+      "center": {
+        "lat": 12.0284983,
+        "lon": 3.2100436
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall",
+        "name": "PR (Brigade Fluviale)"
+      }
+    },
+    {
+      "type": "way",
+      "id": 723427578,
+      "center": {
+        "lat": 10.9358182,
+        "lon": 3.6962215
+      },
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 724688231,
+      "center": {
+        "lat": 9.9155272,
+        "lon": 3.0382542
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 727374867,
+      "center": {
+        "lat": 9.053112,
+        "lon": 7.5072453
+      },
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:street": "Shehu Shagari Way",
+        "amenity": "police",
+        "government": "police",
+        "name": "Nigerian Police Force Headquarters",
+        "phone": "+234 803 837 5844",
+        "website": "https://www.npf.gov.ng/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 794806021,
+      "center": {
+        "lat": 9.1904773,
+        "lon": 3.0662396
+      },
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 877600220,
+      "center": {
+        "lat": 9.6223498,
+        "lon": 6.547483
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 946414254,
+      "center": {
+        "lat": 9.0155963,
+        "lon": 7.4205961
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1030338956,
+      "center": {
+        "lat": 13.5338276,
+        "lon": 7.1487428
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "1"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1125028502,
+      "center": {
+        "lat": 9.0262114,
+        "lon": 7.5862115
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1156089387,
+      "center": {
+        "lat": 9.0316361,
+        "lon": 7.4702655
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1239750107,
+      "center": {
+        "lat": 9.0280495,
+        "lon": 7.4982765
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "1",
+        "name": "F.C.T. Police Command Headquarters"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1331883156,
+      "center": {
+        "lat": 9.0204739,
+        "lon": 7.4859552
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1362308783,
+      "center": {
+        "lat": 12.3189619,
+        "lon": 4.2564119
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Police Division"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1383793395,
+      "center": {
+        "lat": 9.5516874,
+        "lon": 7.9317266
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Kenyi Police Station",
+        "operator": "Nigeria Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 482078043,
+      "lat": 13.8710117,
+      "lon": 14.2635186,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306186,
+      "lat": 9.388962,
+      "lon": 13.5099402,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de Police de Pitoa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2314529177,
+      "lat": 9.3090853,
+      "lon": 13.3948023,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie nationale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317291673,
+      "lat": 9.3083755,
+      "lon": 13.3968129,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de police du march\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2557308121,
+      "lat": 13.698879,
+      "lon": 13.3073528,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3132297900,
+      "lat": 11.6893886,
+      "lon": 10.1905474,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3887415550,
+      "lat": 11.9901783,
+      "lon": 8.5208947,
+      "tags": {
+        "amenity": "police",
+        "name": "Prison (Kurmawa Gidan Yari)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4309167590,
+      "lat": 13.533085,
+      "lon": 14.3124563,
+      "tags": {
+        "amenity": "police",
+        "name": "Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4428554894,
+      "lat": 12.3903666,
+      "lon": 14.2179993,
+      "tags": {
+        "amenity": "police",
+        "name": "Comit\u00e9 de Vigilance 1",
+        "name:en": "Vigilantes Fox 1",
+        "name:fr": "Comit\u00e9 de Vigilance 1"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4428613891,
+      "lat": 12.4486077,
+      "lon": 14.1986744,
+      "tags": {
+        "addr:housenumber": "50",
+        "addr:postcode": "00237",
+        "addr:street": "Fotokol Soueram",
+        "amenity": "police",
+        "name": "Dega MMF Post",
+        "name:en": "Dega MMF Post",
+        "name:fr": "Poste FMM Dega"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4428638189,
+      "lat": 12.5082843,
+      "lon": 14.2274888,
+      "tags": {
+        "addr:housenumber": "100",
+        "addr:postcode": "00237",
+        "addr:street": "Ardebe Dambore",
+        "amenity": "police",
+        "name": "Ardebe MMF Post",
+        "name:en": "Ardebe MMF Post",
+        "name:fr": "Poste FMM Ardebe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4581570394,
+      "lat": 9.7804388,
+      "lon": 12.5956759,
+      "tags": {
+        "amenity": "police",
+        "name": "check point",
+        "name:en": "check point"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4589390689,
+      "lat": 9.4868617,
+      "lon": 12.5824711,
+      "tags": {
+        "amenity": "police",
+        "name": "Jabilamba check point",
+        "name:en": "Jabilamba check point"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4663033129,
+      "lat": 10.2667092,
+      "lon": 11.1843945,
+      "tags": {
+        "amenity": "police",
+        "name": "pantami police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992870928,
+      "lat": 13.2153925,
+      "lon": 12.025863,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie",
+        "name:fr": "Gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992929021,
+      "lat": 13.2168049,
+      "lon": 12.0293772,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de Police",
+        "name:fr": "Commissariat de Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5026263014,
+      "lat": 10.2750328,
+      "lon": 11.1692919,
+      "tags": {
+        "addr:city": "GOMBE, NIGERIA",
+        "addr:street": "pantami road",
+        "amenity": "police",
+        "name": "Pantami Divisional Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5028079101,
+      "lat": 10.2776545,
+      "lon": 11.1793736,
+      "tags": {
+        "addr:city": "GOMBE",
+        "addr:street": "MARKET WAY",
+        "amenity": "police",
+        "name": "LOWCOST DIVISIONAL POILCE HEADQUARTERS",
+        "operator": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5028133156,
+      "lat": 10.2780479,
+      "lon": 11.2004523,
+      "tags": {
+        "addr:city": "GOMBE",
+        "addr:street": "Gombe - Biu Road",
+        "amenity": "police",
+        "name": "GONA DIVISIONAL POLICE HEADQUARTERS",
+        "operator": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5028133158,
+      "lat": 10.2905198,
+      "lon": 11.0971477,
+      "tags": {
+        "addr:city": "GOMBE",
+        "addr:street": "GOMBE - BAUCHI ROAD",
+        "amenity": "police",
+        "name": "TUMFURE DIVISIONAL POLICE HEADQUARTERS",
+        "operator": "NPF"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5091574221,
+      "lat": 13.316497,
+      "lon": 12.6132904,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de police Diffa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5279788502,
+      "lat": 10.6312906,
+      "lon": 13.8979165,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste de gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5281584384,
+      "lat": 10.8810094,
+      "lon": 13.8907257,
+      "tags": {
+        "amenity": "police",
+        "name": "Brigade de gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6165058855,
+      "lat": 13.7877353,
+      "lon": 8.897423,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6480554895,
+      "lat": 9.3327745,
+      "lon": 13.4075394,
+      "tags": {
+        "amenity": "police",
+        "name": "Camp GPIGN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674963,
+      "lat": 9.3132863,
+      "lon": 13.3576208,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat De S\u00e9curit\u00e9 Publique Du 3 Arrondissement De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674964,
+      "lat": 9.3109809,
+      "lon": 13.3805738,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat Special De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674965,
+      "lat": 9.3085828,
+      "lon": 13.395666,
+      "tags": {
+        "amenity": "police",
+        "name": "Division Regionale De La Police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674966,
+      "lat": 9.2985483,
+      "lon": 13.386924,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariatdu 2em Arrondissement De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674967,
+      "lat": 9.2975825,
+      "lon": 13.4004884,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste De Police Du Commissariat"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690674968,
+      "lat": 9.2978147,
+      "lon": 13.4003265,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat Central Aux Renseignements G\u00e9n\u00e9raux De La Benoue"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678578,
+      "lat": 9.3267883,
+      "lon": 13.3897302,
+      "tags": {
+        "amenity": "police",
+        "name": "Region De La Gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678579,
+      "lat": 9.3128072,
+      "lon": 13.3792314,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Groupement N3"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678580,
+      "lat": 9.3091571,
+      "lon": 13.3955131,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale, Legion Du Nord"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678581,
+      "lat": 9.3134534,
+      "lon": 13.3934364,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678582,
+      "lat": 9.2995164,
+      "lon": 13.4022917,
+      "tags": {
+        "amenity": "police",
+        "name": "Poste De Commandement Eu Bataillon De Commandement Et De Soutien N 3"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690678583,
+      "lat": 9.2957273,
+      "lon": 13.4030467,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie Nationale Brigade Fluviale Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769227855,
+      "lat": 9.3454883,
+      "lon": 13.4091538,
+      "tags": {
+        "amenity": "police",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769236027,
+      "lat": 9.3513592,
+      "lon": 13.4221601,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissionnaire En Douane Agr\u00e9e ( Hlog)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6769236028,
+      "lat": 9.3419214,
+      "lon": 13.3975294,
+      "tags": {
+        "amenity": "police",
+        "name": "D\u00e9l\u00e9gation Regionale De La S\u00fbret\u00e9 Nationale Du Nord"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7033091439,
+      "lat": 9.0397562,
+      "lon": 13.6456092,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7033091440,
+      "lat": 9.0595726,
+      "lon": 13.6602548,
+      "tags": {
+        "amenity": "police",
+        "name": "Brigarde de lagdo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7033099177,
+      "lat": 9.0624393,
+      "lon": 13.6588839,
+      "tags": {
+        "amenity": "police",
+        "name": "Delegation .poste de securit\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035902501,
+      "lat": 9.3468362,
+      "lon": 12.9857674,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035902502,
+      "lat": 9.3451956,
+      "lon": 12.9671211,
+      "tags": {
+        "amenity": "police",
+        "name": "Post\u00e9 fronti\u00e8re"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035902503,
+      "lat": 9.3452055,
+      "lon": 12.9686277,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054297825,
+      "lat": 9.9842104,
+      "lon": 13.5218242,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054297826,
+      "lat": 9.9689331,
+      "lon": 13.6098025,
+      "tags": {
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054898012,
+      "lat": 9.3084388,
+      "lon": 13.8845046,
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat sp\u00e9cial de police"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7326175888,
+      "lat": 10.27689,
+      "lon": 11.2857933,
+      "tags": {
+        "amenity": "police",
+        "name": "Police division head quarter kwadom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7814810785,
+      "lat": 13.8776647,
+      "lon": 8.9860608,
+      "tags": {
+        "addr:street": "Rn11 0Km",
+        "amenity": "police",
+        "name": "Barri\u00e8re",
+        "phone": "99225686"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7917879622,
+      "lat": 9.9248473,
+      "lon": 8.9020264,
+      "tags": {
+        "amenity": "police",
+        "description": "Neighborhood Watch Nassarawa Gwong Jos",
+        "name": "Neighborhood Watch"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9655436479,
+      "lat": 9.9539245,
+      "lon": 8.8555049,
+      "tags": {
+        "amenity": "police",
+        "name": "Ecwastaff Police station",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769378834,
+      "lat": 9.9171464,
+      "lon": 8.8838943,
+      "tags": {
+        "addr:city": "jos",
+        "amenity": "police",
+        "name": "The Nigerian police, area command jos metro"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769718565,
+      "lat": 9.933294,
+      "lon": 8.9097794,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Bauchi Ring Road",
+        "amenity": "police",
+        "check_date": "2023-12-14",
+        "description": "Police Station Angwan Rukuba Junction Jos",
+        "name": "Angwan Rukuba Police Station",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9770066487,
+      "lat": 9.916748,
+      "lon": 8.890344,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771614075,
+      "lat": 9.9023441,
+      "lon": 8.8866366,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Operations safe heaven headquarters",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771889602,
+      "lat": 9.9075697,
+      "lon": 8.8820594,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Nigerian police inspectorate Mess Jos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771993485,
+      "lat": 9.8977429,
+      "lon": 8.8815574,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772342600,
+      "lat": 9.8962303,
+      "lon": 8.8716355,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772373519,
+      "lat": 9.9294857,
+      "lon": 8.8716519,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "description": "operation Rain bow",
+        "name": "Operation Rainbow kabong"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772427103,
+      "lat": 9.900021,
+      "lon": 8.8672841,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772513623,
+      "lat": 9.9363844,
+      "lon": 8.8632557,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "description": "Rock Heaven Police outstation Jos",
+        "name": "The Nigeria Police Force"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772530908,
+      "lat": 9.9291313,
+      "lon": 8.8716581,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Kabong",
+        "amenity": "police",
+        "description": "police station",
+        "name": "Nigeria police station kabong"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772627594,
+      "lat": 9.9125754,
+      "lon": 8.9131956,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Bauchi Ring Road",
+        "amenity": "police",
+        "description": "Community Police",
+        "name": "Neighborhood Watch (Community Police) Arin Izang unit",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772690599,
+      "lat": 9.9068086,
+      "lon": 8.8772967,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "The Nigerian police officers mess"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772749021,
+      "lat": 9.9144884,
+      "lon": 8.8801773,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Police headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772767581,
+      "lat": 9.9147297,
+      "lon": 8.8797683,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Nigeria police divisional headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9772789370,
+      "lat": 9.9003902,
+      "lon": 8.8952,
+      "tags": {
+        "addr:city": "jos",
+        "addr:postcode": "930105",
+        "addr:street": "Bauchi Ring Road",
+        "amenity": "police",
+        "description": "Nigerian Civil Defense Corps Double Dollar Bauchi Ring Road Jos",
+        "name": "Nigerian Civil Defense Corps"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774449751,
+      "lat": 9.9561122,
+      "lon": 8.8917948,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Bauchi Road",
+        "amenity": "police",
+        "description": "Police Station Divisional Outpost Along Bauchi Road Jos",
+        "name": "Nigeria police Outpost"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9774599175,
+      "lat": 9.9723102,
+      "lon": 8.8946043,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "police",
+        "name": "Nigeria police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9776063304,
+      "lat": 9.9082576,
+      "lon": 8.9155168,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:postcode": "930105",
+        "addr:street": "Dankankani",
+        "amenity": "police",
+        "description": "Community police Furaka Jos North",
+        "name": "Nieborhood Watch",
+        "operator": "Community"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9776615866,
+      "lat": 9.9445253,
+      "lon": 8.8890676,
+      "tags": {
+        "addr:city": "Jos",
+        "addr:street": "Angwan rogo",
+        "amenity": "police",
+        "description": "Angwan rogo jos",
+        "name": "Angwan rogo police station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9796329426,
+      "lat": 9.9422912,
+      "lon": 8.8777351,
+      "tags": {
+        "addr:street": "Katako Market Jos",
+        "amenity": "police",
+        "description": "Police Station Divisional Outpost Katako Market Jos",
+        "name": "Police Station Katako Division"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897672646,
+      "lat": 12.803934,
+      "lon": 9.2492446,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10076571230,
+      "lat": 12.138652,
+      "lon": 9.4435623,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091953302,
+      "lat": 9.4272754,
+      "lon": 9.099776,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091965598,
+      "lat": 9.5191839,
+      "lon": 10.2661146,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091989288,
+      "lat": 9.4660133,
+      "lon": 10.2210138,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091994679,
+      "lat": 9.4986228,
+      "lon": 10.0914815,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091995820,
+      "lat": 9.4960661,
+      "lon": 10.0921188,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091995824,
+      "lat": 9.498219,
+      "lon": 10.0929408,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092006924,
+      "lat": 9.4259902,
+      "lon": 9.0986118,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092007759,
+      "lat": 9.6776198,
+      "lon": 9.1513222,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092015391,
+      "lat": 9.493413,
+      "lon": 10.3126293,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101428514,
+      "lat": 9.4469281,
+      "lon": 10.2844269,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10101430430,
+      "lat": 9.1247473,
+      "lon": 8.8728507,
+      "tags": {
+        "amenity": "police",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11011106712,
+      "lat": 10.3167377,
+      "lon": 9.8217942,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2023-06-27",
+        "name": "Zone 12 Headquarters"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11013558982,
+      "lat": 10.2720613,
+      "lon": 9.7913768,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2023-06-29",
+        "name": "Yelwa Police Station",
+        "opening_hours": "24/7",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11039353205,
+      "lat": 10.2856739,
+      "lon": 11.1456364,
+      "tags": {
+        "addr:street": "GOMBE BIU Road",
+        "amenity": "police",
+        "name": "NIGERIA IMMIGRATION SERVICE. GOMBE COMMAND",
+        "phone": "08138649449"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11336589069,
+      "lat": 10.3017164,
+      "lon": 11.1416706,
+      "tags": {
+        "addr:street": "Muhammad indimi road",
+        "amenity": "police"
+      }
+    },
+    {
+      "type": "way",
+      "id": 208908655,
+      "center": {
+        "lat": 10.6099933,
+        "lon": 14.3587379
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commisariat du 3 \u00e9me"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221477187,
+      "center": {
+        "lat": 9.3070762,
+        "lon": 13.3916598
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "D\u00e9l\u00e9gation regionale de la suret\u00e9 nationale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221851737,
+      "center": {
+        "lat": 9.3193312,
+        "lon": 13.3913626
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall",
+        "name": "GMI"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221970524,
+      "center": {
+        "lat": 9.3085045,
+        "lon": 13.3956479
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Police judiciaire",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 222105305,
+      "center": {
+        "lat": 9.3046998,
+        "lon": 13.3924659
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat du Premier Arrondissement",
+        "source": "asmaou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226401758,
+      "center": {
+        "lat": 9.325519,
+        "lon": 13.3928551
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat du 4\u00e8me arrondissement",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226696083,
+      "center": {
+        "lat": 9.3126523,
+        "lon": 13.3793907
+      },
+      "tags": {
+        "amenity": "police",
+        "barrier": "wall",
+        "name": "Gendarmerie Nationale 3\u00e8me R\u00e9gion"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226728800,
+      "center": {
+        "lat": 9.2978223,
+        "lon": 13.4003097
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat Central",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226728801,
+      "center": {
+        "lat": 9.2951815,
+        "lon": 13.4026802
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "office",
+        "name": "Port et Bureau de Douane",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 227130453,
+      "center": {
+        "lat": 9.2986495,
+        "lon": 13.3895148
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat du 2eme Arrondissement",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 399894103,
+      "center": {
+        "lat": 10.5949948,
+        "lon": 14.3042646
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Etat major",
+        "source": "Plan polyvalent Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 399895007,
+      "center": {
+        "lat": 10.5933384,
+        "lon": 14.3135141
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat Centrale",
+        "source": "Plan polyvalent Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 399973406,
+      "center": {
+        "lat": 10.6029147,
+        "lon": 14.3141883
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Commissariat sp\u00e9cial MAROUA II",
+        "source": "Plan polyvalent Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 400006444,
+      "center": {
+        "lat": 10.6036718,
+        "lon": 14.3372979
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Police des Polices",
+        "source": "Plan polyvalent Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416108331,
+      "center": {
+        "lat": 10.4684136,
+        "lon": 14.2426844
+      },
+      "tags": {
+        "amenity": "police",
+        "landuse": "military",
+        "name": "1er Bataillon d'intervention rapide",
+        "short_name": "BIR"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416108332,
+      "center": {
+        "lat": 10.4552736,
+        "lon": 14.2383359
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "B\u00e2timents Bataillon d'intervention rapide( BIR)"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416113999,
+      "center": {
+        "lat": 10.584608,
+        "lon": 14.2803595
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat de police du 4eme Arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416118862,
+      "center": {
+        "lat": 10.5895376,
+        "lon": 14.3045696
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "L\u00e9gion militaire de Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416118867,
+      "center": {
+        "lat": 10.5882273,
+        "lon": 14.307901
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Peleton Routier Motoris\u00e9 de Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416118870,
+      "center": {
+        "lat": 10.5904362,
+        "lon": 14.3068656
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Secretariat d'Etat \u00e0 la defense"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416118871,
+      "center": {
+        "lat": 10.5898353,
+        "lon": 14.3082872
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Secretariat d'etat \u00e0 la d\u00e9fense"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416126690,
+      "center": {
+        "lat": 10.5947928,
+        "lon": 14.3143679
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Centre Social des Arm\u00e9es"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416126691,
+      "center": {
+        "lat": 10.5891693,
+        "lon": 14.3144978
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "D\u00e9l\u00e9gation g\u00e9n\u00e9rale de la suret\u00e9 nationale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416126695,
+      "center": {
+        "lat": 10.5942827,
+        "lon": 14.3100894
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "MINDEF"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416148744,
+      "center": {
+        "lat": 10.5896593,
+        "lon": 14.3189752
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "D\u00e9l\u00e9gation g\u00e9n\u00e9rale de la suret\u00e9 National"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416150833,
+      "center": {
+        "lat": 10.5931471,
+        "lon": 14.3309821
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Commisariat de s\u00e9curit\u00e9 du 1er Arrondissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416155811,
+      "center": {
+        "lat": 10.5982957,
+        "lon": 14.3158202
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Commissariat Central qux Renseignements G\u00e9n\u00e9raux"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416155814,
+      "center": {
+        "lat": 10.5986385,
+        "lon": 14.3159357
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Gendarmerie National"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416155825,
+      "center": {
+        "lat": 10.5982283,
+        "lon": 14.3154688
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Police GMI"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416168847,
+      "center": {
+        "lat": 10.6136055,
+        "lon": 14.3568726
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Brigade Terre de Douggo\u00ef"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416168848,
+      "center": {
+        "lat": 10.6033072,
+        "lon": 14.3393727
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Brigarde de Recherche"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416168885,
+      "center": {
+        "lat": 10.6097281,
+        "lon": 14.3265248
+      },
+      "tags": {
+        "amenity": "police",
+        "name": "Commissariat de S\u00e9curit\u00e9 du 2\u00e9me"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416168887,
+      "center": {
+        "lat": 10.6035856,
+        "lon": 14.3374405
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "public",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 428617279,
+      "center": {
+        "lat": 13.5329719,
+        "lon": 14.3128032
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Gendarmerie"
+      }
+    },
+    {
+      "type": "way",
+      "id": 514449537,
+      "center": {
+        "lat": 10.290434,
+        "lon": 11.1393288
+      },
+      "tags": {
+        "addr:city": "GOMBE",
+        "addr:street": "ALONG ASHAKA ROAD GOMBE",
+        "amenity": "police",
+        "name": "NPF State Headquarters Gombe State Command"
+      }
+    },
+    {
+      "type": "way",
+      "id": 514501169,
+      "center": {
+        "lat": 10.2992268,
+        "lon": 11.1614618
+      },
+      "tags": {
+        "addr:city": "GOMBE",
+        "addr:street": "NEAR TASHAN DUKKU MOTOR PARK",
+        "amenity": "police",
+        "building": "yes",
+        "name": "NPF GOMBE AREA COMMAND",
+        "operator": "NPF GOMBE STATE COMMAN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 633063101,
+      "center": {
+        "lat": 13.0329459,
+        "lon": 10.3284645
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701027616,
+      "center": {
+        "lat": 11.8430391,
+        "lon": 13.1492057
+      },
+      "tags": {
+        "addr:full": "Mafoni, Hausari, Maiduguri",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Dandal Police Station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 914857172,
+      "center": {
+        "lat": 10.2186664,
+        "lon": 11.3868719
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "DEBA DIVISION"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1055118989,
+      "center": {
+        "lat": 12.3633939,
+        "lon": 14.2158925
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "-1"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1312945530,
+      "center": {
+        "lat": 9.1958405,
+        "lon": 9.882319
+      },
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "pil gani police station"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

@@ -1,0 +1,1167 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2161119694,
+      "lat": 6.3220637,
+      "lon": 5.6264054,
+      "tags": {
+        "amenity": "library",
+        "name": "edo state library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133622,
+      "lat": 6.432387,
+      "lon": 7.518436,
+      "tags": {
+        "addr:street": "NTA Road",
+        "amenity": "library",
+        "ele": "247.300003",
+        "fixme": "many bad keys",
+        "name": "National Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133699,
+      "lat": 6.435965,
+      "lon": 7.491271,
+      "tags": {
+        "addr:street": "Market Road",
+        "amenity": "library",
+        "ele": "224.600006",
+        "fixme": "many bad keys",
+        "name": "State Central Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3084912687,
+      "lat": 7.4358554,
+      "lon": 3.8858458,
+      "tags": {
+        "amenity": "library",
+        "name": "central library ibadan poly"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5338962021,
+      "lat": 5.4827697,
+      "lon": 7.5419962,
+      "tags": {
+        "amenity": "library",
+        "name": "Library Complex NRCRI"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6122566943,
+      "lat": 6.5201116,
+      "lon": 3.3998117,
+      "tags": {
+        "amenity": "library",
+        "check_date": "2023-04-17",
+        "name": "Unilag Main Library",
+        "website": "https://facebook.com/unilagbookshop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7149106382,
+      "lat": 6.2489972,
+      "lon": 7.1147646,
+      "tags": {
+        "amenity": "library",
+        "name": "Digital Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7345337232,
+      "lat": 6.7412552,
+      "lon": 5.4032457,
+      "tags": {
+        "amenity": "library",
+        "entrance": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "IUO Library",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "daniel",
+        "operator:type": "university"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956224795,
+      "lat": 4.9331583,
+      "lon": 6.2827696,
+      "tags": {
+        "addr:street": "Imgbi Road",
+        "amenity": "library",
+        "name": "Azaiki Foundation Public Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8851563683,
+      "lat": 7.7954438,
+      "lon": 6.7341177,
+      "tags": {
+        "addr:street": "Ibb way",
+        "amenity": "library",
+        "name": "Stella Obasanjo Library",
+        "operator": "Ministry of Education",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11750293370,
+      "lat": 6.8921563,
+      "lon": 3.7223333,
+      "tags": {
+        "amenity": "library",
+        "name": "Laz Otti Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11937760917,
+      "lat": 7.3027927,
+      "lon": 5.1359784,
+      "tags": {
+        "amenity": "library",
+        "check_date": "2024-05-27",
+        "name": "SEET Library",
+        "name:en": "SEET Library",
+        "opening_hours": "Mo-Fr 08:00-18:00; Sa-Su off"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11937804183,
+      "lat": 7.3013006,
+      "lon": 5.1355217,
+      "tags": {
+        "amenity": "library",
+        "check_date": "2024-05-27",
+        "name": "SAAT Library",
+        "name:en": "SAAT Library",
+        "opening_hours": "Mo-Fr 08:00-17:30; Sa-Su off"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13536246692,
+      "lat": 6.4458576,
+      "lon": 3.4053573,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "27",
+        "addr:street": "Boyle Street",
+        "air_conditioning": "yes",
+        "amenity": "library",
+        "internet_access": "wlan",
+        "name": "Pan African Research Centre",
+        "operator": "pada lagos",
+        "operator:type": "private_non_profit"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13723115575,
+      "lat": 7.1678718,
+      "lon": 5.5841785,
+      "tags": {
+        "amenity": "library",
+        "name": "E-Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13723115576,
+      "lat": 7.1677004,
+      "lon": 5.5841274,
+      "tags": {
+        "amenity": "library",
+        "name": "Library 2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13723115577,
+      "lat": 7.167517,
+      "lon": 5.5841506,
+      "tags": {
+        "amenity": "library",
+        "name": "Library 3"
+      }
+    },
+    {
+      "type": "way",
+      "id": 160171911,
+      "center": {
+        "lat": 6.3911026,
+        "lon": 5.6031224
+      },
+      "tags": {
+        "amenity": "library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 303979158,
+      "center": {
+        "lat": 7.3952158,
+        "lon": 3.8723358
+      },
+      "tags": {
+        "addr:city": "Ibadan",
+        "amenity": "library",
+        "building": "yes",
+        "name": "Library and Resource Centre,Leventis Building,Jericho Road."
+      }
+    },
+    {
+      "type": "way",
+      "id": 362847568,
+      "center": {
+        "lat": 7.4466477,
+        "lon": 3.896106
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Kenneth Dike",
+        "opening_hours": "24/7",
+        "operator": "University",
+        "source": "bing",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 501775821,
+      "center": {
+        "lat": 4.901837,
+        "lon": 6.9239331
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "P S Library (Donal Ekong extention)"
+      }
+    },
+    {
+      "type": "way",
+      "id": 617712369,
+      "center": {
+        "lat": 7.5198423,
+        "lon": 4.5230479
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Hezekiah Oluwasanmi Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625458525,
+      "center": {
+        "lat": 5.5159624,
+        "lon": 5.7455615
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 670260325,
+      "center": {
+        "lat": 4.9657624,
+        "lon": 8.3256804
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Cross River State Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 732555018,
+      "center": {
+        "lat": 6.730657,
+        "lon": 3.4140438
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 760061890,
+      "center": {
+        "lat": 6.5176029,
+        "lon": 3.375323
+      },
+      "tags": {
+        "access": "permit",
+        "amenity": "library",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "Central Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 761720586,
+      "center": {
+        "lat": 4.8016926,
+        "lon": 6.9783291
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 837679742,
+      "center": {
+        "lat": 7.2569591,
+        "lon": 5.1833338
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "layer": "1",
+        "name": "Ondo State Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3765195079,
+      "lat": 5.4393554,
+      "lon": 10.0711982,
+      "tags": {
+        "addr:city": "Dschang",
+        "amenity": "library",
+        "level": "0",
+        "name": "Biblioth\u00e8que Principale",
+        "name:en": "Main Library",
+        "opening_hours": "Mo-Sa 8:00-16:00",
+        "operator": "Universit\u00e9 de Dschang"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4988940722,
+      "lat": 5.1435369,
+      "lon": 10.5192385,
+      "tags": {
+        "amenity": "library",
+        "name": "Bilingual Bookshop",
+        "name:en": "Bilingual Bookshop",
+        "phone": "677771545"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5377984271,
+      "lat": 7.3119469,
+      "lon": 13.5980844,
+      "tags": {
+        "amenity": "library",
+        "name": "DNS"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916074510,
+      "lat": 7.3234472,
+      "lon": 13.5756556,
+      "tags": {
+        "addr:postcode": "BP:30 NGAOUND\u00c9R\u00c9",
+        "amenity": "library",
+        "contact:phone": "680373743",
+        "fixme": "Baladji 1",
+        "name": "Centre biblique BEREENS",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5916074511,
+      "lat": 7.3170007,
+      "lon": 13.5739159,
+      "tags": {
+        "addr:postcode": "BP 654 NGAOUND\u00c9R\u00c9",
+        "amenity": "library",
+        "contact:phone": "699519680",
+        "name": "CAPF",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6320650418,
+      "lat": 5.5585122,
+      "lon": 10.1507235,
+      "tags": {
+        "amenity": "library",
+        "description": "publique, fonctionnelle",
+        "name": "Biblioth\u00e9ques de Bangang"
+      }
+    },
+    {
+      "type": "way",
+      "id": 244978916,
+      "center": {
+        "lat": 4.6123707,
+        "lon": 11.2575346
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "public",
+        "name": "Biblioth\u00e8que Municipale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326537775,
+      "center": {
+        "lat": 4.7607152,
+        "lon": 11.2305346
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Biblioth\u00e8que Municipale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 337193531,
+      "center": {
+        "lat": 6.0071975,
+        "lon": 10.0118407
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "public",
+        "name": "Public library",
+        "name:fr": "Biblioth\u00e8que municipale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 355690652,
+      "center": {
+        "lat": 4.3627701,
+        "lon": 11.439337
+      },
+      "tags": {
+        "amenity": "library",
+        "name": "Foyer Municipal de SA'A"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738529,
+      "center": {
+        "lat": 5.4703556,
+        "lon": 10.4194369
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "public",
+        "name": "Bibliotheque Pilote Municipale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738535,
+      "center": {
+        "lat": 5.4729622,
+        "lon": 10.4182966
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "public",
+        "name": "Centre Linguistique R\u00e9gional"
+      }
+    },
+    {
+      "type": "way",
+      "id": 436686993,
+      "center": {
+        "lat": 5.0781803,
+        "lon": 10.5292162
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 449526053,
+      "center": {
+        "lat": 6.1860231,
+        "lon": 10.3454307
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2895370501,
+      "lat": 11.9725702,
+      "lon": 8.4252266,
+      "tags": {
+        "amenity": "library",
+        "name": "Faculty of Engineering",
+        "operator": "University"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3699275725,
+      "lat": 13.7977833,
+      "lon": 5.2503116,
+      "tags": {
+        "amenity": "library",
+        "name": "centre Kan Kowa shi way\u00e9",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911770,
+      "lat": 13.7959594,
+      "lon": 5.2549035,
+      "tags": {
+        "amenity": "library",
+        "name": "M J C konni"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911787,
+      "lat": 13.7960481,
+      "lon": 5.2532624,
+      "tags": {
+        "amenity": "library",
+        "name": "kaocen service",
+        "shop": "books"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153024,
+      "lat": 13.4940417,
+      "lon": 7.106722,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Papeterie Albarka"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153025,
+      "lat": 13.4882919,
+      "lon": 7.1096429,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Service Plus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4315855415,
+      "lat": 13.4909283,
+      "lon": 7.118011,
+      "tags": {
+        "amenity": "library",
+        "name": "Bibliotheque - \u00c9cole Normale Sup\u00e9rieur",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318183308,
+      "lat": 13.491638,
+      "lon": 7.1041933,
+      "tags": {
+        "amenity": "library",
+        "name": "Bibliotheque Point d'Interrogation",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4319250991,
+      "lat": 13.4884235,
+      "lon": 7.1031883,
+      "tags": {
+        "amenity": "library",
+        "name": "Biblioth\u00e8que Espace Americain",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5885752964,
+      "lat": 9.0511631,
+      "lon": 7.4832708,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:housenumber": "Plot 274",
+        "addr:street": "Sanusi Dantata House",
+        "amenity": "library",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "National Library of Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7792526386,
+      "lat": 13.0443736,
+      "lon": 3.1976998,
+      "tags": {
+        "addr:street": "ARNFD",
+        "amenity": "library",
+        "name": "Biblioth\u00e8que",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13032418046,
+      "lat": 10.60988,
+      "lon": 7.4420152,
+      "tags": {
+        "amenity": "library",
+        "internet_access": "wlan",
+        "name": "AFIT library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13042245180,
+      "lat": 10.6101293,
+      "lon": 7.4414538,
+      "tags": {
+        "amenity": "library",
+        "name": "FACULTY OF AIR ENGINEERING LIBRARY"
+      }
+    },
+    {
+      "type": "way",
+      "id": 246942337,
+      "center": {
+        "lat": 13.0444891,
+        "lon": 3.1804372
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 479771841,
+      "center": {
+        "lat": 10.5220377,
+        "lon": 7.4347419
+      },
+      "tags": {
+        "amenity": "library",
+        "name": "National Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 630008904,
+      "center": {
+        "lat": 9.6136512,
+        "lon": 6.5376404
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Federal library Minna"
+      }
+    },
+    {
+      "type": "way",
+      "id": 765991257,
+      "center": {
+        "lat": 10.5179034,
+        "lon": 7.4499645
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "university",
+        "name": "E-Library and Medicine Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 899488909,
+      "center": {
+        "lat": 9.0847246,
+        "lon": 7.5003763
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1247357530,
+      "center": {
+        "lat": 10.6101349,
+        "lon": 7.4414578
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "AIR ENGINEERING LIBRARY",
+        "source": "microsoft/BuildingFootprints"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1248133507,
+      "center": {
+        "lat": 10.6098527,
+        "lon": 7.442004
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "internet_access": "wlan",
+        "name": "AFIT library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1067306278,
+      "lat": 9.3809837,
+      "lon": 13.5258699,
+      "tags": {
+        "amenity": "library",
+        "name": "Biblottheque de Pitoa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2178128756,
+      "lat": 11.9985899,
+      "lon": 8.5590206,
+      "tags": {
+        "amenity": "library",
+        "name": "Kano State LIbrary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4254982289,
+      "lat": 10.5926128,
+      "lon": 14.3147005,
+      "tags": {
+        "addr:street": "Avion me laisse",
+        "amenity": "library",
+        "name": "Djabbama"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4663065041,
+      "lat": 10.2942376,
+      "lon": 11.1564246,
+      "tags": {
+        "amenity": "library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4956800021,
+      "lat": 13.8258867,
+      "lon": 8.983667,
+      "tags": {
+        "amenity": "library",
+        "name": "Centre de conf\u00e9rence et biblioth\u00e8ques Salahouddine",
+        "name:fr": "Centre de conf\u00e9rence et biblioth\u00e8ques Salahouddine"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5012375461,
+      "lat": 10.280795,
+      "lon": 11.1692409,
+      "tags": {
+        "amenity": "library",
+        "name": "shehu abubakar gombe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6207571585,
+      "lat": 11.7151673,
+      "lon": 9.3569515,
+      "tags": {
+        "amenity": "library",
+        "name": "Jigawa State Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670014782,
+      "lat": 9.3065976,
+      "lon": 13.3489519,
+      "tags": {
+        "amenity": "library",
+        "contact:phone": "(+237) 6",
+        "name": "Librairie Papeterie Familiale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670014783,
+      "lat": 9.2961422,
+      "lon": 13.3836865,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Chretienne"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670014784,
+      "lat": 9.3066526,
+      "lon": 13.397269,
+      "tags": {
+        "amenity": "library",
+        "contact:phone": "656364373",
+        "name": "Librairie Papeterie Lipamave Sarl"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040285,
+      "lat": 9.3040307,
+      "lon": 13.3975368,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Papeterie Arabe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040286,
+      "lat": 9.3054686,
+      "lon": 13.3960329,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040287,
+      "lat": 9.306435,
+      "lon": 13.3976629,
+      "tags": {
+        "amenity": "library",
+        "name": "Monde Des Infos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040288,
+      "lat": 9.3069319,
+      "lon": 13.3968054,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Papeterie Universelle"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040289,
+      "lat": 9.3060001,
+      "lon": 13.3952502,
+      "tags": {
+        "amenity": "library",
+        "name": "Vente Des Livres Et Autre Services"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040290,
+      "lat": 9.3053179,
+      "lon": 13.3954512,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040291,
+      "lat": 9.3054031,
+      "lon": 13.3959895,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Papeterie Oudamzary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040292,
+      "lat": 9.3054202,
+      "lon": 13.3960036,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040293,
+      "lat": 9.3050094,
+      "lon": 13.395555,
+      "tags": {
+        "amenity": "library",
+        "name": "Mini Librairie Publique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040294,
+      "lat": 9.3049988,
+      "lon": 13.3955402,
+      "tags": {
+        "amenity": "library",
+        "name": "Mini Librairie Publique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040295,
+      "lat": 9.3051705,
+      "lon": 13.395555,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040296,
+      "lat": 9.305032,
+      "lon": 13.3955826,
+      "tags": {
+        "amenity": "library",
+        "name": "Mini Librairie Publique"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6670040297,
+      "lat": 9.305108,
+      "lon": 13.3957744,
+      "tags": {
+        "amenity": "library",
+        "name": "Librairie Papeterie La R\u00e9f\u00e9rence"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673594223,
+      "lat": 9.3070138,
+      "lon": 13.3922602,
+      "tags": {
+        "amenity": "library",
+        "name": "Bibliotheque Municipale"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6673594224,
+      "lat": 9.3126203,
+      "lon": 13.3725356,
+      "tags": {
+        "amenity": "library",
+        "name": "Centre Biblique De Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252720192,
+      "lat": 10.3062409,
+      "lon": 11.1717198,
+      "tags": {
+        "amenity": "library",
+        "name": "NDIC E-Library G.S.U"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252799890,
+      "lat": 10.3067853,
+      "lon": 11.1729665,
+      "tags": {
+        "amenity": "library",
+        "name": "International Institute for Islamic Research and Development"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252880787,
+      "lat": 10.3052921,
+      "lon": 11.1731782,
+      "tags": {
+        "amenity": "library",
+        "name": "University Main library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7341063486,
+      "lat": 10.2856946,
+      "lon": 11.1846067,
+      "tags": {
+        "addr:street": "New Commercial area",
+        "amenity": "library",
+        "name": "Islamic Libry",
+        "opening_hours": "Sa-Th 09:00-17:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7917880803,
+      "lat": 9.9656643,
+      "lon": 8.8822123,
+      "tags": {
+        "amenity": "library",
+        "name": "university of jos, library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10003376697,
+      "lat": 10.3104565,
+      "lon": 9.8272918,
+      "tags": {
+        "amenity": "library",
+        "internet_access": "yes",
+        "name": "State Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10003376702,
+      "lat": 10.3064691,
+      "lon": 9.8247732,
+      "tags": {
+        "amenity": "library",
+        "name": "National Library"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11153543906,
+      "lat": 10.3069387,
+      "lon": 11.1675321,
+      "tags": {
+        "amenity": "library",
+        "opening_hours": "Su-Th 08:00-02:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11178606437,
+      "lat": 10.2880283,
+      "lon": 11.1194718,
+      "tags": {
+        "addr:postcode": "760251",
+        "addr:street": "GOMBE - YOLA ROAD",
+        "amenity": "library",
+        "name": "National Library, Gombe"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417886170,
+      "center": {
+        "lat": 10.5940565,
+        "lon": 14.3172817
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Alliance Biblique du Cameroun"
+      }
+    },
+    {
+      "type": "way",
+      "id": 633067733,
+      "center": {
+        "lat": 13.0339625,
+        "lon": 10.3279833
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 670573499,
+      "center": {
+        "lat": 9.3499534,
+        "lon": 12.4921724
+      },
+      "tags": {
+        "amenity": "library",
+        "building": "yes",
+        "name": "Ibrahim Babangida Library"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1217215428,
+      "center": {
+        "lat": 9.9503599,
+        "lon": 8.8894894
+      },
+      "tags": {
+        "amenity": "library",
+        "name": "Main Camp Library"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

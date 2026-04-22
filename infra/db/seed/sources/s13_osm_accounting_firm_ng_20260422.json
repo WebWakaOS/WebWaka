@@ -1,0 +1,30 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 5918114704,
+      "lat": 7.317354,
+      "lon": 13.5780984,
+      "tags": {
+        "name": "H\u00f4tel des finances",
+        "office": "accountant",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417508537,
+      "center": {
+        "lat": 10.5948199,
+        "lon": 14.3284769
+      },
+      "tags": {
+        "building": "yes",
+        "name": "ACROCREP Assistance et conseil comptable",
+        "office": "accountant"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

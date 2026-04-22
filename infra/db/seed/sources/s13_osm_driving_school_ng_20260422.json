@@ -1,0 +1,390 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2455133520,
+      "lat": 6.419036,
+      "lon": 7.488044,
+      "tags": {
+        "addr:housenumber": "80.0",
+        "addr:street": "Agbani Road",
+        "amenity": "driving_school",
+        "contact:phone": "8033714069",
+        "ele": "257.700012",
+        "fixme": "many bad keys",
+        "name": "Okenwa International Driving Training School",
+        "operator:type": "private",
+        "phone": "8033714069"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753140270,
+      "lat": 6.4587168,
+      "lon": 7.5172346,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Chibros Driving School"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4452128107,
+      "lat": 5.5116035,
+      "lon": 10.6396445,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto Ecole Fran\u00e7aise"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915931980,
+      "lat": 7.4136401,
+      "lon": 13.5506165,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto-\u00e9cole fran\u00e7aise",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915931981,
+      "lat": 7.4151399,
+      "lon": 13.5502158,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "690461951",
+        "name": "Auto-\u00e9cole Tropicale",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915931982,
+      "lat": 7.3183985,
+      "lon": 13.5819678,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "673151395",
+        "name": "Auto ecole la Fran\u00e7aise",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915931983,
+      "lat": 7.3209438,
+      "lon": 13.584771,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "673151395",
+        "name": "Auto ecole Malo",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915931984,
+      "lat": 7.3117425,
+      "lon": 13.5862935,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "696112267",
+        "name": "Auto ecole la falaise",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915933485,
+      "lat": 7.3120032,
+      "lon": 13.574902,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "699848458",
+        "name": "Auto ecole tropicale",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915933486,
+      "lat": 7.29802,
+      "lon": 13.57698,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "695477753",
+        "name": "auto-ecole R\u00e9gionale",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915933487,
+      "lat": 7.2943159,
+      "lon": 13.5762468,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "675464156/696111267",
+        "name": "Auto-\u00e9cole fran\u00e7aise",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915933488,
+      "lat": 7.3183986,
+      "lon": 13.5945582,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "699848458",
+        "name": "Auto-\u00e9cole Tropicale",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5915933489,
+      "lat": 7.3189247,
+      "lon": 13.589935,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "699658853",
+        "name": "Auto-\u00e9cole RAMADAN",
+        "source": "ACAGER"
+      }
+    },
+    {
+      "type": "way",
+      "id": 397480904,
+      "center": {
+        "lat": 5.4622216,
+        "lon": 10.4271966
+      },
+      "tags": {
+        "amenity": "driving_school",
+        "building": "yes",
+        "name": "Esperance"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3224613353,
+      "lat": 13.0453117,
+      "lon": 3.1942764,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto Ecole Enfani"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709754580,
+      "lat": 13.8027152,
+      "lon": 5.2519958,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Africa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3709911781,
+      "lat": 13.7891402,
+      "lon": 5.2525037,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "auto ecole amana"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562773,
+      "lat": 13.5047128,
+      "lon": 7.1044655,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "AutoEcole WADATA",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4420782239,
+      "lat": 13.4798235,
+      "lon": 7.1130076,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto \u00c9cole Wadata",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2317291633,
+      "lat": 9.3064803,
+      "lon": 13.3980551,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto-\u00e9cole du Nord"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2352021473,
+      "lat": 9.3043238,
+      "lon": 13.3936718,
+      "tags": {
+        "amenity": "driving_school"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4308782092,
+      "lat": 13.8074627,
+      "lon": 8.986483,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto \u00c9cole Hask\u00e9",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704508,
+      "lat": 13.8061026,
+      "lon": 8.9865533,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto \u00c9cole Mach'Allah",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379604,
+      "lat": 9.2940656,
+      "lon": 13.3693193,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "(+237) 699356637",
+        "name": "Auto \u00c9cole Kawtal Plus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379605,
+      "lat": 9.2957266,
+      "lon": 13.3782658,
+      "tags": {
+        "addr:postcode": "B.P 1407 Garoua",
+        "amenity": "driving_school",
+        "contact:phone": "(+237) 698828913",
+        "name": "Cforma"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379606,
+      "lat": 9.3010192,
+      "lon": 13.391351,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto Ecole Francaise"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379607,
+      "lat": 9.2971414,
+      "lon": 13.3897309,
+      "tags": {
+        "addr:postcode": "BP 245 Garoua",
+        "amenity": "driving_school",
+        "contact:phone": "(+237) 657443202",
+        "name": "Auto \u00c9cole Dokimos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379608,
+      "lat": 9.3031251,
+      "lon": 13.3967694,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Cforma Sarl"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379609,
+      "lat": 9.3040775,
+      "lon": 13.3940945,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "695924912",
+        "name": "Auto-\u00c9cole du Septentrion",
+        "name:fr": "Auto-\u00c9cole du Septentrion"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379610,
+      "lat": 9.2990706,
+      "lon": 13.3994618,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Ideal Auto Ecole"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6691379611,
+      "lat": 9.3005935,
+      "lon": 13.3983463,
+      "tags": {
+        "amenity": "driving_school",
+        "contact:phone": "691009287",
+        "name": "Auto Ecole Garoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771805131,
+      "lat": 9.3065002,
+      "lon": 13.3980254,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto Ecole Du Nord"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6771805132,
+      "lat": 9.3334172,
+      "lon": 13.413765,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto \u00c9cole Dewa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7035997329,
+      "lat": 9.0592537,
+      "lon": 13.6609765,
+      "tags": {
+        "amenity": "driving_school",
+        "name": "Auto \u00e9cole cforma"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

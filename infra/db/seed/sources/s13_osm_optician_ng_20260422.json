@@ -1,0 +1,162 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2161071995,
+      "lat": 6.3299193,
+      "lon": 5.627007,
+      "tags": {
+        "name": "Optical World",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133280,
+      "lat": 6.472529,
+      "lon": 7.501437,
+      "tags": {
+        "addr:housenumber": "9.0",
+        "addr:street": "Ubabuike Close",
+        "contact:phone": "8030992115",
+        "height": "194.199997",
+        "id": "POI001890",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A4d2da53f-47dc-4b94-8023-b5224d86c49f%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3A4d2da53f-47dc-4b94-8023-b5224d86c49f%5D%2FPOI_Picture2",
+        "name": "Maranatha Eye Center",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133360,
+      "lat": 6.482949,
+      "lon": 7.516629,
+      "tags": {
+        "addr:street": "Abakpa Nike Road",
+        "ele": "196.6",
+        "image": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abd16e2fa-1e11-4df1-b12a-5de4603e521f%5D%2FPOI_Picture1",
+        "image:url": "https://enugupoi.appspot.com/view/binaryData?blobKey=build_POI-Picture-Form_1374250655%5B%40version%3Dnull+and+%40uiVersion%3Dnull%5D%2Fdata%5B%40key%3Duuid%3Abd16e2fa-1e11-4df1-b12a-5de4603e521f%5D%2FPOI_Picture2",
+        "name": "Niger Optical (Eye Clinic)",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133619,
+      "lat": 6.4318913,
+      "lon": 7.4938897,
+      "tags": {
+        "addr:housenumber": "39.0",
+        "addr:street": "Zik Avenue",
+        "ele": "235.800003",
+        "fixme": "many bad keys",
+        "name": "Niger Optical Services Co Nig. Limited Eye Clinic",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5906765950,
+      "lat": 6.5973155,
+      "lon": 3.3539649,
+      "tags": {
+        "name": "Mega Vision",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8341496207,
+      "lat": 9.0677402,
+      "lon": 7.4856157,
+      "tags": {
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8367220017,
+      "lat": 9.0836556,
+      "lon": 7.4688677,
+      "tags": {
+        "addr:housenumber": "GA33",
+        "name": "Davision Opticals",
+        "opening_hours": "Mo-Fr 08:30-18:00; Sa 10:00-17:00",
+        "phone": "+23408035904101",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8367220517,
+      "lat": 9.0549573,
+      "lon": 7.4897736,
+      "tags": {
+        "name": "Sholly Optical",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11582403451,
+      "lat": 9.0527572,
+      "lon": 7.4793188,
+      "tags": {
+        "addr:city": "Abuja",
+        "addr:street": "Mohammadu Buhari Way",
+        "level": "1",
+        "name": "Sky Vision Eye Clinic",
+        "phone": "+2349035164749;+2348035906645",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1207250005,
+      "center": {
+        "lat": 9.026725,
+        "lon": 7.4442149
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Tulsi chanrai eye hospital",
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2352021445,
+      "lat": 9.3051853,
+      "lon": 13.395949,
+      "tags": {
+        "name": "Dja Bonga INOUA Optique",
+        "shop": "optician",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054297822,
+      "lat": 9.9676253,
+      "lon": 13.6147535,
+      "tags": {
+        "shop": "optician"
+      }
+    },
+    {
+      "type": "way",
+      "id": 655720483,
+      "center": {
+        "lat": 13.0339619,
+        "lon": 10.3280822
+      },
+      "tags": {
+        "building": "yes",
+        "shop": "optician"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

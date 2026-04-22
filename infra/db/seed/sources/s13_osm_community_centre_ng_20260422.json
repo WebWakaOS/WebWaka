@@ -1,0 +1,4233 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 501406493,
+      "lat": 5.6323934,
+      "lon": 7.280801,
+      "tags": {
+        "GNS:dsg_code": "PPL",
+        "GNS:dsg_string": "populated place",
+        "GNS:id": "-2029346",
+        "addr:city": "Ehime-Mbano, Imo State",
+        "amenity": "community_centre",
+        "fixme": "no population estimate available, defaulted to village",
+        "is_in:country": "Nigeria",
+        "name": "Umuezeala",
+        "source": "GNS"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2152987219,
+      "lat": 6.3105038,
+      "lon": 5.5970381,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Da Civic Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2153201112,
+      "lat": 6.3012489,
+      "lon": 5.5928076,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ekhaguere Community {Oguedion}"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2153203976,
+      "lat": 6.3068166,
+      "lon": 5.6041127,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Elema Palace"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2160646560,
+      "lat": 6.3285618,
+      "lon": 5.6283239,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Chief Obasogie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161071883,
+      "lat": 6.2989254,
+      "lon": 5.5924856,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oko Oguedion"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161073237,
+      "lat": 6.3302044,
+      "lon": 5.6239862,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Project Charilove"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133680,
+      "lat": 6.434914,
+      "lon": 7.489003,
+      "tags": {
+        "addr:street": "Holy Ghost",
+        "amenity": "community_centre",
+        "ele": "235.800003",
+        "fixme": "many bad keys",
+        "name": "Holy Child Motherless Babies Home",
+        "office": "ngo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871695,
+      "lat": 7.4107991,
+      "lon": 3.9078168,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oyo State Secretariat"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871698,
+      "lat": 7.4099905,
+      "lon": 3.9045767,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oyo State House of Assembly"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871720,
+      "lat": 7.4183396,
+      "lon": 3.9029084,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Housing Corporation of Oyo State"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3084974586,
+      "lat": 7.4083416,
+      "lon": 3.9100546,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oyo State Secretariat"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3085043975,
+      "lat": 7.3662372,
+      "lon": 3.9030155,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Wesley Camp Site"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4583123789,
+      "lat": 6.9173117,
+      "lon": 3.23201,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Adunbu community",
+        "name:en": "Adunbu community"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4865635186,
+      "lat": 6.5704594,
+      "lon": 3.3725846,
+      "tags": {
+        "addr:city": "Maryland",
+        "addr:postcode": "100281",
+        "addr:street": "Ikorodu Street",
+        "amenity": "community_centre",
+        "name": "Mende Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5427746027,
+      "lat": 5.5411179,
+      "lon": 5.763843,
+      "tags": {
+        "addr:street": "Airport Road,  Ugborikoko",
+        "amenity": "community_centre",
+        "name": "Ugborikoko Community Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5466670261,
+      "lat": 5.5611914,
+      "lon": 5.7643004,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Enebire Family Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5476576021,
+      "lat": 4.9316727,
+      "lon": 6.3099757,
+      "tags": {
+        "addr:street": "Samphino Road",
+        "amenity": "community_centre",
+        "name": "Kpansia Community Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5535320327,
+      "lat": 5.5934413,
+      "lon": 5.706161,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Jeddo Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5553348134,
+      "lat": 5.5647917,
+      "lon": 5.7724542,
+      "tags": {
+        "addr:housenumber": "30",
+        "addr:street": "Umugbe Street",
+        "amenity": "community_centre",
+        "name": "Lodge Uvwie Land"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5553348223,
+      "lat": 5.5620887,
+      "lon": 5.7742376,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Uromi Community House"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5569759222,
+      "lat": 5.5332203,
+      "lon": 6.0659093,
+      "tags": {
+        "addr:street": "Agbarha Road",
+        "amenity": "community_centre",
+        "name": "Agbarha Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599599425,
+      "lat": 4.8357681,
+      "lon": 7.0322984,
+      "tags": {
+        "addr:street": "Old Aba Road",
+        "amenity": "community_centre",
+        "name": "Rumuobiakani Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5600372122,
+      "lat": 4.8361896,
+      "lon": 7.0482838,
+      "tags": {
+        "addr:street": "Woji Road",
+        "amenity": "community_centre",
+        "name": "Rumorolu Town Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5617995023,
+      "lat": 5.5675241,
+      "lon": 5.7972068,
+      "tags": {
+        "addr:street": "PTI Road",
+        "amenity": "community_centre",
+        "name": "Uvwie Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6172863388,
+      "lat": 5.5444208,
+      "lon": 5.7718025,
+      "tags": {
+        "addr:postcode": "332",
+        "amenity": "community_centre",
+        "name": "EGCDF",
+        "opening_hours": "Mo-Fr 08:00-16:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6360841285,
+      "lat": 6.6429083,
+      "lon": 2.713722,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Coop\u00e9rative des femmes transformatrices de manioc WANGNIGNAN d\u2019Ifangni"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6558672486,
+      "lat": 5.7072983,
+      "lon": 5.2772431,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Kenyangbene"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6783511679,
+      "lat": 8.1330731,
+      "lon": 4.2437218,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Okelerin Community Hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6915373236,
+      "lat": 6.4601261,
+      "lon": 3.4324411,
+      "tags": {
+        "addr:city": "Lagos",
+        "amenity": "community_centre",
+        "name": "Alliance Fran\u00e7aise",
+        "wikidata": "Q20715312",
+        "wikipedia": "en:Alliance Fran\u00e7aise de Lagos"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7272098756,
+      "lat": 6.6326497,
+      "lon": 3.5095101,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oriwu Club"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746585286,
+      "lat": 5.9671663,
+      "lon": 7.2380031,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Amunze"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746585287,
+      "lat": 5.8587003,
+      "lon": 6.9329964,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Orsumoghu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746862185,
+      "lat": 6.6046575,
+      "lon": 6.9488637,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ifite ogwari"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746862285,
+      "lat": 6.3082786,
+      "lon": 6.7575249,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Umudora anam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746928585,
+      "lat": 6.3380588,
+      "lon": 7.1349819,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ebenebe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7746970585,
+      "lat": 6.028915,
+      "lon": 6.834721,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oraifite"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7752045986,
+      "lat": 6.1078226,
+      "lon": 6.9552808,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Urueze"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7752046485,
+      "lat": 6.1127959,
+      "lon": 7.1022255,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Awgbu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7752738985,
+      "lat": 6.0486319,
+      "lon": 7.0336092,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Aguluzigbo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7752793686,
+      "lat": 6.519708,
+      "lon": 6.9652109,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Omor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7752927285,
+      "lat": 5.9621828,
+      "lon": 6.9755042,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Usumenyi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7753526485,
+      "lat": 6.1980092,
+      "lon": 6.9766747,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Dunukubia"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7895144285,
+      "lat": 8.4551882,
+      "lon": 7.8970315,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Odu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7898955285,
+      "lat": 7.2725089,
+      "lon": 6.10806,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Igarra, Akoko-edo LGA sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7898993585,
+      "lat": 6.745821,
+      "lon": 6.228328,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Esan central sec",
+        "name:en": "Irrua Esan central sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899002585,
+      "lat": 6.7180702,
+      "lon": 6.3213814,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Uromi Esan North east sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899013885,
+      "lat": 6.6419557,
+      "lon": 6.3899941,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ubiaja Esan south east sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899017885,
+      "lat": 6.7355526,
+      "lon": 6.1424982,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Esan west",
+        "name:en": "Akahia Esan west LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899021785,
+      "lat": 7.0877451,
+      "lon": 6.5008233,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Isako central LG sec",
+        "name:en": "Fugar Isako central LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899540487,
+      "lat": 7.0733194,
+      "lon": 6.4513815,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Auchi Etsako west LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899594885,
+      "lat": 7.1040057,
+      "lon": 6.6953697,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Etsako east LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899600286,
+      "lat": 7.1031248,
+      "lon": 6.6938537,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Agenebode"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899615286,
+      "lat": 6.598041,
+      "lon": 6.238331,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Igueben LG sec Igueben"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899624385,
+      "lat": 6.2685773,
+      "lon": 5.7086166,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ulegu",
+        "name:en": "Ulegu ikpoba-okha LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899642486,
+      "lat": 6.3318377,
+      "lon": 5.6204034,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Oredo LG sec Benin city"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7899669285,
+      "lat": 6.2925659,
+      "lon": 6.0324674,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Abudu",
+        "name:en": "Abudu Orhionmwon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7900057585,
+      "lat": 6.7358064,
+      "lon": 5.3947144,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ovia north-east LG hdqtrs okada"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7900218385,
+      "lat": 6.5596555,
+      "lon": 5.3632743,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Iguobazuwa community centre",
+        "name:en": "Iguobazuwa ovia south-west LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7900233486,
+      "lat": 6.9722343,
+      "lon": 6.0441641,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Owan east",
+        "name:en": "Afuze Owan east LG sec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7900298485,
+      "lat": 6.6083375,
+      "lon": 5.9797265,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Ehor",
+        "name:en": "Ehor uhunmwonde LG hdquaters. Ehor grammer school"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7901284885,
+      "lat": 7.271964,
+      "lon": 6.3449966,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Okpella"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7901331485,
+      "lat": 7.1344622,
+      "lon": 6.3086027,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Iyamho, Edo state university"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9182374410,
+      "lat": 6.6080185,
+      "lon": 3.4397915,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Odo Ogun Community Centre",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9202189545,
+      "lat": 6.5808031,
+      "lon": 3.4142916,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Goshen Hall and Multi Users Event Arena",
+        "source": "Nigerian Red Cross"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9856208669,
+      "lat": 7.2838303,
+      "lon": 3.7237831,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860284900,
+      "lat": 6.9664648,
+      "lon": 4.5365981,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860317679,
+      "lat": 6.8546315,
+      "lon": 4.5296798,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860317694,
+      "lat": 6.8546675,
+      "lon": 4.5275447,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860318058,
+      "lat": 6.8538633,
+      "lon": 4.5302299,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860347343,
+      "lat": 6.4765487,
+      "lon": 2.8603928,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860607947,
+      "lat": 5.8536079,
+      "lon": 7.3241063,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860607953,
+      "lat": 5.8661144,
+      "lon": 7.3294255,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860607965,
+      "lat": 5.8773515,
+      "lon": 7.3374513,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9860627170,
+      "lat": 5.8524948,
+      "lon": 7.2552863,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897817991,
+      "lat": 6.8926087,
+      "lon": 4.7885054,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897846196,
+      "lat": 6.7696688,
+      "lon": 4.4554763,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897854546,
+      "lat": 6.8295224,
+      "lon": 4.5523869,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897863243,
+      "lat": 6.8176135,
+      "lon": 5.1234648,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897872922,
+      "lat": 7.3002865,
+      "lon": 4.9132373,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897874445,
+      "lat": 6.914549,
+      "lon": 4.6470756,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897874515,
+      "lat": 6.9141837,
+      "lon": 4.6462314,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9897874529,
+      "lat": 6.9161508,
+      "lon": 4.6445338,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899607427,
+      "lat": 8.1942546,
+      "lon": 4.0113211,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899607464,
+      "lat": 8.1946574,
+      "lon": 4.0150238,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899608391,
+      "lat": 8.1569469,
+      "lon": 4.0022269,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899609349,
+      "lat": 7.6069461,
+      "lon": 3.7100274,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899617946,
+      "lat": 7.6053597,
+      "lon": 3.6000585,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899625269,
+      "lat": 8.2845389,
+      "lon": 4.1067649,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899626475,
+      "lat": 8.280439,
+      "lon": 4.0789268,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899837006,
+      "lat": 7.8517858,
+      "lon": 3.2263212,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899859149,
+      "lat": 7.7713433,
+      "lon": 3.2074867,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9899861334,
+      "lat": 7.734097,
+      "lon": 3.0965159,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909802707,
+      "lat": 4.7650709,
+      "lon": 7.5586274,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909803352,
+      "lat": 4.7582582,
+      "lon": 7.5842,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909804085,
+      "lat": 4.6851088,
+      "lon": 7.5873275,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909830998,
+      "lat": 5.8212197,
+      "lon": 6.5326032,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909833664,
+      "lat": 4.6844834,
+      "lon": 6.1177127,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909850306,
+      "lat": 4.7041727,
+      "lon": 5.9974558,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909852514,
+      "lat": 4.706013,
+      "lon": 6.0890717,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909910313,
+      "lat": 4.7592083,
+      "lon": 6.2319957,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909937335,
+      "lat": 5.0259024,
+      "lon": 6.0646936,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909937348,
+      "lat": 5.0256952,
+      "lon": 6.0670351,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909938029,
+      "lat": 4.759878,
+      "lon": 6.2303102,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909939680,
+      "lat": 5.3179251,
+      "lon": 6.4715899,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909939701,
+      "lat": 5.3185382,
+      "lon": 6.469619,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909948103,
+      "lat": 4.8018353,
+      "lon": 6.079801,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909959808,
+      "lat": 5.3085383,
+      "lon": 6.43633,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909981886,
+      "lat": 4.7423233,
+      "lon": 6.1290024,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909981911,
+      "lat": 4.7157756,
+      "lon": 6.1447685,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909982378,
+      "lat": 5.2394879,
+      "lon": 6.537473,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909987139,
+      "lat": 5.2391938,
+      "lon": 6.5334114,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909989435,
+      "lat": 4.747864,
+      "lon": 6.0094769,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911402109,
+      "lat": 5.6374553,
+      "lon": 8.1963555,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911402111,
+      "lat": 5.6385668,
+      "lon": 8.1939388,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911435248,
+      "lat": 6.1354001,
+      "lon": 8.4046756,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911445325,
+      "lat": 5.8675418,
+      "lon": 8.4261732,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911549011,
+      "lat": 6.2485865,
+      "lon": 5.355797,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911553324,
+      "lat": 6.266402,
+      "lon": 5.1064511,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911575364,
+      "lat": 6.1706175,
+      "lon": 5.1628784,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911579780,
+      "lat": 6.173107,
+      "lon": 5.2679631,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911583519,
+      "lat": 6.2055655,
+      "lon": 5.1473777,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911583541,
+      "lat": 6.2058186,
+      "lon": 5.1470335,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911587023,
+      "lat": 6.8252624,
+      "lon": 5.3107194,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911587044,
+      "lat": 6.8241886,
+      "lon": 5.312138,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912607014,
+      "lat": 5.120707,
+      "lon": 6.5407964,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912615850,
+      "lat": 5.0728607,
+      "lon": 6.5278663,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912615896,
+      "lat": 5.0721304,
+      "lon": 6.5287279,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912628067,
+      "lat": 5.1057608,
+      "lon": 6.5046565,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912628089,
+      "lat": 5.1052695,
+      "lon": 6.503939,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912630720,
+      "lat": 5.1896716,
+      "lon": 6.5559522,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912630743,
+      "lat": 5.1889654,
+      "lon": 6.5559175,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912641346,
+      "lat": 4.8057507,
+      "lon": 6.4843612,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912646375,
+      "lat": 4.8200558,
+      "lon": 6.5137324,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912646413,
+      "lat": 4.820623,
+      "lon": 6.5140338,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912647448,
+      "lat": 4.7179688,
+      "lon": 6.4668297,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912647460,
+      "lat": 4.7179136,
+      "lon": 6.4669302,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912654338,
+      "lat": 4.7658136,
+      "lon": 6.4971717,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912659060,
+      "lat": 4.7991089,
+      "lon": 7.3901739,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9912661401,
+      "lat": 4.7495179,
+      "lon": 7.4325733,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939647942,
+      "lat": 8.2378513,
+      "lon": 7.9584666,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9939672791,
+      "lat": 8.2589951,
+      "lon": 7.8929431,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9945456755,
+      "lat": 8.6302797,
+      "lon": 7.0973201,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9989886009,
+      "lat": 7.523336,
+      "lon": 6.8428008,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9989977378,
+      "lat": 7.5946577,
+      "lon": 6.8607194,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9989986426,
+      "lat": 7.5229758,
+      "lon": 6.8415939,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990045095,
+      "lat": 8.558674,
+      "lon": 6.2435004,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9990162473,
+      "lat": 6.6369278,
+      "lon": 6.7649686,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10004601684,
+      "lat": 7.3133884,
+      "lon": 7.7261517,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10004624932,
+      "lat": 7.3156673,
+      "lon": 7.7241171,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10056627764,
+      "lat": 7.7745635,
+      "lon": 8.0314682,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10056633886,
+      "lat": 7.795499,
+      "lon": 8.0323872,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059659290,
+      "lat": 6.8695198,
+      "lon": 8.1683072,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059708463,
+      "lat": 6.8290879,
+      "lon": 8.1321626,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10059714487,
+      "lat": 6.9539067,
+      "lon": 7.8922746,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10064197719,
+      "lat": 7.2702462,
+      "lon": 7.8840554,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10579619941,
+      "lat": 5.1258941,
+      "lon": 7.3224291,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10632880306,
+      "lat": 4.9860053,
+      "lon": 7.3250254,
+      "tags": {
+        "addr:housenumber": "A1",
+        "addr:street": "Ancient Kingdom Palace Obegu",
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10781597913,
+      "lat": 5.5396324,
+      "lon": 6.8043919,
+      "tags": {
+        "amenity": "community_centre",
+        "capacity": "50",
+        "name": "Oloshi Palace, Obokofia",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10781946175,
+      "lat": 5.3867517,
+      "lon": 6.7762842,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Abbysina Palace",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10994563205,
+      "lat": 5.0345802,
+      "lon": 6.8103039,
+      "tags": {
+        "addr:housenumber": "2",
+        "addr:street": "Omuiyoro, Obelle-Elele",
+        "amenity": "community_centre",
+        "name": "Obelle"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10994563305,
+      "lat": 5.0345972,
+      "lon": 6.8103119,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "State School 1 Obelle"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281519667,
+      "lat": 6.6076653,
+      "lon": 3.4318734,
+      "tags": {
+        "amenity": "community_centre",
+        "facility_manager": "community",
+        "name": "Baalo palace",
+        "operator": "community",
+        "source:position": "gps",
+        "status": "functional"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12288040352,
+      "lat": 6.5274788,
+      "lon": 3.2379156,
+      "tags": {
+        "amenity": "community_centre",
+        "facility_use": "event centre purposes",
+        "name": "Emerald open Space & Event Centre",
+        "operator": "private/individual",
+        "source": "survey",
+        "status": "functional",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12288040353,
+      "lat": 6.5299277,
+      "lon": 3.2363208,
+      "tags": {
+        "amenity": "community_centre",
+        "facility_use": "Is a community center where people can sit and rest",
+        "name": "Community center",
+        "operator": "Community",
+        "source": "survey",
+        "status": "functional",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_elderly": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12857204837,
+      "lat": 4.4342665,
+      "lon": 7.177472,
+      "tags": {
+        "addr:city": "BONNY",
+        "addr:street": "Hospital Road",
+        "amenity": "community_centre",
+        "community_centre": "community_utility_centre",
+        "name": "BUC",
+        "operator": "Bonny LGA",
+        "operator:type": "local_government_authority"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048283365,
+      "lat": 8.4699235,
+      "lon": 4.5670367,
+      "tags": {
+        "amenity": "community_centre",
+        "community_centre": "community_hall",
+        "name": "Stella Obasanjo Hall, Gaa-Imam Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13135335297,
+      "lat": 7.6362735,
+      "lon": 5.2481883,
+      "tags": {
+        "addr:city": "Ado Ekiti",
+        "addr:street": "Hopeland street",
+        "amenity": "community_centre",
+        "check_date:currency:XBT": "2025-09-13",
+        "club": "social",
+        "community_centre": "club_home",
+        "currency:XBT": "yes",
+        "email": "ekitibitcoincirculareconomy@gmail.com",
+        "name": "Bitcoin Ekiti",
+        "opening_hours": "Mo-Su 08:00-20:00",
+        "payment:lightning": "yes",
+        "payment:lightning_contactless": "yes",
+        "payment:onchain": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 161794161,
+      "center": {
+        "lat": 7.411022,
+        "lon": 3.9093085
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Ministry of Establishment and Training"
+      }
+    },
+    {
+      "type": "way",
+      "id": 161794162,
+      "center": {
+        "lat": 7.4102324,
+        "lon": 3.9088981
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Ministry of Health"
+      }
+    },
+    {
+      "type": "way",
+      "id": 161794164,
+      "center": {
+        "lat": 7.4109858,
+        "lon": 3.9069812
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Ministry of Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 161794165,
+      "center": {
+        "lat": 7.4096879,
+        "lon": 3.9086273
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Ministry of Trade and Investment"
+      }
+    },
+    {
+      "type": "way",
+      "id": 163429556,
+      "center": {
+        "lat": 7.4090814,
+        "lon": 3.907907
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "MIC Building"
+      }
+    },
+    {
+      "type": "way",
+      "id": 163429560,
+      "center": {
+        "lat": 7.409607,
+        "lon": 3.9065575
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Printing Press"
+      }
+    },
+    {
+      "type": "way",
+      "id": 163429562,
+      "center": {
+        "lat": 7.4096858,
+        "lon": 3.9069508
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Printing Press"
+      }
+    },
+    {
+      "type": "way",
+      "id": 163429564,
+      "center": {
+        "lat": 7.4099446,
+        "lon": 3.9064661
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Printing Press"
+      }
+    },
+    {
+      "type": "way",
+      "id": 597498725,
+      "center": {
+        "lat": 6.4452002,
+        "lon": 3.4176559
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "41",
+        "addr:street": "Ribadu Road",
+        "amenity": "community_centre",
+        "name": "Syrian Club"
+      }
+    },
+    {
+      "type": "way",
+      "id": 618049262,
+      "center": {
+        "lat": 7.5268986,
+        "lon": 4.532495
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Ogunbanjo Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 624912991,
+      "center": {
+        "lat": 5.9143367,
+        "lon": 7.1076201
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "community_centre": "community_hall",
+        "name": "Akokwa Unity Centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625815343,
+      "center": {
+        "lat": 6.4416157,
+        "lon": 3.4205665
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "35A",
+        "addr:street": "Raymond Njoku Street",
+        "amenity": "community_centre",
+        "landuse": "commercial",
+        "name": "Ethnic Heritage Centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 698238231,
+      "center": {
+        "lat": 6.7870707,
+        "lon": 4.2792025
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "roof:material": "metal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 698262776,
+      "center": {
+        "lat": 6.7843312,
+        "lon": 4.2791498
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "roof:material": "metal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705802154,
+      "center": {
+        "lat": 6.577398,
+        "lon": 3.2793744
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "D'Cubicle Event centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 741206964,
+      "center": {
+        "lat": 6.6078038,
+        "lon": 3.3595507
+      },
+      "tags": {
+        "addr:housenumber": "7A",
+        "addr:street": "Kudirat Abiola Way",
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Classique Events Place",
+        "website": "https://classique.ng"
+      }
+    },
+    {
+      "type": "way",
+      "id": 742564553,
+      "center": {
+        "lat": 6.5620726,
+        "lon": 3.4773124
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "description": "Hall, Events centre & Suite",
+        "name": "Prestige"
+      }
+    },
+    {
+      "type": "way",
+      "id": 745470858,
+      "center": {
+        "lat": 6.6200629,
+        "lon": 3.5595291
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "The Sky Club Events Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 747457378,
+      "center": {
+        "lat": 6.6202219,
+        "lon": 3.3587245
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Batten House"
+      }
+    },
+    {
+      "type": "way",
+      "id": 776526220,
+      "center": {
+        "lat": 6.6266279,
+        "lon": 3.5465631
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "The Epic Events and Conference Centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 778598814,
+      "center": {
+        "lat": 6.6315429,
+        "lon": 3.5238382
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Nasfat Islamic Centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 778599477,
+      "center": {
+        "lat": 6.6270602,
+        "lon": 3.5101231
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Alaka Events Centre"
+      }
+    },
+    {
+      "type": "way",
+      "id": 781366096,
+      "center": {
+        "lat": 6.6117262,
+        "lon": 3.3286028
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Malak's Place Events Center"
+      }
+    },
+    {
+      "type": "way",
+      "id": 793084984,
+      "center": {
+        "lat": 6.6273566,
+        "lon": 3.3550597
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Academy Inn and Multipurpose Halls",
+        "short_name": "AIMHL"
+      }
+    },
+    {
+      "type": "way",
+      "id": 797699663,
+      "center": {
+        "lat": 6.6119791,
+        "lon": 3.5052471
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Aga Community Developement Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 934306060,
+      "center": {
+        "lat": 5.5107507,
+        "lon": 6.7556743
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "capacity": "110",
+        "name": "Obiakpu Pavilion",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 936793010,
+      "center": {
+        "lat": 8.9940364,
+        "lon": 7.4262896
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Chief Palace Galadimawa",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 939805683,
+      "center": {
+        "lat": 8.9512959,
+        "lon": 7.4438676
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "capacity": "40",
+        "name": "Chief Palace Kabusa",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 944735908,
+      "center": {
+        "lat": 5.5270163,
+        "lon": 6.794099
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Oboro Mission"
+      }
+    },
+    {
+      "type": "way",
+      "id": 945117124,
+      "center": {
+        "lat": 6.5811544,
+        "lon": 3.4093334
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Igbale Gbadegun Agboyi 2",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 945136399,
+      "center": {
+        "lat": 6.5777384,
+        "lon": 3.4098156
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Agboyi Masquerade Place",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 974075749,
+      "center": {
+        "lat": 6.4663299,
+        "lon": 3.6477113
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Crown Centre",
+        "opening_hours": "Mo-Su 08:00-22:00",
+        "operator": "Crown Realties Management"
+      }
+    },
+    {
+      "type": "way",
+      "id": 993892103,
+      "center": {
+        "lat": 6.6087878,
+        "lon": 3.4388515
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Educational facility/ Extra Moral lessons"
+      }
+    },
+    {
+      "type": "way",
+      "id": 996613152,
+      "center": {
+        "lat": 6.5778137,
+        "lon": 3.4099851
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "ICT Centre",
+        "source": "Nigerian Red Cross"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1005847354,
+      "center": {
+        "lat": 8.9930003,
+        "lon": 7.4262158
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "construction",
+        "community_centre": "youth_centre",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1136143425,
+      "center": {
+        "lat": 6.4432673,
+        "lon": 3.4027644
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "community_centre": "cultural_centre",
+        "name": "John Randle Centre for Yoruba Culture and History",
+        "website": "https://www.johnrandlecentre.org"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1159373836,
+      "center": {
+        "lat": 5.5408873,
+        "lon": 6.8008886
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "capacity": "40",
+        "name": "Obokofia palace",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1159407351,
+      "center": {
+        "lat": 5.3946226,
+        "lon": 6.7764354
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "capacity": "300",
+        "name": "Obile Community Town Halll",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1186221157,
+      "center": {
+        "lat": 5.679193,
+        "lon": 7.0160091
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Isiozi-Akah Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1186221163,
+      "center": {
+        "lat": 5.6874769,
+        "lon": 7.0222012
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "layer": "-1",
+        "name": "Amaocha Umuakachi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1186253172,
+      "center": {
+        "lat": 5.6828576,
+        "lon": 7.0255044
+      },
+      "tags": {
+        "addr:city": "Isiozi-Akah",
+        "addr:street": "Umuokwaranwaneri and Umuakachi Road",
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Amaocha Umuokwaranwanaeri"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1459148609,
+      "center": {
+        "lat": 4.5805718,
+        "lon": 7.5839268
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "community_centre": "community_hall",
+        "name": "Ikot Akpan Ata Council Hall",
+        "operator": "Ikot Akpan Ata",
+        "operator:type": "community"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2343238948,
+      "lat": 5.4501624,
+      "lon": 10.0647587,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Alliance Franco-Camerounaise"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3765195082,
+      "lat": 5.4463382,
+      "lon": 10.066759,
+      "tags": {
+        "addr:city": "Dschang",
+        "amenity": "community_centre",
+        "name": "Salle des spectacles",
+        "operator": "Universit\u00e9 de Dschang"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4361119491,
+      "lat": 5.4736584,
+      "lon": 10.1463521,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Foyer Mebou"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4398119557,
+      "lat": 4.5354951,
+      "lon": 9.1025726,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Community hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4408182606,
+      "lat": 5.8403996,
+      "lon": 10.3939492,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Bafanji community hall"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4682379794,
+      "lat": 5.9891332,
+      "lon": 10.4354486,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "NEXTTEL NDOP",
+        "name:en": "NEXTTEL NDOP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4745322070,
+      "lat": 5.4843221,
+      "lon": 9.8615998,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Mariapolis"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4782608353,
+      "lat": 5.5081399,
+      "lon": 10.1011757,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Salle des Conf\u00e9rences"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4995374429,
+      "lat": 5.4811974,
+      "lon": 10.5710194,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Grand S\u00e9minaire Paul VI Kouekong",
+        "name:fr": "Grand S\u00e9minaire Paul VI Kouekong"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6383826294,
+      "lat": 5.4275372,
+      "lon": 9.9811889,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "maison blanche foyer"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6485330487,
+      "lat": 5.7576536,
+      "lon": 10.6042666,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "NJITAPON",
+        "name:en": "Njitapon marketing",
+        "name:fr": "NJITAPON march\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6485330585,
+      "lat": 5.7425161,
+      "lon": 10.6205095,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Kounja carrefour",
+        "name:en": "KOUONDJA",
+        "name:fr": "KOUONDJA carrefour"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7667105785,
+      "lat": 4.2664306,
+      "lon": 11.3436891,
+      "tags": {
+        "amenity": "community_centre",
+        "check_date": "2025-04-03",
+        "description": "Salle polyvalente",
+        "healthcare": "yes",
+        "name": "Centre de Sant\u00e9 Int\u00e9gr\u00e9 Catholique de Saint Martin d'Emana",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7670750885,
+      "lat": 4.3751408,
+      "lon": 11.3344645,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre de Sant\u00e9 Int\u00e9gr\u00e9 Catholique Sainte Croix d'Etam-Kouma",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8378997925,
+      "lat": 5.0424474,
+      "lon": 9.7449896,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Elum Community Hall",
+        "operator": "Elum Council"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8913600865,
+      "lat": 5.7298895,
+      "lon": 10.8985453,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre internationel de reference Chantal Biya"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9139536222,
+      "lat": 4.6399128,
+      "lon": 9.4349961,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "CPDM HALL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9139537318,
+      "lat": 4.6402339,
+      "lon": 9.4347434,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "KUMBA 1 COUNCIL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9215438517,
+      "lat": 4.6398698,
+      "lon": 9.4449446,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "KUMBA 2 COUNCIL",
+        "name:fr": "Conseil Kumba 2"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911418433,
+      "lat": 6.3311255,
+      "lon": 9.0099285,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911418452,
+      "lat": 6.3324657,
+      "lon": 9.0122187,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911418496,
+      "lat": 6.3320923,
+      "lon": 9.0093354,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911449514,
+      "lat": 6.739921,
+      "lon": 8.6188901,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911450787,
+      "lat": 6.789223,
+      "lon": 8.6520288,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911451372,
+      "lat": 6.448479,
+      "lon": 9.0484933,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911453473,
+      "lat": 6.2712945,
+      "lon": 9.0527524,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911459173,
+      "lat": 6.3061782,
+      "lon": 9.2196677,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911459190,
+      "lat": 6.3025152,
+      "lon": 9.2182834,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911465521,
+      "lat": 6.2622482,
+      "lon": 9.0467853,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911471623,
+      "lat": 6.280984,
+      "lon": 9.1254242,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9911479438,
+      "lat": 6.8611074,
+      "lon": 8.7496626,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10064193718,
+      "lat": 7.7102034,
+      "lon": 9.6073703,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10064193726,
+      "lat": 7.7100608,
+      "lon": 9.607408,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126333821,
+      "lat": 8.6294488,
+      "lon": 8.6793216,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10126360360,
+      "lat": 8.6930816,
+      "lon": 8.8023751,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10591290106,
+      "lat": 4.6178565,
+      "lon": 9.4547953,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Multipurpose Hall"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226744241,
+      "center": {
+        "lat": 5.1824948,
+        "lon": 10.3136313
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Foyer"
+      }
+    },
+    {
+      "type": "way",
+      "id": 286315079,
+      "center": {
+        "lat": 5.1605443,
+        "lon": 10.4350529
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Foyer Bamena"
+      }
+    },
+    {
+      "type": "way",
+      "id": 392598264,
+      "center": {
+        "lat": 5.4303544,
+        "lon": 10.0684587
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer Toutsang"
+      }
+    },
+    {
+      "type": "way",
+      "id": 393363333,
+      "center": {
+        "lat": 5.4367117,
+        "lon": 10.0816855
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer de ngoua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394553034,
+      "center": {
+        "lat": 5.5523857,
+        "lon": 10.1686682
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Foyer Fomeli\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394553108,
+      "center": {
+        "lat": 5.5599576,
+        "lon": 10.1624599
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer baletia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394554026,
+      "center": {
+        "lat": 5.5478155,
+        "lon": 10.1685657
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "description": "fonctionnel",
+        "name": "Foyer Bamela"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394580835,
+      "center": {
+        "lat": 5.5398232,
+        "lon": 10.1681361
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "public",
+        "name": "Foyer Badatchio"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394593027,
+      "center": {
+        "lat": 5.5509105,
+        "lon": 10.1731247
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "public",
+        "description": "fonctionnel, en bonne \u00e9tat",
+        "name": "foyer Baghang"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394651672,
+      "center": {
+        "lat": 5.5619366,
+        "lon": 10.1692845
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Foyer Communautaire de Bamessa"
+      }
+    },
+    {
+      "type": "way",
+      "id": 394732700,
+      "center": {
+        "lat": 5.5642508,
+        "lon": 10.1659474
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "public",
+        "description": "in construction",
+        "name": "Foyer Communautaire de Kontia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395177839,
+      "center": {
+        "lat": 5.5782291,
+        "lon": 10.1863643
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer Bamenguea II"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395187932,
+      "center": {
+        "lat": 5.5936688,
+        "lon": 10.190446
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer Balafotio"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395462248,
+      "center": {
+        "lat": 5.4983796,
+        "lon": 10.1256981
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Salle des Actes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395607512,
+      "center": {
+        "lat": 5.4244727,
+        "lon": 10.4316112
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Salle de Ceremonies Fotso Victor",
+        "website": "https://salle-de-ceremonie-fotso-victor.business.site/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395626626,
+      "center": {
+        "lat": 5.4528002,
+        "lon": 10.0795963
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer de Tsinbing"
+      }
+    },
+    {
+      "type": "way",
+      "id": 395835046,
+      "center": {
+        "lat": 5.4554062,
+        "lon": 10.1175225
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Maison des Jeunes et de la Culture",
+        "operator": "Association Tockem",
+        "operator:type": "community",
+        "short_name": "MJC"
+      }
+    },
+    {
+      "type": "way",
+      "id": 425124396,
+      "center": {
+        "lat": 5.4799366,
+        "lon": 10.454651
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Place Saint Fran\u00e7ois",
+        "website": "https://placesaintfrancois.net"
+      }
+    },
+    {
+      "type": "way",
+      "id": 668498415,
+      "center": {
+        "lat": 5.6353391,
+        "lon": 10.2117448
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer bamentim"
+      }
+    },
+    {
+      "type": "way",
+      "id": 668699966,
+      "center": {
+        "lat": 5.6305511,
+        "lon": 10.2271665
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "foyer bameboro"
+      }
+    },
+    {
+      "type": "way",
+      "id": 669150404,
+      "center": {
+        "lat": 5.6281528,
+        "lon": 10.1391827
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "description": "en construction",
+        "name": "foyer bameghuie 1"
+      }
+    },
+    {
+      "type": "way",
+      "id": 838713819,
+      "center": {
+        "lat": 4.8725335,
+        "lon": 9.8928483
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "building:levels": "1",
+        "name": "Maison du Rassemblement, de la Culture et de la Paix"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1464552224,
+      "center": {
+        "lat": 5.3934039,
+        "lon": 10.4386416
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "community_centre": "chefferie",
+        "name": "Chefferie de 3e de gr\u00e9 de Kamgo-Bandjoun"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4314707036,
+      "lat": 13.4863557,
+      "lon": 7.1272216,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre de D\u00e9veloppement Communautaire des Jeunes",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318183315,
+      "lat": 13.4884954,
+      "lon": 7.1028862,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Maison des Jeunes Bawa Dan Wardanga",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4318562775,
+      "lat": 13.5091874,
+      "lon": 7.1036643,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre des jeunes Sani Habou Magaji",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4333736152,
+      "lat": 10.9287142,
+      "lon": 3.6916269,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Maison du peuple"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4583125190,
+      "lat": 9.9000728,
+      "lon": 7.4422211,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Pole wire, Akilobu",
+        "name:en": "Pole wire, Akilobu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912691139,
+      "lat": 10.5364232,
+      "lon": 7.433394,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Parisina Events Center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4912703277,
+      "lat": 10.5533991,
+      "lon": 7.4468504,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Arewa House Events Center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5028793322,
+      "lat": 9.0312512,
+      "lon": 7.3497842,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Hulumi Village",
+        "name:en": "Hulumi Village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5234383124,
+      "lat": 9.0225967,
+      "lon": 7.5690833,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Shanyanyi palace Nyanya"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5438599437,
+      "lat": 9.0534023,
+      "lon": 7.4994919,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Korean Cultural Center Abuja",
+        "phone": "+234-816-262-6224"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5890219286,
+      "lat": 12.9644124,
+      "lon": 7.6302748,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Soli Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5909851530,
+      "lat": 11.1324724,
+      "lon": 2.933662,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre des loisirs de Kandi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5914022787,
+      "lat": 12.5348977,
+      "lon": 7.8186497,
+      "tags": {
+        "addr:street": "Dutsin Ma - Kankiya Road",
+        "amenity": "community_centre",
+        "name": "Shema Youth Empowerment Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5922052686,
+      "lat": 12.5449146,
+      "lon": 7.820547,
+      "tags": {
+        "addr:street": "Dutsin Ma - Kankiya Road",
+        "amenity": "community_centre",
+        "name": "Primary Healthcare Centre,  Kankiya"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7791423385,
+      "lat": 11.864912,
+      "lon": 3.3835495,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centrale SBEE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7911135385,
+      "lat": 10.4322273,
+      "lon": 5.4873326,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Contagora estate"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10017005845,
+      "lat": 13.0833801,
+      "lon": 2.9131184,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Maison des Jeunes de Birni"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10028647697,
+      "lat": 9.5228126,
+      "lon": 3.3470573,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029619132,
+      "lat": 9.1057893,
+      "lon": 3.1126858,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029623365,
+      "lat": 9.0175503,
+      "lon": 3.53719,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029627955,
+      "lat": 9.018155,
+      "lon": 3.5373748,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10029632119,
+      "lat": 9.0488156,
+      "lon": 3.6518636,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11167108834,
+      "lat": 9.0645844,
+      "lon": 7.4541543,
+      "tags": {
+        "addr:city": "Wuse",
+        "addr:housenumber": "2056",
+        "addr:postcode": "904101",
+        "addr:street": "Dalaba St",
+        "amenity": "community_centre",
+        "name": "Nigeria China Cultural Center",
+        "opening_hours": "Mo-Sa 09:00-17:00",
+        "phone": "+2349039212509"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282419157,
+      "lat": 11.9605145,
+      "lon": 8.4783742,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "yes",
+        "name": "GIDAN ADDAHIR",
+        "operator": "private_individual",
+        "pay_amount": "300",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282419158,
+      "lat": 11.9598024,
+      "lon": 8.4726713,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "OFFISHIN MAI UNGUWAR, UNGUWAR BELLO DORAYI",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282419159,
+      "lat": 11.9579033,
+      "lon": 8.4694433,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "AL-IHSAN FOUNDATION",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "social_activities",
+        "users_PLWD": "yes",
+        "users_boy": "no",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282419160,
+      "lat": 11.9611265,
+      "lon": 8.4686297,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "GIDAN YARIMAN SARKIN BAKA",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 353259079,
+      "center": {
+        "lat": 10.3397738,
+        "lon": 3.2693309
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Centre des Jeunes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 734729688,
+      "center": {
+        "lat": 10.3548908,
+        "lon": 3.1474006
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Maison des jeunes de Dunkassa"
+      }
+    },
+    {
+      "type": "way",
+      "id": 947718585,
+      "center": {
+        "lat": 9.0182456,
+        "lon": 7.4201933
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "capacity": "250",
+        "name": "Women Center Kuchigoro",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 947926883,
+      "center": {
+        "lat": 9.0168765,
+        "lon": 7.4206075
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Chief Palace Kuchingoro",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1092756207,
+      "center": {
+        "lat": 13.4260383,
+        "lon": 7.1654835
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Radio_Communautaire_Mourya_Gabas_Djirataoua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2303774028,
+      "lat": 10.3594671,
+      "lon": 14.2334043,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Fondation Bethl\u00e9em",
+        "operator": "ngo",
+        "website": "https://www.fondation-bethleem.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4422704530,
+      "lat": 13.8065632,
+      "lon": 8.9846833,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Maison De La Culture Abdousalam Adam",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4428554893,
+      "lat": 12.3616336,
+      "lon": 14.3265612,
+      "tags": {
+        "addr:housenumber": "100",
+        "addr:postcode": "00234",
+        "addr:street": "Federal Road F.259 Bama - Gambaru",
+        "amenity": "community_centre",
+        "name": "Djokana Nigeria",
+        "name:en": "Djokana Nigeria",
+        "name:fr": "Djokana Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4680830895,
+      "lat": 13.8966705,
+      "lon": 12.0087655,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Nguel galo",
+        "name:fr": "Nguel galo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4823381221,
+      "lat": 11.3302709,
+      "lon": 8.7380251,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Baburi",
+        "name:en": "Baburi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992919223,
+      "lat": 13.2167967,
+      "lon": 12.0230496,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Meteo",
+        "name:fr": "Meteo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5525979621,
+      "lat": 13.0013478,
+      "lon": 10.2542761,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Dumar"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5758977324,
+      "lat": 9.003486,
+      "lon": 9.5910836,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Tunkus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5759413421,
+      "lat": 9.61983,
+      "lon": 9.05928,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Tunkus"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6034019485,
+      "lat": 9.8951927,
+      "lon": 11.2236641,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "NYSC Office, Billiri LGA Gombe"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7041000885,
+      "lat": 12.0296232,
+      "lon": 8.5668807,
+      "tags": {
+        "addr:street": "Tudun murtala mangwaron yankifi Street",
+        "amenity": "community_centre",
+        "name": "Maikwanzo sim registration center",
+        "phone": "08060726291",
+        "website": "http://www.safraxmaikwanzo@gmail.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7252872285,
+      "lat": 10.3073548,
+      "lon": 11.1812187,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "MAlam Inna"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7326206587,
+      "lat": 10.2737673,
+      "lon": 11.2849536,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Kwadom EMIR palace"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8394436520,
+      "lat": 13.804191,
+      "lon": 14.153469,
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Cantonal Kiskra (Mackaye)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10076571248,
+      "lat": 12.1424751,
+      "lon": 9.4424909,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091942304,
+      "lat": 9.3505758,
+      "lon": 9.139418,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091990177,
+      "lat": 9.4956895,
+      "lon": 10.3113708,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10091994688,
+      "lat": 9.4978676,
+      "lon": 10.09205,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092006923,
+      "lat": 9.4242211,
+      "lon": 9.0965757,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092007043,
+      "lat": 9.422971,
+      "lon": 9.0947056,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092007772,
+      "lat": 9.6772893,
+      "lon": 9.1507114,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10092010551,
+      "lat": 9.6786869,
+      "lon": 9.0015325,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10173514434,
+      "lat": 12.2408245,
+      "lon": 9.4886769,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10209477693,
+      "lat": 12.7474288,
+      "lon": 9.1787995,
+      "tags": {
+        "amenity": "community_centre",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10568566944,
+      "lat": 9.3720887,
+      "lon": 11.9341537,
+      "tags": {
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11013646430,
+      "lat": 10.3287465,
+      "lon": 9.8517202,
+      "tags": {
+        "amenity": "community_centre",
+        "check_date": "2023-06-29",
+        "name": "Babangida Square",
+        "operator:type": "government",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11013739250,
+      "lat": 10.2833014,
+      "lon": 9.8009679,
+      "tags": {
+        "amenity": "community_centre",
+        "check_date": "2023-06-29",
+        "community_centre": "youth_centre",
+        "name": "Saed NYSC Skills acquisition Centre",
+        "source": "local knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11048474905,
+      "lat": 10.2775317,
+      "lon": 13.3022883,
+      "tags": {
+        "amenity": "community_centre",
+        "internet_access": "wlan"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11165178805,
+      "lat": 12.9372001,
+      "lon": 9.1852196,
+      "tags": {
+        "addr:street": "guri",
+        "amenity": "community_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285965,
+      "lat": 12.0433692,
+      "lon": 8.5704594,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "LATE MAL. ABUBAKAR",
+        "operator": "private_individual",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "social_activities",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285966,
+      "lat": 12.0401418,
+      "lon": 8.571268,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "yes",
+        "name": "NAGARI COMMUNICATION",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "pos_and_communication",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285967,
+      "lat": 12.0405116,
+      "lon": 8.571574,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "yes",
+        "name": "NAKOKI COMMUNICATION",
+        "operator": "private_individual",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285968,
+      "lat": 12.0413748,
+      "lon": 8.56894,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "COMMUNITY DEVELOPMENT ASSOCIATION",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285969,
+      "lat": 12.0452355,
+      "lon": 8.5663642,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "SEACHWELL FOR COMMUNITY PEACE DEVELOPMENT NETWORK",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "yes",
+        "users_boy": "no",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285970,
+      "lat": 12.040723,
+      "lon": 8.5711025,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "KASUWAR \u01b3AN DILLALAI",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "market",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "yes",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285971,
+      "lat": 12.0423958,
+      "lon": 8.5655018,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "yes",
+        "name": "AUDU MAI FACI",
+        "operator": "community",
+        "pay_amount": "unknown",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "volcanize",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285972,
+      "lat": 12.0432179,
+      "lon": 8.5704918,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "MAJALISAR GIDAN BABA INUWA",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "shelter",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285973,
+      "lat": 12.0436013,
+      "lon": 8.569947,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "BISHIYAR \u018aANKARGO",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "need_repair",
+        "use": "community_shelter",
+        "users_PLWD": "yes",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "yes",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285977,
+      "lat": 12.034775,
+      "lon": 8.5640749,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "GAFAR KATAKO",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285978,
+      "lat": 12.0362388,
+      "lon": 8.5636042,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "SPECIAL JOINT",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285979,
+      "lat": 12.0461887,
+      "lon": 8.5667603,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "VIGILANT GROUP OF NIGERIA",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "security",
+        "users_PLWD": "no",
+        "users_boy": "yes",
+        "users_female": "no",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12282285980,
+      "lat": 12.042163,
+      "lon": 8.5729106,
+      "tags": {
+        "amenity": "community_centre",
+        "fac_pay": "no",
+        "name": "AL-IKHLAS YOUTH DEVELOPMENT ASSOCIATION",
+        "operator": "community",
+        "source": "ideamaps_2024",
+        "status": "functional",
+        "use": "community",
+        "users_PLWD": "no",
+        "users_boy": "no",
+        "users_female": "yes",
+        "users_girl": "no",
+        "users_men": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13098828640,
+      "lat": 10.3138672,
+      "lon": 9.8138587,
+      "tags": {
+        "amenity": "community_centre",
+        "check_date": "2025-08-26",
+        "community_centre": "club_home",
+        "name": "Bauchi Club"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13357407365,
+      "lat": 13.3119631,
+      "lon": 12.6095419,
+      "tags": {
+        "amenity": "community_centre",
+        "community_centre": "cultural_centre",
+        "name": "Maison des Jeunes et de la Culture ( MJC)",
+        "operator": "Etat"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221192839,
+      "center": {
+        "lat": 9.3243631,
+        "lon": 13.4052983
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "barrier": "wall",
+        "name": "Maison des jeunes et de la culture",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221472495,
+      "center": {
+        "lat": 9.3080091,
+        "lon": 13.3935489
+      },
+      "tags": {
+        "addr:city": "Garoua",
+        "amenity": "community_centre",
+        "building": "public",
+        "name": "Salle des F\u00eates et de la Culture",
+        "source": "asmaou"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226551691,
+      "center": {
+        "lat": 9.3115882,
+        "lon": 13.4040032
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "barrier": "fence",
+        "name": "Foyer Lop\u00e9r\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 226728676,
+      "center": {
+        "lat": 9.2963276,
+        "lon": 13.4009151
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "yes",
+        "name": "Association pour l'Etude et la Promotion de la Sante",
+        "source": "MEADEN"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416941666,
+      "center": {
+        "lat": 10.5904527,
+        "lon": 14.3226952
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Espace de divertissement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417853526,
+      "center": {
+        "lat": 10.5876853,
+        "lon": 14.2918267
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Cercle municipale"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417886180,
+      "center": {
+        "lat": 10.6040695,
+        "lon": 14.3261001
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "building": "public",
+        "name": "Centre Culturel de Musulman pour le D\u00e9veloppement"
+      }
+    },
+    {
+      "type": "way",
+      "id": 417893826,
+      "center": {
+        "lat": 10.5929336,
+        "lon": 14.3021182
+      },
+      "tags": {
+        "amenity": "community_centre",
+        "name": "Centre lingustique de Maroua"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

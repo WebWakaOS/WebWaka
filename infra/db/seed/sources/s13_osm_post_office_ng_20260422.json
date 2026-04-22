@@ -1,0 +1,1676 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 1842638499,
+      "lat": 7.5605261,
+      "lon": 6.6389802,
+      "tags": {
+        "amenity": "post_office",
+        "operator": "Nigerian Postal Service"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2152987218,
+      "lat": 6.3238534,
+      "lon": 5.6126725,
+      "tags": {
+        "amenity": "post_office",
+        "brand": "DHL",
+        "brand:wikidata": "Q489815",
+        "name": "DHL Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2157136019,
+      "lat": 8.276,
+      "lon": 4.7928579,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Omupo Post Office",
+        "operator": "NIPOST"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2157210110,
+      "lat": 8.3221341,
+      "lon": 4.8272087,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Post Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2329101896,
+      "lat": 6.430345,
+      "lon": 3.4167425,
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "18",
+        "addr:street": "Adeola Odeku Street",
+        "alt_name": "Nipost Victoria Island",
+        "amenity": "post_office",
+        "name": "Victoria Island Post Office",
+        "source:name": "survey",
+        "website": "https://www.nipost.gov.ng/Default"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133565,
+      "lat": 6.427478,
+      "lon": 7.505228,
+      "tags": {
+        "addr:street": "UNEC",
+        "amenity": "post_office",
+        "ele": "241.0",
+        "fixme": "many bad keys",
+        "name": "Nigeria Postal Service"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2455133602,
+      "lat": 6.429925,
+      "lon": 7.480778,
+      "tags": {
+        "addr:street": "Coal Camp",
+        "amenity": "post_office",
+        "ele": "264.399994",
+        "fixme": "many bad keys",
+        "name": "Nigeria Postal Service Dept"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2594871691,
+      "lat": 7.4425786,
+      "lon": 3.9064811,
+      "tags": {
+        "amenity": "post_office",
+        "operator": "Nigerian Postal Service",
+        "website": "https://nipost.gov.ng/",
+        "wikidata": "Q4045343",
+        "wikipedia": "en:Nigerian Postal Service"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3085006110,
+      "lat": 7.3749788,
+      "lon": 3.8965573,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Mapo Post Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3752461146,
+      "lat": 7.9096694,
+      "lon": 4.3154458,
+      "tags": {
+        "addr:city": "Ejigbo",
+        "addr:street": "ejigbo - Oko Road",
+        "amenity": "post_office",
+        "name": "Nigerian Postal Service"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4198899353,
+      "lat": 7.7344999,
+      "lon": 4.4337593,
+      "tags": {
+        "addr:city": "Ede",
+        "addr:postcode": "232121",
+        "amenity": "post_office",
+        "name": "Nigeria Postal Service",
+        "operator": "NIPOST"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4247715891,
+      "lat": 7.1671605,
+      "lon": 4.7258937,
+      "tags": {
+        "addr:street": "post office",
+        "amenity": "post_office",
+        "name": "Post Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4544813391,
+      "lat": 5.1364952,
+      "lon": 6.7334218,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4807700826,
+      "lat": 6.6113844,
+      "lon": 3.3672195,
+      "tags": {
+        "addr:street": "Mobolaji Johnson Way",
+        "amenity": "post_office",
+        "name": "Honeywell Flourmills Plc, Ikeja Plant.",
+        "opening_hours": "24/7",
+        "operator": "Chief Oba Otudeko"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5798725554,
+      "lat": 6.4515546,
+      "lon": 3.3886213,
+      "tags": {
+        "addr:housenumber": "G. P. O 35.",
+        "addr:postcode": "101001",
+        "addr:street": "New Marina Road",
+        "amenity": "post_office",
+        "check_date:opening_hours": "2026-03-16",
+        "internet_access": "wlan",
+        "name": "Nipost",
+        "opening_hours": "Mo-Fr 00:00-24:00; Sa-Su 09:00-13:00",
+        "operator": "government of Nigeria",
+        "website": "https://www.nipost.gov.ng/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6371454791,
+      "lat": 6.612919,
+      "lon": 3.5039764,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6773145359,
+      "lat": 8.136752,
+      "lon": 4.2379745,
+      "tags": {
+        "amenity": "post_office",
+        "name": "NIPOST"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8753782940,
+      "lat": 6.443279,
+      "lon": 7.4885249,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Nigerian Postal service"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8880342417,
+      "lat": 7.8103557,
+      "lon": 4.7802522,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Christ second coming Church"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12844255420,
+      "lat": 7.4648901,
+      "lon": 5.4234226,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Post office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048283391,
+      "lat": 8.4872241,
+      "lon": 4.5644016,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Post office terminal car park (Terminus), opposite NSCDC office post office, Ilorin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "way",
+      "id": 485409460,
+      "center": {
+        "lat": 6.5674876,
+        "lon": 3.3186468
+      },
+      "tags": {
+        "amenity": "post_office",
+        "brand": "DHL",
+        "brand:wikidata": "Q489815",
+        "building": "yes",
+        "height": "12",
+        "name": "DHL"
+      }
+    },
+    {
+      "type": "way",
+      "id": 499958352,
+      "center": {
+        "lat": 6.8603347,
+        "lon": 7.4072927
+      },
+      "tags": {
+        "addr:street": "Fulto Avenue",
+        "amenity": "post_office",
+        "building": "yes",
+        "building:levels": "3",
+        "name": "University of Nigeria Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 505359235,
+      "center": {
+        "lat": 6.5657007,
+        "lon": 3.318789
+      },
+      "tags": {
+        "amenity": "post_office",
+        "brand": "FedEx",
+        "brand:wikidata": "Q459477",
+        "building": "yes",
+        "height": "12",
+        "name": "FedEx Office",
+        "shop": "copyshop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 827612440,
+      "center": {
+        "lat": 8.1581191,
+        "lon": 4.7247619
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Offa Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1034383360,
+      "center": {
+        "lat": 8.492731,
+        "lon": 4.5682003
+      },
+      "tags": {
+        "addr:city": "Ilorin",
+        "addr:postcode": "240212",
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "General Post Office",
+        "source": "microsoft/BuildingFootprints"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1059375680,
+      "center": {
+        "lat": 6.4414686,
+        "lon": 7.4940825
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1121682947,
+      "center": {
+        "lat": 7.8018348,
+        "lon": 6.7437984
+      },
+      "tags": {
+        "addr:city": "Lokoja",
+        "addr:street": "Ibb way, Opposite First Bank",
+        "amenity": "post_office",
+        "branch": "GPO, Lokoja",
+        "building": "yes",
+        "name": "General Post Office",
+        "opening_hours": "Mo-Fr 08:00-17:00",
+        "operator": "Nigeria Postal Service;Nirsal MicroFinance Bank"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1082848068,
+      "lat": 5.9609529,
+      "lon": 10.1532095,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1126567565,
+      "lat": 5.959514,
+      "lon": 10.1673217,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Bamenda Nkwen Post Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2275945917,
+      "lat": 5.1411357,
+      "lon": 10.527913,
+      "tags": {
+        "amenity": "post_office",
+        "ele": "1352",
+        "name": "Campost"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3810629794,
+      "lat": 5.6547724,
+      "lon": 10.6117324,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Bureau de poste de Kouoptamo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4213586994,
+      "lat": 5.2979277,
+      "lon": 10.4406924,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Telecentre communautaire polyvalent de Bayangam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4336501889,
+      "lat": 5.3219059,
+      "lon": 10.3702307,
+      "tags": {
+        "amenity": "post_office",
+        "name": "brigade gendarmerie"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4361326999,
+      "lat": 5.3893083,
+      "lon": 10.3299713,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Campost"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4409739151,
+      "lat": 5.9915811,
+      "lon": 10.4388257,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Campost ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4590296390,
+      "lat": 4.721235,
+      "lon": 9.7335529,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Campost",
+        "name:fr": "Campost"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4695494691,
+      "lat": 5.989353,
+      "lon": 10.4361922,
+      "tags": {
+        "amenity": "post_office",
+        "name": "New shop nexttel Ndop",
+        "name:en": "New shop nexttel Ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4748710874,
+      "lat": 7.31573,
+      "lon": 13.5783112,
+      "tags": {
+        "addr:city": "Ngaound\u00e9r\u00e9 I",
+        "amenity": "post_office",
+        "name": "EMS Agence Ngaound\u00e9r\u00e9",
+        "operator": "EMS"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4810491424,
+      "lat": 6.5761867,
+      "lon": 10.7078139,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Office Donga Mantung NWT",
+        "name:en": "Office Donga Mantung NWT"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4873588423,
+      "lat": 4.8611567,
+      "lon": 11.099745,
+      "tags": {
+        "addr:street": "Nationale 4",
+        "amenity": "post_office",
+        "name": "Bureau De Poste De Kon-Yambetta",
+        "name:fr": "Bureau De Poste De Kon-Yambetta",
+        "opening_hours": "Mo-Sa 09:00-18:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4958178123,
+      "lat": 5.6788616,
+      "lon": 10.2087252,
+      "tags": {
+        "amenity": "post_office",
+        "name": "BABADJOU WEST",
+        "name:en": "BABADJOU WEST"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918143592,
+      "lat": 7.3157824,
+      "lon": 13.5787408,
+      "tags": {
+        "addr:postcode": "BP: 163 Ngaound\u00e9r\u00e9",
+        "amenity": "post_office",
+        "contact:phone": "222252170",
+        "fixme": "Centre administrative",
+        "name": "D\u00e9l\u00e9gation r\u00e9gionale Adamaoua",
+        "office": "government",
+        "operator": "CAMPOST",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918417799,
+      "lat": 7.31503,
+      "lon": 13.5737081,
+      "tags": {
+        "amenity": "post_office",
+        "fixme": "Onaref",
+        "name": "Bureau de poste",
+        "office": "government",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6203232985,
+      "lat": 4.3969224,
+      "lon": 10.803804,
+      "tags": {
+        "amenity": "post_office",
+        "name": "IPIM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6753872685,
+      "lat": 7.7259216,
+      "lon": 8.5400973,
+      "tags": {
+        "amenity": "post_office",
+        "brand": "DHL",
+        "brand:wikidata": "Q489815",
+        "name": "DHL Office, Makurdi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6869621994,
+      "lat": 4.9225671,
+      "lon": 13.2893988,
+      "tags": {
+        "amenity": "post_office",
+        "description": "Survey Instance: b26b3695-a5d2-4d76-8daf-46a5a3044f20",
+        "extrude": "0",
+        "tessellate": "-1",
+        "visibility": "-1"
+      }
+    },
+    {
+      "type": "way",
+      "id": 280014963,
+      "center": {
+        "lat": 4.3633676,
+        "lon": 11.4406236
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Bureau de poste",
+        "source": "Spot"
+      }
+    },
+    {
+      "type": "way",
+      "id": 332018412,
+      "center": {
+        "lat": 4.7572924,
+        "lon": 11.2312188
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Bureau de Poste"
+      }
+    },
+    {
+      "type": "way",
+      "id": 345275412,
+      "center": {
+        "lat": 4.6122986,
+        "lon": 11.2562723
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "public",
+        "name": "Bureau de Poste CAMPOST"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366510908,
+      "center": {
+        "lat": 6.2058762,
+        "lon": 10.6751965
+      },
+      "tags": {
+        "amenity": "post_office",
+        "landuse": "commercial",
+        "name": "Bureau de Poste de Kumbo",
+        "name:fr": "Bureau de Poste de Kumbo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 368939888,
+      "center": {
+        "lat": 4.2248066,
+        "lon": 9.6124475
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "public",
+        "name": "Cameroon Postal Service",
+        "short_name": "CAMPOST"
+      }
+    },
+    {
+      "type": "way",
+      "id": 380949625,
+      "center": {
+        "lat": 5.1535189,
+        "lon": 10.1672708
+      },
+      "tags": {
+        "addr:city": "Bafang",
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Bureau de poste"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738532,
+      "center": {
+        "lat": 5.4713032,
+        "lon": 10.4203814
+      },
+      "tags": {
+        "amenity": "post_office",
+        "landuse": "commercial",
+        "name": "CAMPOST"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424753318,
+      "center": {
+        "lat": 5.4809873,
+        "lon": 10.4256179
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Bureau de Poste de Djemoun",
+        "office": "government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 479575483,
+      "center": {
+        "lat": 5.1217945,
+        "lon": 9.9490648
+      },
+      "tags": {
+        "alt_name": "Bureau de Poste de Melong",
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Campost"
+      }
+    },
+    {
+      "type": "way",
+      "id": 481743387,
+      "center": {
+        "lat": 5.5174411,
+        "lon": 14.1195958
+      },
+      "tags": {
+        "addr:city": "Ndokayo",
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "T\u00e9l\u00e9centre communautaire polyvalent de Ndokayo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625853337,
+      "center": {
+        "lat": 4.9561086,
+        "lon": 9.9352174
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Campost",
+        "operator": "CAMPOST"
+      }
+    },
+    {
+      "type": "node",
+      "id": 317901476,
+      "lat": 11.1065353,
+      "lon": 7.720417,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Zaria Central Post Office",
+        "name:ar": "\u0645\u0643\u062a\u0628 \u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0645\u0631\u0643\u0632\u064a \u0632\u0627\u0631\u064a\u0627"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4317311383,
+      "lat": 13.487782,
+      "lon": 7.1108002,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Niger Poste"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5232360555,
+      "lat": 13.04496,
+      "lon": 3.1951826,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Niger Poste Dosso"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5907763385,
+      "lat": 12.9794605,
+      "lon": 7.6077899,
+      "tags": {
+        "addr:street": "IBB Way",
+        "amenity": "post_office",
+        "name": "DHL Kofar Kaura",
+        "opening_hours": "Mo-Fr 00:00-24:00",
+        "phone": "08039564360"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6380778986,
+      "lat": 13.5238115,
+      "lon": 7.1241825,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Poste 132kV Nigelec"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7791407788,
+      "lat": 10.600857,
+      "lon": 2.7449472,
+      "tags": {
+        "amenity": "post_office",
+        "name": "PC GOGOUNOU"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8643824917,
+      "lat": 11.8012377,
+      "lon": 3.3768255,
+      "tags": {
+        "amenity": "post_office",
+        "name": "IACM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644094417,
+      "lat": 11.7043517,
+      "lon": 3.5486053,
+      "tags": {
+        "amenity": "post_office",
+        "name": "D\u00e9part Iloua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644177217,
+      "lat": 11.847012,
+      "lon": 3.3787304,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Reserve administrative MaP7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644185317,
+      "lat": 11.8579412,
+      "lon": 3.3745573,
+      "tags": {
+        "amenity": "post_office",
+        "name": "CEG WOLLO MaP6"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644208917,
+      "lat": 11.857722,
+      "lon": 3.3801587,
+      "tags": {
+        "amenity": "post_office",
+        "name": "R\u00e9serve administrative MaP.."
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644210817,
+      "lat": 11.860316,
+      "lon": 3.3816193,
+      "tags": {
+        "amenity": "post_office",
+        "name": "R\u00e9serve administrative \u00c9cole.Quartier"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644229617,
+      "lat": 11.8593353,
+      "lon": 3.3884252,
+      "tags": {
+        "amenity": "post_office",
+        "name": "R\u00e9serve administrative Arrondissement Ma"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8644258617,
+      "lat": 11.8576515,
+      "lon": 3.3893061,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Reserve Centre Social"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9028335817,
+      "lat": 11.1372111,
+      "lon": 2.9553962,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site Alternative"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9029539317,
+      "lat": 11.1365437,
+      "lon": 2.9270792,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Existant H61 160 kVA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031568918,
+      "lat": 11.8479518,
+      "lon": 3.3842619,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site Existant EPP Tassi tedji"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031640618,
+      "lat": 11.8465296,
+      "lon": 3.3786253,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site 2 Poste"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031757717,
+      "lat": 11.8591064,
+      "lon": 3.377389,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site EPP WOLLO"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031757718,
+      "lat": 11.8577331,
+      "lon": 3.3803012,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site existant"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031790217,
+      "lat": 11.8602673,
+      "lon": 3.3831682,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site t\u00e9moin"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031790317,
+      "lat": 11.8601733,
+      "lon": 3.3866285,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Centre de documentation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031803119,
+      "lat": 11.8532313,
+      "lon": 3.3915566,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site CEG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031837119,
+      "lat": 11.8561862,
+      "lon": 3.3889647,
+      "tags": {
+        "amenity": "post_office",
+        "name": "H61 Existant 160 kVA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031837120,
+      "lat": 11.8530882,
+      "lon": 3.3878186,
+      "tags": {
+        "amenity": "post_office",
+        "name": "H61 Existant 160 kVA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031877718,
+      "lat": 11.8563116,
+      "lon": 3.3943545,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site Service \u00c9levage Galiel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031941617,
+      "lat": 11.8457359,
+      "lon": 3.3855902,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Maison des jeunes Tassi Tedji"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9031950922,
+      "lat": 11.8518103,
+      "lon": 3.3943547,
+      "tags": {
+        "amenity": "post_office",
+        "name": "H 59 Sur Ch\u00e2ssis",
+        "name:fr": "H 59 Sur Ch\u00e2ssis Galiel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9032248619,
+      "lat": 11.8488876,
+      "lon": 3.3940848,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site 2 Galiel"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9076247817,
+      "lat": 11.6726359,
+      "lon": 3.5737368,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Site Poste Iloua"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9994582860,
+      "lat": 13.6600224,
+      "lon": 6.6986561,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Niger Poste Guidan Roumdji"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12647307528,
+      "lat": 10.527567,
+      "lon": 7.4277169,
+      "tags": {
+        "amenity": "post_office",
+        "brand": "DHL",
+        "brand:wikidata": "Q489815",
+        "name": "DHL",
+        "operator": "DHL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12996013822,
+      "lat": 9.0483312,
+      "lon": 7.4744509,
+      "tags": {
+        "amenity": "post_office",
+        "brand": "DHL",
+        "brand:wikidata": "Q489815",
+        "name": "DHL"
+      }
+    },
+    {
+      "type": "way",
+      "id": 66990148,
+      "center": {
+        "lat": 10.5220117,
+        "lon": 7.4328157
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 211555491,
+      "center": {
+        "lat": 9.038885,
+        "lon": 7.4843049
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "source": "Bing"
+      }
+    },
+    {
+      "type": "way",
+      "id": 514996062,
+      "center": {
+        "lat": 9.9327061,
+        "lon": 3.2098721
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134390,
+      "center": {
+        "lat": 9.5329106,
+        "lon": 6.449961
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134391,
+      "center": {
+        "lat": 9.5329349,
+        "lon": 6.4500313
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134392,
+      "center": {
+        "lat": 9.5329399,
+        "lon": 6.4500947
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134394,
+      "center": {
+        "lat": 9.5329097,
+        "lon": 6.4501682
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134395,
+      "center": {
+        "lat": 9.5328571,
+        "lon": 6.4502236
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134396,
+      "center": {
+        "lat": 9.5327911,
+        "lon": 6.4502369
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134397,
+      "center": {
+        "lat": 9.5327151,
+        "lon": 6.4502293
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 665134399,
+      "center": {
+        "lat": 9.5326544,
+        "lon": 6.4502019
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes",
+        "name": "School Post Office"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1090809717,
+      "center": {
+        "lat": 13.5042282,
+        "lon": 7.7750291
+      },
+      "tags": {
+        "amenity": "post_office",
+        "name": "Baban Arn\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2178082183,
+      "lat": 12.002706,
+      "lon": 8.539785,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2951148709,
+      "lat": 10.3061386,
+      "lon": 11.1749418,
+      "tags": {
+        "amenity": "post_office",
+        "junction": "roundabout"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4306979951,
+      "lat": 13.8037247,
+      "lon": 8.9880031,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Bureau Niger Poste",
+        "name:ar": "\u0645\u0643\u062a\u0628 \u0628\u0631\u064a\u062f \u0627\u0644\u0646\u064a\u062c\u0631",
+        "project:pdevii": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4405316591,
+      "lat": 10.5865701,
+      "lon": 14.3213871,
+      "tags": {
+        "amenity": "post_office",
+        "name": "unhouse",
+        "name:en": "unhouse"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4420098590,
+      "lat": 12.3894147,
+      "lon": 14.2150654,
+      "tags": {
+        "addr:housenumber": "1",
+        "addr:postcode": "00237",
+        "addr:street": "Fotokol",
+        "amenity": "post_office",
+        "name": "Fumig\u00e8ne",
+        "name:fr": "Fumig\u00e8ne"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4425500691,
+      "lat": 12.3733998,
+      "lon": 14.3571564,
+      "tags": {
+        "addr:housenumber": "0",
+        "addr:postcode": "00237",
+        "addr:street": "Maroua-Kousseri-Bodo-Fotokol",
+        "amenity": "post_office",
+        "name": "face to Wumbi",
+        "name:en": "face to Wumbi",
+        "name:fr": "face to Wumbi"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4428555090,
+      "lat": 12.4844456,
+      "lon": 14.1912433,
+      "tags": {
+        "addr:housenumber": "300",
+        "addr:postcode": "00237",
+        "addr:street": "Soueram Ardebe",
+        "amenity": "post_office",
+        "name": "Soueram MMF Post",
+        "name:en": "Soueram MMF Post",
+        "name:fr": "Poste FMM Soueram"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4431652091,
+      "lat": 12.3705228,
+      "lon": 14.3839454,
+      "tags": {
+        "addr:housenumber": "100",
+        "addr:postcode": "00237",
+        "addr:street": "Maroua-Kousseri-Bodo-Fotokol",
+        "amenity": "post_office",
+        "name": "Amtchoukouli",
+        "name:en": "Amtchoukouli",
+        "name:fr": "Amtchoukouli"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4435765591,
+      "lat": 12.5479683,
+      "lon": 14.252487,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Sagme Post A",
+        "name:en": "Sagme Post A",
+        "name:fr": "Sagme Post A"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4435817789,
+      "lat": 12.5502647,
+      "lon": 14.2540735,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Sagme Post C",
+        "name:en": "Sagme Post C",
+        "name:fr": "Sagme Post C"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4435817889,
+      "lat": 12.5469664,
+      "lon": 14.2561554,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Sagme PC",
+        "name:en": "Sagme PC",
+        "name:fr": "Sagme PC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4435817890,
+      "lat": 12.5465242,
+      "lon": 14.257289,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Sagme Gendarmerie Brigade",
+        "name:en": "Sagme Gendarmerie Brigade",
+        "name:fr": "Brigade Gendarmerie Sagme"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4435817989,
+      "lat": 12.5145043,
+      "lon": 14.2521839,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Tcholoba Ardebe Road",
+        "name:en": "Tcholoba Ardebe Road",
+        "name:fr": "carrefour Tcholoba"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4450142689,
+      "lat": 12.3798411,
+      "lon": 14.2096258,
+      "tags": {
+        "addr:housenumber": "10",
+        "addr:postcode": "00237",
+        "amenity": "post_office",
+        "name": "Poste Charlie Fotokol",
+        "name:en": "Poste Charlie Fotokol",
+        "name:fr": "Poste Charlie Fotokol"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4453302691,
+      "lat": 12.3821537,
+      "lon": 14.2302363,
+      "tags": {
+        "addr:postcode": "00237",
+        "amenity": "post_office",
+        "name": "Post Rom\u00e9o",
+        "name:en": "Post Rom\u00e9o",
+        "name:fr": "Poste Rom\u00e9o"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4453328791,
+      "lat": 12.379884,
+      "lon": 14.2477081,
+      "tags": {
+        "addr:housenumber": "10",
+        "addr:postcode": "00237",
+        "addr:street": "Fotokol Gambaru",
+        "amenity": "post_office",
+        "name": "PC Fox",
+        "name:en": "PC Fox",
+        "name:fr": "PC Fox"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4453355990,
+      "lat": 12.3884474,
+      "lon": 14.2214982,
+      "tags": {
+        "addr:postcode": "00237",
+        "amenity": "post_office",
+        "name": "Poste Lima Fotokol Gamboru",
+        "name:en": "Post Lima Fotokol Gambaru",
+        "name:fr": "Poste Lima Fotokol Gamboru"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4453408590,
+      "lat": 12.3743619,
+      "lon": 14.2227102,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Pont de l'Elbeid",
+        "name:en": "Elbeid Bridge",
+        "name:fr": "Pont de l'Elbeid"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4513741894,
+      "lat": 13.3181915,
+      "lon": 12.6129001,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Poste Diffa",
+        "name:fr": "Poste Diffa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6690693971,
+      "lat": 9.3072223,
+      "lon": 13.3928423,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6712195287,
+      "lat": 13.3336954,
+      "lon": 12.6112454,
+      "tags": {
+        "amenity": "post_office",
+        "name": "521 CSM"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7033093494,
+      "lat": 9.0581275,
+      "lon": 13.659111,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Elecam lagdo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7033093495,
+      "lat": 9.0622858,
+      "lon": 13.6604752,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Bureau de postes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054297823,
+      "lat": 9.9690258,
+      "lon": 13.611297,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7054910760,
+      "lat": 9.2488053,
+      "lon": 13.7717433,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Poste agricole d'adoumri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7260326187,
+      "lat": 10.2567804,
+      "lon": 11.1843623,
+      "tags": {
+        "addr:street": "BYE PASS ROAD",
+        "amenity": "post_office",
+        "name": "Barunde T Junction"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7329359085,
+      "lat": 11.9829579,
+      "lon": 8.5765423,
+      "tags": {
+        "addr:street": "Dan gaya street",
+        "amenity": "post_office",
+        "name": "Kawo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7329359785,
+      "lat": 11.9823325,
+      "lon": 8.5766544,
+      "tags": {
+        "amenity": "post_office",
+        "name": "(Dan gaya street) Ayuba me mai"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7329359786,
+      "lat": 11.9826026,
+      "lon": 8.5769166,
+      "tags": {
+        "addr:street": "Dan gaya street",
+        "amenity": "post_office",
+        "name": "Musa me kayan miya",
+        "opening_hours": "24/7",
+        "phone": "08081816681"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7341063685,
+      "lat": 10.3031269,
+      "lon": 11.1707272,
+      "tags": {
+        "amenity": "post_office",
+        "name": "GSU Security Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843431385,
+      "lat": 10.2903548,
+      "lon": 11.0884892,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Vision FM station"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8852939449,
+      "lat": 9.4679366,
+      "lon": 12.0327008,
+      "tags": {
+        "amenity": "post_office",
+        "name": "Post Office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769533780,
+      "lat": 9.9142189,
+      "lon": 8.8895988,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "post_office",
+        "name": "Post office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11011672583,
+      "lat": 10.3169618,
+      "lon": 9.8338049,
+      "tags": {
+        "amenity": "post_office",
+        "check_date": "2023-06-28",
+        "name": "Post Office",
+        "source": "local knowledge",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11990503672,
+      "lat": 10.3184411,
+      "lon": 9.8298841,
+      "tags": {
+        "amenity": "post_office",
+        "brand": "FedEx",
+        "brand:wikidata": "Q459477",
+        "check_date": "2024-06-18",
+        "name": "FedEx Office",
+        "shop": "copyshop"
+      }
+    },
+    {
+      "type": "way",
+      "id": 221472476,
+      "center": {
+        "lat": 9.3076323,
+        "lon": 13.3929542
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 248643074,
+      "center": {
+        "lat": 9.9141193,
+        "lon": 8.8893529
+      },
+      "tags": {
+        "amenity": "post_office",
+        "source": "common knowledge",
+        "source:position": "Bing Imagery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 399968848,
+      "center": {
+        "lat": 10.5998079,
+        "lon": 14.3166079
+      },
+      "tags": {
+        "amenity": "post_office",
+        "building": "public",
+        "name": "CAMPOST",
+        "source": "Plan polyvalent Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416148737,
+      "center": {
+        "lat": 10.5910072,
+        "lon": 14.3183139
+      },
+      "tags": {
+        "amenity": "post_office",
+        "name": "Campost"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}

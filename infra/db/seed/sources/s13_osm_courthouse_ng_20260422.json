@@ -1,0 +1,1172 @@
+{
+  "elements": [
+    {
+      "type": "node",
+      "id": 2075846067,
+      "lat": 6.3144083,
+      "lon": 5.6178915,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Customary Court Of Appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2075846159,
+      "lat": 6.3146436,
+      "lon": 5.6178372,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Judiciary Customary Court of Appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2154572051,
+      "lat": 6.3295009,
+      "lon": 5.6245245,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Criminal Magistrate Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2161056546,
+      "lat": 6.3263157,
+      "lon": 5.6238888,
+      "tags": {
+        "addr:street": "Benin-Sapele Road",
+        "amenity": "courthouse",
+        "contact:phone": "+234 80 3543 0032",
+        "name": "High Court of Justice",
+        "website": "http://edojudiciary.gov.ng/about-us/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4176680388,
+      "lat": 5.4770682,
+      "lon": 7.2706182,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Aboh Mbaise High Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5446406442,
+      "lat": 5.562251,
+      "lon": 5.7433105,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:housenumber": "1",
+        "addr:street": "Udeomo Quarters",
+        "amenity": "courthouse",
+        "name": "Ekpan District Customary Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5501802822,
+      "lat": 5.0922163,
+      "lon": 6.4763504,
+      "tags": {
+        "addr:street": "Akinima",
+        "amenity": "courthouse",
+        "name": "Customary Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5577106331,
+      "lat": 5.5434943,
+      "lon": 5.7655568,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Uvwie Customary Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5599601721,
+      "lat": 4.8388888,
+      "lon": 7.0390216,
+      "tags": {
+        "addr:street": "Old Aba Road",
+        "amenity": "courthouse",
+        "name": "Customary Court of Appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6371454789,
+      "lat": 6.6134526,
+      "lon": 3.5037116,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Ikorodu High Court",
+        "operator": "Lagos state Govt"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7956231988,
+      "lat": 4.9342665,
+      "lon": 6.2723455,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Bayelsa State High Court of Justice"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10079738130,
+      "lat": 6.3803365,
+      "lon": 7.2858547,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Ezeagu High Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10209537724,
+      "lat": 8.0177525,
+      "lon": 8.1197687,
+      "tags": {
+        "amenity": "courthouse",
+        "source": "nigeriase4all.gov.ng",
+        "source:date": "2022"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10718958687,
+      "lat": 5.5185966,
+      "lon": 5.7369232,
+      "tags": {
+        "addr:city": "Warri",
+        "addr:postcode": "320242",
+        "addr:street": "Mabiaku Road",
+        "amenity": "courthouse",
+        "name": "Federal High Court Warri",
+        "operator": "Nigerian Government",
+        "wikidata": "Q574593",
+        "wikipedia": "en:Warri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11737939133,
+      "lat": 7.8330618,
+      "lon": 4.1329837,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Court",
+        "religion": "muslim"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974869,
+      "lat": 8.484939,
+      "lon": 4.5684224,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "High Court Road, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13047974870,
+      "lat": 8.4857137,
+      "lon": 4.5690834,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "High Court of Justice, Offa Road, Oko Erin, Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13048283359,
+      "lat": 8.4772271,
+      "lon": 4.5745075,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "THE COURT OF APPEAL, Alimi Road, Oko Erin, Nigeria",
+        "source": "csv_import"
+      }
+    },
+    {
+      "type": "way",
+      "id": 44659785,
+      "center": {
+        "lat": 6.3354494,
+        "lon": 5.6237025
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Judiciary Area Customary Court"
+      }
+    },
+    {
+      "type": "way",
+      "id": 378270388,
+      "center": {
+        "lat": 7.7438971,
+        "lon": 4.517133
+      },
+      "tags": {
+        "addr:city": "Abeere",
+        "addr:street": "Gbongan - Osogbo Road",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Federal High Court of Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 557390017,
+      "center": {
+        "lat": 4.8881911,
+        "lon": 6.9003924
+      },
+      "tags": {
+        "addr:city": "Choba/Port Harcourt",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Court of Appeal Choba"
+      }
+    },
+    {
+      "type": "way",
+      "id": 567150411,
+      "center": {
+        "lat": 6.4542484,
+        "lon": 3.4351176
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "National Industrial Court of Nigeria"
+      }
+    },
+    {
+      "type": "way",
+      "id": 567150452,
+      "center": {
+        "lat": 6.4396517,
+        "lon": 3.4439889
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "21",
+        "addr:street": "Oyinkan Abayomi Drive",
+        "amenity": "courthouse",
+        "name": "Federal High Court - Ikoyi"
+      }
+    },
+    {
+      "type": "way",
+      "id": 570496112,
+      "center": {
+        "lat": 6.4437105,
+        "lon": 3.4317875
+      },
+      "tags": {
+        "addr:city": "Lagos",
+        "addr:housenumber": "1B",
+        "addr:street": "Oyinkan Abayomi Drive",
+        "amenity": "courthouse",
+        "name": "Federal High Court of Nigeria, Lagos"
+      }
+    },
+    {
+      "type": "way",
+      "id": 586690423,
+      "center": {
+        "lat": 5.8444083,
+        "lon": 6.8588071
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "High Court Ihiala"
+      }
+    },
+    {
+      "type": "way",
+      "id": 627287121,
+      "center": {
+        "lat": 5.8601161,
+        "lon": 7.0990282
+      },
+      "tags": {
+        "addr:city": "Urualla",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Urualla Magistrate Court",
+        "operator": "Imo State Government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 701428116,
+      "center": {
+        "lat": 7.9028129,
+        "lon": 4.3132901
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "level": "1",
+        "name": "Ejigbo Customary Court",
+        "office": "government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705862422,
+      "center": {
+        "lat": 6.4494585,
+        "lon": 3.4017263
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "High Court of Lagos State"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705862423,
+      "center": {
+        "lat": 6.449658,
+        "lon": 3.4006892
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Court of Appeal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 754998354,
+      "center": {
+        "lat": 4.7682823,
+        "lon": 7.0193763
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Court of Appeal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 913204120,
+      "center": {
+        "lat": 8.8281626,
+        "lon": 7.566844
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Customary Court",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 925933109,
+      "center": {
+        "lat": 8.8324676,
+        "lon": 7.572723
+      },
+      "tags": {
+        "addr:city": "FCT, Abuja, Karshi",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Grade 1 Area Court Karshi",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 927088398,
+      "center": {
+        "lat": 8.9894201,
+        "lon": 7.4264017
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Customary Court Galadimawa",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 927088399,
+      "center": {
+        "lat": 8.9894593,
+        "lon": 7.4265848
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 928034244,
+      "center": {
+        "lat": 8.948148,
+        "lon": 7.4550243
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Kabusa Area Court",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 928159094,
+      "center": {
+        "lat": 8.9475843,
+        "lon": 7.4373041
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Customary Court Kabusa",
+        "source": "Nigerian Red Cross Society"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1005955874,
+      "center": {
+        "lat": 5.8921616,
+        "lon": 7.9242693
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Judicary High Court"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1152408829,
+      "center": {
+        "lat": 5.5186031,
+        "lon": 5.7368867
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1068916067,
+      "lat": 5.985494,
+      "lon": 10.4361108,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Akali Court of Justice"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069053730,
+      "lat": 5.9903361,
+      "lon": 10.4392552,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "High Court Ndop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1069147012,
+      "lat": 5.9919732,
+      "lon": 10.4363965,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Magistrate Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918113233,
+      "lat": 7.3166949,
+      "lon": 13.5779824,
+      "tags": {
+        "amenity": "courthouse",
+        "ele": "1149",
+        "name": "Tribunal de Ngaound\u00e9r\u00e9",
+        "office": "government",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918114751,
+      "lat": 7.3169324,
+      "lon": 13.5774212,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Cours d'Appel de l'Adamaoua",
+        "office": "government",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5918118916,
+      "lat": 7.316359,
+      "lon": 13.5778228,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Tribunal administratif",
+        "office": "government",
+        "source": "ACAGER - OSM_Cameroon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9459426924,
+      "lat": 4.6303198,
+      "lon": 9.4344595,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "High Court",
+        "name:fr": "Cour Supr\u00eame"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11252750137,
+      "lat": 5.9900254,
+      "lon": 10.1796927,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "MISSIO Community Baptist Church"
+      }
+    },
+    {
+      "type": "way",
+      "id": 282240391,
+      "center": {
+        "lat": 4.3649128,
+        "lon": 11.4395237
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "public",
+        "name": "Tribunal",
+        "source": "Spot"
+      }
+    },
+    {
+      "type": "way",
+      "id": 311592376,
+      "center": {
+        "lat": 6.4567658,
+        "lon": 12.6195432
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 312815115,
+      "center": {
+        "lat": 5.5063304,
+        "lon": 10.627312
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de justice de Foumbot"
+      }
+    },
+    {
+      "type": "way",
+      "id": 326549185,
+      "center": {
+        "lat": 4.7562879,
+        "lon": 11.2332149
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 359274838,
+      "center": {
+        "lat": 5.7310419,
+        "lon": 10.8955015
+      },
+      "tags": {
+        "alt_name": "Tribunal",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366479415,
+      "center": {
+        "lat": 6.20996,
+        "lon": 10.6669872
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "public",
+        "name": "Youth Centre Hall",
+        "name:fr": "Salle du Centre Jeunesse"
+      }
+    },
+    {
+      "type": "way",
+      "id": 374598231,
+      "center": {
+        "lat": 4.5785633,
+        "lon": 13.6980315
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "barrier": "wall",
+        "name": "Tribunal militaire"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424738600,
+      "center": {
+        "lat": 5.4738718,
+        "lon": 10.420612
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424896942,
+      "center": {
+        "lat": 5.4738423,
+        "lon": 10.4206098
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424896957,
+      "center": {
+        "lat": 5.4709629,
+        "lon": 10.415068
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "public",
+        "name": "Tribunal Administratif"
+      }
+    },
+    {
+      "type": "way",
+      "id": 448100447,
+      "center": {
+        "lat": 5.9495272,
+        "lon": 10.1674998
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Court of Appeal",
+        "name:en": "Court of Appeal",
+        "name:fr": "Cour d'Appel"
+      }
+    },
+    {
+      "type": "way",
+      "id": 625853333,
+      "center": {
+        "lat": 4.9567392,
+        "lon": 9.934992
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Tribunal de Grande Instance du Moungo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 721908389,
+      "center": {
+        "lat": 4.2652767,
+        "lon": 11.2010418
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice de Monat\u00e9l\u00e9"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1337824060,
+      "center": {
+        "lat": 4.426549,
+        "lon": 14.3646676
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice de Batouri"
+      }
+    },
+    {
+      "type": "node",
+      "id": 359584478,
+      "lat": 11.9988363,
+      "lon": 8.49052,
+      "tags": {
+        "amenity": "courthouse"
+      }
+    },
+    {
+      "type": "node",
+      "id": 557608061,
+      "lat": 11.1076586,
+      "lon": 7.71933,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Zaria Sharia Court",
+        "name:ar": "\u0627\u0644\u0645\u062d\u0643\u0645\u0629 \u0627\u0644\u0634\u0631\u0639\u064a\u0629 \u0632\u0627\u0631\u064a\u0627"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2427782127,
+      "lat": 11.8880886,
+      "lon": 3.4546906,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice",
+        "project:mappingforniger": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3392822309,
+      "lat": 13.017997,
+      "lon": 5.230284,
+      "tags": {
+        "addr:street": "Secretariat Road",
+        "amenity": "courthouse",
+        "name": "Federal court of appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3900153031,
+      "lat": 13.4864679,
+      "lon": 7.1118499,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Tribunal de Grande Instance",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5170867929,
+      "lat": 13.6584088,
+      "lon": 6.6914659,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice de Guidan Roumdji"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11118351503,
+      "lat": 13.8036299,
+      "lon": 5.2515208,
+      "tags": {
+        "amenity": "courthouse"
+      }
+    },
+    {
+      "type": "way",
+      "id": 41381682,
+      "center": {
+        "lat": 10.5205714,
+        "lon": 7.4358237
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Kaduna High Court"
+      }
+    },
+    {
+      "type": "way",
+      "id": 234556253,
+      "center": {
+        "lat": 13.0430304,
+        "lon": 3.2002555
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice",
+        "project:mappingforniger": "yes",
+        "source": "bing"
+      }
+    },
+    {
+      "type": "way",
+      "id": 514966814,
+      "center": {
+        "lat": 10.1373553,
+        "lon": 6.0194504
+      },
+      "tags": {
+        "addr:city": "MARIGA",
+        "addr:street": "KANTUDU",
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "SHARIA COURT"
+      }
+    },
+    {
+      "type": "way",
+      "id": 670313538,
+      "center": {
+        "lat": 9.5101443,
+        "lon": 8.1823682
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Customary Court Fadan Kagoma"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1454321616,
+      "center": {
+        "lat": 13.5027818,
+        "lon": 7.7850286
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Tribunal d'Instance d'Agui\u00e9"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2883623453,
+      "lat": 12.027763,
+      "lon": 8.5505717,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Nassarawa Sharia Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4307404994,
+      "lat": 13.7943624,
+      "lon": 8.993719,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de Justice",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4316032631,
+      "lat": 13.8132281,
+      "lon": 8.9977196,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Place Akali Garin Malam",
+        "project:pdevii": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4992928723,
+      "lat": 13.2233356,
+      "lon": 12.0237812,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de justice",
+        "name:fr": "Palais de justice"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5037220621,
+      "lat": 13.3174943,
+      "lon": 12.6095259,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Justice de Diffa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5194814223,
+      "lat": 13.3171773,
+      "lon": 12.6099891,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Tribunal de Grande Instance de Diffa"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253161585,
+      "lat": 10.2896682,
+      "lon": 11.1722555,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Dr. Aliyu Moddibo resident"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7253718187,
+      "lat": 10.3010351,
+      "lon": 11.1695535,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Sharia Court of Appeal K-Mata"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7395609485,
+      "lat": 9.9419726,
+      "lon": 8.7621747,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Rhino officers mess"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769721003,
+      "lat": 9.9131274,
+      "lon": 8.884062,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "courthouse",
+        "name": "Plateau State high Court/ judiciary clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769956199,
+      "lat": 9.9089566,
+      "lon": 8.8891378,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "courthouse",
+        "name": "Customary court of Appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9769961652,
+      "lat": 9.9091056,
+      "lon": 8.8894763,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "courthouse",
+        "name": "Sharia court of appeal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9771974332,
+      "lat": 9.8983225,
+      "lon": 8.8825904,
+      "tags": {
+        "addr:city": "Jos",
+        "amenity": "courthouse",
+        "name": "National industrial Court of Nigeria"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10003376696,
+      "lat": 10.3132959,
+      "lon": 9.8304273,
+      "tags": {
+        "amenity": "courthouse"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11084333729,
+      "lat": 10.3185285,
+      "lon": 9.8249591,
+      "tags": {
+        "amenity": "courthouse",
+        "check_date": "2023-08-02",
+        "name": "High Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11136103405,
+      "lat": 10.3055534,
+      "lon": 11.1738978,
+      "tags": {
+        "addr:postcode": "760214",
+        "addr:street": "PGD WAY",
+        "amenity": "courthouse",
+        "name": "faculty of law moot court",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11142143405,
+      "lat": 10.3055686,
+      "lon": 11.1739458,
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Faculty of law moot Court"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11151642105,
+      "lat": 10.2936577,
+      "lon": 11.1790422,
+      "tags": {
+        "addr:postcode": "760232",
+        "addr:street": "behind idi primary school",
+        "amenity": "courthouse",
+        "email": "muhammadtafidaaliyu70@gmail.com",
+        "name": "Criminal court Idi",
+        "phone": "08132070371"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11175689338,
+      "lat": 10.3055239,
+      "lon": 11.173992,
+      "tags": {
+        "addr:street": "PGD WAY",
+        "amenity": "courthouse",
+        "name": "Faculty of law mout court",
+        "opening_hours": "Su-Fr 08:00-04:00"
+      }
+    },
+    {
+      "type": "way",
+      "id": 398342685,
+      "center": {
+        "lat": 11.0450668,
+        "lon": 14.1513365
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "Palais de Justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416118872,
+      "center": {
+        "lat": 10.5901958,
+        "lon": 14.3043376
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "public",
+        "name": "Tribunal militaire de Maroua"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416150835,
+      "center": {
+        "lat": 10.5949952,
+        "lon": 14.3265957
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "public",
+        "name": "Etude maitre NGAINSSOM DENIS huissier de justice"
+      }
+    },
+    {
+      "type": "way",
+      "id": 416155824,
+      "center": {
+        "lat": 10.5990722,
+        "lon": 14.3171095
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "name": "Palais de JUSTICE"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1178487810,
+      "center": {
+        "lat": 9.8858606,
+        "lon": 8.8759034
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1311724990,
+      "center": {
+        "lat": 9.1925485,
+        "lon": 9.8893301
+      },
+      "tags": {
+        "amenity": "courthouse",
+        "building": "yes",
+        "name": "district court"
+      }
+    }
+  ],
+  "generator": "overpass-api",
+  "retrieved": "2026-04-22"
+}
