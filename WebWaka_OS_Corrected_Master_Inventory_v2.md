@@ -1,7 +1,7 @@
 # WebWaka OS — Corrected Master Inventory Report v2.0
 
 **Produced:** 2026-04-23  
-**Basis:** Full source audit — all 11 apps, 194 packages, 191 route files, 383 migrations, 15 middleware files, governance docs  
+**Basis:** Full source audit — all 11 apps, 194 packages, 191 route files, 383 migrations, 18 middleware files, governance docs  
 **Supersedes:** WebWaka_Master_Inventory_Report.md (v1.0, 1,248 lines)  
 **Prior audit baseline:** WebWaka_Verification_Audit_Report.md  
 
@@ -50,7 +50,7 @@ Nothing is left "strongly implied" or "uncertain" unless genuinely blocked.
 | C-20 | Admin Metrics absent | ❌ Missing | Verified: P20-E, workspace admin observability | Add |
 | C-21 | Template Marketplace absent | ❌ Missing | Verified: admin-dashboard marketplace.ts, buy/install | Add |
 | C-22 | Profile Visibility management absent | ❌ Missing | Verified: 3 levels (public/semi/private), search_entries sync | Add |
-| C-23 | Entire middleware layer absent | ❌ Missing | Verified: 15 files, 1,329 lines | Add full layer |
+| C-23 | Entire middleware layer absent | ❌ Missing | Verified: 18 files, ~1,390 lines (audit-log.ts added as PL-01) | Add full layer |
 | C-24 | 15 non-vertical packages absent | ❌ Missing | Verified: all 35 non-vertical packages now listed | Add |
 | C-25 | Section 8 self-assessment "77% covered" | ❌ Inflated | True coverage ~50-55% of platform surface | Recalculate |
 | C-26 | tenant-public app absent | ❌ Missing | Verified: white-label tenant discovery Worker | Add |
@@ -1080,7 +1080,7 @@ All constraints verified from route file headers and guard functions in batch ro
 3. The 132 individual vertical route files are confirmed; the 28 P1 originals served via batch files are clarified.
 4. All 35 non-vertical packages have been read (at minimum their index.ts exports).
 5. The entire 18-file middleware layer is now documented, including `audit-log.ts` (PL-01 correction).
-6. The 43 remediation corrections have been applied.
+6. The 52 remediation corrections have been applied (43 original C-01–C-43 plus 9 from freeze punch list PL-01–PL-09).
 7. All 6 slug naming errors are identified.
 8. All 9+ missing implemented workflows are now described in full.
 9. The i18n/multi-currency/P3 status is corrected from "not yet" to "partially live."
@@ -1257,7 +1257,7 @@ The QA team should confirm all items below are represented in the test plan befo
 ---
 
 *End of WebWaka OS Corrected Master Inventory Report v2.0 — PUNCH LIST APPLIED*  
-*Corrections applied: 52 (43 original + 9 from punch list) | Verified features added: 35 | Mischaracterizations fixed: 6*  
-*QA scenarios: 92 (88 original + 4 new from PL-01/PL-04/PL-05) | Middleware: 18 files | Route total: 191*  
+*Corrections applied: 52 (43 original C-01–C-43 + 9 from freeze punch list PL-01–PL-09) | Verified features added: 35 | Mischaracterizations fixed: 6*  
+*QA checklist items: 100 (88 original + 12 new: 2 from PL-01 audit-log, 4 from PL-04 MON-04, 6 from PL-05 L3 HITL) | Middleware: 18 files | Route total: 191*  
 *Confidence: High for all major workflows | Governance-blocked items: 1 (D11 — USDT precision)*  
-*Freeze status: APPROVED — punch list closed. Lock this document as QA baseline.*
+*Freeze status: APPROVED — all punch list items closed. Lock this document as QA baseline.*

@@ -1,0 +1,128 @@
+
+Use the latest corrected master inventory and the new freeze-readiness report as the final source set, and perform one last **line-level freeze validation** of the updated WebWaka master inventory.
+
+This is **not** a new inventory, and **not** a QA test plan. This is a **final consistency and evidence validation pass** to decide whether the master inventory can be frozen as the official QA baseline.
+
+### Objective
+
+Confirm, at document level, that:
+
+- every stated count is consistent everywhere,
+- every scenario in the 88/92-item QA checklist is actually present and correctly classified,
+- every punch-list item has been applied or explicitly justified,
+- every blocker is either resolved, governance-blocked, or clearly non-blocking,
+- and no hidden material gap remains.
+
+### Required checks
+
+#### 1. Final count consistency
+Verify the report uses the same values everywhere for:
+- app count,
+- package count,
+- migration count,
+- top-level route count,
+- vertical route count,
+- middleware count,
+- CRON count,
+- locale count,
+- scenario count,
+- blocker count.
+
+If any count differs between sections, fix it and show the corrected source lines.
+
+#### 2. Scenario checklist validation
+For every QA scenario in the freeze-readiness report:
+- confirm it exists in the master inventory,
+- confirm its classification is correct,
+- confirm the supporting evidence source is present,
+- confirm there are no duplicates, accidental omissions, or unsupported rows.
+
+If the scenario count changed from 88 to 92, explain exactly why and where the four new scenarios were added.
+
+#### 3. Punch list closure check
+Review each punch list item:
+- PL-01 through PL-09,
+- any earlier freeze punch items,
+- and the remaining governance-blocked D11 item.
+
+For each item, state:
+- applied,
+- verified applied,
+- still open,
+- or governance-blocked.
+
+If any “applied” item is actually only partially updated, correct the report.
+
+#### 4. High-risk flow confirmation
+Spot-check the highest-risk flows one last time:
+- bank transfer,
+- notification inbox,
+- onboarding checklist,
+- support tickets,
+- B2B marketplace,
+- negotiation engine,
+- brand-runtime shop/checkout,
+- tenant-public worker,
+- template marketplace,
+- profile visibility,
+- billing enforcement middleware,
+- workspace analytics,
+- platform analytics,
+- FX rates / dual-currency,
+- USSD submenu depth,
+- hire-purchase,
+- notificator schedules.
+
+For each one, confirm:
+- present in inventory,
+- correctly described,
+- correctly status-tagged,
+- and supported by evidence.
+
+#### 5. Final freeze readiness
+Determine whether the inventory is:
+- **Freeze now**,
+- **Freeze with tiny punch list**,
+- or **Do not freeze yet**.
+
+If not “Freeze now,” list the exact remaining items and why they still matter.
+
+### Output required
+
+Produce a **Final Freeze Validation Report** with these sections:
+
+**A. Executive verdict**  
+State clearly whether the inventory is safe to freeze as the QA baseline.
+
+**B. Count reconciliation table**  
+List every count and where it appears, plus the corrected canonical value.
+
+**C. Scenario reconciliation table**  
+Show all scenarios, their status, and whether they are present, corrected, or duplicated.
+
+**D. Punch list closure table**  
+For each punch item, show current status and proof.
+
+**E. High-risk flow evidence table**  
+One line per flow with file-level evidence and status.
+
+**F. Final decision**  
+Choose one:
+- Freeze now
+- Freeze with tiny punch list
+- Do not freeze yet
+
+### Rules
+
+- Be strict and evidence-driven.
+- Do not assume a summary claim is true unless the underlying section confirms it.
+- Do not add new inventory scope.
+- Do not start QA test design yet.
+- If a governance item remains, explain why it does not block QA and where it should be tracked.
+- If all checks pass, explicitly say the inventory is frozen and provide the canonical version identifier.
+
+### Success condition
+
+I need one direct answer:
+
+**Can the updated master inventory now be frozen as the official QA baseline, or is there still a remaining correction that must be made first?**
