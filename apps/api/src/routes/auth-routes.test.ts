@@ -550,7 +550,9 @@ describe('POST /auth/reset-password', () => {
   });
 
   it('returns 200 and updates password when reset token is valid', async () => {
-    const db = makeDB();
+    // loginUser provides the tenant_id row returned by the first DB.first() call
+    // (SELECT tenant_id FROM users WHERE id = ?) inside the reset-password handler.
+    const db = makeDB({ loginUser: { tenant_id: 'tnt_001' } });
     const env = {
       DB: db,
       JWT_SECRET,
@@ -1274,8 +1276,10 @@ describe('GET /auth/verify-email — P20-C', () => {
   });
 
   it('returns 200 and marks email verified when KV token is valid', async () => {
+    // loginUser provides the tenant_id row returned by the first DB.first() call
+    // (SELECT tenant_id FROM users WHERE id = ?) inside the verify-email handler.
     const env: Env = {
-      DB: makeDB(),
+      DB: makeDB({ loginUser: { tenant_id: 'tnt_001' } }),
       JWT_SECRET,
       ENVIRONMENT: 'test',
       KV: {
