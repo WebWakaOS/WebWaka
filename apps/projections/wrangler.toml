@@ -40,7 +40,7 @@ database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
 [[env.staging.kv_namespaces]]
 binding = "WALLET_KV"
-id = "STAGING_WALLET_KV_ID_PLACEHOLDER"
+id = "9ccb594b305f4e5a83b8c9fe39ad33cd"
 
 # ---------------------------------------------------------------------------
 # Production
@@ -58,7 +58,7 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
 [[env.production.kv_namespaces]]
 binding = "WALLET_KV"
-id = "PRODUCTION_WALLET_KV_ID_PLACEHOLDER"
+id = "e28f499febf24482b81e0b5a1b1de65e"
 
 # ---------------------------------------------------------------------------
 # Scheduled CRON triggers (Issue 4 — Projections CRON + checkpoint)
@@ -94,3 +94,4 @@ crons = [
 # Secrets (set via: wrangler secret put SECRET_NAME)
 # Required:
 #   INTER_SERVICE_SECRET
+
