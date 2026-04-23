@@ -54,6 +54,14 @@ jobs:
               echo "  skipped LFS seed: $(basename "$f")"
               continue
             fi
+            # Skip files > 5 MB — D1 HTTP API rejects large payloads (code 7010).
+            # These are bulk reference-data seeds (health, education, polling units)
+            # that must be loaded via wrangler d1 execute --file in a separate job.
+            FILE_SIZE=$(wc -c < "$f" 2>/dev/null || echo 0)
+            if [ "$FILE_SIZE" -gt 5242880 ]; then
+              echo "  skipped oversized seed: $(basename "$f") (${FILE_SIZE} bytes)"
+              continue
+            fi
             cp "$f" apps/api/migrations/
           done
           COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
