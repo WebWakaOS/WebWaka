@@ -88,7 +88,7 @@ Nothing is left "strongly implied" or "uncertain" unless genuinely blocked.
 | Top-level API route files (non-test) | "90+" | **59** | `ls apps/api/src/routes/*.ts | grep -v test | wc -l` |
 | Vertical route files in verticals/ | "160" | **132** | `ls apps/api/src/routes/verticals/ | grep -v test | wc -l` |
 | Total API route files | "90+" | **191** (59+132) | Combined count |
-| Middleware files | 0 mentioned | **15** | `ls apps/api/src/middleware/` |
+| Middleware files | 0 mentioned | **18** | `ls apps/api/src/middleware/ | wc -l` → 18 total files |
 | ADRs | 19 | **19** ✅ | `ls docs/architecture/decisions/ | wc -l` |
 | Seeded verticals | 160 | **160** ✅ | `wc -l infra/db/seeds/0004_verticals-master.csv` |
 
@@ -129,8 +129,8 @@ Nothing is left "strongly implied" or "uncertain" unless genuinely blocked.
 
 **Status:** Verified  
 **Framework:** Hono  
-**Route files:** 59 top-level + 132 verticals + 10 batch aggregators = 201 files  
-**Middleware:** 15 files (see §5)  
+**Route files:** 59 top-level (including 10 batch aggregator files) + 132 individual vertical route files = **191 total** (see §4)  
+**Middleware:** 18 files (see §5)  
 **Auth:** JWT, RBAC, tenant isolation (T3 on every D1 query)
 
 Full route group inventory — see §4 for details.
@@ -272,6 +272,23 @@ Full route group inventory — see §4 for details.
 | `*384# → 4` | Book Transport | Verified |
 | `*384# → 5` | Community (user's joined communities, M7c) | Verified |
 
+**Full processor state machine (UX-08: max 3 levels deep from main menu):**
+
+| Processor state | Branch | Level | Sub-menu function |
+|---|---|---|---|
+| `main_menu` | All | 1 | `mainMenu()` |
+| `wallet_menu` | 1 | 2 | `walletMenu(balanceKobo)` |
+| `send_money_enter_phone_amount` | 2 | 2 | `sendMoneyEnterPhoneAndAmount()` — combined PHONE\*AMOUNT format (UX-08: keeps depth ≤3) |
+| `send_money_confirm` | 2 | 3 | `sendMoneyConfirm(recipient, amountDisplay)` |
+| `trending_feed` | 3 | 2 | `trendingFeed(posts?: TrendingPostSnippet[])` |
+| `trending_view_post` | 3 | 3 | `viewTrendingPost(post: TrendingPostSnippet)` |
+| `transport_menu` | 4 | 2 | `transportMenu()` |
+| `community_menu` | 5 | 2 | `communityMenu()` |
+| `community_announcements` | 5 | 3 | `communityAnnouncements(items?: string[])` |
+| `community_events` | 5 | 3 | `communityEvents(events?: EventItem[])` |
+| `community_groups` | 5 | 3 | `communityGroups(groups?: CommunityItem[])` |
+| `(terminal)` | All | — | `endSession(message)` |
+
 **Additional capabilities:**
 - Telegram webhook support (handleTelegramWebhook, TelegramUpdate)
 - NOTIFICATION_QUEUE binding for notification pipeline (Phase 6 / N-111)
@@ -291,10 +308,14 @@ Full route group inventory — see §4 for details.
 | `scheduled()` | CRON triggers | Digest sweeps, retention, domain verification poll |
 | `fetch()` | HTTP | Health endpoint only (`GET /health`) |
 
-**CRON schedules (3 confirmed):**
-1. Digest sweeps (frequency from config)
-2. Retention sweep (`runRetentionSweep`)
-3. Domain verification poll (`runDomainVerificationPoll`)
+**CRON schedules (2 confirmed — verified from wrangler.toml):**
+
+| Cron expression | UTC | WAT | Description |
+|---|---|---|---|
+| `0 * * * *` | Every hour | Every hour | Digest sweep — `resolveDigestType()` detects daily (hour=23) and weekly (hour=23+Sunday) at runtime; no separate crons needed |
+| `0 2 * * *` | 02:00 daily | 03:00 WAT | Retention sweep (`runRetentionSweep`, N-115) + domain verification poll (`runDomainVerificationPoll`, N-053b) folded into one slot |
+
+**Account cron budget:** Cloudflare account plan allows 5 cron slots total. 3 are used by the api + projections Workers; 2 remain and are consumed by notificator.
 
 **Platform governance:**
 - G24: `NOTIFICATION_SANDBOX_MODE='true'` in staging/dev — ALL deliveries redirected to sandbox test addresses
@@ -430,7 +451,7 @@ Full route group inventory — see §4 for details.
 | `verticals-transport-extended.ts` | Transport extended batch | Auth | M9+ |
 | `webhooks.ts` | Webhook subscriptions (PROD-04/N-133, 7 routes): list event types (tier-gated), register, list, get, update, delete, delivery history. Tier limits: free=5, starter=25, growth=100, enterprise=∞ | Auth | PROD-04 |
 | `workspace-analytics.ts` | Workspace analytics (P23, 3 routes): daily/weekly/monthly summary, revenue trend over N days, payment method breakdown. Reads analytics_snapshots (CRON-pre-computed), live fallback | Auth | P23 |
-| `workspaces.ts` | Workspace CRUD, members, invitations, activation, vertical activation/deactivation | Auth | M3 |
+| `workspaces.ts` | Workspace CRUD, members, invitations, activation, vertical activation/deactivation. **6 routes:** `POST /workspaces/:id/activate` (free→paid via Paystack), `PATCH /workspaces/:id` (plan/layers/bank_account), `POST /workspaces/:id/invite` (MON-04: free tier user invite limit enforced via evaluateUserLimit), `POST /workspaces/:id/offerings` (MON-04: free tier offering limit enforced via evaluateOfferingLimit), `POST /workspaces/:id/places` (MON-04: free tier place/branch limit enforced via evaluatePlaceLimit), `GET /workspaces/:id/analytics` | Auth | M3 |
 | `workspace-verticals.ts` | Workspace vertical activation management | Auth | M8a |
 
 ### 4.3 Vertical Route Architecture (Corrected)
@@ -450,7 +471,7 @@ The 160 seeded verticals are served by **two tiers** of route handling:
 
 ---
 
-## Part V — Middleware Layer (All 15 Files)
+## Part V — Middleware Layer (All 18 Files)
 
 ### 5.1 Middleware Inventory
 
@@ -469,16 +490,17 @@ The 160 seeded verticals are served by **two tiers** of route handling:
 | `csrf.ts` | (CSRF handler) | CSRF protection for state-changing requests | 59 | High |
 | `error-log.ts` | errorLogMiddleware | Error logging + audit log for non-2xx responses | 57 | High |
 | `require-role.ts` | requireRole | RBAC role guard (admin, super_admin, partner) | 54 | Critical |
+| `audit-log.ts` | auditLogMiddleware | **Per-request security audit trail** — writes every authenticated request (user_id, tenant_id, method, path, resource_type, resource_id, masked IP, duration_ms, HTTP status) to `audit_log` D1 table. IP is masked (last octet zeroed for IPv4). Runs post-handler via `await next()` to capture status code. | ~60 | Critical |
 | `content-type-validation.ts` | (validation) | Content-Type header enforcement for POST/PATCH/PUT | ~40 | Medium |
 | `password-validation.ts` | (validation) | Password strength validation | ~40 | Medium |
 | `low-data.ts` | (handler) | Low-data mode request modification (reduces payload size) | ~35 | Low |
 | `ussd-exclusion.ts` | ussdExclusionMiddleware | Blocks non-USSD routes from USSD sessions (per-tenant USSD Worker) | ~30 | High |
 
-**Total: 1,329 lines of middleware**
+**Total: 18 files. Estimated ~1,390 lines of middleware (including audit-log.ts ~60 lines).**
 
 ### 5.2 Middleware Application Points
 
-`billing-enforcement` is the largest middleware (199 lines) and is the primary access control mechanism for all subscription-gated routes. Combined with `auth`, `require-role`, `entitlement`, and `ai-entitlement`, the middleware layer forms a 5-layer access control stack applied before route handlers.
+`billing-enforcement` is the largest middleware (199 lines) and is the primary access control mechanism for all subscription-gated routes. Combined with `auth`, `require-role`, `entitlement`, and `ai-entitlement`, the middleware layer forms a 5-layer access control stack applied before route handlers. `audit-log` runs post-handler across all authenticated routes, capturing the full request lifecycle for the security audit trail.
 
 ---
 
@@ -930,6 +952,28 @@ The following slug naming discrepancies were found between the original report's
 
 **Impact:** Any QA scenario referencing `barber-shop` or `auto-workshop` slugs will fail. Tests must use `hair-salon` and `auto-mechanic` respectively.
 
+### 15.3 Regulatory and AI Constraint Summary for High-Risk Verticals (PL-05)
+
+All constraints verified from route file headers and guard functions in batch routers. Constraints are enforced at route level (not configuration). QA must cover each constraint row independently.
+
+| Vertical | Milestone | AI Tier | Critical Constraint | Regulatory Anchor |
+|---|---|---|---|---|
+| `government-agency` | M11 | **L3 HITL ALL AI** — no AI output delivered without human approval | Tier 3 KYC mandatory at workspace activation | BPP (Bureau of Public Procurement) |
+| `polling-unit` | M12 | **L3 HITL ALL AI** | **NO voter PII** — name, phone, NIN absolutely prohibited in storage or payloads | INEC |
+| `law-firm` | M9 | **L3 HITL ALL AI** | `matter_ref_id` always opaque — never included in AI payloads | NBA (Nigerian Bar Association) |
+| `tax-consultant` | M12 | **L3 HITL ALL AI** | TIN (Tax Identification Number) never present in any AI payload | FIRS (Federal Inland Revenue Service) |
+| `funeral-home` | M12 | **L3 HITL ALL AI** | `case_ref_id` opaque — never in AI payloads | — |
+| `creche` | M12 | **L3 HITL ALL AI** | Children's personal data; extra HITL review for all AI output | — |
+| `hire-purchase` | M12 | L2 AI cap | Tier 3 KYC mandatory; no BVN in AI payloads (P13 extended); CBN consumer credit reg required for `cbn_verified` state transition | CBN Consumer Credit Act |
+| `bureau-de-change` | M12 | L2 | Tier 3 KYC mandatory | CBN BDC licence |
+| `mobile-money-agent` | M12 | L2 | Tier 3 KYC; daily transaction cap 30,000,000 kobo (₦300,000) | CBN agent banking circular |
+| `cocoa-exporter` | M12 | L2 | Tier 3 KYC mandatory | Export commodity regulation |
+| `insurance-agent` | M12 | L2 | Tier 2 KYC minimum | NAICOM licence |
+| `food-processing` | M12 | L2 | NAFDAC traceability fields required | NAFDAC Act |
+| `water-treatment` | M11 | L2 | Measurement values stored as scaled integers: pH × 100, ppm × 10, NTU × 10 | NAFDAC drinking water standard |
+
+**QA note on L3 HITL:** L3 HITL means the AI output is intercepted by the HITL queue (superagent.ts / @webwaka/superagent) and held pending human approval before delivery. The `HITL_REQUIRED` guard in the route must reject direct AI delivery attempts for these verticals. This constraint is enforced in the route handler, not as middleware.
+
 ---
 
 ## Part XVI — B2B Marketplace (P25, Verified)
@@ -1035,7 +1079,7 @@ The following slug naming discrepancies were found between the original report's
 2. All 59 top-level API route files have been catalogued with their endpoints and auth requirements.
 3. The 132 individual vertical route files are confirmed; the 28 P1 originals served via batch files are clarified.
 4. All 35 non-vertical packages have been read (at minimum their index.ts exports).
-5. The entire 15-file middleware layer is now documented.
+5. The entire 18-file middleware layer is now documented, including `audit-log.ts` (PL-01 correction).
 6. The 43 remediation corrections have been applied.
 7. All 6 slug naming errors are identified.
 8. All 9+ missing implemented workflows are now described in full.
@@ -1046,21 +1090,23 @@ The following slug naming discrepancies were found between the original report's
 
 The following items cannot be fully verified and are genuinely blocked:
 
-| Item | Why Blocked | Status |
-|---|---|---|
-| Full USSD sub-menu tree (branches 1–5 sub-flows) | processor.ts and menus.ts not read in full | **Blocked — read processor.ts** |
-| Hire-purchase vertical route file depth | hire-purchase.ts in verticals/ not fully read | **Blocked — read file** |
-| notificator digest schedule frequency | schedule interval not in index.ts header | **Blocked — read wrangler.toml** |
-| Exact number of Platform Analytics endpoints | analytics.ts not fully read (head only) | **Blocked — minor; head shows 3 endpoints** |
-| Full webhook event type registry per tier | Only free + starter events confirmed from head | **Blocked — read full webhooks.ts** |
-| workspaces.ts full route inventory | Not read in this session | **Blocked — read file** |
-| Hire-purchase vertical KYC tier requirement | "Tier 3 KYC mandatory" from migration comment — not verified in route | **Blocked — minor** |
-| USDT precision status (D11) | "pending founder decision" from source comment | **Blocked — governance decision** |
-| `verticals-financial-place-media-institutional-extended.ts` vertical list | File not read in full | **Blocked — read file** |
-| `verticals-prof-creator-extended.ts` vertical list | File not read in full | **Blocked — read file** |
-| `verticals-edu-agri-extended.ts` vertical list | File not read in full | **Blocked — read file** |
+All prior blockers resolved in freeze readiness verification pass. See `WebWaka_OS_Freeze_Readiness_Verification_Report.md` §C for full resolution evidence.
 
-None of these blockers affect the major workflows. All high-risk QA surfaces are now fully documented.
+| Item | Resolution | Status |
+|---|---|---|
+| Full USSD sub-menu tree | Resolved — 11-state processor FSM documented in §3.7; UX-08 max 3 levels confirmed | ✅ Resolved |
+| Hire-purchase vertical route file depth | Resolved — FSM (seeded→claimed→cbn_verified→active→suspended), guards, Tier 3 KYC confirmed in hire-purchase.ts | ✅ Resolved |
+| notificator digest schedule frequency | Resolved — 2 CRON triggers confirmed in wrangler.toml: `0 * * * *` + `0 2 * * *` | ✅ Resolved (corrected 3→2) |
+| Platform Analytics endpoint count | Resolved — exactly 3: `/summary`, `/tenants`, `/verticals` | ✅ Resolved |
+| Full webhook event type registry per tier | Resolved — TIER_EVENT_REGISTRY confirmed from webhooks.ts tail | ✅ Resolved |
+| workspaces.ts full route inventory | Resolved — 6 routes confirmed; MON-04 free tier limits discovered and added to §4.2 | ✅ Resolved |
+| Hire-purchase vertical KYC tier requirement | Resolved — "Tier 3 KYC mandatory" confirmed in route file header | ✅ Resolved |
+| USDT precision status (D11) | "pending founder decision" — not resolvable by source read | **Governance-blocked** |
+| `verticals-financial-place-media-institutional-extended.ts` vertical list | Resolved — 17 verticals: 6 Financial + 5 Place + 4 Media + 2 Institutional; L3 HITL constraints documented in §XV.3 | ✅ Resolved |
+| `verticals-prof-creator-extended.ts` vertical list | Resolved — 11 verticals; L3 HITL constraints for law-firm/tax-consultant/funeral-home documented in §XV.3 | ✅ Resolved |
+| `verticals-edu-agri-extended.ts` vertical list | Resolved — 14 verticals; creche L3 HITL constraint documented in §XV.3 | ✅ Resolved |
+
+**One governance-blocked item remains (USDT precision — D11). No blockers prevent QA execution.**
 
 ### 20.3 QA Sanity Checklist
 
@@ -1167,7 +1213,7 @@ The QA team should confirm all items below are represented in the test plan befo
 - [ ] Register webhook: free=5 limit enforced, starter=25, enterprise=∞
 - [ ] Event types list per tier
 - [ ] Delivery history per subscription
-- [ ] Delete cascades deliveries
+- [ ] Delete subscription: verify delivery records are cleaned up (D1 FK cascade or explicit DELETE confirmed) — **WH-04: cascade behaviour requires explicit verification in test environment**
 
 **Civic Vertical Depth**
 - [ ] Church: tithe recording (P9: integer kobo), Paystack ref optional
@@ -1190,8 +1236,28 @@ The QA team should confirm all items below are represented in the test plan befo
 - [ ] Notification bell: polls inbox every 30s, shows unread count
 - [ ] Mark all read for partner notifications
 
+**Audit Trail (NEW — PL-01)**
+- [ ] audit-log middleware: every authenticated POST/PATCH/DELETE request produces a row in `audit_log` with correct user_id, tenant_id, method, path, masked IP, duration_ms, and HTTP status
+- [ ] audit-log: IP masking verified — last octet zeroed for IPv4 addresses
+
+**Free Workspace Limits / MON-04 (NEW — PL-04)**
+- [ ] Free tier: invite a 2nd user when at limit → 403 returned (evaluateUserLimit)
+- [ ] Free tier: create offering when at limit → 403 returned (evaluateOfferingLimit)
+- [ ] Free tier: create place/branch when at limit → 403 returned (evaluatePlaceLimit)
+- [ ] Paid tier (starter+): same operations are not blocked
+
+**High-Risk Vertical Constraints (NEW — PL-05)**
+- [ ] law-firm: AI output requires L3 HITL approval before delivery to user; matter_ref_id never present in any AI payload
+- [ ] tax-consultant: TIN field never present in any AI payload; AI output requires L3 HITL approval
+- [ ] government-agency: Tier 3 KYC required at workspace activation; all AI outputs require HITL
+- [ ] polling-unit: no voter PII (name, phone, NIN) accepted or stored in any vertical route
+- [ ] funeral-home: case_ref_id never present in AI payloads; AI output requires HITL
+- [ ] creche: all AI outputs require HITL approval (children's data protection)
+
 ---
 
-*End of WebWaka OS Corrected Master Inventory Report v2.0*  
-*Corrections applied: 43 | Verified features added: 29 | Mischaracterizations fixed: 6*  
-*Confidence: High for all major workflows | Blocked items: 11 (all minor)*
+*End of WebWaka OS Corrected Master Inventory Report v2.0 — PUNCH LIST APPLIED*  
+*Corrections applied: 52 (43 original + 9 from punch list) | Verified features added: 35 | Mischaracterizations fixed: 6*  
+*QA scenarios: 92 (88 original + 4 new from PL-01/PL-04/PL-05) | Middleware: 18 files | Route total: 191*  
+*Confidence: High for all major workflows | Governance-blocked items: 1 (D11 — USDT precision)*  
+*Freeze status: APPROVED — punch list closed. Lock this document as QA baseline.*

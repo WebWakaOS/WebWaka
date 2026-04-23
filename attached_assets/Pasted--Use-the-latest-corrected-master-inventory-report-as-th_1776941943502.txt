@@ -1,0 +1,104 @@
+
+Use the latest corrected master inventory report as the base source of truth, and perform one final **targeted verification pass** to confirm that the report is truly complete, internally consistent, and ready to be frozen as the official input for QA planning.
+
+This is **not** a new inventory exercise and **not** a QA test plan. This is a **final evidence spot-check and freeze-readiness review**.
+
+### Objective
+
+Verify that the updated report is accurate, complete, and traceable enough to become the locked baseline for the QA matrix.
+
+### What to verify
+
+Focus on the following:
+
+1. **The 87-scenario QA sanity checklist**
+   - Confirm the scenarios exist in the report.
+   - Confirm each scenario maps to an actual code path, route, component, workflow, or documented state.
+   - Confirm there are no duplicate, missing, or unsupported scenarios.
+
+2. **The 11 remaining blockers**
+   - Verify each blocker is truly peripheral.
+   - Confirm none of them conceal a major flow, state machine, access-control branch, or UI surface that should be in the inventory.
+   - If any blocker is actually material, upgrade it and update the report.
+
+3. **High-risk flows**
+   Re-check the inventory coverage for:
+   - bank transfer payment flow,
+   - notification inbox,
+   - onboarding checklist,
+   - support tickets,
+   - B2B marketplace,
+   - negotiation engine,
+   - brand-runtime checkout/shop flow,
+   - tenant-public worker,
+   - template marketplace,
+   - profile visibility,
+   - billing enforcement middleware,
+   - workspace analytics,
+   - platform analytics,
+   - FX rates / dual-currency support,
+   - USSD submenu depth,
+   - hire-purchase,
+   - notificator schedules,
+   - extended vertical lists.
+
+4. **Internal consistency**
+   - Ensure app counts, package counts, migration counts, route counts, and CRON counts are consistent everywhere in the report.
+   - Ensure implemented vs scaffolded vs planned vs blocked statuses are used correctly and consistently.
+   - Ensure naming and slug mappings are normalized and not contradictory.
+
+5. **Freeze readiness**
+   Determine whether the report can now be:
+   - frozen as the official inventory baseline,
+   - conditionally frozen with a short punch list,
+   - or still needs corrections.
+
+### Output required
+
+Produce a **Freeze Readiness Verification Report** with these sections:
+
+#### A. Executive verdict
+State clearly whether the report is ready to be frozen as the QA source baseline.
+
+#### B. Scenario audit
+For each of the 87 QA scenarios, confirm:
+- present in report,
+- mapped to evidence,
+- duplicated,
+- missing,
+- unsupported,
+- or needs correction.
+
+#### C. Blocker audit
+For each of the 11 remaining blockers:
+- confirm whether it is truly minor/peripheral,
+- or whether it should be upgraded into the main inventory.
+
+#### D. High-risk flow spot-check
+Give a concise evidence-backed confirmation for each high-risk flow listed above.
+
+#### E. Consistency check
+Verify the corrected counts and status labels are internally consistent across the report.
+
+#### F. Freeze decision
+Choose one:
+- Freeze now,
+- Freeze with minor punch list,
+- Do not freeze yet.
+
+If not “Freeze now,” list the exact punch list items.
+
+### Rules
+
+- Be strict and evidence-driven.
+- Do not create a new inventory.
+- Do not start QA test design yet.
+- Do not accept summaries without evidence.
+- If anything material is still missing, say so plainly and update the report accordingly.
+- If the report is ready, say so plainly and give the freeze decision.
+
+### Success condition
+
+I want one final answer to this question:
+
+**Can this corrected master inventory now be frozen as the official baseline for QA planning, or is there still a material gap that must be fixed first?**
