@@ -6,6 +6,7 @@
   <title>HandyLife Wallet — Platform Admin</title>
   <meta name="description" content="Super-admin wallet management: feature flags, HITL queue, reconciliation.">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -112,7 +113,7 @@
     <h1>HandyLife <em>Wallet</em></h1>
     <p class="subtitle">Super-admin controls for the shared NGN wallet — feature flags, HITL queue, reconciliation.</p>
 
-    <div class="alert-box" role="alert" aria-live="polite">
+    <div class="alert-box" role="alert">
       <span class="alert-icon" aria-hidden="true">&#9888;&#65039;</span>
       <span class="alert-text">
         <strong>Phase 1 — Offline Bank Transfer Funding Only.</strong>
@@ -124,35 +125,35 @@
 
     <!-- ── Stats ── -->
     <h2 class="section-title" id="stats-heading">Platform Wallet Stats</h2>
-    <div class="stats-grid" aria-labelledby="stats-heading" id="stats-grid">
+    <div class="stats-grid" aria-labelledby="stats-heading" id="stats-grid" aria-live="polite" aria-atomic="false">
       <div class="stat-card">
         <div class="stat-label">Total Wallets</div>
-        <div class="stat-value green" id="stat-total">—</div>
+        <div class="stat-value green" id="stat-total" aria-live="polite">—</div>
         <div class="stat-note">across all eligible tenants</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Active Wallets</div>
-        <div class="stat-value" id="stat-active">—</div>
+        <div class="stat-value" id="stat-active" aria-live="polite">—</div>
         <div class="stat-note">status = active</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Total Balance (₦)</div>
-        <div class="stat-value green" id="stat-balance">—</div>
+        <div class="stat-value green" id="stat-balance" aria-live="polite">—</div>
         <div class="stat-note">sum across all wallets</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Pending HITL</div>
-        <div class="stat-value amber" id="stat-hitl">—</div>
+        <div class="stat-value amber" id="stat-hitl" aria-live="polite">—</div>
         <div class="stat-note">funding requests above threshold</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Pending Funding</div>
-        <div class="stat-value" id="stat-pending-funding">—</div>
+        <div class="stat-value" id="stat-pending-funding" aria-live="polite">—</div>
         <div class="stat-note">bank transfers awaiting proof</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Frozen Wallets</div>
-        <div class="stat-value red" id="stat-frozen">—</div>
+        <div class="stat-value red" id="stat-frozen" aria-live="polite">—</div>
         <div class="stat-note">admin-frozen wallets</div>
       </div>
     </div>
@@ -166,7 +167,7 @@
           <p>Allow users to send NGN between HandyLife wallets. Requires CBN approval + Phase W3 compliance hardening.</p>
         </div>
         <div class="flag-status">
-          <span class="pill pill-off" id="flag-transfers">DISABLED</span>
+          <span class="pill pill-off" id="flag-transfers" aria-live="polite">DISABLED</span>
         </div>
       </div>
       <div class="flag-card">
@@ -175,7 +176,7 @@
           <p>Allow users to withdraw NGN to a linked bank account. Requires NIP integration + CBN limit gates.</p>
         </div>
         <div class="flag-status">
-          <span class="pill pill-off" id="flag-withdrawals">DISABLED</span>
+          <span class="pill pill-off" id="flag-withdrawals" aria-live="polite">DISABLED</span>
         </div>
       </div>
       <div class="flag-card">
@@ -184,7 +185,7 @@
           <p>Allow users to top up via card payment. Requires Paystack virtual account integration (Phase W5).</p>
         </div>
         <div class="flag-status">
-          <span class="pill pill-off" id="flag-online-funding">DISABLED</span>
+          <span class="pill pill-off" id="flag-online-funding" aria-live="polite">DISABLED</span>
         </div>
       </div>
       <div class="flag-card">
@@ -193,13 +194,13 @@
           <p>Automatically credit MLA earners with pending commissions. Requires Phase W4 payout engine.</p>
         </div>
         <div class="flag-status">
-          <span class="pill pill-off" id="flag-mla-payout">DISABLED</span>
+          <span class="pill pill-off" id="flag-mla-payout" aria-live="polite">DISABLED</span>
         </div>
       </div>
     </div>
     <p style="margin-top:.75rem;font-size:.8rem;color:var(--muted);">
       To toggle a flag: <code style="background:var(--card);border:1px solid var(--border);padding:.1rem .4rem;border-radius:4px;font-size:.78rem;">PATCH /platform-admin/wallets/feature-flags</code>
-      with body <code style="background:var(--card);border:1px solid var(--border);padding:.1rem .4rem;border-radius:4px;font-size:.78rem;">{ "transfers": true }</code> — requires super-admin JWT.
+      with body <code style="background:var(--card);border:1px solid var(--border);padding:.1rem .4rem;border-radius:4px;font-size:.78rem;">{ "flag": "transfers", "enabled": true }</code> — requires super-admin JWT.
     </p>
 
     <!-- ── HITL Queue ── -->
@@ -212,16 +213,16 @@
       <table aria-labelledby="hitl-heading">
         <thead>
           <tr>
-            <th>Funding Request ID</th>
-            <th>Wallet ID</th>
-            <th>Amount (₦)</th>
-            <th>Tenant</th>
-            <th>Bank Transfer Order</th>
-            <th>Created</th>
-            <th>Actions</th>
+            <th scope="col">Funding Request ID</th>
+            <th scope="col">Wallet ID</th>
+            <th scope="col">Amount (₦)</th>
+            <th scope="col">Tenant</th>
+            <th scope="col">Bank Transfer Order</th>
+            <th scope="col">Created</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody id="hitl-tbody">
+        <tbody id="hitl-tbody" aria-live="polite" aria-atomic="true">
           <tr><td colspan="7" class="empty-state">Loading HITL queue...</td></tr>
         </tbody>
       </table>
@@ -281,7 +282,14 @@
           <span class="method method-get">GET</span>
           <div>
             <div class="endpoint-path">/platform-admin/wallets/stats</div>
-            <div class="endpoint-desc">Platform-wide wallet statistics.</div>
+            <div class="endpoint-desc">Platform-wide wallet statistics + feature flag state.</div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <div>
+            <div class="endpoint-path">/platform-admin/wallets/hitl</div>
+            <div class="endpoint-desc">List pending HITL funding requests (cursor-paginated).</div>
           </div>
         </div>
         <div class="endpoint">
@@ -309,7 +317,7 @@
           <span class="method method-post">POST</span>
           <div>
             <div class="endpoint-path">/platform-admin/wallets/:id/freeze</div>
-            <div class="endpoint-desc">Freeze a wallet (blocks all debit operations).</div>
+            <div class="endpoint-desc">Freeze a wallet (blocks all debit operations). Cross-tenant.</div>
           </div>
         </div>
         <div class="endpoint">
@@ -363,7 +371,6 @@
 
   <footer role="contentinfo">
     WebWaka OS &mdash; HandyLife Wallet Admin &mdash; Phase W2 &mdash; 2026-04-20
-    &mdash; <a href="/docs/governance/handylife-wallet-governance.md" style="color:var(--muted);">Governance Doc</a>
   </footer>
 
   <script>
@@ -371,11 +378,24 @@
 
     const API_BASE = '';
 
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     async function loadStats() {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
       try {
         const res = await fetch(`${API_BASE}/platform-admin/wallets/stats`, {
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
         });
+        clearTimeout(timeout);
         if (!res.ok) { showStatsOffline(); return; }
         const data = await res.json();
         const s = data.stats ?? {};
@@ -384,10 +404,28 @@
         document.getElementById('stat-balance').textContent = s.total_balance_kobo != null
           ? '₦' + (s.total_balance_kobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2 })
           : '—';
-        document.getElementById('stat-hitl').textContent            = (s.pending_hitl_count       ?? '—').toLocaleString();
-        document.getElementById('stat-pending-funding').textContent = (s.pending_funding_count    ?? '—').toLocaleString();
-        document.getElementById('stat-frozen').textContent          = (s.frozen_wallets            ?? '—').toLocaleString();
-      } catch { showStatsOffline(); }
+        document.getElementById('stat-hitl').textContent            = (s.pending_hitl_count    ?? '—').toLocaleString();
+        document.getElementById('stat-pending-funding').textContent = (s.pending_funding_count ?? '—').toLocaleString();
+        document.getElementById('stat-frozen').textContent          = (s.frozen_wallets         ?? '—').toLocaleString();
+
+        // Update feature flag pills from live API data
+        const flags = data.feature_flags ?? {};
+        updateFlagPill('flag-transfers',     flags.transfers);
+        updateFlagPill('flag-withdrawals',   flags.withdrawals);
+        updateFlagPill('flag-online-funding',flags.online_funding);
+        updateFlagPill('flag-mla-payout',    flags.mla_payout);
+      } catch (err) {
+        clearTimeout(timeout);
+        if (err.name !== 'AbortError') showStatsOffline();
+        else showStatsOffline();
+      }
+    }
+
+    function updateFlagPill(id, enabled) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = enabled ? 'ENABLED' : 'DISABLED';
+      el.className = 'pill ' + (enabled ? 'pill-on' : 'pill-off');
     }
 
     function showStatsOffline() {
@@ -397,35 +435,62 @@
 
     async function loadHitlQueue() {
       const tbody = document.getElementById('hitl-tbody');
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
       try {
-        const res = await fetch(`${API_BASE}/platform-admin/wallets/stats`, {
+        const res = await fetch(`${API_BASE}/platform-admin/wallets/hitl`, {
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
         });
+        clearTimeout(timeout);
         if (!res.ok) {
           tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Unable to load — check API auth</td></tr>';
           return;
         }
         const data = await res.json();
-        const items = data.pending_hitl ?? [];
+        const items = data.items ?? [];
         if (items.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="dot"></span>&nbsp; No pending HITL items — all clear</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="dot" aria-hidden="true"></span>&nbsp; No pending HITL items — all clear</td></tr>';
           return;
         }
-        tbody.innerHTML = items.map(item => `
-          <tr>
-            <td class="monospace">${item.id}</td>
-            <td class="monospace">${item.wallet_id}</td>
-            <td>₦${(item.amount_kobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2 })}</td>
-            <td>${item.tenant_id}</td>
-            <td class="monospace">${item.bank_transfer_order_id ?? '—'}</td>
-            <td>${new Date(item.created_at * 1000).toLocaleDateString('en-NG')}</td>
-            <td style="display:flex;gap:.5rem">
-              <button class="action-btn btn-confirm" onclick="confirmFunding('${item.id}')">&#10003; Confirm</button>
-              <button class="action-btn btn-reject"  onclick="rejectFunding('${item.id}')">&#10005; Reject</button>
-            </td>
-          </tr>
-        `).join('');
-      } catch {
+        const fragment = document.createDocumentFragment();
+        for (const item of items) {
+          const tr = document.createElement('tr');
+          const amountNaira = (item.amount_kobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2 });
+          const createdDate = new Date(item.created_at * 1000).toLocaleDateString('en-NG');
+
+          const tdId     = Object.assign(document.createElement('td'), { className: 'monospace', textContent: item.id });
+          const tdWallet = Object.assign(document.createElement('td'), { className: 'monospace', textContent: item.wallet_id });
+          const tdAmount = Object.assign(document.createElement('td'), { textContent: '₦' + amountNaira });
+          const tdTenant = Object.assign(document.createElement('td'), { textContent: item.tenant_id });
+          const tdOrder  = Object.assign(document.createElement('td'), { className: 'monospace', textContent: item.bank_transfer_order_id ?? '—' });
+          const tdDate   = Object.assign(document.createElement('td'), { textContent: createdDate });
+
+          const btnConfirm = document.createElement('button');
+          btnConfirm.className = 'action-btn btn-confirm';
+          btnConfirm.setAttribute('aria-label', `Confirm funding request ${escHtml(item.id)}`);
+          btnConfirm.textContent = '✓ Confirm';
+          btnConfirm.addEventListener('click', () => confirmFunding(item.id));
+
+          const btnReject = document.createElement('button');
+          btnReject.className = 'action-btn btn-reject';
+          btnReject.setAttribute('aria-label', `Reject funding request ${escHtml(item.id)}`);
+          btnReject.textContent = '✕ Reject';
+          btnReject.addEventListener('click', () => rejectFunding(item.id));
+
+          const tdActions = document.createElement('td');
+          tdActions.style.display = 'flex';
+          tdActions.style.gap = '.5rem';
+          tdActions.appendChild(btnConfirm);
+          tdActions.appendChild(btnReject);
+
+          tr.append(tdId, tdWallet, tdAmount, tdTenant, tdOrder, tdDate, tdActions);
+          fragment.appendChild(tr);
+        }
+        tbody.innerHTML = '';
+        tbody.appendChild(fragment);
+      } catch (err) {
+        clearTimeout(timeout);
         tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Unable to load — check API auth</td></tr>';
       }
     }
@@ -433,7 +498,7 @@
     async function confirmFunding(id) {
       if (!confirm(`Confirm wallet credit for funding request ${id}?\nThis will credit the user's wallet immediately.`)) return;
       try {
-        const res = await fetch(`${API_BASE}/platform-admin/wallets/funding/${id}/confirm`, { method: 'POST' });
+        const res = await fetch(`${API_BASE}/platform-admin/wallets/funding/${encodeURIComponent(id)}/confirm`, { method: 'POST' });
         if (res.ok) { alert('Confirmed — wallet credited.'); loadHitlQueue(); loadStats(); }
         else { const err = await res.json(); alert('Failed: ' + (err.error ?? res.status)); }
       } catch { alert('Network error — check API connection.'); }
@@ -441,12 +506,12 @@
 
     async function rejectFunding(id) {
       const reason = prompt('Rejection reason (required):');
-      if (!reason) return;
+      if (!reason || !reason.trim()) return;
       try {
-        const res = await fetch(`${API_BASE}/platform-admin/wallets/funding/${id}/reject`, {
+        const res = await fetch(`${API_BASE}/platform-admin/wallets/funding/${encodeURIComponent(id)}/reject`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ reason }),
+          body: JSON.stringify({ reason: reason.trim() }),
         });
         if (res.ok) { alert('Rejected — user will be notified.'); loadHitlQueue(); loadStats(); }
         else { const err = await res.json(); alert('Failed: ' + (err.error ?? res.status)); }

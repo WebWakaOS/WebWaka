@@ -53,7 +53,7 @@ const server = http.createServer((req, res) => {
 
   if (requestPath === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json', ...SECURITY_HEADERS });
-    res.end(JSON.stringify({ status: 'ok', app: 'WebWaka OS Platform Admin', milestone: 2 }));
+    res.end(JSON.stringify({ status: 'ok', app: 'WebWaka OS Platform Admin', milestone: 7 }));
     return;
   }
 

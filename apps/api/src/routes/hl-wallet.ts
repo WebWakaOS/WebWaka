@@ -1061,16 +1061,21 @@ export const walletAdminRoutes = new Hono<AppEnv>();
 walletAdminRoutes.get('/stats', async (c) => {
   // GOVERNANCE_SKIP: intentional cross-tenant aggregate (platform super-admin stats only).
   // This route requires super_admin role. No tenant filter — counts all wallets on the platform.
-  const statsRow = await (c.env.DB as never as {
-    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> } };
-  }).prepare(`
+  const db = c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): {
+      first<T>(): Promise<T | null>;
+      all<T>(): Promise<{ results: T[] }>;
+    }};
+  };
+
+  const statsRow = await db.prepare(`
     SELECT /* GOVERNANCE_SKIP */
       COUNT(*)                        AS total_wallets,
       SUM(balance_kobo)               AS total_balance_kobo,
       SUM(lifetime_funded_kobo)       AS total_funded_kobo,
       SUM(lifetime_spent_kobo)        AS total_spent_kobo,
-      SUM(CASE WHEN status = 'active'      THEN 1 ELSE 0 END) AS active_count,
-      SUM(CASE WHEN status = 'frozen'      THEN 1 ELSE 0 END) AS frozen_count,
+      SUM(CASE WHEN status = 'active'      THEN 1 ELSE 0 END) AS active_wallets,
+      SUM(CASE WHEN status = 'frozen'      THEN 1 ELSE 0 END) AS frozen_wallets,
       SUM(CASE WHEN status = 'pending_kyc' THEN 1 ELSE 0 END) AS pending_kyc_count,
       SUM(CASE WHEN status = 'closed'      THEN 1 ELSE 0 END) AS closed_count
     FROM hl_wallets
@@ -1079,23 +1084,80 @@ walletAdminRoutes.get('/stats', async (c) => {
     total_balance_kobo: number;
     total_funded_kobo: number;
     total_spent_kobo: number;
-    active_count: number;
-    frozen_count: number;
+    active_wallets: number;
+    frozen_wallets: number;
     pending_kyc_count: number;
     closed_count: number;
   }>();
 
+  // Count HITL-pending funding requests (hitl_required = 1, status = 'pending')
+  const hitlRow = await db.prepare(`
+    SELECT /* GOVERNANCE_SKIP */ COUNT(*) AS pending_hitl_count
+    FROM hl_funding_requests
+    WHERE hitl_required = 1 AND status = 'pending'
+  `).bind().first<{ pending_hitl_count: number }>();
+
+  // Count all funding requests awaiting bank transfer proof (status = 'pending')
+  const pendingFundingRow = await db.prepare(`
+    SELECT /* GOVERNANCE_SKIP */ COUNT(*) AS pending_funding_count
+    FROM hl_funding_requests
+    WHERE status = 'pending'
+  `).bind().first<{ pending_funding_count: number }>();
+
   const kv    = getWalletKv(c.env);
   const flags = {
-    transfers:     (await kv.get('wallet:flag:transfers_enabled')) === '1',
-    withdrawals:   (await kv.get('wallet:flag:withdrawals_enabled')) === '1',
-    online_funding:(await kv.get('wallet:flag:online_funding_enabled')) === '1',
-    mla_payout:    (await kv.get('wallet:flag:mla_payout_enabled')) === '1',
+    transfers:      (await kv.get('wallet:flag:transfers_enabled')) === '1',
+    withdrawals:    (await kv.get('wallet:flag:withdrawals_enabled')) === '1',
+    online_funding: (await kv.get('wallet:flag:online_funding_enabled')) === '1',
+    mla_payout:     (await kv.get('wallet:flag:mla_payout_enabled')) === '1',
   };
   const eligibleTenantsRaw = await kv.get('wallet:eligible_tenants');
   const eligibleTenants = eligibleTenantsRaw ? JSON.parse(eligibleTenantsRaw) : [];
 
-  return c.json({ stats: statsRow, feature_flags: flags, eligible_tenants: eligibleTenants });
+  return c.json({
+    stats: {
+      ...statsRow,
+      pending_hitl_count:    hitlRow?.pending_hitl_count    ?? 0,
+      pending_funding_count: pendingFundingRow?.pending_funding_count ?? 0,
+    },
+    feature_flags: flags,
+    eligible_tenants: eligibleTenants,
+  });
+});
+
+// GET /platform-admin/wallets/hitl — List pending HITL funding requests
+// GOVERNANCE_SKIP: intentional cross-tenant list (platform super-admin only).
+walletAdminRoutes.get('/hitl', async (c) => {
+  const db = c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { all<T>(): Promise<{ results: T[] }> }};
+  };
+  const limit = Math.min(parseInt(c.req.query('limit') ?? '50', 10), 200);
+  const cursor = c.req.query('cursor') ?? null;
+
+  const { results } = await db.prepare(`
+    SELECT /* GOVERNANCE_SKIP */
+      fr.id, fr.wallet_id, fr.user_id, fr.tenant_id,
+      fr.amount_kobo, fr.bank_transfer_order_id,
+      fr.status, fr.created_at, fr.updated_at
+    FROM hl_funding_requests fr
+    WHERE fr.hitl_required = 1 AND fr.status = 'pending'
+      ${cursor ? 'AND fr.id > ?' : ''}
+    ORDER BY fr.created_at ASC
+    LIMIT ?
+  `).bind(...(cursor ? [cursor, limit] : [limit])).all<{
+    id: string;
+    wallet_id: string;
+    user_id: string;
+    tenant_id: string;
+    amount_kobo: number;
+    bank_transfer_order_id: string | null;
+    status: string;
+    created_at: number;
+    updated_at: number;
+  }>();
+
+  const nextCursor = results.length === limit ? results[results.length - 1]?.id ?? null : null;
+  return c.json({ items: results, count: results.length, next_cursor: nextCursor });
 });
 
 // PATCH /platform-admin/wallets/feature-flags
@@ -1154,6 +1216,8 @@ walletAdminRoutes.get('/:walletId', async (c) => {
 });
 
 // POST /platform-admin/wallets/:walletId/freeze
+// GOVERNANCE_SKIP: intentional cross-tenant update (platform super-admin only).
+// Super-admins may freeze any wallet platform-wide; role guard enforced at router level.
 walletAdminRoutes.post('/:walletId/freeze', async (c) => {
   const { walletId } = c.req.param();
   const auth         = c.get('auth');
@@ -1162,18 +1226,30 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
 
   if (!body.reason) return c.json({ error: 'reason is required' }, 400);
 
+  // First look up the wallet's actual tenant_id so we can scope subsequent operations and events.
+  const walletRow = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
+  }).prepare(`SELECT /* GOVERNANCE_SKIP */ tenant_id FROM hl_wallets WHERE id = ? LIMIT 1`)
+    .bind(walletId).first<{ tenant_id: string }>();
+
+  if (!walletRow) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found' }, 404);
+
   const now = Math.floor(Date.now() / 1000);
-  await (c.env.DB as never as {
-    prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean }> }};
+  const result = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean; meta?: { changes?: number } }> }};
   }).prepare(`
-    UPDATE hl_wallets SET status = 'frozen', frozen_reason = ?, updated_at = ?
-    WHERE id = ? AND tenant_id = ? AND status = 'active'
-  `).bind(body.reason, now, walletId, auth.tenantId).run();
+    UPDATE /* GOVERNANCE_SKIP */ hl_wallets SET status = 'frozen', frozen_reason = ?, updated_at = ?
+    WHERE id = ? AND status = 'active'
+  `).bind(body.reason, now, walletId).run();
+
+  if (!result.meta?.changes) {
+    return c.json({ error: 'WALLET_NOT_FREEZABLE', message: 'Wallet not found or not in active status' }, 409);
+  }
 
   await publishEvent(c.env, {
     eventId:   generateId('notif'),
     eventKey:  'wallet.admin.frozen',
-    tenantId:  auth.tenantId,
+    tenantId:  walletRow.tenant_id,
     actorId:   auth.userId,
     actorType: 'admin',
     payload:   { wallet_id: walletId, frozen_reason: body.reason },
@@ -1181,7 +1257,7 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
 
   // WF-034: audit log (fire-and-forget)
   writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
-    tenantId:     auth.tenantId,
+    tenantId:     walletRow.tenant_id,
     userId:       auth.userId,
     action:       'wallet.admin.freeze',
     method:       c.req.method,
@@ -1196,22 +1272,35 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
 });
 
 // POST /platform-admin/wallets/:walletId/unfreeze
+// GOVERNANCE_SKIP: intentional cross-tenant update (platform super-admin only).
 walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
   const { walletId } = c.req.param();
   const auth         = c.get('auth');
 
+  // Look up the wallet's actual tenant_id for event scoping.
+  const unfreezeWalletRow = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
+  }).prepare(`SELECT /* GOVERNANCE_SKIP */ tenant_id FROM hl_wallets WHERE id = ? LIMIT 1`)
+    .bind(walletId).first<{ tenant_id: string }>();
+
+  if (!unfreezeWalletRow) return c.json({ error: 'WALLET_NOT_FOUND', message: 'Wallet not found' }, 404);
+
   const now = Math.floor(Date.now() / 1000);
-  await (c.env.DB as never as {
-    prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean }> }};
+  const unfreezeResult = await (c.env.DB as never as {
+    prepare(sql: string): { bind(...a: unknown[]): { run(): Promise<{ success: boolean; meta?: { changes?: number } }> }};
   }).prepare(`
-    UPDATE hl_wallets SET status = 'active', frozen_reason = NULL, updated_at = ?
-    WHERE id = ? AND tenant_id = ? AND status = 'frozen'
-  `).bind(now, walletId, auth.tenantId).run();
+    UPDATE /* GOVERNANCE_SKIP */ hl_wallets SET status = 'active', frozen_reason = NULL, updated_at = ?
+    WHERE id = ? AND status = 'frozen'
+  `).bind(now, walletId).run();
+
+  if (!unfreezeResult.meta?.changes) {
+    return c.json({ error: 'WALLET_NOT_FROZEN', message: 'Wallet not found or not in frozen status' }, 409);
+  }
 
   await publishEvent(c.env, {
     eventId:   generateId('notif'),
     eventKey:  'wallet.admin.unfrozen',
-    tenantId:  auth.tenantId,
+    tenantId:  unfreezeWalletRow.tenant_id,
     actorId:   auth.userId,
     actorType: 'admin',
     payload:   { wallet_id: walletId },
@@ -1219,7 +1308,7 @@ walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
 
   // WF-034: audit log (fire-and-forget)
   writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
-    tenantId:     auth.tenantId,
+    tenantId:     unfreezeWalletRow.tenant_id,
     userId:       auth.userId,
     action:       'wallet.admin.unfreeze',
     method:       c.req.method,

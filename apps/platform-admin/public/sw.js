@@ -1,5 +1,5 @@
-const CACHE = 'webwaka-admin-v3';
-const SHELL = ['/', '/manifest.json', '/offline.html'];
+const CACHE = 'webwaka-admin-v4';
+const SHELL = ['/', '/wallet.html', '/manifest.json', '/offline.html', '/sw.js'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
