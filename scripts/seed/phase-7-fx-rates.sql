@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = OFF;
+
 -- WebWaka OS QA Seed — Phase 7: FX Rates
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 7
 -- Frozen baseline: WebWaka_OS_Corrected_Master_Inventory_v2.0-FROZEN
@@ -88,3 +90,5 @@ INSERT OR IGNORE INTO fx_rates (
 --        CASE WHEN typeof(rate) = 'integer' THEN 'OK' ELSE 'P9_VIOLATION' END as p9_check
 -- FROM fx_rates
 -- WHERE id LIKE 'a0000000%';
+
+PRAGMA foreign_keys = ON;
