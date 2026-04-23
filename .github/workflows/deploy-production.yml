@@ -116,10 +116,46 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           INTER_SERVICE_SECRET: ${{ secrets.INTER_SERVICE_SECRET }}
 
+  # ── Deploy remaining workers (parallel) ────────────────────────────────────
+  deploy-workers-production:
+    name: Deploy ${{ matrix.app }} (Production)
+    needs: migrate-production
+    runs-on: ubuntu-latest
+    environment: production
+    strategy:
+      matrix:
+        app:
+          - public-discovery
+          - brand-runtime
+          - notificator
+          - partner-admin
+          - projections
+          - tenant-public
+          - ussd-gateway
+          - admin-dashboard
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Deploy ${{ matrix.app }} to Cloudflare Workers (production)
+        run: |
+          cd apps/${{ matrix.app }}
+          npx wrangler deploy --env production
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
   # ── Smoke tests ────────────────────────────────────────────────────────────
   smoke-test-production:
     name: Smoke Test (Production)
-    needs: deploy-api-production
+    needs: [deploy-api-production, deploy-workers-production]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
