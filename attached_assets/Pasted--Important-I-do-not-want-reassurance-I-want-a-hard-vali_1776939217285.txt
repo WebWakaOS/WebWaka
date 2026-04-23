@@ -1,0 +1,201 @@
+**Important:** I do not want reassurance. I want a hard validation of whether the previous report is actually complete enough to trust. Treat any unsupported claim as a defect in the document.
+
+Act as a **strict verification and completeness audit team** for the previously generated “WebWaka OS — Exhaustive Master Inventory Report.”
+
+Your task is **not** to create a new inventory from scratch and **not** to write the QA plan yet. Your task is to verify, challenge, and evidence-check the existing report so we can determine whether it is truly complete and reliable enough to serve as the foundation for QA planning.
+
+### Core objective
+
+Audit the previous report against the actual platform source of truth:
+- repositories
+- applications
+- routes
+- pages
+- components
+- layouts
+- dashboards
+- forms
+- workflows
+- services
+- migrations
+- schemas
+- tests
+- docs
+- ADRs
+- governance documents
+- configs
+- feature flags
+- role guards
+- seeds
+- cron jobs
+- queues
+- integrations
+
+Determine whether the report is:
+- fully complete and trustworthy,
+- mostly complete but still missing important coverage,
+- or not yet reliable enough for QA planning.
+
+### Verification standard
+
+Use a **bidirectional traceability approach**:
+
+1. **Forward check:** for each important requirement, role, app, module, screen, workflow, and state listed in the report, verify that there is corresponding implementation evidence in code or docs.
+2. **Backward check:** inspect the codebase and identify any implemented screens, routes, components, flows, roles, or state paths that were **not captured** in the report.
+3. **Evidence standard:** do not treat a claim as fully verified unless you can point to at least one concrete source such as a route file, page component, schema, migration, test, or document.
+
+### What to verify
+
+#### 1. Structural completeness
+Check whether the report fully captures:
+- all apps in `/apps`
+- all major packages in `/packages`
+- all dashboards
+- all frontends
+- all route groups
+- all vertical packages
+- all significant user-facing and admin-facing surfaces
+
+#### 2. UI and UX completeness
+Check whether the report fully captures:
+- all screens/pages
+- all navigation patterns
+- all forms
+- all tables/lists/cards
+- all modals/drawers/sheets
+- all empty states
+- all loading states
+- all error states
+- all success states
+- all permission-denied states
+- all onboarding and offboarding flows
+- all mobile/PWA/offline-specific UX
+
+#### 3. Role and permission completeness
+Check whether every user category, role, and access level is fully documented, including:
+- platform operators
+- partners
+- sub-partners
+- tenant owners/admins
+- managers
+- cashiers
+- agents
+- members
+- end users
+- public users
+- USSD users
+- super-admin-only flows
+- plan-gated and KYC-gated experiences
+
+#### 4. Workflow completeness
+Check whether the report fully captures:
+- auth flows
+- invitation flows
+- billing/subscription flows
+- claim flows
+- verification flows
+- POS flows
+- wallet flows
+- AI advisory flows
+- notification flows
+- discovery flows
+- community/social flows
+- partner flows
+- CRON/background flows
+- offline sync flows
+- any approval or moderation flows
+
+#### 5. State completeness
+Check whether the report identifies all relevant states:
+- entity lifecycle states
+- claim FSM states
+- partner FSM states
+- subscription states
+- KYC states
+- AI consent states
+- notification preference states
+- payment states
+- error/retry/recovery states
+- empty/loading/skeleton states
+- sync conflict states
+- route guard/redirect states
+
+#### 6. Claim quality
+For each major statement in the report, determine whether it is:
+- verified in code
+- verified in docs
+- partially supported
+- strongly implied only
+- unsupported
+- contradicted by source
+
+### Required output
+
+Produce a **Verification Audit Report** with these sections:
+
+#### A. Executive verdict
+State clearly:
+- Is the report complete enough for QA planning?
+- What confidence level would you assign: high, medium, or low?
+- What are the top reasons for that judgment?
+
+#### B. Claim audit table
+Create a table with columns:
+- Report claim
+- Verification status
+- Evidence source(s)
+- Notes / caveats
+
+Focus especially on high-impact claims such as:
+- total app count
+- vertical count
+- package count
+- migration count
+- route count
+- role list
+- major workflows
+- claimed UI surfaces
+- PWA/offline support
+- AI capabilities
+- billing and wallet capabilities
+
+#### C. Missing coverage
+List everything implemented in the platform that the report failed to capture.
+
+#### D. Overreach / unsupported claims
+List everything in the report that is too broad, insufficiently evidenced, inferred too strongly, or appears inaccurate.
+
+#### E. Internal consistency review
+Check for:
+- contradictory counts
+- duplicate categories
+- overlapping verticals
+- inconsistent naming
+- mixed “implemented vs planned” language
+- hierarchy issues
+- sections that claim exhaustiveness but contain partial reads
+
+#### F. QA readiness assessment
+Answer directly:
+- What parts of the report can be trusted immediately for QA scoping?
+- What parts require more research before QA planning starts?
+- What gaps would create blind spots in a QA matrix if left unresolved?
+
+#### G. Final decision
+Choose one:
+- Approved as foundation for QA planning
+- Conditionally approved with required corrections
+- Not approved yet
+
+If not approved or conditionally approved, list the exact corrective work required.
+
+### Strict rules
+
+- Be skeptical, not polite.
+- Do not assume broad narrative claims are true just because they sound plausible.
+- Do not treat “strongly implied” as “verified.”
+- Do not rewrite the whole inventory unless needed to expose a gap.
+- Be especially strict about counts, completeness claims, and anything labeled “exhaustive.”
+- Separate “implemented,” “scaffolded,” “documented,” “seeded,” and “planned” into distinct categories.
+- If a section was only partially inspected, say so clearly and downgrade confidence.
+- If helpful, append a short list of “high-risk blind spots” most likely to break future QA coverage.
