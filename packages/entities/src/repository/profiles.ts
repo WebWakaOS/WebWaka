@@ -6,7 +6,7 @@
  * Claim lifecycle: seeded → claimable → claim_pending → verified → managed → branded → monetized
  */
 
-import type { Profile, ProfileId, PlaceId } from '@webwaka/types';
+import type { Profile, ProfileId, PlaceId, TenantId } from '@webwaka/types';
 import { EntityType, ClaimLifecycleState } from '@webwaka/types';
 import { generateProfileId } from '../ids.js';
 
