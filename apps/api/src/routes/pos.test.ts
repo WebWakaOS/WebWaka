@@ -33,7 +33,13 @@ function makeApp(dbOverride?: object): Hono {
           return Promise.resolve(null as T);
         },
         run: () => Promise.resolve({ success: true }),
-        all: <T>() => Promise.resolve({ results: [] as T[] }),
+        all: <T>() => {
+          // postLedgerEntry uses a CTE INSERT … RETURNING running_balance_kobo via .all()
+          if (sql.includes('float_ledger')) {
+            return Promise.resolve({ results: [{ running_balance_kobo: 60_000 }] as unknown as T[] });
+          }
+          return Promise.resolve({ results: [] as T[] });
+        },
       }),
     })),
     batch: vi.fn().mockResolvedValue([{ success: true }, { success: true }]),
