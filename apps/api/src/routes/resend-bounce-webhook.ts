@@ -102,6 +102,7 @@ function bytesToBase64(bytes: Uint8Array): string {
 // ---------------------------------------------------------------------------
 
 interface ResendEmailEvent {
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   type: 'email.delivered' | 'email.bounced' | 'email.complained' | string;
   data: {
     email_id: string;       // Resend message ID — stored as provider_message_id
