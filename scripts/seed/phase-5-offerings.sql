@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = OFF;
+
 -- WebWaka OS QA Seed — Phase 5: Offerings, Templates, RFQ/BID/PO
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 5
 -- Frozen baseline: WebWaka_OS_Corrected_Master_Inventory_v2.0-FROZEN
@@ -190,3 +192,5 @@ INSERT OR IGNORE INTO b2b_purchase_orders (
   2500000, 'po_created',
   strftime('%s','now'), strftime('%s','now')
 );
+
+PRAGMA foreign_keys = ON;
