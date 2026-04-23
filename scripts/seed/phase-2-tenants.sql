@@ -7,18 +7,13 @@
 --   workspaces (0003): id, tenant_id, name, owner_type (req), owner_id,
 --                      subscription_plan, subscription_status, active_layers
 --   workspace_verticals (0047): id (auto), workspace_id, tenant_id (req),
---                               vertical_slug, state (DEFAULT 'claimed')
+--                               vertical_slug (must match verticals.slug), state (DEFAULT 'claimed')
 --   memberships (0003): id (req PK), workspace_id, tenant_id, user_id, role
 --
--- T8: Slug immutability enforced at application layer (no slug column in DB).
--- T3: All workspace + vertical rows include tenant_id.
--- D3: Tenant plan stored in tenants.plan.
+-- SLUG FIX: polling-unit-rep (not polling-unit — see 0302_vertical_registry_seed.sql)
+-- FK FIX: PRAGMA foreign_keys = OFF during seed to allow safe OR IGNORE behavior
+PRAGMA foreign_keys = OFF;
 
--- ─────────────────────────────────────────────────────────────────
--- TNT-001: tenant-a — main test tenant (starter plan)
--- ─────────────────────────────────────────────────────────────────
-INSERT OR IGNORE INTO tenants (id, name, plan, status, created_at, updated_at)
-VALUES ('10000000-0000-4000-b000-000000000001', 'Tenant A Test', 'starter', 'active',
         strftime('%s','now'), strftime('%s','now'));
 
 INSERT OR IGNORE INTO workspaces (
@@ -133,7 +128,7 @@ INSERT OR IGNORE INTO workspaces (
 
 INSERT OR IGNORE INTO workspace_verticals (workspace_id, tenant_id, vertical_slug, activated_at)
 VALUES ('20000000-0000-4000-c000-000000000005', '10000000-0000-4000-b000-000000000005',
-        'polling-unit', strftime('%s','now'));
+        'polling-unit-rep', strftime('%s','now'));
 INSERT OR IGNORE INTO workspace_verticals (workspace_id, tenant_id, vertical_slug, activated_at)
 VALUES ('20000000-0000-4000-c000-000000000005', '10000000-0000-4000-b000-000000000005',
         'government-agency', strftime('%s','now'));
@@ -235,3 +230,5 @@ INSERT OR IGNORE INTO memberships (
   'member',
   strftime('%s','now'), strftime('%s','now')
 );
+
+PRAGMA foreign_keys = ON;
