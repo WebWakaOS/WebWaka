@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = OFF;
+
 -- WebWaka OS QA Seed — Phase 4: Financial State
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 4
 -- Frozen baseline: WebWaka_OS_Corrected_Master_Inventory_v2.0-FROZEN
@@ -141,3 +143,5 @@ INSERT OR IGNORE INTO bank_transfer_orders (
   strftime('%s', datetime('now', '+4 days')),
   strftime('%s','now'), strftime('%s','now')
 );
+
+PRAGMA foreign_keys = ON;
