@@ -686,9 +686,17 @@ authRoutes.post('/reset-password', async (c) => {
 
   const newHash = await hashPassword(body.password);
 
+  // T3: look up tenant_id so every mutation is tenant-scoped
+  const userTenant = await c.env.DB.prepare(
+    'SELECT tenant_id FROM users WHERE id = ? LIMIT 1',
+  ).bind(userId).first<{ tenant_id: string }>();
+  if (!userTenant) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'User account not found.'), 401);
+  }
+
   await c.env.DB.prepare(
-    `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ?`,
-  ).bind(newHash, userId).run();
+    `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
+  ).bind(newHash, userId, userTenant.tenant_id).run();
 
   try {
     await c.env.RATE_LIMIT_KV.delete(kvKey);
@@ -700,8 +708,8 @@ authRoutes.post('/reset-password', async (c) => {
   // any sessions established before the reset can no longer be used.
   try {
     await c.env.DB.prepare(
-      `DELETE FROM sessions WHERE user_id = ?`,
-    ).bind(userId).run();
+      `DELETE FROM sessions WHERE user_id = ? AND tenant_id = ?`,
+    ).bind(userId, userTenant.tenant_id).run();
   } catch {
     console.warn('[reset-password] Failed to invalidate sessions for user', userId);
   }
@@ -1174,7 +1182,7 @@ authRoutes.post('/accept-invite', async (c) => {
   // Fetch invitation row to get email, role, workspace
   const invite = await c.env.DB.prepare(
     `SELECT id, workspace_id, tenant_id, email, role, expires_at, accepted_at
-     FROM invitations WHERE id = ? LIMIT 1`,
+     FROM invitations WHERE id = ? AND revoked_at IS NULL LIMIT 1`,
   ).bind(inviteId).first<{
     id: string; workspace_id: string; tenant_id: string;
     email: string; role: string; expires_at: number; accepted_at: number | null;
@@ -1544,11 +1552,19 @@ authRoutes.get('/verify-email', async (c) => {
     );
   }
 
+  // T3: look up tenant_id to ensure the UPDATE is properly scoped
+  const verifyUserTenant = await c.env.DB.prepare(
+    'SELECT tenant_id FROM users WHERE id = ? LIMIT 1',
+  ).bind(userId).first<{ tenant_id: string }>();
+  if (!verifyUserTenant) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'User account not found.'), 401);
+  }
+
   // Set email_verified_at — safe to run even if already verified (idempotent timestamp set)
   await c.env.DB.prepare(
     `UPDATE users SET email_verified_at = unixepoch(), updated_at = unixepoch()
-     WHERE id = ? AND email_verified_at IS NULL`,
-  ).bind(userId).run();
+     WHERE id = ? AND tenant_id = ? AND email_verified_at IS NULL`,
+  ).bind(userId, verifyUserTenant.tenant_id).run();
 
   // Delete token (single use)
   try { await c.env.RATE_LIMIT_KV.delete(kvKey); } catch { /* non-critical */ }

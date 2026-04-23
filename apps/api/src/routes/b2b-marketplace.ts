@@ -268,6 +268,20 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids/:bidId/accept', async (c) => {
 
   if (!bid) return c.json({ error: 'Bid not found' }, 404);
 
+  // TOCTOU guard: atomically claim the RFQ by updating its status only if it is still 'bidding'.
+  // If a concurrent request already awarded it, meta.changes will be 0 and we return 409.
+  const rfqClaim = await db
+    .prepare(
+      `UPDATE b2b_rfqs SET status = 'awarded', awarded_bid_id = ?, updated_at = unixepoch()
+       WHERE id = ? AND tenant_id = ? AND status = 'bidding'`,
+    )
+    .bind(bidId, rfqId, auth.tenantId)
+    .run();
+
+  if (!rfqClaim.meta?.changes || rfqClaim.meta.changes === 0) {
+    return c.json({ error: 'RFQ is no longer available for award (concurrent modification)' }, 409);
+  }
+
   const poId = crypto.randomUUID();
   await db
     .prepare(
@@ -280,13 +294,8 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids/:bidId/accept', async (c) => {
     .run();
 
   await db
-    .prepare(`UPDATE b2b_rfq_bids SET status = 'accepted', updated_at = unixepoch() WHERE id = ?`)
-    .bind(bidId)
-    .run();
-
-  await db
-    .prepare(`UPDATE b2b_rfqs SET status = 'awarded', awarded_bid_id = ?, updated_at = unixepoch() WHERE id = ?`)
-    .bind(bidId, rfqId)
+    .prepare(`UPDATE b2b_rfq_bids SET status = 'accepted', updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`)
+    .bind(bidId, auth.tenantId)
     .run();
 
   // N-093: b2b.bid_accepted + b2b.po_issued events
@@ -438,6 +447,25 @@ b2bMarketplaceRoutes.post('/invoices', async (c) => {
     }>();
 
   if (!po) return c.json({ error: 'Purchase order not found' }, 404);
+
+  // P9: validate each line item — total_kobo must equal quantity × unit_price_kobo
+  for (const item of body.line_items) {
+    if (!Number.isInteger(item.unit_price_kobo) || item.unit_price_kobo < 0) {
+      return c.json({ error: 'Each line item unit_price_kobo must be a non-negative integer (P9)' }, 422);
+    }
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      return c.json({ error: 'Each line item quantity must be a positive integer' }, 422);
+    }
+    if (!Number.isInteger(item.total_kobo) || item.total_kobo < 0) {
+      return c.json({ error: 'Each line item total_kobo must be a non-negative integer (P9)' }, 422);
+    }
+    const expectedTotal = item.quantity * item.unit_price_kobo;
+    if (item.total_kobo !== expectedTotal) {
+      return c.json({
+        error: `Line item total_kobo (${item.total_kobo}) does not match quantity × unit_price_kobo (${expectedTotal})`,
+      }, 422);
+    }
+  }
 
   const subtotalKobo = body.line_items.reduce((sum, item) => sum + item.total_kobo, 0);
   const taxKobo = body.tax_kobo ?? 0;

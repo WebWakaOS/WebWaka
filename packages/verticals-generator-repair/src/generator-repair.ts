@@ -13,8 +13,9 @@ export class GeneratorRepairRepository {
   async findProfileById(id: string, tenantId: string): Promise<GeneratorRepairProfile|null> { const r = await this.db.prepare('SELECT * FROM generator_repair_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<GeneratorRepairProfile|null> { const r = await this.db.prepare('SELECT * FROM generator_repair_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: GeneratorRepairFSMState, fields?: { cacRc?: string }): Promise<GeneratorRepairProfile> {
-    const extra = fields?.cacRc ? `, cac_rc='${fields.cacRc}'` : '';
-    await this.db.prepare(`UPDATE generator_repair_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.cacRc) { extraClauses.push('cac_rc = ?'); extraBinds.push(fields.cacRc); }
+    await this.db.prepare(`UPDATE generator_repair_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[generator-repair] not found'); return p;
   }
   async createJob(profileId: string, tenantId: string, input: { customerRefId: string; equipmentType: string; brand?: string; serialNumber?: string; faultCategory?: string; labourCostKobo: number; partsCostKobo: number; totalCostKobo: number; jobDate: number; warrantyDays?: number }): Promise<RepairJob> {

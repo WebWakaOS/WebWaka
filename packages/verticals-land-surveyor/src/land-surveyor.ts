@@ -12,8 +12,9 @@ export class LandSurveyorRepository {
   async findProfileById(id: string, tenantId: string): Promise<LandSurveyorProfile|null> { const r = await this.db.prepare('SELECT * FROM land_surveyor_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<LandSurveyorProfile|null> { const r = await this.db.prepare('SELECT * FROM land_surveyor_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: LandSurveyorFSMState, fields?: { surconReg?: string }): Promise<LandSurveyorProfile> {
-    const extra = fields?.surconReg ? `, surcon_reg='${fields.surconReg}'` : '';
-    await this.db.prepare(`UPDATE land_surveyor_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.surconReg) { extraClauses.push('surcon_reg = ?'); extraBinds.push(fields.surconReg); }
+    await this.db.prepare(`UPDATE land_surveyor_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[land-surveyor] not found'); return p;
   }
   async createSurveyJob(profileId: string, tenantId: string, input: { clientRefId: string; landRefId: string; surveyType: string; locationState: string; locationLga?: string; feePaidKobo: number; jobDate: number }): Promise<SurveyJob> {

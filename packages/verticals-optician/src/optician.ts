@@ -13,8 +13,9 @@ export class OpticianRepository {
   async findProfileById(id: string, tenantId: string): Promise<OpticianProfile|null> { const r = await this.db.prepare('SELECT * FROM optician_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<OpticianProfile|null> { const r = await this.db.prepare('SELECT * FROM optician_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: OpticianFSMState, fields?: { coaLicence?: string }): Promise<OpticianProfile> {
-    const extra = fields?.coaLicence ? `, coa_licence='${fields.coaLicence}'` : '';
-    await this.db.prepare(`UPDATE optician_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.coaLicence) { extraClauses.push('coa_licence = ?'); extraBinds.push(fields.coaLicence); }
+    await this.db.prepare(`UPDATE optician_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[optician] not found'); return p;
   }
   async recordVisionTest(profileId: string, tenantId: string, input: { patientRefId: string; testDate: number; rightEyeSphX100: number; leftEyeSphX100: number; rightEyeCylX100?: number; leftEyeCylX100?: number; pdMmX10?: number; optometristRefId?: string; requiresReferral?: boolean; notes?: string; consultationFeeKobo?: number }): Promise<VisionTestRecord> {

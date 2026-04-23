@@ -154,20 +154,23 @@ export async function creditWallet(
 
   const isTopUp = input.txType === 'bank_fund' || input.txType === 'mla_credit' || input.txType === 'refund';
 
-  const updateResult = await db.prepare(`
+  // RETURNING makes the balance_after read atomic with the UPDATE, eliminating the
+  // TOCTOU window that existed when UPDATE and SELECT were two separate statements.
+  const updated = await db.prepare(`
     UPDATE hl_wallets
     SET balance_kobo         = balance_kobo + ?,
         lifetime_funded_kobo = lifetime_funded_kobo + ?,
         updated_at           = unixepoch()
     WHERE id = ? AND tenant_id = ? AND status != 'closed'
+    RETURNING balance_kobo
   `).bind(
     input.amountKobo,
     isTopUp ? input.amountKobo : 0,
     input.walletId,
     input.tenantId,
-  ).run();
+  ).first<{ balance_kobo: number }>();
 
-  if (!updateResult.meta?.changes || updateResult.meta.changes === 0) {
+  if (!updated) {
     const wallet = await db.prepare(
       'SELECT status FROM hl_wallets WHERE id = ? AND tenant_id = ?',
     ).bind(input.walletId, input.tenantId).first<{ status: string }>();
@@ -175,10 +178,6 @@ export async function creditWallet(
     if (wallet.status === 'closed') throw new WalletError('WALLET_CLOSED');
     throw new WalletError('WALLET_NOT_FOUND', { walletId: input.walletId, tenantId: input.tenantId });
   }
-
-  const updated = await db.prepare(
-    'SELECT balance_kobo FROM hl_wallets WHERE id = ? AND tenant_id = ?',
-  ).bind(input.walletId, input.tenantId).first<{ balance_kobo: number }>();
 
   const entryId = generateId('hll');
   const now = Math.floor(Date.now() / 1000);
@@ -194,7 +193,7 @@ export async function creditWallet(
     '',
     input.tenantId,
     input.amountKobo,
-    updated!.balance_kobo,
+    updated.balance_kobo,
     input.txType,
     input.reference,
     input.description,
@@ -210,7 +209,7 @@ export async function creditWallet(
     tenantId:     input.tenantId,
     entryType:    'credit',
     amountKobo:   input.amountKobo,
-    balanceAfter: updated!.balance_kobo,
+    balanceAfter: updated.balance_kobo,
     txType:       input.txType,
     reference:    input.reference,
     description:  input.description,
@@ -229,7 +228,9 @@ export async function debitWallet(
     throw new WalletError('INVALID_AMOUNT', { amountKobo: input.amountKobo });
   }
 
-  const updateResult = await db.prepare(`
+  // RETURNING makes the balance_after read atomic with the UPDATE, eliminating the
+  // TOCTOU window that existed when UPDATE and SELECT were two separate statements.
+  const updated = await db.prepare(`
     UPDATE hl_wallets
     SET balance_kobo        = balance_kobo - ?,
         lifetime_spent_kobo = lifetime_spent_kobo + ?,
@@ -239,6 +240,7 @@ export async function debitWallet(
       AND user_id   = ?
       AND balance_kobo >= ?
       AND status = 'active'
+    RETURNING balance_kobo
   `).bind(
     input.amountKobo,
     input.amountKobo,
@@ -246,9 +248,9 @@ export async function debitWallet(
     input.tenantId,
     input.userId,
     input.amountKobo,
-  ).run();
+  ).first<{ balance_kobo: number }>();
 
-  if (!updateResult.meta?.changes || updateResult.meta.changes === 0) {
+  if (!updated) {
     const wallet = await db.prepare(
       'SELECT balance_kobo, status FROM hl_wallets WHERE id = ? AND tenant_id = ?',
     ).bind(input.walletId, input.tenantId).first<{ balance_kobo: number; status: string }>();
@@ -260,10 +262,6 @@ export async function debitWallet(
       requiredKobo: input.amountKobo,
     });
   }
-
-  const updated = await db.prepare(
-    'SELECT balance_kobo FROM hl_wallets WHERE id = ? AND tenant_id = ?',
-  ).bind(input.walletId, input.tenantId).first<{ balance_kobo: number }>();
 
   const entryId = generateId('hll');
   const now = Math.floor(Date.now() / 1000);
@@ -279,7 +277,7 @@ export async function debitWallet(
     input.userId,
     input.tenantId,
     -input.amountKobo,
-    updated!.balance_kobo,
+    updated.balance_kobo,
     input.txType,
     input.reference,
     input.description,
@@ -295,7 +293,7 @@ export async function debitWallet(
     tenantId:     input.tenantId,
     entryType:    'debit',
     amountKobo:   -input.amountKobo,
-    balanceAfter: updated!.balance_kobo,
+    balanceAfter: updated.balance_kobo,
     txType:       input.txType,
     reference:    input.reference,
     description:  input.description,

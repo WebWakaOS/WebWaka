@@ -14,8 +14,9 @@ export class GovtSchoolRepository {
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<GovtSchoolProfile|null> { const r = await this.db.prepare('SELECT * FROM govt_school_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: GovtSchoolFSMState, fields?: { subebRef?: string }): Promise<GovtSchoolProfile> {
     if (to === 'subeb_verified' && !fields?.subebRef) throw new Error('SUBEB reference required to transition to subeb_verified');
-    const extra = fields?.subebRef ? `, subeb_ref='${fields.subebRef}'` : '';
-    await this.db.prepare(`UPDATE govt_school_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.subebRef) { extraClauses.push('subeb_ref = ?'); extraBinds.push(fields.subebRef); }
+    await this.db.prepare(`UPDATE govt_school_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[govt-school] not found'); return p;
   }
   async addClassRecord(profileId: string, tenantId: string, input: { className: string; teacherRefId?: string; studentCount?: number; genderMale?: number; genderFemale?: number; academicYear: string }): Promise<SchoolClass> {

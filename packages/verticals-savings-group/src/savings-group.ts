@@ -96,8 +96,9 @@ export class SavingsGroupRepository {
   }
 
   async transitionStatus(id: string, tenantId: string, to: SavingsGroupFSMState, fields?: { cacRc?: string }): Promise<SavingsGroupProfile> {
-    const extra = fields?.cacRc ? `, cac_rc='${fields.cacRc}'` : '';
-    await this.db.prepare(`UPDATE savings_group_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to, id, tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.cacRc) { extraClauses.push('cac_rc = ?'); extraBinds.push(fields.cacRc); }
+    await this.db.prepare(`UPDATE savings_group_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to, ...extraBinds, id, tenantId).run();
     const p = await this.findGroupById(id, tenantId);
     if (!p) throw new Error('[savings-group] not found');
     return p;

@@ -123,6 +123,23 @@ function buildFakeDb(
               return { success: true, meta: { changes: 1 } };
             },
             async first<T>() {
+              // Handle UPDATE ... RETURNING balance_kobo (atomic credit/debit mock)
+              if (sql.includes('UPDATE hl_wallets') && sql.includes('RETURNING') && sql.includes('balance_kobo + ?')) {
+                const amount = args[0] as number;
+                const id = args[2] as string;
+                const w = wallets[id];
+                if (!w || w.status === 'closed') return null as T;
+                w.balance_kobo += amount;
+                return { balance_kobo: w.balance_kobo } as T;
+              }
+              if (sql.includes('UPDATE hl_wallets') && sql.includes('RETURNING') && sql.includes('balance_kobo - ?')) {
+                const amount = args[0] as number;
+                const id = args[2] as string;
+                const w = wallets[id];
+                if (!w || w.status !== 'active' || w.balance_kobo < amount) return null as T;
+                w.balance_kobo -= amount;
+                return { balance_kobo: w.balance_kobo } as T;
+              }
               if (sql.includes('hl_wallets')) {
                 const id = args[0] as string;
                 const w = wallets[id];

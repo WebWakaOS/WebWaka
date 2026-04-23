@@ -15,8 +15,10 @@ export class OilGasServicesRepository {
   async transitionStatus(id: string, tenantId: string, to: OilGasServicesFSMState, fields?: { ncdmbCert?: string; dprRegistration?: string }): Promise<OilGasServicesProfile> {
     if (to === 'ncdmb_certified' && !fields?.ncdmbCert) throw new Error('NCDMB certificate required to transition to ncdmb_certified');
     if (to === 'dpr_registered' && !fields?.dprRegistration) throw new Error('DPR registration required to transition to dpr_registered');
-    let extra = ''; if (fields?.ncdmbCert) extra += `, ncdmb_cert='${fields.ncdmbCert}'`; if (fields?.dprRegistration) extra += `, dpr_registration='${fields.dprRegistration}'`;
-    await this.db.prepare(`UPDATE oil_gas_services_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.ncdmbCert) { extraClauses.push('ncdmb_cert = ?'); extraBinds.push(fields.ncdmbCert); }
+    if (fields?.dprRegistration) { extraClauses.push('dpr_registration = ?'); extraBinds.push(fields.dprRegistration); }
+    await this.db.prepare(`UPDATE oil_gas_services_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[oil-gas-services] not found'); return p;
   }
   async createContract(profileId: string, tenantId: string, input: { clientRefId: string; contractTitle: string; contractValueKobo: number; localContentPctX100?: number; startDate: number; endDate?: number; mobilisationKobo?: number; contractScope?: string; performanceBondKobo?: number }): Promise<OilGasContract> {

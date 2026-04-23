@@ -16,8 +16,9 @@ export class OkadaKekeRepository {
   async findProfileById(id: string, tenantId: string): Promise<OkadaKekeProfile|null> { const r = await this.db.prepare('SELECT * FROM okada_keke_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<OkadaKekeProfile|null> { const r = await this.db.prepare('SELECT * FROM okada_keke_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: OkadaKekeFSMState, fields?: { nurtwMembership?: string }): Promise<OkadaKekeProfile> {
-    const extra = fields?.nurtwMembership ? `, nurtw_membership='${fields.nurtwMembership}'` : '';
-    await this.db.prepare(`UPDATE okada_keke_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.nurtwMembership) { extraClauses.push('nurtw_membership = ?'); extraBinds.push(fields.nurtwMembership); }
+    await this.db.prepare(`UPDATE okada_keke_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[okada-keke] not found'); return p;
   }
   async addVehicle(profileId: string, tenantId: string, input: { category: string; makeModel?: string; plateNumber: string; vehicleYear?: number; motorVehicleLicence?: string; insurancePolicyRef?: string }): Promise<OkadaKekeVehicle> {

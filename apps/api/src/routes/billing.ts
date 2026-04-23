@@ -194,7 +194,7 @@ billingRoutes.post('/enforce', async (c) => {
       .prepare(
         `UPDATE subscriptions SET status = 'past_due', enforcement_status = 'grace_period',
          grace_period_end = ?, last_enforcement_at = ?, updated_at = ?
-         WHERE id = ? AND tenant_id = ?`,
+         WHERE id = ? AND tenant_id = ? AND status = 'active'`,
       )
       .bind(gracePeriodEnd, now, now, sub.id, tenantId)
       .run();
@@ -229,7 +229,7 @@ billingRoutes.post('/enforce', async (c) => {
       .prepare(
         `UPDATE subscriptions SET status = 'suspended', enforcement_status = 'suspended',
          last_enforcement_at = ?, updated_at = ?
-         WHERE id = ? AND tenant_id = ?`,
+         WHERE id = ? AND tenant_id = ? AND enforcement_status = 'grace_period'`,
       )
       .bind(now, now, sub.id, tenantId)
       .run();

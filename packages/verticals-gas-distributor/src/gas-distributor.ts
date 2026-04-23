@@ -13,8 +13,9 @@ export class GasDistributorRepository {
   async findProfileById(id: string, tenantId: string): Promise<GasDistributorProfile|null> { const r = await this.db.prepare('SELECT * FROM gas_distributor_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<GasDistributorProfile|null> { const r = await this.db.prepare('SELECT * FROM gas_distributor_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: GasDistributorFSMState, fields?: { dprDealerLicence?: string }): Promise<GasDistributorProfile> {
-    const extra = fields?.dprDealerLicence ? `, dpr_dealer_licence='${fields.dprDealerLicence}'` : '';
-    await this.db.prepare(`UPDATE gas_distributor_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.dprDealerLicence) { extraClauses.push('dpr_dealer_licence = ?'); extraBinds.push(fields.dprDealerLicence); }
+    await this.db.prepare(`UPDATE gas_distributor_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[gas-distributor] not found'); return p;
   }
   async addInventory(profileId: string, tenantId: string, input: { cylinderSizeGrams: number; stockCount: number; refillPriceKobo: number; bulkPriceKobo?: number; reorderLevel?: number }): Promise<GasInventoryItem> {

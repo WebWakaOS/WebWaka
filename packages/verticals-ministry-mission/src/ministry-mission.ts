@@ -14,8 +14,10 @@ export class MinistryMissionRepository {
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<MinistryMissionProfile|null> { const r = await this.db.prepare('SELECT * FROM ministry_mission_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: MinistryMissionFSMState, fields?: { itNumber?: string; cacItCert?: string; cacScn?: string }): Promise<MinistryMissionProfile> {
     if (to === 'it_registered' && !fields?.itNumber) throw new Error('IT number required to transition to it_registered');
-    let extra = ''; if (fields?.itNumber) extra += `, it_number='${fields.itNumber}'`; if (fields?.cacItCert) extra += `, cac_it_cert='${fields.cacItCert}'`;
-    await this.db.prepare(`UPDATE ministry_mission_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.itNumber) { extraClauses.push('it_number = ?'); extraBinds.push(fields.itNumber); }
+    if (fields?.cacItCert) { extraClauses.push('cac_it_cert = ?'); extraBinds.push(fields.cacItCert); }
+    await this.db.prepare(`UPDATE ministry_mission_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[ministry-mission] not found'); return p;
   }
   async recordService(profileId: string, tenantId: string, input: { serviceType: string; scheduledDate: number; attendanceCount?: number; offeringKobo?: number; tithKobo?: number; notes?: string }): Promise<MinistryService> {

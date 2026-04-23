@@ -78,16 +78,31 @@ export type TemplateData<T extends EmailTemplate> =
 const FROM_ADDRESS = 'WebWaka <noreply@webwaka.com>';
 
 // ---------------------------------------------------------------------------
+// HTML escaping helper — prevents HTML injection from user-controlled strings
+// ---------------------------------------------------------------------------
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+// ---------------------------------------------------------------------------
 // Template renderers (plain HTML — no template engine required)
 // ---------------------------------------------------------------------------
 
 function renderWelcome(data: WelcomeData): { subject: string; html: string } {
+  const name = escapeHtml(data.name);
+  const workspaceName = escapeHtml(data.workspace_name);
   return {
-    subject: `Welcome to ${data.workspace_name} on WebWaka`,
+    subject: `Welcome to ${workspaceName} on WebWaka`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-        <h2 style="color:#006400">Welcome to WebWaka, ${data.name}!</h2>
-        <p>Your workspace <strong>${data.workspace_name}</strong> is ready.</p>
+        <h2 style="color:#006400">Welcome to WebWaka, ${name}!</h2>
+        <p>Your workspace <strong>${workspaceName}</strong> is ready.</p>
         <p><a href="${data.login_url}" style="background:#006400;color:#fff;padding:10px 20px;border-radius:4px;text-decoration:none">Log in to your workspace</a></p>
         <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
       </div>`,
@@ -96,17 +111,21 @@ function renderWelcome(data: WelcomeData): { subject: string; html: string } {
 
 function renderPurchaseReceipt(data: TemplatePurchaseReceiptData): { subject: string; html: string } {
   const amountNGN = (data.amount_kobo / 100).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' });
+  const buyerName = escapeHtml(data.buyer_name);
+  const templateName = escapeHtml(data.template_name);
+  const transactionRef = escapeHtml(data.transaction_ref);
+  const purchaseDate = escapeHtml(data.purchase_date);
   return {
-    subject: `Your WebWaka Template Purchase — ${data.template_name}`,
+    subject: `Your WebWaka Template Purchase — ${templateName}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2 style="color:#006400">Purchase Confirmed</h2>
-        <p>Hi ${data.buyer_name}, your purchase was successful.</p>
+        <p>Hi ${buyerName}, your purchase was successful.</p>
         <table style="width:100%;border-collapse:collapse;margin:1rem 0">
-          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Template</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${data.template_name}</td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Template</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${templateName}</td></tr>
           <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Amount</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${amountNGN}</td></tr>
-          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Reference</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${data.transaction_ref}</td></tr>
-          <tr><td style="padding:8px"><strong>Date</strong></td><td style="padding:8px">${data.purchase_date}</td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Reference</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${transactionRef}</td></tr>
+          <tr><td style="padding:8px"><strong>Date</strong></td><td style="padding:8px">${purchaseDate}</td></tr>
         </table>
         <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
       </div>`,
@@ -114,12 +133,14 @@ function renderPurchaseReceipt(data: TemplatePurchaseReceiptData): { subject: st
 }
 
 function renderWorkspaceInvite(data: WorkspaceInviteData): { subject: string; html: string } {
+  const inviterName = escapeHtml(data.inviter_name);
+  const workspaceName = escapeHtml(data.workspace_name);
   return {
-    subject: `${data.inviter_name} invited you to ${data.workspace_name} on WebWaka`,
+    subject: `${inviterName} invited you to ${workspaceName} on WebWaka`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2 style="color:#006400">You're invited!</h2>
-        <p><strong>${data.inviter_name}</strong> has invited you to join <strong>${data.workspace_name}</strong> on WebWaka.</p>
+        <p><strong>${inviterName}</strong> has invited you to join <strong>${workspaceName}</strong> on WebWaka.</p>
         ${data.expires_in_hours ? `<p>This invitation expires in ${data.expires_in_hours} hours.</p>` : ''}
         <p><a href="${data.invite_url}" style="background:#006400;color:#fff;padding:10px 20px;border-radius:4px;text-decoration:none">Accept Invitation</a></p>
         <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
@@ -129,17 +150,21 @@ function renderWorkspaceInvite(data: WorkspaceInviteData): { subject: string; ht
 
 function renderPaymentConfirmation(data: PaymentConfirmationData): { subject: string; html: string } {
   const amountNGN = (data.amount_kobo / 100).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' });
+  const payerName = escapeHtml(data.payer_name);
+  const transactionRef = escapeHtml(data.transaction_ref);
+  const planName = data.plan_name ? escapeHtml(data.plan_name) : null;
+  const paymentDate = escapeHtml(data.payment_date);
   return {
     subject: `Payment Confirmed — ${amountNGN}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2 style="color:#006400">Payment Confirmed ✓</h2>
-        <p>Hi ${data.payer_name}, your payment has been verified.</p>
+        <p>Hi ${payerName}, your payment has been verified.</p>
         <table style="width:100%;border-collapse:collapse;margin:1rem 0">
           <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Amount</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${amountNGN}</td></tr>
-          ${data.plan_name ? `<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Plan</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${data.plan_name}</td></tr>` : ''}
-          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Reference</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${data.transaction_ref}</td></tr>
-          <tr><td style="padding:8px"><strong>Date</strong></td><td style="padding:8px">${data.payment_date}</td></tr>
+          ${planName ? `<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Plan</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${planName}</td></tr>` : ''}
+          <tr><td style="padding:8px;border-bottom:1px solid #e5e7eb"><strong>Reference</strong></td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${transactionRef}</td></tr>
+          <tr><td style="padding:8px"><strong>Date</strong></td><td style="padding:8px">${paymentDate}</td></tr>
         </table>
         <p style="color:#6b7280;font-size:0.875rem">WebWaka — Built for Africa</p>
       </div>`,
@@ -147,12 +172,13 @@ function renderPaymentConfirmation(data: PaymentConfirmationData): { subject: st
 }
 
 function renderPasswordReset(data: PasswordResetData): { subject: string; html: string } {
+  const name = escapeHtml(data.name);
   return {
     subject: 'Reset your WebWaka password',
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2 style="color:#006400">Reset your password</h2>
-        <p>Hi ${data.name},</p>
+        <p>Hi ${name},</p>
         <p>We received a request to reset the password for your WebWaka account. Click the button below to set a new password.</p>
         <p style="margin:28px 0">
           <a href="${data.reset_url}"
@@ -175,12 +201,13 @@ function renderPasswordReset(data: PasswordResetData): { subject: string; html: 
 }
 
 function renderEmailVerification(data: EmailVerificationData): { subject: string; html: string } {
+  const name = escapeHtml(data.name);
   return {
     subject: 'Verify your WebWaka email address',
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2 style="color:#0F4C81">Verify your email address</h2>
-        <p>Hi ${data.name},</p>
+        <p>Hi ${name},</p>
         <p>Please verify your email address to complete your WebWaka account setup and unlock all features.</p>
         <p style="margin:28px 0">
           <a href="${data.verify_url}"

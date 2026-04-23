@@ -173,10 +173,15 @@ inboxRoutes.get('/inbox', async (c) => {
   const binds: unknown[] = [tenantId, userId, now];
 
   if (cursor) {
-    const cursorTs = parseInt(cursor, 10);
-    if (!Number.isNaN(cursorTs)) {
-      conditions.push('created_at < ?');
-      binds.push(cursorTs);
+    try {
+      // Composite cursor (created_at, id) prevents skipping items with identical timestamps
+      const decoded = JSON.parse(atob(cursor)) as { t: number; i: string };
+      if (typeof decoded.t === 'number' && typeof decoded.i === 'string') {
+        conditions.push('(created_at < ? OR (created_at = ? AND id < ?))');
+        binds.push(decoded.t, decoded.t, decoded.i);
+      }
+    } catch {
+      // Ignore malformed cursor — return from the beginning
     }
   }
 
@@ -208,7 +213,10 @@ inboxRoutes.get('/inbox', async (c) => {
 
     const hasMore = results.length > limit;
     const items = hasMore ? results.slice(0, limit) : results;
-    const nextCursor = hasMore ? String(items[items.length - 1]!.created_at) : null;
+    const lastItem = items[items.length - 1];
+    const nextCursor = hasMore && lastItem
+      ? btoa(JSON.stringify({ t: lastItem.created_at, i: lastItem.id }))
+      : null;
 
     // Parse metadata JSON for each item
     const mappedItems = items.map((row) => ({

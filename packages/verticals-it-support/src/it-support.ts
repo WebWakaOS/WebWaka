@@ -12,8 +12,9 @@ export class ItSupportRepository {
   async findProfileById(id: string, tenantId: string): Promise<ItSupportProfile|null> { const r = await this.db.prepare('SELECT * FROM it_support_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<ItSupportProfile|null> { const r = await this.db.prepare('SELECT * FROM it_support_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: ItSupportFSMState, fields?: { cacRc?: string }): Promise<ItSupportProfile> {
-    const extra = fields?.cacRc ? `, cac_rc='${fields.cacRc}'` : '';
-    await this.db.prepare(`UPDATE it_support_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.cacRc) { extraClauses.push('cac_rc = ?'); extraBinds.push(fields.cacRc); }
+    await this.db.prepare(`UPDATE it_support_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[it-support] not found'); return p;
   }
   async createTicket(profileId: string, tenantId: string, input: { clientRefId: string; issueType: string; priority?: string; description?: string; slaHours?: number; labourCostKobo?: number }): Promise<ItTicket> {

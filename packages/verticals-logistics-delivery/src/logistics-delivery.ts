@@ -12,8 +12,9 @@ export class LogisticsDeliveryRepository {
   async findProfileById(id: string, tenantId: string): Promise<LogisticsDeliveryProfile|null> { const r = await this.db.prepare('SELECT * FROM logistics_delivery_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<LogisticsDeliveryProfile|null> { const r = await this.db.prepare('SELECT * FROM logistics_delivery_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: LogisticsDeliveryFSMState, fields?: { frscCert?: string }): Promise<LogisticsDeliveryProfile> {
-    const extra = fields?.frscCert ? `, frsc_cert='${fields.frscCert}'` : '';
-    await this.db.prepare(`UPDATE logistics_delivery_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.frscCert) { extraClauses.push('frsc_cert = ?'); extraBinds.push(fields.frscCert); }
+    await this.db.prepare(`UPDATE logistics_delivery_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[logistics-delivery] not found'); return p;
   }
   async createOrder(profileId: string, tenantId: string, input: { senderRefId: string; recipientRefId: string; pickupAddress: string; deliveryAddress: string; packageType?: string; weightGrams: number; declaredValueKobo: number; deliveryFeeKobo: number; pickupDate?: number }): Promise<DeliveryOrder> {

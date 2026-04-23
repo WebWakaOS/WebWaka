@@ -20,7 +20,8 @@ function auth(c: Context<{ Bindings: Env }>) { return c.get('auth') as Auth; }
 
 app.post('/profiles', async (c) => {
   const { tenantId } = auth(c);
-  const body = await c.req.json<{ workspaceId: string; organizationId: string; sector: string }>();
+  let body: { workspaceId: string; organizationId: string; sector: string };
+  try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   const profile = await repo(c).create({ workspaceId: body.workspaceId, tenantId, organizationId: body.organizationId, sector: body.sector as never });
   return c.json(profile, 201);
 });
@@ -34,7 +35,8 @@ app.get('/profiles/:id', async (c) => {
 
 app.patch('/profiles/:id/transition', async (c) => {
   const { tenantId } = auth(c);
-  const body = await c.req.json<{ to: string }>();
+  let body: { to: string };
+  try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
   const to = body.to as Parameters<typeof isValidNgoTransition>[1];
   const current = await repo(c).findById(c.req.param('id'), tenantId);
   if (!current) return c.json({ error: 'not found' }, 404);
@@ -45,8 +47,12 @@ app.patch('/profiles/:id/transition', async (c) => {
 
 app.post('/profiles/:id/funding', async (c) => {
   const { tenantId } = auth(c);
-  const body = await c.req.json<{ donorName: string; amountKobo: number; currency?: string; purpose?: string; paystackRef?: string }>();
-  const record = await repo(c).createFunding({ workspaceId: '', tenantId, donorName: body.donorName, amountKobo: body.amountKobo, currency: body.currency ?? 'NGN', purpose: body.purpose, paystackRef: body.paystackRef });
+  let body: { donorName: string; amountKobo: number; currency?: string; purpose?: string; paystackRef?: string };
+  try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON body' }, 400); }
+  // Fetch the profile to obtain its workspaceId (required by createFunding)
+  const profile = await repo(c).findById(c.req.param('id'), tenantId);
+  if (!profile) return c.json({ error: 'not found' }, 404);
+  const record = await repo(c).createFunding({ workspaceId: profile.workspaceId, tenantId, donorName: body.donorName, amountKobo: body.amountKobo, currency: body.currency ?? 'NGN', purpose: body.purpose, paystackRef: body.paystackRef });
   return c.json(record, 201);
 });
 

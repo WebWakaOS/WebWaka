@@ -12,8 +12,9 @@ export class FurnitureMakerRepository {
   async findProfileById(id: string, tenantId: string): Promise<FurnitureMakerProfile|null> { const r = await this.db.prepare('SELECT * FROM furniture_maker_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<FurnitureMakerProfile|null> { const r = await this.db.prepare('SELECT * FROM furniture_maker_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: FurnitureMakerFSMState, fields?: { cacRc?: string }): Promise<FurnitureMakerProfile> {
-    const extra = fields?.cacRc ? `, cac_rc='${fields.cacRc}'` : '';
-    await this.db.prepare(`UPDATE furniture_maker_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.cacRc) { extraClauses.push('cac_rc = ?'); extraBinds.push(fields.cacRc); }
+    await this.db.prepare(`UPDATE furniture_maker_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[furniture-maker] not found'); return p;
   }
   async createOrder(profileId: string, tenantId: string, input: { clientRefId: string; itemType: string; quantity: number; unitPriceKobo: number; totalKobo: number; depositKobo?: number; deliveryDate?: number }): Promise<FurnitureOrder> {

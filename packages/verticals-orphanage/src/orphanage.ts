@@ -13,8 +13,9 @@ export class OrphanageRepository {
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<OrphanageProfile|null> { const r = await this.db.prepare('SELECT * FROM orphanage_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: OrphanageFSMState, fields?: { dssLicense?: string; mosswRef?: string; nccsRef?: string }): Promise<OrphanageProfile> {
     if (to === 'dss_licensed' && !fields?.dssLicense) throw new Error('DSS licence required to transition to dss_licensed');
-    const extra = fields?.dssLicense ? `, dss_license='${fields.dssLicense}'` : '';
-    await this.db.prepare(`UPDATE orphanage_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.dssLicense) { extraClauses.push('dss_license = ?'); extraBinds.push(fields.dssLicense); }
+    await this.db.prepare(`UPDATE orphanage_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[orphanage] not found'); return p;
   }
   /** P13 ABSOLUTE: Only aggregate population counts — NO child_ref_id, NO individual child data */

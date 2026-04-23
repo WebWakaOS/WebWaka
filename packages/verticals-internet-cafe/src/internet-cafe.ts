@@ -13,8 +13,9 @@ export class InternetCafeRepository {
   async findProfileById(id: string, tenantId: string): Promise<InternetCafeProfile|null> { const r = await this.db.prepare('SELECT * FROM internet_cafe_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<InternetCafeProfile|null> { const r = await this.db.prepare('SELECT * FROM internet_cafe_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: InternetCafeFSMState, fields?: { nccReg?: string }): Promise<InternetCafeProfile> {
-    const extra = fields?.nccReg ? `, ncc_reg='${fields.nccReg}'` : '';
-    await this.db.prepare(`UPDATE internet_cafe_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.nccReg) { extraClauses.push('ncc_reg = ?'); extraBinds.push(fields.nccReg); }
+    await this.db.prepare(`UPDATE internet_cafe_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[internet-cafe] not found'); return p;
   }
   async addStation(profileId: string, tenantId: string, input: { stationNumber: string; stationType?: string }): Promise<CafeStation> {

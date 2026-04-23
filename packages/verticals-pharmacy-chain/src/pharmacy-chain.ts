@@ -12,8 +12,10 @@ export class PharmacyChainRepository {
   async findProfileById(id: string, tenantId: string): Promise<PharmacyChainProfile|null> { const r = await this.db.prepare('SELECT * FROM pharmacy_chain_profiles WHERE id=? AND tenant_id=?').bind(id,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async findProfileByWorkspace(workspaceId: string, tenantId: string): Promise<PharmacyChainProfile|null> { const r = await this.db.prepare('SELECT * FROM pharmacy_chain_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId,tenantId).first<Record<string,unknown>>(); return r ? toProfile(r) : null; }
   async transitionStatus(id: string, tenantId: string, to: PharmacyChainFSMState, fields?: { pcnLicence?: string; nafdacLicence?: string }): Promise<PharmacyChainProfile> {
-    let extra = ''; if (fields?.pcnLicence) extra += `, pcn_licence='${fields.pcnLicence}'`; if (fields?.nafdacLicence) extra += `, nafdac_licence='${fields.nafdacLicence}'`;
-    await this.db.prepare(`UPDATE pharmacy_chain_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,id,tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.pcnLicence) { extraClauses.push('pcn_licence = ?'); extraBinds.push(fields.pcnLicence); }
+    if (fields?.nafdacLicence) { extraClauses.push('nafdac_licence = ?'); extraBinds.push(fields.nafdacLicence); }
+    await this.db.prepare(`UPDATE pharmacy_chain_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to,...extraBinds,id,tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[pharmacy-chain] not found'); return p;
   }
   async addDrugInventory(profileId: string, tenantId: string, input: { drugName: string; nafdacReg?: string; quantityInStock: number; reorderLevel?: number; unitPriceKobo: number; wholesalePriceKobo?: number; expiryDate?: number; prescriptionRequired?: boolean }): Promise<DrugInventoryItem> {

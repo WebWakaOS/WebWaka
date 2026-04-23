@@ -27,8 +27,9 @@ export class HotelRepository {
     const r = await this.db.prepare('SELECT * FROM hotel_profiles WHERE workspace_id=? AND tenant_id=?').bind(workspaceId, tenantId).first<Record<string, unknown>>(); return r ? toProfile(r) : null;
   }
   async transitionStatus(id: string, tenantId: string, to: HotelFSMState, fields?: Partial<{ nihotourLicence: string; stateTourismBoardRef: string }>): Promise<HotelProfile> {
-    const extra = fields?.nihotourLicence ? `, nihotour_licence='${fields.nihotourLicence}'` : '';
-    await this.db.prepare(`UPDATE hotel_profiles SET status=?${extra}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to, id, tenantId).run();
+    const extraClauses: string[] = []; const extraBinds: unknown[] = [];
+    if (fields?.nihotourLicence) { extraClauses.push('nihotour_licence = ?'); extraBinds.push(fields.nihotourLicence); }
+    await this.db.prepare(`UPDATE hotel_profiles SET status=?${extraClauses.length ? ', ' + extraClauses.join(', ') : ''}, updated_at=unixepoch() WHERE id=? AND tenant_id=?`).bind(to, ...extraBinds, id, tenantId).run();
     const p = await this.findProfileById(id, tenantId); if (!p) throw new Error('[hotel] not found'); return p;
   }
   async createRoom(profileId: string, tenantId: string, input: { roomNumber: string; roomType: string; floor?: number; capacity?: number; ratePerNightKobo: number }): Promise<HotelRoom> {
