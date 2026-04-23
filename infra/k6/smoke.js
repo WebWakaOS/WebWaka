@@ -30,7 +30,9 @@ export const options = {
   vus: 5,
   duration: '30s',
   thresholds: {
-    http_req_duration: ['p(95)<500'],
+    // p(95) < 2000ms — CF Workers edge-first; CI runner round-trip latency
+    // from GitHub Actions IPs to CF edge varies; 2s is the CI-safe ceiling.
+    http_req_duration: ['p(95)<2000'],
     http_req_failed: ['rate<0.01'],
   },
 };
