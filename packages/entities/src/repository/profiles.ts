@@ -60,6 +60,7 @@ function rowToProfile(row: ProfileRow): Profile {
     primaryPlaceId: row.primary_place_id as PlaceId | undefined,
     claimState: row.claim_state as ClaimState,
     verifiedBy: row.verified_by ?? undefined,
+    tenantId: (row.tenant_id as TenantId | null) ?? null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   } as unknown as Profile;
