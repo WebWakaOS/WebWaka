@@ -1,0 +1,285 @@
+
+Using the frozen master inventory `WebWaka_OS_Corrected_Master_Inventory_v2.0-FROZEN` as the **single source of truth**, build the **actual QA test matrix** for WebWaka.
+
+This is now the **test design phase**, not discovery, not remediation, and not inventory expansion. The inventory is frozen. Do not reopen scope unless you discover a direct contradiction with the frozen baseline, and if so, flag it explicitly instead of silently changing scope.
+
+## Objective
+
+Convert the frozen inventory into a complete, structured, and traceable QA matrix that maps:
+- requirements,
+- modules,
+- apps,
+- roles,
+- workflows,
+- screens,
+- states,
+- and high-risk flows
+
+to:
+- test scenarios,
+- test cases,
+- test steps,
+- expected results,
+- priority,
+- risk,
+- and evidence source.
+
+The matrix must be strong enough to drive execution across manual QA, regression, smoke, role-based access, and high-risk functional testing.
+
+***
+
+## What to produce
+
+Create a **WebWaka QA Test Matrix** with the following deliverables:
+
+### 1. Requirement-to-test traceability matrix
+For every frozen inventory item that needs verification, assign:
+- unique requirement ID,
+- source section in the frozen inventory,
+- feature/module/app,
+- user role,
+- workflow or screen,
+- risk level,
+- test coverage type,
+- test case ID(s),
+- evidence source(s).
+
+### 2. Test case catalog
+For each test case, include:
+- test case ID,
+- title,
+- objective,
+- preconditions,
+- steps,
+- test data,
+- expected result,
+- priority,
+- platform area,
+- role,
+- linked requirement ID(s),
+- linked evidence source(s),
+- test type: functional, negative, permission, state, regression, smoke, integration, UX, accessibility, or compliance.
+
+### 3. Scenario coverage map
+Create coverage by:
+- app,
+- vertical,
+- user role,
+- workflow,
+- state machine,
+- and high-risk feature.
+
+Show clearly:
+- covered,
+- partially covered,
+- deferred,
+- or out-of-scope.
+
+### 4. High-risk flow suite
+Build dedicated test sections for the highest-risk flows, including at minimum:
+- bank transfer payment flow,
+- notification inbox,
+- onboarding checklist,
+- support tickets,
+- B2B marketplace,
+- negotiation engine,
+- brand-runtime shop/checkout,
+- tenant-public worker,
+- template marketplace,
+- profile visibility,
+- billing enforcement middleware,
+- workspace analytics,
+- platform analytics,
+- FX rates / dual-currency,
+- USSD submenu depth,
+- hire-purchase,
+- notificator schedules,
+- wallet flows,
+- AI consent and HITL flows,
+- partner/sub-partner flows,
+- claim and FSM flows,
+- POS business flows,
+- auth/session flows,
+- PWA/offline sync flows.
+
+### 5. Role-based matrix
+For each major role, define test coverage:
+- super_admin,
+- partner,
+- sub-partner,
+- tenant owner/admin,
+- manager,
+- cashier,
+- agent,
+- member,
+- authenticated end user,
+- public user,
+- USSD user.
+
+Show what each role can:
+- view,
+- create,
+- edit,
+- approve,
+- reject,
+- delete,
+- export,
+- search,
+- and access/deny.
+
+### 6. State and lifecycle matrix
+Create explicit test coverage for every key state machine and lifecycle path, including:
+- claims,
+- tenants,
+- partner status,
+- subscriptions,
+- KYC,
+- wallets,
+- onboarding,
+- inbox notifications,
+- support tickets,
+- bank transfer orders,
+- B2B marketplace RFQ/bid/PO/invoice,
+- negotiation sessions,
+- vertical lifecycle,
+- and any other verified FSM.
+
+Include:
+- valid transitions,
+- invalid transitions,
+- terminal states,
+- recovery states,
+- and permission-gated transitions.
+
+### 7. Negative and edge-case suite
+Include tests for:
+- invalid permissions,
+- expired tokens,
+- missing entitlements,
+- malformed input,
+- duplicate submissions,
+- replay protection,
+- rate limits,
+- empty states,
+- loading states,
+- timeout/failure states,
+- offline/reconnect behavior,
+- cross-tenant access attempts,
+- and currency/precision edge cases.
+
+### 8. Compliance and governance suite
+Include targeted tests for:
+- NDPR,
+- KYC,
+- billing enforcement,
+- AI consent,
+- HITL gating,
+- payment workflow compliance,
+- subscription gating,
+- tenant isolation,
+- audit logging,
+- and governance-blocked items like USDT precision.
+
+***
+
+## Required structure
+
+Use the following format:
+
+### A. Executive summary
+Briefly describe:
+- total requirements covered,
+- total test cases generated,
+- total scenarios,
+- coverage by app and role,
+- and any intentionally deferred items.
+
+### B. Traceability matrix
+A table with columns:
+- Requirement ID
+- Frozen inventory reference
+- App/module
+- Role
+- Workflow/state
+- Risk
+- Test case ID(s)
+- Coverage status
+- Evidence source
+
+### C. Test case tables
+Organize test cases by domain:
+- auth and identity,
+- workspace app,
+- POS and commerce,
+- brand-runtime,
+- public-discovery,
+- partner-admin,
+- platform-admin,
+- admin-dashboard,
+- USSD,
+- notifications,
+- billing and wallet,
+- AI and consent,
+- marketplace and negotiation,
+- analytics,
+- compliance and governance,
+- offline/PWA.
+
+### D. Coverage gaps
+List any requirement from the frozen inventory that could not yet be converted into at least one test case, and explain why.
+
+### E. Execution priorities
+Rank the test suites in this order:
+1. critical financial/compliance flows,
+2. role/permission and tenant isolation,
+3. core user journeys,
+4. edge and negative cases,
+5. UX/accessibility and less risky flows.
+
+### F. Test data appendix
+Define reusable test data for:
+- users,
+- tenants,
+- partners,
+- wallets,
+- products,
+- offerings,
+- RFQs,
+- bids,
+- notifications,
+- KYC states,
+- subscription tiers,
+- and USSD sessions.
+
+***
+
+## Strict rules
+
+- Do not modify the frozen inventory.
+- Do not re-discover platform scope.
+- Do not invent new features or scenarios.
+- Every test case must trace back to a frozen inventory item.
+- Every requirement should map to one or more tests.
+- Prefer one requirement → multiple tests over one generic test covering too much.
+- Mark any item that cannot yet be tested as:
+  - blocked,
+  - deferred,
+  - or out-of-scope.
+- Do not create a superficial checklist. This must be a real QA matrix with traceability.
+- Include negative tests, permission tests, and state-transition tests for every major flow.
+- Be exhaustive on high-risk and compliance areas.
+- Preserve the frozen baseline identifiers exactly as written.
+
+***
+
+## Success standard
+
+I need a QA matrix that answers:
+- What must be tested?
+- Why does it exist?
+- Which requirement does it validate?
+- Which role or workflow does it cover?
+- What evidence supports it?
+- What is the priority?
+
+The result should be detailed enough for the QA team to execute without needing to reinterpret the inventory.
