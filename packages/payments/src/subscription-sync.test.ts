@@ -39,6 +39,7 @@ describe('syncPaymentToSubscription', () => {
     const db = makeDb({});
     const result = await syncPaymentToSubscription(db, {
       workspaceId: 'wsp_test',
+      tenantId: 'ten_test001',
       paystackRef: 'ref_test001',
       amountKobo: 5000_00,
       metadata: { plan: 'starter' },
@@ -52,6 +53,7 @@ describe('syncPaymentToSubscription', () => {
     const db = makeDb({});
     const result = await syncPaymentToSubscription(db, {
       workspaceId: 'wsp_infer',
+      tenantId: 'ten_test001',
       paystackRef: 'ref_infer',
       amountKobo: 20_000_00,
       metadata: {},
@@ -64,6 +66,7 @@ describe('syncPaymentToSubscription', () => {
     const db = makeDb({});
     const result = await syncPaymentToSubscription(db, {
       workspaceId: 'wsp_ent',
+      tenantId: 'ten_test001',
       paystackRef: 'ref_ent',
       amountKobo: 100_000_00,
       metadata: {},
@@ -76,6 +79,7 @@ describe('syncPaymentToSubscription', () => {
     const db = makeDb({});
     const result = await syncPaymentToSubscription(db, {
       workspaceId: 'wsp_free',
+      tenantId: 'ten_test001',
       paystackRef: 'ref_free',
       amountKobo: 100,
       metadata: {},
@@ -88,6 +92,7 @@ describe('syncPaymentToSubscription', () => {
     const db = makeDb({});
     const result = await syncPaymentToSubscription(db, {
       workspaceId: 'wsp_override',
+      tenantId: 'ten_test001',
       paystackRef: 'ref_override',
       amountKobo: 100,
       metadata: { plan: 'enterprise' },
