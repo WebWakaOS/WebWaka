@@ -145,10 +145,153 @@ jobs:
           SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
           SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
 
+  # ── Deploy remaining workers (parallel, independent of API secrets sync) ────
+  deploy-workers-staging:
+    name: Deploy ${{ matrix.app }} (Staging)
+    needs: migrate-staging
+    runs-on: ubuntu-latest
+    environment: staging
+    strategy:
+      matrix:
+        app:
+          - public-discovery
+          - brand-runtime
+          - notificator
+          - partner-admin
+          - projections
+          - tenant-public
+          - ussd-gateway
+          - admin-dashboard
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Deploy ${{ matrix.app }} to Cloudflare Workers (staging)
+        run: |
+          cd apps/${{ matrix.app }}
+          npx wrangler deploy --env staging
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  # ── QA Seed Data ────────────────────────────────────────────────────────────
+  seed-staging:
+    name: QA Seed Data (Staging)
+    needs: [deploy-api-staging, deploy-workers-staging]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Seed phase 1 — Users
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-1-users.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 2 — Tenants
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-2-tenants.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 3 — Partners
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-3-partners.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 4 — Financial
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-4-financial.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 5 — Offerings
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-5-offerings.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 6 — Notifications
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-6-notifications.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 7 — FX Rates
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-7-fx-rates.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 8 — USSD Sessions
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-8-ussd-sessions.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  # ── QA Gate — Playwright Cycles 01–08 ──────────────────────────────────────
+  # Cycle 09 (visual regression) is excluded from CI: it requires snapshot
+  # baselines committed to the repo; run pnpm test:cycle-09 locally after
+  # running `pnpm test:visual:update` to establish the baseline.
+  qa-gate-staging:
+    name: QA Gate — Cycles 01–08 (Staging)
+    needs: seed-staging
+    runs-on: ubuntu-latest
+    env:
+      API_BASE_URL: https://api-staging.webwaka.com
+      DISCOVERY_BASE_URL: ${{ vars.STAGING_DISCOVERY_URL }}
+      E2E_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
+      E2E_API_KEY: ${{ secrets.SMOKE_API_KEY }}
+      E2E_WORKSPACE_ID: ${{ vars.SMOKE_WORKSPACE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install chromium --with-deps
+      - name: Cycle 01 — Smoke
+        run: pnpm test:cycle-01
+      - name: Cycle 02 — Critical Path (tenant isolation, JWT/CSRF, payments, compliance invariants, HITL, MON-04 limits)
+        run: pnpm test:cycle-02
+      - name: Cycle 03 — Role / Permission Matrix
+        run: pnpm test:cycle-03
+      - name: Cycle 04 — Full Compliance Suite (CBN, NDPR, INEC, FIRS, NBA, BPP)
+        run: pnpm test:cycle-04
+      - name: Cycle 05 — Payments / Wallet Lifecycle (bank transfer FSM, wallet HITL)
+        run: pnpm test:cycle-05
+      - name: Cycle 06 — B2B Marketplace / Negotiation
+        run: pnpm test:cycle-06
+      - name: Cycle 07 — USSD Full Tree
+        run: pnpm test:cycle-07
+      - name: Cycle 08 — Analytics / Projections
+        run: pnpm test:cycle-08
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-staging-${{ github.sha }}
+          path: tests/e2e/reports/
+          retention-days: 30
+
   # ── Summary ────────────────────────────────────────────────────────────────
   notify-success:
     name: Notify Success
-    needs: [smoke-test-staging]
+    needs: [smoke-test-staging, qa-gate-staging]
     runs-on: ubuntu-latest
     if: success()
     steps:
@@ -162,3 +305,4 @@ jobs:
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **Triggered by** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **QA Gate** | Cycles 01–08 passed ✅ |" >> $GITHUB_STEP_SUMMARY
