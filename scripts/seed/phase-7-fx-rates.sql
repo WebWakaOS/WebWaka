@@ -1,4 +1,3 @@
-PRAGMA foreign_keys = OFF;
 
 -- WebWaka OS QA Seed — Phase 7: FX Rates
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 7
@@ -91,4 +90,3 @@ INSERT OR IGNORE INTO fx_rates (
 -- FROM fx_rates
 -- WHERE id LIKE 'a0000000%';
 
-PRAGMA foreign_keys = ON;
