@@ -136,6 +136,11 @@ export interface Profile extends BaseEntity {
   readonly publicationState: PublicationState;
   /** Primary place this profile is indexed under for discovery. */
   readonly primaryPlaceId: PlaceId | null;
+  /**
+   * Owning tenant. Null for platform-seeded profiles that have no workspace owner yet.
+   * Required by discovery routes to pass through to entity repositories (BUG-DIS-02).
+   */
+  readonly tenantId: TenantId | null;
 }
 
 // ---------------------------------------------------------------------------
