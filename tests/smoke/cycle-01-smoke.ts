@@ -195,7 +195,7 @@ await check('TC-PA001', 'GET /admin/analytics route exists and enforces super_ad
 
 // Platform admin health check (port 5000) — only meaningful in dev environment
 // In CI, platform-admin static server is not running; skip gracefully
-if (PLATFORM_ADMIN_BASE && PLATFORM_ADMIN_BASE.startsWith('http://localhost')) {
+if (!process.env['CI']) { // Skip platform-admin localhost check in CI (GitHub Actions sets CI=true)
   await check('TC-PA001', 'Platform admin /health returns ok (port 5000)', async () => {
     const res = await fetch(`${PLATFORM_ADMIN_BASE}/health`);
     assert(res.status === 200, `Platform admin /health returned ${res.status}`);
