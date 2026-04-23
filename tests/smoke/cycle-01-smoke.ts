@@ -32,16 +32,16 @@
  *   npx tsx tests/smoke/cycle-01-smoke.ts
  */
 
-const BASE = process.env['SMOKE_BASE_URL'] ?? process.env['BASE_URL'] ?? 'http://localhost:8787';
-const API_KEY = process.env['SMOKE_API_KEY'];
+const BASE = process.env['SMOKE_BASE_URL'] ?? process.env['API_BASE_URL'] ?? process.env['BASE_URL'] ?? 'http://localhost:8787';
+const API_KEY = process.env['SMOKE_API_KEY'] ?? process.env['E2E_API_KEY'];
 const JWT = process.env['SMOKE_JWT'];
-const TENANT = process.env['SMOKE_TENANT_ID'] ?? '10000000-0000-4000-b000-000000000001';
+const TENANT = process.env['SMOKE_TENANT_ID'] ?? process.env['E2E_TENANT_ID'] ?? '10000000-0000-4000-b000-000000000001';
 const DISCOVERY_BASE = process.env['DISCOVERY_BASE_URL'] ?? 'http://localhost:8788';
 const PLATFORM_ADMIN_BASE = process.env['PLATFORM_ADMIN_URL'] ?? 'http://localhost:5000';
 const INTER_SERVICE_SECRET = process.env['INTER_SERVICE_SECRET'];
 
 if (!API_KEY) {
-  console.error('[CYCLE-01] FATAL: SMOKE_API_KEY is not set. Exiting.');
+  console.error('[CYCLE-01] FATAL: SMOKE_API_KEY (or E2E_API_KEY) is not set. Exiting.');
   process.exit(1);
 }
 
