@@ -1455,7 +1455,6 @@ walletAdminRoutes.post('/withdrawals/:id/confirm', async (c) => {
     return c.json({ error: 'provider_ref is required (bank transaction ID)' }, 400);
   }
 
-  const kv = getWalletKv(c.env);
   const wr = await (c.env.DB as never as {
     prepare(sql: string): { bind(...a: unknown[]): { first<T>(): Promise<T | null> }};
   }).prepare(`SELECT tenant_id FROM hl_withdrawal_requests WHERE id = ? LIMIT 1`)
@@ -1516,7 +1515,6 @@ walletAdminRoutes.post('/withdrawals/:id/reject', async (c) => {
 
   if (!wr) return c.json({ error: 'WITHDRAWAL_NOT_FOUND' }, 404);
 
-  const kv = getWalletKv(c.env);
   try {
     const withdrawal = await rejectWithdrawal(c.env.DB as never, id, wr.tenant_id, body.reason);
 
