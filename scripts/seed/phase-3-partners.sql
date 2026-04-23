@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = OFF;
+
 -- WebWaka OS QA Seed — Phase 3: Partners
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 3
 -- Frozen baseline: WebWaka_OS_Corrected_Master_Inventory_v2.0-FROZEN
@@ -50,3 +52,5 @@ INSERT OR IGNORE INTO sub_partners (
   datetime('now'),
   datetime('now')
 );
+
+PRAGMA foreign_keys = ON;
