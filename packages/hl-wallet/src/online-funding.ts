@@ -120,7 +120,8 @@ export async function initializeOnlineFunding(
     throw new WalletError('PAYSTACK_ERROR', { upstream_error: errText });
   }
 
-  const paystackData = await paystackRes.json() as {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const paystackData = await paystackRes.json() as unknown as {
     status: boolean;
     message: string;
     data?: { authorization_url: string; reference: string; access_code: string };
@@ -184,7 +185,8 @@ export async function verifyAndCompleteOnlineFunding(
     throw new WalletError('PAYSTACK_ERROR', {}, 'Failed to verify payment with Paystack.');
   }
 
-  const data = await paystackRes.json() as {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const data = await paystackRes.json() as unknown as {
     status: boolean;
     data?: { status: string; amount: number; reference: string };
   };
@@ -202,7 +204,7 @@ export async function verifyAndCompleteOnlineFunding(
   }
 
   if (order.status === 'confirmed') {
-    return { status: 'already_funded', amountKobo: data.data!.amount };
+    return { status: 'already_funded', amountKobo: data.data.amount };
   }
 
   const fundingReq = await db.prepare(`
@@ -214,7 +216,7 @@ export async function verifyAndCompleteOnlineFunding(
   }
 
   await confirmFunding(db as never, kv, fundingReq.id, tenantId, confirmedBy);
-  return { status: 'funded', amountKobo: data.data!.amount };
+  return { status: 'funded', amountKobo: data.data.amount };
 }
 
 /**
