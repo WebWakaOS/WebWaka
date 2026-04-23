@@ -155,30 +155,40 @@ async function refundFloat(
   reference: string,
   tenantId: string,
 ): Promise<void> {
-  const wallet = await db
-    .prepare(`SELECT id, balance_kobo FROM agent_wallets WHERE agent_id = ? AND tenant_id = ? LIMIT 1`)
-    .bind(agentId, tenantId)
-    .first<{ id: string; balance_kobo: number }>();
-
-  if (!wallet) return; // Wallet missing — nothing to refund
-
-  const now = Math.floor(Date.now() / 1000);
-  const newBalance = wallet.balance_kobo + amountKobo;
-
-  await db
-    .prepare(`UPDATE agent_wallets SET balance_kobo = balance_kobo + ?, updated_at = ? WHERE id = ?`)
-    .bind(amountKobo, now, wallet.id)
-    .run();
-
+  // BUG-REFUND-01: previous implementation had a TOCTOU race — it read the
+  // wallet balance with a SELECT, computed newBalance in JS, then ran two
+  // separate statements (UPDATE + INSERT).  If concurrent writes occurred
+  // between the SELECT and the UPDATE the running_balance_kobo column would
+  // record a stale value.  Additionally, the UPDATE and INSERT were not
+  // atomic; a Worker eviction between them would leave the wallet credited
+  // but with no ledger entry.
+  //
+  // Fix: single CTE statement — the UPDATE RETURNING feeds the INSERT, so
+  // both are committed atomically by SQLite/D1.  running_balance_kobo is
+  // computed by the database engine, not by stale JS arithmetic.
   const entryId = `fle_${crypto.randomUUID()}`;
-  await db
+  const { results } = await db
     .prepare(
-      `INSERT INTO float_ledger
+      `WITH wallet_update AS (
+         UPDATE agent_wallets
+            SET balance_kobo = balance_kobo + ?,
+                updated_at   = unixepoch()
+          WHERE agent_id = ? AND tenant_id = ?
+          RETURNING id, balance_kobo
+       )
+       INSERT INTO float_ledger
          (id, wallet_id, amount_kobo, running_balance_kobo, transaction_type, reference, created_at)
-       VALUES (?, ?, ?, ?, 'cash_in', ?, ?)`,
+       SELECT ?, id, ?, balance_kobo, 'cash_in', ?, unixepoch()
+       FROM wallet_update
+       RETURNING wallet_id`,
     )
-    .bind(entryId, wallet.id, amountKobo, newBalance, reference, now)
-    .run();
+    .bind(amountKobo, agentId, tenantId, entryId, amountKobo, reference)
+    .all<{ wallet_id: string }>();
+
+  if (results.length === 0) {
+    // Wallet not found — nothing to refund; log for reconciliation.
+    console.warn(`[airtime/refundFloat] wallet not found for agent=${agentId} tenant=${tenantId}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -247,6 +257,12 @@ airtimeRoutes.post('/topup', async (c) => {
   const db = c.env.DB as unknown as D1Like;
   const termiiRef = `airtime_${crypto.randomUUID()}`;
 
+  // BUG-RATE-01: Increment rate-limit counter HERE (before the external call)
+  // so that concurrent requests that all read count=0 cannot simultaneously bypass
+  // the limit.  The counter is incremented even for failed Termii calls — the
+  // user attempted the operation, which counts toward their limit.
+  await c.env.RATE_LIMIT_KV.put(rateLimitKey, String(count + 1), { expirationTtl: 3600 });
+
   // Step 1: Atomically deduct from float BEFORE calling Termii.
   // This ensures we can NEVER deliver airtime without a successful ledger deduction.
   // deductFromFloat uses a conditional UPDATE (WHERE balance_kobo >= amount) — concurrent
@@ -314,9 +330,6 @@ airtimeRoutes.post('/topup', async (c) => {
     });
     return c.json({ error: 'provider_error', message: msg }, 502);
   }
-
-  // Increment rate limit counter (1 hour TTL)
-  await c.env.RATE_LIMIT_KV.put(rateLimitKey, String(count + 1), { expirationTtl: 3600 });
 
   // N-094: airtime.purchase_completed event
   void publishEvent(c.env, {

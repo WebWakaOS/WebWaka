@@ -42,8 +42,23 @@ function normaliseKeywords(name: string): string {
     .trim();
 }
 
-function generateSearchId(): string {
-  return `srch_${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
+/**
+ * BUG-SRCH-01 fix: generate a DETERMINISTIC search entry ID from the entity
+ * type and entity ID so that repeated calls to indexIndividual / indexOrganization /
+ * indexOffering always resolve to the same primary-key value.
+ *
+ * Previous behaviour: generateSearchId() returned a random UUID on every call.
+ * Because `INSERT OR REPLACE` resolves conflicts via the PRIMARY KEY, a new
+ * random PK never conflicts with the existing row, so every re-index call
+ * INSERTED a duplicate row rather than replacing the existing one.
+ *
+ * With a deterministic ID, the second call correctly triggers the REPLACE path
+ * and keeps exactly one search entry per entity.
+ */
+function searchEntryId(entityType: string, entityId: string): string {
+  // Use a stable prefix + a slug derived from entity type and ID.
+  // IDs are already short UUIDs; this stays well within D1 key limits.
+  return `srch_${entityType}_${entityId}`;
 }
 
 async function getAncestryPath(db: D1Like, placeId: string | null | undefined): Promise<string[]> {
@@ -68,7 +83,7 @@ export async function indexIndividual(
 ): Promise<void> {
   const ancestryPath = await getAncestryPath(db, individual.placeId);
   const keywords = normaliseKeywords(individual.name);
-  const id = generateSearchId();
+  const id = searchEntryId('individual', individual.id);
 
   await db
     .prepare(
@@ -95,7 +110,7 @@ export async function indexOrganization(
 ): Promise<void> {
   const ancestryPath = await getAncestryPath(db, org.placeId);
   const keywords = normaliseKeywords(org.name);
-  const id = generateSearchId();
+  const id = searchEntryId('organization', org.id);
 
   await db
     .prepare(
@@ -156,7 +171,7 @@ export async function indexOffering(
   const keywords = normaliseKeywords(
     [offering.name, offering.description ?? '', offering.category ?? ''].join(' '),
   );
-  const id = generateSearchId();
+  const id = searchEntryId('offering', offering.id);
 
   await db
     .prepare(

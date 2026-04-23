@@ -334,9 +334,24 @@ contactRoutes.put('/preferences', async (c) => {
   const body = await c.req.json<{ otp_preference?: OTPPreference; notification_preference?: NotificationPreference }>().catch(() => null);
   if (!body) return c.json({ error: 'Invalid request body.' }, 400);
 
+  // BUG-PREF-01: Validate enum values before persisting to the DB.
+  const VALID_OTP: OTPPreference[] = ['sms', 'whatsapp', 'telegram'];
+  const VALID_NOTIFY: NotificationPreference[] = ['sms', 'whatsapp', 'telegram', 'email'];
+
+  if (body.otp_preference !== undefined && !VALID_OTP.includes(body.otp_preference)) {
+    return c.json({ error: 'Invalid otp_preference. Must be one of: sms, whatsapp, telegram.' }, 400);
+  }
+  if (body.notification_preference !== undefined && !VALID_NOTIFY.includes(body.notification_preference)) {
+    return c.json({ error: 'Invalid notification_preference. Must be one of: sms, whatsapp, telegram, email.' }, 400);
+  }
+
   const db = c.env.DB as unknown as D1Like;
   const now = Math.floor(Date.now() / 1000);
 
+  // BUG-PREF-02: Passing `?? 'sms'` default meant a partial update (only one field
+  // provided) would silently reset the other to 'sms' — the COALESCE(excluded.x, x)
+  // guard only preserves the existing value when excluded.x is NULL.  Pass NULL for
+  // omitted fields so COALESCE correctly keeps whatever is already stored.
   await db.prepare(
     `INSERT INTO contact_preferences (user_id, tenant_id, otp_preference, notification_preference, updated_at)
      VALUES (?, ?, ?, ?, ?)
@@ -347,8 +362,8 @@ contactRoutes.put('/preferences', async (c) => {
   ).bind(
     auth.userId,
     auth.tenantId,
-    body.otp_preference ?? 'sms',
-    body.notification_preference ?? 'sms',
+    body.otp_preference ?? null,
+    body.notification_preference ?? null,
     now,
   ).run();
 

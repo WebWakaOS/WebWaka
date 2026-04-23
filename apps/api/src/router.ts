@@ -225,6 +225,10 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/identity/*', auditLogMiddleware);
   app.use('/identity/verify-bvn', identityRateLimit);
   app.use('/identity/verify-nin', identityRateLimit);
+  // BUG-RATE-02: CAC and FRSC lookups hit paid external APIs — apply the same
+  // rate limit (R5 pattern) that BVN/NIN already have to prevent abuse.
+  app.use('/identity/verify-cac', identityRateLimit);
+  app.use('/identity/verify-frsc', identityRateLimit);
   app.route('/identity', identityRoutes);
 
   // -------------------------------------------------------------------------

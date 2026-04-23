@@ -100,6 +100,22 @@ export async function verifyJwt(token: string, secret: string): Promise<JwtPaylo
   const [headerB64, payloadB64, signatureB64] = parts as [string, string, string];
   const signingInput = `${headerB64}.${payloadB64}`;
 
+  // SEC-JWT-01: Validate the algorithm header BEFORE signature verification to prevent
+  // algorithm-confusion attacks (e.g. alg:none or unexpected RS256 with a public-key secret).
+  try {
+    const headerPadded = headerB64.replace(/-/g, '+').replace(/_/g, '/');
+    const headerJson = atob(headerPadded);
+    const header = JSON.parse(headerJson) as Record<string, unknown>;
+    if (header['alg'] !== 'HS256') {
+      throw new JwtValidationError(
+        `JWT algorithm mismatch: expected 'HS256', got '${String(header['alg'])}'`,
+      );
+    }
+  } catch (e) {
+    if (e instanceof JwtValidationError) throw e;
+    throw new JwtValidationError('Malformed JWT: cannot decode header');
+  }
+
   // Import key
   const encoder = new TextEncoder();
   const keyData = encoder.encode(secret);

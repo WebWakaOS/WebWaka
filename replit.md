@@ -867,3 +867,31 @@ Four bugs identified and fixed after initial implementation:
 - Workers code deployed to **staging** (`api-staging.webwaka.com`) — Version `8797bf34-965a-4f25-902d-5e36ef7b9ae2`.
 - Workers code deployed to **production** (`api.webwaka.com`) — Version `fc6580c4-7801-43a1-8e09-b4a42b9aee5d`.
 - Smoke test: `/health` → 200 on both. New platform-admin routes return 401 as expected without JWT on both environments.
+
+---
+
+### Round 3 Audit Bug Fixes (2026-04-23)
+
+Ten bugs found and fixed across security, data integrity, and correctness categories:
+
+1. **SEC-JWT-01 — JWT algorithm confusion attack** (`packages/auth/src/jwt.ts`): `verifyJwt` did not inspect the JWT header before cryptographic verification. An attacker could craft a token with `alg: "none"` or `alg: "RS256"` and bypass HMAC verification on vulnerable libraries. Fix: decode and assert `alg === 'HS256'` from the header segment before calling `crypto.subtle.verify`.
+
+2. **BUG-SRCH-01 — Duplicate search entries accumulate on re-index** (`apps/api/src/lib/search-index.ts`): `indexIndividual`, `indexOrganization`, and `indexOffering` used `generateSearchId()` to produce a new random UUID on every call. Because `INSERT OR REPLACE` resolves conflicts via the PRIMARY KEY, a fresh random PK never matched any existing row — every re-index silently inserted a duplicate. Fix: replaced `generateSearchId()` with `searchEntryId(entityType, entityId)` which returns a stable deterministic key (`srch_<type>_<id>`), so `INSERT OR REPLACE` correctly finds and replaces the existing row.
+
+3. **BUG-PLACE-01 — JSON.parse crash in rowToPlace** (`packages/entities/src/repository/places.ts`): `ancestry_path` was parsed without a try-catch. A NULL or malformed JSON value in the DB would crash the entire request. Fix: wrapped `JSON.parse` in try-catch with an empty-array fallback.
+
+4. **BUG-PREF-01 — Preferences enum not validated** (`apps/api/src/routes/contact.ts`): `PUT /contact/preferences` accepted any string for `otp_preference` and `notification_preference`. Fix: added explicit allowlist validation — `otp_preference` must be `sms|whatsapp|telegram`; `notification_preference` must be `sms|whatsapp|telegram|email`.
+
+5. **BUG-PREF-02 — Preferences partial update silently resets other field** (`apps/api/src/routes/contact.ts`): The `COALESCE(excluded.x, x)` upsert guard only works when `excluded.x` is NULL, but the code used `body.otp_preference ?? 'sms'` which always produced a non-null string. A request with only `notification_preference` would reset `otp_preference` to `'sms'`. Fix: changed both bindings to `?? null` so COALESCE correctly preserves the existing value.
+
+6. **SEC-SESS-01 — Active sessions not invalidated after password change** (`apps/api/src/routes/auth-routes.ts`): `POST /auth/change-password` updated the password hash but did not revoke existing sessions. A stolen session token would remain valid. Fix: added `DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)` after the password update.
+
+7. **SEC-SESS-02 — Active sessions not invalidated after password reset** (`apps/api/src/routes/auth-routes.ts`): Same gap in `POST /auth/reset-password`. Fix: added `DELETE FROM sessions WHERE user_id = ?` (cross-tenant, since reset has no auth context) after the password update.
+
+8. **BUG-LEDGER-01 — postLedgerEntry wallet update and ledger INSERT not atomic** (`packages/pos/src/float-ledger.ts`): Two separate D1 round-trips (UPDATE RETURNING → INSERT) meant a Worker eviction between them would decrement the wallet balance with no ledger record. Fix: merged both operations into a single CTE statement — `WITH wallet_update AS (UPDATE ... RETURNING balance_kobo) INSERT INTO float_ledger ... SELECT ... FROM wallet_update RETURNING running_balance_kobo`. Also updated the D1BoundStmt interface to expose `meta.changes`.
+
+9. **BUG-REFUND-01 — refundFloat has TOCTOU race and non-atomic writes** (`apps/api/src/routes/airtime.ts`): The compensating refund function did a separate SELECT to read the current balance, computed `newBalance` in JS (stale if concurrent writes occurred), then ran UPDATE and INSERT as separate statements. Fix: replaced with the same single-CTE pattern — `WITH wallet_update AS (UPDATE ... RETURNING id, balance_kobo) INSERT INTO float_ledger ... SELECT ... FROM wallet_update`.
+
+10. **BUG-RATE-01 — Airtime rate limit counter incremented after provider call** (`apps/api/src/routes/airtime.ts`): The rate-limit counter was written only after a successful Termii response. Concurrent requests that all read `count=0` could all proceed simultaneously. Fix: moved the counter write (`RATE_LIMIT_KV.put`) to before the float deduction and Termii call, so the slot is consumed on attempt (not on success).
+
+**Bonus** — **BUG-RATE-02 — CAC/FRSC identity routes missing rate limit** (`apps/api/src/router.ts`): `/identity/verify-bvn` and `/identity/verify-nin` were rate-limited but `/identity/verify-cac` and `/identity/verify-frsc` were not, despite hitting paid Prembly APIs. Fix: added `identityRateLimit` middleware for both CAC and FRSC routes.

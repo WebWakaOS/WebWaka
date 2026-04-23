@@ -37,13 +37,23 @@ interface PlaceRow {
 }
 
 function rowToPlace(row: PlaceRow): Place {
+  // BUG-PLACE-01: JSON.parse(row.ancestry_path) throws if the column is NULL or
+  // contains malformed JSON, crashing the entire request.  Guard with try/catch
+  // and fall back to an empty path so a single bad row does not break the API.
+  let ancestryPath: PlaceId[] = [];
+  try {
+    ancestryPath = (JSON.parse(row.ancestry_path) as string[]).map((p) => p as PlaceId);
+  } catch {
+    ancestryPath = [];
+  }
+
   return {
     id: row.id as PlaceId,
     name: row.name,
     geographyType: row.geography_type as GeographyType,
     level: row.level as GeographyLevel,
     parentId: row.parent_id ? (row.parent_id as PlaceId) : undefined,
-    ancestryPath: (JSON.parse(row.ancestry_path) as string[]).map((p) => p as PlaceId),
+    ancestryPath,
     tenantId: row.tenant_id as TenantId | undefined,
     createdAt: row.created_at,
   } as unknown as Place;

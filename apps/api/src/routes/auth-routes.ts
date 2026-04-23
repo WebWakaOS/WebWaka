@@ -696,6 +696,16 @@ authRoutes.post('/reset-password', async (c) => {
     // Deletion failure is non-critical — token TTL will expire it
   }
 
+  // SEC-SESS-02: Invalidate all active sessions after a password reset so that
+  // any sessions established before the reset can no longer be used.
+  try {
+    await c.env.DB.prepare(
+      `DELETE FROM sessions WHERE user_id = ?`,
+    ).bind(userId).run();
+  } catch {
+    console.warn('[reset-password] Failed to invalidate sessions for user', userId);
+  }
+
   // N-080: auth.user.password_changed event for completed password reset
   const resetUserRow = await c.env.DB.prepare(
     'SELECT tenant_id, workspace_id FROM users WHERE id = ? LIMIT 1',
@@ -891,6 +901,17 @@ authRoutes.post('/change-password', async (c) => {
   await c.env.DB.prepare(
     `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
   ).bind(newHash, auth.userId, auth.tenantId).run();
+
+  // SEC-SESS-01: Invalidate all active sessions after a password change so that
+  // any stolen token cannot be used past this point.  Non-blocking — failure is
+  // logged but does not prevent returning success to the caller.
+  try {
+    await c.env.DB.prepare(
+      `DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
+    ).bind(auth.userId, auth.tenantId).run();
+  } catch {
+    console.warn('[change-password] Failed to invalidate sessions for user', auth.userId);
+  }
 
   // N-080: auth.user.password_changed event
   void publishEvent(c.env, {
