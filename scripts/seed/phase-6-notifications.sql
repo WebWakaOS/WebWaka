@@ -1,4 +1,3 @@
-PRAGMA foreign_keys = OFF;
 
 -- WebWaka OS QA Seed — Phase 6: Notifications
 -- Source: WebWaka_OS_QA_Execution_Plan.md v1.0 §3.1 Phase 6
@@ -159,4 +158,3 @@ INSERT OR IGNORE INTO notification_template (
   strftime('%s','now'), strftime('%s','now')
 );
 
-PRAGMA foreign_keys = ON;
