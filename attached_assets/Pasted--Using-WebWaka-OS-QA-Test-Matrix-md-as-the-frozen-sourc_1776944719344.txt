@@ -1,0 +1,102 @@
+
+Using `WebWaka_OS_QA_Test_Matrix.md` as the frozen source of truth, convert the QA matrix into an **execution-ready QA test plan** for WebWaka.
+
+Do not rediscover scope, do not modify the frozen inventory, and do not rewrite the test matrix from scratch. Your task is to operationalize the existing matrix into test execution workstreams.
+
+### Objective
+
+Turn the matrix into a practical QA plan that defines:
+- test cycles,
+- execution order,
+- smoke/regression packs,
+- release gates,
+- ownership,
+- environment needs,
+- test data needs,
+- automation candidates,
+- and defect triage priorities.
+
+### Required deliverables
+
+1. **Test cycle plan**
+   Break the matrix into named cycles such as:
+   - smoke,
+   - critical path,
+   - role/permission,
+   - compliance,
+   - payments/wallet,
+   - marketplace/negotiation,
+   - offline/PWA,
+   - analytics,
+   - full regression.
+
+2. **Execution priority map**
+   Rank all test cases by:
+   - business risk,
+   - dependency order,
+   - compliance impact,
+   - financial impact,
+   - and user-facing criticality.
+
+3. **Release gate criteria**
+   Define pass/fail gates for:
+   - feature release,
+   - tenant rollout,
+   - partner rollout,
+   - payment-related changes,
+   - compliance-sensitive changes,
+   - and major platform releases.
+
+4. **Environment and data plan**
+   Specify:
+   - required environments,
+   - seed data sets,
+   - user roles,
+   - tenant types,
+   - wallets,
+   - orders,
+   - RFQs,
+   - notifications,
+   - KYC states,
+   - and USSD sessions.
+
+5. **Manual vs automation split**
+   For each test area, classify:
+   - manual-only,
+   - good automation candidate,
+   - high-value regression candidate,
+   - or should remain exploratory.
+
+6. **Defect triage map**
+   Define how defects should be categorized by:
+   - severity,
+   - business impact,
+   - compliance risk,
+   - tenant isolation risk,
+   - payment risk,
+   - and release-blocker status.
+
+7. **Coverage sanity check**
+   Confirm the QA matrix still covers:
+   - all 11 apps,
+   - all 11 roles,
+   - all high-risk flows,
+   - all major FSMs,
+   - all compliance areas,
+   - and the governance-blocked D11 item as non-blocking.
+
+### Rules
+
+- Do not change the frozen inventory.
+- Do not change the QA matrix unless you find a direct contradiction.
+- Do not invent new scope.
+- Keep the plan grounded in the existing matrix IDs.
+- Be practical: this must help a QA team actually run the work.
+
+### Success criteria
+
+The output should let QA immediately answer:
+- what to test first,
+- what requires the most caution,
+- what can be automated,
+- and what constitutes release readiness.
