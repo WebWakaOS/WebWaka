@@ -271,7 +271,7 @@ describe('P4-C: indexOffering — Pillar 1 → search index sync', () => {
   it('removeOfferingFromIndex calls DELETE with offering entity_type', async () => {
     const runSpy = vi.fn().mockResolvedValue({ success: true });
     const db = makeIndexDB({ runSpy });
-    await removeOfferingFromIndex(db, 'off_to_delete');
+    await removeOfferingFromIndex(db, 'off_to_delete', 'tenant_001' as never);
     expect(runSpy).toHaveBeenCalled();
     const prepareCalls = (db.prepare as ReturnType<typeof vi.fn>).mock.calls as string[][];
     const deleteCall = prepareCalls.find((args) =>
@@ -351,7 +351,7 @@ describe('P4-C: indexOrganization — Pillar 1 entity → search index', () => {
         run: runSpy,
       })),
     };
-    await removeFromIndex(db, 'org_001');
+    await removeFromIndex(db, 'org_001', 'tenant_001' as never);
     expect(runSpy).toHaveBeenCalled();
     const prepareCalls = (db.prepare as ReturnType<typeof vi.fn>).mock.calls as string[][];
     const deleteCall = prepareCalls.find((args) => args[0]?.includes('DELETE'));

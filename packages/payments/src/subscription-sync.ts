@@ -7,6 +7,8 @@
 
 export interface SyncPaymentToSubscriptionParams {
   workspaceId: string;
+  /** T3: tenant scope — required to prevent cross-tenant subscription updates. */
+  tenantId: string;
   paystackRef: string;
   amountKobo: number;
   metadata: Record<string, unknown>;
@@ -67,13 +69,15 @@ export async function syncPaymentToSubscription(
     .run();
 
   // Upgrade subscription plan + status
+  // T3: scope by both workspace_id AND tenant_id to prevent cross-tenant
+  // plan escalation if a workspace_id is guessed across tenant boundaries.
   await db
     .prepare(
       `UPDATE subscriptions
        SET plan = ?, status = 'active', updated_at = unixepoch()
-       WHERE workspace_id = ?`,
+       WHERE workspace_id = ? AND tenant_id = ?`,
     )
-    .bind(plan, params.workspaceId)
+    .bind(plan, params.workspaceId, params.tenantId)
     .run();
 
   return { plan, billingId };

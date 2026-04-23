@@ -130,10 +130,12 @@ export async function indexOrganization(
     .run();
 }
 
-export async function removeFromIndex(db: D1Like, entityId: string): Promise<void> {
+export async function removeFromIndex(db: D1Like, entityId: string, tenantId: TenantId): Promise<void> {
+  // T3: scope by tenant_id so a cross-tenant entity_id collision (however unlikely
+  // with UUID-based IDs) cannot delete another tenant's search entry.
   await db
-    .prepare(`DELETE FROM search_entries WHERE entity_id = ?`)
-    .bind(entityId)
+    .prepare(`DELETE FROM search_entries WHERE entity_id = ? AND tenant_id = ?`)
+    .bind(entityId, tenantId)
     .run();
 }
 
@@ -164,7 +166,7 @@ export async function indexOffering(
 ): Promise<void> {
   if (!offering.isPublished) {
     // Unpublished offerings are removed from the index
-    await removeOfferingFromIndex(db, offering.id);
+    await removeOfferingFromIndex(db, offering.id, offering.tenantId);
     return;
   }
 
@@ -187,9 +189,10 @@ export async function indexOffering(
  * Remove an offering from the search index (on delete or unpublish).
  * Non-fatal — callers should wrap in try/catch.
  */
-export async function removeOfferingFromIndex(db: D1Like, offeringId: string): Promise<void> {
+export async function removeOfferingFromIndex(db: D1Like, offeringId: string, tenantId: TenantId): Promise<void> {
+  // T3: scope by tenant_id for defence-in-depth.
   await db
-    .prepare(`DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'offering'`)
-    .bind(offeringId)
+    .prepare(`DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'offering' AND tenant_id = ?`)
+    .bind(offeringId, tenantId)
     .run();
 }

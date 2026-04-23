@@ -294,11 +294,13 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
   }
 
   const now = Math.floor(Date.now() / 1000);
+  // TOCTOU guard: add status predicate to UPDATE so a concurrent confirm
+  // request that races past the SELECT check cannot double-confirm the order.
   await db
     .prepare(
       `UPDATE bank_transfer_orders
        SET status = 'confirmed', confirmed_at = ?, confirmed_by = ?, updated_at = ?
-       WHERE id = ? AND tenant_id = ?`,
+       WHERE id = ? AND tenant_id = ? AND status = 'proof_submitted'`,
     )
     .bind(now, auth.userId, now, orderId, auth.tenantId)
     .run();
@@ -414,11 +416,13 @@ bankTransferRoutes.post('/:orderId/reject', async (c) => {
   }
 
   const now = Math.floor(Date.now() / 1000);
+  // TOCTOU guard: add status predicate to UPDATE so a concurrent reject
+  // request that races past the SELECT check cannot double-reject the order.
   await db
     .prepare(
       `UPDATE bank_transfer_orders
        SET status = 'rejected', rejection_reason = ?, updated_at = ?
-       WHERE id = ? AND tenant_id = ?`,
+       WHERE id = ? AND tenant_id = ? AND status = 'proof_submitted'`,
     )
     .bind(body.reason ?? null, now, orderId, auth.tenantId)
     .run();

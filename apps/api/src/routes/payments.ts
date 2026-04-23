@@ -291,6 +291,7 @@ paymentsVerifyRoute.post('/verify', async (c) => {
     if (verified.status === 'success') {
       const result = await syncPaymentToSubscription(db, {
         workspaceId,
+        tenantId: auth.tenantId,
         paystackRef: reference,
         amountKobo: verified.amountKobo,
         metadata: { ...(verified.metadata as Record<string, unknown>) },

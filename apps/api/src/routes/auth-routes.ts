@@ -1193,11 +1193,14 @@ authRoutes.post('/accept-invite', async (c) => {
   const db = c.env.DB;
   const { workspace_id: workspaceId, tenant_id: tenantId, email, role } = invite;
 
-  // Check if a user with this email already exists in the tenant
+  // Check if a user with this email already exists in the tenant.
+  // T3: scope by tenant_id to prevent cross-tenant user enumeration — a user
+  // in tenant-A sharing an email with tenant-B must be treated as a new user
+  // in tenant-B and must not inherit tenant-A's userId.
   let userId: string;
   const existingUser = await db.prepare(
-    'SELECT id, workspace_id FROM users WHERE email = ? LIMIT 1',
-  ).bind(email).first<{ id: string; workspace_id: string }>();
+    'SELECT id, workspace_id FROM users WHERE email = ? AND tenant_id = ? LIMIT 1',
+  ).bind(email, tenantId).first<{ id: string; workspace_id: string }>();
 
   if (existingUser) {
     userId = existingUser.id;

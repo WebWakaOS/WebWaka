@@ -86,5 +86,13 @@ export async function publishEvent(env: Env, params: PublishEventParams): Promis
     severity: params.severity ?? 'info',
   };
 
-  await env.NOTIFICATION_QUEUE.send(message);
+  try {
+    await env.NOTIFICATION_QUEUE.send(message);
+  } catch (err) {
+    console.error(
+      `[publish-event] NOTIFICATION_QUEUE.send failed — ` +
+      `event ${params.eventKey} (id=${params.eventId}): ` +
+      `${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
 }

@@ -257,6 +257,7 @@ communityRoutes.post('/join', async (c) => {
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Unknown error';
     if (msg.includes('NDPR_CONSENT_REQUIRED')) return c.json({ error: msg }, 403);
+    if (msg.includes('ALREADY_A_MEMBER')) return c.json({ error: 'You are already an active member of this community.' }, 409);
     return c.json({ error: msg }, 400);
   }
 });

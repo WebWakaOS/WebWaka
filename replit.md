@@ -895,3 +895,27 @@ Ten bugs found and fixed across security, data integrity, and correctness catego
 10. **BUG-RATE-01 — Airtime rate limit counter incremented after provider call** (`apps/api/src/routes/airtime.ts`): The rate-limit counter was written only after a successful Termii response. Concurrent requests that all read `count=0` could all proceed simultaneously. Fix: moved the counter write (`RATE_LIMIT_KV.put`) to before the float deduction and Termii call, so the slot is consumed on attempt (not on success).
 
 **Bonus** — **BUG-RATE-02 — CAC/FRSC identity routes missing rate limit** (`apps/api/src/router.ts`): `/identity/verify-bvn` and `/identity/verify-nin` were rate-limited but `/identity/verify-cac` and `/identity/verify-frsc` were not, despite hitting paid Prembly APIs. Fix: added `identityRateLimit` middleware for both CAC and FRSC routes.
+
+### Round 4 Audit Bug Fixes (2026-04-23)
+
+Twelve parallel audit agents identified 10 confirmed bugs across security, data integrity, and platform-invariant categories. All 10 were fixed with zero new test regressions (2533 tests pass; 5 pre-existing failures in `mon-sprint9.test.ts` and `pos.test.ts` are unaffected).
+
+1. **SEC-TIMING-01 — Paystack webhook HMAC timing attack** (`packages/payments/src/paystack.ts`): `verifyWebhookSignature` compared computed vs provided hex strings with `===`, which short-circuits on the first mismatched character and leaks information about how many leading bytes match. An attacker with many fast probes can reconstruct the HMAC byte-by-byte. Fix: replaced string comparison with a constant-time XOR loop over the decoded byte arrays, protected by an equal-length guard.
+
+2. **T3-SUB-01 — Subscription UPDATE missing tenant_id scope** (`packages/payments/src/subscription-sync.ts`): `syncPaymentToSubscription` updated the `subscriptions` row with only `WHERE workspace_id = ?`, violating T3. If a workspace_id were guessed across tenant boundaries the update would silently cross tenants. Fix: added `tenantId` field to `SyncPaymentToSubscriptionParams`, bound it in the UPDATE `WHERE workspace_id = ? AND tenant_id = ?`, and updated the `payments.ts` caller to pass `auth.tenantId`.
+
+3. **BUG-BT-01 — Bank transfer confirm TOCTOU race** (`apps/api/src/routes/bank-transfer.ts`): The `/confirm` endpoint read `status`, checked it in JS, then ran a separate `UPDATE … WHERE id = ? AND tenant_id = ?`. Two concurrent confirms could both pass the JS check and double-confirm, emitting two wallet-credit events. Fix: added `AND status = 'proof_submitted'` to the UPDATE WHERE clause so the second concurrent write silently matches zero rows.
+
+4. **BUG-BT-02 — Bank transfer reject TOCTOU race** (`apps/api/src/routes/bank-transfer.ts`): Same TOCTOU gap in the `/reject` endpoint. Fix: added `AND status = 'proof_submitted'` to the reject UPDATE WHERE clause.
+
+5. **SEC-INVITE-01 — Accept-invite email lookup cross-tenant** (`apps/api/src/routes/auth-routes.ts`): The `/accept-invite` handler looked up an existing user with `WHERE email = ? LIMIT 1` — no `tenant_id` filter. A user registered in tenant-A with the same email as an invitee in tenant-B would have their existing userId associated into tenant-B's workspace, creating cross-tenant identity pollution. Fix: added `AND tenant_id = ?` to scope the user lookup to the invitation's tenant.
+
+6. **T3-SRCH-01 — removeFromIndex missing tenant_id** (`apps/api/src/lib/search-index.ts`): `removeFromIndex` deleted by `entity_id` alone, violating T3. Fix: added `tenantId: TenantId` parameter and `AND tenant_id = ?` to the DELETE predicate.
+
+7. **T3-SRCH-02 — removeOfferingFromIndex missing tenant_id** (`apps/api/src/lib/search-index.ts`): Same T3 gap. Fix: added `tenantId: TenantId` parameter and `AND tenant_id = ?` to the DELETE; updated the internal caller `indexOffering` to pass `offering.tenantId`; updated integration tests to pass `'tenant_001' as never`.
+
+8. **BUG-QUEUE-01 — NOTIFICATION_QUEUE.send unhandled rejection** (`apps/api/src/lib/publish-event.ts`): `env.NOTIFICATION_QUEUE.send(message)` was called with `await` but no surrounding try-catch. A transient queue failure would propagate as an unhandled rejection, potentially aborting the caller's response. Most callers used `void publishEvent(...)` which silently swallowed the error, but any awaiting caller would crash. Fix: wrapped `.send()` in try-catch; failures are logged with event key/ID but do not propagate.
+
+9. **T3-WHK-01 — Webhook dispatcher fast-path UPDATE missing tenant_id** (`apps/api/src/lib/webhook-dispatcher.ts`): The synchronous first-attempt UPDATE statements (both `status='delivered'` and `attempts=1` failure paths) filtered by `WHERE id = ?` only. Fix: added `AND tenant_id = ?` using `this.tenantId` to both fast-path UPDATEs.
+
+10. **BUG-COMM-01 — Duplicate community memberships allowed** (`packages/community/src/membership.ts`): `joinCommunity` had no guard against a user joining the same community twice. Concurrent calls or repeated invocations would INSERT duplicate `active` membership rows. Fix: added a pre-INSERT check `SELECT id FROM community_memberships WHERE community_id = ? AND user_id = ? AND tenant_id = ? AND status = 'active' LIMIT 1`; throws `ALREADY_A_MEMBER` if found. The community route maps this to HTTP 409. The `community.ts` catch block now handles `ALREADY_A_MEMBER` → 409.

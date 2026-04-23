@@ -86,6 +86,19 @@ export async function joinCommunity(
     throw new Error('NDPR_CONSENT_REQUIRED');
   }
 
+  // Prevent duplicate active memberships — a user should not be able to join
+  // the same community twice by calling the endpoint concurrently or repeatedly.
+  const existing = await db
+    .prepare(
+      "SELECT id FROM community_memberships WHERE community_id = ? AND user_id = ? AND tenant_id = ? AND status = 'active' LIMIT 1",
+    )
+    .bind(communityId, userId, tenantId)
+    .first<{ id: string }>();
+
+  if (existing) {
+    throw new Error('ALREADY_A_MEMBER');
+  }
+
   const id = `mb_${crypto.randomUUID().replace(/-/g, '')}`;
   const now = Math.floor(Date.now() / 1000);
 

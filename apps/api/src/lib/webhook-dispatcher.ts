@@ -199,13 +199,16 @@ export class WebhookDispatcher {
 
     if (result.ok) {
       const deliveredAt = Math.floor(Date.now() / 1000);
+      // T3: include tenant_id in WHERE for defence-in-depth (deliveryId is a UUID
+      // and already unique, but scoping by tenant prevents any cross-tenant update
+      // if a deliveryId were ever reused or guessable in a future schema change).
       await this.db
         .prepare(
           `UPDATE webhook_deliveries
               SET status = 'delivered', attempts = 1, delivered_at = ?, updated_at = ?
-            WHERE id = ?`,
+            WHERE id = ? AND tenant_id = ?`,
         )
-        .bind(deliveredAt, deliveredAt, deliveryId)
+        .bind(deliveredAt, deliveredAt, deliveryId, this.tenantId)
         .run();
       return;
     }
@@ -215,9 +218,9 @@ export class WebhookDispatcher {
       .prepare(
         `UPDATE webhook_deliveries
             SET attempts = 1, last_error = ?, updated_at = ?
-          WHERE id = ?`,
+          WHERE id = ? AND tenant_id = ?`,
       )
-      .bind(result.error, Math.floor(Date.now() / 1000), deliveryId)
+      .bind(result.error, Math.floor(Date.now() / 1000), deliveryId, this.tenantId)
       .run();
 
     if (this.queue) {

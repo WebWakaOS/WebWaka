@@ -40,6 +40,19 @@ interface PaystackVerifyResponse {
 }
 
 // ---------------------------------------------------------------------------
+// hexToBytes — decode a hex string to a Uint8Array
+// ---------------------------------------------------------------------------
+
+function hexToBytes(hex: string): Uint8Array {
+  const len = hex.length / 2;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+  }
+  return bytes;
+}
+
+// ---------------------------------------------------------------------------
 // initializePayment — creates a Paystack checkout and returns the URL
 // ---------------------------------------------------------------------------
 
@@ -165,11 +178,17 @@ export async function verifyWebhookSignature(
     );
 
     const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(body));
-    const computed = Array.from(new Uint8Array(sig))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
+    const computedBytes = new Uint8Array(sig);
+    const signatureBytes = hexToBytes(signature);
 
-    return computed === signature;
+    // SEC: constant-time comparison — prevents timing attacks that could leak
+    // partial HMAC bytes through string comparison short-circuits.
+    if (computedBytes.length !== signatureBytes.length) return false;
+    let diff = 0;
+    for (let i = 0; i < computedBytes.length; i++) {
+      diff |= computedBytes[i]! ^ signatureBytes[i]!;
+    }
+    return diff === 0;
   } catch {
     return false;
   }
