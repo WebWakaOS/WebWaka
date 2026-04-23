@@ -30,26 +30,74 @@ type MockStatement = {
   };
 };
 
+/**
+ * makeDB builds a fake D1-like database that simulates the CTE used by
+ * postLedgerEntry:
+ *
+ *   WITH wallet_update AS (
+ *     UPDATE agent_wallets SET balance_kobo = balance_kobo + ?
+ *     WHERE id = ? AND (balance_kobo + ?) >= 0
+ *     RETURNING balance_kobo
+ *   )
+ *   INSERT INTO float_ledger (...) SELECT ... FROM wallet_update
+ *   RETURNING running_balance_kobo
+ *
+ * The mock tracks a mutable balance so that compound operations (e.g.
+ * reverseLedgerEntry which looks up an original entry then calls
+ * postLedgerEntry) see consistent state.
+ */
 function makeDB(walletBalanceKobo: number, ledgerRow?: { wallet_id: string; amount_kobo: number; reference: string }): {
   prepare: (sql: string) => MockStatement;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   batch: (...args: any[]) => Promise<{ success: boolean }[]>;
 } {
+  // Mutable state — use an object so closures share the reference
+  const state = { balance: walletBalanceKobo };
+
   const batchMock = vi.fn().mockResolvedValue([{ success: true }, { success: true }]);
 
   const prepare = vi.fn().mockImplementation((sql: string) => ({
-    bind: (..._args: unknown[]) => ({
+    bind: (...args: unknown[]) => ({
       first: <T>() => {
+        // Wallet balance lookup (used in the error-diagnosis path)
         if (sql.includes('agent_wallets')) {
-          return Promise.resolve(makeWalletRow(walletBalanceKobo) as T);
+          return Promise.resolve(makeWalletRow(state.balance) as T);
         }
+        // Original ledger-entry lookup (used by reverseLedgerEntry)
         if (sql.includes('float_ledger') && ledgerRow) {
           return Promise.resolve(ledgerRow as T);
         }
         return Promise.resolve(null);
       },
       run: () => Promise.resolve({ success: true }),
-      all: <T>() => Promise.resolve({ results: [] as T[] }),
+      all: <T>() => {
+        // Simulate the atomic CTE:
+        //   WITH wallet_update AS (UPDATE agent_wallets … RETURNING balance_kobo)
+        //   INSERT INTO float_ledger … SELECT … FROM wallet_update
+        //   RETURNING running_balance_kobo
+        //
+        // Bind positions (see float-ledger.ts):
+        //   args[0] = amountKobo   (UPDATE SET balance_kobo + ?)
+        //   args[1] = walletId     (UPDATE WHERE id = ?)
+        //   args[2] = amountKobo   (UPDATE WHERE (balance_kobo + ?) >= 0)
+        //   args[3] = id           (INSERT id)
+        //   args[4] = walletId     (INSERT wallet_id)
+        //   … rest are INSERT fields
+        if (sql.includes('wallet_update') && sql.includes('INSERT INTO float_ledger')) {
+          const amountKobo = args[0] as number;
+          const newBalance = state.balance + amountKobo;
+          if (newBalance < 0) {
+            // CTE WHERE guard blocks the update → 0 rows returned
+            return Promise.resolve({ results: [] as T[] });
+          }
+          // Apply the update atomically and return running_balance_kobo
+          state.balance = newBalance;
+          return Promise.resolve({
+            results: [{ running_balance_kobo: newBalance }] as unknown as T[],
+          });
+        }
+        return Promise.resolve({ results: [] as T[] });
+      },
     }),
   }));
 
@@ -67,7 +115,6 @@ describe('postLedgerEntry — credit (top_up)', () => {
     });
     expect(result.runningBalanceKobo).toBe(15_000);
     expect(result.id).toMatch(/^flt_/);
-    expect(db.batch).toHaveBeenCalledOnce();
   });
 
   it('uses integer kobo — never floats (T4)', async () => {
@@ -176,8 +223,8 @@ describe('reverseLedgerEntry', () => {
   it('posts an equal and opposite entry (append-only)', async () => {
     const db = makeDB(5_000, makeLedgerRow('wlt_001', 3_000, 'ref_original'));
     const result = await reverseLedgerEntry(db, 'ref_original', 'ref_reversal', 'duplicate charge');
-    // Original was +3000, reversal should be -3000
-    expect(result.runningBalanceKobo).toBe(2_000); // 5000 - 3000
+    // Original was +3000, reversal should be -3000 → balance 5000 - 3000 = 2000
+    expect(result.runningBalanceKobo).toBe(2_000);
   });
 
   it('throws Error when original entry not found', async () => {
@@ -199,7 +246,7 @@ describe('reverseLedgerEntry', () => {
   it('never calls UPDATE or DELETE on float_ledger (append-only invariant)', async () => {
     const db = makeDB(5_000, makeLedgerRow('wlt_001', 1_000, 'ref_orig'));
     await reverseLedgerEntry(db, 'ref_orig', 'ref_rev', 'test');
-    // Verify only SELECT and INSERT/UPDATE via batch — no direct DELETE
+    // Verify only SELECT and INSERT via CTE — no direct DELETE on float_ledger
     const calls: string[] = (db.prepare as ReturnType<typeof vi.fn>).mock.calls.map(
       (c: unknown[]) => String(c[0]),
     );
