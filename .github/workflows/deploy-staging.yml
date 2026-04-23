@@ -47,10 +47,17 @@ jobs:
           mkdir -p apps/api/migrations
           for f in infra/db/migrations/*.sql; do
             [[ "$f" == *.rollback.sql ]] && continue
+            # Skip Git LFS pointer files — these are large reference-data seeds
+            # that cannot run as D1 migrations (wrangler receives the 3-line LFS
+            # pointer text instead of SQL when lfs:true is not set on checkout).
+            if head -1 "$f" 2>/dev/null | grep -q "^version https://git-lfs"; then
+              echo "  skipped LFS seed: $(basename "$f")"
+              continue
+            fi
             cp "$f" apps/api/migrations/
           done
           COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
-          echo "Staged ${COUNT} forward migration files (rollbacks excluded)"
+          echo "Staged ${COUNT} forward migration files (rollbacks + LFS seeds excluded)"
 
       - name: Apply D1 migrations (staging)
         run: |
@@ -306,3 +313,4 @@ jobs:
           echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **Triggered by** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **QA Gate** | Cycles 01–08 passed ✅ |" >> $GITHUB_STEP_SUMMARY
+
