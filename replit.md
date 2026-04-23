@@ -126,3 +126,24 @@ The system is built on a serverless, edge-first architecture utilizing Cloudflar
 - Added `scope="col"` to all table header cells.
 - `GET /platform-admin/wallets/hitl` endpoint is cursor-paginated (id-based, `?limit` and `?cursor` params).
 - **Dexie.js**: For "Offline First" data synchronization in frontend.
+
+## Bug Fix Log — Round 6B: UI/UX, PWA & Accessibility Audit (2026-04-23)
+
+### Accessibility Bugs
+- **BUG-A11Y-04**: `offline.html` plug icon div `🔌` missing `aria-hidden="true"` — screen readers would announce the decorative emoji. Fixed by adding `aria-hidden="true" role="presentation"` to the icon element.
+
+### PWA Completeness Bugs
+- **BUG-PWA-04**: `offline.html` missing `<link rel="manifest">` — orphaned from the PWA install graph. Added manifest link plus `apple-touch-icon`, `theme-color`, and Apple PWA meta tags.
+- **BUG-PWA-05**: `index.html` and `wallet.html` missing `<meta name="theme-color" content="#00c851">` — mobile Chrome address bar was not themed. Added to both pages.
+- **BUG-PWA-06**: `index.html` and `wallet.html` missing iOS PWA meta tags (`apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-mobile-web-app-title`) — iOS "Add to Home Screen" install was unstyled. Added to all three HTML pages.
+- **BUG-PWA-07**: Both `index.html` and `wallet.html` missing `<meta property="og:title">` and `og:description` — social share previews were blank. Added Open Graph meta tags.
+
+### Content Accuracy Bugs
+- **BUG-CONTENT-01**: Phase W1 gate card in `wallet.html` showed "51 tests passing" — outdated since `hl-wallet` now has 107 passing tests. Updated to "107 tests passing".
+- **BUG-CONTENT-02**: `index.html` footer date was stale at "2026-04-12". Updated to "2026-04-23".
+- **BUG-CONTENT-03**: `wallet.html` footer date was stale at "2026-04-20". Updated to "2026-04-23".
+
+### UX Bugs
+- **BUG-UX-01**: Non-live app cards (Partner Admin, Brand Runtime, Public Discovery, API) had the same hover border effect as the clickable HandyLife card, implying they were interactive when they are not. Fixed by adding `.card--future` CSS class: `cursor: default; opacity: 0.65;` with hover kept to `border-color: var(--border)`. Added `aria-label` describing the milestone status.
+- **BUG-UX-02**: Stats section showed "n/a" with no explanation when API was unreachable — users had no way to tell if data was zero or an error. Added a visible amber warning banner (`#stats-api-status`) that appears when `showStatsOffline()` fires, reading "API unreachable — stats unavailable. Check network or service worker key."
+- **BUG-UX-03**: HITL queue showed "Unable to load — check API auth" with no way to retry without a full page refresh. Added a ↻ Retry button inline next to the HITL heading that calls `loadHitlQueue()` directly.

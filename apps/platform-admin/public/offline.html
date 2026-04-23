@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Offline — WebWaka OS Platform Admin</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="theme-color" content="#00c851">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WebWaka OS">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:#0a0f1e;color:#e5e7eb;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
@@ -19,7 +26,7 @@
 </head>
 <body>
   <main class="container" role="main">
-    <div class="icon" aria-hidden="true">&#128268;</div>
+    <div class="icon" aria-hidden="true" role="presentation">&#128268;</div>
     <h1>You're offline</h1>
     <p>It looks like your internet connection is unavailable. Some features may not work until you're back online.</p>
     <button class="btn" onclick="window.location.reload()" aria-label="Try reloading the page">Try Again</button>

@@ -6,7 +6,15 @@
   <title>HandyLife Wallet — Platform Admin</title>
   <meta name="description" content="Super-admin wallet management: feature flags, HITL queue, reconciliation.">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00c851">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WebWaka OS">
+  <meta property="og:title" content="HandyLife Wallet Admin — WebWaka OS">
+  <meta property="og:description" content="Super-admin wallet management: feature flags, HITL queue, reconciliation.">
+  <meta property="og:type" content="website">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -125,6 +133,9 @@
 
     <!-- ── Stats ── -->
     <h2 class="section-title" id="stats-heading">Platform Wallet Stats</h2>
+    <div id="stats-api-status" role="status" aria-live="polite" style="display:none;font-size:0.78rem;color:#d97706;margin-bottom:0.75rem;">
+      &#9888;&#65039; API unreachable — stats unavailable. Check network or service worker key.
+    </div>
     <div class="stats-grid" aria-labelledby="stats-heading" id="stats-grid" aria-live="polite" aria-atomic="false">
       <div class="stat-card">
         <div class="stat-label">Total Wallets</div>
@@ -204,7 +215,10 @@
     </p>
 
     <!-- ── HITL Queue ── -->
-    <h2 class="section-title" id="hitl-heading">HITL Funding Queue</h2>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+      <h2 class="section-title" id="hitl-heading" style="margin-bottom:0;">HITL Funding Queue</h2>
+      <button class="btn" style="padding:0.3rem 0.75rem;font-size:0.78rem;" onclick="loadHitlQueue()" aria-label="Retry loading HITL funding queue">&#8635; Retry</button>
+    </div>
     <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">
       Funding requests above the HITL threshold (default ₦100,000) require manual super-admin review.
       These were NOT auto-credited when the bank transfer was confirmed — action required.
@@ -335,7 +349,7 @@
     <div class="flag-grid" aria-labelledby="gates-heading">
       <div class="phase-gate">
         <h3>Phase W1 — Complete</h3>
-        <p>Package, ledger, spend controls, migrations, routes, events, entitlements. 51 tests passing.</p>
+        <p>Package, ledger, spend controls, migrations, routes, events, entitlements. 107 tests passing.</p>
       </div>
       <div class="phase-gate">
         <h3>Phase W2 — Complete</h3>
@@ -370,7 +384,7 @@
   </main>
 
   <footer role="contentinfo">
-    WebWaka OS &mdash; HandyLife Wallet Admin &mdash; Phase W2 &mdash; 2026-04-20
+    WebWaka OS &mdash; HandyLife Wallet Admin &mdash; Phase W2 &mdash; 2026-04-23
   </footer>
 
   <script>
@@ -431,6 +445,8 @@
     function showStatsOffline() {
       ['stat-total','stat-active','stat-balance','stat-hitl','stat-pending-funding','stat-frozen']
         .forEach(id => { document.getElementById(id).textContent = 'n/a'; });
+      const banner = document.getElementById('stats-api-status');
+      if (banner) banner.style.display = 'block';
     }
 
     async function loadHitlQueue() {

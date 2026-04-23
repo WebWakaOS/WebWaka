@@ -8,6 +8,13 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00c851">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WebWaka OS">
+  <meta property="og:title" content="WebWaka OS — Platform Admin">
+  <meta property="og:description" content="Multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa.">
+  <meta property="og:type" content="website">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -88,6 +95,8 @@
       padding: 1.5rem; transition: border-color 0.2s;
     }
     .card:hover { border-color: rgba(0,200,81,0.4); }
+    .card--future { cursor: default; opacity: 0.65; }
+    .card--future:hover { border-color: var(--border); }
     .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
     .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
     .card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
@@ -177,25 +186,25 @@
         <p>Feature flags, HITL funding queue, wallet stats, reconciliation, and MLA governance for the HandyLife NGN wallet.</p>
         <span class="status status-active">Phase W2 Live</span>
       </a>
-      <div class="card" role="listitem">
+      <div class="card card--future" role="listitem" aria-label="Partner Admin — coming in Milestone 2">
         <div class="card-icon" aria-hidden="true">&#127970;</div>
         <h3>Partner Admin</h3>
         <p>Portal for partners and tenants to manage their branded instances and configurations.</p>
         <span class="status status-pending">Milestone 2</span>
       </div>
-      <div class="card" role="listitem">
+      <div class="card card--future" role="listitem" aria-label="Brand Runtime — coming in Milestone 3">
         <div class="card-icon" aria-hidden="true">&#127760;</div>
         <h3>Brand Runtime</h3>
         <p>White-labeled tenant storefronts and websites for end users, PWA-first and offline-capable.</p>
         <span class="status status-pending">Milestone 3</span>
       </div>
-      <div class="card" role="listitem">
+      <div class="card card--future" role="listitem" aria-label="Public Discovery — coming in Milestone 3">
         <div class="card-icon" aria-hidden="true">&#128269;</div>
         <h3>Public Discovery</h3>
         <p>Search and discovery interface for the public to find businesses and services on the platform.</p>
         <span class="status status-pending">Milestone 3</span>
       </div>
-      <div class="card" role="listitem">
+      <div class="card card--future" role="listitem" aria-label="API on Cloudflare Workers — Milestone 1 foundation">
         <div class="card-icon" aria-hidden="true">&#9889;</div>
         <h3>API (Cloudflare Workers)</h3>
         <p>Central edge API built with Hono, powering all apps with auth, tenancy, and business logic.</p>
@@ -241,7 +250,7 @@
   </main>
 
   <footer role="contentinfo">
-    WebWaka OS &mdash; Governance-driven platform &mdash; v1.0.1 &mdash; Sprint 8 &mdash; 2026-04-12
+    WebWaka OS &mdash; Governance-driven platform &mdash; v1.0.1 &mdash; Sprint 8 &mdash; 2026-04-23
   </footer>
 
   <script>
