@@ -371,10 +371,10 @@ workspaceRoutes.post('/:id/invite', async (c) => {
       .prepare(`SELECT COUNT(*) AS cnt FROM memberships WHERE workspace_id = ? AND tenant_id = ?`)
       .bind(workspaceId, auth.tenantId)
       .first<{ cnt: number }>();
-    // BUG-WS-02 fix: pass (current count + 1) to account for the member being added.
-    // Without +1, a workspace already AT the limit (e.g. 3/3 Free) would pass this
-    // check and allow a 4th member through.
-    const decision = evaluateUserLimit(toSubscription(sub), (memberCount?.cnt ?? 0) + 1);
+    // evaluateUserLimit uses >= so passing the current member count is correct:
+    // 2 >= 3 → allowed, 3 >= 3 → blocked.  The +1 that was previously here over-blocked
+    // (a workspace with 2/3 members got a 403) — removed in favour of the correct >= check.
+    const decision = evaluateUserLimit(toSubscription(sub), memberCount?.cnt ?? 0);
     if (!decision.allowed) {
       return c.json({
         error: decision.reason ?? 'User limit reached for your current plan',
