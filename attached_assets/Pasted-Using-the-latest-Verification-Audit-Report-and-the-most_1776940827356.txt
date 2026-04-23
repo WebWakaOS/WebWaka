@@ -1,0 +1,174 @@
+Using the latest **Verification Audit Report** and the most recent **WebWaka OS — Exhaustive Master Inventory Report**, perform another **very deep research and full-platform review** of WebWaka.
+
+Your mission now is to:
+
+1. Re-audit the entire platform end to end.
+2. Focus specifically on all items that were:
+   - identified as gaps,
+   - marked as strongly implied,
+   - tagged uncertain,
+   - found to be factually wrong,
+   - missing but implemented,
+   - or described as underspecified.
+3. Produce a **complete remediation and implementation plan** to address every one of those issues and move them to **100% verified** wherever possible.
+4. Then **update the exhaustive master inventory report** so it matches the platform’s actual state after these corrections.
+
+This is still **pre‑QA‑plan work**. Your deliverable is a fully corrected, verified inventory plus a concrete remediation backlog, not the QA plan itself.
+
+***
+
+### Step 1 — Re‑research and re‑verify
+
+Run a fresh deep dive across:
+
+- `/apps` (all 11 apps, including admin-dashboard, partner-admin, brand-runtime, public-discovery, workspace-app)
+- `/packages` (all 194 packages — vertical and non‑vertical)
+- `/apps/api/src/routes/**` (all 191 route files including vertical routes)
+- Middleware in `apps/api/src/middleware/**`
+- All main UI surfaces (React PWA, Hono HTML frontends, USSD gateway, brand-runtime, public-discovery)
+- Key domain routes: bank-transfer, inbox-routes, onboarding, support, b2b-marketplace, negotiation, workspace-analytics, analytics, admin-metrics, fx-rates, profiles, civic, transport, commerce
+- Database schema and migrations, especially tables flagged in the audit: `search_entries`, `analytics_snapshots`, `bank_transfer_orders`, `support_tickets`, `onboarding_checklist`, `negotiation_sessions`, `negotiation_offers`, `rfqs`, `bids`, `purchase_orders`, `invoices`, `fx_rates`, `notification_inbox`
+- Non-vertical packages called out as missing: `frontend`, `i18n`, `white-label-theming`, `offerings`, `auth-tenancy`, `otp`, `profiles`, `relationships`, `search-indexing`, `vertical-events`, `workspaces`, etc.
+
+For every previously **wrong, missing, implied, or uncertain** claim, re-verify against actual source evidence (files, routes, components, schemas, docs, ADRs, tests).
+
+***
+
+### Step 2 — Build a detailed remediation and implementation plan
+
+For each issue identified in the Verification Audit Report (e.g., the 25 corrections listed, missing workflows, mischaracterized apps, invisible middleware, undercounted packages/migrations, brand-runtime underspecification):
+
+For each item:
+
+- Restate the **exact problem** (wrong count, missing feature, mischaracterization, underspecified flow, inconsistent naming, etc.).
+- Confirm the **current implementation status**:
+  - fully implemented,
+  - partially implemented,
+  - scaffolded only,
+  - documented but not implemented,
+  - or not implemented.
+- Provide concrete **remediation actions**, such as:
+  - documentation updates to fix counts and descriptions,
+  - inventory updates to add missing workflows, routes, tables, and packages,
+  - code work needed to complete partially implemented features (if any),
+  - naming/slug normalization and category corrections,
+  - clarifying “implemented vs planned” vs “scaffolded” states.
+- Specify:
+  - owner/team responsible (e.g., “core API”, “workspace UI”, “brand-runtime”, “data/infra”),
+  - dependencies,
+  - priority (Critical/High/Medium/Low),
+  - and what **evidence** will prove the remediation is complete.
+
+Organize this into a **Remediation Backlog** table:
+
+- item / area
+- previous status (from audit)
+- current verified status
+- remediation required
+- implementation work (if any)
+- evidence needed for “verified”
+- priority and dependencies
+
+***
+
+### Step 3 — Upgrade all statuses
+
+For every entry previously marked as:
+
+- strongly implied,
+- uncertain,
+- partially supported,
+- miscounted,
+- or mischaracterized,
+
+attempt to push it into one of these final buckets:
+
+- **Verified** — backed by concrete evidence (routes, components, schemas, tests, docs).
+- **Verified-not-implemented** — clearly documented as planned or scaffolded but intentionally not yet implemented; no longer ambiguous.
+- **Out-of-scope / Removed** — explicitly removed from the inventory because it does not exist in the current codebase.
+- **Blocked** — cannot be verified now due to a real blocker (missing code access, missing docs, etc.), with a clear explanation.
+
+Do not leave anything in a vague “strongly implied” or “uncertain” state unless it is truly blocked and you explain why.
+
+***
+
+### Step 4 — Update the exhaustive master inventory report
+
+Using all the verified findings and the remediation plan:
+
+1. **Correct all numerical counts**:
+   - app count,
+   - package count (194),
+   - migration count (383),
+   - route file counts (top-level vs vertical routes),
+   - vertical coverage details where relevant.
+
+2. **Add all previously missing but implemented features**, including, at a minimum:
+   - Bank transfer payment flow (P21) with full FSM and dispute path.
+   - Notification inbox (N‑065/N‑067) state machine.
+   - Onboarding checklist (PROD‑01).
+   - Support ticket system (MED‑013).
+   - B2B marketplace (P25).
+   - Negotiation engine.
+   - Workspace analytics (P23).
+   - Platform analytics (MED‑011).
+   - Admin metrics (P20‑E).
+   - FX rates / multi-currency foundation (P24).
+   - Profile visibility management (public/semi/private + search_entries sync).
+   - Full brand-runtime capabilities (shop, checkout, blog, portal, sitemap, branded pages).
+   - Template marketplace and admin layout builder in admin-dashboard.
+   - All relevant tables in the DB layer mentioned in the audit.
+   - Middleware layer and its role in access control, billing enforcement, observability, security, etc.
+   - Civic/transport/commerce depth: tithe, cooperative loans, vehicle management, creator deals, restaurant menu, market stalls, etc.
+   - Non-vertical packages that were missing and their responsibilities.
+
+3. **Fix all mischaracterizations and overreach**, including:
+   - admin-dashboard’s true behaviour and purpose.
+   - brand-runtime’s true surface area.
+   - route licensing status in transport.
+   - the current state of Africa/multi-currency/i18n implementation (partial P3 implementation).
+   - any previously overstated “exhaustive” claims that were not actually exhaustive.
+
+4. **Normalize naming and slugs**, e.g.:
+   - barber-shop vs hair-salon,
+   - auto-workshop vs auto-mechanic,
+   - laundry vs laundry + laundry-service,
+   - petrol-station vs fuel-station,
+   - cleaning-service vs cleaning-company,
+   - any duplicated or overlapping vertical definitions.
+
+5. **Clarify “implemented vs planned vs scaffolded”** for all relevant features and verticals so the report is unambiguous for QA.
+
+Produce the **updated, fully corrected master inventory** as either:
+- a complete new version of the report, or
+- a very clear “delta” that shows exactly what changed and where.
+
+***
+
+### Step 5 — Final readiness statement
+
+At the end of your work, include:
+
+1. A **short executive verdict**:
+   - whether the updated master inventory is now trustworthy enough to use as the base for QA planning,
+   - your confidence level (high/medium/low),
+   - and why.
+
+2. A list of any **remaining blockers** or items that could not be verified and why.
+
+3. A **very short checklist** that the QA team can use to sanity-check that:
+   - all high-risk flows are now represented (bank transfer, checkout, inbox, onboarding, B2B, negotiation, visibility, billing enforcement, etc.),
+   - middleware and access control are visible in the inventory,
+   - and all previously identified gaps have either been closed or explicitly documented as out-of-scope/blocked.
+
+***
+
+### Rules
+
+- Do not start QA planning or test-case design yet.
+- Be evidence-driven and strict; treat unsupported claims as defects.
+- Do not lose the distinction between implemented, scaffolded, documented, and planned.
+- Prefer clarity and correctness over brevity.
+- Thoroughness is more important than speed.
+
+Once this is done, we will use the **corrected and verified master inventory** as the only source of truth to drive the actual QA testing and verification plan.
