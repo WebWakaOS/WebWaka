@@ -156,7 +156,7 @@ export async function initializeOnlineFunding(
     reference:        paystackRef,
     paymentUrl:       paystackData.data.authorization_url,
     amountKobo,
-    amountNaira:      (amountKobo / 100).toFixed(2),
+    amountNaira:      (amountKobo / 100).toFixed(2), // DISPLAY_ONLY
     expiresAt,
   };
 }
