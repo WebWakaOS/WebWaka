@@ -22,7 +22,6 @@ import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import {
   TemplateRenderer,
-  findTemplate,
   publishTemplate,
   TemplateNotFoundError,
   TemplateVariableError,
