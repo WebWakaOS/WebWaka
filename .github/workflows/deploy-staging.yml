@@ -192,12 +192,13 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
+      # Install wrangler globally so every matrix worker can deploy without
+      # needing wrangler in its own package.json (only apps/api carries it).
+      - run: npm install -g wrangler@3
       - name: Deploy ${{ matrix.app }} to Cloudflare Workers (staging)
         run: |
           cd apps/${{ matrix.app }}
-          # pnpm exec resolves wrangler from the monorepo root node_modules
-          # (npx only searches the local node_modules, not parent directories).
-          pnpm exec wrangler deploy --env staging
+          wrangler deploy --env staging
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
