@@ -60,10 +60,16 @@ jobs:
             mkdir -p apps/api/migrations
             for f in infra/db/migrations/*.sql; do
               [[ "$f" == *.rollback.sql ]] && continue
+              # Skip Git LFS pointer files — large reference-data seeds that
+              # cannot run as D1 migrations when checkout lfs:true is not set.
+              if head -1 "$f" 2>/dev/null | grep -q "^version https://git-lfs"; then
+                echo "  skipped LFS seed: $(basename "$f")"
+                continue
+              fi
               cp "$f" apps/api/migrations/
             done
             COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
-            echo "Staged ${COUNT} forward migration files (rollbacks excluded)"
+            echo "Staged ${COUNT} forward migration files (rollbacks + LFS seeds excluded)"
           else
             echo "No migrations directory found — skipping"
           fi
@@ -179,3 +185,4 @@ jobs:
           SMOKE_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
           SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
           SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
+
