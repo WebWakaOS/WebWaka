@@ -92,13 +92,16 @@ router.post('/login', async (c) => {
     return c.redirect(`/portal/login?error=missing_fields`);
   }
 
-  // Delegate auth to API Worker (inter-service call)
+  // Delegate auth to API Worker (inter-service call).
+  // API_BASE_URL env var is the canonical source; per-environment fallbacks used
+  // only when the binding is absent (local dev or misconfigured staging).
   const apiBase =
-    c.env.ENVIRONMENT === 'production'
+    c.env.API_BASE_URL ??
+    (c.env.ENVIRONMENT === 'production'
       ? 'https://api.webwaka.com'
       : c.env.ENVIRONMENT === 'staging'
         ? 'https://api-staging.webwaka.com'
-        : 'http://localhost:8787';
+        : 'http://localhost:8787');
 
   const resp = await fetch(`${apiBase}/auth/login`, {
     method: 'POST',
@@ -127,6 +130,51 @@ router.post('/login', async (c) => {
 
 // GET /portal/ — dashboard redirect (auth check is on the admin-dashboard Worker)
 router.get('/', (c) => c.redirect('/portal/dashboard'));
+
+// GET /portal/dashboard — branded portal dashboard shell.
+// The actual workspace content is loaded client-side from the admin-dashboard Worker.
+// Auth state is validated by the downstream admin-dashboard Worker; this shell
+// only renders the branded HTML wrapper.
+router.get('/dashboard', async (c) => {
+  const slug = c.get('tenantSlug');
+  let cssVars: string;
+  let theme: import('../lib/theme.js').TenantTheme;
+
+  try {
+    const result = await generateCssTokens(slug, c.env);
+    cssVars = result.cssVars;
+    theme = result.theme;
+  } catch {
+    return c.text('Tenant not found', 404);
+  }
+
+  const body = `
+    <div style="max-width:64rem;margin:0 auto;padding:2rem 1rem">
+      <header style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--ww-border)">
+        ${theme.logoUrl ? `<img src="${escHtml(theme.logoUrl)}" alt="${escHtml(theme.displayName)} logo" style="height:2.5rem;object-fit:contain" />` : ''}
+        <h1 style="font-size:1.25rem;font-weight:700;color:var(--ww-primary)">${escHtml(theme.displayName)} — Dashboard</h1>
+      </header>
+      <nav style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:2rem">
+        <a href="/portal/dashboard" style="padding:.5rem 1rem;background:var(--ww-primary);color:#fff;border-radius:var(--ww-radius);font-size:.875rem;font-weight:600;text-decoration:none">Overview</a>
+        <a href="/portal/login" style="padding:.5rem 1rem;border:1px solid var(--ww-border);border-radius:var(--ww-radius);font-size:.875rem;color:var(--ww-text-muted);text-decoration:none">Sign out</a>
+      </nav>
+      <section style="background:var(--ww-bg-surface);border:1px solid var(--ww-border);border-radius:var(--ww-radius);padding:2rem;text-align:center;color:var(--ww-text-muted)">
+        <p style="font-size:1.125rem;margin-bottom:.5rem">Your workspace dashboard is loading…</p>
+        <p style="font-size:.875rem">If this message persists, please <a href="/contact" style="color:var(--ww-primary)">contact support</a>.</p>
+      </section>
+    </div>`;
+
+  return c.html(
+    baseTemplate({
+      title: 'Dashboard',
+      cssVars,
+      logoUrl: theme.logoUrl,
+      displayName: theme.displayName,
+      faviconUrl: theme.faviconUrl,
+      body,
+    }),
+  );
+});
 
 export { router as portalRouter };
 
