@@ -11,11 +11,34 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 ENVIRONMENT = "development"
 
+# ---------------------------------------------------------------------------
+# Required Worker secrets (set via `wrangler secret put`, NOT in this file)
+# ---------------------------------------------------------------------------
+# UNSUBSCRIBE_HMAC_SECRET — HMAC-SHA256 key for unsubscribe token signing.
+#   Shared with apps/api (must match). Absence causes /unsubscribe to return 503.
+#   Set for each environment:
+#     wrangler secret put UNSUBSCRIBE_HMAC_SECRET --env staging
+#     wrangler secret put UNSUBSCRIBE_HMAC_SECRET --env production
+# ---------------------------------------------------------------------------
+
 # D1 — tenant manifest and profile lookups
 [[d1_databases]]
 binding = "DB"
 database_name = "webwaka-main"
 database_id = "local-dev-placeholder"
+
+# ---------------------------------------------------------------------------
+# BUG-P3-013 fix: THEME_CACHE KV binding for brand-token caching.
+# Without this binding, getBrandTokens falls back to a D1 query on every
+# request, increasing latency and D1 costs under load.
+# Provision the KV namespace then set the correct ID below.
+#   wrangler kv namespace create THEME_CACHE --env staging
+#   wrangler kv namespace create THEME_CACHE --env production
+# ---------------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "THEME_CACHE"
+id = "local-dev-placeholder-theme-cache"
+preview_id = "local-dev-placeholder-theme-cache"
 
 # ---------------------------------------------------------------------------
 # Staging
@@ -31,6 +54,11 @@ binding = "DB"
 database_name = "webwaka-os-staging"
 database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
+# Replace with actual KV namespace ID from: wrangler kv namespace create THEME_CACHE --env staging
+[[env.staging.kv_namespaces]]
+binding = "THEME_CACHE"
+id = "REPLACE_WITH_STAGING_THEME_CACHE_KV_ID"
+
 # ---------------------------------------------------------------------------
 # Production
 # ---------------------------------------------------------------------------
@@ -44,3 +72,8 @@ ENVIRONMENT = "production"
 binding = "DB"
 database_name = "webwaka-os-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+# Replace with actual KV namespace ID from: wrangler kv namespace create THEME_CACHE --env production
+[[env.production.kv_namespaces]]
+binding = "THEME_CACHE"
+id = "REPLACE_WITH_PRODUCTION_THEME_CACHE_KV_ID"

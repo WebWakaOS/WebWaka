@@ -8,6 +8,11 @@
  * Fires a discovery_event for view tracking (async, non-blocking).
  * T3: no global tenant filter here — profiles are cross-tenant public pages.
  * P9: prices in integer kobo, formatted as ₦ on render.
+ *
+ * BUG-P3-001 fix: renamed geography_places → places (correct table, migration 0001).
+ * BUG-P3-002 fix: removed entity_profiles JOIN (table does not exist in schema);
+ *   logo_url, phone, website are now selected directly from organizations/individuals
+ *   (added by migration 0388_organizations_discovery_columns).
  */
 
 import { Hono } from 'hono';
@@ -45,19 +50,23 @@ router.get('/:entityType/:id', async (c) => {
 
   if (!profile) {
     const table = entityType === 'organization' ? 'organizations' : 'individuals';
-    profile = await c.env.DB
-      .prepare(
-        `SELECT e.id, e.name, e.category, e.description,
-                gp.name AS place_name, gp.id AS place_id,
-                ep.logo_url, ep.phone, ep.website
-         FROM ${table} e
-         LEFT JOIN geography_places gp ON gp.id = e.place_id
-         LEFT JOIN entity_profiles ep ON ep.entity_id = e.id
-         WHERE e.id = ? AND e.is_published = 1
-         LIMIT 1`,
-      )
-      .bind(id)
-      .first<ProfileRow>();
+    try {
+      profile = await c.env.DB
+        .prepare(
+          `SELECT e.id, e.name, e.category, e.description,
+                  gp.name AS place_name, gp.id AS place_id,
+                  e.logo_url, e.phone, e.website
+           FROM ${table} e
+           LEFT JOIN places gp ON gp.id = e.place_id
+           WHERE e.id = ? AND e.is_published = 1
+           LIMIT 1`,
+        )
+        .bind(id)
+        .first<ProfileRow>();
+    } catch (err) {
+      console.error('[profiles] profile lookup error:', err instanceof Error ? err.message : String(err));
+      profile = null;
+    }
 
     if (profile) {
       await c.env.DISCOVERY_CACHE.put(cacheKey, JSON.stringify(profile), { expirationTtl: 60 });

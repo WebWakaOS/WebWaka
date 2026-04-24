@@ -38,6 +38,7 @@ import {
   sendDM,
   getDMThreads,
   getActiveStories,
+  createStory,
   assertDMMasterKey,
 } from '@webwaka/social';
 
@@ -330,4 +331,47 @@ socialRoutes.get('/stories', async (c) => {
   const db = c.env.DB as unknown as D1Like;
   const stories = await getActiveStories(db, tenantId);
   return c.json({ stories });
+});
+
+// ---------------------------------------------------------------------------
+// POST /social/stories — auth required (BUG-P3-011 fix: route was missing)
+// Creates a 24-hour ephemeral story.  Mirrors POST /social/posts but uses
+// createStory() which inserts post_type='story' and sets expires_at = now+86400.
+// ---------------------------------------------------------------------------
+
+socialRoutes.post('/stories', async (c) => {
+  const auth = c.get('auth') as { tenantId: string; userId: string };
+  const tenantId = auth.tenantId;
+
+  const body = await c.req.json().catch(() => null);
+  const schema = z.object({
+    content: z.string().min(1, 'content must not be empty'),
+    mediaUrls: z.array(z.string()).optional(),
+  });
+  const parsed = schema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Validation failed', issues: parsed.error.issues }, 400);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+
+  const story = await createStory(db, {
+    authorId: auth.userId,
+    content: parsed.data.content,
+    ...(parsed.data.mediaUrls !== undefined ? { mediaUrls: parsed.data.mediaUrls } : {}),
+    tenantId,
+  });
+
+  void publishEvent(c.env, {
+    eventId: story.id,
+    eventKey: SocialEventType.SocialPostPublished,
+    tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    payload: { story_id: story.id, author_id: auth.userId, post_type: 'story', expires_at: story.expiresAt },
+    source: 'api',
+    severity: 'info',
+  });
+
+  return c.json({ story }, 201);
 });

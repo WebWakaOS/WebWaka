@@ -370,15 +370,18 @@ discoveryRoutes.post('/claim-intent', async (c) => {
 
   const intentId = `ci_${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
 
+  // BUG-P3-009 fix: contactEmail removed from analytics metadata.
+  // Storing PII (email address) in discovery_events violates SEC-PII-01.
+  // Record intent presence and redacted signals only.
   await logEvent(db, 'claim_intent', {
     entityType: body.subjectType,
     entityId: body.subjectId,
     ipHash,
     metadata: {
       intentId,
-      contactEmail: body.contactEmail,
-      contactName: body.contactName,
-      message: body.message,
+      hasContactEmail: true,
+      hasContactName: !!body.contactName,
+      hasMessage: !!body.message,
     },
   });
 
@@ -491,9 +494,12 @@ discoveryRoutes.get('/trending', async (c) => {
     sql += ` AND de.entity_type = ?`;
     binds.push(type);
   }
+  // BUG-P3-010 fix: escape LIKE special characters in placeId to prevent
+  // wildcard injection (e.g. a placeId of '%' would match all ancestry_path values).
   if (placeId) {
-    sql += ` AND se.ancestry_path LIKE ?`;
-    binds.push(`%${placeId}%`);
+    const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
+    sql += ` AND se.ancestry_path LIKE ? ESCAPE '\\'`;
+    binds.push(`%${safePlaceId}%`);
   }
 
   sql += `

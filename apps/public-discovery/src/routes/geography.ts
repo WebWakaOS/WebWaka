@@ -24,6 +24,11 @@
  * No auth required — public.
  * T3: no tenant isolation — cross-tenant marketplace.
  * P9: prices in integer kobo, formatted at render time.
+ *
+ * BUG-P3-001 fix: renamed geography_places → places (correct table name per migration 0001).
+ * BUG-P3-001 fix: replaced gp.path LIKE hierarchy with ancestry_path JSON-array containment.
+ * The places table stores ancestors as a JSON array in ancestry_path (not a path string),
+ * so subtree queries use: gp.id = ? OR gp.ancestry_path LIKE '%"<id>"%'.
  */
 
 import { Hono } from 'hono';
@@ -68,7 +73,7 @@ async function resolvePlaceBySlug(
     return await env.DB
       .prepare(
         `SELECT id, name, geography_type
-         FROM geography_places
+         FROM places
          WHERE LOWER(REPLACE(name,' ','-')) = ? ${typeClause}
          LIMIT 1`,
       )
@@ -79,7 +84,16 @@ async function resolvePlaceBySlug(
   }
 }
 
-/** Fetch organisations filtered by geography path and optional category */
+/**
+ * Fetch organisations filtered by geography subtree and optional category.
+ *
+ * BUG-P3-001 fix: ancestry_path subtree query.
+ * places.ancestry_path is a JSON array of ancestor IDs e.g. '["place_ng","place_sw","place_lagos"]'.
+ * To find all orgs whose place is the target OR any descendant of the target:
+ *   - gp.id = ?                                         (org is directly at the target place)
+ *   - gp.ancestry_path LIKE '%"<placeId>"%'             (org's place descends from target)
+ * Both placeId bindings must be supplied.
+ */
 async function fetchOrgs(
   env: Env,
   placeId: string,
@@ -88,7 +102,8 @@ async function fetchOrgs(
 ): Promise<OrgRow[]> {
   try {
     const sectorClause = sector ? `AND LOWER(o.category) = LOWER(?)` : '';
-    const bindings: unknown[] = [placeId];
+    const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
+    const bindings: unknown[] = [placeId, `%"${safePlaceId}"%`];
     if (sector) bindings.push(sector);
     bindings.push(limit);
 
@@ -96,10 +111,8 @@ async function fetchOrgs(
       .prepare(
         `SELECT o.id, o.name, o.category, gp.name AS place_name
          FROM organizations o
-         LEFT JOIN geography_places gp ON gp.id = o.place_id
-         WHERE gp.path LIKE (
-           SELECT path || '%' FROM geography_places WHERE id = ?
-         )
+         LEFT JOIN places gp ON gp.id = o.place_id
+         WHERE (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')
          AND o.is_published = 1
          ${sectorClause}
          ORDER BY o.name ASC
@@ -258,7 +271,6 @@ geographyRouter.get('/:stateSlug/:sectorOrLgaSlug', async (c) => {
     <meta property="og:description" content="${esc(description)}" />
     <link rel="canonical" href="${canonicalUrl}" />`;
 
-  const parentSlug = isLga ? stateSlug : `../discover`;
   const backHref = isLga ? `/discover/${stateSlug}` : `/discover/${stateSlug}`;
 
   const body = `
@@ -301,8 +313,6 @@ geographyRouter.get('/:stateSlug/:sectorOrLgaSlug', async (c) => {
     searchLabel: t('action_search'),
     footerTagline: t('footer_tagline'),
   }));
-
-  void parentSlug;
 });
 
 // ---------------------------------------------------------------------------

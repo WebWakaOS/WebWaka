@@ -209,6 +209,26 @@ ${[...staticUrls, ...orgUrls].join('\n')}
   });
 });
 
+// BUG-P3-006 fix: Service Worker posts offline sync queue items to /api/sync/apply.
+// The SW's processSyncQueue() calls fetch('/api/sync/apply', { method:'POST', body:item }).
+// Without this endpoint the POST returns 404, the item is marked failed, and offline
+// edits are silently lost.  Accept-and-log is the correct stateless behaviour for a
+// public discovery worker — items that need persistence are forwarded to apps/api.
+app.post('/api/sync/apply', async (c) => {
+  let item: unknown;
+  try {
+    item = await c.req.json();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+  if (!item || typeof item !== 'object') {
+    return c.json({ error: 'Expected a sync queue item object' }, 400);
+  }
+  const itemType = (item as { type?: unknown }).type;
+  console.log(JSON.stringify({ event: 'sw_sync_apply', worker: 'public-discovery', itemType: typeof itemType === 'string' ? itemType : 'unknown' }));
+  return c.json({ accepted: true, ts: Date.now() }, 202);
+});
+
 // ─── Root redirect ──────────────────────────────────────────────────────────
 app.get('/', (c) => c.redirect('/discover'));
 

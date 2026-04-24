@@ -10,6 +10,11 @@
  * No auth required — public page.
  * T3: no tenant isolation here (marketplace is cross-tenant by design).
  * P9: prices always stored and returned as integer kobo.
+ *
+ * BUG-P3-001 fix: renamed geography_places → places (correct table, migration 0001).
+ * BUG-P3-001 fix: replaced gp.path LIKE hierarchy with ancestry_path JSON containment.
+ *   places.ancestry_path is a JSON array e.g. '["place_ng","place_sw","place_lagos"]'.
+ *   Subtree query: gp.id = ? OR gp.ancestry_path LIKE '%" || placeId || "%' ESCAPE '\'.
  */
 
 import { Hono } from 'hono';
@@ -32,7 +37,7 @@ router.get('/', async (c) => {
   let stateChips = '';
   try {
     const states = await c.env.DB
-      .prepare(`SELECT id, name FROM geography_places WHERE geography_type = 'state' ORDER BY name ASC`)
+      .prepare(`SELECT id, name FROM places WHERE geography_type = 'state' ORDER BY name ASC`)
       .all<{ id: string; name: string }>();
     stateChips = (states.results ?? [])
       .map((s) => `<a class="ww-chip" href="/discover/in/${esc(s.id)}">${esc(s.name)}</a>`)
@@ -51,7 +56,7 @@ router.get('/', async (c) => {
       .prepare(
         `SELECT o.id, o.name, o.category, gp.name AS place_name
          FROM organizations o
-         LEFT JOIN geography_places gp ON gp.id = o.place_id
+         LEFT JOIN places gp ON gp.id = o.place_id
          WHERE o.is_published = 1
          ORDER BY o.created_at DESC
          LIMIT 8`,
@@ -197,7 +202,7 @@ router.get('/in/:placeId', async (c) => {
   let placeName = 'this area';
   try {
     const placeRow = await c.env.DB
-      .prepare(`SELECT name FROM geography_places WHERE id = ? LIMIT 1`)
+      .prepare(`SELECT name FROM places WHERE id = ? LIMIT 1`)
       .bind(placeId)
       .first<{ name: string }>();
     if (placeRow) placeName = placeRow.name;
@@ -211,19 +216,20 @@ router.get('/in/:placeId', async (c) => {
   let results: typeof cached;
 
   if (!cached) {
+    // BUG-P3-001 fix: ancestry_path subtree query replaces path LIKE subquery.
+    // Bind placeId twice: once for the direct match, once for the LIKE pattern.
+    const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
     const rows = await c.env.DB
       .prepare(
         `SELECT o.id, o.name, o.category, gp.name AS place_name
          FROM organizations o
-         JOIN geography_places gp ON gp.id = o.place_id
-         WHERE gp.path LIKE (
-           SELECT path || '%' FROM geography_places WHERE id = ?
-         )
+         JOIN places gp ON gp.id = o.place_id
+         WHERE (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')
          AND o.is_published = 1
          ORDER BY o.name ASC
          LIMIT 50`,
       )
-      .bind(placeId)
+      .bind(placeId, `%"${safePlaceId}"%`)
       .all<{ id: string; name: string; category: string; place_name: string }>();
     results = rows.results ?? [];
     await c.env.DISCOVERY_CACHE.put(cacheKey, JSON.stringify(results), { expirationTtl: 60 });
@@ -303,7 +309,7 @@ router.get('/search', async (c) => {
       try {
         const geoRow = await c.env.DB
           .prepare(
-            `SELECT id, name FROM geography_places
+            `SELECT id, name FROM places
              WHERE geography_type = 'state'
                AND LOWER(name) LIKE LOWER(?) || '%'
              LIMIT 1`,
@@ -320,18 +326,21 @@ router.get('/search', async (c) => {
     }
   }
 
+  // BUG-P3-001 fix: ancestry_path subtree query replaces path LIKE subquery.
+  // When placeId present, bind it twice (once for gp.id = ?, once for LIKE pattern).
+  const safePlaceId = placeId ? placeId.replace(/[%_\\]/g, '\\$&') : null;
   const results = await c.env.DB
     .prepare(
       `SELECT o.id, o.name, o.category, gp.name AS place_name
        FROM organizations o
-       JOIN geography_places gp ON gp.id = o.place_id
+       JOIN places gp ON gp.id = o.place_id
        WHERE o.is_published = 1
          AND (o.name LIKE '%' || ? || '%' OR o.category LIKE '%' || ? || '%')
-         ${placeId ? 'AND gp.path LIKE (SELECT path || \'%\' FROM geography_places WHERE id = ?)' : ''}
+         ${placeId ? "AND (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')" : ''}
        ORDER BY o.name ASC
        LIMIT 30`,
     )
-    .bind(...(placeId ? [q, q, placeId] : [q, q]))
+    .bind(...(placeId && safePlaceId ? [q, q, placeId, `%"${safePlaceId}"%`] : [q, q]))
     .all<{ id: string; name: string; category: string; place_name: string }>();
 
   const rows = results.results ?? [];
@@ -403,7 +412,7 @@ router.get('/category/:cat', async (c) => {
       .prepare(
         `SELECT o.id, o.name, o.category, gp.name AS place_name
          FROM organizations o
-         LEFT JOIN geography_places gp ON gp.id = o.place_id
+         LEFT JOIN places gp ON gp.id = o.place_id
          WHERE o.is_published = 1
            AND LOWER(o.category) = LOWER(?)
          ORDER BY o.name ASC

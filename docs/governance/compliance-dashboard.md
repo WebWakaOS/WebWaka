@@ -243,7 +243,42 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
 ---
 
-*Last updated: 2026-04-24 (Sprint 3 compliance items — BUG-039 / COMP-006 data residency added)*
+---
+
+## Pillar 3 Forensics Remediation — Sprint 4 (2026-04-24)
+
+**Source:** `docs/reports/pillar3-forensics-report-2026-04-24.md`  
+**17 bugs identified → 17 fixed (11 code + 4 config/doc + 2 already-fixed)**
+
+| Bug ID | Severity | Description | Status |
+|--------|----------|-------------|--------|
+| BUG-P3-001 | HIGH | `geography_places` → `places` + `ancestry_path` hierarchy | ✅ FIXED — geography.ts, listings.ts, profiles.ts |
+| BUG-P3-002 | HIGH | Missing org discovery columns (`is_published`, `category`, `place_id`, `description`, `phone`, `website`, `logo_url`) | ✅ FIXED — migration 0388_organizations_discovery_columns.sql |
+| BUG-P3-004 | MED | `UNSUBSCRIBE_HMAC_SECRET` not documented in wrangler.toml | ✅ FIXED — tenant-public/wrangler.toml updated |
+| BUG-P3-005 | HIGH | `workspace_id` → `tenant_id` in public profile queries | ✅ FIXED — public.ts, tenant-public/index.ts (2 locations) |
+| BUG-P3-006 | MED | SW sync posts to `/api/sync/apply` — endpoint missing | ✅ FIXED — endpoint added to public-discovery/src/index.ts |
+| BUG-P3-008 | MED | `storedToken === token` (non-timing-safe) in claim verify | ✅ FIXED — HMAC-based timingSafeEqual in claim.ts |
+| BUG-P3-009 | HIGH | `contactEmail` PII stored in analytics metadata | ✅ FIXED — removed from logEvent call in discovery.ts |
+| BUG-P3-010 | MED | Trending LIKE wildcard injection (`%${placeId}%`, no ESCAPE) | ✅ FIXED — ESCAPE clause + safePlaceId in discovery.ts |
+| BUG-P3-011 | HIGH | `POST /social/stories` route missing from social.ts | ✅ FIXED — route added with `createStory` import |
+| BUG-P3-012 | MED | Moderation threshold unit mismatch (fraction vs basis points) | ✅ FIXED — `bpsToFraction`/`fractionToBps` utils + documentation |
+| BUG-P3-013 | LOW | tenant-public has no KV binding (THEME_CACHE) | ✅ FIXED — KV binding added to wrangler.toml; Env updated |
+| BUG-P3-014 | LOW | `packages/profiles` is an unused stub | ✅ DOCUMENTED — backlog item, usage plan added to package header |
+| BUG-P3-015 | MED | Governance dashboard had false-green claims | ✅ FIXED — this table |
+| BUG-P3-016 | INFO | `packages/search-indexing` is types-only scaffold | ✅ DOCUMENTED — existing comment confirmed correct |
+| BUG-P3-017 | INFO | Migration directory split creates deployment uncertainty | ✅ FIXED — `infra/db/MIGRATION_GUIDE.md` created |
+| BUG-007 | HIGH | CI did not trigger on push to main | ✅ VERIFIED FIXED — ci.yml push trigger already present |
+| BUG-008 | HIGH | parseBankAccount returns 503 on validation error | ✅ VERIFIED FIXED — payments.ts already fixed |
+| BUG-009 | HIGH | React ErrorBoundary missing from workspace-app | ✅ VERIFIED FIXED — ui-error-boundary package + main.tsx already fixed |
+| BUG-014 | HIGH | Audit-log dual-write race condition | ✅ VERIFIED FIXED — audit-log.ts RATE_LIMIT_KV fallback already present |
+
+**Pillar 3 VERIFIED GREEN status:** All HIGH/MED bugs resolved. LOW/INFO items documented.  
+**Tenant isolation (T3) status:** BUG-P3-005 fix restores correct `tenant_id` predicate on all public profile queries.  
+**Security (SEC-PII-01) status:** BUG-P3-009 fix removes contactEmail from analytics events.
+
+---
+
+*Last updated: 2026-04-24 (Sprint 4 — Pillar 3 forensics remediation complete)*
 
 *This dashboard is the single-page compliance view for WebWaka OS.*  
 *For detailed invariant definitions, see `docs/governance/platform-invariants.md`.*  

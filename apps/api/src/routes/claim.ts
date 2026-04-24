@@ -53,6 +53,35 @@ function generateClaimId(): string {
 }
 
 // ---------------------------------------------------------------------------
+// BUG-P3-008 fix: timing-safe string comparison using HMAC.
+// crypto.subtle.timingSafeEqual is not part of the Web Crypto API.
+// Instead we HMAC both strings with the same ephemeral key — HMAC output is
+// constant-length so a bitwise XOR comparison leaks no timing information
+// about the input strings' content or common prefix.
+// ---------------------------------------------------------------------------
+async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const enc = new TextEncoder();
+  // generateKey with symmetric HMAC always returns CryptoKey, not CryptoKeyPair.
+  // The Web Crypto type union includes CryptoKeyPair for asymmetric algorithms;
+  // the cast is safe and confirmed by the HMAC algorithm spec.
+  const key = await crypto.subtle.generateKey(
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  ) as CryptoKey;
+  const [aSig, bSig] = await Promise.all([
+    crypto.subtle.sign('HMAC', key, enc.encode(a)),
+    crypto.subtle.sign('HMAC', key, enc.encode(b)),
+  ]);
+  const aArr = new Uint8Array(aSig);
+  const bArr = new Uint8Array(bSig);
+  if (aArr.length !== bArr.length) return false;
+  let diff = 0;
+  for (let i = 0; i < aArr.length; i++) diff |= (aArr[i] ?? 0) ^ (bArr[i] ?? 0);
+  return diff === 0;
+}
+
+// ---------------------------------------------------------------------------
 // POST /claim/intent — Auth required
 // Converts a discovery claim-intent record into a formal claim_request row.
 // ---------------------------------------------------------------------------
@@ -333,8 +362,12 @@ claimRoutes.post('/verify', async (c) => {
   if (claimRow.verification_data) {
     try {
       const stored = JSON.parse(claimRow.verification_data) as { token?: string; otp?: string; expiresAt?: number };
+      // BUG-P3-008 fix: use HMAC-based timing-safe comparison (see timingSafeEqual above).
+      // Plain === comparison leaks timing information enabling token enumeration attacks.
       const storedToken = stored.token ?? stored.otp;
-      tokenValid = storedToken === token && (!stored.expiresAt || now < stored.expiresAt);
+      if (storedToken !== undefined) {
+        tokenValid = await timingSafeEqual(storedToken, token) && (!stored.expiresAt || now < stored.expiresAt);
+      }
     } catch {
       tokenValid = false;
     }

@@ -112,13 +112,16 @@ async function fetchOfferings(env: Env, tenantId: string, limit = 6): Promise<Of
 
 async function fetchProfile(env: Env, tenantId: string): Promise<ProfileRow | null> {
   try {
+    // BUG-P3-001 fix: geography_places → places (correct table, migration 0001).
+    // BUG-P3-002 fix: entity_profiles table does not exist in schema; removed JOIN.
+    //   phone, email, website are selected directly from organizations
+    //   (email pre-exists; phone/website added by migration 0388).
     return await env.DB
       .prepare(
-        `SELECT o.description, ep.phone, ep.email, ep.website,
+        `SELECT o.description, o.phone, o.email, o.website,
                 gp.name AS place_name, o.category
          FROM organizations o
-         LEFT JOIN entity_profiles ep ON ep.entity_id = o.id
-         LEFT JOIN geography_places gp ON gp.id = o.place_id
+         LEFT JOIN places gp ON gp.id = o.place_id
          WHERE o.id = ?
          LIMIT 1`,
       )

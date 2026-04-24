@@ -31,6 +31,13 @@ interface Env {
   ALLOWED_ORIGINS?: string;
   /** HMAC secret for unsubscribe token signing (shared with apps/api) */
   UNSUBSCRIBE_HMAC_SECRET?: string;
+  /**
+   * BUG-P3-013 fix: KV namespace for caching brand tokens (theme, display name).
+   * Declared optional so the worker runs without it (falls back to D1 on every request).
+   * Provision via: wrangler kv namespace create THEME_CACHE --env <env>
+   * and update wrangler.toml with the real KV namespace ID.
+   */
+  THEME_CACHE?: KVNamespace;
 }
 
 interface D1Like {
@@ -189,11 +196,14 @@ app.get('/', async (c) => {
   const perPage = Math.min(50, Math.max(1, parseInt(c.req.query('perPage') ?? '20', 10)));
   const offset = (page - 1) * perPage;
 
+  // BUG-P3-005 fix: profiles are scoped by tenant_id, not workspace_id.
+  // manifest.tenantId is the correct predicate; workspace_id is only set
+  // after a claim is approved and must not be used for tenant scoping.
   let sql = `SELECT p.id, p.entity_id, p.entity_type, p.display_name, p.headline,
                     p.avatar_url, p.place_id, p.visibility, p.claim_status, p.content,
                     datetime(p.created_at,'unixepoch') AS created_at
              FROM profiles p
-             WHERE p.workspace_id = ? AND p.visibility IN ('public','semi')`;
+             WHERE p.tenant_id = ? AND p.visibility IN ('public','semi')`;
   const binds: unknown[] = [manifest.tenantId];
 
   if (q) {
@@ -225,13 +235,14 @@ app.get('/profiles/:id', async (c) => {
   const profileId = c.req.param('id');
   const db = c.env.DB as unknown as D1Like;
 
+  // BUG-P3-005 fix: scope by tenant_id, not workspace_id.
   const row = await db
     .prepare(
       `SELECT p.id, p.entity_id, p.entity_type, p.display_name, p.headline,
               p.avatar_url, p.place_id, p.visibility, p.claim_status, p.content,
               datetime(p.created_at,'unixepoch') AS created_at
        FROM profiles p
-       WHERE p.id = ? AND p.workspace_id = ? AND p.visibility != 'private'`,
+       WHERE p.id = ? AND p.tenant_id = ? AND p.visibility != 'private'`,
     )
     .bind(profileId, manifest.tenantId)
     .first<ProfileRow>();

@@ -87,11 +87,14 @@ publicRoutes.get('/:tenantSlug', async (c) => {
   const perPage = Math.min(100, Math.max(1, parseInt(c.req.query('perPage') ?? '20', 10)));
   const offset = (page - 1) * perPage;
 
+  // BUG-P3-005 fix: profiles are scoped by tenant_id, not workspace_id.
+  // manifest.tenantId is the correct predicate; workspace_id is a separate
+  // column (profiles.workspace_id) used only after a claim is approved.
   let sql = `SELECT p.id, p.entity_id, p.entity_type, p.display_name, p.headline,
                     p.avatar_url, p.place_id, p.visibility, p.claim_status, p.content,
                     datetime(p.created_at,'unixepoch') AS created_at
              FROM profiles p
-             WHERE p.workspace_id = ? AND p.visibility IN ('public','semi')`;
+             WHERE p.tenant_id = ? AND p.visibility IN ('public','semi')`;
   const binds: unknown[] = [manifest.tenantId];
 
   if (entityType) {
