@@ -1230,4 +1230,59 @@ partnerRoutes.get('/:id/settlements', async (c) => {
   return c.json({ settlements: results ?? [], page, perPage });
 });
 
+// ---------------------------------------------------------------------------
+// PATCH /partners/:id/attribution — toggle white-label attribution (BUG-031 / COMP-007)
+//
+// BUG-031 / COMP-007: The white-label-policy.md allows partners above a certain tier
+// to disable the WebWaka attribution badge. Changes to `attribution_enabled` must be
+// audit-logged with event_type='PARTNER_ATTRIBUTION_CHANGED' for compliance traceability.
+// Without this, operators cannot reconstruct a timeline of attribution state for disputes.
+// ---------------------------------------------------------------------------
+
+partnerRoutes.patch('/:id/attribution', async (c) => {
+  const auth = c.get('auth');
+
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'super_admin role required' }, 403);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+  const partnerId = c.req.param('id');
+
+  const body = await c.req.json<{ attribution_enabled: boolean }>().catch(() => null);
+  if (!body || typeof body.attribution_enabled !== 'boolean') {
+    return c.json({ error: 'attribution_enabled (boolean) is required' }, 400);
+  }
+
+  const partner = await db
+    .prepare('SELECT id, attribution_enabled FROM partners WHERE id = ?')
+    .bind(partnerId)
+    .first<{ id: string; attribution_enabled: number | null }>();
+
+  if (!partner) {
+    return c.json({ error: 'Partner not found' }, 404);
+  }
+
+  const previousValue = partner.attribution_enabled !== 0;
+  const newValue = body.attribution_enabled;
+
+  await db
+    .prepare('UPDATE partners SET attribution_enabled = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    .bind(newValue ? 1 : 0, partnerId)
+    .run();
+
+  // BUG-031 / COMP-007: Audit log — append-only record for compliance traceability.
+  await writePartnerAuditLog(db, partnerId, auth.userId ?? 'system', 'PARTNER_ATTRIBUTION_CHANGED', {
+    previous: previousValue,
+    updated: newValue,
+    actor_role: auth.role,
+  });
+
+  return c.json({
+    partner_id: partnerId,
+    attribution_enabled: newValue,
+    message: `Attribution ${newValue ? 'enabled' : 'disabled'} for partner ${partnerId}.`,
+  });
+});
+
 export { partnerRoutes };

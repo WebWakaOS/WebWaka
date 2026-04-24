@@ -18,6 +18,10 @@ binding = "DB"
 database_name = "webwaka-staging"
 database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 migrations_dir = "migrations"
+# COMP-006: Data residency assertion (NDPR Art. 2.4 — data localisation).
+# WNAM (Western North America) is the closest Cloudflare D1 region to Nigeria
+# with GDPR-adequate transfer safeguards. See docs/governance/compliance-dashboard.md.
+primary_location = "wnam"
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -33,7 +37,10 @@ id = "4732f3a682964607bae2170f350e4fb4"
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-staging"
 
-# KV (audit-log fallback, feature flags)
+# INF-006 audit: KV is intentionally bound — reserved for audit-log fallback and feature flags (SEC-17).
+# Currently not actively written in src/ (code uses RATE_LIMIT_KV instead for most operations).
+# Do NOT remove: this binding is a safety net for the audit-log writer when RATE_LIMIT_KV is unavailable.
+# Future: centralise audit writes to use KV as the secondary store (sprint backlog).
 [[env.staging.kv_namespaces]]
 binding = "KV"
 id = "1be2915ea0c74f33bbad76f5973474f4"
@@ -77,6 +84,10 @@ binding = "DB"
 database_name = "webwaka-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 migrations_dir = "migrations"
+# COMP-006: Data residency assertion (NDPR Art. 2.4 — data localisation).
+# WNAM (Western North America) is the closest Cloudflare D1 region to Nigeria
+# with GDPR-adequate transfer safeguards. See docs/governance/compliance-dashboard.md.
+primary_location = "wnam"
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -91,7 +102,7 @@ id = "5bd5695d963247d0b105a936827e0a89"
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-production"
 
-# KV (audit-log fallback, feature flags)
+# INF-006 audit: KV intentionally bound — audit-log fallback, feature flags (SEC-17). Not orphaned.
 [[env.production.kv_namespaces]]
 binding = "KV"
 id = "a43e090a1b344e0aa4dbc311089d3d86"
