@@ -31,6 +31,16 @@ export interface TemplateManifest {
     public_site?: string | null;
     api_extension?: string | null;
   };
+  /**
+   * render_entrypoint — module identifier for website template rendering.
+   * For built-in (platform-managed) website templates this is the template slug
+   * (e.g. "default-website") which maps to a known render function in brand-runtime.
+   * For third-party / marketplace templates this field is reserved for future
+   * dynamic loading once sandboxed execution is available.
+   * Null / absent means the template has no runtime render function (dashboard-only,
+   * workflow, or email templates).
+   */
+  render_entrypoint?: string | null;
   config_schema?: Record<string, unknown>;
   events?: string[];
   dependencies?: {
@@ -41,6 +51,98 @@ export interface TemplateManifest {
     model: 'free' | 'one_time' | 'subscription';
     price_kobo: number;
   };
+}
+
+// ---------------------------------------------------------------------------
+// WebsiteTemplateContract — the interface every brand-runtime website template
+// must satisfy. Built-in templates export a value implementing this contract.
+// Marketplace templates register their slug here; brand-runtime resolves the
+// appropriate built-in template by slug at render time.
+// ---------------------------------------------------------------------------
+
+/**
+ * Page types that a website template can render.
+ * 'home'     — the branded landing page (/)
+ * 'about'    — about page (/about)
+ * 'services' — offerings / products list (/services)
+ * 'contact'  — contact form (/contact)
+ * 'blog'     — blog index (/blog)
+ * 'blog-post'— single blog post (/blog/:slug)
+ * 'custom'   — catch-all for vertical-specific page types
+ */
+export type WebsitePageType = 'home' | 'about' | 'services' | 'contact' | 'blog' | 'blog-post' | 'custom';
+
+/**
+ * Render context passed to every page renderer.
+ * All values are safe to consume directly — theme values have been resolved
+ * via resolveBrandContext() and CSS-sanitized before reaching here.
+ */
+export interface WebsiteRenderContext {
+  tenantId: string;
+  tenantSlug: string;
+  displayName: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  fontFamily: string;
+  logoUrl: string | null;
+  faviconUrl: string | null;
+  borderRadiusPx: number;
+  cssVars: string;
+  pageType: WebsitePageType;
+  /** Arbitrary page-specific data fetched by the route handler (offerings, posts, etc.) */
+  data: Record<string, unknown>;
+}
+
+/**
+ * WebsiteTemplateContract — the shape every registered website template must export.
+ *
+ * brand-runtime resolves the active template for a tenant by querying
+ * template_installations JOIN template_registry, then dispatches to the
+ * matching built-in implementation. Fallback to the 'default-website' contract
+ * when no active install exists.
+ */
+export interface WebsiteTemplateContract {
+  /** Canonical slug — matches template_registry.slug */
+  slug: string;
+  /** Semver version string */
+  version: string;
+  /** Page types this template can render */
+  pages: WebsitePageType[];
+  /**
+   * Render a page and return a complete HTML body string (NOT a full document —
+   * the base template wrapper is applied by brand-runtime after this call).
+   * Must be synchronous — all async data fetching is done before this call.
+   * Must not throw — return a safe fallback string on any error.
+   */
+  renderPage(ctx: WebsiteRenderContext): string;
+}
+
+/**
+ * Validate that an object satisfies WebsiteTemplateContract at runtime.
+ * Used by the template registry API when a website template is published.
+ */
+export function validateWebsiteTemplateContract(contract: unknown): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!contract || typeof contract !== 'object') {
+    return { valid: false, errors: ['Contract must be a non-null object'] };
+  }
+  const c = contract as Record<string, unknown>;
+
+  if (typeof c.slug !== 'string' || !/^[a-z0-9-]+$/.test(c.slug)) {
+    errors.push('"slug" must be a non-empty kebab-case string');
+  }
+  if (typeof c.version !== 'string') {
+    errors.push('"version" must be a string');
+  }
+  if (!Array.isArray(c.pages) || c.pages.length === 0) {
+    errors.push('"pages" must be a non-empty array of WebsitePageType values');
+  }
+  if (typeof c.renderPage !== 'function') {
+    errors.push('"renderPage" must be a function');
+  }
+
+  return { valid: errors.length === 0, errors };
 }
 
 export type TemplateType = 'dashboard' | 'website' | 'vertical-blueprint' | 'workflow' | 'email' | 'module';
