@@ -27,6 +27,13 @@ export interface Env {
    * Optional in type; routes using this must guard for undefined.
    */
   ASSETS?: R2Bucket;
+  /**
+   * Public base URL for the API Worker.
+   * Used by the portal login route to build inter-service fetch targets.
+   * Defaults to environment-specific fallback if absent.
+   * Example: "https://api.webwaka.com"
+   */
+  API_BASE_URL?: string;
 }
 
 export interface Variables {
