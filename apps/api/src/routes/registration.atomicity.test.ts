@@ -15,7 +15,7 @@
  * record should persist (T3: all rows must share the same tenant_id).
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 interface RegistrationState {
   userId: string | null;
@@ -37,7 +37,7 @@ class MockDB {
     this.failAt = failAt;
   }
 
-  async registerAtomically(tenantId: string): Promise<RegistrationState> {
+  async registerAtomically(_tenantId: string): Promise<RegistrationState> {
     const state: RegistrationState = {
       userId: null,
       sessionId: null,

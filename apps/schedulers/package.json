@@ -2,7 +2,7 @@
   "name": "@webwaka/schedulers",
   "version": "0.1.0",
   "private": true,
-  "description": "Dedicated Cloudflare Workers scheduler — BUG-005 / ENH-004",
+  "description": "[Infra] Dedicated Cloudflare Workers scheduler — BUG-005 / ENH-004",
   "main": "./src/index.ts",
   "scripts": {
     "dev": "wrangler dev",

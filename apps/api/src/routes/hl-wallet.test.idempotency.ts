@@ -6,7 +6,7 @@
  * Platform invariant WF-0xx: No double-spend; P9: integer kobo only.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // Shared test doubles for wallet operations
 function makeKVStub(store: Map<string, string> = new Map()) {
