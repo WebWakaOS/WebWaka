@@ -54,10 +54,11 @@ binding = "DB"
 database_name = "webwaka-os-staging"
 database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
-# Replace with actual KV namespace ID from: wrangler kv namespace create THEME_CACHE --env staging
+# KV namespace provisioned 2026-04-24 via Cloudflare API.
+# Title: webwaka-tenant-public-theme-cache-staging
 [[env.staging.kv_namespaces]]
 binding = "THEME_CACHE"
-id = "REPLACE_WITH_STAGING_THEME_CACHE_KV_ID"
+id = "6ccd413f9e6043479e6ddaba882011de"
 
 # ---------------------------------------------------------------------------
 # Production
@@ -73,7 +74,8 @@ binding = "DB"
 database_name = "webwaka-os-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
-# Replace with actual KV namespace ID from: wrangler kv namespace create THEME_CACHE --env production
+# KV namespace provisioned 2026-04-24 via Cloudflare API.
+# Title: webwaka-tenant-public-theme-cache-production
 [[env.production.kv_namespaces]]
 binding = "THEME_CACHE"
-id = "REPLACE_WITH_PRODUCTION_THEME_CACHE_KV_ID"
+id = "28603158a6cb4b5893d5063979c17f7f"
