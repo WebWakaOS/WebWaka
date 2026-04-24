@@ -54,7 +54,7 @@ export function blogPostBody(post: BlogPostDetail): string {
       </header>
 
       <div itemprop="articleBody" style="line-height:1.8;font-size:1.0625rem;color:var(--ww-text)">
-        ${post.content}
+        ${escHtml(post.content)}
       </div>
 
       <footer style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--ww-border)">
