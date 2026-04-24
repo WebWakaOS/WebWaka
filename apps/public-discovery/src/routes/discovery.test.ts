@@ -58,24 +58,28 @@ function makeDB(opts: DBOpts = {}): D1Database {
     return {
       all: async <T>(): Promise<{ results: T[] }> => {
         if (lo.includes('organizations') && !lo.includes('where e.id')) return { results: orgs as T[] };
-        if (lo.includes('geography_places') && lo.includes('select id') && !lo.includes('join')) return { results: places as T[] };
-        if (lo.includes('geography_places') && lo.includes('select id, name')) return { results: places as T[] };
+        // BUG-P3-001 fix: table renamed geography_places → places (migration 0001)
+        if (lo.includes('from places') && lo.includes('select id') && !lo.includes('join')) return { results: places as T[] };
+        if (lo.includes('from places') && lo.includes('select id, name')) return { results: places as T[] };
         if (lo.includes('offerings')) return { results: offerings as T[] };
         return { results: [] as T[] };
       },
       first: async <T>(): Promise<T | null> => {
         // Geography router: resolve place by slug — lower(replace(name,' ','-')) = ?
-        if (lo.includes('geography_places') && lo.includes('lower(replace') && !lo.includes('join')) {
+        // BUG-P3-001 fix: geography_places → places
+        if (lo.includes('from places') && lo.includes('lower(replace') && !lo.includes('join')) {
           if (places.length > 0) return places[0] as T;
           return null;
         }
         // Geography router: place name lookup for placeId
-        if (lo.includes('from geography_places') && lo.includes('select name')) {
+        // BUG-P3-001 fix: geography_places → places
+        if (lo.includes('from places') && lo.includes('select name')) {
           if (places.length > 0) return { name: (places[0] as Row).name ?? 'TestPlace' } as T;
           return null;
         }
-        // Profile query: SELECT e.id, e.name ... FROM <table> e LEFT JOIN geography_places
-        if (lo.includes('left join geography_places') || lo.includes('left join entity_profiles')) {
+        // Profile query: SELECT e.id, e.name ... FROM <table> e LEFT JOIN places
+        // BUG-P3-001 fix: geography_places → places; entity_profiles JOIN removed
+        if (lo.includes('left join places') || lo.includes('left join entity_profiles')) {
           if (lo.includes('individuals') || lo.includes('individual')) {
             if (!profile) return null;
             return profile as T;
@@ -245,7 +249,7 @@ describe('D03: GET /discover — platform home page', () => {
     expect(html).toContain('Restaurant');
   });
 
-  it('includes state browse chips when geography_places data exists', async () => {
+  it('includes state browse chips when places data exists', async () => {
     const { app, env } = makeApp({ places: PLACES_FIXTURE });
     const res = await app.request('/discover', {}, env);
     const html = await res.text();
