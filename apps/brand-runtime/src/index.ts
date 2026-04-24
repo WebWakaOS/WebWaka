@@ -61,7 +61,12 @@ app.get('/robots.txt', (c) => {
 
 // ─── PWA service worker with Background Sync (PWA-002) ───────────────────
 app.get('/sw.js', (c) => {
+  // PWA-002: SW sync must POST to the API Worker, not the brand-runtime domain.
+  // API_BASE_URL is injected at SW-serve time so the script carries the correct
+  // absolute origin — avoids the relative-URL cross-worker routing bug.
+  const apiBase = (c.env.API_BASE_URL ?? 'https://api.webwaka.com').replace(/\/$/, '');
   const sw = `const CACHE='webwaka-brand-v2';
+const API_BASE='${apiBase}';
 const SHELL=['/','/manifest.json'];
 
 self.addEventListener('install',e=>{
@@ -97,7 +102,7 @@ async function processSyncQueue(){
     const pending=items.filter(i=>i.status==='pending'||i.status==='failed').sort((a,b)=>a.createdAt-b.createdAt);
     for(const item of pending){
       try{
-        const resp=await fetch('/api/sync/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});
+        const resp=await fetch(API_BASE+'/api/sync/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});
         const newStatus=resp.ok||resp.status===409?'synced':'failed';
         const utx=db.transaction('syncQueue','readwrite');const s=utx.objectStore('syncQueue');
         const g=await new Promise((res,rej)=>{const r=s.get(item.id);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});

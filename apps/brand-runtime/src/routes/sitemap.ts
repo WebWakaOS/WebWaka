@@ -91,8 +91,8 @@ sitemapRouter.get('/manifest.webmanifest', async (c) => {
         .prepare(
           `SELECT o.name AS business_name, tb.primary_color, tb.logo_url
            FROM organizations o
-           LEFT JOIN tenant_branding tb ON tb.tenant_id = o.tenant_id
-           WHERE o.tenant_id = ?
+           LEFT JOIN tenant_branding tb ON tb.tenant_id = o.id
+           WHERE o.id = ?
            LIMIT 1`,
         )
         .bind(tenantId)

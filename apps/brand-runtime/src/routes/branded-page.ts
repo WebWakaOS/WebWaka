@@ -26,6 +26,7 @@ import type { Context } from 'hono';
 import type { Env, Variables } from '../env.js';
 import { generateCssTokens } from '../lib/theme.js';
 import type { TenantTheme } from '../lib/theme.js';
+import { buildCssVars, getDefaultTheme } from '../lib/theme.js';
 import { baseTemplate } from '../templates/base.js';
 import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
@@ -38,12 +39,54 @@ const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 type Offering = { name: string; description: string | null; price_kobo: number | null };
 type ProfileRow = { description: string | null; phone: string | null; email: string | null; website: string | null; place_name: string | null; category: string | null };
 
+/**
+ * ENT-004: Apply the partner-granted white-label depth cap to a resolved theme.
+ *   depth 0 — no white-labelling: reset visual fields to platform defaults,
+ *             keep only tenant identity (id, slug, displayName).
+ *   depth 1 — basic: preserve logo + brand colours; strip custom domain and
+ *             all email-branding fields (they require full white-label rights).
+ *   depth 2 — full white-label: return theme unchanged.
+ */
+function applyDepthCap(theme: TenantTheme, depth: number): TenantTheme {
+  if (depth >= 2) return theme;
+
+  if (depth === 0) {
+    const defaults = getDefaultTheme();
+    return {
+      ...defaults,
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      // Fields omitted from DEFAULT_THEME (added in Phase 3) — platform defaults
+      customDomain: null,
+      senderEmailAddress: null,
+      senderDisplayName: null,
+      tenantSupportEmail: null,
+      tenantAddress: null,
+    };
+  }
+
+  // depth 1: basic — logo + colours; strip domain and email-branding fields
+  return {
+    ...theme,
+    customDomain: null,
+    senderEmailAddress: null,
+    senderDisplayName: null,
+    tenantSupportEmail: null,
+    tenantAddress: null,
+    faviconUrl: null,
+  };
+}
+
 async function resolveTheme(
   c: Context<{ Bindings: Env; Variables: Variables }>,
 ): Promise<{ cssVars: string; theme: TenantTheme } | null> {
   try {
     const result = await generateCssTokens(c.get('tenantSlug'), c.env);
-    return result;
+    const depth: number = c.get('whiteLabelDepth') ?? 2;
+    const theme = applyDepthCap(result.theme, depth);
+    const cssVars = depth >= 2 ? result.cssVars : buildCssVars(theme);
+    return { cssVars, theme };
   } catch {
     return null;
   }
@@ -382,21 +425,47 @@ router.get('/:slug', async (c) => {
   const { cssVars, theme } = resolved;
 
   const offerings = await fetchOfferings(c.env, theme.tenantId);
+  const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const body = brandedHomeBody({
-    displayName: theme.displayName,
-    tagline: null,
-    description: null,
-    primaryColor: theme.primaryColor,
-    logoUrl: theme.logoUrl,
-    ctaLabel: 'View Our Services',
-    ctaUrl: '/services',
-    offerings: offerings.map((o) => ({
-      name: o.name,
-      description: o.description,
-      priceKobo: o.price_kobo,
-    })),
-  });
+  // Marketplace-driven rendering: attempt to resolve active template install.
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  let body: string;
+  if (templateContract && templateSupportsPage(templateContract, 'home')) {
+    body = templateContract.renderPage({
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      primaryColor: theme.primaryColor,
+      secondaryColor: theme.secondaryColor,
+      accentColor: theme.accentColor,
+      fontFamily: theme.fontFamily,
+      logoUrl: theme.logoUrl,
+      faviconUrl: theme.faviconUrl,
+      borderRadiusPx: theme.borderRadiusPx,
+      cssVars,
+      pageType: 'home',
+      data: {
+        offerings: offerings.map((o) => ({ name: o.name, description: o.description, priceKobo: o.price_kobo })),
+        description: profile?.description ?? null,
+        tagline: null,
+      },
+    });
+  } else {
+    body = brandedHomeBody({
+      displayName: theme.displayName,
+      tagline: null,
+      description: profile?.description ?? null,
+      primaryColor: theme.primaryColor,
+      logoUrl: theme.logoUrl,
+      ctaLabel: 'View Our Services',
+      ctaUrl: '/services',
+      offerings: offerings.map((o) => ({
+        name: o.name,
+        description: o.description,
+        priceKobo: o.price_kobo,
+      })),
+    });
+  }
 
   return c.html(baseTemplate({ title: 'Welcome', cssVars, logoUrl: theme.logoUrl, displayName: theme.displayName, faviconUrl: theme.faviconUrl, body }));
 });
