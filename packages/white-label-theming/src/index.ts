@@ -156,12 +156,27 @@ export function validateBrandConfig(config: BrandConfig): string[] {
 // CSS generation
 // ---------------------------------------------------------------------------
 
+/**
+ * Sanitize a CSS custom-property value to prevent CSS injection.
+ * Strips characters that can escape out of a CSS value context:
+ *   \ { } < > ; " url( expression(
+ * SEC: P0 fix — fontFamily and other string tokens were injected unescaped.
+ */
+function sanitizeCssValue(value: string): string {
+  return value
+    .replace(/\\/g, '')
+    .replace(/[{}<>;]/g, '')
+    .replace(/"/g, '')
+    .replace(/url\s*\(/gi, '')
+    .replace(/expression\s*\(/gi, '');
+}
+
 export function buildCssVars(theme: TenantTheme): string {
   return `:root {
   --ww-primary:        ${theme.primaryColor};
   --ww-secondary:      ${theme.secondaryColor};
   --ww-accent:         ${theme.accentColor};
-  --ww-font:           ${theme.fontFamily};
+  --ww-font:           ${sanitizeCssValue(theme.fontFamily)};
   --ww-radius:         ${theme.borderRadiusPx}px;
   --ww-text:           #111827;
   --ww-text-muted:     #6b7280;
