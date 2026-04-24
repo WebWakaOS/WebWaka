@@ -119,8 +119,16 @@ templates.get('/', async (c) => {
   }
 
   if (verticalFilter) {
-    query += ` AND (compatible_verticals = '[]' OR compatible_verticals LIKE ?)`;
-    params.push(`%"${verticalFilter}"%`);
+    // P1 fix: use json_each for exact element match instead of LIKE substring.
+    // LIKE '%"food"%' is fragile: it can match partial slug suffixes in adjacent
+    // JSON values (e.g. a value ending with the filter slug + quote).
+    // json_each(compatible_verticals) ensures only exact canonical slug matches.
+    query += ` AND (compatible_verticals = '[]'
+                   OR EXISTS (
+                     SELECT 1 FROM json_each(template_registry.compatible_verticals)
+                     WHERE json_each.value = ?
+                   ))`;
+    params.push(verticalFilter);
   }
 
   if (cursor) {
