@@ -81,7 +81,9 @@ export default function Register() {
           <Input
             label="Phone number"
             type="tel"
-            autoComplete="tel"
+            autoComplete="tel-national"
+            inputMode="tel"
+            pattern="^\+?[0-9]{10,14}$"
             placeholder="+2348012345678"
             error={errors.phone?.message}
             hint="Optional — for account recovery"

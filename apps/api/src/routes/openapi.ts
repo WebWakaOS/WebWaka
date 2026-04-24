@@ -409,4 +409,55 @@ swaggerRoutes.get('/', (c) => {
   return c.html(html);
 });
 
+// BUG-052: GET /changelog — machine-readable API version history with Deprecation headers
+openapiRoutes.get('/changelog', (c) => {
+  const changelog = [
+    {
+      version: '1.0.1',
+      date: '2026-01-15',
+      status: 'current',
+      changes: [
+        'Template marketplace routes (GET/POST /templates, GET /templates/:id)',
+        'Negotiation engine (POST /api/v1/negotiation/sessions, PATCH offers)',
+        'B2B marketplace (GET /b2b/listings, POST /b2b/purchase-orders)',
+        'Analytics projections (GET /analytics/projections)',
+        'Partner sub-partner management (M11)',
+        'Wallet lifecycle (POST /wallet/fund/paystack-webhook, POST /wallet/transfer)',
+        'USSD session gateway (M7b TDR-0010)',
+        'Telegram Bot webhook (M7f)',
+        'TOTP 2FA for super-admin (POST /auth/totp/setup, /auth/totp/verify)',
+        'DSAR export endpoint (POST /auth/dsar)',
+        'OpenAPI changelog endpoint (GET /changelog) — BUG-052',
+      ],
+    },
+    {
+      version: '1.0.0',
+      date: '2025-09-01',
+      status: 'supported',
+      changes: [
+        'Initial public release',
+        'Auth (login, register, verify, refresh, logout)',
+        'Geography hierarchy (GET /geography/states, /lgas, /places)',
+        'Discovery (GET /discovery, /discovery/search, /discovery/:id)',
+        'Claims lifecycle (POST /claims, PATCH /claims/:id/approve)',
+        'Workspaces (GET/POST /workspaces, PATCH settings)',
+        'Payments (POST /payments/initiate, /payments/verify, /payments/paystack/callback)',
+        'Webhooks (POST/GET/DELETE /webhooks)',
+        'POS (POST /pos/sale, GET /pos-business/products)',
+        'KYC identity (POST /auth/kyc/bvn-verify, /auth/kyc/nin-verify)',
+      ],
+    },
+  ];
+
+  const response = c.json({
+    api: 'WebWaka OS API',
+    current_version: '1.0.1',
+    changelog,
+    deprecations: [],
+    documentation: 'https://api.webwaka.com/openapi',
+  });
+
+  return response;
+});
+
 export { openapiRoutes };

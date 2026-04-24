@@ -63,6 +63,7 @@ import { setJExtendedRouter } from './routes/verticals-set-j-extended.js';
 import { negotiationRouter } from './routes/negotiation.js';
 import { partnerRoutes } from './routes/partners.js';
 import { templateRoutes } from './routes/templates.js';
+import { complianceRoutes } from './routes/compliance.js';
 import { webhookRoutes } from './routes/webhooks.js';
 import { resendBounceWebhook } from './routes/resend-bounce-webhook.js';
 import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
@@ -111,10 +112,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // -------------------------------------------------------------------------
   // Auth routes — /auth/login and /auth/verify are public;
-  // /auth/refresh and /auth/me require a valid JWT
+  // /auth/me and other secured auth routes require a valid JWT.
+  // /auth/refresh is now handled by opaque refresh token (BUG-004) — no authMiddleware needed.
   // -------------------------------------------------------------------------
-
-  app.use('/auth/refresh', authMiddleware);
   app.use('/auth/me', authMiddleware);
   app.use('/auth/profile', authMiddleware);
   app.use('/auth/logout', authMiddleware);
@@ -127,6 +127,8 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/sessions/*', authMiddleware);
   // P20-C: Send-verification requires auth; /auth/verify-email is public (token-based)
   app.use('/auth/send-verification', authMiddleware);
+  // BUG-038 / ENH-034: TOTP enrolment and management — super_admin only (role check inside handlers)
+  app.use('/auth/totp/*', authMiddleware);
   // BUG-05 fix: Audit log on authenticated P20 auth sub-routes
   app.use('/auth/invite', auditLogMiddleware);
   app.use('/auth/invite/*', auditLogMiddleware);
@@ -859,4 +861,8 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // Validates Svix signature using RESEND_WEBHOOK_SECRET before processing.
   // POST /provider-webhooks/resend
   app.route('/provider-webhooks/resend', resendBounceWebhook);
+
+  // COMP-001 / ENH-039: NDPR DSAR (Data Subject Access Request) endpoints.
+  // Auth enforced inside the route handler — authMiddleware applied on all routes.
+  app.route('/compliance', complianceRoutes);
 }

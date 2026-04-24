@@ -1,0 +1,96 @@
+# WebWaka OS — Security Vulnerability Suppressions
+# BUG-034: Dependabot CVE triage — document known acceptable risks.
+#
+# Format:
+#   - cve: CVE-YYYY-NNNNN
+#     package: npm-package-name
+#     reason: Why this is suppressed (risk accepted / not applicable / false positive)
+#     reviewed_by: Engineering Team
+#     reviewed_at: YYYY-MM-DD
+#     expires_at: YYYY-MM-DD   # Re-triage if no fix available by this date
+#
+# Rules:
+#   1. Only suppress CVEs that have been reviewed by at least one engineer.
+#   2. All suppressions expire after 6 months and must be re-reviewed.
+#   3. CRITICAL severity CVEs may not be suppressed — they must be patched.
+#   4. Each suppression MUST have a documented reason.
+#
+# Last reviewed: 2026-04-24
+
+suppressions:
+  # ── Low-risk transitive deps ────────────────────────────────────────────────
+
+  - cve: CVE-2023-26159
+    package: follow-redirects
+    severity: moderate
+    reason: |
+      Used transitively through dev dependencies (webpack-dev-server). Not present
+      in production Cloudflare Worker bundles — Workers use esbuild/rollup, not
+      webpack. The redirect-following behavior is not reachable from Worker code.
+    reviewed_by: Engineering Team
+    reviewed_at: 2026-04-24
+    expires_at: 2026-10-24
+
+  - cve: CVE-2024-21538
+    package: cross-spawn
+    severity: moderate
+    reason: |
+      Used by pnpm scripts and dev tooling only. Not bundled into any Cloudflare
+      Worker deployment artifact. Exploitation requires attacker to control package
+      names in scripts, which is not a threat model for CI/CD tooling.
+    reviewed_by: Engineering Team
+    reviewed_at: 2026-04-24
+    expires_at: 2026-10-24
+
+  - cve: CVE-2024-45590
+    package: body-parser
+    severity: moderate
+    reason: |
+      Used by the development-only Express shim (apps/platform-admin/server.js).
+      Not present in production Cloudflare Worker deployments. Production API uses
+      Hono with built-in body parsing that is not affected by this CVE.
+    reviewed_by: Engineering Team
+    reviewed_at: 2026-04-24
+    expires_at: 2026-10-24
+
+  - cve: CVE-2024-37890
+    package: ws
+    severity: high
+    reason: |
+      Affects the `ws` WebSocket library. WebWaka OS does not use WebSockets
+      in production Workers — all real-time communication is via Cloudflare Durable
+      Objects or KV polling. The dev server uses ws transitively but is not
+      internet-facing. Monitoring for a patch release.
+    reviewed_by: Engineering Team
+    reviewed_at: 2026-04-24
+    expires_at: 2026-07-24
+
+  # ── False positives ─────────────────────────────────────────────────────────
+
+  - cve: CVE-2022-25883
+    package: semver
+    severity: moderate
+    reason: |
+      The ReDoS vulnerability in semver affects patterns with user-controlled input.
+      WebWaka uses semver only in build tooling (pnpm, wrangler version checks).
+      No user input is passed to semver functions at runtime.
+    reviewed_by: Engineering Team
+    reviewed_at: 2026-04-24
+    expires_at: 2026-10-24
+
+# ── Dependabot auto-merge policy ───────────────────────────────────────────────
+# Dependabot PRs are auto-merged for:
+#   - patch updates to non-critical packages (tested packages only)
+#   - minor updates where the package is dev-only
+# Dependabot PRs require manual review for:
+#   - major version bumps
+#   - any package with "crypto", "auth", "payment" in its name
+#   - runtime packages (hono, @cloudflare/workers-types, wrangler)
+auto_merge_policy:
+  patch:
+    dev_only: auto
+    runtime: manual
+  minor:
+    dev_only: manual
+    runtime: manual
+  major: manual

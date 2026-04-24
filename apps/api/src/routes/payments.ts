@@ -45,16 +45,33 @@ interface PlatformBankAccount {
   sort_code?: string;
 }
 
-/** Parse PLATFORM_BANK_ACCOUNT_JSON, returning a safe default on failure. */
+/**
+ * Parse PLATFORM_BANK_ACCOUNT_JSON.
+ *
+ * BUG-008 fix: The previous implementation returned a soft 'Not configured' default
+ * when the env var was absent or malformed. This silently allowed the upgrade route
+ * to present bogus bank account details to users, resulting in failed transfers and
+ * silent ops failures.
+ *
+ * New behaviour: throw on missing or malformed config so callers can return HTTP 503
+ * (payment_method_unavailable) with a clear ops alert instead of silently misdirecting
+ * user payments to "N/A" account details.
+ */
 function parseBankAccount(raw: string | undefined): PlatformBankAccount {
   if (!raw) {
-    return { bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A' };
+    throw new Error('PLATFORM_BANK_ACCOUNT_JSON is not configured');
   }
+  let parsed: unknown;
   try {
-    return JSON.parse(raw) as PlatformBankAccount;
+    parsed = JSON.parse(raw);
   } catch {
-    return { bank_name: 'Not configured', account_number: 'N/A', account_name: 'N/A' };
+    throw new Error('PLATFORM_BANK_ACCOUNT_JSON is not valid JSON');
   }
+  const p = parsed as Record<string, string>;
+  if (!p.bank_name || !p.account_number || !p.account_name) {
+    throw new Error('PLATFORM_BANK_ACCOUNT_JSON is missing required fields: bank_name, account_number, account_name');
+  }
+  return p as unknown as PlatformBankAccount;
 }
 
 /**
@@ -165,7 +182,24 @@ workspaceUpgradeRoute.post('/:id/upgrade', async (c) => {
 
   // ── Bank transfer (manual) mode ────────────────────────────────────────────
   if (isBankTransferMode(c.env)) {
-    const bankAccount = await getPlatformBankAccount(c.env.WALLET_KV, c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    // BUG-008 fix: getPlatformBankAccount now throws when config is missing/malformed.
+    // Catch here and return 503 (payment_method_unavailable) with structured log so ops
+    // are alerted immediately rather than users receiving bogus "N/A" bank details.
+    let bankAccount: PlatformBankAccount;
+    try {
+      bankAccount = await getPlatformBankAccount(c.env.WALLET_KV, c.env.PLATFORM_BANK_ACCOUNT_JSON);
+    } catch (configErr) {
+      console.error(JSON.stringify({
+        level: 'error',
+        event: 'bank_account_config_missing',
+        message: configErr instanceof Error ? configErr.message : String(configErr),
+        workspaceId,
+      }));
+      return c.json(
+        { error: 'payment_method_unavailable', message: 'Bank transfer is temporarily unavailable. Please contact support.' },
+        503,
+      );
+    }
     const reference   = generateUpgradeRef(workspaceId);
     const naira       = formatNaira(amountKobo);
     const expiresAt   = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;

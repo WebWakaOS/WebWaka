@@ -153,6 +153,16 @@ export interface Env {
   APP_BASE_URL?: string;
 
   /**
+   * BUG-003: Shared HMAC secret for inter-service M2M API calls.
+   * Set as a CF Worker Secret via: wrangler secret put INTER_SERVICE_SECRET
+   * Used by the CSRF middleware to allow M2M callers (schedulers, superagent)
+   * that cannot send Origin/Referer headers. Internal callers must send either
+   * X-CSRF-Intent: m2m OR X-Inter-Service-Secret: <this value>.
+   * Never hardcode or log this value.
+   */
+  INTER_SERVICE_SECRET?: string;
+
+  /**
    * DEV-04: Webhook URL for critical error rate alerting.
    * Receives POST with JSON payload when error rate exceeds threshold.
    * Supports Slack, Discord, PagerDuty, or generic webhook endpoints.

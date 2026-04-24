@@ -22,6 +22,11 @@ const SDK_PATTERNS = [
   /require\s*\(\s*['"]openai['"]\s*\)/,
   /fetch\s*\(\s*['"]https:\/\/api\.openai\.com/,
   /fetch\s*\(\s*['"]https:\/\/api\.anthropic\.com/,
+  // BUG-018: Detect dynamic variable-based AI API calls that bypass hardcoded URL detection.
+  /\bfetch\s*\(\s*(AI_URL|OPENAI_URL|ANTHROPIC_URL|AI_ENDPOINT|LLM_URL|GPT_URL)\b/i,
+  /process\.env\.(OPENAI|ANTHROPIC|GROQ|GEMINI|AI)_(KEY|SECRET|TOKEN|URL)\b/,
+  /\bnew\s+Groq\s*\(/,
+  /\bgroq\s*\.\s*chat\b/i,
 ];
 
 let failures = 0;

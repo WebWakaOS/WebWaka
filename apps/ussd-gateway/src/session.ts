@@ -28,8 +28,14 @@ export interface USSDSession {
   createdAt: number;
 }
 
-/** Per TDR-0010 M7 extension — Africa's Talking 3-minute timeout */
-const SESSION_TTL = 180;
+/**
+ * BUG-044: Named constant exported so tests and other workers can reference it.
+ * Africa's Talking caps USSD sessions at 3 minutes (TDR-0010 M7 extension).
+ */
+export const USSD_SESSION_TTL_SECONDS = 180;
+
+/** @deprecated Use USSD_SESSION_TTL_SECONDS instead */
+const SESSION_TTL = USSD_SESSION_TTL_SECONDS;
 
 interface KVLike {
   get<T>(key: string, type: 'json'): Promise<T | null>;

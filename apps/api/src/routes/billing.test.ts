@@ -67,10 +67,12 @@ function get(path: string, jwt?: string): Request {
 
 function post(path: string, jwt?: string, body?: unknown): Request {
   const bodyStr = body !== undefined ? JSON.stringify(body) : '{}';
+  // BUG-003 fix: test requests are M2M callers — send X-CSRF-Intent: m2m
   return new Request(`${BASE}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Intent': 'm2m',
       ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
     },
     body: bodyStr,
@@ -324,7 +326,7 @@ describe('POST /billing/change-plan', () => {
     const jwt = await makeJwt('ws_001');
     const req = new Request(`${BASE}/billing/change-plan`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' },
       body: 'not-json',
     });
     const res = await app.fetch(req, makeEnv(makeDB()));

@@ -20,9 +20,11 @@ import { check, sleep } from 'k6';
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:8787';
 
-http.setResponseCallback(
-  http.expectedStatuses({ min: 200, max: 299 }, { min: 400, max: 499 }),
-);
+// BUG-032: Remove http.setResponseCallback — it caused k6 to suppress 4xx in the
+// http_req_failed metric even when no JWT was configured, masking auth failures.
+// Checks that explicitly expect 401 (e.g. 'without JWT → 401') still pass because
+// the check() assertion succeeds. The rate<0.01 threshold only fires on network
+// failures (timeouts, DNS errors), not on 4xx/5xx HTTP responses by default in k6.
 const JWT_TOKEN = __ENV.JWT_TOKEN || '';
 const SUPER_ADMIN_JWT = __ENV.SUPER_ADMIN_JWT || '';
 

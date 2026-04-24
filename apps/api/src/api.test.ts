@@ -113,7 +113,12 @@ async function makeRequest(
   options: { method?: string; body?: unknown; token?: string } = {},
 ) {
   const method = options.method ?? 'GET';
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  // BUG-003 fix: test requests are M2M callers — must send X-CSRF-Intent: m2m so the
+  // CSRF middleware allows programmatic (non-browser) POST/PUT/PATCH/DELETE requests.
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'X-CSRF-Intent': 'm2m',
+  };
   if (options.token) headers['Authorization'] = `Bearer ${options.token}`;
 
   const request = new Request(`http://localhost${path}`, {
@@ -305,20 +310,23 @@ describe('GET /admin/:workspaceId/dashboard — auth required', () => {
 });
 
 // ---------------------------------------------------------------------------
-// QA-01: Auth refresh returns new token
+// QA-01: Auth refresh — BUG-004: opaque refresh token (body-based, no JWT required)
 // ---------------------------------------------------------------------------
 
-describe('POST /auth/refresh — authenticated', () => {
-  it('returns 200 with a new token', async () => {
-    const res = await makeRequest('/auth/refresh', { method: 'POST', token: validToken });
-    expect(res.status).toBe(200);
+describe('POST /auth/refresh — opaque token (BUG-004)', () => {
+  it('returns 400 without refresh_token in body', async () => {
+    const res = await makeRequest('/auth/refresh', { method: 'POST' });
+    expect(res.status).toBe(400);
     const body: Record<string, unknown> = await res.json();
-    expect(typeof body['token']).toBe('string');
-    expect(body['token']).not.toBe('');
+    expect(typeof body['message']).toBe('string');
   });
 
-  it('returns 401 without auth', async () => {
-    const res = await makeRequest('/auth/refresh', { method: 'POST' });
+  it('returns 401 with an invalid refresh_token (not in DB)', async () => {
+    // The D1 mock returns null for FROM refresh_tokens → handler returns 401.
+    const res = await makeRequest('/auth/refresh', {
+      method: 'POST',
+      body: { refresh_token: 'not-a-real-token-value' },
+    });
     expect(res.status).toBe(401);
   });
 });

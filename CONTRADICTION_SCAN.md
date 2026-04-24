@@ -305,12 +305,40 @@ Any attempt to add TC-IDs for D11 or D12 would be a scope change requiring matri
 
 ---
 
+## Section 5: Sprint 4 Refresh (2026-04-24)
+
+**Refresh scope:** Sprint 4 code-quality fixes + test-gap closures (BUG-043–BUG-057, TST-001–TST-011).  
+**Changes that affect this scan:**
+
+| ID | Status change | Evidence |
+|---|---|---|
+| KI-001 (TC-WH002) | **RESOLVED** | TC-WH002 free-plan webhook rejection covered in `tests/e2e/api/06-webhooks.e2e.ts` |
+| KI-002 (P9 float) | **RESOLVED** | Float kobo rejection assertion added in `tests/e2e/api/04-payments.e2e.ts` |
+| TST-001 | **RESOLVED** | Persona E2E packs 22/23/24 added (`tests/e2e/api/22-*.ts`, `23-*.ts`, `24-*.ts`) |
+| TST-003 | **RESOLVED** | Property-based P9 round-trip tests in `packages/payments/src/__tests__/currency.property.test.ts` |
+| TST-006 | **RESOLVED** | HL-wallet double-debit / idempotency tests in `apps/api/src/routes/hl-wallet.test.idempotency.ts` |
+| TST-007 | **RESOLVED** | ARC-17 KV chaos fail-open tests in `apps/api/src/routes/rate-limit.chaos.test.ts` |
+| TST-009 | **RESOLVED** | Cross-tenant RLS E2E in `tests/e2e/api/25-cross-tenant-isolation.e2e.ts` |
+| TST-010 | **RESOLVED** | Price-lock token fuzzing in `apps/api/src/routes/price-lock.fuzz.test.ts` |
+| TST-011 | **RESOLVED** | Registration atomicity failure-injection in `apps/api/src/routes/registration.atomicity.test.ts` |
+
+**New invariants exercised in Sprint 4:**
+- **ARC-17** (fail-open on KV outage) — covered in TST-007
+- **G23** (append-only listing_reports) — migration 0382 + POST /discover/:id/report (BUG-055)
+- **WF-0xx** (wallet idempotency) — covered in TST-006
+- **BUG-053** (law-firm matter sequence) — `M-NNNN` format, per-profile via COUNT query
+
+**No frozen TC-IDs were added or modified in Sprint 4.**  
+**No deferred items (D11, D12) were touched.**
+
+---
+
 ## Scan Conclusion
 
 All 108 TC-IDs from `WebWaka_OS_QA_Test_Matrix.md` v1.0 are now traceable to at least one test file.  
 9 contradictions were identified in pre-existing tests (files 01–07):
 - 2 CRITICAL (resolved in new files 08–21)
 - 4 WARN (resolved in new files 08–21)
-- 3 INFO (partially resolved; KI-001 and KI-002 need follow-up patches)
+- 3 INFO (all 3 KI items now RESOLVED in Sprint 4 — see Section 5)
 
 No new scope was introduced. No frozen TC-IDs were modified.

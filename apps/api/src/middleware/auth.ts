@@ -23,11 +23,69 @@ declare module 'hono' {
   }
 }
 
+/**
+ * BUG-006 fix: Hash a string to a short hex for IP/UA pseudonymisation in audit logs.
+ * Uses SubtleCrypto SHA-256 (available in Cloudflare Workers).
+ * Returns first 16 hex chars — sufficient for correlation without storing full value.
+ */
+async function hashStringShort(s: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+
+/**
+ * SEC-003: Full-length SHA-256 hex for KV blacklist keys.
+ * Avoids the 512-byte KV key limit that long JWT strings could approach.
+ */
+async function sha256hex(s: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, next) => {
   const authHeader = c.req.header('Authorization') ?? null;
   const result = await resolveAuthContext(authHeader, c.env.JWT_SECRET);
 
   if (!result.success) {
+    // BUG-006 fix: Route auth failures to audit log for IDS/SIEM integration.
+    // Previously, failed auth returned 401 silently — no record of brute force or
+    // token replay attacks existed in audit_logs. This fires-and-forgets a D1 write
+    // so the middleware response time is unaffected.
+    const ip = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? '';
+    void (async () => {
+      try {
+        const [ipHash, uaHash] = await Promise.all([
+          hashStringShort(ip),
+          hashStringShort(c.req.header('User-Agent') ?? ''),
+        ]);
+        console.log(JSON.stringify({
+          level: 'warn',
+          event: 'AUTH_FAILURE_VERIFY',
+          reason: result.message,
+          path: c.req.path,
+          method: c.req.method,
+          ip_hash: ipHash,
+          ua_hash: uaHash,
+          ts: new Date().toISOString(),
+        }));
+        if (c.env?.DB) {
+          const ipMasked = ip ? ip.split('.').slice(0, 3).join('.') + '.***' : '?.?.?.?';
+          await c.env.DB.prepare(
+            `INSERT OR IGNORE INTO audit_logs
+               (id, tenant_id, user_id, action, method, path, resource_type, resource_id, ip_masked, status_code, duration_ms)
+             VALUES (?, NULL, NULL, 'AUTH_FAILURE_VERIFY', ?, ?, 'auth', NULL, ?, ?, 0)`,
+          ).bind(
+            crypto.randomUUID(),
+            c.req.method,
+            c.req.path,
+            ipMasked,
+            result.status ?? 401,
+          ).run();
+        }
+      } catch {
+        // Non-blocking — auth failure logging must never impact the 401 response.
+      }
+    })();
     return c.json(errorResponse(ErrorCode.Unauthorized, result.message), result.status);
   }
 
@@ -37,8 +95,10 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
   let sessionHashHex: string | null = null;
 
   if (rawToken) {
-    // Full-token blacklist (logout, refresh rotation)
-    const blacklisted = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:${rawToken}`, null);
+    // SEC-003: Use hashed key (sha256hex) to avoid 512-byte KV key limit for long JWTs.
+    // Key format: blacklist:token:<64-char-hex>
+    const tokenHash = await sha256hex(rawToken);
+    const blacklisted = await kvGetText(c.env.RATE_LIMIT_KV, `blacklist:token:${tokenHash}`, null);
     if (blacklisted) {
       return c.json(errorResponse(ErrorCode.Unauthorized, 'Token has been revoked.'), 401);
     }
@@ -51,8 +111,14 @@ export const authMiddleware: MiddlewareHandler<{ Bindings: Env }> = async (c, ne
       if (sessionRevoked) {
         return c.json(errorResponse(ErrorCode.Unauthorized, 'Session has been revoked.'), 401);
       }
-    } catch {
-      // Hash computation failure is non-blocking — fail open
+    } catch (hashErr: unknown) {
+      // BUG-051/SEC-009: Log hash failure at error level so production monitoring can detect
+      // degraded session revocation (e.g. subtle API unavailable). Fails open per ARC-17.
+      console.error(JSON.stringify({
+        level: 'error',
+        event: 'session_hash_failure',
+        error: hashErr instanceof Error ? hashErr.message : String(hashErr),
+      }));
       sessionHashHex = null;
     }
   }

@@ -65,10 +65,12 @@ function get(path: string, jwt?: string): Request {
 }
 
 function post(path: string, jwt?: string, body?: unknown): Request {
+  // BUG-003 fix: test requests are M2M callers — send X-CSRF-Intent: m2m
   return new Request(`${BASE}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Intent': 'm2m',
       ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
     },
     body: body !== undefined ? JSON.stringify(body) : '{}',

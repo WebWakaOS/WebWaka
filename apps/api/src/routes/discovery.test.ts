@@ -224,7 +224,8 @@ async function makeRequest(
   d1Opts: D1MockOptions = {},
 ) {
   const method = options.method ?? 'GET';
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  // BUG-003 fix: test requests are M2M callers — send X-CSRF-Intent: m2m
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' };
   if (options.token) headers['Authorization'] = `Bearer ${options.token}`;
 
   const request = new Request(`http://localhost${path}`, {

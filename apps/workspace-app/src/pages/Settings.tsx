@@ -20,6 +20,8 @@ function applyDarkMode(enabled: boolean): void {
 
 type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security';
 
+const DELETE_PHRASE = 'delete my account';
+
 function isAdmin(role: string | undefined): boolean {
   return role === 'admin' || role === 'super_admin';
 }
@@ -28,6 +30,9 @@ export default function Settings() {
   const { user, logout } = useAuth();
   const [tab, setTab] = useState<Tab>('profile');
   const [saving, setSaving] = useState(false);
+
+  // BUG-035: Responsive Settings nav — switch to horizontal scroll tab bar on narrow screens
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
   const [darkMode, setDarkMode] = useState(getInitialDarkMode);
   const [pushEnabled, setPushEnabled] = useState(false);
 
@@ -46,6 +51,11 @@ export default function Settings() {
   const [confirmPw, setConfirmPw] = useState('');
   const [changingPw, setChangingPw] = useState(false);
 
+  // BUG-011: Account deletion — two-step confirmation
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletePhrase, setDeletePhrase] = useState('');
+  const [deletingAccount, setDeletingAccount] = useState(false);
+
   // P20-B: Sessions
   const [sessions, setSessions] = useState<SessionInfo[]>([]);
   const [sessionsLoading, setSessionsLoading] = useState(false);
@@ -62,6 +72,13 @@ export default function Settings() {
   useEffect(() => {
     applyDarkMode(darkMode);
   }, [darkMode]);
+
+  // BUG-035: Track viewport width for responsive nav
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   // P19-B: Fetch extended profile on mount to populate the form with real data
   useEffect(() => {
@@ -262,6 +279,24 @@ export default function Settings() {
     }
   };
 
+  // BUG-011: Account deletion — NDPR Article 3.1(9) Right to Erasure
+  const handleDeleteAccount = async () => {
+    if (deletePhrase.trim().toLowerCase() !== DELETE_PHRASE) {
+      toast.error(`Type "${DELETE_PHRASE}" exactly to confirm deletion`);
+      return;
+    }
+    setDeletingAccount(true);
+    try {
+      await authApi.deleteAccount();
+      toast.success('Account deleted. You will be signed out.');
+      await logout();
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Account deletion failed. Please try again.';
+      toast.error(msg);
+      setDeletingAccount(false);
+    }
+  };
+
   // P20-D: Build tabs — Team tab only visible to admins
   const visibleTabs = TABS.filter(t => t.id !== 'team' || isAdmin(user?.role));
 
@@ -272,18 +307,19 @@ export default function Settings() {
         <p style={styles.subheading}>Manage your account and preferences</p>
       </header>
 
-      <div style={styles.layout}>
-        <nav aria-label="Settings sections" style={styles.sideNav}>
+      {/* BUG-035: Mobile — horizontal scroll tab bar; Desktop — vertical side nav */}
+      {isMobile ? (
+        <nav aria-label="Settings sections" style={styles.mobileNav}>
           {visibleTabs.map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id as Tab)}
               style={{
-                ...styles.navItem,
+                ...styles.mobileNavItem,
                 background: tab === t.id ? '#f0f9ff' : 'transparent',
                 color: tab === t.id ? '#0F4C81' : '#374151',
                 fontWeight: tab === t.id ? 600 : 400,
-                borderLeft: tab === t.id ? '3px solid #0F4C81' : '3px solid transparent',
+                borderBottom: tab === t.id ? '2px solid #0F4C81' : '2px solid transparent',
               }}
             >
               <span aria-hidden="true">{t.icon}</span>
@@ -291,6 +327,29 @@ export default function Settings() {
             </button>
           ))}
         </nav>
+      ) : null}
+
+      <div style={isMobile ? styles.layoutMobile : styles.layout}>
+        {!isMobile && (
+          <nav aria-label="Settings sections" style={styles.sideNav}>
+            {visibleTabs.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id as Tab)}
+                style={{
+                  ...styles.navItem,
+                  background: tab === t.id ? '#f0f9ff' : 'transparent',
+                  color: tab === t.id ? '#0F4C81' : '#374151',
+                  fontWeight: tab === t.id ? 600 : 400,
+                  borderLeft: tab === t.id ? '3px solid #0F4C81' : '3px solid transparent',
+                }}
+              >
+                <span aria-hidden="true">{t.icon}</span>
+                {t.label}
+              </button>
+            ))}
+          </nav>
+        )}
 
         <div style={styles.content}>
           {tab === 'profile' && (
@@ -339,6 +398,59 @@ export default function Settings() {
                   Signing out clears your session on this device. Your account remains active.
                 </p>
                 <Button variant="danger" size="sm" onClick={() => void logout()}>Sign out</Button>
+
+                <div style={{ borderTop: '1px solid #fecaca', marginTop: 20, paddingTop: 20 }}>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: '#991b1b', marginBottom: 6 }}>
+                    Delete account
+                  </h4>
+                  <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>
+                    Permanently delete your account and all associated data. This action is irreversible
+                    and complies with NDPR Article 3.1(9) Right to Erasure. You will receive a deletion receipt.
+                  </p>
+                  {!showDeleteConfirm ? (
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => setShowDeleteConfirm(true)}
+                    >
+                      Delete my account…
+                    </Button>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      <label style={{ fontSize: 13, color: '#374151', fontWeight: 500 }}>
+                        Type <strong>{DELETE_PHRASE}</strong> to confirm:
+                      </label>
+                      <input
+                        type="text"
+                        value={deletePhrase}
+                        onChange={e => setDeletePhrase(e.target.value)}
+                        placeholder={DELETE_PHRASE}
+                        autoComplete="off"
+                        style={{
+                          border: '1.5px solid #fca5a5', borderRadius: 8, padding: '10px 14px',
+                          fontSize: 14, color: '#111827', outline: 'none',
+                        }}
+                      />
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          loading={deletingAccount}
+                          onClick={() => void handleDeleteAccount()}
+                          disabled={deletePhrase.trim().toLowerCase() !== DELETE_PHRASE}
+                        >
+                          Permanently delete
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => { setShowDeleteConfirm(false); setDeletePhrase(''); }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </section>
           )}
@@ -641,9 +753,13 @@ const styles = {
   heading: { fontSize: 24, fontWeight: 700, color: '#111827', marginBottom: 4 } as React.CSSProperties,
   subheading: { fontSize: 14, color: '#6b7280' } as React.CSSProperties,
   layout: { display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' } as React.CSSProperties,
+  layoutMobile: { display: 'flex', flexDirection: 'column', gap: 16 } as React.CSSProperties,
   sideNav: { width: 180, display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' } as React.CSSProperties,
   navItem: { display: 'flex', alignItems: 'center', gap: 10, padding: '13px 16px', border: 'none', cursor: 'pointer', fontSize: 14, textAlign: 'left', width: '100%', minHeight: 44, transition: 'all 0.15s ease' } as React.CSSProperties,
-  content: { flex: 1, minWidth: 280, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: '24px 20px' } as React.CSSProperties,
+  // BUG-035: Mobile horizontal scroll tab bar
+  mobileNav: { display: 'flex', overflowX: 'auto', gap: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', marginBottom: 8, WebkitOverflowScrolling: 'touch' } as React.CSSProperties,
+  mobileNavItem: { display: 'flex', alignItems: 'center', gap: 6, padding: '12px 16px', border: 'none', cursor: 'pointer', fontSize: 14, whiteSpace: 'nowrap', flexShrink: 0, minHeight: 44, transition: 'all 0.15s ease', background: 'transparent' } as React.CSSProperties,
+  content: { flex: 1, minWidth: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: '24px 20px' } as React.CSSProperties,
   sectionHeading: { fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 20 } as React.CSSProperties,
   fieldGroup: { display: 'flex', flexDirection: 'column', gap: 4 } as React.CSSProperties,
   label: { fontSize: 13, fontWeight: 600, color: '#374151' } as React.CSSProperties,

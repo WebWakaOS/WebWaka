@@ -84,10 +84,13 @@ async function makeJwt(
 // Request helpers
 // ---------------------------------------------------------------------------
 function post(path: string, body: unknown, jwt?: string): Request {
+  // BUG-003 fix: test requests are M2M callers — send X-CSRF-Intent: m2m so the
+  // CSRF middleware allows programmatic (non-browser) requests.
   return new Request(`${BASE}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Intent': 'm2m',
       ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
     },
     body: JSON.stringify(body),
@@ -100,13 +103,14 @@ function get(path: string, jwt?: string): Request {
   });
 }
 
-// SEC-12: CSRF middleware passes DELETE requests only when Content-Type is
-// application/json (no Origin/Referer). Tests must include this header.
+// BUG-003 fix: test requests are M2M callers — send X-CSRF-Intent: m2m so the
+// CSRF middleware allows programmatic (non-browser) DELETE requests.
 function del(path: string, jwt?: string): Request {
   return new Request(`${BASE}${path}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Intent': 'm2m',
       ...(jwt ? { Authorization: `Bearer ${jwt}` } : {}),
     },
   });
@@ -419,28 +423,96 @@ describe('GET /auth/me', () => {
 });
 
 // ---------------------------------------------------------------------------
-// POST /auth/refresh
+// POST /auth/refresh — BUG-004: opaque refresh token rotation
 // ---------------------------------------------------------------------------
 describe('POST /auth/refresh', () => {
-  it('returns 401 without a JWT in Authorization header', async () => {
+  it('returns 400 when refresh_token is missing from body', async () => {
     const res = await app.fetch(
       post('/auth/refresh', {}),
+      makeEnv(makeDB()),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/refresh_token/i);
+  });
+
+  it('returns 401 when refresh_token is not found in DB', async () => {
+    // makeDB returns null for all .first() calls by default → 401
+    const res = await app.fetch(
+      post('/auth/refresh', { refresh_token: 'invalid-token-value' }),
       makeEnv(makeDB()),
     );
     expect(res.status).toBe(401);
   });
 
-  it('returns 200 with a new { token } when called with a valid JWT', async () => {
-    const jwt = await makeJwt();
+  it('returns 200 with new { token, refresh_token, expires_in } for a valid refresh token', async () => {
+    // DB mock: first .first() returns a valid (non-revoked) refresh token row.
+    const validRtRow = {
+      id: 'rt_001',
+      user_id: 'usr_001',
+      tenant_id: 'tnt_001',
+      workspace_id: 'ws_001',
+      role: 'admin',
+      revoked_at: null,
+      replaced_by: null,
+    };
+    const db = {
+      prepare: vi.fn().mockImplementation(() => ({
+        bind: vi.fn().mockReturnValue({
+          first: vi.fn()
+            .mockResolvedValueOnce(validRtRow)    // refresh_tokens lookup
+            .mockResolvedValueOnce({ status: 'active' }), // workspace check
+          run: vi.fn().mockResolvedValue({ success: true }),
+          all: vi.fn().mockResolvedValue({ results: [] }),
+        }),
+        first: vi.fn().mockResolvedValue(null),
+        run: vi.fn().mockResolvedValue({ success: true }),
+        all: vi.fn().mockResolvedValue({ results: [] }),
+      })),
+      batch: vi.fn().mockResolvedValue([{ meta: { changes: 1 } }, { meta: { changes: 1 } }]),
+    };
     const res = await app.fetch(
-      post('/auth/refresh', {}, jwt),
-      makeEnv(makeDB()),
+      post('/auth/refresh', { refresh_token: 'some-valid-token-value' }),
+      makeEnv(db),
     );
     expect(res.status).toBe(200);
-    const body = await res.json() as { token: string };
+    const body = await res.json() as { token: string; refresh_token: string; expires_in: number };
     expect(typeof body.token).toBe('string');
-    // AUT-006: response must NOT include refreshToken
-    expect((body as Record<string, unknown>)['refreshToken']).toBeUndefined();
+    expect(typeof body.refresh_token).toBe('string');
+    expect(body.expires_in).toBe(3600);
+  });
+
+  it('returns 401 and revokes all sessions on refresh token reuse', async () => {
+    // A revoked token (revoked_at is non-null) triggers reuse detection.
+    const revokedRtRow = {
+      id: 'rt_002',
+      user_id: 'usr_001',
+      tenant_id: 'tnt_001',
+      workspace_id: 'ws_001',
+      role: 'admin',
+      revoked_at: 1700000000, // non-null = already revoked
+      replaced_by: 'rt_003',
+    };
+    const db = {
+      prepare: vi.fn().mockImplementation(() => ({
+        bind: vi.fn().mockReturnValue({
+          first: vi.fn().mockResolvedValueOnce(revokedRtRow),
+          run: vi.fn().mockResolvedValue({ success: true }),
+          all: vi.fn().mockResolvedValue({ results: [] }),
+        }),
+        first: vi.fn().mockResolvedValue(null),
+        run: vi.fn().mockResolvedValue({ success: true }),
+        all: vi.fn().mockResolvedValue({ results: [] }),
+      })),
+      batch: vi.fn().mockResolvedValue([]),
+    };
+    const res = await app.fetch(
+      post('/auth/refresh', { refresh_token: 'old-already-used-token' }),
+      makeEnv(db),
+    );
+    expect(res.status).toBe(401);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/reuse/i);
   });
 });
 
@@ -715,7 +787,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' },
         body: JSON.stringify({ phone: '+2348012345678' }),
       }),
       makeEnv(makeDB()),
@@ -728,7 +800,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({}),
       }),
       makeEnv(makeDB()),
@@ -743,7 +815,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: '+2348012345678' }),
       }),
       makeEnv(makeDB()),
@@ -758,7 +830,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ fullName: 'Ngozi Adeyemi' }),
       }),
       makeEnv(makeDB()),
@@ -773,7 +845,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: '+2348099887766', fullName: 'Chukwuemeka Eze' }),
       }),
       makeEnv(makeDB()),
@@ -786,7 +858,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: 'not-a-phone' }),
       }),
       makeEnv(makeDB()),
@@ -801,7 +873,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: '' }),
       }),
       makeEnv(makeDB()),
@@ -817,7 +889,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ fullName: longName }),
       }),
       makeEnv(makeDB()),
@@ -832,7 +904,7 @@ describe('PATCH /auth/profile', () => {
     const res = await app.fetch(
       new Request(`${BASE}/auth/profile`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwt}` },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', Authorization: `Bearer ${jwt}` },
         body: JSON.stringify({ phone: '08012345678' }),
       }),
       makeEnv(makeDB()),
@@ -850,12 +922,32 @@ describe('DELETE /auth/me', () => {
     expect(res.status).toBe(401);
   });
 
-  it('returns 200 and erases user data with a valid JWT', async () => {
+  it('returns 400 without X-Confirm-Erasure header (COMP-002)', async () => {
     const jwt = await makeJwt();
     const res = await app.fetch(del('/auth/me', jwt), makeEnv(makeDB()));
+    expect(res.status).toBe(400);
+    const body = await res.json() as { message: string };
+    expect(body.message).toMatch(/X-Confirm-Erasure/i);
+  });
+
+  it('returns 200 and erases user data with a valid JWT and confirmation header (COMP-002/003)', async () => {
+    const jwt = await makeJwt();
+    // COMP-002: X-Confirm-Erasure: confirmed is required for erasure
+    // COMP-003: db.batch() atomically writes UPDATE+DELETE+erasure_receipt
+    const req = new Request(`${BASE}/auth/me`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Intent': 'm2m',
+        'X-Confirm-Erasure': 'confirmed',
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const res = await app.fetch(req, makeEnv(makeDB()));
     expect(res.status).toBe(200);
-    const body = await res.json() as { erasedAt: string };
+    const body = await res.json() as { erasedAt: string; receiptId: string };
     expect(typeof body.erasedAt).toBe('string');
+    expect(typeof body.receiptId).toBe('string');
   });
 });
 
@@ -1497,7 +1589,7 @@ describe('deviceHintFromUA — Edge correctly identified before Chrome (BUG-01)'
     const edgeUA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0';
     const req = new Request(`${BASE}/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'User-Agent': edgeUA },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m', 'User-Agent': edgeUA },
       body: JSON.stringify({ email: 'edge@test.com', password: TEST_PASSWORD }),
     });
 

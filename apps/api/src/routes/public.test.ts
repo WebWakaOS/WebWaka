@@ -163,7 +163,7 @@ describe('POST /themes/:tenantId', () => {
     const req = new Request('http://localhost/themes/wsp_001', {
       method: 'POST',
       body: JSON.stringify({ primaryColour: '#ff0000' }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' },
     });
     const res = await app.fetch(req, makeEnv());
     expect(res.status).toBe(401);
@@ -176,6 +176,7 @@ describe('POST /themes/:tenantId', () => {
       body: JSON.stringify({ primaryColour: 'notacolour' }),
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRF-Intent': 'm2m',
         Authorization: 'Bearer bad.token',
       },
     });

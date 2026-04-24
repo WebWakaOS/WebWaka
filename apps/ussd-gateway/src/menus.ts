@@ -57,7 +57,8 @@ export function sendMoneyConfirm(recipient: string, amountDisplay: string): stri
 To: ${recipient}
 Amount: \u20A6${amountDisplay}
 1. Confirm
-2. Cancel`;
+2. Cancel
+0. Back`;
 }
 
 export interface TrendingPostSnippet {

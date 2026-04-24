@@ -87,8 +87,20 @@ posBusinessRoutes.post('/products', async (c) => {
 posBusinessRoutes.get('/products/:workspaceId/low-stock', async (c) => {
   const auth = c.get('auth') as { userId: string; tenantId: string };
   const { workspaceId } = c.req.param();
-  const thresholdStr = c.req.query('threshold') ?? '5';
-  const threshold = parseInt(thresholdStr, 10) || 5;
+
+  // BUG-049: Workspace-level threshold default (migration 0383).
+  // Priority: ?threshold query-param > workspace.low_stock_threshold > platform default (5).
+  let threshold = 5;
+  if (c.req.query('threshold') !== undefined) {
+    threshold = parseInt(c.req.query('threshold')!, 10) || 5;
+  } else {
+    const ws = await c.env.DB.prepare(
+      'SELECT low_stock_threshold FROM workspaces WHERE id = ? AND tenant_id = ?',
+    ).bind(workspaceId, auth.tenantId).first<{ low_stock_threshold: number | null }>();
+    if (ws?.low_stock_threshold !== null && ws?.low_stock_threshold !== undefined) {
+      threshold = ws.low_stock_threshold;
+    }
+  }
 
   const repo = new InventoryRepository(c.env.DB);
   const products = await repo.findLowStock(workspaceId, auth.tenantId, threshold);

@@ -34,7 +34,19 @@ jobs:
             echo "OK: All required governance docs present."
           fi
 
-      - name: Remind reviewer to add founder-approval label
+      - name: Enforce founder-approval label (BUG-056)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "INFO: Governance doc change detected."
-          echo "Ensure this PR has the founder-approval label before merging."
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          REPO="${{ github.repository }}"
+          echo "Checking founder-approval label on PR #${PR_NUMBER}..."
+          LABELS=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json labels --jq '[.labels[].name] | join(",")')
+          echo "Labels found: $LABELS"
+          if echo "$LABELS" | grep -q "founder-approval"; then
+            echo "OK: founder-approval label present. Governance change approved."
+          else
+            echo "FAIL: Governance docs changed but 'founder-approval' label is missing."
+            echo "Add the 'founder-approval' label to this PR before merging."
+            exit 1
+          fi

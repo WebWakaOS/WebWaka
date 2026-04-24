@@ -46,9 +46,14 @@ interface UserRow {
   id: string;
   email: string;
   password_hash: string;
+  password_hash_version: number | null;  // SEC-001: 1=100k iterations (legacy), 2=600k iterations
   workspace_id: string;
   tenant_id: string;
   role: string;
+  // BUG-038 / ENH-034: TOTP 2FA (super_admin only)
+  totp_secret: string | null;
+  totp_enabled: number | null;
+  totp_enrolled_at: number | null;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,6 +80,80 @@ const SESSION_TTL = 3600;
 async function sha256hex(input: string): Promise<string> {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// ---------------------------------------------------------------------------
+// BUG-038 / ENH-034: TOTP helpers (RFC 6238) — Web Crypto only, no npm deps
+// ---------------------------------------------------------------------------
+
+/** Base32 decode (RFC 4648, upper-case, no padding strict required). */
+function base32Decode(b32: string): Uint8Array {
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  const s = b32.toUpperCase().replace(/=/g, '');
+  const bytes: number[] = [];
+  let buf = 0, bits = 0;
+  for (const ch of s) {
+    const idx = ALPHABET.indexOf(ch);
+    if (idx === -1) continue;
+    buf = (buf << 5) | idx;
+    bits += 5;
+    if (bits >= 8) { bytes.push((buf >> (bits - 8)) & 0xff); bits -= 8; }
+  }
+  return new Uint8Array(bytes);
+}
+
+/** Base32 encode — generates a random 20-byte TOTP secret string. */
+function generateTotpSecret(): string {
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  const bytes = crypto.getRandomValues(new Uint8Array(20));
+  let result = '';
+  for (let i = 0; i < bytes.length; i += 5) {
+    const b0 = bytes[i] ?? 0;
+    const b1 = bytes[i+1] ?? 0;
+    const b2 = bytes[i+2] ?? 0;
+    const b3 = bytes[i+3] ?? 0;
+    const b4 = bytes[i+4] ?? 0;
+    result += ALPHABET[b0 >> 3]                       ?? '';
+    result += ALPHABET[((b0 & 0x07) << 2) | (b1 >> 6)] ?? '';
+    result += ALPHABET[(b1 >> 1) & 0x1f]               ?? '';
+    result += ALPHABET[((b1 & 0x01) << 4) | (b2 >> 4)] ?? '';
+    result += ALPHABET[((b2 & 0x0f) << 1) | (b3 >> 7)] ?? '';
+    result += ALPHABET[(b3 >> 2) & 0x1f]               ?? '';
+    result += ALPHABET[((b3 & 0x03) << 3) | (b4 >> 5)] ?? '';
+    result += ALPHABET[b4 & 0x1f]                       ?? '';
+  }
+  return result;
+}
+
+/**
+ * Verify a 6-digit TOTP code against a base32 secret.
+ * Accepts a ±1 window (±30 seconds) for clock skew.
+ */
+async function verifyTotp(secret: string, code: string): Promise<boolean> {
+  if (!/^\d{6}$/.test(code)) return false;
+  const keyBytes = base32Decode(secret);
+  const key = await crypto.subtle.importKey(
+    'raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign'],
+  );
+  const T = Math.floor(Date.now() / 30000);
+  for (const delta of [-1, 0, 1]) {
+    const t = T + delta;
+    const counter = new ArrayBuffer(8);
+    const view = new DataView(counter);
+    view.setUint32(0, Math.floor(t / 0x100000000), false);
+    view.setUint32(4, t >>> 0, false);
+    const sig = await crypto.subtle.sign('HMAC', key, counter);
+    const hmac = new Uint8Array(sig);
+    const offset = (hmac[19] ?? 0) & 0x0f;
+    const otp = (
+      (((hmac[offset]   ?? 0) & 0x7f) << 24) |
+      (((hmac[offset+1] ?? 0) & 0xff) << 16) |
+      (((hmac[offset+2] ?? 0) & 0xff) <<  8) |
+       ((hmac[offset+3] ?? 0) & 0xff)
+    ) % 1_000_000;
+    if (String(otp).padStart(6, '0') === code) return true;
+  }
+  return false;
 }
 
 /** Derives a short device hint from a User-Agent string (browser/OS only, no PII). */
@@ -135,7 +214,8 @@ authRoutes.post('/login', async (c) => {
 
   const email = body.email.toLowerCase().trim();
   const userRow = await c.env.DB.prepare(
-    `SELECT id, email, password_hash, workspace_id, tenant_id, role
+    `SELECT id, email, password_hash, password_hash_version, workspace_id, tenant_id, role,
+            totp_secret, totp_enabled, totp_enrolled_at
      FROM users WHERE email = ? LIMIT 1`,
   ).bind(email).first<UserRow>();
 
@@ -145,6 +225,19 @@ authRoutes.post('/login', async (c) => {
       level: 'warn', event: 'auth_failure', reason: 'user_not_found', email, ip,
       timestamp: new Date().toISOString(),
     }));
+    // SEC-006: Structured AUTH_LOGIN_FAILURE with hashed PII for IDS/SIEM integration.
+    void (async () => {
+      try {
+        console.log(JSON.stringify({
+          level: 'warn', event: 'AUTH_LOGIN_FAILURE',
+          reason: 'user_not_found',
+          email_hash: await sha256hex(email),
+          ip_hash: await sha256hex(ip),
+          ua_hash: await sha256hex(c.req.header('User-Agent') ?? ''),
+          ts: new Date().toISOString(),
+        }));
+      } catch { /* non-blocking */ }
+    })();
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid email or password.'), 401);
   }
 
@@ -208,6 +301,19 @@ authRoutes.post('/login', async (c) => {
       level: 'warn', event: 'auth_failure', reason: 'wrong_password',
       userId: userRow.id, ip, timestamp: new Date().toISOString(),
     }));
+    // SEC-006: Structured AUTH_LOGIN_FAILURE with hashed PII for IDS/SIEM integration.
+    void (async () => {
+      try {
+        console.log(JSON.stringify({
+          level: 'warn', event: 'AUTH_LOGIN_FAILURE',
+          reason: 'wrong_password',
+          email_hash: await sha256hex(email),
+          ip_hash: await sha256hex(ip),
+          ua_hash: await sha256hex(c.req.header('User-Agent') ?? ''),
+          ts: new Date().toISOString(),
+        }));
+      } catch { /* non-blocking */ }
+    })();
     // N-080: auth.user.login_failed event (wrong password)
     void publishEvent(c.env, {
       eventId: crypto.randomUUID(),
@@ -257,11 +363,35 @@ authRoutes.post('/login', async (c) => {
   if (needsRehash) {
     try {
       const newHash = await hashPassword(body.password);
+      // SEC-001: Also update password_hash_version to 2 (600k iterations).
       await c.env.DB.prepare(
-        `UPDATE users SET password_hash = ?, updated_at = unixepoch() WHERE id = ? AND tenant_id = ?`,
+        `UPDATE users SET password_hash = ?, password_hash_version = 2, updated_at = unixepoch()
+         WHERE id = ? AND tenant_id = ?`,
       ).bind(newHash, userRow.id, userRow.tenant_id).run();
     } catch {
       // Rehash failure is non-critical
+    }
+  }
+
+  // BUG-038 / ENH-034: TOTP enforcement for super_admin role.
+  // Super admins who have not enrolled in TOTP must do so before receiving a JWT.
+  // Super admins who have enrolled must supply a valid TOTP code.
+  if (userRow.role === 'super_admin') {
+    if (!userRow.totp_enabled) {
+      // Not yet enrolled — force enrollment before issuing JWT.
+      return c.json({
+        error: 'totp_enrolment_required',
+        message: 'Super admin accounts must enrol in 2FA before logging in.',
+        enrolmentUrl: '/auth/totp/enrol',
+      }, 403);
+    }
+    // Enrolled — require a valid code.
+    const totpCode = (body as Record<string, unknown>).totp_code;
+    if (typeof totpCode !== 'string' || !await verifyTotp(userRow.totp_secret!, totpCode)) {
+      return c.json({
+        error: 'totp_required',
+        message: 'A valid TOTP code is required for super admin login.',
+      }, 401);
     }
   }
 
@@ -311,8 +441,28 @@ authRoutes.post('/login', async (c) => {
     severity: 'info',
   });
 
+  // BUG-004: Issue opaque refresh token (single-use, stored as SHA-256 hash in D1).
+  // The raw value is returned to the client once and never persisted.
+  let refreshTokenValue: string | undefined;
+  try {
+    const rawRt = crypto.randomUUID() + crypto.randomUUID(); // 72 chars of entropy
+    const rtHash = await sha256hex(rawRt);
+    await c.env.DB.prepare(
+      `INSERT INTO refresh_tokens (id, jti_hash, user_id, tenant_id, workspace_id, role, expires_at)
+       VALUES (?, ?, ?, ?, ?, ?, unixepoch() + 2592000)`,
+    ).bind(
+      crypto.randomUUID(), rtHash,
+      userRow.id, userRow.tenant_id, userRow.workspace_id, userRow.role,
+    ).run();
+    refreshTokenValue = rawRt;
+  } catch {
+    // refresh_tokens table may not exist yet (pre-migration) — non-blocking
+  }
+
   return c.json({
     token,
+    ...(refreshTokenValue ? { refresh_token: refreshTokenValue } : {}),
+    expires_in: 3600,
     user: {
       id: userRow.id,
       email: userRow.email,
@@ -453,36 +603,90 @@ authRoutes.post('/register', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// POST /auth/refresh — re-issue a fresh JWT for the authenticated caller
-// SEC-04: Refresh token rotation — the old token is blacklisted upon refresh.
+// POST /auth/refresh — opaque refresh token rotation (BUG-004 / SEC-002)
+// Single-use: consuming a refresh token atomically revokes it and issues a new one.
+// Reuse detection: if a revoked token is re-presented, ALL sessions for that user
+// are revoked (compromised token family assumption).
+// BUG-016: workspace status checked — terminated workspaces cannot refresh.
 // ---------------------------------------------------------------------------
 authRoutes.post('/refresh', async (c) => {
-  const auth = c.get('auth');
-  if (!auth) {
-    return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
+  const body = await c.req.json<{ refresh_token: string }>().catch(() => null);
+  if (!body?.refresh_token) {
+    return c.json(errorResponse(ErrorCode.BadRequest, 'refresh_token is required.'), 400);
   }
 
-  const oldToken = c.req.header('Authorization')?.replace(/^Bearer\s+/i, '');
-  if (oldToken) {
-    try {
-      const kv = c.env.RATE_LIMIT_KV;
-      await kv.put(`blacklist:${oldToken}`, '1', { expirationTtl: 3600 });
-    } catch {
-      // KV unavailable — fail open
+  const rtHash = await sha256hex(body.refresh_token);
+  const rtRow = await c.env.DB.prepare(
+    `SELECT id, user_id, tenant_id, workspace_id, role, revoked_at, replaced_by
+     FROM refresh_tokens WHERE jti_hash = ? AND expires_at > unixepoch() LIMIT 1`,
+  ).bind(rtHash).first<{
+    id: string; user_id: string; tenant_id: string; workspace_id: string | null;
+    role: string; revoked_at: number | null; replaced_by: string | null;
+  }>();
+
+  if (!rtRow) {
+    return c.json(errorResponse(ErrorCode.Unauthorized, 'Invalid or expired refresh token.'), 401);
+  }
+
+  if (rtRow.revoked_at !== null) {
+    // Reuse detected — revoke the entire token family to contain potential session theft.
+    await c.env.DB.prepare(
+      `UPDATE refresh_tokens SET revoked_at = unixepoch()
+       WHERE user_id = ? AND tenant_id = ? AND revoked_at IS NULL`,
+    ).bind(rtRow.user_id, rtRow.tenant_id).run().catch(() => {});
+    console.error(JSON.stringify({
+      level: 'error', event: 'REFRESH_TOKEN_REUSE',
+      userId: rtRow.user_id, tenantId: rtRow.tenant_id,
+      ts: new Date().toISOString(),
+    }));
+    return c.json(
+      errorResponse(ErrorCode.Unauthorized, 'Refresh token reuse detected. All sessions have been revoked.'),
+      401,
+    );
+  }
+
+  // BUG-016: Verify workspace is still active before issuing a new token.
+  if (rtRow.workspace_id) {
+    const wsRow = await c.env.DB.prepare(
+      `SELECT status FROM workspaces WHERE id = ? AND tenant_id = ? LIMIT 1`,
+    ).bind(rtRow.workspace_id, rtRow.tenant_id).first<{ status: string }>();
+    if (wsRow?.status === 'terminated') {
+      return c.json(
+        errorResponse(ErrorCode.Forbidden, 'Workspace has been terminated.'),
+        403,
+      );
     }
   }
 
-  const token = await issueJwt(
+  // Issue new access JWT + new opaque refresh token atomically via db.batch().
+  const newAccessToken = await issueJwt(
     {
-      sub: auth.userId,
-      workspace_id: auth.workspaceId,
-      tenant_id: auth.tenantId,
-      role: auth.role,
+      sub: asId<UserId>(rtRow.user_id),
+      workspace_id: asId<WorkspaceId>(rtRow.workspace_id ?? ''),
+      tenant_id: asId<TenantId>(rtRow.tenant_id),
+      role: (rtRow.role as Role) ?? Role.Member,
     },
     c.env.JWT_SECRET,
   );
+  const newRefreshRaw = crypto.randomUUID() + crypto.randomUUID();
+  const newRtHash = await sha256hex(newRefreshRaw);
+  const newRtId = crypto.randomUUID();
 
-  return c.json({ token });
+  await c.env.DB.batch([
+    c.env.DB.prepare(
+      `UPDATE refresh_tokens SET revoked_at = unixepoch(), replaced_by = ? WHERE id = ?`,
+    ).bind(newRtId, rtRow.id),
+    c.env.DB.prepare(
+      `INSERT INTO refresh_tokens (id, jti_hash, user_id, tenant_id, workspace_id, role, expires_at)
+       VALUES (?, ?, ?, ?, ?, ?, unixepoch() + 2592000)`,
+    ).bind(newRtId, newRtHash, rtRow.user_id, rtRow.tenant_id, rtRow.workspace_id, rtRow.role),
+  ]);
+
+  return c.json({
+    token: newAccessToken,
+    refresh_token: newRefreshRaw,
+    expires_in: 3600,
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -749,7 +953,9 @@ authRoutes.post('/logout', async (c) => {
   const currentToken = c.req.header('Authorization')?.replace(/^Bearer\s+/i, '');
   if (currentToken) {
     try {
-      await c.env.RATE_LIMIT_KV.put(`blacklist:${currentToken}`, '1', { expirationTtl: 3600 });
+      // SEC-003: Hash the token before using it as a KV key (avoids 512-byte KV key limit).
+      const tokenHash = await sha256hex(currentToken);
+      await c.env.RATE_LIMIT_KV.put(`blacklist:token:${tokenHash}`, '1', { expirationTtl: 3600 });
     } catch {
       // KV unavailable — fail open; local token cleared by client regardless
     }
@@ -775,23 +981,66 @@ authRoutes.delete('/me', async (c) => {
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Not authenticated.'), 401);
   }
 
+  // COMP-002 fix: Require explicit confirmation header to prevent accidental erasure
+  // from any stray DELETE request. The client must send X-Confirm-Erasure: confirmed
+  // as a deliberate, named gesture before data is irrevocably erased.
+  const confirmHeader = c.req.header('X-Confirm-Erasure');
+  if (confirmHeader !== 'confirmed') {
+    return c.json(
+      errorResponse(
+        ErrorCode.BadRequest,
+        'Erasure request requires X-Confirm-Erasure: confirmed header. This action is irreversible.',
+      ),
+      400,
+    );
+  }
+
   const db = c.env.DB;
   const anonRef = `deleted_${crypto.randomUUID()}`;
+  const receiptId = crypto.randomUUID();
+  const erasedAtUnix = Math.floor(Date.now() / 1000);
+  const erasedAtIso = new Date().toISOString();
 
-  await db.prepare(
-    `UPDATE users SET
-       email         = ?,
-       full_name     = 'Deleted User',
-       phone         = NULL,
-       password_hash = NULL,
-       updated_at    = unixepoch()
-     WHERE id = ? AND tenant_id = ?`,
-  ).bind(`${anonRef}@deleted.invalid`, auth.userId, auth.tenantId).run();
+  // COMP-003 fix: Produce an opaque SHA-256 hash of userId for the erasure receipt.
+  // The receipt must prove erasure without storing re-identifiable data (G23).
+  const userIdHashBuf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(auth.userId as string),
+  );
+  const userIdHash = Array.from(new Uint8Array(userIdHashBuf))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
 
-  await db.prepare(
-    `DELETE FROM contact_channels WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
-  ).bind(auth.userId, auth.tenantId).run();
+  // COMP-003 fix: Wrap core anonymisation and erasure receipt in a single D1 batch
+  // for atomicity. Previously, UPDATE users and DELETE contact_channels were separate
+  // awaited calls — if the second call failed, the user was partially anonymised with
+  // no receipt. db.batch() submits both in a single HTTP round-trip to D1 and rolls
+  // back if either statement fails.
+  await db.batch([
+    db.prepare(
+      `UPDATE users SET
+         email         = ?,
+         full_name     = 'Deleted User',
+         phone         = NULL,
+         password_hash = NULL,
+         updated_at    = unixepoch()
+       WHERE id = ? AND tenant_id = ?`,
+    ).bind(`${anonRef}@deleted.invalid`, auth.userId, auth.tenantId),
 
+    db.prepare(
+      `DELETE FROM contact_channels WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
+    ).bind(auth.userId, auth.tenantId),
+
+    // G23: Insert erasure receipt — append-only record for compliance audit.
+    // user_id_hash is SHA-256 of userId — opaque but auditable.
+    db.prepare(
+      `INSERT INTO erasure_receipts (id, tenant_id, user_id_hash, anon_ref, erased_at, method, created_at)
+       VALUES (?, ?, ?, ?, ?, 'ndpr_self_request', unixepoch())`,
+    ).bind(receiptId, auth.tenantId, userIdHash, anonRef, erasedAtUnix),
+  ]);
+
+  // Sessions deletion is in a separate try/catch because the sessions table is
+  // optional (may not exist in all environments) — non-blocking.
   try {
     await db.prepare(
       `DELETE FROM sessions WHERE user_id = ? AND (tenant_id = ? OR tenant_id IS NULL)`,
@@ -811,7 +1060,8 @@ authRoutes.delete('/me', async (c) => {
     );
     console.log(JSON.stringify({
       level: 'info', event: 'ndpr_erasure_notification_propagated',
-      userId: auth.userId, tenantId: auth.tenantId,
+      receiptId,
+      tenantId: auth.tenantId,
       auditRowsZeroed: result.auditLogRowsZeroed,
       deliveriesDeleted: result.deliveriesDeleted,
       inboxItemsDeleted: result.inboxItemsDeleted,
@@ -838,9 +1088,12 @@ authRoutes.delete('/me', async (c) => {
     severity: 'info',
   });
 
+  // COMP-002/003: Return erasure receipt ID so the user (and compliance ops) can
+  // reference this specific erasure event. The receiptId is stored in erasure_receipts.
   return c.json({
     message: 'Your personal data has been erased in compliance with NDPR Article 3.1(9).',
-    erasedAt: new Date().toISOString(),
+    erasedAt: erasedAtIso,
+    receiptId,
   });
 });
 
@@ -1594,6 +1847,106 @@ authRoutes.get('/verify-email', async (c) => {
   }
 
   return c.json({ message: 'Email address verified successfully.' });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/totp/enrol — generate TOTP secret + QR URI (super_admin only)
+// BUG-038 / ENH-034
+// ---------------------------------------------------------------------------
+authRoutes.post('/totp/enrol', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string; role?: string };
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'Forbidden', message: '2FA enrolment is only available to super admin users.' }, 403);
+  }
+
+  const secret = generateTotpSecret();
+  let emailForLabel = auth.userId;
+  try {
+    const row = await c.env.DB.prepare(
+      `SELECT email FROM users WHERE id = ? AND tenant_id = ? LIMIT 1`,
+    ).bind(auth.userId, auth.tenantId).first<{ email: string }>();
+    if (row) emailForLabel = row.email;
+  } catch { /* non-blocking */ }
+
+  const qrUri = `otpauth://totp/WebWaka:${encodeURIComponent(emailForLabel)}?secret=${secret}&issuer=WebWaka`;
+
+  // Store pending secret in KV — expires in 10 min (must verify within that window).
+  await c.env.RATE_LIMIT_KV.put(`totp:pending:${auth.userId}`, secret, { expirationTtl: 600 });
+
+  return c.json({ secret, qrUri });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/totp/verify — confirm TOTP code and activate 2FA (super_admin only)
+// BUG-038 / ENH-034
+// ---------------------------------------------------------------------------
+authRoutes.post('/totp/verify', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string; role?: string };
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'Forbidden', message: '2FA verification is only available to super admin users.' }, 403);
+  }
+
+  const body = await c.req.json<{ code?: string }>().catch(() => ({ code: undefined }));
+  const code = body.code ?? '';
+
+  const pendingSecret = await c.env.RATE_LIMIT_KV.get(`totp:pending:${auth.userId}`);
+  if (!pendingSecret) {
+    return c.json({ error: 'No pending TOTP enrolment. Call POST /auth/totp/enrol first.' }, 400);
+  }
+
+  const valid = await verifyTotp(pendingSecret, code);
+  if (!valid) {
+    return c.json({ error: 'invalid_totp_code', message: 'TOTP code is incorrect or expired.' }, 400);
+  }
+
+  await c.env.DB.prepare(
+    `UPDATE users SET totp_secret = ?, totp_enabled = 1, totp_enrolled_at = unixepoch()
+     WHERE id = ? AND tenant_id = ?`,
+  ).bind(pendingSecret, auth.userId, auth.tenantId).run();
+
+  await c.env.RATE_LIMIT_KV.delete(`totp:pending:${auth.userId}`);
+
+  console.log(JSON.stringify({
+    level: 'info', event: 'totp_enrolled', userId: auth.userId, tenantId: auth.tenantId,
+  }));
+
+  return c.json({ message: '2FA enabled successfully. Your account now requires a TOTP code at login.' });
+});
+
+// ---------------------------------------------------------------------------
+// POST /auth/totp/disable — disable TOTP (super_admin + valid code required)
+// BUG-038 / ENH-034
+// ---------------------------------------------------------------------------
+authRoutes.post('/totp/disable', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string; role?: string };
+  if (auth.role !== 'super_admin') {
+    return c.json({ error: 'Forbidden' }, 403);
+  }
+
+  const body = await c.req.json<{ code?: string }>().catch(() => ({ code: undefined }));
+  const code = body.code ?? '';
+
+  const userRow = await c.env.DB.prepare(
+    `SELECT totp_secret, totp_enabled FROM users WHERE id = ? AND tenant_id = ? LIMIT 1`,
+  ).bind(auth.userId, auth.tenantId).first<{ totp_secret: string | null; totp_enabled: number | null }>();
+
+  if (!userRow?.totp_enabled || !userRow.totp_secret) {
+    return c.json({ error: '2FA is not currently enabled on this account.' }, 400);
+  }
+  if (!await verifyTotp(userRow.totp_secret, code)) {
+    return c.json({ error: 'invalid_totp_code', message: 'Valid TOTP code required to disable 2FA.' }, 401);
+  }
+
+  await c.env.DB.prepare(
+    `UPDATE users SET totp_secret = NULL, totp_enabled = 0, totp_enrolled_at = NULL
+     WHERE id = ? AND tenant_id = ?`,
+  ).bind(auth.userId, auth.tenantId).run();
+
+  console.log(JSON.stringify({
+    level: 'warn', event: 'totp_disabled', userId: auth.userId, tenantId: auth.tenantId,
+  }));
+
+  return c.json({ message: '2FA has been disabled on your account.' });
 });
 
 export { authRoutes };

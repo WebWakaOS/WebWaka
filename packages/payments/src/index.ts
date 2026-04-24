@@ -26,5 +26,7 @@ export {
 
 export {
   validateCurrency,
+  formatNaira,
+  parseNairaInput,
 } from './currency.js';
 export type { CurrencyCode, CurrencyValidationResult } from './currency.js';

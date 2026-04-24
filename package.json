@@ -34,6 +34,8 @@
     "test:compliance": "playwright test --project=api-e2e tests/e2e/api/11-compliance-invariants.e2e.ts tests/e2e/api/12-l3-hitl.e2e.ts tests/e2e/api/15-compliance-full.e2e.ts",
     "test:p9": "playwright test --project=api-e2e --grep 'P9|kobo|fractional'",
     "test:p0-blockers": "playwright test --project=api-e2e --grep 'TC-INV002|TC-INV003|TC-INV005|TC-AUTH003|TC-AUTH004|TC-CSRF001|TC-NE011|TC-HR001|TC-MON001|TC-MON003|TC-W003|TC-B009|TC-PROJ001|TC-US008|TC-US010'",
+    "test:rls": "playwright test --project=api-e2e tests/e2e/api/25-cross-tenant-isolation.e2e.ts",
+    "test:sprint4": "playwright test --project=api-e2e tests/e2e/api/22-partner-admin-session.e2e.ts tests/e2e/api/23-super-admin-actions.e2e.ts tests/e2e/api/24-ussd-full-journey.e2e.ts tests/e2e/api/25-cross-tenant-isolation.e2e.ts",
     "seed:phase-1": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-1-users.sql",
     "seed:phase-2": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-2-tenants.sql",
     "seed:phase-3": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-3-partners.sql",

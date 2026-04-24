@@ -1,0 +1,42 @@
+name = "webwaka-schedulers"
+main = "src/index.ts"
+compatibility_date = "2024-12-05"
+
+[vars]
+ENVIRONMENT = "staging"
+
+[[triggers]]
+crons = ["*/30 * * * *"]
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "placeholder-staging-kv-id"
+
+[[kv_namespaces]]
+binding = "AUDIT_FAIL_KV"
+id = "placeholder-staging-audit-fail-kv-id"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "webwaka-staging"
+database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
+
+[env.production]
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[[env.production.triggers]]
+crons = ["*/30 * * * *"]
+
+[[env.production.kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "placeholder-production-kv-id"
+
+[[env.production.kv_namespaces]]
+binding = "AUDIT_FAIL_KV"
+id = "placeholder-production-audit-fail-kv-id"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"

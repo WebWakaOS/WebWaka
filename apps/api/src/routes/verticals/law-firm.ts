@@ -60,13 +60,23 @@ app.patch('/profiles/:id/transition', async (c) => {
 
 app.post('/profiles/:id/matters', async (c) => {
   const { tenantId } = auth(c);
+  const profileId = c.req.param('id');
   const body = await c.req.json<{ matterRefId: string; matterType: string; billingType: string; agreedFeeKobo: number }>();
   const uuidG = guardOpaqueMatterRefId(body.matterRefId);
   if (!uuidG.allowed) return c.json({ error: uuidG.reason }, 422);
   const g = guardFractionalKobo(body.agreedFeeKobo);
   if (!g.allowed) return c.json({ error: g.reason }, 422);
-  const matter = await repo(c).createMatter({ profileId: c.req.param('id'), tenantId, matterRefId: body.matterRefId, matterType: body.matterType as never, billingType: body.billingType as never, agreedFeeKobo: body.agreedFeeKobo });
-  return c.json(matter, 201);
+
+  // BUG-053: Sequential per-profile matter number (e.g. "M-0001", "M-0002").
+  // Computed at route level — human-readable display number, separate from opaque matterRefId (P13).
+  const countRow = await c.env.DB.prepare(
+    'SELECT COUNT(*) AS cnt FROM legal_matters WHERE profile_id = ? AND tenant_id = ?',
+  ).bind(profileId, tenantId).first<{ cnt: number }>();
+  const seq = (countRow?.cnt ?? 0) + 1;
+  const matterNumber = `M-${String(seq).padStart(4, '0')}`;
+
+  const matter = await repo(c).createMatter({ profileId, tenantId, matterRefId: body.matterRefId, matterType: body.matterType as never, billingType: body.billingType as never, agreedFeeKobo: body.agreedFeeKobo });
+  return c.json({ ...matter, matterNumber }, 201);
 });
 
 app.post('/profiles/:id/time-entries', async (c) => {

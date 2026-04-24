@@ -74,15 +74,31 @@ export const auditLogMiddleware = createMiddleware<{ Bindings: Env }>(async (c, 
         )
         .run();
     } catch (err) {
-      console.error('[AUDIT] D1 write failed, falling back to KV:', err instanceof Error ? err.message : err);
+      // BUG-014 fix: Dual-write to RATE_LIMIT_KV failure queue on D1 write failure.
+      // Entries are stored with 48-hour TTL under key audit_fail:<id> for re-drive
+      // by the scheduled audit-log-redriver job (ENH-004 scheduler worker).
+      // Key change from prior implementation: use RATE_LIMIT_KV (always bound) instead
+      // of KV (may not be bound); use audit_fail: prefix for scheduler discoverability;
+      // increase TTL to 172800s (48h) to outlast transient D1 degradations.
+      const failedEntry = JSON.stringify({
+        id,
+        ts: entry.ts,
+        tenantId,
+        action: entry.action,
+        error: err instanceof Error ? err.message : String(err),
+      });
+      console.error(JSON.stringify({
+        level: 'error',
+        event: 'audit_log_write_failed',
+        entryId: id,
+        tenantId,
+        error: err instanceof Error ? err.message : String(err),
+      }));
       try {
-        const kv = c.env.KV;
-        if (kv) {
-          const kvKey = `audit:${tenantId}:${id}`;
-          await kv.put(kvKey, JSON.stringify(entry), { expirationTtl: 86400 });
-        }
-      } catch (kvErr) {
-        console.error('[AUDIT] KV fallback also failed (non-blocking):', kvErr instanceof Error ? kvErr.message : kvErr);
+        const failKey = `audit_fail:${id}`;
+        await c.env.RATE_LIMIT_KV.put(failKey, failedEntry, { expirationTtl: 172800 });
+      } catch {
+        // RATE_LIMIT_KV also unavailable — both log layers exhausted; already logged above.
       }
     }
   }

@@ -228,6 +228,14 @@ function handleSendMoneyConfirm(session: USSDSession, input: string): ProcessRes
   if (input === '2') {
     return { text: endSession('Transfer cancelled.'), session, ended: true };
   }
+  // BUG-036: "0. Back" returns to enter-phone-and-amount screen.
+  if (input === '0') {
+    return {
+      text: sendMoneyEnterPhoneAndAmount(),
+      session: { ...session, state: 'send_money_enter_phone_amount' },
+      ended: false,
+    };
+  }
   return { text: endSession('Invalid selection.'), session, ended: true };
 }
 

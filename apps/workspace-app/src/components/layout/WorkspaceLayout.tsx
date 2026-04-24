@@ -7,6 +7,7 @@ import { FullPageSpinner } from '@/components/ui/Spinner';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { NotificationDrawer } from '@/components/notifications/NotificationDrawer';
 import { useNotificationPoll } from '@/hooks/useNotificationPoll';
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
 
 const MOBILE_BREAKPOINT = 768;
 
@@ -21,6 +22,17 @@ export function WorkspaceLayout() {
     window.addEventListener('resize', handler, { passive: true });
     return () => window.removeEventListener('resize', handler);
   }, []);
+
+  // BUG-025: On every route change, move focus to #main-content so screen-reader
+  // users hear the new page heading rather than being stranded at the link they
+  // just activated.
+  useEffect(() => {
+    const el = document.getElementById('main-content');
+    if (el) {
+      el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
+    }
+  }, [location.pathname]);
 
   const { unreadCount, refresh } = useNotificationPoll({ enabled: !!user });
 
@@ -47,20 +59,31 @@ export function WorkspaceLayout() {
         </div>
       )}
 
-      <main
-        id="main-content"
-        role="main"
+      <div
         style={{
           flex: 1,
           marginLeft: isMobile ? 0 : 240,
-          paddingBottom: isMobile ? 72 : 0,
+          display: 'flex',
+          flexDirection: 'column',
           minHeight: '100vh',
-          background: '#f8f9fa',
-          overflowX: 'hidden',
         }}
       >
-        <Outlet />
-      </main>
+        {/* BUG-010 / ENH-002 / ENH-020: Offline indicator — shown when navigator.onLine is false */}
+        <OfflineBanner />
+
+        <main
+          id="main-content"
+          role="main"
+          style={{
+            flex: 1,
+            paddingBottom: isMobile ? 72 : 0,
+            background: '#f8f9fa',
+            overflowX: 'hidden',
+          }}
+        >
+          <Outlet />
+        </main>
+      </div>
       {isMobile && <BottomNav />}
 
       {/* Notification drawer */}

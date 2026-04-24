@@ -1,19 +1,52 @@
 /**
- * Currency validation stub — MED-014 (PROD-06) — P6-D
+ * Currency utilities — MED-014 (PROD-06) — P6-D
  *
- * Forward-compatibility stub for multi-currency support.
- * All current WebWaka OS operations use Nigerian Naira (NGN) in integer kobo.
- *
- * When multi-currency is enabled (future), this function will:
- * 1. Validate the currency code against the workspace's approved currencies
- * 2. Apply the appropriate conversion rate
- * 3. Return the amount in the settlement currency
+ * Canonical shared currency formatting and validation for WebWaka OS.
+ * All amounts use Nigerian Naira (NGN) in integer kobo.
  *
  * Platform Invariant P9: amounts are always INTEGER kobo. Never floats.
- * Governance: docs/governance/currency-policy.md (forward-compat stub)
+ * Governance: docs/governance/currency-policy.md
+ *
+ * BUG-043: formatNaira compact display uses '~' prefix for approximate values.
+ * TST-003: formatNaira ↔ parseNairaInput must round-trip within 1 kobo.
  */
 
 export type CurrencyCode = 'NGN';
+
+const KOBO_PER_NAIRA = 100;
+
+/**
+ * Format an integer kobo amount as a Naira string.
+ * When opts.compact is true, large values are shortened (e.g. ~₦1.2M, ~₦500.0K).
+ * The '~' prefix signals that compact display is rounded/approximate.
+ * P9: kobo MUST be an integer — non-integers are rounded before display.
+ */
+export function formatNaira(kobo: number, opts?: { compact?: boolean }): string {
+  const naira = kobo / KOBO_PER_NAIRA;
+  if (opts?.compact && naira >= 1_000_000) {
+    return `~₦${(naira / 1_000_000).toFixed(1)}M`;
+  }
+  if (opts?.compact && naira >= 1_000) {
+    return `~₦${(naira / 1_000).toFixed(1)}K`;
+  }
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2,
+  }).format(naira);
+}
+
+/**
+ * Parse a user-entered Naira string back to an integer kobo amount.
+ * Strips ₦, commas, spaces, and the compact approximation prefix '~'.
+ * Always returns an integer (P9 invariant). Returns 0 for invalid input.
+ */
+export function parseNairaInput(value: string): number {
+  const cleaned = value.replace(/[~₦,\s]/g, '');
+  const num = parseFloat(cleaned);
+  if (isNaN(num) || num < 0) return 0;
+  return Math.round(num * KOBO_PER_NAIRA);
+}
 
 const SUPPORTED_CURRENCIES: readonly string[] = ['NGN'];
 

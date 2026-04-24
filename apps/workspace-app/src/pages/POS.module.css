@@ -1,0 +1,250 @@
+/*
+ * BUG-046: POS inline styles → CSS Modules (gradual migration)
+ * Phase 1: Extract structural/layout classes. Receipt + cart panel + product grid.
+ * Phase 2 (future): Migrate all remaining inline style={{ ... }} usages.
+ */
+
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+.page {
+  padding: 24px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ── Two-column layout: products | cart ───────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+.productsPanel {
+  min-width: 0;
+}
+
+/* ── Search input ─────────────────────────────────────────────────────────── */
+.searchInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #d1d5db;
+  font-size: 14px;
+  margin-bottom: 16px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.searchInput:focus {
+  border-color: #0F4C81;
+}
+
+/* ── Products grid ────────────────────────────────────────────────────────── */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.productCard {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-height: 120px;
+}
+
+.productCard:hover {
+  border-color: #0F4C81;
+  box-shadow: 0 2px 8px rgba(15, 76, 129, 0.1);
+}
+
+.productName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.productPrice {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F4C81;
+  margin-bottom: 2px;
+}
+
+/* ── Cart panel ───────────────────────────────────────────────────────────── */
+.cartPanel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  position: sticky;
+  top: 24px;
+}
+
+.cartHeading {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 32px 0;
+  color: #6b7280;
+}
+
+/* ── Cart items list ──────────────────────────────────────────────────────── */
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.qtyControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qtyBtn:hover {
+  border-color: #0F4C81;
+  color: #0F4C81;
+}
+
+/* ── Totals / summary row ─────────────────────────────────────────────────── */
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-bottom: 12px;
+}
+
+/* ── Payment method selector ─────────────────────────────────────────────── */
+.paymentMethodLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.paymentMethodGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.paymentMethodBtn {
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid #e5e7eb;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #fff;
+  color: #374151;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.paymentMethodBtn[aria-pressed="true"] {
+  border-color: #0F4C81;
+  background: #EFF6FF;
+  color: #0F4C81;
+}
+
+/* ── Receipt ──────────────────────────────────────────────────────────────── */
+.receipt {
+  max-width: 380px;
+  margin: 60px auto;
+  text-align: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 32px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Responsive: collapse to single column on narrow screens ─────────────── */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cartPanel {
+    position: static;
+  }
+}
+
+/* ── Print: receipt optimisation (BUG-048) ───────────────────────────────── */
+@media print {
+  .page {
+    padding: 0;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .productsPanel {
+    display: none;
+  }
+
+  .cartPanel {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}

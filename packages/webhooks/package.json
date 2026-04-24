@@ -1,0 +1,16 @@
+{
+  "name": "@webwaka/webhooks",
+  "version": "0.1.0",
+  "description": "Outbound webhook signing utilities (SEC-007)",
+  "type": "module",
+  "main": "./src/signing.ts",
+  "exports": {
+    ".": "./src/signing.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

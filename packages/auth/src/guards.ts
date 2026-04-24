@@ -45,22 +45,25 @@ export class AuthGuardError extends Error {
  *
  * Implementation: inline D1 SELECT — does NOT import @webwaka/contact (avoids circular dep).
  *
- * @param db   - D1 binding
+ * @param db       - D1 binding
  * @param userId   - Authenticated user's ID
- * @param tenantId - Current tenant's ID (T3 compliance — userId is tenant-scoped)
+ * @param tenantId - Current tenant's ID (T3 compliance — every query must scope to tenant_id)
  */
 export async function requirePrimaryPhoneVerified(
   db: D1Like,
   userId: string,
-  _tenantId: string,
+  tenantId: string,
 ): Promise<void> {
+  // BUG-001 fix: Added AND tenant_id = ? — T3 invariant: contact_channels queries must be
+  // scoped to the authenticated tenant. Without this, a user in Tenant A could falsely
+  // satisfy the guard using a phone channel from Tenant B.
   const row = await db
     .prepare(
       `SELECT id FROM contact_channels
-       WHERE user_id = ? AND channel_type = 'sms' AND is_primary = 1 AND verified = 1
+       WHERE user_id = ? AND tenant_id = ? AND channel_type = 'sms' AND is_primary = 1 AND verified = 1
        LIMIT 1`,
     )
-    .bind(userId)
+    .bind(userId, tenantId)
     .first<{ id: string }>();
 
   if (!row) {

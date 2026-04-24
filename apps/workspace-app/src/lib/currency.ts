@@ -11,10 +11,11 @@ export function nairaToKobo(naira: number): number {
 export function formatNaira(kobo: number, opts?: { compact?: boolean }): string {
   const naira = koboToNaira(kobo);
   if (opts?.compact && naira >= 1_000_000) {
-    return `₦${(naira / 1_000_000).toFixed(1)}M`;
+    // BUG-043: '~' prefix signals that compact display is approximate (rounded to 1 decimal)
+    return `~₦${(naira / 1_000_000).toFixed(1)}M`;
   }
   if (opts?.compact && naira >= 1_000) {
-    return `₦${(naira / 1_000).toFixed(1)}K`;
+    return `~₦${(naira / 1_000).toFixed(1)}K`;
   }
   return new Intl.NumberFormat('en-NG', {
     style: 'currency',
@@ -24,7 +25,8 @@ export function formatNaira(kobo: number, opts?: { compact?: boolean }): string 
 }
 
 export function parseNairaInput(value: string): number {
-  const cleaned = value.replace(/[₦,\s]/g, '');
+  // BUG-043: strip leading '~' used in compact approximate display
+  const cleaned = value.replace(/[~₦,\s]/g, '');
   const num = parseFloat(cleaned);
   if (isNaN(num) || num < 0) return 0;
   return nairaToKobo(num);

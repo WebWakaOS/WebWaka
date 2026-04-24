@@ -817,9 +817,10 @@ function makeMainEnv(overrides: Record<string, unknown> = {}) {
 
 describe('B1: Auth middleware on /templates/*/purchase and /*/purchase/verify', () => {
   it('returns 401 for POST /templates/:slug/purchase without Authorization header', async () => {
+    // BUG-003 fix: add X-CSRF-Intent so CSRF middleware passes; auth then returns 401
     const req = new Request('http://localhost/templates/premium-dashboard/purchase', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' },
       body: JSON.stringify({ email: 'buyer@example.com' }),
     });
     const res = await app.fetch(req, makeMainEnv());
@@ -827,9 +828,10 @@ describe('B1: Auth middleware on /templates/*/purchase and /*/purchase/verify', 
   });
 
   it('returns 401 for POST /templates/:slug/purchase/verify without Authorization header', async () => {
+    // BUG-003 fix: add X-CSRF-Intent so CSRF middleware passes; auth then returns 401
     const req = new Request('http://localhost/templates/premium-dashboard/purchase/verify', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Intent': 'm2m' },
       body: JSON.stringify({ reference: 'test_ref_001' }),
     });
     const res = await app.fetch(req, makeMainEnv());

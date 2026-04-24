@@ -201,7 +201,49 @@
 
 ---
 
-*Last updated: 2026-04-14 (Full QA Audit + Enhancement Roadmap Reconciliation)*
+## D1 Data Residency (BUG-039 / COMP-006)
+
+**Regulation:** NDPR (Nigeria Data Protection Regulation) — Article 2.1(3) requires personal data processing to have appropriate safeguards.
+
+| Resource | Type | Location | Notes |
+|----------|------|----------|-------|
+| `webwaka-production` | D1 SQLite | Western Europe (WEUR) | Primary production database. Cloudflare D1 does not yet offer an Africa/MEA region; WEUR is the lowest-latency available region for Nigeria. |
+| `webwaka-staging` | D1 SQLite | Auto (nearest CF PoP) | Staging only — no production PII. |
+| `RATE_LIMIT_KV` | Workers KV | Global (distributed) | Contains rate limit counters only — no PII. |
+| `GEOGRAPHY_CACHE` | Workers KV | Global (distributed) | Contains read-only geography data — no PII. |
+| `USSD_SESSION_KV` | Workers KV | Global (distributed) | Contains USSD session state. Session data expires in 3 minutes (TDR-0010). Phone numbers are pseudonymised with PII_SALT before storage. |
+| `webwaka-assets` | R2 | EEUR (configured) | Stores partner logos and uploaded documents. |
+
+### NDPR Data Processing Agreement Status
+
+- **DPA with Cloudflare:** Covered under Cloudflare's Data Processing Addendum (signed via account T&Cs). Cloudflare is a registered data processor.
+- **Sub-processors registered:** Resend (email), Africa's Talking (USSD), Paystack (payments) — all registered in the vendor sub-processor list.
+- **Data Transfer Mechanism:** Standard Contractual Clauses (SCCs) via Cloudflare DPA for EU→ processing.
+
+### Mitigation for Absence of African D1 Region
+
+Until Cloudflare offers a Sub-Saharan Africa D1 region:
+1. All PII is encrypted at rest (D1 default — AES-256).
+2. PII fields (phone, email, names) are never stored in KV — only D1.
+3. USSD phone numbers are hashed with `LOG_PII_SALT` before KV storage.
+4. DSAR export pipelines pseudonymise data prior to KV staging (`dsar_requests` → KV TTL 48h).
+5. The NDPR DPO has reviewed and approved this architecture (see `docs/governance/ndpr-dpo-sign-off.md`).
+
+### wrangler.toml Data Residency Annotations
+
+```toml
+# Production D1 — WEUR region (Western Europe, nearest to West Africa)
+# NDPR justification: No MEA/Africa region available; WEUR is lowest latency.
+# Re-evaluate for migration when Cloudflare adds Sub-Saharan Africa PoP.
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "webwaka-production"
+database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+```
+
+---
+
+*Last updated: 2026-04-24 (Sprint 3 compliance items — BUG-039 / COMP-006 data residency added)*
 
 *This dashboard is the single-page compliance view for WebWaka OS.*  
 *For detailed invariant definitions, see `docs/governance/platform-invariants.md`.*  

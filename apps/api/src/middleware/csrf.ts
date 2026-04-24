@@ -12,11 +12,31 @@ export const csrfMiddleware = createMiddleware<{ Bindings: Env }>(async (c, next
   const referer = c.req.header('Referer');
 
   if (!origin && !referer) {
-    const contentType = c.req.header('Content-Type') ?? '';
-    if (contentType.includes('application/json')) {
+    // BUG-003 fix: The previous behaviour allowed any JSON POST without Origin/Referer to
+    // bypass CSRF protection. This is exploitable: an attacker can craft a cross-origin
+    // request with Content-Type: application/json and no Origin header in certain browser
+    // contexts, and in automated tooling it is trivially exploitable.
+    //
+    // New behaviour: browser clients always send Origin or Referer. Absence means a
+    // non-browser (M2M) caller. M2M callers MUST explicitly declare intent via:
+    //   - Header: X-CSRF-Intent: m2m   (for service-to-service calls)
+    //   - Header: X-Inter-Service-Secret: <secret>  (server-to-server with shared secret)
+    // Governance reference: security-baseline.md §CSRF — M2M API policy (ADR-0XX)
+    const csrfIntent = c.req.header('X-CSRF-Intent');
+    const interServiceSecret = c.req.header('X-Inter-Service-Secret');
+    const expectedSecret = c.env?.INTER_SERVICE_SECRET;
+    if (csrfIntent === 'm2m') {
       return next();
     }
-    return c.json({ error: 'Missing Origin/Referer header (CSRF protection)' }, 403);
+    if (expectedSecret && interServiceSecret === expectedSecret) {
+      return next();
+    }
+    return c.json(
+      {
+        error: 'Missing Origin/Referer header. M2M callers must send X-CSRF-Intent: m2m or X-Inter-Service-Secret. (CSRF protection)',
+      },
+      403,
+    );
   }
 
   const allowedOriginsEnv = c.env?.ALLOWED_ORIGINS ?? '';

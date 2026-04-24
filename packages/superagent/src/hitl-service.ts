@@ -91,10 +91,12 @@ export class HitlService {
 
     const expiresAt = new Date(Date.now() + expiryHours * 60 * 60 * 1000).toISOString();
 
+    // BUG-022: INSERT OR IGNORE ensures idempotent submission — duplicate IDs are silently
+    // dropped rather than raising a UNIQUE constraint violation.
     await this.db.batch([
       this.db
         .prepare(
-          `INSERT INTO ai_hitl_queue
+          `INSERT OR IGNORE INTO ai_hitl_queue
              (id, tenant_id, workspace_id, user_id, vertical, capability,
               hitl_level, status, ai_request_payload, ai_response_payload, expires_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`,
@@ -113,7 +115,8 @@ export class HitlService {
         ),
       this.db
         .prepare(
-          `INSERT INTO ai_hitl_events
+          // BUG-022: ai_hitl_events is append-only; INSERT OR IGNORE prevents duplicate events.
+          `INSERT OR IGNORE INTO ai_hitl_events
              (id, tenant_id, queue_item_id, event_type, actor_id, note)
            VALUES (?, ?, ?, 'created', ?, 'Submitted for HITL review')`,
         )

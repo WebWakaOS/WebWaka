@@ -180,6 +180,24 @@ app.post('/ussd', async (c) => {
   // Each USSD Worker instance is deployed per-tenant subdomain; TENANT_ID is never user-supplied.
   const tenantId = c.env.TENANT_ID ?? 'default';
 
+  // BUG-054 / R5: Rate limit — 30 new sessions per hour per phone number.
+  // Only incremented on new sessions (no text = fresh dial-in). Existing sessions pass through.
+  // User-facing END message is actionable, not a raw HTTP 429.
+  if (!text) {
+    const rlKey = `ussd:rl:${phoneNumber}:${Math.floor(Date.now() / 3_600_000)}`;
+    const countStr = await c.env.RATE_LIMIT_KV.get(rlKey);
+    const count = countStr ? parseInt(countStr, 10) : 0;
+    if (count >= 30) {
+      return c.text(
+        'END You have reached the USSD session limit for this hour. Please try again later.',
+        200,
+        { 'Content-Type': 'text/plain' },
+      );
+    }
+    // Increment counter; TTL of 3660s (1 hour + 60s grace) so it auto-expires
+    await c.env.RATE_LIMIT_KV.put(rlKey, String(count + 1), { expirationTtl: 3660 });
+  }
+
   try {
     let session = await getOrCreateSession(c.env.USSD_SESSION_KV, sessionId, phoneNumber);
 

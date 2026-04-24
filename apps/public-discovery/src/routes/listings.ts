@@ -287,9 +287,38 @@ router.get('/search', async (c) => {
   const locale = detectLocale(c.req.raw);
   const t = createI18n(locale);
   const q = (c.req.query('q') ?? '').trim();
-  const placeId = c.req.query('place') ?? null;
+  let placeId = c.req.query('place') ?? null;
 
   if (!q) return c.redirect('/discover');
+
+  // BUG-042: Geo-IP location default — when no place is specified in the query,
+  // use Cloudflare's request.cf.country/region to default to the user's state
+  // within Nigeria (NG). Falls back to Nigeria-wide results if no match is found.
+  let geoPlaceName: string | null = null;
+  if (!placeId) {
+    const cf = c.req.raw.cf as Record<string, string | undefined> | undefined;
+    const country = cf?.country ?? null;
+    const region = cf?.region ?? null;
+    if (country === 'NG' && region) {
+      try {
+        const geoRow = await c.env.DB
+          .prepare(
+            `SELECT id, name FROM geography_places
+             WHERE geography_type = 'state'
+               AND LOWER(name) LIKE LOWER(?) || '%'
+             LIMIT 1`,
+          )
+          .bind(region)
+          .first<{ id: string; name: string }>();
+        if (geoRow) {
+          placeId = geoRow.id;
+          geoPlaceName = geoRow.name;
+        }
+      } catch {
+        // GeoIP lookup failed — fall back to Nigeria-wide results
+      }
+    }
+  }
 
   const results = await c.env.DB
     .prepare(
@@ -321,11 +350,19 @@ router.get('/search', async (c) => {
           )
           .join('')}</div>`;
 
+  const geoNotice = geoPlaceName
+    ? `<p style="margin-bottom:0.5rem;font-size:0.8125rem;color:var(--ww-text-muted)">
+         📍 Showing results near <strong>${esc(geoPlaceName)}</strong> (detected from your location).
+         <a href="/discover/search?q=${encodeURIComponent(q)}" style="color:var(--ww-primary)">Show all of Nigeria</a>
+       </p>`
+    : '';
+
   const body = `
     <form class="ww-search" method="GET" action="/discover/search">
       <input name="q" type="search" value="${esc(q)}" autocomplete="off" />
       <button type="submit">Search</button>
     </form>
+    ${geoNotice}
     <p style="margin-bottom:1rem;color:var(--ww-text-muted)">${rows.length} result${rows.length !== 1 ? 's' : ''} for "${esc(q)}"</p>
     ${cards}`;
 
@@ -444,6 +481,49 @@ router.get('/category/:cat', async (c) => {
     footerTagline: t('footer_tagline'),
     structuredData,
   }));
+});
+
+// BUG-055: "Report this listing" — POST /discover/:id/report
+// Accepts abuse / inaccuracy reports for public listings.
+// T3 note: public-discovery is cross-tenant by design; reporter_ip stored for moderation.
+// Inserts into listing_reports (migration 0382). Rate-limited at network layer via Cloudflare WAF.
+const VALID_REASONS = ['inaccurate', 'spam', 'offensive', 'duplicate', 'other'] as const;
+type ReportReason = typeof VALID_REASONS[number];
+
+router.post('/discover/:id/report', async (c) => {
+  const entityId = c.req.param('id');
+  if (!entityId) return c.json({ error: 'Entity ID is required.' }, 400);
+
+  let body: { reason?: string; details?: string } = {};
+  try {
+    body = await c.req.json<{ reason?: string; details?: string }>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body.' }, 400);
+  }
+
+  const reason = body.reason as ReportReason | undefined;
+  if (!reason || !VALID_REASONS.includes(reason)) {
+    return c.json({
+      error: `reason is required. Must be one of: ${VALID_REASONS.join(', ')}`,
+      valid_reasons: VALID_REASONS,
+    }, 422);
+  }
+
+  const details = typeof body.details === 'string' ? body.details.slice(0, 500) : null;
+  const reporterIp = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For') ?? null;
+  const id = crypto.randomUUID();
+
+  try {
+    await c.env.DB.prepare(
+      `INSERT INTO listing_reports (id, entity_id, tenant_id, reporter_ip, reason, details, status, created_at)
+       VALUES (?, ?, 'public', ?, ?, ?, 'pending', unixepoch())`,
+    ).bind(id, entityId, reporterIp, reason, details).run();
+  } catch {
+    // If listing_reports table doesn't exist yet (migration pending), fail gracefully
+    return c.json({ error: 'Report service temporarily unavailable. Please try again later.' }, 503);
+  }
+
+  return c.json({ success: true, message: 'Report submitted. Thank you for helping keep the platform accurate.' }, 201);
 });
 
 function esc(s: string): string {

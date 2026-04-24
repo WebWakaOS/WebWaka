@@ -191,4 +191,11 @@ export const authApi = {
     request<{ message: string }>('/auth/send-verification', { method: 'POST' }),
   verifyEmail: (token: string) =>
     request<{ message: string }>(`/auth/verify-email?token=${encodeURIComponent(token)}`, { skipAuth: true }),
+
+  // BUG-011: NDPR Article 3.1(9) Right to Erasure — requires X-Confirm-Erasure header
+  deleteAccount: () =>
+    request<{ message: string; receipt_id: string }>('/auth/me', {
+      method: 'DELETE',
+      headers: { 'X-Confirm-Erasure': 'confirmed' },
+    }),
 };

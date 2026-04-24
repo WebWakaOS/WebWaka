@@ -284,7 +284,14 @@ app.get('/', (c) => {
       </div>
     </div>
 
-    <p class="section-title">Partner Capabilities</p>
+    <!-- BUG-030: Section anchor navigation with aria-current="location" for the active section -->
+    <nav aria-label="Page sections" id="section-nav" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+      <a href="#section-capabilities" id="nav-capabilities" style="color:var(--muted);text-decoration:none;font-size:0.82rem;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid transparent;transition:all 0.15s">Capabilities</a>
+      <a href="#section-api"          id="nav-api"          style="color:var(--muted);text-decoration:none;font-size:0.82rem;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid transparent;transition:all 0.15s">API Endpoints</a>
+      <a href="#section-dashboard"    id="nav-dashboard"    style="color:var(--muted);text-decoration:none;font-size:0.82rem;padding:0.3rem 0.75rem;border-radius:999px;border:1px solid transparent;transition:all 0.15s">Live Dashboard</a>
+    </nav>
+
+    <p class="section-title" id="section-capabilities">Partner Capabilities</p>
     <div class="grid">
       <div class="card">
         <div class="card-icon">🏢</div>
@@ -324,7 +331,7 @@ app.get('/', (c) => {
       </div>
     </div>
 
-    <p class="section-title">API Endpoints</p>
+    <p class="section-title" id="section-api">API Endpoints</p>
     <div class="api-note">
       <strong>Partner Management API</strong> — All endpoints require <code>super_admin</code> JWT role.<br/><br/>
       <code>GET  /partners</code> — List all registered partners<br/>
@@ -343,7 +350,7 @@ app.get('/', (c) => {
       <code>GET  /partners/:id/settlements</code> — List settlements <span style="color:var(--green)">NEW P5</span>
     </div>
 
-    <p class="section-title">Live Dashboard</p>
+    <p class="section-title" id="section-dashboard">Live Dashboard</p>
     <div class="api-note" style="margin-bottom:1rem">
       Enter a Partner ID and API base URL to load live data:
     </div>
@@ -398,6 +405,50 @@ app.get('/', (c) => {
   </footer>
 
   <script>
+    // BUG-030: Section nav aria-current — IntersectionObserver marks the
+    // nav link whose target section is currently closest to the top of the viewport.
+    (function initSectionNav() {
+      var navMap = {
+        'section-capabilities': 'nav-capabilities',
+        'section-api': 'nav-api',
+        'section-dashboard': 'nav-dashboard'
+      };
+      var activeStyle = 'color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,0.08)';
+      var inactiveStyle = 'color:var(--muted);border-color:transparent;background:transparent';
+
+      function setActive(sectionId) {
+        Object.keys(navMap).forEach(function(id) {
+          var link = document.getElementById(navMap[id]);
+          if (!link) return;
+          if (id === sectionId) {
+            link.style.cssText += ';' + activeStyle;
+            link.setAttribute('aria-current', 'location');
+          } else {
+            link.style.cssText = link.style.cssText.replace(activeStyle, '');
+            link.removeAttribute('aria-current');
+            link.style.color = '#6b7280';
+            link.style.borderColor = 'transparent';
+            link.style.background = 'transparent';
+          }
+        });
+      }
+
+      if (!('IntersectionObserver' in window)) { setActive('section-capabilities'); return; }
+
+      var latestVisible = null;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) latestVisible = e.target.id; });
+        if (latestVisible) setActive(latestVisible);
+      }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
+
+      Object.keys(navMap).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+
+      setActive('section-capabilities');
+    })();
+
     // N-091a: Notification Bell — polls GET /notifications/inbox?category=partner every 30s
     let _notifPanelOpen = false;
     let _notifPollInterval = null;

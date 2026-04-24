@@ -180,6 +180,51 @@ a:hover { text-decoration: underline; }
   <footer class="ww-footer" role="contentinfo">
     ${renderAttribution({ removeAttribution })}
   </footer>
+
+  <!-- BUG-027: Cookie consent banner (NDPR Art. 2.1 — cookies are personal data) -->
+  <div id="ww-cookie-banner" role="dialog" aria-modal="false" aria-label="Cookie consent"
+    style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--ww-bg);border-top:1px solid var(--ww-border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;box-shadow:0 -4px 16px rgba(0,0,0,0.08)">
+    <p style="margin:0;font-size:0.875rem;color:var(--ww-text-muted);flex:1;min-width:200px">
+      We use essential cookies to keep you signed in and improve your experience.
+      <a href="/privacy" style="color:var(--ww-primary);text-decoration:underline">Privacy Policy</a>
+    </p>
+    <div style="display:flex;gap:0.5rem;flex-shrink:0">
+      <button id="ww-cookie-reject" style="background:transparent;border:1px solid var(--ww-border);color:var(--ww-text-muted);padding:0.4rem 0.9rem;border-radius:var(--ww-radius);font-size:0.8125rem;cursor:pointer">
+        Essential only
+      </button>
+      <button id="ww-cookie-accept" style="background:var(--ww-primary);border:none;color:#fff;padding:0.4rem 0.9rem;border-radius:var(--ww-radius);font-size:0.8125rem;cursor:pointer;font-weight:600">
+        Accept all
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // BUG-027: Cookie consent — show banner unless already decided
+    (function() {
+      var stored = localStorage.getItem('ww_cookie_consent');
+      var banner = document.getElementById('ww-cookie-banner');
+      if (!stored && banner) {
+        banner.style.display = 'flex';
+        document.getElementById('ww-cookie-accept').addEventListener('click', function() {
+          localStorage.setItem('ww_cookie_consent', 'all');
+          banner.style.display = 'none';
+        });
+        document.getElementById('ww-cookie-reject').addEventListener('click', function() {
+          localStorage.setItem('ww_cookie_consent', 'essential');
+          banner.style.display = 'none';
+        });
+      }
+    })();
+
+    // BUG-028: Service Worker registration — registers /sw.js for offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(err) {
+          console.warn('[WebWaka SW] Registration failed:', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>`;
 }

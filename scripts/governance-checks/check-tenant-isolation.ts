@@ -64,16 +64,34 @@ function checkFile(filePath: string): void {
 function checkHlTableTenantIsolation(filePath: string): void {
   const content = fs.readFileSync(filePath, 'utf8');
 
-  // Match backtick template literal strings — the dominant SQL pattern in this codebase.
-  // Single/double-quoted strings are intentionally NOT checked here because the regex
-  // would match cross-boundary fragments and generate false positives. All wallet SQL
-  // uses template literals (verified by code review).
-  const allStrings = content.match(/`[^`]+`/g) ?? [];
-
   // SQL DML keywords — only flag strings that are actual SQL statements.
   const SQL_DML = /\b(SELECT|INSERT\s+INTO|UPDATE|DELETE\s+FROM|FROM)\b/i;
   // Strings annotated with GOVERNANCE_SKIP are intentional cross-tenant queries (e.g. CRON aggregates).
   const GOVERNANCE_SKIP = /GOVERNANCE_SKIP/;
+
+  // Match backtick template literal strings — the dominant SQL pattern in this codebase.
+  const allStrings = content.match(/`[^`]+`/g) ?? [];
+
+  // BUG-017: Also check single/double-quoted SQL strings for hl_* table references.
+  // Exclude newlines (\n) and backticks (`) from the character class so the regex
+  // never spans multiple lines or bleeds into backtick template literals — doing so
+  // produces false positives from SQL value literals like 'pending' -> 'active'.
+  const singleQuotedStrings = content.match(/['"][^'"`\n]{10,}['"]/g) ?? [];
+  for (const sqlStr of singleQuotedStrings) {
+    if (!SQL_DML.test(sqlStr)) continue;
+    if (GOVERNANCE_SKIP.test(sqlStr)) continue;
+    for (const table of HL_TABLES) {
+      if (sqlStr.includes(table) && !sqlStr.includes('tenant_id')) {
+        console.error(
+          `FAIL [hl-tenant-isolation] (single-quoted): ${filePath}\n` +
+          `  SQL touches '${table}' but has no tenant_id scope:\n` +
+          `  ${sqlStr.slice(0, 200).replace(/\n/g, ' ')}`,
+        );
+        failures++;
+        break;
+      }
+    }
+  }
 
   for (const str of allStrings) {
     if (!SQL_DML.test(str)) continue;     // not a SQL statement — skip
