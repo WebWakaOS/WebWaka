@@ -12,6 +12,13 @@
  * No auth required — public pages.
  * T3: tenant isolation via tenantResolve middleware.
  * P9: prices as integer kobo, formatted at template layer.
+ *
+ * Marketplace-driven rendering:
+ *   Each route calls resolveTemplate(tenantId, db) to look up the active
+ *   template_installation for the tenant. If a matching built-in template is
+ *   found its WebsiteTemplateContract.renderPage() is used for the body HTML.
+ *   Tenants with no active install fall back to the hardcoded page functions
+ *   below — preserving backward compatibility for all existing tenants.
  */
 
 import { Hono } from 'hono';
@@ -24,6 +31,7 @@ import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
 import { servicesPageBody } from '../templates/services.js';
 import { contactPageBody } from '../templates/contact.js';
+import { resolveTemplate, templateSupportsPage } from '../lib/template-resolver.js';
 
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 
@@ -104,20 +112,45 @@ router.get('/', async (c) => {
   const offerings = await fetchOfferings(c.env, theme.tenantId);
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const body = brandedHomeBody({
-    displayName: theme.displayName,
-    tagline: null,
-    description: profile?.description ?? null,
-    primaryColor: theme.primaryColor,
-    logoUrl: theme.logoUrl,
-    ctaLabel: 'View Our Services',
-    ctaUrl: '/services',
-    offerings: offerings.map((o) => ({
-      name: o.name,
-      description: o.description,
-      priceKobo: o.price_kobo,
-    })),
-  });
+  // Marketplace-driven rendering: attempt to resolve active template install.
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  let body: string;
+  if (templateContract && templateSupportsPage(templateContract, 'home')) {
+    body = templateContract.renderPage({
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      primaryColor: theme.primaryColor,
+      secondaryColor: theme.secondaryColor,
+      accentColor: theme.accentColor,
+      fontFamily: theme.fontFamily,
+      logoUrl: theme.logoUrl,
+      faviconUrl: theme.faviconUrl,
+      borderRadiusPx: theme.borderRadiusPx,
+      cssVars,
+      pageType: 'home',
+      data: {
+        offerings: offerings.map((o) => ({ name: o.name, description: o.description, priceKobo: o.price_kobo })),
+        description: profile?.description ?? null,
+        tagline: null,
+      },
+    });
+  } else {
+    body = brandedHomeBody({
+      displayName: theme.displayName,
+      tagline: null,
+      description: profile?.description ?? null,
+      primaryColor: theme.primaryColor,
+      logoUrl: theme.logoUrl,
+      ctaLabel: 'View Our Services',
+      ctaUrl: '/services',
+      offerings: offerings.map((o) => ({
+        name: o.name,
+        description: o.description,
+        priceKobo: o.price_kobo,
+      })),
+    });
+  }
 
   const headExtra = seoHead({
     title: theme.displayName,
@@ -137,16 +170,42 @@ router.get('/about', async (c) => {
 
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const body = aboutPageBody({
-    displayName: theme.displayName,
-    description: profile?.description ?? null,
-    logoUrl: theme.logoUrl,
-    primaryColor: theme.primaryColor,
-    category: profile?.category ?? null,
-    placeName: profile?.place_name ?? null,
-    phone: profile?.phone ?? null,
-    website: profile?.website ?? null,
-  });
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  let body: string;
+  if (templateContract && templateSupportsPage(templateContract, 'about')) {
+    body = templateContract.renderPage({
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      primaryColor: theme.primaryColor,
+      secondaryColor: theme.secondaryColor,
+      accentColor: theme.accentColor,
+      fontFamily: theme.fontFamily,
+      logoUrl: theme.logoUrl,
+      faviconUrl: theme.faviconUrl,
+      borderRadiusPx: theme.borderRadiusPx,
+      cssVars,
+      pageType: 'about',
+      data: {
+        description: profile?.description ?? null,
+        category: profile?.category ?? null,
+        placeName: profile?.place_name ?? null,
+        phone: profile?.phone ?? null,
+        website: profile?.website ?? null,
+      },
+    });
+  } else {
+    body = aboutPageBody({
+      displayName: theme.displayName,
+      description: profile?.description ?? null,
+      logoUrl: theme.logoUrl,
+      primaryColor: theme.primaryColor,
+      category: profile?.category ?? null,
+      placeName: profile?.place_name ?? null,
+      phone: profile?.phone ?? null,
+      website: profile?.website ?? null,
+    });
+  }
 
   const headExtra = seoHead({
     title: `About ${theme.displayName}`,
@@ -165,14 +224,36 @@ router.get('/services', async (c) => {
 
   const offerings = await fetchOfferings(c.env, theme.tenantId, 50);
 
-  const body = servicesPageBody({
-    displayName: theme.displayName,
-    offerings: offerings.map((o) => ({
-      name: o.name,
-      description: o.description,
-      priceKobo: o.price_kobo,
-    })),
-  });
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  let body: string;
+  if (templateContract && templateSupportsPage(templateContract, 'services')) {
+    body = templateContract.renderPage({
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      primaryColor: theme.primaryColor,
+      secondaryColor: theme.secondaryColor,
+      accentColor: theme.accentColor,
+      fontFamily: theme.fontFamily,
+      logoUrl: theme.logoUrl,
+      faviconUrl: theme.faviconUrl,
+      borderRadiusPx: theme.borderRadiusPx,
+      cssVars,
+      pageType: 'services',
+      data: {
+        offerings: offerings.map((o) => ({ name: o.name, description: o.description, priceKobo: o.price_kobo })),
+      },
+    });
+  } else {
+    body = servicesPageBody({
+      displayName: theme.displayName,
+      offerings: offerings.map((o) => ({
+        name: o.name,
+        description: o.description,
+        priceKobo: o.price_kobo,
+      })),
+    });
+  }
 
   const headExtra = seoHead({
     title: `Services — ${theme.displayName}`,
@@ -191,13 +272,37 @@ router.get('/contact', async (c) => {
 
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const body = contactPageBody({
-    displayName: theme.displayName,
-    phone: profile?.phone ?? null,
-    email: profile?.email ?? null,
-    placeName: profile?.place_name ?? null,
-    tenantId: theme.tenantId,
-  });
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  let body: string;
+  if (templateContract && templateSupportsPage(templateContract, 'contact')) {
+    body = templateContract.renderPage({
+      tenantId: theme.tenantId,
+      tenantSlug: theme.tenantSlug,
+      displayName: theme.displayName,
+      primaryColor: theme.primaryColor,
+      secondaryColor: theme.secondaryColor,
+      accentColor: theme.accentColor,
+      fontFamily: theme.fontFamily,
+      logoUrl: theme.logoUrl,
+      faviconUrl: theme.faviconUrl,
+      borderRadiusPx: theme.borderRadiusPx,
+      cssVars,
+      pageType: 'contact',
+      data: {
+        phone: profile?.phone ?? null,
+        email: profile?.email ?? null,
+        placeName: profile?.place_name ?? null,
+      },
+    });
+  } else {
+    body = contactPageBody({
+      displayName: theme.displayName,
+      phone: profile?.phone ?? null,
+      email: profile?.email ?? null,
+      placeName: profile?.place_name ?? null,
+      tenantId: theme.tenantId,
+    });
+  }
 
   const headExtra = seoHead({
     title: `Contact — ${theme.displayName}`,
