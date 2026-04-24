@@ -24,10 +24,10 @@ const KOBO_PER_NAIRA = 100;
 export function formatNaira(kobo: number, opts?: { compact?: boolean }): string {
   const naira = kobo / KOBO_PER_NAIRA;
   if (opts?.compact && naira >= 1_000_000) {
-    return `~₦${(naira / 1_000_000).toFixed(1)}M`;
+    return `~₦${(naira / 1_000_000).toFixed(1)}M`; // DISPLAY_ONLY — BUG-043 compact display string, not a stored value
   }
   if (opts?.compact && naira >= 1_000) {
-    return `~₦${(naira / 1_000).toFixed(1)}K`;
+    return `~₦${(naira / 1_000).toFixed(1)}K`; // DISPLAY_ONLY — BUG-043 compact display string, not a stored value
   }
   return new Intl.NumberFormat('en-NG', {
     style: 'currency',

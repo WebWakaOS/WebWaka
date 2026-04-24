@@ -17,6 +17,12 @@ const ALLOWED_FILES = [
   'node_modules/',
   '.d.ts',
   'check-monetary-integrity.ts',
+  // Test files use floats intentionally to verify P9 rejection — not violations
+  '.test.ts',
+  '.test.idempotency.ts',
+  '.fuzz.test.ts',
+  '.spec.ts',
+  '.e2e.ts',
 ];
 
 let failures = 0;
