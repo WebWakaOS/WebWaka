@@ -6,9 +6,8 @@
 -- SQLite does not support ALTER COLUMN to modify CHECK constraints, so we recreate
 -- the table with a shadow-copy-and-rename sequence inside a single transaction.
 
+-- D1 automatically wraps each migration in a transaction; explicit BEGIN/COMMIT are forbidden.
 PRAGMA foreign_keys = OFF;
-
-BEGIN;
 
 CREATE TABLE IF NOT EXISTS partner_audit_log_new (
   id          TEXT NOT NULL PRIMARY KEY,
@@ -45,7 +44,5 @@ CREATE INDEX IF NOT EXISTS idx_partner_audit_log_partner_id  ON partner_audit_lo
 CREATE INDEX IF NOT EXISTS idx_partner_audit_log_actor_id    ON partner_audit_log(actor_id);
 CREATE INDEX IF NOT EXISTS idx_partner_audit_log_action      ON partner_audit_log(action);
 CREATE INDEX IF NOT EXISTS idx_partner_audit_log_created_at  ON partner_audit_log(created_at);
-
-COMMIT;
 
 PRAGMA foreign_keys = ON;
