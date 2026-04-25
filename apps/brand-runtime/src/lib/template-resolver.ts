@@ -40,6 +40,7 @@ import { contactPageBody } from '../templates/contact.js';
 import { restaurantGeneralEateryTemplate } from '../templates/niches/restaurant/general-eatery.js';
 import { soleTraderArtisanCatalogueTemplate } from '../templates/niches/sole-trader/artisan-catalogue.js';
 import { creatorPersonalBrandTemplate } from '../templates/niches/creator/personal-brand.js';
+import { professionalPracticeSiteTemplate } from '../templates/niches/professional/practice-site.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -114,6 +115,7 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['restaurant-general-eatery', restaurantGeneralEateryTemplate],
   ['sole-trader-artisan-catalogue', soleTraderArtisanCatalogueTemplate],
   ['creator-personal-brand', creatorPersonalBrandTemplate],
+  ['professional-practice-site', professionalPracticeSiteTemplate],
 ]);
 
 // ---------------------------------------------------------------------------

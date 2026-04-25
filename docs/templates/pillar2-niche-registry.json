@@ -383,23 +383,24 @@
     "contentLocalizationNotes": "Use formal Nigerian professional language. 'Specialisation' not 'specialty'. 'Chambers' for law, 'Practice' for medicine and accounting. License number prominently displayed.",
     "imageArtDirectionNotes": "Nigerian professional in formal attire at office desk. Law chambers with bookshelf of Nigerian statutes. Doctor in white coat at Nigerian clinic.",
     "regulatoryOrTrustNotes": "Professional body membership number (NBA, NMA, ICAN, NIA, SURCON). Practice license issued by regulatory body.",
-    "templateStatus": "READY_FOR_RESEARCH",
-    "templateVariantCount": 0,
-    "primaryTemplatePath": null,
+    "templateStatus": "IMPLEMENTED",
+    "templateVariantCount": 1,
+    "primaryTemplatePath": "apps/brand-runtime/src/templates/niches/professional/practice-site.ts",
     "templateSlug": "professional-practice-site",
     "marketplaceManifestSlug": null,
-    "runtimeIntegrationStatus": "NOT_REGISTERED",
-    "researchStatus": "NOT_STARTED",
-    "researchBriefPath": null,
+    "runtimeIntegrationStatus": "REGISTERED",
+    "researchStatus": "SYNTHESIZED",
+    "researchBriefPath": "docs/templates/research/professional-practice-site-brief.md",
     "lastReviewedAt": "2026-04-25",
-    "implementedAt": null,
+    "implementedAt": "2026-04-25",
     "dependencies": [
       "packages/verticals-professional"
     ],
     "blockers": [],
     "nextAction": "Research Nigerian licensed professional website patterns across law, medicine, accounting",
-    "owner": null,
-    "notes": "M8e milestone. Individual entity type. Generic professional template — serves as base for law-firm, tax-consultant, and other specific professional niches."
+    "owner": "replit-agent-2026-04-25-session-B",
+    "notes": "M8e milestone. Individual entity type. Generic professional template — serves as base for law-firm, tax-consultant, and other specific professional niches.",
+    "sqlSeedPath": "infra/db/seeds/templates/professional-practice-site.sql"
   },
   {
     "nicheId": "P2-school-institution-site",
