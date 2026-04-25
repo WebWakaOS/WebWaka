@@ -15,20 +15,20 @@
 ## ⟶ CURRENT (Build This Next)
 
 ```
-Niche ID:       P2-sole-trader-artisan-catalogue
-Vertical:       sole-trader
-Vertical Name:  Sole Trader / Artisan
-Niche Name:     Sole Trader / Artisan Catalogue Site
+Niche ID:       P2-creator-personal-brand
+Vertical:       creator
+Vertical Name:  Creator / Influencer
+Niche Name:     Creator / Influencer Personal Brand Site
 Status:         READY_FOR_RESEARCH
 Owner:          —
-Template Slug:  sole-trader-artisan-catalogue
-Source File:    apps/brand-runtime/src/templates/niches/sole-trader/artisan-catalogue.ts (to create)
+Template Slug:  creator-personal-brand
+Source File:    apps/brand-runtime/src/templates/niches/creator/personal-brand.ts (to create)
 
 Rationale for priority:
-  - sole-trader is Nigeria's largest informal economy category (SMEDAN: 37M+ sole traders)
-  - Artisan catalogue template covers the widest range of informal economy businesses
-  - P1-Original vertical — must ship before M10
-  - High reuse: electricians, plumbers, carpenters, tailors, cobblers, mechanics all inherit this pattern
+  - creator economy is fast-growing in Nigeria — YouTube, TikTok, Instagram monetisation
+  - Personal brand site is a core need for every creator/influencer seeking brand deals
+  - Social-native audience expects polished web presence alongside their socials
+  - P1-Original vertical
 
 Pre-work checklist:
   [ ] Read pillar2-generic-implementation-prompt.md (mandatory)
@@ -47,7 +47,7 @@ These niches are the highest-build-priority targets. `restaurant` leads as the r
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
 | 1 | `P2-restaurant-general-eatery` | IMPLEMENTED ✅ | NF-FDS anchor — 2026-04-25 |
-| 2 | `P2-sole-trader-artisan-catalogue` | READY_FOR_RESEARCH | Nigeria's largest informal economy category |
+| 2 | `P2-sole-trader-artisan-catalogue` | IMPLEMENTED ✅ | Standalone — 2026-04-25 |
 | 3 | `P2-creator-personal-brand` | READY_FOR_RESEARCH | Social-native; high creator economy growth |
 | 4 | `P2-professional-practice-site` | READY_FOR_RESEARCH | Generic professional template reused by many verticals |
 | 5 | `P2-church-faith-community` | READY_FOR_RESEARCH | Civic + community — P1-Original |
@@ -118,6 +118,7 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 | Completed Date | Niche ID | Niche Name | SHIPPED |
 |----------------|----------|-----------|---------|
 | 2026-04-25 | `P2-restaurant-general-eatery` | General Restaurant / Eatery / Buka Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-sole-trader-artisan-catalogue` | Sole Trader / Artisan Catalogue Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 
 ---
 
@@ -132,4 +133,4 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 
 ---
 
-*Last updated: 2026-04-25 — P2-restaurant-general-eatery IMPLEMENTED. 46 niches queued. 1 completed (IMPLEMENTED, not yet SHIPPED).*
+*Last updated: 2026-04-25 — P2-sole-trader-artisan-catalogue IMPLEMENTED. 46 niches queued. 2 completed (IMPLEMENTED, not yet SHIPPED).*
