@@ -33,18 +33,19 @@ CREATE INDEX IF NOT EXISTS idx_ai_slots_time
 
 -- ai_bookings: booking rows written by the create-booking AI tool.
 -- Each booking is linked to one ai_schedule_slots row (one-to-one).
--- In a D1 batch: insert booking + UPDATE slot status='reserved'.
+-- UNIQUE(slot_id) enforces the invariant that a slot can have at most one booking.
+-- Write order: UPDATE slot status first (check changes=1), THEN INSERT booking.
 CREATE TABLE IF NOT EXISTS ai_bookings (
   id            TEXT    NOT NULL PRIMARY KEY,
   tenant_id     TEXT    NOT NULL,
   workspace_id  TEXT    NOT NULL,
   schedule_id   TEXT    NOT NULL,
-  slot_id       TEXT    NOT NULL,             -- FK to ai_schedule_slots.id
-  contact_id    TEXT    NOT NULL,             -- entity ID of the customer (T3 validated)
-  notes         TEXT,                         -- PII-stripped optional notes (≤ 500 chars)
+  slot_id       TEXT    NOT NULL UNIQUE,       -- FK to ai_schedule_slots.id; UNIQUE prevents double-booking
+  contact_id    TEXT    NOT NULL,              -- entity ID of the customer (T3 validated)
+  notes         TEXT,                          -- PII-stripped optional notes (≤ 500 chars)
   status        TEXT    NOT NULL DEFAULT 'reserved'
                 CHECK (status IN ('reserved', 'confirmed', 'cancelled')),
-  created_by    TEXT    NOT NULL,             -- user_id who triggered the AI action
+  created_by    TEXT    NOT NULL,              -- user_id who triggered the AI action
   created_at    INTEGER NOT NULL DEFAULT (unixepoch())
 );
 

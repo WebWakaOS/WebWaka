@@ -59,27 +59,25 @@ export const customerLookupTool: RegisteredTool = {
     const entityType = typeof args.entity_type === 'string' ? args.entity_type : 'all';
     const pattern    = `%${query}%`;
 
+    // P13: Output contract — exactly these 4 fields, nothing more.
     type ResultRow = {
       id: string;
       display_name: string;
       account_type: string;
       last_active_at: number | null;
-      verification_state: string;
     };
 
     const results: ResultRow[] = [];
 
-    // Search individuals by name or via contact_channels (phone/email)
+    // Search individuals by name or phone/email fragment via contact_channels JOIN.
     if (entityType === 'individual' || entityType === 'all') {
       const { results: rows } = await ctx.db
         .prepare(
-          // Join contact_channels to support phone/email fragment search (P13: only IDs returned)
           `SELECT DISTINCT
              i.id,
              i.display_name,
-             'individual'        AS account_type,
-             i.updated_at        AS last_active_at,
-             i.verification_state
+             'individual'  AS account_type,
+             i.updated_at  AS last_active_at
            FROM individuals i
            LEFT JOIN contact_channels cc ON cc.user_id = i.id
            WHERE i.tenant_id = ?
@@ -96,30 +94,33 @@ export const customerLookupTool: RegisteredTool = {
       results.push(...(rows ?? []));
     }
 
-    // Search organizations by name (orgs don't have contact_channels entries)
+    // Search organizations by name or phone/email fragment via contact_channels JOIN.
     if (entityType === 'organisation' || entityType === 'all') {
       const { results: orgRows } = await ctx.db
         .prepare(
-          `SELECT
-             id,
-             name                AS display_name,
-             'organisation'      AS account_type,
-             updated_at          AS last_active_at,
-             verification_state
-           FROM organizations
-           WHERE tenant_id = ?
-             AND name LIKE ?
-           ORDER BY updated_at DESC
+          `SELECT DISTINCT
+             o.id,
+             o.name        AS display_name,
+             'organisation' AS account_type,
+             o.updated_at  AS last_active_at
+           FROM organizations o
+           LEFT JOIN contact_channels cc ON cc.user_id = o.id
+           WHERE o.tenant_id = ?
+             AND (
+               o.name LIKE ?
+               OR cc.value LIKE ?
+             )
+           ORDER BY o.updated_at DESC
            LIMIT 10`,
         )
-        .bind(ctx.tenantId, pattern)
+        .bind(ctx.tenantId, pattern, pattern)
         .all<ResultRow>();
 
       results.push(...(orgRows ?? []));
     }
 
     // De-duplicate by id (LEFT JOIN can produce duplicates when multiple channels match).
-    // P13: Explicitly pick only the allowed output fields — never passthrough raw DB rows.
+    // P13: Explicitly pick only the 4 allowed output fields — never passthrough raw DB rows.
     const seen = new Set<string>();
     const deduped: ResultRow[] = [];
     for (const r of results) {
@@ -130,7 +131,6 @@ export const customerLookupTool: RegisteredTool = {
           display_name: r.display_name,
           account_type: r.account_type,
           last_active_at: r.last_active_at,
-          verification_state: r.verification_state,
         });
       }
       if (deduped.length >= 10) break;

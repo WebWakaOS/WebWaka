@@ -142,26 +142,49 @@ export const createBookingTool: RegisteredTool = {
       });
     }
 
-    // Autonomy >= 3: insert booking + mark slot reserved in a single D1 batch (atomic)
+    // Autonomy >= 3: two-step write — UPDATE slot first, INSERT booking second.
+    //
+    // Why not a single batch?
+    //   D1 batch sends both statements in one SQLite transaction, but we cannot
+    //   inspect the result of statement-1 inside the batch to abort statement-2.
+    //   If a concurrent request reserved the slot after our initial read but
+    //   before our batch runs, the UPDATE would match 0 rows but the batch INSERT
+    //   would still succeed, leaving a booking row for an already-taken slot.
+    //
+    // Solution: UPDATE slot (changes=1 ↔ we won the race), then INSERT booking.
+    //   The UNIQUE constraint on ai_bookings.slot_id provides a secondary safety
+    //   net so that even on a re-run or retry, a duplicate booking cannot exist.
+
+    // Step 1: atomically claim the slot by transitioning status 'available' → 'reserved'.
+    const slotUpdate = await ctx.db
+      .prepare(
+        `UPDATE ai_schedule_slots
+         SET status = 'reserved', updated_at = unixepoch()
+         WHERE id = ? AND tenant_id = ? AND status = 'available'`,
+      )
+      .bind(slotId, ctx.tenantId)
+      .run();
+
+    if (!slotUpdate.success || (slotUpdate.meta?.changes ?? 0) === 0) {
+      return JSON.stringify({
+        error: 'SLOT_NO_LONGER_AVAILABLE',
+        slot_id: slotId,
+        message:
+          `Slot '${slotId}' was taken by another booking while this request was processing. ` +
+          `Please check schedule_availability for open slots and try again.`,
+      });
+    }
+
+    // Step 2: insert the booking row (slot is now ours).
     const bookingId = crypto.randomUUID();
-    await (ctx.db as unknown as {
-      batch(stmts: unknown[]): Promise<Array<{ success: boolean }>>;
-    }).batch([
-      ctx.db
-        .prepare(
-          `INSERT INTO ai_bookings
-             (id, tenant_id, workspace_id, schedule_id, slot_id, contact_id, notes, status, created_by)
-           VALUES (?, ?, ?, ?, ?, ?, ?, 'reserved', ?)`,
-        )
-        .bind(bookingId, ctx.tenantId, ctx.workspaceId, scheduleId, slotId, contactId, notes, ctx.userId),
-      ctx.db
-        .prepare(
-          `UPDATE ai_schedule_slots
-           SET status = 'reserved', updated_at = unixepoch()
-           WHERE id = ? AND tenant_id = ? AND status = 'available'`,
-        )
-        .bind(slotId, ctx.tenantId),
-    ]);
+    await ctx.db
+      .prepare(
+        `INSERT INTO ai_bookings
+           (id, tenant_id, workspace_id, schedule_id, slot_id, contact_id, notes, status, created_by)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'reserved', ?)`,
+      )
+      .bind(bookingId, ctx.tenantId, ctx.workspaceId, scheduleId, slotId, contactId, notes, ctx.userId)
+      .run();
 
     return JSON.stringify({
       status: 'ok',

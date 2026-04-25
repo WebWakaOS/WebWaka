@@ -52,7 +52,7 @@ const VALID_CONTACT = { id: 'contact-1' };
 
 describe('create_booking', () => {
   describe('happy path (autonomyLevel=3)', () => {
-    it('inserts booking and marks slot reserved', async () => {
+    it('updates slot then inserts booking (sequential writes)', async () => {
       const db = makeMockDB(VALID_SLOT, VALID_CONTACT);
       const ctx = makeCtx(db, 3);
       const result = JSON.parse(
@@ -65,10 +65,56 @@ describe('create_booking', () => {
       expect(result.booking_id).toBeTruthy();
       expect(result.schedule_id).toBe('sched-1');
       expect(result.slot_id).toBe('slot-1');
-      expect(db.batch).toHaveBeenCalledOnce();
+      // Uses sequential writes (not batch), so db.batch should NOT be called
+      expect(db.batch).not.toHaveBeenCalled();
+      // Both UPDATE slot and INSERT booking should be prepared
+      const sqls = (db.prepare as ReturnType<typeof vi.fn>).mock.calls.map(
+        (c: unknown[]) => c[0] as string,
+      );
+      expect(sqls.some((s) => s.includes('UPDATE ai_schedule_slots'))).toBe(true);
+      expect(sqls.some((s) => s.includes('INSERT INTO ai_bookings'))).toBe(true);
+    });
 
-      const batchArgs = db.batch.mock.calls[0]?.[0] as unknown[] | undefined;
-      expect(Array.isArray(batchArgs) && batchArgs).toHaveLength(2);
+    it('returns SLOT_NO_LONGER_AVAILABLE when concurrent request reserved the slot first', async () => {
+      // Simulate: slot was available at read time but UPDATE returns changes=0
+      // (another request won the race and set status='reserved' between our read and write)
+      const db: MockDB = {
+        prepare: vi.fn().mockImplementation((sql: string) => {
+          if (sql.includes('UPDATE ai_schedule_slots')) {
+            return {
+              bind: vi.fn().mockReturnValue({
+                first: vi.fn().mockResolvedValue(null),
+                run: vi.fn().mockResolvedValue({ success: true, meta: { changes: 0 } }), // lost the race
+                all: vi.fn().mockResolvedValue({ results: [] }),
+              }),
+            };
+          }
+          // slot lookup: returns as available (stale read)
+          let first: unknown = null;
+          if (sql.includes('ai_schedule_slots')) first = VALID_SLOT;
+          else if (sql.includes('individuals') || sql.includes('organizations')) first = VALID_CONTACT;
+          return {
+            bind: vi.fn().mockReturnValue({
+              first: vi.fn().mockResolvedValue(first),
+              run: vi.fn().mockResolvedValue({ success: true, meta: { changes: 0 } }),
+              all: vi.fn().mockResolvedValue({ results: [] }),
+            }),
+          };
+        }),
+        batch: vi.fn().mockResolvedValue([{ success: true }]),
+      };
+      const result = JSON.parse(
+        await createBookingTool.handler(
+          { schedule_id: 'sched-1', slot_id: 'slot-1', contact_id: 'contact-1' },
+          makeCtx(db, 3),
+        ),
+      );
+      expect(result.error).toBe('SLOT_NO_LONGER_AVAILABLE');
+      // Confirm booking INSERT was NOT issued
+      const sqls = (db.prepare as ReturnType<typeof vi.fn>).mock.calls.map(
+        (c: unknown[]) => c[0] as string,
+      );
+      expect(sqls.some((s) => s.includes('INSERT INTO ai_bookings'))).toBe(false);
     });
   });
 

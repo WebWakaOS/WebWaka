@@ -37,7 +37,7 @@ describe('customer_lookup', () => {
     const db = makeMockDB({
       individuals: {
         results: [
-          { id: 'i-1', display_name: 'Ada Okafor', account_type: 'individual', last_active_at: 1700000000, verification_state: 'verified' },
+          { id: 'i-1', display_name: 'Ada Okafor', account_type: 'individual', last_active_at: 1700000000 },
         ],
       },
       organizations: { results: [] },
@@ -54,13 +54,29 @@ describe('customer_lookup', () => {
       individuals: { results: [] },
       organizations: {
         results: [
-          { id: 'org-1', display_name: 'Zenith Motors', account_type: 'organisation', last_active_at: 1700000001, verification_state: 'unverified' },
+          { id: 'org-1', display_name: 'Zenith Motors', account_type: 'organisation', last_active_at: 1700000001 },
         ],
       },
     });
     const result = JSON.parse(await customerLookupTool.handler({ query: 'Zenith', entity_type: 'organisation' }, makeCtx(db)));
     expect(result.status).toBe('ok');
     expect(result.results[0].id).toBe('org-1');
+  });
+
+  it('searches organizations by phone/email via contact_channels join', async () => {
+    const db = makeMockDB({
+      individuals: { results: [] },
+      organizations: {
+        results: [
+          { id: 'org-2', display_name: 'Lagos Suppliers Ltd', account_type: 'organisation', last_active_at: 1700000005 },
+        ],
+      },
+    });
+    const result = JSON.parse(await customerLookupTool.handler({ query: '0803', entity_type: 'organisation' }, makeCtx(db)));
+    expect(result.status).toBe('ok');
+    const sql = ((db.prepare as ReturnType<typeof vi.fn>).mock.calls[0]?.[0] ?? '') as string;
+    expect(sql).toContain('contact_channels');
+    expect(sql).toContain('cc.value LIKE');
   });
 
   it('searches individuals by phone/email via contact_channels join', async () => {
@@ -95,7 +111,7 @@ describe('customer_lookup', () => {
     expect(result.results).toHaveLength(0);
   });
 
-  it('never returns PII fields (only id, display_name, account_type, last_active_at, verification_state)', async () => {
+  it('returns exactly 4 allowed fields only — no PII, no extra columns (P13)', async () => {
     const db = makeMockDB({
       individuals: {
         results: [
@@ -104,6 +120,8 @@ describe('customer_lookup', () => {
             display_name: 'Ngozi Adeyemi',
             account_type: 'individual',
             last_active_at: 1700000003,
+            // These extra fields simulate columns that might appear in a future broader SELECT —
+            // the handler must NOT include them in the output
             verification_state: 'verified',
             phone: '+2348012345678',
             email: 'ngozi@example.com',
@@ -115,9 +133,12 @@ describe('customer_lookup', () => {
     });
     const result = JSON.parse(await customerLookupTool.handler({ query: 'Ngozi' }, makeCtx(db)));
     const row = result.results[0];
+    // Only the 4 allowed fields
+    expect(Object.keys(row)).toStrictEqual(['id', 'display_name', 'account_type', 'last_active_at']);
     expect(row).not.toHaveProperty('phone');
     expect(row).not.toHaveProperty('email');
     expect(row).not.toHaveProperty('nin');
+    expect(row).not.toHaveProperty('verification_state');
   });
 
   it('T3: scopes query to tenantId', async () => {
