@@ -2,9 +2,14 @@
  * Community channels and channel posts.
  * P15 — classifyContent called unconditionally before every channel post insert.
  * T3 — every query carries tenant_id predicate.
+ *
+ * BUG-P3-012 (complete fix): tenantThresholds now threads from the call site
+ * through createChannelPost → classifyContent → resolveThresholds so that
+ * per-tenant moderation config is live in the decision path.
  */
 
 import { classifyContent } from './moderation.js';
+import type { ModerationThresholds } from './moderation-config.js';
 
 interface D1Like {
   prepare(sql: string): {
@@ -125,23 +130,31 @@ export interface CreateChannelPostArgs {
   authorId: string;
   content: string;
   tenantId: string;
+  /**
+   * BUG-P3-012: Optional per-tenant moderation threshold overrides.
+   * Values are enforced against PLATFORM_MAX_THRESHOLDS inside resolveThresholds().
+   * If omitted, DEFAULT_THRESHOLDS apply.
+   */
+  tenantThresholds?: Partial<ModerationThresholds>;
 }
 
 /**
  * Create a channel post.
  * P15 — classifyContent is called unconditionally before the INSERT.
+ * BUG-P3-012 — tenantThresholds is forwarded to classifyContent so that
+ *              resolveThresholds() participates in every moderation decision.
  */
 export async function createChannelPost(
   db: D1Like,
   args: CreateChannelPostArgs,
 ): Promise<ChannelPost> {
-  const { channelId, authorId, content, tenantId } = args;
+  const { channelId, authorId, content, tenantId, tenantThresholds } = args;
 
   if (!content || content.trim().length === 0) {
     throw new Error('VALIDATION: content must not be empty');
   }
 
-  const moderation = classifyContent(content);
+  const moderation = classifyContent(content, tenantThresholds);
 
   const id = `cp_${crypto.randomUUID().replace(/-/g, '')}`;
   const now = Math.floor(Date.now() / 1000);

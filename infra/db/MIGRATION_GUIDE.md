@@ -85,4 +85,32 @@ NNNN_short_description.rollback.sql
 
 ---
 
-*Last updated: 2026-04-24 (BUG-P3-017 fix — deployment uncertainty resolved)*
+---
+
+## Legacy Exception: apps/api-only migrations 0380–0384
+
+Five migrations exist **only** in `apps/api/migrations/` and **not** in `infra/db/migrations/`.
+They were authored before the dual-directory policy (BUG-P3-017) was adopted and
+were applied to D1 under their apps/api filenames:
+
+| apps/api filename | Purpose |
+|---|---|
+| `0380_claim_requests_workspace_id.sql` | Add `workspace_id` to `claim_requests` |
+| `0381_workspace_upgrade_requests.sql` | Bank-transfer upgrade request table |
+| `0382_listing_reports.sql` | Listing abuse/report table |
+| `0383_workspace_low_stock_threshold.sql` | Per-workspace low-stock threshold column |
+| `0384_partner_attribution_enabled.sql` | Partner attribution enabled column |
+
+These migrations **cannot** be copied to `infra/db/migrations/` at their original
+sequence numbers because those numbers (0380–0384) are already taken by the
+Sprint 2 security migrations in infra (refresh_tokens, password_hash_version, etc.).
+Copying at new numbers (0389+) would cause D1 to attempt duplicate DDL and fail.
+
+**Resolution:** These five migrations are permanently exempt from the dual-directory
+requirement. Their rollback scripts are documented inline in each SQL file's header
+comments. Future operators wishing to roll back must apply the DDL manually via
+`wrangler d1 execute ... --command "..."`.
+
+All **new** migrations (sequence 0389+) must follow the standard dual-directory policy.
+
+*Last updated: 2026-04-25 (QA audit — legacy 0380–0384 exception documented)*

@@ -4,6 +4,9 @@ import { formatNaira } from '@/lib/currency';
 import { toast } from '@/lib/toast';
 import { api, ApiError } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+// BUG-010: IndexedDB-backed offline queue (P6 Offline-First, TDR-0010)
+import { db } from '@webwaka/offline-sync';
 // BUG-046: CSS Modules — phase 1: structural/layout classes extracted
 import s from './POS.module.css';
 
@@ -45,6 +48,8 @@ const PAYMENT_LABELS: Record<PaymentMethod, string> = {
 export default function POS() {
   const { user } = useAuth();
   const workspaceId = user?.workspaceId;
+  // BUG-010: Network status for offline queue branching
+  const isOnline = useOnlineStatus();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
@@ -108,11 +113,79 @@ export default function POS() {
   const vatKobo = Math.round(subtotalKobo * VAT_RATE);
   const totalKobo = subtotalKobo + vatKobo;
 
+  /**
+   * BUG-010: Sync any pending offline POS sales from IndexedDB.
+   * Called automatically on reconnect via the 'online' event listener below.
+   */
+  const syncOfflineQueue = async () => {
+    const pending = await db.syncQueue
+      .where({ entity: 'pos_sale', status: 'pending' })
+      .toArray();
+    for (const item of pending) {
+      try {
+        await db.syncQueue.update(item.id!, { status: 'syncing' });
+        await api.post('/pos-business/sales', item.payload);
+        await db.syncQueue.update(item.id!, { status: 'synced', syncedAt: Date.now() });
+      } catch {
+        await db.syncQueue.update(item.id!, {
+          status: 'failed',
+          retryCount: (item.retryCount ?? 0) + 1,
+        });
+      }
+    }
+    if (pending.length > 0) {
+      toast.success(`${pending.length} offline sale(s) synced.`);
+    }
+  };
+
+  // BUG-010: Auto-sync queued sales when connection is restored.
+  useEffect(() => {
+    const handleOnline = () => { void syncOfflineQueue(); };
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const checkout = async () => {
     if (cart.length === 0) { toast.error('Cart is empty'); return; }
     if (!workspaceId) { toast.error('Workspace not found.'); return; }
 
     setCheckingOut(true);
+
+    // BUG-010 / P6 Offline-First: when device has no connectivity, queue the
+    // sale to IndexedDB so it is synced automatically on reconnect.
+    if (!isOnline) {
+      try {
+        await db.syncQueue.add({
+          clientId: crypto.randomUUID(),
+          type: 'agent_transaction',
+          entity: 'pos_sale',
+          payload: {
+            workspace_id: workspaceId,
+            payment_method: paymentMethod,
+            vat_kobo: vatKobo,
+            items: cart.map(i => ({
+              product_id: i.id,
+              qty: i.qty,
+              price_kobo: i.price_kobo,
+            })),
+          },
+          priority: 'high',
+          status: 'pending',
+          retryCount: 0,
+          nextRetryAt: Date.now(),
+          createdAt: Date.now(),
+        });
+        setCart([]);
+        toast.success('No connection — sale queued and will sync when back online.');
+      } catch {
+        toast.error('Failed to save sale for offline sync. Check storage permissions.');
+      } finally {
+        setCheckingOut(false);
+      }
+      return;
+    }
+
     try {
       const res = await api.post<{ sale: { id: string; total_kobo: number } }>('/pos-business/sales', {
         workspace_id: workspaceId,

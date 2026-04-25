@@ -46,7 +46,11 @@ export default defineConfig({
     })
   ],
   resolve: {
-    alias: { '@': resolve(__dirname, 'src') }
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      // BUG-010: workspace package resolved to source (no pre-built dist)
+      '@webwaka/offline-sync': resolve(__dirname, '../../packages/offline-sync/src/index.ts'),
+    }
   },
   server: {
     host: '0.0.0.0',

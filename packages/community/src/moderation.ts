@@ -8,7 +8,20 @@
  * (community_moderation_log.confidence → confidence_bps) and with
  * packages/social/src/moderation.ts.
  * Never expose raw float externally; divide by 10000 for display only.
+ *
+ * BUG-P3-012 (complete fix): resolveThresholds() is now wired into the
+ * classifyContent() call chain. Callers may supply per-tenant threshold
+ * overrides; resolveThresholds() enforces platform maximums and merges
+ * defaults. The spam auto_hide decision is gated by bpsToFraction() so
+ * the basis-point confidence is never compared directly against a
+ * fractional threshold (the unit-mismatch that caused BUG-P3-012).
  */
+
+import {
+  type ModerationThresholds,
+  bpsToFraction,
+  resolveThresholds,
+} from './moderation-config.js';
 
 export type ModerationStatus = 'published' | 'auto_hide' | 'pending_review';
 
@@ -34,15 +47,36 @@ const SPAM_PATTERNS: RegExp[] = [
   /nigerian\s+prince/i,
 ];
 
+/** Basis-point confidence assigned to pattern-matched spam (= 90.00%). */
+const SPAM_MATCH_CONFIDENCE_BPS = 9000;
+
 /**
  * Classify content for moderation.
- * Returns 'auto_hide' if spam patterns are detected, 'published' otherwise.
+ *
+ * When spam patterns are detected the raw confidence is 9000 bps (90%).
+ * auto_hide is applied only when that confidence, converted to a fraction,
+ * exceeds the resolved spam threshold — ensuring the threshold config is
+ * always in the decision path (BUG-P3-012 full fix).
+ *
+ * @param content          Raw post content.
+ * @param tenantThresholds Optional per-tenant threshold overrides.
+ *                         Values are enforced against PLATFORM_MAX_THRESHOLDS.
  */
-export function classifyContent(content: string): ModerationResult {
+export function classifyContent(
+  content: string,
+  tenantThresholds?: Partial<ModerationThresholds>,
+): ModerationResult {
+  const thresholds = resolveThresholds(tenantThresholds);
+
   for (const pattern of SPAM_PATTERNS) {
     if (pattern.test(content)) {
-      return { status: 'auto_hide', reason: 'spam_detected', confidenceBps: 9000 };
+      const confidenceBps = SPAM_MATCH_CONFIDENCE_BPS;
+      const confidence = bpsToFraction(confidenceBps);
+      const status: ModerationStatus =
+        confidence >= thresholds.spam ? 'auto_hide' : 'pending_review';
+      return { status, reason: 'spam_detected', confidenceBps };
     }
   }
+
   return { status: 'published', confidenceBps: 0 };
 }
