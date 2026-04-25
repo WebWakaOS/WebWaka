@@ -559,6 +559,10 @@ superagentRoutes.post(
       workspaceId: auth.workspaceId ?? '',
       userId: auth.userId,
       db: c.env.DB,
+      // SA-5.x: write-capable tool context fields
+      vertical: verticalSlug,
+      hitlService: new HitlService({ db: c.env.DB as never }),
+      autonomyLevel,
     };
 
     const buildAiRequest = (

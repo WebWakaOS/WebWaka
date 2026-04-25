@@ -24,6 +24,7 @@
  */
 
 import type { ToolDefinition, ToolCall } from '@webwaka/ai';
+import type { HitlService } from './hitl-service.js';
 
 export { ToolDefinition, ToolCall };
 
@@ -38,6 +39,16 @@ export interface ToolExecutionContext {
   workspaceId: string;
   userId: string;
   db: D1Database;
+  /** SA-5.x: Vertical slug for this request — required for HITL submission context. */
+  vertical: string;
+  /** SA-5.x: HITL service for write-gating below the vertical's autonomy threshold. */
+  hitlService: HitlService;
+  /**
+   * SA-5.x: Autonomy level for this request (1 | 2 | 3).
+   * Write-capable tools queue a HITL item instead of writing directly when the
+   * vertical's autonomy level is below the tool's required threshold.
+   */
+  autonomyLevel: 1 | 2 | 3;
 }
 
 // ---------------------------------------------------------------------------
