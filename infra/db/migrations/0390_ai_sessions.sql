@@ -58,3 +58,11 @@ CREATE TABLE IF NOT EXISTS ai_session_messages (
 -- History load: all messages for a session in order (tenant-scoped for T3 safety)
 CREATE INDEX IF NOT EXISTS idx_ai_session_messages_session
   ON ai_session_messages(session_id, tenant_id, created_at ASC);
+
+-- ── Scheduler registration ────────────────────────────────────────────────────
+-- Register the ai-session-prune job with the schedulers Worker dispatch table.
+-- Runs hourly (3600 s); lower priority (3) than business-critical jobs.
+-- The schedulers Worker reads this table on each cron tick and executes due jobs.
+
+INSERT OR IGNORE INTO scheduled_jobs (name, run_interval_seconds, priority)
+VALUES ('ai-session-prune', 3600, 3);

@@ -184,6 +184,7 @@ export class SessionService {
     sessionId: string,
     tenantId: string,
     messages: AppendMessageInput[],
+    ttlDays: number = DEFAULT_TTL_DAYS,
   ): Promise<void> {
     if (messages.length === 0) return;
 
@@ -213,6 +214,8 @@ export class SessionService {
 
     const countDelta = messages.length;
 
+    // Use the caller-supplied ttlDays to extend expires_at, preserving the
+    // per-vertical TTL policy set at session creation time.
     const updateSession = this.db
       .prepare(
         `UPDATE ai_sessions
@@ -221,7 +224,7 @@ export class SessionService {
              expires_at      = ?
          WHERE id = ? AND tenant_id = ?`,
       )
-      .bind(countDelta, now, sessionTtl(), sessionId, tenantId);
+      .bind(countDelta, now, sessionTtl(ttlDays), sessionId, tenantId);
 
     await this.db.batch([...inserts, updateSession]);
   }

@@ -309,6 +309,12 @@ superagentRoutes.post(
     let sessionId: string;
     let sessionIsNew = false;
 
+    // Compute TTL from vertical config — used for both createSession and appendMessages
+    // to preserve the per-vertical TTL policy across the entire session lifetime.
+    const verticalCfgForWindow = getVerticalAiConfig(verticalSlug);
+    const contextWindowTokens = verticalCfgForWindow.contextWindowTokens ?? 8192;
+    const sessionTtlDays = contextWindowTokens > 8192 ? 14 : 7;
+
     if (body.session_id) {
       const existingSession = await sessionSvc.getSession(body.session_id, auth.tenantId);
       if (!existingSession) {
@@ -319,35 +325,47 @@ superagentRoutes.post(
       }
       sessionId = existingSession.id;
     } else {
-      const verticalConfig = getVerticalAiConfig(verticalSlug);
       const newSession = await sessionSvc.createSession({
         tenantId: auth.tenantId,
         userId: auth.userId,
         workspaceId: auth.workspaceId ?? null,
         vertical: verticalSlug || null,
         title: null,
-        ttlDays: Math.ceil((verticalConfig.contextWindowTokens ?? 8192) > 8192 ? 14 : 7),
+        ttlDays: sessionTtlDays,
       });
       sessionId = newSession.id;
       sessionIsNew = true;
     }
 
-    // Load prior history and prepend to the new user message
-    const verticalCfgForWindow = getVerticalAiConfig(verticalSlug);
-    const contextWindowTokens = verticalCfgForWindow.contextWindowTokens ?? 8192;
+    // Load prior history
     const storedHistory = await sessionSvc.loadHistory(sessionId, auth.tenantId, contextWindowTokens);
 
-    // Build the full message list: [stored_history..., new_sanitized_messages...]
-    // Stored history already contains system prompts if any were set in prior turns.
-    // If the caller sends a system message in this turn, it goes last (overrides nothing).
+    // Build the full message list with correct prompt ordering:
+    //   1. Current-turn system prompt(s) — highest instruction priority
+    //   2. Stored conversation history — ordered chronologically
+    //   3. New user turn(s) — the current request
+    //
+    // System messages must come first so they are never deprioritised by history.
+    // Stored history already excludes duplicate system prompts (loadHistory preserves
+    // them only once via context-window trimming). Client-provided assistant/system
+    // history is intentionally filtered out — only the new user turn(s) are accepted.
+    const currentSystemMsgs = sanitizedMessages
+      .filter((m) => m.role === 'system')
+      .map((m): AIMessage => ({ role: 'system', content: m.content }));
+
+    const currentUserMsgs = sanitizedMessages
+      .filter((m) => m.role === 'user')
+      .map((m): AIMessage => ({ role: 'user', content: m.content }));
+
     const messagesWithHistory: AIMessage[] = [
+      ...currentSystemMsgs,
       ...storedHistory.map((h): AIMessage => ({
         role: h.role,
         content: h.content,
         ...(h.tool_calls ? { tool_calls: h.tool_calls as ToolCall[] } : {}),
         ...(h.tool_call_id ? { tool_call_id: h.tool_call_id } : {}),
       })),
-      ...sanitizedMessages,
+      ...currentUserMsgs,
     ];
 
     // Step 0d: Spend budget check (SA-4.4) — block if budget exhausted
@@ -729,11 +747,14 @@ superagentRoutes.post(
         toolCallId: null as string | null,
       };
 
-      await sessionSvc.appendMessages(sessionId, auth.tenantId, [
-        ...newUserMsgs,
-        ...toolInterchangeMsgs,
-        assistantMsg,
-      ]);
+      // Pass sessionTtlDays so appendMessages() extends expires_at using the
+      // same TTL policy that was set at session creation — not the global default.
+      await sessionSvc.appendMessages(
+        sessionId,
+        auth.tenantId,
+        [...newUserMsgs, ...toolInterchangeMsgs, assistantMsg],
+        sessionTtlDays,
+      );
     } catch (err: unknown) {
       console.error(
         `[superagent] session append failed (non-fatal, session continuity may be degraded): ${err instanceof Error ? err.message : String(err)}`,
