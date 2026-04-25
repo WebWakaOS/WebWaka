@@ -465,23 +465,24 @@
     "contentLocalizationNotes": "Use 'Consultation', 'Antenatal', 'HMO Accepted', 'NHIS'. Reference common Nigerian health concerns (malaria testing, hypertension management). 'Book an Appointment' via WhatsApp.",
     "imageArtDirectionNotes": "Nigerian doctor in white coat with patient. Clinic reception with Nigerian nurse. Waiting area with Nigerian health posters.",
     "regulatoryOrTrustNotes": "MDCN (Medical and Dental Council of Nigeria) licence. NAFDAC compliance. CAC registration. HMO partnerships. NHIS accreditation.",
-    "templateStatus": "READY_FOR_RESEARCH",
-    "templateVariantCount": 0,
-    "primaryTemplatePath": null,
+    "templateStatus": "IMPLEMENTED",
+    "templateVariantCount": 1,
+    "primaryTemplatePath": "apps/brand-runtime/src/templates/niches/clinic/primary-care.ts",
     "templateSlug": "clinic-primary-care",
     "marketplaceManifestSlug": null,
-    "runtimeIntegrationStatus": "NOT_REGISTERED",
-    "researchStatus": "NOT_STARTED",
-    "researchBriefPath": null,
+    "runtimeIntegrationStatus": "REGISTERED",
+    "researchStatus": "SYNTHESIZED",
+    "researchBriefPath": "docs/templates/research/clinic-primary-care-brief.md",
     "lastReviewedAt": "2026-04-25",
-    "implementedAt": null,
+    "implementedAt": "2026-04-25",
     "dependencies": [
       "packages/verticals-clinic"
     ],
     "blockers": [],
     "nextAction": "Research Nigerian primary care clinic website patterns and MDCN/HMO trust signal display",
-    "owner": null,
-    "notes": "M8e milestone. License verification (MDCN/NAFDAC) is the central compliance feature."
+    "owner": "replit-agent-2026-04-25-session-B",
+    "notes": "M8e milestone. License verification (MDCN/NAFDAC) is the central compliance feature.",
+    "sqlSeedPath": "infra/db/seeds/templates/clinic-primary-care.sql"
   },
   {
     "nicheId": "P2-creator-personal-brand",

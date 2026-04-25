@@ -12,12 +12,12 @@
 | Status | Count |
 |--------|-------|
 | UNASSIGNED | 0 |
-| READY_FOR_RESEARCH | 41 |
+| READY_FOR_RESEARCH | 40 |
 | RESEARCH_IN_PROGRESS | 0 |
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 5 |
+| IMPLEMENTED | 6 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
 | SHIPPED | 0 |
@@ -45,7 +45,7 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 | 8 | `P2-sole-trader-artisan-catalogue` | sole-trader | Sole Trader / Artisan Catalogue Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 9 | `P2-professional-practice-site` | professional | Licensed Professional Practice Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 10 | `P2-school-institution-site` | school | School / Educational Institution Site | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 11 | `P2-clinic-primary-care` | clinic | Primary Care Clinic / Healthcare Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 11 | `P2-clinic-primary-care` | clinic | Primary Care Clinic / Healthcare Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 12 | `P2-creator-personal-brand` | creator | Creator / Influencer Personal Brand Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 13 | `P2-tech-hub-innovation-centre` | tech-hub | Tech Hub / Innovation Centre Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 
