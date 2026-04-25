@@ -10,10 +10,13 @@
  * To trigger immediately: UPDATE scheduled_jobs SET next_run_at=0 WHERE name=?
  */
 
+import { DsarProcessorService } from './dsar-processor.js';
+
 export interface Env {
   DB: D1Database;
   RATE_LIMIT_KV: KVNamespace;
   AUDIT_FAIL_KV: KVNamespace;
+  DSAR_BUCKET: R2Bucket;
   ENVIRONMENT: string;
 }
 
@@ -122,76 +125,12 @@ const JOBS: Record<string, JobFn> = {
   },
 
   'dsar-export-processor': async (env: Env) => {
-    // COMP-001 / ENH-039: Process pending DSAR export requests.
-    // Assembles all user data rows across core tables and stores as JSON in KV.
-    // KV TTL: 172800 s (48 h) — user must download within that window.
-    // T3: every query binds user_id AND tenant_id — no cross-tenant data leakage.
-    const pending = await env.DB.prepare(
-      `SELECT id, user_id, tenant_id FROM dsar_requests
-       WHERE status = 'pending' AND expires_at > unixepoch()
-       ORDER BY requested_at ASC LIMIT 20`,
-    ).all<{ id: string; user_id: string; tenant_id: string }>();
-
-    for (const req of pending.results) {
-      try {
-        await env.DB.prepare(
-          `UPDATE dsar_requests SET status = 'processing' WHERE id = ?`,
-        ).bind(req.id).run();
-
-        const [userRow, wsRow, ledgerRows, notifRows] = await Promise.all([
-          env.DB.prepare(
-            `SELECT email, full_name, phone, created_at
-             FROM users WHERE id = ? AND tenant_id = ?`,
-          ).bind(req.user_id, req.tenant_id).first(),
-          env.DB.prepare(
-            `SELECT w.name, w.subscription_plan
-             FROM workspaces w
-             JOIN users u ON u.workspace_id = w.id
-             WHERE u.id = ? AND w.tenant_id = ?
-             LIMIT 1`,
-          ).bind(req.user_id, req.tenant_id).first(),
-          env.DB.prepare(
-            `SELECT id, direction, amount_kobo, description, created_at
-             FROM hl_ledger WHERE user_id = ? AND tenant_id = ?
-             ORDER BY created_at DESC LIMIT 1000`,
-          ).bind(req.user_id, req.tenant_id).all(),
-          env.DB.prepare(
-            `SELECT id, title, body, created_at, read_at
-             FROM notification_inbox WHERE user_id = ? AND tenant_id = ?
-             ORDER BY created_at DESC LIMIT 500`,
-          ).bind(req.user_id, req.tenant_id).all(),
-        ]);
-
-        const exportData = {
-          exported_at: new Date().toISOString(),
-          user: userRow,
-          workspace: wsRow,
-          transactions: ledgerRows.results,
-          notifications: notifRows.results,
-        };
-        const exportJson = JSON.stringify(exportData, null, 2);
-        const exportKey = `dsar:export:${req.id}`;
-
-        await env.RATE_LIMIT_KV.put(exportKey, exportJson, { expirationTtl: 172800 });
-        await env.DB.prepare(
-          `UPDATE dsar_requests
-           SET status = 'ready', completed_at = unixepoch(), download_key = ?
-           WHERE id = ?`,
-        ).bind(exportKey, req.id).run();
-
-        console.log(JSON.stringify({
-          level: 'info', event: 'dsar_export_ready', requestId: req.id,
-        }));
-      } catch (err) {
-        console.error(JSON.stringify({
-          level: 'error', event: 'dsar_export_failed',
-          requestId: req.id, error: String(err),
-        }));
-        await env.DB.prepare(
-          `UPDATE dsar_requests SET status = 'pending' WHERE id = ?`,
-        ).bind(req.id).run();
-      }
-    }
+    // COMP-002: Process pending DSAR export requests (R2-backed, with retry).
+    // Delegates to DsarProcessorService which compiles 8 data categories per user.
+    // T3: all queries inside DsarProcessorService bind user_id AND tenant_id.
+    // P13: export payload is never logged.
+    const svc = new DsarProcessorService();
+    await svc.processNextBatch(env, 10);
   },
 };
 
