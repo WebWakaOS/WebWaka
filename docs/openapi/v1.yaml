@@ -1585,7 +1585,12 @@ paths:
                     properties:
                       role:
                         type: string
-                        enum: [system, user]
+                        enum: [system, user, assistant, tool]
+                        description: |
+                          Message role. Clients sending only the new user turn should
+                          use `system` (optional) + `user`. Full multi-turn history
+                          (including `assistant` + `tool` turns from prior rounds) is
+                          accepted and prepended to any resumed session.
                       content:
                         type: string
                 vertical:

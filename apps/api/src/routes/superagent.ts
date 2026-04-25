@@ -1042,8 +1042,17 @@ superagentRoutes.post(
         tokensUsed: inputTokensEstimate,
         usageEventId: `${burnRef}_opt`,
       });
-    } catch {
-      // Non-blocking — if optimistic burn fails, stream still opens; correction handles reconciliation
+    } catch (err: unknown) {
+      // Non-blocking — stream opens even if optimistic burn fails (correction handles reconciliation).
+      // Emit structured telemetry so infra alerting can detect recurring billing infra failures.
+      console.error('[billing] optimistic burn failed — uncharged usage may occur', {
+        event: 'optimistic_burn_failed',
+        burnRef,
+        tenantId: auth.tenantId,
+        level: resolved.level,
+        inputTokensEstimate,
+        error: err instanceof Error ? err.message : String(err),
+      });
     }
 
     void publishEvent(c.env, {
@@ -1121,8 +1130,18 @@ superagentRoutes.post(
             tokensUsed: outputTokens,
             usageEventId: `${burnRef}_cor`,
           });
-        } catch {
-          // Correction failure is non-fatal — optimistic charge already landed
+        } catch (corrErr: unknown) {
+          // Correction failure is non-fatal — optimistic charge already landed.
+          // Emit structured telemetry so infra alerting can detect under-billing.
+          console.error('[billing] correction burn failed — optimistic charge stands uncorrected', {
+            event: 'correction_burn_failed',
+            burnRef,
+            tenantId: streamAuth.tenantId,
+            level: resolved.level,
+            outputTokens,
+            optimisticWakaCuCharged: optimisticBurn.wakaCuCharged,
+            error: corrErr instanceof Error ? corrErr.message : String(corrErr),
+          });
         }
 
         const totalCuCharged = optimisticBurn.wakaCuCharged + correctionBurn.wakaCuCharged;

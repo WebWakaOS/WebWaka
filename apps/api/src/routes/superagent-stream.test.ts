@@ -374,6 +374,57 @@ describe('POST /superagent/chat/stream', () => {
     expect(spendInsertRunSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('optimistic burn failure: stream still opens; console.error emitted; terminal waku_cu_charged = correction only', async () => {
+    /**
+     * When Phase-1 (optimistic) burn throws, the stream must NOT be aborted.
+     * The terminal event should report only the correction burn amount (Phase-2),
+     * and console.error must be called with the structured billing telemetry.
+     */
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    burnSpy
+      .mockRejectedValueOnce(new Error('D1 write timeout'))  // Phase-1 opt — throws
+      .mockResolvedValueOnce({ wakaCuCharged: 6, chargeSource: 'own_wallet', balanceAfter: 94 }); // Phase-2 cor — succeeds
+
+    mockStream.mockReturnValueOnce(
+      (async function* () {
+        yield 'Fallback';
+        yield ' ok';
+      })(),
+    );
+
+    const db = makeMockDB();
+    const app = makeStreamApp({ db });
+
+    const res = await app.fetch(
+      streamPost({
+        capability: 'superagent_chat',
+        messages: [{ role: 'user', content: 'Burn failure test.' }],
+      }),
+    );
+
+    // Stream must open normally (200 text/event-stream)
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/event-stream');
+
+    const rawText = await readBodyText(res);
+    await new Promise<void>((resolve) => setTimeout(resolve, 50));
+
+    // console.error must be called with structured billing telemetry for _opt failure
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[billing] optimistic burn failed'),
+      expect.objectContaining({ event: 'optimistic_burn_failed', error: 'D1 write timeout' }),
+    );
+
+    // Terminal event must still arrive with correction-only total (0 opt + 6 cor = 6)
+    const events = parseSseEvents(rawText);
+    const termPayload = JSON.parse(events.at(-1)!.data) as { done: boolean; waku_cu_charged: number };
+    expect(termPayload.done).toBe(true);
+    expect(termPayload.waku_cu_charged).toBe(6);
+
+    errorSpy.mockRestore();
+  });
+
   it('two-phase billing: opt burn before stream, correction burn inside start(), terminal total = opt + correction', async () => {
     /**
      * Phase-1 (optimistic, _opt): 5 WakaCU charged from input tokens estimate.
@@ -422,7 +473,7 @@ describe('POST /superagent/chat/stream', () => {
 
     // Terminal done event must report the corrected sum (5 + 8 = 13)
     const events = parseSseEvents(rawText);
-    const termPayload = JSON.parse(events[events.length - 1].data) as { done: boolean; waku_cu_charged: number };
+    const termPayload = JSON.parse(events.at(-1)!.data) as { done: boolean; waku_cu_charged: number };
     expect(termPayload.done).toBe(true);
     expect(termPayload.waku_cu_charged).toBe(13);
 
