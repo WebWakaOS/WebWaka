@@ -10,7 +10,10 @@
  *   P13: Export JSON is NEVER logged. console.log emits only request IDs (no PII).
  *   G23: No audit_log updates or deletes.
  *
- * Retry policy: up to 3 attempts (retry_count < 3); then permanently_failed.
+ * Retry policy:
+ *   Failure sets status = 'failed' and increments retry_count.
+ *   After 3 failures (retry_count >= 3) the request is marked 'permanently_failed'.
+ *   processNextBatch() selects status IN ('pending', 'failed') AND retry_count < 3.
  */
 
 // ---------------------------------------------------------------------------
@@ -28,8 +31,8 @@ interface D1Like {
 }
 
 interface R2Like {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  put(key: string, value: string, options?: any): Promise<unknown>;
+  /** options typed as unknown to remain compatible with R2Bucket (bivariant methods) */
+  put(key: string, value: string, options?: unknown): Promise<unknown>;
   get(key: string): Promise<{ arrayBuffer(): Promise<ArrayBuffer> } | null>;
 }
 
@@ -63,6 +66,18 @@ export interface DsarExportPayload {
 
 // ---------------------------------------------------------------------------
 // compileDsarExport — parallel D1 fetch across 8 data categories
+//
+// Column notes (schema-verified):
+//   users               — email, phone, full_name, kyc_status, kyc_tier, role,
+//                         workspace_id, created_at, updated_at, email_verified_at
+//                         (NOT locale/timezone — not in schema)
+//   superagent_consents — purpose, locale, granted, granted_at, revoked_at
+//   ai_usage_events     — pillar, capability, provider, token counts (TEXT created_at)
+//   ai_spend_events     — capability, model_used, wakaCU_cost, status (TEXT created_at)
+//   hl_ledger           — entry_type, amount_kobo, balance_after, tx_type (TEXT created_at)
+//   notification_inbox_item — title, body, is_read, read_at (INTEGER created_at)
+//   sessions            — issued_at, expires_at, revoked_at (INTEGER timestamps, no tokens)
+//   dsar_requests       — id, status, requested_at, completed_at, expires_at
 // ---------------------------------------------------------------------------
 
 export async function compileDsarExport(
@@ -71,8 +86,10 @@ export async function compileDsarExport(
   tenantId: string,
   requestId: string,
 ): Promise<DsarExportPayload> {
-  const twelveMonthsAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-  const sixMonthsAgo   = new Date(Date.now() - 183 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const nowSec            = Math.floor(Date.now() / 1000);
+  const twelveMonthsAgo   = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
+    .toISOString().slice(0, 10);                            // TEXT date for ISO-timestamped tables
+  const sixMonthsAgoSec   = nowSec - 183 * 24 * 60 * 60;  // unix sec for INTEGER-timestamped tables
 
   const [
     identityRow,
@@ -84,14 +101,23 @@ export async function compileDsarExport(
     sessionResults,
     dsarHistoryResults,
   ] = await Promise.all([
-    // identity — exclude credential fields (P13)
+
+    // ── identity ─────────────────────────────────────────────────────────────
+    // Exclude: password_hash, password_hash_version, totp_secret (credentials/MFA)
+    // Columns available in schema (verified against 0013 + ALTER migrations):
+    //   id, email, phone, full_name, kyc_status, kyc_tier, workspace_id, tenant_id,
+    //   role, email_verified_at, consent_version, consented_at, created_at, updated_at
     db.prepare(
-      `SELECT id, email, full_name, phone, created_at, updated_at, locale, timezone
+      `SELECT id, email, phone, full_name, kyc_status, kyc_tier,
+              workspace_id, tenant_id, role,
+              email_verified_at, consent_version, consented_at,
+              created_at, updated_at
        FROM users
        WHERE id = ? AND tenant_id = ?`,
     ).bind(userId, tenantId).first<Record<string, unknown>>(),
 
-    // consent — all AI processing consent records (active + revoked)
+    // ── consent ──────────────────────────────────────────────────────────────
+    // All AI processing consent records (active + revoked) for audit trail
     db.prepare(
       `SELECT id, purpose, locale, granted, granted_at, revoked_at
        FROM superagent_consents
@@ -99,17 +125,22 @@ export async function compileDsarExport(
        ORDER BY granted_at DESC`,
     ).bind(userId, tenantId).all<Record<string, unknown>>(),
 
-    // ai_usage — event metadata only, last 12 months (P13: no prompt/response content)
+    // ── ai_usage ─────────────────────────────────────────────────────────────
+    // Event metadata only — last 12 months (P13: no prompt/response content stored)
+    // ai_usage_events.created_at is TEXT (ISO 8601)
     db.prepare(
-      `SELECT id, pillar, capability, provider, input_tokens, output_tokens,
-              total_tokens, wc_charged, created_at
+      `SELECT id, pillar, capability, provider,
+              input_tokens, output_tokens, total_tokens, wc_charged,
+              created_at
        FROM ai_usage_events
        WHERE user_id = ? AND tenant_id = ? AND created_at >= ?
        ORDER BY created_at DESC
        LIMIT 2000`,
     ).bind(userId, tenantId, twelveMonthsAgo).all<Record<string, unknown>>(),
 
-    // ai_spend — cost units only, last 12 months (no message content)
+    // ── ai_spend ─────────────────────────────────────────────────────────────
+    // Cost units only — last 12 months (no message content)
+    // ai_spend_events.created_at is TEXT (ISO 8601)
     db.prepare(
       `SELECT id, capability, model_used, wakaCU_cost, status, created_at
        FROM ai_spend_events
@@ -118,7 +149,9 @@ export async function compileDsarExport(
        LIMIT 2000`,
     ).bind(userId, tenantId, twelveMonthsAgo).all<Record<string, unknown>>(),
 
-    // wallet — ledger transactions, last 12 months
+    // ── wallet ───────────────────────────────────────────────────────────────
+    // Ledger transactions — last 12 months
+    // hl_ledger.created_at is TEXT (ISO 8601)
     db.prepare(
       `SELECT id, entry_type, amount_kobo, balance_after, tx_type, reference, created_at
        FROM hl_ledger
@@ -127,16 +160,19 @@ export async function compileDsarExport(
        LIMIT 1000`,
     ).bind(userId, tenantId, twelveMonthsAgo).all<Record<string, unknown>>(),
 
-    // notifications — last 6 months
+    // ── notifications ─────────────────────────────────────────────────────────
+    // In-app notification inbox — last 6 months
+    // notification_inbox_item.created_at is INTEGER (unixepoch), filter with unix timestamp
     db.prepare(
-      `SELECT id, title, body, created_at, read_at
-       FROM notification_inbox
+      `SELECT id, title, body, is_read, read_at, created_at
+       FROM notification_inbox_item
        WHERE user_id = ? AND tenant_id = ? AND created_at >= ?
        ORDER BY created_at DESC
        LIMIT 500`,
-    ).bind(userId, tenantId, sixMonthsAgo).all<Record<string, unknown>>(),
+    ).bind(userId, tenantId, sixMonthsAgoSec).all<Record<string, unknown>>(),
 
-    // sessions — metadata only, no token values (T3 scoped)
+    // ── sessions ─────────────────────────────────────────────────────────────
+    // Auth session metadata only — no token values (they are never stored here)
     db.prepare(
       `SELECT id, issued_at, expires_at, revoked_at
        FROM sessions
@@ -145,7 +181,8 @@ export async function compileDsarExport(
        LIMIT 200`,
     ).bind(userId, tenantId).all<Record<string, unknown>>(),
 
-    // dsar_history — prior DSAR requests by this user (excludes current request)
+    // ── dsar_history ──────────────────────────────────────────────────────────
+    // Prior DSAR requests by this user — excludes the current request
     db.prepare(
       `SELECT id, status, requested_at, completed_at, expires_at
        FROM dsar_requests
@@ -207,7 +244,7 @@ export async function storeExport(
 }
 
 // ---------------------------------------------------------------------------
-// DsarProcessorService — processes pending queue in batches
+// DsarProcessorService — processes pending and failed queue in batches
 // ---------------------------------------------------------------------------
 
 interface PendingRow {
@@ -235,7 +272,7 @@ export class DsarProcessorService {
   private async _processOne(env: DsarEnv, req: PendingRow): Promise<void> {
     try {
       await env.DB.prepare(
-        `UPDATE dsar_requests SET status = 'processing' WHERE id = ? AND status = 'pending'`,
+        `UPDATE dsar_requests SET status = 'processing' WHERE id = ? AND status IN ('pending', 'failed')`,
       ).bind(req.id).run();
 
       const payload = await compileDsarExport(env.DB, req.user_id, req.tenant_id, req.id);
