@@ -62,8 +62,10 @@ export const PLATFORM_AGGREGATORS: readonly AggregatorConfig[] = [
     provider: 'together',
     baseUrl: 'https://api.together.xyz/v1',
     apiKeyEnvVar: 'TOGETHER_API_KEY',
+    // function_call removed: Together AI does not support OpenAI-compatible native tool calling.
+    // Route function_call requests to groq or openrouter which have native tool call support.
     capabilities: [
-      'superagent_chat', 'function_call', 'embedding', 'bio_generator',
+      'superagent_chat', 'embedding', 'bio_generator',
       'brand_copywriter', 'listing_enhancer', 'inventory_ai',
     ],
     wakaCuPer1kTokens: 1,

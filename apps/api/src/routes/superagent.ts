@@ -51,7 +51,10 @@ import {
   stripPii,
   postProcessCheck,
   getSensitiveSector,
+  MAX_TOOL_ROUNDS,
+  createDefaultToolRegistry,
 } from '@webwaka/superagent';
+import type { ToolExecutionContext } from '@webwaka/superagent';
 import { resolveAdapter } from '@webwaka/ai';
 import { createAdapter } from '@webwaka/ai-adapters';
 import { buildAIRoutingContext, AIAuthError } from '@webwaka/auth';
@@ -243,18 +246,6 @@ superagentRoutes.post(
     const capability = body.capability as AICapabilityType;
     const pillar: 1 | 2 | 3 = body.pillar ?? 1;
 
-    // F-019 fix: function_call is declared in PLATFORM_AGGREGATORS but has no tool
-    // registry or handler dispatch. Guard here prevents a silent text completion
-    // being returned when the caller expects structured function call output.
-    if (capability === 'function_call') {
-      return c.json({
-        error: 'CAPABILITY_NOT_IMPLEMENTED',
-        message:
-          "The 'function_call' capability requires a tool registry which is not yet available. " +
-          "Use 'superagent_chat' for text completions. Tool/function routing is planned for SA-5.x.",
-      }, 501);
-    }
-
     // Step 0a: Determine autonomy level from vertical config (SA-4.5)
     const verticalSlug = body.vertical ?? '';
     const autonomyLevel = isSensitiveVertical(verticalSlug) ? 3 : 1;
@@ -374,17 +365,92 @@ superagentRoutes.post(
     }
 
     // Step 5: Execute live provider call (P7 — createAdapter uses fetch only, no SDK)
+    // For 'function_call' capability, the tool registry is injected and a multi-turn
+    // execution loop runs until the model returns a final answer or MAX_TOOL_ROUNDS
+    // is reached. For all other capabilities, this is a single-round call.
     const adapter = createAdapter(resolved);
-    const aiRequest: AIRequest = {
-      messages: sanitizedMessages,
+
+    // SA-5.x: build tool registry for function_call requests
+    const toolRegistry = capability === 'function_call' ? createDefaultToolRegistry() : null;
+
+    const toolCtx: ToolExecutionContext = {
+      tenantId: auth.tenantId,
+      workspaceId: auth.workspaceId ?? '',
+      userId: auth.userId,
+      db: c.env.DB,
+    };
+
+    const buildAiRequest = (
+      messages: AIRequest['messages'],
+      includeTools: boolean,
+    ): AIRequest => ({
+      messages,
       maxTokens: body.max_tokens ?? 1024,
       temperature: body.temperature ?? 0.7,
-    };
+      ...(includeTools && toolRegistry && toolRegistry.size > 0
+        ? { tools: toolRegistry.getDefinitions(), tool_choice: 'auto' as const }
+        : {}),
+    });
 
     const startMs = Date.now();
     let aiResponse: Awaited<ReturnType<typeof adapter.complete>>;
+    let currentMessages: AIRequest['messages'] = sanitizedMessages;
+    let toolRound = 0;
+    let totalToolCallsExecuted = 0;
+
     try {
-      aiResponse = await adapter.complete(aiRequest);
+      // Initial provider call — include tools when function_call capability
+      aiResponse = await adapter.complete(buildAiRequest(currentMessages, true));
+
+      // Multi-turn tool execution loop (SA-5.x — capped at MAX_TOOL_ROUNDS)
+      while (
+        toolRegistry &&
+        aiResponse.finishReason === 'tool_calls' &&
+        aiResponse.toolCalls &&
+        aiResponse.toolCalls.length > 0 &&
+        toolRound < MAX_TOOL_ROUNDS
+      ) {
+        toolRound++;
+
+        // Execute all requested tool calls in parallel (T3 — tenant-scoped via toolCtx)
+        const toolResults = await toolRegistry.executeAll(aiResponse.toolCalls, toolCtx);
+        totalToolCallsExecuted += aiResponse.toolCalls.length;
+
+        // Publish tool call execution event (SA-5.x telemetry)
+        void publishEvent(c.env, {
+          eventId: crypto.randomUUID(),
+          eventKey: AiEventType.AiToolCallExecuted,
+          tenantId: auth.tenantId,
+          actorId: auth.userId,
+          actorType: 'user',
+          workspaceId: auth.workspaceId,
+          payload: {
+            capability,
+            tool_names: aiResponse.toolCalls.map((tc) => tc.function.name),
+            round: toolRound,
+          },
+          source: 'api',
+          severity: 'info',
+        });
+
+        // Append assistant message (with tool_calls) + tool result messages
+        currentMessages = [
+          ...currentMessages,
+          {
+            role: 'assistant' as const,
+            content: aiResponse.content ?? '',
+            tool_calls: aiResponse.toolCalls,
+          },
+          ...toolResults.map((r) => ({
+            role: 'tool' as const,
+            content: r.content,
+            tool_call_id: r.tool_call_id,
+          })),
+        ];
+
+        // Continue conversation — no tools on continuation rounds (model gives final answer)
+        aiResponse = await adapter.complete(buildAiRequest(currentMessages, false));
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Provider call failed';
       // N-087: ai.response_failed event
@@ -453,35 +519,48 @@ superagentRoutes.post(
     }
 
     // Step 9b: Write fine-grained spend event to ai_spend_events (P22 — SA-4.4+)
-    // Fire-and-forget (ctx.waitUntil not available in route context) — best-effort only.
-    // Failures here must NOT block the AI response.
+    // Retries up to 3 times on transient D1 failures (exponential backoff: 50ms, 100ms).
+    // Best-effort only — failures are structured-logged but never block the AI response.
     {
       const spendEventId = crypto.randomUUID();
       const spendDb = c.env.DB as unknown as D1Like;
-      spendDb
-        .prepare(
-          `INSERT INTO ai_spend_events
-           (id, tenant_id, workspace_id, user_id, vertical, capability, model_used,
-            wakaCU_cost, request_id, hitl_level, status, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completed',
-                   strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
-        )
-        .bind(
-          spendEventId,
-          auth.tenantId,
-          auth.workspaceId ?? '',
-          auth.userId,
-          verticalSlug || null,
-          capability,
-          aiResponse.model ?? null,
-          burn.wakaCuCharged,
-          null,
-          complianceResult.hitlLevel ?? autonomyLevel,
-        )
-        .run()
-        .catch((err: unknown) => {
-          console.error('[superagent] ai_spend_events write failed (non-fatal):', err);
-        });
+      const spendWriteBindings = [
+        spendEventId,
+        auth.tenantId,
+        auth.workspaceId ?? '',
+        auth.userId,
+        verticalSlug || null,
+        capability,
+        aiResponse.model ?? null,
+        burn.wakaCuCharged,
+        null,
+        complianceResult.hitlLevel ?? autonomyLevel,
+      ];
+      const spendWriteSql = `INSERT INTO ai_spend_events
+         (id, tenant_id, workspace_id, user_id, vertical, capability, model_used,
+          wakaCU_cost, request_id, hitl_level, status, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completed',
+                 strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`;
+
+      void (async () => {
+        const MAX_SPEND_WRITE_ATTEMPTS = 3;
+        for (let attempt = 1; attempt <= MAX_SPEND_WRITE_ATTEMPTS; attempt++) {
+          try {
+            await spendDb.prepare(spendWriteSql).bind(...spendWriteBindings).run();
+            return;
+          } catch (err: unknown) {
+            const errMsg = err instanceof Error ? err.message : String(err);
+            if (attempt < MAX_SPEND_WRITE_ATTEMPTS) {
+              await new Promise<void>((r) => setTimeout(r, 50 * attempt));
+            } else {
+              console.error(
+                `[superagent] ai_spend_events permanently failed after ${MAX_SPEND_WRITE_ATTEMPTS} attempts: ${errMsg}`,
+                { tenantId: auth.tenantId, capability, spendEventId, model: aiResponse.model },
+              );
+            }
+          }
+        }
+      })();
 
       // Step 9c: Queue budget warning notification if spend just crossed 80% threshold (P22)
       const budgetLimit = budgetCheck.limit ?? 0;
@@ -577,6 +656,9 @@ superagentRoutes.post(
         ? { disclaimers: [...complianceResult.disclaimers, ...postCheck.disclaimers] }
         : {}),
       ...(postCheck.flagged ? { compliance_flagged: true, compliance_flags: postCheck.flags } : {}),
+      ...(capability === 'function_call'
+        ? { tool_rounds: toolRound, tool_calls_executed: totalToolCallsExecuted }
+        : {}),
     });
   },
 );
@@ -792,7 +874,7 @@ superagentRoutes.get('/hitl/queue', async (c) => {
 // ---------------------------------------------------------------------------
 
 superagentRoutes.patch('/hitl/:id/review', async (c) => {
-  const auth = c.get('auth') as { userId: string; tenantId: string; role?: string };
+  const auth = c.get('auth') as { userId: string; tenantId: string; workspaceId?: string; role?: string };
 
   if (!auth.role || !['admin', 'super_admin', 'workspace_admin'].includes(auth.role)) {
     return c.json({ error: 'HITL review requires admin role' }, 403);
@@ -822,6 +904,22 @@ superagentRoutes.patch('/hitl/:id/review', async (c) => {
 
   if (!result.success) {
     return c.json({ error: result.error }, 409);
+  }
+
+  // SA-4.6: Publish AiHitlApproved event so downstream systems (notificator, webhooks)
+  // can inform the original requester that their action is ready to resume.
+  if (body.decision === 'approved') {
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AiEventType.AiHitlApproved,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: auth.workspaceId ?? '',
+      payload: { queue_item_id: queueItemId, reviewer_id: auth.userId, note: body.note ?? null },
+      source: 'api',
+      severity: 'info',
+    });
   }
 
   return c.json({ reviewed: true, decision: body.decision });
@@ -878,11 +976,6 @@ superagentRoutes.post('/hitl/:id/resume', async (c) => {
 
   if (!payload.capability || !payload.messages || payload.messages.length === 0) {
     return c.json({ error: 'Stored payload is missing capability or messages — cannot resume' }, 422);
-  }
-
-  // Guard: function_call not implemented (F-019)
-  if (payload.capability === 'function_call') {
-    return c.json({ error: 'CAPABILITY_NOT_IMPLEMENTED', message: "The 'function_call' capability is not yet implemented." }, 501);
   }
 
   const capability = payload.capability as AICapabilityType;
@@ -1215,5 +1308,62 @@ superagentRoutes.get('/compliance/check', async (c) => {
     requires_hitl: complianceCheck.requiresHitl,
     hitl_level: complianceCheck.hitlLevel ?? null,
     disclaimers: complianceCheck.disclaimers,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /superagent/partner-pool/report — Partner credit pool analytics (SA-1.6)
+// Admin/platform view of partner credit pool allocations and utilisation.
+// Scoped to the requesting tenant as partner (grantor perspective).
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/partner-pool/report', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string; role?: string };
+
+  const isAdmin = auth.role && ['admin', 'super_admin', 'workspace_admin'].includes(auth.role as string);
+  if (!isAdmin) {
+    return c.json({ error: 'Partner pool report requires admin role' }, 403);
+  }
+
+  const walletService = new WalletService({ db: c.env.DB });
+  const partnerPoolService = new PartnerPoolService({ db: c.env.DB, walletService });
+  const pools = await partnerPoolService.listGrantedPools(auth.tenantId);
+
+  const now = new Date().toISOString();
+  const totalAllocated = pools.reduce((s, p) => s + p.allocatedWakaCu, 0);
+  const totalUsed = pools.reduce((s, p) => s + p.usedWakaCu, 0);
+  const totalRemaining = totalAllocated - totalUsed;
+  const activeCount = pools.filter(
+    (p) => !p.expiresAt || p.expiresAt > now,
+  ).length;
+
+  return c.json({
+    partner_tenant_id: auth.tenantId,
+    generated_at: now,
+    summary: {
+      total_pools: pools.length,
+      active_pools: activeCount,
+      total_allocated_waku_cu: totalAllocated,
+      total_used_waku_cu: totalUsed,
+      total_remaining_waku_cu: totalRemaining,
+      utilisation_pct:
+        totalAllocated > 0
+          ? Math.round((totalUsed / totalAllocated) * 100)
+          : 0,
+    },
+    pools: pools.map((p) => ({
+      id: p.id,
+      beneficiary_tenant_id: p.beneficiaryTenantId,
+      allocated_waku_cu: p.allocatedWakaCu,
+      used_waku_cu: p.usedWakaCu,
+      remaining_waku_cu: p.allocatedWakaCu - p.usedWakaCu,
+      utilisation_pct:
+        p.allocatedWakaCu > 0
+          ? Math.round((p.usedWakaCu / p.allocatedWakaCu) * 100)
+          : 0,
+      expires_at: p.expiresAt,
+      is_expired: p.expiresAt ? p.expiresAt <= now : false,
+      created_at: p.createdAt,
+    })),
   });
 });

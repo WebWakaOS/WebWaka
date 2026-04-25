@@ -151,11 +151,14 @@ export const AiEventType = {
   AiResponseGenerated:  'ai.response_generated',
   AiResponseFailed:     'ai.response_failed',
   AiHitlRequired:       'ai.hitl_required',
+  AiHitlApproved:       'ai.hitl_approved',
+  AiHitlExecuted:       'ai.hitl_executed',
   AiHitlRequestExpired: 'ai.hitl_request_expired',
   AiHitlEscalatedToL3:  'ai.hitl_escalated_to_l3',
   AiConsentGranted:     'ai.consent_granted',
   AiBudgetWarning:      'ai.budget_warning',
   AiBudgetExhausted:    'ai.budget_exhausted',
+  AiToolCallExecuted:   'ai.tool_call_executed',
 } as const;
 
 // ---------------------------------------------------------------------------

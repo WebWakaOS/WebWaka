@@ -22,6 +22,7 @@ import type {
   AIEmbedRequest,
   AIEmbedResponse,
   AIProvider,
+  ToolCall,
 } from '@webwaka/ai';
 
 const DEFAULT_BASE_URL = 'https://api.openai.com/v1';
@@ -46,13 +47,19 @@ export class OpenAICompatAdapter implements AIAdapter {
   async complete(request: AIRequest): Promise<AIResponse> {
     const url = `${this.config.baseUrl}/chat/completions`;
 
-    const body = {
+    const body: Record<string, unknown> = {
       model: this.config.model,
       messages: request.messages,
       max_tokens: request.maxTokens ?? 1024,
       temperature: request.temperature ?? 0.7,
       stream: false,
     };
+
+    // SA-5.x: inject tools when present (OpenAI function-calling format)
+    if (request.tools && request.tools.length > 0) {
+      body.tools = request.tools;
+      body.tool_choice = request.tool_choice ?? 'auto';
+    }
 
     const resp = await fetch(url, {
       method: 'POST',
@@ -69,7 +76,10 @@ export class OpenAICompatAdapter implements AIAdapter {
 
     const data = (await resp.json()) as {
       choices: Array<{
-        message: { content: string };
+        message: {
+          content: string | null;
+          tool_calls?: ToolCall[];
+        };
         finish_reason: string;
       }>;
       usage: { total_tokens: number };
@@ -81,17 +91,23 @@ export class OpenAICompatAdapter implements AIAdapter {
       throw new Error(`[openai-compat] Empty choices array from ${this.config.provider}`);
     }
 
+    const finishReason = choice.finish_reason === 'tool_calls'
+      ? 'tool_calls'
+      : choice.finish_reason === 'stop'
+        ? 'stop'
+        : choice.finish_reason === 'length'
+          ? 'length'
+          : 'error';
+
     return {
-      content: choice.message.content,
+      content: choice.message.content ?? '',
       provider: this.config.provider,
       model: data.model ?? this.config.model,
       tokensUsed: data.usage?.total_tokens ?? 0,
-      finishReason:
-        choice.finish_reason === 'stop'
-          ? 'stop'
-          : choice.finish_reason === 'length'
-            ? 'length'
-            : 'error',
+      finishReason,
+      // exactOptionalPropertyTypes: omit toolCalls entirely when absent rather than
+      // setting it to undefined, which would violate the strict optional type contract.
+      ...(choice.message.tool_calls ? { toolCalls: choice.message.tool_calls } : {}),
     };
   }
 
