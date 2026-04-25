@@ -663,10 +663,17 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
 
   app.use('/templates/installed', authMiddleware);
+  app.use('/templates/pending', authMiddleware);
+  app.use('/templates/render-overrides', authMiddleware);
+  app.use('/templates/render-overrides/*', authMiddleware);
   app.use('/templates/*/install', authMiddleware);
   app.use('/templates/*/upgrade', authMiddleware);
   app.use('/templates/*/purchase', authMiddleware);
   app.use('/templates/*/purchase/verify', authMiddleware);
+  app.use('/templates/*/approve', authMiddleware);
+  app.use('/templates/*/reject', authMiddleware);
+  app.use('/templates/*/deprecate', authMiddleware);
+  app.use('/templates/*/audit', authMiddleware);
   app.route('/templates', templateRoutes);
 
   // -------------------------------------------------------------------------

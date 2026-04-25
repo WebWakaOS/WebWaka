@@ -10,7 +10,7 @@
 
 import { Hono } from 'hono';
 import type { Env, Variables } from '../env.js';
-import { generateCssTokens } from '../lib/theme.js';
+import { resolveCappedTheme } from '../lib/depth-cap.js';
 import { baseTemplate } from '../templates/base.js';
 import { blogListBody } from '../templates/blog-list.js';
 import { blogPostBody } from '../templates/blog-post.js';
@@ -24,23 +24,21 @@ export const blogRouter = new Hono<{ Bindings: Env; Variables: Variables }>();
 // ---------------------------------------------------------------------------
 
 blogRouter.get('/', async (c) => {
-  const tenantSlug = c.get('tenantSlug') as string | undefined;
   const tenantId = c.get('tenantId');
 
+  // P1 audit fix: blog now applies the white-label depth cap (was bypassed before).
   let cssVars = '';
   let logoUrl: string | null = null;
   let displayName = 'Blog';
   let faviconUrl: string | null = null;
 
-  try {
-    const theme = await generateCssTokens(tenantSlug ?? '', c.env);
-    if (theme) {
-      cssVars = theme.cssVars;
-      logoUrl = theme.theme.logoUrl ?? null;
-      displayName = theme.theme.displayName ?? displayName;
-      faviconUrl = theme.theme.faviconUrl ?? null;
-    }
-  } catch { /* graceful degradation */ }
+  const themed = await resolveCappedTheme(c);
+  if (themed) {
+    cssVars = themed.cssVars;
+    logoUrl = themed.theme.logoUrl ?? null;
+    displayName = themed.theme.displayName ?? displayName;
+    faviconUrl = themed.theme.faviconUrl ?? null;
+  }
 
   let posts: BlogPost[] = [];
   if (tenantId) {
@@ -79,23 +77,21 @@ blogRouter.get('/', async (c) => {
 
 blogRouter.get('/:slug', async (c) => {
   const slug = c.req.param('slug');
-  const tenantSlug = c.get('tenantSlug') as string | undefined;
   const tenantId = c.get('tenantId');
 
+  // P1 audit fix: depth-capped theme.
   let cssVars = '';
   let logoUrl: string | null = null;
   let displayName = '';
   let faviconUrl: string | null = null;
 
-  try {
-    const theme = await generateCssTokens(tenantSlug ?? '', c.env);
-    if (theme) {
-      cssVars = theme.cssVars;
-      logoUrl = theme.theme.logoUrl ?? null;
-      displayName = theme.theme.displayName ?? '';
-      faviconUrl = theme.theme.faviconUrl ?? null;
-    }
-  } catch { /* graceful degradation */ }
+  const themed = await resolveCappedTheme(c);
+  if (themed) {
+    cssVars = themed.cssVars;
+    logoUrl = themed.theme.logoUrl ?? null;
+    displayName = themed.theme.displayName ?? '';
+    faviconUrl = themed.theme.faviconUrl ?? null;
+  }
 
   if (!tenantId) {
     return c.html(

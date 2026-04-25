@@ -171,13 +171,33 @@ function sanitizeCssValue(value: string): string {
     .replace(/expression\s*\(/gi, '');
 }
 
+/**
+ * P1 audit fix (Emergent Pillar-2 audit 2026-04-25):
+ * Defense-in-depth color sanitization. validateBrandConfig() rejects bad input
+ * BEFORE write, but if corrupted data reaches the DB by any means (direct SQL,
+ * historical data, prior bug) buildCssVars previously rendered it verbatim.
+ * Now any color that does not match the strict hex pattern is replaced with
+ * the platform default for that field.
+ */
+function safeColor(value: string | undefined | null, fallback: string): string {
+  if (typeof value === 'string' && HEX_COLOR_RE.test(value)) return value;
+  return fallback;
+}
+
 export function buildCssVars(theme: TenantTheme): string {
+  const primary = safeColor(theme.primaryColor, DEFAULT_THEME.primaryColor);
+  const secondary = safeColor(theme.secondaryColor, DEFAULT_THEME.secondaryColor);
+  const accent = safeColor(theme.accentColor, DEFAULT_THEME.accentColor);
+  const radius = Number.isFinite(theme.borderRadiusPx) && theme.borderRadiusPx >= 0 && theme.borderRadiusPx <= 24
+    ? Math.round(theme.borderRadiusPx)
+    : DEFAULT_THEME.borderRadiusPx;
+
   return `:root {
-  --ww-primary:        ${theme.primaryColor};
-  --ww-secondary:      ${theme.secondaryColor};
-  --ww-accent:         ${theme.accentColor};
+  --ww-primary:        ${primary};
+  --ww-secondary:      ${secondary};
+  --ww-accent:         ${accent};
   --ww-font:           ${sanitizeCssValue(theme.fontFamily)};
-  --ww-radius:         ${theme.borderRadiusPx}px;
+  --ww-radius:         ${radius}px;
   --ww-text:           #111827;
   --ww-text-muted:     #6b7280;
   --ww-bg:             #ffffff;

@@ -10,9 +10,20 @@
  *   2 — Full: custom domain, email branding, all visual elements
  *
  * Enforcement is a soft cap — the depth is stored on context and downstream
- * handlers use it to restrict which theme fields are applied.  Non-fatal:
- * if the DB lookup fails the middleware logs a warning and continues at
- * maximum depth (fail-open, avoids service disruption).
+ * handlers use it to restrict which theme fields are applied.
+ *
+ * P1 audit fix (Emergent Pillar-2 audit 2026-04-25):
+ *   sub_partners lookup failures must NOT silently fail-open at depth=2 — that
+ *   would leak full custom branding for restricted sub-partner tenants.
+ *
+ *   New policy:
+ *     • If the sub_partners check itself errors → fail-closed at depth=1
+ *       (preserves identity but strips custom domain/email branding).
+ *     • If a sub-partner row IS found and the entitlement lookup errors →
+ *       fail-closed at depth=1 too (we know they are restricted; we just lost
+ *       the exact value).
+ *     • If no sub-partner row is found → unconstrained depth=2 (genuine fully-
+ *       independent tenant).
  *
  * Platform Invariants: T3 (tenant scoping), T5 (subscription-gated)
  * M11 — Partner & White-Label Phase 3 (P5)
@@ -21,11 +32,10 @@
 import type { Context, Next } from 'hono';
 import type { Env, Variables } from '../env.js';
 
-/**
- * Maximum depth to apply when no partner constraint exists.
- * Tenants without a partner relationship get full white-label depth.
- */
+/** Maximum depth when no partner constraint exists. */
 const UNCONSTRAINED_DEPTH = 2;
+/** Fail-closed depth when DB lookup fails for a tenant we already know is restricted. */
+const FAIL_CLOSED_DEPTH = 1;
 
 export async function whiteLabelDepthMiddleware(
   c: Context<{ Bindings: Env; Variables: Variables }>,
@@ -38,11 +48,13 @@ export async function whiteLabelDepthMiddleware(
     return next();
   }
 
-  try {
-    const db = c.env.DB;
+  const db = c.env.DB;
 
-    // Find the partner (if any) for this tenant via sub_partners
-    const subPartner = await db
+  // Step 1: Find the sub-partner row (if any).
+  let subPartner: { partner_id: string } | null = null;
+  let subPartnerLookupFailed = false;
+  try {
+    subPartner = await db
       .prepare(
         `SELECT partner_id FROM sub_partners
          WHERE tenant_id = ? AND status = 'active'
@@ -50,14 +62,25 @@ export async function whiteLabelDepthMiddleware(
       )
       .bind(tenantId)
       .first<{ partner_id: string }>();
+  } catch (err) {
+    subPartnerLookupFailed = true;
+    console.warn('[white-label-depth] sub_partners lookup failed — failing closed:', err);
+  }
 
-    if (!subPartner) {
-      // Not a sub-tenant — no partner constraint, full depth
-      c.set('whiteLabelDepth', UNCONSTRAINED_DEPTH);
-      return next();
-    }
+  if (subPartnerLookupFailed) {
+    // P1 fix: cannot determine if tenant is restricted → fail-closed.
+    c.set('whiteLabelDepth', FAIL_CLOSED_DEPTH);
+    return next();
+  }
 
-    // Get the partner's white_label_depth entitlement
+  if (!subPartner) {
+    // Genuinely unconstrained tenant (no partner relationship).
+    c.set('whiteLabelDepth', UNCONSTRAINED_DEPTH);
+    return next();
+  }
+
+  // Step 2: Look up the partner's entitlement.
+  try {
     const entitlement = await db
       .prepare(
         `SELECT value FROM partner_entitlements
@@ -84,10 +107,12 @@ export async function whiteLabelDepthMiddleware(
 
     c.set('whiteLabelDepth', allowedDepth);
   } catch (err) {
-    // Fail-open: log and continue at maximum depth to avoid service disruption
-    console.warn('[white-label-depth] DB lookup failed, defaulting to full depth:', err);
-    c.set('whiteLabelDepth', UNCONSTRAINED_DEPTH);
+    // P1 fix: we know this tenant IS a sub-partner tenant; failing open at depth=2
+    // would leak custom branding the partner may not have granted. Fail closed.
+    console.warn('[white-label-depth] partner_entitlements lookup failed — failing closed:', err);
+    c.set('whiteLabelDepth', FAIL_CLOSED_DEPTH);
   }
 
   return next();
 }
+

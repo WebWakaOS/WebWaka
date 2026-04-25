@@ -20,30 +20,28 @@
 import { Hono } from 'hono';
 import type { Context } from 'hono';
 import type { Env, Variables } from '../env.js';
-import { generateCssTokens } from '../lib/theme.js';
+import { resolveCappedTheme } from '../lib/depth-cap.js';
 import { baseTemplate } from '../templates/base.js';
 
 export const shopRouter = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 // ---------------------------------------------------------------------------
-// Theme helper
+// Theme helper (depth-capped)
 // ---------------------------------------------------------------------------
 
 interface ThemeResult { cssVars: string; logoUrl: string | null; displayName: string; faviconUrl: string | null }
 
 async function resolveTheme(c: Context<{ Bindings: Env; Variables: Variables }>): Promise<ThemeResult> {
-  const tenantSlug = c.get('tenantSlug') as string | undefined;
-  try {
-    const t = await generateCssTokens(tenantSlug ?? '', c.env);
-    if (t) {
-      return {
-        cssVars: t.cssVars,
-        logoUrl: t.theme.logoUrl ?? null,
-        displayName: t.theme.displayName ?? '',
-        faviconUrl: t.theme.faviconUrl ?? null,
-      };
-    }
-  } catch { /* graceful */ }
+  // P1 audit fix: shop now applies the white-label depth cap (was bypassed before).
+  const themed = await resolveCappedTheme(c);
+  if (themed) {
+    return {
+      cssVars: themed.cssVars,
+      logoUrl: themed.theme.logoUrl ?? null,
+      displayName: themed.theme.displayName ?? '',
+      faviconUrl: themed.theme.faviconUrl ?? null,
+    };
+  }
   return { cssVars: '', logoUrl: null, displayName: '', faviconUrl: null };
 }
 
