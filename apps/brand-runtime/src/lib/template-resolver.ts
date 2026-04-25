@@ -37,6 +37,7 @@ import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
 import { servicesPageBody } from '../templates/services.js';
 import { contactPageBody } from '../templates/contact.js';
+import { restaurantGeneralEateryTemplate } from '../templates/niches/restaurant/general-eatery.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -108,6 +109,7 @@ const defaultWebsiteTemplate: WebsiteTemplateContract = {
  */
 const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['default-website', defaultWebsiteTemplate],
+  ['restaurant-general-eatery', restaurantGeneralEateryTemplate],
 ]);
 
 // ---------------------------------------------------------------------------

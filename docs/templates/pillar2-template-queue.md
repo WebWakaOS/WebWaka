@@ -15,27 +15,26 @@
 ## ⟶ CURRENT (Build This Next)
 
 ```
-Niche ID:       P2-restaurant-general-eatery
-Vertical:       restaurant
-Vertical Name:  Restaurant / Eatery / Buka
-Niche Name:     General Restaurant / Eatery / Buka Site
+Niche ID:       P2-sole-trader-artisan-catalogue
+Vertical:       sole-trader
+Vertical Name:  Sole Trader / Artisan
+Niche Name:     Sole Trader / Artisan Catalogue Site
 Status:         READY_FOR_RESEARCH
 Owner:          —
-Template Slug:  restaurant-general-eatery
-Source File:    apps/brand-runtime/src/templates/niches/restaurant/general-eatery.ts (to create)
+Template Slug:  sole-trader-artisan-catalogue
+Source File:    apps/brand-runtime/src/templates/niches/sole-trader/artisan-catalogue.ts (to create)
 
 Rationale for priority:
-  - restaurant is the highest-volume commerce vertical in Nigeria (M9 milestone target)
-  - Bukka / eatery model is the quintessential Nigerian SME food business
-  - A restaurant template demonstrates the full niche template pattern for all commerce verticals
-  - Once this template exists it serves as the reference implementation for all food verticals
-  - Nigerian restaurant websites are among the most searched for business types
+  - sole-trader is Nigeria's largest informal economy category (SMEDAN: 37M+ sole traders)
+  - Artisan catalogue template covers the widest range of informal economy businesses
+  - P1-Original vertical — must ship before M10
+  - High reuse: electricians, plumbers, carpenters, tailors, cobblers, mechanics all inherit this pattern
 
 Pre-work checklist:
-  [ ] Read pillar2-template-agent-handoff.md (mandatory)
+  [ ] Read pillar2-generic-implementation-prompt.md (mandatory)
   [ ] Confirm status is READY_FOR_RESEARCH in pillar2-niche-registry.json
   [ ] Claim niche (set status to RESEARCH_IN_PROGRESS + set owner)
-  [ ] Begin 4-thread parallel research (see handoff doc §2 Step 4)
+  [ ] Begin 4-thread parallel research
 ```
 
 ---
@@ -47,7 +46,7 @@ These niches are the highest-build-priority targets. `restaurant` leads as the r
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 1 | `P2-restaurant-general-eatery` | READY_FOR_RESEARCH | **← CURRENT** |
+| 1 | `P2-restaurant-general-eatery` | IMPLEMENTED ✅ | NF-FDS anchor — 2026-04-25 |
 | 2 | `P2-sole-trader-artisan-catalogue` | READY_FOR_RESEARCH | Nigeria's largest informal economy category |
 | 3 | `P2-creator-personal-brand` | READY_FOR_RESEARCH | Social-native; high creator economy growth |
 | 4 | `P2-professional-practice-site` | READY_FOR_RESEARCH | Generic professional template reused by many verticals |
@@ -118,7 +117,7 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 
 | Completed Date | Niche ID | Niche Name | SHIPPED |
 |----------------|----------|-----------|---------|
-| *None yet* | | | |
+| 2026-04-25 | `P2-restaurant-general-eatery` | General Restaurant / Eatery / Buka Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 
 ---
 
@@ -133,4 +132,4 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 
 ---
 
-*Last updated: 2026-04-25 — Initial queue population. 46 niches queued. 0 completed.*
+*Last updated: 2026-04-25 — P2-restaurant-general-eatery IMPLEMENTED. 46 niches queued. 1 completed (IMPLEMENTED, not yet SHIPPED).*

@@ -11,13 +11,13 @@
 
 | Status | Count |
 |--------|-------|
-| UNASSESSED | 0 |
-| READY_FOR_RESEARCH | 46 |
+| UNASSIGNED | 0 |
+| READY_FOR_RESEARCH | 45 |
 | RESEARCH_IN_PROGRESS | 0 |
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 0 |
+| IMPLEMENTED | 1 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
 | SHIPPED | 0 |
@@ -55,7 +55,7 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 14 | `P2-restaurant-general-eatery` | restaurant | General Restaurant / Eatery / Buka Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 14 | `P2-restaurant-general-eatery` | restaurant | General Restaurant / Eatery / Buka Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 15 | `P2-hotel-hospitality-booking` | hotel | Hotel / Guesthouse Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 16 | `P2-supermarket-grocery-store` | supermarket | Supermarket / Grocery Store Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 17 | `P2-pharmacy-drug-store` | pharmacy | Pharmacy / Drug Store Site | READY_FOR_RESEARCH | — | 2026-04-25 |
