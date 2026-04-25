@@ -58,7 +58,6 @@ import {
   isCapabilityAllowed,
   isCapabilityProhibited,
   CAPABILITY_METADATA,
-  listCapabilities,
 } from '@webwaka/superagent';
 import type { ToolExecutionContext } from '@webwaka/superagent';
 import { resolveAdapter } from '@webwaka/ai';
@@ -255,6 +254,17 @@ superagentRoutes.get('/vertical/:slug/capabilities/check', async (c) => {
 
   if (!capability) {
     return c.json({ error: 'capability query parameter required' }, 400);
+  }
+
+  // Validate that the capability key is a known AICapabilityType.
+  // CAPABILITY_METADATA is a Record<AICapabilityType, ...> so Object.keys() gives
+  // the canonical set of valid keys — no separate import needed.
+  if (!(capability in CAPABILITY_METADATA)) {
+    return c.json({
+      error: 'UNKNOWN_CAPABILITY',
+      capability,
+      message: `'${capability}' is not a recognised AICapabilityType. Valid values: ${Object.keys(CAPABILITY_METADATA).join(', ')}`,
+    }, 400);
   }
 
   const allowed = isCapabilityAllowed(slug, capability);
