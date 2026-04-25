@@ -5,6 +5,7 @@
  * Platform Invariants:
  *   T3  — All writes tenant-scoped via tenantId in ToolExecutionContext
  *   P9  — All monetary values MUST be integer kobo. Float inputs are rejected.
+ *         All monetary outputs are in kobo only — no naira formatting.
  *   P13 — contact_id reference only; no raw PII stored in line item descriptions
  *
  * HITL gating:
@@ -18,6 +19,7 @@ interface LineItem {
   description: string;
   qty: number;
   unit_price_kobo: number;
+  total_kobo: number;
 }
 
 function isPositiveInteger(v: unknown): v is number {
@@ -33,7 +35,7 @@ export const createInvoiceTool: RegisteredTool = {
         'Create a draft invoice for a customer in this workspace. ' +
         'All prices MUST be in integer kobo (100 kobo = ₦1). For example, ₦1,500 = 150000 kobo. ' +
         'Float values will be rejected. ' +
-        'Returns the invoice ID on success. ' +
+        'Returns the invoice ID and total_kobo on success. ' +
         'For sensitive verticals, the invoice will be queued for human approval first.',
       parameters: {
         type: 'object',
@@ -47,18 +49,14 @@ export const createInvoiceTool: RegisteredTool = {
           line_items: {
             type: 'array',
             description:
-              'Array of line items. Each item must have description, qty (positive integer), ' +
-              'and unit_price_kobo (positive integer kobo — NOT naira).',
+              'Array of invoice line items. Each item must have description, qty (positive integer), ' +
+              'and unit_price_kobo (positive integer — NOT naira, NOT a float).',
             items: {
               type: 'object',
               properties: {
-                description: { type: 'string', description: 'Item or service description.' },
-                qty:          { type: 'number', description: 'Quantity (positive integer).', minimum: 1 },
-                unit_price_kobo: {
-                  type: 'number',
-                  description: 'Unit price in kobo (integer). 100 kobo = ₦1.',
-                  minimum: 1,
-                },
+                description:     { type: 'string', description: 'Item or service description.' },
+                qty:             { type: 'number', description: 'Quantity (positive integer).', minimum: 1 },
+                unit_price_kobo: { type: 'number', description: 'Unit price in integer kobo. 100 kobo = ₦1.', minimum: 1 },
               },
               required: ['description', 'qty', 'unit_price_kobo'],
             },
@@ -85,11 +83,11 @@ export const createInvoiceTool: RegisteredTool = {
       return JSON.stringify({ error: 'EMPTY_LINE_ITEMS', message: 'At least one line item is required.' });
     }
 
-    // P9: validate all kobo values are positive integers
-    const lineItems: (LineItem & { total_kobo: number })[] = [];
+    // P9: validate all kobo values are positive integers — reject floats
+    const lineItems: LineItem[] = [];
     for (const [i, item] of rawItems.entries()) {
-      const desc = typeof item.description === 'string' ? item.description.trim() : '';
-      const qty  = item.qty;
+      const desc  = typeof item.description === 'string' ? item.description.trim() : '';
+      const qty   = item.qty;
       const price = item.unit_price_kobo;
 
       if (!desc) {
@@ -99,7 +97,10 @@ export const createInvoiceTool: RegisteredTool = {
         return JSON.stringify({ error: 'INVALID_LINE_ITEM', message: `Line item ${i + 1}: qty must be a positive integer, got ${JSON.stringify(qty)}.` });
       }
       if (!isPositiveInteger(price)) {
-        return JSON.stringify({ error: 'P9_VIOLATION', message: `Line item ${i + 1}: unit_price_kobo must be a positive integer kobo, got ${JSON.stringify(price)}. Do not use naira or floats.` });
+        return JSON.stringify({
+          error: 'P9_VIOLATION',
+          message: `Line item ${i + 1}: unit_price_kobo must be a positive integer kobo value, got ${JSON.stringify(price)}. Do not use naira or floats.`,
+        });
       }
       lineItems.push({ description: desc, qty, unit_price_kobo: price, total_kobo: qty * price });
     }
@@ -152,7 +153,7 @@ export const createInvoiceTool: RegisteredTool = {
         total_kobo: totalKobo,
         message:
           'The invoice has been queued for human approval. ' +
-          'Please inform the user that a workspace administrator will review and send the invoice.',
+          'A workspace administrator will review and send the invoice.',
       });
     }
 
@@ -172,7 +173,7 @@ export const createInvoiceTool: RegisteredTool = {
       invoice_id: id,
       total_kobo: totalKobo,
       line_item_count: lineItems.length,
-      message: `Draft invoice created successfully. Invoice ID: ${id}. Total: ₦${(totalKobo / 100).toFixed(2)}.`,
+      message: `Draft invoice created. Invoice ID: ${id}. Total: ${totalKobo} kobo.`,
     });
   },
 };

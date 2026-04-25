@@ -1,10 +1,12 @@
 /**
  * Built-in tool: customer_lookup
  * SA-5.x — Cross-entity CRM search across individuals and organizations.
+ * Searches by name fragment, phone fragment, or email fragment.
+ * Phone/email are looked up via the contact_channels table (joined back to individuals).
  *
  * Platform Invariants:
  *   T3  — All queries tenant-scoped via tenantId in ToolExecutionContext
- *   P13 — Returns id, display_name, account_type, last_active_at ONLY.
+ *   P13 — Returns id, display_name, account_type, last_active_at, verification_state ONLY.
  *          Raw PII fields (phone, email, NIN, etc.) are never returned.
  *
  * Read-only. No autonomy gating required.
@@ -19,23 +21,23 @@ export const customerLookupTool: RegisteredTool = {
       name: 'customer_lookup',
       description:
         'Search for customers (individuals or organisations) in this workspace by name, ' +
-        'phone fragment, or email fragment. Returns a list of matching contacts with ' +
-        'their ID, display name, account type, and last activity date. ' +
-        'Use this before creating bookings or invoices to look up the correct contact ID. ' +
-        'Results include at most 10 matches.',
+        'phone number fragment, or email fragment. ' +
+        'Returns at most 10 matches with their ID, display name, account type, and last activity. ' +
+        'Always use this tool to find the correct contact_id before creating bookings or invoices.',
       parameters: {
         type: 'object',
         properties: {
           query: {
             type: 'string',
             description:
-              'Name fragment, phone fragment (digits only), or email fragment to search for. ' +
+              'Name fragment, phone number fragment (digits only, e.g. "0801"), ' +
+              'or email fragment (e.g. "ada@"). ' +
               'Minimum 2 characters. Case-insensitive partial match.',
           },
           entity_type: {
             type: 'string',
             description:
-              'Filter by entity type. "individual" = people, "organisation" = companies, ' +
+              'Filter by entity type: "individual" = people, "organisation" = companies, ' +
               '"all" (default) = both.',
             enum: ['individual', 'organisation', 'all'],
           },
@@ -55,71 +57,84 @@ export const customerLookupTool: RegisteredTool = {
     }
 
     const entityType = typeof args.entity_type === 'string' ? args.entity_type : 'all';
-    const pattern = `%${query}%`;
+    const pattern    = `%${query}%`;
 
-    type IndividualRow = {
-      id: string; display_name: string; verification_state: string;
-      created_at: number; updated_at: number;
+    type ResultRow = {
+      id: string;
+      display_name: string;
+      account_type: string;
+      last_active_at: number | null;
+      verification_state: string;
     };
-    type OrgRow = {
-      id: string; name: string; registration_number: string | null;
-      verification_state: string; created_at: number; updated_at: number;
-    };
 
-    const results: Array<{ id: string; display_name: string; account_type: string; last_active_at: number | null; verification_state: string }> = [];
+    const results: ResultRow[] = [];
 
-    // Query individuals (P13: only id, display_name, verification_state, timestamps)
+    // Search individuals by name or via contact_channels (phone/email)
     if (entityType === 'individual' || entityType === 'all') {
-      const { results: indivRows } = await ctx.db
+      const { results: rows } = await ctx.db
         .prepare(
-          `SELECT id, display_name, verification_state, created_at, updated_at
-           FROM   individuals
-           WHERE  tenant_id = ?
-             AND  display_name LIKE ?
-           ORDER  BY updated_at DESC
-           LIMIT  10`,
+          // Join contact_channels to support phone/email fragment search (P13: only IDs returned)
+          `SELECT DISTINCT
+             i.id,
+             i.display_name,
+             'individual'        AS account_type,
+             i.updated_at        AS last_active_at,
+             i.verification_state
+           FROM individuals i
+           LEFT JOIN contact_channels cc ON cc.user_id = i.id
+           WHERE i.tenant_id = ?
+             AND (
+               i.display_name LIKE ?
+               OR cc.value LIKE ?
+             )
+           ORDER BY i.updated_at DESC
+           LIMIT 10`,
         )
-        .bind(ctx.tenantId, pattern)
-        .all<IndividualRow>();
+        .bind(ctx.tenantId, pattern, pattern)
+        .all<ResultRow>();
 
-      for (const r of indivRows ?? []) {
-        results.push({
-          id: r.id,
-          display_name: r.display_name,
-          account_type: 'individual',
-          last_active_at: r.updated_at,
-          verification_state: r.verification_state,
-        });
-      }
+      results.push(...(rows ?? []));
     }
 
-    // Query organizations (P13: only id, name, registration_number, verification_state)
+    // Search organizations by name (orgs don't have contact_channels entries)
     if (entityType === 'organisation' || entityType === 'all') {
       const { results: orgRows } = await ctx.db
         .prepare(
-          `SELECT id, name, registration_number, verification_state, created_at, updated_at
-           FROM   organizations
-           WHERE  tenant_id = ?
-             AND  name LIKE ?
-           ORDER  BY updated_at DESC
-           LIMIT  10`,
+          `SELECT
+             id,
+             name                AS display_name,
+             'organisation'      AS account_type,
+             updated_at          AS last_active_at,
+             verification_state
+           FROM organizations
+           WHERE tenant_id = ?
+             AND name LIKE ?
+           ORDER BY updated_at DESC
+           LIMIT 10`,
         )
         .bind(ctx.tenantId, pattern)
-        .all<OrgRow>();
+        .all<ResultRow>();
 
-      for (const r of orgRows ?? []) {
-        results.push({
+      results.push(...(orgRows ?? []));
+    }
+
+    // De-duplicate by id (LEFT JOIN can produce duplicates when multiple channels match).
+    // P13: Explicitly pick only the allowed output fields — never passthrough raw DB rows.
+    const seen = new Set<string>();
+    const deduped: ResultRow[] = [];
+    for (const r of results) {
+      if (!seen.has(r.id)) {
+        seen.add(r.id);
+        deduped.push({
           id: r.id,
-          display_name: r.name,
-          account_type: 'organisation',
-          last_active_at: r.updated_at,
+          display_name: r.display_name,
+          account_type: r.account_type,
+          last_active_at: r.last_active_at,
           verification_state: r.verification_state,
         });
       }
+      if (deduped.length >= 10) break;
     }
-
-    // De-duplicate (individual + org queries may each return up to 10; trim total to 10)
-    const deduped = results.slice(0, 10);
 
     if (deduped.length === 0) {
       return JSON.stringify({

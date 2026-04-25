@@ -1,14 +1,14 @@
 /**
  * Built-in tool: create_booking
- * SA-5.x — Creates a booking row in ai_agent_bookings.
+ * SA-5.x — Creates a booking row in ai_bookings and marks the slot 'reserved'
+ * in ai_schedule_slots in a single D1 batch (atomic).
  *
  * Platform Invariants:
- *   T3  — All writes tenant-scoped via tenantId in ToolExecutionContext
- *   P9  — No monetary values in this tool (bookings don't carry price)
- *   P13 — contact_id reference only; no raw PII stored in notes (caller responsibility)
+ *   T3  — schedule_id, slot_id, and contact_id are all validated against tenantId
+ *   P13 — contact_id reference only; notes must not contain raw PII
  *
  * HITL gating:
- *   autonomyLevel >= 3 → direct D1 insert
+ *   autonomyLevel >= 3 → D1 batch (insert booking + UPDATE slot status)
  *   autonomyLevel < 3  → HITL queue item, returns { deferred: true, queue_item_id }
  */
 
@@ -20,29 +20,28 @@ export const createBookingTool: RegisteredTool = {
     function: {
       name: 'create_booking',
       description:
-        'Create a new booking for a customer in this workspace. ' +
+        'Create a booking for a customer using an available schedule slot. ' +
+        'Use schedule_availability to find open slots first, then call this tool with ' +
+        'the schedule_id and slot_id from those results. ' +
         'Returns the booking ID on success. ' +
-        'For sensitive verticals (health, legal, finance), the booking will be queued for ' +
-        'human approval first and you will receive a deferred response with a queue_item_id. ' +
-        'Always look up the contact_id first using customer_lookup before calling this tool.',
+        'For sensitive verticals (health, legal, finance), the booking will be queued ' +
+        'for human approval and you will receive a queue_item_id instead.',
       parameters: {
         type: 'object',
         properties: {
+          schedule_id: {
+            type: 'string',
+            description: 'The schedule group ID (from schedule_availability results).',
+          },
+          slot_id: {
+            type: 'string',
+            description: 'The specific slot ID to reserve (from schedule_availability results).',
+          },
           contact_id: {
             type: 'string',
             description:
               'The entity ID of the customer (from customer_lookup). ' +
               'Required for tenant isolation — do NOT guess or fabricate this value.',
-          },
-          service_name: {
-            type: 'string',
-            description: 'Human-readable name of the service or appointment being booked.',
-          },
-          slot_time_iso: {
-            type: 'string',
-            description:
-              'Requested slot date and time in ISO-8601 format (e.g. "2026-05-10T09:00:00"). ' +
-              'Use schedule_availability to verify availability first.',
           },
           notes: {
             type: 'string',
@@ -51,35 +50,52 @@ export const createBookingTool: RegisteredTool = {
               'Do NOT include names, phone numbers, email addresses, or other PII.',
           },
         },
-        required: ['contact_id', 'service_name', 'slot_time_iso'],
+        required: ['schedule_id', 'slot_id', 'contact_id'],
       },
     },
   },
 
   async handler(args, ctx) {
-    const contactId   = typeof args.contact_id === 'string' ? args.contact_id.trim() : '';
-    const serviceName = typeof args.service_name === 'string' ? args.service_name.trim() : '';
-    const slotTimeIso = typeof args.slot_time_iso === 'string' ? args.slot_time_iso.trim() : '';
-    const notes       = typeof args.notes === 'string' ? args.notes.slice(0, 500) : null;
+    const scheduleId = typeof args.schedule_id === 'string' ? args.schedule_id.trim() : '';
+    const slotId     = typeof args.slot_id === 'string' ? args.slot_id.trim() : '';
+    const contactId  = typeof args.contact_id === 'string' ? args.contact_id.trim() : '';
+    const notes      = typeof args.notes === 'string' ? args.notes.slice(0, 500) : null;
 
-    if (!contactId || !serviceName || !slotTimeIso) {
+    if (!scheduleId || !slotId || !contactId) {
       return JSON.stringify({
         error: 'MISSING_REQUIRED_FIELDS',
-        message: 'contact_id, service_name, and slot_time_iso are all required.',
+        message: 'schedule_id, slot_id, and contact_id are all required.',
       });
     }
 
-    // Validate slot_time_iso
-    const slotMs = Date.parse(slotTimeIso);
-    if (Number.isNaN(slotMs)) {
+    // T3: Verify slot exists, belongs to this tenant, and is available
+    const slot = await ctx.db
+      .prepare(
+        `SELECT id, schedule_id, slot_time, service_name, status
+         FROM   ai_schedule_slots
+         WHERE  id = ? AND tenant_id = ? AND schedule_id = ?
+         LIMIT  1`,
+      )
+      .bind(slotId, ctx.tenantId, scheduleId)
+      .first<{ id: string; schedule_id: string; slot_time: number; service_name: string | null; status: string }>();
+
+    if (!slot) {
       return JSON.stringify({
-        error: 'INVALID_SLOT_TIME',
-        message: `'${slotTimeIso}' is not a valid ISO-8601 datetime.`,
+        error: 'SLOT_NOT_FOUND',
+        message: `No slot with id '${slotId}' in schedule '${scheduleId}' found for this workspace.`,
       });
     }
-    const slotUnix = Math.floor(slotMs / 1000);
 
-    // T3: Verify contact_id belongs to this tenant before booking
+    if (slot.status !== 'available') {
+      return JSON.stringify({
+        error: 'SLOT_NOT_AVAILABLE',
+        slot_id: slotId,
+        current_status: slot.status,
+        message: `Slot '${slotId}' is no longer available (status: ${slot.status}). Please check schedule_availability for open slots.`,
+      });
+    }
+
+    // T3: Verify contact_id belongs to this tenant
     const contact = await ctx.db
       .prepare(
         `SELECT id FROM individuals WHERE id = ? AND tenant_id = ?
@@ -101,9 +117,9 @@ export const createBookingTool: RegisteredTool = {
     if (ctx.autonomyLevel < 3) {
       const payload = JSON.stringify({
         tool: 'create_booking',
+        schedule_id: scheduleId,
+        slot_id: slotId,
         contact_id: contactId,
-        service_name: serviceName,
-        slot_time_iso: slotTimeIso,
         notes,
         workspace_id: ctx.workspaceId,
       });
@@ -126,23 +142,34 @@ export const createBookingTool: RegisteredTool = {
       });
     }
 
-    // Autonomy >= 3: write directly
-    const id = crypto.randomUUID();
-    await ctx.db
-      .prepare(
-        `INSERT INTO ai_agent_bookings
-           (id, tenant_id, workspace_id, contact_id, service_name, slot_time, notes, status, created_by)
-         VALUES (?, ?, ?, ?, ?, ?, ?, 'reserved', ?)`,
-      )
-      .bind(id, ctx.tenantId, ctx.workspaceId, contactId, serviceName, slotUnix, notes, ctx.userId)
-      .run();
+    // Autonomy >= 3: insert booking + mark slot reserved in a single D1 batch (atomic)
+    const bookingId = crypto.randomUUID();
+    await (ctx.db as unknown as {
+      batch(stmts: unknown[]): Promise<Array<{ success: boolean }>>;
+    }).batch([
+      ctx.db
+        .prepare(
+          `INSERT INTO ai_bookings
+             (id, tenant_id, workspace_id, schedule_id, slot_id, contact_id, notes, status, created_by)
+           VALUES (?, ?, ?, ?, ?, ?, ?, 'reserved', ?)`,
+        )
+        .bind(bookingId, ctx.tenantId, ctx.workspaceId, scheduleId, slotId, contactId, notes, ctx.userId),
+      ctx.db
+        .prepare(
+          `UPDATE ai_schedule_slots
+           SET status = 'reserved', updated_at = unixepoch()
+           WHERE id = ? AND tenant_id = ? AND status = 'available'`,
+        )
+        .bind(slotId, ctx.tenantId),
+    ]);
 
     return JSON.stringify({
       status: 'ok',
-      booking_id: id,
-      service_name: serviceName,
-      slot_time_iso: slotTimeIso,
-      message: `Booking created successfully. Booking ID: ${id}.`,
+      booking_id: bookingId,
+      schedule_id: scheduleId,
+      slot_id: slotId,
+      service_name: slot.service_name ?? null,
+      message: `Booking created successfully. Booking ID: ${bookingId}.`,
     });
   },
 };
