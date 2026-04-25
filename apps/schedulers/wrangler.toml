@@ -6,7 +6,7 @@ compatibility_date = "2024-12-05"
 ENVIRONMENT = "staging"
 
 [[triggers]]
-crons = ["*/30 * * * *"]
+crons = ["*/15 * * * *"]
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -30,7 +30,7 @@ bucket_name = "webwaka-dsar-exports-staging"
 ENVIRONMENT = "production"
 
 [[env.production.triggers]]
-crons = ["*/30 * * * *"]
+crons = ["*/15 * * * *"]
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"

@@ -3,11 +3,17 @@
  *
  * POST /compliance/dsar/request        — submit a Data Subject Access Request (auth required)
  * GET  /compliance/dsar/status/:id     — check DSAR status (auth required, own requests only)
- * POST /compliance/dsar/download/:id   — retrieve R2 export JSON (auth required, own + completed)
+ * POST /compliance/dsar/download/:id   — issue a 1-hour signed download URL (auth required)
+ * GET  /compliance/dsar/token/:token   — redeem signed download token, stream export (no auth)
  *
  * T3 invariant: every DB query includes tenant_id from JWT, never from user input.
  * G23 invariant: no audit_log updates or deletes.
- * P13 invariant: export payload is returned directly — never logged.
+ * P13 invariant: export payload is streamed directly — never logged.
+ *
+ * Download flow:
+ *   1. POST /download/:id  (with JWT)  → returns { url, expires_at } where url contains token
+ *   2. GET  /token/:token  (no auth)   → validates token from KV, streams R2 object
+ *   The token is single-use (deleted from KV on first redemption) and valid for 1 hour.
  */
 
 import { Hono } from 'hono';
@@ -16,9 +22,16 @@ import type { Env } from '../env.js';
 
 export const complianceRoutes = new Hono<{ Bindings: Env }>();
 
-complianceRoutes.use('*', authMiddleware);
+const EXPORT_TTL_SECONDS  = 7 * 24 * 60 * 60; // 7 days — how long R2 export lives
+const DOWNLOAD_TOKEN_TTL  = 3600;              // 1 hour — signed URL validity
 
-const EXPORT_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
+// ---------------------------------------------------------------------------
+// Auth-gated routes
+// ---------------------------------------------------------------------------
+complianceRoutes.use('/dsar/request',      authMiddleware);
+complianceRoutes.use('/dsar/status/*',     authMiddleware);
+complianceRoutes.use('/dsar/download/*',   authMiddleware);
+// /dsar/token/* is intentionally NOT behind authMiddleware — the token IS the auth.
 
 // ---------------------------------------------------------------------------
 // POST /compliance/dsar/request — submit a DSAR export request (COMP-001)
@@ -99,7 +112,7 @@ complianceRoutes.get('/dsar/status/:id', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// POST /compliance/dsar/download/:id — stream R2 export (own + completed only)
+// POST /compliance/dsar/download/:id — issue a 1-hour signed download URL
 // ---------------------------------------------------------------------------
 complianceRoutes.post('/dsar/download/:id', async (c) => {
   const auth = c.get('auth') as { userId: string; tenantId: string };
@@ -124,11 +137,55 @@ complianceRoutes.post('/dsar/download/:id', async (c) => {
     return c.json({ message: 'Export has expired. Please submit a new DSAR request.' }, 410);
   }
 
-  if (!c.env.ASSETS) {
-    return c.json({ message: 'File storage not available. Please try again later.' }, 503);
+  // Generate a single-use download token (UUID) stored in KV with 1-hour TTL.
+  // The token encodes the export_key so the /token/:token handler can stream from R2.
+  const token = crypto.randomUUID();
+  const tokenPayload = JSON.stringify({
+    requestId,
+    exportKey: row.export_key,
+    userId: auth.userId,
+    tenantId: auth.tenantId,
+  });
+
+  await c.env.RATE_LIMIT_KV.put(`dsar:token:${token}`, tokenPayload, {
+    expirationTtl: DOWNLOAD_TOKEN_TTL,
+  });
+
+  const origin   = new URL(c.req.url).origin;
+  const url      = `${origin}/compliance/dsar/token/${token}`;
+  const expiresAt = new Date(Date.now() + DOWNLOAD_TOKEN_TTL * 1000).toISOString();
+
+  return c.json({ url, expiresAt });
+});
+
+// ---------------------------------------------------------------------------
+// GET /compliance/dsar/token/:token — redeem download token, stream export
+// (No auth middleware — the token IS the auth. Single-use; deleted on redemption.)
+// ---------------------------------------------------------------------------
+complianceRoutes.get('/dsar/token/:token', async (c) => {
+  const token = c.req.param('token');
+  const kvKey = `dsar:token:${token}`;
+
+  const raw = await c.env.RATE_LIMIT_KV.get(kvKey);
+  if (!raw) {
+    return c.json({ message: 'Download link is invalid or has expired.' }, 410);
   }
 
-  const object = await c.env.ASSETS.get(row.export_key);
+  // Delete token immediately — single-use
+  await c.env.RATE_LIMIT_KV.delete(kvKey);
+
+  let payload: { requestId: string; exportKey: string; userId: string; tenantId: string };
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    return c.json({ message: 'Download link is malformed.' }, 400);
+  }
+
+  if (!c.env.DSAR_BUCKET) {
+    return c.json({ message: 'Export storage not available. Please try again later.' }, 503);
+  }
+
+  const object = await c.env.DSAR_BUCKET.get(payload.exportKey);
   if (!object) {
     return c.json({ message: 'Export data has expired from storage. Please submit a new DSAR request.' }, 410);
   }
@@ -138,7 +195,7 @@ complianceRoutes.post('/dsar/download/:id', async (c) => {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="waka-data-export-${requestId}.json"`,
+      'Content-Disposition': `attachment; filename="waka-data-export-${payload.requestId}.json"`,
       'Cache-Control': 'no-store',
     },
   });

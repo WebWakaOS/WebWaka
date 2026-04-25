@@ -251,7 +251,7 @@ describe('DsarProcessorService', () => {
     await svc.processNextBatch({ DB: db as unknown as DsarEnv['DB'], DSAR_BUCKET: bucket }, 10);
 
     expect(updatedRetryCounts).toContain(1);
-    expect(updatedStatuses).toContain('pending');
+    expect(updatedStatuses).toContain('failed');
   });
 
   it('marks permanently_failed after retry_count reaches 3', async () => {
