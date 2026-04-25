@@ -687,53 +687,59 @@ superagentRoutes.post(
     });
 
     // Step 10: Persist session messages (SA-6.x)
-    // Append: new user turn(s), intermediate tool turns, final assistant turn.
-    // Best-effort: session write failure must not block the AI response.
-    void (async () => {
-      try {
-        // New user messages from this request turn
-        const userMsgsToAppend = sanitizedMessages.map((m) => ({
-          role: m.role as 'system' | 'user' | 'assistant' | 'tool',
+    // Append: new user-role turn(s) from this request, intermediate tool turns,
+    // and the final assistant turn. Session writes are AWAITED for durability —
+    // Cloudflare Workers drop un-awaited promises when the response is sent.
+    // Failures are logged but do not block the AI response.
+    //
+    // Only user-role messages from sanitizedMessages are appended. Client-provided
+    // assistant/system turns are historical context and must not be re-stored
+    // (they would already exist in the session from prior turns, causing duplication
+    // and corrupting context-window trimming over time).
+    try {
+      const newUserMsgs = sanitizedMessages
+        .filter((m) => m.role === 'user')
+        .map((m) => ({
+          role: 'user' as const,
           content: m.content,
         }));
 
-        // Tool interchange messages appended during the multi-turn loop
-        // (currentMessages grew beyond messagesWithHistory during tool rounds)
-        const toolInterchangeMsgs = currentMessages
-          .slice(messagesWithHistory.length)
-          .map((m) => ({
-            role: m.role as 'system' | 'user' | 'assistant' | 'tool',
-            content: m.content ?? '',
-            toolCallsJson:
-              'tool_calls' in m && Array.isArray(m.tool_calls)
-                ? JSON.stringify(m.tool_calls)
-                : null,
-            toolCallId:
-              'tool_call_id' in m && typeof m.tool_call_id === 'string'
-                ? m.tool_call_id
-                : null,
-          }));
+      // Tool interchange messages appended during the multi-turn loop
+      // (currentMessages grew beyond messagesWithHistory during tool rounds)
+      const toolInterchangeMsgs = currentMessages
+        .slice(messagesWithHistory.length)
+        .map((m) => ({
+          role: m.role as 'system' | 'user' | 'assistant' | 'tool',
+          content: m.content ?? '',
+          toolCallsJson:
+            'tool_calls' in m && Array.isArray(m.tool_calls)
+              ? JSON.stringify(m.tool_calls)
+              : null,
+          toolCallId:
+            'tool_call_id' in m && typeof m.tool_call_id === 'string'
+              ? m.tool_call_id
+              : null,
+        }));
 
-        // Final assistant response
-        const assistantMsg = {
-          role: 'assistant' as const,
-          content: postCheck.content ?? '',
-          toolCallsJson: null as string | null,
-          toolCallId: null as string | null,
-        };
+      // Final assistant response
+      const assistantMsg = {
+        role: 'assistant' as const,
+        content: postCheck.content ?? '',
+        toolCallsJson: null as string | null,
+        toolCallId: null as string | null,
+      };
 
-        await sessionSvc.appendMessages(sessionId, auth.tenantId, [
-          ...userMsgsToAppend,
-          ...toolInterchangeMsgs,
-          assistantMsg,
-        ]);
-      } catch (err: unknown) {
-        console.error(
-          `[superagent] session append failed (non-fatal): ${err instanceof Error ? err.message : String(err)}`,
-          { sessionId, tenantId: auth.tenantId },
-        );
-      }
-    })();
+      await sessionSvc.appendMessages(sessionId, auth.tenantId, [
+        ...newUserMsgs,
+        ...toolInterchangeMsgs,
+        assistantMsg,
+      ]);
+    } catch (err: unknown) {
+      console.error(
+        `[superagent] session append failed (non-fatal, session continuity may be degraded): ${err instanceof Error ? err.message : String(err)}`,
+        { sessionId, tenantId: auth.tenantId, capability },
+      );
+    }
 
     return c.json({
       session_id: sessionId,
@@ -1470,7 +1476,19 @@ superagentRoutes.get('/sessions/:id', async (c) => {
     return c.json({ error: 'Forbidden: session belongs to another user.' }, 403);
   }
 
-  const messages = await svc.getMessages(sessionId, auth.tenantId);
+  const rawMessages = await svc.getMessages(sessionId, auth.tenantId);
+
+  // Shape messages for API response: parse tool_calls_json into structured array.
+  // Consumers receive tool_calls as an object array, not a raw JSON string.
+  const messages = rawMessages.map((m) => ({
+    id: m.id,
+    role: m.role,
+    content: m.content,
+    tool_calls: m.toolCallsJson ? (JSON.parse(m.toolCallsJson) as unknown[]) : undefined,
+    tool_call_id: m.toolCallId ?? undefined,
+    token_estimate: m.tokenEstimate,
+    created_at: m.createdAt,
+  }));
 
   return c.json({ session, messages });
 });
