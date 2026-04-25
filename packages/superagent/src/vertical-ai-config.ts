@@ -257,8 +257,8 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
     ],
   },
 
-  'transit': {
-    slug: 'transit',
+  'mass-transit': {
+    slug: 'mass-transit',
     primaryPillar: 1,
     allowedCapabilities: [
       'scheduling_assistant',
@@ -2732,8 +2732,8 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
   // Map to their canonical package-backed slugs in application code.
   // =========================================================================
 
-  'mass-transit': {
-    slug: 'mass-transit',
+  'transit': {
+    slug: 'transit',
     primaryPillar: 1,
     allowedCapabilities: [
       'scheduling_assistant',
@@ -2742,7 +2742,7 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'translation',
     ],
     aiUseCases: [
-      'Fleet scheduling and demand forecasting (use canonical slug: transit)',
+      'Mass transit AI (use canonical slug: mass-transit — transit is deprecated package alias)',
     ],
   },
 

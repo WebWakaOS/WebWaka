@@ -14,16 +14,18 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 
 | Attribute | Value |
 |---|---|
-| Total canonical verticals (active) | **159** |
+| Total CSV rows (data) | 160 |
+| Active (planned) verticals | **157** |
+| Deprecated verticals | 3 (`gym-fitness`, `petrol-station`, `nurtw`) |
 | Source | `infra/db/seeds/0004_verticals-master.csv` |
-| All current status | `planned` |
-| Priority 1 (P1-Original) | 17 |
-| Priority 2 (Top100 High-Fit) | 62 |
-| Priority 3 (Top100 Medium-Fit) | 80 |
+| Priority 1 (P1-Original) | 17 active |
+| Priority 2 (Top100 High-Fit + bank-branch) | 62 active |
+| Priority 3 (Top100 Medium-Fit — 2 deprecated) | 78 active |
 | Categories | 14 |
-| Open merge decisions | 3 (gym+gym-fitness, petrol-station+fuel-station, road-transport-union+nurtw) |
-| Post-CSV vertical in DB | 1 (`bank-branch` — needs CSV addition) |
+| Merge decisions | 3 implemented (2026-04-25 closure) |
 | Package alias mismatches | 5 (marked with `⚠️ pkg alias` below) |
+| `transit`/`mass-transit` conflict | RESOLVED — `mass-transit` is canonical |
+| Reconciliation date | 2026-04-25 |
 
 ---
 
@@ -72,8 +74,8 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 | `dispatch-rider` | Dispatch Rider Network | transport | 2 | O | |
 | `courier` | Courier Service | transport | 2 | O | |
 | `clearing-agent` | Clearing & Forwarding Agent | transport | 2 | O | |
-| `road-transport-union` | Road Transport Workers Union (NURTW) | transport | 3 | O | 🔀 into (canonical; `nurtw` merges here) |
-| `nurtw` | NURTW (Road Transport Workers Union) | transport | 2 | O | 🔀 MERGE → `road-transport-union` |
+| `road-transport-union` | Road Transport Workers Union (NURTW) | transport | **2** | O | ✅ CANONICAL (priority upgraded; `nurtw` merged here 2026-04-25) |
+| ~~`nurtw`~~ | ~~NURTW (Road Transport Workers Union)~~ | transport | ~~2~~ | O | ❌ DEPRECATED → `road-transport-union` (2026-04-25) |
 | `okada-keke` | Okada / Keke Rider Co-op | transport | 3 | O | |
 | `ferry` | Ferry / Water Transport Operator | transport | 3 | O | |
 | `airport-shuttle` | Airport Shuttle Service | transport | 3 | O | |
@@ -114,7 +116,7 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 | `beauty-salon` | Beauty Salon / Barber Shop | commerce | 2 | O | |
 | `laundry` | Laundry / Dry Cleaner | commerce | 2 | O | |
 | `auto-mechanic` | Auto Mechanic / Garage | commerce | 2 | O | |
-| `fuel-station` | Fuel Station / Filling Station | commerce | 2 | Pl | 🔀 into (canonical; `petrol-station` merges here) |
+| `fuel-station` | Fuel Station / Filling Station | commerce | 2 | Pl | ✅ CANONICAL (`petrol-station` merged here 2026-04-25) |
 | `tailor` | Tailoring / Fashion Designer | commerce | 2 | I | |
 | `security-company` | Security Company / Guard Service | commerce | 2 | O | |
 | `construction` | Construction Firm / Contractor | commerce | 2 | O | |
@@ -151,11 +153,11 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 | `internet-cafe` | Internet Café / Business Centre | commerce | 3 | O | |
 | `plumbing-supplies` | Plumbing Supplies Dealer | commerce | 3 | O | |
 | `laundry-service` | Laundromat / Laundry Service | commerce | 3 | O | |
-| `gym-fitness` | Gym / Fitness Centre | commerce | 3 | O | 🔀 MERGE → `gym` |
+| ~~`gym-fitness`~~ | ~~Gym / Fitness Centre~~ | commerce | ~~3~~ | O | ❌ DEPRECATED → `gym` (2026-04-25) |
 | `hair-salon` | Hair Salon / Barbing Salon | commerce | 3 | I | |
 | `printing-press` | Printing Press / Design Studio | commerce | 3 | O | |
 | `cleaning-company` | Cleaning & Facility Management Company | commerce | 3 | O | |
-| `petrol-station` | Petrol Station / Filling Station | commerce | 3 | Pl | 🔀 MERGE → `fuel-station` |
+| ~~`petrol-station`~~ | ~~Petrol Station / Filling Station~~ | commerce | ~~3~~ | Pl | ❌ DEPRECATED → `fuel-station` (2026-04-25) |
 | `generator-dealer` | Generator Sales & Service Centre | commerce | 3 | O | |
 | `water-vendor` | Water Tanker / Sachet Water Producer | commerce | 3 | O | |
 | `tailoring-fashion` | Tailor / Fashion Designer Atelier | commerce | 3 | I | |
@@ -170,7 +172,7 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 | `clinic` | Clinic / Healthcare Facility | health | 1 | O | 📌 P1 |
 | `pharmacy` | Pharmacy / Drug Store | health | 2 | O | |
 | `sports-academy` | Sports Academy / Fitness Centre | health | 2 | O | |
-| `gym` | Gym / Wellness Centre | health | 2 | O | 🔀 into (canonical; `gym-fitness` merges here) |
+| `gym` | Gym / Wellness Centre | health | 2 | O | ✅ CANONICAL (`gym-fitness` merged here 2026-04-25) |
 | `optician` | Optician / Eye Clinic | health | 2 | O | |
 | `dental-clinic` | Dental Clinic / Orthodontist | health | 2 | O | |
 | `vet-clinic` | Veterinary Clinic / Pet Shop | health | 2 | O | |
@@ -271,6 +273,7 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 |---|---|---|---|---|---|
 | `savings-group` | Thrift / Ajo / Esusu Group | financial | 2 | O | |
 | `insurance-agent` | Insurance Agent / Broker | financial | 2 | I | |
+| `bank-branch` | Bank Branch / ATM Location | financial | 2 | O | ✅ Added to CSV 2026-04-25 (was in DB via migration 0339) |
 | `airtime-reseller` | Airtime / VTU Reseller | financial | 3 | I | |
 | `mobile-money-agent` | Mobile Money / POS Agent | financial | 3 | I | |
 | `bureau-de-change` | Bureau de Change / FX Dealer | financial | 3 | O | |
@@ -296,48 +299,40 @@ This is the single authoritative reference document for the WebWaka OS vertical 
 
 ---
 
-## Count Verification
+## Count Verification (Post-Closure)
 
-| Category | Count |
-|---|---|
-| politics | 7 |
-| transport | 15 |
-| civic | 13 |
-| commerce | 54 |
-| health | 11 |
-| education | 8 |
-| agricultural | 12 |
-| professional | 13 |
-| creator | 8 |
-| place | 8 |
-| financial | 6 |
-| media | 3 |
-| institutional | 1 |
-| **TOTAL** | **159** ✓ |
+Active counts only (deprecated rows not counted):
 
----
-
-## Post-CSV Verticals (In Database, Not Yet In CSV)
-
-The following vertical(s) exist in the database via migration but are not yet in `0004_verticals-master.csv`. They must be added to the CSV in the next data governance update.
-
-| Slug | Display Name | Category | Priority | Source Migration |
-|---|---|---|---|---|
-| `bank-branch` | Bank Branch / ATM Location | financial | 2 (suggested) | `0339_vertical_bank_branch.sql` |
-
----
-
-## Merge Decision Summary
-
-The following rows have open MERGE_REQUIRED decisions. Until executed, all three slugs remain in the CSV with `status='planned'`.
-
-| Slug to Deprecate | Merge Into | Priority of Decision |
+| Category | Active | Notes |
 |---|---|---|
-| `gym-fitness` | `gym` | MEDIUM |
-| `petrol-station` | `fuel-station` | MEDIUM |
-| `nurtw` | `road-transport-union` | MEDIUM |
+| politics | 7 | unchanged |
+| transport | 14 | nurtw deprecated (-1) |
+| civic | 13 | unchanged |
+| commerce | 51 | gym-fitness deprecated (-1), petrol-station deprecated (-1), bank-branch is financial |
+| health | 11 | gym now absorbs gym-fitness (no count change here) |
+| education | 8 | unchanged |
+| agricultural | 12 | unchanged |
+| professional | 13 | unchanged |
+| creator | 8 | unchanged |
+| place | 8 | unchanged |
+| financial | 7 | +bank-branch |
+| media | 3 | unchanged |
+| institutional | 1 | unchanged |
+| **TOTAL ACTIVE** | **157** ✓ | |
+| Deprecated | 3 | gym-fitness, petrol-station, nurtw |
+| **CSV ROWS (data)** | **160** | 157 active + 3 deprecated |
 
-After all merges: effective canonical count = **156** (+ 3 deprecated aliases in CSV with `status='deprecated'`)
+---
+
+## Merge Decision Summary (IMPLEMENTED 2026-04-25)
+
+All three merge decisions have been fully implemented. No open MERGE_REQUIRED entries remain.
+
+| Slug Deprecated | Merged Into | CSV Status | DB Status |
+|---|---|---|---|
+| `gym-fitness` | `gym` | `deprecated` | `deprecated` (migration 0340) |
+| `petrol-station` | `fuel-station` | `deprecated` | `deprecated` (migration 0340) |
+| `nurtw` | `road-transport-union` | `deprecated` | `deprecated` (migration 0340) |
 
 ---
 
