@@ -25,8 +25,8 @@ WebWaka OS is built once and reused infinitely. Verticals are the sector-specifi
 | Priority | Label | Count | Requirement |
 |---|---|---|---|
 | **P1** | Original (pre-Top100) | 17 | 100% feature parity — must implement first |
-| **P2** | Top100 High-Fit (≥30/30) | 62 active | High Nigeria SME density and fit |
-| **P3** | Top100 Medium (20–29) | 78 active | Valid Nigeria market segments |
+| **P2** | Top100 High-Fit (≥30/30) | 63 active | High Nigeria SME density and fit |
+| **P3** | Top100 Medium (20–29) | 77 active | Valid Nigeria market segments |
 | **TOTAL active** | | **157** | 160 rows total; 3 deprecated (gym-fitness, petrol-station, nurtw) |
 
 ---

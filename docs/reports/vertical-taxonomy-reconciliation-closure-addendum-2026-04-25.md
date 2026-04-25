@@ -196,8 +196,8 @@ New entries added in migration 0340:
 | Active (planned) canonical verticals | **157** |
 | Deprecated canonical verticals | **3** |
 | P1-Original verticals (active) | **17** |
-| P2 High-Fit (active, including bank-branch) | **62** |
-| P3 Medium-Fit (active, excluding gym-fitness + petrol-station) | **78** |
+| P2 High-Fit (active, including bank-branch) | **63** |
+| P3 Medium-Fit (active, excluding gym-fitness + petrol-station + road-transport-union promoted to P2) | **77** |
 | Merged duplicates (deprecated this session) | **3** |
 | New verticals added to CSV this session | **1** (bank-branch) |
 | Package alias mismatches (now in synonym map) | **5** (all documented) |
@@ -206,7 +206,7 @@ New entries added in migration 0340:
 | Open taxonomy decisions remaining | **0** |
 
 **Count reconciliation check:**
-- 17 (P1) + 62 (P2) + 78 (P3) = **157 active** ✓
+- 17 (P1) + 63 (P2) + 77 (P3) = **157 active** ✓
 - 157 active + 3 deprecated = **160 CSV data rows** ✓
 - 3 deprecated = 3 merges implemented ✓
 - 0 open decisions ✓
