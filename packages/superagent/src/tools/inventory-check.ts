@@ -86,7 +86,7 @@ export const inventoryCheckTool: RegisteredTool = {
       stock_qty: r.stock_qty,
       stock_status:
         r.stock_qty === 0 ? 'OUT_OF_STOCK' : r.stock_qty <= 5 ? 'LOW_STOCK' : 'IN_STOCK',
-      price_ngn: (r.price_kobo / 100).toFixed(2),
+      price_kobo: r.price_kobo,
     }));
 
     const outOfStock = products.filter((p) => p.stock_status === 'OUT_OF_STOCK').length;

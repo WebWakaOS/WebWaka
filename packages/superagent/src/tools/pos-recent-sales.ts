@@ -80,11 +80,11 @@ export const posRecentSalesTool: RegisteredTool = {
       status: 'ok',
       period: periodLabel,
       total_transactions: summary?.txn_count ?? 0,
-      total_revenue_ngn: ((summary?.total_kobo ?? 0) / 100).toFixed(2),
+      total_revenue_kobo: summary?.total_kobo ?? 0,
       payment_breakdown: (breakdown ?? []).map((b) => ({
         method: b.payment_method,
         count: b.count,
-        revenue_ngn: (b.total_kobo / 100).toFixed(2),
+        revenue_kobo: b.total_kobo,
       })),
     });
   },

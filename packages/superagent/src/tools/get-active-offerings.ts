@@ -87,10 +87,7 @@ export const getActiveOfferingsTool: RegisteredTool = {
         name: r.name,
         category: r.category ?? 'General',
         description: r.description ?? '',
-        price_ngn:
-          r.price_kobo !== null && r.price_kobo > 0
-            ? (r.price_kobo / 100).toFixed(2)
-            : 'Price on request',
+        price_kobo: r.price_kobo ?? 0,
       })),
     });
   },
