@@ -93,6 +93,23 @@ export interface ToolParameterProperty {
   type: string;
   description: string;
   enum?: string[];
+  /** Minimum value for 'number' / 'integer' types (JSON Schema). */
+  minimum?: number;
+  /** Maximum value for 'number' / 'integer' types (JSON Schema). */
+  maximum?: number;
+  /**
+   * Item schema for 'array' types (JSON Schema).
+   * May be a nested ToolParameterProperty (simple) or a ToolParameterSchema
+   * (object with its own properties/required).
+   */
+  items?: ToolParameterProperty | ToolParameterSchema;
+  /**
+   * Nested properties for 'object' types (JSON Schema).
+   * Enables inline object schemas within tool parameters.
+   */
+  properties?: Record<string, ToolParameterProperty>;
+  /** Required field list for inline nested object schemas. */
+  required?: string[];
 }
 
 /**

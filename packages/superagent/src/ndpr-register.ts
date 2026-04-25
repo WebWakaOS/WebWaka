@@ -321,6 +321,31 @@ const CAPABILITY_REGISTER_MAP: Record<string, Omit<RegisterEntry, 'vertical' | '
     retentionPeriod: 'Generated descriptions retained with listing lifecycle; AI input not stored (P13)',
     securityMeasures: 'Product data only, no PII, consent gate, TLS 1.3',
   },
+
+  function_call: {
+    activityName: 'AI Tool-Call Execution',
+    purpose:
+      'Execute structured workspace actions (inventory lookups, booking creation, invoicing, ' +
+      'notifications, customer lookup) requested by the AI model on behalf of the user. ' +
+      'All tool results are tenant-scoped and processed through HITL gating where required.',
+    legalBasis: 'Consent (NDPR Regulation 2.3) + Legitimate Interest for read-only tool calls (Regulation 2.4)',
+    dataCategories:
+      'Tool arguments (product IDs, slot IDs, contact IDs — no raw PII in AI payload); ' +
+      'tool results (stock levels, availability, invoice totals — no personal data); ' +
+      'contact identifiers used for T3 validation only',
+    dataSubjects: 'Workspace operators and customers whose data is accessed via tool calls',
+    recipients:
+      'AI provider (tool definitions + anonymised argument schema only; no D1 results sent back to provider); ' +
+      'workspace owner (tool call results displayed in chat)',
+    retentionPeriod:
+      'Tool call metadata retained 12 months for audit (ai_spend_events); ' +
+      'D1 writes (bookings, invoices, notifications) retained per their own lifecycle; ' +
+      'AI prompt/completion not retained (P13)',
+    securityMeasures:
+      'All D1 queries tenant-scoped (T3); monetary values integer kobo only (P9); ' +
+      'no raw PII in tool results (P13); HITL gating for write operations; ' +
+      'max 3 tool execution rounds per request; TLS 1.3',
+  },
 };
 
 export class NdprRegister {

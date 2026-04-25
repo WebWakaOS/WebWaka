@@ -44,7 +44,7 @@ export const inventoryCheckTool: RegisteredTool = {
     const lowStockOnly = args.low_stock_only === 'true';
 
     let sql = `
-      SELECT name, sku, stock_qty, category, price_kobo
+      SELECT id, name, sku, stock_qty, category, price_kobo
       FROM   pos_products
       WHERE  tenant_id = ?
         AND  active = 1
@@ -65,7 +65,7 @@ export const inventoryCheckTool: RegisteredTool = {
     const { results } = await ctx.db
       .prepare(sql)
       .bind(...bindings)
-      .all<{ name: string; sku: string | null; stock_qty: number; category: string | null; price_kobo: number }>();
+      .all<{ id: string; name: string; sku: string | null; stock_qty: number; category: string | null; price_kobo: number }>();
 
     if (!results || results.length === 0) {
       return JSON.stringify({
@@ -80,6 +80,7 @@ export const inventoryCheckTool: RegisteredTool = {
     }
 
     const products = results.map((r) => ({
+      product_id: r.id,
       name: r.name,
       sku: r.sku ?? '—',
       category: r.category ?? 'Uncategorised',

@@ -7,6 +7,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 import { templateRoutes } from './templates.js';
 
+vi.mock('@webwaka/verticals', async () => {
+  const actual = await vi.importActual<typeof import('@webwaka/verticals')>('@webwaka/verticals');
+  return {
+    ...actual,
+    validateTemplateManifest: vi.fn().mockReturnValue({ valid: true, errors: [], warnings: [] }),
+  };
+});
+
 // ---------------------------------------------------------------------------
 // Mock heavy dependencies so tests don't call real external services
 // ---------------------------------------------------------------------------
@@ -418,5 +426,275 @@ describe('GET /templates/:slug/ratings', () => {
     expect(res.status).toBe(200);
     const json = await res.json() as { page: number };
     expect(json.page).toBe(2);
+  });
+});
+
+// ===========================================================================
+// P0 AUDIT FIX TESTS (Emergent Pillar-2 audit 2026-04-25)
+// Approval Workflow: /pending, /approve, /reject, /deprecate, /audit
+// Render Overrides:  /render-overrides + /:pageType
+// ===========================================================================
+
+describe('Pillar-2 audit fixes — Approval Workflow', () => {
+  it('GET /templates/pending returns 403 for non-super_admin', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/pending');
+    expect(res.status).toBe(403);
+  });
+
+  it('GET /templates/pending returns 200 with pending list for super_admin', async () => {
+    const db = makeDb({
+      'WHERE status = \'pending_review\'': () => [
+        { id: 'tpl_pp1', slug: 'pending-one', display_name: 'Pending One', status: 'pending_review' },
+      ],
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/pending');
+    expect(res.status).toBe(200);
+    const body = await res.json<{ pending: unknown[] }>();
+    expect(body.pending.length).toBe(1);
+  });
+
+  it('POST /templates/:slug/approve returns 403 for non-super_admin', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/dashboard-starter/approve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('POST /templates/:slug/approve returns 404 when template missing', async () => {
+    const app = makeApp(makeDb(), 'super_admin');
+    const res = await app.request('/templates/nope/approve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('POST /templates/:slug/approve transitions pending_review → approved', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug': () => ({ id: 'tpl_pa1', status: 'pending_review' }),
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/x/approve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: 'looks good' }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json<{ approved: boolean; to_status: string }>();
+    expect(body.approved).toBe(true);
+    expect(body.to_status).toBe('approved');
+  });
+
+  it('POST /templates/:slug/approve refuses transition when status != pending_review', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug': () => ({ id: 'tpl_aa1', status: 'approved' }),
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/x/approve', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(409);
+  });
+
+  it('POST /templates/:slug/reject requires a reason ≥5 chars', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug': () => ({ id: 'tpl_rr1', status: 'pending_review' }),
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/x/reject', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: 'nope' }),
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('POST /templates/:slug/reject succeeds with valid reason', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug': () => ({ id: 'tpl_rr2', status: 'pending_review' }),
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/x/reject', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: 'manifest fails canonical schema' }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json<{ rejected: boolean; to_status: string }>();
+    expect(body.rejected).toBe(true);
+    expect(body.to_status).toBe('rejected');
+  });
+
+  it('POST /templates/:slug/deprecate transitions approved → deprecated', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug': () => ({ id: 'tpl_dd1', status: 'approved' }),
+    });
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates/x/deprecate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json<{ deprecated: boolean }>();
+    expect(body.deprecated).toBe(true);
+  });
+
+  it('GET /templates/:slug/audit returns 403 for non-super_admin', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/x/audit');
+    expect(res.status).toBe(403);
+  });
+});
+
+describe('Pillar-2 audit fixes — Template Render Overrides', () => {
+  it('PUT /render-overrides/:pageType requires authentication', async () => {
+    // No tenant in auth context → simulated by clearing the auth set
+    const app = new Hono<{ Bindings: { DB: unknown; JWT_SECRET: string; ENVIRONMENT: string } }>();
+    app.use('*', async (c, next) => {
+      c.env = { DB: makeDb(), JWT_SECRET: 'test', ENVIRONMENT: 'development' } as never;
+      // Intentionally do NOT set 'auth' on the context
+      await next();
+    });
+    app.route('/templates', templateRoutes);
+    const res = await app.request('/templates/render-overrides/home', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ override_template_slug: 'platform-default' }),
+    });
+    expect(res.status).toBe(401);
+  });
+
+  it('PUT /render-overrides/:pageType rejects invalid pageType', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/render-overrides/totally-not-a-page', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ override_template_slug: 'platform-default' }),
+    });
+    expect(res.status).toBe(422);
+  });
+
+  it('PUT /render-overrides/:pageType rejects missing override_template_slug', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/render-overrides/home', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(422);
+  });
+
+  it('PUT /render-overrides/:pageType returns 422 if override slug is not approved (and != platform-default)', async () => {
+    const db = makeDb({
+      'WHERE slug = ? AND status = \'approved\'': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/render-overrides/home', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ override_template_slug: 'nonexistent' }),
+    });
+    expect(res.status).toBe(422);
+  });
+
+  it('PUT /render-overrides/:pageType returns 409 if no active install exists', async () => {
+    const db = makeDb({
+      'FROM template_installations': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/render-overrides/home', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ override_template_slug: 'platform-default' }),
+    });
+    expect(res.status).toBe(409);
+  });
+
+  it('PUT /render-overrides/:pageType returns 200 when override is set successfully', async () => {
+    const db = makeDb({
+      'FROM template_installations': () => ({ id: 'inst_a' }),
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/render-overrides/home', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ override_template_slug: 'platform-default' }),
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json<{ set: boolean; page_type: string }>();
+    expect(body.set).toBe(true);
+    expect(body.page_type).toBe('home');
+  });
+
+  it('DELETE /render-overrides/:pageType returns 200 cleared', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates/render-overrides/home', { method: 'DELETE' });
+    expect(res.status).toBe(200);
+    const body = await res.json<{ cleared: boolean }>();
+    expect(body.cleared).toBe(true);
+  });
+
+  it('GET /render-overrides returns 200 with overrides list', async () => {
+    const db = makeDb({
+      'FROM template_render_overrides': () => [
+        { id: 'tro_1', page_type: 'home', override_template_slug: 'platform-default' },
+      ],
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/render-overrides');
+    expect(res.status).toBe(200);
+    const body = await res.json<{ overrides: unknown[] }>();
+    expect(body.overrides.length).toBe(1);
+  });
+});
+
+describe('Pillar-2 audit fixes — Vertical compatibility (P1: forbid forged body.vertical)', () => {
+  it('POST /templates/:slug/install — rejects body.vertical mismatch with tenant\'s registered vertical', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug = ? AND status = \'approved\'': () => ({
+        id: 'tpl_vc', slug: 'restaurant-pro', version: '1.0.0', platform_compat: '^1.0.0',
+        compatible_verticals: '["restaurant"]', manifest_json: '{}', is_free: 1, price_kobo: 0,
+        author_tenant_id: 'tnt_author',
+      }),
+      'FROM profiles': () => ({ vertical_slug: 'church' }), // tenant is canonically a church
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/restaurant-pro/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'restaurant' }), // attempt to forge
+    });
+    expect(res.status).toBe(422);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toContain('vertical mismatch');
+  });
+
+  it('POST /templates/:slug/install — accepts when tenant has canonical vertical and template restricts to it (validation passes; install side-effect not tested here)', async () => {
+    // This test only verifies that the vertical-compat *validation* gate
+    // allows the request through when tenant.vertical_slug matches the
+    // template's compatible_verticals. The actual install path uses db.batch()
+    // which is intentionally not modelled by the lightweight test mock —
+    // testing that path requires the real D1 in integration tests.
+    const db = makeDb({
+      'FROM template_registry WHERE slug = ? AND status = \'approved\'': () => ({
+        id: 'tpl_vc2', slug: 'restaurant-pro', version: '1.0.0', platform_compat: '^1.0.0',
+        compatible_verticals: '["restaurant"]', manifest_json: '{}', is_free: 1, price_kobo: 0,
+        author_tenant_id: 'tnt_author',
+      }),
+      'FROM profiles': () => ({ vertical_slug: 'restaurant' }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/restaurant-pro/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}),
+    });
+    // Validation passed (no 422) — the 5xx is from the unmocked db.batch and
+    // is not a test of vertical-compat behaviour itself.
+    expect(res.status).not.toBe(422);
+  });
+
+  it('POST /templates/:slug/install — rejects when template restricts verticals and tenant has none', async () => {
+    const db = makeDb({
+      'FROM template_registry WHERE slug = ? AND status = \'approved\'': () => ({
+        id: 'tpl_vc3', slug: 'restaurant-pro', version: '1.0.0', platform_compat: '^1.0.0',
+        compatible_verticals: '["restaurant"]', manifest_json: '{}', is_free: 1, price_kobo: 0,
+        author_tenant_id: 'tnt_author',
+      }),
+      'FROM profiles': () => null, // tenant has no canonical vertical
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/restaurant-pro/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(422);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toContain('no registered vertical');
   });
 });

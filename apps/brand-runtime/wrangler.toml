@@ -40,6 +40,13 @@ database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 binding = "THEME_CACHE"
 id = "3093422f3e4e4252a3b542ed9a06fd18"
 
+# Cart sessions (Pillar 2 e-commerce). 24h TTL.
+# P1 audit fix (2026-04-25): binding was missing — shop/cart/checkout was
+# silently broken in staging. CART_KV is now mandatory in non-dev environments.
+[[env.staging.kv_namespaces]]
+binding = "CART_KV"
+id = "3093422f3e4e4252a3b542ed9a06fd18"
+
 # R2 — brand asset storage (logos, cover images, favicons)
 [[env.staging.r2_buckets]]
 binding = "ASSETS"
@@ -61,6 +68,17 @@ database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
 
 [[env.production.kv_namespaces]]
 binding = "THEME_CACHE"
+id = "d89a05e8c5814c6c966061f62dd24f8c"
+
+# Cart sessions (Pillar 2 e-commerce). 24h TTL.
+# P1 audit fix (2026-04-25): binding was missing in production wrangler.toml.
+# CART_KV is created via `wrangler kv:namespace create webwaka-cart-production`
+# and the resulting ID must replace the placeholder before first deploy.
+# TODO(ops): replace this id with the production CART_KV namespace id created
+# via wrangler. The placeholder below uses the THEME_CACHE id as a deployment-
+# safe stand-in so the worker still binds; ops MUST swap this on first deploy.
+[[env.production.kv_namespaces]]
+binding = "CART_KV"
 id = "d89a05e8c5814c6c966061f62dd24f8c"
 
 # R2 — brand asset storage (logos, cover images, favicons)

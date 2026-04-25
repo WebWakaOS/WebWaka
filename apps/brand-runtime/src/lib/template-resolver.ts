@@ -1,17 +1,20 @@
 /**
  * Template resolver — marketplace-driven render dispatch for Pillar 2.
  *
- * Queries template_installations + template_registry to find the active
- * website template installed for a given tenant, then returns the matching
- * built-in WebsiteTemplateContract implementation.
+ * Queries template_installations + template_registry + template_render_overrides
+ * to find the active website template installed for a given tenant, then returns
+ * the matching built-in WebsiteTemplateContract implementation.
  *
- * Architecture:
- *   1. brand-runtime route handler calls resolveTemplate(tenantId, db)
- *   2. This module looks up the active installation → gets template slug
- *   3. Slug is matched against the BUILT_IN_TEMPLATES registry
- *   4. If matched → that contract is returned (marketplace-driven render)
- *   5. If no active install OR unknown slug → null returned (caller uses
- *      hardcoded fallback templates — preserves existing tenant behaviour)
+ * Architecture (post Emergent Pillar-2 Audit 2026-04-25):
+ *   1. brand-runtime route handler calls resolveTemplate(tenantId, db, pageType?)
+ *   2. This module first looks for a per-page-type override in
+ *      template_render_overrides (migration 0228) — these are tenant-scoped
+ *      decisions to use a different template (or platform-default) for one page.
+ *   3. If no per-page override exists, it falls back to the workspace-level
+ *      install in template_installations (status='active', most recent first).
+ *   4. The resolved slug is matched against BUILT_IN_TEMPLATES.
+ *   5. If an override slug is the reserved sentinel 'platform-default',
+ *      resolveTemplate returns null so the caller renders the platform fallback.
  *
  * Phase 1 limitation: only built-in templates are supported. Third-party /
  * marketplace templates loaded from external code require sandboxed execution
@@ -29,13 +32,6 @@ import type { WebsiteTemplateContract, WebsitePageType } from '@webwaka/vertical
 // ---------------------------------------------------------------------------
 // Built-in template implementations
 // ---------------------------------------------------------------------------
-// Each built-in template implements WebsiteTemplateContract and is imported
-// statically. As new template variants are added to the marketplace they are
-// registered here by slug.
-//
-// The 'default-website' template composes from the existing per-page functions
-// in apps/brand-runtime/src/templates/, making them the canonical fallback.
-// ---------------------------------------------------------------------------
 
 import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
@@ -44,9 +40,13 @@ import { contactPageBody } from '../templates/contact.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
+ * Reserved sentinel slug meaning: ignore the workspace install and render the
+ * platform fallback functions for this page. Stored in template_render_overrides.
+ */
+export const PLATFORM_DEFAULT_SLUG = 'platform-default';
+
+/**
  * 'default-website' — the platform default website template.
- * Composes the existing branded-home, about, services, and contact page functions.
- * This is the fallback used for any tenant with no active marketplace install.
  */
 const defaultWebsiteTemplate: WebsiteTemplateContract = {
   slug: 'default-website',
@@ -122,6 +122,10 @@ interface D1Like {
   };
 }
 
+interface OverrideRow {
+  override_template_slug: string;
+}
+
 interface ActiveInstallRow {
   template_slug: string;
   template_version: string;
@@ -135,22 +139,64 @@ interface ActiveInstallRow {
 /**
  * Resolve the active WebsiteTemplateContract for a tenant.
  *
- * Returns null if:
- *   - The tenant has no active template_installation
- *   - The installed template slug is not in BUILT_IN_TEMPLATES (future: dynamic load)
- *
- * Callers should fall back to the hardcoded per-page template functions when
- * null is returned, preserving backward compatibility for all existing tenants.
+ * Resolution order (T3 — tenant_id predicate everywhere):
+ *   1. template_render_overrides (per-page-type tenant override)
+ *      • If override_template_slug = 'platform-default' → return null
+ *        (caller renders platform fallback functions)
+ *      • Else use that slug.
+ *   2. template_installations (workspace-level active install, most recent)
+ *      • Joined with template_registry where status='approved' and
+ *        template_type='website'.
+ *   3. No active install → return null (platform fallback).
  *
  * @param tenantId  T3: always pass the resolved tenantId, never user-supplied slug
  * @param db        D1 database binding from the Worker Env
+ * @param pageType  Optional page type — when provided, per-page override is consulted
  * @returns         Active template contract, or null for default fallback
  */
 export async function resolveTemplate(
   tenantId: string,
   db: D1Like,
+  pageType?: WebsitePageType,
 ): Promise<WebsiteTemplateContract | null> {
   try {
+    // Step 1 — per-page override (P0 fix: 0228 was dead code before this call).
+    if (pageType) {
+      try {
+        const override = await db
+          .prepare(
+            `SELECT override_template_slug
+             FROM template_render_overrides
+             WHERE tenant_id = ? AND page_type = ?
+             LIMIT 1`,
+          )
+          .bind(tenantId, pageType)
+          .first<OverrideRow>();
+
+        if (override?.override_template_slug) {
+          if (override.override_template_slug === PLATFORM_DEFAULT_SLUG) {
+            // Tenant explicitly wants platform fallback for this page.
+            return null;
+          }
+          const overrideContract = BUILT_IN_TEMPLATES.get(override.override_template_slug);
+          if (overrideContract) return overrideContract;
+          // Unknown slug in override — log and fall through to workspace install.
+          console.warn(
+            `[template-resolver] Unknown override slug '${override.override_template_slug}' for tenant ${tenantId} page=${pageType} — falling through to workspace install`,
+          );
+        }
+      } catch (err) {
+        // Migration 0228 might not be applied yet on this env — non-fatal.
+        const msg = err instanceof Error ? err.message : '';
+        if (!msg.includes('no such table')) {
+          console.warn('[template-resolver] override lookup error (non-fatal):', err);
+        }
+      }
+    }
+
+    // Step 2 — workspace-level active install. ORDER BY installed_at DESC so a
+    // tenant who reinstalls or switches templates deterministically gets the
+    // most-recent decision (closes the previously-arbitrary LIMIT 1 ordering).
     const row = await db
       .prepare(
         `SELECT tr.slug AS template_slug, ti.template_version, ti.config_json
@@ -160,6 +206,7 @@ export async function resolveTemplate(
            AND ti.status = 'active'
            AND tr.template_type = 'website'
            AND tr.status = 'approved'
+         ORDER BY ti.installed_at DESC
          LIMIT 1`,
       )
       .bind(tenantId)
@@ -169,7 +216,6 @@ export async function resolveTemplate(
 
     const contract = BUILT_IN_TEMPLATES.get(row.template_slug);
     if (!contract) {
-      // Template slug is in the registry but not yet built-in; log and fall back.
       console.warn(
         `[template-resolver] Template slug "${row.template_slug}" installed for tenant ${tenantId} ` +
         `is not in BUILT_IN_TEMPLATES — falling back to default render. ` +
@@ -180,7 +226,6 @@ export async function resolveTemplate(
 
     return contract;
   } catch (err) {
-    // Non-fatal: log and return null so the fallback render path is used.
     console.error('[template-resolver] DB error resolving template:', err);
     return null;
   }
@@ -188,14 +233,21 @@ export async function resolveTemplate(
 
 /**
  * Check whether a given page type is supported by the resolved template.
- * Used by route handlers to decide whether to delegate to the marketplace
- * template or fall through to the per-page hardcoded render function.
  */
 export function templateSupportsPage(
   contract: WebsiteTemplateContract,
   pageType: WebsitePageType,
 ): boolean {
   return contract.pages.includes(pageType);
+}
+
+/**
+ * Public list of slugs registered as built-in templates. Exposed so admin/
+ * moderation surfaces can validate that an override slug is loadable before
+ * persisting it.
+ */
+export function listBuiltInTemplateSlugs(): string[] {
+  return Array.from(BUILT_IN_TEMPLATES.keys());
 }
 
 export type { WebsiteTemplateContract, WebsiteRenderContext, WebsitePageType };

@@ -22,6 +22,7 @@ import type { Env } from '../env.js';
 import { resolveAuthContext } from '@webwaka/auth';
 import { initializePayment, verifyPayment } from '@webwaka/payments';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
+import { validateTemplateManifest } from '@webwaka/verticals';
 
 type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
@@ -210,6 +211,163 @@ templates.get('/installed', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// GET /templates/pending — list templates awaiting moderation (super_admin)
+// ---------------------------------------------------------------------------
+// P0 audit fix (Emergent Pillar-2 audit 2026-04-25): registered BEFORE /:slug
+// so the static path wins over the param matcher.
+// ---------------------------------------------------------------------------
+templates.get('/pending', async (c) => {
+  const a = await requireAuth(c);
+  if (!a) return c.json({ error: 'Authentication required' }, 401);
+  if (a.role !== 'super_admin') {
+    return c.json({ error: 'Forbidden: super_admin required' }, 403);
+  }
+  const db = c.env.DB;
+
+  const limit = Math.min(100, Math.max(1, parseInt(c.req.query('limit') ?? '50', 10)));
+  const results = await db.prepare(
+    `SELECT id, slug, display_name, description, template_type, version,
+            platform_compat, compatible_verticals, author_tenant_id,
+            status, created_at, updated_at
+     FROM template_registry
+     WHERE status = 'pending_review'
+     ORDER BY created_at ASC
+     LIMIT ?`,
+  ).bind(limit).all();
+
+  return c.json({ pending: results.results ?? [] });
+});
+
+// ---------------------------------------------------------------------------
+// GET /templates/render-overrides — list a tenant's per-page-type overrides
+// ---------------------------------------------------------------------------
+templates.get('/render-overrides', async (c) => {
+  const a = await requireAuth(c);
+  if (!a) return c.json({ error: 'Authentication required' }, 401);
+  const { tenantId } = a;
+  const db = c.env.DB;
+
+  let rows: unknown[] = [];
+  try {
+    const result = await db.prepare(
+      `SELECT id, page_type, override_template_slug, installation_id, created_at, updated_at
+       FROM template_render_overrides
+       WHERE tenant_id = ?
+       ORDER BY page_type ASC`,
+    ).bind(tenantId).all();
+    rows = result.results ?? [];
+  } catch {
+    // migration 0228 may not be applied yet
+  }
+
+  return c.json({ overrides: rows });
+});
+
+// ---------------------------------------------------------------------------
+// PUT /templates/render-overrides/:pageType — set or update an override
+// ---------------------------------------------------------------------------
+templates.put('/render-overrides/:pageType', async (c) => {
+  const a = await requireAuth(c);
+  if (!a) return c.json({ error: 'Authentication required' }, 401);
+  const { tenantId, userId } = a;
+  const pageType = c.req.param('pageType');
+  const db = c.env.DB;
+
+  if (!VALID_PAGE_TYPES.includes(pageType as typeof VALID_PAGE_TYPES[number])) {
+    return c.json({ error: `Invalid pageType '${pageType}'. Allowed: ${VALID_PAGE_TYPES.join(', ')}` }, 422);
+  }
+
+  const body = await c.req.json<{ override_template_slug?: string }>().catch(() => ({} as { override_template_slug?: string }));
+  const overrideSlug = body.override_template_slug;
+  if (!overrideSlug || typeof overrideSlug !== 'string' || !/^[a-z0-9-]+$/.test(overrideSlug)) {
+    return c.json({ error: 'override_template_slug is required and must be a kebab-case string' }, 422);
+  }
+
+  if (overrideSlug !== 'platform-default') {
+    const tmpl = await db.prepare(
+      `SELECT id FROM template_registry WHERE slug = ? AND status = 'approved'`,
+    ).bind(overrideSlug).first<{ id: string }>();
+    if (!tmpl) {
+      return c.json({ error: `override_template_slug '${overrideSlug}' is not an approved template` }, 422);
+    }
+  }
+
+  const install = await db.prepare(
+    `SELECT id FROM template_installations
+     WHERE tenant_id = ? AND status = 'active'
+     ORDER BY installed_at DESC
+     LIMIT 1`,
+  ).bind(tenantId).first<{ id: string }>();
+
+  if (!install) {
+    return c.json({
+      error: 'Tenant has no active template installation — install a template first via POST /templates/:slug/install',
+    }, 409);
+  }
+
+  const id = `tro_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
+  const now = Math.floor(Date.now() / 1000);
+
+  try {
+    await db.prepare(
+      `INSERT INTO template_render_overrides
+         (id, tenant_id, installation_id, page_type, override_template_slug, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(tenant_id, page_type) DO UPDATE SET
+         override_template_slug = excluded.override_template_slug,
+         installation_id = excluded.installation_id,
+         updated_at = excluded.updated_at`,
+    ).bind(id, tenantId, install.id, pageType, overrideSlug, now, now).run();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : '';
+    if (msg.includes('no such table')) {
+      return c.json({ error: 'template_render_overrides not migrated on this environment' }, 503);
+    }
+    throw err;
+  }
+
+  return c.json({
+    set: true,
+    tenant_id: tenantId,
+    page_type: pageType,
+    override_template_slug: overrideSlug,
+    set_by: userId,
+  }, 200);
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /templates/render-overrides/:pageType — clear an override
+// ---------------------------------------------------------------------------
+templates.delete('/render-overrides/:pageType', async (c) => {
+  const a = await requireAuth(c);
+  if (!a) return c.json({ error: 'Authentication required' }, 401);
+  const { tenantId } = a;
+  const pageType = c.req.param('pageType');
+  const db = c.env.DB;
+
+  if (!VALID_PAGE_TYPES.includes(pageType as typeof VALID_PAGE_TYPES[number])) {
+    return c.json({ error: `Invalid pageType '${pageType}'.` }, 422);
+  }
+
+  try {
+    await db.prepare(
+      `DELETE FROM template_render_overrides WHERE tenant_id = ? AND page_type = ?`,
+    ).bind(tenantId, pageType).run();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : '';
+    if (msg.includes('no such table')) {
+      return c.json({ error: 'template_render_overrides not migrated on this environment' }, 503);
+    }
+    throw err;
+  }
+
+  return c.json({ cleared: true, tenant_id: tenantId, page_type: pageType });
+});
+
+// Reserved page-types for render-override (used above and validated server-side).
+const VALID_PAGE_TYPES = ['home', 'about', 'services', 'contact', 'blog', 'blog-post', 'custom'] as const;
+
+// ---------------------------------------------------------------------------
 // GET /templates/:slug — get template manifest (public)
 // ---------------------------------------------------------------------------
 templates.get('/:slug', async (c) => {
@@ -288,27 +446,38 @@ templates.post('/', async (c) => {
     return c.json({ error: 'Invalid manifest_json: must be a JSON object' }, 422);
   }
 
-  // SEC-14: Validate manifest_json against required schema fields
+  // P1 audit fix (Emergent Pillar-2 audit 2026-04-25):
+  // Use the canonical validateTemplateManifest from @webwaka/verticals so the
+  // publish endpoint enforces the same schema as the CLI / governance checks.
+  // Note: the manifest is built from the top-level body fields plus manifest_json.
+  const fullManifest = {
+    ...(body.manifest_json as Record<string, unknown>),
+    slug: body.slug,
+    display_name: body.display_name,
+    description: body.description,
+    template_type: body.template_type,
+    version: body.version,
+    platform_compat: body.platform_compat,
+    compatible_verticals: body.compatible_verticals ?? [],
+  };
+  const canonicalValidation = validateTemplateManifest(fullManifest);
+  if (!canonicalValidation.valid) {
+    return c.json({
+      error: 'Invalid manifest: failed canonical validateTemplateManifest schema check',
+      details: { errors: canonicalValidation.errors, warnings: canonicalValidation.warnings },
+    }, 422);
+  }
+
+  // Legacy shallow checks retained as belt-and-suspenders for backwards compat
+  // with existing manifest_json shapes that nest a `type` field.
   const manifest = body.manifest_json as Record<string, unknown>;
-  const requiredManifestFields = ['name', 'version', 'type'];
-  const missingFields = requiredManifestFields.filter((f) => !manifest[f]);
-  if (missingFields.length > 0) {
-    return c.json({
-      error: 'Invalid manifest_json: missing required fields',
-      details: { missing: missingFields },
-    }, 422);
-  }
-  if (typeof manifest['name'] !== 'string' || (manifest['name'] as string).length < 2) {
-    return c.json({ error: 'Invalid manifest_json: name must be at least 2 characters' }, 422);
-  }
-  if (typeof manifest['version'] !== 'string' || !/^\d+\.\d+\.\d+$/.test(manifest['version'] as string)) {
-    return c.json({ error: 'Invalid manifest_json: version must follow semver (e.g. 1.0.0)' }, 422);
-  }
-  const validTypes = ['dashboard', 'page', 'widget', 'workflow', 'integration'];
-  if (!validTypes.includes(manifest['type'] as string)) {
-    return c.json({
-      error: `Invalid manifest_json: type must be one of: ${validTypes.join(', ')}`,
-    }, 422);
+  if (manifest['type'] !== undefined) {
+    const validNestedTypes = ['dashboard', 'page', 'widget', 'workflow', 'integration'];
+    if (!validNestedTypes.includes(manifest['type'] as string)) {
+      return c.json({
+        error: `Invalid manifest_json.type: must be one of: ${validNestedTypes.join(', ')}`,
+      }, 422);
+    }
   }
 
   const db = c.env.DB;
@@ -394,10 +563,43 @@ templates.post('/:slug/install', async (c) => {
   }
 
   const compatVerticals: string[] = JSON.parse(template.compatible_verticals);
-  if (compatVerticals.length > 0 && body.vertical && !compatVerticals.includes(body.vertical)) {
-    return c.json({
-      error: `Template '${slug}' is not compatible with vertical '${body.vertical}'. Compatible verticals: ${compatVerticals.join(', ')}`,
-    }, 422);
+  if (compatVerticals.length > 0) {
+    // P1 audit fix (Emergent Pillar-2 audit 2026-04-25):
+    // Vertical compatibility was previously checked only against `body.vertical`
+    // (a user-supplied value), which let any tenant install any template by
+    // passing a forged vertical slug. Now we resolve the tenant's canonical
+    // vertical from the profiles table (where vertical_slug is the source of
+    // truth, set during onboarding/claim flow) and validate against that.
+    let tenantVertical: string | null = null;
+    try {
+      const profileRow = await db.prepare(
+        `SELECT vertical_slug FROM profiles
+         WHERE tenant_id = ? AND subject_type = 'organization' AND subject_id = ?
+         ORDER BY updated_at DESC
+         LIMIT 1`,
+      ).bind(tenantId, tenantId).first<{ vertical_slug: string | null }>();
+      tenantVertical = profileRow?.vertical_slug ?? null;
+    } catch {
+      // profiles may not be migrated on every env — fall through.
+    }
+
+    if (body.vertical && tenantVertical && body.vertical !== tenantVertical) {
+      return c.json({
+        error: `vertical mismatch: tenant is registered as '${tenantVertical}' but install request specified '${body.vertical}'`,
+      }, 422);
+    }
+
+    const effectiveVertical = tenantVertical ?? body.vertical ?? null;
+    if (!effectiveVertical) {
+      return c.json({
+        error: `Template '${slug}' restricts to verticals [${compatVerticals.join(', ')}] — tenant has no registered vertical`,
+      }, 422);
+    }
+    if (!compatVerticals.includes(effectiveVertical)) {
+      return c.json({
+        error: `Template '${slug}' is not compatible with vertical '${effectiveVertical}'. Compatible verticals: ${compatVerticals.join(', ')}`,
+      }, 422);
+    }
   }
 
   const existingInstall = await db.prepare(
@@ -947,5 +1149,209 @@ templates.get('/:slug/ratings', async (c) => {
     perPage,
   });
 });
+
+// ===========================================================================
+// P0 AUDIT FIX (Emergent Pillar-2 audit 2026-04-25)
+// Template Approval Workflow API endpoints
+//
+// Previously approval/rejection/deprecation could only be performed via direct
+// SQL — there was no API path for super_admin moderation. Founders had to run
+// `UPDATE template_registry SET status='approved' WHERE slug=?` by hand.
+//
+// These endpoints close that gap and form the foundation that the template-
+// factory phase depends on: at scale (dozens of niche templates) manual SQL is
+// untenable.
+//
+// All endpoints require role = 'super_admin'.
+// All transitions are logged to template_audit_log (created in migration 0414).
+// ===========================================================================
+
+type ApprovalStatus = 'draft' | 'pending_review' | 'approved' | 'deprecated' | 'rejected';
+
+const VALID_APPROVAL_TRANSITIONS: Record<ApprovalStatus, ApprovalStatus[]> = {
+  draft: ['pending_review'],
+  pending_review: ['approved', 'rejected', 'draft'],
+  approved: ['deprecated'],
+  deprecated: ['approved'], // re-instate
+  rejected: ['draft', 'pending_review'],
+};
+
+async function requireSuperAdmin(c: Context<{ Bindings: Env }>): Promise<Auth | null> {
+  const a = await requireAuth(c);
+  if (!a) return null;
+  if (a.role !== 'super_admin') return null;
+  return a;
+}
+
+async function logTemplateAudit(
+  db: D1Database,
+  templateId: string,
+  fromStatus: string,
+  toStatus: string,
+  byUserId: string,
+  reason: string | null,
+): Promise<void> {
+  try {
+    const id = `tpaud_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
+    const now = Math.floor(Date.now() / 1000);
+    await db.prepare(
+      `INSERT INTO template_audit_log
+         (id, template_id, from_status, to_status, changed_by, reason, changed_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(id, templateId, fromStatus, toStatus, byUserId, reason, now).run();
+  } catch (err) {
+    // Migration 0414 may not be applied yet on this env — non-fatal.
+    const msg = err instanceof Error ? err.message : '';
+    if (!msg.includes('no such table')) {
+      console.warn('[templates] audit log write failed (non-fatal):', err);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// (GET /templates/pending is registered earlier in the file, BEFORE /:slug.)
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// POST /templates/:slug/approve — transition pending_review → approved
+// ---------------------------------------------------------------------------
+templates.post('/:slug/approve', async (c) => {
+  const a = await requireSuperAdmin(c);
+  if (!a) return c.json({ error: 'Forbidden: super_admin required' }, 403);
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const body = await c.req.json<{ reason?: string }>().catch(() => ({} as { reason?: string }));
+
+  const tmpl = await db.prepare(
+    `SELECT id, status FROM template_registry WHERE slug = ?`,
+  ).bind(slug).first<{ id: string; status: ApprovalStatus }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  const allowed = VALID_APPROVAL_TRANSITIONS[tmpl.status] ?? [];
+  if (!allowed.includes('approved')) {
+    return c.json({
+      error: `Cannot approve template in status '${tmpl.status}'. Valid next states: ${allowed.join(', ')}`,
+    }, 409);
+  }
+
+  const now = Date.now();
+  await db.prepare(
+    `UPDATE template_registry SET status = 'approved', updated_at = ? WHERE id = ?`,
+  ).bind(now, tmpl.id).run();
+
+  await logTemplateAudit(db, tmpl.id, tmpl.status, 'approved', a.userId, body.reason ?? null);
+
+  return c.json({ approved: true, template_slug: slug, from_status: tmpl.status, to_status: 'approved' });
+});
+
+// ---------------------------------------------------------------------------
+// POST /templates/:slug/reject — transition pending_review → rejected
+// ---------------------------------------------------------------------------
+templates.post('/:slug/reject', async (c) => {
+  const a = await requireSuperAdmin(c);
+  if (!a) return c.json({ error: 'Forbidden: super_admin required' }, 403);
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const body = await c.req.json<{ reason?: string }>().catch(() => ({} as { reason?: string }));
+  if (!body.reason || body.reason.trim().length < 5) {
+    return c.json({ error: 'reason is required (min 5 chars) when rejecting a template' }, 400);
+  }
+
+  const tmpl = await db.prepare(
+    `SELECT id, status FROM template_registry WHERE slug = ?`,
+  ).bind(slug).first<{ id: string; status: ApprovalStatus }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  const allowed = VALID_APPROVAL_TRANSITIONS[tmpl.status] ?? [];
+  if (!allowed.includes('rejected')) {
+    return c.json({
+      error: `Cannot reject template in status '${tmpl.status}'. Valid next states: ${allowed.join(', ')}`,
+    }, 409);
+  }
+
+  const now = Date.now();
+  await db.prepare(
+    `UPDATE template_registry SET status = 'rejected', updated_at = ? WHERE id = ?`,
+  ).bind(now, tmpl.id).run();
+
+  await logTemplateAudit(db, tmpl.id, tmpl.status, 'rejected', a.userId, body.reason);
+
+  return c.json({ rejected: true, template_slug: slug, from_status: tmpl.status, to_status: 'rejected', reason: body.reason });
+});
+
+// ---------------------------------------------------------------------------
+// POST /templates/:slug/deprecate — transition approved → deprecated
+// ---------------------------------------------------------------------------
+templates.post('/:slug/deprecate', async (c) => {
+  const a = await requireSuperAdmin(c);
+  if (!a) return c.json({ error: 'Forbidden: super_admin required' }, 403);
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const body = await c.req.json<{ reason?: string }>().catch(() => ({} as { reason?: string }));
+
+  const tmpl = await db.prepare(
+    `SELECT id, status FROM template_registry WHERE slug = ?`,
+  ).bind(slug).first<{ id: string; status: ApprovalStatus }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  const allowed = VALID_APPROVAL_TRANSITIONS[tmpl.status] ?? [];
+  if (!allowed.includes('deprecated')) {
+    return c.json({
+      error: `Cannot deprecate template in status '${tmpl.status}'. Valid next states: ${allowed.join(', ')}`,
+    }, 409);
+  }
+
+  const now = Date.now();
+  await db.prepare(
+    `UPDATE template_registry SET status = 'deprecated', updated_at = ? WHERE id = ?`,
+  ).bind(now, tmpl.id).run();
+
+  await logTemplateAudit(db, tmpl.id, tmpl.status, 'deprecated', a.userId, body.reason ?? null);
+
+  return c.json({ deprecated: true, template_slug: slug, from_status: tmpl.status, to_status: 'deprecated' });
+});
+
+// ---------------------------------------------------------------------------
+// GET /templates/:slug/audit — get the audit log for a template (super_admin)
+// ---------------------------------------------------------------------------
+templates.get('/:slug/audit', async (c) => {
+  const a = await requireSuperAdmin(c);
+  if (!a) return c.json({ error: 'Forbidden: super_admin required' }, 403);
+  const slug = c.req.param('slug');
+  const db = c.env.DB;
+
+  const tmpl = await db.prepare(
+    `SELECT id FROM template_registry WHERE slug = ?`,
+  ).bind(slug).first<{ id: string }>();
+
+  if (!tmpl) return c.json({ error: 'Template not found' }, 404);
+
+  let events: unknown[] = [];
+  try {
+    const result = await db.prepare(
+      `SELECT id, from_status, to_status, changed_by, reason, changed_at
+       FROM template_audit_log
+       WHERE template_id = ?
+       ORDER BY changed_at DESC
+       LIMIT 100`,
+    ).bind(tmpl.id).all();
+    events = result.results ?? [];
+  } catch {
+    // migration 0414 may not be applied yet
+  }
+
+  return c.json({ template_slug: slug, audit_events: events });
+});
+
+// ===========================================================================
+// (Render-override endpoints are registered earlier in the file, BEFORE /:slug,
+// so the static path matches before the param matcher. See the section above.)
+// ===========================================================================
 
 export { templates as templateRoutes };

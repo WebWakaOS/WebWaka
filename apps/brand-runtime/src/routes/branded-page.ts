@@ -24,72 +24,24 @@
 import { Hono } from 'hono';
 import type { Context } from 'hono';
 import type { Env, Variables } from '../env.js';
-import { generateCssTokens } from '../lib/theme.js';
-import type { TenantTheme } from '../lib/theme.js';
-import { buildCssVars, getDefaultTheme } from '../lib/theme.js';
+import type { TenantTheme } from '@webwaka/white-label-theming';
 import { baseTemplate } from '../templates/base.js';
 import { brandedHomeBody } from '../templates/branded-home.js';
 import { aboutPageBody } from '../templates/about.js';
 import { servicesPageBody } from '../templates/services.js';
 import { contactPageBody } from '../templates/contact.js';
 import { resolveTemplate, templateSupportsPage } from '../lib/template-resolver.js';
+import { resolveCappedTheme } from '../lib/depth-cap.js';
 
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 type Offering = { name: string; description: string | null; price_kobo: number | null };
 type ProfileRow = { description: string | null; phone: string | null; email: string | null; website: string | null; place_name: string | null; category: string | null };
 
-/**
- * ENT-004: Apply the partner-granted white-label depth cap to a resolved theme.
- *   depth 0 — no white-labelling: reset visual fields to platform defaults,
- *             keep only tenant identity (id, slug, displayName).
- *   depth 1 — basic: preserve logo + brand colours; strip custom domain and
- *             all email-branding fields (they require full white-label rights).
- *   depth 2 — full white-label: return theme unchanged.
- */
-function applyDepthCap(theme: TenantTheme, depth: number): TenantTheme {
-  if (depth >= 2) return theme;
-
-  if (depth === 0) {
-    const defaults = getDefaultTheme();
-    return {
-      ...defaults,
-      tenantId: theme.tenantId,
-      tenantSlug: theme.tenantSlug,
-      displayName: theme.displayName,
-      // Fields omitted from DEFAULT_THEME (added in Phase 3) — platform defaults
-      customDomain: null,
-      senderEmailAddress: null,
-      senderDisplayName: null,
-      tenantSupportEmail: null,
-      tenantAddress: null,
-    };
-  }
-
-  // depth 1: basic — logo + colours; strip domain and email-branding fields
-  return {
-    ...theme,
-    customDomain: null,
-    senderEmailAddress: null,
-    senderDisplayName: null,
-    tenantSupportEmail: null,
-    tenantAddress: null,
-    faviconUrl: null,
-  };
-}
-
 async function resolveTheme(
   c: Context<{ Bindings: Env; Variables: Variables }>,
 ): Promise<{ cssVars: string; theme: TenantTheme } | null> {
-  try {
-    const result = await generateCssTokens(c.get('tenantSlug'), c.env);
-    const depth: number = c.get('whiteLabelDepth') ?? 2;
-    const theme = applyDepthCap(result.theme, depth);
-    const cssVars = depth >= 2 ? result.cssVars : buildCssVars(theme);
-    return { cssVars, theme };
-  } catch {
-    return null;
-  }
+  return resolveCappedTheme(c);
 }
 
 async function fetchOfferings(env: Env, tenantId: string, limit = 6): Promise<Offering[]> {
@@ -158,8 +110,9 @@ router.get('/', async (c) => {
   const offerings = await fetchOfferings(c.env, theme.tenantId);
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  // Marketplace-driven rendering: attempt to resolve active template install.
-  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  // Marketplace-driven rendering: per-page-type resolver (P0 fix: now reads
+  // template_render_overrides per migration 0228).
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'home');
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'home')) {
     body = templateContract.renderPage({
@@ -216,7 +169,7 @@ router.get('/about', async (c) => {
 
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'about');
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'about')) {
     body = templateContract.renderPage({
@@ -270,7 +223,7 @@ router.get('/services', async (c) => {
 
   const offerings = await fetchOfferings(c.env, theme.tenantId, 50);
 
-  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'services');
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'services')) {
     body = templateContract.renderPage({
@@ -318,7 +271,7 @@ router.get('/contact', async (c) => {
 
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'contact');
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'contact')) {
     body = templateContract.renderPage({
@@ -430,8 +383,8 @@ router.get('/:slug', async (c) => {
   const offerings = await fetchOfferings(c.env, theme.tenantId);
   const profile = await fetchProfile(c.env, theme.tenantId);
 
-  // Marketplace-driven rendering: attempt to resolve active template install.
-  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB);
+  // Marketplace-driven rendering: per-page-type resolver (P0 fix).
+  const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'home');
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'home')) {
     body = templateContract.renderPage({

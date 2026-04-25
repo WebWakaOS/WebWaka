@@ -197,3 +197,24 @@ Four tools in `packages/superagent/src/tools/`:
 - `pnpm-lock.yaml` synced (`@webwaka/offline-sync` added to `apps/workspace-app` specifiers — was blocking CI with `ERR_PNPM_OUTDATED_LOCKFILE`).
 - Staging CI: 0 TypeScript errors, all governance checks (P9 monetary integrity, P13 AI direct-call, tenant isolation) passed. Deploy-Staging ✅.
 - Main CI: green. Deploy-Production ✅ (canary → 100%). Release Changelog ✅.
+
+## SA-6.x Agent Sessions — Shipped 2026-04-25 (staging commit 4b094c68) ✅
+
+### What was built
+Server-side persistent conversation state for `/superagent/chat`. Callers pass an optional `session_id`; a new session is auto-created on first call and the `session_id` is always returned in the response. Subsequent calls to the same session reload the full conversation history from D1, prepend it to the AI request, and append the new turns back.
+
+### Files changed
+- **`infra/db/migrations/0390_ai_sessions.sql`** — Creates `ai_sessions` (id, tenant_id, user_id, workspace_id, vertical, title, message_count, created_at, last_active_at, expires_at) and `ai_session_messages` (id, session_id, tenant_id, role, content, tool_calls_json, tool_call_id, token_estimate, created_at). Both indexed for TTL sweep and per-owner list queries.
+- **`infra/db/migrations/0390_ai_sessions.rollback.sql`** — Drops both tables and all indexes.
+- **`packages/superagent/src/session-service.ts`** — `SessionService` class: `createSession()`, `getSession()` (with TTL-at-read eviction), `appendMessages()` (batch), `loadHistory()` (with context-window trim: 4 chars ≈ 1 token; system msgs always preserved), `deleteSession()` (GDPR hard-delete), `listSessions()` (cursor-based), `getMessages()`, `pruneExpiredSessions()` (static, used by scheduler).
+- **`packages/superagent/src/session-service.test.ts`** — 21 unit tests: lifecycle, T3 isolation, context trimming, expiry, cursor pagination, prune.
+- **`packages/superagent/src/index.ts`** — Exports `SessionService` + 5 types (`Session`, `SessionListItem`, `SessionMessage`, `AppendMessageInput`, `SessionServiceDeps`).
+- **`packages/superagent/src/vertical-ai-config.ts`** — Added optional `contextWindowTokens?: number` to `VerticalAiConfig` interface (default 8192; high-content verticals can declare 16384; sensitive verticals 4096).
+- **`apps/api/src/routes/superagent.ts`** — `/chat` now: loads/creates session, prepends history as `AIMessage[]`, uses history-merged messages for AI call, appends all new turns (user, tool-interchange, final assistant) to session fire-and-forget. Response now includes `session_id` and `session_is_new`. Added 3 new routes: `GET /superagent/sessions`, `GET /superagent/sessions/:id`, `DELETE /superagent/sessions/:id` (204, GDPR).
+- **`apps/schedulers/src/index.ts`** — Added `ai-session-prune` job: hard-deletes expired sessions via `DELETE FROM ai_sessions WHERE expires_at < ?`; runs whenever scheduled from `scheduled_jobs` table.
+
+### Governance
+- **T3**: every query binds `tenant_id` — no cross-tenant access possible.
+- **P13**: PII stripping happens before `appendMessages()` — content stored post-strip only.
+- **Expiry**: 7-day TTL (14-day for high-context-window verticals); expired sessions return 404 at load time and are cleaned by scheduler.
+- **TypeScript**: 0 errors across all three affected packages.

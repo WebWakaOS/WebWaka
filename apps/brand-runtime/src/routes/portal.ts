@@ -13,24 +13,17 @@
 
 import { Hono } from 'hono';
 import type { Env, Variables } from '../env.js';
-import { generateCssTokens } from '../lib/theme.js';
+import { resolveCappedTheme } from '../lib/depth-cap.js';
 import { baseTemplate } from '../templates/base.js';
 
 const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 // GET /portal/login — branded login page
 router.get('/login', async (c) => {
-  const slug = c.get('tenantSlug');
-  let cssVars: string;
-  let theme: import('../lib/theme.js').TenantTheme;
-
-  try {
-    const result = await generateCssTokens(slug, c.env);
-    cssVars = result.cssVars;
-    theme = result.theme;
-  } catch {
-    return c.text('Tenant not found', 404);
-  }
+  // P1 audit fix: portal now applies the white-label depth cap (was bypassed before).
+  const themed = await resolveCappedTheme(c);
+  if (!themed) return c.text('Tenant not found', 404);
+  const { cssVars, theme } = themed;
 
   const body = `
     <div style="max-width:28rem;margin:4rem auto;padding:2rem;border:1px solid var(--ww-border);border-radius:var(--ww-radius);background:var(--ww-bg-surface)">
@@ -136,17 +129,10 @@ router.get('/', (c) => c.redirect('/portal/dashboard'));
 // Auth state is validated by the downstream admin-dashboard Worker; this shell
 // only renders the branded HTML wrapper.
 router.get('/dashboard', async (c) => {
-  const slug = c.get('tenantSlug');
-  let cssVars: string;
-  let theme: import('../lib/theme.js').TenantTheme;
-
-  try {
-    const result = await generateCssTokens(slug, c.env);
-    cssVars = result.cssVars;
-    theme = result.theme;
-  } catch {
-    return c.text('Tenant not found', 404);
-  }
+  // P1 audit fix: depth-capped theme on portal/dashboard.
+  const themed = await resolveCappedTheme(c);
+  if (!themed) return c.text('Tenant not found', 404);
+  const { cssVars, theme } = themed;
 
   const body = `
     <div style="max-width:64rem;margin:0 auto;padding:2rem 1rem">
