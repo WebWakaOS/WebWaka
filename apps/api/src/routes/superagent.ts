@@ -809,6 +809,444 @@ superagentRoutes.post(
 );
 
 // ---------------------------------------------------------------------------
+// POST /superagent/chat/stream — SSE streaming AI response (SA-3.x)
+//
+// Same guardrails as /chat (consent gate, budget, HITL, compliance, PII strip).
+// All pre-flight checks run synchronously before the stream opens; any gate
+// failure returns a normal JSON error response (not an SSE stream).
+//
+// SSE event format per chunk:
+//   data: {"delta":"<text>","done":false}\n\n
+// Terminal event:
+//   data: {"done":true,"session_id":"...","waku_cu_charged":N,"usage":{...}}\n\n
+// Error event (if adapter throws mid-stream):
+//   event: error\ndata: {"code":"AI_STREAM_ERROR","message":"..."}\n\n
+//
+// WakaCU is charged after the stream closes using actual accumulated token count.
+// Session append and spend event write happen fire-and-forget after the stream.
+//
+// Capability guard: function_call is NOT supported (multi-turn tool loop requires
+// synchronous round-trips). Returns 400 STREAMING_NOT_SUPPORTED_FOR_TOOL_CALLS.
+//
+// CORS buffering: Cache-Control: no-cache + X-Accel-Buffering: no prevent
+// nginx/CDN proxy buffering of the SSE stream.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.post(
+  '/chat/stream',
+  aiConsentGate as MiddlewareHandler<{ Bindings: Env }>,
+  async (c) => {
+    const auth = c.get('auth') as unknown as import('@webwaka/types').AuthContext;
+    const consentId = (c.get as (k: string) => unknown)('aiConsentId') as string | null;
+
+    let body: {
+      capability?: string;
+      pillar?: 1 | 2 | 3;
+      messages?: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>;
+      vertical?: string;
+      max_tokens?: number;
+      temperature?: number;
+      session_id?: string | null;
+    };
+    try {
+      body = await c.req.json();
+    } catch {
+      return c.json({ error: 'Invalid JSON body' }, 400);
+    }
+
+    if (!body.capability) {
+      return c.json({ error: 'capability is required' }, 400);
+    }
+    if (!body.messages || body.messages.length === 0) {
+      return c.json({ error: 'messages array is required and must not be empty' }, 400);
+    }
+
+    const capability = body.capability as AICapabilityType;
+
+    // Step 1: Capability guard — tool calls require synchronous multi-turn round-trips
+    if (capability === 'function_call') {
+      return c.json({
+        error: 'STREAMING_NOT_SUPPORTED_FOR_TOOL_CALLS',
+        message: 'The function_call capability uses a multi-turn tool loop that is incompatible with SSE streaming. Use POST /superagent/chat instead.',
+      }, 400);
+    }
+
+    const pillar: 1 | 2 | 3 = body.pillar ?? 1;
+    const verticalSlug = body.vertical ?? '';
+    const autonomyLevel = isSensitiveVertical(verticalSlug) ? 3 : 1;
+
+    // Step 2: Pre-flight compliance check (must pass before stream opens)
+    const complianceResult = preProcessCheck(verticalSlug, body.messages, autonomyLevel);
+    if (!complianceResult.allowed) {
+      return c.json({ error: 'COMPLIANCE_BLOCKED', warnings: complianceResult.warnings }, 403);
+    }
+    if (complianceResult.requiresHitl) {
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: AiEventType.AiHitlRequired,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId: auth.workspaceId,
+        payload: { capability, vertical: verticalSlug, sector: complianceResult.sector, hitl_level: complianceResult.hitlLevel },
+        source: 'api',
+        severity: 'warning',
+      });
+      return c.json({
+        error: 'HITL_REQUIRED',
+        sector: complianceResult.sector,
+        hitl_level: complianceResult.hitlLevel,
+        message: 'This action requires human-in-the-loop review before execution.',
+      }, 403);
+    }
+
+    // Step 3: PII strip (P13)
+    const sanitizedMessages = body.messages.map((m) => ({
+      ...m,
+      content: stripPii(m.content),
+    }));
+
+    // Step 4: Session setup (SA-6.x) — same logic as /chat
+    const sessionSvc = new SessionService({ db: c.env.DB as never });
+    const verticalCfgForWindow = getVerticalAiConfig(verticalSlug);
+    const contextWindowTokens = verticalCfgForWindow.contextWindowTokens ?? 8192;
+    const sessionTtlDays = contextWindowTokens > 8192 ? 14 : 7;
+
+    let sessionId: string;
+    let sessionIsNew = false;
+    if (body.session_id) {
+      const existingSession = await sessionSvc.getSession(body.session_id, auth.tenantId);
+      if (!existingSession) {
+        return c.json({ error: 'SESSION_NOT_FOUND', message: 'Session not found or has expired.' }, 404);
+      }
+      if (existingSession.userId !== auth.userId) {
+        return c.json({ error: 'SESSION_FORBIDDEN', message: 'Session belongs to another user.' }, 403);
+      }
+      sessionId = existingSession.id;
+    } else {
+      const newSession = await sessionSvc.createSession({
+        tenantId: auth.tenantId,
+        userId: auth.userId,
+        workspaceId: auth.workspaceId ?? null,
+        vertical: verticalSlug || null,
+        title: null,
+        ttlDays: sessionTtlDays,
+      });
+      sessionId = newSession.id;
+      sessionIsNew = true;
+    }
+
+    const storedHistory = await sessionSvc.loadHistory(sessionId, auth.tenantId, contextWindowTokens);
+    const currentSystemMsgs = sanitizedMessages
+      .filter((m) => m.role === 'system')
+      .map((m): AIMessage => ({ role: 'system', content: m.content }));
+    const currentUserMsgs = sanitizedMessages
+      .filter((m) => m.role === 'user')
+      .map((m): AIMessage => ({ role: 'user', content: m.content }));
+    const messagesForStream: AIMessage[] = [
+      ...currentSystemMsgs,
+      ...storedHistory.map((h): AIMessage => ({
+        role: h.role,
+        content: h.content,
+        ...(h.tool_calls ? { tool_calls: h.tool_calls as ToolCall[] } : {}),
+        ...(h.tool_call_id ? { tool_call_id: h.tool_call_id } : {}),
+      })),
+      ...currentUserMsgs,
+    ];
+
+    // Step 5: Budget check (SA-4.4)
+    const spendControls = new SpendControls({ db: c.env.DB as never });
+    const budgetCheck = await spendControls.checkBudget(
+      auth.tenantId, auth.userId, undefined, undefined, auth.workspaceId,
+    );
+    if (!budgetCheck.allowed) {
+      void publishEvent(c.env, {
+        eventId: crypto.randomUUID(),
+        eventKey: AiEventType.AiBudgetExhausted,
+        tenantId: auth.tenantId,
+        actorId: auth.userId,
+        actorType: 'user',
+        workspaceId: auth.workspaceId,
+        payload: { capability, scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit },
+        source: 'api',
+        severity: 'critical',
+      });
+      return c.json({ error: 'BUDGET_EXCEEDED', scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit }, 429);
+    }
+
+    // Step 6: Wallet + adapter resolution
+    const walletService = new WalletService({ db: c.env.DB });
+    const wallet = await walletService.getWallet(auth.tenantId);
+    const routingCtx = buildAIRoutingContext({
+      auth,
+      capability,
+      pillar,
+      isUssd: false,
+      ndprConsentGranted: true,
+      aiRights: true,
+      currentSpendWakaCu: wallet?.currentMonthSpentWakaCu ?? 0,
+      spendCapWakaCu: wallet?.spendCapMonthlyWakaCu ?? 0,
+    });
+    const envRecord = Object.fromEntries(
+      Object.entries(c.env as unknown as Record<string, unknown>).filter(([, v]) => typeof v === 'string'),
+    ) as Record<string, string>;
+
+    let resolved;
+    try {
+      resolved = await resolveAdapter(routingCtx, envRecord);
+    } catch (err: unknown) {
+      if (err instanceof AIAuthError) return c.json({ error: err.code, message: err.message }, 403);
+      const message = err instanceof Error ? err.message : 'Adapter resolution failed';
+      return c.json({ error: 'AI_ROUTING_FAILED', message }, 503);
+    }
+
+    // Step 7: Adapter stream capability check
+    const adapter = createAdapter(resolved);
+    if (typeof adapter.stream !== 'function') {
+      return c.json({
+        error: 'STREAMING_NOT_SUPPORTED_BY_PROVIDER',
+        message: `The resolved provider (${resolved.config.provider ?? 'unknown'}) does not support streaming. Use POST /superagent/chat instead.`,
+      }, 501);
+    }
+
+    // Step 8: Build AI request (no tools on stream route)
+    const aiRequest: AIRequest = {
+      messages: messagesForStream,
+      maxTokens: body.max_tokens ?? 1024,
+      temperature: body.temperature ?? 0.7,
+    };
+
+    // Estimate input tokens before stream (4 chars ≈ 1 token — same heuristic as SessionService)
+    const inputTokensEstimate = messagesForStream.reduce(
+      (sum, m) => sum + Math.ceil((m.content?.length ?? 0) / 4),
+      0,
+    );
+
+    const burnRef = crypto.randomUUID();
+
+    void publishEvent(c.env, {
+      eventId: crypto.randomUUID(),
+      eventKey: AiEventType.AiRequestSubmitted,
+      tenantId: auth.tenantId,
+      actorId: auth.userId,
+      actorType: 'user',
+      workspaceId: auth.workspaceId,
+      payload: { capability, vertical: verticalSlug || null, streaming: true },
+      source: 'api',
+      severity: 'info',
+    });
+
+    // Step 9: Build SSE ReadableStream bridging the adapter's AsyncIterable
+    const encoder = new TextEncoder();
+
+    // Capture env bindings for post-stream accounting (closures inside ReadableStream start)
+    const streamEnv = c.env;
+    const streamAuth = auth;
+
+    const sseStream = new ReadableStream({
+      async start(controller) {
+        let accumulatedContent = '';
+
+        const enqueue = (data: string) => controller.enqueue(encoder.encode(data));
+
+        try {
+          const iterable = adapter.stream!(aiRequest);
+
+          for await (const chunk of iterable) {
+            // P13: do not log chunk content; only write to stream
+            accumulatedContent += chunk;
+            enqueue(`data: ${JSON.stringify({ delta: chunk, done: false })}\n\n`);
+          }
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : 'Stream error';
+          enqueue(`event: error\ndata: ${JSON.stringify({ code: 'AI_STREAM_ERROR', message })}\n\n`);
+          controller.close();
+
+          void publishEvent(streamEnv, {
+            eventId: crypto.randomUUID(),
+            eventKey: AiEventType.AiResponseFailed,
+            tenantId: streamAuth.tenantId,
+            actorId: streamAuth.userId,
+            actorType: 'user',
+            workspaceId: streamAuth.workspaceId,
+            payload: { capability, vertical: verticalSlug, streaming: true, error: message },
+            source: 'api',
+            severity: 'critical',
+          });
+          return;
+        }
+
+        // Step 10: Post-stream compliance check on accumulated content
+        const postCheck = postProcessCheck(
+          accumulatedContent,
+          getSensitiveSector(verticalSlug) as Parameters<typeof postProcessCheck>[1],
+        );
+        const finalContent = postCheck.content ?? accumulatedContent;
+
+        // Step 11: Charge WakaCU using actual accumulated tokens
+        const outputTokensEstimate = Math.ceil(accumulatedContent.length / 4);
+        const totalTokensEstimate = inputTokensEstimate + outputTokensEstimate;
+
+        const partnerPoolService = new PartnerPoolService({ db: streamEnv.DB, walletService });
+        const burnEngine = new CreditBurnEngine({ walletService, partnerPoolService });
+        let burn: Awaited<ReturnType<typeof burnEngine.burn>>;
+        try {
+          burn = await burnEngine.burn({
+            tenantId: streamAuth.tenantId,
+            resolved,
+            tokensUsed: totalTokensEstimate,
+            usageEventId: burnRef,
+          });
+        } catch {
+          burn = { wakaCuCharged: 0, chargeSource: 'none', balanceAfter: 0 };
+        }
+
+        // Step 12: Usage meter
+        const meter = new UsageMeter({ db: streamEnv.DB });
+        void meter.record({
+          tenantId: streamAuth.tenantId,
+          userId: streamAuth.userId,
+          pillar,
+          capability,
+          provider: resolved.config.provider ?? 'unknown',
+          model: resolved.config.model ?? 'unknown',
+          inputTokens: inputTokensEstimate,
+          outputTokens: outputTokensEstimate,
+          wakaCuCharged: burn.wakaCuCharged,
+          routingLevel: resolved.level,
+          durationMs: 0,
+          finishReason: 'stop',
+          ndprConsentRef: consentId ?? null,
+        });
+
+        // Step 13: Record spend against budget
+        if (burn.wakaCuCharged > 0) {
+          void spendControls.recordSpend(
+            streamAuth.tenantId, streamAuth.userId, burn.wakaCuCharged,
+            undefined, undefined, streamAuth.workspaceId,
+          );
+        }
+
+        // Step 14: Write spend event to ai_spend_events (retry wrapper — same as /chat)
+        const spendEventId = crypto.randomUUID();
+        const spendDb = streamEnv.DB as unknown as D1Like;
+        void (async () => {
+          const MAX_ATTEMPTS = 3;
+          for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+            try {
+              await spendDb
+                .prepare(
+                  `INSERT INTO ai_spend_events
+                   (id, tenant_id, workspace_id, user_id, vertical, capability, model_used,
+                    wakaCU_cost, request_id, hitl_level, status, created_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completed',
+                           strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+                )
+                .bind(
+                  spendEventId,
+                  streamAuth.tenantId,
+                  streamAuth.workspaceId ?? '',
+                  streamAuth.userId,
+                  verticalSlug || null,
+                  capability,
+                  resolved.config.model ?? null,
+                  burn.wakaCuCharged,
+                  burnRef,
+                  complianceResult.hitlLevel ?? autonomyLevel,
+                )
+                .run();
+              return;
+            } catch (err: unknown) {
+              if (attempt < MAX_ATTEMPTS) {
+                await new Promise<void>((r) => setTimeout(r, 50 * attempt));
+              } else {
+                console.error(
+                  `[superagent/stream] ai_spend_events permanently failed after ${MAX_ATTEMPTS} attempts`,
+                  { tenantId: streamAuth.tenantId, capability, spendEventId },
+                );
+              }
+            }
+          }
+        })();
+
+        // Step 15: Append assistant message to session (fire-and-forget — post-stream)
+        void (async () => {
+          try {
+            const newUserMsgs = sanitizedMessages
+              .filter((m) => m.role === 'user')
+              .map((m) => ({ role: 'user' as const, content: m.content }));
+            await sessionSvc.appendMessages(
+              sessionId,
+              streamAuth.tenantId,
+              [
+                ...newUserMsgs,
+                { role: 'assistant' as const, content: finalContent },
+              ],
+              sessionTtlDays,
+            );
+          } catch (err: unknown) {
+            console.error(
+              `[superagent/stream] session append failed: ${err instanceof Error ? err.message : String(err)}`,
+              { sessionId, tenantId: streamAuth.tenantId },
+            );
+          }
+        })();
+
+        // Step 16: Publish response generated event
+        void publishEvent(streamEnv, {
+          eventId: burnRef,
+          eventKey: AiEventType.AiResponseGenerated,
+          tenantId: streamAuth.tenantId,
+          actorId: streamAuth.userId,
+          actorType: 'user',
+          workspaceId: streamAuth.workspaceId,
+          payload: {
+            capability,
+            vertical: verticalSlug || null,
+            provider: resolved.config.provider ?? 'unknown',
+            model: resolved.config.model ?? 'unknown',
+            tokens_used: totalTokensEstimate,
+            waku_cu_charged: burn.wakaCuCharged,
+            streaming: true,
+          },
+          source: 'api',
+          severity: 'info',
+        });
+
+        // Step 17: Terminal SSE event — stream complete
+        enqueue(
+          `data: ${JSON.stringify({
+            done: true,
+            session_id: sessionId,
+            session_is_new: sessionIsNew,
+            waku_cu_charged: burn.wakaCuCharged,
+            ...(postCheck.flagged ? { compliance_flagged: true, compliance_flags: postCheck.flags } : {}),
+            usage: {
+              input_tokens: inputTokensEstimate,
+              output_tokens: outputTokensEstimate,
+              total_tokens: totalTokensEstimate,
+              cost_waku_cu: burn.wakaCuCharged,
+              charge_source: burn.chargeSource,
+            },
+          })}\n\n`,
+        );
+
+        controller.close();
+      },
+    });
+
+    return new Response(sseStream, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
+      },
+    });
+  },
+);
+
+// ---------------------------------------------------------------------------
 // GET /superagent/usage — Usage history for current user
 // ---------------------------------------------------------------------------
 
