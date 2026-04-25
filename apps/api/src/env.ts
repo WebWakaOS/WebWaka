@@ -26,6 +26,15 @@ export interface Env {
    */
   ASSETS?: R2Bucket;
 
+  /**
+   * R2 bucket dedicated to DSAR (Data Subject Access Request) exports (COMP-002).
+   * Separate from ASSETS to enforce PII isolation — DSAR exports contain full user data.
+   * Bound as "webwaka-dsar-exports-staging" / "webwaka-dsar-exports-production".
+   * Scheduler writes exports; compliance download endpoint reads from this bucket.
+   * Optional in type; compliance routes guard with 503 when absent.
+   */
+  DSAR_BUCKET?: R2Bucket;
+
   /** JWT secret — stored as a CF Worker Secret. Never log this. */
   JWT_SECRET: string;
 

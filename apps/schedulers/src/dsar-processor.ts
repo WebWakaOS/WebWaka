@@ -222,7 +222,7 @@ export class DsarProcessorService {
     const { results } = await env.DB.prepare(
       `SELECT id, user_id, tenant_id, retry_count
        FROM dsar_requests
-       WHERE status = 'pending' AND retry_count < 3
+       WHERE status IN ('pending', 'failed') AND retry_count < 3
        ORDER BY requested_at ASC
        LIMIT ?`,
     ).bind(limit).all<PendingRow>();
@@ -268,7 +268,7 @@ export class DsarProcessorService {
              error_message = ?
          WHERE id = ?`,
       ).bind(
-        isPermanentlyFailed ? 'permanently_failed' : 'pending',
+        isPermanentlyFailed ? 'permanently_failed' : 'failed',
         newRetryCount,
         errMsg,
         req.id,

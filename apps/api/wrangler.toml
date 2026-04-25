@@ -37,6 +37,11 @@ id = "4732f3a682964607bae2170f350e4fb4"
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-staging"
 
+# R2 — DSAR export storage (COMP-002 — PII-isolated, separate from ASSETS)
+[[env.staging.r2_buckets]]
+binding = "DSAR_BUCKET"
+bucket_name = "webwaka-dsar-exports-staging"
+
 # INF-006 audit: KV is intentionally bound — reserved for audit-log fallback and feature flags (SEC-17).
 # Currently not actively written in src/ (code uses RATE_LIMIT_KV instead for most operations).
 # Do NOT remove: this binding is a safety net for the audit-log writer when RATE_LIMIT_KV is unavailable.
@@ -101,6 +106,11 @@ id = "5bd5695d963247d0b105a936827e0a89"
 [[env.production.r2_buckets]]
 binding = "ASSETS"
 bucket_name = "webwaka-os-assets-production"
+
+# R2 — DSAR export storage (COMP-002 — PII-isolated, separate from ASSETS)
+[[env.production.r2_buckets]]
+binding = "DSAR_BUCKET"
+bucket_name = "webwaka-dsar-exports-production"
 
 # INF-006 audit: KV intentionally bound — audit-log fallback, feature flags (SEC-17). Not orphaned.
 [[env.production.kv_namespaces]]
