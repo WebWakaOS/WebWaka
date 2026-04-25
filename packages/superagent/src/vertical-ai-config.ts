@@ -33,6 +33,20 @@ export interface VerticalAiConfig {
   slug: string;
   primaryPillar: 1 | 2 | 3;
   allowedCapabilities: readonly AICapabilityType[];
+  /**
+   * SA-2.3 / Task #3 — Explicit capability prohibitions for compliance audit tooling.
+   *
+   * Lists capabilities that are explicitly PROHIBITED for this vertical even if they
+   * are (or become) available on the tenant's plan tier.  This is distinct from
+   * `allowedCapabilities` — a capability may be absent from `allowedCapabilities`
+   * without being explicitly prohibited; a prohibition is an affirmative compliance
+   * declaration that the capability MUST NOT auto-execute without HITL oversight.
+   *
+   * Primarily used for sensitive sectors (health, legal, finance, child-welfare,
+   * extractives) where unguarded `function_call` auto-writes or `price_suggest`
+   * are inappropriate without human-in-the-loop review.
+   */
+  prohibitedCapabilities?: readonly AICapabilityType[];
   aiUseCases: string[];
   /**
    * SA-6.x — Maximum context-window token budget for Agent Sessions.
@@ -494,6 +508,10 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'document_extractor',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // clinical auto-writes require HITL before execution
+      'price_suggest',  // medical service pricing requires regulatory oversight
+    ],
     aiUseCases: [
       'Generate doctor and specialist bios from credentials',
       'Patient appointment scheduling assistant',
@@ -528,6 +546,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'sentiment_analysis',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // clinical auto-writes require HITL before execution
+    ],
     aiUseCases: [
       'Generate dentist and hygienist bios',
       'Appointment scheduling assistant',
@@ -559,6 +580,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'scheduling_assistant',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // clinical auto-writes require HITL before execution
+    ],
     aiUseCases: [
       'Generate optician and practice bios',
       'Eye test appointment scheduling assistant',
@@ -573,6 +597,10 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'bio_generator',
       'content_moderation',
       'translation',
+    ],
+    prohibitedCapabilities: [
+      'function_call',  // vulnerable children — any auto-write requires human oversight
+      'price_suggest',  // commercial pricing is inappropriate for child-welfare services
     ],
     aiUseCases: [
       'Generate orphanage profile and staff bios',
@@ -589,6 +617,10 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'product_description_writer',
       'translation',
       'demand_forecasting',
+    ],
+    prohibitedCapabilities: [
+      'function_call',  // medication auto-writes require regulatory and clinical oversight
+      'price_suggest',  // drug pricing requires NAFDAC compliance; cannot be AI-automated
     ],
     aiUseCases: [
       'Auto-generate pharmacy profile',
@@ -608,6 +640,10 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'sentiment_analysis',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // medication auto-writes require regulatory and clinical oversight
+      'price_suggest',  // drug pricing requires NAFDAC compliance; cannot be AI-automated
+    ],
     aiUseCases: [
       'Generate pharmacy chain and branch bios',
       'Write product descriptions across all OTC SKUs',
@@ -625,6 +661,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'scheduling_assistant',
       'content_moderation',
       'translation',
+    ],
+    prohibitedCapabilities: [
+      'function_call',  // sensitive patient data — auto-writes require HITL oversight
     ],
     aiUseCases: [
       'Generate rehabilitation centre and therapist bios',
@@ -1859,6 +1898,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'document_extractor',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // insurance auto-writes (policy issuance, claims) require licensed human oversight
+    ],
     aiUseCases: [
       'Generate agent and broker bios',
       'Extract policy data from insurance documents',
@@ -1906,6 +1948,10 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'policy_summarizer',
       'document_extractor',
       'translation',
+    ],
+    prohibitedCapabilities: [
+      'function_call',  // legal auto-writes (filings, contracts) require solicitor oversight
+      'price_suggest',  // legal fee recommendations require professional judgment; AI pricing is inappropriate
     ],
     aiUseCases: [
       'Generate lawyer and chamber bios',
@@ -2073,6 +2119,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'demand_forecasting',
       'document_extractor',
       'translation',
+    ],
+    prohibitedCapabilities: [
+      'function_call',  // FX transaction auto-execution requires CBN-licensed human oversight
     ],
     aiUseCases: [
       'FX demand and rate trend forecasting',
@@ -2633,6 +2682,9 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'document_extractor',
       'translation',
     ],
+    prohibitedCapabilities: [
+      'function_call',  // high-risk extractive environment — operational auto-writes require human sign-off
+    ],
     aiUseCases: [
       'Extract data from mining permits and regulatory documents',
       'Translate operational guides and compliance requirements to local languages',
@@ -2749,6 +2801,27 @@ export function isCapabilityAllowed(
 ): boolean {
   const config = getVerticalAiConfig(slug);
   return (config.allowedCapabilities as readonly string[]).includes(capability);
+}
+
+/**
+ * Check if a capability is explicitly PROHIBITED for a vertical.
+ *
+ * Prohibition is stronger than absence from allowedCapabilities — it is an
+ * affirmative compliance declaration. Returns true only when the capability
+ * appears in `prohibitedCapabilities`; returns false for any vertical that
+ * does not carry an explicit prohibition list (including the default config).
+ *
+ * Used by:
+ *   - POST /superagent/chat compliance pre-check (returns 403 CAPABILITY_PROHIBITED_FOR_VERTICAL)
+ *   - GET /superagent/vertical/:slug/capabilities/check response `prohibited` field
+ */
+export function isCapabilityProhibited(
+  slug: string,
+  capability: AICapabilityType,
+): boolean {
+  const config = getVerticalAiConfig(slug);
+  if (!config.prohibitedCapabilities) return false;
+  return (config.prohibitedCapabilities as readonly string[]).includes(capability);
 }
 
 /**

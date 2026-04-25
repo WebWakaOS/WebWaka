@@ -55,6 +55,10 @@ import {
   createDefaultToolRegistry,
   SessionService,
   getVerticalAiConfig,
+  isCapabilityAllowed,
+  isCapabilityProhibited,
+  CAPABILITY_METADATA,
+  listCapabilities,
 } from '@webwaka/superagent';
 import type { ToolExecutionContext } from '@webwaka/superagent';
 import { resolveAdapter } from '@webwaka/ai';
@@ -213,6 +217,62 @@ superagentRoutes.get('/consent', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// GET /superagent/vertical/:slug/capabilities — Per-vertical AI config (SA-2.3)
+// Auth required. Returns full VerticalAiConfig for slug (never 404 — falls back
+// to DEFAULT_VERTICAL_AI_CONFIG). Includes prohibitedCapabilities.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/vertical/:slug/capabilities', async (c) => {
+  const slug = c.req.param('slug');
+  const config = getVerticalAiConfig(slug);
+
+  return c.json({
+    slug: config.slug,
+    primaryPillar: config.primaryPillar,
+    allowedCapabilities: config.allowedCapabilities,
+    prohibitedCapabilities: config.prohibitedCapabilities ?? [],
+    aiUseCases: config.aiUseCases,
+    contextWindowTokens: config.contextWindowTokens ?? 8192,
+    // Enrich each allowed capability with display metadata from CAPABILITY_METADATA
+    capabilities: (config.allowedCapabilities as string[]).map((cap) => {
+      const meta = CAPABILITY_METADATA[cap as keyof typeof CAPABILITY_METADATA];
+      return meta
+        ? { capability: cap, displayName: meta.displayName, description: meta.description, pillar: meta.pillar, planTier: meta.planTier }
+        : { capability: cap, displayName: cap, description: '', pillar: config.primaryPillar, planTier: 'growth' };
+    }),
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /superagent/vertical/:slug/capabilities/check — O(1) capability gate (SA-2.3)
+// Auth required. Accepts ?capability=X. Returns { allowed, prohibited, reason }.
+// Hot path used by workspace-app feature toggles before enabling/disabling UI.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/vertical/:slug/capabilities/check', async (c) => {
+  const slug = c.req.param('slug');
+  const capability = c.req.query('capability') as import('@webwaka/ai').AICapabilityType | undefined;
+
+  if (!capability) {
+    return c.json({ error: 'capability query parameter required' }, 400);
+  }
+
+  const allowed = isCapabilityAllowed(slug, capability);
+  const prohibited = isCapabilityProhibited(slug, capability);
+
+  let reason: string;
+  if (prohibited) {
+    reason = 'explicitly_prohibited';
+  } else if (!allowed) {
+    reason = 'not_in_allowed_list';
+  } else {
+    reason = 'capability_allowed';
+  }
+
+  return c.json({ allowed, prohibited, reason });
+});
+
+// ---------------------------------------------------------------------------
 // POST /superagent/chat — Live AI capability invocation (SA-3.x)
 // aiConsentGate checks P10/P12/AI-rights before reaching this handler.
 // ---------------------------------------------------------------------------
@@ -252,6 +312,32 @@ superagentRoutes.post(
     // Step 0a: Determine autonomy level from vertical config (SA-4.5)
     const verticalSlug = body.vertical ?? '';
     const autonomyLevel = isSensitiveVertical(verticalSlug) ? 3 : 1;
+
+    // Step 0a-capability: Vertical capability allow/prohibit guards (SA-2.3)
+    // These run before the full compliance pre-check so O(1) set lookups short-circuit early.
+    //
+    // Guard 1 — allowedCapabilities: reject if the capability is not on the vertical's allow-list.
+    //   Falls back to DEFAULT_VERTICAL_AI_CONFIG for unknown slugs (never blocks unlisted verticals).
+    if (verticalSlug && !isCapabilityAllowed(verticalSlug, capability)) {
+      return c.json({
+        error: 'CAPABILITY_NOT_ALLOWED_FOR_VERTICAL',
+        capability,
+        vertical: verticalSlug,
+        message: `The '${capability}' capability is not available for the '${verticalSlug}' vertical.`,
+      }, 403);
+    }
+    //
+    // Guard 2 — prohibitedCapabilities: reject if the capability is explicitly prohibited.
+    //   Prohibition is an affirmative compliance declaration — stronger than mere absence from
+    //   the allow-list (e.g. function_call is prohibited for health/legal even if the plan grants it).
+    if (verticalSlug && isCapabilityProhibited(verticalSlug, capability)) {
+      return c.json({
+        error: 'CAPABILITY_PROHIBITED_FOR_VERTICAL',
+        capability,
+        vertical: verticalSlug,
+        message: `The '${capability}' capability is explicitly prohibited for the '${verticalSlug}' vertical and requires human-in-the-loop review before use.`,
+      }, 403);
+    }
 
     // Step 0b: Compliance pre-check — sensitive sector detection + PII stripping (P13, SA-4.5)
     const complianceResult = preProcessCheck(

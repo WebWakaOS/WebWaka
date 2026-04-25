@@ -45,6 +45,7 @@ import {
   isSensitiveVertical,
   getSensitiveSector,
   preProcessCheck,
+  listCapabilities,
 } from '@webwaka/superagent';
 import { politicianRoutes } from './routes/politician.js';
 import { posBusinessRoutes } from './routes/pos-business.js';
@@ -295,6 +296,14 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // ENT-002: AI entitlement check on all SuperAgent routes (before consent gate)
   // AI-004: USSD exclusion on all AI entry points (P12)
   // -------------------------------------------------------------------------
+
+  // SA-2.3 / Task #3: /superagent/capabilities is a PUBLIC metadata endpoint.
+  // Returns the full capability catalogue (displayName, description, pillar, planTier)
+  // for all 23 AICapabilityType values. No user data accessed; registered before
+  // authMiddleware so workspace-apps and partner portals can call it without a JWT.
+  app.get('/superagent/capabilities', (c) => {
+    return c.json({ capabilities: listCapabilities() });
+  });
 
   // SA-4.5: /superagent/compliance/check is a PUBLIC metadata endpoint.
   // It returns vertical sensitivity + HITL requirements with no user data access.

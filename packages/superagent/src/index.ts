@@ -70,9 +70,13 @@ export {
   DEFAULT_VERTICAL_AI_CONFIG,
   getVerticalAiConfig,
   isCapabilityAllowed,
+  isCapabilityProhibited,
   getAllVerticalSlugs,
 } from './vertical-ai-config.js';
 export type { VerticalAiConfig } from './vertical-ai-config.js';
+
+export { CAPABILITY_METADATA, listCapabilities } from './capability-metadata.js';
+export type { CapabilityMetadata } from './capability-metadata.js';
 
 export type {
   SuperAgentKey,

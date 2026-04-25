@@ -1419,6 +1419,181 @@ paths:
   # SuperAgent — AI Orchestration (SA-1.x, SA-4.x, SA-5.x)
   # ---------------------------------------------------------------------------
 
+  /superagent/capabilities:
+    get:
+      tags: [SuperAgent]
+      summary: List all AI capability types (public)
+      description: |
+        Returns the full catalogue of every `AICapabilityType` with human-readable
+        `displayName`, `description`, `pillar` (1=Ops, 2=Branding, 3=Marketplace),
+        and minimum `planTier` required.
+
+        **No authentication required** — this is a public metadata endpoint used by
+        workspace-apps and partner portals to drive capability-discovery UIs before
+        a user session is established.
+
+        Results are sorted by pillar (ascending) then alphabetically by capability key.
+      operationId: listCapabilities
+      responses:
+        "200":
+          description: Full capability catalogue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  capabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        capability:
+                          type: string
+                          description: The AICapabilityType key
+                          example: inventory_ai
+                        displayName:
+                          type: string
+                          example: Inventory Intelligence
+                        description:
+                          type: string
+                        pillar:
+                          type: integer
+                          enum: [1, 2, 3]
+                          description: "1=Ops, 2=Branding, 3=Marketplace"
+                        planTier:
+                          type: string
+                          enum: [growth, pro, enterprise]
+
+  /superagent/vertical/{slug}/capabilities:
+    get:
+      tags: [SuperAgent]
+      summary: Get vertical AI configuration
+      description: |
+        Returns the full `VerticalAiConfig` for the given vertical slug:
+        `allowedCapabilities`, `prohibitedCapabilities`, `primaryPillar`,
+        `aiUseCases`, `contextWindowTokens`, and enriched metadata for each
+        allowed capability.
+
+        **Never returns 404** — unknown slugs fall back to `DEFAULT_VERTICAL_AI_CONFIG`
+        (`_default`) which allows only `bio_generator` and `translation`.
+
+        Authentication required.
+      operationId: getVerticalCapabilities
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+          example: clinic
+      responses:
+        "200":
+          description: Vertical AI capability configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  primaryPillar:
+                    type: integer
+                    enum: [1, 2, 3]
+                  allowedCapabilities:
+                    type: array
+                    items:
+                      type: string
+                  prohibitedCapabilities:
+                    type: array
+                    description: |
+                      Capabilities explicitly prohibited for this vertical even if the plan
+                      permits them. Empty array for verticals without compliance restrictions.
+                    items:
+                      type: string
+                  aiUseCases:
+                    type: array
+                    items:
+                      type: string
+                  contextWindowTokens:
+                    type: integer
+                    description: Maximum context window token budget for Agent Sessions
+                    default: 8192
+                  capabilities:
+                    type: array
+                    description: Enriched metadata for each allowed capability
+                    items:
+                      type: object
+                      properties:
+                        capability:
+                          type: string
+                        displayName:
+                          type: string
+                        description:
+                          type: string
+                        pillar:
+                          type: integer
+                        planTier:
+                          type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/vertical/{slug}/capabilities/check:
+    get:
+      tags: [SuperAgent]
+      summary: Check if a capability is allowed for a vertical
+      description: |
+        Returns `{ allowed, prohibited, reason }` in O(1) for the given capability and
+        vertical slug. Designed as the **hot path** called by workspace-app feature
+        toggles before enabling or disabling UI controls.
+
+        Reason strings:
+        - `capability_allowed` — capability is in `allowedCapabilities` and not prohibited
+        - `not_in_allowed_list` — capability is absent from `allowedCapabilities`
+        - `explicitly_prohibited` — capability appears in `prohibitedCapabilities`
+
+        Authentication required.
+      operationId: checkVerticalCapability
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+          example: clinic
+        - name: capability
+          in: query
+          required: true
+          schema:
+            type: string
+          example: function_call
+          description: The AICapabilityType key to check
+      responses:
+        "200":
+          description: Capability check result
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [allowed, prohibited, reason]
+                properties:
+                  allowed:
+                    type: boolean
+                    description: True if the capability is in allowedCapabilities
+                  prohibited:
+                    type: boolean
+                    description: True if the capability is in prohibitedCapabilities
+                  reason:
+                    type: string
+                    enum: [capability_allowed, not_in_allowed_list, explicitly_prohibited]
+        "400":
+          description: Missing capability query parameter
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
   /superagent/chat:
     post:
       tags: [SuperAgent]
