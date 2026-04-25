@@ -21,7 +21,13 @@
  *   P13 — No raw PII passed to AI providers
  */
 
-export type SensitiveSector = 'medical' | 'legal' | 'political' | 'pharmaceutical';
+export type SensitiveSector =
+  | 'medical'
+  | 'legal'
+  | 'political'
+  | 'pharmaceutical'
+  | 'financial'
+  | 'safeguarding';
 
 export interface ComplianceCheckResult {
   allowed: boolean;
@@ -41,14 +47,56 @@ export interface PostProcessResult {
 }
 
 const SENSITIVE_VERTICAL_MAP: Record<string, SensitiveSector> = {
+  // Medical
   hospital: 'medical',
   clinic: 'medical',
+  'dental-clinic': 'medical',
+  'community-health': 'medical',
+  'elderly-care': 'medical',
+  'rehab-centre': 'medical',
+  'funeral-home': 'medical',
+  'vet-clinic': 'medical',
+
+  // Pharmaceutical
   pharmacy: 'pharmaceutical',
-  politician: 'political',
-  'political-party': 'political',
+  'pharmacy-chain': 'pharmaceutical',
+
+  // Legal
   legal: 'legal',
   lawyer: 'legal',
   'law-firm': 'legal',
+  'tax-consultant': 'legal',
+  'accounting-firm': 'legal',
+
+  // Political
+  politician: 'political',
+  'political-party': 'political',
+  'campaign-office': 'political',
+  'polling-unit': 'political',
+  'ward-rep': 'political',
+  'constituency-office': 'political',
+  'government-agency': 'political',
+  'lga-office': 'political',
+
+  // Financial — P1-C fix: bureau-de-change, oil-gas-services, mobile-money
+  'bureau-de-change': 'financial',
+  'oil-gas-services': 'financial',
+  'mobile-money-agent': 'financial',
+  'hire-purchase': 'financial',
+  'savings-group': 'financial',
+  'artisanal-mining': 'financial',
+
+  // Safeguarding — P1-C fix: child/vulnerable persons
+  creche: 'safeguarding',
+  orphanage: 'safeguarding',
+  'secondary-school': 'safeguarding',
+  university: 'safeguarding',
+  'private-school': 'safeguarding',
+  'govt-school': 'safeguarding',
+  'nursery-school': 'safeguarding',
+  'sports-academy': 'safeguarding',
+  'driving-school': 'safeguarding',
+  'training-institute': 'safeguarding',
 };
 
 const PII_PATTERNS: Array<{ pattern: RegExp; label: string; replacement: string }> = [
@@ -76,6 +124,15 @@ const SECTOR_DISCLAIMERS: Record<SensitiveSector, string[]> = {
   pharmaceutical: [
     'This AI-generated content does not constitute pharmaceutical advice.',
     'All medications require proper NAFDAC-approved labeling and professional dispensing.',
+  ],
+  // P1-C fix: new sector disclaimers
+  financial: [
+    'This AI-generated content is for informational purposes only and does not constitute financial or investment advice.',
+    'Financial operations must comply with CBN regulations and applicable Nigerian financial services law.',
+  ],
+  safeguarding: [
+    'This AI-generated content must be reviewed by a qualified safeguarding officer before acting on it.',
+    'Content involving minors or vulnerable persons is subject to Nigerian Child Rights Act obligations.',
   ],
 };
 
@@ -188,6 +245,13 @@ export function postProcessCheck(
       patterns = PROHIBITED_POLITICAL_PATTERNS;
       break;
     case 'pharmaceutical':
+      patterns = PROHIBITED_MEDICAL_PATTERNS;
+      break;
+    // P1-C fix: financial and safeguarding sectors use legal patterns as baseline
+    case 'financial':
+      patterns = PROHIBITED_LEGAL_PATTERNS;
+      break;
+    case 'safeguarding':
       patterns = PROHIBITED_MEDICAL_PATTERNS;
       break;
   }

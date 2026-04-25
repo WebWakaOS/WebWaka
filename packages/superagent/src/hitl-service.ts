@@ -57,7 +57,7 @@ export interface HitlQueueItem {
   vertical: string;
   capability: string;
   hitlLevel: number;
-  status: 'pending' | 'approved' | 'rejected' | 'expired';
+  status: 'pending' | 'approved' | 'rejected' | 'expired' | 'executed';
   aiRequestPayload: string;
   aiResponsePayload: string | null;
   reviewerId: string | null;
@@ -374,6 +374,30 @@ export class HitlService {
     }
 
     return { expired, escalated };
+  }
+
+  /**
+   * markExecuted — F-020 fix.
+   * Transitions an 'approved' HITL item to 'executed' after the client has
+   * successfully re-run the AI action via POST /superagent/hitl/:id/resume.
+   * Idempotent: if already 'executed', no rows are updated (no error raised).
+   */
+  async markExecuted(id: string, tenantId: string): Promise<void> {
+    await this.db.batch([
+      this.db
+        .prepare(
+          `UPDATE ai_hitl_queue SET status = 'executed'
+           WHERE id = ? AND tenant_id = ? AND status = 'approved'`,
+        )
+        .bind(id, tenantId),
+      this.db
+        .prepare(
+          `INSERT INTO ai_hitl_events
+             (id, tenant_id, queue_item_id, event_type, actor_id, note)
+           VALUES (?, ?, ?, 'executed', 'system', 'AI action re-executed after HITL approval')`,
+        )
+        .bind(crypto.randomUUID(), tenantId, id),
+    ]);
   }
 
   async countPending(tenantId: string): Promise<number> {

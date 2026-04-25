@@ -253,6 +253,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
 
   app.use('/pos/*', authMiddleware);
+  // F-001 fix: POS float + terminal routes require Operational plan (starter+).
+  // Prevents free-tier tenants from accessing agent float ledger and terminal APIs.
+  app.use('/pos/*', requireEntitlement(PlatformLayer.Operational));
   app.use('/pos/*', auditLogMiddleware);
   app.route('/pos', posRoutes);
 

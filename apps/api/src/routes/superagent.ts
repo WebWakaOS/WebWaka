@@ -243,6 +243,18 @@ superagentRoutes.post(
     const capability = body.capability as AICapabilityType;
     const pillar: 1 | 2 | 3 = body.pillar ?? 1;
 
+    // F-019 fix: function_call is declared in PLATFORM_AGGREGATORS but has no tool
+    // registry or handler dispatch. Guard here prevents a silent text completion
+    // being returned when the caller expects structured function call output.
+    if (capability === 'function_call') {
+      return c.json({
+        error: 'CAPABILITY_NOT_IMPLEMENTED',
+        message:
+          "The 'function_call' capability requires a tool registry which is not yet available. " +
+          "Use 'superagent_chat' for text completions. Tool/function routing is planned for SA-5.x.",
+      }, 501);
+    }
+
     // Step 0a: Determine autonomy level from vertical config (SA-4.5)
     const verticalSlug = body.vertical ?? '';
     const autonomyLevel = isSensitiveVertical(verticalSlug) ? 3 : 1;
@@ -813,6 +825,204 @@ superagentRoutes.patch('/hitl/:id/review', async (c) => {
   }
 
   return c.json({ reviewed: true, decision: body.decision });
+});
+
+// ---------------------------------------------------------------------------
+// POST /superagent/hitl/:id/resume — Re-execute approved HITL action (F-020 fix)
+//
+// After an admin approves a HITL item (PATCH /hitl/:id/review), the original
+// requester or an admin calls this endpoint to re-run the stored AI request.
+// The ai_request_payload stored at submit time must be JSON with the same
+// shape as the /superagent/chat body: { capability, messages, pillar?, vertical?,
+// max_tokens?, temperature? }.
+//
+// On success the item transitions 'approved' → 'executed' to prevent double-fire.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.post('/hitl/:id/resume', async (c) => {
+  const auth = c.get('auth') as unknown as import('@webwaka/types').AuthContext;
+  const queueItemId = c.req.param('id');
+
+  const svc = new HitlService({ db: c.env.DB as never });
+  const item = await svc.getItem(queueItemId, auth.tenantId);
+
+  if (!item) {
+    return c.json({ error: 'HITL item not found' }, 404);
+  }
+
+  const isAdmin = auth.role && ['admin', 'super_admin', 'workspace_admin'].includes(auth.role as string);
+  if (item.userId !== auth.userId && !isAdmin) {
+    return c.json({ error: 'Only the original requester or an admin may resume this HITL item' }, 403);
+  }
+
+  if (item.status !== 'approved') {
+    return c.json({
+      error: `Cannot resume: item status is '${item.status}'. Only 'approved' items can be resumed.`,
+    }, 409);
+  }
+
+  // Parse the stored request payload
+  let payload: {
+    capability?: string;
+    pillar?: 1 | 2 | 3;
+    messages?: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>;
+    vertical?: string;
+    max_tokens?: number;
+    temperature?: number;
+  };
+  try {
+    payload = JSON.parse(item.aiRequestPayload);
+  } catch {
+    return c.json({ error: 'Stored ai_request_payload is not valid JSON — cannot resume' }, 422);
+  }
+
+  if (!payload.capability || !payload.messages || payload.messages.length === 0) {
+    return c.json({ error: 'Stored payload is missing capability or messages — cannot resume' }, 422);
+  }
+
+  // Guard: function_call not implemented (F-019)
+  if (payload.capability === 'function_call') {
+    return c.json({ error: 'CAPABILITY_NOT_IMPLEMENTED', message: "The 'function_call' capability is not yet implemented." }, 501);
+  }
+
+  const capability = payload.capability as AICapabilityType;
+  const pillar: 1 | 2 | 3 = payload.pillar ?? 1;
+  const verticalSlug = payload.vertical ?? item.vertical;
+
+  // Strip PII (P13)
+  const sanitizedMessages = payload.messages.map((m) => ({
+    ...m,
+    content: stripPii(m.content),
+  }));
+
+  // Spend budget check (SA-4.4)
+  const spendControls = new SpendControls({ db: c.env.DB as never });
+  const budgetCheck = await spendControls.checkBudget(auth.tenantId, auth.userId, undefined, undefined, auth.workspaceId);
+  if (!budgetCheck.allowed) {
+    return c.json({ error: 'BUDGET_EXCEEDED', scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit }, 429);
+  }
+
+  // Load wallet + routing context
+  const walletService = new WalletService({ db: c.env.DB });
+  const wallet = await walletService.getWallet(auth.tenantId);
+  const routingCtx = buildAIRoutingContext({
+    auth,
+    capability,
+    pillar,
+    isUssd: false,
+    ndprConsentGranted: true,
+    aiRights: true,
+    currentSpendWakaCu: wallet?.currentMonthSpentWakaCu ?? 0,
+    spendCapWakaCu: wallet?.spendCapMonthlyWakaCu ?? 0,
+  });
+
+  const envRecord = Object.fromEntries(
+    Object.entries(c.env as unknown as Record<string, unknown>).filter(([, v]) => typeof v === 'string'),
+  ) as Record<string, string>;
+
+  let resolved;
+  try {
+    resolved = await resolveAdapter(routingCtx, envRecord);
+  } catch (err: unknown) {
+    if (err instanceof AIAuthError) return c.json({ error: err.code, message: err.message }, 403);
+    return c.json({ error: 'AI_ROUTING_FAILED', message: err instanceof Error ? err.message : 'Adapter resolution failed' }, 503);
+  }
+
+  const adapter = createAdapter(resolved);
+  const aiRequest: AIRequest = {
+    messages: sanitizedMessages,
+    maxTokens: payload.max_tokens ?? 1024,
+    temperature: payload.temperature ?? 0.7,
+  };
+
+  const startMs = Date.now();
+  let aiResponse: Awaited<ReturnType<typeof adapter.complete>>;
+  try {
+    aiResponse = await adapter.complete(aiRequest);
+  } catch (err: unknown) {
+    return c.json({ error: 'AI_PROVIDER_ERROR', message: err instanceof Error ? err.message : 'Provider call failed' }, 503);
+  }
+  const durationMs = Date.now() - startMs;
+
+  // Charge WakaCU
+  const burnRef = crypto.randomUUID();
+  const partnerPoolService = new PartnerPoolService({ db: c.env.DB, walletService });
+  const burnEngine = new CreditBurnEngine({ walletService, partnerPoolService });
+  const burn = await burnEngine.burn({ tenantId: auth.tenantId, resolved, tokensUsed: aiResponse.tokensUsed, usageEventId: burnRef });
+
+  // Post-process compliance
+  const postCheck = postProcessCheck(
+    aiResponse.content,
+    getSensitiveSector(verticalSlug) as Parameters<typeof postProcessCheck>[1],
+  );
+
+  // Record usage (P10/P13)
+  const meter = new UsageMeter({ db: c.env.DB });
+  await meter.record({
+    tenantId: auth.tenantId,
+    userId: auth.userId,
+    pillar,
+    capability,
+    provider: aiResponse.provider,
+    model: aiResponse.model,
+    inputTokens: 0,
+    outputTokens: aiResponse.tokensUsed,
+    wakaCuCharged: burn.wakaCuCharged,
+    routingLevel: resolved.level,
+    durationMs,
+    finishReason: aiResponse.finishReason,
+    ndprConsentRef: null,
+  });
+
+  // Record spend (SA-4.4)
+  if (burn.wakaCuCharged > 0) {
+    await spendControls.recordSpend(auth.tenantId, auth.userId, burn.wakaCuCharged, undefined, undefined, auth.workspaceId);
+  }
+
+  // Transition approved → executed (idempotent — F-020 fix)
+  await svc.markExecuted(queueItemId, auth.tenantId);
+
+  // Publish event
+  void publishEvent(c.env, {
+    eventId: burnRef,
+    eventKey: AiEventType.AiResponseGenerated,
+    tenantId: auth.tenantId,
+    actorId: auth.userId,
+    actorType: 'user',
+    workspaceId: auth.workspaceId,
+    payload: {
+      capability,
+      vertical: verticalSlug || null,
+      provider: aiResponse.provider,
+      model: aiResponse.model,
+      tokens_used: aiResponse.tokensUsed,
+      waku_cu_charged: burn.wakaCuCharged,
+      duration_ms: durationMs,
+      routing_level: resolved.level,
+      hitl_item_id: queueItemId,
+    },
+    source: 'api',
+    severity: 'info',
+  });
+
+  return c.json({
+    hitl_item_id: queueItemId,
+    provider: aiResponse.provider,
+    model: aiResponse.model,
+    routing_level: resolved.level,
+    response: {
+      role: 'assistant',
+      content: postCheck.content,
+    },
+    usage: {
+      output_tokens: aiResponse.tokensUsed,
+      cost_waku_cu: burn.wakaCuCharged,
+      charge_source: burn.chargeSource,
+      balance_after_waku_cu: burn.balanceAfter,
+    },
+    ...(postCheck.flagged ? { compliance_flagged: true, compliance_flags: postCheck.flags } : {}),
+    ...(postCheck.disclaimers.length > 0 ? { disclaimers: postCheck.disclaimers } : {}),
+  });
 });
 
 // ---------------------------------------------------------------------------

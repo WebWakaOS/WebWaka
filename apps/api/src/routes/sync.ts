@@ -38,7 +38,16 @@ interface SyncApplyBody {
   payload: Record<string, unknown>;
 }
 
-const ALLOWED_ENTITIES = ['individual', 'organization', 'agent_transaction', 'contact_channel'] as const;
+// P2-A fix: added offerings, pos_products, pos_sales for offline POS sync support.
+const ALLOWED_ENTITIES = [
+  'individual',
+  'organization',
+  'agent_transaction',
+  'contact_channel',
+  'offering',
+  'pos_product',
+  'pos_sale',
+] as const;
 type AllowedEntity = typeof ALLOWED_ENTITIES[number];
 
 function isAllowedEntity(entity: string): entity is AllowedEntity {
