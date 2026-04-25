@@ -34,6 +34,13 @@ export interface VerticalAiConfig {
   primaryPillar: 1 | 2 | 3;
   allowedCapabilities: readonly AICapabilityType[];
   aiUseCases: string[];
+  /**
+   * SA-6.x — Maximum context-window token budget for Agent Sessions.
+   * loadHistory() trims oldest non-system messages when the stored history
+   * exceeds this limit. Default: 8192. High-content verticals may use 16384;
+   * sensitive verticals may be capped at 4096.
+   */
+  contextWindowTokens?: number;
 }
 
 // ---------------------------------------------------------------------------

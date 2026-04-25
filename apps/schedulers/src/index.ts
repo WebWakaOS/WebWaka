@@ -107,6 +107,20 @@ const JOBS: Record<string, JobFn> = {
     }
   },
 
+  'ai-session-prune': async (env: Env) => {
+    // SA-6.x — Hard-delete expired AI sessions and their messages.
+    // ai_session_messages are cascade-deleted via ON DELETE CASCADE on ai_sessions.
+    // G23: append-only for audit events, but sessions themselves are TTL-capped data.
+    const now = new Date().toISOString();
+    const result = await env.DB.prepare(
+      `DELETE FROM ai_sessions WHERE expires_at < ?`,
+    ).bind(now).run();
+    const pruned = result.meta?.changes ?? 0;
+    console.log(JSON.stringify({
+      level: 'info', event: 'ai_sessions_pruned', count: pruned,
+    }));
+  },
+
   'dsar-export-processor': async (env: Env) => {
     // COMP-001 / ENH-039: Process pending DSAR export requests.
     // Assembles all user data rows across core tables and stores as JSON in KV.

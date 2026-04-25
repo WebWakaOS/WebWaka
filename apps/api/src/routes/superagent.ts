@@ -53,13 +53,15 @@ import {
   getSensitiveSector,
   MAX_TOOL_ROUNDS,
   createDefaultToolRegistry,
+  SessionService,
+  getVerticalAiConfig,
 } from '@webwaka/superagent';
 import type { ToolExecutionContext } from '@webwaka/superagent';
 import { resolveAdapter } from '@webwaka/ai';
 import { createAdapter } from '@webwaka/ai-adapters';
 import { buildAIRoutingContext, AIAuthError } from '@webwaka/auth';
 import type { AiConsentPurpose, AiConsentLocale } from '@webwaka/superagent';
-import type { AICapabilityType, AIRequest } from '@webwaka/ai';
+import type { AICapabilityType, AIRequest, AIMessage, ToolCall } from '@webwaka/ai';
 import type { Env } from '../env.js';
 import { publishEvent } from '../lib/publish-event.js';
 import { AiEventType } from '@webwaka/events';
@@ -229,6 +231,7 @@ superagentRoutes.post(
       vertical?: string;
       max_tokens?: number;
       temperature?: number;
+      session_id?: string | null;
     };
     try {
       body = await c.req.json();
@@ -298,6 +301,54 @@ superagentRoutes.post(
       ...m,
       content: stripPii(m.content),
     }));
+
+    // Step 0d-pre: Agent Session — load or create, prepend stored history (SA-6.x)
+    // session_id is optional. If omitted, a new session is auto-created and returned.
+    // All history is loaded before the new user turn; expired sessions return 404.
+    const sessionSvc = new SessionService({ db: c.env.DB as never });
+    let sessionId: string;
+    let sessionIsNew = false;
+
+    if (body.session_id) {
+      const existingSession = await sessionSvc.getSession(body.session_id, auth.tenantId);
+      if (!existingSession) {
+        return c.json({ error: 'SESSION_NOT_FOUND', message: 'Session not found or has expired.' }, 404);
+      }
+      if (existingSession.userId !== auth.userId) {
+        return c.json({ error: 'SESSION_FORBIDDEN', message: 'Session belongs to another user.' }, 403);
+      }
+      sessionId = existingSession.id;
+    } else {
+      const verticalConfig = getVerticalAiConfig(verticalSlug);
+      const newSession = await sessionSvc.createSession({
+        tenantId: auth.tenantId,
+        userId: auth.userId,
+        workspaceId: auth.workspaceId ?? null,
+        vertical: verticalSlug || null,
+        title: null,
+        ttlDays: Math.ceil((verticalConfig.contextWindowTokens ?? 8192) > 8192 ? 14 : 7),
+      });
+      sessionId = newSession.id;
+      sessionIsNew = true;
+    }
+
+    // Load prior history and prepend to the new user message
+    const verticalCfgForWindow = getVerticalAiConfig(verticalSlug);
+    const contextWindowTokens = verticalCfgForWindow.contextWindowTokens ?? 8192;
+    const storedHistory = await sessionSvc.loadHistory(sessionId, auth.tenantId, contextWindowTokens);
+
+    // Build the full message list: [stored_history..., new_sanitized_messages...]
+    // Stored history already contains system prompts if any were set in prior turns.
+    // If the caller sends a system message in this turn, it goes last (overrides nothing).
+    const messagesWithHistory: AIMessage[] = [
+      ...storedHistory.map((h): AIMessage => ({
+        role: h.role,
+        content: h.content,
+        ...(h.tool_calls ? { tool_calls: h.tool_calls as ToolCall[] } : {}),
+        ...(h.tool_call_id ? { tool_call_id: h.tool_call_id } : {}),
+      })),
+      ...sanitizedMessages,
+    ];
 
     // Step 0d: Spend budget check (SA-4.4) — block if budget exhausted
     const spendControls = new SpendControls({ db: c.env.DB as never });
@@ -394,7 +445,7 @@ superagentRoutes.post(
 
     const startMs = Date.now();
     let aiResponse: Awaited<ReturnType<typeof adapter.complete>>;
-    let currentMessages: AIRequest['messages'] = sanitizedMessages;
+    let currentMessages: AIRequest['messages'] = messagesWithHistory;
     let toolRound = 0;
     let totalToolCallsExecuted = 0;
 
@@ -635,7 +686,58 @@ superagentRoutes.post(
       severity: 'info',
     });
 
+    // Step 10: Persist session messages (SA-6.x)
+    // Append: new user turn(s), intermediate tool turns, final assistant turn.
+    // Best-effort: session write failure must not block the AI response.
+    void (async () => {
+      try {
+        // New user messages from this request turn
+        const userMsgsToAppend = sanitizedMessages.map((m) => ({
+          role: m.role as 'system' | 'user' | 'assistant' | 'tool',
+          content: m.content,
+        }));
+
+        // Tool interchange messages appended during the multi-turn loop
+        // (currentMessages grew beyond messagesWithHistory during tool rounds)
+        const toolInterchangeMsgs = currentMessages
+          .slice(messagesWithHistory.length)
+          .map((m) => ({
+            role: m.role as 'system' | 'user' | 'assistant' | 'tool',
+            content: m.content ?? '',
+            toolCallsJson:
+              'tool_calls' in m && Array.isArray(m.tool_calls)
+                ? JSON.stringify(m.tool_calls)
+                : null,
+            toolCallId:
+              'tool_call_id' in m && typeof m.tool_call_id === 'string'
+                ? m.tool_call_id
+                : null,
+          }));
+
+        // Final assistant response
+        const assistantMsg = {
+          role: 'assistant' as const,
+          content: postCheck.content ?? '',
+          toolCallsJson: null as string | null,
+          toolCallId: null as string | null,
+        };
+
+        await sessionSvc.appendMessages(sessionId, auth.tenantId, [
+          ...userMsgsToAppend,
+          ...toolInterchangeMsgs,
+          assistantMsg,
+        ]);
+      } catch (err: unknown) {
+        console.error(
+          `[superagent] session append failed (non-fatal): ${err instanceof Error ? err.message : String(err)}`,
+          { sessionId, tenantId: auth.tenantId },
+        );
+      }
+    })();
+
     return c.json({
+      session_id: sessionId,
+      session_is_new: sessionIsNew,
       provider: aiResponse.provider,
       model: aiResponse.model,
       routing_level: resolved.level,
@@ -1309,6 +1411,92 @@ superagentRoutes.get('/compliance/check', async (c) => {
     hitl_level: complianceCheck.hitlLevel ?? null,
     disclaimers: complianceCheck.disclaimers,
   });
+});
+
+// ---------------------------------------------------------------------------
+// GET /superagent/partner-pool/report — Partner credit pool analytics (SA-1.6)
+// Admin/platform view of partner credit pool allocations and utilisation.
+// Scoped to the requesting tenant as partner (grantor perspective).
+// ---------------------------------------------------------------------------
+
+// ===========================================================================
+// SA-6.x — Agent Session CRUD Routes
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// GET /superagent/sessions — List active sessions for the current user
+// Paginated, cursor-based. Expired sessions are excluded.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/sessions', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+
+  const limitStr = c.req.query('limit') ?? '20';
+  const limit = Math.min(parseInt(limitStr, 10) || 20, 100);
+  const cursor = c.req.query('cursor') ?? null;
+
+  const svc = new SessionService({ db: c.env.DB as never });
+  const { sessions, nextCursor } = await svc.listSessions({
+    tenantId: auth.tenantId,
+    userId: auth.userId,
+    limit,
+    cursor,
+  });
+
+  return c.json({
+    sessions,
+    count: sessions.length,
+    next_cursor: nextCursor,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /superagent/sessions/:id — Full session detail + ordered message history
+// Returns 404 for expired or non-existent sessions.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/sessions/:id', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const sessionId = c.req.param('id');
+
+  const svc = new SessionService({ db: c.env.DB as never });
+  const session = await svc.getSession(sessionId, auth.tenantId);
+
+  if (!session) {
+    return c.json({ error: 'Session not found or has expired.' }, 404);
+  }
+
+  if (session.userId !== auth.userId) {
+    return c.json({ error: 'Forbidden: session belongs to another user.' }, 403);
+  }
+
+  const messages = await svc.getMessages(sessionId, auth.tenantId);
+
+  return c.json({ session, messages });
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /superagent/sessions/:id — Hard-delete session + all messages (GDPR)
+// Returns 204 on success; 404 if not found.
+// ---------------------------------------------------------------------------
+
+superagentRoutes.delete('/sessions/:id', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const sessionId = c.req.param('id');
+
+  const svc = new SessionService({ db: c.env.DB as never });
+
+  // Validate ownership before delete
+  const session = await svc.getSession(sessionId, auth.tenantId);
+  if (!session) {
+    return c.json({ error: 'Session not found.' }, 404);
+  }
+  if (session.userId !== auth.userId) {
+    return c.json({ error: 'Forbidden: session belongs to another user.' }, 403);
+  }
+
+  await svc.deleteSession(sessionId, auth.tenantId);
+  return new Response(null, { status: 204 });
 });
 
 // ---------------------------------------------------------------------------
