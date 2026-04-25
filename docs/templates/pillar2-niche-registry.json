@@ -503,23 +503,24 @@
     "contentLocalizationNotes": "Use creator economy language: 'Collaboration', 'Brand Deals', 'Content Creator', 'Influencer'. Reference Nigerian platforms and content: Naija pop culture, Afrobeats, pidgin content.",
     "imageArtDirectionNotes": "Nigerian creator recording content — YouTube studio setup in Lagos apartment. Nigerian influencer at brand event. Nollywood-aesthetic photo shoot.",
     "regulatoryOrTrustNotes": "NBMC content code compliance for broadcast creators. Copyright registration for music creators.",
-    "templateStatus": "READY_FOR_RESEARCH",
-    "templateVariantCount": 0,
-    "primaryTemplatePath": null,
+    "templateStatus": "IMPLEMENTED",
+    "templateVariantCount": 1,
+    "primaryTemplatePath": "apps/brand-runtime/src/templates/niches/creator/personal-brand.ts",
     "templateSlug": "creator-personal-brand",
     "marketplaceManifestSlug": null,
-    "runtimeIntegrationStatus": "NOT_REGISTERED",
-    "researchStatus": "NOT_STARTED",
-    "researchBriefPath": null,
+    "runtimeIntegrationStatus": "REGISTERED",
+    "researchStatus": "SYNTHESIZED",
+    "researchBriefPath": "docs/templates/research/creator-personal-brand-brief.md",
     "lastReviewedAt": "2026-04-25",
-    "implementedAt": null,
+    "implementedAt": "2026-04-25",
     "dependencies": [
       "packages/verticals-creator"
     ],
     "blockers": [],
     "nextAction": "Research Nigerian creator/influencer personal brand website patterns and brand deal showcase formats",
-    "owner": null,
-    "notes": "M8e milestone. Social network + community as creator tools. Paid subscription tiers."
+    "owner": "replit-agent-2026-04-25-session-B",
+    "notes": "M8e milestone. Social network + community as creator tools. Paid subscription tiers.",
+    "sqlSeedPath": "infra/db/seeds/templates/creator-personal-brand.sql"
   },
   {
     "nicheId": "P2-tech-hub-innovation-centre",
