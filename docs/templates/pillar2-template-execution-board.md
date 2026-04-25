@@ -31,7 +31,7 @@
 
 ## Priority 1 — Original Verticals (Must Ship Before M10)
 
-These niches correspond to the 17 P1-Original verticals. 14 of them are Pillar 2-eligible.
+These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2-eligible at Priority 1. (`law-firm` is a P1-era vertical but classified priority 2 in the verticals CSV — it appears in Priority 2 below.)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
@@ -70,7 +70,7 @@ These niches correspond to the 17 P1-Original verticals. 14 of them are Pillar 2
 | 26 | `P2-handyman-trade-service` | handyman | Handyman / Trade Service Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 27 | `P2-tax-consultant-financial-services` | tax-consultant | Tax Consultant / Financial Services Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 28 | `P2-fashion-brand-clothing-label` | fashion-brand | Fashion Brand / Clothing Label Storefront | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 29 | `P2-photography-studio-visual-portfolio` | photography-studio | Photography / Videography Studio Portfolio | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 29 | `P2-photography-visual-portfolio` | photography | Photography / Videography Studio Portfolio | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 30 | `P2-music-studio-artist-profile` | music-studio | Music Studio / Recording Artist Profile Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 31 | `P2-event-hall-venue-booking` | event-hall | Event Hall / Venue Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 32 | `P2-law-firm-legal-practice` | law-firm | Law Firm / Legal Services Site | READY_FOR_RESEARCH | — | 2026-04-25 |
@@ -113,7 +113,7 @@ These niches correspond to the 17 P1-Original verticals. 14 of them are Pillar 2
 | Slug mismatch: `mobile-money` → `mobile-money-agent` | HIGH | Migration 0037 uses `mobile-money` but CSV slug is `mobile-money-agent`. |
 | Slug mismatch: `bdc` → `bureau-de-change` | HIGH | Migration 0037 uses `bdc` but CSV slug is `bureau-de-change`. |
 | Slug mismatch: `vocational` → `training-institute` | HIGH | Migration 0037 uses `vocational` but CSV slug is `training-institute`. |
-| Photography slug ambiguity | MEDIUM | CSV has `photography` (vtx_photography) but package is `verticals-photography-studio`. Verify before implementing. |
+| Photography slug corrected | LOW | verticalSlug corrected to `photography` (CSV canonical). nicheId is now `P2-photography-visual-portfolio`. Blocker in registry notes to verify live D1 slug before implementing. |
 
 ---
 
@@ -126,4 +126,4 @@ These niches correspond to the 17 P1-Original verticals. 14 of them are Pillar 2
 4. Update the summary counts table at the top
 5. If a niche moves to IMPLEMENTED: move it to the "Completed Niches" table
 
-*Last updated: 2026-04-25 — Initial population. 46 niches registered. 0 implemented.*
+*Last updated: 2026-04-25 — Initial population. 46 niches registered. 0 implemented. QA pass: photography slug corrected; Priority 1 count corrected to 13.*

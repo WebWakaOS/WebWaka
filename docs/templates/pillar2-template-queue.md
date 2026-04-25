@@ -42,8 +42,8 @@ Pre-work checklist:
 
 ## Queue (Ordered Build Sequence)
 
-### Batch 1 — P1-Original Verticals (M8e / M9 deadline)
-These are the priority-1 verticals from the platform's original design. Must be ready before M10.
+### Batch 1 — Highest-Priority Niches (M8e / M9 deadline)
+These niches are the highest-build-priority targets. `restaurant` leads as the reference implementation despite being a P2-category vertical — it is the most searched Nigerian SME type. All others are P1-Original verticals. Must be ready before M10.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
@@ -79,7 +79,7 @@ High-volume Nigerian SME types. Prioritised by estimated Nigerian market size.
 | 24 | `P2-catering-event-service` | READY_FOR_RESEARCH | Event season driven |
 | 25 | `P2-event-hall-venue-booking` | READY_FOR_RESEARCH | Venue booking calendar |
 | 26 | `P2-fashion-brand-clothing-label` | READY_FOR_RESEARCH | Creator + commerce crossover |
-| 27 | `P2-photography-studio-visual-portfolio` | READY_FOR_RESEARCH | Portfolio-first design |
+| 27 | `P2-photography-visual-portfolio` | READY_FOR_RESEARCH | Portfolio-first design (slug ambiguity noted — see blockers) |
 | 28 | `P2-music-studio-artist-profile` | READY_FOR_RESEARCH | Artist profile + booking |
 | 29 | `P2-travel-agent-tour-operator` | READY_FOR_RESEARCH | Tour package showcase |
 | 30 | `P2-savings-group-thrift-community` | READY_FOR_RESEARCH | Ajo/esusu — Nigeria-specific |
@@ -109,7 +109,7 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 | 42 | `P2-creche-early-childhood` | READY_FOR_RESEARCH | |
 | 43 | `P2-mobile-money-agent-fintech` | READY_FOR_RESEARCH | Slug mismatch: `mobile-money` vs `mobile-money-agent` |
 | 44 | `P2-bureau-de-change-fx-dealer` | READY_FOR_RESEARCH | Slug mismatch: `bdc` vs `bureau-de-change` |
-| 45 | `P2-hire-purchase-asset-finance` | READY_FOR_RESEARCH | Slug mismatch: `bdc` in `hire-purchase` context |
+| 45 | `P2-hire-purchase-asset-finance` | READY_FOR_RESEARCH | |
 | 46 | `P2-community-hall-civic-space` | READY_FOR_RESEARCH | |
 
 ---

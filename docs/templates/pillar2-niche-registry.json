@@ -7,7 +7,11 @@
     "nicheName": "General Restaurant / Eatery / Buka Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -27,7 +31,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-restaurant"],
+    "dependencies": [
+      "packages/verticals-restaurant"
+    ],
     "blockers": [],
     "nextAction": "Claim niche and begin 4-thread parallel research on Nigerian restaurant website patterns",
     "owner": null,
@@ -41,7 +47,11 @@
     "nicheName": "Political Campaign Website",
     "verticalCategory": "politics",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "critical",
@@ -61,7 +71,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-politician"],
+    "dependencies": [
+      "packages/verticals-politician"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian political campaign website patterns and constituent engagement models",
     "owner": null,
@@ -75,7 +87,11 @@
     "nicheName": "Party Organisation Website",
     "verticalCategory": "politics",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "critical",
@@ -95,7 +111,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-political-party"],
+    "dependencies": [
+      "packages/verticals-political-party"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian political party website structures and INEC compliance requirements",
     "owner": null,
@@ -109,7 +127,11 @@
     "nicheName": "Ride-Hailing / Driver Network Site",
     "verticalCategory": "transport",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -129,7 +151,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-rideshare"],
+    "dependencies": [
+      "packages/verticals-rideshare"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian ride-hailing operator website patterns and FRSC compliance display",
     "owner": null,
@@ -143,7 +167,11 @@
     "nicheName": "Freight & Logistics Company Site",
     "verticalCategory": "transport",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -163,7 +191,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-haulage"],
+    "dependencies": [
+      "packages/verticals-haulage"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian haulage company website patterns and B2B logistics trust signals",
     "owner": null,
@@ -177,7 +207,11 @@
     "nicheName": "Church / Faith Community Website",
     "verticalCategory": "civic",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "critical",
@@ -197,7 +231,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-church"],
+    "dependencies": [
+      "packages/verticals-church"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian church website patterns across denominations and online giving models",
     "owner": null,
@@ -211,7 +247,11 @@
     "nicheName": "NGO / Non-Profit Donor Portal",
     "verticalCategory": "civic",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -231,7 +271,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-ngo"],
+    "dependencies": [
+      "packages/verticals-ngo"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian NGO website patterns and donor trust signal models",
     "owner": null,
@@ -245,7 +287,10 @@
     "nicheName": "POS Business Operations Portal",
     "verticalCategory": "commerce",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — ops+branding group (not marketplace)",
     "nigeriaFirstPriority": "critical",
@@ -265,7 +310,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-pos-business"],
+    "dependencies": [
+      "packages/verticals-pos-business"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian POS business management portal UX patterns and key operational metrics displayed",
     "owner": null,
@@ -279,7 +326,10 @@
     "nicheName": "Sole Trader / Artisan Catalogue Site",
     "verticalCategory": "commerce",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — ops+branding group (not marketplace)",
     "nigeriaFirstPriority": "critical",
@@ -299,7 +349,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-sole-trader"],
+    "dependencies": [
+      "packages/verticals-sole-trader"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian sole trader digital presence patterns and WhatsApp catalogue integration design",
     "owner": null,
@@ -313,7 +365,11 @@
     "nicheName": "Licensed Professional Practice Site",
     "verticalCategory": "professional",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -333,7 +389,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-professional"],
+    "dependencies": [
+      "packages/verticals-professional"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian licensed professional website patterns across law, medicine, accounting",
     "owner": null,
@@ -347,7 +405,11 @@
     "nicheName": "School / Educational Institution Site",
     "verticalCategory": "education",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "critical",
@@ -367,7 +429,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-school"],
+    "dependencies": [
+      "packages/verticals-school"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian private school website patterns — admission, fees, results display",
     "owner": null,
@@ -381,7 +445,11 @@
     "nicheName": "Primary Care Clinic / Healthcare Site",
     "verticalCategory": "health",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "critical",
@@ -401,7 +469,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-clinic"],
+    "dependencies": [
+      "packages/verticals-clinic"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian primary care clinic website patterns and MDCN/HMO trust signal display",
     "owner": null,
@@ -415,7 +485,11 @@
     "nicheName": "Creator / Influencer Personal Brand Site",
     "verticalCategory": "creator",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -435,7 +509,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-creator"],
+    "dependencies": [
+      "packages/verticals-creator"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian creator/influencer personal brand website patterns and brand deal showcase formats",
     "owner": null,
@@ -449,7 +525,11 @@
     "nicheName": "Tech Hub / Innovation Centre Site",
     "verticalCategory": "place",
     "verticalPriority": 1,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — P1-Original ops+marketplace+branding group",
     "nigeriaFirstPriority": "high",
@@ -469,7 +549,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-tech-hub"],
+    "dependencies": [
+      "packages/verticals-tech-hub"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian tech hub website patterns and incubator programme presentation",
     "owner": null,
@@ -483,7 +565,11 @@
     "nicheName": "Hotel / Guesthouse Booking Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -503,7 +589,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-hotel"],
+    "dependencies": [
+      "packages/verticals-hotel"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian hotel and shortlet website patterns and booking trust signals",
     "owner": null,
@@ -517,7 +605,11 @@
     "nicheName": "Supermarket / Grocery Store Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -537,7 +629,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-supermarket"],
+    "dependencies": [
+      "packages/verticals-supermarket"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian supermarket website patterns and product catalogue display",
     "owner": null,
@@ -551,7 +645,11 @@
     "nicheName": "Pharmacy / Drug Store Site",
     "verticalCategory": "health",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -571,7 +669,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-pharmacy"],
+    "dependencies": [
+      "packages/verticals-pharmacy"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian pharmacy website patterns and PCN/NAFDAC trust signal display",
     "owner": null,
@@ -585,7 +685,11 @@
     "nicheName": "Beauty Salon / Barbershop Booking Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -605,7 +709,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-beauty-salon"],
+    "dependencies": [
+      "packages/verticals-beauty-salon"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian beauty salon Instagram-to-website conversion patterns",
     "owner": null,
@@ -619,7 +725,11 @@
     "nicheName": "Bakery / Confectionery Showcase Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -639,7 +749,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-bakery"],
+    "dependencies": [
+      "packages/verticals-bakery"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian bakery and custom cake website patterns and pre-order flow design",
     "owner": null,
@@ -653,7 +765,11 @@
     "nicheName": "Event Catering Service Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -673,7 +789,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-catering"],
+    "dependencies": [
+      "packages/verticals-catering"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian event catering website patterns and quote request flow",
     "owner": null,
@@ -687,7 +805,11 @@
     "nicheName": "Spa / Wellness Centre Booking Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -707,7 +829,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-spa"],
+    "dependencies": [
+      "packages/verticals-spa"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian spa and wellness website patterns and booking flow design",
     "owner": null,
@@ -721,7 +845,11 @@
     "nicheName": "Gym / Fitness Centre Membership Site",
     "verticalCategory": "health",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -741,7 +869,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-gym"],
+    "dependencies": [
+      "packages/verticals-gym"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian gym and fitness centre website patterns and membership sign-up flow",
     "owner": null,
@@ -755,7 +885,11 @@
     "nicheName": "Real Estate Agency / Property Listings Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -775,7 +909,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-real-estate-agency"],
+    "dependencies": [
+      "packages/verticals-real-estate-agency"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian real estate agency website patterns and property listing trust signals",
     "owner": null,
@@ -789,7 +925,11 @@
     "nicheName": "Travel Agent / Tour Operator Site",
     "verticalCategory": "commerce",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -809,7 +949,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-travel-agent"],
+    "dependencies": [
+      "packages/verticals-travel-agent"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian travel agent website patterns and package deal presentation",
     "owner": null,
@@ -823,7 +965,11 @@
     "nicheName": "IT Support / Tech Service Provider Site",
     "verticalCategory": "professional",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -843,7 +989,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-it-support"],
+    "dependencies": [
+      "packages/verticals-it-support"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian IT support provider website patterns and service listing",
     "owner": null,
@@ -857,7 +1005,11 @@
     "nicheName": "Handyman / Trade Service Booking Site",
     "verticalCategory": "professional",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -877,7 +1029,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-handyman"],
+    "dependencies": [
+      "packages/verticals-handyman"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian handyman and home services website patterns and service booking design",
     "owner": null,
@@ -891,7 +1045,11 @@
     "nicheName": "Tax Consultant / Financial Services Site",
     "verticalCategory": "professional",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -911,7 +1069,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-tax-consultant"],
+    "dependencies": [
+      "packages/verticals-tax-consultant"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian tax consultant website patterns and FIRS/ICAN compliance display",
     "owner": null,
@@ -925,7 +1085,11 @@
     "nicheName": "Fashion Brand / Clothing Label Storefront",
     "verticalCategory": "creator",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -945,23 +1109,29 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-fashion-brand"],
+    "dependencies": [
+      "packages/verticals-fashion-brand"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian fashion brand website patterns and Aso-Ebi ordering flow",
     "owner": null,
     "notes": "M9 milestone. Aso-Ebi wholesale and custom order management are the primary Pillar 2 features."
   },
   {
-    "nicheId": "P2-photography-studio-visual-portfolio",
-    "verticalSlug": "photography-studio",
+    "nicheId": "P2-photography-visual-portfolio",
+    "verticalSlug": "photography",
     "verticalName": "Photography / Videography Studio",
     "nicheSlug": "visual-portfolio",
     "nicheName": "Photography / Videography Studio Portfolio",
     "verticalCategory": "creator",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
-    "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (photography-studio slug)",
+    "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (photography-studio slug used in migration; CSV canonical slug is photography). Verify live D1 slug before implementing.",
     "nigeriaFirstPriority": "high",
     "africaFirstNotes": null,
     "audienceSummary": "Nigerians booking photographers for weddings, corporate events, naming ceremonies, and portraits.",
@@ -972,7 +1142,7 @@
     "templateStatus": "READY_FOR_RESEARCH",
     "templateVariantCount": 0,
     "primaryTemplatePath": null,
-    "templateSlug": "photography-studio-visual-portfolio",
+    "templateSlug": "photography-visual-portfolio",
     "marketplaceManifestSlug": null,
     "runtimeIntegrationStatus": "NOT_REGISTERED",
     "researchStatus": "NOT_STARTED",
@@ -980,10 +1150,12 @@
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
     "dependencies": [],
-    "blockers": ["Verify canonical slug: CSV has 'photography' (vtx_photography) but migration 0037 uses 'photography-studio'. Confirm correct slug before implementing."],
+    "blockers": [
+      "Slug ambiguity: CSV canonical verticalSlug is photography (vtx_photography) but migration 0037 uses photography-studio. nicheId corrected to use CSV canonical slug (photography). Confirm actual D1 slug before shipping this template — if D1 uses photography-studio, update verticalSlug and derived fields accordingly."
+    ],
     "nextAction": "Verify slug: check if vertical slug should be 'photography' or 'photography-studio' in D1",
     "owner": null,
-    "notes": "M9 milestone. Slug ambiguity: vtx_photography in CSV but migration 0037 references photography-studio. Check D1 before implementing."
+    "notes": "M9 milestone. verticalSlug corrected from photography-studio to photography per CSV canonical. Package name is verticals-photography-studio which caused prior confusion. nicheId changed from P2-photography-studio-visual-portfolio to P2-photography-visual-portfolio. Verify D1 slug before implementing."
   },
   {
     "nicheId": "P2-music-studio-artist-profile",
@@ -993,7 +1165,11 @@
     "nicheName": "Music Studio / Recording Artist Profile Site",
     "verticalCategory": "creator",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1013,7 +1189,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-music-studio"],
+    "dependencies": [
+      "packages/verticals-music-studio"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian music studio and artist profile website patterns and streaming integration",
     "owner": null,
@@ -1027,7 +1205,11 @@
     "nicheName": "Event Hall / Venue Booking Site",
     "verticalCategory": "place",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1047,7 +1229,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-event-hall"],
+    "dependencies": [
+      "packages/verticals-event-hall"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian event hall website patterns and availability calendar design",
     "owner": null,
@@ -1061,7 +1245,11 @@
     "nicheName": "Law Firm / Legal Services Site",
     "verticalCategory": "professional",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (law-firm slug confirmed in CSV vtx_law_firm)",
     "nigeriaFirstPriority": "high",
@@ -1081,7 +1269,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-law-firm"],
+    "dependencies": [
+      "packages/verticals-law-firm"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian law firm website patterns and NBA trust signal display",
     "owner": null,
@@ -1095,7 +1285,11 @@
     "nicheName": "Thrift / Ajo / Esusu Group Member Portal",
     "verticalCategory": "financial",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1115,7 +1309,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-savings-group"],
+    "dependencies": [
+      "packages/verticals-savings-group"
+    ],
     "blockers": [],
     "nextAction": "Research ajo/esusu digital management patterns and member portal design",
     "owner": null,
@@ -1129,7 +1325,11 @@
     "nicheName": "Insurance Agent / Broker Site",
     "verticalCategory": "financial",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -1149,7 +1349,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-insurance-agent"],
+    "dependencies": [
+      "packages/verticals-insurance-agent"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian insurance agent website patterns and NAICOM trust signal display",
     "owner": null,
@@ -1163,7 +1365,11 @@
     "nicheName": "Driving School / Transport Training Site",
     "verticalCategory": "education",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1183,7 +1389,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-driving-school"],
+    "dependencies": [
+      "packages/verticals-driving-school"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian driving school website patterns and FRSC accreditation display",
     "owner": null,
@@ -1197,7 +1405,11 @@
     "nicheName": "Training Institute / Vocational School Site",
     "verticalCategory": "education",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (slug 'vocational' maps to CSV 'training-institute')",
     "nigeriaFirstPriority": "high",
@@ -1217,8 +1429,12 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-training-institute"],
-    "blockers": ["Slug mismatch: migration 0037 uses 'vocational' but CSV canonical slug is 'training-institute'. Remediation migration needed."],
+    "dependencies": [
+      "packages/verticals-training-institute"
+    ],
+    "blockers": [
+      "Slug mismatch: migration 0037 uses 'vocational' but CSV canonical slug is 'training-institute'. Remediation migration needed."
+    ],
     "nextAction": "Confirm slug remediation migration is applied, then begin research",
     "owner": null,
     "notes": "M9 milestone. Slug mismatch flag. NABTEB accreditation is key trust signal."
@@ -1231,7 +1447,11 @@
     "nicheName": "Private Tutoring / Lesson Teacher Site",
     "verticalCategory": "education",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -1251,7 +1471,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-tutoring"],
+    "dependencies": [
+      "packages/verticals-tutoring"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian private tutoring website patterns and WAEC/JAMB exam prep content",
     "owner": null,
@@ -1265,7 +1487,11 @@
     "nicheName": "Wholesale Market / Trading Hub Portal",
     "verticalCategory": "place",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1285,7 +1511,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-wholesale-market"],
+    "dependencies": [
+      "packages/verticals-wholesale-market"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian wholesale market directory patterns and B2B price discovery design",
     "owner": null,
@@ -1299,7 +1527,11 @@
     "nicheName": "Warehouse / Logistics Hub Service Site",
     "verticalCategory": "place",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -1319,7 +1551,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-warehouse"],
+    "dependencies": [
+      "packages/verticals-warehouse"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian warehouse operator website patterns and capacity/rate display",
     "owner": null,
@@ -1333,7 +1567,11 @@
     "nicheName": "Dental Clinic / Orthodontist Booking Site",
     "verticalCategory": "health",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (slug 'dental' maps to CSV 'dental-clinic')",
     "nigeriaFirstPriority": "high",
@@ -1353,8 +1591,12 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-dental-clinic"],
-    "blockers": ["Slug mismatch: migration 0037 uses 'dental' but CSV canonical slug is 'dental-clinic'. Remediation migration needed before this template can be SHIPPED."],
+    "dependencies": [
+      "packages/verticals-dental-clinic"
+    ],
+    "blockers": [
+      "Slug mismatch: migration 0037 uses 'dental' but CSV canonical slug is 'dental-clinic'. Remediation migration needed before this template can be SHIPPED."
+    ],
     "nextAction": "Confirm slug remediation migration; template can be built now but SHIPPED only after migration confirmed",
     "owner": null,
     "notes": "M10 milestone. Slug mismatch flag. MDCN registration is the primary trust signal."
@@ -1367,7 +1609,11 @@
     "nicheName": "Veterinary Clinic / Pet Care Site",
     "verticalCategory": "health",
     "verticalPriority": 2,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (slug 'vet' maps to CSV 'vet-clinic')",
     "nigeriaFirstPriority": "high",
@@ -1387,8 +1633,12 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-vet-clinic"],
-    "blockers": ["Slug mismatch: migration 0037 uses 'vet' but CSV canonical slug is 'vet-clinic'. Remediation migration needed."],
+    "dependencies": [
+      "packages/verticals-vet-clinic"
+    ],
+    "blockers": [
+      "Slug mismatch: migration 0037 uses 'vet' but CSV canonical slug is 'vet-clinic'. Remediation migration needed."
+    ],
     "nextAction": "Confirm slug remediation migration; template can be built now but SHIPPED only after migration confirmed",
     "owner": null,
     "notes": "M10 milestone. Slug mismatch flag. VCNR registration is the primary trust signal."
@@ -1401,7 +1651,11 @@
     "nicheName": "Crèche / Day Care Centre Enrollment Site",
     "verticalCategory": "education",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "critical",
@@ -1421,7 +1675,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-creche"],
+    "dependencies": [
+      "packages/verticals-creche"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian crèche and day care website patterns and enrollment trust signals",
     "owner": null,
@@ -1435,7 +1691,11 @@
     "nicheName": "Mobile Money / POS Agent Service Site",
     "verticalCategory": "financial",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (slug 'mobile-money' maps to CSV 'mobile-money-agent')",
     "nigeriaFirstPriority": "critical",
@@ -1455,8 +1715,12 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-mobile-money-agent"],
-    "blockers": ["Slug mismatch: migration 0037 uses 'mobile-money' but CSV canonical slug is 'mobile-money-agent'. Remediation migration needed."],
+    "dependencies": [
+      "packages/verticals-mobile-money-agent"
+    ],
+    "blockers": [
+      "Slug mismatch: migration 0037 uses 'mobile-money' but CSV canonical slug is 'mobile-money-agent'. Remediation migration needed."
+    ],
     "nextAction": "Confirm slug remediation migration; template can be built now but SHIPPED only after migration confirmed",
     "owner": null,
     "notes": "M9 milestone. Slug mismatch flag. CBN agent banking compliance required. Different from POS business management — this is agent banking not inventory management."
@@ -1469,7 +1733,11 @@
     "nicheName": "Bureau de Change / FX Dealer Site",
     "verticalCategory": "financial",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group (slug 'bdc' maps to CSV 'bureau-de-change')",
     "nigeriaFirstPriority": "critical",
@@ -1489,8 +1757,12 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-bureau-de-change"],
-    "blockers": ["Slug mismatch: migration 0037 uses 'bdc' but CSV canonical slug is 'bureau-de-change'. Remediation migration needed."],
+    "dependencies": [
+      "packages/verticals-bureau-de-change"
+    ],
+    "blockers": [
+      "Slug mismatch: migration 0037 uses 'bdc' but CSV canonical slug is 'bureau-de-change'. Remediation migration needed."
+    ],
     "nextAction": "Confirm slug remediation migration; template can be built now but SHIPPED only after migration confirmed",
     "owner": null,
     "notes": "M10 milestone. Slug mismatch flag. CBN BDC licence is a legal requirement for operation and must display on the site."
@@ -1503,7 +1775,11 @@
     "nicheName": "Hire Purchase / Asset Finance Site",
     "verticalCategory": "financial",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -1523,7 +1799,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-hire-purchase"],
+    "dependencies": [
+      "packages/verticals-hire-purchase"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian hire purchase company website patterns and credit product presentation",
     "owner": null,
@@ -1537,7 +1815,11 @@
     "nicheName": "Community Hall / Civic Space Booking Site",
     "verticalCategory": "place",
     "verticalPriority": 3,
-    "canonicalPillars": ["ops", "marketplace", "branding"],
+    "canonicalPillars": [
+      "ops",
+      "marketplace",
+      "branding"
+    ],
     "pillar2Eligible": true,
     "pillar2EligibilitySource": "migration 0037_verticals_primary_pillars.sql — commerce branding group",
     "nigeriaFirstPriority": "high",
@@ -1557,7 +1839,9 @@
     "researchBriefPath": null,
     "lastReviewedAt": "2026-04-25",
     "implementedAt": null,
-    "dependencies": ["packages/verticals-community-hall"],
+    "dependencies": [
+      "packages/verticals-community-hall"
+    ],
     "blockers": [],
     "nextAction": "Research Nigerian community hall booking website patterns",
     "owner": null,

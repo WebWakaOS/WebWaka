@@ -438,11 +438,11 @@ See `docs/templates/pillar2-template-agent-handoff.md` for the full step-by-step
 ### Workflow Summary (9 Mandatory Steps)
 
 ```
-STEP 1: Read registry → confirm target niche → confirm status is READY_FOR_IMPLEMENTATION
-STEP 2: Claim niche → set status to IMPLEMENTATION_IN_PROGRESS + set owner field
+STEP 1: Read registry → confirm target niche → confirm status is READY_FOR_RESEARCH
+STEP 2: Claim niche for research → set status to RESEARCH_IN_PROGRESS + set owner field
 STEP 3: Read all required repo context documents
 STEP 4: Launch specialist research sub-agents (minimum 4 parallel research threads)
-STEP 5: Synthesize research into niche brief
+STEP 5: Synthesize research into niche brief → set status to RESEARCH_SYNTHESIZED → READY_FOR_IMPLEMENTATION
 STEP 6: Design Nigeria-first template structure (sections, copy tone, CTAs)
 STEP 7: Implement the WebsiteTemplateContract in apps/brand-runtime/src/templates/niches/
 STEP 8: Register in BUILT_IN_TEMPLATES + create marketplace manifest SQL
@@ -450,6 +450,8 @@ STEP 9: Update registry to IMPLEMENTED + update execution board + advance queue
 ```
 
 **Research is MANDATORY before implementation. Implementation without completed research is a protocol violation.**
+
+**NOTE:** If a niche is already at `READY_FOR_IMPLEMENTATION` (research done in a prior session), begin at STEP 6. All 46 niches currently begin at `READY_FOR_RESEARCH` — a full research pass is required for each.
 
 ---
 

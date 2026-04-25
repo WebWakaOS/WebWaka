@@ -50,27 +50,39 @@ ACTION: Read docs/templates/pillar2-niche-registry.json
 ACTION: Read docs/templates/pillar2-template-queue.md
 
 CONFIRM:
-  - The target niche's templateStatus is READY_FOR_IMPLEMENTATION
+  - The target niche's templateStatus is READY_FOR_RESEARCH
+    (All niches begin at READY_FOR_RESEARCH — research has not yet been done)
   - The target niche's owner is null (not claimed by another agent)
   - No other niche with the same nicheId exists (duplicate check)
-  - The niche's researchStatus is SYNTHESIZED (or READY_FOR_IMPLEMENTATION implies research is done)
+
+NOTE: If you find a niche already at READY_FOR_IMPLEMENTATION (research was done
+in a prior session and brief exists), skip to STEP 6. But confirm researchBriefPath
+is populated and researchStatus = SYNTHESIZED before doing so.
 
 IF any condition fails: HALT. Do not proceed. Report the issue.
 ```
 
-### STEP 2: Claim the Niche (Status Update)
+### STEP 2: Claim the Niche for Research (Status Update)
 
 ```
 ACTION: Update docs/templates/pillar2-niche-registry.json
-  - Set templateStatus = "IMPLEMENTATION_IN_PROGRESS"
+  - Set templateStatus = "RESEARCH_IN_PROGRESS"
+  - Set researchStatus = "IN_PROGRESS"
   - Set owner = "{agent-session-identifier}"
-  - Set researchStatus = "IN_PROGRESS" (if research not yet done)
 
 ACTION: Update docs/templates/pillar2-template-execution-board.md
-  - Mark the niche as IN PROGRESS with timestamp
+  - Mark the niche as RESEARCH_IN_PROGRESS with timestamp
 
 COMMIT: Write the registry update before beginning any other work.
-DO NOT proceed to implementation without claiming the niche first.
+DO NOT proceed to research without claiming the niche first.
+
+NOTE: After completing Steps 3–5 (research + synthesis), you must advance the status:
+  - Set templateStatus = "RESEARCH_SYNTHESIZED"
+  - Set researchStatus = "SYNTHESIZED"
+  - Set researchBriefPath = path to the brief you created
+  Then (with agent authority) advance to:
+  - Set templateStatus = "READY_FOR_IMPLEMENTATION"
+  Only then proceed to STEP 6 (design) and STEP 7 (implementation).
 ```
 
 ### STEP 3: Read All Required Repository Context
