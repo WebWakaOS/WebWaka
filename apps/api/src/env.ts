@@ -233,6 +233,34 @@ export interface Env {
   NOTIFICATION_KV?: KVNamespace;
 
   /**
+   * Cloudflare account ID used for R2 S3-compatible API pre-signed URL generation.
+   * Format: 32-character hex string (find in CF Dashboard → Overview → Account ID).
+   * Not sensitive — set in wrangler.toml [vars].
+   */
+  R2_ACCOUNT_ID?: string;
+
+  /**
+   * R2 API token access key ID for DSAR export pre-signed URL generation (COMP-002).
+   * Generate via CF Dashboard → R2 → Manage R2 API tokens → Create API token (read-only).
+   * Set via: wrangler secret put R2_DSAR_ACCESS_KEY_ID
+   */
+  R2_DSAR_ACCESS_KEY_ID?: string;
+
+  /**
+   * R2 API token secret access key for DSAR export pre-signed URL generation (COMP-002).
+   * Paired with R2_DSAR_ACCESS_KEY_ID — never log this value.
+   * Set via: wrangler secret put R2_DSAR_SECRET_ACCESS_KEY
+   */
+  R2_DSAR_SECRET_ACCESS_KEY?: string;
+
+  /**
+   * Actual R2 bucket name for DSAR exports (for S3-compatible API path construction).
+   * Example: "webwaka-dsar-exports-staging" / "webwaka-dsar-exports-production".
+   * Not sensitive — set in wrangler.toml [vars].
+   */
+  DSAR_BUCKET_NAME?: string;
+
+  /**
    * HandyLife Wallet feature flags and configuration (WF-012).
    * Keys:
    *   wallet:flag:{feature}_enabled   — '1' | '0'

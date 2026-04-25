@@ -100,6 +100,8 @@ describe('compileDsarExport', () => {
     expect(payload.request_id).toBe('r-1');
     expect(payload.exported_at).toBeTruthy();
     expect(Array.isArray(payload.consent)).toBe(true);
+    expect(Array.isArray(payload.consent_history)).toBe(true);
+    expect(Array.isArray(payload.audit_log)).toBe(true);
     expect(Array.isArray(payload.ai_usage)).toBe(true);
     expect(Array.isArray(payload.ai_spend)).toBe(true);
     expect(Array.isArray(payload.wallet)).toBe(true);
@@ -121,6 +123,8 @@ describe('storeExport', () => {
     tenant_id: 't-abc',
     identity: null,
     consent: [],
+    consent_history: [],
+    audit_log: [],
     ai_usage: [],
     ai_spend: [],
     wallet: [],
