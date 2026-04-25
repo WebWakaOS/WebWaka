@@ -15,20 +15,20 @@
 ## ⟶ CURRENT (Build This Next)
 
 ```
-Niche ID:       P2-creator-personal-brand
-Vertical:       creator
-Vertical Name:  Creator / Influencer
-Niche Name:     Creator / Influencer Personal Brand Site
-Status:         IMPLEMENTED ✅
-Owner:          replit-agent-2026-04-25-session-B
-Template Slug:  creator-personal-brand
-Source File:    apps/brand-runtime/src/templates/niches/creator/personal-brand.ts (to create)
+Niche ID:       P2-hotel-hospitality-booking
+Vertical:       hotel
+Vertical Name:  Hotel / Guesthouse
+Niche Name:     Hotel / Guesthouse Booking Site
+Status:         READY_FOR_RESEARCH
+Owner:          —
+Template Slug:  hotel-hospitality-booking
+Source File:    apps/brand-runtime/src/templates/niches/hotel/hospitality-booking.ts (to create)
 
 Rationale for priority:
-  - creator economy is fast-growing in Nigeria — YouTube, TikTok, Instagram monetisation
-  - Personal brand site is a core need for every creator/influencer seeking brand deals
-  - Social-native audience expects polished web presence alongside their socials
-  - P1-Original vertical
+  - Nigerian hospitality is a very high-search-intent vertical — Lagos, Abuja, Owerri, Port Harcourt
+  - Room-booking via WhatsApp is standard in Nigerian budget and mid-market hotels
+  - Guest house and transit hotel operators need strong booking-first web presence
+  - Priority 2 — Batch 2 (next after P2-beauty-salon-personal-care)
 
 Pre-work checklist:
   [ ] Read pillar2-generic-implementation-prompt.md (mandatory)
@@ -52,22 +52,22 @@ These niches are the highest-build-priority targets. `restaurant` leads as the r
 | 4 | `P2-professional-practice-site` | IMPLEMENTED ✅ | NF-PRO-LIC anchor — 2026-04-25 |
 | 5 | `P2-church-faith-community` | IMPLEMENTED ✅ | NF-CIV-REL anchor — 2026-04-25 |
 | 6 | `P2-clinic-primary-care` | IMPLEMENTED ✅ | Standalone P1 health anchor — 2026-04-25 |
-| 7 | `P2-school-institution-site` | READY_FOR_RESEARCH | Education — P1-Original |
-| 8 | `P2-ngo-nonprofit-portal` | READY_FOR_RESEARCH | Civic — P1-Original |
-| 9 | `P2-pos-business-operations-portal` | READY_FOR_RESEARCH | Commerce — P1-Original |
-| 10 | `P2-politician-campaign-site` | READY_FOR_RESEARCH | Politics — P1-Original (M8b) |
-| 11 | `P2-political-party-party-website` | READY_FOR_RESEARCH | Politics — P1-Original (M8b) |
-| 12 | `P2-tech-hub-innovation-centre` | READY_FOR_RESEARCH | Place — P1-Original |
-| 13 | `P2-rideshare-ride-hailing-service` | READY_FOR_RESEARCH | Transport — P1-Original |
-| 14 | `P2-haulage-freight-logistics` | READY_FOR_RESEARCH | Transport — P1-Original |
+| 7 | `P2-school-institution-site` | IMPLEMENTED ✅ | Education — P1-Original — 2026-04-25 |
+| 8 | `P2-ngo-nonprofit-portal` | IMPLEMENTED ✅ | Civic — P1-Original — 2026-04-25 |
+| 9 | `P2-pos-business-operations-portal` | IMPLEMENTED ✅ | Commerce — P1-Original — 2026-04-25 |
+| 10 | `P2-politician-campaign-site` | IMPLEMENTED ✅ | Politics — P1-Original — 2026-04-25 |
+| 11 | `P2-political-party-party-website` | IMPLEMENTED ✅ | Politics — P1-Original — 2026-04-25 |
+| 12 | `P2-tech-hub-innovation-centre` | IMPLEMENTED ✅ | Place — P1-Original — 2026-04-25 |
+| 13 | `P2-rideshare-ride-hailing-service` | IMPLEMENTED ✅ | Transport — P1-Original — 2026-04-25 |
+| 14 | `P2-haulage-freight-logistics` | IMPLEMENTED ✅ | Transport — P1-Original — 2026-04-25 |
 
 ### Batch 2 — P2 High-Fit Commerce Verticals (M9 deadline)
 High-volume Nigerian SME types. Prioritised by estimated Nigerian market size.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 15 | `P2-pharmacy-drug-store` | READY_FOR_RESEARCH | Regulatory trust signals critical |
-| 16 | `P2-beauty-salon-personal-care` | READY_FOR_RESEARCH | Very high Nigeria demand |
+| 15 | `P2-pharmacy-drug-store` | IMPLEMENTED ✅ | Regulatory trust signals critical — 2026-04-25 |
+| 16 | `P2-beauty-salon-personal-care` | IMPLEMENTED ✅ | Very high Nigeria demand — 2026-04-25 |
 | 17 | `P2-hotel-hospitality-booking` | READY_FOR_RESEARCH | Booking system focus |
 | 18 | `P2-real-estate-agency-property-listings` | READY_FOR_RESEARCH | Property — high search intent |
 | 19 | `P2-law-firm-legal-practice` | READY_FOR_RESEARCH | Professional — NBA trust signals |
@@ -123,6 +123,16 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 | 2026-04-25 | `P2-professional-practice-site` | Licensed Professional Practice Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 | 2026-04-25 | `P2-church-faith-community` | Church / Faith Community Website | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 | 2026-04-25 | `P2-clinic-primary-care` | Primary Care Clinic / Healthcare Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-school-institution-site` | School / Educational Institution Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-ngo-nonprofit-portal` | NGO / Non-Profit Donor & Volunteer Portal | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-pos-business-operations-portal` | POS Business Operations Portal | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-politician-campaign-site` | Individual Politician Campaign Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-political-party-party-website` | Political Party Organisation Website | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-tech-hub-innovation-centre` | Tech Hub / Innovation Centre Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-rideshare-ride-hailing-service` | Ride-Hailing / Carpooling Service Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-haulage-freight-logistics` | Haulage / Freight & Logistics Company Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-pharmacy-drug-store` | Pharmacy / Drug Store Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-beauty-salon-personal-care` | Beauty Salon / Barber Shop Personal Care Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 
 ---
 
@@ -137,4 +147,4 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 
 ---
 
-*Last updated: 2026-04-25 — P2-clinic-primary-care IMPLEMENTED. 42 niches queued. 6 completed (IMPLEMENTED, not yet SHIPPED).*
+*Last updated: 2026-04-25 — Priorities 7–16 IMPLEMENTED by replit-agent-2026-04-25-session-B. 32 niches queued. 16 completed (IMPLEMENTED, not yet SHIPPED). CURRENT advanced to P2-hotel-hospitality-booking.*

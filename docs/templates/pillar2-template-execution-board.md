@@ -12,12 +12,12 @@
 | Status | Count |
 |--------|-------|
 | UNASSIGNED | 0 |
-| READY_FOR_RESEARCH | 40 |
+| READY_FOR_RESEARCH | 30 |
 | RESEARCH_IN_PROGRESS | 0 |
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 6 |
+| IMPLEMENTED | 16 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
 | SHIPPED | 0 |
@@ -35,19 +35,19 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 1 | `P2-politician-campaign-site` | politician | Political Campaign Website | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 2 | `P2-political-party-party-website` | political-party | Party Organisation Website | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 3 | `P2-rideshare-ride-hailing-service` | rideshare | Ride-Hailing / Driver Network Site | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 4 | `P2-haulage-freight-logistics` | haulage | Freight & Logistics Company Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 1 | `P2-politician-campaign-site` | politician | Political Campaign Website | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
+| 2 | `P2-political-party-party-website` | political-party | Party Organisation Website | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
+| 3 | `P2-rideshare-ride-hailing-service` | rideshare | Ride-Hailing / Driver Network Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
+| 4 | `P2-haulage-freight-logistics` | haulage | Freight & Logistics Company Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 5 | `P2-church-faith-community` | church | Church / Faith Community Website | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
-| 6 | `P2-ngo-nonprofit-portal` | ngo | NGO / Non-Profit Donor Portal | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 7 | `P2-pos-business-operations-portal` | pos-business | POS Business Operations Portal | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 6 | `P2-ngo-nonprofit-portal` | ngo | NGO / Non-Profit Donor Portal | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
+| 7 | `P2-pos-business-operations-portal` | pos-business | POS Business Operations Portal | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 8 | `P2-sole-trader-artisan-catalogue` | sole-trader | Sole Trader / Artisan Catalogue Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 9 | `P2-professional-practice-site` | professional | Licensed Professional Practice Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
-| 10 | `P2-school-institution-site` | school | School / Educational Institution Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 10 | `P2-school-institution-site` | school | School / Educational Institution Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 11 | `P2-clinic-primary-care` | clinic | Primary Care Clinic / Healthcare Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 12 | `P2-creator-personal-brand` | creator | Creator / Influencer Personal Brand Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
-| 13 | `P2-tech-hub-innovation-centre` | tech-hub | Tech Hub / Innovation Centre Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 13 | `P2-tech-hub-innovation-centre` | tech-hub | Tech Hub / Innovation Centre Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 
 ---
 
@@ -58,8 +58,8 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 | 14 | `P2-restaurant-general-eatery` | restaurant | General Restaurant / Eatery / Buka Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 15 | `P2-hotel-hospitality-booking` | hotel | Hotel / Guesthouse Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 16 | `P2-supermarket-grocery-store` | supermarket | Supermarket / Grocery Store Site | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 17 | `P2-pharmacy-drug-store` | pharmacy | Pharmacy / Drug Store Site | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 18 | `P2-beauty-salon-personal-care` | beauty-salon | Beauty Salon / Barbershop Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 17 | `P2-pharmacy-drug-store` | pharmacy | Pharmacy / Drug Store Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
+| 18 | `P2-beauty-salon-personal-care` | beauty-salon | Beauty Salon / Barbershop Booking Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 19 | `P2-bakery-confectionery` | bakery | Bakery / Confectionery Showcase Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 20 | `P2-catering-event-service` | catering | Event Catering Service Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 21 | `P2-spa-wellness-centre` | spa | Spa / Wellness Centre Booking Site | READY_FOR_RESEARCH | — | 2026-04-25 |
@@ -100,7 +100,24 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 
 ## Completed Niches
 
-*None yet — first implementations pending.*
+| Completed Date | Niche ID | Niche Name | Template Slug |
+|----------------|----------|-----------|---------------|
+| 2026-04-25 | `P2-restaurant-general-eatery` | General Restaurant / Eatery / Buka Site | `restaurant-general-eatery` |
+| 2026-04-25 | `P2-sole-trader-artisan-catalogue` | Sole Trader / Artisan Catalogue Site | `sole-trader-artisan-catalogue` |
+| 2026-04-25 | `P2-creator-personal-brand` | Creator / Influencer Personal Brand Site | `creator-personal-brand` |
+| 2026-04-25 | `P2-professional-practice-site` | Licensed Professional Practice Site | `professional-practice-site` |
+| 2026-04-25 | `P2-church-faith-community` | Church / Faith Community Website | `church-faith-community` |
+| 2026-04-25 | `P2-clinic-primary-care` | Primary Care Clinic / Healthcare Site | `clinic-primary-care` |
+| 2026-04-25 | `P2-school-institution-site` | School / Educational Institution Site | `school-institution-site` |
+| 2026-04-25 | `P2-ngo-nonprofit-portal` | NGO / Non-Profit Donor & Volunteer Portal | `ngo-nonprofit-portal` |
+| 2026-04-25 | `P2-pos-business-operations-portal` | POS Business Operations Portal | `pos-business-operations-portal` |
+| 2026-04-25 | `P2-politician-campaign-site` | Individual Politician Campaign Site | `politician-campaign-site` |
+| 2026-04-25 | `P2-political-party-party-website` | Political Party Organisation Website | `political-party-party-website` |
+| 2026-04-25 | `P2-tech-hub-innovation-centre` | Tech Hub / Innovation Centre Site | `tech-hub-innovation-centre` |
+| 2026-04-25 | `P2-rideshare-ride-hailing-service` | Ride-Hailing / Carpooling Service Site | `rideshare-ride-hailing-service` |
+| 2026-04-25 | `P2-haulage-freight-logistics` | Haulage / Freight & Logistics Company Site | `haulage-freight-logistics` |
+| 2026-04-25 | `P2-pharmacy-drug-store` | Pharmacy / Drug Store Site | `pharmacy-drug-store` |
+| 2026-04-25 | `P2-beauty-salon-personal-care` | Beauty Salon / Barber Shop Personal Care Site | `beauty-salon-personal-care` |
 
 ---
 
@@ -126,4 +143,4 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 4. Update the summary counts table at the top
 5. If a niche moves to IMPLEMENTED: move it to the "Completed Niches" table
 
-*Last updated: 2026-04-25 — Initial population. 46 niches registered. 0 implemented. QA pass: photography slug corrected; Priority 1 count corrected to 13.*
+*Last updated: 2026-04-25 — 10 additional niches (queue priorities 7–16) IMPLEMENTED by replit-agent-2026-04-25-session-B. IMPLEMENTED total: 16. READY_FOR_RESEARCH: 30. All 13 Priority 1 niches now IMPLEMENTED. Priorities 15–16 from Batch 2 also IMPLEMENTED.*

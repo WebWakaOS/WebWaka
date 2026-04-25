@@ -43,6 +43,16 @@ import { creatorPersonalBrandTemplate } from '../templates/niches/creator/person
 import { professionalPracticeSiteTemplate } from '../templates/niches/professional/practice-site.js';
 import { churchFaithCommunityTemplate } from '../templates/niches/church/faith-community.js';
 import { clinicPrimaryCareTemplate } from '../templates/niches/clinic/primary-care.js';
+import { schoolInstitutionSiteTemplate } from '../templates/niches/school/institution-site.js';
+import { ngoNonprofitPortalTemplate } from '../templates/niches/ngo/nonprofit-portal.js';
+import { posBusinessOperationsPortalTemplate } from '../templates/niches/pos-business/operations-portal.js';
+import { politicianCampaignSiteTemplate } from '../templates/niches/politician/campaign-site.js';
+import { politicalPartyPartyWebsiteTemplate } from '../templates/niches/political-party/party-website.js';
+import { techHubInnovationCentreTemplate } from '../templates/niches/tech-hub/innovation-centre.js';
+import { rideshareRideHailingServiceTemplate } from '../templates/niches/rideshare/ride-hailing-service.js';
+import { haulageFreightLogisticsTemplate } from '../templates/niches/haulage/freight-logistics.js';
+import { pharmacyDrugStoreTemplate } from '../templates/niches/pharmacy/drug-store.js';
+import { beautySalonPersonalCareTemplate } from '../templates/niches/beauty-salon/personal-care.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -120,6 +130,16 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['professional-practice-site', professionalPracticeSiteTemplate],
   ['church-faith-community', churchFaithCommunityTemplate],
   ['clinic-primary-care', clinicPrimaryCareTemplate],
+  ['school-institution-site', schoolInstitutionSiteTemplate],
+  ['ngo-nonprofit-portal', ngoNonprofitPortalTemplate],
+  ['pos-business-operations-portal', posBusinessOperationsPortalTemplate],
+  ['politician-campaign-site', politicianCampaignSiteTemplate],
+  ['political-party-party-website', politicalPartyPartyWebsiteTemplate],
+  ['tech-hub-innovation-centre', techHubInnovationCentreTemplate],
+  ['rideshare-ride-hailing-service', rideshareRideHailingServiceTemplate],
+  ['haulage-freight-logistics', haulageFreightLogisticsTemplate],
+  ['pharmacy-drug-store', pharmacyDrugStoreTemplate],
+  ['beauty-salon-personal-care', beautySalonPersonalCareTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
