@@ -147,3 +147,53 @@ The system is built on a serverless, edge-first architecture utilizing Cloudflar
 - **BUG-UX-01**: Non-live app cards (Partner Admin, Brand Runtime, Public Discovery, API) had the same hover border effect as the clickable HandyLife card, implying they were interactive when they are not. Fixed by adding `.card--future` CSS class: `cursor: default; opacity: 0.65;` with hover kept to `border-color: var(--border)`. Added `aria-label` describing the milestone status.
 - **BUG-UX-02**: Stats section showed "n/a" with no explanation when API was unreachable — users had no way to tell if data was zero or an error. Added a visible amber warning banner (`#stats-api-status`) that appears when `showStatsOffline()` fires, reading "API unreachable — stats unavailable. Check network or service worker key."
 - **BUG-UX-03**: HITL queue showed "Unable to load — check API auth" with no way to retry without a full page refresh. Added a ↻ Retry button inline next to the HITL heading that calls `loadHitlQueue()` directly.
+
+## SA-5 Feature Set — Shipped 2026-04-25 (staging → main → production ✅)
+
+### T001 — NDPR Capability Register (SA-4.3)
+`packages/superagent/src/ndpr-register.ts` expanded from 8 to 23 capabilities covering all Pillar 1, 2, and 3 capabilities. All capabilities now appear in NDPR Article 30 exports.
+
+### T002 — D1 Migration 0389 (SA-4.5)
+`infra/db/migrations/0389_hitl_executed_status.sql` adds `'executed'` to `ai_hitl_queue.status` CHECK constraint and `ai_hitl_events.event_type` CHECK constraint (SQLite table-recreation pattern). Includes rollback. Fixes `trg_hitl_queue_terminal_guard` — previously blocked `approved→executed` transitions; now only blocks `rejected`/`expired`/`executed` as terminals.
+
+### T003 — Event Types (SA-4.6)
+`packages/events/src/event-types.ts`: added `AiHitlApproved`, `AiHitlExecuted`, `AiToolCallExecuted` event types.
+
+### T004 — HITL Approval Event (SA-4.6)
+`PATCH /superagent/hitl/:id/review`: on `decision='approved'`, publishes `AiHitlApproved` event to notification queue. Enables downstream notification and webhook delivery to the original requester.
+
+### T005 — AI Types (SA-5.1)
+`packages/ai-abstraction/src/types.ts`: added `ToolDefinition` and `ToolCall` interfaces; extended `AIMessage` to support `role:'tool'` and `tool_call_id`; extended `AIRequest` with `tools`/`tool_choice`; extended `AIResponse` with `toolCalls?: ToolCall[]` and `'tool_calls'` as `finishReason`. Both types exported from `@webwaka/ai` package index.
+
+### T006 — OpenAI-Compat Adapter Tool Calls (SA-5.2)
+`packages/ai-adapters/src/openai-compat.ts`: passes `tools`/`tool_choice` in API body; parses `tool_calls` from response; handles `finish_reason: 'tool_calls'`. Uses conditional spread to satisfy `exactOptionalPropertyTypes: true`.
+
+### T007 — ToolRegistry Class (SA-5.x)
+`packages/superagent/src/tool-registry.ts`: `ToolRegistry<Env>` with `register()`, `getDefinitions()`, `execute()`, and `executeAll()` (parallel). `MAX_TOOL_ROUNDS = 3` safety cap. Exported from `@webwaka/superagent`.
+
+### T008 — Built-in Platform Tools (SA-5.x)
+Four tools in `packages/superagent/src/tools/`:
+- `inventory-check` — queries `products` table for stock/pricing (price in kobo, P9 compliant)
+- `pos-recent-sales` — queries POS transactions with period aggregation (revenue in kobo, P9 compliant)
+- `get-active-offerings` — queries `offerings` table for public service listings (price in kobo, P9 compliant)
+- `schedule-availability` — queries `schedules`/`schedule_slots` for availability windows
+
+### T009 — /superagent/chat Tool Loop (SA-5.x)
+`apps/api/src/routes/superagent.ts`: F-019 501 guards removed from `/chat` and `/hitl/:id/resume`. Multi-turn tool execution loop (max `MAX_TOOL_ROUNDS=3`) wired into `/chat` for `capability='function_call'`. Parallel tool dispatch via `registry.executeAll()`. `tool_rounds` and `tool_calls_executed` included in response.
+
+### T010 — PLATFORM_AGGREGATORS Fix (SA-1.2)
+`packages/ai-abstraction/src/router.ts`: `function_call` removed from `'together'` capabilities (Together AI does not support OpenAI-compatible native tool calling). Function call requests now route only to `groq` or `openrouter`.
+
+### T011 — Partner Pool Analytics Endpoint (SA-1.6)
+`GET /superagent/partner-pool/report` — admin-gated endpoint returning pool summary (allocated/used/remaining WakaCU, utilisation %, expiry) across all pools granted by the requesting tenant.
+
+### T012 — Spend Event Reliability (SA-4.4)
+`ai_spend_events` D1 write now retries up to 3 times with exponential backoff (50ms, 100ms). Permanent failures are structured-logged with `tenantId`, `capability`, `spendEventId`, `model` for log ingestion.
+
+### T013 — OpenAPI Spec (SA-5.x)
+`docs/openapi/v1.yaml`: documented `/superagent/chat`, `/superagent/hitl/{id}`, `/superagent/hitl/{id}/review`, `/superagent/hitl/{id}/resume`, `/superagent/partner-pool/report`, `/superagent/compliance/check`, `/superagent/ndpr/register`, `/superagent/ndpr/register/seed`.
+
+### Infrastructure
+- `pnpm-lock.yaml` synced (`@webwaka/offline-sync` added to `apps/workspace-app` specifiers — was blocking CI with `ERR_PNPM_OUTDATED_LOCKFILE`).
+- Staging CI: 0 TypeScript errors, all governance checks (P9 monetary integrity, P13 AI direct-call, tenant isolation) passed. Deploy-Staging ✅.
+- Main CI: green. Deploy-Production ✅ (canary → 100%). Release Changelog ✅.
