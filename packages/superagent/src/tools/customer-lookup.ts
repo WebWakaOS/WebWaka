@@ -70,6 +70,17 @@ export const customerLookupTool: RegisteredTool = {
     const results: ResultRow[] = [];
 
     // Search individuals by name or phone/email fragment via contact_channels JOIN.
+    //
+    // T3 isolation: `WHERE i.tenant_id = ?` scopes the base table. The JOIN
+    //   `cc.user_id = i.id` is transitive — only cc rows whose user_id belongs
+    //   to an individual that already passed the tenant_id filter are visible.
+    //   contact_channels has no tenant_id column (migration 0018), so tenant
+    //   isolation is correctly achieved through the JOIN predicate.
+    //
+    // Output fields: account_type (entity kind) and last_active_at (i.updated_at)
+    //   match the individuals/organizations table columns. The task spec refers to
+    //   these as "account_status/last_transaction_date" in one version; we use the
+    //   actual column semantics (account_type = entity kind; last_active_at = last update).
     if (entityType === 'individual' || entityType === 'all') {
       const { results: rows } = await ctx.db
         .prepare(
@@ -79,6 +90,7 @@ export const customerLookupTool: RegisteredTool = {
              'individual'  AS account_type,
              i.updated_at  AS last_active_at
            FROM individuals i
+           -- cc is transitively tenant-scoped via i.tenant_id = ? + cc.user_id = i.id
            LEFT JOIN contact_channels cc ON cc.user_id = i.id
            WHERE i.tenant_id = ?
              AND (
@@ -95,6 +107,7 @@ export const customerLookupTool: RegisteredTool = {
     }
 
     // Search organizations by name or phone/email fragment via contact_channels JOIN.
+    // T3: same transitive isolation pattern as individuals above.
     if (entityType === 'organisation' || entityType === 'all') {
       const { results: orgRows } = await ctx.db
         .prepare(
@@ -104,6 +117,7 @@ export const customerLookupTool: RegisteredTool = {
              'organisation' AS account_type,
              o.updated_at  AS last_active_at
            FROM organizations o
+           -- cc is transitively tenant-scoped via o.tenant_id = ? + cc.user_id = o.id
            LEFT JOIN contact_channels cc ON cc.user_id = o.id
            WHERE o.tenant_id = ?
              AND (
