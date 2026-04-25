@@ -126,3 +126,16 @@ export type {
   RegisterEntry,
   NdprRegisterDeps,
 } from './ndpr-register.js';
+
+export { ToolRegistry, MAX_TOOL_ROUNDS } from './tool-registry.js';
+export type {
+  ToolExecutionContext,
+  ToolHandler,
+  RegisteredTool,
+} from './tool-registry.js';
+
+export { createDefaultToolRegistry } from './tools/index.js';
+export { inventoryCheckTool } from './tools/inventory-check.js';
+export { posRecentSalesTool } from './tools/pos-recent-sales.js';
+export { getActiveOfferingsTool } from './tools/get-active-offerings.js';
+export { scheduleAvailabilityTool } from './tools/schedule-availability.js';

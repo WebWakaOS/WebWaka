@@ -74,8 +74,61 @@ export interface AIProviderConfig {
 // ---------------------------------------------------------------------------
 
 export interface AIMessage {
-  role: 'system' | 'user' | 'assistant';
+  role: 'system' | 'user' | 'assistant' | 'tool';
   content: string;
+  /** Present when role='tool' — identifies which tool call this result answers */
+  tool_call_id?: string;
+  /** Present when role='assistant' and the model requested tool calls */
+  tool_calls?: ToolCall[];
+}
+
+// ---------------------------------------------------------------------------
+// Tool call types (SA-5.x — function_call / tool registry)
+// ---------------------------------------------------------------------------
+
+/**
+ * JSON Schema descriptor for a single parameter property.
+ */
+export interface ToolParameterProperty {
+  type: string;
+  description: string;
+  enum?: string[];
+}
+
+/**
+ * JSON Schema object describing the parameters accepted by a tool.
+ */
+export interface ToolParameterSchema {
+  type: 'object';
+  properties: Record<string, ToolParameterProperty>;
+  required?: string[];
+}
+
+/**
+ * Definition of a single tool exposed to the AI model.
+ * Matches the OpenAI function-calling format.
+ */
+export interface ToolDefinition {
+  type: 'function';
+  function: {
+    name: string;
+    description: string;
+    parameters: ToolParameterSchema;
+  };
+}
+
+/**
+ * A tool call requested by the model in an assistant message.
+ */
+export interface ToolCall {
+  id: string;
+  type: 'function';
+  function: {
+    /** Name of the tool to invoke */
+    name: string;
+    /** JSON-encoded arguments object */
+    arguments: string;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -88,6 +141,19 @@ export interface AIRequest {
   temperature?: number;
   /** If true, the adapter should return a streaming iterable */
   stream?: boolean;
+  /**
+   * Tools available to the model (SA-5.x tool registry).
+   * When provided, the adapter passes them to the provider using the
+   * OpenAI function-calling format. Only supported by tool-capable providers.
+   */
+  tools?: ToolDefinition[];
+  /**
+   * Controls how the model selects a tool.
+   * 'auto'  — model decides whether to call a tool (default when tools present)
+   * 'none'  — model must not call any tool
+   * Object  — force a specific tool by name
+   */
+  tool_choice?: 'auto' | 'none' | { type: 'function'; function: { name: string } };
 }
 
 export interface AIResponse {
@@ -100,7 +166,12 @@ export interface AIResponse {
   /** Total tokens consumed (prompt + completion) */
   tokensUsed: number;
   /** Why the generation stopped */
-  finishReason: 'stop' | 'length' | 'error';
+  finishReason: 'stop' | 'length' | 'error' | 'tool_calls';
+  /**
+   * Tool calls requested by the model (SA-5.x).
+   * Non-empty when finishReason = 'tool_calls'.
+   */
+  toolCalls?: ToolCall[];
 }
 
 // ---------------------------------------------------------------------------

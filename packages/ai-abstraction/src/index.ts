@@ -18,6 +18,8 @@ export type {
   AggregatorConfig,
   AIRoutingContext,
   AIRoutingErrorCode,
+  ToolDefinition,
+  ToolCall,
 } from './types.js';
 
 export { AIRoutingError } from './types.js';

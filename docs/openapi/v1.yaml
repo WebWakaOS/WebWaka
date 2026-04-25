@@ -1415,6 +1415,353 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
 
+  # ---------------------------------------------------------------------------
+  # SuperAgent — AI Orchestration (SA-1.x, SA-4.x, SA-5.x)
+  # ---------------------------------------------------------------------------
+
+  /superagent/chat:
+    post:
+      tags: [SuperAgent]
+      summary: Submit an AI chat request
+      description: |
+        Multi-capability AI orchestration endpoint. Supported capabilities include
+        `superagent_chat`, `function_call` (tool-calling via ToolRegistry with up to
+        3 autonomous rounds), `bio_generator`, `brand_copywriter`, and others.
+
+        All requests are compliance-gated (NDPR, HITL, budget). When a request is
+        queued for HITL review the response contains `hitl_queued: true` and a
+        `queue_item_id`; the caller should poll `/superagent/hitl/:id` and, once
+        approved, call `/superagent/hitl/:id/resume`.
+      operationId: superagentChat
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [capability, messages]
+              properties:
+                capability:
+                  type: string
+                  example: function_call
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    required: [role, content]
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user, assistant, tool]
+                      content:
+                        type: string
+                vertical:
+                  type: string
+                  example: retail
+                tools:
+                  type: array
+                  description: Tool definitions (function_call capability only).
+                  items:
+                    type: object
+                    required: [type, function]
+                    properties:
+                      type:
+                        type: string
+                        enum: [function]
+                      function:
+                        type: object
+                        required: [name, description]
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          parameters:
+                            type: object
+                            description: JSON Schema describing the function parameters.
+      responses:
+        "200":
+          description: AI response (may include tool call metadata when capability=function_call)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provider:
+                    type: string
+                  model:
+                    type: string
+                  routing_level:
+                    type: integer
+                  response:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                      content:
+                        type: string
+                  usage:
+                    type: object
+                    properties:
+                      output_tokens:
+                        type: integer
+                      cost_waku_cu:
+                        type: number
+                      balance_after_waku_cu:
+                        type: number
+                  tool_rounds:
+                    type: integer
+                    description: Number of tool execution rounds (function_call only).
+                  tool_calls_executed:
+                    type: integer
+                    description: Total tool calls dispatched (function_call only).
+                  hitl_queued:
+                    type: boolean
+                    description: Present and true when the request has been queued for human review.
+                  queue_item_id:
+                    type: string
+                    description: HITL queue item ID (present when hitl_queued=true).
+        "402":
+          description: Insufficient WakaCU balance
+        "403":
+          description: Capability not available on current subscription plan
+        "429":
+          description: Budget limit exceeded for this workspace
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/hitl/{id}:
+    get:
+      tags: [SuperAgent]
+      summary: Get HITL queue item status
+      operationId: getHitlItem
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: HITL queue item detail
+        "404":
+          description: Item not found
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/hitl/{id}/review:
+    patch:
+      tags: [SuperAgent]
+      summary: Approve or reject a HITL queue item (SA-4.5, SA-4.6)
+      description: |
+        Requires `admin`, `super_admin`, or `workspace_admin` role.
+        On approval, dispatches an `ai.hitl_approved` event to the notification queue.
+      operationId: reviewHitlItem
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision:
+                  type: string
+                  enum: [approved, rejected]
+                note:
+                  type: string
+      responses:
+        "200":
+          description: Review recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviewed:
+                    type: boolean
+                  decision:
+                    type: string
+        "403":
+          description: Reviewer role required
+        "409":
+          description: Item already in terminal state
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/hitl/{id}/resume:
+    post:
+      tags: [SuperAgent]
+      summary: Re-execute an approved HITL action (SA-4.5, F-020)
+      operationId: resumeHitlItem
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resumed AI response (same schema as /superagent/chat)
+        "404":
+          description: Item not found or not in approved state
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/partner-pool/report:
+    get:
+      tags: [SuperAgent]
+      summary: Partner credit pool analytics report (SA-1.6)
+      description: |
+        Returns allocation and utilisation metrics for all credit pools granted by
+        the requesting tenant. **Requires admin, super_admin, or workspace_admin role.**
+
+        Each pool entry shows `allocated_waku_cu`, `used_waku_cu`, `remaining_waku_cu`,
+        and a `utilisation_pct` (0–100). The top-level `summary` aggregates across all pools.
+      operationId: getPartnerPoolReport
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Partner pool analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  partner_tenant_id:
+                    type: string
+                  generated_at:
+                    type: string
+                    format: date-time
+                  summary:
+                    type: object
+                    properties:
+                      total_pools:
+                        type: integer
+                      active_pools:
+                        type: integer
+                      total_allocated_waku_cu:
+                        type: number
+                      total_used_waku_cu:
+                        type: number
+                      total_remaining_waku_cu:
+                        type: number
+                      utilisation_pct:
+                        type: integer
+                  pools:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        beneficiary_tenant_id:
+                          type: string
+                        allocated_waku_cu:
+                          type: number
+                        used_waku_cu:
+                          type: number
+                        remaining_waku_cu:
+                          type: number
+                        utilisation_pct:
+                          type: integer
+                        expires_at:
+                          type: string
+                          format: date-time
+                          nullable: true
+                        is_expired:
+                          type: boolean
+                        created_at:
+                          type: string
+                          format: date-time
+        "403":
+          description: Admin role required
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/compliance/check:
+    get:
+      tags: [SuperAgent]
+      summary: Check compliance requirements for a vertical (SA-4.5)
+      operationId: checkVerticalCompliance
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: vertical
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Compliance profile for the vertical
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vertical:
+                    type: string
+                  is_sensitive:
+                    type: boolean
+                  sector:
+                    type: string
+                    nullable: true
+                  requires_hitl:
+                    type: boolean
+                  hitl_level:
+                    type: integer
+                    nullable: true
+                  disclaimers:
+                    type: array
+                    items:
+                      type: string
+        "400":
+          description: vertical query parameter required
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/ndpr/register:
+    get:
+      tags: [SuperAgent]
+      summary: Export NDPR Article 30 register (SA-4.3)
+      operationId: getNdprRegister
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: NDPR processing activity register for the tenant
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /superagent/ndpr/register/seed:
+    post:
+      tags: [SuperAgent]
+      summary: Seed NDPR register from vertical configs (SA-4.3)
+      operationId: seedNdprRegister
+      security:
+        - BearerAuth: []
+      responses:
+        "201":
+          description: Number of processing activities seeded
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
 components:
   securitySchemes:
     BearerAuth:
