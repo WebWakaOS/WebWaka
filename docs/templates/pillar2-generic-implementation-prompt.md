@@ -116,7 +116,7 @@ or contradictory to this prompt, STOP and report that explicitly before proceedi
 | `docs/reports/pillar2-forensics-report-2026-04-24.md` | Current Pillar 2 runtime reality; the two disconnected template systems; all 49 forensic findings |
 | `docs/reports/pillar2-niche-identity-system-2026-04-25.md` | Full design of the tracking system you are operating within; authoritative system design |
 | `docs/reports/pillar2-niche-identity-system-qa-report-2026-04-25.md` | QA verification results; known integrity issues |
-| `webwaka-os-architecture-correction-and-validation-2026-04-25.md` | Withdrawn architecture claims; corrections applied 2026-04-25 |
+| `webwaka-os-architecture-correction-and-validation-2026-04-25.md` **(repo root — not under docs/)** | Withdrawn architecture claims; corrections applied 2026-04-25 |
 | `docs/reports/webwaka-os-post-correction-verification-2026-04-25.md` | Post-correction verification state |
 
 ### 3.2 — Niche Identity & Governance (2026-04-25 Taxonomy Closure)
@@ -220,6 +220,22 @@ Before updating any file, confirm all of the following:
 [ ] No entry in Completed table in pillar2-template-queue.md
 [ ] No existing template file at the expected path:
     apps/brand-runtime/src/templates/niches/{vertical-slug}/{niche-slug}.ts
+    IF a template file already exists at this path but templateStatus is NOT IMPLEMENTED:
+      → This indicates an abandoned in-progress session.
+      → Read the existing file. Document what exists. Check git log for last modification.
+      → If the file is incomplete (returns placeholder strings): treat as new; overwrite.
+      → If the file is substantive: HALT and report to human before overwriting.
+[ ] blockers[] array is empty — check the niche's entry in pillar2-niche-registry.json
+    IF blockers[] is non-empty: read each blocker carefully.
+      → If the blocker says "Remediation migration needed" or "Confirm D1 slug": this niche
+        cannot be SHIPPED but CAN be implemented and marked IMPLEMENTED. Proceed, but note
+        the blocker in the session report and do not advance to SHIPPED status.
+      → If the blocker says implementation is prevented entirely: HALT and report.
+[ ] dependencies[] packages exist in the repo — check pillar2-niche-registry.json dependencies field
+    For each package listed in dependencies[]:
+      → Verify the package directory exists at the stated path (e.g., packages/verticals-restaurant/)
+      → IF the package does not exist: HALT. This template cannot be compiled.
+        Report the missing dependency and do not proceed.
 [ ] If family member: family role confirmed (anchor or variant)
 [ ] If variant: anchor's templateStatus is IMPLEMENTED or SHIPPED
 [ ] No conflicting slug (check niche-alias-deprecation-registry.md for any migration-0037a corrections
@@ -243,7 +259,12 @@ UPDATE docs/templates/pillar2-template-execution-board.md:
   Owner column → your session identifier
   Last Updated → today's date
 
-COMMIT these changes before beginning research.
+UPDATE docs/templates/pillar2-template-queue.md:
+  IF this niche is the CURRENT niche: update the Owner field in the CURRENT block header
+    Owner → "{your-session-identifier}"
+  This prevents concurrent agents from reading Owner: — and mistakenly attempting a parallel claim.
+
+COMMIT all three files atomically before beginning research.
 ```
 
 ---
@@ -337,7 +358,10 @@ Sources to search: Nigerian photography Instagram accounts, Shutterstock Africa 
 Pexels Africa tag, local Nigerian brand social media for this niche category
 ```
 
-### [OPTIONAL] Thread E — Regulatory & Compliance Deep Dive
+### Thread E — Regulatory & Compliance Deep Dive
+
+**[REQUIRED for niche categories: health, legal, financial, education, agriculture, energy, transport, civic]**
+**[SKIP only for niches confirmed to have no regulatory gate — verify against `niche-alias-deprecation-registry.md` and the niche's `regulatoryOrTrustNotes` field in `pillar2-niche-registry.json`]**
 
 For niches with regulatory gates (health, legal, financial, education, agriculture, energy, transport):
 
@@ -477,7 +501,22 @@ this anchor's structure."]
 at apps/brand-runtime/src/templates/niches/{anchor-slug}/ first. Inherit the structure;
 override only: {list specific overrides needed]."]
 
-## 9. Platform Invariant Check
+## 9. Africa-First Context
+
+**`africaFirstNotes` (maps to required registry field):**
+[null if this niche is purely Nigeria-specific with no broader African relevance]
+[Otherwise: 1-2 sentences on broader West African / pan-African relevance. Examples:
+  "Buka model common across West Africa; jollof rivalry is cross-border brand signal"
+  "Ajo/esusu savings model found in Ghana, Senegal, Côte d'Ivoire under different names"
+  "Mobile money agent model mirrors M-Pesa in Kenya; template should not assume Nigeria-only"]
+
+**Cross-border relevance:** [yes/no — does this business type commonly serve West Africa or pan-Africa?]
+
+**Design implications:** [any framing to add or avoid because of cross-border context]
+[e.g., "Avoid NAFDAC-only focus — Ghanaian equivalent is FDA; template should be framed around
+Nigerian context first but not mention NAFDAC in meta descriptions"]
+
+## 10. Platform Invariant Check
 
 - [ ] T3 — [describe how this template satisfies T3]
 - [ ] T4 — [describe how this template satisfies T4]
@@ -1009,6 +1048,32 @@ No partial updates. All three files must be updated atomically in the same commi
 Also update any blocker fields if a previously listed blocker was resolved.
 If new blockers were discovered during implementation (but did not prevent completion), log them in `blockers[]` and set `nextAction` to address them.
 
+**Review and revise the Nigeria-First content fields.** These fields are pre-seeded in the registry
+but may need correction after your deep research. For each field, compare the pre-seeded value
+against your research brief findings and update if your research contradicts or materially adds to it:
+
+```json
+{
+  "nigeriaFirstPriority": "{Confirm: critical / high / medium / low — does research validate the pre-seeded value?}",
+  "audienceSummary": "{Revise if research contradicts or significantly extends the pre-seeded summary}",
+  "businessContextSummary": "{Revise if research adds material operational context}",
+  "contentLocalizationNotes": "{Revise if research surfaces new localization requirements or specific phrases}",
+  "imageArtDirectionNotes": "{Revise if research surfaces better visual direction than pre-seeded}",
+  "regulatoryOrTrustNotes": "{Revise if research surfaces new or corrected regulatory requirements}",
+  "africaFirstNotes": "{Set from research brief Section 9 — null if Nigeria-only; otherwise cross-border note}"
+}
+```
+
+If the pre-seeded value is accurate, leave it unchanged. If null, populate it. Never delete a
+pre-seeded non-null value without a documented reason in the `notes` field.
+
+**Variant completion — anchor count update.** If the niche you completed is a FAMILY VARIANT:
+also update the ANCHOR niche's entry in `pillar2-niche-registry.json`:
+```json
+"templateVariantCount": {previous anchor count + 1}
+```
+This keeps the family's total variant count accurate.
+
 ### 11.2 — Execution Board Update (`pillar2-template-execution-board.md`)
 
 ```
@@ -1208,4 +1273,6 @@ The queue flags these niches as requiring slug verification before SHIPPED statu
 
 *This document is read-only for agents — do not modify the prompt itself during a session.*
 *Update tracking files only (registry, board, queue, research brief).*
-*Prompt version: 1.0.0 — 2026-04-25. Authority: Prompt 1 system + 2026-04-25 taxonomy closure.*
+*Prompt version: 1.0.1 — 2026-04-25. Authority: Prompt 1 system + 2026-04-25 taxonomy closure.*
+*Changes from v1.0.0: D-01 file path; D-02 Africa-First section in research brief; D-03 content field review in S11.1; D-04 blockers/dependencies checks in S4.3; D-05 queue owner in S4.4; D-06 Thread E required label; D-07 variant anchor count; D-08 partial file guidance.*
+*QA audit: docs/reports/pillar2-generic-prompt-qa-forensic-audit-2026-04-25.md*
