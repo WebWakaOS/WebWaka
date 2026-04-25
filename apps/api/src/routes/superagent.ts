@@ -345,6 +345,22 @@ superagentRoutes.post(
     //   2. Stored conversation history — ordered chronologically
     //   3. New user turn(s) — the current request
     //
+    // EXPECTED CLIENT MESSAGE SHAPE IN SESSION MODE (SA-6.x):
+    //   session mode:   { session_id, messages: [{ role:'user', content:'...' }] }
+    //   optional:       one role:'system' message may be included to set/override
+    //                   the system prompt for this turn only
+    //   NOT sent:       prior assistant or tool messages — the server owns the history
+    //
+    // LEGACY STATELESS CLIENTS:
+    //   Legacy callers that omit session_id continue to work exactly as before —
+    //   the full messages[] array is passed to the AI unchanged, and a new session
+    //   is auto-created for them transparently.
+    //
+    //   Clients migrating from stateless to session mode must stop re-sending prior
+    //   assistant turns; those are loaded from D1 automatically. Sending historical
+    //   assistant/system turns in messages[] with a session_id has no effect —
+    //   they are silently filtered here to prevent duplicate transcript storage.
+    //
     // System messages must come first so they are never deprioritised by history.
     // Stored history already excludes duplicate system prompts (loadHistory preserves
     // them only once via context-window trimming). Client-provided assistant/system
