@@ -223,23 +223,24 @@
     "contentLocalizationNotes": "Use 'Service Times' not 'Mass Schedule' (unless Catholic). 'Giving' not 'Donations'. 'Pastor' or 'G.O.' (General Overseer) as leadership title. 'Branch' for locations. WhatsApp for visitor follow-up.",
     "imageArtDirectionNotes": "Nigerian congregation in praise session. Contemporary Nigerian church building exterior. Pastor preaching to crowd. Youth fellowship group of young Nigerians.",
     "regulatoryOrTrustNotes": "IT-XXXXXXXX (Incorporated Trustees) registration number. CAC registration for mega-churches. SCOAN / RCCG / other denomination affiliation where applicable.",
-    "templateStatus": "READY_FOR_RESEARCH",
-    "templateVariantCount": 0,
-    "primaryTemplatePath": null,
+    "templateStatus": "IMPLEMENTED",
+    "templateVariantCount": 1,
+    "primaryTemplatePath": "apps/brand-runtime/src/templates/niches/church/faith-community.ts",
     "templateSlug": "church-faith-community",
     "marketplaceManifestSlug": null,
-    "runtimeIntegrationStatus": "NOT_REGISTERED",
-    "researchStatus": "NOT_STARTED",
-    "researchBriefPath": null,
+    "runtimeIntegrationStatus": "REGISTERED",
+    "researchStatus": "SYNTHESIZED",
+    "researchBriefPath": "docs/templates/research/church-faith-community-brief.md",
     "lastReviewedAt": "2026-04-25",
-    "implementedAt": null,
+    "implementedAt": "2026-04-25",
     "dependencies": [
       "packages/verticals-church"
     ],
     "blockers": [],
     "nextAction": "Research Nigerian church website patterns across denominations and online giving models",
-    "owner": null,
-    "notes": "M8d milestone. IT-registration required. Must serve both local assembly and megachurch scale. Community platform integration."
+    "owner": "replit-agent-2026-04-25-session-B",
+    "notes": "M8d milestone. IT-registration required. Must serve both local assembly and megachurch scale. Community platform integration.",
+    "sqlSeedPath": "infra/db/seeds/templates/church-faith-community.sql"
   },
   {
     "nicheId": "P2-ngo-nonprofit-portal",

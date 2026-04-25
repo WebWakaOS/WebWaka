@@ -50,7 +50,7 @@ These niches are the highest-build-priority targets. `restaurant` leads as the r
 | 2 | `P2-sole-trader-artisan-catalogue` | IMPLEMENTED ✅ | Standalone — 2026-04-25 |
 | 3 | `P2-creator-personal-brand` | IMPLEMENTED ✅ | NF-CRE-DIG anchor — 2026-04-25 |
 | 4 | `P2-professional-practice-site` | IMPLEMENTED ✅ | NF-PRO-LIC anchor — 2026-04-25 |
-| 5 | `P2-church-faith-community` | READY_FOR_RESEARCH | Civic + community — P1-Original |
+| 5 | `P2-church-faith-community` | IMPLEMENTED ✅ | NF-CIV-REL anchor — 2026-04-25 |
 | 6 | `P2-clinic-primary-care` | READY_FOR_RESEARCH | Health — P1-Original; high social value |
 | 7 | `P2-school-institution-site` | READY_FOR_RESEARCH | Education — P1-Original |
 | 8 | `P2-ngo-nonprofit-portal` | READY_FOR_RESEARCH | Civic — P1-Original |
@@ -121,6 +121,7 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 | 2026-04-25 | `P2-sole-trader-artisan-catalogue` | Sole Trader / Artisan Catalogue Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 | 2026-04-25 | `P2-creator-personal-brand` | Creator / Influencer Personal Brand Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 | 2026-04-25 | `P2-professional-practice-site` | Licensed Professional Practice Site | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
+| 2026-04-25 | `P2-church-faith-community` | Church / Faith Community Website | ❌ (IMPLEMENTED — awaiting SQL seed apply + QA) |
 
 ---
 
@@ -135,4 +136,4 @@ These niches have slug mismatches in migration 0037 that must be resolved first.
 
 ---
 
-*Last updated: 2026-04-25 — P2-professional-practice-site IMPLEMENTED. 44 niches queued. 4 completed (IMPLEMENTED, not yet SHIPPED).*
+*Last updated: 2026-04-25 — P2-church-faith-community IMPLEMENTED. 43 niches queued. 5 completed (IMPLEMENTED, not yet SHIPPED).*

@@ -41,6 +41,7 @@ import { restaurantGeneralEateryTemplate } from '../templates/niches/restaurant/
 import { soleTraderArtisanCatalogueTemplate } from '../templates/niches/sole-trader/artisan-catalogue.js';
 import { creatorPersonalBrandTemplate } from '../templates/niches/creator/personal-brand.js';
 import { professionalPracticeSiteTemplate } from '../templates/niches/professional/practice-site.js';
+import { churchFaithCommunityTemplate } from '../templates/niches/church/faith-community.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -116,6 +117,7 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['sole-trader-artisan-catalogue', soleTraderArtisanCatalogueTemplate],
   ['creator-personal-brand', creatorPersonalBrandTemplate],
   ['professional-practice-site', professionalPracticeSiteTemplate],
+  ['church-faith-community', churchFaithCommunityTemplate],
 ]);
 
 // ---------------------------------------------------------------------------

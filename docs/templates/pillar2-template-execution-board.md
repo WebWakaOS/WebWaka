@@ -12,12 +12,12 @@
 | Status | Count |
 |--------|-------|
 | UNASSIGNED | 0 |
-| READY_FOR_RESEARCH | 42 |
+| READY_FOR_RESEARCH | 41 |
 | RESEARCH_IN_PROGRESS | 0 |
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 4 |
+| IMPLEMENTED | 5 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
 | SHIPPED | 0 |
@@ -39,7 +39,7 @@ These niches correspond to the 17 P1-Original verticals. 13 of them are Pillar 2
 | 2 | `P2-political-party-party-website` | political-party | Party Organisation Website | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 3 | `P2-rideshare-ride-hailing-service` | rideshare | Ride-Hailing / Driver Network Site | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 4 | `P2-haulage-freight-logistics` | haulage | Freight & Logistics Company Site | READY_FOR_RESEARCH | — | 2026-04-25 |
-| 5 | `P2-church-faith-community` | church | Church / Faith Community Website | READY_FOR_RESEARCH | — | 2026-04-25 |
+| 5 | `P2-church-faith-community` | church | Church / Faith Community Website | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
 | 6 | `P2-ngo-nonprofit-portal` | ngo | NGO / Non-Profit Donor Portal | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 7 | `P2-pos-business-operations-portal` | pos-business | POS Business Operations Portal | READY_FOR_RESEARCH | — | 2026-04-25 |
 | 8 | `P2-sole-trader-artisan-catalogue` | sole-trader | Sole Trader / Artisan Catalogue Site | IMPLEMENTED | replit-agent-2026-04-25-session-B | 2026-04-25 |
