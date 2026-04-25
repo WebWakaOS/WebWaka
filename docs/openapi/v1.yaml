@@ -1532,6 +1532,116 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
 
+  /superagent/chat/stream:
+    post:
+      tags: [SuperAgent]
+      summary: Submit a streaming AI chat request (SSE)
+      description: |
+        Real-time streaming variant of `POST /superagent/chat`. Responses are
+        delivered as Server-Sent Events (SSE). The same guardrails apply:
+        NDPR consent gate, budget check, HITL gate, compliance pre-check, PII strip.
+        All pre-flight gates run synchronously; any failure returns a normal JSON
+        error response before the stream opens.
+
+        **SSE event format:**
+        - Delta chunk: `data: {"delta":"<text>","done":false}`
+        - Terminal event: `data: {"done":true,"session_id":"...","waku_cu_charged":N,"usage":{...}}`
+        - Error event: `event: error` + `data: {"code":"AI_STREAM_ERROR","message":"..."}`
+
+        **Not supported:** `function_call` capability — use `POST /superagent/chat`
+        for tool-calling (requires synchronous multi-turn round-trips).
+
+        **WakaCU accounting:** charged after stream closes using actual accumulated
+        token count. Session is appended fire-and-forget after the stream.
+
+        Callers must handle `event: error` frames for mid-stream provider failures.
+        The HTTP status is always 200 once the stream is opened.
+      operationId: superagentChatStream
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [capability, messages]
+              properties:
+                capability:
+                  type: string
+                  example: superagent_chat
+                  description: |
+                    Any text-completion capability. `function_call` is NOT supported
+                    on the streaming route — returns 400.
+                messages:
+                  type: array
+                  description: |
+                    In session mode: only the new user turn (+ optional system prompt).
+                    Legacy stateless clients may send full history; a session is
+                    auto-created and returned in the terminal SSE event.
+                  items:
+                    type: object
+                    required: [role, content]
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user]
+                      content:
+                        type: string
+                vertical:
+                  type: string
+                  example: retail
+                session_id:
+                  type: string
+                  description: Resume an existing session. Omit to auto-create.
+                max_tokens:
+                  type: integer
+                  default: 1024
+                temperature:
+                  type: number
+                  default: 0.7
+      responses:
+        "200":
+          description: |
+            SSE stream. Each line is a `data:` event. The stream closes after the
+            terminal `{"done":true,...}` event.
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  Server-Sent Events stream. Example events:
+
+                  ```
+                  data: {"delta":"Hello","done":false}
+
+                  data: {"delta":", world","done":false}
+
+                  data: {"done":true,"session_id":"sess_xxx","waku_cu_charged":2,
+                         "usage":{"input_tokens":8,"output_tokens":3,"total_tokens":11,
+                                  "cost_waku_cu":2,"charge_source":"own_wallet"}}
+
+                  ```
+        "400":
+          description: |
+            `STREAMING_NOT_SUPPORTED_FOR_TOOL_CALLS` — capability is function_call.
+            Or missing/invalid request body.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          description: |
+            `COMPLIANCE_BLOCKED` — pre-check rejected the request.
+            `HITL_REQUIRED` — request requires human-in-the-loop review.
+            `NDPR_CONSENT_REQUIRED` — user has not granted AI processing consent.
+        "429":
+          description: Budget limit exceeded for this workspace.
+        "501":
+          description: |
+            `STREAMING_NOT_SUPPORTED_BY_PROVIDER` — resolved adapter does not
+            implement streaming. Use `POST /superagent/chat` instead.
+        "503":
+          description: Adapter resolution or provider connectivity failure.
+
   /superagent/hitl/{id}:
     get:
       tags: [SuperAgent]
