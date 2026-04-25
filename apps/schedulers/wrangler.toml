@@ -21,6 +21,10 @@ binding = "DB"
 database_name = "webwaka-staging"
 database_id = "52719457-5d5b-4f36-9a13-c90195ec78d2"
 
+[[r2_buckets]]
+binding = "DSAR_BUCKET"
+bucket_name = "webwaka-dsar-exports-staging"
+
 [env.production]
 [env.production.vars]
 ENVIRONMENT = "production"
@@ -40,3 +44,7 @@ id = "placeholder-production-audit-fail-kv-id"
 binding = "DB"
 database_name = "webwaka-production"
 database_id = "72fa5ec8-52c2-4f41-b486-957d7b00c76f"
+
+[[env.production.r2_buckets]]
+binding = "DSAR_BUCKET"
+bucket_name = "webwaka-dsar-exports-production"
