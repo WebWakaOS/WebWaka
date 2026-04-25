@@ -1,0 +1,400 @@
+🚨 REPLIT PROMPT 1 — PILLAR 2 NICHE IDENTITY, TRACKING, AND REUSE SYSTEM 🚨
+
+NON-NEGOTIABLE PRINCIPLE:
+BUILD ONCE, USE INFINITELY.
+
+That means:
+- define the canonical niche identity system once,
+- define the tracking system once,
+- define the registry and status model once,
+- then reuse those exact structures for every future Pillar 2 niche template run.
+Do not invent new naming schemes later.
+Do not duplicate tracking logic.
+Do not create one-off per-template tracking formats.
+Do not let different agents interpret niches differently.
+One canonical system. Infinite reuse.
+
+You are to perform a very detailed, research-grade review of the entire WebWaka OS repository and critical documents, with special focus on the latest, correct, current state of Pillar 2.
+
+Your first objective is NOT to create templates yet.
+Your first objective is to create and verify a canonical niche identity and execution tracking system for Pillar 2 templates, so that no AI agent ever confuses:
+- canonical pillar definitions,
+- old invalid architectural framing,
+- marketplace templates vs runtime templates,
+- verticals vs niches,
+- already completed niches vs pending niches,
+- or Nigeria-first African-first localization requirements.
+
+THOROUGHNESS IS FAR MORE IMPORTANT THAN SPEED.
+
+==================================================
+MISSION
+==================================================
+
+You must:
+1. deeply review the platform code and documents to establish the latest true state of Pillar 2,
+2. isolate and understand the latest stage of Pillar 2 templates implementation,
+3. avoid using any withdrawn or invalid architecture frame,
+4. define a canonical niche identity system for Pillar 2 template work,
+5. define a durable progress tracking system for niche-by-niche template execution,
+6. verify the system against repo reality,
+7. produce the final artifacts needed so future AI agents can know:
+   - what verticals exist,
+   - what niches exist under each vertical,
+   - which niches are eligible for Pillar 2 templates,
+   - which niche is already done,
+   - which niche is next,
+   - what status each niche is in,
+   - and what constraints apply before any template is built.
+
+Do NOT write the generic template-generation prompt yet unless this first system is fully completed and verified.
+
+==================================================
+NON-NEGOTIABLE WORKING RULES
+==================================================
+
+1. Use the corrected canonical architecture as the controlling frame.
+2. Do NOT use any invalid prior framing such as:
+   - Pillar 3 = Transport/Logistics
+   - Pillar 2 = Commerce + Brand
+   - PlatformLayer enum = canonical pillars
+   - vertical-ai-config.ts primaryPillar = canonical vertical classification
+3. Distinguish clearly between:
+   - Pillar 2 = Branding / Website / Portal
+   - Pillar 3 = Listing / Multi-Vendor Marketplace
+   - SuperAgent = cross-cutting AI layer, not a pillar
+4. Distinguish clearly between:
+   - current runtime-served Pillar 2 templates,
+   - template marketplace/registry structures,
+   - any future bridge architecture,
+   - and the actual latest implementation state.
+5. Do not assume that documentation is correct until cross-checked with code.
+6. Do not assume that old reports are safe unless explicitly retained by the correction report.
+7. Any ambiguous classification must be flagged, not guessed.
+8. Nigeria-first / Africa-first context is a hard implementation requirement for future template creation.
+9. Future template prompts must force external niche research before implementation.
+10. Build once, use infinitely must govern the whole system.
+11. The tracking structure must be reusable by any future agent with zero ambiguity.
+12. The final system must be strict enough that repeated use does not create drift.
+
+==================================================
+PHASE 1 — READ AND RE-ANCHOR ON CANONICAL CONTEXT
+==================================================
+
+Read and synthesize the most important repo files and documents needed to establish the correct current frame.
+
+At minimum, locate, read, and synthesize:
+- docs/governance/3in1-platform-architecture.md
+- docs/governance/webwaka_3in1_core_audit_summary.md
+- the latest corrected architecture validation/correction report
+- the Pillar 2 forensics report
+- the consolidated master report
+- docs/templates/template-spec.md
+- docs/templates/template-publishing.md
+- docs/templates/template-validation.md
+- docs/templates/platform-admin-guide.md
+- docs/governance/white-label-policy.md
+- any repo files that define:
+  - vertical registry
+  - canonical vertical slugs
+  - vertical classifications
+  - template resolver state
+  - brand-runtime template paths
+  - current built-in Pillar 2 template set
+  - template installation / registry tables
+  - template validator behavior
+
+Then produce a short but precise “Working Truth Summary” that explicitly states:
+- canonical pillar definitions,
+- what Pillar 2 actually is,
+- the current runtime state of Pillar 2 templates,
+- what is real now,
+- what is planned but not runtime-connected,
+- and what prior framing must be ignored.
+
+==================================================
+PHASE 2 — ESTABLISH THE LATEST PILLAR 2 TEMPLATE STATE
+==================================================
+
+Do a code-and-doc grounded analysis specifically of the latest stage of Pillar 2 template implementation.
+
+You must determine and document:
+1. what template system currently controls runtime rendering,
+2. whether niche-specific templates already exist at runtime,
+3. whether template marketplace entries affect runtime rendering,
+4. what built-in templates exist now,
+5. whether only one built-in template exists in template-resolver,
+6. what “completed” means for a Pillar 2 template in the current architecture,
+7. where the actual source-of-truth files for future template work should live,
+8. what constraints exist to avoid breaking brand-runtime or governance.
+
+You must explicitly separate:
+- current truth,
+- future architecture,
+- and assumptions that must NOT be embedded into the later generic prompt.
+
+==================================================
+PHASE 3 — DEFINE THE NICHE IDENTITY SYSTEM
+==================================================
+
+Now design a canonical niche identity system for Pillar 2 template execution.
+
+Purpose:
+Future AI agents must be able to identify exactly one niche target at a time and know:
+- the parent vertical,
+- the niche name,
+- its canonical code,
+- whether template work has started,
+- whether the niche is blocked,
+- whether it is complete,
+- whether variants exist,
+- what should be worked on next.
+
+You must define:
+A. terminology model
+- what is a vertical
+- what is a niche
+- what is a template family
+- what is a template variant
+- what is a runtime template vs marketplace template artifact
+- what is a niche completion unit
+
+B. identity model
+Each niche must get a unique stable ID with a durable naming convention.
+
+Design a robust format such as:
+P2-{VERTICALCODE}-{NICHECODE}
+or another better format if justified.
+
+Your system must support:
+- stable sorting,
+- machine readability,
+- human readability,
+- future addition of more niches,
+- future addition of more template variants,
+- future “done / pending / blocked / in-review / approved / shipped” statuses,
+- and zero ambiguity across the repo.
+
+C. required fields for each niche record
+At minimum, every niche record should include:
+- nicheId
+- verticalSlug
+- verticalName
+- nicheSlug
+- nicheName
+- canonicalPillars
+- pillar2Eligible (boolean)
+- nigeriaFirstPriority (high/medium/low or similar)
+- africaFirstNotes
+- audienceSummary
+- businessContextSummary
+- contentLocalizationNotes
+- imageArtDirectionNotes
+- regulatoryOrTrustNotes
+- templateStatus
+- templateVariantCount
+- primaryTemplatePath
+- marketplaceManifestSlug if applicable
+- runtimeIntegrationStatus
+- researchStatus
+- lastReviewedAt
+- dependencies
+- blockers
+- nextAction
+- owner
+- notes
+
+D. status model
+Define exact allowed statuses, for example:
+- UNASSESSED
+- READY_FOR_RESEARCH
+- RESEARCH_IN_PROGRESS
+- RESEARCH_SYNTHESIZED
+- READY_FOR_IMPLEMENTATION
+- IMPLEMENTATION_IN_PROGRESS
+- IMPLEMENTED
+- VERIFIED
+- BLOCKED
+- NEEDS_REVISION
+- VARIANTS_PENDING
+- ARCHIVED
+
+Refine this if needed, but make it strict.
+
+==================================================
+PHASE 4 — BUILD THE TRACKING SYSTEM DESIGN
+==================================================
+
+Design the complete tracking system that later agents will use.
+
+You must decide and justify:
+1. where the canonical registry should live in the repo,
+2. what file format(s) should be used,
+3. whether there should be:
+   - one master registry file,
+   - one per-vertical file,
+   - one status board file,
+   - one queue file for “next niche” selection,
+   - one completion ledger,
+   - one handoff protocol document.
+
+Recommended output shape unless repo realities require better:
+- docs/templates/pillar2-niche-registry.schema.md
+- docs/templates/pillar2-niche-registry.json
+- docs/templates/pillar2-template-execution-board.md
+- docs/templates/pillar2-template-queue.md
+- docs/templates/pillar2-template-status-codes.md
+- docs/templates/pillar2-template-agent-handoff.md
+
+If you choose another structure, justify it.
+
+The system must make it impossible for later agents to accidentally:
+- duplicate work,
+- skip a niche,
+- work on the wrong niche,
+- confuse runtime and marketplace state,
+- or overwrite an already completed niche family.
+
+==================================================
+PHASE 5 — DETERMINE THE NICHE UNIVERSE
+==================================================
+
+Using the repo’s canonical vertical registry and documentation, derive the actual initial universe of niches for Pillar 2 template work.
+
+Important:
+- Do NOT fabricate random niches detached from repo verticals.
+- Use the canonical verticals source, not invalid AI billing classifications.
+- If a vertical should not get Pillar 2 templates, mark it explicitly and explain why.
+- If a vertical needs multiple niches, define them carefully and explicitly.
+- If a vertical likely starts with one niche for now, state that.
+- The first pass goal is at least one template for each niche of each vertical that is Pillar 2-relevant.
+- Future variants will come later.
+
+For each vertical:
+1. determine whether Pillar 2 applies,
+2. define one or more grounded initial niches,
+3. give each niche a unique identity,
+4. explain the reasoning.
+
+The niche list must be practical for implementation, not merely theoretical.
+
+==================================================
+PHASE 6 — NIGERIA-FIRST / AFRICA-FIRST ENFORCEMENT MODEL
+==================================================
+
+Define the mandatory localization and contextualization framework that all future template agents must follow.
+
+This framework must force future template work to reflect:
+- Nigerian business reality,
+- broader African context where relevant,
+- localized business language and trust cues,
+- appropriate pricing references,
+- relevant contact models,
+- realistic service offerings,
+- realistic customer expectations,
+- local compliance/trust markers where relevant,
+- culturally grounded visuals,
+- non-generic imagery direction,
+- and non-Western-default content assumptions.
+
+Create a strict checklist for future agents covering:
+- content tone,
+- CTA style,
+- proof/trust style,
+- geography/location examples,
+- payment references,
+- scheduling/contact norms,
+- mobile-first usage assumptions,
+- bandwidth/performance sensitivity,
+- realistic images to generate/use,
+- what to avoid (generic western stock assumptions, irrelevant currencies, etc.).
+
+==================================================
+PHASE 7 — RESEARCH-REQUIRED TEMPLATE WORKFLOW FOR FUTURE AGENTS
+==================================================
+
+Design the exact future workflow that every template-creating AI agent must follow before implementation.
+
+This workflow must REQUIRE:
+1. reading the niche identity + registry files first,
+2. selecting exactly one target niche,
+3. confirming it is not already completed,
+4. reading all required repo docs for context,
+5. launching multiple specialist sub-agents for online research,
+6. researching the niche deeply before implementation,
+7. synthesizing online research with repo constraints,
+8. only then implementing the template,
+9. then updating the registry and status records.
+
+The future workflow must force research categories such as:
+- niche business model,
+- Nigeria-first audience expectations,
+- African market positioning,
+- competitor and design patterns,
+- trust and compliance expectations,
+- language/tone expectations,
+- local imagery direction,
+- local CTA and conversion behavior,
+- realistic sections needed for that niche website/portal.
+
+Make this procedural and repeatable.
+
+==================================================
+PHASE 8 — VERIFICATION AGAINST REPO REALITY
+==================================================
+
+Before finalizing, verify that your niche identity and tracking system does not conflict with:
+- current Pillar 2 runtime reality,
+- template marketplace structures,
+- vertical registry structures,
+- canonical pillar definitions,
+- white-label policy,
+- any retained findings from the corrected architecture validation report,
+- and any critical findings from the Pillar 2 forensics report.
+
+Explicitly identify:
+- assumptions made,
+- ambiguities still open,
+- repo gaps that may need future remediation,
+- and whether your system is safe to adopt immediately.
+
+==================================================
+DELIVERABLES
+==================================================
+
+Produce all of the following:
+
+1. A final report:
+# Pillar 2 Niche Identity and Tracking System Design Report
+
+2. A “Working Truth Summary” section at the top.
+
+3. A canonical niche identity specification.
+
+4. A strict status model.
+
+5. A proposed repo file structure for tracking.
+
+6. An initial niche registry draft covering all applicable verticals.
+
+7. A Nigeria-first / Africa-first implementation rules section.
+
+8. A future-agent workflow section showing how agents must do research before implementation.
+
+9. A verification section stating whether the system is ready to adopt.
+
+10. Concrete proposed file contents or file skeletons for the tracking system.
+
+==================================================
+SUCCESS CONDITION
+==================================================
+
+This task is complete only when:
+- the canonical Pillar 2 frame is correctly established,
+- invalid prior framing is explicitly excluded,
+- every niche can be uniquely identified,
+- future agents can tell what is done vs pending,
+- Nigeria-first / Africa-first requirements are built into the system,
+- research-before-implementation is mandatory,
+- the “build once, use infinitely” operating model is explicit and enforceable,
+- and the resulting system is safe enough that Prompt 2 can be written on top of it without confusion.
