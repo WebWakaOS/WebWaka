@@ -10,9 +10,11 @@
  *   6. Spend write called — D1 INSERT attempted on ai_spend_events after stream
  *   7. Missing messages returns 400
  *   8. SSE headers — Content-Type: text/event-stream, Cache-Control: no-cache, X-Accel-Buffering: no
+ *   9. Two-phase billing: Phase-1 optimistic (_opt) burn before stream, Phase-2 correction (_cor) burn
+ *      inside start(); terminal event waku_cu_charged = opt + correction sum
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 
 // ── Module mocks ─────────────────────────────────────────────────────────────
@@ -36,6 +38,27 @@ vi.mock('@webwaka/ai', async (importOriginal) => {
       level: 3,
       wakaCuPer1kTokens: 10,
     }),
+  };
+});
+
+/**
+ * CreditBurnEngine mock — controls two-phase billing in tests.
+ *
+ * Default: both Phase-1 (opt) and Phase-2 (cor) burns return 0 WakaCU.
+ * Override per-test with burnSpy.mockResolvedValueOnce(...).
+ *
+ * The mock passes through ALL other @webwaka/superagent exports so that
+ * aiConsentGate, SessionService, SpendControls, etc. keep working normally.
+ */
+const burnSpy = vi.fn().mockResolvedValue({
+  wakaCuCharged: 0, chargeSource: 'none', balanceAfter: 0,
+});
+
+vi.mock('@webwaka/superagent', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@webwaka/superagent')>();
+  return {
+    ...original,
+    CreditBurnEngine: vi.fn().mockImplementation(() => ({ burn: burnSpy })),
   };
 });
 
@@ -184,6 +207,13 @@ function parseSseEvents(raw: string): Array<{ event?: string; data: string }> {
 // ── Test suite ───────────────────────────────────────────────────────────────
 
 describe('POST /superagent/chat/stream', () => {
+  beforeEach(() => {
+    // Reset burn spy between tests so call counts don't bleed across.
+    // Default: both Phase-1 (opt) and Phase-2 (cor) burns return 0 WakaCU.
+    burnSpy.mockClear();
+    burnSpy.mockResolvedValue({ wakaCuCharged: 0, chargeSource: 'none', balanceAfter: 0 });
+  });
+
   it('returns 400 when capability is function_call', async () => {
     const app = makeStreamApp();
     const res = await app.fetch(
@@ -341,6 +371,62 @@ describe('POST /superagent/chat/stream', () => {
     // Allow microtasks for the fire-and-forget spend write to settle
     await new Promise<void>((resolve) => setTimeout(resolve, 50));
 
+    expect(spendInsertRunSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('two-phase billing: opt burn before stream, correction burn inside start(), terminal total = opt + correction', async () => {
+    /**
+     * Phase-1 (optimistic, _opt): 5 WakaCU charged from input tokens estimate.
+     * Phase-2 (correction, _cor): 8 WakaCU charged from actual output tokens.
+     * Terminal event must report waku_cu_charged = 13.
+     * Spend INSERT must execute exactly once with that corrected total.
+     */
+    burnSpy
+      .mockResolvedValueOnce({ wakaCuCharged: 5, chargeSource: 'own_wallet', balanceAfter: 95 })
+      .mockResolvedValueOnce({ wakaCuCharged: 8, chargeSource: 'own_wallet', balanceAfter: 87 });
+
+    mockStream.mockReturnValueOnce(
+      (async function* () {
+        yield 'Hello';
+        yield ' world';
+      })(),
+    );
+
+    const spendInsertRunSpy = vi.fn().mockResolvedValue({ success: true });
+    const db = makeMockDB({}, { spendInsertRunSpy });
+    const app = makeStreamApp({ db });
+
+    const res = await app.fetch(
+      streamPost({
+        capability: 'superagent_chat',
+        messages: [{ role: 'user', content: 'Two-phase billing test.' }],
+      }),
+    );
+
+    const rawText = await readBodyText(res);
+
+    // Allow fire-and-forget post-stream accounting to settle
+    await new Promise<void>((resolve) => setTimeout(resolve, 50));
+
+    // ── Phase-1 (optimistic) burn — called BEFORE stream ReadableStream is created
+    // ── Phase-2 (correction) burn — called INSIDE start() after chunks accumulate
+    expect(burnSpy).toHaveBeenCalledTimes(2);
+
+    // First call must have _opt suffix on usageEventId (Phase-1)
+    const [optArgs] = burnSpy.mock.calls[0] as [{ usageEventId: string }];
+    expect(optArgs.usageEventId).toMatch(/_opt$/);
+
+    // Second call must have _cor suffix on usageEventId (Phase-2)
+    const [corArgs] = burnSpy.mock.calls[1] as [{ usageEventId: string }];
+    expect(corArgs.usageEventId).toMatch(/_cor$/);
+
+    // Terminal done event must report the corrected sum (5 + 8 = 13)
+    const events = parseSseEvents(rawText);
+    const termPayload = JSON.parse(events[events.length - 1].data) as { done: boolean; waku_cu_charged: number };
+    expect(termPayload.done).toBe(true);
+    expect(termPayload.waku_cu_charged).toBe(13);
+
+    // Spend INSERT must execute exactly once with the corrected total in the SQL
     expect(spendInsertRunSpy).toHaveBeenCalledTimes(1);
   });
 });

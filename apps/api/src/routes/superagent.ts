@@ -1024,6 +1024,28 @@ superagentRoutes.post(
 
     const burnRef = crypto.randomUUID();
 
+    // Step 8b: Phase-1 optimistic burn — charge for input tokens before stream opens.
+    // This ensures the tenant's wallet/budget is debited before any tokens are consumed,
+    // preventing a race where the stream completes but the charge never lands.
+    // Phase-2 correction (output tokens) runs inside start() after all chunks arrive.
+    // Note: walletService is already created in Step 6 (wallet + adapter resolution).
+    const partnerPoolService = new PartnerPoolService({ db: c.env.DB, walletService });
+    const burnEngine = new CreditBurnEngine({ walletService, partnerPoolService });
+
+    let optimisticBurn: Awaited<ReturnType<typeof burnEngine.burn>> = {
+      wakaCuCharged: 0, chargeSource: 'none', balanceAfter: 0,
+    };
+    try {
+      optimisticBurn = await burnEngine.burn({
+        tenantId: auth.tenantId,
+        resolved,
+        tokensUsed: inputTokensEstimate,
+        usageEventId: `${burnRef}_opt`,
+      });
+    } catch {
+      // Non-blocking — if optimistic burn fails, stream still opens; correction handles reconciliation
+    }
+
     void publishEvent(c.env, {
       eventId: crypto.randomUUID(),
       eventKey: AiEventType.AiRequestSubmitted,
@@ -1083,25 +1105,54 @@ superagentRoutes.post(
         );
         const finalContent = postCheck.content ?? accumulatedContent;
 
-        // Step 11: Charge WakaCU using actual accumulated tokens
-        const outputTokensEstimate = Math.ceil(accumulatedContent.length / 4);
-        const totalTokensEstimate = inputTokensEstimate + outputTokensEstimate;
+        // Step 11: Phase-2 correction burn — charge for output tokens only.
+        // Phase-1 (optimistic) already charged input tokens before the stream opened.
+        // Combined total = optimistic + correction, reported in the terminal event.
+        const outputTokens = Math.ceil(accumulatedContent.length / 4);
+        const totalTokens = inputTokensEstimate + outputTokens;
 
-        const partnerPoolService = new PartnerPoolService({ db: streamEnv.DB, walletService });
-        const burnEngine = new CreditBurnEngine({ walletService, partnerPoolService });
-        let burn: Awaited<ReturnType<typeof burnEngine.burn>>;
+        let correctionBurn: Awaited<ReturnType<typeof burnEngine.burn>> = {
+          wakaCuCharged: 0, chargeSource: optimisticBurn.chargeSource, balanceAfter: 0,
+        };
         try {
-          burn = await burnEngine.burn({
+          correctionBurn = await burnEngine.burn({
             tenantId: streamAuth.tenantId,
             resolved,
-            tokensUsed: totalTokensEstimate,
-            usageEventId: burnRef,
+            tokensUsed: outputTokens,
+            usageEventId: `${burnRef}_cor`,
           });
         } catch {
-          burn = { wakaCuCharged: 0, chargeSource: 'none', balanceAfter: 0 };
+          // Correction failure is non-fatal — optimistic charge already landed
         }
 
-        // Step 12: Usage meter
+        const totalCuCharged = optimisticBurn.wakaCuCharged + correctionBurn.wakaCuCharged;
+        const chargeSource =
+          correctionBurn.chargeSource !== 'none'
+            ? correctionBurn.chargeSource
+            : optimisticBurn.chargeSource;
+
+        // Step 12: Terminal SSE event — emit BEFORE fire-and-forget accounting
+        enqueue(
+          `data: ${JSON.stringify({
+            done: true,
+            session_id: sessionId,
+            session_is_new: sessionIsNew,
+            waku_cu_charged: totalCuCharged,
+            ...(postCheck.flagged ? { compliance_flagged: true, compliance_flags: postCheck.flags } : {}),
+            usage: {
+              input_tokens: inputTokensEstimate,
+              output_tokens: outputTokens,
+              total_tokens: totalTokens,
+              cost_waku_cu: totalCuCharged,
+              charge_source: chargeSource,
+            },
+          })}\n\n`,
+        );
+
+        // Step 13: Close stream — all subsequent work is fire-and-forget after close
+        controller.close();
+
+        // Step 14: Usage meter (fire-and-forget — post-stream)
         const meter = new UsageMeter({ db: streamEnv.DB });
         void meter.record({
           tenantId: streamAuth.tenantId,
@@ -1111,23 +1162,23 @@ superagentRoutes.post(
           provider: resolved.config.provider ?? 'unknown',
           model: resolved.config.model ?? 'unknown',
           inputTokens: inputTokensEstimate,
-          outputTokens: outputTokensEstimate,
-          wakaCuCharged: burn.wakaCuCharged,
+          outputTokens,
+          wakaCuCharged: totalCuCharged,
           routingLevel: resolved.level,
           durationMs: 0,
           finishReason: 'stop',
           ndprConsentRef: consentId ?? null,
         });
 
-        // Step 13: Record spend against budget
-        if (burn.wakaCuCharged > 0) {
+        // Step 15: Record corrected spend against budget (fire-and-forget)
+        if (totalCuCharged > 0) {
           void spendControls.recordSpend(
-            streamAuth.tenantId, streamAuth.userId, burn.wakaCuCharged,
+            streamAuth.tenantId, streamAuth.userId, totalCuCharged,
             undefined, undefined, streamAuth.workspaceId,
           );
         }
 
-        // Step 14: Write spend event to ai_spend_events (retry wrapper — same as /chat)
+        // Step 16: Write corrected spend event to ai_spend_events (retry — post-stream)
         const spendEventId = crypto.randomUUID();
         const spendDb = streamEnv.DB as unknown as D1Like;
         void (async () => {
@@ -1150,7 +1201,7 @@ superagentRoutes.post(
                   verticalSlug || null,
                   capability,
                   resolved.config.model ?? null,
-                  burn.wakaCuCharged,
+                  totalCuCharged,          // corrected total (Phase 1 + Phase 2)
                   burnRef,
                   complianceResult.hitlLevel ?? autonomyLevel,
                 )
@@ -1169,7 +1220,7 @@ superagentRoutes.post(
           }
         })();
 
-        // Step 15: Append assistant message to session (fire-and-forget — post-stream)
+        // Step 17: Append assistant message to session (fire-and-forget — post-stream)
         void (async () => {
           try {
             const newUserMsgs = sanitizedMessages
@@ -1192,7 +1243,7 @@ superagentRoutes.post(
           }
         })();
 
-        // Step 16: Publish response generated event
+        // Step 18: Publish corrected response generated event (fire-and-forget — post-stream)
         void publishEvent(streamEnv, {
           eventId: burnRef,
           eventKey: AiEventType.AiResponseGenerated,
@@ -1205,33 +1256,16 @@ superagentRoutes.post(
             vertical: verticalSlug || null,
             provider: resolved.config.provider ?? 'unknown',
             model: resolved.config.model ?? 'unknown',
-            tokens_used: totalTokensEstimate,
-            waku_cu_charged: burn.wakaCuCharged,
+            input_tokens: inputTokensEstimate,
+            output_tokens: outputTokens,
+            total_tokens: totalTokens,
+            waku_cu_charged: totalCuCharged,
+            charge_source: chargeSource,
             streaming: true,
           },
           source: 'api',
           severity: 'info',
         });
-
-        // Step 17: Terminal SSE event — stream complete
-        enqueue(
-          `data: ${JSON.stringify({
-            done: true,
-            session_id: sessionId,
-            session_is_new: sessionIsNew,
-            waku_cu_charged: burn.wakaCuCharged,
-            ...(postCheck.flagged ? { compliance_flagged: true, compliance_flags: postCheck.flags } : {}),
-            usage: {
-              input_tokens: inputTokensEstimate,
-              output_tokens: outputTokensEstimate,
-              total_tokens: totalTokensEstimate,
-              cost_waku_cu: burn.wakaCuCharged,
-              charge_source: burn.chargeSource,
-            },
-          })}\n\n`,
-        );
-
-        controller.close();
       },
     });
 
