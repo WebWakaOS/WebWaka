@@ -68,6 +68,11 @@ ENVIRONMENT = "staging"
 LOG_LEVEL = "debug"
 DEFAULT_PAYMENT_MODE = "bank_transfer"
 PLATFORM_BANK_ACCOUNT_JSON = '{"bank_name":"Access Bank","account_number":"XXXXXXXXXX","account_name":"WebWaka Technologies Limited","sort_code":""}'
+# R2 S3-compatible API — used for DSAR export pre-signed URL generation (COMP-002)
+# R2_ACCOUNT_ID: set to Cloudflare account ID (find in CF Dashboard → Overview)
+# DSAR_BUCKET_NAME: actual bucket name (not the binding alias)
+# R2_DSAR_ACCESS_KEY_ID and R2_DSAR_SECRET_ACCESS_KEY must be set as CF Worker Secrets
+DSAR_BUCKET_NAME = "webwaka-dsar-exports-staging"
 
 [[env.staging.routes]]
 pattern = "api-staging.webwaka.com"
@@ -135,6 +140,8 @@ ENVIRONMENT = "production"
 LOG_LEVEL = "warn"
 DEFAULT_PAYMENT_MODE = "bank_transfer"
 PLATFORM_BANK_ACCOUNT_JSON = '{"bank_name":"Access Bank","account_number":"XXXXXXXXXX","account_name":"WebWaka Technologies Limited","sort_code":""}'
+# R2 DSAR bucket name for S3-compatible pre-signed URL generation (COMP-002)
+DSAR_BUCKET_NAME = "webwaka-dsar-exports-production"
 
 [[env.production.routes]]
 pattern = "api.webwaka.com"

@@ -56,6 +56,8 @@ export interface DsarExportPayload {
   tenant_id: string;
   identity: Record<string, unknown> | null;
   consent: unknown[];
+  consent_history: unknown[];
+  audit_log: unknown[];
   ai_usage: unknown[];
   ai_spend: unknown[];
   wallet: unknown[];
@@ -65,19 +67,23 @@ export interface DsarExportPayload {
 }
 
 // ---------------------------------------------------------------------------
-// compileDsarExport — parallel D1 fetch across 8 data categories
+// compileDsarExport — parallel D1 fetch across 10 data categories
 //
 // Column notes (schema-verified):
-//   users               — email, phone, full_name, kyc_status, kyc_tier, role,
-//                         workspace_id, created_at, updated_at, email_verified_at
-//                         (NOT locale/timezone — not in schema)
-//   superagent_consents — purpose, locale, granted, granted_at, revoked_at
-//   ai_usage_events     — pillar, capability, provider, token counts (TEXT created_at)
-//   ai_spend_events     — capability, model_used, wakaCU_cost, status (TEXT created_at)
-//   hl_ledger           — entry_type, amount_kobo, balance_after, tx_type (TEXT created_at)
+//   users                 — email, phone, full_name, kyc_status, kyc_tier, role,
+//                           workspace_id, created_at, updated_at, email_verified_at
+//                           (NOT locale/timezone — not in schema)
+//   superagent_consents   — purpose, locale, granted, granted_at, revoked_at
+//   consent_history       — consent_version, consent_text_hash, consented_at,
+//                           ip_address, user_agent (migration 0385; INTEGER consented_at)
+//   audit_logs            — action, method, path, resource_type, resource_id,
+//                           ip_masked, status_code, created_at (TEXT ISO 8601)
+//   ai_usage_events       — pillar, capability, provider, token counts (TEXT created_at)
+//   ai_spend_events       — capability, model_used, wakaCU_cost, status (TEXT created_at)
+//   hl_ledger             — entry_type, amount_kobo, balance_after, tx_type (TEXT created_at)
 //   notification_inbox_item — title, body, is_read, read_at (INTEGER created_at)
-//   sessions            — issued_at, expires_at, revoked_at (INTEGER timestamps, no tokens)
-//   dsar_requests       — id, status, requested_at, completed_at, expires_at
+//   sessions              — issued_at, expires_at, revoked_at (INTEGER timestamps, no tokens)
+//   dsar_requests         — id, status, requested_at, completed_at, expires_at
 // ---------------------------------------------------------------------------
 
 export async function compileDsarExport(
@@ -90,10 +96,13 @@ export async function compileDsarExport(
   const twelveMonthsAgo   = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
     .toISOString().slice(0, 10);                            // TEXT date for ISO-timestamped tables
   const sixMonthsAgoSec   = nowSec - 183 * 24 * 60 * 60;  // unix sec for INTEGER-timestamped tables
+  const twelveMonthsAgoSec = nowSec - 365 * 24 * 60 * 60; // unix sec for consent_history
 
   const [
     identityRow,
     consentResults,
+    consentHistoryResults,
+    auditLogResults,
     aiUsageResults,
     aiSpendResults,
     walletResults,
@@ -124,6 +133,31 @@ export async function compileDsarExport(
        WHERE user_id = ? AND tenant_id = ?
        ORDER BY granted_at DESC`,
     ).bind(userId, tenantId).all<Record<string, unknown>>(),
+
+    // ── consent_history ───────────────────────────────────────────────────────
+    // Platform-level consent acceptance history (migration 0385).
+    // consent_history.consented_at is INTEGER (unixepoch) — last 12 months.
+    // ip_address included per NDPR right of access (user's own data).
+    db.prepare(
+      `SELECT id, consent_version, consent_text_hash, consented_at, ip_address, user_agent
+       FROM consent_history
+       WHERE user_id = ? AND tenant_id = ? AND consented_at >= ?
+       ORDER BY consented_at DESC
+       LIMIT 200`,
+    ).bind(userId, tenantId, twelveMonthsAgoSec).all<Record<string, unknown>>(),
+
+    // ── audit_log ────────────────────────────────────────────────────────────
+    // User-attributed audit events from audit_logs (migration 0193, G23 read-only).
+    // ip_masked is already PII-safe (IP anonymised at write time).
+    // audit_logs.created_at is TEXT (ISO 8601) — last 12 months.
+    db.prepare(
+      `SELECT id, action, method, path, resource_type, resource_id,
+              ip_masked, status_code, created_at
+       FROM audit_logs
+       WHERE user_id = ? AND tenant_id = ? AND created_at >= ?
+       ORDER BY created_at DESC
+       LIMIT 2000`,
+    ).bind(userId, tenantId, twelveMonthsAgo).all<Record<string, unknown>>(),
 
     // ── ai_usage ─────────────────────────────────────────────────────────────
     // Event metadata only — last 12 months (P13: no prompt/response content stored)
@@ -192,18 +226,20 @@ export async function compileDsarExport(
   ]);
 
   return {
-    exported_at:   new Date().toISOString(),
-    request_id:    requestId,
-    user_id:       userId,
-    tenant_id:     tenantId,
-    identity:      identityRow,
-    consent:       consentResults.results,
-    ai_usage:      aiUsageResults.results,
-    ai_spend:      aiSpendResults.results,
-    wallet:        walletResults.results,
-    notifications: notifResults.results,
-    sessions:      sessionResults.results,
-    dsar_history:  dsarHistoryResults.results,
+    exported_at:      new Date().toISOString(),
+    request_id:       requestId,
+    user_id:          userId,
+    tenant_id:        tenantId,
+    identity:         identityRow,
+    consent:          consentResults.results,
+    consent_history:  consentHistoryResults.results,
+    audit_log:        auditLogResults.results,
+    ai_usage:         aiUsageResults.results,
+    ai_spend:         aiSpendResults.results,
+    wallet:           walletResults.results,
+    notifications:    notifResults.results,
+    sessions:         sessionResults.results,
+    dsar_history:     dsarHistoryResults.results,
   };
 }
 
