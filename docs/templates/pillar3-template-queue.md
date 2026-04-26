@@ -15,16 +15,33 @@
 ## ⟶ CURRENT (Build This Next)
 
 ```
-Niche ID:      P3-mosque-mosque-community-platform
-Vertical:      mosque
-Niche Name:    Mosque / Islamic Centre Community Platform
-Category:      civic
-NF Priority:   critical
+Niche ID:      P3-restaurant-restaurant-menu-site
+Vertical:      restaurant
+Niche Name:    Restaurant Menu & Ordering Site
+Category:      food-beverage
+NF Priority:   high
 Status:        READY_FOR_RESEARCH
 Owner:         —
-Family:        NF-CIV-REL variant (church is P2-shipped anchor)
+Family:        NF-FOD-QSR anchor
 Blocker:       none
 Registry path: docs/templates/pillar3-niche-registry.json
+```
+
+<!-- Session-D (community-radio through printing-press — positions 22–31) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-D -->
+
+---
+
+## ✅ JUST COMPLETED (Session B — 10 niches)
+
+```
+Niche ID:      P3-building-materials-building-materials-supplier
+Vertical:      building-materials
+Status:        IMPLEMENTED ✅
+Template slug: building-materials-building-materials-supplier
+Template file: apps/brand-runtime/src/templates/niches/building-materials/building-materials-supplier.ts
+SQL manifest:  infra/db/seeds/templates/building-materials-building-materials-supplier.sql
+Completed by:  replit-agent-2026-04-26-session-B
+Completed:     2026-04-26
 ```
 
 ---
@@ -53,16 +70,16 @@ High-community-density niches. Nigeria-first priority = critical. All unblocked.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 1 | `P3-mosque-mosque-community-platform` | **CURRENT** ← | NF-CIV-REL variant; church P2-anchored |
-| 2 | `P3-hair-salon-hair-salon-site` | READY_FOR_RESEARCH | NF-COM-BEA standalone; critical density |
-| 3 | `P3-poultry-farm-poultry-farm-site` | READY_FOR_RESEARCH | NF-AGR-LIV anchor; critical food security |
-| 4 | `P3-market-association-market-assoc-portal` | READY_FOR_RESEARCH | NF-CIV-TRD standalone; Alaba/Ladipo anchors |
-| 5 | `P3-water-vendor-water-vendor-site` | READY_FOR_RESEARCH | NAFDAC critical; widespread demand |
-| 6 | `P3-phone-repair-shop-phone-repair-shop` | READY_FOR_RESEARCH | NF-COM-DIG standalone; Computer Village |
-| 7 | `P3-palm-oil-trader-palm-oil-trader-site` | READY_FOR_RESEARCH | NF-AGR-COM anchor; Edo/Delta primary |
-| 8 | `P3-okada-keke-okada-keke-coop` | READY_FOR_RESEARCH | NF-TRP-MIC standalone; millions of riders |
-| 9 | `P3-tailoring-fashion-tailoring-atelier` | READY_FOR_RESEARCH | NF-COM-FSH standalone; Aso-Ebi market |
-| 10 | `P3-used-car-dealer-used-car-dealer-site` | READY_FOR_RESEARCH | NF-COM-AUT anchor; Ladipo/Berger market |
+| 1 | `P3-mosque-mosque-community-platform` | IMPLEMENTED ✅ | NF-CIV-REL variant; church P2-anchored |
+| 2 | `P3-hair-salon-hair-salon-site` | IMPLEMENTED ✅ | NF-COM-BEA standalone; critical density |
+| 3 | `P3-poultry-farm-poultry-farm-site` | IMPLEMENTED ✅ | NF-AGR-LIV anchor; critical food security |
+| 4 | `P3-market-association-market-assoc-portal` | IMPLEMENTED ✅ | NF-CIV-TRD standalone; Alaba/Ladipo anchors |
+| 5 | `P3-water-vendor-water-vendor-site` | IMPLEMENTED ✅ | NAFDAC critical; widespread demand |
+| 6 | `P3-phone-repair-shop-phone-repair-shop` | IMPLEMENTED ✅ | NF-COM-DIG standalone; Computer Village |
+| 7 | `P3-palm-oil-trader-palm-oil-trader-site` | IMPLEMENTED ✅ | NF-AGR-COM anchor; Edo/Delta primary |
+| 8 | `P3-okada-keke-okada-keke-coop` | IMPLEMENTED ✅ | NF-TRP-MIC standalone; millions of riders |
+| 9 | `P3-tailoring-fashion-tailoring-atelier` | IMPLEMENTED ✅ | NF-COM-FSH standalone; Aso-Ebi market |
+| 10 | `P3-used-car-dealer-used-car-dealer-site` | IMPLEMENTED ✅ | NF-COM-AUT anchor; Ladipo/Berger market |
 
 ---
 
@@ -72,7 +89,7 @@ High-volume Nigerian SME types. All unblocked. `nigeriaFirstPriority=high`.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 11 | `P3-building-materials-building-materials-supplier` | READY_FOR_RESEARCH | NF-COM-CON anchor; housing deficit demand |
+| 11 | `P3-building-materials-building-materials-supplier` | IMPLEMENTED ✅ | NF-COM-CON anchor; housing deficit demand |
 | 12 | `P3-electrical-fittings-electrical-fittings-dealer` | READY_FOR_RESEARCH | Inverter/solar boom |
 | 13 | `P3-cassava-miller-cassava-miller-site` | READY_FOR_RESEARCH | NF-AGR-PRO anchor; garri production |
 | 14 | `P3-generator-dealer-generator-dealer-service` | READY_FOR_RESEARCH | NEPA failure; church/estate market |
@@ -186,6 +203,27 @@ that must reach IMPLEMENTED before the variant can begin.
 
 | Completed Date | Niche ID | Niche Name | Template Slug |
 |----------------|----------|-----------|---------------|
+| 2026-04-26 | `P3-building-materials-building-materials-supplier` | Building Materials Supplier Site | `building-materials-building-materials-supplier` |
+| 2026-04-26 | `P3-used-car-dealer-used-car-dealer-site` | Used Car Dealer / Auto Trader Site | `used-car-dealer-used-car-dealer-site` |
+| 2026-04-26 | `P3-tailoring-fashion-tailoring-atelier` | Tailor / Fashion Designer Atelier Site | `tailoring-fashion-tailoring-atelier` |
+| 2026-04-26 | `P3-okada-keke-okada-keke-coop` | Okada / Keke Rider Co-op Platform | `okada-keke-okada-keke-coop` |
+| 2026-04-26 | `P3-palm-oil-trader-palm-oil-trader-site` | Palm Oil Producer / Trader Site | `palm-oil-trader-palm-oil-trader-site` |
+| 2026-04-26 | `P3-phone-repair-shop-phone-repair-shop` | Phone Repair & Accessories Shop Site | `phone-repair-shop-phone-repair-shop` |
+| 2026-04-26 | `P3-water-vendor-water-vendor-site` | Water Tanker / Sachet Water Producer Site | `water-vendor-water-vendor-site` |
+| 2026-04-26 | `P3-market-association-market-assoc-portal` | Market Leaders / Traders Association Portal | `market-association-market-assoc-portal` |
+| 2026-04-26 | `P3-poultry-farm-poultry-farm-site` | Poultry Farm / Aquaculture Site | `poultry-farm-poultry-farm-site` |
+| 2026-04-26 | `P3-hair-salon-hair-salon-site` | Hair Salon / Barbing Salon Site | `hair-salon-hair-salon-site` |
+| 2026-04-26 | `P3-mosque-mosque-community-platform` | Mosque / Islamic Centre Community Platform | `mosque-mosque-community-platform` |
+| 2026-04-26 | `P3-electrical-fittings-electrical-fittings-dealer` | Electrical Fittings Dealer Site | `electrical-fittings-electrical-fittings-dealer` |
+| 2026-04-26 | `P3-cassava-miller-cassava-miller-site` | Cassava Miller / Garri Producer Site | `cassava-miller-cassava-miller-site` |
+| 2026-04-26 | `P3-generator-dealer-generator-dealer-service` | Generator Sales & Service Centre Site | `generator-dealer-generator-dealer-service` |
+| 2026-04-26 | `P3-fish-market-fish-market-site` | Fish Market / Fishmonger Site | `fish-market-fish-market-site` |
+| 2026-04-26 | `P3-wedding-planner-wedding-planner-site` | Wedding Planner / Celebrant Site | `wedding-planner-wedding-planner-site` |
+| 2026-04-26 | `P3-private-school-private-school-site` | Private School Operator Site | `private-school-private-school-site` |
+| 2026-04-26 | `P3-community-health-community-health-site` | Community Health Worker Network Site | `community-health-community-health-site` |
+| 2026-04-26 | `P3-professional-association-prof-assoc-portal` | Professional Association Portal | `professional-association-prof-assoc-portal` |
+| 2026-04-26 | `P3-campaign-office-campaign-office-ops` | Political Campaign Office Operations | `campaign-office-campaign-office-ops` |
+| 2026-04-26 | `P3-lga-office-lga-council-portal` | LGA Council Portal | `lga-office-lga-council-portal` |
 | 2026-04-25 | `P3-tax-consultant-tax-consultant-site` | Tax Consultant / Revenue Agent Site | `tax-consultant-financial-services` |
 | 2026-04-25 | `P3-tutoring-tutoring-site` | Tutoring / Lesson Teacher Site | `tutoring-private-lessons` |
 | 2026-04-25 | `P3-creche-creche-daycare-site` | Crèche / Day Care Centre Site | `creche-early-childhood` |
@@ -196,4 +234,4 @@ that must reach IMPLEMENTED before the variant can begin.
 
 ---
 
-*Last updated: 2026-04-26 — System initialised. 70 niches READY_FOR_RESEARCH. CURRENT = mosque.*
+*Last updated: 2026-04-26 — Session-C IMPLEMENTED 10 templates (electrical-fittings, cassava-miller, generator-dealer, fish-market, wedding-planner, private-school, community-health, professional-association, campaign-office, lga-office). All 10 registered in BUILT_IN_TEMPLATES. SQL manifests written. 28 total completed (7 SHIPPED + 21 IMPLEMENTED). 49 niches READY_FOR_RESEARCH.*

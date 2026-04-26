@@ -53,6 +53,67 @@ import { rideshareRideHailingServiceTemplate } from '../templates/niches/ridesha
 import { haulageFreightLogisticsTemplate } from '../templates/niches/haulage/freight-logistics.js';
 import { pharmacyDrugStoreTemplate } from '../templates/niches/pharmacy/drug-store.js';
 import { beautySalonPersonalCareTemplate } from '../templates/niches/beauty-salon/personal-care.js';
+import { hotelHospitalityBookingTemplate } from '../templates/niches/hotel/hospitality-booking.js';
+import { realEstateAgencyPropertyListingsTemplate } from '../templates/niches/real-estate-agency/property-listings.js';
+import { lawFirmLegalPracticeTemplate } from '../templates/niches/law-firm/legal-practice.js';
+import { itSupportTechServiceTemplate } from '../templates/niches/it-support/tech-service.js';
+import { handymanTradeServiceTemplate } from '../templates/niches/handyman/trade-service.js';
+import { supermarketGroceryStoreTemplate } from '../templates/niches/supermarket/grocery-store.js';
+import { bakeryConfectioneryTemplate } from '../templates/niches/bakery/confectionery.js';
+import { cateringEventServiceTemplate } from '../templates/niches/catering/event-service.js';
+import { eventHallVenueBookingTemplate } from '../templates/niches/event-hall/venue-booking.js';
+import { fashionBrandClothingLabelTemplate } from '../templates/niches/fashion-brand/clothing-label.js';
+import { photographyVisualPortfolioTemplate } from '../templates/niches/photography/visual-portfolio.js';
+import { musicStudioArtistProfileTemplate } from '../templates/niches/music-studio/artist-profile.js';
+import { travelAgentTourOperatorTemplate } from '../templates/niches/travel-agent/tour-operator.js';
+import { savingsGroupThriftCommunityTemplate } from '../templates/niches/savings-group/thrift-community.js';
+import { gymFitnessMembershipTemplate } from '../templates/niches/gym/fitness-membership.js';
+import { spaWellnessCentreTemplate } from '../templates/niches/spa/wellness-centre.js';
+import { taxConsultantFinancialServicesTemplate } from '../templates/niches/tax-consultant/financial-services.js';
+import { drivingSchoolTrainingTemplate } from '../templates/niches/driving-school/training.js';
+import { trainingInstituteVocationalTemplate } from '../templates/niches/training-institute/vocational.js';
+import { tutoringPrivateLessonsTemplate } from '../templates/niches/tutoring/private-lessons.js';
+import { wholesaleMarketTradingHubTemplate } from '../templates/niches/wholesale-market/trading-hub.js';
+import { warehouseLogisticsHubTemplate } from '../templates/niches/warehouse/logistics-hub.js';
+import { insuranceAgentBrokerSiteTemplate } from '../templates/niches/insurance-agent/broker-site.js';
+import { dentalClinicSpecialistCareTemplate } from '../templates/niches/dental-clinic/specialist-care.js';
+import { vetClinicVeterinaryTemplate } from '../templates/niches/vet-clinic/veterinary-care.js';
+import { crecheEarlyChildhoodTemplate } from '../templates/niches/creche/early-childhood.js';
+import { mobileMoneyAgentFintechTemplate } from '../templates/niches/mobile-money-agent/fintech.js';
+import { bureauDeChangeFxDealerTemplate } from '../templates/niches/bureau-de-change/fx-dealer.js';
+import { hirePurchaseAssetFinanceTemplate } from '../templates/niches/hire-purchase/asset-finance.js';
+import { communityHallCivicSpaceTemplate } from '../templates/niches/community-hall/civic-space.js';
+import { mosqueMosqueCommunityPlatformTemplate } from '../templates/niches/mosque/mosque-community-platform.js';
+import { hairSalonHairSalonSiteTemplate } from '../templates/niches/hair-salon/hair-salon-site.js';
+import { poultryFarmPoultryFarmSiteTemplate } from '../templates/niches/poultry-farm/poultry-farm-site.js';
+import { marketAssociationMarketAssocPortalTemplate } from '../templates/niches/market-association/market-assoc-portal.js';
+import { waterVendorWaterVendorSiteTemplate } from '../templates/niches/water-vendor/water-vendor-site.js';
+import { phoneRepairShopPhoneRepairShopTemplate } from '../templates/niches/phone-repair-shop/phone-repair-shop.js';
+import { palmOilTraderPalmOilTraderSiteTemplate } from '../templates/niches/palm-oil-trader/palm-oil-trader-site.js';
+import { okadaKekeOkadaKekeCoopTemplate } from '../templates/niches/okada-keke/okada-keke-coop.js';
+import { tailoringFashionTailoringAtelierTemplate } from '../templates/niches/tailoring-fashion/tailoring-atelier.js';
+import { usedCarDealerUsedCarDealerSiteTemplate } from '../templates/niches/used-car-dealer/used-car-dealer-site.js';
+import { buildingMaterialsBuildingMaterialsSupplierTemplate } from '../templates/niches/building-materials/building-materials-supplier.js';
+import { electricalFittingsElectricalFittingsDealerTemplate } from '../templates/niches/electrical-fittings/electrical-fittings-dealer.js';
+import { cassavaMillerCassavaMillerSiteTemplate } from '../templates/niches/cassava-miller/cassava-miller-site.js';
+import { generatorDealerGeneratorDealerServiceTemplate } from '../templates/niches/generator-dealer/generator-dealer-service.js';
+import { fishMarketFishMarketSiteTemplate } from '../templates/niches/fish-market/fish-market-site.js';
+import { weddingPlannerWeddingPlannerSiteTemplate } from '../templates/niches/wedding-planner/wedding-planner-site.js';
+import { privateSchoolPrivateSchoolSiteTemplate } from '../templates/niches/private-school/private-school-site.js';
+import { communityHealthCommunityHealthSiteTemplate } from '../templates/niches/community-health/community-health-site.js';
+import { professionalAssociationProfAssocPortalTemplate } from '../templates/niches/professional-association/prof-assoc-portal.js';
+import { campaignOfficeCampaignOfficeOpsTemplate } from '../templates/niches/campaign-office/campaign-office-ops.js';
+import { lgaOfficeLgaCouncilPortalTemplate } from '../templates/niches/lga-office/lga-council-portal.js';
+import { communityRadioCommunityRadioSiteTemplate } from '../templates/niches/community-radio/community-radio-site.js';
+import { airtimeResellerAirtimeVtuResellerTemplate } from '../templates/niches/airtime-reseller/airtime-vtu-reseller.js';
+import { landSurveyorLandSurveyorSiteTemplate } from '../templates/niches/land-surveyor/land-surveyor-site.js';
+import { womensAssociationWomensAssocPortalTemplate } from '../templates/niches/womens-association/womens-assoc-portal.js';
+import { youthOrganizationYouthOrgPortalTemplate } from '../templates/niches/youth-organization/youth-org-portal.js';
+import { ministryMissionMinistryMissionPlatformTemplate } from '../templates/niches/ministry-mission/ministry-mission-platform.js';
+import { abattoirAbattoirMeatProcessingTemplate } from '../templates/niches/abattoir/abattoir-meat-processing.js';
+import { ferryFerryWaterTransportTemplate } from '../templates/niches/ferry/ferry-water-transport.js';
+import { boreholeDrillerBoreholeDrillingTemplate } from '../templates/niches/borehole-driller/borehole-drilling.js';
+import { printingPressPrintingPressStudioTemplate } from '../templates/niches/printing-press/printing-press-studio.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -140,6 +201,67 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['haulage-freight-logistics', haulageFreightLogisticsTemplate],
   ['pharmacy-drug-store', pharmacyDrugStoreTemplate],
   ['beauty-salon-personal-care', beautySalonPersonalCareTemplate],
+  ['hotel-hospitality-booking', hotelHospitalityBookingTemplate],
+  ['real-estate-agency-property-listings', realEstateAgencyPropertyListingsTemplate],
+  ['law-firm-legal-practice', lawFirmLegalPracticeTemplate],
+  ['it-support-tech-service', itSupportTechServiceTemplate],
+  ['handyman-trade-service', handymanTradeServiceTemplate],
+  ['supermarket-grocery-store', supermarketGroceryStoreTemplate],
+  ['bakery-confectionery', bakeryConfectioneryTemplate],
+  ['catering-event-service', cateringEventServiceTemplate],
+  ['event-hall-venue-booking', eventHallVenueBookingTemplate],
+  ['fashion-brand-clothing-label', fashionBrandClothingLabelTemplate],
+  ['photography-visual-portfolio', photographyVisualPortfolioTemplate],
+  ['music-studio-artist-profile', musicStudioArtistProfileTemplate],
+  ['travel-agent-tour-operator', travelAgentTourOperatorTemplate],
+  ['savings-group-thrift-community', savingsGroupThriftCommunityTemplate],
+  ['gym-fitness-membership', gymFitnessMembershipTemplate],
+  ['spa-wellness-centre', spaWellnessCentreTemplate],
+  ['tax-consultant-financial-services', taxConsultantFinancialServicesTemplate],
+  ['driving-school-training', drivingSchoolTrainingTemplate],
+  ['training-institute-vocational', trainingInstituteVocationalTemplate],
+  ['tutoring-private-lessons', tutoringPrivateLessonsTemplate],
+  ['wholesale-market-trading-hub', wholesaleMarketTradingHubTemplate],
+  ['warehouse-logistics-hub', warehouseLogisticsHubTemplate],
+  ['insurance-agent-broker-site', insuranceAgentBrokerSiteTemplate],
+  ['dental-clinic-specialist-care', dentalClinicSpecialistCareTemplate],
+  ['vet-clinic-veterinary-care', vetClinicVeterinaryTemplate],
+  ['creche-early-childhood', crecheEarlyChildhoodTemplate],
+  ['mobile-money-agent-fintech', mobileMoneyAgentFintechTemplate],
+  ['bureau-de-change-fx-dealer', bureauDeChangeFxDealerTemplate],
+  ['hire-purchase-asset-finance', hirePurchaseAssetFinanceTemplate],
+  ['community-hall-civic-space', communityHallCivicSpaceTemplate],
+  ['mosque-mosque-community-platform', mosqueMosqueCommunityPlatformTemplate],
+  ['hair-salon-hair-salon-site', hairSalonHairSalonSiteTemplate],
+  ['poultry-farm-poultry-farm-site', poultryFarmPoultryFarmSiteTemplate],
+  ['market-association-market-assoc-portal', marketAssociationMarketAssocPortalTemplate],
+  ['water-vendor-water-vendor-site', waterVendorWaterVendorSiteTemplate],
+  ['phone-repair-shop-phone-repair-shop', phoneRepairShopPhoneRepairShopTemplate],
+  ['palm-oil-trader-palm-oil-trader-site', palmOilTraderPalmOilTraderSiteTemplate],
+  ['okada-keke-okada-keke-coop', okadaKekeOkadaKekeCoopTemplate],
+  ['tailoring-fashion-tailoring-atelier', tailoringFashionTailoringAtelierTemplate],
+  ['used-car-dealer-used-car-dealer-site', usedCarDealerUsedCarDealerSiteTemplate],
+  ['building-materials-building-materials-supplier', buildingMaterialsBuildingMaterialsSupplierTemplate],
+  ['electrical-fittings-electrical-fittings-dealer', electricalFittingsElectricalFittingsDealerTemplate],
+  ['cassava-miller-cassava-miller-site', cassavaMillerCassavaMillerSiteTemplate],
+  ['generator-dealer-generator-dealer-service', generatorDealerGeneratorDealerServiceTemplate],
+  ['fish-market-fish-market-site', fishMarketFishMarketSiteTemplate],
+  ['wedding-planner-wedding-planner-site', weddingPlannerWeddingPlannerSiteTemplate],
+  ['private-school-private-school-site', privateSchoolPrivateSchoolSiteTemplate],
+  ['community-health-community-health-site', communityHealthCommunityHealthSiteTemplate],
+  ['professional-association-prof-assoc-portal', professionalAssociationProfAssocPortalTemplate],
+  ['campaign-office-campaign-office-ops', campaignOfficeCampaignOfficeOpsTemplate],
+  ['lga-office-lga-council-portal', lgaOfficeLgaCouncilPortalTemplate],
+  ['community-radio-community-radio-site', communityRadioCommunityRadioSiteTemplate],
+  ['airtime-reseller-airtime-vtu-reseller', airtimeResellerAirtimeVtuResellerTemplate],
+  ['land-surveyor-land-surveyor-site', landSurveyorLandSurveyorSiteTemplate],
+  ['womens-association-womens-assoc-portal', womensAssociationWomensAssocPortalTemplate],
+  ['youth-organization-youth-org-portal', youthOrganizationYouthOrgPortalTemplate],
+  ['ministry-mission-ministry-mission-platform', ministryMissionMinistryMissionPlatformTemplate],
+  ['abattoir-abattoir-meat-processing', abattoirAbattoirMeatProcessingTemplate],
+  ['ferry-ferry-water-transport', ferryFerryWaterTransportTemplate],
+  ['borehole-driller-borehole-drilling', boreholeDrillerBoreholeDrillingTemplate],
+  ['printing-press-printing-press-studio', printingPressPrintingPressStudioTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
@@ -280,6 +402,11 @@ export function templateSupportsPage(
  */
 export function listBuiltInTemplateSlugs(): string[] {
   return Array.from(BUILT_IN_TEMPLATES.keys());
+}
+
+/** Returns a read-only view of all built-in templates. Used by QA scripts. */
+export function getAllBuiltInTemplates(): ReadonlyMap<string, WebsiteTemplateContract> {
+  return BUILT_IN_TEMPLATES;
 }
 
 export type { WebsiteTemplateContract, WebsiteRenderContext, WebsitePageType };
