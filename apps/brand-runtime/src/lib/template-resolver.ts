@@ -190,6 +190,44 @@ import { restaurantChainRestaurantChainOutletTemplate } from '../templates/niche
 import { accountingFirmAccountingFirmAuditTemplate } from '../templates/niches/accounting-firm/accounting-firm-audit.js';
 import { wardRepWardRepCouncillorSiteTemplate } from '../templates/niches/ward-rep/ward-rep-councillor-site.js';
 import { bankBranchBankBranchLocationTemplate } from '../templates/niches/bank-branch/bank-branch-location.js';
+import { hospitalSecondaryCareTemplate } from '../templates/niches/hospital/secondary-care.js';
+import { diagnosticLabMedicalLaboratoryTemplate } from '../templates/niches/diagnostic-lab/medical-laboratory.js';
+import { physiotherapyPhysioClinicTemplate } from '../templates/niches/physiotherapy/physio-clinic.js';
+import { mentalHealthCounsellingCentreTemplate } from '../templates/niches/mental-health/counselling-centre.js';
+import { maternityClinicBirthingCentreTemplate } from '../templates/niches/maternity-clinic/birthing-centre.js';
+import { universityHigherEducationTemplate } from '../templates/niches/university/higher-education.js';
+import { examPrepCentreExamPrepTemplate } from '../templates/niches/exam-prep-centre/exam-prep.js';
+import { elearningPlatformOnlineLearningTemplate } from '../templates/niches/elearning-platform/online-learning.js';
+import { tutorialCentreGroupLessonsTemplate } from '../templates/niches/tutorial-centre/group-lessons.js';
+import { techAcademyCodingBootcampTemplate } from '../templates/niches/tech-academy/coding-bootcamp.js';
+import { microfinanceBankMfbSiteTemplate } from '../templates/niches/microfinance-bank/mfb-site.js';
+import { insuranceCompanyUnderwriterSiteTemplate } from '../templates/niches/insurance-company/underwriter-site.js';
+import { creditUnionSaccoSiteTemplate } from '../templates/niches/credit-union/sacco-site.js';
+import { pensionFundPfaSiteTemplate } from '../templates/niches/pension-fund/pfa-site.js';
+import { stockbrokerSecuritiesDealerTemplate } from '../templates/niches/stockbroker/securities-dealer.js';
+import { softwareAgencySoftwareAgencySiteTemplate } from '../templates/niches/software-agency/software-agency-site.js';
+import { architectureFirmArchitectureSiteTemplate } from '../templates/niches/architecture-firm/architecture-site.js';
+import { recruitmentAgencyHrRecruitmentSiteTemplate } from '../templates/niches/recruitment-agency/hr-recruitment-site.js';
+import { managementConsultingConsultingSiteTemplate } from '../templates/niches/management-consulting/consulting-site.js';
+import { digitalMarketingAgencyDigitalAgencySiteTemplate } from '../templates/niches/digital-marketing-agency/digital-agency-site.js';
+import { cacRegistrationAgentCacAgentSiteTemplate } from '../templates/niches/cac-registration-agent/cac-agent-site.js';
+import { cybersecurityFirmCybersecuritySiteTemplate } from '../templates/niches/cybersecurity-firm/cybersecurity-site.js';
+import { dataAnalyticsFirmDataAnalyticsSiteTemplate } from '../templates/niches/data-analytics-firm/data-analytics-site.js';
+import { barLoungeBarLoungeSiteTemplate } from '../templates/niches/bar-lounge/bar-lounge-site.js';
+import { resortResortSiteTemplate } from '../templates/niches/resort/resort-site.js';
+import { vacationRentalShortletPortfolioTemplate } from '../templates/niches/vacation-rental/shortlet-portfolio.js';
+import { foodCourtCanteenSiteTemplate } from '../templates/niches/food-court/canteen-site.js';
+import { coworkingSpaceCoworkingSiteTemplate } from '../templates/niches/coworking-space/coworking-site.js';
+import { propertyManagementPropertyMgmtSiteTemplate } from '../templates/niches/property-management/property-mgmt-site.js';
+import { studentHostelHostelSiteTemplate } from '../templates/niches/student-hostel/hostel-site.js';
+import { yogaStudioYogaStudioSiteTemplate } from '../templates/niches/yoga-studio/yoga-studio-site.js';
+import { traditionalMedicineHerbalSiteTemplate } from '../templates/niches/traditional-medicine/herbal-site.js';
+import { healthFoodStoreSupplementStoreTemplate } from '../templates/niches/health-food-store/supplement-store.js';
+import { electronicsStoreElectronicsRetailTemplate } from '../templates/niches/electronics-store/electronics-retail.js';
+import { jewelleryShopJewellerySiteTemplate } from '../templates/niches/jewellery-shop/jewellery-site.js';
+import { babyShopBabyStoreSiteTemplate } from '../templates/niches/baby-shop/baby-store-site.js';
+import { cosmeticsShopCosmeticsRetailTemplate } from '../templates/niches/cosmetics-shop/cosmetics-retail.js';
+import { thriftStoreThriftStoreSiteTemplate } from '../templates/niches/thrift-store/thrift-store-site.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -414,6 +452,44 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['accounting-firm-accounting-firm-audit', accountingFirmAccountingFirmAuditTemplate],
   ['ward-rep-ward-rep-councillor-site', wardRepWardRepCouncillorSiteTemplate],
   ['bank-branch-bank-branch-location', bankBranchBankBranchLocationTemplate],
+  ['hospital-secondary-care', hospitalSecondaryCareTemplate],
+  ['diagnostic-lab-medical-laboratory', diagnosticLabMedicalLaboratoryTemplate],
+  ['physiotherapy-physio-clinic', physiotherapyPhysioClinicTemplate],
+  ['mental-health-counselling-centre', mentalHealthCounsellingCentreTemplate],
+  ['maternity-clinic-birthing-centre', maternityClinicBirthingCentreTemplate],
+  ['university-higher-education', universityHigherEducationTemplate],
+  ['exam-prep-centre-exam-prep', examPrepCentreExamPrepTemplate],
+  ['elearning-platform-online-learning', elearningPlatformOnlineLearningTemplate],
+  ['tutorial-centre-group-lessons', tutorialCentreGroupLessonsTemplate],
+  ['tech-academy-coding-bootcamp', techAcademyCodingBootcampTemplate],
+  ['microfinance-bank-mfb-site', microfinanceBankMfbSiteTemplate],
+  ['insurance-company-underwriter-site', insuranceCompanyUnderwriterSiteTemplate],
+  ['credit-union-sacco-site', creditUnionSaccoSiteTemplate],
+  ['pension-fund-pfa-site', pensionFundPfaSiteTemplate],
+  ['stockbroker-securities-dealer', stockbrokerSecuritiesDealerTemplate],
+  ['software-agency-software-agency-site', softwareAgencySoftwareAgencySiteTemplate],
+  ['architecture-firm-architecture-site', architectureFirmArchitectureSiteTemplate],
+  ['recruitment-agency-hr-recruitment-site', recruitmentAgencyHrRecruitmentSiteTemplate],
+  ['management-consulting-consulting-site', managementConsultingConsultingSiteTemplate],
+  ['digital-marketing-agency-digital-agency-site', digitalMarketingAgencyDigitalAgencySiteTemplate],
+  ['cac-registration-agent-cac-agent-site', cacRegistrationAgentCacAgentSiteTemplate],
+  ['cybersecurity-firm-cybersecurity-site', cybersecurityFirmCybersecuritySiteTemplate],
+  ['data-analytics-firm-data-analytics-site', dataAnalyticsFirmDataAnalyticsSiteTemplate],
+  ['bar-lounge-bar-lounge-site', barLoungeBarLoungeSiteTemplate],
+  ['resort-resort-site', resortResortSiteTemplate],
+  ['vacation-rental-shortlet-portfolio', vacationRentalShortletPortfolioTemplate],
+  ['food-court-canteen-site', foodCourtCanteenSiteTemplate],
+  ['coworking-space-coworking-site', coworkingSpaceCoworkingSiteTemplate],
+  ['property-management-property-mgmt-site', propertyManagementPropertyMgmtSiteTemplate],
+  ['student-hostel-hostel-site', studentHostelHostelSiteTemplate],
+  ['yoga-studio-yoga-studio-site', yogaStudioYogaStudioSiteTemplate],
+  ['traditional-medicine-herbal-site', traditionalMedicineHerbalSiteTemplate],
+  ['health-food-store-supplement-store', healthFoodStoreSupplementStoreTemplate],
+  ['electronics-store-electronics-retail', electronicsStoreElectronicsRetailTemplate],
+  ['jewellery-shop-jewellery-site', jewelleryShopJewellerySiteTemplate],
+  ['baby-shop-baby-store-site', babyShopBabyStoreSiteTemplate],
+  ['cosmetics-shop-cosmetics-retail', cosmeticsShopCosmeticsRetailTemplate],
+  ['thrift-store-thrift-store-site', thriftStoreThriftStoreSiteTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
