@@ -36,6 +36,7 @@ This blueprint documents the **next generation of expansion** — the set of new
 | **Nigeria Market Intelligence** | `04-nigeria-market-intelligence.md` | Nigeria-specific market research, sizing, digital readiness |
 | **Regulatory Landscape** | `05-regulatory-landscape-new.md` | Regulatory gates for proposed new niches |
 | **Expansion Priority Queue** | `06-expansion-priority-queue.md` | Ordered queue for next sprint activation |
+| **Overlap & Collision Analysis** | `07-overlap-collision-analysis.md` | QA gate: every candidate cleared against existing 160-row CSV; internal duplicates flagged |
 
 ---
 
@@ -111,6 +112,13 @@ Each candidate niche scored on 5 dimensions (0–10 each, max 50):
 ### Phase 4 — Family Architecture
 Proposed new niches grouped into candidate niche families where ≥2 niches share core capabilities. New NF-XXX codes proposed following existing governance conventions.
 
+### Phase 5 — Collision Audit (2026-04-26)
+All 38 candidates cleared against the live 160-row `0004_verticals-master.csv`. Results in `07-overlap-collision-analysis.md`:
+- **29 CLEAR** — no collision with any existing vertical
+- **9 DIFFERENTIATE** — overlap exists but candidate is viable; existing row requires a scope note update before promotion
+- **0 REJECT** — zero candidates rejected; all 38 survive the audit
+- **2 internal CSV duplicates** identified and flagged for deduplication (`vtx_gym`/`vtx_gym_fitness`; `vtx_event_hall`/`vtx_events_centre`)
+
 ---
 
 ## Strategic Decisions
@@ -138,7 +146,9 @@ No new niche may be implemented without:
 2. Canonical slug confirmed and VN-ID assigned
 3. Niche family membership (or standalone designation) confirmed
 4. Regulatory gate documented in `docs/templates/expansion/05-regulatory-landscape-new.md`
-5. Entry added to `infra/db/seeds/0004_verticals-master.csv` (status=planned)
+5. **Collision audit cleared** in `docs/templates/expansion/07-overlap-collision-analysis.md` — CLEAR or DIFFERENTIATE verdict required; all DIFFERENTIATE pre-actions completed before CSV write
+6. Internal CSV deduplication resolved (vtx_gym/vtx_gym_fitness, vtx_event_hall/vtx_events_centre) before any new rows are appended
+7. Entry added to `infra/db/seeds/0004_verticals-master.csv` (status=planned)
 
 ### Decision 5: Pillar architecture remains unchanged
 The 3-in-1 platform architecture (Pillar 1=Ops, Pillar 2=Branding, Pillar 3=Marketplace) is not changed by this expansion. The "Pillar 4" concepts documented in this blueprint refer to new **feature capability layers** that sit on top of the existing three pillars — not new foundational pillars.
