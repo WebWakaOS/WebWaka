@@ -11,12 +11,12 @@
 
 | Status | Count |
 |--------|-------|
-| READY_FOR_RESEARCH | 39 |
+| READY_FOR_RESEARCH | 26 |
 | RESEARCH_IN_PROGRESS | 0 |
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 31 |
+| IMPLEMENTED | 44 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
 | SHIPPED | 7 |
@@ -97,10 +97,10 @@ and are live in production as of 2026-04-26.
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
 | 20 | `P3-used-car-dealer-used-car-dealer-site` | used-car-dealer | Used Car Dealer / Auto Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 21 | `P3-spare-parts-spare-parts-dealer` | spare-parts | Spare Parts Dealer (Ladipo / Nnewi) Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 22 | `P3-tyre-shop-tyre-shop-service` | tyre-shop | Tyre Shop / Vulcanizer Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 23 | `P3-car-wash-car-wash-detailing` | car-wash | Car Wash / Auto Detailing Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 24 | `P3-motorcycle-accessories-moto-accessories-shop` | motorcycle-accessories | Motorcycle Accessories Shop Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 21 | `P3-spare-parts-spare-parts-dealer` | spare-parts | Spare Parts Dealer (Ladipo / Nnewi) Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 22 | `P3-tyre-shop-tyre-shop-service` | tyre-shop | Tyre Shop / Vulcanizer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 23 | `P3-car-wash-car-wash-detailing` | car-wash | Car Wash / Auto Detailing Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 24 | `P3-motorcycle-accessories-moto-accessories-shop` | motorcycle-accessories | Motorcycle Accessories Shop Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
@@ -109,11 +109,11 @@ and are live in production as of 2026-04-26.
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
 | 25 | `P3-building-materials-building-materials-supplier` | building-materials | Building Materials Supplier Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 26 | `P3-iron-steel-iron-steel-merchant` | iron-steel | Iron & Steel / Roofing Merchant Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 27 | `P3-electrical-fittings-electrical-fittings-dealer` | electrical-fittings | Electrical Fittings Dealer Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 28 | `P3-paints-distributor-paints-distributor-site` | paints-distributor | Paints & Coatings Distributor Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 29 | `P3-plumbing-supplies-plumbing-supplies-dealer` | plumbing-supplies | Plumbing Supplies Dealer Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 30 | `P3-generator-dealer-generator-dealer-service` | generator-dealer | Generator Sales & Service Centre Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 26 | `P3-iron-steel-iron-steel-merchant` | iron-steel | Iron & Steel / Roofing Merchant Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 27 | `P3-electrical-fittings-electrical-fittings-dealer` | electrical-fittings | Electrical Fittings Dealer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 28 | `P3-paints-distributor-paints-distributor-site` | paints-distributor | Paints & Coatings Distributor Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 29 | `P3-plumbing-supplies-plumbing-supplies-dealer` | plumbing-supplies | Plumbing Supplies Dealer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 30 | `P3-generator-dealer-generator-dealer-service` | generator-dealer | Generator Sales & Service Centre Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
 
 ---
 
@@ -144,11 +144,11 @@ and are live in production as of 2026-04-26.
 | 44 | `P3-cassava-miller-cassava-miller-site` | cassava-miller | Cassava / Maize / Rice Miller Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 | 45 | `P3-fish-market-fish-market-site` | fish-market | Fish Market / Fishmonger Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 | 46 | `P3-abattoir-abattoir-meat-processing` | abattoir | Abattoir / Meat Processing Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 47 | `P3-produce-aggregator-produce-aggregator-site` | produce-aggregator | Produce Storage / Market Aggregator Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 48 | `P3-vegetable-garden-urban-veg-garden` | vegetable-garden | Vegetable Garden / Urban Horticulture Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 47 | `P3-produce-aggregator-produce-aggregator-site` | produce-aggregator | Produce Storage / Market Aggregator Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 48 | `P3-vegetable-garden-urban-veg-garden` | vegetable-garden | Vegetable Garden / Urban Horticulture Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 | 49 | `P3-palm-oil-trader-palm-oil-trader-site` | palm-oil-trader | Palm Oil Producer / Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 50 | `P3-cocoa-exporter-cocoa-export-trader` | cocoa-exporter | Cocoa / Export Commodities Trader Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 51 | `P3-food-processing-food-processing-factory` | food-processing | Food Processing Factory Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 50 | `P3-cocoa-exporter-cocoa-export-trader` | cocoa-exporter | Cocoa / Export Commodities Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 51 | `P3-food-processing-food-processing-factory` | food-processing | Food Processing Factory Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
@@ -168,7 +168,7 @@ and are live in production as of 2026-04-26.
 | 54 | `P3-land-surveyor-land-surveyor-site` | land-surveyor | Land Surveyor / Registry Agent Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 | 55 | `P3-wedding-planner-wedding-planner-site` | wedding-planner | Wedding Planner / Celebrant Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 | 56 | `P3-funeral-home-funeral-home-site` | funeral-home | Burial / Funeral Home Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 57 | `P3-startup-startup-site` | startup | Startup / Early-Stage Company Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 57 | `P3-startup-startup-site` | startup | Startup / Early-Stage Company Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 | 58 | `P3-pr-firm-pr-firm-site` | pr-firm | Public Relations Firm Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 
 ---
@@ -177,8 +177,8 @@ and are live in production as of 2026-04-26.
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 59 | `P3-private-school-private-school-site` | private-school | Private School Operator Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 60 | `P3-govt-school-govt-school-portal` | govt-school | Government School Management Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 59 | `P3-private-school-private-school-site` | private-school | Private School Operator Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 60 | `P3-govt-school-govt-school-portal` | govt-school | Government School Management Portal | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 | 61 | `P3-nursery-school-nursery-school-site` | nursery-school | Nursery / Crèche / Early Childhood Centre Site | READY_FOR_RESEARCH | — | 2026-04-26 |
 
 ---
@@ -187,9 +187,9 @@ and are live in production as of 2026-04-26.
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 62 | `P3-community-health-community-health-site` | community-health | Community Health Worker Network Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 63 | `P3-rehab-centre-rehab-centre-site` | rehab-centre | Rehabilitation / Recovery Centre Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 64 | `P3-elderly-care-elderly-care-facility` | elderly-care | Elderly Care Facility Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 62 | `P3-community-health-community-health-site` | community-health | Community Health Worker Network Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 63 | `P3-rehab-centre-rehab-centre-site` | rehab-centre | Rehabilitation / Recovery Centre Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 64 | `P3-elderly-care-elderly-care-facility` | elderly-care | Elderly Care Facility Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
@@ -197,10 +197,10 @@ and are live in production as of 2026-04-26.
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 65 | `P3-talent-agency-talent-agency-site` | talent-agency | Talent Agency / Model Agency Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 66 | `P3-recording-label-record-label-site` | recording-label | Record Label / Music Publisher Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 67 | `P3-podcast-studio-podcast-studio-site` | podcast-studio | Podcast Studio / Audio Platform Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 68 | `P3-motivational-speaker-motivational-speaker-site` | motivational-speaker | Motivational Speaker / Training Firm Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 65 | `P3-talent-agency-talent-agency-site` | talent-agency | Talent Agency / Model Agency Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 66 | `P3-recording-label-record-label-site` | recording-label | Record Label / Music Publisher Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 67 | `P3-podcast-studio-podcast-studio-site` | podcast-studio | Podcast Studio / Audio Platform Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 68 | `P3-motivational-speaker-motivational-speaker-site` | motivational-speaker | Motivational Speaker / Training Firm Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
@@ -235,6 +235,26 @@ and are live in production as of 2026-04-26.
 | 2026-04-26 | `P3-tailoring-fashion-tailoring-atelier` | Tailor / Fashion Designer Atelier Site | `tailoring-fashion-tailoring-atelier` | replit-agent-2026-04-26-session-B |
 | 2026-04-26 | `P3-used-car-dealer-used-car-dealer-site` | Used Car Dealer / Auto Trader Site | `used-car-dealer-used-car-dealer-site` | replit-agent-2026-04-26-session-B |
 | 2026-04-26 | `P3-building-materials-building-materials-supplier` | Building Materials Supplier Site | `building-materials-building-materials-supplier` | replit-agent-2026-04-26-session-B |
+| 2026-04-26 | `P3-restaurant-restaurant-menu-site` | Restaurant Menu & Ordering Site | `restaurant-restaurant-menu-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-startup-startup-site` | Startup / Early-Stage Company Site | `startup-startup-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-recording-label-record-label-site` | Record Label / Music Publisher Site | `recording-label-record-label-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-talent-agency-talent-agency-site` | Talent Agency / Model Agency Site | `talent-agency-talent-agency-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-podcast-studio-podcast-studio-site` | Podcast Studio / Audio Platform Site | `podcast-studio-podcast-studio-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-motivational-speaker-motivational-speaker-site` | Motivational Speaker / Training Firm Site | `motivational-speaker-motivational-speaker-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-govt-school-govt-school-portal` | Government School Management Portal | `govt-school-govt-school-portal` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-rehab-centre-rehab-centre-site` | Rehabilitation / Recovery Centre Site | `rehab-centre-rehab-centre-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-elderly-care-elderly-care-facility` | Elderly Care Facility Site | `elderly-care-elderly-care-facility` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-spare-parts-spare-parts-dealer` | Spare Parts Dealer (Ladipo / Nnewi) Site | `spare-parts-spare-parts-dealer` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-tyre-shop-tyre-shop-service` | Tyre Shop / Vulcanizer Site | `tyre-shop-tyre-shop-service` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-car-wash-car-wash-detailing` | Car Wash / Auto Detailing Site | `car-wash-car-wash-detailing` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-motorcycle-accessories-moto-accessories-shop` | Motorcycle Accessories Shop Site | `motorcycle-accessories-moto-accessories-shop` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-iron-steel-iron-steel-merchant` | Iron & Steel / Roofing Merchant Site | `iron-steel-iron-steel-merchant` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-paints-distributor-paints-distributor-site` | Paints & Coatings Distributor Site | `paints-distributor-paints-distributor-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-plumbing-supplies-plumbing-supplies-dealer` | Plumbing Supplies Dealer Site | `plumbing-supplies-plumbing-supplies-dealer` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-food-processing-food-processing-factory` | Food Processing Factory Site | `food-processing-food-processing-factory` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-produce-aggregator-produce-aggregator-site` | Produce Storage / Market Aggregator Site | `produce-aggregator-produce-aggregator-site` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-cocoa-exporter-cocoa-export-trader` | Cocoa / Export Commodities Trader Site | `cocoa-exporter-cocoa-export-trader` | replit-agent-2026-04-26-session-E |
+| 2026-04-26 | `P3-vegetable-garden-urban-veg-garden` | Vegetable Garden / Urban Horticulture Site | `vegetable-garden-urban-veg-garden` | replit-agent-2026-04-26-session-E |
 
 ---
 
@@ -289,4 +309,4 @@ and are live in production as of 2026-04-26.
 4. Update the summary counts table at the top
 5. If a niche moves to IMPLEMENTED: move it to the "Completed Niches" table
 
-*Last updated: 2026-04-26 — Session-D IMPLEMENTED 10 templates (community-radio, airtime-reseller, land-surveyor, womens-association, youth-organization, ministry-mission, abattoir, ferry, borehole-driller, printing-press). All 10 registered in BUILT_IN_TEMPLATES. SQL manifests written. 77 records total: 7 SHIPPED, 31 IMPLEMENTED (mosque + session-B + session-C + session-D), 39 READY_FOR_RESEARCH. TypeScript compile: clean. Next batch: restaurant and following niches.*
+*Last updated: 2026-04-26 — Session-E IMPLEMENTED 20 templates (restaurant, startup, recording-label, talent-agency, podcast-studio, motivational-speaker, govt-school, rehab-centre, elderly-care, spare-parts, tyre-shop, car-wash, motorcycle-accessories, iron-steel, paints-distributor, plumbing-supplies, food-processing, produce-aggregator, cocoa-exporter, vegetable-garden). All 20 registered in BUILT_IN_TEMPLATES. SQL manifests confirmed. Research briefs written (10 new niches). Restaurant entry added to registry. 77 records total: 7 SHIPPED, 44 IMPLEMENTED, 26 READY_FOR_RESEARCH. TypeScript compile: clean (0 errors). Next: oil-gas-services.*

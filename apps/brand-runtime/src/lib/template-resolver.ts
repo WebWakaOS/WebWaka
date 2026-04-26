@@ -124,6 +124,16 @@ import { govtSchoolGovtSchoolPortalTemplate } from '../templates/niches/govt-sch
 import { rehabCentreRehabCentreSiteTemplate } from '../templates/niches/rehab-centre/rehab-centre-site.js';
 import { elderlyCareElderlyCareFacilityTemplate } from '../templates/niches/elderly-care/elderly-care-facility.js';
 import { sparePartsSparePartsDealerTemplate } from '../templates/niches/spare-parts/spare-parts-dealer.js';
+import { tyreShopTyreShopServiceTemplate } from '../templates/niches/tyre-shop/tyre-shop-service.js';
+import { carWashCarWashDetailingTemplate } from '../templates/niches/car-wash/car-wash-detailing.js';
+import { motorcycleAccessoriesMotoAccessoriesShopTemplate } from '../templates/niches/motorcycle-accessories/moto-accessories-shop.js';
+import { ironSteelIronSteelMerchantTemplate } from '../templates/niches/iron-steel/iron-steel-merchant.js';
+import { paintsDistributorPaintsDistributorSiteTemplate } from '../templates/niches/paints-distributor/paints-distributor-site.js';
+import { plumbingSuppliesPlumbingSuppliesDealerTemplate } from '../templates/niches/plumbing-supplies/plumbing-supplies-dealer.js';
+import { foodProcessingFoodProcessingFactoryTemplate } from '../templates/niches/food-processing/food-processing-factory.js';
+import { produceAggregatorProduceAggregatorSiteTemplate } from '../templates/niches/produce-aggregator/produce-aggregator-site.js';
+import { cocoaExporterCocoaExportTraderTemplate } from '../templates/niches/cocoa-exporter/cocoa-export-trader.js';
+import { vegetableGardenUrbanVegGardenTemplate } from '../templates/niches/vegetable-garden/urban-veg-garden.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -282,6 +292,16 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['rehab-centre-rehab-centre-site', rehabCentreRehabCentreSiteTemplate],
   ['elderly-care-elderly-care-facility', elderlyCareElderlyCareFacilityTemplate],
   ['spare-parts-spare-parts-dealer', sparePartsSparePartsDealerTemplate],
+  ['tyre-shop-tyre-shop-service', tyreShopTyreShopServiceTemplate],
+  ['car-wash-car-wash-detailing', carWashCarWashDetailingTemplate],
+  ['motorcycle-accessories-moto-accessories-shop', motorcycleAccessoriesMotoAccessoriesShopTemplate],
+  ['iron-steel-iron-steel-merchant', ironSteelIronSteelMerchantTemplate],
+  ['paints-distributor-paints-distributor-site', paintsDistributorPaintsDistributorSiteTemplate],
+  ['plumbing-supplies-plumbing-supplies-dealer', plumbingSuppliesPlumbingSuppliesDealerTemplate],
+  ['food-processing-food-processing-factory', foodProcessingFoodProcessingFactoryTemplate],
+  ['produce-aggregator-produce-aggregator-site', produceAggregatorProduceAggregatorSiteTemplate],
+  ['cocoa-exporter-cocoa-export-trader', cocoaExporterCocoaExportTraderTemplate],
+  ['vegetable-garden-urban-veg-garden', vegetableGardenUrbanVegGardenTemplate],
 ]);
 
 // ---------------------------------------------------------------------------

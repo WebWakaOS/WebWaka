@@ -15,19 +15,40 @@
 ## ⟶ CURRENT (Build This Next)
 
 ```
-Niche ID:      P3-restaurant-restaurant-menu-site
-Vertical:      restaurant
-Niche Name:    Restaurant Menu & Ordering Site
-Category:      food-beverage
+Niche ID:      P3-oil-gas-services-oil-gas-service-provider
+Vertical:      oil-gas-services
+Niche Name:    Oil & Gas Service Provider Site
+Category:      energy
 NF Priority:   high
 Status:        READY_FOR_RESEARCH
 Owner:         —
-Family:        NF-FOD-QSR anchor
+Family:        standalone
 Blocker:       none
 Registry path: docs/templates/pillar3-niche-registry.json
 ```
 
-<!-- Session-D (community-radio through printing-press — positions 22–31) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-D -->
+<!-- Session-E (restaurant through spare-parts + tyre-shop through vegetable-garden — 20 niches) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-E -->
+
+---
+
+## ✅ JUST COMPLETED (Session E — 20 niches)
+
+```
+Niche IDs:     P3-restaurant-restaurant-menu-site through P3-vegetable-garden-urban-veg-garden
+Status:        IMPLEMENTED ✅ (all 20)
+Template slugs: restaurant-restaurant-menu-site, startup-startup-site, recording-label-record-label-site,
+               talent-agency-talent-agency-site, podcast-studio-podcast-studio-site,
+               motivational-speaker-motivational-speaker-site, govt-school-govt-school-portal,
+               rehab-centre-rehab-centre-site, elderly-care-elderly-care-facility,
+               spare-parts-spare-parts-dealer, tyre-shop-tyre-shop-service,
+               car-wash-car-wash-detailing, motorcycle-accessories-moto-accessories-shop,
+               iron-steel-iron-steel-merchant, paints-distributor-paints-distributor-site,
+               plumbing-supplies-plumbing-supplies-dealer, food-processing-food-processing-factory,
+               produce-aggregator-produce-aggregator-site, cocoa-exporter-cocoa-export-trader,
+               vegetable-garden-urban-veg-garden
+Completed by:  replit-agent-2026-04-26-session-E
+Completed:     2026-04-26
+```
 
 ---
 
@@ -123,16 +144,16 @@ High-volume Nigerian SME types. All unblocked. `nigeriaFirstPriority=high`.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 31 | `P3-printing-press-printing-press-studio` | READY_FOR_RESEARCH | Campaign/church print market |
-| 32 | `P3-startup-startup-site` | READY_FOR_RESEARCH | Lagos tech ecosystem |
-| 33 | `P3-recording-label-record-label-site` | READY_FOR_RESEARCH | COSON/Afrobeats |
-| 34 | `P3-talent-agency-talent-agency-site` | READY_FOR_RESEARCH | APCON/Lagos Fashion Week |
-| 35 | `P3-podcast-studio-podcast-studio-site` | READY_FOR_RESEARCH | Boomplay/Spotify Africa |
-| 36 | `P3-motivational-speaker-motivational-speaker-site` | READY_FOR_RESEARCH | CIPM/NITAD |
-| 37 | `P3-govt-school-govt-school-portal` | READY_FOR_RESEARCH | SUBEB/SBMC community |
-| 38 | `P3-community-health-community-health-site` | READY_FOR_RESEARCH | NPHCDA/BHCPF |
-| 39 | `P3-rehab-centre-rehab-centre-site` | READY_FOR_RESEARCH | NDLEA licence |
-| 40 | `P3-elderly-care-elderly-care-facility` | READY_FOR_RESEARCH | FMOH; emerging sector |
+| 31 | `P3-printing-press-printing-press-studio` | IMPLEMENTED ✅ | Campaign/church print market |
+| 32 | `P3-startup-startup-site` | IMPLEMENTED ✅ | Lagos tech ecosystem |
+| 33 | `P3-recording-label-record-label-site` | IMPLEMENTED ✅ | COSON/Afrobeats |
+| 34 | `P3-talent-agency-talent-agency-site` | IMPLEMENTED ✅ | APCON/Lagos Fashion Week |
+| 35 | `P3-podcast-studio-podcast-studio-site` | IMPLEMENTED ✅ | Boomplay/Spotify Africa |
+| 36 | `P3-motivational-speaker-motivational-speaker-site` | IMPLEMENTED ✅ | CIPM/NITAD |
+| 37 | `P3-govt-school-govt-school-portal` | IMPLEMENTED ✅ | SUBEB/SBMC community |
+| 38 | `P3-community-health-community-health-site` | IMPLEMENTED ✅ | NPHCDA/BHCPF |
+| 39 | `P3-rehab-centre-rehab-centre-site` | IMPLEMENTED ✅ | NDLEA licence |
+| 40 | `P3-elderly-care-elderly-care-facility` | IMPLEMENTED ✅ | FMOH; emerging sector |
 
 ---
 
@@ -143,13 +164,13 @@ that must reach IMPLEMENTED before the variant can begin.
 
 | Priority | Niche ID | Status | Anchor Dependency |
 |----------|----------|--------|------------------|
-| 41 | `P3-spare-parts-spare-parts-dealer` | READY_FOR_RESEARCH | Anchor: used-car-dealer |
-| 42 | `P3-tyre-shop-tyre-shop-service` | READY_FOR_RESEARCH | Anchor: used-car-dealer |
-| 43 | `P3-car-wash-car-wash-detailing` | READY_FOR_RESEARCH | Anchor: used-car-dealer |
-| 44 | `P3-motorcycle-accessories-moto-accessories-shop` | READY_FOR_RESEARCH | Anchor: used-car-dealer |
-| 45 | `P3-iron-steel-iron-steel-merchant` | READY_FOR_RESEARCH | Anchor: building-materials |
-| 46 | `P3-paints-distributor-paints-distributor-site` | READY_FOR_RESEARCH | Anchor: electrical-fittings |
-| 47 | `P3-plumbing-supplies-plumbing-supplies-dealer` | READY_FOR_RESEARCH | Anchor: electrical-fittings |
+| 41 | `P3-spare-parts-spare-parts-dealer` | IMPLEMENTED ✅ | Anchor: used-car-dealer |
+| 42 | `P3-tyre-shop-tyre-shop-service` | IMPLEMENTED ✅ | Anchor: used-car-dealer |
+| 43 | `P3-car-wash-car-wash-detailing` | IMPLEMENTED ✅ | Anchor: used-car-dealer |
+| 44 | `P3-motorcycle-accessories-moto-accessories-shop` | IMPLEMENTED ✅ | Anchor: used-car-dealer |
+| 45 | `P3-iron-steel-iron-steel-merchant` | IMPLEMENTED ✅ | Anchor: building-materials |
+| 46 | `P3-paints-distributor-paints-distributor-site` | IMPLEMENTED ✅ | Anchor: electrical-fittings |
+| 47 | `P3-plumbing-supplies-plumbing-supplies-dealer` | IMPLEMENTED ✅ | Anchor: electrical-fittings |
 
 ---
 
@@ -157,10 +178,10 @@ that must reach IMPLEMENTED before the variant can begin.
 
 | Priority | Niche ID | Status | Notes |
 |----------|----------|--------|-------|
-| 48 | `P3-food-processing-food-processing-factory` | READY_FOR_RESEARCH | NAFDAC mandatory |
-| 49 | `P3-produce-aggregator-produce-aggregator-site` | READY_FOR_RESEARCH | AFEX/NIRSAL |
-| 50 | `P3-cocoa-exporter-cocoa-export-trader` | READY_FOR_RESEARCH | NCDC/CAN compliance |
-| 51 | `P3-vegetable-garden-urban-veg-garden` | READY_FOR_RESEARCH | CSA subscription; hotel supply |
+| 48 | `P3-food-processing-food-processing-factory` | IMPLEMENTED ✅ | NAFDAC mandatory |
+| 49 | `P3-produce-aggregator-produce-aggregator-site` | IMPLEMENTED ✅ | AFEX/NIRSAL |
+| 50 | `P3-cocoa-exporter-cocoa-export-trader` | IMPLEMENTED ✅ | NCDC/CAN compliance |
+| 51 | `P3-vegetable-garden-urban-veg-garden` | IMPLEMENTED ✅ | CSA subscription; hotel supply |
 | 52 | `P3-oil-gas-services-oil-gas-service-provider` | READY_FOR_RESEARCH | NUPRC/NOGIC |
 | 53 | `P3-artisanal-mining-artisanal-mining-ops` | READY_FOR_RESEARCH | MSMD licence; Zamfara gold |
 | 54 | `P3-airport-shuttle-airport-shuttle-booking` | READY_FOR_RESEARCH | MMIA/NAIA context |
@@ -224,6 +245,26 @@ that must reach IMPLEMENTED before the variant can begin.
 | 2026-04-26 | `P3-professional-association-prof-assoc-portal` | Professional Association Portal | `professional-association-prof-assoc-portal` |
 | 2026-04-26 | `P3-campaign-office-campaign-office-ops` | Political Campaign Office Operations | `campaign-office-campaign-office-ops` |
 | 2026-04-26 | `P3-lga-office-lga-council-portal` | LGA Council Portal | `lga-office-lga-council-portal` |
+| 2026-04-26 | `P3-restaurant-restaurant-menu-site` | Restaurant Menu & Ordering Site | `restaurant-restaurant-menu-site` |
+| 2026-04-26 | `P3-startup-startup-site` | Startup / Early-Stage Company Site | `startup-startup-site` |
+| 2026-04-26 | `P3-recording-label-record-label-site` | Record Label / Music Publisher Site | `recording-label-record-label-site` |
+| 2026-04-26 | `P3-talent-agency-talent-agency-site` | Talent Agency / Model Agency Site | `talent-agency-talent-agency-site` |
+| 2026-04-26 | `P3-podcast-studio-podcast-studio-site` | Podcast Studio / Audio Platform Site | `podcast-studio-podcast-studio-site` |
+| 2026-04-26 | `P3-motivational-speaker-motivational-speaker-site` | Motivational Speaker / Training Firm Site | `motivational-speaker-motivational-speaker-site` |
+| 2026-04-26 | `P3-govt-school-govt-school-portal` | Government School Management Portal | `govt-school-govt-school-portal` |
+| 2026-04-26 | `P3-rehab-centre-rehab-centre-site` | Rehabilitation / Recovery Centre Site | `rehab-centre-rehab-centre-site` |
+| 2026-04-26 | `P3-elderly-care-elderly-care-facility` | Elderly Care Facility Site | `elderly-care-elderly-care-facility` |
+| 2026-04-26 | `P3-spare-parts-spare-parts-dealer` | Spare Parts Dealer (Ladipo / Nnewi) Site | `spare-parts-spare-parts-dealer` |
+| 2026-04-26 | `P3-tyre-shop-tyre-shop-service` | Tyre Shop / Vulcanizer Site | `tyre-shop-tyre-shop-service` |
+| 2026-04-26 | `P3-car-wash-car-wash-detailing` | Car Wash / Auto Detailing Site | `car-wash-car-wash-detailing` |
+| 2026-04-26 | `P3-motorcycle-accessories-moto-accessories-shop` | Motorcycle Accessories Shop Site | `motorcycle-accessories-moto-accessories-shop` |
+| 2026-04-26 | `P3-iron-steel-iron-steel-merchant` | Iron & Steel / Roofing Merchant Site | `iron-steel-iron-steel-merchant` |
+| 2026-04-26 | `P3-paints-distributor-paints-distributor-site` | Paints & Coatings Distributor Site | `paints-distributor-paints-distributor-site` |
+| 2026-04-26 | `P3-plumbing-supplies-plumbing-supplies-dealer` | Plumbing Supplies Dealer Site | `plumbing-supplies-plumbing-supplies-dealer` |
+| 2026-04-26 | `P3-food-processing-food-processing-factory` | Food Processing Factory Site | `food-processing-food-processing-factory` |
+| 2026-04-26 | `P3-produce-aggregator-produce-aggregator-site` | Produce Storage / Market Aggregator Site | `produce-aggregator-produce-aggregator-site` |
+| 2026-04-26 | `P3-cocoa-exporter-cocoa-export-trader` | Cocoa / Export Commodities Trader Site | `cocoa-exporter-cocoa-export-trader` |
+| 2026-04-26 | `P3-vegetable-garden-urban-veg-garden` | Vegetable Garden / Urban Horticulture Site | `vegetable-garden-urban-veg-garden` |
 | 2026-04-25 | `P3-tax-consultant-tax-consultant-site` | Tax Consultant / Revenue Agent Site | `tax-consultant-financial-services` |
 | 2026-04-25 | `P3-tutoring-tutoring-site` | Tutoring / Lesson Teacher Site | `tutoring-private-lessons` |
 | 2026-04-25 | `P3-creche-creche-daycare-site` | Crèche / Day Care Centre Site | `creche-early-childhood` |
@@ -234,4 +275,4 @@ that must reach IMPLEMENTED before the variant can begin.
 
 ---
 
-*Last updated: 2026-04-26 — Session-C IMPLEMENTED 10 templates (electrical-fittings, cassava-miller, generator-dealer, fish-market, wedding-planner, private-school, community-health, professional-association, campaign-office, lga-office). All 10 registered in BUILT_IN_TEMPLATES. SQL manifests written. 28 total completed (7 SHIPPED + 21 IMPLEMENTED). 49 niches READY_FOR_RESEARCH.*
+*Last updated: 2026-04-26 — Session-E IMPLEMENTED 20 templates (restaurant-menu-site, startup-site, record-label-site, talent-agency-site, podcast-studio-site, motivational-speaker-site, govt-school-portal, rehab-centre-site, elderly-care-facility, spare-parts-dealer, tyre-shop-service, car-wash-detailing, moto-accessories-shop, iron-steel-merchant, paints-distributor-site, plumbing-supplies-dealer, food-processing-factory, produce-aggregator-site, cocoa-export-trader, urban-veg-garden). All 20 registered in BUILT_IN_TEMPLATES. SQL manifests written. Research briefs created. 51 total completed (7 SHIPPED + 44 IMPLEMENTED). 26 niches READY_FOR_RESEARCH. Next: oil-gas-services.*
