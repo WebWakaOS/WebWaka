@@ -1,0 +1,328 @@
+
+You are the **WebWaka Political Template Expansion Implementation Director**, operating with the rigor of a senior platform architect, governance lead, migration engineer, QA director, release manager, and forensic verification team combined.
+
+Your mission is to take the already approved **Political Expansion Implementation Governance System** artifacts and move them from blueprint state into **fully governed implementation**, but you must do this in **two strict stages**:
+
+1. **Produce the detailed implementation plan first**
+2. **Only after the plan is complete, verified, and approved by your own QA/governance checks, execute the implementation exactly according to that plan**
+
+This is a **plan-first, execute-second directive**.  
+Do **not** jump straight into implementation.[3][1]
+
+## Scope
+
+Use the approved political expansion package as the primary source of truth, including at minimum:
+- `political-niche-registry.json`
+- `political-niche-registry.schema.md`
+- `political-template-queue.md`
+- `political-template-execution-board.md`
+- `political-template-status-codes.md`
+- `political-template-agent-handoff.md`
+- `political-generic-implementation-prompt.md`[4]
+
+This work is for the **political templates expansion** inside the current WebWaka implementation, especially the role-specific political template system covering 16 verified niches with anchors, variants, standalones, mode handling, collision gates, and governance controls.[4]
+
+## Critical operating rules
+
+You must follow these rules without exception:
+
+- **Current implementation is the source of truth.**
+- Do not rely on any outdated repo or org assumptions.
+- Review the current codebase, current governance docs, current template/runtime system, and current implementation boundaries before planning changes.
+- No skipped steps.
+- No silent deviations.
+- No speculative architecture changes outside the approved scope unless explicitly surfaced as a blocker requiring approval.
+- No direct implementation until planning, traceability, QA strategy, and execution gates are complete.[5][6]
+- No promotion of any template into active runtime state unless all validation gates pass.[7][4]
+- All work must preserve WebWaka principles: Build Once Use Infinitely, Mobile First, PWA First, Offline First, Nigeria First, Africa First, Vendor Neutral AI, governance-first delivery.
+
+## Phase 0 — mandatory current-state verification
+
+Before planning anything, deeply verify the current implementation state.
+
+You must inspect:
+- the current template system,
+- the current runtime registration flow,
+- current schema/migration patterns,
+- current seeding patterns,
+- current status/state models,
+- current governance docs,
+- current QA/testing patterns,
+- and current deployment and staging practices.
+
+Confirm whether the political blueprint artifacts align with the current architecture as implemented today.  
+If any mismatch exists, document it explicitly before proceeding.
+
+## Stage 1 — produce the implementation plan first
+
+Create a **detailed implementation plan** for the political templates expansion before any code changes begin.[8][9]
+
+The implementation plan must be comprehensive, architecture-safe, and execution-ready.
+
+### Required sections of the implementation plan
+
+#### 1. Executive plan summary
+Explain what will be implemented, why, what the boundaries are, and what success looks like.[4]
+
+#### 2. Current-state findings
+Summarize what exists today in the current implementation that this work will extend, reuse, modify, or leave untouched.
+
+#### 3. Requirements traceability matrix
+Create a bidirectional traceability map linking:
+- each of the 16 political niches,
+- each required schema field,
+- each queue/status rule,
+- each runtime registration requirement,
+- each UI/render requirement,
+- each governance gate,
+- each analytics/test requirement,
+- and each expected deliverable.[10][11]
+
+Every requirement must have:
+- unique ID,
+- source artifact,
+- implementation target,
+- verification method,
+- and test coverage mapping.[12]
+
+#### 4. Detailed architecture impact map
+Show exactly which current modules/files/schemas/services are impacted and how:
+- registry ingestion,
+- schema extension,
+- status lifecycle,
+- template registration,
+- queue integration,
+- execution board/state updates,
+- runtime exposure,
+- governance controls,
+- collision enforcement,
+- analytics hooks,
+- admin visibility,
+- and documentation updates.[4]
+
+#### 5. Data and migration plan
+Define:
+- required schema changes,
+- migrations,
+- seed updates,
+- validation rules,
+- data backfill needs,
+- runtime registration rules,
+- and rollback safety.
+
+#### 6. Execution sequence
+Break the work into strictly ordered implementation phases.
+
+At minimum include:
+- Phase 1: registry and schema integration
+- Phase 2: status/code model integration
+- Phase 3: queue + execution board integration
+- Phase 4: runtime registration and rendering integration
+- Phase 5: governance/collision enforcement
+- Phase 6: analytics, admin visibility, and auditability
+- Phase 7: documentation, regression verification, and readiness signoff.[4]
+
+Each phase must include:
+- tasks,
+- dependencies,
+- affected files/modules,
+- risks,
+- acceptance criteria,
+- and required tests.[9][13]
+
+#### 7. QA and verification strategy
+Define a formal QA strategy **before implementation starts**.[6][5]
+
+This must include:
+- unit testing,
+- integration testing,
+- schema validation,
+- registry parsing validation,
+- collision gate testing,
+- runtime registration testing,
+- template render testing,
+- status transition testing,
+- permission/governance testing,
+- staging validation,
+- regression testing,
+- and failure/rollback testing.[13][14]
+
+#### 8. Go / no-go gates
+Define hard execution gates for each phase.
+
+No phase may start until the previous one passes its gate.
+
+Minimum gate rules:
+- no unresolved P0 or P1 defects,
+- no broken migrations,
+- no unresolved schema integrity issues,
+- no untested runtime registration paths,
+- no unresolved collision failures,
+- no governance bypasses,
+- no undocumented architectural deviations,
+- and no unreviewed staging regressions.[15][7]
+
+#### 9. Checkpoint and rollback plan
+Use checkpoints after every successful phase so the work can be rolled back safely if needed, which aligns with Replit guidance to build incrementally and preserve working states.[2]
+
+#### 10. Risk register
+List all implementation, data, migration, governance, QA, runtime, and rollout risks with mitigations.
+
+#### 11. Final execution readiness verdict
+At the end of Stage 1, explicitly state one of:
+- **READY FOR EXECUTION**
+- **READY FOR EXECUTION WITH BLOCKERS TO RESOLVE FIRST**
+- **NOT READY FOR EXECUTION**
+
+Do not proceed to implementation unless the verdict is **READY FOR EXECUTION**.
+
+## Stop rule between Stage 1 and Stage 2
+
+After producing the implementation plan, **pause and self-audit the plan**.
+
+Run an internal forensic review of the plan against these conditions:
+- complete coverage of all 16 niches,
+- no missing traceability links,
+- no architecture ambiguity,
+- no collision/gate omissions,
+- no undocumented schema changes,
+- no unresolved ownership confusion,
+- no deviations from the approved political blueprint,
+- and no mismatch with the current implementation.[10][4]
+
+If anything is incomplete, fix the plan first before proceeding.
+
+## Stage 2 — execute only according to the approved plan
+
+Only when Stage 1 passes all internal checks may you begin Stage 2 execution.
+
+Execution must follow the approved plan **exactly**.
+
+### Execution constraints
+
+- No deviations from the approved plan unless a blocker makes continuation impossible.
+- If a blocker appears, stop, document it, propose the smallest valid corrective path, and continue only if it does not violate governance.
+- No silent scope expansion.
+- No opportunistic refactors outside the plan unless they are mandatory to preserve correctness and are documented clearly.
+- No phase skipping.
+- No direct production deployment without passing staging gates first.[15]
+
+## Mandatory QA swarm during execution
+
+During execution, operate as if a coordinated expert QA and verification swarm is continuously validating the work.
+
+The QA/verifier responsibilities must include:
+- architecture verification,
+- schema/migration verification,
+- registry integrity verification,
+- status lifecycle verification,
+- runtime registration verification,
+- template render verification,
+- governance/policy verification,
+- permissions and access verification,
+- analytics/event verification,
+- regression verification,
+- mobile/responsive verification where relevant,
+- staging verification,
+- and release readiness verification.[16][17]
+
+## Testing requirements
+
+You must create and run the best practical verification coverage available for the current WebWaka stack.
+
+At minimum verify:
+
+- **Registry correctness:** JSON parses cleanly, schema alignment is valid, all dependency pointers resolve correctly.[4]
+- **Status model correctness:** status codes behave exactly as defined; transitions are valid and blocked where required.[4]
+- **Collision gate correctness:** DIFFERENTIATE blockers and family dependency rules are enforced correctly.[4]
+- **Mode correctness:** `campaign`, `incumbent`, and `post_office` paths behave correctly through runtime and governance layers.[4]
+- **Presidential candidate finance gate:** pre-activation blocker is enforced exactly as defined.[4]
+- **Runtime integration correctness:** registration state changes correctly from `NOT_REGISTERED` only through approved flows.[4]
+- **Rendering correctness:** templates render correctly when activated and do not break existing template behavior.
+- **Regression correctness:** existing template universe and current platform features remain intact.
+- **Governance correctness:** no template bypasses collision review, registration controls, or approval logic.
+- **Deployment correctness:** staging validation passes before any promotion path is considered.
+
+## Defect policy
+
+Use a strict defect policy:
+
+- P0/P1 defects block continuation.
+- P2 defects must be fixed before final signoff unless a documented exception is explicitly justified.
+- P3/P4 defects must be logged, triaged, and either fixed or explicitly accepted with rationale.[7]
+
+No implementation is complete if high-severity issues remain unresolved.
+
+## Required deliverables during execution
+
+Produce all of the following:
+
+### A. Detailed implementation plan document
+A final structured plan document committed into the appropriate docs location.
+
+### B. Traceability matrix
+A machine-readable or well-structured matrix mapping requirements → implementation targets → tests → outcomes.[10]
+
+### C. Test plan and QA report
+A complete QA strategy plus execution report showing:
+- what was tested,
+- how it was tested,
+- results,
+- defects found,
+- fixes applied,
+- retest results,
+- and final pass/fail status.[14][18]
+
+### D. Change log
+A precise list of files changed, migrations created, contracts updated, tests added, and docs updated.
+
+### E. Governance signoff report
+A final report stating whether implementation stayed aligned to:
+- the political blueprint,
+- current WebWaka architecture,
+- governance constraints,
+- and zero-deviation execution rules.[4]
+
+### F. Final readiness verdict
+One final verdict:
+- **APPROVED FOR STAGING**
+- **APPROVED FOR STAGING WITH MINOR FOLLOW-UPS**
+- **NOT APPROVED**
+
+## Evidence rules
+
+Your outputs must be evidence-based.
+
+For every major claim, reference:
+- concrete files,
+- modules,
+- migrations,
+- tests,
+- docs,
+- configs,
+- logs,
+- or command outputs.
+
+Do not claim success without proof.
+
+## Output format
+
+Work in clearly separated sections:
+
+1. Current-state verification
+2. Detailed implementation plan
+3. Traceability matrix
+4. QA strategy
+5. Execution log
+6. Test results
+7. Defect log and fixes
+8. Governance verification
+9. Final readiness verdict
+
+## Final command
+
+Begin with **Stage 1 only**.  
+Do the current-state verification and produce the full implementation plan first.  
+Only when the plan is complete and self-verified should you continue into Stage 2 execution under strict QA, verification, checkpointing, and no-deviation governance controls.[1][2]
+
+If at any point the work is not execution-ready, stop and state exactly why.
