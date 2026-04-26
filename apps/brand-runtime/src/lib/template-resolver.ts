@@ -114,6 +114,16 @@ import { abattoirAbattoirMeatProcessingTemplate } from '../templates/niches/abat
 import { ferryFerryWaterTransportTemplate } from '../templates/niches/ferry/ferry-water-transport.js';
 import { boreholeDrillerBoreholeDrillingTemplate } from '../templates/niches/borehole-driller/borehole-drilling.js';
 import { printingPressPrintingPressStudioTemplate } from '../templates/niches/printing-press/printing-press-studio.js';
+import { restaurantRestaurantMenuSiteTemplate } from '../templates/niches/restaurant/restaurant-menu-site.js';
+import { startupStartupSiteTemplate } from '../templates/niches/startup/startup-site.js';
+import { recordingLabelRecordLabelSiteTemplate } from '../templates/niches/recording-label/record-label-site.js';
+import { talentAgencyTalentAgencySiteTemplate } from '../templates/niches/talent-agency/talent-agency-site.js';
+import { podcastStudioPodcastStudioSiteTemplate } from '../templates/niches/podcast-studio/podcast-studio-site.js';
+import { motivationalSpeakerMotivationalSpeakerSiteTemplate } from '../templates/niches/motivational-speaker/motivational-speaker-site.js';
+import { govtSchoolGovtSchoolPortalTemplate } from '../templates/niches/govt-school/govt-school-portal.js';
+import { rehabCentreRehabCentreSiteTemplate } from '../templates/niches/rehab-centre/rehab-centre-site.js';
+import { elderlyCareElderlyCareFacilityTemplate } from '../templates/niches/elderly-care/elderly-care-facility.js';
+import { sparePartsSparePartsDealerTemplate } from '../templates/niches/spare-parts/spare-parts-dealer.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -262,6 +272,16 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['ferry-ferry-water-transport', ferryFerryWaterTransportTemplate],
   ['borehole-driller-borehole-drilling', boreholeDrillerBoreholeDrillingTemplate],
   ['printing-press-printing-press-studio', printingPressPrintingPressStudioTemplate],
+  ['restaurant-restaurant-menu-site', restaurantRestaurantMenuSiteTemplate],
+  ['startup-startup-site', startupStartupSiteTemplate],
+  ['recording-label-record-label-site', recordingLabelRecordLabelSiteTemplate],
+  ['talent-agency-talent-agency-site', talentAgencyTalentAgencySiteTemplate],
+  ['podcast-studio-podcast-studio-site', podcastStudioPodcastStudioSiteTemplate],
+  ['motivational-speaker-motivational-speaker-site', motivationalSpeakerMotivationalSpeakerSiteTemplate],
+  ['govt-school-govt-school-portal', govtSchoolGovtSchoolPortalTemplate],
+  ['rehab-centre-rehab-centre-site', rehabCentreRehabCentreSiteTemplate],
+  ['elderly-care-elderly-care-facility', elderlyCareElderlyCareFacilityTemplate],
+  ['spare-parts-spare-parts-dealer', sparePartsSparePartsDealerTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
