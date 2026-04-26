@@ -217,4 +217,42 @@ Server-side persistent conversation state for `/superagent/chat`. Callers pass a
 - **T3**: every query binds `tenant_id` — no cross-tenant access possible.
 - **P13**: PII stripping happens before `appendMessages()` — content stored post-strip only.
 - **Expiry**: 7-day TTL (14-day for high-context-window verticals); expired sessions return 404 at load time and are cleaned by scheduler.
+
+## Next-Generation Template Universe Expansion Blueprint — Produced 2026-04-26
+
+### Status
+Deep research and expansion design phase complete. Seven comprehensive blueprint documents produced in `docs/templates/expansion/`. No implementation has occurred — documents are research and design artifacts only.
+
+### What Was Built
+Full deep-audit synthesis of the existing 157-niche universe against the Nigerian SME economy, producing:
+
+| File | Contents | Lines |
+|---|---|---|
+| `docs/templates/expansion/00-expansion-master-blueprint.md` | Master overview, methodology, strategic decisions | 218 |
+| `docs/templates/expansion/01-universe-gap-analysis.md` | Systematic gap analysis across all 14 existing categories | 578 |
+| `docs/templates/expansion/02-candidate-niche-registry.md` | 38 proposed new niches with scoring and governance metadata | 802 |
+| `docs/templates/expansion/03-niche-family-expansion.md` | 18 proposed new NF-XXX family structures | 413 |
+| `docs/templates/expansion/04-nigeria-market-intelligence.md` | Nigeria-specific market research, sizing, digital readiness | 309 |
+| `docs/templates/expansion/05-regulatory-landscape-new.md` | Regulatory gates for all 38 proposed niches | 647 |
+| `docs/templates/expansion/06-expansion-priority-queue.md` | Ordered sprint queue with milestone mapping | 246 |
+
+### Key Findings
+- **38 high-confidence candidate niches** proposed (15 P1-scored, 23 P2-scored)
+- **18 new niche families** (NF-XXX codes) proposed
+- **4 new industry category codes** proposed: `technology`, `wellness`, `hospitality`, `property`
+- **Top 5 underserved segments**: hospital, diagnostic-lab, microfinance-bank, software-agency, coworking-space
+- **Sprint 1 recommendation** (11 niches, no compliance blocker): software-agency, elearning-platform, digital-marketing-agency, electronics-store, coworking-space, recruitment-agency, cybersecurity-firm, exam-prep-centre, management-consulting, data-analytics-firm, tech-academy
+- **Long-term target**: 250 active niches (up from current 157)
+
+### Next Actions Required (Human Decision)
+1. Founder review and approval of Sprint 1 niche candidates
+2. Ratify 4 new category codes
+3. Add Sprint 1 niches to `infra/db/seeds/0004_verticals-master.csv` with `status=planned`
+4. Update canonical governance docs for approved niches
+5. Create implementation briefs in `docs/templates/research/`
+6. Define Milestone M11 to encompass Sprint 1 template implementation
+
+### Production Deployment Status
+- Staging: `webwaka-brand-runtime-staging` live at `https://webwaka-brand-runtime-staging.webwaka-api.workers.dev`
+- Production: `webwaka-brand-runtime-production` — CART_KV binding fixed; awaiting JWT_SECRET, LOG_PII_SALT, INTER_SERVICE_SECRET secrets before full production deployment
 - **TypeScript**: 0 errors across all three affected packages.

@@ -1,0 +1,350 @@
+🚨 REPLIT PROMPT — DEEP RESEARCH AND EXPANSION DESIGN FOR NEXT-GENERATION TEMPLATE UNIVERSE 🚨
+
+PRECONDITION:
+Pillar 2 and Pillar 3 template implementations are complete, deployed, and verified.
+This task is NOT to implement new templates yet.
+This task is to deeply research, audit, synthesize, and design the next expansion universe of templates to be added on top of the existing system.
+
+MISSION:
+Conduct a very deep, evidence-backed review of the entire WebWaka platform, all current template architecture, all existing template coverage, all current governance/taxonomy/template systems, and deep online research across Nigeria, Africa, and relevant global patterns.
+
+Your goal is to determine what NEW additional template categories, subcategories, role-specific template variants, office-holder templates, professional-person templates, public-figure templates, and vertical-specific template expansions should now be added to the existing template universe.
+
+This includes individuals, organizations, institutions, public office holders, regulated professionals, community actors, civic actors, and other sectors where one generic template is not enough.
+
+EXAMPLE OF THE REQUIRED THINKING:
+Do not treat “politician” as one template.
+Break it into meaningful categories such as:
+- Ward Councillor
+- Local Government Chairman
+- Vice Chairman
+- House of Assembly Member
+- House of Representatives Member
+- Senator
+- Governor
+- Deputy Governor
+- Presidential Candidate
+- Political Appointee
+- Party Chapter Officer
+- Campaign Candidate Template
+- Incumbent Office Holder Template
+- Constituency Service Template
+- Advocacy / Movement Leader Template
+
+Likewise, do not treat other sectors as single generic individuals if role-specific templates are meaningfully different.
+For example, similar role splits may exist for:
+- lawyers,
+- doctors,
+- pharmacists,
+- pastors,
+- imams,
+- teachers,
+- consultants,
+- coaches,
+- artists,
+- journalists,
+- creators,
+- community leaders,
+- NGO founders,
+- activists,
+- traditional leaders,
+- union leaders,
+- religious leaders,
+- political actors,
+- public office holders,
+- real estate agents,
+- architects,
+- engineers,
+- accountants,
+- event professionals,
+- and many more.
+
+Your output must identify where:
+1. one generic template is sufficient,
+2. one family with variants is sufficient,
+3. multiple distinct templates are required,
+4. separate office-level templates are necessary,
+5. separate “candidate vs incumbent” templates are necessary,
+6. separate “individual vs organization” templates are necessary.
+
+THOROUGHNESS > SPEED.
+NO ASSUMPTIONS.
+NO GENERIC LISTS.
+EVIDENCE-BACKED ONLY.
+
+==================================================
+CORE OBJECTIVE
+==================================================
+
+Produce the authoritative research-backed expansion blueprint for the next-generation WebWaka template universe.
+
+This blueprint must answer:
+- What template categories are missing today?
+- Which existing templates are too broad and need role-specific expansion?
+- Which sectors need family-based templates?
+- Which roles need their own dedicated templates?
+- Which can share a base template with role-specific overrides?
+- What should be added first?
+- What should be grouped into families?
+- What should be treated as standalone?
+- What is most relevant for Nigeria-first / Africa-first execution?
+
+==================================================
+MANDATORY FIRST STEP — REVIEW THE ENTIRE CURRENT SYSTEM
+==================================================
+
+Before doing online research, review all relevant WebWaka docs and code thoroughly so you understand what already exists and what has already been implemented.
+
+At minimum, review:
+- the current platform architecture docs
+- the canonical vertical/niche master map
+- the canonical niche registry
+- family/variant governance docs
+- all existing template registries / queues / execution boards
+- current runtime template architecture
+- current marketplace template architecture
+- current built templates and their scope
+- all template-related docs under `docs/templates/`
+- all relevant reports for Pillar 2 and Pillar 3
+- any civic/governance/political-suite docs already present
+- current individual / profile / public-facing template capabilities
+- any sector-first / vertical-specific template plans already documented
+
+You must first answer:
+- what currently exists,
+- what is already covered,
+- what is duplicated,
+- what is missing,
+- what is too generic,
+- what is not yet modeled properly.
+
+==================================================
+DEEP ONLINE RESEARCH REQUIREMENT
+==================================================
+
+After reviewing the repo, conduct deep online research in parallel across multiple workstreams.
+
+You must research at least these dimensions:
+
+1. NIGERIA-FIRST ROLE DIFFERENTIATION
+- How different categories of individuals present themselves publicly in Nigeria
+- How different office holders differ by mandate, audience, and public expectations
+- What a Ward Councillor needs that a Senator does not
+- What a Local Government Chairman needs that a Governor does not
+- What a candidate website needs that an incumbent office-holder portal needs
+- How religious, professional, civic, and community leaders differ in presentation needs
+- How trust signals differ by role
+
+2. AFRICA-FIRST / GLOBAL ANALOGUES
+- Which role distinctions are specific to Nigeria
+- Which role types are common across Africa
+- Which template families could support broader African expansion
+- Which global best practices are usable and which are not locally appropriate
+
+3. TEMPLATE ARCHITECTURE PATTERNS
+- Personal website template categories
+- Political and campaign website categories
+- Professional services profile website categories
+- Public office holder digital presence categories
+- Constituency service portal patterns
+- Civic/public representative website patterns
+- Community leadership patterns
+- Executive profile / thought leadership patterns
+- Candidate, campaign, movement, and office-holder distinctions
+
+4. CONVERSION / USER-JOURNEY DIFFERENCES
+Research how user goals differ by template type:
+- donate,
+- volunteer,
+- contact office,
+- book appointment,
+- see policy priorities,
+- request constituency help,
+- see credentials,
+- view services,
+- hire,
+- subscribe,
+- join movement,
+- attend event,
+- access public updates,
+- report issue,
+- apply,
+- inquire,
+- verify legitimacy.
+
+5. TRUST / REGULATORY / REPUTATIONAL DIFFERENCES
+Research how proof differs by template type:
+- elected office
+- candidate
+- professional practitioner
+- licensed expert
+- cleric / ministry leader
+- NGO founder
+- consultant
+- coach
+- creator
+- community leader
+- traditional ruler
+- union leader
+- advocacy leader
+
+==================================================
+RESEARCH WORKSTREAMS YOU MUST RUN
+==================================================
+
+At minimum run these distinct workstreams:
+
+A. Existing platform coverage audit
+B. Nigeria role taxonomy research
+C. Africa/global analogue research
+D. Competitor and live website pattern review
+E. Template family and inheritance opportunity mapping
+F. Missing-template gap analysis
+G. Prioritization and implementation sequencing analysis
+
+==================================================
+KEY ANALYTICAL QUESTIONS
+==================================================
+
+Your analysis must explicitly answer all of these:
+
+1. Which “individual” categories should become their own top-level template families?
+2. Which ones should be split by office level?
+3. Which ones should be split by candidate vs incumbent?
+4. Which ones should be split by geography level (ward / LGA / state / federal)?
+5. Which ones should be split by regulatory/professional status?
+6. Which ones can share one template with configurable modules?
+7. Which ones truly require separate dedicated templates?
+8. Which template categories are high-value in Nigeria immediately?
+9. Which categories should be implemented first after the current template universe?
+10. Which categories can be grouped into reusable family baselines with variants?
+
+==================================================
+OUTPUTS YOU MUST PRODUCE
+==================================================
+
+Produce a comprehensive expansion package with the following deliverables:
+
+1. **Platform Coverage Audit**
+A clear summary of what the current WebWaka template system already covers and does not cover.
+
+2. **Template Expansion Master Report**
+A deep report explaining all newly recommended template categories and why they should exist.
+
+3. **Canonical Expansion Master Table**
+A structured table of all recommended NEW templates to add.
+For each row include:
+- proposed template family or standalone status
+- sector
+- template category
+- specific role / office / subtype
+- recommended template name
+- whether new top-level template or variant of existing family
+- candidate / incumbent / neutral
+- geography scope relevance
+- Nigeria-first rationale
+- Africa-first notes
+- trust / regulatory notes
+- why this template is distinct
+- recommended implementation priority
+- dependency / anchor / variant relationship
+
+4. **Family and Variant Recommendations**
+A dedicated section grouping templates into:
+- anchor templates
+- role-specific variants
+- office-level variants
+- geography-level variants
+- candidate/incumbent variants
+
+5. **Priority Rollout Proposal**
+Recommend which groups should be implemented first, second, third, etc.
+
+6. **Political Templates Deep Dive**
+A dedicated section just for political/public-office templates.
+This must explicitly break down:
+- Councillor
+- Chairman
+- House of Assembly
+- House of Representatives
+- Senator
+- Governor
+- Deputy Governor
+- Presidential or national executive profile if applicable
+- Candidate vs incumbent distinctions
+- Constituency-service vs campaign-driven variants
+- Party-office-holder vs public-office-holder distinctions
+
+7. **Other Individual Sectors Deep Dive**
+Do the same exercise for other major sectors where individuals need differentiated templates.
+
+8. **Final Recommended Next Implementation Universe**
+A final answer to:
+“What exactly should WebWaka implement next as expansion to the existing template system?”
+
+==================================================
+QUALITY BAR
+==================================================
+
+Your output must NOT be:
+- shallow,
+- generic,
+- a brainstorm list,
+- a vague industry list,
+- western-default,
+- disconnected from current WebWaka architecture.
+
+Your output must be:
+- grounded in current platform reality,
+- grounded in Nigeria-first use cases,
+- deeply researched,
+- family-aware,
+- implementation-aware,
+- specific enough that it can later be converted into queue/registry/generic-prompt systems.
+
+==================================================
+SPECIAL INSTRUCTIONS
+==================================================
+
+- Think in systems, not isolated templates.
+- Distinguish clearly between:
+  - individual profile template,
+  - office-holder template,
+  - campaign template,
+  - constituency-service template,
+  - movement / advocacy template,
+  - public professional template,
+  - regulated practitioner template,
+  - executive personal brand template.
+- Where one template can serve multiple roles with strong modular overrides, say so.
+- Where one role truly needs a separate template, justify it.
+- Use Nigeria’s political and governance realities as the primary lens.
+- Do not limit yourself to politicians; extend this logic across all meaningful sectors.
+- Optimize for build-once-use-infinitely.
+- The result should make future implementation significantly smarter, not just bigger.
+
+==================================================
+FINAL DELIVERABLE FORMAT
+==================================================
+
+At the end, return:
+1. Executive summary
+2. Current coverage summary
+3. New recommended template universe
+4. Political template breakdown
+5. Other individual-sector breakdown
+6. Family/variant architecture proposal
+7. Priority rollout plan
+8. Risks / ambiguities
+9. Final recommendation on what should be implemented next
+
+If useful, create the deliverables as proper markdown files inside the repo.
+
+==================================================
+EXECUTE NOW
+==================================================
+
+Review the entire current platform deeply.
+Research online deeply.
+Synthesize everything.
+Return the comprehensive expansion blueprint for the next-generation WebWaka template universe.
