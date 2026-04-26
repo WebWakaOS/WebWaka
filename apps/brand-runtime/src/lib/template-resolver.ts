@@ -154,6 +154,42 @@ import { constituencyOfficeConstituencyDevPortalTemplate } from '../templates/ni
 import { governmentAgencyGovtAgencyPortalTemplate } from '../templates/niches/government-agency/govt-agency-portal.js';
 import { eventsCentreEventsCentreRentalTemplate } from '../templates/niches/events-centre/events-centre-rental.js';
 import { nurserySchoolNurserySchoolSiteTemplate } from '../templates/niches/nursery-school/nursery-school-site.js';
+import { autoMechanicGarageSiteTemplate } from '../templates/niches/auto-mechanic/garage-site.js';
+import { fuelStationStationSiteTemplate } from '../templates/niches/fuel-station/station-site.js';
+import { tailorAtelierSiteTemplate } from '../templates/niches/tailor/atelier-site.js';
+import { eventPlannerPlanningSiteTemplate } from '../templates/niches/event-planner/planning-site.js';
+import { securityCompanyGuardServiceTemplate } from '../templates/niches/security-company/guard-service.js';
+import { constructionBuildingContractorTemplate } from '../templates/niches/construction/building-contractor.js';
+import { propertyDeveloperEstateSiteTemplate } from '../templates/niches/property-developer/estate-site.js';
+import { cleaningServiceSiteTemplate } from '../templates/niches/cleaning-service/cleaning-service-site.js';
+import { printShopPrintBrandingShopTemplate } from '../templates/niches/print-shop/print-branding-shop.js';
+import { electronicsRepairElectronicsRepairShopTemplate } from '../templates/niches/electronics-repair/electronics-repair-shop.js';
+import { foodVendorStreetFoodSiteTemplate } from '../templates/niches/food-vendor/street-food-site.js';
+import { farmFarmProducerSiteTemplate } from '../templates/niches/farm/farm-producer-site.js';
+import { agroInputAgroInputDealerTemplate } from '../templates/niches/agro-input/agro-input-dealer.js';
+import { coldRoomColdStorageFacilityTemplate } from '../templates/niches/cold-room/cold-storage-facility.js';
+import { logisticsDeliveryDeliveryServiceTemplate } from '../templates/niches/logistics-delivery/delivery-service.js';
+import { dispatchRiderDispatchRiderNetworkTemplate } from '../templates/niches/dispatch-rider/dispatch-rider-network.js';
+import { courierCourierServiceSiteTemplate } from '../templates/niches/courier/courier-service-site.js';
+import { clearingAgentClearingForwardingAgentTemplate } from '../templates/niches/clearing-agent/clearing-forwarding-agent.js';
+import { furnitureMakerFurnitureWorkshopTemplate } from '../templates/niches/furniture-maker/furniture-workshop.js';
+import { weldingFabricationWeldingFabricationShopTemplate } from '../templates/niches/welding-fabrication/welding-fabrication-shop.js';
+import { generatorRepairGeneratorRepairHvacTemplate } from '../templates/niches/generator-repair/generator-repair-hvac.js';
+import { bookshopBookshopStationeryTemplate } from '../templates/niches/bookshop/bookshop-stationery.js';
+import { sportsAcademySportsAcademySiteTemplate } from '../templates/niches/sports-academy/sports-academy-site.js';
+import { opticianOpticianEyeClinicTemplate } from '../templates/niches/optician/optician-eye-clinic.js';
+import { floristFloristGardenCentreTemplate } from '../templates/niches/florist/florist-garden-centre.js';
+import { gasDistributorGasDistributorLpgTemplate } from '../templates/niches/gas-distributor/gas-distributor-lpg.js';
+import { waterTreatmentWaterTreatmentBoreholeTemplate } from '../templates/niches/water-treatment/water-treatment-borehole.js';
+import { wasteManagementWasteManagementRecyclerTemplate } from '../templates/niches/waste-management/waste-management-recycler.js';
+import { solarInstallerSolarInstallerRenewableTemplate } from '../templates/niches/solar-installer/solar-installer-renewable.js';
+import { advertisingAgencyAdvertisingAgencySiteTemplate } from '../templates/niches/advertising-agency/advertising-agency-site.js';
+import { roadTransportUnionRoadTransportUnionSiteTemplate } from '../templates/niches/road-transport-union/road-transport-union-site.js';
+import { pharmacyChainPharmacyChainDrugstoreTemplate } from '../templates/niches/pharmacy-chain/pharmacy-chain-drugstore.js';
+import { restaurantChainRestaurantChainOutletTemplate } from '../templates/niches/restaurant-chain/restaurant-chain-outlet.js';
+import { accountingFirmAccountingFirmAuditTemplate } from '../templates/niches/accounting-firm/accounting-firm-audit.js';
+import { wardRepWardRepCouncillorSiteTemplate } from '../templates/niches/ward-rep/ward-rep-councillor-site.js';
+import { bankBranchBankBranchLocationTemplate } from '../templates/niches/bank-branch/bank-branch-location.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -342,6 +378,42 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['government-agency-govt-agency-portal', governmentAgencyGovtAgencyPortalTemplate],
   ['events-centre-events-centre-rental', eventsCentreEventsCentreRentalTemplate],
   ['nursery-school-nursery-school-site', nurserySchoolNurserySchoolSiteTemplate],
+  ['auto-mechanic-garage-site', autoMechanicGarageSiteTemplate],
+  ['fuel-station-station-site', fuelStationStationSiteTemplate],
+  ['tailor-atelier-site', tailorAtelierSiteTemplate],
+  ['event-planner-planning-site', eventPlannerPlanningSiteTemplate],
+  ['security-company-guard-service', securityCompanyGuardServiceTemplate],
+  ['construction-building-contractor', constructionBuildingContractorTemplate],
+  ['property-developer-estate-site', propertyDeveloperEstateSiteTemplate],
+  ['cleaning-service-cleaning-service-site', cleaningServiceSiteTemplate],
+  ['print-shop-print-branding-shop', printShopPrintBrandingShopTemplate],
+  ['electronics-repair-electronics-repair-shop', electronicsRepairElectronicsRepairShopTemplate],
+  ['food-vendor-street-food-site', foodVendorStreetFoodSiteTemplate],
+  ['farm-farm-producer-site', farmFarmProducerSiteTemplate],
+  ['agro-input-agro-input-dealer', agroInputAgroInputDealerTemplate],
+  ['cold-room-cold-storage-facility', coldRoomColdStorageFacilityTemplate],
+  ['logistics-delivery-delivery-service', logisticsDeliveryDeliveryServiceTemplate],
+  ['dispatch-rider-dispatch-rider-network', dispatchRiderDispatchRiderNetworkTemplate],
+  ['courier-courier-service-site', courierCourierServiceSiteTemplate],
+  ['clearing-agent-clearing-forwarding-agent', clearingAgentClearingForwardingAgentTemplate],
+  ['furniture-maker-furniture-workshop', furnitureMakerFurnitureWorkshopTemplate],
+  ['welding-fabrication-welding-fabrication-shop', weldingFabricationWeldingFabricationShopTemplate],
+  ['generator-repair-generator-repair-hvac', generatorRepairGeneratorRepairHvacTemplate],
+  ['bookshop-bookshop-stationery', bookshopBookshopStationeryTemplate],
+  ['sports-academy-sports-academy-site', sportsAcademySportsAcademySiteTemplate],
+  ['optician-optician-eye-clinic', opticianOpticianEyeClinicTemplate],
+  ['florist-florist-garden-centre', floristFloristGardenCentreTemplate],
+  ['gas-distributor-gas-distributor-lpg', gasDistributorGasDistributorLpgTemplate],
+  ['water-treatment-water-treatment-borehole', waterTreatmentWaterTreatmentBoreholeTemplate],
+  ['waste-management-waste-management-recycler', wasteManagementWasteManagementRecyclerTemplate],
+  ['solar-installer-solar-installer-renewable', solarInstallerSolarInstallerRenewableTemplate],
+  ['advertising-agency-advertising-agency-site', advertisingAgencyAdvertisingAgencySiteTemplate],
+  ['road-transport-union-road-transport-union-site', roadTransportUnionRoadTransportUnionSiteTemplate],
+  ['pharmacy-chain-pharmacy-chain-drugstore', pharmacyChainPharmacyChainDrugstoreTemplate],
+  ['restaurant-chain-restaurant-chain-outlet', restaurantChainRestaurantChainOutletTemplate],
+  ['accounting-firm-accounting-firm-audit', accountingFirmAccountingFirmAuditTemplate],
+  ['ward-rep-ward-rep-councillor-site', wardRepWardRepCouncillorSiteTemplate],
+  ['bank-branch-bank-branch-location', bankBranchBankBranchLocationTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
