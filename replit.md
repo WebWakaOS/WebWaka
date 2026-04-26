@@ -250,3 +250,39 @@ Seven comprehensive blueprint documents remain in `docs/templates/expansion/` fo
 ### Production Deployment Status
 - Staging: `webwaka-brand-runtime-staging` live at `https://webwaka-brand-runtime-staging.webwaka-api.workers.dev`
 - Production: `webwaka-brand-runtime-production` — CART_KV binding fixed; awaiting JWT_SECRET, LOG_PII_SALT, INTER_SERVICE_SECRET secrets before full production deployment
+
+---
+
+## Political Role-Specific Template Expansion Blueprint — Produced 2026-04-26
+
+### Status
+Research and design phase complete. Eight blueprint documents produced in `docs/templates/expansion/political/`. No implementation has occurred — documents are research and design artifacts only.
+
+### What Was Built
+
+| File | Contents | Lines |
+|---|---|---|
+| `00-Political-Master-Blueprint.md` | Executive summary; Nigeria political hierarchy reference map; methodology; strategic decisions | 224 |
+| `01-Political-Gap-Analysis.md` | Audit of all 7 existing political entries; gap matrix by tier (ward→federal); root cause analysis | 201 |
+| `02-Political-Candidate-Registry.md` | 16 proposed new political role niches with 5-dimension scoring, VN-IDs, mode splits, trust signals | 431 |
+| `03-Political-Family-Structure.md` | 3 new NF-POL families (NF-POL-ELC, NF-POL-APT, NF-POL-PTY); anchor/variant relationships; differentiator tables | 189 |
+| `04-Political-Market-Intelligence.md` | Seat counts by role; election cycle calendar; digital readiness scores; revenue sizing; competitive landscape | 198 |
+| `05-Political-Regulatory.md` | INEC/SIEC compliance gates per role; KYC tier assignments; Electoral Act 2022 provisions; campaign finance | 340 |
+| `06-Political-Priority-Queue.md` | 4-sprint activation queue; milestone mapping M8c→M10; pre-activation checklists | 186 |
+| `07-Political-Collision-Analysis.md` | All 16 candidates cleared vs. 192 templates + 198-row CSV; 2 CLEAR, 14 DIFFERENTIATE, 0 REJECT | 423 |
+
+### Key Findings
+- **16 new role-specific political niches** proposed (3 P1-scored, 13 P2-scored)
+- **3 new niche families** proposed: NF-POL-ELC (elected office), NF-POL-APT (appointed officials), NF-POL-PTY (party structure)
+- **P1 candidates:** `governor` (42/50), `senator` (40/50), `house-of-reps-member` (40/50)
+- **Candidate / Incumbent / Post-Office mode** defined as first-class template concept (controlled by `ctx.data.mode`)
+- **Total addressable market:** 305,791 accounts (elected officeholders + candidates across all 18 parties)
+- **Year 1 revenue potential at 5% SAM penetration:** ~₦343M (~$214K USD/year)
+- **0 REJECT verdicts** in collision analysis — all 16 candidates viable
+
+### Next Actions Required (Human Decision)
+1. Founder review of 16 proposed political niches
+2. Approve Sprint 1 (governor, senator, house-of-reps-member) for immediate implementation
+3. Complete 5 pre-actions (vtx_politician scope notes, vtx_ward_rep notes, vtx_constituency_office notes, vtx_political_party notes, presidential campaign finance process)
+4. Graduate Sprint 1 niches to CSV + canonical niche registry
+5. Implement `governor` template as NF-POL-ELC family anchor
