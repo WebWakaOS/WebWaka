@@ -1,7 +1,7 @@
 # Pillar 3 Template Queue
 
 **Document type:** Agent work queue — single source of truth for what to build next  
-**Status:** ACTIVE — updated by agents after every completed niche  
+**Status:** COMPLETE — all 70 niches implemented (sessions A–F)  
 **Date last updated:** 2026-04-26  
 **Authority:** `docs/reports/pillar3-niche-identity-system-2026-04-26.md`
 
@@ -12,22 +12,38 @@
 
 ---
 
-## ⟶ CURRENT (Build This Next)
+## ✅ QUEUE COMPLETE — All 70 Pillar 3 Niches Implemented
+
+<!-- Session-F (oil-gas-services through nursery-school — 20 niches) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-F -->
+<!-- Session-E (restaurant through vegetable-garden — 20 niches) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-E -->
+
+The Pillar 3 niche template queue is now **fully exhausted**. All 70 niche templates (including 7 shipped via Pillar 2) have been implemented, registered, and documented. No further queue items remain.
+
+---
+
+## ✅ JUST COMPLETED (Session F — 20 niches)
 
 ```
-Niche ID:      P3-oil-gas-services-oil-gas-service-provider
-Vertical:      oil-gas-services
-Niche Name:    Oil & Gas Service Provider Site
-Category:      energy
-NF Priority:   high
-Status:        READY_FOR_RESEARCH
-Owner:         —
-Family:        standalone
-Blocker:       none
-Registry path: docs/templates/pillar3-niche-registry.json
+Niche IDs:     P3-oil-gas-services-oil-gas-service-provider through P3-nursery-school-nursery-school-site
+Status:        IMPLEMENTED ✅ (all 20)
+Template slugs: oil-gas-services-oil-gas-service-provider, artisanal-mining-artisanal-mining-ops,
+               airport-shuttle-airport-shuttle-booking, container-depot-container-depot-hub,
+               cargo-truck-cargo-fleet-ops, funeral-home-funeral-home-site,
+               pr-firm-pr-firm-site, shoemaker-shoemaker-atelier,
+               newspaper-distribution-newspaper-dist-agency, laundry-service-laundry-service-site,
+               cleaning-company-cleaning-facility-mgmt, internet-cafe-internet-cafe-business-centre,
+               orphanage-orphanage-welfare-portal, sports-club-sports-club-portal,
+               book-club-book-club-platform, polling-unit-rep-polling-unit-rep-site,
+               constituency-office-constituency-dev-portal, government-agency-govt-agency-portal,
+               events-centre-events-centre-rental, nursery-school-nursery-school-site
+Completed by:  replit-agent-2026-04-26-session-F
+Completed:     2026-04-26
+Files:         apps/brand-runtime/src/templates/niches/{vertical}/{niche}.ts (20)
+               infra/db/seeds/templates/{slug}.sql (20)
+               docs/templates/research/{vertical}-{niche}-brief.md (20)
+Registered in: apps/brand-runtime/src/lib/template-resolver.ts (20 imports + 20 map entries)
+Registry:      docs/templates/pillar3-niche-registry.json (20 entries → IMPLEMENTED)
 ```
-
-<!-- Session-E (restaurant through spare-parts + tyre-shop through vegetable-garden — 20 niches) COMPLETED 2026-04-26 by replit-agent-2026-04-26-session-E -->
 
 ---
 

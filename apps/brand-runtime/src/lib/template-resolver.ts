@@ -134,6 +134,26 @@ import { foodProcessingFoodProcessingFactoryTemplate } from '../templates/niches
 import { produceAggregatorProduceAggregatorSiteTemplate } from '../templates/niches/produce-aggregator/produce-aggregator-site.js';
 import { cocoaExporterCocoaExportTraderTemplate } from '../templates/niches/cocoa-exporter/cocoa-export-trader.js';
 import { vegetableGardenUrbanVegGardenTemplate } from '../templates/niches/vegetable-garden/urban-veg-garden.js';
+import { oilGasServicesOilGasServiceProviderTemplate } from '../templates/niches/oil-gas-services/oil-gas-service-provider.js';
+import { artisanalMiningArtisanalMiningOpsTemplate } from '../templates/niches/artisanal-mining/artisanal-mining-ops.js';
+import { airportShuttleAirportShuttleBookingTemplate } from '../templates/niches/airport-shuttle/airport-shuttle-booking.js';
+import { containerDepotContainerDepotHubTemplate } from '../templates/niches/container-depot/container-depot-hub.js';
+import { cargoTruckCargoFleetOpsTemplate } from '../templates/niches/cargo-truck/cargo-fleet-ops.js';
+import { funeralHomeFuneralHomeSiteTemplate } from '../templates/niches/funeral-home/funeral-home-site.js';
+import { prFirmPrFirmSiteTemplate } from '../templates/niches/pr-firm/pr-firm-site.js';
+import { shoemakerShoemakerAtelierTemplate } from '../templates/niches/shoemaker/shoemaker-atelier.js';
+import { newspaperDistributionNewspaperDistAgencyTemplate } from '../templates/niches/newspaper-distribution/newspaper-dist-agency.js';
+import { laundryServiceLaundryServiceSiteTemplate } from '../templates/niches/laundry-service/laundry-service-site.js';
+import { cleaningCompanyCleaningFacilityMgmtTemplate } from '../templates/niches/cleaning-company/cleaning-facility-mgmt.js';
+import { internetCafeInternetCafeBusinessCentreTemplate } from '../templates/niches/internet-cafe/internet-cafe-business-centre.js';
+import { orphanageOrphanageWelfarePortalTemplate } from '../templates/niches/orphanage/orphanage-welfare-portal.js';
+import { sportsClubSportsClubPortalTemplate } from '../templates/niches/sports-club/sports-club-portal.js';
+import { bookClubBookClubPlatformTemplate } from '../templates/niches/book-club/book-club-platform.js';
+import { pollingUnitRepPollingUnitRepSiteTemplate } from '../templates/niches/polling-unit-rep/polling-unit-rep-site.js';
+import { constituencyOfficeConstituencyDevPortalTemplate } from '../templates/niches/constituency-office/constituency-dev-portal.js';
+import { governmentAgencyGovtAgencyPortalTemplate } from '../templates/niches/government-agency/govt-agency-portal.js';
+import { eventsCentreEventsCentreRentalTemplate } from '../templates/niches/events-centre/events-centre-rental.js';
+import { nurserySchoolNurserySchoolSiteTemplate } from '../templates/niches/nursery-school/nursery-school-site.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -302,6 +322,26 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['produce-aggregator-produce-aggregator-site', produceAggregatorProduceAggregatorSiteTemplate],
   ['cocoa-exporter-cocoa-export-trader', cocoaExporterCocoaExportTraderTemplate],
   ['vegetable-garden-urban-veg-garden', vegetableGardenUrbanVegGardenTemplate],
+  ['oil-gas-services-oil-gas-service-provider', oilGasServicesOilGasServiceProviderTemplate],
+  ['artisanal-mining-artisanal-mining-ops', artisanalMiningArtisanalMiningOpsTemplate],
+  ['airport-shuttle-airport-shuttle-booking', airportShuttleAirportShuttleBookingTemplate],
+  ['container-depot-container-depot-hub', containerDepotContainerDepotHubTemplate],
+  ['cargo-truck-cargo-fleet-ops', cargoTruckCargoFleetOpsTemplate],
+  ['funeral-home-funeral-home-site', funeralHomeFuneralHomeSiteTemplate],
+  ['pr-firm-pr-firm-site', prFirmPrFirmSiteTemplate],
+  ['shoemaker-shoemaker-atelier', shoemakerShoemakerAtelierTemplate],
+  ['newspaper-distribution-newspaper-dist-agency', newspaperDistributionNewspaperDistAgencyTemplate],
+  ['laundry-service-laundry-service-site', laundryServiceLaundryServiceSiteTemplate],
+  ['cleaning-company-cleaning-facility-mgmt', cleaningCompanyCleaningFacilityMgmtTemplate],
+  ['internet-cafe-internet-cafe-business-centre', internetCafeInternetCafeBusinessCentreTemplate],
+  ['orphanage-orphanage-welfare-portal', orphanageOrphanageWelfarePortalTemplate],
+  ['sports-club-sports-club-portal', sportsClubSportsClubPortalTemplate],
+  ['book-club-book-club-platform', bookClubBookClubPlatformTemplate],
+  ['polling-unit-rep-polling-unit-rep-site', pollingUnitRepPollingUnitRepSiteTemplate],
+  ['constituency-office-constituency-dev-portal', constituencyOfficeConstituencyDevPortalTemplate],
+  ['government-agency-govt-agency-portal', governmentAgencyGovtAgencyPortalTemplate],
+  ['events-centre-events-centre-rental', eventsCentreEventsCentreRentalTemplate],
+  ['nursery-school-nursery-school-site', nurserySchoolNurserySchoolSiteTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
