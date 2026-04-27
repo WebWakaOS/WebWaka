@@ -32,7 +32,7 @@ import { WakaPageEventType } from '@webwaka/events';
 import { BLOCK_TYPES } from '@webwaka/wakapage-blocks';
 import type { BlockType } from '@webwaka/wakapage-blocks';
 import { publishEvent } from '../lib/publish-event.js';
-import { indexWakaPage, removeWakaPageFromIndex } from '../lib/search-index.js';
+import { indexWakaPage } from '../lib/search-index.js';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
