@@ -98,7 +98,7 @@ export class RootErrorBoundary extends Component<Props, State> {
           >
             Reload page
           </button>
-          {import.meta.env?.DEV && this.state.error && (
+          {(import.meta as { env?: { DEV?: boolean } }).env?.DEV && this.state.error && (
             <pre
               style={{
                 marginTop: '2rem',

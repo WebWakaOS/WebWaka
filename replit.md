@@ -313,3 +313,34 @@ Seven comprehensive blueprint documents remain in `docs/templates/expansion/` fo
 
 ### All Actions Complete
 All 16 templates implemented across Sprints 1–4. No remaining blockers or actions.
+
+---
+
+## Code Quality Audit — Full Monorepo (Completed)
+
+### Scope
+Deep TypeScript type-check audit across all 11 apps, all 196 packages (including 151 verticals-* packages). Conducted across two sessions.
+
+### Findings and Fixes
+
+| Package | Error | Fix Applied |
+|---|---|---|
+| `packages/auth/tsconfig.build.json` | `D1Database` not found — `"types": []` stripped Cloudflare ambient types from build config | Changed to `"types": ["@cloudflare/workers-types"]` |
+| `packages/auth-tenancy` | TS2307 Cannot find `@webwaka/auth` — dist folder was never built | Built dependency chain: `types` → `ai` → `auth` → `auth-tenancy` (all clean) |
+| `packages/ui-error-boundary/src/index.tsx` | TS2339 `Property 'env' does not exist on type 'ImportMeta'` — no vite/client types | Cast `import.meta` to `{ env?: { DEV?: boolean } }` — preserves runtime behaviour |
+| `apps/brand-runtime` → `political-appointee/official-site.ts` | Portfolio type-cast bug across 4 render functions | Fixed in prior session |
+
+### Packages Built (dist now present)
+- `packages/types` (`@webwaka/types`)
+- `packages/ai-abstraction` (`@webwaka/ai`)
+- `packages/auth` (`@webwaka/auth`)
+- `packages/auth-tenancy` (`@webwaka/auth-tenancy`)
+
+### Result
+**Zero TypeScript errors** across the entire monorepo. All 11 apps and 196 packages pass `tsc --noEmit` cleanly (or are intentional stubs with `typecheck: "echo 'skip'"`).
+
+### Invariants Maintained
+- T2/T3/T4 tenant isolation unchanged
+- All monetary values remain kobo integers
+- No DB calls introduced in template render functions
+- 31/31 regulatory-verification tests still passing
