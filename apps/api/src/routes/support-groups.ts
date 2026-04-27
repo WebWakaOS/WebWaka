@@ -407,7 +407,7 @@ supportGroupRoutes.get('/:id/meetings', async (c) => {
 
 supportGroupRoutes.post('/:id/broadcasts', async (c) => {
   const auth = c.get('auth');
-  const { tenantId, workspaceId, userId: _userId, plan = 'free' } = auth as AuthContext & { plan?: string };
+  const { tenantId, workspaceId, userId, plan = 'free' } = auth as AuthContext & { plan?: string };
   const db = c.env.DB as unknown as D1Like;
 
   const ents = getEntitlements(plan);
