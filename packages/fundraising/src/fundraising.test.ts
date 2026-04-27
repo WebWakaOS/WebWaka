@@ -373,6 +373,21 @@ describe('Fundraising repository', () => {
   });
 });
 
+describe('Fundraising P10 invariant — NDPR enforcement', () => {
+  it('createContribution stores ndprConsented value — route layer rejects false before calling repository', async () => {
+    // P10: The route handler enforces: if (!parsed.data.ndprConsented) return 400 NDPR_CONSENT_REQUIRED
+    // before getCampaign or createContribution is ever called.
+    // This test confirms the repository stores the ndprConsented field correctly when called directly.
+    const db = new MockD1();
+    const contrib = await createContribution(db as never, {
+      campaignId: 'fc_test', workspaceId: WORKSPACE, tenantId: TENANT,
+      donorPhone: '08099887766', amountKobo: 50000,
+      ndprConsented: true,
+    });
+    expect(contrib.ndprConsented).toBe(true);
+  });
+});
+
 describe('Fundraising P13 invariant', () => {
   it('donorPhone is present on returned contribution — stripping is at route layer', async () => {
     const db = new MockD1();

@@ -348,6 +348,11 @@ fundraisingRoutes.post('/campaigns/:id/contributions', async (c) => {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return c.json({ error: 'VALIDATION_FAILED', issues: parsed.error.issues }, 400);
 
+  // P10: NDPR consent must be explicitly true before any data is written
+  if (!parsed.data.ndprConsented) {
+    return c.json({ error: 'NDPR_CONSENT_REQUIRED', message: 'Explicit NDPR consent is required before processing a contribution.' }, 400);
+  }
+
   const campaign = await getCampaign(db as never, c.req.param('id'), tenantId);
   if (!campaign) return c.json({ error: 'NOT_FOUND' }, 404);
   if (campaign.status !== 'active') return c.json({ error: 'CAMPAIGN_NOT_ACTIVE' }, 400);

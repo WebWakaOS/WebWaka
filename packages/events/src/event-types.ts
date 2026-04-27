@@ -424,7 +424,8 @@ export const LegacyEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Unified EventType constant — all 122+ event keys combined
+// Unified EventType constant — all event keys combined
+// Updated to include SupportGroupEventType and FundraisingEventType.
 // ---------------------------------------------------------------------------
 
 export const EventType = {
@@ -439,6 +440,8 @@ export const EventType = {
   ...OnboardingEventType,
   ...PosFinanceEventType,
   ...SocialEventType,
+  ...SupportGroupEventType,
+  ...FundraisingEventType,
   ...PartnerEventType,
   ...BankTransferEventType,
   ...B2bEventType,
