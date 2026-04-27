@@ -310,6 +310,62 @@ export const WalletEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// WakaPage (Smart Profile / Public Page Builder) — Phase 0 foundation
+// Namespace: wakapage.*
+// Added: Phase 0 ADR-0041
+// ---------------------------------------------------------------------------
+
+export const WakaPageEventType = {
+  // Page lifecycle
+  WakaPageCreated:          'wakapage.page.created',
+  WakaPagePublished:        'wakapage.page.published',
+  WakaPageUnpublished:      'wakapage.page.unpublished',
+  WakaPageDeleted:          'wakapage.page.deleted',
+  WakaPageSlugChanged:      'wakapage.page.slug_changed',
+  // Block management
+  WakaPageBlockAdded:       'wakapage.block.added',
+  WakaPageBlockUpdated:     'wakapage.block.updated',
+  WakaPageBlockRemoved:     'wakapage.block.removed',
+  WakaPageBlockReordered:   'wakapage.block.reordered',
+  // Public surface engagement (analytics)
+  WakaPageViewed:           'wakapage.page.viewed',
+  WakaPageBlockClicked:     'wakapage.block.clicked',
+  WakaPageLeadCaptured:     'wakapage.lead.captured',
+  // Template & theme
+  WakaPageTemplateApplied:  'wakapage.template.applied',
+  WakaPageThemeUpdated:     'wakapage.theme.updated',
+  // QR / share
+  WakaPageQrGenerated:      'wakapage.qr.generated',
+  WakaPageShareLinkCopied:  'wakapage.share.link_copied',
+} as const;
+
+export type WakaPageEventType = (typeof WakaPageEventType)[keyof typeof WakaPageEventType];
+
+// WakaPage typed payloads
+
+export interface WakaPageCreatedPayload {
+  pageId: string;
+  workspaceId: string;
+  profileId: string;
+  slug: string;
+}
+
+export interface WakaPageViewedPayload {
+  pageId: string;
+  workspaceId: string;
+  visitorId?: string;
+  referrer?: string;
+  countryCode?: string;
+}
+
+export interface WakaPageLeadCapturedPayload {
+  pageId: string;
+  workspaceId: string;
+  blockId: string;
+  leadId: string;
+}
+
+// ---------------------------------------------------------------------------
 // Legacy event types (preserved for backwards compatibility — Milestone 6)
 // These constants are intentionally kept to avoid breaking existing callers.
 // ---------------------------------------------------------------------------

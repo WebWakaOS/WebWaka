@@ -102,6 +102,51 @@ export function requireSensitiveSectorAccess(ctx: EntitlementContext): void {
 }
 
 /**
+ * Guard: workspace must have WakaPage public page rights.
+ * Required to activate a WakaPage smart profile page.
+ * Available from: starter and above.
+ * (ADR-0041 — WakaPage Phase 0 entitlement decision)
+ */
+export function requireWakaPageAccess(ctx: EntitlementContext): void {
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+  if (!config.wakaPagePublicPage) {
+    throw new EntitlementError(
+      `Access denied: plan '${ctx.subscriptionPlan}' does not include WakaPage. Upgrade to Starter or above.`,
+    );
+  }
+}
+
+/**
+ * Evaluate (non-throwing) whether the workspace has WakaPage public page rights.
+ * Use in UI and telemetry contexts where you need the decision without throwing.
+ */
+export function evaluateWakaPageAccess(ctx: EntitlementContext): boolean {
+  return PLAN_CONFIGS[ctx.subscriptionPlan].wakaPagePublicPage;
+}
+
+/**
+ * Guard: workspace must have WakaPage analytics rights.
+ * Required to access the WakaPage analytics dashboard.
+ * Available from: growth and above.
+ * (ADR-0041 — WakaPage Phase 0 entitlement decision)
+ */
+export function requireWakaPageAnalytics(ctx: EntitlementContext): void {
+  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+  if (!config.wakaPageAnalytics) {
+    throw new EntitlementError(
+      `Access denied: plan '${ctx.subscriptionPlan}' does not include WakaPage Analytics. Upgrade to Growth or above.`,
+    );
+  }
+}
+
+/**
+ * Evaluate (non-throwing) whether the workspace has WakaPage analytics rights.
+ */
+export function evaluateWakaPageAnalytics(ctx: EntitlementContext): boolean {
+  return PLAN_CONFIGS[ctx.subscriptionPlan].wakaPageAnalytics;
+}
+
+/**
  * Guard: user must be in an eligible tenant to use HandyLife Wallet.
  * Eligibility is governed by the WALLET_KV allowlist (wallet:eligible_tenants).
  * This is a lightweight entitlement check — the full KV-based check happens

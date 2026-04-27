@@ -22,6 +22,10 @@ export {
   requireDelegationRights,
   requireAIAccess,
   requireSensitiveSectorAccess,
+  requireWakaPageAccess,
+  evaluateWakaPageAccess,
+  requireWakaPageAnalytics,
+  evaluateWakaPageAnalytics,
 } from './guards.js';
 
 export type { KYCTier, KYCTierConfig } from './cbn-kyc-tiers.js';

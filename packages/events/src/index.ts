@@ -26,6 +26,9 @@ export type {
   SystemProviderDownPayload,
   SystemQueueDlqPayload,
   VerticalEventPayload,
+  WakaPageCreatedPayload,
+  WakaPageViewedPayload,
+  WakaPageLeadCapturedPayload,
 } from './event-types.js';
 
 export {
@@ -49,6 +52,7 @@ export {
   SystemEventType,
   VerticalEventType,
   WalletEventType,
+  WakaPageEventType,
   LegacyEventType,
 } from './event-types.js';
 

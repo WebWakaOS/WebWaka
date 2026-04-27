@@ -32,6 +32,18 @@ export interface PlanConfig {
   aiRights: boolean;
   /** Whether regulated/sensitive-sector modules are accessible (political, medical, etc.) */
   sensitiveSectorRights: boolean;
+  /**
+   * WakaPage — Phase 0 entitlement decision (ADR-0041):
+   * Extend PlanConfig with boolean rights (consistent with existing pattern).
+   * Whether the workspace can activate a WakaPage public smart profile page.
+   * Available from: starter and above.
+   */
+  wakaPagePublicPage: boolean;
+  /**
+   * WakaPage — Whether the workspace can access WakaPage analytics dashboard.
+   * Available from: growth and above.
+   */
+  wakaPageAnalytics: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -50,6 +62,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: false,
     aiRights: false,
     sensitiveSectorRights: false,
+    wakaPagePublicPage: false,
+    wakaPageAnalytics: false,
   },
   starter: {
     maxUsers: 10,
@@ -61,6 +75,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: false,
     aiRights: false,
     sensitiveSectorRights: false,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: false,
   },
   growth: {
     maxUsers: 50,
@@ -76,6 +92,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: false,
     aiRights: true,
     sensitiveSectorRights: false,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: true,
   },
   pro: {
     maxUsers: 200,
@@ -94,6 +112,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: false,
     aiRights: true,
     sensitiveSectorRights: false,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: true,
   },
   enterprise: {
     maxUsers: -1,
@@ -105,6 +125,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: true,
     aiRights: true,
     sensitiveSectorRights: true,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: true,
   },
   partner: {
     maxUsers: -1,
@@ -116,6 +138,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: true,
     aiRights: true,
     sensitiveSectorRights: true,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: true,
   },
   sub_partner: {
     maxUsers: -1,
@@ -132,5 +156,7 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     delegationRights: false,
     aiRights: true,
     sensitiveSectorRights: false,
+    wakaPagePublicPage: true,
+    wakaPageAnalytics: true,
   },
 } as const;

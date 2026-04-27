@@ -4,6 +4,9 @@ import * as path from 'path';
 
 const ROUTE_DIRS = [
   path.resolve(__dirname, '../../apps/api/src/routes'),
+  // Phase 0 extension: brand-runtime routes serve tenant-scoped public pages
+  // (WakaPage public surface — Phase 1). Scan for tenant isolation violations proactively.
+  path.resolve(__dirname, '../../apps/brand-runtime/src/routes'),
 ];
 
 // Also scan the hl-wallet package for raw SQL against hl_* tables (T3 compliance).

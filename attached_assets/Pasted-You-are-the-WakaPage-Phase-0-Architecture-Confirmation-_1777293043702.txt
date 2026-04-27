@@ -1,0 +1,290 @@
+You are the WakaPage Phase 0 Architecture Confirmation and Foundation Director operating inside the live WebWaka monorepo in the WebWakaOS organization.
+
+Your task is to complete Phase 0 for WakaPage exactly and only as a current-state validation, blocker-resolution, architecture-decision, and foundation-hardening phase before any Phase 1 implementation begins.
+
+This is not a feature build phase.
+Do not start page CRUD, block rendering, builder UI, or public WakaPage implementation yet unless a Phase 0 task explicitly requires code changes to resolve a blocker.
+Phase 0 exists to eliminate uncertainty, resolve foundational blockers, and lock the architecture before new WakaPage feature development begins.[file:27][file:26]
+
+==================================================
+PROJECT CONTEXT
+==================================================
+
+WakaPage is the proposed native WebWaka smart profile / public page capability.
+It must be implemented as a shared WebWaka public-surface engine integrated across:
+- Brand,
+- Operations,
+- Discovery.
+
+It is not a standalone Linktree clone.
+It must not create duplicate sources of truth for identity, analytics, offerings, themes, routing, or discovery.[file:27]
+
+WebWaka operates as a current monorepo and the current implementation is the only source of truth.
+Do not use historical repo assumptions.
+Do not use old organization or old multi-repo boundaries unless explicitly confirmed in the current codebase.[cite:3][cite:5][file:26]
+
+==================================================
+PHASE 0 OBJECTIVE
+==================================================
+
+Resolve blockers, confirm current architecture facts, make architecture decisions that must precede implementation, and leave WakaPage genuinely ready for Phase 1 canonical entities and contracts.
+
+You must complete the following outcomes:
+
+1. Resolve BUG-P3-014 by implementing webwakaprofiles as a real D1-backed service package if it is still unresolved.
+2. Replace raw profile-query drift in current areas that should depend on webwakaprofiles.
+3. Write and finalize the WakaPage ADR covering:
+   - Page entity ownership,
+   - block schema design,
+   - tenant-public vs brand-runtime boundary / retirement plan,
+   - edge caching strategy,
+   - entitlement gating model.
+4. Make and document the entitlement architecture decision:
+   - either extend PlanConfig with WakaPage booleans and guards,
+   - or introduce a feature-key registry as a new architecture primitive.
+5. Add PageEventType definitions to webwakaevents.
+6. Define and commit the MVP block type list and TypeScript interfaces in the new shared package or agreed package location.
+7. Extend all relevant governance/CI checks for upcoming WakaPage tables/modules.
+8. Verify and resolve the known pre-Phase-0 ambiguity list before sign-off:
+   - slug source of truth,
+   - blogposts migration existence,
+   - templaterenderoverrides migration number,
+   - canonical booking slot table name,
+   - templateinstallations structure.[file:27][file:26]
+
+==================================================
+NON-NEGOTIABLE RULES
+==================================================
+
+- Current implementation is source of truth.
+- No assumptions where code, migrations, configs, routes, docs, package manifests, or tests can be checked.
+- Thoroughness over speed.
+- No skipped tasks.
+- No hidden drift into Phase 1.
+- No placeholder architecture decisions.
+- No new WakaPage feature implementation before Phase 0 sign-off.
+- All changes must preserve WebWaka principles:
+  - Build Once Use Infinitely
+  - Mobile First
+  - PWA First
+  - Offline First
+  - Nigeria First
+  - Africa First
+  - Vendor Neutral AI
+  - Multi-tenant and white-label by design.[cite:1]
+
+==================================================
+MANDATORY WORK SEQUENCE
+==================================================
+
+Follow this order exactly.
+
+### Stage A — Verify current baseline
+Inspect the live codebase and confirm the current state of:
+- webwakaprofiles,
+- apps/api profile routes,
+- app(s) serving tenant public surfaces,
+- entitlements model,
+- event types,
+- governance checks,
+- relevant migrations,
+- template resolution pipeline,
+- booking-related tables and tools.
+
+Produce a short internal checkpoint summary before changing anything.
+
+### Stage B — Resolve blockers and architecture decisions
+Do the foundational work required for Phase 0:
+- implement or complete webwakaprofiles if still a stub,
+- refactor raw profile queries that should now use it,
+- define PageEventType,
+- define the MVP block type interfaces,
+- make the entitlement-model decision and implement the minimum required foundation for that decision,
+- update governance check coverage,
+- verify all listed ambiguities and record the exact result of each.
+
+### Stage C — Write the architecture decision record
+Create or update an ADR that locks:
+- WakaPage domain ownership,
+- package/module boundaries,
+- page/block schema direction,
+- tenant-public deprecation or coexistence path,
+- analytics event strategy,
+- entitlement architecture,
+- caching strategy,
+- migration sequencing principles.
+
+### Stage D — Prove Phase 0 readiness
+Run targeted tests, governance checks, and codebase validations.
+Then produce a final Phase 0 report and explicit go/no-go for Phase 1.
+
+==================================================
+PHASE 0 REQUIRED TASKS
+==================================================
+
+You must complete and verify each task below.
+
+## Task 0.1 — webwakaprofiles status confirmation
+- Confirm whether webwakaprofiles is still a stub.
+- If yes, implement it as a real D1-backed package with clear interfaces and tests.
+- Confirm its ownership boundary and the exact package path.
+- Document what routes/modules now depend on it.[file:27]
+
+## Task 0.2 — raw profile query consolidation
+- Find all raw D1 profile query usage in relevant routes/modules.
+- Replace only the appropriate ones with webwakaprofiles calls.
+- Do not create regressions.
+- Preserve current behavior unless a documented Phase 0 fix requires change.[file:27]
+
+## Task 0.3 — entitlement architecture decision
+- Inspect packagesentitlementsrcplan-config.ts, guards.ts, and the current model.
+- Decide and document whether WakaPage gating will use:
+  - new boolean rights in PlanConfig with corresponding guards, or
+  - a new feature-key registry design.
+- Implement only the minimal Phase 0 foundation needed to make this decision real and testable.
+- Do not scatter hardcoded plan checks into feature code.[file:27][file:26]
+
+## Task 0.4 — PageEventType foundation
+- Extend webwakaevents with the agreed WakaPage event namespace.
+- Include at minimum the event types already identified as Phase 0 foundations.
+- Ensure naming is consistent with current event conventions.[file:27]
+
+## Task 0.5 — MVP block schema types
+- Create the agreed shared package or exact agreed location for block schema primitives.
+- Define the MVP block type union and TypeScript interfaces.
+- Keep this package focused on types/contracts for Phase 0 unless the ADR requires a slightly larger minimal foundation.
+- Do not build the full renderer system yet.[file:27]
+
+## Task 0.6 — governance and CI hardening
+Review and extend all relevant governance checks, including at minimum:
+- tenant isolation,
+- rollback safety,
+- monetary integrity if any schema touches money-bearing areas,
+- NDPR-before-AI where applicable,
+- API versioning,
+- CORS,
+- dependency source checks,
+- pillar prefix rules,
+- PWA manifest implications if touched.[file:27][file:26]
+
+You must explicitly review the known 14 governance checks and state which were extended, which were unaffected, and why.[file:26]
+
+## Task 0.7 — ambiguity verification pack
+Verify and record the exact answer for:
+- Does profiles.slug exist, or must WakaPage slugs derive from another source?
+- Where is the canonical blogposts migration?
+- What is the exact migration number for templaterenderoverrides?
+- What is the canonical booking-slot table name and its owning package/module?
+- What is the structure and role of templateinstallations in the current template pipeline?[file:26]
+
+No guessing is allowed.
+
+## Task 0.8 — ADR
+Write an ADR covering:
+- WakaPage as native cross-pillar capability,
+- packages and module boundaries,
+- source-of-truth discipline,
+- tenant-public strategy,
+- entitlement strategy,
+- analytics strategy,
+- migration strategy,
+- caching strategy,
+- what to avoid.
+
+## Task 0.9 — tests and verification
+Run all targeted tests required to prove:
+- webwakaprofiles works,
+- profile route refactors are safe,
+- new event types compile and integrate,
+- block schema types compile,
+- governance checks pass,
+- no regression was introduced in touched modules.
+
+==================================================
+WHAT YOU MUST NOT DO IN PHASE 0
+==================================================
+
+Do not:
+- build page CRUD routes beyond foundation work strictly required by Phase 0,
+- build public page rendering,
+- build block renderers,
+- build builder UI,
+- build analytics dashboards,
+- build QR campaigns,
+- build lead capture flows,
+- build discovery integration features,
+- quietly start Phase 1 because Phase 0 feels clear.
+
+Stop Phase 0 at true readiness, not feature implementation.[file:27]
+
+==================================================
+REQUIRED DELIVERABLES
+==================================================
+
+Produce all of the following.
+
+## 1. Phase 0 execution summary
+A concise summary of what was checked, changed, decided, and verified.
+
+## 2. Verified findings ledger
+A table with columns:
+- Item
+- Expected issue/question
+- Verified result
+- Evidence
+- Action taken
+- Status
+
+## 3. Code change map
+List every changed file with:
+- path,
+- purpose,
+- why Phase 0 required it.
+
+## 4. ADR
+Provide the final ADR path and full summary.
+
+## 5. Governance impact report
+List:
+- all 14 governance checks reviewed,
+- which were extended,
+- why,
+- results after rerun.
+
+## 6. Test report
+List:
+- commands run,
+- tests passed,
+- failures encountered,
+- fixes applied,
+- final status.
+
+## 7. Remaining blockers
+If anything still blocks Phase 1, list it explicitly.
+
+## 8. Final verdict
+State one of:
+- PHASE 0 COMPLETE — GO TO PHASE 1
+- PHASE 0 PARTIAL — DO NOT START PHASE 1
+- PHASE 0 FAILED — BLOCKED
+
+==================================================
+ACCEPTANCE CRITERIA
+==================================================
+
+Phase 0 is complete only if all of the following are true:
+
+- BUG-P3-014 is resolved or explicitly proven already resolved.
+- Relevant raw profile-query drift has been corrected safely.
+- The entitlement architecture decision is made, documented, and minimally grounded in code.
+- PageEventType exists in current conventions.
+- MVP block schema types are defined in the agreed shared location.
+- All ambiguity checks are resolved with evidence.
+- ADR is written and clear.
+- Relevant governance checks pass.
+- Touched tests pass.
+- No Phase 1 work has been mixed into this phase.
+
+If any one of these is incomplete, do not approve Phase 0.[file:27][file:26]
+
+Begin now.
