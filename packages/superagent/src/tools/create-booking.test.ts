@@ -8,10 +8,8 @@ type MockDB = {
 };
 
 function makeMockDB(slotRow: unknown = null, contactRow: unknown = null): MockDB {
-  let callCount = 0;
   const db: MockDB = {
     prepare: vi.fn().mockImplementation((sql: string) => {
-      callCount++;
       let first: unknown = null;
       if (sql.includes('ai_schedule_slots')) first = slotRow;
       else if (sql.includes('individuals') || sql.includes('organizations')) first = contactRow;
