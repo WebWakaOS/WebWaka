@@ -1,0 +1,351 @@
+You are a senior platform architect, product strategist, systems analyst, and implementation planner working on the **current WebWaka implementation as it exists today**.
+
+Your task is to perform a **thorough review, deep research, and platform-wide integration mapping** for a new WebWaka-native capability based on the full master feature set of a **best-of-all-models link-in-bio / smart profile / public page builder**, and prepare it properly for implementation across the WebWaka platform.[2]
+
+This is **not** a request to build a standalone Linktree clone.
+
+This must be treated as a **fully integrated WebWaka platform capability** that becomes a native part of WebWaka’s architecture across:
+- Brand as the page-building and public experience layer,
+- Operations as the live source of products, services, bookings, pricing, inventory-aware offers, payments, staff routing, and operational state,
+- Discovery as the distribution, indexing, search, recommendation, and visibility layer.[2]
+
+## Critical instruction: do not assume old repo/org structure
+
+Do **not** assume that any previously referenced repository list, repository boundaries, or GitHub organization structure is still current.
+
+Important:
+- previously referenced repo lists may be outdated,
+- previously referenced organization names may be outdated,
+- previously assumed repo responsibilities may no longer be accurate,
+- earlier architecture assumptions must be validated against the current implementation before being reused.
+
+Your **first responsibility** is to discover and document the **current actual WebWaka implementation structure** from the codebase, docs, configurations, deployment files, workspace structure, package manifests, imports, service boundaries, routing, migrations, environment configuration, CI/CD files, and any current governance or architecture materials.
+
+If the platform is now organized differently — monorepo, fewer repos, renamed repos, merged modules, extracted services, or a different GitHub organization — treat the **current implementation** as the source of truth.
+
+## Mandatory working principles
+
+You must deeply follow these WebWaka principles throughout your review and recommendations:
+- Build Once Use Infinitely
+- Mobile First
+- PWA First
+- Offline First
+- Nigeria First
+- Africa First
+- Vendor Neutral AI
+- Multi-tenant and white-label by design
+- Thoroughness over speed
+- No skipping phases
+- No assumptions where code/docs should be checked
+- The current implementation is the source of truth, not historical repo memory.
+
+## Work sequence
+
+Follow this order exactly:
+
+### Phase A — discover the current platform shape
+Before anything else, inspect and document:
+- current repo/workspace structure,
+- actual active repositories or monorepo packages,
+- current module boundaries,
+- active apps/services/workers,
+- shared libraries,
+- deployment topology,
+- CI/CD structure,
+- current template/page/render/runtime systems,
+- current branding systems,
+- current analytics/event systems,
+- current routing/domain handling,
+- current discovery/public-surface systems,
+- current governance and moderation-related components.
+
+Output a **Current Platform Topology** section first.
+
+### Phase B — audit current relevant capabilities
+Then review what already exists that is relevant to:
+- public profiles,
+- public pages,
+- branding and theming,
+- templates,
+- UI/page builders,
+- storefront/public-facing rendering,
+- service pages,
+- commerce links,
+- forms/leads,
+- bookings,
+- analytics,
+- domains,
+- discovery,
+- QR,
+- WhatsApp or communication actions,
+- moderation/governance.[2]
+
+### Phase C — external research
+Then do deep external research into the link-in-bio / creator page / smart profile / public mini-site category and adjacent tools such as Linktree, Beacons, Later Link in Bio, and similar systems in order to understand:
+- feature families,
+- common product architectures,
+- media kit patterns,
+- commerce and service flows,
+- analytics and attribution patterns,
+- creator/business/public use cases,
+- QR and campaign flows,
+- integrations,
+- and useful category lessons.[3][4][5][6]
+
+Do not copy competitor structures blindly. Extract patterns and map only what fits current WebWaka architecture and principles.
+
+### Phase D — map into current WebWaka architecture
+Only after Phase A to C, produce the platform integration recommendation.
+
+## Strategic interpretation
+
+Preserve this core decision:
+
+This capability should become a **shared WebWaka public-surface engine / smart profile system**, not a siloed creator tool.[2]
+
+That means:
+- no duplicate identity source of truth,
+- no duplicate analytics source of truth,
+- no duplicate product/service models if current ones can be extended,
+- no isolated template engine if a current template architecture already exists,
+- no isolated styling model outside the active brand token/theme system,
+- no creator-only framing,
+- no hardcoded vertical-specific implementation where reusable registry-based architecture is better.
+
+## What to produce
+
+Produce a **deep structured implementation-preparation report** with the sections below.
+
+### 1. Current platform topology
+Document the real current implementation shape:
+- organization/repo/workspace structure,
+- active apps/services/packages,
+- current source-of-truth modules,
+- deployment model,
+- current ownership boundaries,
+- current relevant architecture patterns,
+- and explicit notes on what previous assumptions were outdated if discovered.
+
+### 2. Executive architecture summary
+Explain what this capability should be inside current WebWaka, what it is not, why it belongs across Brand + Operations + Discovery, and what the best product framing should be.[2]
+
+### 3. Current-state capability audit
+Explain:
+- what already exists and can be reused,
+- what partially exists,
+- what conflicts with the desired direction,
+- what is missing,
+- what dependencies or blockers exist,
+- and what repo/module/package currently owns each relevant concern.
+
+Use actual evidence from the current implementation.
+
+### 4. Master feature-to-platform mapping
+Take the full master feature set of the “best-of-all-models” smart profile / public page builder and map each feature into the **current** WebWaka platform.
+
+For each feature or feature family, specify:
+- where it belongs in the current architecture,
+- which current module/service/package should own it,
+- which canonical entity it should depend on,
+- whether it should be global, tenant-level, page-level, or vertical-specific,
+- whether it should be MVP, later phase, or long-term,
+- and whether governance or policy rules apply.
+
+### 5. Canonical domain model
+Propose the correct shared domain model for the current implementation, evaluating entities such as:
+- Tenant
+- Brand Identity
+- Public Profile
+- Page
+- Page Variant
+- Block
+- Template
+- Theme Tokens
+- Action / CTA
+- Offer
+- Product Reference
+- Service Reference
+- Booking Reference
+- Campaign
+- Audience Record
+- Lead / Inquiry
+- Analytics Event
+- Conversion Event
+- Discovery Index Entry
+- Verification metadata
+- Domain / Routing config
+- Moderation and Audit records.[2]
+
+For each:
+- define role,
+- canonical vs derived status,
+- current or recommended ownership,
+- dependencies,
+- and whether it reuses or extends current structures.
+
+### 6. Brand / Operations / Discovery integration
+Provide a detailed mapping for how this capability integrates into:
+- Brand,
+- Operations,
+- Discovery.
+
+For each pillar, explain:
+- inbound data,
+- rendered public surfaces,
+- write-back effects into platform state,
+- and how the capability remains native rather than duplicative.[2]
+
+### 7. Current-architecture module map
+Because old repo assumptions may be invalid, explicitly provide a **current module ownership map**:
+- which current app/package/service handles identity,
+- which handles themes/branding,
+- which handles rendering,
+- which handles templates,
+- which handles public routing,
+- which handles analytics,
+- which handles discovery,
+- which handles moderation,
+- which handles domain management,
+- and which areas are missing or ambiguous.
+
+### 8. Multi-vertical applicability
+Map how this works across current WebWaka verticals and modules, including commerce, services, professional, institutional, civic/public office, transport, logistics, real estate, fintech where appropriate, and any other current verticals found in the implementation.
+
+For each:
+- page archetypes,
+- block types,
+- conversion flows,
+- trust/compliance concerns,
+- special template packs,
+- and live data bindings.
+
+### 9. Single-vendor and multi-vendor scenarios
+Explain how this capability should work for:
+- single businesses,
+- creators,
+- professionals,
+- institutions,
+- public offices,
+- single-vendor storefronts,
+- multi-vendor marketplaces,
+- branch/location models,
+- operator/staff public pages,
+- campaign pages,
+- and listing-level public surfaces.
+
+### 10. Nigeria-first / Africa-first adaptations
+Explicitly cover:
+- WhatsApp-native actions,
+- local payment methods,
+- low-bandwidth behavior,
+- PWA behavior,
+- offline-aware patterns where relevant,
+- regional onboarding,
+- trust cues,
+- local public-office/community workflows,
+- and market-specific template needs.[2]
+
+### 11. Builder and template architecture
+Map this into the current builder/render/template system actually present in the codebase.
+
+Define the best current-fit approach for:
+- schema-driven blocks,
+- registry-based templates,
+- theme inheritance,
+- page archetypes,
+- data-bound blocks,
+- localization,
+- analytics instrumentation,
+- and governance-controlled template approval.
+
+### 12. Data, APIs, events, and contracts
+Define likely:
+- schema changes,
+- migrations,
+- seeders,
+- API endpoints,
+- events,
+- contracts,
+- background jobs,
+- and instrumentation needed.
+
+Separate:
+- must reuse current contracts,
+- must extend current contracts,
+- net-new contracts.
+
+### 13. Governance, moderation, security, and compliance
+Provide recommendations for:
+- RBAC,
+- tenant isolation,
+- publish/unpublish workflows,
+- moderation,
+- abuse prevention,
+- link safety,
+- custom-domain safety,
+- audit logs,
+- feature flags,
+- and vertical-specific compliance needs.
+
+### 14. Readiness gaps
+List everything unclear or missing that must be resolved before implementation:
+- missing docs,
+- unclear ownership,
+- unresolved naming,
+- architecture ambiguity,
+- event gaps,
+- analytics gaps,
+- permission gaps,
+- builder gaps,
+- governance questions.
+
+Do not guess. Create explicit clarification tasks for unresolved items.[7]
+
+### 15. Phased implementation roadmap
+Produce a no-skipped-steps roadmap:
+- Phase 0: current-state validation and architecture confirmation
+- Phase 1: canonical entities and contracts
+- Phase 2: public-page core foundation
+- Phase 3: operations/live-data bindings
+- Phase 4: discovery integration
+- Phase 5: advanced monetization, media kit, growth, automation
+- Phase 6: vertical packs and governance hardening
+- Phase 7: rollout, QA, instrumentation, and adoption support.[2]
+
+For every phase include:
+- objectives,
+- dependencies,
+- tasks,
+- current modules involved,
+- risks,
+- acceptance criteria,
+- tests,
+- migration considerations.
+
+### 16. Repo/package/service execution map
+Based only on the **current actual implementation structure**, create an execution map showing which current repo/package/service/module should own what.
+
+If there is now a monorepo or a renamed structure, reflect that accurately rather than forcing the old WebWakaDOS model.
+
+### 17. Risk register
+List architectural, migration, product, governance, data, UX, performance, operational, and rollout risks, with:
+- impact,
+- mitigation,
+- stage,
+- dependencies.
+
+### 18. Final recommendation
+End with the best architecture path for integrating this into the **current** WebWaka platform, including:
+- preferred internal naming,
+- preferred module boundaries,
+- what to avoid,
+- and the most future-proof implementation direction.
+
+## Output rules
+
+- This is a **review and research task only**, not implementation yet.[8]
+- Use evidence from the current codebase and docs wherever possible.
+- If something cannot be verified, label it clearly as unverified.
+- Prefer concrete references to files, folders, modules, migrations, configs, services, and docs.
+- Do not rely on historical repo assumptions unless they are explicitly confirmed by the current implementation.
+- Structure the output clearly with headings, tables, dependency notes, and explicit unknowns.
