@@ -930,3 +930,375 @@ describe('T47: contact_form submitLabel is JS-safe in error-recovery script', ()
     expect(html).toContain('Send \\u0026 Book Now');
   });
 });
+
+// ===========================================================================
+// Phase 3 Tests — T48–T52
+// ===========================================================================
+//
+// T48 — Suspended tenant → 503
+// T49 — WakaPageViewed analytics event is fire-and-forget (page still renders 200)
+// T50 — event_list block renders live community_events data
+// T51 — community block renders live community_spaces data
+// T52 — social_feed block renders live social_posts data
+//
+// These tests extend the existing Phase 2 mock infrastructure with new D1
+// table stubs for the Phase 3 live-data features.
+
+// ---------------------------------------------------------------------------
+// Phase 3 fixtures
+// ---------------------------------------------------------------------------
+
+const SAMPLE_COMMUNITY_EVENTS = [
+  {
+    id: 'cev_001',
+    title: 'Lagos Business Summit 2026',
+    type: 'live',
+    starts_at: Math.floor(Date.now() / 1000) + 86400 * 30,
+    ticket_price_kobo: 2500000,
+    rsvp_count: 14,
+    max_attendees: 100,
+  },
+];
+
+const SAMPLE_COMMUNITY_SPACES = [
+  {
+    id: 'cs_001',
+    name: 'Acme Members Club',
+    slug: 'acme-members',
+    description: 'Connect with fellow Acme customers.',
+    visibility: 'public',
+    member_count: 87,
+  },
+];
+
+const SAMPLE_SOCIAL_POSTS = [
+  {
+    id: 'sp_001',
+    content: 'We just launched our new service in Lagos! Come visit us today.',
+    post_type: 'post',
+    like_count: 12,
+    comment_count: 3,
+    created_at: 1700000000,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Phase 3 mock DB factory — extends the existing makeWakaDB patterns
+// ---------------------------------------------------------------------------
+
+interface Phase3WakaMockOpts extends WakaMockOpts {
+  workspaceStatus?: 'active' | 'suspended' | 'deprovisioned';
+  communityEvents?: Record<string, unknown>[];
+  communitySpaces?: Record<string, unknown>[];
+  socialPosts?: Record<string, unknown>[];
+  eventLogInsertFail?: boolean;
+}
+
+function makePhase3WakaDB(opts: Phase3WakaMockOpts = {}): D1Database {
+  const {
+    workspaceStatus = 'active',
+    communityEvents: communityEventsData = [],
+    communitySpaces: communitySpacesData = [],
+    socialPosts: socialPostsData = [],
+    eventLogInsertFail = false,
+    ...base
+  } = opts;
+
+  // Build the base mock using the existing factory
+  const baseDB = makeWakaDB(base);
+
+  function bindResult(sql: string) {
+    const lo = sql.toLowerCase();
+    return {
+      all: async <T>(): Promise<{ results: T[] }> => {
+        if (lo.includes('community_events')) return { results: communityEventsData as T[] };
+        if (lo.includes('community_spaces')) return { results: communitySpacesData as T[] };
+        if (lo.includes('social_posts')) return { results: socialPostsData as T[] };
+        // Fall through to base DB for all other ALL queries
+        const basePrepared = baseDB.prepare(sql);
+        return basePrepared.all<T>();
+      },
+      first: async <T>(): Promise<T | null> => {
+        // Workspace status check (route handler) — distinct from entitlement check which uses JOIN subscriptions
+        // Entitlement middleware query contains 'subscription_plan'; the route handler status query does not.
+        if (lo.includes('workspaces') && !lo.includes('subscription_plan') && !lo.includes('subscriptions')) {
+          return { status: workspaceStatus } as T;
+        }
+        // Fall through to base DB for all other FIRST queries
+        const basePrepared = baseDB.prepare(sql);
+        return basePrepared.first<T>();
+      },
+      run: async () => {
+        if (eventLogInsertFail && lo.includes('event_log')) {
+          throw new Error('D1 error: event_log table write failed (test)');
+        }
+        // Fall through to base DB run
+        const basePrepared = baseDB.prepare(sql);
+        return basePrepared.run() as Promise<{ success: boolean; meta: D1Meta }>;
+      },
+    };
+  }
+
+  return {
+    prepare: (sql: string) => ({
+      bind: (..._args: unknown[]) => bindResult(sql),
+      ...bindResult(sql),
+    }),
+    batch: async (stmts: D1PreparedStatement[]) =>
+      stmts.map(() => ({ success: true, results: [], meta: {} as D1Meta })),
+    exec: async (_sql: string) => ({ count: 0, duration: 0 }),
+    dump: async () => new ArrayBuffer(0),
+  } as unknown as D1Database;
+}
+
+function makePhase3WakaEnv(opts: Phase3WakaMockOpts = {}): Env {
+  return {
+    DB: makePhase3WakaDB(opts),
+    THEME_CACHE: stubKV,
+    CART_KV: stubKV,
+    JWT_SECRET: 'test-jwt-secret-min-32-chars-pad!!',
+    LOG_PII_SALT: 'test-pii-salt-min-32-chars-padding!',
+    INTER_SERVICE_SECRET: 'inter-service-test-secret-minimum32c',
+    ENVIRONMENT: 'development',
+  };
+}
+
+// ---------------------------------------------------------------------------
+// T48 — Suspended workspace returns 503
+// ---------------------------------------------------------------------------
+
+describe('T48: GET /wakapage — suspended workspace returns 503', () => {
+  it('returns 503 when workspaces.status is suspended', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      workspaceStatus: 'suspended',
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    expect(res.status).toBe(503);
+  });
+
+  it('suspended 503 HTML contains "Temporarily Unavailable"', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      workspaceStatus: 'suspended',
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('Temporarily Unavailable');
+  });
+
+  it('active workspace still returns 200 (no false positive)', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      workspaceStatus: 'active',
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T49 — WakaPageViewed analytics event is fire-and-forget
+// ---------------------------------------------------------------------------
+
+describe('T49: GET /wakapage — WakaPageViewed event emission is non-blocking', () => {
+  it('returns 200 even when event_log INSERT fails', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      eventLogInsertFail: true,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    expect(res.status).toBe(200);
+  });
+
+  it('page HTML is complete even when event_log INSERT fails', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      eventLogInsertFail: true,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('<!DOCTYPE html>');
+    expect(html).toContain('Acme Nigeria Ltd');
+  });
+
+  it('Cache-Control header uses upgraded TTL (ADR D8: s-maxage=300)', async () => {
+    const env = makePhase3WakaEnv({ org: ACME, page: PAGE });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const cc = res.headers.get('cache-control') ?? '';
+    expect(cc).toContain('s-maxage=300');
+    expect(cc).toContain('stale-while-revalidate=600');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T50 — event_list block renders live community_events data
+// ---------------------------------------------------------------------------
+
+describe('T50: event_list block — renders live community events', () => {
+  const BLOCK_EVENTS: Record<string, unknown> = {
+    id: 'blk_evt_001',
+    tenant_id: ACME.id,
+    page_id: 'wkp_page_001',
+    block_type: 'event_list',
+    sort_order: 0,
+    is_visible: 1,
+    config_json: JSON.stringify({ heading: 'Upcoming Events' }),
+    created_at: 1700000000,
+    updated_at: 1700000000,
+  };
+
+  it('renders event title from community_events table', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_EVENTS],
+      communityEvents: SAMPLE_COMMUNITY_EVENTS,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    expect(html).toContain('Lagos Business Summit 2026');
+  });
+
+  it('shows Free label for zero-kobo events', async () => {
+    const freeEvent = { ...SAMPLE_COMMUNITY_EVENTS[0], ticket_price_kobo: 0, title: 'Free Workshop' };
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_EVENTS],
+      communityEvents: [freeEvent],
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('Free');
+    expect(html).toContain('Free Workshop');
+  });
+
+  it('renders empty state when no community_events exist', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_EVENTS],
+      communityEvents: [],
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('No upcoming events scheduled');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T51 — community block renders live community_spaces data
+// ---------------------------------------------------------------------------
+
+describe('T51: community block — renders live community spaces', () => {
+  const BLOCK_COMMUNITY: Record<string, unknown> = {
+    id: 'blk_comm_001',
+    tenant_id: ACME.id,
+    page_id: 'wkp_page_001',
+    block_type: 'community',
+    sort_order: 0,
+    is_visible: 1,
+    config_json: JSON.stringify({ joinCta: 'Join Now' }),
+    created_at: 1700000000,
+    updated_at: 1700000000,
+  };
+
+  it('renders space name from community_spaces table', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_COMMUNITY],
+      communitySpaces: SAMPLE_COMMUNITY_SPACES,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    expect(html).toContain('Acme Members Club');
+  });
+
+  it('renders member count for the space', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_COMMUNITY],
+      communitySpaces: SAMPLE_COMMUNITY_SPACES,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('87');
+  });
+
+  it('renders empty state when no community_spaces exist', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_COMMUNITY],
+      communitySpaces: [],
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('coming soon');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T52 — social_feed block renders live social_posts data
+// ---------------------------------------------------------------------------
+
+describe('T52: social_feed block — renders live social posts', () => {
+  const BLOCK_FEED: Record<string, unknown> = {
+    id: 'blk_feed_001',
+    tenant_id: ACME.id,
+    page_id: 'wkp_page_001',
+    block_type: 'social_feed',
+    sort_order: 0,
+    is_visible: 1,
+    config_json: JSON.stringify({}),
+    created_at: 1700000000,
+    updated_at: 1700000000,
+  };
+
+  it('renders post content from social_posts table', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_FEED],
+      socialPosts: SAMPLE_SOCIAL_POSTS,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    expect(html).toContain('We just launched our new service in Lagos');
+  });
+
+  it('renders like count for posts', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_FEED],
+      socialPosts: SAMPLE_SOCIAL_POSTS,
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('12');
+  });
+
+  it('renders empty state when no social_posts exist', async () => {
+    const env = makePhase3WakaEnv({
+      org: ACME,
+      page: PAGE,
+      blocks: [BLOCK_FEED],
+      socialPosts: [],
+    });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(html).toContain('No posts yet');
+  });
+});

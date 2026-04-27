@@ -10,7 +10,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard',  label: 'Home',      icon: '🏠' },
   { to: '/pos',        label: 'POS',        icon: '🛒' },
   { to: '/offerings',  label: 'Offerings',  icon: '📦' },
-  { to: '/vertical',   label: 'Vertical',   icon: '🏢' },
+  { to: '/wakapage',   label: 'WakaPage',   icon: '🌐' },
   { to: '/settings',   label: 'Settings',   icon: '⚙️' },
 ];
 

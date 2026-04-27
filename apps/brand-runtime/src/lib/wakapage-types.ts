@@ -1,10 +1,16 @@
 /**
  * WakaPage public renderer — shared type contracts.
- * (Phase 2 — ADR-0041 D2)
+ * (Phase 2 — ADR-0041 D2; Phase 3 live-data additions)
  *
  * These types mirror the D1 schema columns from Phase 1 migrations
  * (0419 wakapage_pages, 0420 wakapage_blocks) and shape the render context
  * passed to every block renderer.
+ *
+ * Phase 3 additions:
+ *   - SocialPostDbRow   — from social_posts   (migration 0032)
+ *   - CommunitySpaceDbRow — from community_spaces (migration 0026)
+ *   - CommunityEventDbRow — from community_events (migration 0029)
+ *   - RenderContext extended with socialPosts, communitySpaces, communityEvents
  *
  * Platform Invariants:
  *   T3 — tenant_id present on all DB row types; never sourced from URL params
@@ -74,13 +80,59 @@ export interface BlogPostDbRow {
 }
 
 // ---------------------------------------------------------------------------
+// Phase 3 DB row types — live data for stub blocks
+// ---------------------------------------------------------------------------
+
+/**
+ * Row shape from social_posts (migration 0032).
+ * Excludes PII columns (author_id resolved separately if needed).
+ */
+export interface SocialPostDbRow {
+  id: string;
+  content: string;
+  post_type: string;
+  like_count: number;
+  comment_count: number;
+  created_at: number;
+}
+
+/**
+ * Row shape from community_spaces (migration 0026).
+ * Only public-safe columns are fetched.
+ */
+export interface CommunitySpaceDbRow {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  visibility: string;
+  member_count: number;
+}
+
+/**
+ * Row shape from community_events (migration 0029).
+ * P9: ticket_price_kobo stored as INTEGER kobo.
+ */
+export interface CommunityEventDbRow {
+  id: string;
+  title: string;
+  type: string;
+  starts_at: number;
+  ticket_price_kobo: number;
+  rsvp_count: number;
+  max_attendees: number;
+}
+
+// ---------------------------------------------------------------------------
 // Render context — passed to every block renderer function
 // ---------------------------------------------------------------------------
 
 /**
  * Context passed to all block renderer functions.
  * Bundles resolved tenant + theme data alongside pre-fetched
- * page-level data that multiple blocks may share (profile, offerings, posts).
+ * page-level data that multiple blocks may share.
+ *
+ * Phase 3: socialPosts, communitySpaces, communityEvents added for live block data.
  */
 export interface RenderContext {
   tenantId: string;
@@ -98,4 +150,10 @@ export interface RenderContext {
   offerings: OfferingDbRow[];
   /** Recent published blog posts for the blog_post block. */
   blogPosts: BlogPostDbRow[];
+  /** Recent published social posts (Phase 3 — social_feed block). */
+  socialPosts: SocialPostDbRow[];
+  /** Public community spaces for this tenant (Phase 3 — community block). */
+  communitySpaces: CommunitySpaceDbRow[];
+  /** Upcoming community events for this tenant (Phase 3 — event_list block). */
+  communityEvents: CommunityEventDbRow[];
 }

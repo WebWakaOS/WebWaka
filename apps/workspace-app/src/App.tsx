@@ -10,6 +10,7 @@ import POS from '@/pages/POS';
 import Offerings from '@/pages/Offerings';
 import VerticalView from '@/pages/VerticalView';
 import Settings from '@/pages/Settings';
+import WakaPageManager from '@/pages/WakaPage';
 import VerifyEmail from '@/pages/VerifyEmail';
 import AcceptInvite from '@/pages/AcceptInvite';
 
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="/offerings" element={<Offerings />} />
             <Route path="/offerings/new" element={<Offerings />} />
             <Route path="/vertical" element={<VerticalView />} />
+            <Route path="/wakapage" element={<WakaPageManager />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
 

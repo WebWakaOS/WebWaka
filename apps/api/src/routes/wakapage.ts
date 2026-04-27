@@ -90,6 +90,17 @@ interface BlockRow {
   updated_at: number;
 }
 
+// Phase 3 — lead row shape (from wakapage_leads, migration 0421)
+interface LeadRow {
+  id: string;
+  name: string | null;
+  phone: string | null;
+  email: string | null;
+  message: string | null;
+  status: string;
+  created_at: number;
+}
+
 // Shape returned when joining wakapage_pages + profiles for publish
 interface PublishPageRow extends WakaPageRow {
   subject_type: string | null;
@@ -852,6 +863,143 @@ wakaPageRoutes.post('/:id/publish', async (c) => {
     slug: page.slug,
     publicationState: 'published',
     publishedAt,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /wakapages — list workspace's WakaPages (Phase 3 — builder UI discovery)
+// ---------------------------------------------------------------------------
+
+wakaPageRoutes.get('/', async (c) => {
+  const auth = c.get('auth');
+  if (!auth?.tenantId || !auth.workspaceId) {
+    return c.json({ error: 'Authentication required' }, 401);
+  }
+
+  const db = c.env.DB as unknown as D1Like;
+
+  const result = await db
+    .prepare(
+      `SELECT id, slug, publication_state, title, published_at, created_at
+       FROM wakapage_pages
+       WHERE tenant_id = ? AND workspace_id = ?
+       ORDER BY created_at DESC
+       LIMIT 10`,
+    )
+    .bind(String(auth.tenantId), String(auth.workspaceId))
+    .all<{
+      id: string; slug: string; publication_state: string;
+      title: string | null; published_at: number | null; created_at: number;
+    }>();
+
+  const pages = (result.results ?? []).map(row => ({
+    id: row.id,
+    slug: row.slug,
+    publicationState: row.publication_state,
+    title: row.title,
+    publishedAt: row.published_at,
+    createdAt: row.created_at,
+  }));
+
+  return c.json({ pages });
+});
+
+// ---------------------------------------------------------------------------
+// GET /wakapages/:id/leads — paginated leads inbox (Phase 3)
+// ---------------------------------------------------------------------------
+
+wakaPageRoutes.get('/:id/leads', async (c) => {
+  const auth = c.get('auth');
+  if (!auth?.tenantId || !auth.workspaceId) {
+    return c.json({ error: 'Authentication required' }, 401);
+  }
+  if (!requireWriteRole(auth)) {
+    return c.json({ error: 'admin or super_admin role required' }, 403);
+  }
+
+  const { id: pageId } = c.req.param();
+  const limit = Math.min(100, Math.max(1, parseInt(c.req.query('limit') ?? '20', 10) || 20));
+  const offset = Math.max(0, parseInt(c.req.query('offset') ?? '0', 10) || 0);
+  const db = c.env.DB as unknown as D1Like;
+
+  // T3 — verify page belongs to this workspace
+  const page = await db
+    .prepare(
+      `SELECT id FROM wakapage_pages
+       WHERE id = ? AND tenant_id = ? AND workspace_id = ? LIMIT 1`,
+    )
+    .bind(pageId, String(auth.tenantId), String(auth.workspaceId))
+    .first<{ id: string }>();
+  if (!page) return c.json({ error: 'WakaPage not found' }, 404);
+
+  const [leadsResult, countResult] = await Promise.all([
+    db
+      .prepare(
+        `SELECT id, name, phone, email, message, status, created_at
+         FROM wakapage_leads
+         WHERE page_id = ? AND tenant_id = ?
+         ORDER BY created_at DESC
+         LIMIT ? OFFSET ?`,
+      )
+      .bind(pageId, String(auth.tenantId), limit, offset)
+      .all<LeadRow>(),
+    db
+      .prepare(
+        `SELECT COUNT(*) AS total FROM wakapage_leads
+         WHERE page_id = ? AND tenant_id = ?`,
+      )
+      .bind(pageId, String(auth.tenantId))
+      .first<{ total: number }>(),
+  ]);
+
+  return c.json({
+    leads: leadsResult.results ?? [],
+    total: countResult?.total ?? 0,
+    limit,
+    offset,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// GET /wakapages/:id/qr — QR code info for the public WakaPage URL (Phase 3)
+// ---------------------------------------------------------------------------
+
+wakaPageRoutes.get('/:id/qr', async (c) => {
+  const auth = c.get('auth');
+  if (!auth?.tenantId || !auth.workspaceId) {
+    return c.json({ error: 'Authentication required' }, 401);
+  }
+
+  const { id: pageId } = c.req.param();
+  const db = c.env.DB as unknown as D1Like;
+
+  // T3 — verify page belongs to this workspace
+  const page = await db
+    .prepare(
+      `SELECT id, slug, publication_state FROM wakapage_pages
+       WHERE id = ? AND tenant_id = ? AND workspace_id = ? LIMIT 1`,
+    )
+    .bind(pageId, String(auth.tenantId), String(auth.workspaceId))
+    .first<{ id: string; slug: string; publication_state: string }>();
+  if (!page) return c.json({ error: 'WakaPage not found' }, 404);
+
+  // Resolve the organization slug to build the brand-runtime public URL.
+  // organizations.id = tenantId (org is the canonical tenant entity).
+  const org = await db
+    .prepare(`SELECT slug FROM organizations WHERE id = ? LIMIT 1`)
+    .bind(String(auth.tenantId))
+    .first<{ slug: string | null }>();
+
+  const orgSlug = org?.slug ?? String(auth.workspaceId);
+  const publicUrl = `https://brand-${orgSlug}.webwaka.com/wakapage`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(publicUrl)}&size=300x300&format=png&margin=10`;
+
+  return c.json({
+    pageId: page.id,
+    slug: page.slug,
+    publicationState: page.publication_state,
+    publicUrl,
+    qrUrl,
   });
 });
 

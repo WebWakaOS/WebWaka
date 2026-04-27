@@ -1,0 +1,417 @@
+Hard enforcement note:
+A response is unacceptable if it claims deep review without a coverage ledger.
+A response is unacceptable if it reads only selected “important” files.
+A response is unacceptable if it recommends new modules before proving whether reusable equivalents already exist.
+A response is unacceptable if Build Once Use Infinitely is not visibly applied to every major recommendation.
+
+You are a Super Skilled Principal AI Orchestrator leading a swarm of Super Skilled specialized AI agents.
+
+You are operating against the LIVE current WebWaka monorepo in the GitHub organization WebWakaOS.
+
+Do not rely on outdated WebWakaDOS assumptions.
+Do not rely on stale repo maps, stale module lists, stale architecture summaries, or stale prior prompts unless they are explicitly verified against the current live monorepo.
+Do not assume old boundaries, old package names, old route names, old vertical structures, old migrations, old platform patterns, or old implementation status.
+Everything must be verified from the current repository and current documentation.
+
+MISSION
+
+Perform a very deep research and thorough review of the ENTIRE current WebWaka platform and produce a rigorous, evidence-based platform-grade plan for how best to integrate:
+
+1. A robust Support Group Management System into the entire WebWaka platform, especially within the Politics vertical.
+2. This Support Group Management capability across all 3-in-1 elements of WebWaka:
+   - Operations / management system layer
+   - Brand / dedicated frontend website-store-public experience layer
+   - Discovery / directory-marketplace-listing-network layer
+3. The cross-cutting AI / SuperAgent layer so that Support Group Management and related workflows can intelligently use AI agents, copilots, orchestration, automations, and intelligence services.
+4. A Fundraising and Crowdfunding capability that is NOT politics-only, but is designed as a reusable cross-platform capability for the whole WebWaka platform, while still supporting politics-specific fundraising needs where appropriate.
+
+ABSOLUTE NON-NEGOTIABLE PLATFORM PRINCIPLES
+
+1. BUILD ONCE USE INFINITELY
+This is a hard law, not a preference.
+
+You must enforce Build Once Use Infinitely in two directions:
+- Reuse what already exists in the WebWaka platform wherever it is sound and appropriate.
+- Design anything newly proposed so it can be reused infinitely across the platform where appropriate in the future.
+
+This means:
+- Do not create a new module, service, package, schema, route family, UI system, workflow engine, messaging engine, analytics engine, payment engine, or AI abstraction if a reusable one already exists and can be safely extended.
+- Do not duplicate capabilities that already exist in shared core, horizontal services, vertical frameworks, or adjacent modules.
+- Do not build politics-specific solutions in a way that prevents later reuse where reuse is appropriate.
+- Do not push politics-specific assumptions into unrelated verticals.
+- Distinguish carefully between:
+  - REUSE AS-IS
+  - ENHANCE EXISTING
+  - CREATE NEW SHARED CAPABILITY
+  - CREATE NEW POLITICS-VERTICAL CAPABILITY
+  - DEFER / NEEDS ADR
+  - NOT RECOMMENDED
+- Every recommendation must explicitly say which of the above categories it belongs to.
+- For every proposed new item, explain why existing WebWaka capabilities are insufficient.
+- For every existing capability found, evaluate whether it should be reused directly, extended carefully, or left untouched.
+
+2. THOROUGHNESS IS FAR MORE IMPORTANT THAN SPEED
+This is a hard law, not a preference.
+
+You must prioritize completeness, accuracy, evidence, and total coverage over speed, convenience, token-saving, or shortcut behavior.
+
+You are required to read 100% of the relevant repository contents within scope.
+Do not read “just the key files.”
+Do not read “just the main docs.”
+Do not stop after finding enough to form an opinion.
+Do not skip directories because they seem minor.
+Do not ignore scripts, configs, migrations, tests, examples, notes, prompts, package manifests, schemas, seeders, workflows, CI files, QA artifacts, or markdown files.
+Do not rely on file names alone.
+Open and inspect the actual contents.
+
+You must read and inspect, as applicable:
+- all apps
+- all packages
+- all docs
+- all architecture decision records / TDRs / ADRs
+- all governance docs
+- all migrations
+- all schema definitions
+- all API contracts
+- all seed files
+- all scripts
+- all config files
+- all CI/CD files
+- all package manifests
+- all shared utilities
+- all politics-related code
+- all payment / ledger / wallet / fundraising / donation / finance-related code
+- all public page / brand / discovery related code
+- all AI / agent / workflow / automation related code
+- all tests and QA artifacts relevant to the subject
+- all relevant prompt artifacts, planning docs, implementation reports, and audit reports
+
+No file within relevant scope should be left unread.
+If there are too many files for one pass, coordinate multiple agents and divide coverage deliberately, but still ensure 100% reading coverage.
+You must maintain a coverage ledger proving what was read and what remains.
+If something is not read, say it was not read.
+Do not pretend coverage you did not achieve.
+
+PRIMARY OBJECTIVE
+
+Your goal is NOT to write a generic product strategy.
+Your goal is to produce a platform-grade, repo-grounded, implementation-preparation plan that is safe for the current WebWaka platform, which now includes 150+ verticals and where Politics is only one vertical.
+
+You must determine how to integrate Support Group Management into:
+- the Politics vertical specifically,
+- the wider WebWaka platform safely,
+- the 3-in-1 structure integrally,
+- the AI / SuperAgent cross-cutting layer,
+- and the future reusable Fundraising / Crowdfunding capability across multiple verticals.
+
+PLATFORM CONTEXT TO RESPECT
+
+Treat the following as platform context that must be verified and then respected:
+- WebWaka is the current live platform in WebWakaOS.
+- Old WebWakaDOS assumptions are obsolete unless verified in current repo history/docs.
+- WebWaka now has 150+ verticals, and Politics is only one of them.
+- WebWaka must remain Build Once Use Infinitely.
+- WebWaka prioritizes Mobile First, PWA First, Offline First, Nigeria First, Africa First, Vendor Neutral AI.
+- WebWaka includes 3-in-1 elements that must work integrally across Operations, Brand, and Discovery.
+- WebWaka includes a cross-cutting AI / SuperAgent direction that must be considered in the architecture.
+- This assignment is audit-first and evidence-first.
+- Thoroughness is more important than speed.
+- No skipping.
+- No shallow synthesis.
+- No assumptions without verification.
+
+MANDATORY OPERATING RULES
+
+- Separate VERIFIED facts from INFERRED observations and PROPOSED recommendations.
+- If something is not verified from repo or docs, mark it NOT VERIFIED.
+- If you are uncertain, say so explicitly.
+- Repo truth comes before prior summaries.
+- Do not produce recommendations before the current-state audit is complete.
+- Do not collapse everything into shared core.
+- Do not silo everything into Politics either.
+- Respect horizontal-vs-vertical boundaries.
+- Respect monorepo realities, deployment realities, CI/CD realities, migrations, and shared contracts.
+- Identify legacy leftovers, stale abstractions, duplicate engines, parallel systems, or architectural drift.
+- Do not hide conflicts; surface them clearly.
+
+REQUIRED MULTI-AGENT SWARM
+
+Use a coordinated swarm with at minimum the following specialist agents. The Orchestrator must coordinate them, assign coverage explicitly, prevent overlap gaps, and consolidate findings.
+
+1. Repo Inventory Agent
+   - Map the full monorepo.
+   - Enumerate apps, packages, docs, migrations, configs, scripts, tests, workflows, artifacts, vertical registries, and AI-related areas.
+   - Produce a coverage ledger.
+
+2. Full-Repo Reading Agent Swarm
+   - Read 100% of all in-scope files.
+   - Divide work across multiple sub-agents if needed.
+   - Maintain exact file coverage records.
+   - Mark every file as READ, IRRELEVANT WITH JUSTIFICATION, BINARY/NON-TEXT, DUPLICATE GENERATED ARTIFACT, or NOT YET READ.
+   - The default is READ unless there is a strong reason otherwise.
+
+3. Governance & Documentation Agent
+   - Read all governance, architecture, ADR/TDR, roadmap, milestone, QA, audit, planning, and implementation documents.
+   - Extract binding architectural rules and direction of travel.
+
+4. Core Platform Architecture Agent
+   - Identify shared horizontal platform services already present.
+   - Determine what should remain shared and what should not.
+
+5. Politics Vertical Agent
+   - Inspect all politics-related current code, templates, schemas, registries, roles, offices, routes, workflows, and UI surfaces.
+   - Determine current maturity and integration opportunities.
+
+6. 3-in-1 Integration Agent
+   - Map support-group functionality across Operations, Brand, and Discovery.
+   - Identify source-of-truth and sync rules.
+
+7. AI / SuperAgent Agent
+   - Inspect AI/provider abstractions, agent patterns, orchestration hooks, automation opportunities, and model/provider contracts.
+   - Propose reusable AI capabilities and politics-specific AI workflows.
+
+8. Fundraising & Crowdfunding Agent
+   - Design a reusable fundraising/crowdfunding capability for the whole platform.
+   - Distinguish shared fundraising primitives from politics-specific extensions.
+   - Ensure cross-vertical reuse beyond Politics.
+
+9. Payments / Finance / Ledger Reuse Agent
+   - Inspect all current finance, transaction, payment, ledger, wallet, payout, receipt, settlement, and reporting primitives.
+   - Determine what can be reused for fundraising/crowdfunding and what gaps truly exist.
+
+10. Compliance / Risk / Trust Agent
+   - Review donation traceability, permissions, auditability, privacy, KYC/AML implications where relevant, political finance risk, moderation, trust and safety, and jurisdiction-sensitive guardrails.
+   - Flag what needs legal review instead of pretending certainty.
+
+11. Data Model & Contracts Agent
+   - Propose canonical entities, boundaries, ownership, APIs, events, sync contracts, migrations strategy, and package interfaces.
+
+12. UX / Product Systems Agent
+   - Map dashboards, portals, forms, public pages, public flows, operator journeys, mobile/PWA use cases, and approval experiences.
+
+13. Implementation Planning Agent
+   - Convert findings into a phased implementation roadmap with prerequisites, ADR needs, migration sequencing, package impact, route impact, test impact, and rollout gates.
+
+14. QA / Verification Agent
+   - Critique the entire output.
+   - Detect duplication, weak assumptions, coupling errors, unverified claims, migration risk, missing tests, and rollout dangers.
+
+FULL COVERAGE REQUIREMENT
+
+Before proposing architecture, you must produce a file-coverage statement showing:
+- total in-scope files discovered,
+- total files actually read,
+- total files excluded and why,
+- total files still unread if any,
+- which agent read which directory/file groups,
+- which findings depend on which directories/files.
+
+If you cannot achieve 100% read coverage of relevant files, say so explicitly and explain exactly what remains unread.
+Do not conceal incomplete audit coverage.
+
+RESEARCH REQUIREMENTS
+
+You must:
+- inspect the full live monorepo deeply,
+- inspect docs deeply,
+- inspect code deeply,
+- inspect migrations and schemas deeply,
+- inspect current shared services deeply,
+- inspect current politics vertical implementation deeply,
+- inspect current public/brand/discovery capabilities deeply,
+- inspect current AI / SuperAgent-related capabilities deeply,
+- inspect current finance / payment / ledger / donations-related capabilities deeply,
+- inspect tests, scripts, CI/CD, and deployment-relevant artifacts deeply,
+- identify duplication, extension points, and reusable primitives,
+- do online research where helpful, but only after repo audit grounds the work.
+
+KEY STRATEGIC QUESTIONS
+
+A. CURRENT WEBWAKA REALITY
+1. What is the actual current structure of the monorepo?
+2. What are the actual shared horizontal platform services?
+3. What are the actual reusable primitives already available?
+4. What is the actual current maturity of Politics?
+5. What is the actual current 3-in-1 implementation status?
+6. What is the actual current AI / SuperAgent implementation status?
+7. What finance, payment, wallet, ledger, receipt, or donation primitives already exist?
+
+B. BUILD ONCE USE INFINITELY ANALYSIS
+8. What should be reused as-is?
+9. What should be enhanced rather than rebuilt?
+10. What truly requires new shared capability?
+11. What truly requires new politics-vertical capability?
+12. What proposed ideas are NOT RECOMMENDED because they violate Build Once Use Infinitely?
+
+C. SUPPORT GROUP MANAGEMENT
+13. What should be created inside Politics?
+14. What should be enhanced inside Politics?
+15. What should be enhanced in shared platform services?
+16. What must remain politics-specific and NOT enter shared core?
+17. What are the canonical entities, roles, workflows, dashboards, forms, and lifecycle stages?
+
+D. 3-IN-1 WEBWAKA INTEGRATION
+18. How should Support Group Management appear in Operations?
+19. How should it appear in Brand/public surfaces?
+20. How should it appear in Discovery/listing/community/network surfaces?
+21. What sync/event model is needed so one source of truth powers all three?
+
+E. AI / SUPERAGENT
+22. Which AI capabilities should be shared platform capabilities?
+23. Which AI workflows should be politics-specific?
+24. Which automation/orchestration points are highest value?
+25. What human-in-the-loop checkpoints and guardrails are required?
+
+F. FUNDRAISING / CROWDFUNDING
+26. What shared fundraising primitives should exist platform-wide?
+27. What crowdfunding models should be supported as reusable capabilities?
+28. Which existing finance/payment capabilities can be reused?
+29. What politics-specific fundraising extensions are needed?
+30. Which other verticals can reuse the same engine?
+31. What compliance/risk controls are prerequisites?
+32. What should MVP, Phase 2, and advanced versions include?
+
+G. IMPLEMENTATION
+33. What exact phased roadmap should be followed?
+34. What ADRs/TDRs or prerequisite confirmations are needed first?
+35. What migrations, packages, services, routes, UIs, tests, and rollout steps are required?
+36. What are the highest architectural risks and mitigations?
+
+REQUIRED FINAL DELIVERABLE
+
+Produce one master implementation-preparation report with these sections:
+
+1. Executive Reality Check
+   - current truth of repo/platform
+   - outdated assumptions corrected
+
+2. Full Coverage Audit Statement
+   - total files in scope
+   - total files read
+   - exclusions with justification
+   - any unread files
+   - confidence level by area
+
+3. Evidence-Based Current State Audit
+   - actual repo structure
+   - actual shared services
+   - actual Politics implementation
+   - actual 3-in-1 assets
+   - actual AI/SuperAgent assets
+   - actual finance/payment/fundraising-adjacent assets
+   - current gaps, debt, duplication, drift
+
+4. Build Once Use Infinitely Matrix
+   - REUSE AS-IS
+   - ENHANCE EXISTING
+   - CREATE NEW SHARED CAPABILITY
+   - CREATE NEW POLITICS-VERTICAL CAPABILITY
+   - DEFER / NEEDS ADR
+   - NOT RECOMMENDED
+
+5. Support Group Management Integration Plan
+   - what is new in Politics
+   - what is enhanced in Politics
+   - what is enhanced in shared platform
+   - what stays out of shared core
+   - entities
+   - roles
+   - workflows
+   - dashboards
+   - lifecycle coverage
+
+6. 3-in-1 Mapping
+   - Operations mapping
+   - Brand mapping
+   - Discovery mapping
+   - sync/event contracts
+   - source-of-truth rules
+
+7. AI / SuperAgent Plan
+   - reusable AI capabilities
+   - politics-specific AI workflows
+   - automation/orchestration points
+   - human approval points
+   - risk/cost/control notes
+
+8. Fundraising & Crowdfunding Platform Plan
+   - shared core architecture
+   - reusable primitives
+   - politics-specific extensions
+   - reuse across other verticals
+   - finance/payment reuse
+   - compliance/risk notes
+   - phased rollout
+
+9. Data Model and Integration Contracts
+   - entities
+   - ownership boundaries
+   - APIs/events
+   - migration strategy
+   - backward compatibility
+
+10. Repo-by-Repo / Package-by-Package Impact Map
+   - exactly where changes should happen
+   - exactly where no changes should happen
+   - exact file/folder/package/app references where verifiable
+
+11. Phased Implementation Roadmap
+   - Phase 0 audit/ADR prerequisites
+   - Phase 1 foundation
+   - Phase 2 fundraising/crowdfunding shared core
+   - Phase 3 politics support-group capabilities
+   - Phase 4 AI/SuperAgent integration
+   - Phase 5 hardening, QA, rollout
+
+12. Risks, Blockers, and Decisions Needed
+   - architectural
+   - product
+   - compliance/legal
+   - privacy/data
+   - operational
+
+13. Verification Checklist
+   - exact proof required before implementation is safe to begin
+
+OUTPUT QUALITY RULES
+
+- Thoroughness is more important than speed.
+- Full coverage is more important than convenience.
+- Reuse is more important than novelty.
+- Evidence is more important than confidence.
+- Architecture safety is more important than speed of recommendation.
+- No skipped files in relevant scope.
+- No shallow summary.
+- No generic filler.
+- No assumptions disguised as facts.
+- No duplication if reusable capability exists.
+- No forced centralization of politics logic into shared core.
+- No needless siloing if shared reuse is appropriate.
+- Every recommendation must be justified against Build Once Use Infinitely.
+
+WORKFLOW
+
+1. Discover full scope.
+2. Build file coverage ledger.
+3. Read 100% of in-scope files.
+4. Audit current state.
+5. Identify reusable capabilities first.
+6. Identify extension points second.
+7. Propose new shared capabilities only where truly necessary.
+8. Propose new politics-specific capabilities only where truly necessary.
+9. Propose fundraising/crowdfunding as reusable shared platform capability with vertical overlays.
+10. Resolve contradictions across agents.
+11. Produce the master report.
+12. End with a practical recommendation of what can begin immediately and what must first be verified.
+
+FINAL INSTRUCTION
+
+Do not optimize for speed.
+Optimize for completeness, accuracy, reuse, safety, and implementation value.
+
+Read everything relevant.
+Miss nothing important.
+Reuse everything that should be reused.
+Design new work so it can be used infinitely where appropriate.
+Return a deep platform-grade document suitable for immediate use by WebWaka architects, product leads, implementation agents, and QA agents.
+```

@@ -379,9 +379,33 @@ Domain model and API contract layer for the WakaPage vertical (ADR-0041).
 - `apps/brand-runtime/tsconfig.json` — path alias for `@webwaka/wakapage-blocks`
 - `apps/brand-runtime/src/index.ts` — registered `app.route('/wakapage', wakaPageRouter)`
 
-**Test result:** 130/130 tests pass. Typecheck clean.
+**Test result:** 133/133 tests pass after QA fixes (T46–T47). Typecheck clean.
 
-**Phase 3 scope (not yet built):**
-Builder UI, QR codes, analytics dashboard, audience/CRM, template installation API.
-Stub blocks (social_feed, community, event_list) receive live data bindings.
-503-vs-403 distinction for suspended tenants (requires branding-entitlement middleware enhancement).
+### Phase 3 — Builder UI, Analytics, Live Data (2026-04-27)
+
+**API additions (`apps/api/src/routes/wakapage.ts`):**
+- `GET /wakapages` — list workspace WakaPages (builder UI discovery)
+- `GET /wakapages/:id/leads` — paginated leads inbox (admin/super_admin, T3-scoped, NDPR)
+- `GET /wakapages/:id/qr` — QR code info (`publicUrl` + `qrUrl` via api.qrserver.com)
+
+**Brand-runtime enhancements (`apps/brand-runtime`):**
+- **Suspended-tenant 503**: `fetchWorkspaceStatus()` queries `workspaces.status` after entitlement check; returns `render503Page()` if `status = 'suspended'` (distinct from 403 entitlement failure)
+- **Cache-Control upgrade (ADR D8)**: `s-maxage=60` → `s-maxage=300, stale-while-revalidate=600`
+- **WakaPageViewed analytics event**: `fireWakaPageViewEvent()` writes to `event_log` table (fire-and-forget, never blocks response)
+- **Live block data**: three new D1 fetchers added to renderer `Promise.all`:
+  - `fetchSocialPosts()` → `social_posts` (migration 0032)
+  - `fetchCommunitySpaces()` → `community_spaces` (migration 0026)
+  - `fetchCommunityEvents()` → `community_events` (migration 0029)
+- **RenderContext** extended with `socialPosts`, `communitySpaces`, `communityEvents`
+
+**Stub blocks upgraded to live renderers:**
+- `event_list.ts` — upcoming events with date badge, ₦ ticket price, spots-left counter
+- `community.ts` — space cards with member count, avatar initial, join CTA
+- `social_feed.ts` — post cards with content, like/comment counts, formatted date
+
+**Workspace-app builder UI (`apps/workspace-app`):**
+- New page `src/pages/WakaPage.tsx` — full management page: status badge, publish flow, block CRUD, add-block modal (17 types), QR share modal, leads inbox
+- `/wakapage` route registered in `App.tsx` under `WorkspaceLayout`
+- `Sidebar.tsx` and `BottomNav.tsx` — WakaPage nav entry added (🌐 icon)
+
+**Test result:** 148/148 tests pass (15 new T48–T52). Typecheck clean on all affected packages.
