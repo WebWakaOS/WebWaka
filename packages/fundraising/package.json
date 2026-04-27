@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/fundraising",
   "version": "0.1.0",
-  "description": "[Pillar 1/2/3] Shared fundraising engine — campaigns, contributions, pledges, payouts, rewards, compliance",
+  "description": "[Pillar 1+2+3] Shared fundraising engine \u2014 campaigns, contributions, pledges, payouts, rewards, compliance",
   "private": true,
   "type": "module",
   "exports": {
