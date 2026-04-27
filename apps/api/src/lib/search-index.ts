@@ -196,3 +196,81 @@ export async function removeOfferingFromIndex(db: D1Like, offeringId: string, te
     .bind(offeringId, tenantId)
     .run();
 }
+
+// ---------------------------------------------------------------------------
+// WakaPage indexing — Phase 1 (ADR-0041, Discovery integration)
+// ---------------------------------------------------------------------------
+
+interface WakaPageEntry {
+  pageId: string;
+  entityId: string;
+  entityType: 'individual' | 'organization';
+  displayName: string;
+  slug: string;
+  tenantId: TenantId;
+  placeId?: string | null;
+  publishedAt: number;
+}
+
+/**
+ * Index (or re-index) a published WakaPage in search_entries.
+ *
+ * Uses INSERT OR REPLACE with a deterministic search entry ID derived from
+ * the profile entity — this merges the WakaPage facet columns into the
+ * existing profile search entry (or creates one if not yet indexed).
+ *
+ * Called from POST /wakapages/:id/publish.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function indexWakaPage(db: D1Like, entry: WakaPageEntry): Promise<void> {
+  const ancestryPath = await getAncestryPath(db, entry.placeId);
+  const keywords = normaliseKeywords(entry.displayName);
+  const id = searchEntryId(entry.entityType, entry.entityId);
+
+  await db
+    .prepare(
+      `INSERT OR REPLACE INTO search_entries
+         (id, entity_type, entity_id, tenant_id, display_name, keywords,
+          place_id, ancestry_path, visibility,
+          wakapage_page_id, wakapage_slug, wakapage_published_at,
+          created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'public', ?, ?, ?, unixepoch(), unixepoch())`,
+    )
+    .bind(
+      id,
+      entry.entityType,
+      entry.entityId,
+      entry.tenantId,
+      entry.displayName,
+      keywords,
+      entry.placeId ?? null,
+      JSON.stringify(ancestryPath),
+      entry.pageId,
+      entry.slug,
+      entry.publishedAt,
+    )
+    .run();
+}
+
+/**
+ * Remove WakaPage facets from search_entries when a page is unpublished.
+ * Nulls the WakaPage-specific columns but keeps the base search entry intact.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function removeWakaPageFromIndex(
+  db: D1Like,
+  pageId: string,
+  tenantId: TenantId,
+): Promise<void> {
+  await db
+    .prepare(
+      `UPDATE search_entries
+       SET wakapage_page_id = NULL,
+           wakapage_slug = NULL,
+           wakapage_published_at = NULL,
+           updated_at = unixepoch()
+       WHERE wakapage_page_id = ? AND tenant_id = ?`,
+    )
+    .bind(pageId, tenantId)
+    .run();
+}

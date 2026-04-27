@@ -344,3 +344,23 @@ Deep TypeScript type-check audit across all 11 apps, all 196 packages (including
 - All monetary values remain kobo integers
 - No DB calls introduced in template render functions
 - 31/31 regulatory-verification tests still passing
+
+## WakaPage — Phase 1 (2026-04-27)
+
+Domain model and API contract layer for the WakaPage vertical (ADR-0041).
+
+### Migrations (0419–0423)
+- `0419` — `wakapage_pages` (core page entity)
+- `0420` — `wakapage_blocks` (ordered block registry, 17 MVP types)
+- `0421` — `wakapage_leads` (lead-capture submissions)
+- `0422` — `search_entries` wakapage facets (`wakapage_slug`, `wakapage_published_at`, `wakapage_display_name`)
+- `0423` — `tenant_branding.social_links` JSONB column
+
+### API Routes (`/wakapages/*`)
+- POST create, GET fetch, PATCH update, POST/PATCH/DELETE blocks, POST publish
+- Entitlement-gated (Starter+ plan), admin/super_admin write role, T3 isolation
+- Events: `WakaPageCreated`, `WakaPagePublished`, `WakaPageBlockAdded/Updated/Removed` (fire-and-forget)
+- Search indexing on publish via `indexWakaPage` in `search-index.ts`
+
+### Phase 2 scope (not yet built)
+Public renderer `/p/:slug`, builder UI, leads CRUD, QR codes, template installation API.

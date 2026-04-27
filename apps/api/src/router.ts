@@ -94,6 +94,7 @@ import { platformAdminBillingRoutes } from './routes/platform-admin-billing.js';
 import { platformAdminVerticalsRoutes } from './routes/platform-admin-verticals.js';
 import { tenantBrandingRoutes } from './routes/tenant-branding.js';
 import { profileRoutes } from './routes/profiles.js';
+import { wakaPageRoutes } from './routes/wakapage.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -916,4 +917,22 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/platform-admin/sector-licenses/*', requireRole('super_admin'));
   app.use('/platform-admin/sector-licenses/*', auditLogMiddleware);
   app.route('/platform-admin/sector-licenses', platformAdminSectorLicensesRoutes);
+
+  // -------------------------------------------------------------------------
+  // WakaPage — Phase 1 (ADR-0041)
+  //   POST   /wakapages                     — create page (admin/owner)
+  //   GET    /wakapages/:id                 — fetch page + blocks (any member)
+  //   PATCH  /wakapages/:id                 — update page metadata (admin/owner)
+  //   POST   /wakapages/:id/blocks          — add block (admin/owner)
+  //   PATCH  /wakapages/:id/blocks/:blockId — update block (admin/owner)
+  //   DELETE /wakapages/:id/blocks/:blockId — delete block (admin/owner)
+  //   POST   /wakapages/:id/publish         — publish page + index + emit event (admin/owner)
+  //
+  // Auth required on all routes (authMiddleware applied here).
+  // Entitlement (wakaPagePublicPage boolean) checked inside route handlers.
+  // -------------------------------------------------------------------------
+
+  app.use('/wakapages/*', authMiddleware);
+  app.use('/wakapages/*', auditLogMiddleware);
+  app.route('/wakapages', wakaPageRoutes);
 }
