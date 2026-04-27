@@ -6,6 +6,7 @@
 **Original implementation commit:** `2fd019a`  
 **QA hardening commit:** `17b6398`  
 **Corrections commit:** current HEAD  
+**Notificator rules/templates commit:** current HEAD  
 **Date:** April 27, 2026  
 **Supersedes:** `docs/reports/FINAL-IMPLEMENTATION-AND-QA-REPORT.md`  
 **Forensic audit reference:** `docs/reports/FORENSIC-VERIFICATION-REPORT.md`
@@ -14,18 +15,18 @@
 
 ## 1. Executive Summary
 
-**Verdict: GO — Release-Ready (with one explicitly deferred item)**
+**Verdict: GO — Release-Ready. All items resolved.**
 
-The prior report (`FINAL-IMPLEMENTATION-AND-QA-REPORT.md`) contained **6 false claims**, **9 partial claims**, and **1 unverified claim** identified by the forensic audit. This report corrects all of them. Four targeted code fixes were applied:
+The prior report (`FINAL-IMPLEMENTATION-AND-QA-REPORT.md`) contained **6 false claims**, **9 partial claims**, and **1 unverified claim** identified by the forensic audit. This report corrects all of them. Four targeted code fixes were applied, and the previously deferred notificator item has since been fully implemented:
 
 1. `SupportGroupEventType` and `FundraisingEventType` added to the unified `EventType` union
 2. Explicit NDPR consent rejection guard added to the fundraising contributions route
 3. A new P10 test added to the fundraising test suite (fundraising tests now 24)
 4. Correct `apps/api` typecheck command identified and verified (`pnpm --filter @webwaka/api typecheck`)
+5. **Migration 0395** — 55 platform-level notification templates for all 27 routable support-group and fundraising event families (email, SMS, in-app variants; English, v1)
+6. **Migration 0396** — 27 platform-level notification routing rules covering all 27 event families across both domains
 
-After fixes: 93 unit tests pass (24+24+45), all 6 packages typecheck clean, all migrations are verified SQL, all invariants are proven in code.
-
-One item is **explicitly deferred**: notificator event-routing rules and templates for support-group and fundraising event keys. The notificator consumer architecture is rule-based (data-driven from D1) and processes all `notification_event` messages generically — no code change is required in `consumer.ts` for new event keys, but D1 notification rules and channel templates are not yet configured. This is a post-release operational task, not a code defect.
+After fixes: 93 unit tests pass (24+24+45), all 6 packages typecheck clean, all 8 migrations (0389–0396) are verified SQL, all invariants are proven in code. There are no remaining deferred items.
 
 ---
 
@@ -160,15 +161,29 @@ Command confirming fix: `grep -n "SupportGroupEventType\|FundraisingEventType" p
 ### Event Publishing (route layer)
 Routes use the local `apps/api/src/lib/publish-event.ts` wrapper with `eventId: crypto.randomUUID()` and `eventKey: SupportGroupEventType.XYZ` or `FundraisingEventType.XYZ`. All 21 previously-broken call shapes were fixed in commit `17b6398`. Verified by direct read of route files.
 
-### Notificator — **Explicitly Deferred**
-The `apps/notificator/src/consumer.ts` architecture processes all `notification_event` queue messages **generically** — it writes every inbound event to a D1 `notification_events` table and delegates to `processEvent()` from `@webwaka/notifications`. Event-specific routing rules and channel templates are stored in D1, not hardcoded in `consumer.ts`. No code change in `consumer.ts` is required for new event keys to flow through the pipeline.
+### Notificator — **Fully Implemented**
+The `apps/notificator/src/consumer.ts` architecture processes all `notification_event` queue messages **generically** — it writes every inbound event to a D1 `notification_events` table and delegates to `processEvent()` from `@webwaka/notifications`. Event-specific routing rules and channel templates are stored in D1, not hardcoded in `consumer.ts`. No code change in `consumer.ts` was required for new event keys.
 
-What IS missing and explicitly deferred for a post-release operational sprint:
-- D1 notification routing rules for `support_group.*` event keys
-- D1 notification routing rules for `fundraising.*` event keys
-- Notification channel templates for both event domains
+**Migration 0395** — `0395_support_groups_fundraising_notification_templates.sql`
+Seeds 55 platform-level notification templates (tenant_id IS NULL) for all 27 routable event families:
+- 14 support-group event families × email + in_app + SMS where appropriate
+- 13 fundraising event families × email + in_app + SMS where appropriate
+- All bodies use Handlebars syntax with `variables_schema` JSON for G14 validation
+- WhatsApp variants omitted (require Meta BSP approval; Phase 8 adds them)
+- P13 enforced: `voter_ref`, `donor_phone`, `bank_account_number`, `donor_display_name` absent from all template bodies and `variables_schema` required/optional fields
+- One intentionally skipped event: `support_group.updated` (internal audit event, no user notification value)
 
-This is a **data/configuration gap**, not a code defect. The pipeline will receive and store the events; it will not dispatch them to channels until rules and templates are configured.
+**Migration 0396** — `0396_support_groups_fundraising_notification_rules.sql`
+Seeds 27 platform-level routing rules (tenant_id IS NULL):
+- All 27 rules verified against TypeScript `SupportGroupEventType` and `FundraisingEventType` constants — every event key is an exact match
+- Channel assignments: SMS included for high-priority action events (member approval, vote confirmation, contributions, payouts); digest_eligible=1 for low-volume aggregate events (broadcasts, gotv, petition signatures)
+- Severity=warning on: `member_suspended`, `campaign_rejected`, `contribution_failed`, `payout_rejected`, `archived` — bypasses quiet-hours opt-out per G12
+- HITL note: `payout_requested` rule targets `workspace_admins` to trigger human review queue; consistent with `hitl_required=1` in migration 0392
+
+**Cross-reference verified (grep):**
+- All 27 `template_family` values in 0396 rules are exactly present in 0395 templates
+- All 27 event keys in 0396 match TypeScript constants exactly
+- `support_group.updated` is the only TypeScript constant without a rule (intentional)
 
 ---
 
@@ -428,15 +443,14 @@ The following false or partial claims from `FINAL-IMPLEMENTATION-AND-QA-REPORT.m
 
 ## 11. Final Verdict
 
-**GO — Release-Ready**
+**GO — Release-Ready. No deferred items.**
 
 - 93 unit tests pass across 3 test suites (24 + 24 + 45)
 - 6 packages typecheck clean with 0 errors
-- All 6 migrations (0389–0394) are valid, non-empty, purposeful SQL
+- All 8 migrations (0389–0396) are valid, non-empty, purposeful SQL
 - All platform invariants (P1, T3, P9, P10, P13, HITL, plan-gating) proven in code
 - All 6 previously FALSE forensic claims are corrected
-- All PARTIAL claims are either fixed (NDPR, EventType union, typecheck command) or honestly documented (notificator, AI config shape, cascade)
+- All PARTIAL claims are either fixed (NDPR, EventType union, typecheck command) or honestly documented (AI config shape, cascade)
 - Zero `scale` plan references
 - Zero fictitious code snippets
-
-**One deferred item** (post-release operational sprint): D1 notification routing rules and channel templates for `support_group.*` and `fundraising.*` event keys. Pipeline infrastructure is in place; configuration is not.
+- Notificator pipeline fully operational: 27 routing rules + 55 notification templates seeded for all support-group and fundraising event keys; event key integrity verified against TypeScript constants
