@@ -67,7 +67,6 @@ import {
   addComplianceDeclaration,
   getCampaignStats,
   checkInecCap,
-  INEC_DEFAULT_CAP_KOBO,
   assertCampaignCreationAllowed,
   assertPayoutsEnabled,
   assertPledgesEnabled,
