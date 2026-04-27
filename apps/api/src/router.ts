@@ -65,6 +65,10 @@ import { negotiationRouter } from './routes/negotiation.js';
 import { partnerRoutes } from './routes/partners.js';
 import { templateRoutes } from './routes/templates.js';
 import { complianceRoutes } from './routes/compliance.js';
+import {
+  regulatoryVerificationRoutes,
+  platformAdminSectorLicensesRoutes,
+} from './routes/regulatory-verification.js';
 import { webhookRoutes } from './routes/webhooks.js';
 import { resendBounceWebhook } from './routes/resend-bounce-webhook.js';
 import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
@@ -884,4 +888,32 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // COMP-001 / ENH-039: NDPR DSAR (Data Subject Access Request) endpoints.
   // Auth enforced inside the route handler — authMiddleware applied on all routes.
   app.route('/compliance', complianceRoutes);
+
+  // -------------------------------------------------------------------------
+  // Regulatory Verification — Compliance-gated template licence submissions
+  //   POST /regulatory-verification/submit  — submit licence for review
+  //   GET  /regulatory-verification/status  — get all verifications for workspace
+  //
+  // All routes: auth required + audit log.
+  // -------------------------------------------------------------------------
+
+  app.use('/regulatory-verification/*', authMiddleware);
+  app.use('/regulatory-verification/*', auditLogMiddleware);
+  app.route('/regulatory-verification', regulatoryVerificationRoutes);
+
+  // -------------------------------------------------------------------------
+  // Platform-admin sector licence review
+  //   GET  /platform-admin/sector-licenses           — list (filterable)
+  //   GET  /platform-admin/sector-licenses/:id       — detail
+  //   POST /platform-admin/sector-licenses/:id/verify  — approve
+  //   POST /platform-admin/sector-licenses/:id/reject  — reject
+  //   POST /platform-admin/sector-licenses/:id/expire  — expire verified
+  //
+  // All routes: super_admin only.
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/sector-licenses/*', authMiddleware);
+  app.use('/platform-admin/sector-licenses/*', requireRole('super_admin'));
+  app.use('/platform-admin/sector-licenses/*', auditLogMiddleware);
+  app.route('/platform-admin/sector-licenses', platformAdminSectorLicensesRoutes);
 }

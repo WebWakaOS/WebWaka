@@ -104,6 +104,8 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tag=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const place=(ctx.data.placeName as string|null)??null;
+  const licSt=(ctx.data.sectorLicenseStatus as string|null)??'not_submitted';
+  const licNum=(ctx.data.sectorLicenseNumber as string|null)??null;
   const feat=offs.slice(0,6);
   const waHref=waLink(phone,`Hello ${esc(ctx.displayName)}, I would like to enquire about admission and hospital services.`);
   return`${CSS}
@@ -116,7 +118,7 @@ function renderHome(ctx:WebsiteRenderContext):string{
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="hs-wa-btn">${waSvg()} Enquire on WhatsApp</a>`:''}
   </div>
   <div class="hs-trust-strip">
-    <span class="hs-badge"><span class="hs-dot"></span>MDCN Licensed</span>
+    <span class="hs-badge"><span class="hs-dot"></span>${licSt==='verified'&&licNum?`MDCN · Lic. ${esc(licNum)}`:'MDCN Licensed'}</span>
     <span class="hs-badge"><span class="hs-dot"></span>NHIS Accredited</span>
     <span class="hs-badge"><span class="hs-dot"></span>HMO Panel</span>
     <span class="hs-badge"><span class="hs-dot"></span>24-Hr Emergency</span>

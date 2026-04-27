@@ -101,6 +101,8 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tag=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const place=(ctx.data.placeName as string|null)??null;
+  const licSt=(ctx.data.sectorLicenseStatus as string|null)??'not_submitted';
+  const licNum=(ctx.data.sectorLicenseNumber as string|null)??null;
   const feat=offs.slice(0,6);
   const waHref=waLink(phone,`Hello ${esc(ctx.displayName)}, I would like to book a lab test. Please advise on availability and pricing.`);
   return`${CSS}
@@ -113,7 +115,7 @@ function renderHome(ctx:WebsiteRenderContext):string{
     ${phone?`<a href="tel:${esc(phone)}" class="dl-sec-btn">${phoneSvg()} Call Now</a>`:''}
   </div>
   <div class="dl-trust-strip">
-    <span class="dl-badge"><span class="dl-dot"></span>MLSCN Accredited</span>
+    <span class="dl-badge"><span class="dl-dot"></span>${licSt==='verified'&&licNum?`MLSCN · ${esc(licNum)}`:'MLSCN Accredited'}</span>
     <span class="dl-badge"><span class="dl-dot"></span>HMO Panel</span>
     <span class="dl-badge"><span class="dl-dot"></span>Home Collection</span>
     <span class="dl-badge"><span class="dl-dot"></span>WhatsApp Results</span>
