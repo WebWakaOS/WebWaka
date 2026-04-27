@@ -110,7 +110,7 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tagline=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const portfolio=(ctx.data.portfolio??ctx.data.ministry as string|null)??null;
+  const portfolio=((ctx.data.portfolio as string|null)??((ctx.data.ministry as string|null)))??null;
   const appointedBy=(ctx.data.appointedBy as string|null)??null;
   const roleTitle=(ctx.data.roleTitle as string|null)??null;
   const displayRole=roleTitle??'Special Adviser';
@@ -147,7 +147,7 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const website=(ctx.data.website as string|null)??null;
-  const portfolio=(ctx.data.portfolio??ctx.data.ministry as string|null)??null;
+  const portfolio=((ctx.data.portfolio as string|null)??((ctx.data.ministry as string|null)))??null;
   const appointedBy=(ctx.data.appointedBy as string|null)??null;
   const roleTitle=(ctx.data.roleTitle as string|null)??null;
   const displayRole=roleTitle??'Special Adviser';
@@ -181,7 +181,7 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const mode=getMode(ctx);
   const offerings=(ctx.data.offerings??[]) as Offering[];
   const phone=(ctx.data.phone as string|null)??null;
-  const portfolio=(ctx.data.portfolio??ctx.data.ministry as string|null)??null;
+  const portfolio=((ctx.data.portfolio as string|null)??((ctx.data.ministry as string|null)))??null;
   const waHref=whatsappLink(phone,`Hello, I would like to enquire about portfolio initiatives under ${esc(ctx.displayName)}.`);
   const pageTitle=mode==='incumbent'?'Portfolio Initiatives':'Tenure Record';
   const pageSubtitle=mode==='incumbent'?`Active initiatives and engagements${portfolio?` in the ${esc(portfolio)} portfolio`:''}`:portfolio?`Record of service in the ${esc(portfolio)} portfolio`:'Record of service in this appointed role';
@@ -206,7 +206,7 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const portfolio=(ctx.data.portfolio??ctx.data.ministry as string|null)??null;
+  const portfolio=((ctx.data.portfolio as string|null)??((ctx.data.ministry as string|null)))??null;
   const roleTitle=(ctx.data.roleTitle as string|null)??null;
   const displayRole=roleTitle??'Special Adviser';
   const waHref=whatsappLink(phone,`Hello, I am contacting the office of ${mode==='incumbent'?esc(displayRole):`former ${esc(displayRole)}`} ${esc(ctx.displayName)}.`);
