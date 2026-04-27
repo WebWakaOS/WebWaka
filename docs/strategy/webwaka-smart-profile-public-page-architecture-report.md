@@ -85,7 +85,7 @@ WebWaka OS is a **single TypeScript monorepo** hosted at `github.com/WebWakaOS/W
 - `@webwaka/ai-adapters` — Concrete AI provider adapters (OpenAI-compat, Groq, OpenRouter)
 - `@webwaka/i18n` — Internationalisation helpers
 - `@webwaka/geography` — Nigerian place hierarchy (Country → Zone → State → LGA → Ward → Community)
-- `@webwaka/contact` — Contact form handling
+- `@webwaka/contact` — Multi-channel contact management: phone, WhatsApp, Telegram, email normalisation, OTP routing preference, channel verification state (M7a/M7f). **Not** the contact form template — that lives in `apps/brand-runtime/src/templates/contact.ts`.
 
 **Verticals (140+):**  
 One package per vertical niche (e.g. `@webwaka/verticals-restaurant`, `@webwaka/verticals-clinic`, `@webwaka/verticals-creator`). Each composes from shared packages (P1 invariant — Build Once Use Infinitely).
@@ -108,9 +108,13 @@ Key tables relevant to the smart profile / public page capability:
 - `workspaces` — Tenant-scoped management contexts with `workspace_id`, `tenant_id`, membership
 - `tenant_branding` — Brand tokens: `primary_color`, `secondary_color`, `accent_color`, `font_family`, `logo_url`, `favicon_url`, `border_radius_px`, `custom_domain`, `custom_domain_verified`, `custom_domain_verification_token`, `display_name`, `support_email`, `mailing_address`, `requires_attribution`, `payment_bank_account_json`
 - `offerings` — Products/services with `tenant_id`, `name`, `description`, `price_kobo`, `is_published`, `sort_order`, `category`
-- `search_entries` — FTS5-powered search index: `entity_type`, `entity_id`, `tenant_id`, `display_name`, `keywords`, `place_id`, `ancestry_path`, `visibility`
+- `search_entries` — Main search index table: `entity_type`, `entity_id`, `tenant_id`, `display_name`, `keywords`, `place_id`, `ancestry_path`, `visibility` (migration 0008)
+- `search_fts` — FTS5 virtual table (content table backed by `search_entries`) — this is the actual full-text search target; `search_entries` and `search_fts` are distinct and must both be kept in sync
 - `sector_license_verifications` — Compliance-gated vertical licence verification (migration 0416)
 - `template_audit_log` — Template governance and audit trail (migration 0414)
+- `template_render_overrides` — Per-page-type template override per tenant; step 1 of `resolveTemplate()` resolution pipeline in `apps/brand-runtime/src/lib/template-resolver.ts`. Migration M0228 (unverified — must confirm: `ls infra/db/migrations/ | grep render_overrides`).
+- `blog_posts` — Tenant blog posts (`tenant_id`, `slug`, `title`, `body`, `status`, `published_at`); queried in `apps/brand-runtime/src/routes/blog.ts` and `sitemap.ts`. No migration file confirmed via `grep blog` search — must verify before block implementation.
+- `analytics_snapshots` — Pre-aggregated analytics by `apps/projections` (migration 0242); read by `workspace-analytics.ts`. New WakaPage raw analytics should write to `page_analytics` (new table) and be projected into `analytics_snapshots` by `apps/projections`.
 
 ### 1.6 Deployment Topology
 
@@ -175,7 +179,8 @@ The user flow is: Claim your profile in Pillar 3 → Activate a workspace in Pil
 | Niche-specific page templates (200+ niches) | ✅ Full | `apps/brand-runtime/src/templates/niches/` | Extend to block-level composition |
 | Base HTML template shell (OG, PWA, SEO-02) | ✅ Full | `apps/brand-runtime/src/templates/base.ts` | Reuse as WakaPage shell |
 | Products/services catalog (offerings) | ✅ Full | `@webwaka/offerings`, `offerings` table | Data-bind to page blocks |
-| Contact form (offline-capable) | ✅ Full | `apps/brand-runtime/src/templates/contact.ts` | Convert to Contact block |
+| Contact form (offline-capable) | ✅ Full | `apps/brand-runtime/src/templates/contact.ts` (template) + `apps/brand-runtime/src/routes/branded-page.ts` (POST handler) | Convert to Contact block — **note:** `@webwaka/contact` is the channel-management package, not the form. |
+| Blog / article publishing | ✅ Full | `apps/brand-runtime/src/routes/blog.ts`, `blog_posts` table, `apps/brand-runtime/src/templates/blog-list.ts` + `blog-post.ts` | Expose as `blog_post` block type in WakaPage block registry |
 | Public discovery routing + SEO | ✅ Full | `apps/public-discovery` — geography routes, schema.org | Extend for WakaPage URLs |
 | Domain routing + custom domain verification | ✅ Full | `apps/brand-runtime` middleware, `tenant_branding.custom_domain` | Reuse as-is |
 | Claim lifecycle FSM (8-state) | ✅ Full | `@webwaka/claims/src/state-machine.ts` | The `branded` state maps to WakaPage activation |
@@ -194,7 +199,7 @@ The user flow is: Claim your profile in Pillar 3 → Activate a workspace in Pil
 | Entitlement gating | ✅ Full | `@webwaka/entitlements` | Gate WakaPage blocks by subscription tier |
 | Multi-channel notifications | ✅ Full | `apps/notificator` | WhatsApp CTAs, lead notifications |
 | B2B marketplace / negotiation | ✅ Full | `@webwaka/negotiation` | Quote request blocks on WakaPage |
-| Analytics events | ✅ Partial | `apps/api/src/routes/analytics.ts` | Need WakaPage-specific attribution events |
+| Analytics events | ✅ Partial | `apps/api/src/routes/analytics.ts` (platform-level, super_admin only) + `apps/api/src/routes/workspace-analytics.ts` (workspace-level, reads `analytics_snapshots` M0242 aggregated by `apps/projections`) | Need WakaPage-specific page-scoped events in new `page_analytics` table, projected to `analytics_snapshots` |
 
 ### 3.2 What Partially Exists
 
@@ -294,12 +299,12 @@ The following maps the full best-of-class smart profile / public page feature se
 
 | Feature | Platform Location | Module Owner | Scope | Phase |
 |---------|------------------|--------------|-------|-------|
-| Contact form (offline-capable) | `apps/brand-runtime/src/templates/contact.ts` (exists) | `apps/brand-runtime` + `@webwaka/contact` | Global | MVP (exists) |
-| Structured lead entity | New: `leads` table | New: `@webwaka/contact` extended or `@webwaka/leads` | Global | Phase 2 |
+| Contact form (offline-capable) | `apps/brand-runtime/src/templates/contact.ts` (template) + `apps/brand-runtime/src/routes/branded-page.ts` (POST) | `apps/brand-runtime` | Global | MVP (exists) |
+| Structured lead entity | New: `leads` table | New: `packages/leads` or `apps/api/src/routes/leads.ts` (new file). **Do not extend `@webwaka/contact`** — it is channel management, not lead management. | Global | Phase 2 |
 | WhatsApp click-to-chat CTA | New block type with wa.me link | `apps/brand-runtime` block | Global | MVP |
 | Email opt-in / subscriber capture | New: `audience_records` table | New capability | Global | Phase 3 |
 | Lead notifications (WhatsApp/Email/SMS) | `apps/notificator` + `@webwaka/notifications` | `apps/notificator` | Global | Phase 2 |
-| Lead source attribution | `analytics_events` + UTM params | `apps/api/src/routes/analytics.ts` extended | Global | Phase 3 |
+| Lead source attribution | UTM params on `leads.utm_source/medium/campaign` + `page_analytics` events | `apps/api/src/routes/leads.ts` (new) + `apps/api/src/routes/workspace-analytics.ts` (dashboard reads from `analytics_snapshots`) | Global | Phase 3 |
 
 ### 4.5 Analytics and Attribution
 
@@ -365,7 +370,7 @@ The following defines the recommended shared domain model for WakaPage as it int
 | **Block Template** | Reusable block configuration preset (niche-specific or global) | Derived from Block | New: `packages/page-blocks` | Block, TemplateRegistry |
 | **Theme Tokens** | CSS custom properties resolved per tenant | Derived from Tenant Branding | `@webwaka/white-label-theming` | TenantTheme (exists) |
 | **Action / CTA** | Clickable action on a page block (WhatsApp, Call, Book, Pay, Follow, Download) | Derived from Block | New: `packages/page-blocks` | Block |
-| **Lead / Inquiry** | Structured visitor inquiry from a Contact or CTA block | Canonical (net-new) | Extend `@webwaka/contact` or new `packages/leads` | Page, Block, Workspace |
+| **Lead / Inquiry** | Structured visitor inquiry from a Contact or CTA block | Canonical (net-new) | New: `packages/leads` or direct routes in `apps/api/src/routes/leads.ts`. **Do not extend `@webwaka/contact`** — it is the contact channel management package (OTP routing, multi-channel verification). | Page, Block, Workspace |
 | **Audience Record** | Subscriber / opt-in from a Page | Canonical (net-new) | New: `packages/audience` | Page, Lead |
 | **Campaign** | Time-limited page configuration with QR attribution, UTM tracking, expiry | Canonical (net-new) | New: `packages/campaigns` | Page, QR, Analytics |
 | **Analytics Event** | Page-scoped view, click, CTA conversion, QR scan event | Derived from existing `@webwaka/events` | `@webwaka/events` extended | Page, Block, Campaign |
@@ -462,7 +467,7 @@ Every published WakaPage must automatically produce or update a `search_entries`
 | **Rendering / Pages** | `apps/brand-runtime` | ✅ Partially implemented | Routes + niche templates exist; block composition layer missing |
 | **Templates** | `apps/brand-runtime/src/templates/niches/` + `lib/template-resolver.ts` | ✅ 200+ niche templates | Not yet block-schema-driven |
 | **Public routing** | `apps/brand-runtime` middleware (tenant-resolve, custom domain) | ✅ Fully implemented | Tenant resolution: custom domain → subdomain → slug |
-| **Analytics** | `apps/api/src/routes/analytics.ts`, `apps/api/src/routes/workspace-analytics.ts` | ⚠️ Partial | General events exist; WakaPage-specific attribution missing |
+| **Analytics** | `apps/api/src/routes/analytics.ts` (**platform-level, super_admin only** — cross-tenant aggregates) + `apps/api/src/routes/workspace-analytics.ts` (**workspace-level** — reads `analytics_snapshots` M0242 pre-aggregated by `apps/projections`) | ⚠️ Partial | WakaPage page-scoped events missing. New raw events → `page_analytics` table (new); projected to `analytics_snapshots` by `apps/projections`. |
 | **Discovery / Search** | `apps/public-discovery`, `apps/api/src/lib/search-index.ts`, `search_entries` table | ✅ Mostly implemented | FTS5, geography routes, schema.org; WakaPage not yet indexed as page entity |
 | **Moderation** | `@webwaka/social/src/moderation.ts`, `template_audit_log` | ⚠️ Partial | Content classification exists for social; not yet wired for page blocks |
 | **Domain management** | `tenant_branding.custom_domain`, DNS verification flow in `tenant-branding.ts` | ✅ Fully implemented | Custom domain + DNS TXT verification + `brand-runtime` middleware |
@@ -775,7 +780,8 @@ export type BlockType =
   | 'countdown'      // Campaign countdown timer
   | 'media_kit'      // Downloadable press pack / brand assets
   | 'trust_badges'   // Verification + sector licence badges
-  | 'social_feed';   // @webwaka/social posts feed
+  | 'social_feed'    // @webwaka/social posts feed
+  | 'blog_post';     // Recent posts from blog_posts table (existing Pillar 2 capability in apps/brand-runtime/src/routes/blog.ts)
 
 export interface Block {
   id: string;
@@ -829,6 +835,7 @@ Blocks that pull live data must not duplicate data storage. They read from exist
 | `event_list` | `@webwaka/community` events | `listEvents()` |
 | `trust_badges` | `sector_license_verifications` + `profiles.verification_state` + `claims.claim_state` | Existing D1 queries |
 | `map` | `places` table | `getPlaceById()` from `@webwaka/entities` |
+| `blog_post` | `blog_posts` table | Query last N published posts for `tenant_id` — same query pattern as `apps/brand-runtime/src/routes/blog.ts` |
 
 ### 11.6 Analytics Instrumentation
 
@@ -969,17 +976,19 @@ The existing DNS TXT verification flow in `tenant-branding.ts` is robust and mus
 
 ### 13.6 Feature Flags
 
-All new WakaPage capabilities must be gated by entitlement flags:
-- `wakapage_basic` — page creation, text/social_links/contact blocks (Starter plan)
-- `wakapage_commerce` — offerings_grid, Paystack checkout (Brand/Full Platform plan)
-- `wakapage_booking` — booking/schedule block (Brand/Full Platform plan)
-- `wakapage_analytics` — full analytics dashboard (Growth/Pro plan)
-- `wakapage_custom_domain` — custom domain mapping (paid plans)
-- `wakapage_campaign` — campaign pages with countdown/QR (Pro/Business plan)
-- `wakapage_ai_content` — AI-assisted content generation (SuperAgent tiers)
-- `wakapage_media_kit` — downloadable media kit block (Business/Enterprise plan)
+All new WakaPage capabilities must be gated by entitlement checks using `@webwaka/entitlements` — no hardcoded plan checks in feature code (T5 invariant).
 
-Use `@webwaka/entitlements` — no hardcoded plan checks in feature code (T5 invariant).
+**Critical architecture note:** The `@webwaka/entitlements` system does **not** use string-keyed feature flags. It uses `PlatformLayer` enum values and boolean rights in `PlanConfig` (`aiRights`, `brandingRights`, `delegationRights`, `sensitiveSectorRights`). Introducing WakaPage gates requires an architecture decision (Phase 0 task 4): either (a) extend `PlanConfig` in `packages/entitlements/src/plan-config.ts` with new boolean fields (e.g. `wakaPageRights: boolean`, `wakaPageAnalyticsRights: boolean`, `wakaPageCampaignRights: boolean`) and add corresponding `requireWakaPageAccess()` guard functions in `packages/entitlements/src/guards.ts`, or (b) introduce a feature-key registry as a new architectural primitive. This decision must be made before any entitlement-gated WakaPage code is written.
+
+Intended gating model (pending design decision):
+- Page creation + basic blocks → `brandingRights: true` (Starter plan and above)
+- Offerings catalog + checkout → `PlatformLayer.Commerce` (Growth and above)
+- Booking/schedule block → `PlatformLayer.Operational` (Starter and above)
+- WakaPage analytics dashboard → new flag/right (Growth/Pro and above)
+- Custom domain mapping → existing `brandingRights: true` (Starter and above — already implemented)
+- Campaign pages with countdown/QR → new flag/right (Pro/Business and above)
+- AI-assisted content generation → `aiRights: true` (Growth and above — already implemented)
+- Media kit block → new flag/right (Business/Enterprise and above)
 
 ### 13.7 Vertical-Specific Compliance
 
@@ -1054,10 +1063,10 @@ The following are explicit blockers and open questions that **must be resolved b
 1. Resolve BUG-P3-014: implement `@webwaka/profiles` as a real D1-backed service package
 2. Deprecate raw D1 profile queries in `apps/api/src/routes/profiles.ts` and `apps/tenant-public` — replace with `@webwaka/profiles` calls
 3. Write ADR: WakaPage architecture (Page entity ownership, block schema design, `tenant-public` retirement plan, edge caching strategy)
-4. Define `wakapage_*` entitlement flags in `@webwaka/entitlements`
+4. **Entitlement gating design decision (architecture decision, not config task):** Decide whether to extend `PlanConfig` in `packages/entitlements/src/plan-config.ts` with new boolean fields (`wakaPageRights`, `wakaPageAnalyticsRights`, `wakaPageCampaignRights`, `wakaPageMediaKitRights`) and add guard functions in `guards.ts`, or introduce a feature-key registry. No WakaPage entitlement-gated code may be written until this decision is made and documented.
 5. Add `PageEventType` constants to `@webwaka/events/src/event-types.ts`
 6. Define MVP block type list and TypeScript interfaces in `packages/page-blocks/src/types.ts`
-7. Extend CI governance checks to cover new tables (tenant isolation, monetary integrity)
+7. Extend CI governance checks to cover new WakaPage tables and modules. All 14 existing checks must be reviewed: `check-tenant-isolation.ts`, `check-monetary-integrity.ts`, `check-geography-integrity.ts`, `check-ndpr-before-ai.ts`, `check-vertical-registry.ts`, `check-pwa-manifest.ts`, `check-webhook-signing.ts`, `check-rollback-scripts.ts`, `check-dependency-sources.ts`, `check-api-versioning.ts`, `check-pillar-prefix.ts`, `check-adl-002.ts`, `check-ai-direct-calls.ts`, `check-cors.ts`. At minimum, `check-tenant-isolation.ts`, `check-monetary-integrity.ts`, and `check-rollback-scripts.ts` will need extension for new tables.
 
 **Modules involved:** `@webwaka/profiles`, `@webwaka/entitlements`, `@webwaka/events`, new `packages/page-blocks`  
 **Risks:** BUG-P3-014 fix may surface hidden dependencies on raw D1 query patterns  
@@ -1180,9 +1189,9 @@ The following are explicit blockers and open questions that **must be resolved b
 3. Content moderation: classify all text blocks on publish via `classifyContent()`; flag if any block content is classified as harmful
 4. Abuse reporting: `abuse_reports` table + platform admin review queue
 5. Link safety: blocklist validation for all outbound URLs in CTA and social link blocks
-6. NDPR audit: all new tables with PII columns (`leads`, `audience_records`) included in NDPR Article 30 export via `@webwaka/superagent/src/ndpr-register.ts`
+6. NDPR audit — two distinct obligations: (a) **AI processing register** — if any new WakaPage AI tools process visitor data, register them in `@webwaka/superagent/src/ndpr-register.ts` (this is specifically the AI processing activity register per NDPR Article 30 for AI tools — **not** a general PII table register); (b) **Data subject rights for `leads` and `audience_records`** — implement access, deletion, and portability flows via `apps/api/src/routes/data-subject-rights.ts` or equivalent NDPR subject-rights route. These are two separate NDPR obligations and must not be conflated.
 7. Sector licence badge rendering: extend trust_badges block with `sector_license_verifications` integration for all 7 gated verticals
-8. Entitlement enforcement audit: verify all `wakapage_*` flags are checked consistently across all routes
+8. Entitlement enforcement audit: verify WakaPage entitlement checks (via the mechanism decided in Phase 0 task 4) are applied consistently across all new routes
 
 **Modules involved:** `apps/brand-runtime`, `apps/platform-admin`, `@webwaka/superagent`, `@webwaka/social`, all vertical packages  
 **Risks:** 200+ template migrations must not break existing tenant sites  
