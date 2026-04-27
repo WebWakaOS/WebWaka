@@ -182,20 +182,19 @@ class MockDb {
   prepare(sql: string) {
     // Each prepare() captures its own SQL in a closure
     const capturedSql = sql;
-    const self = this;
 
     return {
-      bind(...values: unknown[]): BoundStatement {
+      bind: (...values: unknown[]): BoundStatement => {
         const capturedBinds = values;
         return {
-          async run() {
-            return self.exec(capturedSql, capturedBinds);
+          run: async (): Promise<{ success: boolean; meta?: { changes?: number } }> => {
+            return Promise.resolve(this.exec(capturedSql, capturedBinds));
           },
-          async first<T = MockRow>(): Promise<T | null> {
-            return self.query<T>(capturedSql, capturedBinds, true) as T | null;
+          first: async <T = MockRow>(): Promise<T | null> => {
+            return Promise.resolve(this.query<T>(capturedSql, capturedBinds, true) as T | null);
           },
-          async all<T = MockRow>(): Promise<{ results: T[] }> {
-            return { results: self.query<T>(capturedSql, capturedBinds, false) as T[] };
+          all: async <T = MockRow>(): Promise<{ results: T[] }> => {
+            return Promise.resolve({ results: this.query<T>(capturedSql, capturedBinds, false) as T[] });
           },
         };
       },
@@ -356,7 +355,7 @@ describe('SessionService', () => {
       // System prompt: 100 chars → ~25 tokens
       // Each user/assistant message: 100 chars → ~25 tokens each
       const msgs = Array.from({ length: 10 }, (_, i) => ({
-        role: (i % 2 === 0 ? 'user' : 'assistant') as 'user' | 'assistant',
+        role: i % 2 === 0 ? ('user' as const) : ('assistant' as const),
         content: 'X'.repeat(100),
       }));
 
