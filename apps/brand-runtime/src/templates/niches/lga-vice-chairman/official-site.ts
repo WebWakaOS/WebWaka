@@ -1,12 +1,12 @@
 /**
- * LGA Vice Chairman Official Site — NF-POL-ELC variant (VN-POL-022)
+ * LGA Vice Chairman Official Site — NF-POL-ELC variant (VN-POL-023)
  * Pillar 2 — P2-lga-vice-chairman-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • SIEC joint ticket with LGA Chairman — succession protocol
- *   • Portfolio assigned by LGA Chairman (education, health, infrastructure etc.)
+ *   • SIEC election — joint ticket with LGA Chairman (~774 LGAs, one per LGA)
+ *   • Second-in-command at LGA executive level
  *   • Three modes: campaign | incumbent | post_office
- *   • Modelled on deputy-governor pattern but at LGA level
+ *   • CSS prefix: .lv-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -109,15 +109,28 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tagline=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const lga=placeName??'our LGA';
+  const lga=placeName??'the LGA';
   const party=(ctx.data.party as string|null)??null;
-  const portfolio=(ctx.data.portfolio as string|null)??null;
-  const waMsg=mode==='campaign'?`Hello, I would like to support the LGA Vice Chairman campaign of ${esc(ctx.displayName)}.`:`Hello, I am contacting the office of ${mode==='incumbent'?'Vice Chairman':'former Vice Chairman'} ${esc(ctx.displayName)}, ${esc(lga)} LGA.`;
+  const chairmanName=(ctx.data.chairmanName as string|null)??null;
+  const siecRef=(ctx.data.siecCertRef as string|null)??null;
+  const waMsg=mode==='campaign'?`Hello, I want to support the Vice Chairman campaign of ${esc(ctx.displayName)} for ${esc(lga)}.`:`Hello, I would like to reach the office of Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}.`;
   const waHref=whatsappLink(phone,waMsg);
-  const trustBadges=mode==='campaign'?`<span class="lv-badge"><span class="lv-dot"></span>SIEC Joint Ticket</span>${party?`<span class="lv-badge"><span class="lv-dot"></span>${esc(party)}</span>`:''}`:mode==='incumbent'?`<span class="lv-badge"><span class="lv-dot"></span>SIEC Certificate of Return</span>${portfolio?`<span class="lv-badge"><span class="lv-dot"></span>Portfolio: ${esc(portfolio)}</span>`:''}`:`<span class="lv-badge"><span class="lv-dot"></span>Former LGA Vice Chairman</span>`;
-  const heroSubtitle=mode==='campaign'?`LGA Vice Chairman Candidate — ${esc(lga)}`:mode==='incumbent'?`Vice Chairman, ${esc(lga)} LGA`:`Former Vice Chairman, ${esc(lga)} LGA`;
-  const defaultTagline=mode==='campaign'?`Standing with our joint LGA ticket for community development and accountable governance in ${esc(lga)}.`:mode==='incumbent'?`Delivering on our LGA mandate through ${esc(portfolio??'the assigned portfolio')} and executive support for the Chairman.`:`Proud to have served the people of ${esc(lga)} LGA as Vice Chairman.`;
-  const svcLabel=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Portfolio Projects':'Legacy Record';
+  const heroSubtitle=mode==='campaign'
+    ?`LGA Vice Chairman Candidate — ${esc(lga)}${chairmanName?` (Joint ticket with ${esc(chairmanName)})`:''}`
+    :mode==='incumbent'
+    ?`LGA Vice Chairman, ${esc(lga)}`
+    :`Former LGA Vice Chairman, ${esc(lga)}`;
+  const defaultTagline=mode==='campaign'
+    ?`A joint ticket committed to delivering grassroots development, community projects, and accountable governance in ${esc(lga)}.`
+    :mode==='incumbent'
+    ?`Supporting the Chairman's administration in ${esc(lga)}: driving projects, coordinating departments, and serving every ward.`
+    :`Proud to have served the people of ${esc(lga)} as LGA Vice Chairman.`;
+  const trustBadges=mode==='campaign'
+    ?`<span class="lv-badge"><span class="lv-dot"></span>SIEC Joint Ticket</span>${party?`<span class="lv-badge"><span class="lv-dot"></span>${esc(party)}</span>`:''}`
+    :mode==='incumbent'
+    ?`<span class="lv-badge"><span class="lv-dot"></span>SIEC Certificate of Return</span><span class="lv-badge"><span class="lv-dot"></span>LGA Vice Chairman</span>`
+    :`<span class="lv-badge"><span class="lv-dot"></span>Former LGA Vice Chairman</span>${siecRef?`<span class="lv-badge"><span class="lv-dot"></span>${esc(siecRef)}</span>`:''}`;
+  const svcLabel=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'LGA Initiatives':'Tenure Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
   const grid=featured.length===0?'':`<section class="lv-section"><h2 class="lv-section-title">${esc(svcLabel)}</h2><div class="lv-grid">${featured.map(o=>`<div class="lv-card"><h3 class="lv-card-name">${esc(o.name)}</h3>${o.description?`<p class="lv-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
@@ -128,14 +141,14 @@ function renderHome(ctx:WebsiteRenderContext):string{
   <p class="lv-subtitle">${heroSubtitle}</p>
   <p class="lv-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="lv-ctas">
-    ${waHref&&mode==='campaign'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-primary-btn">${waSvg()} Join Campaign</a>`:`<a href="/services" class="lv-primary-btn">${mode==='incumbent'?'Portfolio Projects':'View Record'}</a>`}
-    <a href="/contact" class="lv-sec-btn">Contact the Office</a>
+    ${waHref&&mode==='campaign'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-primary-btn">${waSvg()} Join Campaign</a>`:`<a href="/services" class="lv-primary-btn">${mode==='incumbent'?'LGA Initiatives':'View Record'}</a>`}
+    <a href="/contact" class="lv-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact the Office'}</a>
   </div>
   <div class="lv-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="lv-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="lv-info-strip">${placeName?`<div class="lv-info-item"><span class="lv-info-label">LGA</span><span class="lv-info-value">${esc(placeName)}</span></div>`:''} ${portfolio&&mode!=='campaign'?`<div class="lv-info-item"><span class="lv-info-label">Portfolio</span><span class="lv-info-value">${esc(portfolio)}</span></div>`:''} ${phone?`<div class="lv-info-item"><span class="lv-info-label">Office</span><span class="lv-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="lv-info-item"><span class="lv-info-label">${mode==='campaign'?'Volunteer':'WhatsApp'}</span><span class="lv-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="lv-info-strip">${placeName?`<div class="lv-info-item"><span class="lv-info-label">LGA</span><span class="lv-info-value">${esc(placeName)}</span></div>`:''} ${chairmanName&&mode==='campaign'?`<div class="lv-info-item"><span class="lv-info-label">Running With</span><span class="lv-info-value">${esc(chairmanName)}</span></div>`:''} ${phone?`<div class="lv-info-item"><span class="lv-info-label">${mode==='campaign'?'Campaign':'Office'}</span><span class="lv-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="lv-info-item"><span class="lv-info-label">WhatsApp</span><span class="lv-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">${mode==='campaign'?'Join Campaign →':'Chat →'}</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -144,29 +157,35 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const portfolio=(ctx.data.portfolio as string|null)??null;
+  const chairmanName=(ctx.data.chairmanName as string|null)??null;
+  const siecRef=(ctx.data.siecCertRef as string|null)??null;
   const lga=placeName??'the LGA';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)} LGA.`);
-  const roleLabel=mode==='campaign'?`LGA Vice Chairman Candidate — ${esc(lga)}`:mode==='incumbent'?`Vice Chairman, ${esc(lga)} LGA`:`Former Vice Chairman, ${esc(lga)} LGA`;
-  const defaultDesc=mode==='campaign'?`${esc(ctx.displayName)} is running on the joint SIEC ticket for Vice Chairman of ${esc(lga)} LGA, committed to community development and accountable local governance.`:mode==='incumbent'?`${esc(ctx.displayName)} serves as Vice Chairman of ${esc(lga)} LGA, elected on a joint SIEC ticket. Responsible for the assigned portfolio and succession as First Vice Chairman.`:`${esc(ctx.displayName)} served as Vice Chairman of ${esc(lga)} LGA, delivering portfolio projects and supporting LGA administration throughout the term.`;
+  const waHref=whatsappLink(phone,`Hello, I would like to contact Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}.`);
+  const roleLabel=mode==='campaign'?`LGA Vice Chairman Candidate — ${esc(lga)}`:mode==='incumbent'?`LGA Vice Chairman, ${esc(lga)}`:`Former LGA Vice Chairman, ${esc(lga)}`;
+  const defaultDesc=mode==='campaign'
+    ?`${esc(ctx.displayName)} is the LGA Vice Chairman candidate for ${esc(lga)}, running on a joint SIEC ticket${chairmanName?` alongside Chairman candidate ${esc(chairmanName)}`:''}${party?` under ${esc(party)}`:''}. Committed to community development, ward projects, and grassroots accountability.`
+    :mode==='incumbent'
+    ?`${esc(ctx.displayName)} serves as LGA Vice Chairman of ${esc(lga)}, supporting the Chairman's administration in delivering community development, department coordination, and grassroots governance.`
+    :`${esc(ctx.displayName)} served as LGA Vice Chairman of ${esc(lga)}, contributing to local governance, community projects, and LGA department administration.`;
   return `${CSS}
 <section class="lv-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="lv-logo" />`:''}
   <h1>${esc(ctx.displayName)}</h1>
-  <span class="lv-cat-badge">${esc(roleLabel)}</span>
+  <span class="lv-cat-badge">${roleLabel}</span>
 </section>
 <div class="lv-body">
   <p class="lv-desc">${description?esc(description):defaultDesc}</p>
   <div class="lv-details">
     ${party?`<div class="lv-drow"><span class="lv-dlabel">Party</span><span class="lv-dvalue">${esc(party)}</span></div>`:''}
     ${placeName?`<div class="lv-drow"><span class="lv-dlabel">LGA</span><span class="lv-dvalue">${esc(placeName)}</span></div>`:''}
-    ${portfolio&&mode!=='campaign'?`<div class="lv-drow"><span class="lv-dlabel">Portfolio</span><span class="lv-dvalue">${esc(portfolio)}</span></div>`:''}
-    <div class="lv-drow"><span class="lv-dlabel">Election</span><span class="lv-dvalue">SIEC joint ticket with LGA Chairman</span></div>
+    ${chairmanName?`<div class="lv-drow"><span class="lv-dlabel">${mode==='campaign'?'Chairman Candidate':'LGA Chairman'}</span><span class="lv-dvalue">${esc(chairmanName)}</span></div>`:''}
+    <div class="lv-drow"><span class="lv-dlabel">Election Body</span><span class="lv-dvalue">State Independent Electoral Commission (SIEC)</span></div>
+    ${mode!=='campaign'&&siecRef?`<div class="lv-drow"><span class="lv-dlabel">SIEC Certificate</span><span class="lv-dvalue">${esc(siecRef)}</span></div>`:''}
     ${phone?`<div class="lv-drow"><span class="lv-dlabel">Phone</span><span class="lv-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
   </div>
   <div class="lv-btn-row">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a>`:''}
-    <a href="/contact" class="lv-sec-btn">Contact the Office</a>
+    <a href="/contact" class="lv-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact the Office'}</a>
   </div>
 </div>`;
 }
@@ -177,21 +196,21 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const lga=placeName??'the LGA';
-  const portfolio=(ctx.data.portfolio as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I would like to reach the office of Vice Chairman ${esc(ctx.displayName)}.`);
-  const pageTitle=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Portfolio Projects':'Legacy Record';
-  const pageSubtitle=mode==='campaign'?`LGA development agenda for ${esc(lga)} as part of the joint chairman ticket`:mode==='incumbent'?`Portfolio projects${portfolio?` in ${esc(portfolio)}`:''} under Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}`:`Portfolio achievements during the tenure of Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}`;
-  const content=offerings.length===0?`<div class="lv-empty"><p>${mode==='campaign'?'Campaign agenda coming soon.':mode==='incumbent'?'Portfolio projects being published.':'Record being compiled.'}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="lv-primary-btn" href="/contact">Contact</a>`}</div>`
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about LGA initiatives in ${esc(lga)}.`);
+  const pageTitle=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'LGA Initiatives':'Tenure Record';
+  const pageSubtitle=mode==='campaign'?`Community priorities and development plans for ${esc(lga)}`:mode==='incumbent'?`Projects and initiatives coordinated by Vice Chairman ${esc(ctx.displayName)}`:`Achievements during the tenure of Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}`;
+  const emptyMsg=mode==='campaign'?'Full campaign agenda coming soon.':mode==='incumbent'?'LGA initiatives being published.':'Record being compiled.';
+  const content=offerings.length===0?`<div class="lv-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="lv-primary-btn" href="/contact">Contact</a>`}</div>`
     :`<div class="lv-grid">${offerings.map(o=>`<div class="lv-card"><h3 class="lv-card-name">${esc(o.name)}</h3>${o.description?`<p class="lv-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="lv-svc-hero"><h1>${esc(pageTitle)}</h1><p class="lv-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="lv-cta-strip">
-  <h3>${mode==='campaign'?'Support the Ticket':'Community Liaison'}</h3>
-  <p>${mode==='campaign'?`Stand with our joint LGA ticket for ${esc(lga)}.`:`For portfolio project enquiries or community matters, reach the Vice Chairman's office.`}</p>
+  <h3>${mode==='campaign'?'Support Our Joint Ticket':'Engage the Office'}</h3>
+  <p>${mode==='campaign'?`Join our grassroots campaign for ${esc(lga)}.`:mode==='incumbent'?`For LGA project enquiries or community matters, reach the Vice Chairman's office.`:`Connect with our team.`}</p>
   <div class="lv-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="lv-sec-btn">Contact the Office</a>
+    <a href="/contact" class="lv-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact'}</a>
   </div>
 </div>`;
 }
@@ -201,35 +220,35 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const lga=placeName??'our LGA';
-  const waMsg=mode==='campaign'?`Hello, I want to support the Vice Chairman campaign of ${esc(ctx.displayName)}.`:`Hello, I am contacting the office of ${mode==='incumbent'?'Vice Chairman':'former Vice Chairman'} ${esc(ctx.displayName)}, ${esc(lga)} LGA.`;
+  const lga=placeName??'the LGA';
+  const waMsg=mode==='campaign'?`Hello, I want to volunteer for the LGA Vice Chairman campaign of ${esc(ctx.displayName)}, ${esc(lga)}.`:`Hello, I am contacting the office of LGA Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}.`;
   const waHref=whatsappLink(phone,waMsg);
   return `${CSS}
 <section class="lv-contact-hero">
-  <h1>${mode==='campaign'?'Join the Campaign':'Contact the Office'}</h1>
-  <p>${mode==='campaign'?`Support our joint ticket campaign for ${esc(lga)} LGA.`:mode==='incumbent'?`Reach the Vice Chairman's office for portfolio enquiries or community matters.`:`Contact the team of former Vice Chairman ${esc(ctx.displayName)}.`}</p>
+  <h1>${mode==='campaign'?'Join Our Campaign':'Contact the Office'}</h1>
+  <p>${mode==='campaign'?`Support the ${esc(lga)} joint LGA ticket — volunteer, attend campaign events, or reach our HQ.`:mode==='incumbent'?`Reach the office of LGA Vice Chairman ${esc(ctx.displayName)} for project enquiries, community concerns, or official liaison.`:`Contact the team of former LGA Vice Chairman ${esc(ctx.displayName)}, ${esc(lga)}.`}</p>
 </section>
-${waHref?`<div class="lv-wa-block"><p>${mode==='campaign'?'Join our campaign on WhatsApp.':'Send a WhatsApp message to our office.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a></div>`:''}
+${waHref?`<div class="lv-wa-block"><p>${mode==='campaign'?'Connect with our campaign on WhatsApp.':'Send a WhatsApp message for faster response.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="lv-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a></div>`:''}
 <div class="lv-layout">
   <div class="lv-info">
-    <h2>${mode==='incumbent'?`Vice Chairman's Office — ${esc(lga)} LGA`:'Campaign Office'}</h2>
+    <h2>${mode==='campaign'?`Campaign HQ — ${esc(lga)}`:`Vice Chairman's Office — ${esc(lga)}`}</h2>
     ${placeName?`<p><strong>LGA:</strong> ${esc(placeName)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
-    ${!phone&&!email?`<p>Office details coming soon.</p>`:''}
-    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">${mode==='campaign'?'Campaign under SIEC joint-ticket guidelines.':'Elected on SIEC joint ticket. Succession governed by LGA law.'}</p>
+    ${!phone&&!email?`<p>Contact details coming soon.</p>`:''}
+    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">${mode==='campaign'?'Campaign under SIEC regulations.':'SIEC-elected office accountable to the people of '+esc(lga)+'.'}</p>
   </div>
   <div class="lv-form-wrap">
     <h2>Send a Message</h2>
     <form class="lv-form" method="POST" action="/contact" id="lvForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="lv-fg"><label for="lv-name">Your full name</label><input id="lv-name" name="name" type="text" required autocomplete="name" class="lv-input" placeholder="e.g. Maryam Bello" /></div>
+      <div class="lv-fg"><label for="lv-name">Your full name</label><input id="lv-name" name="name" type="text" required autocomplete="name" class="lv-input" placeholder="e.g. Adaeze Nwosu" /></div>
       <div class="lv-fg"><label for="lv-phone">Phone number</label><input id="lv-phone" name="phone" type="tel" autocomplete="tel" class="lv-input" placeholder="0803 000 0000" /></div>
       <div class="lv-fg"><label for="lv-email">Email (optional)</label><input id="lv-email" name="email" type="email" class="lv-input" placeholder="you@example.com" /></div>
-      <div class="lv-fg"><label for="lv-msg">${mode==='campaign'?'How would you like to help?':'Your message'}</label><textarea id="lv-msg" name="message" required rows="4" class="lv-input lv-ta" placeholder="${mode==='campaign'?'e.g. I want to volunteer or attend a campaign event.':'e.g. I have a portfolio or community matter to discuss.'}"></textarea></div>
+      <div class="lv-fg"><label for="lv-msg">${mode==='campaign'?'How would you like to help?':'Your message or community concern'}</label><textarea id="lv-msg" name="message" required rows="4" class="lv-input lv-ta" placeholder="${mode==='campaign'?'e.g. I want to canvas wards or attend a rally.':'e.g. I have a community concern or LGA project question.'}"></textarea></div>
       <button type="submit" class="lv-submit">Send Message</button>
     </form>
-    <div id="lvSuccess" class="lv-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>Our team will respond shortly.</p></div>
+    <div id="lvSuccess" class="lv-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The Vice Chairman's team will respond shortly.</p></div>
   </div>
 </div>
 <script>(function(){var f=document.getElementById('lvForm');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);fetch('/contact',{method:'POST',body:d}).then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(){f.style.display='none';var s=document.getElementById('lvSuccess');if(s)s.style.display='block'}).catch(function(){f.submit()})})})();</script>`;

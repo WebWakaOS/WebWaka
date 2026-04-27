@@ -1,12 +1,12 @@
 /**
- * Deputy Governor Official Site — NF-POL-ELC variant (VN-POL-020)
- * Pillar 2 — P2-deputy-governor-official-site · Sprint 3
+ * Deputy Governor Official Site — NF-POL-ELC variant (VN-POL-021)
+ * Pillar 2 — P2-deputy-governor-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • INEC joint ticket with governor — Section 191 CFRN succession
- *   • Portfolio assigned by governor (education, agriculture, etc.)
- *   • Three modes: campaign | incumbent | post_office
- *   • INEC Certificate of Return (joint with governor) in incumbent + post_office
+ *   • INEC election — joint ticket with Governor; 36 Deputy Governors in Nigeria
+ *   • Elected office — three modes: campaign | incumbent | post_office
+ *   • Joint ticket framing: always linked to gubernatorial candidate/governor
+ *   • CSS prefix: .dg-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -21,7 +21,6 @@ function whatsappLink(phone:string|null,msg:string):string|null{
   const intl=d.startsWith('234')?d:d.startsWith('0')?'234'+d.slice(1):'234'+d;
   return `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
 }
-function safeHref(url:string):string{try{const p=new URL(url,'https://x');if(p.protocol==='http:'||p.protocol==='https:')return encodeURI(url);}catch{/**/}return '#'}
 
 type PoliticalMode='campaign'|'incumbent'|'post_office';
 function getMode(ctx:WebsiteRenderContext):PoliticalMode{
@@ -67,7 +66,7 @@ const CSS=`<style>
 .dg-desc{color:var(--ww-text-muted);line-height:1.9;margin-bottom:2rem;font-size:1rem}
 .dg-details{display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem}
 .dg-drow{display:flex;gap:1rem;align-items:flex-start}
-.dg-dlabel{font-size:.875rem;font-weight:700;min-width:8rem;color:var(--ww-text);flex-shrink:0}
+.dg-dlabel{font-size:.875rem;font-weight:700;min-width:9rem;color:var(--ww-text);flex-shrink:0}
 .dg-dvalue{font-size:.9375rem;color:var(--ww-text-muted)}
 .dg-dvalue a{color:var(--ww-party-primary);font-weight:600}
 .dg-btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
@@ -110,23 +109,31 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tagline=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const state=placeName??'our State';
+  const state=placeName??'the State';
   const party=(ctx.data.party as string|null)??null;
-  const portfolio=(ctx.data.portfolio as string|null)??null;
+  const governorName=(ctx.data.governorName as string|null)??null;
   const inecRef=(ctx.data.inecCertRef as string|null)??null;
-  const waMsg=mode==='campaign'?`Hello, I would like to support the campaign of ${esc(ctx.displayName)} for Deputy Governor.`:mode==='incumbent'?`Hello, I am contacting the office of Deputy Governor ${esc(ctx.displayName)}.`:`Hello, I would like to reach the team of former Deputy Governor ${esc(ctx.displayName)}.`;
+  const waMsg=mode==='campaign'?`Hello, I want to support the Deputy Governorship campaign of ${esc(ctx.displayName)}.`:`Hello, I would like to reach the office of Deputy Governor ${esc(ctx.displayName)}.`;
   const waHref=whatsappLink(phone,waMsg);
+  const heroSubtitle=mode==='campaign'
+    ?`Deputy Governorship Candidate — ${esc(state)}${governorName?` (Running with ${esc(governorName)})`:''}`
+    :mode==='incumbent'
+    ?`Deputy Governor, ${esc(state)}`
+    :`Former Deputy Governor, ${esc(state)}`;
+  const defaultTagline=mode==='campaign'
+    ?`A joint ticket committed to transforming ${esc(state)}: infrastructure, security, and inclusive governance.`
+    :mode==='incumbent'
+    ?`Serving the people of ${esc(state)} with the Governor's administration: championing development and accountability.`
+    :`Proud to have served the people of ${esc(state)} as Deputy Governor.`;
   const trustBadges=mode==='campaign'
     ?`<span class="dg-badge"><span class="dg-dot"></span>INEC Joint Ticket</span>${party?`<span class="dg-badge"><span class="dg-dot"></span>${esc(party)}</span>`:''}`
     :mode==='incumbent'
-    ?`<span class="dg-badge"><span class="dg-dot"></span>INEC Certificate of Return</span>${portfolio?`<span class="dg-badge"><span class="dg-dot"></span>Portfolio: ${esc(portfolio)}</span>`:''}`
+    ?`<span class="dg-badge"><span class="dg-dot"></span>INEC Certificate of Return</span><span class="dg-badge"><span class="dg-dot"></span>Deputy Governor</span>`
     :`<span class="dg-badge"><span class="dg-dot"></span>Former Deputy Governor</span>${inecRef?`<span class="dg-badge"><span class="dg-dot"></span>${esc(inecRef)}</span>`:''}`;
-  const heroSubtitle=mode==='campaign'?`Deputy Governor Candidate — ${esc(state)}`:mode==='incumbent'?`Deputy Governor, ${esc(state)}`:`Former Deputy Governor, ${esc(state)}`;
-  const defaultTagline=mode==='campaign'?`Standing with our gubernatorial ticket for a stronger, more prosperous ${esc(state)}.`:mode==='incumbent'?`Delivering on the state's mandate through ${esc(portfolio??'assigned portfolio')} and executive support for the Governor.`:`Proud to have served the people of ${esc(state)} as Deputy Governor.`;
-  const svcLabel=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Portfolio Projects':'Legacy Record';
+  const svcLabel=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Office Initiatives':'Legacy Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
-  const grid=featured.length===0?'':`<section class="dg-section"><h2 class="dg-section-title">${esc(svcLabel)}</h2><div class="dg-grid">${featured.map(o=>`<div class="dg-card"><h3 class="dg-card-name">${esc(o.name)}</h3>${o.description?`<p class="dg-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>${offerings.length>6?`<a href="/services" style="display:inline-block;margin-top:1.25rem;font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">View all →</a>`:''}</section>`;
+  const grid=featured.length===0?'':`<section class="dg-section"><h2 class="dg-section-title">${esc(svcLabel)}</h2><div class="dg-grid">${featured.map(o=>`<div class="dg-card"><h3 class="dg-card-name">${esc(o.name)}</h3>${o.description?`<p class="dg-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
   return `${CSS}
 <section class="dg-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="dg-logo" />`:''}
@@ -134,14 +141,14 @@ function renderHome(ctx:WebsiteRenderContext):string{
   <p class="dg-subtitle">${heroSubtitle}</p>
   <p class="dg-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="dg-ctas">
-    ${waHref&&mode==='campaign'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-primary-btn">${waSvg()} Join Campaign</a>`:`<a href="/services" class="dg-primary-btn">${mode==='incumbent'?'Portfolio Projects':'View Record'}</a>`}
-    <a href="/contact" class="dg-sec-btn">Contact the Office</a>
+    ${waHref&&mode==='campaign'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-primary-btn">${waSvg()} Join Campaign</a>`:`<a href="/services" class="dg-primary-btn">${mode==='incumbent'?'Office Initiatives':'View Record'}</a>`}
+    <a href="/contact" class="dg-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact the Office'}</a>
   </div>
   <div class="dg-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="dg-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="dg-info-strip">${placeName?`<div class="dg-info-item"><span class="dg-info-label">State</span><span class="dg-info-value">${esc(placeName)}</span></div>`:''} ${portfolio&&mode!=='campaign'?`<div class="dg-info-item"><span class="dg-info-label">Portfolio</span><span class="dg-info-value">${esc(portfolio)}</span></div>`:''} ${phone?`<div class="dg-info-item"><span class="dg-info-label">Office</span><span class="dg-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="dg-info-item"><span class="dg-info-label">${mode==='campaign'?'Volunteer':'WhatsApp'}</span><span class="dg-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="dg-info-strip">${placeName?`<div class="dg-info-item"><span class="dg-info-label">State</span><span class="dg-info-value">${esc(placeName)}</span></div>`:''} ${governorName&&mode==='campaign'?`<div class="dg-info-item"><span class="dg-info-label">Running With</span><span class="dg-info-value">${esc(governorName)}</span></div>`:''} ${phone?`<div class="dg-info-item"><span class="dg-info-label">${mode==='campaign'?'Campaign':'Office'}</span><span class="dg-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="dg-info-item"><span class="dg-info-label">${mode==='campaign'?'Volunteer':'WhatsApp'}</span><span class="dg-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">${mode==='campaign'?'Join Campaign →':'Chat →'}</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -149,34 +156,36 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const description=(ctx.data.description as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
-  const website=(ctx.data.website as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const portfolio=(ctx.data.portfolio as string|null)??null;
+  const governorName=(ctx.data.governorName as string|null)??null;
   const inecRef=(ctx.data.inecCertRef as string|null)??null;
   const state=placeName??'the State';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact the office of ${mode==='campaign'?'Deputy Governor Candidate':'Deputy Governor'} ${esc(ctx.displayName)}.`);
-  const roleLabel=mode==='campaign'?`Deputy Governor Candidate — ${esc(state)}`:mode==='incumbent'?`Deputy Governor, ${esc(state)}`:`Former Deputy Governor, ${esc(state)}`;
-  const defaultDesc=mode==='campaign'?`${esc(ctx.displayName)} is running as Deputy Governor on the joint ticket with the gubernatorial candidate for ${esc(state)}, under an INEC-filed candidacy. Section 187 CFRN mandates joint tickets for governor and deputy governor.`:mode==='incumbent'?`${esc(ctx.displayName)} serves as Deputy Governor of ${esc(state)}, elected on a joint ticket under Section 187 CFRN. Responsible for the assigned portfolio and succession under Section 191 CFRN.`:`${esc(ctx.displayName)} served as Deputy Governor of ${esc(state)}, elected on a joint INEC ticket and serving with dedication under the state administration.`;
+  const waHref=whatsappLink(phone,`Hello, I would like to contact the office of Deputy Governor ${esc(ctx.displayName)}.`);
+  const roleLabel=mode==='campaign'?`Deputy Governorship Candidate — ${esc(state)}`:mode==='incumbent'?`Deputy Governor, ${esc(state)}`:`Former Deputy Governor, ${esc(state)}`;
+  const defaultDesc=mode==='campaign'
+    ?`${esc(ctx.displayName)} is the deputy governorship candidate for ${esc(state)}, running on a joint INEC ticket${governorName?` alongside ${esc(governorName)}`:''}${party?` under the ${esc(party)} platform`:''}. Committed to shared prosperity, security, and development for all citizens.`
+    :mode==='incumbent'
+    ?`${esc(ctx.displayName)} serves as Deputy Governor of ${esc(state)}, elected on the INEC platform${governorName?` alongside Governor ${esc(governorName)}`:''}. Championing the administration's development agenda with accountability and transparency.`
+    :`${esc(ctx.displayName)} served as Deputy Governor of ${esc(state)}, contributing to governance, policy implementation, and the developmental agenda of the state administration.`;
   return `${CSS}
 <section class="dg-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="dg-logo" />`:''}
   <h1>${esc(ctx.displayName)}</h1>
-  <span class="dg-cat-badge">${esc(roleLabel)}</span>
+  <span class="dg-cat-badge">${roleLabel}</span>
 </section>
 <div class="dg-body">
   <p class="dg-desc">${description?esc(description):defaultDesc}</p>
   <div class="dg-details">
     ${party?`<div class="dg-drow"><span class="dg-dlabel">Party</span><span class="dg-dvalue">${esc(party)}</span></div>`:''}
     ${placeName?`<div class="dg-drow"><span class="dg-dlabel">State</span><span class="dg-dvalue">${esc(placeName)}</span></div>`:''}
-    ${portfolio&&mode!=='campaign'?`<div class="dg-drow"><span class="dg-dlabel">Portfolio</span><span class="dg-dvalue">${esc(portfolio)}</span></div>`:''}
-    <div class="dg-drow"><span class="dg-dlabel">Constitutional Basis</span><span class="dg-dvalue">Section 187 CFRN (Joint Ticket) / Section 191 (Succession)</span></div>
+    ${governorName?`<div class="dg-drow"><span class="dg-dlabel">${mode==='campaign'?'Governor Candidate':'Governor'}</span><span class="dg-dvalue">${esc(governorName)}</span></div>`:''}
+    <div class="dg-drow"><span class="dg-dlabel">Election Body</span><span class="dg-dvalue">Independent National Electoral Commission (INEC)</span></div>
     ${mode!=='campaign'&&inecRef?`<div class="dg-drow"><span class="dg-dlabel">INEC Certificate</span><span class="dg-dvalue">${esc(inecRef)}</span></div>`:''}
-    ${phone?`<div class="dg-drow"><span class="dg-dlabel">Office Phone</span><span class="dg-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
-    ${website?`<div class="dg-drow"><span class="dg-dlabel">Official Site</span><span class="dg-dvalue"><a href="${safeHref(website)}" target="_blank" rel="noopener noreferrer">${esc(website)} ↗</a></span></div>`:''}
+    ${phone?`<div class="dg-drow"><span class="dg-dlabel">Phone</span><span class="dg-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
   </div>
   <div class="dg-btn-row">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-wa-btn">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a>`:''}
-    <a href="/contact" class="dg-sec-btn">Contact the Office</a>
+    <a href="/contact" class="dg-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact the Office'}</a>
   </div>
 </div>`;
 }
@@ -187,22 +196,21 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const state=placeName??'the State';
-  const portfolio=(ctx.data.portfolio as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I would like to reach the office of Deputy Governor ${esc(ctx.displayName)}.`);
-  const pageTitle=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Portfolio Projects':'Legacy Record';
-  const pageSubtitle=mode==='campaign'?`Campaign priorities for ${esc(state)} as part of the joint gubernatorial ticket`:mode==='incumbent'?`Active portfolio projects${portfolio?` in ${esc(portfolio)}`:''} under Deputy Governor ${esc(ctx.displayName)}`:`Portfolio achievements and state projects during the tenure of ${esc(ctx.displayName)}`;
-  const emptyMsg=mode==='campaign'?'Campaign agenda coming soon.':mode==='incumbent'?'Portfolio projects being published.':'Record being compiled.';
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about the Deputy Governor's office initiatives in ${esc(state)}.`);
+  const pageTitle=mode==='campaign'?'Campaign Agenda':mode==='incumbent'?'Office Initiatives':'Legacy Record';
+  const pageSubtitle=mode==='campaign'?`Policy priorities and development agenda for ${esc(state)}`:mode==='incumbent'?`Initiatives and programmes from the office of Deputy Governor ${esc(ctx.displayName)}`:`Achievements from the tenure of Deputy Governor ${esc(ctx.displayName)}`;
+  const emptyMsg=mode==='campaign'?'Full campaign agenda coming soon.':mode==='incumbent'?'Office initiatives are being published.':'Record being compiled.';
   const content=offerings.length===0?`<div class="dg-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="dg-primary-btn" href="/contact">Contact</a>`}</div>`
     :`<div class="dg-grid">${offerings.map(o=>`<div class="dg-card"><h3 class="dg-card-name">${esc(o.name)}</h3>${o.description?`<p class="dg-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="dg-svc-hero"><h1>${esc(pageTitle)}</h1><p class="dg-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="dg-cta-strip">
-  <h3>${mode==='campaign'?'Support the Ticket':'Constituent Services'}</h3>
-  <p>${mode==='campaign'?`Stand with our joint ticket for a better ${esc(state)}.`:mode==='incumbent'?'For portfolio project enquiries or official matters, reach the Deputy Governor\'s office.':'For engagement with the legacy of this term, contact our team.'}</p>
+  <h3>${mode==='campaign'?'Support Our Joint Ticket':mode==='incumbent'?'Engage the Office':'Connect with Us'}</h3>
+  <p>${mode==='campaign'?`Join our campaign for a better ${esc(state)}.`:mode==='incumbent'?`For office enquiries, stakeholder engagement, or official matters, reach the Deputy Governor's office.`:`We welcome engagement on the work of this office.`}</p>
   <div class="dg-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="dg-sec-btn">Contact the Office</a>
+    <a href="/contact" class="dg-sec-btn">${mode==='campaign'?'Campaign HQ':'Contact the Office'}</a>
   </div>
 </div>`;
 }
@@ -213,31 +221,31 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const state=placeName??'the State';
-  const waMsg=mode==='campaign'?`Hello, I want to support the Deputy Governor campaign of ${esc(ctx.displayName)}.`:`Hello, I am contacting the office of ${mode==='incumbent'?'Deputy Governor':'former Deputy Governor'} ${esc(ctx.displayName)}, ${esc(state)}.`;
+  const waMsg=mode==='campaign'?`Hello, I want to volunteer for the Deputy Governorship campaign of ${esc(ctx.displayName)}, ${esc(state)}.`:`Hello, I am contacting the office of Deputy Governor ${esc(ctx.displayName)}, ${esc(state)}.`;
   const waHref=whatsappLink(phone,waMsg);
   return `${CSS}
 <section class="dg-contact-hero">
-  <h1>${mode==='campaign'?'Join the Campaign':'Contact the Office'}</h1>
-  <p>${mode==='campaign'?`Support our joint gubernatorial ticket for ${esc(state)}.`:mode==='incumbent'?`Reach the Deputy Governor's office for constituent matters, portfolio enquiries, or media.`:`Contact the team of former Deputy Governor ${esc(ctx.displayName)}.`}</p>
+  <h1>${mode==='campaign'?'Join Our Campaign':'Contact the Office'}</h1>
+  <p>${mode==='campaign'?`Support the ${esc(state)} joint gubernatorial ticket — volunteer, attend rallies, or reach our campaign HQ.`:mode==='incumbent'?`Reach the office of Deputy Governor ${esc(ctx.displayName)} for official enquiries, media, or stakeholder liaison.`:`Contact the team of former Deputy Governor ${esc(ctx.displayName)}.`}</p>
 </section>
-${waHref?`<div class="dg-wa-block"><p>${mode==='campaign'?'Join our campaign on WhatsApp.':'Send a WhatsApp message to our office.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a></div>`:''}
+${waHref?`<div class="dg-wa-block"><p>${mode==='campaign'?'Connect with our campaign on WhatsApp.':'Send a WhatsApp message to our office for faster response.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="dg-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} ${mode==='campaign'?'Volunteer on WhatsApp':'WhatsApp the Office'}</a></div>`:''}
 <div class="dg-layout">
   <div class="dg-info">
-    <h2>${mode==='incumbent'?`Office of the Deputy Governor, ${esc(state)}`:'Campaign Office'}</h2>
+    <h2>${mode==='campaign'?`Campaign HQ — ${esc(state)}`:`Deputy Governor's Office — ${esc(state)}`}</h2>
     ${placeName?`<p><strong>State:</strong> ${esc(placeName)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
     ${!phone&&!email?`<p>Contact details coming soon.</p>`:''}
-    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">${mode==='campaign'?'Campaign in compliance with INEC joint-ticket guidelines.':'Elected on joint INEC ticket per Section 187 CFRN. Succession governed by Section 191 CFRN.'}</p>
+    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">${mode==='campaign'?'Campaign under INEC regulations.':'INEC-elected office accountable to the people of '+esc(state)+'.'}</p>
   </div>
   <div class="dg-form-wrap">
     <h2>Send a Message</h2>
     <form class="dg-form" method="POST" action="/contact" id="dgForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="dg-fg"><label for="dg-name">Your full name</label><input id="dg-name" name="name" type="text" required autocomplete="name" class="dg-input" placeholder="e.g. Chioma Okonkwo" /></div>
+      <div class="dg-fg"><label for="dg-name">Your full name</label><input id="dg-name" name="name" type="text" required autocomplete="name" class="dg-input" placeholder="e.g. Chukwuemeka Obi" /></div>
       <div class="dg-fg"><label for="dg-phone">Phone number</label><input id="dg-phone" name="phone" type="tel" autocomplete="tel" class="dg-input" placeholder="0803 000 0000" /></div>
       <div class="dg-fg"><label for="dg-email">Email (optional)</label><input id="dg-email" name="email" type="email" class="dg-input" placeholder="you@example.com" /></div>
-      <div class="dg-fg"><label for="dg-msg">${mode==='campaign'?'How would you like to help?':'Your message'}</label><textarea id="dg-msg" name="message" required rows="4" class="dg-input dg-ta" placeholder="${mode==='campaign'?'e.g. I want to campaign or volunteer for the ticket.':'e.g. I have a portfolio project or constituent enquiry.'}"></textarea></div>
+      <div class="dg-fg"><label for="dg-msg">${mode==='campaign'?'How would you like to help?':'Your message or enquiry'}</label><textarea id="dg-msg" name="message" required rows="4" class="dg-input dg-ta" placeholder="${mode==='campaign'?'e.g. I want to volunteer, host a rally, or donate materials.':'e.g. I have an official enquiry or stakeholder engagement request.'}"></textarea></div>
       <button type="submit" class="dg-submit">Send Message</button>
     </form>
     <div id="dgSuccess" class="dg-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>Our team will respond shortly. Thank you.</p></div>

@@ -1,12 +1,12 @@
 /**
- * Assembly Speaker / Deputy Speaker Official Site — NF-POL-ELC standalone (VN-POL-021)
+ * Assembly Speaker Official Site — NF-POL-ELC variant (VN-POL-022)
  * Pillar 2 — P2-assembly-speaker-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • Presiding officer of State House of Assembly — elected by peers
- *   • 72 total (36 speakers + 36 deputy speakers) — high-profile state figures
- *   • Two modes: incumbent | post_office (no campaign mode — internal HOA election)
- *   • HOA administrative leadership, bill certification, procedural authority
+ *   • Speaker of State House of Assembly — elected by assembly members (SIEC supervised)
+ *   • Presides over legislative chamber; also holds LGA-level: LGA legislative council speaker
+ *   • Three modes: campaign | incumbent | post_office
+ *   • CSS prefix: .asp-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -21,13 +21,12 @@ function whatsappLink(phone:string|null,msg:string):string|null{
   const intl=d.startsWith('234')?d:d.startsWith('0')?'234'+d.slice(1):'234'+d;
   return `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
 }
-function safeHref(url:string):string{try{const p=new URL(url,'https://x');if(p.protocol==='http:'||p.protocol==='https:')return encodeURI(url);}catch{/**/}return '#'}
 
-type SpeakerMode='incumbent'|'post_office';
-function getMode(ctx:WebsiteRenderContext):SpeakerMode{
+type PoliticalMode='campaign'|'incumbent'|'post_office';
+function getMode(ctx:WebsiteRenderContext):PoliticalMode{
   const m=ctx.data?.mode as string|undefined;
-  if(m==='post_office')return 'post_office';
-  return 'incumbent';
+  if(m==='incumbent'||m==='post_office')return m;
+  return 'campaign';
 }
 
 const CSS=`<style>
@@ -110,32 +109,46 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const tagline=(ctx.data.tagline as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const state=placeName??'the State';
-  const speakerTitle=(ctx.data.speakerTitle as string|null)??'Speaker';
   const party=(ctx.data.party as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I would like to reach the office of ${mode==='incumbent'?esc(speakerTitle):`former ${esc(speakerTitle)}`} ${esc(ctx.displayName)}.`);
-  const heroSubtitle=`${mode==='incumbent'?esc(speakerTitle):`Former ${esc(speakerTitle)}`}, ${esc(state)} House of Assembly`;
-  const defaultTagline=mode==='incumbent'?`Leading the ${esc(state)} House of Assembly with parliamentary impartiality, procedural excellence, and legislative accountability.`:`Proud to have presided over the ${esc(state)} House of Assembly with honour and commitment to democratic governance.`;
-  const trustBadges=`<span class="asp-badge"><span class="asp-dot"></span>Elected by HOA Peers</span><span class="asp-badge"><span class="asp-dot"></span>Presiding Officer</span>${party?`<span class="asp-badge"><span class="asp-dot"></span>${esc(party)}</span>`:''}`;
-  const svcLabel=mode==='incumbent'?'HOA Legislative Business':'Speakership Record';
+  const assemblyName=(ctx.data.assemblyName as string|null)??null;
+  const assembly=assemblyName??'State House of Assembly';
+  const location=placeName??'the State';
+  const waMsg=mode==='campaign'?`Hello, I want to support the Speakership campaign of ${esc(ctx.displayName)}.`:`Hello, I would like to reach the office of Rt. Hon. ${esc(ctx.displayName)}, Speaker.`;
+  const waHref=whatsappLink(phone,waMsg);
+  const heroSubtitle=mode==='campaign'
+    ?`Speakership Candidate — ${esc(assembly)}`
+    :mode==='incumbent'
+    ?`Speaker, ${esc(assembly)}, ${esc(location)}`
+    :`Former Speaker, ${esc(assembly)}, ${esc(location)}`;
+  const defaultTagline=mode==='campaign'
+    ?`Seeking the Speakership mandate to lead ${esc(assembly)} with fairness, legislative excellence, and bipartisan consensus.`
+    :mode==='incumbent'
+    ?`Presiding over ${esc(assembly)} with order, impartiality, and a commitment to landmark legislation for ${esc(location)}.`
+    :`Honoured to have presided over ${esc(assembly)} — advancing legislation and upholding the rule of law.`;
+  const trustBadges=mode==='campaign'
+    ?`<span class="asp-badge"><span class="asp-dot"></span>Speakership Candidate</span>${party?`<span class="asp-badge"><span class="asp-dot"></span>${esc(party)}</span>`:''}`
+    :mode==='incumbent'
+    ?`<span class="asp-badge"><span class="asp-dot"></span>Elected Speaker</span><span class="asp-badge"><span class="asp-dot"></span>${esc(assembly)}</span>`
+    :`<span class="asp-badge"><span class="asp-dot"></span>Former Speaker</span><span class="asp-badge"><span class="asp-dot"></span>${esc(assembly)}</span>`;
+  const svcLabel=mode==='campaign'?'Legislative Agenda':mode==='incumbent'?'Assembly Bills & Resolutions':'Speakership Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
   const grid=featured.length===0?'':`<section class="asp-section"><h2 class="asp-section-title">${esc(svcLabel)}</h2><div class="asp-grid">${featured.map(o=>`<div class="asp-card"><h3 class="asp-card-name">${esc(o.name)}</h3>${o.description?`<p class="asp-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
   return `${CSS}
 <section class="asp-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="asp-logo" />`:''}
-  <h1>${esc(ctx.displayName)}</h1>
+  <h1>${mode!=='campaign'?`Rt. Hon. ${esc(ctx.displayName)}`:esc(ctx.displayName)}</h1>
   <p class="asp-subtitle">${heroSubtitle}</p>
   <p class="asp-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="asp-ctas">
-    <a href="/services" class="asp-primary-btn">${mode==='incumbent'?'HOA Business':'View Record'}</a>
-    <a href="/contact" class="asp-sec-btn">Contact the Office</a>
+    <a href="/services" class="asp-primary-btn">${mode==='campaign'?'Legislative Agenda':mode==='incumbent'?'Assembly Matters':'View Record'}</a>
+    <a href="/contact" class="asp-sec-btn">${mode==='campaign'?'Contact Campaign':'Contact the Speaker'}</a>
   </div>
   <div class="asp-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="asp-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="asp-info-strip">${placeName?`<div class="asp-info-item"><span class="asp-info-label">State</span><span class="asp-info-value">${esc(placeName)}</span></div>`:''} <div class="asp-info-item"><span class="asp-info-label">Assembly</span><span class="asp-info-value">${esc(state)} House of Assembly</span></div> ${phone?`<div class="asp-info-item"><span class="asp-info-label">Office</span><span class="asp-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="asp-info-item"><span class="asp-info-label">Enquiries</span><span class="asp-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="asp-info-strip">${placeName?`<div class="asp-info-item"><span class="asp-info-label">State</span><span class="asp-info-value">${esc(placeName)}</span></div>`:''} ${assemblyName?`<div class="asp-info-item"><span class="asp-info-label">Assembly</span><span class="asp-info-value">${esc(assemblyName)}</span></div>`:''} ${phone?`<div class="asp-info-item"><span class="asp-info-label">${mode==='campaign'?'Campaign':'Office'}</span><span class="asp-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="asp-info-item"><span class="asp-info-label">WhatsApp</span><span class="asp-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">${mode==='campaign'?'Support Campaign →':'Chat →'}</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -143,32 +156,35 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const description=(ctx.data.description as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
-  const website=(ctx.data.website as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const speakerTitle=(ctx.data.speakerTitle as string|null)??'Speaker';
-  const state=placeName??'the State';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact the office of ${esc(speakerTitle)} ${esc(ctx.displayName)}.`);
-  const roleLabel=`${mode==='incumbent'?esc(speakerTitle):`Former ${esc(speakerTitle)}`}, ${esc(state)} House of Assembly`;
-  const defaultDesc=mode==='incumbent'?`${esc(ctx.displayName)} serves as ${esc(speakerTitle)} of the ${esc(state)} State House of Assembly, elected by fellow members to preside over HOA sittings, certify bills, and ensure parliamentary order.`:`${esc(ctx.displayName)} served as ${esc(speakerTitle)} of the ${esc(state)} State House of Assembly, presiding over legislative sessions and certifying state bills with distinction.`;
+  const assemblyName=(ctx.data.assemblyName as string|null)??null;
+  const assembly=assemblyName??'State House of Assembly';
+  const location=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact the office of Rt. Hon. ${esc(ctx.displayName)}, Speaker.`);
+  const roleLabel=mode==='campaign'?`Speakership Candidate, ${esc(assembly)}`:mode==='incumbent'?`Speaker, ${esc(assembly)}`:`Former Speaker, ${esc(assembly)}`;
+  const defaultDesc=mode==='campaign'
+    ?`${esc(ctx.displayName)} is seeking the Speakership of ${esc(assembly)}, pledging fair presiding of sessions, robust legislative output, and cross-party collaboration for the benefit of ${esc(location)}.`
+    :mode==='incumbent'
+    ?`Rt. Hon. ${esc(ctx.displayName)} presides over ${esc(assembly)} as Speaker, ensuring orderly legislative proceedings, fair representation of members, and passage of impactful laws for ${esc(location)}.`
+    :`Rt. Hon. ${esc(ctx.displayName)} served as Speaker of ${esc(assembly)}, presiding over legislative sessions and overseeing the passage of landmark bills for ${esc(location)}.`;
   return `${CSS}
 <section class="asp-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="asp-logo" />`:''}
-  <h1>${esc(ctx.displayName)}</h1>
-  <span class="asp-cat-badge">${esc(roleLabel)}</span>
+  <h1>${mode!=='campaign'?`Rt. Hon. ${esc(ctx.displayName)}`:esc(ctx.displayName)}</h1>
+  <span class="asp-cat-badge">${roleLabel}</span>
 </section>
 <div class="asp-body">
   <p class="asp-desc">${description?esc(description):defaultDesc}</p>
   <div class="asp-details">
-    <div class="asp-drow"><span class="asp-dlabel">Title</span><span class="asp-dvalue">${esc(speakerTitle)}, ${esc(state)} HOA</span></div>
     ${party?`<div class="asp-drow"><span class="asp-dlabel">Party</span><span class="asp-dvalue">${esc(party)}</span></div>`:''}
     ${placeName?`<div class="asp-drow"><span class="asp-dlabel">State</span><span class="asp-dvalue">${esc(placeName)}</span></div>`:''}
-    <div class="asp-drow"><span class="asp-dlabel">Election</span><span class="asp-dvalue">Elected by Members of the State House of Assembly</span></div>
-    ${phone?`<div class="asp-drow"><span class="asp-dlabel">Office Phone</span><span class="asp-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
-    ${website?`<div class="asp-drow"><span class="asp-dlabel">HOA Website</span><span class="asp-dvalue"><a href="${safeHref(website)}" target="_blank" rel="noopener noreferrer">${esc(website)} ↗</a></span></div>`:''}
+    <div class="asp-drow"><span class="asp-dlabel">Assembly</span><span class="asp-dvalue">${esc(assembly)}</span></div>
+    <div class="asp-drow"><span class="asp-dlabel">Election</span><span class="asp-dvalue">Elected by assembly members</span></div>
+    ${phone?`<div class="asp-drow"><span class="asp-dlabel">Phone</span><span class="asp-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
   </div>
   <div class="asp-btn-row">
-    ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn">${waSvg()} WhatsApp the Office</a>`:''}
-    <a href="/contact" class="asp-sec-btn">Contact the Office</a>
+    ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn">${waSvg()} WhatsApp</a>`:''}
+    <a href="/contact" class="asp-sec-btn">${mode==='campaign'?'Contact Campaign':'Contact the Speaker'}</a>
   </div>
 </div>`;
 }
@@ -178,23 +194,23 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const offerings=(ctx.data.offerings??[]) as Offering[];
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const state=placeName??'the State';
-  const speakerTitle=(ctx.data.speakerTitle as string|null)??'Speaker';
-  const waHref=whatsappLink(phone,`Hello, I would like to enquire about HOA business under ${esc(speakerTitle)} ${esc(ctx.displayName)}.`);
-  const pageTitle=mode==='incumbent'?'HOA Legislative Business':'Speakership Record';
-  const pageSubtitle=mode==='incumbent'?`Bills certified, HOA committees, and legislative milestones under ${esc(speakerTitle)} ${esc(ctx.displayName)}, ${esc(state)} HOA`:`Legislative record of ${esc(speakerTitle)} ${esc(ctx.displayName)}, ${esc(state)} HOA`;
-  const emptyMsg=mode==='incumbent'?'HOA legislative records being published.':'Speakership record being compiled.';
+  const assemblyName=(ctx.data.assemblyName as string|null)??null;
+  const assembly=assemblyName??'State House of Assembly';
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about the ${esc(assembly)} legislative record under Speaker ${esc(ctx.displayName)}.`);
+  const pageTitle=mode==='campaign'?'Legislative Agenda':mode==='incumbent'?'Assembly Bills & Resolutions':'Speakership Record';
+  const pageSubtitle=mode==='campaign'?`Legislative priorities for the ${esc(assembly)} under ${esc(ctx.displayName)}`:`Bills, resolutions, and legislative milestones${mode==='incumbent'?` under Speaker ${esc(ctx.displayName)}`:''}`;
+  const emptyMsg=mode==='campaign'?'Legislative agenda coming soon.':mode==='incumbent'?'Assembly matters being published.':'Record being compiled.';
   const content=offerings.length===0?`<div class="asp-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="asp-primary-btn" href="/contact">Contact</a>`}</div>`
     :`<div class="asp-grid">${offerings.map(o=>`<div class="asp-card"><h3 class="asp-card-name">${esc(o.name)}</h3>${o.description?`<p class="asp-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="asp-svc-hero"><h1>${esc(pageTitle)}</h1><p class="asp-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="asp-cta-strip">
-  <h3>HOA Stakeholder Liaison</h3>
-  <p>${mode==='incumbent'?`For official HOA business, media enquiries, or stakeholder liaison with the ${esc(speakerTitle)}'s office, contact us.`:`For legacy HOA records or further engagement, contact our team.`}</p>
+  <h3>${mode==='campaign'?'Support the Speakership Bid':'Engage the Speaker\'s Office'}</h3>
+  <p>${mode==='campaign'?`Back ${esc(ctx.displayName)} for a fair, productive ${esc(assembly)}.`:`For legislative enquiries, media, or stakeholder engagement, reach the Speaker's office.`}</p>
   <div class="asp-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="asp-sec-btn">Contact the Office</a>
+    <a href="/contact" class="asp-sec-btn">${mode==='campaign'?'Contact Campaign':'Contact the Speaker'}</a>
   </div>
 </div>`;
 }
@@ -204,35 +220,36 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const state=placeName??'the State';
-  const speakerTitle=(ctx.data.speakerTitle as string|null)??'Speaker';
-  const waHref=whatsappLink(phone,`Hello, I am contacting the office of ${mode==='incumbent'?esc(speakerTitle):`former ${esc(speakerTitle)}`} ${esc(ctx.displayName)}, ${esc(state)} HOA.`);
+  const assemblyName=(ctx.data.assemblyName as string|null)??null;
+  const assembly=assemblyName??'State House of Assembly';
+  const location=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact ${mode==='campaign'?'the campaign of':'the office of Speaker'} ${esc(ctx.displayName)}.`);
   return `${CSS}
 <section class="asp-contact-hero">
-  <h1>Contact the Office</h1>
-  <p>${mode==='incumbent'?`Reach the ${esc(speakerTitle)}'s office for HOA liaison, official enquiries, or media.`:`Contact the team of former ${esc(speakerTitle)} ${esc(ctx.displayName)}.`}</p>
+  <h1>${mode==='campaign'?'Contact the Campaign':'Contact the Speaker\'s Office'}</h1>
+  <p>${mode==='campaign'?`Reach the Speakership campaign of ${esc(ctx.displayName)} — ${esc(assembly)}.`:mode==='incumbent'?`Reach the office of Speaker Rt. Hon. ${esc(ctx.displayName)}, ${esc(assembly)}, for legislative enquiries or official matters.`:`Contact the team of former Speaker ${esc(ctx.displayName)}, ${esc(assembly)}.`}</p>
 </section>
-${waHref?`<div class="asp-wa-block"><p>Send a WhatsApp message to our office for faster response.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp the Office</a></div>`:''}
+${waHref?`<div class="asp-wa-block"><p>${mode==='campaign'?'Connect with our campaign.':'Send a WhatsApp message to the Speaker\'s office.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="asp-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp</a></div>`:''}
 <div class="asp-layout">
   <div class="asp-info">
-    <h2>${esc(speakerTitle)}'s Office — ${esc(state)} HOA</h2>
-    ${placeName?`<p><strong>State Assembly:</strong> ${esc(state)} House of Assembly</p>`:''}
+    <h2>${mode==='campaign'?`Speakership Campaign — ${esc(assembly)}`:`Speaker's Office — ${esc(assembly)}`}</h2>
+    ${placeName?`<p><strong>State:</strong> ${esc(placeName)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
-    ${!phone&&!email?`<p>Office details coming soon.</p>`:''}
-    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">Presiding officer of the ${esc(state)} House of Assembly — elected by peers to ensure parliamentary order and democratic accountability.</p>
+    ${!phone&&!email?`<p>Contact details coming soon.</p>`:''}
+    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">${mode==='incumbent'?`Speaker ${esc(ctx.displayName)} presides over the ${esc(assembly)} and is accountable to the people of ${esc(location)}.`:''}</p>
   </div>
   <div class="asp-form-wrap">
     <h2>Send a Message</h2>
     <form class="asp-form" method="POST" action="/contact" id="aspForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="asp-fg"><label for="asp-name">Your full name</label><input id="asp-name" name="name" type="text" required autocomplete="name" class="asp-input" placeholder="e.g. Aisha Mohammed" /></div>
+      <div class="asp-fg"><label for="asp-name">Your full name</label><input id="asp-name" name="name" type="text" required autocomplete="name" class="asp-input" placeholder="e.g. Maryam Suleiman" /></div>
       <div class="asp-fg"><label for="asp-phone">Phone number</label><input id="asp-phone" name="phone" type="tel" autocomplete="tel" class="asp-input" placeholder="0803 000 0000" /></div>
       <div class="asp-fg"><label for="asp-email">Email (optional)</label><input id="asp-email" name="email" type="email" class="asp-input" placeholder="you@example.com" /></div>
-      <div class="asp-fg"><label for="asp-msg">Your message or enquiry</label><textarea id="asp-msg" name="message" required rows="4" class="asp-input asp-ta" placeholder="e.g. I have an official HOA enquiry, media request, or stakeholder liaison matter."></textarea></div>
+      <div class="asp-fg"><label for="asp-msg">Your message</label><textarea id="asp-msg" name="message" required rows="4" class="asp-input asp-ta" placeholder="e.g. I have a legislative enquiry or a message for the Speaker's office."></textarea></div>
       <button type="submit" class="asp-submit">Send Message</button>
     </form>
-    <div id="aspSuccess" class="asp-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The ${esc(speakerTitle)}'s team will respond shortly. Thank you.</p></div>
+    <div id="aspSuccess" class="asp-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The Speaker's office will respond shortly.</p></div>
   </div>
 </div>
 <script>(function(){var f=document.getElementById('aspForm');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);fetch('/contact',{method:'POST',body:d}).then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(){f.style.display='none';var s=document.getElementById('aspSuccess');if(s)s.style.display='block'}).catch(function(){f.submit()})})})();</script>`;

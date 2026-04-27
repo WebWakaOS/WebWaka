@@ -1,12 +1,12 @@
 /**
- * Party State Officer Official Site — NF-POL-PTY variant (VN-POL-019)
- * Pillar 2 — P2-party-state-officer-official-site · Sprint 3
+ * Party State Officer Official Site — NF-POL-PTY variant (VN-POL-020)
+ * Pillar 2 — P2-party-state-officer-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • State-level party structure — SWC / SEC (State Working Committee)
- *   • Higher profile than ward/LGA chapter officer — state media coverage
- *   • Two modes: active | post_office
- *   • Coordinates state-wide party operations across all LGAs
+ *   • State-level party leadership: State Chairman, Deputy Chairman, Secretary, Publicity Secretary
+ *   • Commands state structure — supervises LGA and ward chapters
+ *   • Two modes: active | post_office (no campaign mode — intra-party congress)
+ *   • CSS prefix: .pso-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -21,7 +21,6 @@ function whatsappLink(phone:string|null,msg:string):string|null{
   const intl=d.startsWith('234')?d:d.startsWith('0')?'234'+d.slice(1):'234'+d;
   return `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
 }
-function safeHref(url:string):string{try{const p=new URL(url,'https://x');if(p.protocol==='http:'||p.protocol==='https:')return encodeURI(url);}catch{/**/}return '#'}
 
 type PartyMode='active'|'post_office';
 function getMode(ctx:WebsiteRenderContext):PartyMode{
@@ -48,8 +47,8 @@ const CSS=`<style>
 .pso-wa-btn{display:inline-flex;align-items:center;gap:.625rem;padding:.875rem 1.75rem;background:#25D366;color:#fff;border-radius:var(--ww-radius);font-size:1rem;font-weight:700;text-decoration:none;min-height:44px}
 .pso-section{margin-top:2.75rem}
 .pso-section-title{font-size:1.375rem;font-weight:700;margin-bottom:1.25rem;color:var(--ww-party-primary)}
-.pso-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.pso-card{border:1px solid var(--ww-border);border-radius:var(--ww-radius);padding:1.25rem;background:var(--ww-bg-surface);display:flex;flex-direction:column;gap:.375rem;border-left:4px solid var(--ww-party-primary)}
+.pso-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.pso-card{border:1px solid var(--ww-border);border-radius:var(--ww-radius);padding:1.375rem;background:var(--ww-bg-surface);display:flex;flex-direction:column;gap:.375rem;border-left:4px solid var(--ww-party-primary)}
 .pso-card-name{font-size:1rem;font-weight:700;color:var(--ww-text);margin:0}
 .pso-card-desc{font-size:.875rem;color:var(--ww-text-muted);line-height:1.55;flex:1;margin:0}
 .pso-about-strip{margin-top:2.5rem;padding:1.75rem;background:var(--ww-bg-surface);border:1px solid var(--ww-border);border-radius:var(--ww-radius)}
@@ -67,7 +66,7 @@ const CSS=`<style>
 .pso-desc{color:var(--ww-text-muted);line-height:1.9;margin-bottom:2rem;font-size:1rem}
 .pso-details{display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem}
 .pso-drow{display:flex;gap:1rem;align-items:flex-start}
-.pso-dlabel{font-size:.875rem;font-weight:700;min-width:7rem;color:var(--ww-text);flex-shrink:0}
+.pso-dlabel{font-size:.875rem;font-weight:700;min-width:8rem;color:var(--ww-text);flex-shrink:0}
 .pso-dvalue{font-size:.9375rem;color:var(--ww-text-muted)}
 .pso-dvalue a{color:var(--ww-party-primary);font-weight:600}
 .pso-btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
@@ -111,13 +110,17 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const displayTitle=partyTitle??'State Party Officer';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact ${esc(displayTitle)} ${esc(ctx.displayName)} about state party matters.`);
-  const heroSubtitle=`${mode==='active'?esc(displayTitle):`Former ${esc(displayTitle)}`}${party?`, ${esc(party)}`:''}${placeName?` — ${esc(placeName)} State`:''}`;
-  const defaultTagline=mode==='active'?`Building party strength across all LGAs: state-wide mobilisation, candidate coordination, and party administration.`:`Proud to have led state party operations with dedication and commitment to party values.`;
-  const trustBadges=`<span class="pso-badge"><span class="pso-dot"></span>${party?`${esc(party)} State Officer`:'State Party Officer'}</span><span class="pso-badge"><span class="pso-dot"></span>SWC/SEC Member</span>`;
-  const svcLabel=mode==='active'?'State Programmes & Initiatives':'State Officer Record';
+  const stateRole=(ctx.data.stateRole as string|null)??'State Officer';
+  const state=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to reach ${esc(stateRole)} ${esc(ctx.displayName)} of the ${esc(party??'party')} state structure.`);
+  const heroSubtitle=mode==='active'
+    ?`${esc(stateRole)} — ${esc(state)}${party?`, ${esc(party)}`:''}`
+    :`Former ${esc(stateRole)} — ${esc(state)}${party?`, ${esc(party)}`:''}`;
+  const defaultTagline=mode==='active'
+    ?`Leading the ${esc(party??'party')} state structure in ${esc(state)}: coordinating LGA chapters, directing state campaigns, and driving membership expansion.`
+    :`Proud to have led the ${esc(party??'party')} state structure and strengthened our party's presence across ${esc(state)}.`;
+  const trustBadges=`<span class="pso-badge"><span class="pso-dot"></span>${mode==='active'?esc(stateRole):`Former ${esc(stateRole)}`}</span>${party?`<span class="pso-badge"><span class="pso-dot"></span>${esc(party)}</span>`:''}${placeName?`<span class="pso-badge"><span class="pso-dot"></span>${esc(placeName)} State</span>`:''}`;
+  const svcLabel=mode==='active'?'State Programmes':'State Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
   const grid=featured.length===0?'':`<section class="pso-section"><h2 class="pso-section-title">${esc(svcLabel)}</h2><div class="pso-grid">${featured.map(o=>`<div class="pso-card"><h3 class="pso-card-name">${esc(o.name)}</h3>${o.description?`<p class="pso-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
@@ -128,14 +131,14 @@ function renderHome(ctx:WebsiteRenderContext):string{
   <p class="pso-subtitle">${heroSubtitle}</p>
   <p class="pso-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="pso-ctas">
-    ${waHref&&mode==='active'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-primary-btn">${waSvg()} Contact the Officer</a>`:`<a href="/services" class="pso-primary-btn">${mode==='active'?'State Programmes':'View Record'}</a>`}
-    <a href="/contact" class="pso-sec-btn">Contact the Office</a>
+    <a href="/services" class="pso-primary-btn">${mode==='active'?'State Programmes':'View Record'}</a>
+    <a href="/contact" class="pso-sec-btn">Contact</a>
   </div>
   <div class="pso-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="pso-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="pso-info-strip">${party?`<div class="pso-info-item"><span class="pso-info-label">Party</span><span class="pso-info-value">${esc(party)}</span></div>`:''} ${placeName?`<div class="pso-info-item"><span class="pso-info-label">State</span><span class="pso-info-value">${esc(placeName)}</span></div>`:''} ${phone?`<div class="pso-info-item"><span class="pso-info-label">Office</span><span class="pso-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="pso-info-item"><span class="pso-info-label">WhatsApp</span><span class="pso-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="pso-info-strip">${placeName?`<div class="pso-info-item"><span class="pso-info-label">State</span><span class="pso-info-value">${esc(placeName)}</span></div>`:''} ${party?`<div class="pso-info-item"><span class="pso-info-label">Party</span><span class="pso-info-value">${esc(party)}</span></div>`:''} ${phone?`<div class="pso-info-item"><span class="pso-info-label">Phone</span><span class="pso-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="pso-info-item"><span class="pso-info-label">WhatsApp</span><span class="pso-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">Chat →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -143,13 +146,14 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const description=(ctx.data.description as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
-  const website=(ctx.data.website as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const displayTitle=partyTitle??'State Party Officer';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact ${esc(displayTitle)} ${esc(ctx.displayName)}.`);
-  const roleLabel=`${mode==='active'?esc(displayTitle):`Former ${esc(displayTitle)}`}${party?`, ${esc(party)}`:''}${placeName?` — ${esc(placeName)}`:''}`;
-  const defaultDesc=mode==='active'?`${esc(ctx.displayName)} serves as ${esc(displayTitle)}${party?` of ${esc(party)}`:''}${placeName?` in ${esc(placeName)} State`:''}. Responsible for state-wide party operations, candidate coordination, membership drives, and SWC administration.`:`${esc(ctx.displayName)} served as ${esc(displayTitle)}${party?` of ${esc(party)}`:''}${placeName?` in ${esc(placeName)} State`:''}, coordinating state-wide party operations with distinction.`;
+  const stateRole=(ctx.data.stateRole as string|null)??'State Officer';
+  const state=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact ${esc(stateRole)} ${esc(ctx.displayName)}.`);
+  const roleLabel=mode==='active'?`${esc(stateRole)}, ${esc(state)}`:`Former ${esc(stateRole)}, ${esc(state)}`;
+  const defaultDesc=mode==='active'
+    ?`${esc(ctx.displayName)} serves as ${esc(stateRole)} of ${esc(party??'the party')} in ${esc(state)}. Responsible for state party coordination, campaign leadership, and managing the LGA/ward chapter network.`
+    :`${esc(ctx.displayName)} served as ${esc(stateRole)} of ${esc(party??'the party')} in ${esc(state)}, providing strategic leadership to the state structure and delivering key party milestones.`;
   return `${CSS}
 <section class="pso-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="pso-logo" />`:''}
@@ -159,16 +163,15 @@ function renderAbout(ctx:WebsiteRenderContext):string{
 <div class="pso-body">
   <p class="pso-desc">${description?esc(description):defaultDesc}</p>
   <div class="pso-details">
-    ${partyTitle?`<div class="pso-drow"><span class="pso-dlabel">Title</span><span class="pso-dvalue">${esc(partyTitle)}</span></div>`:''}
+    ${stateRole?`<div class="pso-drow"><span class="pso-dlabel">Role</span><span class="pso-dvalue">${esc(stateRole)}</span></div>`:''}
     ${party?`<div class="pso-drow"><span class="pso-dlabel">Party</span><span class="pso-dvalue">${esc(party)}</span></div>`:''}
-    <div class="pso-drow"><span class="pso-dlabel">Structure</span><span class="pso-dvalue">State Working Committee (SWC) / State Executive Council (SEC)</span></div>
     ${placeName?`<div class="pso-drow"><span class="pso-dlabel">State</span><span class="pso-dvalue">${esc(placeName)}</span></div>`:''}
+    <div class="pso-drow"><span class="pso-dlabel">Selection</span><span class="pso-dvalue">State party congress</span></div>
     ${phone?`<div class="pso-drow"><span class="pso-dlabel">Phone</span><span class="pso-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
-    ${website?`<div class="pso-drow"><span class="pso-dlabel">Party Site</span><span class="pso-dvalue"><a href="${safeHref(website)}" target="_blank" rel="noopener noreferrer">${esc(website)} ↗</a></span></div>`:''}
   </div>
   <div class="pso-btn-row">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="pso-sec-btn">Contact the Office</a>
+    <a href="/contact" class="pso-sec-btn">Send a Message</a>
   </div>
 </div>`;
 }
@@ -177,19 +180,22 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const mode=getMode(ctx);
   const offerings=(ctx.data.offerings??[]) as Offering[];
   const phone=(ctx.data.phone as string|null)??null;
-  const party=(ctx.data.party as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I am reaching out about state party activities.`);
-  const pageTitle=mode==='active'?'State Programmes & Initiatives':'State Officer Record';
-  const pageSubtitle=mode==='active'?`State-wide party programmes, candidate support, and mobilisation activities${party?` — ${esc(party)}${placeName?`, ${esc(placeName)} State`:''}`:''}`:`Record of state party activities during this term`;
-  const content=offerings.length===0?`<div class="pso-empty"><p>${mode==='active'?'State programmes being published.':'Record being compiled.'}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="pso-primary-btn" href="/contact">Contact</a>`}</div>`
+  const party=(ctx.data.party as string|null)??null;
+  const stateRole=(ctx.data.stateRole as string|null)??'State Officer';
+  const state=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about state party programmes under ${esc(ctx.displayName)}.`);
+  const pageTitle=mode==='active'?'State Programmes':'State Record';
+  const pageSubtitle=mode==='active'?`Active programmes and drives by ${esc(stateRole)} ${esc(ctx.displayName)}, ${esc(state)}`:`Achievements and activities during the tenure of ${esc(stateRole)} ${esc(ctx.displayName)}, ${esc(state)}`;
+  const emptyMsg=mode==='active'?'State programmes are being published. Contact the state leadership.':'Record being compiled.';
+  const content=offerings.length===0?`<div class="pso-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="pso-primary-btn" href="/contact">Contact</a>`}</div>`
     :`<div class="pso-grid">${offerings.map(o=>`<div class="pso-card"><h3 class="pso-card-name">${esc(o.name)}</h3>${o.description?`<p class="pso-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="pso-svc-hero"><h1>${esc(pageTitle)}</h1><p class="pso-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="pso-cta-strip">
-  <h3>${mode==='active'?'Get Involved':'Connect with Our Team'}</h3>
-  <p>${mode==='active'?'Engage with state party programmes or contact our office for official party matters.':'For information about state party activities during this term, reach our team.'}</p>
+  <h3>${mode==='active'?`Engage the ${esc(party??'Party')} State Leadership`:'Connect'}</h3>
+  <p>${mode==='active'?`For party engagement, inter-chapter matters, or state programmes in ${esc(state)}, reach the state office.`:`Reach the former state leadership team.`}</p>
   <div class="pso-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn">${waSvg()} WhatsApp</a>`:''}
     <a href="/contact" class="pso-sec-btn">Contact</a>
@@ -203,35 +209,35 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const displayTitle=partyTitle??'State Party Officer';
-  const waHref=whatsappLink(phone,`Hello, I would like to reach ${mode==='active'?esc(displayTitle):`former ${esc(displayTitle)}`} ${esc(ctx.displayName)}.`);
+  const stateRole=(ctx.data.stateRole as string|null)??'State Officer';
+  const state=placeName??'the State';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact ${mode==='active'?esc(stateRole):`former ${esc(stateRole)}`} ${esc(ctx.displayName)}, ${esc(state)}.`);
   return `${CSS}
 <section class="pso-contact-hero">
-  <h1>Contact the Office</h1>
-  <p>${mode==='active'?`Reach ${esc(displayTitle)} ${esc(ctx.displayName)} for state party matters, candidate enquiries, or official liaison.`:`Contact the team of former ${esc(displayTitle)} ${esc(ctx.displayName)}.`}</p>
+  <h1>Contact the State Office</h1>
+  <p>${mode==='active'?`Reach ${esc(stateRole)} ${esc(ctx.displayName)} for party matters, inter-chapter engagement, or media enquiries.`:`Contact the team of former ${esc(stateRole)} ${esc(ctx.displayName)}, ${esc(state)}.`}</p>
 </section>
-${waHref?`<div class="pso-wa-block"><p>Send a WhatsApp message for faster response.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp</a></div>`:''}
+${waHref?`<div class="pso-wa-block"><p>Send a WhatsApp message to the state office for faster response.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pso-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp</a></div>`:''}
 <div class="pso-layout">
   <div class="pso-info">
-    <h2>${esc(ctx.displayName)} — ${esc(displayTitle)}</h2>
-    ${party?`<p><strong>Party:</strong> ${esc(party)}</p>`:''}
+    <h2>${esc(stateRole)}${party?` — ${esc(party)}`:''}, ${esc(state)}</h2>
     ${placeName?`<p><strong>State:</strong> ${esc(placeName)}</p>`:''}
+    ${party?`<p><strong>Party:</strong> ${esc(party)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
-    ${!phone&&!email?`<p>Contact details coming soon.</p>`:''}
+    ${!phone&&!email?`<p>State office contact details coming soon.</p>`:''}
   </div>
   <div class="pso-form-wrap">
     <h2>Send a Message</h2>
     <form class="pso-form" method="POST" action="/contact" id="psoForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="pso-fg"><label for="pso-name">Your full name</label><input id="pso-name" name="name" type="text" required autocomplete="name" class="pso-input" placeholder="e.g. Bola Adesanya" /></div>
+      <div class="pso-fg"><label for="pso-name">Your full name</label><input id="pso-name" name="name" type="text" required autocomplete="name" class="pso-input" placeholder="e.g. Fatima Usman" /></div>
       <div class="pso-fg"><label for="pso-phone">Phone number</label><input id="pso-phone" name="phone" type="tel" autocomplete="tel" class="pso-input" placeholder="0803 000 0000" /></div>
       <div class="pso-fg"><label for="pso-email">Email (optional)</label><input id="pso-email" name="email" type="email" class="pso-input" placeholder="you@example.com" /></div>
-      <div class="pso-fg"><label for="pso-msg">Your message</label><textarea id="pso-msg" name="message" required rows="4" class="pso-input pso-ta" placeholder="e.g. I have a party matter, candidate enquiry, or official liaison request."></textarea></div>
+      <div class="pso-fg"><label for="pso-msg">Your message</label><textarea id="pso-msg" name="message" required rows="4" class="pso-input pso-ta" placeholder="e.g. I have a state party enquiry or inter-chapter coordination matter."></textarea></div>
       <button type="submit" class="pso-submit">Send Message</button>
     </form>
-    <div id="psoSuccess" class="pso-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>Our party team will respond shortly. Thank you.</p></div>
+    <div id="psoSuccess" class="pso-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The state office team will respond shortly.</p></div>
   </div>
 </div>
 <script>(function(){var f=document.getElementById('psoForm');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);fetch('/contact',{method:'POST',body:d}).then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(){f.style.display='none';var s=document.getElementById('psoSuccess');if(s)s.style.display='block'}).catch(function(){f.submit()})})})();</script>`;

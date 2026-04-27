@@ -1167,3 +1167,244 @@ describe('T28: GET /manifest.webmanifest — returns tenant business name (sitem
     expect(manifest.theme_color).toBe('#5e35b1');
   });
 });
+
+// ---------------------------------------------------------------------------
+// T29 — Political Role Template Rendering (Sprint 1–4, 16 templates)
+// Validates all 16 new political role templates render without throwing for
+// each supported page type and mode. Direct renderPage() contract tests.
+// ---------------------------------------------------------------------------
+
+import { governorOfficialSiteTemplate } from './templates/niches/governor/official-site.js';
+import { senatorOfficialSiteTemplate } from './templates/niches/senator/official-site.js';
+import { houseOfRepsMemberOfficialSiteTemplate } from './templates/niches/house-of-reps-member/official-site.js';
+import { stateCommissionerOfficialSiteTemplate } from './templates/niches/state-commissioner/official-site.js';
+import { federalMinisterOfficialSiteTemplate } from './templates/niches/federal-minister/official-site.js';
+import { lgaChairmanOfficialSiteTemplate } from './templates/niches/lga-chairman/official-site.js';
+import { houseOfAssemblyMemberOfficialSiteTemplate } from './templates/niches/house-of-assembly-member/official-site.js';
+import { presidentialCandidateOfficialSiteTemplate } from './templates/niches/presidential-candidate/official-site.js';
+import { politicalAppointeeOfficialSiteTemplate } from './templates/niches/political-appointee/official-site.js';
+import { wardCouncillorOfficialSiteTemplate } from './templates/niches/ward-councillor/official-site.js';
+import { partyChapterOfficerOfficialSiteTemplate } from './templates/niches/party-chapter-officer/official-site.js';
+import { partyStateOfficerOfficialSiteTemplate } from './templates/niches/party-state-officer/official-site.js';
+import { deputyGovernorOfficialSiteTemplate } from './templates/niches/deputy-governor/official-site.js';
+import { assemblySpeakerOfficialSiteTemplate } from './templates/niches/assembly-speaker/official-site.js';
+import { lgaViceChairmanOfficialSiteTemplate } from './templates/niches/lga-vice-chairman/official-site.js';
+import { supervisoryCouncillorOfficialSiteTemplate } from './templates/niches/supervisory-councillor/official-site.js';
+
+import type { WebsiteRenderContext } from '@webwaka/verticals';
+
+function makePolCtx(overrides: Partial<WebsiteRenderContext> & { mode?: string; party?: string } = {}): WebsiteRenderContext {
+  const { mode, party, ...rest } = overrides as Partial<WebsiteRenderContext> & { mode?: string; party?: string };
+  return {
+    tenantId: 'test-tenant',
+    displayName: 'Test Politician',
+    pageType: 'home',
+    primaryColor: '#1a6b3a',
+    logoUrl: null,
+    data: { mode: mode ?? 'campaign', party: party ?? 'APC', placeName: 'Lagos', phone: '08001234567', offerings: [], description: 'Test bio', ...(rest.data ?? {}) },
+    ...rest,
+  } as WebsiteRenderContext;
+}
+
+describe('T29: Political Role Templates — renderPage() contract', () => {
+  const pages = ['home', 'about', 'services', 'contact'] as const;
+
+  it('governor: renders all pages in campaign/incumbent/post_office mode without throwing', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const ctx = makePolCtx({ mode, pageType: page });
+        const html = governorOfficialSiteTemplate.renderPage(ctx);
+        expect(typeof html).toBe('string');
+        expect(html.length).toBeGreaterThan(10);
+        expect(html).not.toContain('Unable to load page');
+      }
+    }
+  });
+
+  it('senator: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = senatorOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('house-of-reps-member: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = houseOfRepsMemberOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('state-commissioner: renders in incumbent/post_office mode (no campaign)', () => {
+    for (const mode of ['incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = stateCommissionerOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, ministry: 'Finance', placeName: 'Kano', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+        expect(html).not.toContain('Unable to load page');
+      }
+    }
+  });
+
+  it('federal-minister: renders in incumbent/post_office mode (no campaign)', () => {
+    for (const mode of ['incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = federalMinisterOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, ministry: 'Finance', placeName: 'Abuja', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('lga-chairman: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = lgaChairmanOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('house-of-assembly-member: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = houseOfAssemblyMemberOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('presidential-candidate: renders all pages without throwing', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = presidentialCandidateOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, placeName: 'Abuja', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('presidential-candidate: donate CTA absent when inecCampaignAccount is falsy', () => {
+    const ctx = makePolCtx({ mode: 'campaign', pageType: 'home', data: { mode: 'campaign', offerings: [], inecCampaignAccount: null } });
+    const html = presidentialCandidateOfficialSiteTemplate.renderPage(ctx);
+    expect(html).not.toContain('Donate Now');
+  });
+
+  it('political-appointee: renders in incumbent/post_office mode (no campaign)', () => {
+    for (const mode of ['incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = politicalAppointeeOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, portfolio: 'ICT', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('ward-councillor: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = wardCouncillorOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('party-chapter-officer: renders all pages in active/post_office mode', () => {
+    for (const mode of ['active', 'post_office']) {
+      for (const page of pages) {
+        const html = partyChapterOfficerOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, chapterRole: 'Ward Chairman', placeName: 'Ikeja Ward 3', party: 'APC', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+        expect(html).not.toContain('Unable to load page');
+      }
+    }
+  });
+
+  it('party-state-officer: renders all pages in active/post_office mode', () => {
+    for (const mode of ['active', 'post_office']) {
+      for (const page of pages) {
+        const html = partyStateOfficerOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, stateRole: 'State Chairman', placeName: 'Ogun', party: 'PDP', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('deputy-governor: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = deputyGovernorOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, governorName: 'Gov. Test', placeName: 'Enugu', party: 'LP', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('assembly-speaker: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = assemblySpeakerOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, assemblyName: 'Rivers State House of Assembly', placeName: 'Rivers', party: 'APC', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('lga-vice-chairman: renders all pages in campaign/incumbent/post_office mode', () => {
+    for (const mode of ['campaign', 'incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = lgaViceChairmanOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, chairmanName: 'Alhaji Test Chairman', placeName: 'Agege LGA', party: 'APC', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('supervisory-councillor: renders in incumbent/post_office mode (no campaign)', () => {
+    for (const mode of ['incumbent', 'post_office']) {
+      for (const page of pages) {
+        const html = supervisoryCouncillorOfficialSiteTemplate.renderPage(makePolCtx({ mode, pageType: page, data: { mode, portfolio: 'Health', chairmanName: 'Alhaji Chairman', placeName: 'Kosofe LGA', offerings: [] } }));
+        expect(html.length).toBeGreaterThan(10);
+        expect(html).not.toContain('Unable to load page');
+      }
+    }
+  });
+
+  it('governor: incumbent home shows state name in output', () => {
+    const ctx = makePolCtx({ mode: 'incumbent', pageType: 'home', data: { mode: 'incumbent', placeName: 'Ekiti', party: 'APC', offerings: [] } });
+    const html = governorOfficialSiteTemplate.renderPage(ctx);
+    expect(html).toContain('Ekiti');
+  });
+
+  it('state-commissioner: no campaign-mode CTA appears in output', () => {
+    const ctx = makePolCtx({ mode: 'campaign', pageType: 'home', data: { mode: 'campaign', ministry: 'Works', placeName: 'Imo', offerings: [] } });
+    const html = stateCommissionerOfficialSiteTemplate.renderPage(ctx);
+    expect(html).not.toContain('Join Campaign');
+  });
+
+  it('supervisory-councillor: no campaign-mode output in incumbent mode', () => {
+    const ctx = makePolCtx({ mode: 'incumbent', pageType: 'home', data: { mode: 'incumbent', portfolio: 'Education', placeName: 'Ikorodu LGA', offerings: [] } });
+    const html = supervisoryCouncillorOfficialSiteTemplate.renderPage(ctx);
+    expect(html).not.toContain('Join Campaign');
+    expect(html).toContain('Education');
+  });
+
+  it('party-chapter-officer: active mode home contains chapter name', () => {
+    const ctx = makePolCtx({ mode: 'active', pageType: 'home', data: { mode: 'active', chapterRole: 'Ward Secretary', placeName: 'Mushin Ward 5', party: 'NNPP', offerings: [] } });
+    const html = partyChapterOfficerOfficialSiteTemplate.renderPage(ctx);
+    expect(html).toContain('Mushin Ward 5');
+  });
+
+  it('all 16 templates: unknown pageType returns fallback page-not-found string', () => {
+    const templates = [
+      governorOfficialSiteTemplate, senatorOfficialSiteTemplate,
+      houseOfRepsMemberOfficialSiteTemplate, stateCommissionerOfficialSiteTemplate,
+      federalMinisterOfficialSiteTemplate, lgaChairmanOfficialSiteTemplate,
+      houseOfAssemblyMemberOfficialSiteTemplate, presidentialCandidateOfficialSiteTemplate,
+      politicalAppointeeOfficialSiteTemplate, wardCouncillorOfficialSiteTemplate,
+      partyChapterOfficerOfficialSiteTemplate, partyStateOfficerOfficialSiteTemplate,
+      deputyGovernorOfficialSiteTemplate, assemblySpeakerOfficialSiteTemplate,
+      lgaViceChairmanOfficialSiteTemplate, supervisoryCouncillorOfficialSiteTemplate,
+    ];
+    for (const t of templates) {
+      const ctx = makePolCtx({ pageType: 'unknown-page' as never });
+      const html = t.renderPage(ctx);
+      expect(html).toContain('Page not found');
+    }
+  });
+});

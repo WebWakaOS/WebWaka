@@ -256,7 +256,37 @@ Seven comprehensive blueprint documents remain in `docs/templates/expansion/` fo
 ## Political Role-Specific Template Expansion Blueprint — Produced 2026-04-26
 
 ### Status
-Research and design phase complete. Eight blueprint documents produced in `docs/templates/expansion/political/`. No implementation has occurred — documents are research and design artifacts only.
+**FULLY IMPLEMENTED — 2026-04-26.** Research, design, and all four implementation sprints complete.
+
+**Implementation Summary (Sprints 1–4 — all 16 political role templates):**
+
+| # | Slug | Mode(s) | Family | Sprint |
+|---|---|---|---|---|
+| 1 | `governor-official-site` | campaign / incumbent / post_office | NF-POL-ELC anchor | S1 |
+| 2 | `senator-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S1 |
+| 3 | `house-of-reps-member-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S1 |
+| 4 | `state-commissioner-official-site` | incumbent / post_office | NF-POL-APT anchor | S2 |
+| 5 | `federal-minister-official-site` | incumbent / post_office | NF-POL-APT | S2 |
+| 6 | `lga-chairman-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S2 |
+| 7 | `house-of-assembly-member-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S2 |
+| 8 | `presidential-candidate-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S3 |
+| 9 | `political-appointee-official-site` | incumbent / post_office | NF-POL-APT | S3 |
+| 10 | `ward-councillor-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S3 |
+| 11 | `party-chapter-officer-official-site` | active / post_office | NF-POL-PTY anchor | S3 |
+| 12 | `party-state-officer-official-site` | active / post_office | NF-POL-PTY | S3 |
+| 13 | `deputy-governor-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 14 | `assembly-speaker-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 15 | `lga-vice-chairman-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 16 | `supervisory-councillor-official-site` | incumbent / post_office | NF-POL-APT | S4 |
+
+**All 16 templates wire-complete:**
+- TypeScript files: `apps/brand-runtime/src/templates/niches/{slug}/official-site.ts`
+- Resolver: 16 imports + 16 `BUILT_IN_TEMPLATES` map entries in `template-resolver.ts`
+- SQL seeds: `infra/db/seeds/templates/{slug}.sql` (16 files, INSERT OR IGNORE, idempotent)
+- CSV: `infra/db/seeds/0004_verticals-master.csv` — 16 new rows (politics section, 23 rows total)
+- Tests: T29 (24 cases, 97 total passing) in `apps/brand-runtime/src/brand-runtime.test.ts`
+- Registry: All 16 entries marked `IMPLEMENTED` / `REGISTERED` in `docs/templates/expansion/political/political-niche-registry.json`
+- REQ-POL-009 (presidential finance gate): donate CTA gated on `ctx.data.inecCampaignAccount` truthy
 
 ### What Was Built
 
@@ -280,9 +310,5 @@ Research and design phase complete. Eight blueprint documents produced in `docs/
 - **Year 1 revenue potential at 5% SAM penetration:** ~₦343M (~$214K USD/year)
 - **0 REJECT verdicts** in collision analysis — all 16 candidates viable
 
-### Next Actions Required (Human Decision)
-1. Founder review of 16 proposed political niches
-2. Approve Sprint 1 (governor, senator, house-of-reps-member) for immediate implementation
-3. Complete 5 pre-actions (vtx_politician scope notes, vtx_ward_rep notes, vtx_constituency_office notes, vtx_political_party notes, presidential campaign finance process)
-4. Graduate Sprint 1 niches to CSV + canonical niche registry
-5. Implement `governor` template as NF-POL-ELC family anchor
+### All Actions Complete
+All 16 templates implemented across Sprints 1–4. No remaining blockers or actions.

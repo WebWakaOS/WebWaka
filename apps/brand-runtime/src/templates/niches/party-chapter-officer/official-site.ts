@@ -1,12 +1,12 @@
 /**
- * Party Chapter Officer (Ward/LGA) Official Site — NF-POL-PTY anchor (VN-POL-018)
- * Pillar 2 — P2-party-chapter-officer-official-site · Sprint 3
+ * Party Chapter Officer Official Site — NF-POL-PTY variant (VN-POL-019)
+ * Pillar 2 — P2-party-chapter-officer-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • Party internal appointment — ward or LGA chapter level
- *   • DIFFERENTIATE from vtx_political_party (individual vs organisation)
- *   • Two modes: active | post_office (party roles don't campaign in INEC sense)
- *   • Party mobilisation, membership drive, ward coordination
+ *   • Ward / LGA chapter officers: Chairman, Secretary, Welfare Officer, Youth Leader, Women Leader
+ *   • Party organ identity — chapter and zonal party structure
+ *   • Two modes: active | post_office (no campaign mode — intra-party selection)
+ *   • CSS prefix: .pch-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -21,7 +21,6 @@ function whatsappLink(phone:string|null,msg:string):string|null{
   const intl=d.startsWith('234')?d:d.startsWith('0')?'234'+d.slice(1):'234'+d;
   return `https://wa.me/${intl}?text=${encodeURIComponent(msg)}`;
 }
-function safeHref(url:string):string{try{const p=new URL(url,'https://x');if(p.protocol==='http:'||p.protocol==='https:')return encodeURI(url);}catch{/**/}return '#'}
 
 type PartyMode='active'|'post_office';
 function getMode(ctx:WebsiteRenderContext):PartyMode{
@@ -67,7 +66,7 @@ const CSS=`<style>
 .pch-desc{color:var(--ww-text-muted);line-height:1.9;margin-bottom:2rem;font-size:1rem}
 .pch-details{display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem}
 .pch-drow{display:flex;gap:1rem;align-items:flex-start}
-.pch-dlabel{font-size:.875rem;font-weight:700;min-width:7rem;color:var(--ww-text);flex-shrink:0}
+.pch-dlabel{font-size:.875rem;font-weight:700;min-width:8rem;color:var(--ww-text);flex-shrink:0}
 .pch-dvalue{font-size:.9375rem;color:var(--ww-text-muted)}
 .pch-dvalue a{color:var(--ww-party-primary);font-weight:600}
 .pch-btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
@@ -111,15 +110,17 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const chapterLevel=(ctx.data.chapterLevel as string|null)??null;
-  const displayTitle=partyTitle??'Chapter Officer';
-  const waMsg=mode==='active'?`Hello, I would like to contact ${esc(displayTitle)} ${esc(ctx.displayName)} about party matters.`:`Hello, I would like to reach the team of former ${esc(displayTitle)} ${esc(ctx.displayName)}.`;
-  const waHref=whatsappLink(phone,waMsg);
-  const heroSubtitle=`${mode==='active'?esc(displayTitle):`Former ${esc(displayTitle)}`}${party?`, ${esc(party)}`:''}${chapterLevel?` — ${esc(chapterLevel)} Chapter`:''}`;
-  const defaultTagline=mode==='active'?`Building a stronger party chapter: membership growth, mobilisation, and grassroots party development.`:`Proud to have led this party chapter with commitment to our party's values and objectives.`;
-  const trustBadges=`<span class="pch-badge"><span class="pch-dot"></span>${party?`${esc(party)} Chapter Officer`:'Party Chapter Officer'}</span>${chapterLevel?`<span class="pch-badge"><span class="pch-dot"></span>${esc(chapterLevel)}</span>`:''}`;
-  const svcLabel=mode==='active'?'Chapter Activities & Initiatives':'Chapter Record';
+  const chapterRole=(ctx.data.chapterRole as string|null)??'Chapter Officer';
+  const chapter=placeName??'the Chapter';
+  const waHref=whatsappLink(phone,`Hello, I would like to reach ${esc(chapterRole)} ${esc(ctx.displayName)} of ${esc(chapter)}.`);
+  const heroSubtitle=mode==='active'
+    ?`${esc(chapterRole)} — ${esc(chapter)}${party?`, ${esc(party)}`:''}`
+    :`Former ${esc(chapterRole)} — ${esc(chapter)}${party?`, ${esc(party)}`:''}`;
+  const defaultTagline=mode==='active'
+    ?`Serving ${esc(chapter)} with dedication to party ideals, membership growth, and grassroots mobilisation.`
+    :`Proud to have led ${esc(chapter)} and strengthened our party's grassroots foundation.`;
+  const trustBadges=`<span class="pch-badge"><span class="pch-dot"></span>${mode==='active'?esc(chapterRole):`Former ${esc(chapterRole)}`}</span>${party?`<span class="pch-badge"><span class="pch-dot"></span>${esc(party)}</span>`:''}`;
+  const svcLabel=mode==='active'?'Chapter Activities':'Chapter Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
   const grid=featured.length===0?'':`<section class="pch-section"><h2 class="pch-section-title">${esc(svcLabel)}</h2><div class="pch-grid">${featured.map(o=>`<div class="pch-card"><h3 class="pch-card-name">${esc(o.name)}</h3>${o.description?`<p class="pch-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
@@ -130,14 +131,14 @@ function renderHome(ctx:WebsiteRenderContext):string{
   <p class="pch-subtitle">${heroSubtitle}</p>
   <p class="pch-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="pch-ctas">
-    ${waHref&&mode==='active'?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-primary-btn">${waSvg()} Join Chapter</a>`:`<a href="/services" class="pch-primary-btn">${mode==='active'?'Chapter Activities':'View Record'}</a>`}
-    <a href="/contact" class="pch-sec-btn">Contact the Officer</a>
+    <a href="/services" class="pch-primary-btn">${mode==='active'?'Chapter Activities':'View Record'}</a>
+    <a href="/contact" class="pch-sec-btn">Contact</a>
   </div>
   <div class="pch-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="pch-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="pch-info-strip">${party?`<div class="pch-info-item"><span class="pch-info-label">Party</span><span class="pch-info-value">${esc(party)}</span></div>`:''} ${placeName?`<div class="pch-info-item"><span class="pch-info-label">Chapter</span><span class="pch-info-value">${esc(placeName)}</span></div>`:''} ${phone?`<div class="pch-info-item"><span class="pch-info-label">Phone</span><span class="pch-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="pch-info-item"><span class="pch-info-label">WhatsApp</span><span class="pch-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">Join on WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="pch-info-strip">${placeName?`<div class="pch-info-item"><span class="pch-info-label">Chapter</span><span class="pch-info-value">${esc(placeName)}</span></div>`:''} ${phone?`<div class="pch-info-item"><span class="pch-info-label">Phone</span><span class="pch-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="pch-info-item"><span class="pch-info-label">WhatsApp</span><span class="pch-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">Chat →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -145,14 +146,14 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const description=(ctx.data.description as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
-  const website=(ctx.data.website as string|null)??null;
   const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const chapterLevel=(ctx.data.chapterLevel as string|null)??null;
-  const displayTitle=partyTitle??'Chapter Officer';
-  const waHref=whatsappLink(phone,`Hello, I would like to contact ${esc(displayTitle)} ${esc(ctx.displayName)}.`);
-  const roleLabel=`${mode==='active'?esc(displayTitle):`Former ${esc(displayTitle)}`}${party?`, ${esc(party)}`:''}${chapterLevel?` — ${esc(chapterLevel)}`:''}`;
-  const defaultDesc=mode==='active'?`${esc(ctx.displayName)} serves as ${esc(displayTitle)}${party?` of ${esc(party)}`:''}${chapterLevel?` at the ${esc(chapterLevel)} level`:''}. Responsible for party mobilisation, membership coordination, and chapter governance.`:`${esc(ctx.displayName)} served as ${esc(displayTitle)}${party?` of ${esc(party)}`:''}${chapterLevel?` at the ${esc(chapterLevel)} level`:''}, delivering strong party chapter coordination and membership growth.`;
+  const chapterRole=(ctx.data.chapterRole as string|null)??'Chapter Officer';
+  const chapter=placeName??'the Chapter';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact ${esc(chapterRole)} ${esc(ctx.displayName)}.`);
+  const roleLabel=mode==='active'?`${esc(chapterRole)}, ${esc(chapter)}`:`Former ${esc(chapterRole)}, ${esc(chapter)}`;
+  const defaultDesc=mode==='active'
+    ?`${esc(ctx.displayName)} serves as ${esc(chapterRole)} of ${esc(chapter)}${party?`, ${esc(party)}`:''}. Responsible for chapter administration, membership welfare, and party mobilisation at the grassroots level.`
+    :`${esc(ctx.displayName)} served as ${esc(chapterRole)} of ${esc(chapter)}${party?`, ${esc(party)}`:''}. Led chapter activities and contributed to grassroots party development.`;
   return `${CSS}
 <section class="pch-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="pch-logo" />`:''}
@@ -162,16 +163,15 @@ function renderAbout(ctx:WebsiteRenderContext):string{
 <div class="pch-body">
   <p class="pch-desc">${description?esc(description):defaultDesc}</p>
   <div class="pch-details">
-    ${partyTitle?`<div class="pch-drow"><span class="pch-dlabel">Title</span><span class="pch-dvalue">${esc(partyTitle)}</span></div>`:''}
+    ${chapterRole?`<div class="pch-drow"><span class="pch-dlabel">Role</span><span class="pch-dvalue">${esc(chapterRole)}</span></div>`:''}
     ${party?`<div class="pch-drow"><span class="pch-dlabel">Party</span><span class="pch-dvalue">${esc(party)}</span></div>`:''}
-    ${chapterLevel?`<div class="pch-drow"><span class="pch-dlabel">Chapter Level</span><span class="pch-dvalue">${esc(chapterLevel)}</span></div>`:''}
-    ${placeName?`<div class="pch-drow"><span class="pch-dlabel">Chapter Area</span><span class="pch-dvalue">${esc(placeName)}</span></div>`:''}
+    ${placeName?`<div class="pch-drow"><span class="pch-dlabel">Chapter</span><span class="pch-dvalue">${esc(placeName)}</span></div>`:''}
+    <div class="pch-drow"><span class="pch-dlabel">Selection</span><span class="pch-dvalue">Intra-party congress</span></div>
     ${phone?`<div class="pch-drow"><span class="pch-dlabel">Phone</span><span class="pch-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
-    ${website?`<div class="pch-drow"><span class="pch-dlabel">Party Website</span><span class="pch-dvalue"><a href="${safeHref(website)}" target="_blank" rel="noopener noreferrer">${esc(website)} ↗</a></span></div>`:''}
   </div>
   <div class="pch-btn-row">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="pch-sec-btn">Contact the Officer</a>
+    <a href="/contact" class="pch-sec-btn">Send a Message</a>
   </div>
 </div>`;
 }
@@ -180,18 +180,21 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const mode=getMode(ctx);
   const offerings=(ctx.data.offerings??[]) as Offering[];
   const phone=(ctx.data.phone as string|null)??null;
-  const party=(ctx.data.party as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I would like to enquire about chapter activities.`);
+  const placeName=(ctx.data.placeName as string|null)??null;
+  const chapterRole=(ctx.data.chapterRole as string|null)??'Chapter Officer';
+  const chapter=placeName??'the Chapter';
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about chapter activities under ${esc(ctx.displayName)}.`);
   const pageTitle=mode==='active'?'Chapter Activities':'Chapter Record';
-  const pageSubtitle=mode==='active'?`Ongoing party mobilisation, membership drives, and chapter initiatives${party?` — ${esc(party)}`:''}`:`Record of chapter activities and achievements during this term`;
-  const content=offerings.length===0?`<div class="pch-empty"><p>${mode==='active'?'Chapter activities are being updated.':'Chapter record being compiled.'}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="pch-primary-btn" href="/contact">Contact</a>`}</div>`
+  const pageSubtitle=mode==='active'?`Ongoing activities and initiatives for ${esc(chapter)}`:`Activities and achievements during the tenure of ${esc(chapterRole)} ${esc(ctx.displayName)}`;
+  const emptyMsg=mode==='active'?'Chapter activities are being updated. Contact the officer.':'Record being compiled.';
+  const content=offerings.length===0?`<div class="pch-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="pch-primary-btn" href="/contact">Contact</a>`}</div>`
     :`<div class="pch-grid">${offerings.map(o=>`<div class="pch-card"><h3 class="pch-card-name">${esc(o.name)}</h3>${o.description?`<p class="pch-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="pch-svc-hero"><h1>${esc(pageTitle)}</h1><p class="pch-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="pch-cta-strip">
-  <h3>${mode==='active'?'Join the Chapter':'Connect with Our Team'}</h3>
-  <p>${mode==='active'?'Become an active member of our party chapter and contribute to building a stronger party.':'For information about our chapter\'s work, reach our team.'}</p>
+  <h3>${mode==='active'?'Join Our Chapter':'Connect'}</h3>
+  <p>${mode==='active'?`Get involved with ${esc(chapter)} — attend meetings, support drives, and strengthen the party.`:`Reach the former chapter leadership team.`}</p>
   <div class="pch-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn">${waSvg()} WhatsApp</a>`:''}
     <a href="/contact" class="pch-sec-btn">Contact</a>
@@ -204,20 +207,18 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const party=(ctx.data.party as string|null)??null;
-  const partyTitle=(ctx.data.partyTitle as string|null)??null;
-  const displayTitle=partyTitle??'Chapter Officer';
-  const waHref=whatsappLink(phone,`Hello, I would like to join or contact the ${esc(party??'party')} chapter coordinated by ${esc(displayTitle)} ${esc(ctx.displayName)}.`);
+  const chapterRole=(ctx.data.chapterRole as string|null)??'Chapter Officer';
+  const chapter=placeName??'the Chapter';
+  const waHref=whatsappLink(phone,`Hello, I would like to contact ${mode==='active'?esc(chapterRole):`former ${esc(chapterRole)}`} ${esc(ctx.displayName)}.`);
   return `${CSS}
 <section class="pch-contact-hero">
-  <h1>Contact the Officer</h1>
-  <p>${mode==='active'?`Reach ${esc(displayTitle)} ${esc(ctx.displayName)} for party membership, chapter activities, or enquiries.`:`Contact the team of former ${esc(displayTitle)} ${esc(ctx.displayName)}.`}</p>
+  <h1>Contact the Chapter</h1>
+  <p>${mode==='active'?`Reach ${esc(chapterRole)} ${esc(ctx.displayName)} for chapter enquiries, membership, or party matters.`:`Contact the team of former ${esc(chapterRole)} ${esc(ctx.displayName)}, ${esc(chapter)}.`}</p>
 </section>
-${waHref?`<div class="pch-wa-block"><p>${mode==='active'?'Join our party chapter on WhatsApp.':'Send a WhatsApp message to reach our team.'}</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp</a></div>`:''}
+${waHref?`<div class="pch-wa-block"><p>Send a WhatsApp message for a faster response.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="pch-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp</a></div>`:''}
 <div class="pch-layout">
   <div class="pch-info">
-    <h2>${esc(ctx.displayName)} — ${esc(displayTitle)}</h2>
-    ${party?`<p><strong>Party:</strong> ${esc(party)}</p>`:''}
+    <h2>${esc(chapterRole)} — ${esc(chapter)}</h2>
     ${placeName?`<p><strong>Chapter:</strong> ${esc(placeName)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
@@ -227,13 +228,13 @@ ${waHref?`<div class="pch-wa-block"><p>${mode==='active'?'Join our party chapter
     <h2>Send a Message</h2>
     <form class="pch-form" method="POST" action="/contact" id="pchForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="pch-fg"><label for="pch-name">Your full name</label><input id="pch-name" name="name" type="text" required autocomplete="name" class="pch-input" placeholder="e.g. Adamu Suleiman" /></div>
+      <div class="pch-fg"><label for="pch-name">Your full name</label><input id="pch-name" name="name" type="text" required autocomplete="name" class="pch-input" placeholder="e.g. Aminu Bello" /></div>
       <div class="pch-fg"><label for="pch-phone">Phone number</label><input id="pch-phone" name="phone" type="tel" autocomplete="tel" class="pch-input" placeholder="0803 000 0000" /></div>
       <div class="pch-fg"><label for="pch-email">Email (optional)</label><input id="pch-email" name="email" type="email" class="pch-input" placeholder="you@example.com" /></div>
-      <div class="pch-fg"><label for="pch-msg">Your message</label><textarea id="pch-msg" name="message" required rows="4" class="pch-input pch-ta" placeholder="e.g. I want to join the chapter, attend an event, or ask about party membership."></textarea></div>
+      <div class="pch-fg"><label for="pch-msg">Your message</label><textarea id="pch-msg" name="message" required rows="4" class="pch-input pch-ta" placeholder="e.g. I have a membership enquiry or would like to attend a chapter meeting."></textarea></div>
       <button type="submit" class="pch-submit">Send Message</button>
     </form>
-    <div id="pchSuccess" class="pch-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>Our party team will respond shortly. Thank you.</p></div>
+    <div id="pchSuccess" class="pch-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The chapter officer will respond shortly.</p></div>
   </div>
 </div>
 <script>(function(){var f=document.getElementById('pchForm');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);fetch('/contact',{method:'POST',body:d}).then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(){f.style.display='none';var s=document.getElementById('pchSuccess');if(s)s.style.display='block'}).catch(function(){f.submit()})})})();</script>`;

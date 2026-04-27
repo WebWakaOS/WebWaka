@@ -1,12 +1,13 @@
 /**
- * Supervisory Councillor Official Site — NF-POL-APT variant (VN-POL-023)
+ * Supervisory Councillor Official Site — NF-POL-APT variant (VN-POL-024)
  * Pillar 2 — P2-supervisory-councillor-official-site · Sprint 4
  *
  * Nigeria-First:
- *   • Appointed by LGA Chairman — LGA functional area oversight
+ *   • Appointed by LGA Chairman — not elected; oversees a portfolio/department within LGA
+ *   • ~5 per LGA × 774 LGAs ≈ ~3,870 across Nigeria
  *   • NO campaign mode — appointed office only (incumbent + post_office)
- *   • Functional areas: education, health, works, agriculture, etc.
- *   • Simplest political template — clean execution
+ *   • NF-POL-APT anchor: same appointed-only pattern as state-commissioner
+ *   • CSS prefix: .sv-
  *
  * Platform Invariants: T2 strict, T3 no DB, P7 CSS vars, P10 375px
  */
@@ -66,7 +67,7 @@ const CSS=`<style>
 .sv-desc{color:var(--ww-text-muted);line-height:1.9;margin-bottom:2rem;font-size:1rem}
 .sv-details{display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem}
 .sv-drow{display:flex;gap:1rem;align-items:flex-start}
-.sv-dlabel{font-size:.875rem;font-weight:700;min-width:8rem;color:var(--ww-text);flex-shrink:0}
+.sv-dlabel{font-size:.875rem;font-weight:700;min-width:9rem;color:var(--ww-text);flex-shrink:0}
 .sv-dvalue{font-size:.9375rem;color:var(--ww-text-muted)}
 .sv-dvalue a{color:var(--ww-party-primary);font-weight:600}
 .sv-btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
@@ -110,14 +111,17 @@ function renderHome(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const lga=placeName??'the LGA';
-  const functionalArea=(ctx.data.functionalArea??ctx.data.portfolio as string|null)??null;
-  const waHref=whatsappLink(phone,`Hello, I would like to reach the office of ${mode==='incumbent'?'Supervisory Councillor':'former Supervisory Councillor'} ${esc(ctx.displayName)}.`);
-  const heroSubtitle=functionalArea
-    ?`${mode==='incumbent'?'Supervisory Councillor for':'Former Supervisory Councillor for'} ${esc(functionalArea)}, ${esc(lga)} LGA`
-    :`${mode==='incumbent'?'Supervisory Councillor':'Former Supervisory Councillor'} — ${esc(lga)} LGA`;
-  const defaultTagline=mode==='incumbent'?`Overseeing ${esc(functionalArea??'LGA functional areas')} with accountability to the residents of ${esc(lga)}.`:`Proud to have served as Supervisory Councillor in ${esc(lga)} LGA.`;
-  const trustBadges=`<span class="sv-badge"><span class="sv-dot"></span>LGA Chairman Appointee</span>${functionalArea?`<span class="sv-badge"><span class="sv-dot"></span>${esc(functionalArea)}</span>`:''}`;
-  const svcLabel=mode==='incumbent'?'Department Initiatives':'Tenure Record';
+  const portfolio=(ctx.data.portfolio as string|null)??null;
+  const chairmanName=(ctx.data.chairmanName as string|null)??null;
+  const waHref=whatsappLink(phone,`Hello, I would like to reach the office of Supervisory Councillor ${esc(ctx.displayName)}, ${esc(lga)}.`);
+  const heroSubtitle=portfolio
+    ?`${mode==='incumbent'?'Supervisory Councillor for':'Former Supervisory Councillor for'} ${esc(portfolio)}, ${esc(lga)}`
+    :`${mode==='incumbent'?'LGA Supervisory Councillor':'Former LGA Supervisory Councillor'} — ${esc(lga)}`;
+  const defaultTagline=mode==='incumbent'
+    ?`Overseeing the ${esc(portfolio??'LGA portfolio')} with diligence, transparency, and commitment to community development in ${esc(lga)}.`
+    :`Proud to have served the people of ${esc(lga)} in this supervisory capacity.`;
+  const trustBadges=`<span class="sv-badge"><span class="sv-dot"></span>${chairmanName?`Appointed by Chairman ${esc(chairmanName)}`:'LGA Chairman Appointment'}</span>${portfolio?`<span class="sv-badge"><span class="sv-dot"></span>${esc(portfolio)}</span>`:''}`;
+  const svcLabel=mode==='incumbent'?'Portfolio Activities':'Tenure Record';
   const featured=offerings.slice(0,6);
   const bio=description?(description.length>200?description.slice(0,200).trimEnd()+'…':description):null;
   const grid=featured.length===0?'':`<section class="sv-section"><h2 class="sv-section-title">${esc(svcLabel)}</h2><div class="sv-grid">${featured.map(o=>`<div class="sv-card"><h3 class="sv-card-name">${esc(o.name)}</h3>${o.description?`<p class="sv-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div></section>`;
@@ -128,14 +132,14 @@ function renderHome(ctx:WebsiteRenderContext):string{
   <p class="sv-subtitle">${heroSubtitle}</p>
   <p class="sv-tagline">${tagline?esc(tagline):defaultTagline}</p>
   <div class="sv-ctas">
-    <a href="/services" class="sv-primary-btn">${mode==='incumbent'?'Department Initiatives':'View Record'}</a>
+    <a href="/services" class="sv-primary-btn">${mode==='incumbent'?'Portfolio Activities':'View Record'}</a>
     <a href="/contact" class="sv-sec-btn">Contact the Office</a>
   </div>
   <div class="sv-trust-strip">${trustBadges}</div>
 </section>
 ${grid}
 ${bio?`<div class="sv-about-strip"><h2>About ${esc(ctx.displayName)}</h2><p>${esc(bio)}</p><a href="/about" style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary)">Read full profile →</a></div>`:''}
-${phone||placeName?`<div class="sv-info-strip">${placeName?`<div class="sv-info-item"><span class="sv-info-label">LGA</span><span class="sv-info-value">${esc(placeName)}</span></div>`:''} ${functionalArea?`<div class="sv-info-item"><span class="sv-info-label">Dept</span><span class="sv-info-value">${esc(functionalArea)}</span></div>`:''} ${phone?`<div class="sv-info-item"><span class="sv-info-label">Office</span><span class="sv-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="sv-info-item"><span class="sv-info-label">WhatsApp</span><span class="sv-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
+${phone||placeName?`<div class="sv-info-strip">${placeName?`<div class="sv-info-item"><span class="sv-info-label">LGA</span><span class="sv-info-value">${esc(placeName)}</span></div>`:''} ${portfolio?`<div class="sv-info-item"><span class="sv-info-label">Portfolio</span><span class="sv-info-value">${esc(portfolio)}</span></div>`:''} ${phone?`<div class="sv-info-item"><span class="sv-info-label">Office</span><span class="sv-info-value"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''} <div class="sv-info-item"><span class="sv-info-label">Enquiries</span><span class="sv-info-value">${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp →</a>`:`<a href="/contact">Contact →</a>`}</span></div></div>`:''}`;
 }
 
 function renderAbout(ctx:WebsiteRenderContext):string{
@@ -143,26 +147,30 @@ function renderAbout(ctx:WebsiteRenderContext):string{
   const description=(ctx.data.description as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
   const phone=(ctx.data.phone as string|null)??null;
-  const functionalArea=(ctx.data.functionalArea??ctx.data.portfolio as string|null)??null;
+  const portfolio=(ctx.data.portfolio as string|null)??null;
+  const chairmanName=(ctx.data.chairmanName as string|null)??null;
   const lga=placeName??'the LGA';
   const waHref=whatsappLink(phone,`Hello, I would like to contact Supervisory Councillor ${esc(ctx.displayName)}.`);
-  const roleLabel=functionalArea
-    ?`${mode==='incumbent'?'Supervisory Councillor for':'Former Supervisory Councillor for'} ${esc(functionalArea)}, ${esc(lga)}`
-    :`${mode==='incumbent'?'Supervisory Councillor':'Former Supervisory Councillor'} — ${esc(lga)}`;
-  const defaultDesc=mode==='incumbent'?`${esc(ctx.displayName)} serves as Supervisory Councillor${functionalArea?` for ${esc(functionalArea)}`:''}  in ${esc(lga)} LGA, appointed by the LGA Chairman to oversee departmental activities, ensure policy implementation, and report to the LGA Executive.`:`${esc(ctx.displayName)} served as Supervisory Councillor${functionalArea?` for ${esc(functionalArea)}`:''}  in ${esc(lga)} LGA, delivering departmental initiatives during the tenure.`;
+  const roleLabel=portfolio
+    ?`${mode==='incumbent'?'Supervisory Councillor for':'Former Supervisory Councillor for'} ${esc(portfolio)}, ${esc(lga)}`
+    :`${mode==='incumbent'?'LGA Supervisory Councillor':'Former LGA Supervisory Councillor'} — ${esc(lga)}`;
+  const defaultDesc=mode==='incumbent'
+    ?`${esc(ctx.displayName)} serves as Supervisory Councillor${portfolio?` for ${esc(portfolio)}`:''}  in ${esc(lga)}, appointed by the LGA Chairman${chairmanName?` ${esc(chairmanName)}`:''}. Responsible for department oversight, community project supervision, and policy delivery in this portfolio.`
+    :`${esc(ctx.displayName)} served as Supervisory Councillor${portfolio?` for ${esc(portfolio)}`:''}  in ${esc(lga)}, appointed to oversee departmental activities and community project delivery.`;
   return `${CSS}
 <section class="sv-about-hero">
   ${ctx.logoUrl?`<img src="${encodeURI(ctx.logoUrl)}" alt="${esc(ctx.displayName)}" class="sv-logo" />`:''}
   <h1>${esc(ctx.displayName)}</h1>
-  <span class="sv-cat-badge">${esc(roleLabel)}</span>
+  <span class="sv-cat-badge">${roleLabel}</span>
 </section>
 <div class="sv-body">
   <p class="sv-desc">${description?esc(description):defaultDesc}</p>
   <div class="sv-details">
-    ${functionalArea?`<div class="sv-drow"><span class="sv-dlabel">Dept</span><span class="sv-dvalue">${esc(functionalArea)}</span></div>`:''}
+    ${portfolio?`<div class="sv-drow"><span class="sv-dlabel">Portfolio</span><span class="sv-dvalue">${esc(portfolio)}</span></div>`:''}
     ${placeName?`<div class="sv-drow"><span class="sv-dlabel">LGA</span><span class="sv-dvalue">${esc(placeName)}</span></div>`:''}
-    <div class="sv-drow"><span class="sv-dlabel">Appointment</span><span class="sv-dvalue">Appointed by LGA Chairman</span></div>
-    ${phone?`<div class="sv-drow"><span class="sv-dlabel">Phone</span><span class="sv-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
+    <div class="sv-drow"><span class="sv-dlabel">Appointment</span><span class="sv-dvalue">LGA Chairman Appointment</span></div>
+    ${chairmanName?`<div class="sv-drow"><span class="sv-dlabel">Appointed by</span><span class="sv-dvalue">${esc(chairmanName)}</span></div>`:''}
+    ${phone?`<div class="sv-drow"><span class="sv-dlabel">Office Phone</span><span class="sv-dvalue"><a href="tel:${esc(phone)}">${esc(phone)}</a></span></div>`:''}
   </div>
   <div class="sv-btn-row">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn">${waSvg()} WhatsApp the Office</a>`:''}
@@ -176,22 +184,23 @@ function renderServices(ctx:WebsiteRenderContext):string{
   const offerings=(ctx.data.offerings??[]) as Offering[];
   const phone=(ctx.data.phone as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const functionalArea=(ctx.data.functionalArea??ctx.data.portfolio as string|null)??null;
+  const portfolio=(ctx.data.portfolio as string|null)??null;
   const lga=placeName??'the LGA';
-  const waHref=whatsappLink(phone,`Hello, I would like to enquire about LGA departmental activities.`);
-  const pageTitle=mode==='incumbent'?'Department Initiatives':'Tenure Record';
-  const pageSubtitle=mode==='incumbent'?`Departmental initiatives${functionalArea?` in ${esc(functionalArea)}`:''} for ${esc(lga)} LGA`:`Record of departmental activities during this tenure as Supervisory Councillor`;
-  const content=offerings.length===0?`<div class="sv-empty"><p>${mode==='incumbent'?'Department initiatives being published.':'Tenure record being compiled.'}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="sv-primary-btn" href="/contact">Contact</a>`}</div>`
+  const waHref=whatsappLink(phone,`Hello, I would like to enquire about portfolio activities under Supervisory Councillor ${esc(ctx.displayName)}, ${esc(lga)}.`);
+  const pageTitle=mode==='incumbent'?'Portfolio Activities':'Tenure Record';
+  const pageSubtitle=mode==='incumbent'?`Active projects and oversight activities${portfolio?` in the ${esc(portfolio)} portfolio`:''}${placeName?`, ${esc(lga)}`:''}`:portfolio?`Record of service in the ${esc(portfolio)} portfolio, ${esc(lga)}`:`Record of service, ${esc(lga)}`;
+  const emptyMsg=mode==='incumbent'?'Portfolio activities are being published. Contact the office.':'Record being compiled.';
+  const content=offerings.length===0?`<div class="sv-empty"><p>${esc(emptyMsg)}</p>${waHref?`<br/><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn">${waSvg()} WhatsApp</a>`:`<br/><a class="sv-primary-btn" href="/contact">Contact the Office</a>`}</div>`
     :`<div class="sv-grid">${offerings.map(o=>`<div class="sv-card"><h3 class="sv-card-name">${esc(o.name)}</h3>${o.description?`<p class="sv-card-desc">${esc(o.description)}</p>`:''}${o.priceKobo!==null?`<p style="font-size:.9375rem;font-weight:600;color:var(--ww-party-primary);margin:.375rem 0 0">${fmtKobo(o.priceKobo)}</p>`:''}</div>`).join('')}</div>`;
   return `${CSS}
 <section class="sv-svc-hero"><h1>${esc(pageTitle)}</h1><p class="sv-sub">${esc(pageSubtitle)}</p></section>
 <section>${content}</section>
 <div class="sv-cta-strip">
-  <h3>Community Liaison</h3>
-  <p>${mode==='incumbent'?`For departmental enquiries${functionalArea?` (${esc(functionalArea)})`:''}  in ${esc(lga)} LGA, reach the Supervisory Councillor's office.`:'For further engagement with this tenure\'s record, contact our team.'}</p>
+  <h3>${mode==='incumbent'?'Community Engagement':'Connect with Our Office'}</h3>
+  <p>${mode==='incumbent'?`For portfolio enquiries, project updates, or community matters in ${esc(lga)}, reach the Supervisory Councillor.`:`We welcome enquiries on the work of this LGA portfolio.`}</p>
   <div class="sv-btn-row" style="justify-content:center">
     ${waHref?`<a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn">${waSvg()} WhatsApp</a>`:''}
-    <a href="/contact" class="sv-sec-btn">Contact</a>
+    <a href="/contact" class="sv-sec-btn">Contact the Office</a>
   </div>
 </div>`;
 }
@@ -201,36 +210,36 @@ function renderContact(ctx:WebsiteRenderContext):string{
   const phone=(ctx.data.phone as string|null)??null;
   const email=(ctx.data.email as string|null)??null;
   const placeName=(ctx.data.placeName as string|null)??null;
-  const functionalArea=(ctx.data.functionalArea??ctx.data.portfolio as string|null)??null;
+  const portfolio=(ctx.data.portfolio as string|null)??null;
   const lga=placeName??'the LGA';
-  const waHref=whatsappLink(phone,`Hello, I am contacting the office of ${mode==='incumbent'?'Supervisory Councillor':'former Supervisory Councillor'} ${esc(ctx.displayName)}${functionalArea?`, ${esc(functionalArea)}`:''}${lga?`, ${esc(lga)} LGA`:''}.`);
+  const waHref=whatsappLink(phone,`Hello, I am contacting the office of ${mode==='incumbent'?'Supervisory Councillor':'former Supervisory Councillor'} ${esc(ctx.displayName)}${portfolio?`, ${esc(portfolio)}`:''}${placeName?`, ${esc(lga)}`:''}.`);
   return `${CSS}
 <section class="sv-contact-hero">
   <h1>Contact the Office</h1>
-  <p>${mode==='incumbent'?`Reach Supervisory Councillor ${esc(ctx.displayName)} for departmental matters or community enquiries.`:`Contact the team of former Supervisory Councillor ${esc(ctx.displayName)}.`}</p>
+  <p>${mode==='incumbent'?`Reach Supervisory Councillor ${esc(ctx.displayName)} for portfolio enquiries, project updates, or community concerns in ${esc(lga)}.`:`Contact the team of former Supervisory Councillor ${esc(ctx.displayName)}${portfolio?`, ${esc(portfolio)}`:''}, ${esc(lga)}.`}</p>
 </section>
-${waHref?`<div class="sv-wa-block"><p>Send a WhatsApp message to our office.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp the Office</a></div>`:''}
+${waHref?`<div class="sv-wa-block"><p>Send a WhatsApp message to our office for faster response.</p><a href="${waHref}" target="_blank" rel="noopener noreferrer" class="sv-wa-btn" style="display:inline-flex;justify-content:center">${waSvg()} WhatsApp the Office</a></div>`:''}
 <div class="sv-layout">
   <div class="sv-info">
-    <h2>${functionalArea?`Supervisory Councillor — ${esc(functionalArea)}`:'Supervisory Councillor'}</h2>
+    <h2>${portfolio?`Supervisory Councillor for ${esc(portfolio)}, ${esc(lga)}`:`Supervisory Councillor — ${esc(lga)}`}</h2>
     ${placeName?`<p><strong>LGA:</strong> ${esc(placeName)}</p>`:''}
-    ${functionalArea?`<p><strong>Department:</strong> ${esc(functionalArea)}</p>`:''}
+    ${portfolio?`<p><strong>Portfolio:</strong> ${esc(portfolio)}</p>`:''}
     ${phone?`<p><strong>Phone:</strong> <a href="tel:${esc(phone)}">${esc(phone)}</a></p>`:''}
     ${email?`<p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>`:''}
-    ${!phone&&!email?`<p>Office details coming soon.</p>`:''}
-    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">Appointed by the LGA Chairman. Accountable to the LGA Executive and the community.</p>
+    ${!phone&&!email?`<p>Office contact details coming soon.</p>`:''}
+    <p style="margin-top:1rem;font-size:.875rem;color:var(--ww-text-muted)">This office is appointed by the LGA Chairman and is accountable to the people of ${esc(lga)}.</p>
   </div>
   <div class="sv-form-wrap">
     <h2>Send a Message</h2>
     <form class="sv-form" method="POST" action="/contact" id="svForm">
       <input type="hidden" name="tenant_id" value="${esc(ctx.tenantId)}" />
-      <div class="sv-fg"><label for="sv-name">Your full name</label><input id="sv-name" name="name" type="text" required autocomplete="name" class="sv-input" placeholder="e.g. Ibrahim Aliyu" /></div>
+      <div class="sv-fg"><label for="sv-name">Your full name</label><input id="sv-name" name="name" type="text" required autocomplete="name" class="sv-input" placeholder="e.g. Hassan Garba" /></div>
       <div class="sv-fg"><label for="sv-phone">Phone number</label><input id="sv-phone" name="phone" type="tel" autocomplete="tel" class="sv-input" placeholder="0803 000 0000" /></div>
       <div class="sv-fg"><label for="sv-email">Email (optional)</label><input id="sv-email" name="email" type="email" class="sv-input" placeholder="you@example.com" /></div>
-      <div class="sv-fg"><label for="sv-msg">Your message</label><textarea id="sv-msg" name="message" required rows="4" class="sv-input sv-ta" placeholder="e.g. I have a question about a departmental project or community matter."></textarea></div>
+      <div class="sv-fg"><label for="sv-msg">Your message or community concern</label><textarea id="sv-msg" name="message" required rows="4" class="sv-input sv-ta" placeholder="e.g. I have a community concern or enquiry about an LGA project in this portfolio."></textarea></div>
       <button type="submit" class="sv-submit">Send Message</button>
     </form>
-    <div id="svSuccess" class="sv-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>Our team will respond shortly. Thank you.</p></div>
+    <div id="svSuccess" class="sv-success" style="display:none" role="status" aria-live="polite"><h3>Message received!</h3><p>The Supervisory Councillor's team will respond shortly.</p></div>
   </div>
 </div>
 <script>(function(){var f=document.getElementById('svForm');if(!f)return;f.addEventListener('submit',function(e){e.preventDefault();var d=new FormData(f);fetch('/contact',{method:'POST',body:d}).then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(){f.style.display='none';var s=document.getElementById('svSuccess');if(s)s.style.display='block'}).catch(function(){f.submit()})})})();</script>`;

@@ -228,6 +228,22 @@ import { jewelleryShopJewellerySiteTemplate } from '../templates/niches/jeweller
 import { babyShopBabyStoreSiteTemplate } from '../templates/niches/baby-shop/baby-store-site.js';
 import { cosmeticsShopCosmeticsRetailTemplate } from '../templates/niches/cosmetics-shop/cosmetics-retail.js';
 import { thriftStoreThriftStoreSiteTemplate } from '../templates/niches/thrift-store/thrift-store-site.js';
+import { governorOfficialSiteTemplate } from '../templates/niches/governor/official-site.js';
+import { senatorOfficialSiteTemplate } from '../templates/niches/senator/official-site.js';
+import { houseOfRepsMemberOfficialSiteTemplate } from '../templates/niches/house-of-reps-member/official-site.js';
+import { stateCommissionerOfficialSiteTemplate } from '../templates/niches/state-commissioner/official-site.js';
+import { federalMinisterOfficialSiteTemplate } from '../templates/niches/federal-minister/official-site.js';
+import { lgaChairmanOfficialSiteTemplate } from '../templates/niches/lga-chairman/official-site.js';
+import { houseOfAssemblyMemberOfficialSiteTemplate } from '../templates/niches/house-of-assembly-member/official-site.js';
+import { presidentialCandidateOfficialSiteTemplate } from '../templates/niches/presidential-candidate/official-site.js';
+import { politicalAppointeeOfficialSiteTemplate } from '../templates/niches/political-appointee/official-site.js';
+import { wardCouncillorOfficialSiteTemplate } from '../templates/niches/ward-councillor/official-site.js';
+import { partyChapterOfficerOfficialSiteTemplate } from '../templates/niches/party-chapter-officer/official-site.js';
+import { partyStateOfficerOfficialSiteTemplate } from '../templates/niches/party-state-officer/official-site.js';
+import { deputyGovernorOfficialSiteTemplate } from '../templates/niches/deputy-governor/official-site.js';
+import { assemblySpeakerOfficialSiteTemplate } from '../templates/niches/assembly-speaker/official-site.js';
+import { lgaViceChairmanOfficialSiteTemplate } from '../templates/niches/lga-vice-chairman/official-site.js';
+import { supervisoryCouncillorOfficialSiteTemplate } from '../templates/niches/supervisory-councillor/official-site.js';
 import type { WebsiteRenderContext } from '@webwaka/verticals';
 
 /**
@@ -490,6 +506,22 @@ const BUILT_IN_TEMPLATES: Map<string, WebsiteTemplateContract> = new Map([
   ['baby-shop-baby-store-site', babyShopBabyStoreSiteTemplate],
   ['cosmetics-shop-cosmetics-retail', cosmeticsShopCosmeticsRetailTemplate],
   ['thrift-store-thrift-store-site', thriftStoreThriftStoreSiteTemplate],
+  ['governor-official-site', governorOfficialSiteTemplate],
+  ['senator-official-site', senatorOfficialSiteTemplate],
+  ['house-of-reps-member-official-site', houseOfRepsMemberOfficialSiteTemplate],
+  ['state-commissioner-official-site', stateCommissionerOfficialSiteTemplate],
+  ['federal-minister-official-site', federalMinisterOfficialSiteTemplate],
+  ['lga-chairman-official-site', lgaChairmanOfficialSiteTemplate],
+  ['house-of-assembly-member-official-site', houseOfAssemblyMemberOfficialSiteTemplate],
+  ['presidential-candidate-official-site', presidentialCandidateOfficialSiteTemplate],
+  ['political-appointee-official-site', politicalAppointeeOfficialSiteTemplate],
+  ['ward-councillor-official-site', wardCouncillorOfficialSiteTemplate],
+  ['party-chapter-officer-official-site', partyChapterOfficerOfficialSiteTemplate],
+  ['party-state-officer-official-site', partyStateOfficerOfficialSiteTemplate],
+  ['deputy-governor-official-site', deputyGovernorOfficialSiteTemplate],
+  ['assembly-speaker-official-site', assemblySpeakerOfficialSiteTemplate],
+  ['lga-vice-chairman-official-site', lgaViceChairmanOfficialSiteTemplate],
+  ['supervisory-councillor-official-site', supervisoryCouncillorOfficialSiteTemplate],
 ]);
 
 // ---------------------------------------------------------------------------
