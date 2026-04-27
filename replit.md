@@ -362,5 +362,26 @@ Domain model and API contract layer for the WakaPage vertical (ADR-0041).
 - Events: `WakaPageCreated`, `WakaPagePublished`, `WakaPageBlockAdded/Updated/Removed` (fire-and-forget)
 - Search indexing on publish via `indexWakaPage` in `search-index.ts`
 
-### Phase 2 scope (not yet built)
-Public renderer `/p/:slug`, builder UI, leads CRUD, QR codes, template installation API.
+### Phase 2 — Public Renderer (2026-04-27)
+
+`apps/brand-runtime` gains `GET /wakapage` + `POST /wakapage/leads`.
+
+**New files:**
+- `src/lib/wakapage-types.ts` — D1 row types + `RenderContext`
+- `src/lib/wakapage-block-registry.ts` — dispatch table (17 block types)
+- `src/templates/wakapage/page-shell.ts` — standalone WakaPage HTML shell (no site nav, mobile-first 360px, PWA, Schema.org JSON-LD, OG tags)
+- `src/templates/wakapage/` — 17 block templates: `hero`, `bio`, `social_links`, `cta_button`, `contact_form`, `offerings`, `gallery`, `map`, `blog_post`, `testimonials`, `faq`, `countdown`, `media_kit`, `trust_badges`, `social_feed`(stub), `community`(stub), `event_list`(stub)
+- `src/routes/wakapage.ts` — `GET /wakapage` (renderer) + `POST /wakapage/leads` (NDPR-compliant lead capture)
+- `src/routes/wakapage.test.ts` — 33 integration tests (T30–T45)
+
+**Package updates:**
+- `apps/brand-runtime/package.json` — added `@webwaka/wakapage-blocks: workspace:*`
+- `apps/brand-runtime/tsconfig.json` — path alias for `@webwaka/wakapage-blocks`
+- `apps/brand-runtime/src/index.ts` — registered `app.route('/wakapage', wakaPageRouter)`
+
+**Test result:** 130/130 tests pass. Typecheck clean.
+
+**Phase 3 scope (not yet built):**
+Builder UI, QR codes, analytics dashboard, audience/CRM, template installation API.
+Stub blocks (social_feed, community, event_list) receive live data bindings.
+503-vs-403 distinction for suspended tenants (requires branding-entitlement middleware enhancement).

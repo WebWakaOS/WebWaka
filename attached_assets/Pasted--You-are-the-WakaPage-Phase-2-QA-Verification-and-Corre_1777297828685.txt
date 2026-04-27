@@ -1,0 +1,303 @@
+
+You are the WakaPage Phase 2 QA, Verification, and Correction Swarm operating inside the live WebWaka monorepo in the WebWakaOS organization.
+
+**PHASE 1 STATUS: PASS WITH MINOR FIXES** (all fixes applied, 2660 tests passing, migrations 0419-0423 deployed)
+
+Your mission is to perform a strict, evidence-based forensic QA review of the completed Phase 2 WakaPage public renderer and block template implementation. Verify Phase 2 was executed exactly as required by the Phase 2 execution prompt, identify all rendering defects, security gaps, mobile regressions, brand token failures, and scope drift. Correct what is safely correctable. Issue go/no-go for Phase 3.
+
+This is **renderer correctness, mobile quality, brand fidelity, and public-safety verification** — not a style review.
+
+==================================================
+INPUTS FOR VERIFICATION
+==================================================
+
+**Phase 1 Contracts (Locked):**
+```
+✅ Migrations 0419_wakapage_pages.sql → 0423_tenant_branding_social_links.sql
+✅ API: POST/GET/PATCH/DELETE /wakapages/* (7 routes, tenant-isolated)  
+✅ @webwaka/wakapage-blocks: 17 BlockType + parseBlockConfig<T>()
+✅ indexWakaPage() → search_entries.wakapage_* facets
+✅ tenant_branding.social_links_json column exists
+✅ wakaPagePublicPage entitlement active (all 7 plans)
+```
+
+**Phase 2 Execution Prompt:** Treat as binding contract (attached above)
+**Phase 2 Implementation Report:** Under audit  
+**Changed Files:** `apps/brand-runtime/src/routes/wakapage.ts`, `templates/wakapage/*`, `lib/wakapage-block-registry.ts`
+**Test Results:** Integration tests, viewport screenshots, governance logs
+
+==================================================
+CORE QA MANDATE
+==================================================
+
+Verify **ALL** of the following were implemented correctly:
+
+1. **Public renderer** `GET /{tenant-slug}/wakapage` renders published page + blocks
+2. **Custom domain** resolution → tenant_id → page render  
+3. **17 block templates** render without crash (hero → divider)
+4. **Brand tokens** inject correctly from `@webwaka/white-label-theming`
+5. **Mobile-first** 360px viewport → no H-flow, 44px touch targets
+6. **Contact/WhatsApp forms** POST to Phase 1 API endpoints
+7. **SEO** title/OG/canonical/schema.org correct
+8. **PWA** manifest/service worker inherited correctly
+9. **No Phase 3 drift** (no builder UI, no QR, no live-data bindings)
+10. **Security** CSP/no SSRF/Phase 1 T3 verified
+11. **Performance** <2s LCP at edge
+
+==================================================
+NON-NEGOTIABLE RULES
+==================================================
+
+- Phase 1 contracts are **immutable** — renderer must consume `GET /wakapages/:id` exclusively
+- Current implementation is source of truth — verify every claim against actual files
+- **Mobile regression = FAIL** — 360px viewport must render perfectly
+- **Brand token failure = FAIL** — colors/fonts must match tenant_branding
+- **Phase 3 drift = FAIL** — no builder UI, QR, live-data, audience features
+- If rendering crashes, forms don't POST, or mobile breaks → BLOCK Phase 3
+- Fix safe defects directly; provide exact remediation for others
+
+==================================================
+MANDATORY QA EXECUTION SEQUENCE
+==================================================
+
+### Phase A — Reconstruct Phase 2 Contract
+Extract **exact** requirements from Phase 2 execution prompt:
+- Required files (5 exact paths)
+- MVP block coverage (10 MUST, 7 SHOULD stubs)  
+- Rendering requirements (9 bullet points)
+- Security requirements (4 bullet points)
+- Mobile requirements (360px → 1280px)
+- Forbidden features (6 explicit NOs)
+
+### Phase B — File Completeness Audit
+Verify **exact** files exist with correct structure:
+
+| Required File | Expected Purpose | Exists? | Lines | Status |
+|---------------|------------------|---------|-------|--------|
+| `apps/brand-runtime/src/routes/wakapage.ts` | Public renderer | ? | ? | ? |
+| `apps/brand-runtime/src/templates/wakapage/` | 17 block templates | ? | ? | ? |
+| `apps/brand-runtime/src/lib/wakapage-block-registry.ts` | Block dispatcher | ? | ? | ? |
+| `apps/brand-runtime/src/lib/wakapage-types.ts` | Render contracts | ? | ? | ? |
+| `apps/brand-runtime/src/routes/wakapage.test.ts` | Integration tests | ? | ? | ? |
+
+### Phase C — Renderer Flow Audit
+Test **every step** of public rendering:
+
+```
+1. GET /{tenant-slug}/wakapage → tenant_id → GET /wakapages/first-published → blocks → render
+2. Custom domain → tenant_branding → tenant_id → page render  
+3. Unpublished tenant → 404
+4. Suspended tenant → 503
+5. No published page → 404
+```
+
+### Phase D — Block Template Audit (17 Types)
+For **each** of 17 block types, verify:
+
+| Block Type | Renders? | Brand Tokens? | Mobile OK? | Config Parsing? | Notes |
+|------------|----------|---------------|------------|-----------------|-------|
+| hero | ? | ? | ? | ? | ? |
+| text | ? | ? | ? | ? | ? |
+| ... | ? | ? | ? | ? | ? |
+| divider | ? | ? | ? | ? | ? |
+
+**Priority failures:**
+```
+❌ hero fails → CRITICAL (no page without hero)
+❌ contact form doesn't POST → CRITICAL (no lead capture)  
+❌ whatsapp_cta malformed → CRITICAL (Nigeria-first)
+❌ social_links crashes → CRITICAL (tenant_branding extension)
+```
+
+### Phase E — Brand Token Fidelity Audit
+Verify **live injection** across 3 plans:
+
+```
+Free Plan → default WebWaka brand tokens
+Pro Plan → custom primary_color/accent_color  
+Enterprise → full custom_theme_json
+```
+
+Check: CSS variables present, typography correct, colors match tenant_branding.
+
+### Phase F — Mobile Regression Audit
+**360px viewport screenshot verification:**
+
+```
+✅ No horizontal scroll
+✅ 44px min touch targets (all CTAs)
+✅ Hero image responsive (no overflow)
+✅ Text readable (16px body min)
+✅ Block stack clean (no overlap/crop)
+```
+
+### Phase G — Security & CSP Audit
+Verify:
+```
+✅ No arbitrary config_json → innerHTML (XSS vector)
+✅ CSP headers inherited from middleware
+✅ Forms POST to Phase 1 API only
+✅ No inline <script> except analytics
+✅ No SSRF (no config-driven fetch())
+```
+
+### Phase H — Phase 3 Drift Audit
+**BLOCK** if ANY Phase 3 features found:
+```
+❌ Builder UI components
+❌ QR code generation  
+❌ Live offerings/booking APIs
+❌ Analytics dashboard
+❌ Audience/CRM features
+❌ A/B testing logic
+```
+
+### Phase I — Performance Audit
+Measure **real metrics:**
+```
+LCP < 2s (hero block + brand tokens)
+FCP < 1.5s  
+CLS < 0.1
+TBT < 200ms
+```
+
+### Phase J — Correction & Remediation
+**Fix immediately:**
+- Mobile H-flow → CSS fix
+- Missing brand tokens → `@webwaka/white-label-theming` wiring  
+- Contact form broken → Phase 1 endpoint fix
+- Block crashes → config parsing + fallback
+
+**Remediation instructions for:**
+- Architecture drift
+- Performance regressions
+- Security gaps
+
+==================================================
+REQUIRED OUTPUT FORMAT
+==================================================
+
+```md
+# WakaPage Phase 2 QA Report
+
+## 1. Verdict
+**PASS — PHASE 3 READY** | **PASS WITH FIXES** | **FAIL — DO NOT START PHASE 3**
+
+## 2. File Completeness
+| File | Status | Lines | Issues |
+|------|--------|-------|--------|
+
+## 3. Rendering Flow Results
+| Flow | Status | Evidence |
+|------|--------|----------|
+| /{tenant}/wakapage | ? | ? |
+| custom-domain.com/wakapage | ? | ? |
+| Unpublished tenant | ? | ? |
+
+## 4. Block Coverage Matrix (17 Types)
+| Block | Renders | Brand | Mobile | Form Works | Score |
+|-------|---------|-------|--------|------------|-------|
+| hero | ? | ? | ? | N/A | ?/4 |
+| ... | ? | ? | ? | ? | ?/4 |
+| **TOTAL** | ?/17 | ?/17 | ?/17 | ?/4 | **?/68** |
+
+## 5. Brand Token Verification
+| Plan | Tokens Injected | Colors Match | Typography OK | Status |
+|------|----------------|--------------|---------------|--------|
+| Free | ? | ? | ? | ? |
+| Pro | ? | ? | ? | ? |
+| Enterprise | ? | ? | ? | ? |
+
+## 6. Mobile Regression Report
+```
+360px viewport: [PASS/FAIL]
+H-flow: [NONE/px overflow]
+Touch targets: [OK/FAIL]
+Hero responsive: [OK/FAIL]
+Stacking: [CLEAN/OVERLAP]
+Screenshot: [EMBED]
+```
+
+## 7. Security Findings
+| Issue | Severity | Fixed? | Evidence |
+|-------|----------|--------|----------|
+
+## 8. Phase 3 Drift Check
+**Drift found:** [NONE/LIST]
+
+## 9. Performance Metrics
+| Metric | Measured | Target | Status |
+|--------|----------|--------|--------|
+| LCP | ?s | <2s | ? |
+| FCP | ?s | <1.5s | ? |
+
+## 10. Corrections Applied
+- Fixed: [...]
+- Remediation needed: [...]
+
+## 11. Scoring Rubric (0-5)
+| Dimension | Score | Weight | Notes |
+|-----------|-------|--------|-------|
+| Renderer correctness | ? | 25% | |
+| Mobile quality | ? | 20% | |
+| Brand fidelity | ? | 15% | |
+| Block coverage | ? | 15% | |
+| Security | ? | 10% | |
+| **Total** | **?/5** | | |
+
+## 12. Go/No-Go
+**Phase 3 may begin:** YES | **NO — BLOCKED BY:** [...]
+```
+
+==================================================
+AUTOMATIC FAILURE CONDITIONS
+==================================================
+
+**IMMEDIATE FAIL → BLOCK PHASE 3:**
+
+1. **Renderer 404/crash** on `/{tenant}/wakapage`
+2. **Mobile H-flow** >0px at 360px viewport
+3. **Brand tokens missing** (hard-coded colors/fonts)
+4. **Contact form** doesn't POST to Phase 1 API
+5. **Phase 3 drift** detected (builder UI, QR, live-data)
+6. **Block crash** on any of 17 types
+7. **LCP >3s** or **CLS >0.25**
+
+**PASS WITH FIXES** threshold: 85% block coverage + mobile clean + renderer works
+
+**FAIL** threshold: Core renderer broken OR mobile regressed OR Phase 3 drift
+
+==================================================
+EVIDENCE REQUIREMENTS
+==================================================
+
+**Every claim MUST cite:**
+```
+✅ File paths: apps/brand-runtime/src/routes/wakapage.ts:123
+✅ HTTP responses: curl -v https://{tenant}.webwaka.com/wakapage
+✅ Viewport screenshots: 360px → 1280px
+✅ CSS variables: :root { --color-primary: #01696f }
+✅ Network tab: POST /wakapages/{id}/leads → 201
+✅ Test output: pnpm test apps/brand-runtime → 42/42 PASS
+```
+
+**No hallucinated evidence accepted.**
+
+==================================================
+SCORING WEIGHTS
+==================================================
+
+```
+Renderer correctness: 25% (MUST work end-to-end)
+Mobile quality: 20% (Nigeria-first, low-bandwidth)  
+Brand fidelity: 15% (white-label core promise)
+Block coverage: 15% (17/17 render)
+Security: 10% (public surface)
+Performance: 10% (edge-critical)
+Phase 3 discipline: 5% (no scope creep)
+```
+
+**Minimum pass: 4.0/5.0**
+
+**Begin forensic audit now.**
+```

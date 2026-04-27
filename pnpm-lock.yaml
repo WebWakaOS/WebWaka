@@ -641,6 +641,9 @@ importers:
       '@webwaka/verticals':
         specifier: workspace:*
         version: link:../../packages/verticals
+      '@webwaka/wakapage-blocks':
+        specifier: workspace:*
+        version: link:../../packages/wakapage-blocks
       '@webwaka/white-label-theming':
         specifier: workspace:*
         version: link:../../packages/white-label-theming
