@@ -66,10 +66,10 @@ class MockD1 {
             if (sqlLower.startsWith('insert')) {
               const tableMatch = sqlLower.match(/into\s+(\w+)/);
               if (tableMatch) {
-                const table = self.getTable(tableMatch[1]);
+                const table = self.getTable(tableMatch[1]!);
                 const colMatch = sql.match(/\(([^)]+)\)\s*values/i);
                 if (colMatch) {
-                  const cols = colMatch[1].split(',').map((c) => c.trim().replace(/"/g, '').replace(/`/g, ''));
+                  const cols = colMatch[1]!.split(',').map((c) => c.trim().replace(/"/g, '').replace(/`/g, ''));
                   const row: Row = {};
                   cols.forEach((col, i) => { row[col] = args[i] ?? null; });
                   table.push(row);
@@ -78,7 +78,7 @@ class MockD1 {
             } else if (sqlLower.startsWith('update')) {
               const tableMatch = sqlLower.match(/update\s+(\w+)/);
               if (tableMatch) {
-                const table = self.getTable(tableMatch[1]);
+                const table = self.getTable(tableMatch[1]!);
                 // raised_kobo + contributor_count update
                 if (sqlLower.includes('raised_kobo = raised_kobo +')) {
                   const campaignId = args[2];
@@ -116,7 +116,7 @@ class MockD1 {
           async first<T>(): Promise<T | null> {
             const tableMatch = sqlLower.match(/from\s+(\w+)/);
             if (!tableMatch) return null;
-            const table = self.getTable(tableMatch[1]);
+            const table = self.getTable(tableMatch[1]!);
 
             if (sqlLower.includes('coalesce(sum(amount_kobo)')) {
               const sum = table
@@ -150,7 +150,7 @@ class MockD1 {
           async all<T>(): Promise<{ results: T[] }> {
             const tableMatch = sqlLower.match(/from\s+(\w+)/);
             if (!tableMatch) return { results: [] };
-            const table = self.getTable(tableMatch[1]);
+            const table = self.getTable(tableMatch[1]!);
             const results = table.filter((r) =>
               (args[0] === undefined || r.campaign_id === args[0]) &&
               (args[1] === undefined || r.tenant_id === args[1]),

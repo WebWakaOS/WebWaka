@@ -109,6 +109,9 @@ importers:
       '@webwaka/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
+      '@webwaka/fundraising':
+        specifier: workspace:*
+        version: link:../../packages/fundraising
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
@@ -151,6 +154,9 @@ importers:
       '@webwaka/superagent':
         specifier: workspace:*
         version: link:../../packages/superagent
+      '@webwaka/support-groups':
+        specifier: workspace:*
+        version: link:../../packages/support-groups
       '@webwaka/types':
         specifier: workspace:*
         version: link:../../packages/types

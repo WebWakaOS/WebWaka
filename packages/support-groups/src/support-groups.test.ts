@@ -71,11 +71,11 @@ class MockD1 {
             if (sqlLower.startsWith('insert')) {
               const tableMatch = sqlLower.match(/into\s+(\w+)/);
               if (tableMatch) {
-                const table = self.getTable(tableMatch[1]);
+                const table = self.getTable(tableMatch[1]!);
                 // Build a simple row from named columns
                 const colMatch = sql.match(/\(([^)]+)\)\s*values/i);
                 if (colMatch) {
-                  const cols = colMatch[1].split(',').map((c) => c.trim().replace(/"/g, ''));
+                  const cols = colMatch[1]!.split(',').map((c) => c.trim().replace(/"/g, ''));
                   const row: Row = {};
                   cols.forEach((col, i) => {
                     row[col] = args[i] ?? null;
@@ -87,7 +87,7 @@ class MockD1 {
               // Minimal UPDATE support: update member_count
               const tableMatch = sqlLower.match(/update\s+(\w+)/);
               if (tableMatch) {
-                const table = self.getTable(tableMatch[1]);
+                const table = self.getTable(tableMatch[1]!);
                 // member_count increment
                 if (sqlLower.includes('member_count = member_count + 1')) {
                   const idIdx = args.length - 2;
@@ -122,10 +122,10 @@ class MockD1 {
             } else if (sqlLower.includes('insert or ignore')) {
               const tableMatch = sqlLower.match(/into\s+(\w+)/);
               if (tableMatch) {
-                const table = self.getTable(tableMatch[1]);
+                const table = self.getTable(tableMatch[1]!);
                 const colMatch = sql.match(/\(([^)]+)\)\s*values/i);
                 if (colMatch) {
-                  const cols = colMatch[1].split(',').map((c) => c.trim().replace(/"/g, ''));
+                  const cols = colMatch[1]!.split(',').map((c) => c.trim().replace(/"/g, ''));
                   const row: Row = {};
                   cols.forEach((col, i) => { row[col] = args[i] ?? null; });
                   const exists = table.some((r) => r.id === row.id);
@@ -138,7 +138,7 @@ class MockD1 {
           async first<T>(): Promise<T | null> {
             const tableMatch = sqlLower.match(/from\s+(\w+)/);
             if (!tableMatch) return null;
-            const table = self.getTable(tableMatch[1]);
+            const table = self.getTable(tableMatch[1]!);
 
             // COUNT(*) queries
             if (sqlLower.includes('count(*)')) {
@@ -167,7 +167,7 @@ class MockD1 {
           async all<T>(): Promise<{ results: T[] }> {
             const tableMatch = sqlLower.match(/from\s+(\w+)/);
             if (!tableMatch) return { results: [] };
-            const table = self.getTable(tableMatch[1]);
+            const table = self.getTable(tableMatch[1]!);
             const results = table.filter((r) =>
               (args[0] === undefined || r.workspace_id === args[0] || r.group_id === args[0] || r.campaign_id === args[0]) &&
               (args[1] === undefined || r.tenant_id === args[1]),

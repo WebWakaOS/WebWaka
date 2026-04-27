@@ -2,7 +2,7 @@
   "name": "@webwaka/api",
   "version": "1.0.0",
   "private": true,
-  "description": "[Pillar 1] Cloudflare Workers API — Hono + WebWaka OS backend.",
+  "description": "[Pillar 1] Cloudflare Workers API \u2014 Hono + WebWaka OS backend.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -28,8 +28,8 @@
     "@webwaka/entities": "workspace:*",
     "@webwaka/entitlements": "workspace:*",
     "@webwaka/events": "workspace:*",
-    "@webwaka/wakapage-blocks": "workspace:*",
     "@webwaka/frontend": "workspace:*",
+    "@webwaka/fundraising": "workspace:*",
     "@webwaka/geography": "workspace:*",
     "@webwaka/hl-wallet": "workspace:*",
     "@webwaka/identity": "workspace:*",
@@ -44,6 +44,7 @@
     "@webwaka/shared-config": "workspace:*",
     "@webwaka/social": "workspace:*",
     "@webwaka/superagent": "workspace:*",
+    "@webwaka/support-groups": "workspace:*",
     "@webwaka/types": "workspace:*",
     "@webwaka/verticals": "workspace:*",
     "@webwaka/verticals-abattoir": "workspace:*",
@@ -193,6 +194,7 @@
     "@webwaka/verticals-welding-fabrication": "workspace:*",
     "@webwaka/verticals-womens-association": "workspace:*",
     "@webwaka/verticals-youth-organization": "workspace:*",
+    "@webwaka/wakapage-blocks": "workspace:*",
     "aws4fetch": "^1.0.20",
     "hono": "^4.12.14",
     "zod": "^3.22.4"

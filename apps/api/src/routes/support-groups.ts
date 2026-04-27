@@ -192,8 +192,8 @@ supportGroupRoutes.post('/', async (c) => {
     } catch { /* non-fatal */ }
 
     await publishEvent(c.env, {
-      aggregate: 'support_group', aggregateId: group.id,
-      eventType: SupportGroupEventType.SupportGroupCreated,
+      eventId: crypto.randomUUID(),
+      eventKey: SupportGroupEventType.SupportGroupCreated,
       tenantId, payload: { groupId: group.id, name: group.name },
     });
 
@@ -262,8 +262,8 @@ supportGroupRoutes.patch('/:id', async (c) => {
   } catch { /* non-fatal */ }
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: updated.id,
-    eventType: SupportGroupEventType.SupportGroupUpdated,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupUpdated,
     tenantId, payload: { groupId: updated.id },
   });
 
@@ -301,8 +301,8 @@ supportGroupRoutes.post('/:id/join', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupMemberJoined,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupMemberJoined,
     tenantId, payload: { memberId: member.id, userId },
   });
 
@@ -331,8 +331,8 @@ supportGroupRoutes.post('/:id/members/:memberId/approve', async (c) => {
   await approveMember(db as never, c.req.param('memberId'), userId, tenantId);
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupMemberApproved,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupMemberApproved,
     tenantId, payload: { memberId: c.req.param('memberId'), approvedBy: userId },
   });
 
@@ -384,8 +384,8 @@ supportGroupRoutes.post('/:id/meetings', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupMeetingScheduled,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupMeetingScheduled,
     tenantId, payload: { meetingId: meeting.id },
   });
 
@@ -433,8 +433,8 @@ supportGroupRoutes.post('/:id/broadcasts', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupBroadcastSent,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupBroadcastSent,
     tenantId, payload: { broadcastId: broadcast.id, channel: broadcast.channel },
   });
 
@@ -482,8 +482,8 @@ supportGroupRoutes.post('/:id/events', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupEventCreated,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupEventCreated,
     tenantId, payload: { eventId: event.id },
   });
 
@@ -542,8 +542,8 @@ supportGroupRoutes.post('/:id/gotv', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupGotvRecorded,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupGotvRecorded,
     tenantId,
     payload: { gotvId: record.id, pollingUnitCode: record.pollingUnitCode },
     // P13: voter_ref deliberately omitted from event payload
@@ -563,8 +563,8 @@ supportGroupRoutes.post('/:id/gotv/:gotvId/confirm', async (c) => {
   await confirmVote(db as never, c.req.param('gotvId'), tenantId);
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupGotvVoteConfirmed,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupGotvVoteConfirmed,
     tenantId, payload: { gotvId: c.req.param('gotvId') },
   });
 
@@ -604,8 +604,8 @@ supportGroupRoutes.post('/:id/petitions', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: c.req.param('id'),
-    eventType: SupportGroupEventType.SupportGroupPetitionOpened,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupPetitionOpened,
     tenantId, payload: { petitionId: petition.id },
   });
 
@@ -628,8 +628,8 @@ supportGroupRoutes.post('/petitions/:petitionId/sign', async (c) => {
   await signPetition(db as never, petitionId, petitionRow.group_id, petitionRow.workspace_id, tenantId, userId);
 
   await publishEvent(c.env, {
-    aggregate: 'support_group', aggregateId: petitionRow.group_id,
-    eventType: SupportGroupEventType.SupportGroupPetitionSigned,
+    eventId: crypto.randomUUID(),
+    eventKey: SupportGroupEventType.SupportGroupPetitionSigned,
     tenantId, payload: { petitionId, userId },
   });
 

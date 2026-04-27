@@ -204,8 +204,8 @@ fundraisingRoutes.post('/campaigns', async (c) => {
     } catch { /* non-fatal */ }
 
     await publishEvent(c.env, {
-      aggregate: 'fundraising_campaign', aggregateId: campaign.id,
-      eventType: FundraisingEventType.FundraisingCampaignCreated,
+      eventId: crypto.randomUUID(),
+      eventKey: FundraisingEventType.FundraisingCampaignCreated,
       tenantId, payload: { campaignId: campaign.id, title: campaign.title, campaignType: campaign.campaignType },
     });
 
@@ -292,8 +292,8 @@ fundraisingRoutes.post('/campaigns/:id/publish', async (c) => {
   if (!campaign) return c.json({ error: 'NOT_FOUND' }, 404);
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: campaign.id,
-    eventType: FundraisingEventType.FundraisingCampaignApproved,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingCampaignApproved,
     tenantId, payload: { campaignId: campaign.id },
   });
 
@@ -316,8 +316,8 @@ fundraisingRoutes.post('/campaigns/:id/moderate', async (c) => {
   await moderateCampaign(db as never, c.req.param('id'), tenantId, parsed.data.action, userId, parsed.data.note);
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: parsed.data.action === 'active'
+    eventId: crypto.randomUUID(),
+    eventKey: parsed.data.action === 'active'
       ? FundraisingEventType.FundraisingCampaignApproved
       : FundraisingEventType.FundraisingCampaignRejected,
     tenantId, payload: { campaignId: c.req.param('id'), moderatedBy: userId },
@@ -372,8 +372,8 @@ fundraisingRoutes.post('/campaigns/:id/contributions', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingContributionReceived,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingContributionReceived,
     tenantId, payload: { contributionId: contribution.id, amountKobo: contribution.amountKobo },
     // P13: donor_phone deliberately omitted from event payload
   });
@@ -396,8 +396,8 @@ fundraisingRoutes.post('/campaigns/:id/contributions/:cId/confirm', async (c) =>
   await confirmContribution(db as never, c.req.param('cId'), tenantId, parsed.data.paystackRef);
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingContributionConfirmed,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingContributionConfirmed,
     tenantId, payload: { contributionId: c.req.param('cId'), paystackRef: parsed.data.paystackRef },
   });
 
@@ -442,8 +442,8 @@ fundraisingRoutes.post('/campaigns/:id/pledges', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingPledgeCreated,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingPledgeCreated,
     tenantId, payload: { pledgeId: pledge.id, amountKobo: pledge.amountKobo, frequency: pledge.frequency },
     // P13: pledgerPhone omitted from event payload
   });
@@ -505,8 +505,8 @@ fundraisingRoutes.post('/campaigns/:id/updates', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingUpdatePosted,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingUpdatePosted,
     tenantId, payload: { updateId: update.id },
   });
 
@@ -572,8 +572,8 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests', async (c) => {
   });
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingPayoutRequested,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingPayoutRequested,
     tenantId, payload: { payoutRequestId: payoutRequest.id, amountKobo: payoutRequest.amountKobo,
       hitlRequired: payoutRequest.hitlRequired },
     // P13: bankAccountNumber stripped (already masked in repository output)
@@ -605,8 +605,8 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests/:prId/approve', async (c)
   await approvePayoutRequest(db as never, c.req.param('prId'), tenantId, userId, note);
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingPayoutApproved,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingPayoutApproved,
     tenantId, payload: { payoutRequestId: c.req.param('prId'), reviewerId: userId },
   });
 
@@ -626,8 +626,8 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests/:prId/reject', async (c) 
   await rejectPayoutRequest(db as never, c.req.param('prId'), tenantId, userId, parsed.data.note);
 
   await publishEvent(c.env, {
-    aggregate: 'fundraising_campaign', aggregateId: c.req.param('id'),
-    eventType: FundraisingEventType.FundraisingPayoutRejected,
+    eventId: crypto.randomUUID(),
+    eventKey: FundraisingEventType.FundraisingPayoutRejected,
     tenantId, payload: { payoutRequestId: c.req.param('prId'), reviewerId: userId, note: parsed.data.note },
   });
 

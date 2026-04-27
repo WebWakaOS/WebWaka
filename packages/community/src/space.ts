@@ -1,6 +1,10 @@
 /**
  * Community space CRUD.
  * T3 — every query carries tenant_id predicate.
+ *
+ * Migration 0389 adds workspace_id column (NOT NULL DEFAULT 'unassigned').
+ * CreateCommunitySpaceArgs accepts workspaceId (optional for backward compat;
+ * defaults to 'unassigned' at DB layer when omitted).
  */
 
 interface D1Like {
@@ -18,6 +22,7 @@ interface D1Like {
 export interface CommunitySpace {
   id: string;
   tenantId: string;
+  workspaceId: string;
   name: string;
   slug: string;
   description: string | null;
@@ -29,6 +34,7 @@ export interface CommunitySpace {
 interface SpaceRow {
   id: string;
   tenant_id: string;
+  workspace_id: string;
   name: string;
   slug: string;
   description: string | null;
@@ -41,6 +47,7 @@ function rowToSpace(row: SpaceRow): CommunitySpace {
   return {
     id: row.id,
     tenantId: row.tenant_id,
+    workspaceId: row.workspace_id,
     name: row.name,
     slug: row.slug,
     description: row.description,
@@ -56,13 +63,15 @@ export interface CreateCommunitySpaceArgs {
   description?: string;
   visibility?: 'public' | 'private';
   tenantId: string;
+  /** Migration 0389: workspace scoping. Defaults to 'unassigned' if omitted. */
+  workspaceId?: string;
 }
 
 export async function createCommunitySpace(
   db: D1Like,
   args: CreateCommunitySpaceArgs,
 ): Promise<CommunitySpace> {
-  const { name, slug, description, visibility = 'public', tenantId } = args;
+  const { name, slug, description, visibility = 'public', tenantId, workspaceId = 'unassigned' } = args;
 
   const existing = await db
     .prepare('SELECT id FROM community_spaces WHERE slug = ? AND tenant_id = ?')
@@ -78,14 +87,15 @@ export async function createCommunitySpace(
 
   await db
     .prepare(
-      'INSERT INTO community_spaces (id, tenant_id, name, slug, description, visibility, member_count, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)',
+      'INSERT INTO community_spaces (id, tenant_id, workspace_id, name, slug, description, visibility, member_count, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?)',
     )
-    .bind(id, tenantId, name, slug, description ?? null, visibility, now, now)
+    .bind(id, tenantId, workspaceId, name, slug, description ?? null, visibility, now, now)
     .run();
 
   return {
     id,
     tenantId,
+    workspaceId,
     name,
     slug,
     description: description ?? null,

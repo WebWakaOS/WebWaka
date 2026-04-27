@@ -298,8 +298,8 @@ interface SupportGroupEntry {
  * Private/invite_only groups are NOT indexed (removed if they exist).
  * Non-fatal — callers must wrap in try/catch.
  *
- * Migration 0393 adds state_code, lga_code, ward_code, group_type columns
- * to search_entries for geo and type-filtered discovery.
+ * Migration 0393 adds state_code, lga_code, campaign_type, group_type columns.
+ * Migration 0394 adds ward_code column to search_entries for ward-level discovery.
  */
 export async function indexSupportGroup(
   db: D1Like,
