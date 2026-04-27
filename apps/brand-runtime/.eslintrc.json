@@ -9,5 +9,23 @@
     "node": false,
     "es2022": true,
     "worker": true
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/templates/**/*.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_"
+          }
+        ],
+        "@typescript-eslint/no-unnecessary-type-assertion": "warn"
+      }
+    }
+  ]
 }
