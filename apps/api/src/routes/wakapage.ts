@@ -29,6 +29,8 @@ import type { AuthContext } from '@webwaka/types';
 import { SubscriptionStatus } from '@webwaka/types';
 import { PLAN_CONFIGS, EntitlementError } from '@webwaka/entitlements';
 import { WakaPageEventType } from '@webwaka/events';
+import { BLOCK_TYPES } from '@webwaka/wakapage-blocks';
+import type { BlockType } from '@webwaka/wakapage-blocks';
 import { publishEvent } from '../lib/publish-event.js';
 import { indexWakaPage, removeWakaPageFromIndex } from '../lib/search-index.js';
 
@@ -174,15 +176,10 @@ function requireWriteRole(auth: AuthContext): boolean {
   return auth.role === 'admin' || auth.role === 'super_admin';
 }
 
-// ---------------------------------------------------------------------------
-// Valid MVP block types (mirrors wakapage_blocks CHECK constraint)
-// ---------------------------------------------------------------------------
-
-const VALID_BLOCK_TYPES = new Set([
-  'hero','bio','offerings','contact_form','social_links','gallery',
-  'cta_button','map','testimonials','faq','countdown','media_kit',
-  'trust_badges','social_feed','blog_post','community','event_list',
-]);
+// BLOCK_TYPES is the canonical runtime set of valid block type strings.
+// It is imported from @webwaka/wakapage-blocks (the single source of truth)
+// and mirrors the wakapage_blocks.block_type CHECK constraint in migration 0420.
+// To add a block type: extend BlockType + BLOCK_TYPES in the package, then add a migration.
 
 // ---------------------------------------------------------------------------
 // Route registration
@@ -481,10 +478,12 @@ wakaPageRoutes.patch('/:id', async (c) => {
   }
 
   setClauses.push('updated_at = unixepoch()');
-  values.push(id, String(auth.tenantId));
+  // Include workspace_id in UPDATE predicate for defence-in-depth (T3 hardening).
+  // The preceding SELECT already verified ownership; this is a belt-and-suspenders guard.
+  values.push(id, String(auth.tenantId), String(auth.workspaceId));
 
   await db
-    .prepare(`UPDATE wakapage_pages SET ${setClauses.join(', ')} WHERE id = ? AND tenant_id = ?`)
+    .prepare(`UPDATE wakapage_pages SET ${setClauses.join(', ')} WHERE id = ? AND tenant_id = ? AND workspace_id = ?`)
     .bind(...values)
     .run();
 
@@ -526,7 +525,7 @@ wakaPageRoutes.post('/:id/blocks', async (c) => {
 
   const blockType = typeof body.block_type === 'string' ? body.block_type.trim() : '';
   if (!blockType) return c.json({ error: 'block_type is required' }, 400);
-  if (!VALID_BLOCK_TYPES.has(blockType)) {
+  if (!BLOCK_TYPES.has(blockType as BlockType)) {
     return c.json({ error: `Invalid block_type '${blockType}'. Must be one of the MVP block types.` }, 400);
   }
 
@@ -856,5 +855,5 @@ wakaPageRoutes.post('/:id/publish', async (c) => {
   });
 });
 
-// Export removeWakaPageFromIndex so router tests can access it when needed
-export { removeWakaPageFromIndex };
+// removeWakaPageFromIndex is exported from apps/api/src/lib/search-index.ts.
+// Import it from there directly; do not re-export it from this route module.

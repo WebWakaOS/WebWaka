@@ -53,6 +53,36 @@ export type BlockType =
   | 'community'       // @webwaka/community spaces
   | 'event_list';     // @webwaka/community events list
 
+/**
+ * Runtime set of all MVP block type strings.
+ *
+ * This is the single canonical list of valid block types.
+ * Derive your runtime validators from this — never scatter block type strings
+ * into route or renderer code.
+ *
+ * Governance: add a new type to `BlockType` above AND to this Set, then update
+ * the wakapage_blocks.block_type CHECK constraint in a new migration.
+ */
+export const BLOCK_TYPES: ReadonlySet<BlockType> = new Set<BlockType>([
+  'hero',
+  'bio',
+  'offerings',
+  'contact_form',
+  'social_links',
+  'gallery',
+  'cta_button',
+  'map',
+  'testimonials',
+  'faq',
+  'countdown',
+  'media_kit',
+  'trust_badges',
+  'social_feed',
+  'blog_post',
+  'community',
+  'event_list',
+]);
+
 // ---------------------------------------------------------------------------
 // Base block interface
 // ---------------------------------------------------------------------------

@@ -920,13 +920,13 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // -------------------------------------------------------------------------
   // WakaPage — Phase 1 (ADR-0041)
-  //   POST   /wakapages                     — create page (admin/owner)
-  //   GET    /wakapages/:id                 — fetch page + blocks (any member)
-  //   PATCH  /wakapages/:id                 — update page metadata (admin/owner)
-  //   POST   /wakapages/:id/blocks          — add block (admin/owner)
-  //   PATCH  /wakapages/:id/blocks/:blockId — update block (admin/owner)
-  //   DELETE /wakapages/:id/blocks/:blockId — delete block (admin/owner)
-  //   POST   /wakapages/:id/publish         — publish page + index + emit event (admin/owner)
+  //   POST   /wakapages                     — create page (admin/super_admin)
+  //   GET    /wakapages/:id                 — fetch page + blocks (any authed member)
+  //   PATCH  /wakapages/:id                 — update page metadata (admin/super_admin)
+  //   POST   /wakapages/:id/blocks          — add block (admin/super_admin)
+  //   PATCH  /wakapages/:id/blocks/:blockId — update block (admin/super_admin)
+  //   DELETE /wakapages/:id/blocks/:blockId — delete block (admin/super_admin)
+  //   POST   /wakapages/:id/publish         — publish page + index + emit event (admin/super_admin)
   //
   // Auth required on all routes (authMiddleware applied here).
   // Entitlement (wakaPagePublicPage boolean) checked inside route handlers.

@@ -18,7 +18,7 @@ Phase 1 delivers the full WakaPage domain model and API contract layer with no p
 | 0419 | `wakapage_pages` — core page entity (slug, profile FK, publication_state, theme, analytics flag) | ✓ |
 | 0420 | `wakapage_blocks` — ordered block registry (block_type CHECK, sort_order, is_visible, config_json) | ✓ |
 | 0421 | `wakapage_leads` — lead-capture submissions linked to a page | ✓ |
-| 0422 | `search_entries` — adds `wakapage_slug`, `wakapage_published_at`, `wakapage_display_name` facets | ✓ |
+| 0422 | `search_entries` — adds `wakapage_page_id`, `wakapage_slug`, `wakapage_published_at` facets | ✓ |
 | 0423 | `tenant_branding` — adds `social_links` JSONB column | ✓ |
 
 ### 1.2 Search Index Extension

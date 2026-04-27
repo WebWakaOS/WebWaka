@@ -598,6 +598,9 @@ importers:
       '@webwaka/verticals-youth-organization':
         specifier: workspace:*
         version: link:../../packages/verticals-youth-organization
+      '@webwaka/wakapage-blocks':
+        specifier: workspace:*
+        version: link:../../packages/wakapage-blocks
       aws4fetch:
         specifier: ^1.0.20
         version: 1.0.20

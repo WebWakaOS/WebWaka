@@ -28,6 +28,7 @@
     "@webwaka/entities": "workspace:*",
     "@webwaka/entitlements": "workspace:*",
     "@webwaka/events": "workspace:*",
+    "@webwaka/wakapage-blocks": "workspace:*",
     "@webwaka/frontend": "workspace:*",
     "@webwaka/geography": "workspace:*",
     "@webwaka/hl-wallet": "workspace:*",

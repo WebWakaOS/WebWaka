@@ -33,7 +33,7 @@ export type {
   EventListBlockConfig,
 } from './block-types.js';
 
-export { parseBlockConfig, serializeBlockConfig } from './block-types.js';
+export { parseBlockConfig, serializeBlockConfig, BLOCK_TYPES } from './block-types.js';
 
 export type {
   PagePublicationState,
