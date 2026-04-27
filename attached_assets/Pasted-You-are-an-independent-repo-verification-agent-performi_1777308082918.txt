@@ -1,0 +1,493 @@
+You are an independent repo verification agent performing a forensic validation of the attached report:
+
+TARGET REPORT:
+FINAL-IMPLEMENTATION-AND-QA-REPORT.md
+
+REPOSITORY TARGET:
+WebWakaOS/WebWaka
+Branch: staging
+
+MISSION:
+Validate every material claim in FINAL-IMPLEMENTATION-AND-QA-REPORT.md against the actual repository state, actual files, actual migrations, actual package exports, actual route handlers, actual test files, actual TypeScript configuration, and actual workspace/package wiring.
+
+You must operate as an adversarial verifier, not as a summarizer.
+
+HARD RULES:
+1. Do not trust the report.
+2. Do not accept any claim without direct evidence from the repo.
+3. Every conclusion must cite exact file paths and, where possible, line numbers, grep output, command output, or test output.
+4. If a claim cannot be proven, mark it UNVERIFIED.
+5. If a claim is disproven, mark it FALSE.
+6. If a claim is partially true, mark it PARTIAL and explain exactly what is missing.
+7. Do not stop at surface-level checks. Trace implementation across schema, code, exports, routes, tests, and runtime wiring.
+8. If you find contradictions between the report and the repo, prioritize the repo as source of truth.
+9. Do not conclude GO unless every claimed item is proven.
+10. Use a zero-trust standard similar to a release-blocking audit.
+
+PRIMARY OBJECTIVE:
+Produce a claim-by-claim verification report for FINAL-IMPLEMENTATION-AND-QA-REPORT.md that answers:
+- which claims are VERIFIED,
+- which claims are PARTIAL,
+- which claims are FALSE,
+- which claims are UNVERIFIED,
+- and whether the final “GO — 100% green” verdict is actually justified by the repository.
+
+==================================================
+PHASE 1 — REPO BASELINE
+==================================================
+
+First, verify the repo baseline:
+- current branch
+- latest commit
+- whether commits 2fd019a and 17b6398 exist
+- whether they are on staging
+- whether the files referenced in the report exist in the repo at the claimed paths
+
+Commands to run:
+- git branch --show-current
+- git log --oneline --decorate -n 20
+- git rev-parse --verify 2fd019a
+- git rev-parse --verify 17b6398
+- git branch --contains 2fd019a
+- git branch --contains 17b6398
+
+Record exact outputs.
+
+==================================================
+PHASE 2 — BUILD A CLAIM LEDGER
+==================================================
+
+Read FINAL-IMPLEMENTATION-AND-QA-REPORT.md in full and extract every material claim into a structured ledger.
+
+At minimum, create claim categories for:
+1. repo/commit/branch claims
+2. scope delivered claims
+3. migration claims
+4. package architecture claims
+5. extended package modification claims
+6. API route counts and endpoint claims
+7. compliance architecture claims
+8. search indexing claims
+9. AI integration claims
+10. QA fix claims
+11. prior audit issue closure claims
+12. test matrix claims
+13. platform invariant verification claims
+14. file inventory claims
+15. final verdict claims
+
+For every claim create fields:
+- Claim ID
+- Claim text
+- Report section
+- Expected evidence paths
+- Verification status: VERIFIED / PARTIAL / FALSE / UNVERIFIED
+- Evidence
+- Notes
+
+Do not merge unrelated claims. Granularity matters.
+
+==================================================
+PHASE 3 — MIGRATIONS VERIFICATION
+==================================================
+
+Verify every migration claim in the report.
+
+Check whether these files actually exist:
+- apps/api/migrations/0389_community_spaces_workspace_id.sql
+- apps/api/migrations/0390_support_groups.sql
+- apps/api/migrations/0391_fundraising.sql
+- apps/api/migrations/0392_support_groups_fundraising_ai_configs.sql
+- apps/api/migrations/0393_support_groups_fundraising_search.sql
+- apps/api/migrations/0394_search_entries_ward_code.sql
+
+For each migration:
+- open and inspect full content
+- confirm it is non-empty and materially does what the report claims
+- confirm exact tables/columns/indexes mentioned in the report
+- confirm whether there are inconsistencies between migration comments and SQL
+- confirm whether phantom migration concerns are truly resolved
+- confirm whether support-group and fundraising schema names match the report
+- count actual tables created
+- count indexes created
+- verify `tenant_id` exists on every new business table
+- verify money fields are INTEGER and not REAL/FLOAT
+- verify bridge tables actually exist
+- verify `workspace_id` is added to `community_spaces`
+- verify whether migration 0389 actually removes or changes one-community-space-per-workspace logic, or only comments on it
+- verify whether 0393 and 0394 are both necessary and real
+
+Also grep for:
+- REAL
+- FLOAT
+- scale
+- ward_code
+- tithe_fundraising_bridge
+- campaign_donation_bridge
+
+Important:
+Do not accept “report says X” as proof. Inspect actual SQL.
+
+==================================================
+PHASE 4 — PACKAGE VERIFICATION
+==================================================
+
+Verify that these packages actually exist and match the claims:
+
+A. packages/support-groups
+Check:
+- package.json
+- tsconfig.json
+- tsconfig.build.json
+- vitest.config.ts
+- src/types.ts
+- src/repository.ts
+- src/entitlements.ts
+- src/index.ts
+- src/support-groups.test.ts
+
+Validate:
+- package builds cleanly
+- export surface matches report
+- repository function count matches claim
+- types named in report actually exist
+- entitlement guards named in report actually exist
+- test count matches claim
+
+B. packages/fundraising
+Check:
+- package.json
+- tsconfig.json
+- tsconfig.build.json
+- vitest.config.ts
+- src/types.ts
+- src/repository.ts
+- src/entitlements.ts
+- src/index.ts
+- src/fundraising.test.ts
+
+Validate:
+- export surface matches report
+- repository function count matches claim
+- INEC_DEFAULT_CAP_KOBO exists if claimed
+- checkInecCap exists if claimed
+- migrateTitheToFundraising exists if claimed
+- entitlement guards exist
+- test count matches claim
+
+Do not trust comments. Verify actual exported identifiers.
+
+==================================================
+PHASE 5 — EXTENDED PACKAGE VERIFICATION
+==================================================
+
+Verify the reported modifications to:
+- packages/events/src/event-types.ts
+- packages/events/src/index.ts
+- packages/entitlements/src/plan-config.ts
+- packages/superagent/src/vertical-ai-config.ts
+- packages/wakapage-blocks/src/block-types.ts
+- packages/community/src/space.ts
+
+For each:
+- confirm file exists
+- confirm the exact claimed additions exist
+- verify event constant counts
+- verify supportGroupsEnabled and fundraisingEnabled flags
+- verify plan names are valid and no `scale` tier exists
+- verify support-group and fundraising AI config entries are present
+- verify capability names match capability-metadata.ts
+- verify workspace_id support in community package actually exists in types + row mapper + insert
+- verify any claimed line references if possible
+
+Also grep the repo for:
+- scale
+- supportGroupsEnabled
+- fundraisingEnabled
+- support-group
+- fundraising
+- workspace_id
+- workspaceId
+
+==================================================
+PHASE 6 — ROUTE VERIFICATION
+==================================================
+
+Open and inspect:
+- apps/api/src/routes/support-groups.ts
+- apps/api/src/routes/fundraising.ts
+- apps/api/src/router.ts
+- apps/api/package.json
+
+Verify:
+- route files exist
+- route registration exists in router.ts
+- package dependencies include @webwaka/support-groups and @webwaka/fundraising
+- auth middleware placement matches claim
+- endpoint count is accurate
+- method/path tables in the report match actual code
+- public endpoints vs JWT endpoints match actual code
+- NDPR consent enforcement exists where claimed
+- search indexing calls exist after create/update
+- PII stripping exists where claimed
+- HITL or moderation routes exist where claimed
+
+Count endpoints exactly. If report says 22 and code has 21 or 23, mark claim FALSE.
+Do not estimate.
+
+==================================================
+PHASE 7 — SEARCH INDEX VERIFICATION
+==================================================
+
+Inspect:
+- apps/api/src/lib/search-index.ts
+
+Verify:
+- indexSupportGroup exists
+- indexFundraisingCampaign exists
+- removeSupportGroupFromIndex exists
+- removeFundraisingCampaignFromIndex exists
+- actual inserted columns match schema
+- ward_code is actually written
+- campaign_type and group_type are actually written
+- private/invite_only skipping logic exists if claimed
+- non-fatal try/catch behavior exists in route callers if claimed
+
+Check consistency between code and migrations.
+
+==================================================
+PHASE 8 — AI VERIFICATION
+==================================================
+
+Inspect:
+- packages/superagent/src/vertical-ai-config.ts
+- packages/superagent/src/capability-metadata.ts
+- packages/superagent/src/index.ts
+- apps/api/migrations/0392_support_groups_fundraising_ai_configs.sql
+
+Verify:
+- runtime TypeScript config contains support-group and fundraising entries
+- capability names are real and authoritative
+- SQL config rows exist
+- runtime vs SQL config alignment is actually true
+- hitlRequired / sensitiveSector / maxAutonomyLevel / excludedDataFields match report
+- whether report’s exact capability strings use actual identifiers or transformed names
+- whether “sensitiveSector false” for fundraising is actually present
+- whether there is still any unresolved dual-system mismatch
+
+Also verify whether any wrong `VerticalAIConfig` export/import issue remains anywhere in repo.
+
+==================================================
+PHASE 9 — EVENTS / NOTIFICATOR VERIFICATION
+==================================================
+
+Inspect:
+- packages/events/src/event-types.ts
+- packages/events/src/index.ts
+- apps/api/src/lib/publish-event.ts
+- support-groups and fundraising routes
+- apps/notificator if relevant handlers/templates are claimed
+
+Verify:
+- all support-group and fundraising event constants exist
+- event counts are accurate
+- publishEvent call shape now matches the local helper
+- all eventKey values used in routes are valid exported constants
+- if report claims notificator contract resolution, verify whether notificator actually contains matching consumers/templates/routes; if not, mark that claim PARTIAL or FALSE
+- verify no orphaned event names remain in route files
+
+Do not accept “events exported” as equivalent to “notificator fully wired.”
+
+==================================================
+PHASE 10 — PRIOR AUDIT CLOSURE VERIFICATION
+==================================================
+
+Use Replit-QA-AUDIT-REPORT.md as the baseline of prior blocking issues.
+
+For each prior issue that FINAL-IMPLEMENTATION-AND-QA-REPORT.md says is fixed, independently verify against repo:
+- community_spaces.workspace_id mismatch
+- one-community-space-per-workspace conflict
+- phantom migrations 0393/0394
+- invalid scale references
+- tithe_records coexistence
+- AI dual-system mismatch
+- wrong AI capability identifiers
+- missing events/notificator contracts
+- missing cascade/delete behavior
+
+Do not accept narrative resolution. Verify actual code, schema, routes, docs, and runtime wiring.
+
+Important nuance:
+If the final report downgrades an earlier blocker by argument rather than code change, mark it as PARTIAL unless the repo truly proves the concern is resolved.
+
+==================================================
+PHASE 11 — TEST MATRIX VERIFICATION
+==================================================
+
+Verify every test claim in the report.
+
+Run or inspect:
+- package test commands
+- workspace test commands
+- package typecheck commands
+- package build commands
+
+At minimum verify:
+- support-groups tests actually total 24
+- fundraising tests actually total 23
+- community tests actually total 45
+- typecheck is clean for:
+  - apps/api
+  - packages/support-groups
+  - packages/fundraising
+  - packages/community
+  - packages/events
+  - packages/entitlements
+
+Capture actual command outputs.
+
+If full execution is too heavy, at minimum inspect:
+- test file count and test declarations
+- package scripts
+- tsconfig validity
+- prior CI outputs if available
+
+But prefer actual execution if possible:
+- pnpm --filter @webwaka/support-groups test
+- pnpm --filter @webwaka/fundraising test
+- pnpm --filter @webwaka/community test
+- pnpm --filter ... typecheck
+
+If any claimed test count or result cannot be reproduced, mark UNVERIFIED or FALSE.
+
+==================================================
+PHASE 12 — INVARIANTS VERIFICATION
+==================================================
+
+Independently verify the report’s invariant claims:
+- P1 Build Once Use Infinitely
+- T3 Tenant Isolation
+- P9 Integer Kobo Only
+- P10 Consent Before Processing
+- P13 No PII to AI
+- T4 Atomic Financial Operations
+- Moderation/HITL
+- Plan-gated features
+
+For each invariant:
+- identify exact code locations
+- determine whether enforcement is universal, partial, or only claimed
+- mark VERIFIED / PARTIAL / FALSE
+- explain gaps
+
+Examples:
+- tenant_id on every new table is schema-level evidence
+- tenant predicate in every repo query needs code evidence
+- no PII to AI needs route, event, and config evidence
+- atomic financial operation needs actual transaction scope proof, not comments
+- Build Once Use Infinitely must be judged by whether shared packages are truly generic or still politics-hardcoded
+
+==================================================
+PHASE 13 — FILE INVENTORY AND COUNTS
+==================================================
+
+Verify the report’s file inventory exactly.
+
+Check that all “new files created” and “modified files” actually exist and match the report.
+If additional files were modified but omitted from the report, note that.
+If listed files do not exist, mark the inventory claim FALSE.
+
+==================================================
+PHASE 14 — FINAL VERDICT STRESS TEST
+==================================================
+
+Do not automatically accept the report’s final verdict.
+
+Before issuing your own verdict, answer these explicitly:
+1. Is every required implementation item actually present?
+2. Are all claimed migrations real and materially correct?
+3. Are all route counts correct?
+4. Are all package/export claims correct?
+5. Are all AI claims correct?
+6. Are all prior audit blockers truly closed, or merely reframed?
+7. Are all test claims reproduced or at least strongly evidenced?
+8. Is “GO — 100% green” justified by hard repo evidence?
+
+==================================================
+OUTPUT FORMAT REQUIRED
+==================================================
+
+Produce a markdown report with these sections:
+
+# Repo Verification Report — FINAL-IMPLEMENTATION-AND-QA-REPORT.md
+
+## Executive verdict
+One of:
+- VERIFIED GO
+- PARTIAL GO
+- NO-GO
+- INSUFFICIENT EVIDENCE
+
+Include 3-6 sentences only.
+
+## Repo baseline
+- Branch
+- Commit presence
+- Commit containment
+- Repo state notes
+
+## Claim ledger
+A table with columns:
+- Claim ID
+- Claim summary
+- Status
+- Evidence paths
+- Notes
+
+## Detailed findings
+Use subsections:
+- Migrations
+- Packages
+- Extended packages
+- Routes
+- Search indexing
+- AI integration
+- Events and notificator
+- Prior audit closure
+- Tests
+- Invariants
+- File inventory
+
+In each subsection:
+- list VERIFIED claims
+- list PARTIAL claims
+- list FALSE claims
+- list UNVERIFIED claims
+
+## Contradictions
+List every point where the report conflicts with actual repo evidence.
+
+## Risk register
+List all remaining release risks found during verification.
+
+## Final determination
+State whether the repo truly supports:
+- “Every required implementation item is present”
+- “All 9 prior audit blocking issues are resolved”
+- “Zero phantom migrations”
+- “Zero invalid plan references”
+- “All tests pass”
+- “All compliance invariants verified”
+- “GO: 100% green”
+
+For each statement, mark:
+- VERIFIED
+- PARTIAL
+- FALSE
+- UNVERIFIED
+
+FINAL RULE:
+No claim is accepted without a file path or command output.
+If you cannot prove it, do not infer it.
+If something is ambiguous, mark it UNVERIFIED.
+If the repo contradicts the report, the repo wins.
