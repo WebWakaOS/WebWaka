@@ -17,6 +17,12 @@ export function renderCountdownBlock(config: Partial<CountdownBlockConfig>, _ctx
 
   const expiredMessage = config.expiredMessage ?? 'This event has passed.';
   const blockId = `wkp-cd-${Math.random().toString(36).slice(2, 8)}`;
+  // jsStr: JSON.stringify provides correct JS string escaping; unicode escapes
+  // for < > & prevent </script> injection without breaking the string value.
+  const expiredJs = JSON.stringify(expiredMessage)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026');
 
   let targetMs: number;
   try {
@@ -58,7 +64,7 @@ export function renderCountdownBlock(config: Partial<CountdownBlockConfig>, _ctx
 <script>
 (function(){
   var target=${targetMs};
-  var expired=${esc(JSON.stringify(expiredMessage))};
+  var expired=${expiredJs};
   var d=document.getElementById('${blockId}-d');
   var h=document.getElementById('${blockId}-h');
   var m=document.getElementById('${blockId}-m');
@@ -71,7 +77,13 @@ export function renderCountdownBlock(config: Partial<CountdownBlockConfig>, _ctx
     if(diff<=0){
       d.textContent='00';h.textContent='00';m.textContent='00';s.textContent='00';
       var wrap=document.getElementById('${blockId}');
-      if(wrap){wrap.innerHTML='<p style="color:var(--ww-text-muted)">'+expired+'</p>';}
+      if(wrap){
+        wrap.innerHTML='';
+        var p=document.createElement('p');
+        p.style.color='var(--ww-text-muted)';
+        p.textContent=expired;
+        wrap.appendChild(p);
+      }
       return;
     }
     var totalSecs=Math.floor(diff/1000);

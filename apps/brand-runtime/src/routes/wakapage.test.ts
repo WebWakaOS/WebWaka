@@ -833,3 +833,100 @@ describe('T45: countdown block renders JS-powered timer', () => {
     expect(html).toContain('Hours');
   });
 });
+
+// ---------------------------------------------------------------------------
+// T46 — countdown: JS string literals must not contain HTML entities
+//        (regression: esc() must NOT be used on JS string values in <script>)
+// ---------------------------------------------------------------------------
+
+describe('T46: countdown block JS script contains valid (non-HTML-encoded) string literals', () => {
+  it('does not HTML-encode the expiredMessage inside the script block', async () => {
+    // Use an expiredMessage with characters that esc() would mis-encode.
+    // Single-quote → esc() would produce &#39;  (breaks JS string)
+    // Double-quote → esc() would produce &quot; (breaks JS string)
+    // Ampersand   → esc() would produce &amp;  (breaks JS string)
+    const block = {
+      id: 'blk_cd_reg',
+      tenant_id: ACME.id,
+      page_id: 'wkp_page_001',
+      block_type: 'countdown',
+      sort_order: 0,
+      is_visible: 1,
+      config_json: JSON.stringify({
+        heading: 'Closing soon',
+        targetDate: '2030-06-01T00:00:00Z',
+        expiredMessage: "It's done & dusted!",
+      }),
+      created_at: 1700000000,
+      updated_at: 1700000000,
+    };
+    const env = makeWakaEnv({ org: ACME, page: PAGE, blocks: [block] });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    // The script block must NOT contain HTML entity forms of these characters
+    // (that would be broken JavaScript and crash the countdown timer)
+    expect(html).not.toContain('&#39;');
+    expect(html).not.toContain('&amp;');
+    expect(html).not.toContain('&quot;');
+    // The expiredMessage should be present as a valid JSON/JS string value
+    expect(html).toContain("It's done");
+  });
+
+  it('does not use innerHTML for the expired state (uses textContent/DOM)', async () => {
+    const block = {
+      id: 'blk_cd_dom',
+      tenant_id: ACME.id,
+      page_id: 'wkp_page_001',
+      block_type: 'countdown',
+      sort_order: 0,
+      is_visible: 1,
+      config_json: JSON.stringify({
+        targetDate: '2030-01-01T00:00:00Z',
+        expiredMessage: 'The event has passed.',
+      }),
+      created_at: 1700000000,
+      updated_at: 1700000000,
+    };
+    const env = makeWakaEnv({ org: ACME, page: PAGE, blocks: [block] });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    // Must use textContent (safe) for the expired state, not innerHTML (unsafe)
+    expect(html).toContain('p.textContent=expired');
+    // Must clear the container safely before appending the expired element
+    expect(html).toContain("wrap.innerHTML=''");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// T47 — contact_form: submitLabel must be JS-safe when restored after error
+//        (regression: esc() must NOT be used on JS string values in <script>)
+// ---------------------------------------------------------------------------
+
+describe('T47: contact_form submitLabel is JS-safe in error-recovery script', () => {
+  it('does not HTML-encode submitLabel inside the script block', async () => {
+    const block = {
+      id: 'blk_cf_reg',
+      tenant_id: ACME.id,
+      page_id: 'wkp_page_001',
+      block_type: 'contact_form',
+      sort_order: 0,
+      is_visible: 1,
+      config_json: JSON.stringify({
+        submitLabel: "Send & Book Now",
+      }),
+      created_at: 1700000000,
+      updated_at: 1700000000,
+    };
+    const env = makeWakaEnv({ org: ACME, page: PAGE, blocks: [block] });
+    const res = await app.request(brandReq('/wakapage', 'acme'), {}, env);
+    const html = await res.text();
+    expect(res.status).toBe(200);
+    // The script block must NOT contain the HTML-escaped form of '&'
+    // (that would assign the literal text "&amp;" as the button label)
+    expect(html).not.toContain('btn.textContent=\'Send &amp; Book Now\'');
+    // It MUST contain the label text (in some JS-safe form)
+    expect(html).toContain('Send \\u0026 Book Now');
+  });
+});

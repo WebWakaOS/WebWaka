@@ -23,6 +23,13 @@ export function renderContactFormBlock(config: Partial<ContactFormBlockConfig>, 
   const submitLabel = config.submitLabel ?? 'Send Message';
   const successMessage = config.successMessage ?? 'Message sent! We\'ll get back to you shortly.';
   const pageId = ctx.page.id;
+  // Pre-compute a JS-safe string literal for submitLabel so it can be injected
+  // inside a <script> block. JSON.stringify handles quoting + escaping; unicode
+  // escapes for < > & prevent </script> injection attacks.
+  const submitLabelJs = JSON.stringify(submitLabel)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026');
 
   const fieldInputs = fields.map((field) => {
     switch (field) {
@@ -161,7 +168,7 @@ export function renderContactFormBlock(config: Partial<ContactFormBlockConfig>, 
       if(!r.ok)throw new Error('failed');
       showSuccess();
     }).catch(function(){
-      if(btn){btn.textContent='${esc(submitLabel)}';btn.disabled=false;}
+      if(btn){btn.textContent=${submitLabelJs};btn.disabled=false;}
       alert('Could not send your message. Please try again.');
     });
   }
