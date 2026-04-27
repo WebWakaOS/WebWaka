@@ -44,6 +44,18 @@ export interface PlanConfig {
    * Available from: growth and above.
    */
   wakaPageAnalytics: boolean;
+  /**
+   * Support Groups — whether the workspace can create support groups.
+   * Maximum group count and feature gates are in @webwaka/support-groups entitlements.
+   * Available from: starter and above (free = read-only discovery).
+   */
+  supportGroupsEnabled: boolean;
+  /**
+   * Fundraising — whether the workspace can create fundraising campaigns.
+   * Maximum campaign count and feature gates are in @webwaka/fundraising entitlements.
+   * Available from: starter and above.
+   */
+  fundraisingEnabled: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -64,6 +76,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: false,
     wakaPagePublicPage: false,
     wakaPageAnalytics: false,
+    supportGroupsEnabled: false,
+    fundraisingEnabled: false,
   },
   starter: {
     maxUsers: 10,
@@ -77,6 +91,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: false,
     wakaPagePublicPage: true,
     wakaPageAnalytics: false,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
   growth: {
     maxUsers: 50,
@@ -94,6 +110,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: false,
     wakaPagePublicPage: true,
     wakaPageAnalytics: true,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
   pro: {
     maxUsers: 200,
@@ -114,6 +132,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: false,
     wakaPagePublicPage: true,
     wakaPageAnalytics: true,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
   enterprise: {
     maxUsers: -1,
@@ -127,6 +147,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: true,
     wakaPagePublicPage: true,
     wakaPageAnalytics: true,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
   partner: {
     maxUsers: -1,
@@ -140,6 +162,8 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: true,
     wakaPagePublicPage: true,
     wakaPageAnalytics: true,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
   sub_partner: {
     maxUsers: -1,
@@ -158,5 +182,7 @@ export const PLAN_CONFIGS: Readonly<Record<SubscriptionPlan, PlanConfig>> = {
     sensitiveSectorRights: false,
     wakaPagePublicPage: true,
     wakaPageAnalytics: true,
+    supportGroupsEnabled: true,
+    fundraisingEnabled: true,
   },
 } as const;

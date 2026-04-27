@@ -2773,6 +2773,66 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
       'Artisan profile and listing AI (use canonical slug: welding-fabrication or shoemaker)',
     ],
   },
+
+  // =========================================================================
+  // CROSS-PILLAR SHARED VERTICALS — Support Groups & Fundraising
+  // These serve Pillar 1 (civic/political), Pillar 2 (church/community),
+  // and Pillar 3 (professional associations). 'primaryPillar' reflects the
+  // dominant use-case; all three pillars are served.
+  // =========================================================================
+
+  'support-group': {
+    slug: 'support-group',
+    primaryPillar: 1,
+    allowedCapabilities: [
+      'bio_generator',
+      'sentiment_analysis',
+      'content_moderation',
+      'translation',
+      'brand_copywriter',
+      'scheduling_assistant',
+    ],
+    prohibitedCapabilities: [
+      // Voter data is PII under NDPR. AI MUST NOT auto-process voter_ref records.
+      'document_extractor',
+    ],
+    aiUseCases: [
+      'Draft group constitution and by-laws from template',
+      'Translate group broadcasts to Yoruba, Igbo, Hausa, Pidgin',
+      'Moderate member-submitted content for policy violations',
+      'Analyse member engagement sentiment across broadcasts',
+      'Generate mobilization rally scripts and GOTV messaging',
+      'Schedule meeting reminders with AI-suggested agendas',
+    ],
+    contextWindowTokens: 8192,
+  },
+
+  'fundraising': {
+    slug: 'fundraising',
+    primaryPillar: 1,
+    allowedCapabilities: [
+      'bio_generator',
+      'sentiment_analysis',
+      'content_moderation',
+      'translation',
+      'brand_copywriter',
+    ],
+    prohibitedCapabilities: [
+      // Donor bank details and INEC contribution caps are regulated data;
+      // auto-extraction is prohibited without HITL oversight.
+      'document_extractor',
+      // Price-suggestion must not circumvent INEC ₦50m per-contributor caps.
+      'price_suggest',
+    ],
+    aiUseCases: [
+      'Draft compelling campaign story from bullet-point inputs',
+      'Translate campaign descriptions to local languages',
+      'Moderate donor wall comments for policy violations',
+      'Analyse donor sentiment from campaign comments',
+      'Generate reward tier copy and donor-wall thank-you messages',
+    ],
+    contextWindowTokens: 8192,
+  },
 };
 
 // ---------------------------------------------------------------------------

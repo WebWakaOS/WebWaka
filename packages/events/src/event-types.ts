@@ -199,6 +199,48 @@ export const SocialEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Support Groups (14 events)
+// ---------------------------------------------------------------------------
+
+export const SupportGroupEventType = {
+  SupportGroupCreated:            'support_group.created',
+  SupportGroupUpdated:            'support_group.updated',
+  SupportGroupArchived:           'support_group.archived',
+  SupportGroupMemberJoined:       'support_group.member_joined',
+  SupportGroupMemberApproved:     'support_group.member_approved',
+  SupportGroupMemberSuspended:    'support_group.member_suspended',
+  SupportGroupBroadcastSent:      'support_group.broadcast_sent',
+  SupportGroupMeetingScheduled:   'support_group.meeting_scheduled',
+  SupportGroupMeetingCompleted:   'support_group.meeting_completed',
+  SupportGroupResolutionRecorded: 'support_group.resolution_recorded',
+  SupportGroupEventCreated:       'support_group.event_created',
+  SupportGroupGotvRecorded:       'support_group.gotv_recorded',
+  SupportGroupGotvVoteConfirmed:  'support_group.gotv_vote_confirmed',
+  SupportGroupPetitionOpened:     'support_group.petition_opened',
+  SupportGroupPetitionSigned:     'support_group.petition_signed',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Fundraising (12 events)
+// ---------------------------------------------------------------------------
+
+export const FundraisingEventType = {
+  FundraisingCampaignCreated:        'fundraising.campaign_created',
+  FundraisingCampaignApproved:       'fundraising.campaign_approved',
+  FundraisingCampaignRejected:       'fundraising.campaign_rejected',
+  FundraisingCampaignCompleted:      'fundraising.campaign_completed',
+  FundraisingContributionReceived:   'fundraising.contribution_received',
+  FundraisingContributionConfirmed:  'fundraising.contribution_confirmed',
+  FundraisingContributionFailed:     'fundraising.contribution_failed',
+  FundraisingPledgeCreated:          'fundraising.pledge_created',
+  FundraisingMilestoneReached:       'fundraising.milestone_reached',
+  FundraisingUpdatePosted:           'fundraising.update_posted',
+  FundraisingPayoutRequested:        'fundraising.payout_requested',
+  FundraisingPayoutApproved:         'fundraising.payout_approved',
+  FundraisingPayoutRejected:         'fundraising.payout_rejected',
+} as const;
+
+// ---------------------------------------------------------------------------
 // Partner Ecosystem (6 events)
 // ---------------------------------------------------------------------------
 

@@ -1101,6 +1101,28 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
+  packages/fundraising:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/payments':
+        specifier: workspace:*
+        version: link:../payments
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
   packages/hl-wallet:
     dependencies:
       '@webwaka/entitlements':
@@ -1356,6 +1378,25 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/support-groups:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/types:

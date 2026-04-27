@@ -54,6 +54,8 @@ export {
   WalletEventType,
   WakaPageEventType,
   LegacyEventType,
+  SupportGroupEventType,
+  FundraisingEventType,
 } from './event-types.js';
 
 export type { PublishEventParams, NotificationOutboxMessage, QueueLike } from './publisher.js';

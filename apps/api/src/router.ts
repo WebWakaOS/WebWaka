@@ -95,6 +95,8 @@ import { platformAdminVerticalsRoutes } from './routes/platform-admin-verticals.
 import { tenantBrandingRoutes } from './routes/tenant-branding.js';
 import { profileRoutes } from './routes/profiles.js';
 import { wakaPageRoutes } from './routes/wakapage.js';
+import { supportGroupRoutes } from './routes/support-groups.js';
+import { fundraisingRoutes } from './routes/fundraising.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -935,4 +937,97 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/wakapages/*', authMiddleware);
   app.use('/wakapages/*', auditLogMiddleware);
   app.route('/wakapages', wakaPageRoutes);
+
+  // -------------------------------------------------------------------------
+  // Support Groups — 3-in-1: Operations / Branding / Discovery
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /support-groups/public              — discovery list
+  //   GET  /support-groups/public/:idOrSlug    — public profile
+  //   GET  /support-groups/:id/events/public   — public events for group
+  //
+  // Authenticated (JWT required) — all other paths:
+  //   POST   /support-groups                       — create group
+  //   GET    /support-groups                       — list workspace groups
+  //   GET    /support-groups/:idOrSlug             — get group
+  //   PATCH  /support-groups/:id                   — update group
+  //   POST   /support-groups/:id/join              — join group
+  //   GET    /support-groups/:id/members           — list members
+  //   POST   /support-groups/:id/members/:m/approve
+  //   PATCH  /support-groups/:id/members/:m/role
+  //   POST   /support-groups/:id/meetings          — schedule meeting
+  //   GET    /support-groups/:id/meetings          — list meetings
+  //   POST   /support-groups/:id/broadcasts        — broadcast (entitlement-gated)
+  //   GET    /support-groups/:id/broadcasts
+  //   POST   /support-groups/:id/events            — create event
+  //   GET    /support-groups/:id/events            — list events
+  //   POST   /support-groups/:id/gotv              — GOTV (entitlement-gated, P13)
+  //   POST   /support-groups/:id/gotv/:g/confirm
+  //   GET    /support-groups/:id/gotv/stats
+  //   POST   /support-groups/:id/petitions         — open petition
+  //   POST   /support-groups/petitions/:p/sign     — sign petition
+  //   GET    /support-groups/:id/analytics         — analytics (entitlement-gated)
+  //
+  // T3: tenant_id from JWT on auth routes; X-Tenant-Id header on public routes.
+  // P13: voter_ref never returned in API responses.
+  // -------------------------------------------------------------------------
+
+  // Auth middleware — applied BEFORE route registration (Hono requirement)
+  // Scoped to all paths except /public* (which use X-Tenant-Id header instead)
+  app.use('/support-groups', authMiddleware);
+  app.use('/support-groups', auditLogMiddleware);
+  app.use('/support-groups/:id', authMiddleware);
+  app.use('/support-groups/:id', auditLogMiddleware);
+  app.use('/support-groups/:id/*', authMiddleware);
+  app.use('/support-groups/:id/*', auditLogMiddleware);
+  app.use('/support-groups/petitions/:petitionId/sign', authMiddleware);
+  app.use('/support-groups/petitions/:petitionId/sign', auditLogMiddleware);
+
+  // Route registration — public GET /support-groups/public* are unguarded above
+  app.route('/support-groups', supportGroupRoutes);
+
+  // -------------------------------------------------------------------------
+  // Fundraising — shared campaign engine
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /fundraising/public              — campaign discovery list
+  //   GET  /fundraising/public/:idOrSlug    — public campaign profile
+  //   GET  /fundraising/public/:id/donor-wall
+  //
+  // Authenticated (JWT required):
+  //   POST   /fundraising/campaigns               — create campaign
+  //   GET    /fundraising/campaigns               — list workspace campaigns
+  //   GET    /fundraising/campaigns/:idOrSlug     — get campaign
+  //   PATCH  /fundraising/campaigns/:id           — update
+  //   POST   /fundraising/campaigns/:id/publish
+  //   POST   /fundraising/campaigns/:id/moderate
+  //   POST   /fundraising/campaigns/:id/contributions     (P9 kobo, [A1] INEC cap)
+  //   POST   /fundraising/campaigns/:id/contributions/:c/confirm
+  //   GET    /fundraising/campaigns/:id/contributions     (P13: donor_phone stripped)
+  //   POST   /fundraising/campaigns/:id/pledges           (entitlement-gated, P13)
+  //   POST   /fundraising/campaigns/:id/milestones
+  //   GET    /fundraising/campaigns/:id/milestones
+  //   POST   /fundraising/campaigns/:id/updates
+  //   GET    /fundraising/campaigns/:id/updates
+  //   POST   /fundraising/campaigns/:id/rewards           (entitlement-gated)
+  //   POST   /fundraising/campaigns/:id/payout-requests   ([A2] HITL for political)
+  //   GET    /fundraising/campaigns/:id/payout-requests
+  //   POST   /fundraising/campaigns/:id/payout-requests/:p/approve
+  //   POST   /fundraising/campaigns/:id/payout-requests/:p/reject
+  //   POST   /fundraising/campaigns/:id/compliance
+  //   GET    /fundraising/campaigns/:id/stats
+  //
+  // T3: tenant_id from JWT; P9: kobo int; P13: donor_phone/bank_account_number stripped
+  // [A1] INEC cap: ₦50m per contributor for political/election campaigns
+  // [A2] CBN: Paystack pass-through; HITL required for political/election payouts
+  // -------------------------------------------------------------------------
+
+  // Auth middleware — applied BEFORE route registration
+  // /fundraising/public* paths are left unguarded (X-Tenant-Id based)
+  app.use('/fundraising/campaigns', authMiddleware);
+  app.use('/fundraising/campaigns', auditLogMiddleware);
+  app.use('/fundraising/campaigns/*', authMiddleware);
+  app.use('/fundraising/campaigns/*', auditLogMiddleware);
+
+  app.route('/fundraising', fundraisingRoutes);
 }

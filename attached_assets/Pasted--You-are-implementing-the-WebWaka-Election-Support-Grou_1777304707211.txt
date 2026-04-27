@@ -1,0 +1,194 @@
+
+You are implementing the **WebWaka Election Support Group Management System** as part of the **WebWaka 3-in-1 platform**. Build it as a **production-grade, Nigeria-first, multi-tenant, pre-launch implementation**, not as a prototype, and do not postpone any scope due to legal, licensing, compliance-clearance, or regulatory-review concerns.[2][1]
+
+### Non-negotiable delivery rules
+
+- **Do not defer any element because of licensing, legal clearance, compliance review, or external approval dependencies.**
+- **If any existing element is considered legacy, wrong, fragmented, duplicate, or marked for deprecation, deprecate it immediately and build the replacement now.**
+- **Because WebWaka has not launched yet, do not preserve backward compatibility for end users as a reason to keep old flows alive.**
+- **Do not keep temporary coexistence models unless technically required for migration execution within the codebase; if coexistence is necessary, it must be short-lived, internal-only, and removed in the same implementation stream.**
+- **Do not pause for ADRs, legal opinions, or policy decisions; instead, encode the most platform-aligned implementation now and surface assumptions in code comments and implementation notes.**
+- **Do not use “future milestone,” “phase later,” “pending legal review,” “deferred,” or “follow-up implementation” language. Build the complete intended system now.**[3][1]
+
+### Architecture mandate
+
+Use WebWaka’s existing monorepo principles:
+- **Build Once, Use Infinitely (P1)**.
+- Multi-tenant isolation with `tenantid` on all new tables.
+- Nigeria-first product design.
+- Mobile-first and offline-aware execution.
+- Integer kobo for all monetary amounts.
+- Shared capability first, politics-specific extension second.
+- AI integration only through existing SuperAgent patterns, not bypasses.[1][2]
+
+### What to build now
+
+Implement the **Election Support Group Management System** as a **3-in-1 aligned capability**:
+
+#### Pillar 1: Operations
+Build the full operational backbone for election support groups:
+- Support group entity and hierarchy.
+- National/state/LGA/ward/polling-unit structure.
+- Member and volunteer management.
+- Executive roles and permissions.
+- Group administration.
+- Meetings, resolutions, committees, and approvals.
+- Event/rally/town-hall management.
+- GOTV operations and mobilization tracking.
+- Petition/issue desk.
+- Broadcast and internal communications.
+- Asset/logistics management hooks.
+- Analytics and reporting.
+- Full admin and workspace surfaces.[2][1]
+
+#### Pillar 2: Branding
+Build public-facing brand surfaces for support groups and fundraising:
+- Public support group profile pages.
+- Join/volunteer flows.
+- Public campaign/fundraising pages.
+- Storytelling blocks, progress indicators, public updates, donor wall where configured.
+- WakaPage/brand-runtime blocks for support-group hub and fundraising campaign presentation.[1][2]
+
+#### Pillar 3: Discovery
+Build searchable discovery surfaces:
+- Geography-filtered support group discovery.
+- Public fundraising campaign discovery.
+- Search indexing support.
+- Public profile/discovery routes for support groups and fundraising campaigns.[2][1]
+
+### Immediate replacement and deprecation policy
+
+Apply these replacement decisions now:
+
+1. **Support groups**
+- Do not create a weak temporary version.
+- Build the final shared support-group capability now.
+- Reuse and extend the strongest existing community and political primitives where sensible, but do not let existing constraints block the intended end-state.[1][2]
+
+2. **Fundraising**
+- Build the shared fundraising engine now as the canonical fundraising capability.
+- Immediately replace fragmented politics-only donation handling with the shared fundraising model wherever practical.
+- Treat existing campaign-office donation structures as legacy inputs to be absorbed into the shared fundraising architecture.[2][1]
+
+3. **Legacy/deprecated elements**
+- If existing tables, flows, plan mappings, route patterns, or entitlement models are incorrect, fragmented, or inconsistent, fix them now rather than preserving them for compatibility.
+- Replace invalid plan references with actual plan names in code immediately.
+- Remove phantom migration ideas and implement only real schema changes that matter.
+- Resolve schema-code mismatches as part of this implementation, not as a separate precondition.[3]
+
+4. **Church/other vertical fundraising overlap**
+- Do not leave dual systems as a permanent coexistence state.
+- Where a legacy contribution primitive exists, create the migration/upgrade path now and align the platform on the new shared fundraising model.
+- If technical continuity requires a bridge layer, build it as an internal adapter and mark removal in the same implementation sequence.[3][2]
+
+### Legal/licensing instruction override
+
+Even though prior audit material identified some items as needing legal or licensing review—such as payout aggregation, CBN/PSP nuance, Meta/WhatsApp review, INEC automation uncertainty, and statutory threshold verification—you must **not defer implementation because of those concerns**. Build the intended architecture now using the best platform-consistent structure, and document assumptions inline.[3][1]
+
+That means:
+- Implement fundraising payout architecture now.
+- Implement political fundraising controls now.
+- Implement WhatsApp/broadcast capability now.
+- Implement recurring pledges now if part of the target design.
+- Implement compliance/reporting structures now.
+- Do not block work on external legal confirmation.[1][3]
+
+### Pre-launch deprecation instruction override
+
+Because WebWaka has **not launched**, you must assume:
+- No real users depend on old features.
+- No production backward-compatibility burden exists for UX flows.
+- No need to preserve old IA, old routes, old forms, old data-handling patterns, or interim abstractions merely to avoid disruption.[3]
+
+Therefore:
+- Deprecate immediately.
+- Replace immediately.
+- Migrate immediately.
+- Remove dead or duplicate code paths in the same workstream where safe.
+- Prefer clean final architecture over layered compatibility shims.[1][3]
+
+### Required implementation corrections from prior audits
+
+You must incorporate the audit corrections while still proceeding immediately:
+
+- Use **actual plan names** from the codebase; do not invent non-existent plan tiers.[3]
+- Do **not** create fake enum-extension migrations for text columns; fix type handling at the application layer where the DB columns are already free-text.[3]
+- Resolve the **communityspaces/workspaceid schema-code mismatch** directly in this implementation stream.[3]
+- Update **both** AI configuration systems if both are active in practice: the SQL config records and the TypeScript runtime config objects.[3]
+- Use actual exported AI capability/type identifiers from the codebase, not assumed names.[3]
+- Extend events and notificator contracts for all newly published support-group and fundraising events.[3]
+- Address the one-community-space-per-workspace limitation by implementing the final intended support-group architecture now, not by delaying the feature.[3]
+
+### Build strategy
+
+Execute in this order, without stopping:
+
+1. Audit the actual code paths and current monorepo state.
+2. Correct foundational mismatches that would block clean implementation.
+3. Add or update migrations.
+4. Build shared packages:
+   - `webwakasupport-groups`
+   - `webwakafundraising`
+5. Extend reused packages where necessary:
+   - community
+   - hl-wallet
+   - entitlements
+   - events
+   - notifications
+   - search indexing
+   - superagent config
+6. Add/extend API routes.
+7. Build workspace/admin UI.
+8. Build brand-runtime public pages and WakaPage blocks.
+9. Build public-discovery search/listing routes.
+10. Add tests.
+11. Remove or internally bridge deprecated legacy implementations.
+12. Produce a concise implementation report listing:
+   - what was built,
+   - what was deprecated,
+   - what was migrated,
+   - what assumptions were made instead of deferring for legal/licensing review.[1][3]
+
+### Expected package and route outcomes
+
+Implement or finalize:
+- Support groups package and repository layer.
+- Fundraising package and repository/service layer.
+- New support-group API routes.
+- New fundraising API routes.
+- Politics route extensions for support-group relationships.
+- Brand/runtime blocks for public group and fundraising surfaces.
+- Discovery/search support for groups and campaigns.
+- Events for support-group lifecycle and fundraising lifecycle.
+- Notification hooks for donations, broadcasts, milestones, approvals, and participation flows.[2][1][3]
+
+### Data and workflow expectations
+
+Build complete workflows now:
+- Support group creation, hierarchy, membership, approvals, announcements, events, GOTV, petitions, analytics.
+- Fundraising campaign creation, moderation flow, contributions, pledges, payout requests, analytics, compliance fields, public pages.
+- Political overlays for support groups and fundraising where required.
+- NDPR/consent gating and auditability.
+- Role-based controls and HITL where the platform architecture expects it.
+- Mobile and offline-aware flows, plus a USSD-aware design path where relevant to Nigeria-first operations.[2][1][3]
+
+### Code quality rules
+
+- No placeholder TODO architecture.
+- No pseudo-implementation.
+- No stubs where final code can be written now.
+- No “defer until legal clearance.”
+- No “preserve old path because users may depend on it.”
+- Prefer direct, final, clean implementation.
+- Keep internal adapters only if required for migration sequencing, and mark them for removal in the same execution stream.[1][3]
+
+### Final output required from you
+
+When done, provide:
+1. A summary of implemented modules.
+2. A list of deprecated/replaced legacy components.
+3. A list of schema changes.
+4. A list of route additions/changes.
+5. A list of package additions/changes.
+6. A list of assumptions made instead of deferring for legal/licensing reasons.
+7. Any remaining purely technical blockers, but **not** legal/licensing blockers.[1][3]

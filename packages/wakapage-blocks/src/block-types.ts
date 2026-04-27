@@ -51,7 +51,9 @@ export type BlockType =
   | 'social_feed'     // @webwaka/social posts feed
   | 'blog_post'       // Recent posts from blog_posts table
   | 'community'       // @webwaka/community spaces
-  | 'event_list';     // @webwaka/community events list
+  | 'event_list'      // @webwaka/community events list
+  | 'support_group'   // @webwaka/support-groups public profile + join CTA
+  | 'fundraising_campaign'; // @webwaka/fundraising public campaign + donate CTA
 
 /**
  * Runtime set of all MVP block type strings.
@@ -81,6 +83,8 @@ export const BLOCK_TYPES: ReadonlySet<BlockType> = new Set<BlockType>([
   'blog_post',
   'community',
   'event_list',
+  'support_group',
+  'fundraising_campaign',
 ]);
 
 // ---------------------------------------------------------------------------
@@ -244,6 +248,37 @@ export interface EventListBlockConfig {
   filterBySpaceId?: string;
 }
 
+export interface SupportGroupBlockConfig {
+  groupId?: string;
+  groupSlug?: string;
+  heading?: string;
+  showMemberCount?: boolean;     // default true
+  showHierarchy?: boolean;       // show ward/LGA/state context
+  showChildGroups?: boolean;     // list sub-groups
+  joinCtaLabel?: string;         // default 'Join Group'
+  donateCtaLabel?: string;       // if linked to a fundraising campaign
+  linkedCampaignId?: string;     // optional link to fundraising campaign
+  showUpcomingEvents?: boolean;  // default true
+  maxEventsPreview?: number;     // default 3
+}
+
+export interface FundraisingCampaignBlockConfig {
+  campaignId?: string;
+  campaignSlug?: string;
+  heading?: string;
+  showProgressBar?: boolean;     // default true
+  showContributorCount?: boolean;// default true
+  showDonorWall?: boolean;       // default true (if campaign.donor_wall_enabled)
+  showDeadline?: boolean;        // default true
+  showRewards?: boolean;         // default true (if campaign.rewards_enabled)
+  donateCtaLabel?: string;       // default 'Donate Now'
+  pledgeCtaLabel?: string;       // default 'Make a Pledge'
+  showUpdates?: boolean;         // default true
+  maxUpdatesPreview?: number;    // default 3
+  showStory?: boolean;           // default true (long-form narrative block)
+  anonymousMode?: boolean;       // hide individual amounts in donor wall
+}
+
 // ---------------------------------------------------------------------------
 // Discriminated union of all block configs
 // ---------------------------------------------------------------------------
@@ -265,7 +300,9 @@ export type BlockConfig =
   | ({ blockType: 'social_feed' } & SocialFeedBlockConfig)
   | ({ blockType: 'blog_post' } & BlogPostBlockConfig)
   | ({ blockType: 'community' } & CommunityBlockConfig)
-  | ({ blockType: 'event_list' } & EventListBlockConfig);
+  | ({ blockType: 'event_list' } & EventListBlockConfig)
+  | ({ blockType: 'support_group' } & SupportGroupBlockConfig)
+  | ({ blockType: 'fundraising_campaign' } & FundraisingCampaignBlockConfig);
 
 // ---------------------------------------------------------------------------
 // Parse helper — Phase 0 contract only, no renderer
