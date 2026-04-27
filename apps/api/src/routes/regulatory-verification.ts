@@ -66,7 +66,7 @@ export const GATED_VERTICALS: Record<string, string[]> = {
 
 const ALLOWED_VERTICAL_SLUGS = new Set(Object.keys(GATED_VERTICALS));
 
-const ALLOWED_REGULATORY_BODIES = new Set<string>(
+const _ALLOWED_REGULATORY_BODIES = new Set<string>(
   Object.values(GATED_VERTICALS).flat(),
 );
 
