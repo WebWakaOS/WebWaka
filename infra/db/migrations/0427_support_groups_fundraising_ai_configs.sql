@@ -25,7 +25,7 @@ VALUES
   (
     'aivc-sg-001',
     'support-group',
-    '["bio_generator","content_moderation","sentiment_analysis","scheduling_assistant","translation"]',
+    '["bio_generator","brand_copywriter","content_moderation","sentiment_analysis","scheduling_assistant","translation"]',
     1,
     1,
     2,
