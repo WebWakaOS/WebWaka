@@ -105,6 +105,8 @@ import { workflowRoutes } from './routes/workflows.js';
 import { phase2AnalyticsRoutes } from './routes/phase2-analytics.js';
 import { pollsRoutes } from './routes/polls.js';
 import { communityReportRoutes } from './routes/community-reports.js';
+import { imagePipelineRoutes } from './routes/image-pipeline.js';
+import { whatsappTemplateRoutes } from './routes/whatsapp-templates.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -1157,4 +1159,23 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/content-flags/*', authMiddleware);
   app.use('/content-flags/*', auditLogMiddleware);
   app.route('/content-flags', communityReportRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 3 (E23) — Low-Bandwidth Image Pipeline
+  // POST /image-variants · GET /image-variants/:entityType/:entityId
+  // PATCH /image-variants/:id/process
+  // -------------------------------------------------------------------------
+  app.use('/image-variants', authMiddleware);
+  app.use('/image-variants/*', authMiddleware);
+  app.route('/image-variants', imagePipelineRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 3 (E24) — WhatsApp Business API Template Management
+  // GET /whatsapp-templates · POST /whatsapp-templates
+  // GET /whatsapp-templates/defaults · GET /whatsapp-templates/:id
+  // PATCH /whatsapp-templates/:id/status
+  // -------------------------------------------------------------------------
+  app.use('/whatsapp-templates', authMiddleware);
+  app.use('/whatsapp-templates/*', authMiddleware);
+  app.route('/whatsapp-templates', whatsappTemplateRoutes);
 }

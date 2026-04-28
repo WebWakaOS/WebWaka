@@ -25,9 +25,12 @@ import {
   communityAnnouncements,
   communityEvents,
   communityGroups,
+  groupsMenu,
+  groupBroadcastMenu,
+  viewBroadcast,
   endSession,
 } from './menus.js';
-import type { TrendingPostSnippet, EventItem, CommunityItem } from './menus.js';
+import type { TrendingPostSnippet, EventItem, CommunityItem, GroupBroadcastItem, BroadcastSnippet } from './menus.js';
 
 export interface ProcessResult {
   text: string;
@@ -88,6 +91,16 @@ export function processUSSDInput(session: USSDSession, text: string): ProcessRes
     case 'community_groups':
       return handleCommunityGroups(updatedSession, input);
 
+    // Phase 3 (E25) — Branch 6: My Groups
+    case 'groups_list':
+      return handleGroupsList(updatedSession, input);
+
+    case 'groups_broadcasts':
+      return handleGroupsBroadcasts(updatedSession, input);
+
+    case 'groups_view_broadcast':
+      return handleViewBroadcast(updatedSession, input);
+
     default:
       return {
         text: endSession('Invalid session state. Please dial *384# again.'),
@@ -132,6 +145,15 @@ function handleMainMenu(session: USSDSession, input: string): ProcessResult {
         session: { ...session, state: 'community_menu' },
         ended: false,
       };
+    case '6': {
+      // Phase 3 (E25): Branch 6 — My Groups (group broadcast receive)
+      const myGroups = (session.data['myGroups'] ?? []) as GroupBroadcastItem[];
+      return {
+        text: groupsMenu(myGroups),
+        session: { ...session, state: 'groups_list' },
+        ended: false,
+      };
+    }
     default:
       return {
         text: endSession('Invalid selection. Dial *384# to try again.'),
@@ -392,5 +414,105 @@ function handleCommunityGroups(session: USSDSession, input: string): ProcessResu
       ended: true,
     };
   }
+  return { text: endSession('Invalid selection.'), session, ended: true };
+}
+
+// ── Phase 3 (E25) — Branch 6: My Groups handlers ────────────────────────────
+
+/**
+ * Branch 6 — Groups list.
+ * "0" → back to main menu.
+ * "1"-"5" → select group → show broadcasts (groups_broadcasts state).
+ */
+function handleGroupsList(session: USSDSession, input: string): ProcessResult {
+  const myGroups = (session.data['myGroups'] ?? []) as GroupBroadcastItem[];
+
+  if (!input || input === '') {
+    return { text: groupsMenu(myGroups), session: { ...session, state: 'groups_list' }, ended: false };
+  }
+
+  if (input === '0') {
+    return { text: mainMenu(), session: { ...session, state: 'main_menu' }, ended: false };
+  }
+
+  const idx = parseInt(input, 10) - 1;
+  const selectedGroup = myGroups[idx];
+  if (!isNaN(idx) && idx >= 0 && selectedGroup) {
+    const broadcasts = (session.data[`groupBroadcasts_${selectedGroup.id}`] ?? []) as BroadcastSnippet[];
+    return {
+      text: groupBroadcastMenu(selectedGroup.name, broadcasts),
+      session: {
+        ...session,
+        state: 'groups_broadcasts',
+        data: { ...session.data, selectedGroupIndex: idx, selectedGroupId: selectedGroup.id },
+      },
+      ended: false,
+    };
+  }
+
+  return { text: endSession('Invalid selection.'), session, ended: true };
+}
+
+/**
+ * Branch 6 — Broadcasts for a selected group.
+ * "0" → back to groups list.
+ * "1"-"3" → view broadcast body (groups_view_broadcast state).
+ */
+function handleGroupsBroadcasts(session: USSDSession, input: string): ProcessResult {
+  const myGroups = (session.data['myGroups'] ?? []) as GroupBroadcastItem[];
+  const selectedGroupIndex = Number(session.data['selectedGroupIndex'] ?? -1);
+  const selectedGroup = myGroups[selectedGroupIndex];
+  const groupId = String(session.data['selectedGroupId'] ?? '');
+  const broadcasts = (session.data[`groupBroadcasts_${groupId}`] ?? []) as BroadcastSnippet[];
+
+  if (!input || input === '') {
+    const name = selectedGroup?.name ?? 'Group';
+    return { text: groupBroadcastMenu(name, broadcasts), session: { ...session, state: 'groups_broadcasts' }, ended: false };
+  }
+
+  if (input === '0') {
+    return { text: groupsMenu(myGroups), session: { ...session, state: 'groups_list' }, ended: false };
+  }
+
+  const idx = parseInt(input, 10) - 1;
+  const broadcast = broadcasts[idx];
+  if (!isNaN(idx) && idx >= 0 && broadcast && selectedGroup) {
+    return {
+      text: viewBroadcast(selectedGroup.name, broadcast),
+      session: {
+        ...session,
+        state: 'groups_view_broadcast',
+        data: { ...session.data, viewingBroadcastIndex: idx },
+      },
+      ended: false,
+    };
+  }
+
+  return { text: endSession('Invalid selection.'), session, ended: true };
+}
+
+/**
+ * Branch 6 — View a single broadcast.
+ * "0" → back to broadcasts list.
+ */
+function handleViewBroadcast(session: USSDSession, input: string): ProcessResult {
+  const myGroups = (session.data['myGroups'] ?? []) as GroupBroadcastItem[];
+  const groupId = String(session.data['selectedGroupId'] ?? '');
+  const broadcasts = (session.data[`groupBroadcasts_${groupId}`] ?? []) as BroadcastSnippet[];
+  const selectedGroup = myGroups[Number(session.data['selectedGroupIndex'] ?? -1)];
+
+  if (input === '0') {
+    const name = selectedGroup?.name ?? 'Group';
+    return {
+      text: groupBroadcastMenu(name, broadcasts),
+      session: {
+        ...session,
+        state: 'groups_broadcasts',
+        data: { ...session.data, viewingBroadcastIndex: undefined },
+      },
+      ended: false,
+    };
+  }
+
   return { text: endSession('Invalid selection.'), session, ended: true };
 }

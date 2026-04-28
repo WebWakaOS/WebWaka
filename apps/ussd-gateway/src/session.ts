@@ -17,7 +17,11 @@ export type USSDState =
   | 'community_menu'
   | 'community_announcements'
   | 'community_events'
-  | 'community_groups';
+  | 'community_groups'
+  // Phase 3 (E25) — Branch 6: My Groups (group broadcast receive)
+  | 'groups_list'
+  | 'groups_broadcasts'
+  | 'groups_view_broadcast';
 
 export interface USSDSession {
   sessionId: string;

@@ -12,6 +12,7 @@
 
 /**
  * Main menu — entry point for *384#
+ * Phase 3 (E25): added option 6 (My Groups — group broadcast receive)
  */
 export function mainMenu(): string {
   return `CON Welcome to WebWaka
@@ -19,7 +20,8 @@ export function mainMenu(): string {
 2. Send Money
 3. Trending Now
 4. Book Transport
-5. Community`;
+5. Community
+6. My Groups`;
 }
 
 /**
@@ -158,6 +160,65 @@ No groups available.
   }
   const lines = groups.slice(0, 5).map((g, i) => `${i + 1}. ${g.name.slice(0, 35)}`);
   return `CON Groups\n${lines.join('\n')}\n0. Back`;
+}
+
+// ── Phase 3 (E25) — Branch 6: My Groups (group broadcast receive) ──────────
+
+/** A group the user belongs to (for USSD groups branch) */
+export interface GroupBroadcastItem {
+  id: string;
+  name: string;
+}
+
+/** A broadcast message snippet for USSD display */
+export interface BroadcastSnippet {
+  id: string;
+  subject: string;
+  body: string;
+  sentAt: number; // Unix epoch seconds
+}
+
+/**
+ * Branch 6 — groups list.
+ * Shows up to 5 of the user's groups with numbered list.
+ * UX-08: max 3 levels (main → groups list → broadcast list → view broadcast).
+ */
+export function groupsMenu(groups: GroupBroadcastItem[]): string {
+  if (groups.length === 0) {
+    return `CON My Groups
+You have no groups.
+0. Back`;
+  }
+  const lines = groups.slice(0, 5).map((g, i) => `${i + 1}. ${g.name.slice(0, 35)}`);
+  return `CON My Groups\n${lines.join('\n')}\n0. Back`;
+}
+
+/**
+ * Branch 6 — broadcasts for a selected group.
+ * Shows the 3 most recent broadcasts (USSD line limit).
+ */
+export function groupBroadcastMenu(groupName: string, broadcasts: BroadcastSnippet[]): string {
+  if (broadcasts.length === 0) {
+    return `CON ${groupName.slice(0, 20)}
+No broadcasts yet.
+0. Back`;
+  }
+  const lines = broadcasts.slice(0, 3).map((b, i) => `${i + 1}. ${b.subject.slice(0, 30)}`);
+  return `CON ${groupName.slice(0, 20)}\n${lines.join('\n')}\n0. Back`;
+}
+
+/**
+ * Branch 6 — view a single broadcast.
+ * USSD max visible text is approximately 160 chars per screen.
+ * Body is truncated to 120 chars to leave room for header and footer.
+ */
+export function viewBroadcast(groupName: string, broadcast: BroadcastSnippet): string {
+  const body = broadcast.body.length > 120
+    ? `${broadcast.body.slice(0, 117)}...`
+    : broadcast.body;
+  return `CON ${groupName.slice(0, 15)}: ${broadcast.subject.slice(0, 20)}
+${body}
+0. Back`;
 }
 
 /**

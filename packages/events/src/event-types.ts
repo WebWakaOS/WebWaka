@@ -680,3 +680,30 @@ export interface VerticalEventPayload {
   workspaceId: string;
   details?: Record<string, unknown>;
 }
+
+// ---------------------------------------------------------------------------
+// WhatsApp Business API Template Management (Phase 3, E24)
+// ---------------------------------------------------------------------------
+
+export const WhatsAppTemplateEventType = {
+  /** Template submitted to Meta for approval */
+  WhatsAppTemplateSubmitted:  'whatsapp_template.submitted',
+  /** Meta approved the template — ready for use */
+  WhatsAppTemplateApproved:   'whatsapp_template.approved',
+  /** Meta rejected the template — fallback_to_inapp activated */
+  WhatsAppTemplateRejected:   'whatsapp_template.rejected',
+  /** Template deprecated (superseded or no longer needed) */
+  WhatsAppTemplateDeprecated: 'whatsapp_template.deprecated',
+} as const;
+
+export type WhatsAppTemplateEventKey = keyof typeof WhatsAppTemplateEventType;
+export type WhatsAppTemplateEventValue = typeof WhatsAppTemplateEventType[WhatsAppTemplateEventKey];
+
+export interface WhatsAppTemplateEventPayload {
+  templateId: string;
+  tenantId: string;
+  eventType: string;
+  templateName: string;
+  templateStatus: string;
+  rejectionReason?: string;
+}

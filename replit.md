@@ -448,6 +448,24 @@ PRD Phase 1 complete (M11 gate). Key deliverables:
 
 **Test result:** 101/101 Phase 1 tests pass (cases 24 + policy-engine 24 + groups 24 + offline-sync 29). Typecheck clean.
 
+## UMP Phase 3 — Offline / PWA / Mobile Hardening (2026-04-28)
+
+PRD Phase 3 complete (M13 gate). Key deliverables:
+
+**Epics E20–E25:**
+- **E20 (T001):** Differential Sync V2 — GET /sync/delta upgraded to PRD-compliant `{ changes, deletes, server_time, has_more, next_cursor }` with `module` param (groups|cases|notifications|geography|all), cursor pagination, backward-compat V1 preserved. 4 new entity types registered: `group_member`, `case_note`, `group_broadcast_draft`, `group_event`. 4 per-module Background Sync tags in service worker.
+- **E21 (T002):** Cache Budget Enforcement — Dexie.js upgraded to version(4) with 7 new IndexedDB tables: `groupMembersCache` (10 MB, 200 rows), `broadcastDraftsCache` (2 MB), `caseCache` (5 MB), `eventCache` (3 MB), `geographyCache` (5 MB), `policyCache` (1 MB), `imageVariantsCache` (5 MB). `CacheBudgetManager` with LRU eviction (never evicts pending syncQueue rows — P5), pressure alerts at 80% of budget.
+- **E22 (T003):** Conflict Resolution + Draft Autosave + PII Clear — `ConflictStore` (P11 server-wins), `DraftAutosaveManager` 5-second autosave to IndexedDB (AC-OFF-01), `clearPiiOnLogout()` clears voter_ref/donor_phone/bank_account_number/nin/bvn across 8 tables < 500ms (AC-OFF-06, P10, P13), `assertFinancialBlocked()` (AC-OFF-05, P5).
+- **E23 (T004):** Low-Bandwidth Image Pipeline — migration 0447 (`image_variants` table), POST/GET/PATCH routes at `/image-variants`, `ImageVariantCache` Dexie-backed client cache. Thumbnail URLs via `?w=100` convention (< 100KB, M13 gate).
+- **E24 (T005):** WhatsApp Template Management — migration 0448 (`whatsapp_templates` table + 5 seeded platform defaults for group.broadcast_sent, case.opened, mutual_aid.approved, dues.payment_recorded, workflow.completed). GET/POST/PATCH routes. `WhatsAppTemplateEventType` added to events package.
+- **E25 (T006):** USSD Groups Integration — main menu Branch 6 ("My Groups"), group broadcast list + view navigation on `*384#`, 3 new USSDStates (`groups_list`, `groups_broadcasts`, `groups_view_broadcast`).
+
+**Test result:** 51/51 offline-sync, 36/36 targeted API (SD01–SD12 + IP01–IP08 + WA01–WA08), 109/109 USSD gateway. M13 gate: AC-OFF-01–06 all PASS.
+
+**Migrations:** 0447 (image_variants), 0448 (whatsapp_templates) — both with rollback scripts (AC-FUNC-03).
+
+---
+
 ## UMP Phase 2 — Universal Module Generalization (2026-04-28)
 
 PRD Phase 2 complete (M12 gate). Key deliverables:

@@ -97,7 +97,7 @@ export const SYNC_ENTITY_REGISTRY: readonly SyncEntityConfig[] = [
     tableName:            'groups',
     idColumn:             'id',
     timestampColumn:      'updated_at',
-    offlineWriteEnabled:  false, // Phase 1: read-only offline — group mutations require server
+    offlineWriteEnabled:  false, // read-only offline
     label:                'Group',
   },
   {
@@ -105,8 +105,43 @@ export const SYNC_ENTITY_REGISTRY: readonly SyncEntityConfig[] = [
     tableName:            'cases',
     idColumn:             'id',
     timestampColumn:      'updated_at',
-    offlineWriteEnabled:  false, // Phase 1: read-only offline — case mutations require server
+    offlineWriteEnabled:  false, // read-only offline
     label:                'Case',
+  },
+
+  // ── Phase 3 additions (E20) — enhanced offline scope ────────────────────
+
+  {
+    entityName:           'group_member',
+    tableName:            'group_members',
+    idColumn:             'id',
+    timestampColumn:      'updated_at',
+    offlineWriteEnabled:  false, // member role changes require server (P11 server-wins)
+    label:                'Group member',
+  },
+  {
+    entityName:           'case_note',
+    tableName:            'case_notes',
+    idColumn:             'id',
+    timestampColumn:      'created_at', // append-only — no updated_at
+    offlineWriteEnabled:  false,        // notes are append-only; offline draft is stored locally
+    label:                'Case note',
+  },
+  {
+    entityName:           'group_broadcast_draft',
+    tableName:            'group_broadcasts',
+    idColumn:             'id',
+    timestampColumn:      'updated_at',
+    offlineWriteEnabled:  true,  // AC-OFF-01: broadcast draft can be queued offline
+    label:                'Group broadcast draft',
+  },
+  {
+    entityName:           'group_event',
+    tableName:            'group_events',
+    idColumn:             'id',
+    timestampColumn:      'updated_at',
+    offlineWriteEnabled:  false, // read-only offline
+    label:                'Group event',
   },
 ] as const;
 
