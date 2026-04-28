@@ -108,6 +108,7 @@ import { communityReportRoutes } from './routes/community-reports.js';
 import { imagePipelineRoutes } from './routes/image-pipeline.js';
 import { whatsappTemplateRoutes } from './routes/whatsapp-templates.js';
 import { appealsRoutes } from './routes/appeals.js';
+import { developerRoutes } from './routes/developer.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -118,6 +119,15 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('*', errorLogMiddleware);
 
   // -------------------------------------------------------------------------
+  // Phase 6 / ADR-0018: API versioning — add X-API-Version: 1 to every
+  // response so external consumers can detect the API version at runtime.
+  // -------------------------------------------------------------------------
+  app.use('*', async (c, next) => {
+    await next();
+    c.res.headers.set('X-API-Version', '1');
+  });
+
+  // -------------------------------------------------------------------------
   // Public routes (no auth)
   // -------------------------------------------------------------------------
 
@@ -126,6 +136,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.get('/version', (c) => c.json({ version: API_VERSION }));
   app.route('/openapi.json', openapiRoutes);
   app.route('/docs', swaggerRoutes); // GOV-03: Swagger UI
+  app.route('/developer', developerRoutes); // Phase 6 / E33: Public API developer info
   app.route('/geography', geographyRoutes);
   app.route('/discovery', discoveryRoutes);
 
