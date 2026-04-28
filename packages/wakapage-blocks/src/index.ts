@@ -31,6 +31,12 @@ export type {
   BlogPostBlockConfig,
   CommunityBlockConfig,
   EventListBlockConfig,
+  GroupBlockConfig,
+  SupportGroupBlockConfig,
+  FundraisingCampaignBlockConfig,
+  CasesBoardBlockConfig,
+  DuesStatusBlockConfig,
+  MutualAidWallBlockConfig,
 } from './block-types.js';
 
 export { parseBlockConfig, serializeBlockConfig, BLOCK_TYPES } from './block-types.js';

@@ -100,6 +100,86 @@ function satisfiesSemverRange(version: string, range: string): boolean {
 const PLATFORM_VERSION = '1.0.1';
 
 // ---------------------------------------------------------------------------
+// E25 (Phase 4): Template policy seeder + vocabulary KV store
+// TR-T-05: default_policies seeded into policy_rules on install with tenant_id
+// TR-T-02: vocabulary stored in KV for fast resolution at UI layer
+// ---------------------------------------------------------------------------
+
+interface TemplateDefaultPolicy {
+  rule_key: string;
+  category: string;
+  scope?: string;
+  title: string;
+  description?: string;
+  condition_json?: string;
+  decision?: string;
+  hitl_level?: number | null;
+}
+
+async function seedTemplatePoliciesAndVocab(
+  db: D1Database,
+  env: Env,
+  tenantId: string,
+  templateSlug: string,
+  template: { default_policies?: string; vocabulary?: string },
+): Promise<void> {
+  const now = Math.floor(Date.now() / 1000);
+
+  const policiesJson = template.default_policies ?? '[]';
+  let policies: TemplateDefaultPolicy[] = [];
+  try { policies = JSON.parse(policiesJson) as TemplateDefaultPolicy[]; } catch { /* malformed — skip */ }
+
+  for (const policy of policies) {
+    if (!policy.rule_key || !policy.category || !policy.title) continue;
+    try {
+      const existing = await db.prepare(
+        `SELECT id FROM policy_rules WHERE tenant_id = ? AND rule_key = ? AND scope = 'tenant'`,
+      ).bind(tenantId, policy.rule_key).first<{ id: string }>();
+      if (existing) continue;
+
+      const policyId = `polr_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
+      await db.prepare(`
+        INSERT INTO policy_rules
+          (id, tenant_id, workspace_id, rule_key, version, category, scope, status,
+           title, description, condition_json, decision, hitl_level,
+           effective_from, effective_to, created_by, created_at, updated_at)
+        VALUES (?, ?, NULL, ?, 1, ?, ?, 'published', ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
+      `).bind(
+        policyId,
+        tenantId,
+        policy.rule_key,
+        policy.category,
+        policy.scope ?? 'tenant',
+        policy.title,
+        policy.description ?? '',
+        policy.condition_json ?? '{}',
+        policy.decision ?? 'DENY',
+        policy.hitl_level ?? null,
+        now,
+        tenantId,
+        now,
+        now,
+      ).run();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '';
+      if (!msg.includes('no such table')) {
+        console.warn('[templates] policy seed failed (non-fatal):', policy.rule_key, err);
+      }
+    }
+  }
+
+  const vocabJson = template.vocabulary ?? '{}';
+  const kv = env.KV;
+  if (kv && vocabJson !== '{}') {
+    try {
+      await kv.put(`vocab:${tenantId}:${templateSlug}`, vocabJson, { expirationTtl: 60 * 60 * 24 * 365 });
+    } catch (err) {
+      console.warn('[templates] KV vocab store failed (non-fatal):', err);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // GET /templates — list approved templates (public, paginated)
 // PERF-03: Supports cursor-based pagination (preferred) and legacy page/offset
 // Cursor format: base64(install_count:created_at:id) for stable ordering
@@ -414,6 +494,10 @@ templates.post('/', async (c) => {
     author_tenant_id?: string;
     is_free?: boolean;
     price_kobo?: number;
+    module_config?: Record<string, unknown>;
+    vocabulary?: Record<string, unknown>;
+    default_policies?: unknown[];
+    default_workflows?: unknown[];
   }>();
 
   if (!body.slug || typeof body.slug !== 'string' || body.slug.length < 2 || body.slug.length > 100) {
@@ -491,8 +575,12 @@ templates.post('/', async (c) => {
   const isFree = body.is_free !== false && (!body.price_kobo || body.price_kobo === 0);
 
   await db.prepare(`
-    INSERT INTO template_registry (id, slug, display_name, description, template_type, version, platform_compat, compatible_verticals, manifest_json, author_tenant_id, status, is_free, price_kobo, install_count, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review', ?, ?, 0, ?, ?)
+    INSERT INTO template_registry
+      (id, slug, display_name, description, template_type, version, platform_compat,
+       compatible_verticals, manifest_json, author_tenant_id, status, is_free, price_kobo,
+       install_count, module_config, vocabulary, default_policies, default_workflows,
+       created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review', ?, ?, 0, ?, ?, ?, ?, ?, ?)
   `).bind(
     id,
     body.slug,
@@ -506,6 +594,10 @@ templates.post('/', async (c) => {
     body.author_tenant_id ?? null,
     isFree ? 1 : 0,
     body.price_kobo ?? 0,
+    JSON.stringify(body.module_config ?? {}),
+    JSON.stringify(body.vocabulary ?? {}),
+    JSON.stringify(body.default_policies ?? []),
+    JSON.stringify(body.default_workflows ?? []),
     now,
     now,
   ).run();
@@ -535,6 +627,8 @@ templates.post('/:slug/install', async (c) => {
     is_free: number;
     price_kobo: number;
     author_tenant_id: string;
+    default_policies: string;
+    vocabulary: string;
   }>();
 
   if (!template) {
@@ -623,6 +717,9 @@ templates.post('/:slug/install', async (c) => {
       `).bind(now, template.id),
     ]);
 
+    // E25 (Phase 4): seed template policies into policy_rules + store vocabulary in KV (TR-T-05, TR-T-02)
+    await seedTemplatePoliciesAndVocab(db, c.env, tenantId, slug, template);
+
     // PROD-04: fire-and-forget webhook dispatch (best effort)
     const reinstallDispatcher = new WebhookDispatcher(c.env.DB, tenantId);
     void reinstallDispatcher.dispatch('template.installed', {
@@ -654,6 +751,9 @@ templates.post('/:slug/install', async (c) => {
       UPDATE template_registry SET install_count = install_count + 1, updated_at = ? WHERE id = ?
     `).bind(now, template.id),
   ]);
+
+  // E25 (Phase 4): seed template policies into policy_rules + store vocabulary in KV (TR-T-05, TR-T-02)
+  await seedTemplatePoliciesAndVocab(db, c.env, tenantId, slug, template);
 
   // PROD-04: fire-and-forget webhook dispatch (best effort)
   const installDispatcher = new WebhookDispatcher(c.env.DB, tenantId);

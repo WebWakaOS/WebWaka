@@ -20,6 +20,9 @@
  *   fx_rates, hospital_booking, legal_consultation, campaign_timeline,
  *   course_preview, reservation_form, lead_magnet, qr_embed
  *
+ * Phase 4 block types (Template System Rollout — M14 gate):
+ *   cases_board, dues_status, mutual_aid_wall
+ *
  * Governance:
  *   - All new block types must be added here first (types contract)
  *   - Then added to the wakapage_blocks.block_type CHECK constraint (migration)
@@ -31,7 +34,7 @@
 // ---------------------------------------------------------------------------
 
 /**
- * MVP block type union — Phase 1 implementation scope.
+ * MVP block type union — Phase 1 implementation scope + Phase 4 additions.
  * This is the canonical list. Extend here first, then migration.
  */
 export type BlockType =
@@ -52,12 +55,18 @@ export type BlockType =
   | 'blog_post'       // Recent posts from blog_posts table
   | 'community'       // @webwaka/community spaces
   | 'event_list'      // @webwaka/community events list
-  | 'group'              // @webwaka/groups public profile + join CTA (Phase 0 rename)
+  | 'group'              // @webwaka/groups public profile + join CTA (Phase 0 rename from support_group)
   | 'support_group'      // @deprecated Use 'group'. Kept for migration compat (0432).
-  | 'fundraising_campaign'; // @webwaka/fundraising public campaign + donate CTA
+  | 'fundraising_campaign' // @webwaka/fundraising public campaign + donate CTA
+  // ---------------------------------------------------------------------------
+  // Phase 4 — Template System Rollout (M14 gate: 4 new block types)
+  // ---------------------------------------------------------------------------
+  | 'cases_board'     // @webwaka/cases board: open/closed cases filtered by type/status
+  | 'dues_status'     // @webwaka/dues: member dues payment status + history
+  | 'mutual_aid_wall'; // @webwaka/mutual-aid: open requests + recent disbursements
 
 /**
- * Runtime set of all MVP block type strings.
+ * Runtime set of all MVP block type strings + Phase 4 additions.
  *
  * This is the single canonical list of valid block types.
  * Derive your runtime validators from this — never scatter block type strings
@@ -87,6 +96,10 @@ export const BLOCK_TYPES: ReadonlySet<BlockType> = new Set<BlockType>([
   'group',
   'support_group',         // deprecated — kept until migration 0438 drops shadow tables
   'fundraising_campaign',
+  // Phase 4 additions (M14 gate)
+  'cases_board',
+  'dues_status',
+  'mutual_aid_wall',
 ]);
 
 // ---------------------------------------------------------------------------
@@ -250,6 +263,10 @@ export interface EventListBlockConfig {
   filterBySpaceId?: string;
 }
 
+/**
+ * GroupBlockConfig — extended in Phase 4 with casework + dues + mutual aid preview.
+ * Phase 0 rename: was SupportGroupBlockConfig.
+ */
 export interface GroupBlockConfig {
   groupId?: string;
   groupSlug?: string;
@@ -262,6 +279,16 @@ export interface GroupBlockConfig {
   linkedCampaignId?: string;     // optional link to fundraising campaign
   showUpcomingEvents?: boolean;  // default true
   maxEventsPreview?: number;     // default 3
+  // Phase 4 extensions (Template System — M14 gate)
+  showCasesPreview?: boolean;    // show open cases board preview (T02/T05)
+  maxCasesPreview?: number;      // default 3
+  showDuesStatus?: boolean;      // show member dues status widget (T03/T06)
+  showMutualAidWall?: boolean;   // show open mutual aid requests (T03)
+  vocabularyOverrides?: {        // TR-T-03: UI-layer term overrides from installed template
+    member?: string;             // e.g. "Volunteer", "Constituent", "Neighbor"
+    group?: string;              // e.g. "Chapter", "Ward Network", "Ministry"
+    joinCta?: string;            // e.g. "Join Chapter", "Enlist as Supporter"
+  };
 }
 
 /** @deprecated Use GroupBlockConfig */
@@ -282,6 +309,68 @@ export interface FundraisingCampaignBlockConfig {
   maxUpdatesPreview?: number;    // default 3
   showStory?: boolean;           // default true (long-form narrative block)
   anonymousMode?: boolean;       // hide individual amounts in donor wall
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4 — New Block Config interfaces (M14 gate)
+// ---------------------------------------------------------------------------
+
+/**
+ * CasesBoardBlockConfig — embeds the tenant's cases board.
+ * Used by: T02 (Civic), T03 (Mutual Aid), T05 (Constituency Service).
+ * Applies template vocabulary overrides at the UI layer (TR-T-03).
+ */
+export interface CasesBoardBlockConfig {
+  heading?: string;              // default: vocabulary.Case + ' Board' (e.g. 'Aid Request Board')
+  filterByStatus?: Array<'open' | 'in_progress' | 'resolved' | 'closed'>;
+  filterByType?: string[];       // e.g. ['constituency_case','beneficiary_case']
+  maxCases?: number;             // default 5
+  showResolutionTime?: boolean;  // default true
+  showAssignee?: boolean;        // default false (PII — masked unless consented)
+  showCaseType?: boolean;        // default true
+  linkToFullBoard?: boolean;     // default true — link to /cases
+  /** TR-T-03: Applied at UI layer from installed template vocabulary */
+  caseLabelOverride?: string;    // e.g. "Aid Request", "Constituency Case", "Beneficiary Case"
+  /** Nigeria First: low-bandwidth mode — card view not full table */
+  lowBandwidthMode?: boolean;    // default true
+}
+
+/**
+ * DuesStatusBlockConfig — embeds a member dues payment status widget.
+ * Used by: T03 (Mutual Aid), T06 (Faith Community), T07 (Cooperative — Phase 5).
+ * Sensitive: individual contribution amounts are PII under NDPR (policy rule: faith.tithe_records.pii.v1)
+ */
+export interface DuesStatusBlockConfig {
+  heading?: string;              // default: vocabulary.Contribution + ' Status' (e.g. 'Tithe Status')
+  showCurrentPeriod?: boolean;   // default true
+  showHistory?: boolean;         // default false (requires NDPR consent)
+  historyMonths?: number;        // default 6; max 24
+  showNextDueDate?: boolean;     // default true
+  showTotalPaid?: boolean;       // default false (PII — masked unless consented)
+  /** TR-T-03: Applied at UI layer from installed template vocabulary */
+  contributionLabelOverride?: string; // e.g. "Tithe", "Dues", "Levy", "Gift"
+  /** P13 compliance: amounts must not be shown in public contexts */
+  anonymousMode?: boolean;       // default true (hide individual amounts on public pages)
+}
+
+/**
+ * MutualAidWallBlockConfig — embeds the network's open/recent aid requests.
+ * Used by: T03 (Mutual Aid Network).
+ * PII sensitive: financial need descriptions must not be exposed without consent.
+ */
+export interface MutualAidWallBlockConfig {
+  heading?: string;              // default: 'Aid Requests' (or vocabulary.Case + 's')
+  showOpenRequests?: boolean;    // default true
+  showRecentlyFunded?: boolean;  // default true
+  maxItems?: number;             // default 5
+  showRequestAmount?: boolean;   // default false (PII — amounts are sensitive)
+  showRequesterName?: boolean;   // default false (PII — masked by default)
+  showApprovalStatus?: boolean;  // default true (approved/pending/denied)
+  /** TR-T-03: Applied at UI layer from installed template vocabulary */
+  requestLabelOverride?: string; // e.g. "Aid Request", "Help Request", "Network Call"
+  neighborLabelOverride?: string; // e.g. "Neighbor", "Member"
+  /** Nigeria First: offline-friendly compact card layout */
+  compactMode?: boolean;         // default true
 }
 
 // ---------------------------------------------------------------------------
@@ -308,7 +397,11 @@ export type BlockConfig =
   | ({ blockType: 'event_list' } & EventListBlockConfig)
   | ({ blockType: 'group' } & GroupBlockConfig)
   | ({ blockType: 'support_group' } & GroupBlockConfig)   // deprecated alias
-  | ({ blockType: 'fundraising_campaign' } & FundraisingCampaignBlockConfig);
+  | ({ blockType: 'fundraising_campaign' } & FundraisingCampaignBlockConfig)
+  // Phase 4 (M14 gate)
+  | ({ blockType: 'cases_board' } & CasesBoardBlockConfig)
+  | ({ blockType: 'dues_status' } & DuesStatusBlockConfig)
+  | ({ blockType: 'mutual_aid_wall' } & MutualAidWallBlockConfig);
 
 // ---------------------------------------------------------------------------
 // Parse helper — Phase 0 contract only, no renderer

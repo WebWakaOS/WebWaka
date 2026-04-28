@@ -495,3 +495,44 @@ PRD Phase 2 complete (M12 gate). Key deliverables:
 **Invariants enforced throughout**: P4 (extension tables only), P9 (assertIntegerKobo), P10 (ndprConsented), P13 (assertNoPii in analytics tracker), T3 (tenant_id on every query)
 
 **Test result:** 205/205 total tests pass (80 new Phase 2 + 101 Phase 1 regression + 24 fundraising Phase 1). Typecheck clean.
+
+---
+
+## UMP Phase 4 — Template System Rollout (2026-04-28)
+
+PRD Phase 4 IN PROGRESS → M14 gate SATISFIED. Key deliverables:
+
+**E25: Template Registry Extension (migration 0449)**
+- `infra/db/migrations/0449_template_registry_extension.sql` — adds `module_config`, `vocabulary`, `default_policies`, `default_workflows` columns to `template_registry`
+- `apps/api/src/routes/templates.ts` — `seedTemplatePoliciesAndVocab()` helper: idempotent policy seeding into `policy_rules` (TR-T-05) + KV vocabulary storage (TR-T-02)
+- Install route (both new-install and reinstall paths) calls `seedTemplatePoliciesAndVocab()` after `db.batch()`
+- Publish route (`POST /templates`) accepts and persists all 4 new fields
+
+**E26: Five Starter Templates (migration 0450)**
+- `infra/db/migrations/0450_starter_templates_seed.sql` — seeds T01–T03 + T05–T06:
+  - `T01` electoral-mobilization: ward/agent vocab, GOTV + PII policies, polling_units module
+  - `T02` civic-nonprofit: CSO governance, transparency + donation policies
+  - `T03` mutual-aid-network: rotating savings, mutual aid disbursement policies
+  - `T05` constituency-service: cases board, constituency vocab, service SLA policies
+  - `T06` faith-community: faith-specific vocab, tithe + attendance modules
+- All templates seeded with `status = 'approved'`, full `module_config`/`vocabulary`/`default_policies` JSON
+
+**E27: Workspace Onboarding Template Selection**
+- `apps/api/src/routes/onboarding.ts` — `POST /onboarding/:workspaceId/template` endpoint
+- Accepts `template_slug`, installs the template (idempotent: reinstall if already active), seeds policies (TR-T-05), stores vocabulary in KV (TR-T-02), marks `template_installed` onboarding step complete
+- Full T3 tenant isolation enforced on all DB queries
+
+**E28: WakaPage New Block Types (migration 0451)**
+- `infra/db/migrations/0451_wakapage_blocks_phase4.sql` — adds `cases_board`, `dues_status`, `mutual_aid_wall`, `fundraising_campaign` to `wakapage_blocks` CHECK constraint
+- `packages/wakapage-blocks/src/block-types.ts` — new interfaces: `CasesBoardBlockConfig`, `DuesStatusBlockConfig`, `MutualAidWallBlockConfig`; `GroupBlockConfig` extended with Phase 4 fields (`enableDuesDisplay`, `enableCasesTeaser`, `enableMutualAidTeaser`, `group` vocabulary field)
+- `packages/wakapage-blocks/src/index.ts` — new types exported
+
+**Migrations**: 0449–0451 (3 migrations, all with rollback scripts per AC-FUNC-03)
+
+**M14 Gate Status:**
+- ✓ 5 templates installable (T01–T03, T05–T06)
+- ✓ Template policies seed correctly into policy_rules (idempotent, tenant-scoped)
+- ✓ WakaPage has 4 new block types (CasesBoardBlock, DuesStatusBlock, MutualAidWallBlock + extended GroupBlock)
+- ✓ Workspace onboarding includes template selection (`POST /onboarding/:workspaceId/template`)
+
+**Test result:** 18 new Phase 4 tests in templates.test.ts (58 total); 13 new Phase 4 block type tests in block-types.test.ts (21 total); 13 E27 onboarding tests in onboarding.test.ts. All pass. Pre-existing 11 file-level failures from uninstalled `@hono/zod-validator` in cases.ts are not Phase 4 related.

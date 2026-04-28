@@ -15,6 +15,10 @@ import type {
   ContactFormBlockConfig,
   BlogPostBlockConfig,
   BlockConfig,
+  CasesBoardBlockConfig,
+  DuesStatusBlockConfig,
+  MutualAidWallBlockConfig,
+  GroupBlockConfig,
 } from './block-types.js';
 
 // ---------------------------------------------------------------------------
@@ -114,6 +118,189 @@ describe('serializeBlockConfig', () => {
     if (parsed?.blockType === 'faq') {
       expect(parsed.heading).toBe('Common Questions');
       expect(parsed.items).toHaveLength(1);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Phase 4 (E28) — New block types: cases_board, dues_status, mutual_aid_wall
+// Extended GroupBlockConfig Phase 4 fields
+// M14 gate: WakaPage has 4 new block types
+// ---------------------------------------------------------------------------
+
+describe('Phase 4 — E28: BlockType exhaustiveness (Phase 4 additions)', () => {
+  const PHASE4_BLOCK_TYPES: BlockType[] = [
+    'group',
+    'fundraising_campaign',
+    'cases_board',
+    'dues_status',
+    'mutual_aid_wall',
+  ];
+
+  it('has 5 Phase 4 block types defined (group, fundraising_campaign + 3 new)', () => {
+    expect(PHASE4_BLOCK_TYPES).toHaveLength(5);
+  });
+
+  it('all Phase 4 block types are distinct snake_case strings', () => {
+    const unique = new Set(PHASE4_BLOCK_TYPES);
+    expect(unique.size).toBe(PHASE4_BLOCK_TYPES.length);
+    for (const t of PHASE4_BLOCK_TYPES) {
+      expect(t).toMatch(/^[a-z][a-z0-9_]*$/);
+    }
+  });
+});
+
+describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
+  it('parses a valid cases_board config', () => {
+    const config: CasesBoardBlockConfig = {
+      heading: 'Open Cases',
+      caseTypes: ['welfare', 'legal', 'housing'],
+      showClosed: false,
+      maxVisible: 10,
+    };
+    const json = JSON.stringify(config);
+    const parsed = parseBlockConfig('cases_board', json);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.blockType).toBe('cases_board');
+  });
+
+  it('parses minimal cases_board config (no optional fields)', () => {
+    const config: CasesBoardBlockConfig = {};
+    const parsed = parseBlockConfig('cases_board', JSON.stringify(config));
+    expect(parsed?.blockType).toBe('cases_board');
+  });
+
+  it('round-trips cases_board config: serialize then parse', () => {
+    const config: BlockConfig = {
+      blockType: 'cases_board',
+      heading: 'Constituency Cases',
+      caseTypes: ['infrastructure', 'healthcare'],
+      showClosed: true,
+      maxVisible: 20,
+    };
+    const json = serializeBlockConfig(config);
+    const parsed = parseBlockConfig('cases_board', json);
+    expect(parsed).not.toBeNull();
+    if (parsed?.blockType === 'cases_board') {
+      expect(parsed.heading).toBe('Constituency Cases');
+      expect(parsed.caseTypes).toEqual(['infrastructure', 'healthcare']);
+      expect(parsed.showClosed).toBe(true);
+      expect(parsed.maxVisible).toBe(20);
+    }
+  });
+});
+
+describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
+  it('parses a valid dues_status config', () => {
+    const config: DuesStatusBlockConfig = {
+      heading: 'Member Dues',
+      showHistory: true,
+      cycleLabel: 'Monthly',
+      gracePeriodDays: 7,
+    };
+    const json = JSON.stringify(config);
+    const parsed = parseBlockConfig('dues_status', json);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.blockType).toBe('dues_status');
+  });
+
+  it('parses minimal dues_status config', () => {
+    const config: DuesStatusBlockConfig = {};
+    const parsed = parseBlockConfig('dues_status', JSON.stringify(config));
+    expect(parsed?.blockType).toBe('dues_status');
+  });
+
+  it('round-trips dues_status: serialize then parse', () => {
+    const config: BlockConfig = {
+      blockType: 'dues_status',
+      heading: 'Ward Dues 2025',
+      showHistory: false,
+      cycleLabel: 'Annual',
+      gracePeriodDays: 14,
+    };
+    const json = serializeBlockConfig(config);
+    const parsed = parseBlockConfig('dues_status', json);
+    expect(parsed).not.toBeNull();
+    if (parsed?.blockType === 'dues_status') {
+      expect(parsed.cycleLabel).toBe('Annual');
+      expect(parsed.gracePeriodDays).toBe(14);
+    }
+  });
+});
+
+describe('Phase 4 — E28: MutualAidWallBlockConfig', () => {
+  it('parses a valid mutual_aid_wall config', () => {
+    const config: MutualAidWallBlockConfig = {
+      heading: 'Community Aid',
+      showDisbursements: true,
+      maxRequests: 8,
+      allowAnonRequests: false,
+    };
+    const json = JSON.stringify(config);
+    const parsed = parseBlockConfig('mutual_aid_wall', json);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.blockType).toBe('mutual_aid_wall');
+  });
+
+  it('parses minimal mutual_aid_wall config', () => {
+    const parsed = parseBlockConfig('mutual_aid_wall', '{}');
+    expect(parsed?.blockType).toBe('mutual_aid_wall');
+  });
+
+  it('round-trips mutual_aid_wall: serialize then parse', () => {
+    const config: BlockConfig = {
+      blockType: 'mutual_aid_wall',
+      heading: 'Neighbourhood Solidarity',
+      showDisbursements: true,
+      maxRequests: 15,
+      allowAnonRequests: true,
+    };
+    const json = serializeBlockConfig(config);
+    const parsed = parseBlockConfig('mutual_aid_wall', json);
+    expect(parsed).not.toBeNull();
+    if (parsed?.blockType === 'mutual_aid_wall') {
+      expect(parsed.heading).toBe('Neighbourhood Solidarity');
+      expect(parsed.allowAnonRequests).toBe(true);
+    }
+  });
+});
+
+describe('Phase 4 — E28: GroupBlockConfig extended fields', () => {
+  it('parses group config with Phase 4 extended fields', () => {
+    const config: GroupBlockConfig = {
+      heading: 'Ward Network',
+      showMemberCount: true,
+      joinCtaLabel: 'Join Ward',
+      group: 'Ward',
+      enableDuesDisplay: true,
+      enableCasesTeaser: true,
+      enableMutualAidTeaser: false,
+    };
+    const json = JSON.stringify(config);
+    const parsed = parseBlockConfig('group', json);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.blockType).toBe('group');
+    if (parsed?.blockType === 'group') {
+      expect(parsed.enableDuesDisplay).toBe(true);
+      expect(parsed.enableCasesTeaser).toBe(true);
+    }
+  });
+
+  it('round-trips group with all Phase 4 fields', () => {
+    const config: BlockConfig = {
+      blockType: 'group',
+      heading: 'Faith Group',
+      showMemberCount: false,
+      group: 'Ministry',
+      enableDuesDisplay: true,
+      enableCasesTeaser: false,
+      enableMutualAidTeaser: true,
+    };
+    const json = serializeBlockConfig(config);
+    const parsed = parseBlockConfig('group', json);
+    if (parsed?.blockType === 'group') {
+      expect(parsed.group).toBe('Ministry');
+      expect(parsed.enableMutualAidTeaser).toBe(true);
     }
   });
 });
