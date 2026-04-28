@@ -1,0 +1,64 @@
+Execute the approved WebWaka implementation plan phase by phase without stopping until the entire scope is completed.
+
+Non-negotiable execution rules:
+
+1. PHASE-BY-PHASE NONSTOP EXECUTION
+- Implement every phase in the approved sequence.
+- Do not stop after one phase unless blocked by a real failing dependency or failing quality gate.
+- If blocked, fix the blocker and continue.
+- Do not skip any phase, module, migration, refactor, deprecation, test, or verification task.
+
+2. MANDATORY GITHUB STAGING PUSH AFTER EACH PHASE
+- After completing each phase, commit all changes cleanly and push to GitHub `staging`.
+- No phase is considered complete until code is pushed to `staging`.
+- After push, immediately proceed to the next phase only if all quality gates are green.
+
+3. MANDATORY QA GATE AFTER EVERY PHASE
+- After each phase implementation, run the best expert QA agents to perform:
+  - code review,
+  - unit testing,
+  - integration testing,
+  - regression testing,
+  - architecture compliance review,
+  - security/privacy/compliance review where relevant,
+  - documentation/update verification.
+- Any issue, bug, inconsistency, regression, incomplete wiring, stale naming, or failed test must be fixed before the phase can be closed.
+- “Partially working” is not acceptable for phase completion.
+
+4. FINAL END-TO-END QA AND DEPLOYMENT VERIFICATION
+- After all phases are complete, run a full-system expert QA pass across the entire platform:
+  - end-to-end testing,
+  - cross-module regression,
+  - API verification,
+  - search/indexing verification,
+  - AI/Superagent verification,
+  - offline/PWA/mobile verification,
+  - permissions/policy verification,
+  - migration and data integrity verification,
+  - deployment readiness verification.
+- Then push final green code to GitHub `staging` and verify deployment to Cloudflare through the GitHub staging flow.
+- Nothing may be skipped, deferred silently, or left half-done.
+- Final completion requires everything green from implementation through QA through deployment.
+
+Execution discipline:
+- Trust nothing until verified.
+- Use the best specialized implementation and QA agents for each phase.
+- Keep going phase to phase until the entire approved implementation is fully complete, fully tested, fully pushed, and fully green.
+
+Required reporting after each phase:
+- phase name,
+- work completed,
+- files changed,
+- tests run,
+- QA findings,
+- fixes applied,
+- GitHub staging push confirmation,
+- go/no-go for next phase.
+
+Required final reporting:
+- full implementation summary,
+- all phases completed,
+- all QA gates passed,
+- all issues fixed,
+- final GitHub staging push confirmed,
+- Cloudflare deployment verified green.
