@@ -536,3 +536,60 @@ PRD Phase 4 IN PROGRESS → M14 gate SATISFIED. Key deliverables:
 - ✓ Workspace onboarding includes template selection (`POST /onboarding/:workspaceId/template`)
 
 **Test result:** 18 new Phase 4 tests in templates.test.ts (58 total); 13 new Phase 4 block type tests in block-types.test.ts (21 total); 13 E27 onboarding tests in onboarding.test.ts. All pass. Pre-existing 11 file-level failures from uninstalled `@hono/zod-validator` in cases.ts are not Phase 4 related.
+
+## UMP Phase 5 — AI / Policy / Analytics Maturity (2026-04-28)
+
+PRD Phase 5 COMPLETE → M15 gate SATISFIED. Epics E29–E32 fully implemented.
+
+**E29: New AI Capabilities (T001)**
+- `packages/ai-abstraction/src/capabilities.ts` — 5 new `AICapabilityType` values: `mobilization_analytics`, `broadcast_scheduler`, `member_segmentation`, `petition_optimizer`, `case_classifier`; plan tiers: mobilization/broadcast/segmentation → `pro`; petition/case → `growth`
+- `packages/ai-abstraction/src/capabilities.ts` — `evaluateAICapability` extended: Phase 5 tenant `prohibitedCapabilities` gate + `maxAutonomyLevel` gate (blocks write-capable capabilities when level < 1); both sourced from `AIRoutingContext`
+- `packages/superagent/src/capability-metadata.ts` — 5 new `CAPABILITY_METADATA` entries with display names, descriptions, pillar, and planTier
+- `packages/policy-engine/src/evaluators/ai-governance.ts` — `evaluateAiGovernance` extended: `prohibited_capabilities`, `max_autonomy_level`, `require_hitl_above_kobo`, `data_exclusion_fields` condition fields (PRD §10.5 tenant AI policy overrides)
+- **30 new tests** in `packages/ai-abstraction/src/capabilities-phase5.test.ts`
+
+**E30: Data Retention Automation (T002)**
+- `apps/schedulers/src/data-retention.ts` — `DataRetentionService.processRetentionSweep()`: pseudonymizes expired donor_phone (365d), pledger_phone (365d), subject_name+phone in cases (730d); G23 invariant: audit_logs never modified; P13: only counts logged
+- `apps/schedulers/src/index.ts` — `pii-data-retention` job registered in JOBS map
+- `infra/db/migrations/0452_data_retention_scheduler.sql` — `data_retention_log` table + `pii-data-retention` in `scheduled_jobs` (priority=9, 86400s interval)
+- `infra/db/migrations/rollback/0452_rollback.sql`
+- **7 new tests** in `apps/schedulers/src/data-retention.test.ts`
+
+**E29/T003: Policy Engine Full 7-Domain Coverage**
+- `packages/policy-engine/src/evaluators/access-control.ts` — NEW evaluator covering PRD §10.1 domain 6: KYC tier gates, role gates, workspace membership gates, broadcast channel allowlist, GOTV `sensitiveSectorRights` gate
+- `packages/policy-engine/src/evaluators/compliance-regime.ts` — NEW evaluator covering PRD §10.1 domain 7: INEC regime active flag, campaign type scope filter, mandatory disclosure HITL L3, CAC filing HITL L2
+- `packages/policy-engine/src/types.ts` — `PolicyRuleCategory` extended with `'access_control'` and `'compliance_regime'`
+- `packages/policy-engine/src/engine.ts` — dispatch switch updated for both new categories
+- `packages/policy-engine/src/index.ts` — both new evaluators exported; `PACKAGE_VERSION` → `0.3.0`
+- `infra/db/migrations/0453_policy_engine_phase5.sql` — recreates `policy_rules` table with extended CHECK constraint (10 categories total); seeds 3 platform-level rules for INEC regime, group public access, broadcast channel allowlist
+- `infra/db/migrations/rollback/0453_rollback.sql`
+- **26 new tests** in `packages/policy-engine/src/policy-engine-phase5.test.ts`
+
+**E31: Starter Templates T04/T07/T08/T09 (T004)**
+- `infra/db/migrations/0454_starter_templates_phase5.sql` — seeds 4 remaining templates:
+  - `T04` advocacy-petition: coalition/advocacy vocab, petition privacy PII policy, signature drive workflows
+  - `T07` association-cooperative: association vocab, loan approval HITL-2 policy, membership lifecycle + AGM workflows
+  - `T08` personal-assistance: HIGH sensitivity module_config, personal campaign PII-HIGH policy, payout HITL-3 policy
+  - `T09` business-community: Growth plan gate, commerce plan policy, member onboarding + renewal workflows
+- `infra/db/migrations/rollback/0454_rollback.sql`
+- **4 new tests** in `apps/api/src/routes/templates.test.ts` (62 total)
+
+**E32: Moderation Appeal Flow (T005)**
+- `infra/db/migrations/0455_broadcast_appeals.sql` — `broadcast_appeals` table with full lifecycle columns: `status`, `original_action`, `appeal_reason`, `reviewer_id`, `review_decision`, `evidence_json`, `hitl_level`, `escalated_to`; 4 indices
+- `infra/db/migrations/rollback/0455_rollback.sql`
+- `apps/api/src/routes/appeals.ts` — 3 routes:
+  - `POST /appeals` — submit appeal (auth, any role; 409 if duplicate pending)
+  - `GET /appeals/admin` — list appeals (admin/super_admin, filterable by status)
+  - `PATCH /appeals/admin/:id` — review appeal (decision: reinstate/uphold/escalate; G23: evidence_json merges review snapshot, never overwrites)
+- `apps/api/src/router.ts` — appeals routes registered with auth + audit middleware
+- **15 new tests** in `apps/api/src/routes/appeals.test.ts`
+
+**Migrations**: 0452–0455 (4 migrations, all with rollback scripts per AC-FUNC-03)
+
+**M15 Gate Status:**
+- ✓ 3+ new AI capabilities operational with tests (5 added: mobilization_analytics, broadcast_scheduler, member_segmentation, petition_optimizer, case_classifier)
+- ✓ Data retention scheduler running (pii-data-retention job registered, DataRetentionService pseudonymizes expired PII per NDPR)
+- ✓ All 9 templates operational (T01-T09; T04/T07/T08/T09 seeded in migration 0454)
+- ✓ Policy Engine covers all 7 PRD §10.1 domains (access_control + compliance_regime added; 10 DB categories total)
+
+**Test result:** 82 new Phase 5 tests (30 AI capabilities + 26 policy engine Phase 5 + 15 appeals + 7 data retention + 4 templates). All pass. Running total with Phase 4 base (2364): ~2446+ tests passing. Pre-existing `packages/ledger` "no test files" and 11 API file-level failures from `@hono/zod-validator` in cases.ts are unrelated to Phase 5.

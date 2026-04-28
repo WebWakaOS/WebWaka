@@ -1039,3 +1039,159 @@ describe('Phase 4 — E27: Onboarding template selection invariants', () => {
     expect(res.status).toBe(201);
   });
 });
+
+// ── Phase 5 (E31) — Template T04/T07/T08/T09 installation tests ─────────────
+
+const MOCK_TEMPLATE_T04 = {
+  id: 'tpl_t04_advocacy_v100',
+  slug: 'advocacy-petition',
+  display_name: 'Advocacy / Petition Campaign',
+  description: 'End-to-end petition and advocacy campaign platform',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"advocacy-petition","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","petitions","value_movement","broadcasts"]}',
+  vocabulary: '{"Group":"Coalition","Member":"Advocate","Petition":"Demand"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'advocacy.petition_privacy.v1', category: 'pii_access', scope: 'tenant',
+    title: 'Petition Signature Privacy', description: 'Advocacy petitions support anonymous signature option.',
+    condition_json: '{"allowAnonymous":true,"requiresConsent":true}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T07 = {
+  id: 'tpl_t07_association_v100',
+  slug: 'association-cooperative',
+  display_name: 'Association / Cooperative',
+  description: 'Full-lifecycle member management for associations and cooperatives',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"association-cooperative","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","value_movement","events","cases"]}',
+  vocabulary: '{"Group":"Association","Member":"Member","Dues":"Levy"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'coop.loan_approval.hitl.v1', category: 'payout_gate', scope: 'tenant',
+    title: 'Cooperative Loan Approval HITL Gate', description: 'All cooperative loan requests require HITL review.',
+    condition_json: '{"defaultHitlLevel":2}', decision: 'REQUIRE_HITL', hitl_level: 2,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T08 = {
+  id: 'tpl_t08_personal_assist_v100',
+  slug: 'personal-assistance',
+  display_name: 'Personal / Community Assistance',
+  description: 'Personal fundraising and community support campaigns',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"personal-assistance","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["cases","value_movement","groups"],"sensitivity":"HIGH"}',
+  vocabulary: '{"Group":"Support Circle","Case":"Help Request","Contribution":"Support Gift"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'personal.campaign_pii.v1', category: 'pii_access', scope: 'tenant',
+    title: 'Personal Campaign PII — High Sensitivity', description: 'High-sensitivity PII protection.',
+    condition_json: '{"sensitivity":"HIGH","requiresConsent":true}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T09 = {
+  id: 'tpl_t09_biz_community_v100',
+  slug: 'business-community',
+  display_name: 'Business / Member / Customer Community',
+  description: 'Community platform for businesses and membership organizations',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"business-community","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","events","knowledge","value_movement"],"requiresPlan":"growth"}',
+  vocabulary: '{"Group":"Community","Member":"Member","Coordinator":"Community Manager"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'biz_community.commerce_plan.v1', category: 'ai_gate', scope: 'tenant',
+    title: 'Business Community — Commerce Layer Plan Gate', description: 'Commerce layer requires Growth plan.',
+    condition_json: '{"min_plan":"growth"}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+describe('Phase 5 (E31) — Template T04/T07/T08/T09 installation', () => {
+  it('T04: POST /templates/advocacy-petition/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T04,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/advocacy-petition/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t04_advocacy_v100');
+    expect(json.template_slug).toBe('advocacy-petition');
+  });
+
+  it('T07: POST /templates/association-cooperative/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T07,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/association-cooperative/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t07_association_v100');
+    expect(json.template_slug).toBe('association-cooperative');
+  });
+
+  it('T08: POST /templates/personal-assistance/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T08,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/personal-assistance/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t08_personal_assist_v100');
+    expect(json.template_slug).toBe('personal-assistance');
+  });
+
+  it('T09: POST /templates/business-community/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T09,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/business-community/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t09_biz_community_v100');
+    expect(json.template_slug).toBe('business-community');
+  });
+});

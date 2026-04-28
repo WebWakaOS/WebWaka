@@ -1,8 +1,17 @@
 /**
- * @webwaka/policy-engine — Rule evaluation engine (Phase 1 MVP)
+ * @webwaka/policy-engine — Rule evaluation engine (Phase 5 — all 7 PRD domains)
  *
- * Phase 1: Real rule evaluation dispatching to domain evaluators.
+ * Phase 5 (E29/T003): Extended to cover all 7 PRD §10.1 domains.
  * Falls back to ALLOW if no rules are found for a rule key (open-by-default).
+ *
+ * PRD Domain → DB Category → Evaluator mapping:
+ *   financial_cap       → contribution_cap  → evaluateFinancialCap
+ *   kyc_requirement     → pii_access        → evaluateKycRequirement
+ *   moderation          → content_moderation → evaluateModeration
+ *   ai_governance       → ai_gate           → evaluateAiGovernance (Phase 5: tenant overrides)
+ *   data_retention      → compliance        → evaluateDataRetention
+ *   access_control      → broadcast_gate + gotv_access + access_control → evaluateAccessControl
+ *   compliance_regime   → compliance_regime → evaluateComplianceRegime (Phase 5: new)
  *
  * Platform Invariants enforced by this engine:
  *   P9  — INEC ₦50m cap via contribution_cap rules
@@ -20,6 +29,8 @@ import { evaluateAiGovernance } from './evaluators/ai-governance.js';
 import { evaluateModeration } from './evaluators/moderation.js';
 import { evaluateDataRetention } from './evaluators/data-retention.js';
 import { evaluatePayoutGate } from './evaluators/payout-gate.js';
+import { evaluateAccessControl } from './evaluators/access-control.js';
+import { evaluateComplianceRegime } from './evaluators/compliance-regime.js';
 
 interface D1Like {
   prepare(sql: string): {
@@ -43,6 +54,11 @@ export interface EngineOptions {
 
 /**
  * Dispatch a single rule to its domain evaluator.
+ *
+ * Phase 5 (E29/T003): All 7 PRD §10.1 domains now have dedicated evaluators.
+ *   broadcast_gate + gotv_access → evaluateAccessControl (replaces evaluateKycRequirement reuse)
+ *   compliance_regime            → evaluateComplianceRegime (new Phase 5 evaluator)
+ *   access_control               → evaluateAccessControl (new explicit category)
  */
 function dispatchEvaluator(rule: PolicyRule, ctx: PolicyContext): PolicyEvalResult {
   switch (rule.category) {
@@ -60,7 +76,12 @@ function dispatchEvaluator(rule: PolicyRule, ctx: PolicyContext): PolicyEvalResu
       return evaluatePayoutGate(rule, ctx);
     case 'broadcast_gate':
     case 'gotv_access':
-      return evaluateKycRequirement(rule, ctx);
+    case 'access_control':
+      // Phase 5 (T003): dedicated access control evaluator covers all access domains
+      return evaluateAccessControl(rule, ctx);
+    case 'compliance_regime':
+      // Phase 5 (T003): new regulatory compliance regime evaluator
+      return evaluateComplianceRegime(rule, ctx);
     default:
       return {
         ruleKey: rule.ruleKey,

@@ -107,6 +107,7 @@ import { pollsRoutes } from './routes/polls.js';
 import { communityReportRoutes } from './routes/community-reports.js';
 import { imagePipelineRoutes } from './routes/image-pipeline.js';
 import { whatsappTemplateRoutes } from './routes/whatsapp-templates.js';
+import { appealsRoutes } from './routes/appeals.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -1178,4 +1179,17 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/whatsapp-templates', authMiddleware);
   app.use('/whatsapp-templates/*', authMiddleware);
   app.route('/whatsapp-templates', whatsappTemplateRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 5 (E32) — Moderation Appeal Flow
+  // POST /appeals               — submit appeal (auth required, any role)
+  // GET  /appeals/admin         — list pending appeals (admin/super_admin)
+  // PATCH /appeals/admin/:id    — review appeal (admin/super_admin)
+  // T5: admin role enforced inside handler; P13: reviewer_id not in public responses
+  // -------------------------------------------------------------------------
+  app.use('/appeals', authMiddleware);
+  app.use('/appeals/*', authMiddleware);
+  app.use('/appeals', auditLogMiddleware);
+  app.use('/appeals/*', auditLogMiddleware);
+  app.route('/appeals', appealsRoutes);
 }

@@ -15,14 +15,17 @@
  */
 
 export type PolicyRuleCategory =
-  | 'contribution_cap'   // INEC ₦50m cap, CBN thresholds
-  | 'content_moderation' // platform-level content rules
-  | 'pii_access'         // NDPR data subject access rules
-  | 'broadcast_gate'     // broadcast channel + audience rules
-  | 'gotv_access'        // GOTV data access rules (P13)
-  | 'ai_gate'            // AI capability access rules (P7, P12)
-  | 'payout_gate'        // fundraising payout approval rules
-  | 'compliance';        // compliance declaration rules
+  | 'contribution_cap'   // INEC ₦50m cap, CBN thresholds       → PRD domain: financial_cap
+  | 'content_moderation' // platform-level content rules         → PRD domain: moderation
+  | 'pii_access'         // NDPR data subject access rules       → PRD domain: kyc_requirement
+  | 'broadcast_gate'     // broadcast channel + audience rules   → PRD domain: access_control
+  | 'gotv_access'        // GOTV data access rules (P13)         → PRD domain: access_control
+  | 'ai_gate'            // AI capability access rules (P7, P12) → PRD domain: ai_governance
+  | 'payout_gate'        // fundraising payout approval rules    → PRD domain: financial_cap (payout)
+  | 'compliance'         // NDPR data retention rules            → PRD domain: data_retention
+  // Phase 5 (E29/T003): new categories for full 7-domain PRD coverage
+  | 'access_control'     // dedicated access control evaluator   → PRD domain: access_control (explicit)
+  | 'compliance_regime'; // regulatory compliance regime rules   → PRD domain: compliance_regime
 
 export type PolicyRuleScope = 'platform' | 'tenant' | 'workspace';
 
