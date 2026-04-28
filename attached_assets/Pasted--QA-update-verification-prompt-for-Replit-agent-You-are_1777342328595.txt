@@ -1,0 +1,178 @@
+
+## QA & update verification prompt (for Replit / agent)
+
+You are now acting as the **QA and refinement lead** for the **WebWaka / WebWaks monetization strategy document** produced from the previous research and analysis.
+
+Your mission is to:
+1. Verify that the document **fully satisfies every requirement** of the original prompt.
+2. Identify **gaps, assumptions, and unsupported claims**.
+3. Cross‑check all content against the **actual repo (files)** and **external sources**.
+4. Update the document to be **complete, accurate, exhaustive, and prioritized correctly**, so that nothing meaningful monetization‑wise is left out.
+
+***
+
+### Step 1: Document vs. original requirements audit
+
+Go through the original prompt line by line and answer:
+
+- For each major requirement in the original prompt, state:
+  - Does the current document satisfy it?
+  - If “yes”, where exactly? (link to section, paragraph, or table)
+  - If “no”, what is missing?
+  - What risks or blind spots are introduced by the omission?
+
+Then produce a table:
+
+| Requirement from original prompt | Satisfied? | Location / evidence | Gap / risk | Action needed |
+|----------------------------------|------------|---------------------|------------|---------------|
+| Word‑for‑word repo understanding |            |                     |            |               |
+| Grounded 100% in repo and market |            |                     |            |               |
+| Sector‑by‑sector, vertical‑by‑vertical |            |                     |            |               |
+| Exhaustive monetization ideas    |            |                     |            |               |
+| Ranked from highest to lowest value |            |                     |            |               |
+| Includes all monetization models |            |                     |            |               |
+| Explicit citations & repo links  |            |                     |            |               |
+| Low‑hanging fruit clearly identified |            |                     |            |               |
+| … add more rows as needed        |            |                     |            |               |
+
+***
+
+### Step 2: Repo‑grounded truth check
+
+For each section of the document, verify:
+
+- Which **specific files** in the repo support:
+  - this capability,
+  - this workflow,
+  - this module,
+  - this user role?
+
+rules:
+- If a section claims a feature or workflow that **is not backed by any file**, mark it as `"unverified / incorrectly inferred"` and either:
+  - remove it, or
+  - tag it clearly as hypothetical and state why it’s plausible.
+- If a section should be **more granular by vertical**, split it and add sub‑verticals.
+
+output:
+- A **repo‑to‑document mapping table** that shows:
+  - the file path,
+  - the capability it enables,
+  - which monetization opportunities rely on that capability,
+  - whether the document correctly reflects that capability.
+
+***
+
+### Step 3: Market‑grounded truth check
+
+For every monetization model, pricing suggestion, and market claim:
+
+- Identify:
+  - Is this grounded in external sources?
+  - If yes, what are the sources? (URLs, company names, models, etc.)
+  - If no, mark it as “unsupported best guess”.
+
+Then:
+- For each unsupported claim, either:
+  - delete it,
+  - soften it into “potential / hypothetical opportunity”, or
+  - replace it with the closest evidence‑based model from similar vertical‑SaaS, governance, or marketplace platforms.
+
+***
+
+### Step 4: Gap analysis – what’s missing?
+
+Systematically ask:
+
+- For each **sector / vertical** implied by the repo:
+  - Are all possible monetization levers listed?
+  - Are alternatives like:
+    - subscription,
+    - usage‑based,
+    - transaction fee,
+    - marketplace fee,
+    - white‑label,
+    - licensing,
+    - professional services,
+    - data/analytics,
+    - certification,
+    - embedded finance,
+    - commission,
+    - government contracts,
+    - grant‑based or impact‑funded revenue,
+    included or explicitly excluded?
+
+Then:
+- For each vertical, list:
+  - missing opportunity types,
+  - any leapfrogging technologies or regulatory shifts that could unlock new monetization streams.
+
+***
+
+### Step 5: Ranking and priority verification
+
+Check the **priority ranking**:
+
+- Are opportunities ordered by:
+  - revenue potential?
+  - speed to revenue?
+  - implementation difficulty?
+  - strategic importance?
+  - product‑fit?
+
+If not:
+- Re‑rank them consistently using a clear scoring rubric (e.g., 1–5 scales for size, speed, effort, risk).
+- Produce a **scored table** of top opportunities with:
+  - opportunity name,
+  - vertical,
+  - model,
+  - estimated implementation effort,
+  - time to revenue,
+  - revenue potential,
+  - risk level,
+  - final rank.
+
+***
+
+### Step 6: Final cleanup and update
+
+Produce a **final, fully updated version** of the monetization document with:
+
+1. Corrections wherever the Q&A showed:
+   - wrong assumptions,
+   - unsupported claims,
+   - oversights,
+   - inconsistent prioritization.
+
+2. Explicit tags where:
+   - something is “high‑confidence / repo‑backed”,
+   - or “medium‑confidence / inference with market precedent”,
+   - or “low‑confidence / speculative”.
+
+3. A **new “Verification & QA” section** that includes:
+   - a summary of major changes,
+   - a short statement that this version is now:
+     - grounded in the repo and market,
+     - exhaustively structured by vertical,
+     - and ranked from highest‑value/low‑hanging fruit to lower‑value opportunities.
+
+***
+
+### Step 7: Acceptance criteria validation
+
+At the end, answer:
+
+- Does the updated document now satisfy **all** of the original acceptance criteria?
+- If not, list:
+  - which criteria are still not fully met,
+  - and what small follow‑on tasks would close them.
+
+Then deliver:
+- **two outputs**:
+  1. The **fully updated markdown monetization document** (final clean version).
+  2. A **QA verification report** (structured table + narrative) explaining how you closed every gap and how confident you are in each section.
+
+Only mark the task as complete when:
+- the document is exhaustive,
+- clearly tied to the repo,
+- grounded in external evidence where possible,
+- and rigorously prioritized from big low‑hanging fruit down to niche opportunities.
