@@ -46,3 +46,50 @@ export type { D1Like } from './repository.js';
 
 export const PACKAGE_VERSION = '0.1.0';
 export const VERTICAL_SLUG = 'fundraising';
+
+// ---------------------------------------------------------------------------
+// Phase 2: Dues Collection (FR-VM-15)
+// ---------------------------------------------------------------------------
+
+export type {
+  DuesSchedule,
+  DuesPayment,
+  MemberDuesStatus,
+  CreateDuesScheduleInput,
+  RecordDuesPaymentInput,
+  DuesPeriod,
+  DuesScheduleStatus,
+  DuesPaymentStatus,
+  DuesPaymentChannel,
+} from './dues.js';
+export { assertIntegerKobo } from './dues.js';
+export {
+  createDuesSchedule,
+  getDuesSchedule,
+  listDuesSchedules,
+  closeDuesSchedule,
+  recordDuesPayment,
+  listSchedulePayments,
+  getMemberDuesStatus,
+} from './dues-repository.js';
+
+// ---------------------------------------------------------------------------
+// Phase 2: Mutual Aid (FR-VM-16)
+// ---------------------------------------------------------------------------
+
+export type {
+  MutualAidRequest,
+  MutualAidVote,
+  MutualAidStatus,
+  CreateMutualAidRequestInput,
+  CastVoteInput,
+  DisburseInput,
+} from './mutual-aid.js';
+export {
+  createMutualAidRequest,
+  getMutualAidRequest,
+  listMutualAidRequests,
+  castVote,
+  getRequestVotes,
+  disburseMutualAid,
+} from './mutual-aid-repository.js';

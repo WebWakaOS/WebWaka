@@ -444,6 +444,55 @@ export const CaseEventType = {
 export type CaseEventType = (typeof CaseEventType)[keyof typeof CaseEventType];
 
 // ---------------------------------------------------------------------------
+// Phase 2 event types
+// ---------------------------------------------------------------------------
+
+// DuesEventType — Dues Collection lifecycle (FR-VM-15)
+export const DuesEventType = {
+  DuesScheduleCreated:  'dues.schedule_created',
+  DuesPaymentRecorded:  'dues.payment_recorded',
+  DuesPaymentOverdue:   'dues.payment_overdue',
+  DuesScheduleClosed:   'dues.schedule_closed',
+} as const;
+export type DuesEventType = (typeof DuesEventType)[keyof typeof DuesEventType];
+
+// MutualAidEventType — Mutual Aid lifecycle (FR-VM-16)
+export const MutualAidEventType = {
+  MutualAidRequested:   'mutual_aid.requested',
+  MutualAidVoteCast:    'mutual_aid.vote_cast',
+  MutualAidApproved:    'mutual_aid.approved',
+  MutualAidDisbursed:   'mutual_aid.disbursed',
+  MutualAidRejected:    'mutual_aid.rejected',
+} as const;
+export type MutualAidEventType = (typeof MutualAidEventType)[keyof typeof MutualAidEventType];
+
+// WorkflowEventType — Workflow Engine lifecycle (Phase 2 T003)
+export const WorkflowEventType = {
+  WorkflowStarted:       'workflow.started',
+  WorkflowStepCompleted: 'workflow.step_completed',
+  WorkflowCompleted:     'workflow.completed',
+  WorkflowRejected:      'workflow.rejected',
+  WorkflowCancelled:     'workflow.cancelled',
+} as const;
+export type WorkflowEventType = (typeof WorkflowEventType)[keyof typeof WorkflowEventType];
+
+// PollEventType — Group Polls/Surveys (Phase 2 T006)
+export const PollEventType = {
+  PollCreated:  'poll.created',
+  PollVoteCast: 'poll.vote_cast',
+  PollClosed:   'poll.closed',
+} as const;
+export type PollEventType = (typeof PollEventType)[keyof typeof PollEventType];
+
+// ContentFlagEventType — Community Reporting (Phase 2 T008)
+export const ContentFlagEventType = {
+  ContentFlagged:      'content.flagged',
+  ContentFlagReviewed: 'content.flag_reviewed',
+  ContentFlagActioned: 'content.flag_actioned',
+} as const;
+export type ContentFlagEventType = (typeof ContentFlagEventType)[keyof typeof ContentFlagEventType];
+
+// ---------------------------------------------------------------------------
 // Unified EventType constant — all event keys combined
 // Phase 0: SupportGroupEventType → GroupEventType (alias maintained for compat).
 // ---------------------------------------------------------------------------
@@ -472,6 +521,11 @@ export const EventType = {
   ...VerticalEventType,
   ...WalletEventType,
   ...LegacyEventType,
+  ...DuesEventType,
+  ...MutualAidEventType,
+  ...WorkflowEventType,
+  ...PollEventType,
+  ...ContentFlagEventType,
 } as const;
 
 export type EventType = (typeof EventType)[keyof typeof EventType];

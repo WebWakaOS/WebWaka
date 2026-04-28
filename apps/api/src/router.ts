@@ -99,6 +99,12 @@ import { supportGroupRoutes } from './routes/support-groups.js';
 import { groupRoutes } from './routes/groups.js';
 import { casesRoutes } from './routes/cases.js';
 import { fundraisingRoutes } from './routes/fundraising.js';
+import { duesRoutes } from './routes/dues.js';
+import { mutualAidRoutes } from './routes/mutual-aid.js';
+import { workflowRoutes } from './routes/workflows.js';
+import { phase2AnalyticsRoutes } from './routes/phase2-analytics.js';
+import { pollsRoutes } from './routes/polls.js';
+import { communityReportRoutes } from './routes/community-reports.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -1090,4 +1096,65 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/fundraising/campaigns/*', auditLogMiddleware);
 
   app.route('/fundraising', fundraisingRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Value Movement: Dues Collection (FR-VM-15)
+  // POST /dues/schedules · GET /dues/schedules · GET /dues/schedules/:id
+  // GET /dues/schedules/:id/status · POST /dues/schedules/:id/pay
+  // POST /dues/schedules/:id/close
+  // -------------------------------------------------------------------------
+  app.use('/dues/*', authMiddleware);
+  app.use('/dues/*', auditLogMiddleware);
+  app.route('/dues', duesRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Value Movement: Mutual Aid (FR-VM-16)
+  // POST /mutual-aid · GET /mutual-aid · GET /mutual-aid/:id
+  // POST /mutual-aid/:id/vote · POST /mutual-aid/:id/disburse
+  // -------------------------------------------------------------------------
+  app.use('/mutual-aid', authMiddleware);
+  app.use('/mutual-aid', auditLogMiddleware);
+  app.use('/mutual-aid/*', authMiddleware);
+  app.use('/mutual-aid/*', auditLogMiddleware);
+  app.route('/mutual-aid', mutualAidRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Workflow Engine
+  // GET /workflows/definitions · GET /workflows/definitions/:key
+  // POST /workflows/definitions/:key/start
+  // GET /workflows/instances · GET /workflows/instances/:id
+  // POST /workflows/instances/:id/advance
+  // -------------------------------------------------------------------------
+  app.use('/workflows/*', authMiddleware);
+  app.use('/workflows/*', auditLogMiddleware);
+  app.route('/workflows', workflowRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Analytics (M12 gate: 3 workspace metrics)
+  // GET /analytics/v2/workspace · GET /analytics/v2/groups/:id
+  // GET /analytics/v2/campaigns/:id
+  // -------------------------------------------------------------------------
+  app.use('/analytics/v2/*', authMiddleware);
+  app.route('/analytics/v2', phase2AnalyticsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Group Polls/Surveys (T006)
+  // POST /groups/:groupId/polls · GET /groups/:groupId/polls
+  // GET /groups/:groupId/polls/:pollId
+  // POST /groups/:groupId/polls/:pollId/vote
+  // POST /groups/:groupId/polls/:pollId/close
+  // -------------------------------------------------------------------------
+  app.use('/groups/:groupId/polls', authMiddleware);
+  app.use('/groups/:groupId/polls/*', authMiddleware);
+  app.route('/groups', pollsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Community Reporting / Content Flags (T008)
+  // POST /content-flags · GET /content-flags · PATCH /content-flags/:id
+  // -------------------------------------------------------------------------
+  app.use('/content-flags', authMiddleware);
+  app.use('/content-flags', auditLogMiddleware);
+  app.use('/content-flags/*', authMiddleware);
+  app.use('/content-flags/*', auditLogMiddleware);
+  app.route('/content-flags', communityReportRoutes);
 }

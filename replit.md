@@ -447,3 +447,33 @@ PRD Phase 1 complete (M11 gate). Key deliverables:
 **i18n audit:** `docs/reports/i18n-gap-report.md` — ha/ig/yo/pcm at 35% (58/168 keys); 136 keys missing each; 18 new case keys required
 
 **Test result:** 101/101 Phase 1 tests pass (cases 24 + policy-engine 24 + groups 24 + offline-sync 29). Typecheck clean.
+
+## UMP Phase 2 — Universal Module Generalization (2026-04-28)
+
+PRD Phase 2 complete (M12 gate). Key deliverables:
+
+**New packages:**
+- `packages/workflows/` — Workflow Engine MVP: startWorkflow, advanceWorkflow, seeded payout-approval + case-resolution definitions; migrations 0442
+- `packages/analytics/` — Analytics unification: trackEvent (fire-and-forget, P13 PII-strip), getWorkspaceMetrics/getGroupMetrics/getCampaignMetrics; migration 0443
+- `packages/groups-civic/` — Civic group extension (NGO governance, beneficiary records); migration 0444, invariants P4/P10/T3
+- `packages/groups-faith/` — Faith group extension (tradition, denomination, titheBridgeEnabled flag); migration 0444
+- `packages/groups-cooperative/` — Cooperative extension (savingsGoalKobo, loanFundKobo, coopType); migration 0444, P9 kobo guards
+
+**Fundraising extensions** (`packages/fundraising/`):
+- Dues Collection: DuesSchedule, DuesPayment, dues-repository, 12 tests; migration 0440
+- Mutual Aid: MutualAidRequest + vote quorum logic, vote→approve→disburse flow, 12 tests; migration 0441
+
+**API routes added:**
+- `/dues/*` (6 endpoints), `/mutual-aid/*` (6), `/workflows/*` + `/workflow-instances/*` (5), `/analytics/v2/*` (3), `/groups/:id/polls/*` (5), `/content-flags` (3)
+
+**Partner Admin** (`apps/partner-admin/`):
+- 4 JSON API routes: GET /api/workspaces, /api/usage, /api/sub-partners, /api/credits
+- JWT auth guard (partner|super_admin roles), X-Partner-Id header scoping
+
+**Events added** (`packages/events/`): DuesEventType, MutualAidEventType, WorkflowEventType, PollEventType, ContentFlagEventType
+
+**Migrations**: 0440–0446 (7 migrations, all with rollback scripts per AC-FUNC-03)
+
+**Invariants enforced throughout**: P4 (extension tables only), P9 (assertIntegerKobo), P10 (ndprConsented), P13 (assertNoPii in analytics tracker), T3 (tenant_id on every query)
+
+**Test result:** 205/205 total tests pass (80 new Phase 2 + 101 Phase 1 regression + 24 fundraising Phase 1). Typecheck clean.
