@@ -199,26 +199,30 @@ export const SocialEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Support Groups (14 events)
+// Groups (Phase 0 rename from SupportGroupEventType — 15 events)
+// Event string values are unchanged for backward compat with existing consumers.
 // ---------------------------------------------------------------------------
 
-export const SupportGroupEventType = {
-  SupportGroupCreated:            'support_group.created',
-  SupportGroupUpdated:            'support_group.updated',
-  SupportGroupArchived:           'support_group.archived',
-  SupportGroupMemberJoined:       'support_group.member_joined',
-  SupportGroupMemberApproved:     'support_group.member_approved',
-  SupportGroupMemberSuspended:    'support_group.member_suspended',
-  SupportGroupBroadcastSent:      'support_group.broadcast_sent',
-  SupportGroupMeetingScheduled:   'support_group.meeting_scheduled',
-  SupportGroupMeetingCompleted:   'support_group.meeting_completed',
-  SupportGroupResolutionRecorded: 'support_group.resolution_recorded',
-  SupportGroupEventCreated:       'support_group.event_created',
-  SupportGroupGotvRecorded:       'support_group.gotv_recorded',
-  SupportGroupGotvVoteConfirmed:  'support_group.gotv_vote_confirmed',
-  SupportGroupPetitionOpened:     'support_group.petition_opened',
-  SupportGroupPetitionSigned:     'support_group.petition_signed',
+export const GroupEventType = {
+  GroupCreated:            'support_group.created',
+  GroupUpdated:            'support_group.updated',
+  GroupArchived:           'support_group.archived',
+  GroupMemberJoined:       'support_group.member_joined',
+  GroupMemberApproved:     'support_group.member_approved',
+  GroupMemberSuspended:    'support_group.member_suspended',
+  GroupBroadcastSent:      'support_group.broadcast_sent',
+  GroupMeetingScheduled:   'support_group.meeting_scheduled',
+  GroupMeetingCompleted:   'support_group.meeting_completed',
+  GroupResolutionRecorded: 'support_group.resolution_recorded',
+  GroupEventCreated:       'support_group.event_created',
+  GroupGotvRecorded:       'support_group.gotv_recorded',
+  GroupGotvVoteConfirmed:  'support_group.gotv_vote_confirmed',
+  GroupPetitionOpened:     'support_group.petition_opened',
+  GroupPetitionSigned:     'support_group.petition_signed',
 } as const;
+
+/** @deprecated Use GroupEventType */
+export const SupportGroupEventType = GroupEventType;
 
 // ---------------------------------------------------------------------------
 // Fundraising (12 events)
@@ -424,8 +428,24 @@ export const LegacyEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// CaseEventType — Phase 1 case management lifecycle events
+// ---------------------------------------------------------------------------
+
+export const CaseEventType = {
+  CaseOpened:            'case.opened',
+  CaseAssigned:          'case.assigned',
+  CaseNoteAdded:         'case.note_added',
+  CaseStatusChanged:     'case.status_changed',
+  CaseResolved:          'case.resolved',
+  CaseClosed:            'case.closed',
+  CaseReopened:          'case.reopened',
+  CaseSlaBreached:       'case.sla_breached',
+} as const;
+export type CaseEventType = (typeof CaseEventType)[keyof typeof CaseEventType];
+
+// ---------------------------------------------------------------------------
 // Unified EventType constant — all event keys combined
-// Updated to include SupportGroupEventType and FundraisingEventType.
+// Phase 0: SupportGroupEventType → GroupEventType (alias maintained for compat).
 // ---------------------------------------------------------------------------
 
 export const EventType = {
@@ -433,6 +453,7 @@ export const EventType = {
   ...WorkspaceEventType,
   ...BillingEventType,
   ...KycEventType,
+  ...CaseEventType,
   ...ClaimEventType,
   ...NegotiationEventType,
   ...SupportEventType,
@@ -440,7 +461,7 @@ export const EventType = {
   ...OnboardingEventType,
   ...PosFinanceEventType,
   ...SocialEventType,
-  ...SupportGroupEventType,
+  ...GroupEventType,
   ...FundraisingEventType,
   ...PartnerEventType,
   ...BankTransferEventType,

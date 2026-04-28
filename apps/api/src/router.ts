@@ -96,6 +96,8 @@ import { tenantBrandingRoutes } from './routes/tenant-branding.js';
 import { profileRoutes } from './routes/profiles.js';
 import { wakaPageRoutes } from './routes/wakapage.js';
 import { supportGroupRoutes } from './routes/support-groups.js';
+import { groupRoutes } from './routes/groups.js';
+import { casesRoutes } from './routes/cases.js';
 import { fundraisingRoutes } from './routes/fundraising.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
@@ -985,6 +987,64 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // Route registration — public GET /support-groups/public* are unguarded above
   app.route('/support-groups', supportGroupRoutes);
+
+  // -------------------------------------------------------------------------
+  // Groups — Phase 0 rename: /groups replaces /support-groups
+  // @webwaka/groups uses renamed tables (groups_* after migration 0432).
+  // /support-groups remains active for backward compat until migration 0438.
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /groups/public              — discovery list
+  //   GET  /groups/public/:idOrSlug   — public group profile
+  //   GET  /groups/:id/events/public  — public events for group
+  //
+  // Authenticated (JWT required) — all other paths:
+  //   POST/GET/PATCH /groups, /groups/:id, /groups/:id/* — full CRUD
+  //
+  // T3: tenant_id from JWT; P10: NDPR consent on join; P13: voter_ref in
+  //     /electoral/* only (not exposed here).
+  // -------------------------------------------------------------------------
+
+  app.use('/groups', authMiddleware);
+  app.use('/groups', auditLogMiddleware);
+  app.use('/groups/:id', authMiddleware);
+  app.use('/groups/:id', auditLogMiddleware);
+  app.use('/groups/:id/*', authMiddleware);
+  app.use('/groups/:id/*', auditLogMiddleware);
+  app.use('/groups/petitions/:petitionId/sign', authMiddleware);
+  app.use('/groups/petitions/:petitionId/sign', auditLogMiddleware);
+
+  app.route('/groups', groupRoutes);
+
+  // -------------------------------------------------------------------------
+  // Cases — Phase 1 case management (create → assign → note → resolve → close)
+  //
+  // POST   /cases                   — open a new case
+  // GET    /cases                   — list workspace cases
+  // GET    /cases/summary           — dashboard stats
+  // GET    /cases/:id               — get case
+  // POST   /cases/:id/assign        — assign to agent
+  // POST   /cases/:id/notes         — add note
+  // GET    /cases/:id/notes         — list notes
+  // POST   /cases/:id/resolve       — resolve
+  // POST   /cases/:id/close         — close
+  // POST   /cases/:id/reopen        — reopen
+  //
+  // Entitlement: starter+ (assertCasesEnabled)
+  // T3: tenantId from JWT on every query.
+  // P10: ndprConsented required on create.
+  // -------------------------------------------------------------------------
+
+  app.use('/cases', authMiddleware);
+  app.use('/cases', auditLogMiddleware);
+  app.use('/cases/:id', authMiddleware);
+  app.use('/cases/:id', auditLogMiddleware);
+  app.use('/cases/:id/*', authMiddleware);
+  app.use('/cases/:id/*', auditLogMiddleware);
+  app.use('/cases/summary', authMiddleware);
+  app.use('/cases/summary', auditLogMiddleware);
+
+  app.route('/cases', casesRoutes);
 
   // -------------------------------------------------------------------------
   // Fundraising — shared campaign engine

@@ -35,3 +35,12 @@ export { observeNetworkState, getNetworkState } from './offline-indicator.js';
 export type { NetworkState } from './offline-indicator.js';
 export { registerSyncServiceWorker } from './service-worker.js';
 export { generateId } from './utils.js';
+
+// Phase 1 (T004): entity registry for Groups + Cases offline scope
+export {
+  SYNC_ENTITY_REGISTRY,
+  SYNC_ENTITY_MAP,
+  SYNC_ENTITY_NAMES,
+  OFFLINE_WRITE_ENABLED_ENTITIES,
+} from './entity-registry.js';
+export type { SyncEntityConfig } from './entity-registry.js';

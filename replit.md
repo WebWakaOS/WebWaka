@@ -409,3 +409,41 @@ Domain model and API contract layer for the WakaPage vertical (ADR-0041).
 - `Sidebar.tsx` and `BottomNav.tsx` — WakaPage nav entry added (🌐 icon)
 
 **Test result:** 148/148 tests pass (15 new T48–T52). Typecheck clean on all affected packages.
+
+---
+
+## UMP Phase 0 — Architecture Reset (2026-04-28)
+
+PRD Phase 0 complete. Key deliverables:
+- `packages/groups/`, `packages/groups-electoral/`, `packages/policy-engine/` (skeleton) created
+- Migrations 0432–0437 written
+- `apps/api/src/routes/groups.ts` production route registered at `/groups` (backward-compat `/support-groups` kept)
+- Phase 0 QA gate: 11/11 governance checks pass
+- Test result: groups 24/24 pass
+
+## UMP Phase 1 — Core Platform Refactor Foundations (2026-04-28)
+
+PRD Phase 1 complete (M11 gate). Key deliverables:
+
+**New packages:**
+- `packages/cases/` — Case management (create→assign→note→resolve→close), migrations 0438–0439
+- `packages/ledger/` — Shared atomic double-entry ledger (extracted from pos + hl-wallet)
+
+**Policy Engine MVP (`packages/policy-engine/`):**
+- Real rule evaluation via D1 + KV cache (5-min TTL)
+- 6 domain evaluators: financial-cap (INEC ₦50m, P9), kyc (P13), ai-governance (P7/P12), moderation, data-retention (NDPR/P10), payout-gate
+- Non-blocking audit log writer; PII redaction before D1 write (P10)
+
+**Events:** `CaseEventType` (case.opened, assigned, note_added, resolved, closed, reopened, sla_breached) added to `@webwaka/events`
+
+**API routes:**
+- `apps/api/src/routes/cases.ts` — full case lifecycle (10 endpoints)
+- `apps/api/src/routes/sync.ts` — `GET /sync/delta` (incremental sync, since= param, entity filter)
+- ALLOWED_ENTITIES expanded: +group, +case
+
+**Offline sync:**
+- `packages/offline-sync/src/entity-registry.ts` — canonical entity registry with Phase 1 group + case entries
+
+**i18n audit:** `docs/reports/i18n-gap-report.md` — ha/ig/yo/pcm at 35% (58/168 keys); 136 keys missing each; 18 new case keys required
+
+**Test result:** 101/101 Phase 1 tests pass (cases 24 + policy-engine 24 + groups 24 + offline-sync 29). Typecheck clean.

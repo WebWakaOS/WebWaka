@@ -1,0 +1,31 @@
+{
+  "name": "@webwaka/groups-electoral",
+  "version": "0.1.0",
+  "description": "[Phase 0] Electoral extension for @webwaka/groups — GOTV tracking, INEC compliance, political group metadata",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@webwaka/types": "workspace:*",
+    "@webwaka/groups": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  },
+  "keywords": [
+    "electoral",
+    "gotv",
+    "inec",
+    "political",
+    "nigeria",
+    "election"
+  ]
+}

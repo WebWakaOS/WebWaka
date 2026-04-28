@@ -52,7 +52,8 @@ export type BlockType =
   | 'blog_post'       // Recent posts from blog_posts table
   | 'community'       // @webwaka/community spaces
   | 'event_list'      // @webwaka/community events list
-  | 'support_group'   // @webwaka/support-groups public profile + join CTA
+  | 'group'              // @webwaka/groups public profile + join CTA (Phase 0 rename)
+  | 'support_group'      // @deprecated Use 'group'. Kept for migration compat (0432).
   | 'fundraising_campaign'; // @webwaka/fundraising public campaign + donate CTA
 
 /**
@@ -83,7 +84,8 @@ export const BLOCK_TYPES: ReadonlySet<BlockType> = new Set<BlockType>([
   'blog_post',
   'community',
   'event_list',
-  'support_group',
+  'group',
+  'support_group',         // deprecated — kept until migration 0438 drops shadow tables
   'fundraising_campaign',
 ]);
 
@@ -248,7 +250,7 @@ export interface EventListBlockConfig {
   filterBySpaceId?: string;
 }
 
-export interface SupportGroupBlockConfig {
+export interface GroupBlockConfig {
   groupId?: string;
   groupSlug?: string;
   heading?: string;
@@ -261,6 +263,9 @@ export interface SupportGroupBlockConfig {
   showUpcomingEvents?: boolean;  // default true
   maxEventsPreview?: number;     // default 3
 }
+
+/** @deprecated Use GroupBlockConfig */
+export type SupportGroupBlockConfig = GroupBlockConfig;
 
 export interface FundraisingCampaignBlockConfig {
   campaignId?: string;
@@ -301,7 +306,8 @@ export type BlockConfig =
   | ({ blockType: 'blog_post' } & BlogPostBlockConfig)
   | ({ blockType: 'community' } & CommunityBlockConfig)
   | ({ blockType: 'event_list' } & EventListBlockConfig)
-  | ({ blockType: 'support_group' } & SupportGroupBlockConfig)
+  | ({ blockType: 'group' } & GroupBlockConfig)
+  | ({ blockType: 'support_group' } & GroupBlockConfig)   // deprecated alias
   | ({ blockType: 'fundraising_campaign' } & FundraisingCampaignBlockConfig);
 
 // ---------------------------------------------------------------------------
