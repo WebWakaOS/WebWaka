@@ -20,7 +20,6 @@ import {
   listMlaEarningsPaginated,
   recordMlaEarning,
 } from '../mla.js';
-import { WalletError } from '../errors.js';
 import type { MlaEarningStatus } from '../types.js';
 
 // ---------------------------------------------------------------------------
