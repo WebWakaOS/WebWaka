@@ -254,7 +254,11 @@ function handleSendMoneyConfirm(session: USSDSession, input: string): ProcessRes
   if (input === '0') {
     return {
       text: sendMoneyEnterPhoneAndAmount(),
-      session: { ...session, state: 'send_money_enter_phone_amount' },
+      session: {
+        ...session,
+        state: 'send_money_enter_phone_amount',
+        data: { ...session.data, recipient: undefined, amount: undefined },
+      },
       ended: false,
     };
   }

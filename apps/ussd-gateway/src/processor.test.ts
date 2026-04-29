@@ -178,6 +178,15 @@ describe('processUSSDInput — send money (UX-08 flattened)', () => {
     expect(result.text).toContain('cancelled');
     expect(result.ended).toBe(true);
   });
+
+  it('goes back to enter-phone-and-amount on "0" in send_money_confirm', () => {
+    const session = makeSession('send_money_confirm', { recipient: '08012345678', amount: '500' });
+    const result = processUSSDInput(session, '2*08012345678*500*0');
+    expect(result.text).toMatch(/^CON /);
+    expect(result.text).toContain('Enter phone and amount');
+    expect(result.session.state).toBe('send_money_enter_phone_amount');
+    expect(result.ended).toBe(false);
+  });
 });
 
 // ============================================================================
