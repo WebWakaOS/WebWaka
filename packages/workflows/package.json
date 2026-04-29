@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/workflows",
   "version": "0.1.0",
-  "description": "[Phase 2] Workflow Engine MVP — WorkflowDefinition, WorkflowInstance, payout-approval + case-resolution workflows",
+  "description": "[Pillar 2] Workflow Engine MVP — WorkflowDefinition, WorkflowInstance, payout-approval + case-resolution workflows",
   "private": true,
   "type": "module",
   "exports": {
