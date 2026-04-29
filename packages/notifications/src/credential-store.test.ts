@@ -7,7 +7,7 @@
  * Uses Node.js 18+ globalThis.crypto (Web Crypto API) — same as CF Workers.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   encryptCredentials,
   decryptCredentials,
