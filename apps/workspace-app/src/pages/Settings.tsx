@@ -309,7 +309,7 @@ export default function Settings() {
 
       {/* BUG-035: Mobile — horizontal scroll tab bar; Desktop — vertical side nav */}
       {isMobile ? (
-        <nav aria-label="Settings sections" style={styles.mobileNav}>
+        <nav aria-label="Settings sections" className="hide-scrollbar" style={styles.mobileNav}>
           {visibleTabs.map(t => (
             <button
               key={t.id}
@@ -329,6 +329,11 @@ export default function Settings() {
         </nav>
       ) : null}
 
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
       <div style={isMobile ? styles.layoutMobile : styles.layout}>
         {!isMobile && (
           <nav aria-label="Settings sections" style={styles.sideNav}>
@@ -757,7 +762,7 @@ const styles = {
   sideNav: { width: 180, display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' } as React.CSSProperties,
   navItem: { display: 'flex', alignItems: 'center', gap: 10, padding: '13px 16px', border: 'none', cursor: 'pointer', fontSize: 14, textAlign: 'left', width: '100%', minHeight: 44, transition: 'all 0.15s ease' } as React.CSSProperties,
   // BUG-035: Mobile horizontal scroll tab bar
-  mobileNav: { display: 'flex', overflowX: 'auto', gap: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', marginBottom: 8, WebkitOverflowScrolling: 'touch' } as React.CSSProperties,
+  mobileNav: { display: 'flex', overflowX: 'auto', gap: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', marginBottom: 8, WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties,
   mobileNavItem: { display: 'flex', alignItems: 'center', gap: 6, padding: '12px 16px', border: 'none', cursor: 'pointer', fontSize: 14, whiteSpace: 'nowrap', flexShrink: 0, minHeight: 44, transition: 'all 0.15s ease', background: 'transparent' } as React.CSSProperties,
   content: { flex: 1, minWidth: 0, background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', padding: '24px 20px' } as React.CSSProperties,
   sectionHeading: { fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 20 } as React.CSSProperties,
