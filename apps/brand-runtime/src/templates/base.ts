@@ -183,7 +183,7 @@ a:hover { text-decoration: underline; }
 
   <!-- BUG-027: Cookie consent banner (NDPR Art. 2.1 — cookies are personal data) -->
   <div id="ww-cookie-banner" role="dialog" aria-modal="false" aria-label="Cookie consent"
-    style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--ww-bg);border-top:1px solid var(--ww-border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;box-shadow:0 -4px 16px rgba(0,0,0,0.08)">
+    style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--ww-bg);border-top:1px solid var(--ww-border);padding:1rem 1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;box-shadow:0 -4px 16px rgba(0,0,0,0.08)">
     <p style="margin:0;font-size:0.875rem;color:var(--ww-text-muted);flex:1;min-width:200px">
       We use essential cookies to keep you signed in and improve your experience.
       <a href="/privacy" style="color:var(--ww-primary);text-decoration:underline">Privacy Policy</a>
