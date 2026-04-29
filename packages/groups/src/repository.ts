@@ -673,7 +673,7 @@ export async function createGroupEvent(
   return {
     id, groupId: input.groupId, workspaceId: input.workspaceId, tenantId: input.tenantId,
     title: input.title, description: input.description ?? null,
-    eventType: input.eventType ?? 'general',
+    eventType: (input.eventType ?? 'general') as GroupEventType,
     venue: input.venue ?? null, placeId: input.placeId ?? null,
     stateCode: input.stateCode ?? null, lgaCode: input.lgaCode ?? null, wardCode: input.wardCode ?? null,
     startsAt: input.startsAt, endsAt: input.endsAt ?? null,
