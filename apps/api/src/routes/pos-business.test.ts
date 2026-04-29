@@ -79,6 +79,18 @@ const MOCK_CUSTOMER = { id: 'cus_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', 
 describe('POST /pos-business/products', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+
   it('returns 400 when required fields are missing', async () => {
     const app = makeApp();
     const res = await app.request('/pos-business/products', {
@@ -154,12 +166,56 @@ describe('GET /pos-business/product/:id', () => {
   });
 });
 
+describe('PATCH /pos-business/product/:id', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+});
+
+describe('POST /pos-business/product/:id/stock', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001/stock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Sales — P9 invariant testing
 // ---------------------------------------------------------------------------
 
 describe('POST /pos-business/sales', () => {
   beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/sales', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
 
   it('returns 400 when items array is empty', async () => {
     const app = makeApp();
@@ -224,6 +280,18 @@ describe('GET /pos-business/sales/:workspaceId', () => {
 describe('POST /pos-business/customers', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/customers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+
   it('returns 201 for valid customer creation', async () => {
     mockCustomerRepo.create.mockResolvedValueOnce(MOCK_CUSTOMER);
     const app = makeApp();
@@ -235,6 +303,54 @@ describe('POST /pos-business/customers', () => {
     expect(res.status).toBe(201);
     const body = await res.json<{ customer: { id: string } }>();
     expect(body.customer.id).toBe('cus_001');
+  });
+});
+
+describe('PATCH /pos-business/customer/:id', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/customer/cus_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+});
+
+describe('POST /pos-business/customer/:id/loyalty/award', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/customer/cus_001/loyalty/award', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+});
+
+describe('POST /pos-business/customer/:id/loyalty/redeem', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when JSON body is invalid', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/customer/cus_001/loyalty/redeem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
   });
 });
 
