@@ -79,6 +79,17 @@ const MOCK_CUSTOMER = { id: 'cus_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', 
 describe('POST /pos-business/products', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
+  it('returns 400 for invalid JSON body', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{invalid-json',
+    });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: 'Invalid JSON body' });
+  });
+
   it('returns 400 when required fields are missing', async () => {
     const app = makeApp();
     const res = await app.request('/pos-business/products', {
@@ -161,6 +172,17 @@ describe('GET /pos-business/product/:id', () => {
 describe('POST /pos-business/sales', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
+  it('returns 400 for invalid JSON body', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/sales', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{invalid-json',
+    });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: 'Invalid JSON body' });
+  });
+
   it('returns 400 when items array is empty', async () => {
     const app = makeApp();
     const res = await app.request('/pos-business/sales', {
@@ -223,6 +245,17 @@ describe('GET /pos-business/sales/:workspaceId', () => {
 
 describe('POST /pos-business/customers', () => {
   beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 for invalid JSON body', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/customers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{invalid-json',
+    });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: 'Invalid JSON body' });
+  });
 
   it('returns 201 for valid customer creation', async () => {
     mockCustomerRepo.create.mockResolvedValueOnce(MOCK_CUSTOMER);
