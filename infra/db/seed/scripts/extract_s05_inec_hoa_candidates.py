@@ -1,7 +1,6 @@
 """INEC HoA coordinate extractor — v5 (production)."""
 from pdfminer.high_level import extract_pages
 from pdfminer.layout import LTTextBox
-from pathlib import Path
 import re
 
 KNOWN_PARTIES = {
@@ -37,13 +36,20 @@ AGE_RE        = re.compile(r'^\d{1,3}$')
 
 def classify_col(x0, x1):
     xm = (x0 + x1) / 2
-    if xm < 60:   return 'sn'
-    if xm < 252:  return 'sc'   # state or constituency (or merged)
-    if xm < 365:  return 'pp'   # party or position (or merged)
-    if xm < 510:  return 'name'
-    if xm < 555:  return 'pwd'
-    if xm < 586:  return 'age'
-    if xm < 640:  return 'gender'
+    if xm < 60:
+        return 'sn'
+    if xm < 252:
+        return 'sc'   # state or constituency (or merged)
+    if xm < 365:
+        return 'pp'   # party or position (or merged)
+    if xm < 510:
+        return 'name'
+    if xm < 555:
+        return 'pwd'
+    if xm < 586:
+        return 'age'
+    if xm < 640:
+        return 'gender'
     return 'quals'
 
 def clean(s):
