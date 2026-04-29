@@ -35,9 +35,15 @@ export function evaluatePayoutGate(rule: PolicyRule, ctx: PolicyContext): Policy
     return deny(rule.ruleKey, 'Compliance declaration required before payout can be approved');
   }
 
+  const formatKobo = (kobo: number) => {
+    const s = String(Math.trunc(kobo));
+    const pad = s.padStart(3, '0');
+    return pad.slice(0, -2) + '.' + pad.slice(-2);
+  };
+
   // Auto-approve small payouts
   if (cond.auto_approve_below_kobo != null && amountKobo < cond.auto_approve_below_kobo) {
-    return allow(rule.ruleKey, `Payout ₦${(amountKobo / 100).toFixed(2)} is below auto-approve threshold`);
+    return allow(rule.ruleKey, `Payout ₦${formatKobo(amountKobo)} is below auto-approve threshold`);
   }
 
   // HITL required for specific campaign types
