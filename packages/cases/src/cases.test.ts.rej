@@ -1,0 +1,70 @@
+--- packages/cases/src/cases.test.ts
++++ packages/cases/src/cases.test.ts
+@@ -114,10 +114,10 @@
+
+     const row = dbRows.find(r => r.id === id);
+     expect(row).toBeDefined();
+-    expect(row.tenant_id).toBe('tnt_a');
+-    expect(row.workspace_id).toBe('wsp_a');
+-    expect(row.type).toBe('welfare');
+-    expect(row.title).toBe('Medical Bill Support');
++    expect(row!.tenant_id).toBe('tnt_a');
++    expect(row!.workspace_id).toBe('wsp_a');
++    expect(row!.type).toBe('welfare');
++    expect(row!.title).toBe('Medical Bill Support');
+   });
+
+   it('records initial status change event', async () => {
+@@ -126,9 +126,9 @@
+
+     const row = eventRows.find(r => r.case_id === id);
+     expect(row).toBeDefined();
+-    expect(row.type).toBe('status_change');
+-    expect(row.new_status).toBe('open');
+-    expect(row.old_status).toBeNull();
++    expect(row!.type).toBe('status_change');
++    expect(row!.new_status).toBe('open');
++    expect(row!.old_status).toBeNull();
+   });
+
+   it('updates case status and records event', async () => {
+@@ -138,9 +138,9 @@
+     await repo.updateStatus(id, 'tnt_a', 'in_progress', 'usr_assignee');
+
+     const caseRow = dbRows.find(r => r.id === id);
+-    expect(caseRow.status).toBe('in_progress');
+-    expect(caseRow.assignee_id).toBe('usr_assignee');
+-    expect(caseRow.resolved_at).toBeNull();
++    expect(caseRow!.status).toBe('in_progress');
++    expect(caseRow!.assignee_id).toBe('usr_assignee');
++    expect(caseRow!.resolved_at).toBeNull();
+
+     const eventRow = eventRows.find(r => r.case_id === id && r.type === 'status_change');
+     expect(eventRow).toBeDefined();
+@@ -155,13 +155,13 @@
+
+     const caseRow = dbRows.find(r => r.id === id);
+     expect(caseRow).toBeDefined();
+-    expect(caseRow.status).toBe('resolved');
+-    expect(caseRow.resolved_at).not.toBeNull();
++    expect(caseRow!.status).toBe('resolved');
++    expect(caseRow!.resolved_at).not.toBeNull();
+
+     const eventRow = eventRows.find(r => r.case_id === id && r.type === 'status_change' && r.new_status === 'resolved');
+     expect(eventRow).toBeDefined();
+-    expect(eventRow.new_status).toBe('resolved');
+-    expect(eventRow.old_status).toBe('open');
++    expect(eventRow!.new_status).toBe('resolved');
++    expect(eventRow!.old_status).toBe('open');
+   });
+
+   it('adds case comment', async () => {
+@@ -170,7 +170,7 @@
+
+     await repo.addComment(caseId, 'tnt_a', 'We are reviewing this now.', 'usr_agent', false);
+
+-    expect(eventRows.find(r => r.case_id === caseId && r.type === 'comment').payload.content).toBe('We are reviewing this now.');
++    expect(eventRows.find(r => r.case_id === caseId && r.type === 'comment')!.payload.content).toBe('We are reviewing this now.');
+   });
+
+   it('enforces tenant isolation on update', async () => {

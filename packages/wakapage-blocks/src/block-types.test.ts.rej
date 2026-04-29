@@ -1,0 +1,80 @@
+--- packages/wakapage-blocks/src/block-types.test.ts
++++ packages/wakapage-blocks/src/block-types.test.ts
+@@ -233,8 +233,8 @@
+   it('parses a valid mutual_aid_wall config', () => {
+     const config: MutualAidWallBlockConfig = {
+       heading: 'Mutual Aid Wall',
+-      showDisbursements: true,
+-      allowAnonRequests: false,
++      showOpenRequests: true,
++      showRequestAmount: false,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('mutual_aid_wall', json);
+@@ -252,16 +252,16 @@
+   it('retains specific mutual_aid_wall fields on parse', () => {
+     const config: MutualAidWallBlockConfig = {
+       heading: 'Mutual Aid Wall',
+-      showDisbursements: true,
+-      allowAnonRequests: false,
++      showOpenRequests: true,
++      showRequestAmount: false,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('mutual_aid_wall', json);
+     expect(parsed).not.toBeNull();
+     if (parsed && parsed.blockType === 'mutual_aid_wall') {
+-      expect(parsed.showDisbursements).toBe(true);
+-      expect(parsed.allowAnonRequests).toBe(false);
++      expect(parsed.showOpenRequests).toBe(true);
++      expect(parsed.showRequestAmount).toBe(false);
+     }
+   });
+ });
+
+@@ -272,18 +272,18 @@
+   it('parses Phase 4 fields correctly', () => {
+     const config: GroupBlockConfig = {
+       heading: 'Group Ext',
+-      group: 'grp_001',
+-      enableDuesDisplay: true,
+-      enableCasesTeaser: true,
++      groupId: 'grp_001',
++      showDuesStatus: true,
++      showCasesPreview: true,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('group', json);
+     expect(parsed).not.toBeNull();
+     expect(parsed?.blockType).toBe('group');
+     if (parsed && parsed.blockType === 'group') {
+-      expect(parsed.group).toBe('grp_001');
+-      expect(parsed.enableDuesDisplay).toBe(true);
+-      expect(parsed.enableCasesTeaser).toBe(true);
++      expect(parsed.groupId).toBe('grp_001');
++      expect(parsed.showDuesStatus).toBe(true);
++      expect(parsed.showCasesPreview).toBe(true);
+     }
+   });
+
+@@ -292,16 +292,16 @@
+   it('parses alias correctly and retains fields', () => {
+     const config: GroupBlockConfig = {
+       heading: 'Support Group',
+-      group: 'grp_002',
+-      enableMutualAidTeaser: true,
++      groupId: 'grp_002',
++      showMutualAidWall: true,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('support_group', json);
+     expect(parsed).not.toBeNull();
+     expect(parsed?.blockType).toBe('support_group');
+     if (parsed && parsed.blockType === 'support_group') {
+-      expect(parsed.group).toBe('grp_002');
+-      expect(parsed.enableMutualAidTeaser).toBe(true);
++      expect(parsed.groupId).toBe('grp_002');
++      expect(parsed.showMutualAidWall).toBe(true);
+     }
+   });
+ });

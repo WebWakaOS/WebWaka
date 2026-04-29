@@ -1,0 +1,60 @@
+--- packages/wakapage-blocks/src/block-types.test.ts
++++ packages/wakapage-blocks/src/block-types.test.ts
+@@ -232,9 +232,9 @@
+   it('parses a valid mutual_aid_wall config', () => {
+     const config: MutualAidWallBlockConfig = {
+       heading: 'Community Aid',
+-      showDisbursements: true,
+-      maxRequests: 8,
+-      allowAnonRequests: false,
++      showOpenRequests: true,
++      maxItems: 8,
++      showRequestAmount: false,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('mutual_aid_wall', json);
+@@ -251,16 +251,16 @@
+     const config: BlockConfig = {
+       blockType: 'mutual_aid_wall',
+       heading: 'Neighbourhood Solidarity',
+-      showDisbursements: true,
+-      maxRequests: 15,
+-      allowAnonRequests: true,
++      showOpenRequests: true,
++      maxItems: 15,
++      showRequestAmount: true,
+     };
+     const json = serializeBlockConfig(config);
+     const parsed = parseBlockConfig('mutual_aid_wall', json);
+     expect(parsed).not.toBeNull();
+     if (parsed?.blockType === 'mutual_aid_wall') {
+       expect(parsed.heading).toBe('Neighbourhood Solidarity');
+-      expect(parsed.allowAnonRequests).toBe(true);
++      expect(parsed.showRequestAmount).toBe(true);
+     }
+   });
+ });
+@@ -271,18 +271,18 @@
+       heading: 'Ward Network',
+       showMemberCount: true,
+       joinCtaLabel: 'Join Ward',
+-      group: 'Ward',
+-      enableDuesDisplay: true,
+-      enableCasesTeaser: true,
+-      enableMutualAidTeaser: false,
++      groupId: 'Ward',
++      showDuesStatus: true,
++      showCasesPreview: true,
++      showMutualAidWall: false,
+     };
+     const json = JSON.stringify(config);
+     const parsed = parseBlockConfig('group', json);
+     expect(parsed).not.toBeNull();
+     expect(parsed?.blockType).toBe('group');
+     if (parsed?.blockType === 'group') {
+-      expect(parsed.enableDuesDisplay).toBe(true);
+-      expect(parsed.enableCasesTeaser).toBe(true);
++      expect(parsed.showDuesStatus).toBe(true);
++      expect(parsed.showCasesPreview).toBe(true);
+     }
+   });
