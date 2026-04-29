@@ -15,6 +15,7 @@
  */
 
 import { Hono } from 'hono';
+import type { Context } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 
@@ -231,7 +232,7 @@ syncRoutes.get('/delta', async (c) => {
 // ---------------------------------------------------------------------------
 
 async function handleDeltaV1(
-  c: Parameters<typeof syncRoutes.get>[1] extends (c: infer C) => unknown ? C : never,
+  c: Context<AppEnv>,
   db: D1Like,
   tenantId: string,
 ): Promise<Response> {
@@ -291,7 +292,7 @@ async function handleDeltaV1(
 // ---------------------------------------------------------------------------
 
 async function handleDeltaV2(
-  c: Parameters<typeof syncRoutes.get>[1] extends (c: infer C) => unknown ? C : never,
+  c: Context<AppEnv>,
   db: D1Like,
   tenantId: string,
   moduleParam: string,

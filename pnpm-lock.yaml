@@ -85,9 +85,15 @@ importers:
       '@webwaka/ai-adapters':
         specifier: workspace:*
         version: link:../../packages/ai-adapters
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@webwaka/cases':
+        specifier: workspace:*
+        version: link:../../packages/cases
       '@webwaka/claims':
         specifier: workspace:*
         version: link:../../packages/claims
@@ -118,6 +124,9 @@ importers:
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
+      '@webwaka/groups':
+        specifier: workspace:*
+        version: link:../../packages/groups
       '@webwaka/hl-wallet':
         specifier: workspace:*
         version: link:../../packages/hl-wallet
@@ -610,6 +619,9 @@ importers:
       '@webwaka/wakapage-blocks':
         specifier: workspace:*
         version: link:../../packages/wakapage-blocks
+      '@webwaka/workflows':
+        specifier: workspace:*
+        version: link:../../packages/workflows
       aws4fetch:
         specifier: ^1.0.20
         version: 1.0.20

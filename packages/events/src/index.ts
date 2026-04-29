@@ -55,6 +55,7 @@ export {
   WakaPageEventType,
   LegacyEventType,
   CaseEventType,
+  GroupEventType,
   SupportGroupEventType,
   FundraisingEventType,
 } from './event-types.js';

@@ -26,18 +26,10 @@ import {
   getWorkflowInstance,
   listWorkflowInstances,
 } from '@webwaka/workflows';
+import type { D1Like } from '@webwaka/workflows';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
-interface D1Like {
-  prepare(sql: string): {
-    bind(...args: unknown[]): {
-      first<T>(): Promise<T | null>;
-      run(): Promise<{ success: boolean }>;
-      all<T>(): Promise<{ results: T[] }>;
-    };
-  };
-}
 
 export const workflowRoutes = new Hono<AppEnv>();
 
