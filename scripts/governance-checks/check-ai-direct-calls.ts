@@ -36,9 +36,9 @@ function isAllowed(filePath: string): boolean {
 
 function isAiRelated(text: string): boolean {
   const t = text.toLowerCase();
-  return t.includes('api.openai.com') ||
-         t.includes('api.anthropic.com') ||
-         t.includes('api.groq.com') ||
+  return t.includes('https://api.openai.com') ||
+         t.includes('https://api.anthropic.com') ||
+         t.includes('https://api.groq.com') ||
          t.includes('openai') ||
          t.includes('anthropic') ||
          t.includes('groq') ||
