@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/cases",
   "version": "0.1.0",
-  "description": "[Phase 1] Case management module — create, assign, note, resolve lifecycle with NDPR compliance",
+  "description": "[Pillar 1] Case management module — create, assign, note, resolve lifecycle with NDPR compliance",
   "private": true,
   "type": "module",
   "exports": {
