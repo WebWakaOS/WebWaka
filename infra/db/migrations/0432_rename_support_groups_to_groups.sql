@@ -144,7 +144,8 @@ CREATE TABLE IF NOT EXISTS group_meetings (
 INSERT OR IGNORE INTO group_meetings
 SELECT id, group_id, workspace_id, tenant_id, title, agenda, meeting_type,
        venue, place_id, starts_at, ends_at, is_virtual, join_url, status,
-       minutes_url, quorum_met, attendance, created_by, created_at
+       minutes_url, quorum_met, attendance,
+       NULL AS created_by, (unixepoch()) AS created_at
 FROM support_group_meetings;
 
 CREATE INDEX IF NOT EXISTS idx_group_meetings_group   ON group_meetings(group_id, tenant_id);
@@ -209,7 +210,8 @@ CREATE TABLE IF NOT EXISTS group_broadcasts (
 
 INSERT OR IGNORE INTO group_broadcasts
 SELECT id, group_id, workspace_id, tenant_id, sender_id, title, body,
-       channel, audience, status, sent_count, failed_count, scheduled_at, sent_at, created_at
+       channel, audience, status, sent_count, failed_count, scheduled_at, sent_at,
+       (unixepoch()) AS created_at
 FROM support_group_broadcasts;
 
 CREATE INDEX IF NOT EXISTS idx_group_broadcasts_group  ON group_broadcasts(group_id, tenant_id);
@@ -251,7 +253,8 @@ INSERT OR IGNORE INTO group_events
 SELECT id, group_id, workspace_id, tenant_id, title, description, event_type,
        venue, place_id, state_code, lga_code, ward_code,
        starts_at, ends_at, expected_count, actual_count,
-       status, is_public, rsvp_count, created_by, created_at
+       status, is_public, rsvp_count,
+       NULL AS created_by, (unixepoch()) AS created_at
 FROM support_group_events;
 
 CREATE INDEX IF NOT EXISTS idx_group_events_group   ON group_events(group_id, tenant_id);
@@ -304,7 +307,8 @@ CREATE TABLE IF NOT EXISTS group_petitions (
 
 INSERT OR IGNORE INTO group_petitions
 SELECT id, group_id, workspace_id, tenant_id, title, body, target,
-       signature_count, status, created_by, created_at, closed_at
+       signature_count, status,
+       NULL AS created_by, (unixepoch()) AS created_at, closed_at
 FROM support_group_petitions;
 
 CREATE INDEX IF NOT EXISTS idx_group_petitions_group  ON group_petitions(group_id, tenant_id);
@@ -357,7 +361,8 @@ CREATE TABLE IF NOT EXISTS group_assets (
 
 INSERT OR IGNORE INTO group_assets
 SELECT id, group_id, workspace_id, tenant_id, asset_name, asset_type,
-       quantity, quantity_unit, custodian_member_id, status, value_kobo, notes, created_at
+       quantity, quantity_unit, custodian_member_id, status, value_kobo, notes,
+       (unixepoch()) AS created_at
 FROM support_group_assets;
 
 CREATE INDEX IF NOT EXISTS idx_group_assets_group  ON group_assets(group_id, tenant_id);
@@ -432,7 +437,7 @@ CREATE TABLE IF NOT EXISTS group_committee_members (
 );
 
 INSERT OR IGNORE INTO group_committee_members
-SELECT id, committee_id, group_id, tenant_id, member_id, role, joined_at
+SELECT id, committee_id, group_id, tenant_id, member_id, committee_role AS role, joined_at
 FROM support_group_committee_members;
 
 CREATE UNIQUE INDEX IF NOT EXISTS uidx_group_committee_members ON group_committee_members(committee_id, member_id, tenant_id);
