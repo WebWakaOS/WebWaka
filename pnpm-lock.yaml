@@ -51,6 +51,9 @@ importers:
 
   apps/admin-dashboard:
     dependencies:
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -85,9 +88,15 @@ importers:
       '@webwaka/ai-adapters':
         specifier: workspace:*
         version: link:../../packages/ai-adapters
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@webwaka/cases':
+        specifier: workspace:*
+        version: link:../../packages/cases
       '@webwaka/claims':
         specifier: workspace:*
         version: link:../../packages/claims
@@ -118,6 +127,9 @@ importers:
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
+      '@webwaka/groups':
+        specifier: workspace:*
+        version: link:../../packages/groups
       '@webwaka/hl-wallet':
         specifier: workspace:*
         version: link:../../packages/hl-wallet
@@ -635,6 +647,9 @@ importers:
 
   apps/brand-runtime:
     dependencies:
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -725,6 +740,9 @@ importers:
 
   apps/platform-admin:
     dependencies:
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -837,6 +855,9 @@ importers:
 
   apps/ussd-gateway:
     dependencies:
+      '@webwaka/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
