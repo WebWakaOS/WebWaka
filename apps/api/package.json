@@ -18,6 +18,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
     "@webwaka/ai": "workspace:*",
     "@webwaka/ai-adapters": "workspace:*",
     "@webwaka/auth": "workspace:*",
