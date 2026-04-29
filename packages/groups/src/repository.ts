@@ -662,7 +662,7 @@ export async function createGroupEvent(
     )
     .bind(
       id, input.groupId, input.workspaceId, input.tenantId,
-      input.title, input.description ?? null, input.eventType ?? 'general',
+      input.title, input.description ?? null, input.eventType ?? 'townhall',
       input.venue ?? null, input.placeId ?? null,
       input.stateCode ?? null, input.lgaCode ?? null, input.wardCode ?? null,
       input.startsAt, input.endsAt ?? null, input.expectedCount ?? null,
@@ -673,7 +673,7 @@ export async function createGroupEvent(
   return {
     id, groupId: input.groupId, workspaceId: input.workspaceId, tenantId: input.tenantId,
     title: input.title, description: input.description ?? null,
-    eventType: input.eventType ?? 'general',
+    eventType: input.eventType ?? 'townhall',
     venue: input.venue ?? null, placeId: input.placeId ?? null,
     stateCode: input.stateCode ?? null, lgaCode: input.lgaCode ?? null, wardCode: input.wardCode ?? null,
     startsAt: input.startsAt, endsAt: input.endsAt ?? null,
