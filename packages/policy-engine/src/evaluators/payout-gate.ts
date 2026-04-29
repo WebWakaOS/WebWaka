@@ -37,7 +37,7 @@ export function evaluatePayoutGate(rule: PolicyRule, ctx: PolicyContext): Policy
 
   // Auto-approve small payouts
   if (cond.auto_approve_below_kobo != null && amountKobo < cond.auto_approve_below_kobo) {
-    return allow(rule.ruleKey, `Payout ₦${(amountKobo / 100).toFixed(2)} is below auto-approve threshold`);
+    return allow(rule.ruleKey, `Payout ₦${formatKoboToNaira(amountKobo)} is below auto-approve threshold`);
   }
 
   // HITL required for specific campaign types
@@ -63,6 +63,12 @@ function deny(ruleKey: string, reason: string): PolicyEvalResult {
 
 function hitl(ruleKey: string, hitlLevel: 1 | 2 | 3, reason: string): PolicyEvalResult {
   return { ruleKey, decision: 'REQUIRE_HITL', hitlLevel, reason, evaluatedAt: ts() };
+}
+
+function formatKoboToNaira(kobo: number): string {
+  const naira = Math.floor(kobo / 100);
+  const koboStr = (kobo % 100).toString().padStart(2, '0');
+  return `${naira}.${koboStr}`;
 }
 
 function ts(): number {
