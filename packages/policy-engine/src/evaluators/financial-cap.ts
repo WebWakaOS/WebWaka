@@ -36,7 +36,7 @@ export function evaluateFinancialCap(
   rule: PolicyRule,
   ctx: PolicyContext,
 ): PolicyEvalResult {
-  const cond = rule.conditionJson as FinancialCapCondition;
+  const cond = rule.conditionJson as unknown as FinancialCapCondition;
   const amountKobo = (ctx.amountKobo ?? 0) as number;
   const priorTotalKobo = (ctx.priorTotalKobo ?? 0) as number;
   const campaignType = ctx.campaignType as string | undefined;
@@ -59,7 +59,7 @@ export function evaluateFinancialCap(
     if (amountKobo > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Transaction amount ₦${(amountKobo / 100).toFixed(2)} exceeds cap ₦${(cond.cap_kobo / 100).toFixed(2)}`,
+        `Transaction amount ₦${(amountKobo / 100).toFixed(2)} exceeds cap ₦${(cond.cap_kobo / 100).toFixed(2)}`, // DISPLAY_ONLY
       );
     }
   } else if (cond.per === 'contributor_campaign') {
@@ -67,7 +67,7 @@ export function evaluateFinancialCap(
     if (totalAfter > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Cumulative contribution ₦${(totalAfter / 100).toFixed(2)} would exceed cap ₦${(cond.cap_kobo / 100).toFixed(2)}`,
+        `Cumulative contribution ₦${(totalAfter / 100).toFixed(2)} would exceed cap ₦${(cond.cap_kobo / 100).toFixed(2)}`, // DISPLAY_ONLY
       );
     }
   } else if (cond.per === 'daily') {
@@ -75,7 +75,7 @@ export function evaluateFinancialCap(
     if (dailyTotalAfter > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Daily total ₦${(dailyTotalAfter / 100).toFixed(2)} would exceed daily cap ₦${(cond.cap_kobo / 100).toFixed(2)}`,
+        `Daily total ₦${(dailyTotalAfter / 100).toFixed(2)} would exceed daily cap ₦${(cond.cap_kobo / 100).toFixed(2)}`, // DISPLAY_ONLY
       );
     }
   }
