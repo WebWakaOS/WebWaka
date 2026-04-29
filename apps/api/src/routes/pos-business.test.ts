@@ -154,6 +154,59 @@ describe('GET /pos-business/product/:id', () => {
   });
 });
 
+describe('PATCH /pos-business/product/:id', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 for invalid JSON body', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid json',
+    });
+    expect(res.status).toBe(400);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toBe('Invalid JSON body');
+  });
+
+  it('returns 200 on successful update', async () => {
+    mockInventoryRepo.update.mockResolvedValueOnce({ ...MOCK_PRODUCT, name: 'Updated Product' });
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Updated Product' }),
+    });
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { product: { name: string } };
+    expect(body.product.name).toBe('Updated Product');
+  });
+
+  it('returns 404 when product to update is not found', async () => {
+    mockInventoryRepo.update.mockResolvedValueOnce(null);
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_missing', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Updated Product' }),
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 400 on update error', async () => {
+    mockInventoryRepo.update.mockRejectedValueOnce(new Error('Update failed'));
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Updated Product' }),
+    });
+    expect(res.status).toBe(400);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toBe('Update failed');
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Sales — P9 invariant testing
 // ---------------------------------------------------------------------------
