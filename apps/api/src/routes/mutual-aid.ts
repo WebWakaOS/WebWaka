@@ -26,18 +26,11 @@ import {
   getRequestVotes,
   disburseMutualAid,
 } from '@webwaka/fundraising';
+import type { D1Like } from '@webwaka/fundraising';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
-interface D1Like {
-  prepare(sql: string): {
-    bind(...args: unknown[]): {
-      first<T>(): Promise<T | null>;
-      run(): Promise<{ success: boolean }>;
-      all<T>(): Promise<{ results: T[] }>;
-    };
-  };
-}
+
 
 export const mutualAidRoutes = new Hono<AppEnv>();
 
