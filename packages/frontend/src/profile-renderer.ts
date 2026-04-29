@@ -66,7 +66,10 @@ export function renderProfile(
   let content: Record<string, unknown> = {};
   if (row.content) {
     try {
-      content = JSON.parse(row.content) as Record<string, unknown>;
+      const parsed = JSON.parse(row.content);
+      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+        content = parsed as Record<string, unknown>;
+      }
     } catch {
       // ignore parse errors
     }

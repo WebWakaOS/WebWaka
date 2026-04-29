@@ -88,6 +88,30 @@ describe('renderProfile', () => {
     expect(profile.content).toEqual({});
   });
 
+  it('returns empty object when JSON parses to null', () => {
+    const row = { ...BASE_ROW, content: 'null' };
+    const profile = renderProfile(row, MANIFEST);
+    expect(profile.content).toEqual({});
+  });
+
+  it('returns empty object when JSON parses to an array', () => {
+    const row = { ...BASE_ROW, content: '["item1", "item2"]' };
+    const profile = renderProfile(row, MANIFEST);
+    expect(profile.content).toEqual({});
+  });
+
+  it('returns empty object when JSON parses to a number', () => {
+    const row = { ...BASE_ROW, content: '123' };
+    const profile = renderProfile(row, MANIFEST);
+    expect(profile.content).toEqual({});
+  });
+
+  it('returns empty object when JSON parses to a string', () => {
+    const row = { ...BASE_ROW, content: '"string"' };
+    const profile = renderProfile(row, MANIFEST);
+    expect(profile.content).toEqual({});
+  });
+
   it('includes tenant branding in rendered profile', () => {
     const profile = renderProfile(BASE_ROW, MANIFEST);
     expect(profile.branding.primaryColour).toBe('#1a1a2e');

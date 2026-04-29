@@ -66,6 +66,7 @@ export type BroadcastAudience = 'all' | 'executive' | 'volunteers' | 'members_on
 export type BroadcastStatus = 'queued' | 'sending' | 'sent' | 'failed';
 
 export type GroupEventType =
+  | 'general'
   | 'rally'
   | 'townhall'
   | 'workshop'
