@@ -37,7 +37,7 @@ export function evaluatePayoutGate(rule: PolicyRule, ctx: PolicyContext): Policy
 
   // Auto-approve small payouts
   if (cond.auto_approve_below_kobo != null && amountKobo < cond.auto_approve_below_kobo) {
-    return allow(rule.ruleKey, `Payout ₦${(amountKobo / 100).toFixed(2)} is below auto-approve threshold`);
+    return allow(rule.ruleKey, `Payout ₦${Math.floor(amountKobo / 100)} is below auto-approve threshold`);
   }
 
   // HITL required for specific campaign types
