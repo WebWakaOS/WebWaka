@@ -162,16 +162,15 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
     const parsed = parseBlockConfig('cases_board', json);
     expect(parsed).not.toBeNull();
     if (parsed?.blockType === 'cases_board') {
-      expect(parsed.heading).toBe('Constituency Cases');
-      expect(parsed.filterByType).toEqual(['infrastructure', 'healthcare']);
-      expect(parsed.showResolutionTime).toBe(true);
-    };
-    const json = JSON.stringify(config);
-    const parsed = parseBlockConfig('dues_status', json);
-    expect(parsed).not.toBeNull();
-    expect(parsed?.blockType).toBe('dues_status');
+      expect(parsed.heading).toBe('Open Cases');
+      expect(parsed.filterByType).toEqual(['welfare', 'legal', 'housing']);
+      expect(parsed.showResolutionTime).toBe(false);
+    }
   });
 
+});
+
+describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
   it('parses minimal dues_status config', () => {
     const config: DuesStatusBlockConfig = {};
     const parsed = parseBlockConfig('dues_status', JSON.stringify(config));
@@ -185,7 +184,11 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
       showHistory: false,
       showCurrentPeriod: false,
       showNextDueDate: true,
-    }
+    };
+    const json = serializeBlockConfig(config);
+    const parsed = parseBlockConfig('dues_status', json);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.blockType).toBe('dues_status');
   });
 });
 
