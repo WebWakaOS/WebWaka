@@ -6,7 +6,7 @@
  */
 
 import 'fake-indexeddb/auto';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { db } from './db.js';
 import { ConflictStore } from './conflict-resolution.js';
 import { DraftAutosaveManager } from './draft-autosave.js';
