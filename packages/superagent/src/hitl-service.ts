@@ -177,7 +177,7 @@ export class HitlService {
         .bind(input.decision, input.reviewerId, input.note ?? null, input.queueItemId, input.tenantId),
       this.db
         .prepare(
-          `INSERT INTO ai_hitl_events
+          `INSERT OR IGNORE INTO ai_hitl_events
              (id, tenant_id, queue_item_id, event_type, actor_id, note)
            VALUES (?, ?, ?, ?, ?, ?)`,
         )
@@ -363,7 +363,7 @@ export class HitlService {
       // Also write an event record on the HITL queue item
       await db
         .prepare(
-          `INSERT INTO ai_hitl_events
+          `INSERT OR IGNORE INTO ai_hitl_events
            (id, tenant_id, queue_item_id, event_type, actor_id, note)
            VALUES (?, ?, ?, 'expired', 'system', 'L3 regulatory item auto-expired — escalation raised')`,
         )
@@ -392,7 +392,7 @@ export class HitlService {
         .bind(id, tenantId),
       this.db
         .prepare(
-          `INSERT INTO ai_hitl_events
+          `INSERT OR IGNORE INTO ai_hitl_events
              (id, tenant_id, queue_item_id, event_type, actor_id, note)
            VALUES (?, ?, ?, 'executed', 'system', 'AI action re-executed after HITL approval')`,
         )
@@ -415,7 +415,7 @@ export class HitlService {
         .bind(id, tenantId),
       this.db
         .prepare(
-          `INSERT INTO ai_hitl_events (id, tenant_id, queue_item_id, event_type, actor_id, note)
+          `INSERT OR IGNORE INTO ai_hitl_events (id, tenant_id, queue_item_id, event_type, actor_id, note)
            VALUES (?, ?, ?, 'expired', 'system', 'Auto-expired: review window elapsed')`,
         )
         .bind(crypto.randomUUID(), tenantId, id),
