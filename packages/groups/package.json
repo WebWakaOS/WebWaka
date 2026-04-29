@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/groups",
   "version": "0.1.0",
-  "description": "[Phase 0] Universal Group Management — generic, multi-vertical: civic, church, NGO, professional, community, electoral (via extension tables)",
+  "description": "[Cross-cutting] Universal Group Management — generic, multi-vertical: civic, church, NGO, professional, community, electoral (via extension tables)",
   "private": true,
   "type": "module",
   "exports": {

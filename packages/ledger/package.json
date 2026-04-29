@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/ledger",
   "version": "0.1.0",
-  "description": "[Phase 1] Shared atomic double-entry ledger with CTE pattern \u2014 used by pos and hl-wallet",
+  "description": "[Pillar 1] Shared atomic double-entry ledger with CTE pattern — used by pos and hl-wallet",
   "private": true,
   "type": "module",
   "exports": {

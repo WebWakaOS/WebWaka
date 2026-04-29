@@ -153,6 +153,7 @@ describe('Phase 4 — E28: BlockType exhaustiveness (Phase 4 additions)', () => 
 describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
   it('parses a valid cases_board config', () => {
     const config: CasesBoardBlockConfig = {
+      blockType: 'cases_board',
       heading: 'Open Cases',
       filterByType: ['welfare', 'legal', 'housing'],
       showResolutionTime: false,
