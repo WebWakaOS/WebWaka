@@ -88,8 +88,8 @@ const ListQuerySchema = z.object({
 // ── POST /cases ────────────────────────────────────────────────────────────
 
 casesRoutes.post('/', zValidator('json', CreateCaseSchema), async (c) => {
-  const auth = c.get('auth');
-  const { tenantId, workspaceId, plan } = auth;
+  const auth = c.get('auth') as AuthContext & { plan?: string };
+  const { tenantId, workspaceId, plan = 'free' } = auth;
 
   try {
     assertCasesEnabled(plan);
@@ -130,8 +130,8 @@ casesRoutes.post('/', zValidator('json', CreateCaseSchema), async (c) => {
 // ── GET /cases ─────────────────────────────────────────────────────────────
 
 casesRoutes.get('/', zValidator('query', ListQuerySchema), async (c) => {
-  const auth = c.get('auth');
-  const { tenantId, workspaceId, plan } = auth;
+  const auth = c.get('auth') as AuthContext & { plan?: string };
+  const { tenantId, workspaceId, plan = 'free' } = auth;
 
   try { assertCasesEnabled(plan); } catch (err) {
     return c.json({ error: 'ENTITLEMENT_DENIED', message: (err as Error).message }, 403);
@@ -156,8 +156,8 @@ casesRoutes.get('/', zValidator('query', ListQuerySchema), async (c) => {
 // ── GET /cases/summary ─────────────────────────────────────────────────────
 
 casesRoutes.get('/summary', async (c) => {
-  const auth = c.get('auth');
-  const { tenantId, workspaceId, plan } = auth;
+  const auth = c.get('auth') as AuthContext & { plan?: string };
+  const { tenantId, workspaceId, plan = 'free' } = auth;
 
   try { assertCasesEnabled(plan); } catch (err) {
     return c.json({ error: 'ENTITLEMENT_DENIED', message: (err as Error).message }, 403);
