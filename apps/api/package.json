@@ -21,7 +21,9 @@
     "@hono/zod-validator": "^0.4.3",
     "@webwaka/ai": "workspace:*",
     "@webwaka/ai-adapters": "workspace:*",
+    "@webwaka/analytics": "workspace:*",
     "@webwaka/auth": "workspace:*",
+    "@webwaka/cases": "workspace:*",
     "@webwaka/claims": "workspace:*",
     "@webwaka/community": "workspace:*",
     "@webwaka/contact": "workspace:*",
@@ -32,6 +34,7 @@
     "@webwaka/frontend": "workspace:*",
     "@webwaka/fundraising": "workspace:*",
     "@webwaka/geography": "workspace:*",
+    "@webwaka/groups": "workspace:*",
     "@webwaka/hl-wallet": "workspace:*",
     "@webwaka/identity": "workspace:*",
     "@webwaka/negotiation": "workspace:*",
@@ -196,12 +199,10 @@
     "@webwaka/verticals-womens-association": "workspace:*",
     "@webwaka/verticals-youth-organization": "workspace:*",
     "@webwaka/wakapage-blocks": "workspace:*",
+    "@webwaka/workflows": "workspace:*",
     "aws4fetch": "^1.0.20",
     "hono": "^4.12.14",
-    "zod": "^3.22.4",
-    "@webwaka/cases": "workspace:*",
-    "@webwaka/groups": "workspace:*",
-    "@webwaka/analytics": "workspace:*"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
