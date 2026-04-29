@@ -51,9 +51,6 @@ importers:
 
   apps/admin-dashboard:
     dependencies:
-      '@webwaka/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -647,9 +644,6 @@ importers:
 
   apps/brand-runtime:
     dependencies:
-      '@webwaka/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -740,9 +734,6 @@ importers:
 
   apps/platform-admin:
     dependencies:
-      '@webwaka/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -855,9 +846,6 @@ importers:
 
   apps/ussd-gateway:
     dependencies:
-      '@webwaka/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../../packages/auth
