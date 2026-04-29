@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS group_event_rsvps (
 );
 
 INSERT OR IGNORE INTO group_event_rsvps
-SELECT id, event_id, group_id, tenant_id, user_id, status, rsvped_at
+SELECT id, event_id, group_id, tenant_id, user_id, status, created_at AS rsvped_at
 FROM support_group_event_rsvps;
 
 CREATE UNIQUE INDEX IF NOT EXISTS uidx_group_rsvps_user ON group_event_rsvps(event_id, user_id, tenant_id);
