@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { creditWallet, debitWallet, getLedger, createWallet } from '../ledger.js';
+import { creditWallet, debitWallet, getLedger } from '../ledger.js';
 import { WalletError } from '../errors.js';
 
 // ---------------------------------------------------------------------------
