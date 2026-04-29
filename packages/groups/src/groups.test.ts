@@ -238,7 +238,7 @@ describe('Repository — group CRUD', () => {
     const db = makeMockDb();
     await expect(
       signPetition(db, 'gpt_001', 'grp_abc', 'ws1', 'tn1', 'usr_002'),
-    ).resolves.not.toThrow();
+    ).resolves.toBeUndefined();
   });
 
   it('getGroupAnalytics returns null when no row exists', async () => {

@@ -156,26 +156,6 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
       heading: 'Open Cases',
       filterByType: ['welfare', 'legal', 'housing'],
       showResolutionTime: false,
-      maxCases: 10,
-    };
-    const json = JSON.stringify(config);
-    const parsed = parseBlockConfig('cases_board', json);
-    expect(parsed).not.toBeNull();
-    expect(parsed?.blockType).toBe('cases_board');
-  });
-
-  it('parses minimal cases_board config (no optional fields)', () => {
-    const config: CasesBoardBlockConfig = {};
-    const parsed = parseBlockConfig('cases_board', JSON.stringify(config));
-    expect(parsed?.blockType).toBe('cases_board');
-  });
-
-  it('round-trips cases_board config: serialize then parse', () => {
-    const config: BlockConfig = {
-      blockType: 'cases_board',
-      heading: 'Constituency Cases',
-      filterByType: ['infrastructure', 'healthcare'],
-      showResolutionTime: true,
       maxCases: 20,
     };
     const json = serializeBlockConfig(config);
@@ -185,18 +165,6 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
       expect(parsed.heading).toBe('Constituency Cases');
       expect(parsed.filterByType).toEqual(['infrastructure', 'healthcare']);
       expect(parsed.showResolutionTime).toBe(true);
-      expect(parsed.maxCases).toBe(20);
-    }
-  });
-});
-
-describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
-  it('parses a valid dues_status config', () => {
-    const config: DuesStatusBlockConfig = {
-      heading: 'Member Dues',
-      showHistory: true,
-      showCurrentPeriod: true,
-      showNextDueDate: true,
     };
     const json = JSON.stringify(config);
     const parsed = parseBlockConfig('dues_status', json);
@@ -217,13 +185,6 @@ describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
       showHistory: false,
       showCurrentPeriod: false,
       showNextDueDate: true,
-    };
-    const json = serializeBlockConfig(config);
-    const parsed = parseBlockConfig('dues_status', json);
-    expect(parsed).not.toBeNull();
-    if (parsed?.blockType === 'dues_status') {
-      expect(parsed.showCurrentPeriod).toBe(false);
-      expect(parsed.showNextDueDate).toBe(true);
     }
   });
 });

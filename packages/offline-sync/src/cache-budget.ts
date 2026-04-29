@@ -192,7 +192,7 @@ export class CacheBudgetManager {
         const pendingCount = await db.syncQueue
           .where('status').equals('pending')
           .filter(item => {
-            const payload = item.payload as Record<string, unknown>;
+            const payload = item.payload as { draftId?: string };
             return payload['draftId'] === oldest.draftId;
           })
           .count();
