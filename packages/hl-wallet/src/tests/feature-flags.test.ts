@@ -4,7 +4,6 @@
 
 import { describe, it, expect } from 'vitest';
 import { isFeatureEnabled, assertFeatureEnabled, setFeatureFlag, getAllFeatureFlags } from '../feature-flags.js';
-import { WalletError } from '../errors.js';
 
 function makeKv(store: Record<string, string> = {}) {
   return {
