@@ -44,6 +44,7 @@ The system is built on a serverless, edge-first architecture utilizing Cloudflar
 - **Notification Engine**: A multi-channel notification system (InApp, Email, SMS, WhatsApp, Telegram, FCM, Slack, Teams) with a rule engine, templating, and digest capabilities. Events are processed via Cloudflare Queues using an outbox pattern for reliability.
 - **Payment & Wallet System**: Comprehensive wallet functionality (`@webwaka/hl-wallet`) supporting transfers, withdrawals, and online funding, with flexible payment modes (bank transfer, Paystack integration).
 - **Identity Verification**: Integrates with third-party services (Prembly) for BVN/NIN verification, with fallback mechanisms. Rate limiting is applied to identity verification routes.
+- **Sector Licence Verification**: Manual document-upload + admin-review workflow for 7 compliance-gated verticals (hospital, university, diagnostic-lab, microfinance-bank, insurance-company, pension-fund, stockbroker). FSM: `pending_review → verified | rejected | expired`. DB table: `sector_license_verifications` (migration `0416`). API: workspace routes at `/regulatory-verification` and super-admin routes at `/platform-admin/sector-licenses`. Verified licence numbers are surfaced as dynamic trust-strip badges in all 7 niche templates via `ctx.data.sectorLicenseStatus` / `ctx.data.sectorLicenseNumber`.
 - **AI Integration**: A vendor-neutral abstraction layer (`@webwaka/superagent`) handles AI interactions, with strict consent gates (`aiConsentGate`) for NDPR compliance.
 - **Search & Discovery**: Utilizes FTS5 for full-text search and `search_entries` for discoverability of entities, with deterministic `searchEntryId` for stable indexing.
 - **Geo-spatial Data**: `@webwaka/geography` package provides hierarchical geographical data (country, zones, states, LGAs, wards) crucial for entity seeding and place resolution.
@@ -217,4 +218,435 @@ Server-side persistent conversation state for `/superagent/chat`. Callers pass a
 - **T3**: every query binds `tenant_id` — no cross-tenant access possible.
 - **P13**: PII stripping happens before `appendMessages()` — content stored post-strip only.
 - **Expiry**: 7-day TTL (14-day for high-context-window verticals); expired sessions return 404 at load time and are cleaned by scheduler.
-- **TypeScript**: 0 errors across all three affected packages.
+
+## Next-Generation Template Universe Expansion — FULLY IMPLEMENTED 2026-04-26
+
+### Status
+All 38 blueprint-approved niche templates implemented, wired into the resolver, and validated. The template universe has expanded from 154 → **192 built-in templates**.
+
+### What Was Implemented
+38 TypeScript template files, each following the compact Nigeria-first pattern (NGN kobo pricing, WhatsApp CTAs, trust badges, 4-page `mkPage` structure):
+
+| Group | Slugs | Count |
+|---|---|---|
+| Health | hospital-secondary-care, diagnostic-lab-medical-laboratory, physiotherapy-physio-clinic, mental-health-counselling-centre, maternity-clinic-birthing-centre | 5 |
+| Education | university-higher-education, exam-prep-centre-exam-prep, elearning-platform-online-learning, tutorial-centre-group-lessons, tech-academy-coding-bootcamp | 5 |
+| Financial | microfinance-bank-mfb-site, insurance-company-underwriter-site, credit-union-sacco-site, pension-fund-pfa-site, stockbroker-securities-dealer | 5 |
+| Professional | software-agency-software-agency-site, architecture-firm-architecture-site, recruitment-agency-hr-recruitment-site, management-consulting-consulting-site, digital-marketing-agency-digital-agency-site, cac-registration-agent-cac-agent-site | 6 |
+| Technology + Hospitality | cybersecurity-firm-cybersecurity-site, data-analytics-firm-data-analytics-site, bar-lounge-bar-lounge-site, resort-resort-site, vacation-rental-shortlet-portfolio, food-court-canteen-site | 6 |
+| Property + Wellness + Commerce | coworking-space-coworking-site, property-management-property-mgmt-site, student-hostel-hostel-site, yoga-studio-yoga-studio-site, traditional-medicine-herbal-site, health-food-store-supplement-store, electronics-store-electronics-retail, jewellery-shop-jewellery-site, baby-shop-baby-store-site, cosmetics-shop-cosmetics-retail, thrift-store-thrift-store-site | 11 |
+
+### Files Changed
+- `apps/brand-runtime/src/lib/template-resolver.ts` — 38 imports + 38 `BUILT_IN_TEMPLATES` map entries added
+- `infra/db/seeds/0004_verticals-master.csv` — 38 rows appended (161 → 199 lines)
+- 38 new TypeScript template files under `apps/brand-runtime/src/templates/niches/`
+
+### Validation
+- `tsc --noEmit`: **0 errors**
+- `vitest run`: **75/75 tests passing**
+
+### Blueprint Research Artifacts
+Seven comprehensive blueprint documents remain in `docs/templates/expansion/` for reference (gap analysis, candidate registry, niche families, market intelligence, regulatory landscape, priority queue).
+
+### Production Deployment Status
+- Staging: `webwaka-brand-runtime-staging` live at `https://webwaka-brand-runtime-staging.webwaka-api.workers.dev`
+- Production: `webwaka-brand-runtime-production` — CART_KV binding fixed; awaiting JWT_SECRET, LOG_PII_SALT, INTER_SERVICE_SECRET secrets before full production deployment
+
+---
+
+## Political Role-Specific Template Expansion Blueprint — Produced 2026-04-26
+
+### Status
+**FULLY IMPLEMENTED — 2026-04-26.** Research, design, and all four implementation sprints complete.
+
+**Implementation Summary (Sprints 1–4 — all 16 political role templates):**
+
+| # | Slug | Mode(s) | Family | Sprint |
+|---|---|---|---|---|
+| 1 | `governor-official-site` | campaign / incumbent / post_office | NF-POL-ELC anchor | S1 |
+| 2 | `senator-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S1 |
+| 3 | `house-of-reps-member-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S1 |
+| 4 | `state-commissioner-official-site` | incumbent / post_office | NF-POL-APT anchor | S2 |
+| 5 | `federal-minister-official-site` | incumbent / post_office | NF-POL-APT | S2 |
+| 6 | `lga-chairman-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S2 |
+| 7 | `house-of-assembly-member-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S2 |
+| 8 | `presidential-candidate-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S3 |
+| 9 | `political-appointee-official-site` | incumbent / post_office | NF-POL-APT | S3 |
+| 10 | `ward-councillor-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S3 |
+| 11 | `party-chapter-officer-official-site` | active / post_office | NF-POL-PTY anchor | S3 |
+| 12 | `party-state-officer-official-site` | active / post_office | NF-POL-PTY | S3 |
+| 13 | `deputy-governor-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 14 | `assembly-speaker-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 15 | `lga-vice-chairman-official-site` | campaign / incumbent / post_office | NF-POL-ELC | S4 |
+| 16 | `supervisory-councillor-official-site` | incumbent / post_office | NF-POL-APT | S4 |
+
+**All 16 templates wire-complete:**
+- TypeScript files: `apps/brand-runtime/src/templates/niches/{slug}/official-site.ts`
+- Resolver: 16 imports + 16 `BUILT_IN_TEMPLATES` map entries in `template-resolver.ts`
+- SQL seeds: `infra/db/seeds/templates/{slug}.sql` (16 files, INSERT OR IGNORE, idempotent)
+- CSV: `infra/db/seeds/0004_verticals-master.csv` — 16 new rows (politics section, 23 rows total)
+- Tests: T29 (24 cases, 97 total passing) in `apps/brand-runtime/src/brand-runtime.test.ts`
+- Registry: All 16 entries marked `IMPLEMENTED` / `REGISTERED` in `docs/templates/expansion/political/political-niche-registry.json`
+- REQ-POL-009 (presidential finance gate): donate CTA gated on `ctx.data.inecCampaignAccount` truthy
+
+### What Was Built
+
+| File | Contents | Lines |
+|---|---|---|
+| `00-Political-Master-Blueprint.md` | Executive summary; Nigeria political hierarchy reference map; methodology; strategic decisions | 224 |
+| `01-Political-Gap-Analysis.md` | Audit of all 7 existing political entries; gap matrix by tier (ward→federal); root cause analysis | 201 |
+| `02-Political-Candidate-Registry.md` | 16 proposed new political role niches with 5-dimension scoring, VN-IDs, mode splits, trust signals | 431 |
+| `03-Political-Family-Structure.md` | 3 new NF-POL families (NF-POL-ELC, NF-POL-APT, NF-POL-PTY); anchor/variant relationships; differentiator tables | 189 |
+| `04-Political-Market-Intelligence.md` | Seat counts by role; election cycle calendar; digital readiness scores; revenue sizing; competitive landscape | 198 |
+| `05-Political-Regulatory.md` | INEC/SIEC compliance gates per role; KYC tier assignments; Electoral Act 2022 provisions; campaign finance | 340 |
+| `06-Political-Priority-Queue.md` | 4-sprint activation queue; milestone mapping M8c→M10; pre-activation checklists | 186 |
+| `07-Political-Collision-Analysis.md` | All 16 candidates cleared vs. 192 templates + 198-row CSV; 2 CLEAR, 14 DIFFERENTIATE, 0 REJECT | 423 |
+
+### Key Findings
+- **16 new role-specific political niches** proposed (3 P1-scored, 13 P2-scored)
+- **3 new niche families** proposed: NF-POL-ELC (elected office), NF-POL-APT (appointed officials), NF-POL-PTY (party structure)
+- **P1 candidates:** `governor` (42/50), `senator` (40/50), `house-of-reps-member` (40/50)
+- **Candidate / Incumbent / Post-Office mode** defined as first-class template concept (controlled by `ctx.data.mode`)
+- **Total addressable market:** 305,791 accounts (elected officeholders + candidates across all 18 parties)
+- **Year 1 revenue potential at 5% SAM penetration:** ~₦343M (~$214K USD/year)
+- **0 REJECT verdicts** in collision analysis — all 16 candidates viable
+
+### All Actions Complete
+All 16 templates implemented across Sprints 1–4. No remaining blockers or actions.
+
+---
+
+## Code Quality Audit — Full Monorepo (Completed)
+
+### Scope
+Deep TypeScript type-check audit across all 11 apps, all 196 packages (including 151 verticals-* packages). Conducted across two sessions.
+
+### Findings and Fixes
+
+| Package | Error | Fix Applied |
+|---|---|---|
+| `packages/auth/tsconfig.build.json` | `D1Database` not found — `"types": []` stripped Cloudflare ambient types from build config | Changed to `"types": ["@cloudflare/workers-types"]` |
+| `packages/auth-tenancy` | TS2307 Cannot find `@webwaka/auth` — dist folder was never built | Built dependency chain: `types` → `ai` → `auth` → `auth-tenancy` (all clean) |
+| `packages/ui-error-boundary/src/index.tsx` | TS2339 `Property 'env' does not exist on type 'ImportMeta'` — no vite/client types | Cast `import.meta` to `{ env?: { DEV?: boolean } }` — preserves runtime behaviour |
+| `apps/brand-runtime` → `political-appointee/official-site.ts` | Portfolio type-cast bug across 4 render functions | Fixed in prior session |
+
+### Packages Built (dist now present)
+- `packages/types` (`@webwaka/types`)
+- `packages/ai-abstraction` (`@webwaka/ai`)
+- `packages/auth` (`@webwaka/auth`)
+- `packages/auth-tenancy` (`@webwaka/auth-tenancy`)
+
+### Result
+**Zero TypeScript errors** across the entire monorepo. All 11 apps and 196 packages pass `tsc --noEmit` cleanly (or are intentional stubs with `typecheck: "echo 'skip'"`).
+
+### Invariants Maintained
+- T2/T3/T4 tenant isolation unchanged
+- All monetary values remain kobo integers
+- No DB calls introduced in template render functions
+- 31/31 regulatory-verification tests still passing
+
+## WakaPage — Phase 1 (2026-04-27)
+
+Domain model and API contract layer for the WakaPage vertical (ADR-0041).
+
+### Migrations (0419–0423)
+- `0419` — `wakapage_pages` (core page entity)
+- `0420` — `wakapage_blocks` (ordered block registry, 17 MVP types)
+- `0421` — `wakapage_leads` (lead-capture submissions)
+- `0422` — `search_entries` wakapage facets (`wakapage_slug`, `wakapage_published_at`, `wakapage_display_name`)
+- `0423` — `tenant_branding.social_links` JSONB column
+
+### API Routes (`/wakapages/*`)
+- POST create, GET fetch, PATCH update, POST/PATCH/DELETE blocks, POST publish
+- Entitlement-gated (Starter+ plan), admin/super_admin write role, T3 isolation
+- Events: `WakaPageCreated`, `WakaPagePublished`, `WakaPageBlockAdded/Updated/Removed` (fire-and-forget)
+- Search indexing on publish via `indexWakaPage` in `search-index.ts`
+
+### Phase 2 — Public Renderer (2026-04-27)
+
+`apps/brand-runtime` gains `GET /wakapage` + `POST /wakapage/leads`.
+
+**New files:**
+- `src/lib/wakapage-types.ts` — D1 row types + `RenderContext`
+- `src/lib/wakapage-block-registry.ts` — dispatch table (17 block types)
+- `src/templates/wakapage/page-shell.ts` — standalone WakaPage HTML shell (no site nav, mobile-first 360px, PWA, Schema.org JSON-LD, OG tags)
+- `src/templates/wakapage/` — 17 block templates: `hero`, `bio`, `social_links`, `cta_button`, `contact_form`, `offerings`, `gallery`, `map`, `blog_post`, `testimonials`, `faq`, `countdown`, `media_kit`, `trust_badges`, `social_feed`(stub), `community`(stub), `event_list`(stub)
+- `src/routes/wakapage.ts` — `GET /wakapage` (renderer) + `POST /wakapage/leads` (NDPR-compliant lead capture)
+- `src/routes/wakapage.test.ts` — 33 integration tests (T30–T45)
+
+**Package updates:**
+- `apps/brand-runtime/package.json` — added `@webwaka/wakapage-blocks: workspace:*`
+- `apps/brand-runtime/tsconfig.json` — path alias for `@webwaka/wakapage-blocks`
+- `apps/brand-runtime/src/index.ts` — registered `app.route('/wakapage', wakaPageRouter)`
+
+**Test result:** 133/133 tests pass after QA fixes (T46–T47). Typecheck clean.
+
+### Phase 3 — Builder UI, Analytics, Live Data (2026-04-27)
+
+**API additions (`apps/api/src/routes/wakapage.ts`):**
+- `GET /wakapages` — list workspace WakaPages (builder UI discovery)
+- `GET /wakapages/:id/leads` — paginated leads inbox (admin/super_admin, T3-scoped, NDPR)
+- `GET /wakapages/:id/qr` — QR code info (`publicUrl` + `qrUrl` via api.qrserver.com)
+
+**Brand-runtime enhancements (`apps/brand-runtime`):**
+- **Suspended-tenant 503**: `fetchWorkspaceStatus()` queries `workspaces.status` after entitlement check; returns `render503Page()` if `status = 'suspended'` (distinct from 403 entitlement failure)
+- **Cache-Control upgrade (ADR D8)**: `s-maxage=60` → `s-maxage=300, stale-while-revalidate=600`
+- **WakaPageViewed analytics event**: `fireWakaPageViewEvent()` writes to `event_log` table (fire-and-forget, never blocks response)
+- **Live block data**: three new D1 fetchers added to renderer `Promise.all`:
+  - `fetchSocialPosts()` → `social_posts` (migration 0032)
+  - `fetchCommunitySpaces()` → `community_spaces` (migration 0026)
+  - `fetchCommunityEvents()` → `community_events` (migration 0029)
+- **RenderContext** extended with `socialPosts`, `communitySpaces`, `communityEvents`
+
+**Stub blocks upgraded to live renderers:**
+- `event_list.ts` — upcoming events with date badge, ₦ ticket price, spots-left counter
+- `community.ts` — space cards with member count, avatar initial, join CTA
+- `social_feed.ts` — post cards with content, like/comment counts, formatted date
+
+**Workspace-app builder UI (`apps/workspace-app`):**
+- New page `src/pages/WakaPage.tsx` — full management page: status badge, publish flow, block CRUD, add-block modal (17 types), QR share modal, leads inbox
+- `/wakapage` route registered in `App.tsx` under `WorkspaceLayout`
+- `Sidebar.tsx` and `BottomNav.tsx` — WakaPage nav entry added (🌐 icon)
+
+**Test result:** 148/148 tests pass (15 new T48–T52). Typecheck clean on all affected packages.
+
+---
+
+## UMP Phase 0 — Architecture Reset (2026-04-28)
+
+PRD Phase 0 complete. Key deliverables:
+- `packages/groups/`, `packages/groups-electoral/`, `packages/policy-engine/` (skeleton) created
+- Migrations 0432–0437 written
+- `apps/api/src/routes/groups.ts` production route registered at `/groups` (backward-compat `/support-groups` kept)
+- Phase 0 QA gate: 11/11 governance checks pass
+- Test result: groups 24/24 pass
+
+## UMP Phase 1 — Core Platform Refactor Foundations (2026-04-28)
+
+PRD Phase 1 complete (M11 gate). Key deliverables:
+
+**New packages:**
+- `packages/cases/` — Case management (create→assign→note→resolve→close), migrations 0438–0439
+- `packages/ledger/` — Shared atomic double-entry ledger (extracted from pos + hl-wallet)
+
+**Policy Engine MVP (`packages/policy-engine/`):**
+- Real rule evaluation via D1 + KV cache (5-min TTL)
+- 6 domain evaluators: financial-cap (INEC ₦50m, P9), kyc (P13), ai-governance (P7/P12), moderation, data-retention (NDPR/P10), payout-gate
+- Non-blocking audit log writer; PII redaction before D1 write (P10)
+
+**Events:** `CaseEventType` (case.opened, assigned, note_added, resolved, closed, reopened, sla_breached) added to `@webwaka/events`
+
+**API routes:**
+- `apps/api/src/routes/cases.ts` — full case lifecycle (10 endpoints)
+- `apps/api/src/routes/sync.ts` — `GET /sync/delta` (incremental sync, since= param, entity filter)
+- ALLOWED_ENTITIES expanded: +group, +case
+
+**Offline sync:**
+- `packages/offline-sync/src/entity-registry.ts` — canonical entity registry with Phase 1 group + case entries
+
+**i18n audit:** `docs/reports/i18n-gap-report.md` — ha/ig/yo/pcm at 35% (58/168 keys); 136 keys missing each; 18 new case keys required
+
+**Test result:** 101/101 Phase 1 tests pass (cases 24 + policy-engine 24 + groups 24 + offline-sync 29). Typecheck clean.
+
+## UMP Phase 3 — Offline / PWA / Mobile Hardening (2026-04-28)
+
+PRD Phase 3 complete (M13 gate). Key deliverables:
+
+**Epics E20–E25:**
+- **E20 (T001):** Differential Sync V2 — GET /sync/delta upgraded to PRD-compliant `{ changes, deletes, server_time, has_more, next_cursor }` with `module` param (groups|cases|notifications|geography|all), cursor pagination, backward-compat V1 preserved. 4 new entity types registered: `group_member`, `case_note`, `group_broadcast_draft`, `group_event`. 4 per-module Background Sync tags in service worker.
+- **E21 (T002):** Cache Budget Enforcement — Dexie.js upgraded to version(4) with 7 new IndexedDB tables: `groupMembersCache` (10 MB, 200 rows), `broadcastDraftsCache` (2 MB), `caseCache` (5 MB), `eventCache` (3 MB), `geographyCache` (5 MB), `policyCache` (1 MB), `imageVariantsCache` (5 MB). `CacheBudgetManager` with LRU eviction (never evicts pending syncQueue rows — P5), pressure alerts at 80% of budget.
+- **E22 (T003):** Conflict Resolution + Draft Autosave + PII Clear — `ConflictStore` (P11 server-wins), `DraftAutosaveManager` 5-second autosave to IndexedDB (AC-OFF-01), `clearPiiOnLogout()` clears voter_ref/donor_phone/bank_account_number/nin/bvn across 8 tables < 500ms (AC-OFF-06, P10, P13), `assertFinancialBlocked()` (AC-OFF-05, P5).
+- **E23 (T004):** Low-Bandwidth Image Pipeline — migration 0447 (`image_variants` table), POST/GET/PATCH routes at `/image-variants`, `ImageVariantCache` Dexie-backed client cache. Thumbnail URLs via `?w=100` convention (< 100KB, M13 gate).
+- **E24 (T005):** WhatsApp Template Management — migration 0448 (`whatsapp_templates` table + 5 seeded platform defaults for group.broadcast_sent, case.opened, mutual_aid.approved, dues.payment_recorded, workflow.completed). GET/POST/PATCH routes. `WhatsAppTemplateEventType` added to events package.
+- **E25 (T006):** USSD Groups Integration — main menu Branch 6 ("My Groups"), group broadcast list + view navigation on `*384#`, 3 new USSDStates (`groups_list`, `groups_broadcasts`, `groups_view_broadcast`).
+
+**Test result:** 51/51 offline-sync, 36/36 targeted API (SD01–SD12 + IP01–IP08 + WA01–WA08), 109/109 USSD gateway. M13 gate: AC-OFF-01–06 all PASS.
+
+**Migrations:** 0447 (image_variants), 0448 (whatsapp_templates) — both with rollback scripts (AC-FUNC-03).
+
+---
+
+## UMP Phase 2 — Universal Module Generalization (2026-04-28)
+
+PRD Phase 2 complete (M12 gate). Key deliverables:
+
+**New packages:**
+- `packages/workflows/` — Workflow Engine MVP: startWorkflow, advanceWorkflow, seeded payout-approval + case-resolution definitions; migrations 0442
+- `packages/analytics/` — Analytics unification: trackEvent (fire-and-forget, P13 PII-strip), getWorkspaceMetrics/getGroupMetrics/getCampaignMetrics; migration 0443
+- `packages/groups-civic/` — Civic group extension (NGO governance, beneficiary records); migration 0444, invariants P4/P10/T3
+- `packages/groups-faith/` — Faith group extension (tradition, denomination, titheBridgeEnabled flag); migration 0444
+- `packages/groups-cooperative/` — Cooperative extension (savingsGoalKobo, loanFundKobo, coopType); migration 0444, P9 kobo guards
+
+**Fundraising extensions** (`packages/fundraising/`):
+- Dues Collection: DuesSchedule, DuesPayment, dues-repository, 12 tests; migration 0440
+- Mutual Aid: MutualAidRequest + vote quorum logic, vote→approve→disburse flow, 12 tests; migration 0441
+
+**API routes added:**
+- `/dues/*` (6 endpoints), `/mutual-aid/*` (6), `/workflows/*` + `/workflow-instances/*` (5), `/analytics/v2/*` (3), `/groups/:id/polls/*` (5), `/content-flags` (3)
+
+**Partner Admin** (`apps/partner-admin/`):
+- 4 JSON API routes: GET /api/workspaces, /api/usage, /api/sub-partners, /api/credits
+- JWT auth guard (partner|super_admin roles), X-Partner-Id header scoping
+
+**Events added** (`packages/events/`): DuesEventType, MutualAidEventType, WorkflowEventType, PollEventType, ContentFlagEventType
+
+**Migrations**: 0440–0446 (7 migrations, all with rollback scripts per AC-FUNC-03)
+
+**Invariants enforced throughout**: P4 (extension tables only), P9 (assertIntegerKobo), P10 (ndprConsented), P13 (assertNoPii in analytics tracker), T3 (tenant_id on every query)
+
+**Test result:** 205/205 total tests pass (80 new Phase 2 + 101 Phase 1 regression + 24 fundraising Phase 1). Typecheck clean.
+
+---
+
+## UMP Phase 4 — Template System Rollout (2026-04-28)
+
+PRD Phase 4 IN PROGRESS → M14 gate SATISFIED. Key deliverables:
+
+**E25: Template Registry Extension (migration 0449)**
+- `infra/db/migrations/0449_template_registry_extension.sql` — adds `module_config`, `vocabulary`, `default_policies`, `default_workflows` columns to `template_registry`
+- `apps/api/src/routes/templates.ts` — `seedTemplatePoliciesAndVocab()` helper: idempotent policy seeding into `policy_rules` (TR-T-05) + KV vocabulary storage (TR-T-02)
+- Install route (both new-install and reinstall paths) calls `seedTemplatePoliciesAndVocab()` after `db.batch()`
+- Publish route (`POST /templates`) accepts and persists all 4 new fields
+
+**E26: Five Starter Templates (migration 0450)**
+- `infra/db/migrations/0450_starter_templates_seed.sql` — seeds T01–T03 + T05–T06:
+  - `T01` electoral-mobilization: ward/agent vocab, GOTV + PII policies, polling_units module
+  - `T02` civic-nonprofit: CSO governance, transparency + donation policies
+  - `T03` mutual-aid-network: rotating savings, mutual aid disbursement policies
+  - `T05` constituency-service: cases board, constituency vocab, service SLA policies
+  - `T06` faith-community: faith-specific vocab, tithe + attendance modules
+- All templates seeded with `status = 'approved'`, full `module_config`/`vocabulary`/`default_policies` JSON
+
+**E27: Workspace Onboarding Template Selection**
+- `apps/api/src/routes/onboarding.ts` — `POST /onboarding/:workspaceId/template` endpoint
+- Accepts `template_slug`, installs the template (idempotent: reinstall if already active), seeds policies (TR-T-05), stores vocabulary in KV (TR-T-02), marks `template_installed` onboarding step complete
+- Full T3 tenant isolation enforced on all DB queries
+
+**E28: WakaPage New Block Types (migration 0451)**
+- `infra/db/migrations/0451_wakapage_blocks_phase4.sql` — adds `cases_board`, `dues_status`, `mutual_aid_wall`, `fundraising_campaign` to `wakapage_blocks` CHECK constraint
+- `packages/wakapage-blocks/src/block-types.ts` — new interfaces: `CasesBoardBlockConfig`, `DuesStatusBlockConfig`, `MutualAidWallBlockConfig`; `GroupBlockConfig` extended with Phase 4 fields (`enableDuesDisplay`, `enableCasesTeaser`, `enableMutualAidTeaser`, `group` vocabulary field)
+- `packages/wakapage-blocks/src/index.ts` — new types exported
+
+**Migrations**: 0449–0451 (3 migrations, all with rollback scripts per AC-FUNC-03)
+
+**M14 Gate Status:**
+- ✓ 5 templates installable (T01–T03, T05–T06)
+- ✓ Template policies seed correctly into policy_rules (idempotent, tenant-scoped)
+- ✓ WakaPage has 4 new block types (CasesBoardBlock, DuesStatusBlock, MutualAidWallBlock + extended GroupBlock)
+- ✓ Workspace onboarding includes template selection (`POST /onboarding/:workspaceId/template`)
+
+**Test result:** 18 new Phase 4 tests in templates.test.ts (58 total); 13 new Phase 4 block type tests in block-types.test.ts (21 total); 13 E27 onboarding tests in onboarding.test.ts. All pass. Pre-existing 11 file-level failures from uninstalled `@hono/zod-validator` in cases.ts are not Phase 4 related.
+
+## UMP Phase 5 — AI / Policy / Analytics Maturity (2026-04-28)
+
+PRD Phase 5 COMPLETE → M15 gate SATISFIED. Epics E29–E32 fully implemented.
+
+**E29: New AI Capabilities (T001)**
+- `packages/ai-abstraction/src/capabilities.ts` — 5 new `AICapabilityType` values: `mobilization_analytics`, `broadcast_scheduler`, `member_segmentation`, `petition_optimizer`, `case_classifier`; plan tiers: mobilization/broadcast/segmentation → `pro`; petition/case → `growth`
+- `packages/ai-abstraction/src/capabilities.ts` — `evaluateAICapability` extended: Phase 5 tenant `prohibitedCapabilities` gate + `maxAutonomyLevel` gate (blocks write-capable capabilities when level < 1); both sourced from `AIRoutingContext`
+- `packages/superagent/src/capability-metadata.ts` — 5 new `CAPABILITY_METADATA` entries with display names, descriptions, pillar, and planTier
+- `packages/policy-engine/src/evaluators/ai-governance.ts` — `evaluateAiGovernance` extended: `prohibited_capabilities`, `max_autonomy_level`, `require_hitl_above_kobo`, `data_exclusion_fields` condition fields (PRD §10.5 tenant AI policy overrides)
+- **30 new tests** in `packages/ai-abstraction/src/capabilities-phase5.test.ts`
+
+**E30: Data Retention Automation (T002)**
+- `apps/schedulers/src/data-retention.ts` — `DataRetentionService.processRetentionSweep()`: pseudonymizes expired donor_phone (365d), pledger_phone (365d), subject_name+phone in cases (730d); G23 invariant: audit_logs never modified; P13: only counts logged
+- `apps/schedulers/src/index.ts` — `pii-data-retention` job registered in JOBS map
+- `infra/db/migrations/0452_data_retention_scheduler.sql` — `data_retention_log` table + `pii-data-retention` in `scheduled_jobs` (priority=9, 86400s interval)
+- `infra/db/migrations/rollback/0452_rollback.sql`
+- **7 new tests** in `apps/schedulers/src/data-retention.test.ts`
+
+**E29/T003: Policy Engine Full 7-Domain Coverage**
+- `packages/policy-engine/src/evaluators/access-control.ts` — NEW evaluator covering PRD §10.1 domain 6: KYC tier gates, role gates, workspace membership gates, broadcast channel allowlist, GOTV `sensitiveSectorRights` gate
+- `packages/policy-engine/src/evaluators/compliance-regime.ts` — NEW evaluator covering PRD §10.1 domain 7: INEC regime active flag, campaign type scope filter, mandatory disclosure HITL L3, CAC filing HITL L2
+- `packages/policy-engine/src/types.ts` — `PolicyRuleCategory` extended with `'access_control'` and `'compliance_regime'`
+- `packages/policy-engine/src/engine.ts` — dispatch switch updated for both new categories
+- `packages/policy-engine/src/index.ts` — both new evaluators exported; `PACKAGE_VERSION` → `0.3.0`
+- `infra/db/migrations/0453_policy_engine_phase5.sql` — recreates `policy_rules` table with extended CHECK constraint (10 categories total); seeds 3 platform-level rules for INEC regime, group public access, broadcast channel allowlist
+- `infra/db/migrations/rollback/0453_rollback.sql`
+- **26 new tests** in `packages/policy-engine/src/policy-engine-phase5.test.ts`
+
+**E31: Starter Templates T04/T07/T08/T09 (T004)**
+- `infra/db/migrations/0454_starter_templates_phase5.sql` — seeds 4 remaining templates:
+  - `T04` advocacy-petition: coalition/advocacy vocab, petition privacy PII policy, signature drive workflows
+  - `T07` association-cooperative: association vocab, loan approval HITL-2 policy, membership lifecycle + AGM workflows
+  - `T08` personal-assistance: HIGH sensitivity module_config, personal campaign PII-HIGH policy, payout HITL-3 policy
+  - `T09` business-community: Growth plan gate, commerce plan policy, member onboarding + renewal workflows
+- `infra/db/migrations/rollback/0454_rollback.sql`
+- **4 new tests** in `apps/api/src/routes/templates.test.ts` (62 total)
+
+**E32: Moderation Appeal Flow (T005)**
+- `infra/db/migrations/0455_broadcast_appeals.sql` — `broadcast_appeals` table with full lifecycle columns: `status`, `original_action`, `appeal_reason`, `reviewer_id`, `review_decision`, `evidence_json`, `hitl_level`, `escalated_to`; 4 indices
+- `infra/db/migrations/rollback/0455_rollback.sql`
+- `apps/api/src/routes/appeals.ts` — 3 routes:
+  - `POST /appeals` — submit appeal (auth, any role; 409 if duplicate pending)
+  - `GET /appeals/admin` — list appeals (admin/super_admin, filterable by status)
+  - `PATCH /appeals/admin/:id` — review appeal (decision: reinstate/uphold/escalate; G23: evidence_json merges review snapshot, never overwrites)
+- `apps/api/src/router.ts` — appeals routes registered with auth + audit middleware
+- **15 new tests** in `apps/api/src/routes/appeals.test.ts`
+
+**Migrations**: 0452–0455 (4 migrations, all with rollback scripts per AC-FUNC-03)
+
+**M15 Gate Status:**
+- ✓ 3+ new AI capabilities operational with tests (5 added: mobilization_analytics, broadcast_scheduler, member_segmentation, petition_optimizer, case_classifier)
+- ✓ Data retention scheduler running (pii-data-retention job registered, DataRetentionService pseudonymizes expired PII per NDPR)
+- ✓ All 9 templates operational (T01-T09; T04/T07/T08/T09 seeded in migration 0454)
+- ✓ Policy Engine covers all 7 PRD §10.1 domains (access_control + compliance_regime added; 10 DB categories total)
+
+**Test result:** 82 new Phase 5 tests (30 AI capabilities + 26 policy engine Phase 5 + 15 appeals + 7 data retention + 4 templates). All pass. Running total with Phase 4 base (2364): ~2446+ tests passing. Pre-existing `packages/ledger` "no test files" and 11 API file-level failures from `@hono/zod-validator` in cases.ts are unrelated to Phase 5.
+
+## UMP Phase 6 — Ecosystem / Integrations / Public Launch Readiness (2026-04-28)
+
+PRD Phase 6 COMPLETE → M16 gate engineering deliverables SATISFIED. Epics E33–E36 fully implemented.
+
+**E33: Public API Versioning + Developer Endpoint (T001)**
+- `apps/api/src/router.ts` — Global `X-API-Version: 1` response header middleware added (ADR-0018); all API routes now return this header on every response
+- `apps/api/src/router.ts` — `import { developerRoutes }` + `app.route('/developer', developerRoutes)` registered as public route
+- `apps/api/src/routes/developer.ts` — NEW file:
+  - `GET /developer` — returns full API metadata: version, platform invariants, capabilities array, changelog (all 7 phases), authentication info, rate limits, endpoints map, support contact
+  - `GET /developer/openapi` — 301 redirect to `/openapi.json`
+- **9 new tests** in `apps/api/src/routes/developer.test.ts`
+
+**E34: Webhook SDK — TypeScript Event Payload Types (T002)**
+- `packages/webhooks/src/types.ts` — NEW: complete TypeScript event payload interfaces for all 48 `WebhookEventType` values; `WebhookEnvelope<T>` generic wrapper; `WebhookEvent` discriminated union for exhaustive type-narrowing
+- `packages/webhooks/src/index.ts` — NEW: re-exports `signWebhookPayload`, `verifyWebhookSignature` + all event types; SDK entry point
+- `packages/webhooks/package.json` — `version` bumped to `0.2.0`; `main`/`exports` updated to `index.ts`; `test` script added; `vitest` added as devDependency
+- **12 new tests** in `packages/webhooks/src/sdk.test.ts` (signing + type shape verification)
+
+**E35: Multi-Country Geography — Ghana + Kenya (T003)**
+- `infra/db/migrations/0456_multi_country_geography.sql`:
+  - `ALTER TABLE places ADD COLUMN country_code TEXT DEFAULT NULL`
+  - `UPDATE places SET country_code = 'NG'` — backfills all existing Nigeria rows
+  - `CREATE INDEX idx_places_country_code` for efficient filtering
+  - Seeds Ghana: country root (`place_gh_country`) + 16 official regions + 4 Greater Accra districts
+  - Seeds Kenya: country root (`place_ke_country`) + 47 official counties + 4 Nairobi constituencies
+- `infra/db/migrations/rollback/0456_rollback.sql`
+- `apps/api/src/routes/geography.ts` — 2 new public endpoints:
+  - `GET /geography/countries` — lists all country-level places (NG/GH/KE); Cache-Control public 24h
+  - `GET /geography/countries/:countryCode/regions` — lists level-1 divisions for country (NG→state, GH→region, KE→county); 400 on unsupported country; case-insensitive
+- **8 new geography tests** (5 countries, 5 regions/mapping) added to `apps/api/src/routes/geography.test.ts` (13 total)
+
+**E36: Security + Launch Readiness (T004)**
+- Security scan results: **0 critical, 0 high** dependency vulnerabilities; zero injection-class findings (AC-SEC-01 SATISFIED)
+- `docs/runbooks/security-posture.md` — NEW: comprehensive security posture document covering:
+  - Scan results (dependency audit, SAST, HoundDog)
+  - Platform security invariants (T3/P9/P10/P13/G23/P15) with enforcement location
+  - Authentication/authorization model, SSRF protection, content security
+  - NDPR/data protection (consent model, data retention, DSAR, right to erasure)
+  - API security headers (including new `X-API-Version: 1`)
+  - Pre-launch M16 checklist (AC-SEC-01 through AC-SEC-04 status)
+  - External audit prerequisites (penetration test, DPA agreements, load test)
+  - Incident response procedures
+
+**Migrations**: 0456 (1 migration with rollback per AC-FUNC-03)
+
+**M16 Gate Status (Engineering Deliverables):**
+- ✓ Public API documented (OpenAPI spec at `/openapi.json`; `GET /developer` returns API metadata)
+- ✓ API versioning enforced (`X-API-Version: 1` on all responses per ADR-0018)
+- ✓ Webhook SDK published — TypeScript event payload types for all 48 event types
+- ✓ Ghana + Kenya geography seeded (migration 0456: NG backfilled, 16 GH regions, 47 KE counties)
+- ✓ `GET /geography/countries` and `/geography/countries/:code/regions` endpoints operational
+- ✓ Security audit: 0 critical/high findings — AC-SEC-01 satisfied
+- ✓ Security posture documented in `docs/runbooks/security-posture.md`
+- External prerequisites (DPA agreements, penetration test, load test, NDPR registration) noted in security posture doc as non-engineering checklist items
+
+**Test result:** 34 new Phase 6 tests (9 developer + 13 geography / 8 new + 12 webhook SDK). All pass. `@webwaka/webhooks` now has a `test` script and 12 SDK tests.

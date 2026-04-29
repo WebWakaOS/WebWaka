@@ -1,0 +1,267 @@
+
+You are the WakaPage Phase 2 Implementation Director operating inside the live WebWaka monorepo in the WebWakaOS organization.
+
+**PHASE 1 PREREQUISITE VERIFICATION: COMPLETE**
+Phase 1 QA Report verdict: **PASS WITH MINOR FIXES** (all fixes applied)
+- ✅ Migrations 0419-0423 deployed and verified
+- ✅ API routes `/wakapages/*` (7 routes) fully tested, tenant-isolated  
+- ✅ `@webwaka/wakapage-blocks` package with 17 MVP block types
+- ✅ `indexWakaPage()` search integration working
+- ✅ Entitlements `wakaPagePublicPage` active across all 7 plans
+- ✅ 2660 tests passing, governance checks clean
+- ✅ No duplicate sources of truth introduced
+
+You may proceed. Your task is to execute **Phase 2: Public Renderer + Block Templates** exactly as specified.
+
+**CRITICAL SCOPE BOUNDARY:** This phase builds the public-facing renderer and MVP block templates. Do NOT build builder UI, analytics dashboards, QR campaigns, audience features, or Phase 3 live-data bindings. Phase 2 delivers the rendering engine that consumes Phase 1 contracts.
+
+==================================================
+PHASE 2 OBJECTIVE
+==================================================
+
+Build the public WakaPage renderer in `apps/brand-runtime` and MVP block templates that render the 17 Phase 1 block types using existing brand tokens, mobile-first CSS, and PWA foundations.
+
+Phase 2 = **public consumption readiness**. Pages created via Phase 1 API must render correctly at `/{tenant-slug}/wakapage` and `custom-domain.com/wakapage`.
+
+==================================================
+PHASE 1 CONTRACTS YOU MUST CONSUME
+==================================================
+
+**Database (0419-0423):**
+```
+wakapage_pages: id, tenant_id, workspace_id, profile_id, slug, title, meta_description, og_image_url, publication_state, published_at, analytics_enabled, custom_theme_json, template_installation_id, created_at, updated_at
+wakapage_blocks: id, tenant_id, page_id, block_type, sort_order, is_visible, config_json, created_at, updated_at  
+wakapage_leads: id, tenant_id, page_id, name, phone, email, message, status, created_at
+search_entries: wakapage_page_id, wakapage_slug, wakapage_published_at (facets added by 0422)
+tenant_branding: social_links_json (added by 0423)
+```
+
+**API Routes (apps/api/src/routes/wakapage.ts):**
+```
+POST /wakapages — create page + entitlement gate
+GET /wakapages/:id — fetch page + ordered blocks
+POST /wakapages/:id/publish — publish → search index + WakaPagePublished event
+```
+
+**Block Package (@webwaka/wakapage-blocks):**
+```
+BlockType union (17 MVP types): hero, text, image, video, offerings, contact, social_links, blog_posts, testimonials, map, booking_cta, whatsapp_cta, instagram, tiktok, youtube, custom_html, divider
+parseBlockConfig<T>(), serializeBlockConfig<T>() for each type
+```
+
+==================================================
+MANDATORY IMPLEMENTATION SEQUENCE
+==================================================
+
+### Stage A — Renderer Foundation (apps/brand-runtime)
+1. **Create `apps/brand-runtime/src/routes/wakapage.ts`** — Main public renderer route
+   ```
+   GET /{tenant-slug}/wakapage → render published page + blocks
+   GET /{tenant-slug}/wakapage/{page-slug} → render specific page  
+   GET custom-domain.com/wakapage → tenant_branding → page render
+   ```
+2. **Route resolution order:**
+   ```
+   1. custom_domain → tenant_id (tenant_branding)
+   2. brand-{slug}.webwaka.com → tenant_id  
+   3. /{tenant-slug}/wakapage → tenant_id
+   4. 404 if no tenant or no published WakaPage
+   ```
+
+### Stage B — Block Template System 
+3. **Create `apps/brand-runtime/src/templates/wakapage/`** — Block renderers
+   ```
+   hero.ts, text.ts, image.ts, video.ts, offerings.ts, contact.ts, social_links.ts, 
+   blog_posts.ts, testimonials.ts, map.ts, booking_cta.ts, whatsapp_cta.ts,
+   instagram.ts, tiktok.ts, youtube.ts, custom_html.ts, divider.ts
+   ```
+
+4. **Block registry** `apps/brand-runtime/src/lib/wakapage-block-registry.ts`
+   ```
+   Map<BlockType, (ctx: RenderContext, config: any) => string>
+   resolveBlockRenderer(type: BlockType): renderer function
+   ```
+
+### Stage C — MVP Block Implementations (Priority Order)
+**Core layout blocks (MUST):**
+```
+1. hero — profile.display_name, avatar, headline, hero config (image/video bg)
+2. text — WYSIWYG content with brand token typography  
+3. image — Single image with caption, lightbox
+4. divider — Visual separator with theme color
+```
+
+**Conversion blocks (MUST):**
+```
+5. contact — Existing contact form (reuse templates/contact.ts handler)
+6. whatsapp_cta — WhatsApp link with prefilled message 
+7. social_links — tenant_branding.social_links_json → styled link row
+```
+
+**Content blocks (SHOULD):**
+```
+8. offerings — List tenant's published offerings (price_kobo → NGN)
+9. blog_posts — Latest 5 published posts from blog_posts table
+```
+
+**Nigeria-first blocks (MUST):**
+```
+10. map — Google Maps embed OR static Nigerian LGA map from @webwaka/geography
+```
+
+**Remaining 7 blocks → minimal stubs** (image/text placeholders)
+
+### Stage D — Brand Integration
+11. **CSS tokens** — Inject from `@webwaka/white-label-theming`
+12. **PWA manifest** — Per-tenant from existing base.ts
+13. **SEO** — page.title, meta_description, og_image_url → Open Graph tags
+14. **Schema.org** — Profile → Person/Organization JSON-LD
+
+### Stage E — Mobile-First Templates
+15. **360px base viewport** — Use `@webwaka/design-system` tokens
+16. **Touch targets** — 44px min for all CTAs
+17. **Offline shell** — Reuse existing PWA service worker
+
+==================================================
+NON-NEGOTIABLE REQUIREMENTS
+==================================================
+
+**Rendering Requirements:**
+```
+✅ Mobile-first (360px → 1280px+)
+✅ Brand tokens from tenant_branding (no hard-coded colors/fonts)
+✅ Every block respects is_visible flag  
+✅ Blocks render in sort_order sequence
+✅ 404 for unpublished/archived pages
+✅ 503 if tenant suspended
+✅ PWA-capable (existing manifest/service worker)
+✅ SEO-optimized (title, OG, canonical, schema.org)
+```
+
+**Data Flow:**
+```
+public request → tenant_id → GET /wakapages/{first-published} → blocks → render
+blocks.config_json → parseBlockConfig<T>() → typed config → block renderer
+```
+
+**Security:**
+```
+✅ No SSRF (no arbitrary URLs in config_json)
+✅ CSP headers from existing middleware  
+✅ No inline scripts except existing analytics
+✅ contact/whatsapp forms POST to Phase 1 API endpoints
+```
+
+**Governance:**
+```
+✅ T3 isolation verified in Phase 1 API responses
+✅ No new D1 queries in renderer (use Phase 1 API exclusively)
+✅ NDPR compliance (leads table owned by Phase 1)
+✅ P1 "Build Once Use Infinitely" — block registry reusable for future pillars
+```
+
+==================================================
+WHAT PHASE 2 MUST NOT DO
+==================================================
+
+❌ **No builder UI** — page/block editing happens via Phase 1 API only
+❌ **No analytics dashboard** — raw events go to Phase 1 wakapage_analytics  
+❌ **No QR code generation** — Phase 3
+❌ **No live offerings/booking data binding** — static listings only
+❌ **No A/B testing** — single published page per workspace
+❌ **No audience/CRM features** — Phase 3
+❌ **No custom domain verification** — reuse tenant_branding.custom_domain_verified
+
+==================================================
+DELIVERABLES REQUIRED
+==================================================
+
+## 1. File Change Map
+```
+apps/brand-runtime/src/routes/wakapage.ts                    [NEW]  — public renderer
+apps/brand-runtime/src/templates/wakapage/                   [NEW DIR] — 17 block templates  
+apps/brand-runtime/src/lib/wakapage-block-registry.ts        [NEW]  — block dispatcher
+apps/brand-runtime/src/lib/wakapage-types.ts                 [NEW]  — render contracts
+apps/brand-runtime/src/routes/wakapage.test.ts               [NEW]  — integration tests
+```
+
+## 2. Core Templates (MUST Complete)
+```
+hero.ts — Profile hero with brand tokens
+text.ts — Typography with brand font sizes/colors  
+image.ts — Responsive image + lightbox
+contact.ts — Form → POST /wakapages/{id}/leads
+whatsapp_cta.ts — WhatsApp:// URI with prefill
+social_links.ts — tenant_branding.social_links_json
+```
+
+## 3. Tests (MUST Pass)
+```
+✅ Render unpublished page → 404
+✅ Render tenant without WakaPage → 404  
+✅ Render suspended tenant → 503
+✅ 17 block types render without crash
+✅ Mobile viewport (360px) → no H-flow, 44px touch targets
+✅ Brand tokens inject correctly (7 plans tested)
+✅ Contact form → leads table (Phase 1 API)
+```
+
+==================================================
+ACCEPTANCE CRITERIA
+==================================================
+
+Phase 2 is complete when:
+
+✅ `curl https://{tenant}.webwaka.com/wakapage` → fully rendered page
+✅ All 17 blocks render without crash (even stubs)  
+✅ Brand tokens apply correctly across 3 plans (Free/Pro/Enterprise)
+✅ Contact/WhatsApp forms POST to Phase 1 endpoints
+✅ Mobile passes 360px viewport test (no overflow, touch-friendly)
+✅ `tsc --noEmit` → 0 errors
+✅ `pnpm test apps/brand-runtime` → 100% pass
+✅ Governance checks unchanged (no new failures)
+✅ `apps/api` endpoints unchanged (Phase 1 contract preserved)
+
+==================================================
+OUTPUT FORMAT REQUIRED
+==================================================
+
+```md
+# WakaPage Phase 2 Implementation Report
+
+## 1. Verdict
+**PHASE 2 COMPLETE — GO TO PHASE 3** OR **PHASE 2 PARTIAL — FIX REQUIRED**
+
+## 2. Phase 1 Contract Verification
+Confirm Phase 1 deliverables consumed correctly.
+
+## 3. File Changes Deployed
+| Path | Purpose | Lines |
+|------|---------|-------|
+
+## 4. Block Template Coverage  
+| Block Type | Status | Notes |
+|------------|--------|-------|
+
+## 5. Rendering Tests
+| Test | Result | Evidence |
+|------|--------|----------|
+
+## 6. Governance Impact
+| Check | Before | After | Delta |
+
+## 7. Performance Baseline  
+| Metric | Value | Target |
+
+## 8. Phase 3 Readiness
+List what Phase 3 inherits from Phase 2.
+
+## 9. Known Issues / Phase 3 Debt  
+List non-blocking observations.
+
+## 10. Go/No-Go
+**Phase 3 may begin** YES/NO
+```
+
+**Begin Phase 2 execution now.**
+```

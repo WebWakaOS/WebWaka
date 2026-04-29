@@ -26,6 +26,18 @@ export const APP_NAME = 'partner-admin' as const;
 interface Env {
   ENVIRONMENT?: string;
   ALLOWED_ORIGINS?: string;
+  DB?: {
+    prepare(sql: string): {
+      bind(...args: unknown[]): {
+        first<T>(): Promise<T | null>;
+        run(): Promise<{ success: boolean }>;
+        all<T>(): Promise<{ results: T[] }>;
+      };
+      first<T>(): Promise<T | null>;
+      all<T>(): Promise<{ results: T[] }>;
+    };
+  };
+  JWT_SECRET?: string;
 }
 
 const app = new Hono<{ Bindings: Env }>();
@@ -626,6 +638,138 @@ app.get('/', (c) => {
 </html>`;
 
   return c.html(html);
+});
+
+// ---------------------------------------------------------------------------
+// Phase 2 T007: Partner Admin JSON API Routes
+//
+// All routes require:
+//   Authorization: Bearer <jwt>  — with role = partner | super_admin
+//   X-Partner-Id: <partner_id>   — scopes the response to one partner
+//
+// GET  /api/workspaces    — workspaces for this partner
+// GET  /api/usage         — usage metrics (3: activeGroups, totalMembers, totalCampaigns)
+// GET  /api/sub-partners  — sub-partners under this partner
+// GET  /api/credits       — WakaCU credit pool balance
+// ---------------------------------------------------------------------------
+
+type JwtPayload = { sub?: string; role?: string; tenant_id?: string };
+
+function decodeJwt(token: string): JwtPayload | null {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    const payload = parts[1];
+    if (!payload) return null;
+    const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(json) as JwtPayload;
+  } catch {
+    return null;
+  }
+}
+
+function requirePartnerAuth(
+  authHeader: string | undefined,
+  partnerId: string | undefined,
+): { ok: true; payload: JwtPayload } | { ok: false; status: 401 | 400 } {
+  if (!authHeader?.startsWith('Bearer ')) return { ok: false, status: 401 };
+  if (!partnerId) return { ok: false, status: 400 };
+  const token = authHeader.slice(7);
+  const payload = decodeJwt(token);
+  if (!payload) return { ok: false, status: 401 };
+  if (!['partner', 'super_admin'].includes(payload.role ?? '')) return { ok: false, status: 401 };
+  return { ok: true, payload };
+}
+
+app.get('/api/workspaces', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.header('X-Partner-Id'));
+  if (!auth.ok) return c.json({ error: 'unauthorized' }, auth.status);
+
+  const partnerId = c.req.header('X-Partner-Id')!;
+  const db = c.env?.DB;
+  if (!db) return c.json({ workspaces: [], total: 0 });
+
+  const { results } = await db
+    .prepare('SELECT * FROM workspaces WHERE partner_id = ? ORDER BY created_at DESC LIMIT 100')
+    .bind(partnerId)
+    .all<Record<string, unknown>>();
+
+  return c.json({ workspaces: results, total: results.length });
+});
+
+app.get('/api/usage', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.header('X-Partner-Id'));
+  if (!auth.ok) return c.json({ error: 'unauthorized' }, auth.status);
+
+  const partnerId = c.req.header('X-Partner-Id')!;
+  const db = c.env?.DB;
+  if (!db) return c.json({ activeGroups: 0, totalMembers: 0, totalCampaigns: 0 });
+
+  const [groupsRow, membersRow, campaignsRow] = await Promise.all([
+    db.prepare(
+      `SELECT COUNT(*) as cnt FROM groups g
+       JOIN workspaces w ON g.workspace_id = w.id
+       WHERE w.partner_id = ? AND g.status = 'active'`,
+    ).bind(partnerId).first<{ cnt: number }>(),
+
+    db.prepare(
+      `SELECT COUNT(*) as cnt FROM group_members gm
+       JOIN workspaces w ON gm.workspace_id = w.id
+       WHERE w.partner_id = ? AND gm.status = 'active'`,
+    ).bind(partnerId).first<{ cnt: number }>(),
+
+    db.prepare(
+      `SELECT COUNT(*) as cnt FROM fundraising_campaigns fc
+       JOIN workspaces w ON fc.workspace_id = w.id
+       WHERE w.partner_id = ? AND fc.status IN ('active','published')`,
+    ).bind(partnerId).first<{ cnt: number }>(),
+  ]);
+
+  return c.json({
+    activeGroups: groupsRow?.cnt ?? 0,
+    totalMembers: membersRow?.cnt ?? 0,
+    totalCampaigns: campaignsRow?.cnt ?? 0,
+    computedAt: Math.floor(Date.now() / 1000),
+  });
+});
+
+app.get('/api/sub-partners', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.header('X-Partner-Id'));
+  if (!auth.ok) return c.json({ error: 'unauthorized' }, auth.status);
+
+  const partnerId = c.req.header('X-Partner-Id')!;
+  const db = c.env?.DB;
+  if (!db) return c.json({ subPartners: [], total: 0 });
+
+  const { results } = await db
+    .prepare(
+      'SELECT id, name, status, contact_email, created_at FROM partners WHERE parent_partner_id = ? ORDER BY created_at DESC LIMIT 100',
+    )
+    .bind(partnerId)
+    .all<Record<string, unknown>>();
+
+  return c.json({ subPartners: results, total: results.length });
+});
+
+app.get('/api/credits', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.header('X-Partner-Id'));
+  if (!auth.ok) return c.json({ error: 'unauthorized' }, auth.status);
+
+  const partnerId = c.req.header('X-Partner-Id')!;
+  const db = c.env?.DB;
+  if (!db) return c.json({ balance: 0, currency: 'WC', partnerId });
+
+  const pool = await db
+    .prepare('SELECT balance, currency FROM partner_credit_pools WHERE partner_id = ?')
+    .bind(partnerId)
+    .first<{ balance: number; currency: string }>();
+
+  return c.json({
+    partnerId,
+    balance: pool?.balance ?? 0,
+    currency: pool?.currency ?? 'WC',
+    computedAt: Math.floor(Date.now() / 1000),
+  });
 });
 
 export default app;

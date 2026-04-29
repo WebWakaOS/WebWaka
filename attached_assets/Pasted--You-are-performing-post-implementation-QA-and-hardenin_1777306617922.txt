@@ -1,0 +1,482 @@
+
+You are performing **post-implementation QA and hardening** for the WebWaka platform after the implementation of:
+- Election Support Group Management,
+- Shared Fundraising/Crowdfunding,
+- AI SuperAgent integration,
+- and full 3-in-1 mapping across Operations, Brand, and Discovery.[2][3]
+
+Your mission is **not** to review passively. Your mission is to **verify, break, fix, re-test, and repeat until the entire platform is 100% green** with no unresolved blocking issue, no partially implemented requirement, no broken integration, and no hidden regression in any affected app, package, route, migration, event, entitlement, UI, or workflow.[3][1]
+
+### Core QA mandate
+
+- Treat this as a **go/no-go release gate**.
+- Do not accept “mostly done,” “good enough,” “works locally,” “future fix,” or “follow-up issue” as acceptable outcomes.
+- If anything that was supposed to be implemented is missing, incomplete, inconsistent, miswired, partially migrated, or broken, you must **fix it immediately and continue QA**.
+- Continue in a loop: **verify -> detect issue -> fix -> retest -> repeat** until there are **zero red flags**.
+- Final target is **100% success and green across the entire affected platform surface**.[1]
+
+### Hard acceptance rule
+
+Do **not** conclude with recommendations only.  
+Do **not** stop at issue reporting.  
+Do **not** leave blockers open.  
+
+Instead:
+- fix every issue you can directly in code,
+- validate every fix,
+- rerun all affected checks,
+- and only stop when:
+  1. all required implementation scope is present,
+  2. all known prior audit issues are resolved,
+  3. all tests pass,
+  4. all builds pass,
+  5. all migrations are clean,
+  6. all cross-pillar flows work end-to-end,
+  7. platform status is fully green.[3][1]
+
+## Scope you must verify
+
+### New capability scope
+Verify complete implementation of:
+- shared support-group capability,
+- shared fundraising capability,
+- political support-group overlays,
+- political fundraising overlays,
+- 3-in-1 mapping across Operations, Brand, Discovery,
+- SuperAgent integration for support groups and fundraising,
+- events/notifications/search indexing,
+- workspace/admin/public/discovery surfaces,
+- migration and backfill logic,
+- deprecations/replacements of fragmented legacy paths.[2][3]
+
+### Platform-wide impact scope
+Verify all touched areas across:
+- appsapi,
+- appsworkspace-app,
+- appsbrand-runtime,
+- appspublic-discovery,
+- appsadmin-dashboard,
+- appsplatform-admin where applicable,
+- appsnotificator,
+- appsprojections,
+- appsussd-gateway if included,
+- packagescommunity,
+- packageshl-wallet,
+- packagespayments,
+- packagesentitlements,
+- packagesevents,
+- packagessearch-indexing,
+- packagessuperagent,
+- the two new shared packages,
+- and any extended politics vertical packages.[2][3]
+
+## Mandatory QA objectives
+
+### 1. Verify full scope completion
+Confirm that every item expected from the implementation is actually built and wired:
+- database tables,
+- migrations,
+- package exports,
+- route handlers,
+- UI screens,
+- brand blocks,
+- discovery routes,
+- search indexing,
+- events,
+- notification templates/consumers,
+- AI configuration,
+- entitlements,
+- analytics,
+- moderation/HITL flows,
+- public and private surfaces.[3]
+
+If any expected item is absent, stubbed, partially implemented, or disconnected, implement/fix it before proceeding.[1][3]
+
+### 2. Resolve all previously known audit failures
+The earlier QA audit identified blocking issues and structural defects that must now be proven fixed, including:
+- communityspaces `workspaceid` schema-code mismatch,
+- one-community-space-per-workspace conflict with support-group hierarchy,
+- phantom migrations 0393/0394,
+- invalid `scale` plan references,
+- titherecords vs fundraising coexistence gap,
+- AI dual-system config blindness,
+- wrong AI capability identifiers,
+- missing events/notificator contract updates,
+- missing cascade/delete behavior,
+- missing QA gate rigor.[1]
+
+You must explicitly re-check each of these and confirm they are truly fixed in code and behavior, not just discussed.[1]
+
+### 3. Ensure no required work was improperly deferred
+The implementation directive said not to defer legal/licensing-related scope and to replace deprecated elements immediately because the platform has not launched yet. Therefore, QA must verify that no critical feature was left out under labels like:
+- pending ADR,
+- pending legal review,
+- future milestone,
+- deferred,
+- follow-up,
+- phase later,
+- backlog,
+- TODO for launch.[3][1]
+
+If such deferrals exist in implemented scope, remove the deferral by completing the work now wherever technically possible.[3]
+
+## Detailed QA checklist
+
+### Database and migrations
+Verify:
+- all required new tables exist,
+- all required columns exist,
+- all indexes exist,
+- `tenantid` exists on every new table,
+- monetary values use integer kobo fields,
+- timestamp columns use integer/unixepoch patterns,
+- migration ordering is correct,
+- no phantom or empty migrations remain,
+- data backfills ran cleanly,
+- no migration creates a schema mismatch with package code,
+- rollback/reapply behavior is sane.[1][3]
+
+Specifically verify/fix:
+- `communityspaces.workspaceid` existence and alignment with package code,
+- support-group hierarchy tables and relations,
+- fundraising campaign tables and contribution records,
+- payout request tables,
+- any migration replacing legacy fundraising paths,
+- no fake enum-extension migrations for text columns remain.[3][1]
+
+### Package architecture
+Verify:
+- `webwakasupport-groups` exists and exports correct types, repos, FSM/services,
+- `webwakafundraising` exists and exports correct types, repos, services, payout logic, analytics, receipts if implemented,
+- package names are correctly registered in workspace config,
+- package dependencies are valid,
+- TypeScript strict mode passes,
+- no broken imports/exports remain,
+- no wrong type names are used from SuperAgent exports,
+- no vertical code imports `webwakaai-abstraction` directly where `webwakasuperagent` is mandated.[1][3]
+
+### Entitlements and plans
+Verify:
+- no non-existent plan names remain,
+- `scale` is fully removed/replaced with valid plan names such as `pro`,
+- entitlement models follow actual codebase patterns,
+- support-group/fundraising gating works correctly,
+- no business pricing values are wrongly stored as entitlement dimensions if they belong elsewhere.[1]
+
+### AI integration
+Verify:
+- runtime TypeScript AI config is updated,
+- SQL AI config records are updated if still used,
+- capability names match the actual authoritative capability metadata,
+- no invalid `VerticalAIConfig` import remains if not exported,
+- support-group AI and fundraising AI route through the real SuperAgent path,
+- political AI flows trigger HITL correctly,
+- donor/voter/PII stripping is enforced,
+- no prohibited PII reaches AI prompts,
+- audit logs for AI usage are recorded where required.[3][1]
+
+Also verify/fix the previously identified dual-system mismatch between SQL config rows and `VERTICALAICONFIGS` runtime behavior.[1]
+
+### Events and notifications
+Verify:
+- every new publishEvent call corresponds to a real registered event contract,
+- event payloads are defined and typed,
+- notificator consumers/templates exist and are wired,
+- donor confirmation events work,
+- group announcement events work,
+- campaign goal/milestone events work,
+- moderation/HITL events work,
+- no orphaned event names exist in code.[2][1]
+
+### API routes
+Verify:
+- all new routes exist,
+- route auth is correct,
+- tenant isolation is enforced,
+- NDPR consent checks are enforced,
+- KYC checks are enforced where required,
+- moderation gates are enforced,
+- HITL gates are enforced,
+- all route handlers return valid responses,
+- no route is scaffolded but non-functional,
+- all public routes work without auth where intended,
+- no cross-tenant leakage occurs.[2][3]
+
+### Workspace/admin/public UX
+Verify:
+- workspace-app includes support-group and fundraising surfaces,
+- admin workflows exist for moderation/disclosure/payout approvals where intended,
+- brand-runtime renders public support-group and fundraising pages,
+- public-discovery lists and filters both entities,
+- hierarchy views work,
+- analytics views render,
+- forms submit successfully,
+- mobile layouts work,
+- no broken states, missing components, or dead navigation exists.[2][3]
+
+### Search and projections
+Verify:
+- support groups and fundraising campaigns are indexed,
+- projections/CRON rebuild flows work,
+- public discovery can find the new entities,
+- filters work by geography/type/status,
+- stale entries are not left behind after changes.[2][3]
+
+### Legacy replacement and deprecation
+Verify:
+- fragmented legacy donation models are either properly bridged or replaced,
+- no unintended permanent dual-write or dual-source ambiguity remains,
+- deprecations are actually reflected in code paths,
+- old flows do not remain primary by accident,
+- campaign-office legacy donor/volunteer structures are properly integrated or migrated where required,
+- church `titherecords` coexistence/replacement path is explicitly handled in code and behavior.[2][1]
+
+### Platform invariants
+Verify strict compliance with core invariants:
+- P1 Build Once Use Infinitely.
+- T3 tenant isolation.
+- P9 integer kobo only.
+- P10 consent before data processing.
+- P13 no PII to AI.
+- T4 atomic financial operations.
+- plan-gated features via entitlements, not hardcoded strings.
+- moderation/HITL where required for political sensitivity.[3]
+
+Any violation is a release blocker and must be fixed before sign-off.[3]
+
+## End-to-end scenarios you must execute
+
+Run and validate real end-to-end flows, not just unit checks:
+
+### Support-group E2E
+- Create support group.
+- Create hierarchy.
+- Add members.
+- Assign roles.
+- Post announcement.
+- Create activity/event.
+- Publish to public surface if intended.
+- Show in discovery/search.
+- Verify analytics and audit trail.[2][3]
+
+### Fundraising E2E
+- Create campaign.
+- Publish campaign.
+- Donate successfully.
+- Verify ledger/contribution record.
+- Verify raised amount update.
+- Verify donor count.
+- Verify event emission.
+- Verify notification delivery.
+- Verify public page reflects progress.
+- Verify analytics reflect contribution.[2][3]
+
+### Political overlay E2E
+- Political support-group workflow.
+- Political fundraising workflow.
+- INEC disclosure threshold behavior.
+- KYC gating by donation amount.
+- HITL on political AI content.
+- No voter PII leakage.
+- Political moderation/compliance flows function.[3]
+
+### Regression E2E
+- Existing campaign-office flows still function where intentionally preserved.
+- Community engine still works after extension.
+- HL-wallet ledger remains consistent.
+- Public discovery still works for existing entities.
+- Notifications for unrelated flows are not broken by new event additions.[2][3]
+
+## Non-functional QA
+
+### Tests
+Run and fix until green:
+- unit tests,
+- integration tests,
+- end-to-end tests,
+- type checks,
+- linting,
+- build checks,
+- migration verification,
+- route smoke tests,
+- UI smoke tests.[1][3]
+
+### Performance
+Verify/fix:
+- support-group hierarchy queries are performant,
+- contribution processing is safe under concurrency,
+- search indexing remains stable,
+- public pages are responsive,
+- high-traffic campaign behavior does not corrupt totals,
+- D1 race conditions are not present in fundraising totals.[3][2]
+
+### Security and privacy
+Verify/fix:
+- no cross-tenant data access,
+- no raw donor or voter PII in logs or AI prompts,
+- payout and approval flows are protected,
+- moderation and admin endpoints are locked down,
+- consent failures block processing correctly,
+- no sensitive fields are exposed in public APIs.[2][3]
+
+## Required QA working style
+
+- Be adversarial.
+- Assume the implementation has hidden bugs.
+- Open files, read code, trace flows, run tests, inspect routes, inspect migrations, inspect package exports, inspect event contracts, inspect UI paths.
+- Do not trust comments or reports alone; verify actual code and actual behavior. This mirrors the standard of the prior QA audit, which insisted every claim be grounded in file-level verification.[1]
+
+## Stop condition
+
+You may stop only when all of the following are true:
+
+1. Every required implementation item is present and working.
+2. Every previously identified blocking issue is fixed.
+3. No phantom migration, invalid plan tier, wrong AI capability name, schema mismatch, or missing event contract remains.
+4. All affected tests are green.
+5. All builds and type checks are green.
+6. All critical end-to-end flows are green.
+7. No high, medium, or hidden blocker remains in affected scope.
+8. Final QA verdict is **GO**.[1][3]
+
+## Final report format required
+
+At the end, produce a structured QA closure report with:
+
+### A. Execution summary
+- What was tested.
+- What was fixed during QA.
+- What was re-tested.
+
+### B. Completion audit
+- List every expected implementation item and mark:
+  - VERIFIED COMPLETE
+  - FIXED DURING QA
+  - NOT APPLICABLE with proof
+- Do not use “pending” status.
+
+### C. Prior-audit closure
+Explicitly list each previously known issue and mark:
+- RESOLVED WITH EVIDENCE
+- FIXED IN QA WITH EVIDENCE
+
+### D. Test matrix
+- unit,
+- integration,
+- e2e,
+- build,
+- typecheck,
+- lint,
+- migrations,
+- route smoke,
+- UI smoke,
+- search,
+- notifications,
+- AI/HITL,
+- security/privacy.
+
+### E. Final platform status
+Report one of only two statuses:
+- **GO: 100% green**
+- **NO-GO: still not 100% green**
+
+If status is NO-GO, continue fixing. Do not stop at report generation.[1]
+
+## Paste-ready version
+
+```text
+You are performing post-implementation QA and hardening for WebWaka after the implementation of Support Groups, shared Fundraising/Crowdfunding, AI SuperAgent integration, and full 3-in-1 mapping.
+
+Your mission is to verify, break, fix, retest, and repeat until the platform is 100% green. Do not stop at issue reporting. Do not leave blockers open. Fix everything you can directly in code and rerun all affected checks until there are zero unresolved blocking issues.
+
+Hard rules:
+1. Treat this as a release gate.
+2. Do not accept “mostly done,” “future fix,” “pending,” or “follow-up.”
+3. If anything that was supposed to be implemented is missing, partial, broken, or miswired, fix it immediately.
+4. Continue in a loop: verify -> detect issue -> fix -> retest -> repeat.
+5. Final target is 100% success and green across the entire affected platform.
+
+You must verify:
+- full support-group capability,
+- full fundraising capability,
+- political overlays,
+- 3-in-1 mapping across Operations, Brand, Discovery,
+- AI integration,
+- events/notifications,
+- search indexing,
+- admin/workspace/public surfaces,
+- migrations/backfills,
+- deprecations/replacements of legacy fragmented paths.
+
+You must explicitly re-check and prove fixed:
+- communityspaces workspaceid schema mismatch,
+- support-group architecture conflict with one-community-space-per-workspace,
+- phantom migrations 0393/0394,
+- invalid scale plan references,
+- titherecords vs shared fundraising handling,
+- AI dual-system config mismatch,
+- wrong AI capability/type identifiers,
+- missing event/notificator contracts,
+- missing cascade/delete behavior,
+- insufficient QA gate rigor from earlier audit findings.
+
+Required verification areas:
+- database schema and migrations,
+- package architecture and exports,
+- entitlements and plan names,
+- AI runtime and SQL config alignment,
+- events and notificator wiring,
+- API routes and middleware,
+- workspace/admin/public/discovery UX,
+- search/projections,
+- legacy deprecation/replacement,
+- invariants: P1, T3, P9, P10, P13, T4, moderation/HITL.
+
+Run and fix until green:
+- unit tests,
+- integration tests,
+- e2e tests,
+- lint,
+- typecheck,
+- build,
+- migration verification,
+- route smoke tests,
+- UI smoke tests,
+- search/projection checks,
+- notifications,
+- AI/HITL flows,
+- security/privacy checks.
+
+Run end-to-end scenarios:
+1. support-group create -> hierarchy -> members -> roles -> announcement -> activity -> analytics -> public/discovery
+2. fundraising create -> publish -> donate -> ledger -> raised amount -> donor count -> event -> notification -> analytics -> public page
+3. political overlay checks for INEC threshold, KYC gating, HITL, no voter PII leakage
+4. regression checks for campaign-office, community engine, HL-wallet, public discovery, unrelated notifications
+
+Working style:
+- be adversarial,
+- inspect actual code, not just comments,
+- read files, trace flows, run tests, inspect migrations, exports, routes, events, UI paths,
+- assume hidden bugs exist until disproven.
+
+Stop only when:
+1. every required implementation item is present and working,
+2. every prior blocking issue is fixed,
+3. all tests/builds/typechecks are green,
+4. all critical e2e flows are green,
+5. no blocker remains,
+6. final status is GO: 100% green.
+
+Final report must include:
+A. execution summary,
+B. completion audit of every expected item,
+C. prior-audit closure list,
+D. full test matrix,
+E. final platform status.
+
+Allowed final statuses:
+- GO: 100% green
+- NO-GO: still not 100% green
+
+If status is NO-GO, continue fixing. Do not stop at report generation.
+```

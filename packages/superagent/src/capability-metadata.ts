@@ -10,6 +10,8 @@
  * Platform Invariants:
  *   P10 — Capability list does not waive NDPR consent; consent is still required at call time
  *   P7  — All AI invocations still go through resolveAdapter (not listed here)
+ *
+ * Phase 5 (E29): 5 new mobilization-intelligence capabilities added (PRD §12.8).
  */
 
 import type { AICapabilityType } from '@webwaka/ai';
@@ -34,7 +36,7 @@ export interface CapabilityMetadata {
 }
 
 // ---------------------------------------------------------------------------
-// Registry — all 23 AICapabilityType values
+// Registry — all 28 AICapabilityType values (23 original + 5 Phase 5 additions)
 // ---------------------------------------------------------------------------
 
 export const CAPABILITY_METADATA: Readonly<Record<AICapabilityType, CapabilityMetadata>> = {
@@ -258,6 +260,53 @@ export const CAPABILITY_METADATA: Readonly<Record<AICapabilityType, CapabilityMe
     description:
       'Generate compelling product descriptions for marketplace listings from product attributes such as name, category, specifications, and features.',
     pillar: 3,
+    planTier: 'growth',
+  },
+
+  // ── Phase 5 (E29) — Mobilization Intelligence (PRD §12.8) ─────────────────
+
+  mobilization_analytics: {
+    capability: 'mobilization_analytics',
+    displayName: 'Mobilization Analytics',
+    description:
+      'Predict optimal broadcast timing, identify member engagement drop-off risk, and forecast GOTV conversion rates from workspace activity patterns. Advisory only — all recommendations require human review.',
+    pillar: 1,
+    planTier: 'pro',
+  },
+
+  broadcast_scheduler: {
+    capability: 'broadcast_scheduler',
+    displayName: 'AI Broadcast Scheduler',
+    description:
+      'Recommend optimal broadcast schedules based on member activity patterns, time-zone distribution, and historical open-rate data. Suggestions only — coordinator approves before sending.',
+    pillar: 1,
+    planTier: 'pro',
+  },
+
+  member_segmentation: {
+    capability: 'member_segmentation',
+    displayName: 'Member Segmentation',
+    description:
+      'Automatically segment workspace members by activity level, geographic cluster, and engagement tier for targeted broadcast campaigns. No PII shared with AI provider — segmentation is computed on aggregated signals.',
+    pillar: 1,
+    planTier: 'pro',
+  },
+
+  petition_optimizer: {
+    capability: 'petition_optimizer',
+    displayName: 'Petition Optimizer',
+    description:
+      'Suggest petition body improvements — clearer language, stronger calls-to-action, and better argument structure — to increase signature conversion rates. Draft suggestions only; coordinator must approve before publishing.',
+    pillar: 1,
+    planTier: 'growth',
+  },
+
+  case_classifier: {
+    capability: 'case_classifier',
+    displayName: 'Case Classifier',
+    description:
+      'Auto-classify incoming cases by type, urgency level, and optimal handler based on historical case patterns. Classification is advisory — human case manager makes final assignment decision (HITL L1).',
+    pillar: 1,
     planTier: 'growth',
   },
 };

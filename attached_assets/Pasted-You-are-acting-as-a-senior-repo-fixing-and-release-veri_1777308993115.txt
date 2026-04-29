@@ -1,0 +1,294 @@
+You are acting as a senior repo-fixing and release-verification agent for the WebWaka monorepo.
+
+Your mission is to:
+1. fix the specific forensic findings that are genuine code or contract gaps,
+2. correct all inaccurate claims in the implementation report,
+3. regenerate a corrected release-readiness report that is strictly evidence-based,
+4. leave the repository in a state that can pass another adversarial forensic audit.
+
+You must work with zero-trust discipline:
+- Do not trust the prior final report.
+- Do not preserve inaccurate wording for convenience.
+- Do not claim anything unless you verified it directly from the repository or command output.
+- If a prior claim cannot be proven, either fix it, downgrade it, or mark it explicitly as unverified/deferred.
+
+Repository context:
+- Repo: WebWakaOS/WebWaka
+- Branch: staging
+- Existing implementation report: docs/reports/FINAL-IMPLEMENTATION-AND-QA-REPORT.md
+- Forensic audit reference: FORENSIC-VERIFICATION-REPORT.md
+- Implementation commit referenced in report: 2fd019a
+- QA hardening commit referenced in report: 17b6398
+
+Primary objective:
+Produce a corrected, audit-defensible release artifact by fixing code where needed and replacing the inaccurate report with a corrected report.
+
+Non-negotiable operating rules:
+- Every statement in the new report must be backed by direct evidence from file contents, grep output, test output, typecheck output, or command output.
+- Never invent counts, names, line references, or config shapes.
+- If a code fix changes a count, re-measure it after the change.
+- Preserve working functionality; do not introduce broad refactors unrelated to the forensic findings.
+- Prefer minimal, targeted fixes.
+- If a finding is architectural and intentionally deferred, state that honestly in the report rather than overstating closure.
+
+==================================================
+A. FORENSIC FINDINGS TO ADDRESS
+==================================================
+
+The forensic audit identified these issues that must be handled.
+
+1. FALSE CLAIM — support-group migration count and names
+- Prior report says migration 0390 contains 9 tables.
+- Forensic audit says it actually contains 15 CREATE TABLE statements.
+- Missing/omitted tables include:
+  - support_group_executive_roles
+  - support_group_resolutions
+  - support_group_event_rsvps
+  - support_group_assets
+- Wrong table name in prior report:
+  - support_group_gotv -> actual support_group_gotv_records
+Action:
+- Verify current migration contents directly.
+- Update the report to state the accurate count and exact table names.
+- Do not paraphrase loosely; enumerate correctly.
+
+2. FALSE CLAIM — support-groups repository function count
+- Prior report says 22 D1 CRUD functions.
+- Forensic audit found 23 exported async functions, including listChildGroups.
+Action:
+- Recount directly from packages/support-groups/src/repository.ts.
+- Update report with exact count and accurate function list.
+
+3. FALSE CLAIM — route counts
+- Prior report says support-groups has 22 endpoints; forensic says code has 23.
+- Prior report says fundraising has 28 endpoints; forensic says code has 24.
+Action:
+- Recount route handlers directly from apps/api/src/routes/support-groups.ts and fundraising.ts.
+- Fix any stale comments in route files if they are inaccurate.
+- Update the report with exact counts and exact route tables.
+
+4. FALSE / FUNCTIONAL GAP — event types not in unified EventType union
+- SupportGroupEventType and FundraisingEventType are exported but not spread into the canonical EventType object/union.
+Action:
+- Fix packages/events/src/event-types.ts so both new event groups are included in the unified EventType.
+- Ensure the resulting type system is internally consistent.
+- Re-run relevant typechecks.
+
+5. FALSE CLAIM — AI runtime config shape misrepresented in report
+- Prior report shows a fictitious TypeScript snippet mixing SQL governance fields and TS runtime config fields.
+- Actual TS runtime object uses fields such as slug, primaryPillar, allowedCapabilities, prohibitedCapabilities, aiUseCases, contextWindowTokens.
+Action:
+- Read the real runtime config in packages/superagent/src/vertical-ai-config.ts.
+- Read the SQL config rows in migration 0392.
+- Decide whether to:
+  a) leave architecture as dual-system but report it accurately, or
+  b) minimally align them if there is a legitimate implementation reason.
+- In all cases, the report must clearly distinguish:
+  - SQL governance config fields
+  - TypeScript runtime config fields
+- Replace the fake code block with a real, repository-accurate description or exact real snippet.
+
+6. PARTIAL / POSSIBLE GAP — support-group vs fundraising NDPR enforcement
+- Forensic says support-groups explicitly rejects ndprConsented=false.
+- Fundraising schema includes ndprConsented: z.boolean() but explicit rejection guard was not confirmed.
+Action:
+- Inspect fundraising contribution routes.
+- If explicit false-value rejection is missing, add it.
+- Add or update tests proving fundraising rejects ndprConsented=false before processing.
+- Update report to reflect the actual implementation after fix.
+
+7. PARTIAL / OPEN GAP — notificator integration
+- Forensic says apps/notificator/src/consumer.ts has zero handlers for support-group/fundraising events.
+- Exporting event constants is not the same as notificator integration.
+Action:
+- Inspect notificator architecture.
+- If lightweight, add baseline handlers/templates/routing for the key new event types.
+- If full notificator implementation is too large or architecturally out of scope, do NOT fake completion.
+- In that case, explicitly mark notificator integration as partial/deferred in the report.
+- Preferred outcome: implement at least minimal notificator coverage for the highest-value events if feasible without destabilization.
+
+8. UNVERIFIED CLAIM — apps/api typecheck
+- Forensic says pnpm --filter apps/api typecheck returned “No projects matched the filters”.
+Action:
+- Determine the correct package filter or typecheck command for apps/api.
+- Make the typecheck reproducible.
+- Run it successfully if possible.
+- If apps/api truly has no dedicated typecheck target, add a clean reproducible path or adjust the report wording to the verifiable command actually used.
+
+9. PARTIAL CLAIM — AI capability alignment
+- Forensic says support-group TypeScript allowedCapabilities includes brand_copywriter, but SQL/report list did not.
+Action:
+- Verify whether this mismatch is intentional or accidental.
+- Best outcome: align the configs if appropriate and safe.
+- If they intentionally differ, document the difference accurately in the report.
+- Do not claim they “mirror” each other unless they truly do.
+
+10. PARTIAL CLAIM — cascade/delete characterization
+- Prior report says missing cascade/delete behavior is “addressed” because soft-delete architecture is intentional.
+Action:
+- Verify actual delete/archive behavior.
+- Keep wording precise.
+- If no remediation code exists, do not imply code was added.
+- Report this as an architectural choice, not a resolved implementation fix, unless you actually implement something.
+
+==================================================
+B. REQUIRED EXECUTION PLAN
+==================================================
+
+Execute in this order.
+
+Step 1 — Baseline verification
+- Confirm current branch.
+- Verify current HEAD.
+- Inspect the current state of:
+  - apps/api/migrations/0389_community_spaces_workspace_id.sql
+  - apps/api/migrations/0390_support_groups.sql
+  - apps/api/migrations/0391_fundraising.sql
+  - apps/api/migrations/0392_support_groups_fundraising_ai_configs.sql
+  - apps/api/migrations/0393_support_groups_fundraising_search.sql
+  - apps/api/migrations/0394_search_entries_ward_code.sql
+  - packages/support-groups/src/repository.ts
+  - packages/fundraising/src/repository.ts
+  - packages/events/src/event-types.ts
+  - packages/events/src/index.ts
+  - packages/superagent/src/vertical-ai-config.ts
+  - apps/api/src/routes/support-groups.ts
+  - apps/api/src/routes/fundraising.ts
+  - apps/notificator/src/consumer.ts
+  - docs/reports/FINAL-IMPLEMENTATION-AND-QA-REPORT.md
+  - FORENSIC-VERIFICATION-REPORT.md
+
+Step 2 — Implement code fixes
+Apply only the targeted fixes required by the forensic findings:
+- EventType union inclusion fix.
+- Fundraising NDPR explicit enforcement if missing.
+- Tests for NDPR rejection path.
+- Route-file stale count comments if inaccurate.
+- apps/api reproducible typecheck path.
+- Notificator baseline support if feasible and appropriately scoped.
+- AI config alignment if a safe minimal fix is justified.
+
+Step 3 — Run verification suite
+You must run and capture output for:
+- pnpm --filter @webwaka/support-groups test
+- pnpm --filter @webwaka/fundraising test
+- pnpm --filter @webwaka/community test
+- Typecheck for:
+  - @webwaka/support-groups
+  - @webwaka/fundraising
+  - @webwaka/community
+  - @webwaka/events
+  - @webwaka/entitlements
+  - apps/api using a reproducible valid command
+- Any additional tests needed for notificator if modified
+- Grep or direct counts for:
+  - number of CREATE TABLE statements in 0390
+  - route handler counts in both route files
+  - exported async function count in support-groups repository
+  - EventType spread inclusion
+  - NDPR explicit guard in fundraising
+  - notificator handlers for new domains, if added
+
+Step 4 — Regenerate the corrected report
+Replace or supersede docs/reports/FINAL-IMPLEMENTATION-AND-QA-REPORT.md with a corrected report.
+Preferred filename:
+- docs/reports/RELEASE-READINESS-REPORT.md
+Alternative:
+- docs/reports/FINAL-IMPLEMENTATION-AND-QA-REPORT-v2.md
+
+The corrected report must:
+- not say “GO — 100% green” unless every formerly false/partial/unverified item is now truly resolved and evidenced.
+- use a more precise verdict if needed, e.g.:
+  - GO — release-ready
+  - Conditional GO
+  - Conditional PASS
+- include a section explicitly titled “Corrections from Prior Report”.
+- distinguish:
+  - implemented and verified
+  - implemented but partially verified
+  - intentionally deferred
+- contain exact counts and exact names.
+- remove fictitious code snippets.
+- include exact command strings used for verification.
+- mention notificator truthfully.
+- mention apps/api typecheck truthfully.
+- mention AI config truthfully.
+
+Step 5 — Final self-audit before completion
+Before finishing, re-read your new report and ensure:
+- no stale 22/28/9 counts remain if they are still wrong,
+- no “mirrors/aligned/resolved” language remains where only partial alignment exists,
+- no fake TypeScript snippet remains,
+- no unsupported “100% green” language remains unless fully justified,
+- all critical claims can be reproduced from repository evidence.
+
+==================================================
+C. REPORT REQUIREMENTS
+==================================================
+
+The new report must include these sections:
+
+1. Executive Summary
+- Clear final verdict.
+- Short explanation of what changed relative to the prior report.
+
+2. Scope Delivered
+- Same high-level implementation summary, but only accurate claims.
+
+3. Database Migrations
+- Exact migration list.
+- Exact 0390 table count and names.
+- Exact 0391 table list, including any additional tables if present.
+
+4. Package Architecture
+- Accurate counts and exports.
+- Accurate support-groups repository function count.
+- Accurate fundraising repository function summary.
+
+5. Event and Contract Integrity
+- State whether SupportGroupEventType and FundraisingEventType are now included in unified EventType.
+- State whether notificator handlers exist and for which events.
+
+6. Compliance and Invariants
+- NDPR enforcement status for both support-groups and fundraising.
+- P13 stripping status.
+- T3, P9, and any atomicity claims only if verified.
+
+7. API Surface
+- Exact support-group endpoint count and route table.
+- Exact fundraising endpoint count and route table.
+
+8. AI Configuration
+- Separate:
+  - SQL governance config
+  - TypeScript runtime config
+- Note any intentional differences.
+- Do not claim shape equivalence if not true.
+
+9. Test and Verification Matrix
+- Only include command results you actually ran successfully.
+- apps/api must be represented truthfully.
+
+10. Corrections from Prior Report
+- Bullet list of every corrected false claim.
+- Note any intentionally deferred partials.
+
+11. Final Verdict
+- Concise and evidence-based.
+
+==================================================
+D. OUTPUT FORMAT
+==================================================
+
+When you finish, provide:
+1. a concise summary of code changes made,
+2. a concise summary of verification commands run and outcomes,
+3. the path to the new corrected report,
+4. any remaining deferred items, if any.
+
+Do not give a vague summary.
+Do not claim success without evidence.
+Do not preserve inaccurate release language for optics.
+
+Your standard is:
+“A hostile auditor should be able to reproduce every material claim.”

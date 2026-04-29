@@ -196,3 +196,242 @@ export async function removeOfferingFromIndex(db: D1Like, offeringId: string, te
     .bind(offeringId, tenantId)
     .run();
 }
+
+// ---------------------------------------------------------------------------
+// WakaPage indexing — Phase 1 (ADR-0041, Discovery integration)
+// ---------------------------------------------------------------------------
+
+interface WakaPageEntry {
+  pageId: string;
+  entityId: string;
+  entityType: 'individual' | 'organization';
+  displayName: string;
+  slug: string;
+  tenantId: TenantId;
+  placeId?: string | null;
+  publishedAt: number;
+}
+
+/**
+ * Index (or re-index) a published WakaPage in search_entries.
+ *
+ * Uses INSERT OR REPLACE with a deterministic search entry ID derived from
+ * the profile entity — this merges the WakaPage facet columns into the
+ * existing profile search entry (or creates one if not yet indexed).
+ *
+ * Called from POST /wakapages/:id/publish.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function indexWakaPage(db: D1Like, entry: WakaPageEntry): Promise<void> {
+  const ancestryPath = await getAncestryPath(db, entry.placeId);
+  const keywords = normaliseKeywords(entry.displayName);
+  const id = searchEntryId(entry.entityType, entry.entityId);
+
+  await db
+    .prepare(
+      `INSERT OR REPLACE INTO search_entries
+         (id, entity_type, entity_id, tenant_id, display_name, keywords,
+          place_id, ancestry_path, visibility,
+          wakapage_page_id, wakapage_slug, wakapage_published_at,
+          created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'public', ?, ?, ?, unixepoch(), unixepoch())`,
+    )
+    .bind(
+      id,
+      entry.entityType,
+      entry.entityId,
+      entry.tenantId,
+      entry.displayName,
+      keywords,
+      entry.placeId ?? null,
+      JSON.stringify(ancestryPath),
+      entry.pageId,
+      entry.slug,
+      entry.publishedAt,
+    )
+    .run();
+}
+
+/**
+ * Remove WakaPage facets from search_entries when a page is unpublished.
+ * Nulls the WakaPage-specific columns but keeps the base search entry intact.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function removeWakaPageFromIndex(
+  db: D1Like,
+  pageId: string,
+  tenantId: TenantId,
+): Promise<void> {
+  await db
+    .prepare(
+      `UPDATE search_entries
+       SET wakapage_page_id = NULL,
+           wakapage_slug = NULL,
+           wakapage_published_at = NULL,
+           updated_at = unixepoch()
+       WHERE wakapage_page_id = ? AND tenant_id = ?`,
+    )
+    .bind(pageId, tenantId)
+    .run();
+}
+
+// ---------------------------------------------------------------------------
+// Support Group indexing — Migration 0390 / 0393
+// ---------------------------------------------------------------------------
+
+interface SupportGroupEntry {
+  id: string;
+  name: string;
+  tenantId: TenantId;
+  workspaceId: string;
+  stateCode?: string | null;
+  lgaCode?: string | null;
+  wardCode?: string | null;
+  groupType?: string | null;
+  visibility?: string;
+}
+
+/**
+ * Index (or re-index) a support group in search_entries.
+ *
+ * Uses INSERT OR REPLACE with a deterministic search entry ID.
+ * Private/invite_only groups are NOT indexed (removed if they exist).
+ * Non-fatal — callers must wrap in try/catch.
+ *
+ * Migration 0393 adds state_code, lga_code, campaign_type, group_type columns.
+ * Migration 0394 adds ward_code column to search_entries for ward-level discovery.
+ */
+export async function indexSupportGroup(
+  db: D1Like,
+  entry: SupportGroupEntry,
+): Promise<void> {
+  if (entry.visibility && entry.visibility !== 'public') {
+    await removeFromIndex(db, entry.id, entry.tenantId);
+    return;
+  }
+
+  const keywords = normaliseKeywords(entry.name);
+  const id = searchEntryId('support_group', entry.id);
+
+  await db
+    .prepare(
+      `INSERT OR REPLACE INTO search_entries
+         (id, entity_type, entity_id, tenant_id, display_name, keywords,
+          place_id, ancestry_path, visibility,
+          state_code, lga_code, ward_code, group_type,
+          created_at, updated_at)
+       VALUES (?, 'support_group', ?, ?, ?, ?, NULL, '[]', 'public',
+               ?, ?, ?, ?, unixepoch(), unixepoch())`,
+    )
+    .bind(
+      id,
+      entry.id,
+      entry.tenantId,
+      entry.name,
+      keywords,
+      entry.stateCode ?? null,
+      entry.lgaCode   ?? null,
+      entry.wardCode  ?? null,
+      entry.groupType ?? null,
+    )
+    .run();
+}
+
+/**
+ * Remove a support group from the search index.
+ * Called on archive or visibility change to private.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function removeSupportGroupFromIndex(
+  db: D1Like,
+  groupId: string,
+  tenantId: TenantId,
+): Promise<void> {
+  await db
+    .prepare(
+      `DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'support_group' AND tenant_id = ?`,
+    )
+    .bind(groupId, tenantId)
+    .run();
+}
+
+// ---------------------------------------------------------------------------
+// Fundraising Campaign indexing — Migration 0391 / 0393
+// ---------------------------------------------------------------------------
+
+interface FundraisingCampaignEntry {
+  id: string;
+  title: string;
+  tenantId: TenantId;
+  workspaceId: string;
+  slug: string;
+  campaignType?: string | null;
+  visibility?: string;
+  supportGroupId?: string | null;
+}
+
+/**
+ * Index (or re-index) a fundraising campaign in search_entries.
+ *
+ * Uses INSERT OR REPLACE with a deterministic search entry ID.
+ * Private/unlisted campaigns are NOT indexed (removed if they exist).
+ * Non-fatal — callers must wrap in try/catch.
+ *
+ * Migration 0393 adds campaign_type column to search_entries for type-filtered
+ * discovery queries (e.g. GET /discovery?type=fundraising_campaign&campaign_type=election).
+ */
+export async function indexFundraisingCampaign(
+  db: D1Like,
+  entry: FundraisingCampaignEntry,
+): Promise<void> {
+  if (entry.visibility && entry.visibility !== 'public') {
+    await db
+      .prepare(
+        `DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'fundraising_campaign' AND tenant_id = ?`,
+      )
+      .bind(entry.id, entry.tenantId)
+      .run();
+    return;
+  }
+
+  const keywords = normaliseKeywords(entry.title + ' ' + (entry.slug ?? ''));
+  const id = searchEntryId('fundraising_campaign', entry.id);
+
+  await db
+    .prepare(
+      `INSERT OR REPLACE INTO search_entries
+         (id, entity_type, entity_id, tenant_id, display_name, keywords,
+          place_id, ancestry_path, visibility,
+          campaign_type,
+          created_at, updated_at)
+       VALUES (?, 'fundraising_campaign', ?, ?, ?, ?, NULL, '[]', 'public',
+               ?, unixepoch(), unixepoch())`,
+    )
+    .bind(
+      id,
+      entry.id,
+      entry.tenantId,
+      entry.title,
+      keywords,
+      entry.campaignType ?? null,
+    )
+    .run();
+}
+
+/**
+ * Remove a fundraising campaign from the search index.
+ * Called when a campaign is cancelled, set to private/unlisted, or deleted.
+ * Non-fatal — callers must wrap in try/catch.
+ */
+export async function removeFundraisingCampaignFromIndex(
+  db: D1Like,
+  campaignId: string,
+  tenantId: TenantId,
+): Promise<void> {
+  await db
+    .prepare(
+      `DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'fundraising_campaign' AND tenant_id = ?`,
+    )
+    .bind(campaignId, tenantId)
+    .run();
+}

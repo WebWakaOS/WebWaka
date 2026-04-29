@@ -25,6 +25,7 @@
     "@webwaka/entitlements": "workspace:*",
     "@webwaka/white-label-theming": "workspace:*",
     "@webwaka/verticals": "workspace:*",
+    "@webwaka/wakapage-blocks": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -4,6 +4,9 @@ import * as path from 'path';
 
 const ROUTE_DIRS = [
   path.resolve(__dirname, '../../apps/api/src/routes'),
+  // Phase 0 extension: brand-runtime routes serve tenant-scoped public pages
+  // (WakaPage public surface — Phase 1). Scan for tenant isolation violations proactively.
+  path.resolve(__dirname, '../../apps/brand-runtime/src/routes'),
 ];
 
 // Also scan the hl-wallet package for raw SQL against hl_* tables (T3 compliance).
@@ -76,7 +79,7 @@ function checkHlTableTenantIsolation(filePath: string): void {
   // Exclude newlines (\n) and backticks (`) from the character class so the regex
   // never spans multiple lines or bleeds into backtick template literals — doing so
   // produces false positives from SQL value literals like 'pending' -> 'active'.
-  const singleQuotedStrings = content.match(/['"][^'"`\n]{10,}['"]/g) ?? [];
+  const singleQuotedStrings = content.match(/('[^'`\n]{10,}'|"[^"`\n]{10,}")/g) ?? [];
   for (const sqlStr of singleQuotedStrings) {
     if (!SQL_DML.test(sqlStr)) continue;
     if (GOVERNANCE_SKIP.test(sqlStr)) continue;

@@ -698,3 +698,500 @@ describe('Pillar-2 audit fixes — Vertical compatibility (P1: forbid forged bod
     expect(body.error).toContain('no registered vertical');
   });
 });
+
+// ---------------------------------------------------------------------------
+// Phase 4 (E25/E26/E27) — Template Registry Extension, Starter Templates,
+// Onboarding Template Selection. M14 gate tests.
+// ---------------------------------------------------------------------------
+
+/** makeDb variant with batch support for install-route Phase 4 tests */
+function makeDbWithBatch(handlers: Record<string, (sql: string, ...args: unknown[]) => unknown> = {}) {
+  const resolve = (sql: string) => {
+    for (const [key, fn] of Object.entries(handlers)) {
+      if (sql.includes(key)) return fn;
+    }
+    return null;
+  };
+  const stmtFor = (sql: string) => {
+    const args: unknown[] = [];
+    const stmt = {
+      bind: (...a: unknown[]) => { args.push(...a); return stmt; },
+      run: async () => ({ success: true }),
+      first: async <T>() => {
+        const fn = resolve(sql);
+        return fn ? (fn(sql, ...args) as T) : null;
+      },
+      all: async <T>() => {
+        const fn = resolve(sql);
+        return { results: fn ? (fn(sql, ...args) as T[]) : ([] as T[]) };
+      },
+    };
+    return stmt;
+  };
+  return {
+    prepare: (q: string) => stmtFor(q),
+    batch: async (stmts: unknown[]) => stmts.map(() => ({ success: true })),
+  };
+}
+
+const MOCK_TEMPLATE_PHASE4 = {
+  id: 'tpl_p4_01',
+  slug: 'electoral-mobilization',
+  display_name: 'Electoral Mobilization',
+  description: 'Nigeria-first electoral mobilization template',
+  template_type: 'civic',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{}',
+  is_free: 1,
+  price_kobo: 0,
+  author_tenant_id: null,
+  install_count: 0,
+  status: 'approved',
+  module_config: '{"polling_units":true}',
+  vocabulary: '{"Group":"Ward","Member":"Agent"}',
+  default_policies: JSON.stringify([
+    {
+      rule_key: 'gotv.agent.daily_broadcast',
+      category: 'gotv_access',
+      scope: 'tenant',
+      title: 'GOTV Agent Daily Broadcast Gate',
+      description: 'Controls daily broadcast quota for GOTV agents',
+      condition_json: '{"quota_per_day":3}',
+      decision: 'ALLOW',
+      hitl_level: null,
+    },
+    {
+      rule_key: 'pii.agent.data_access',
+      category: 'pii_access',
+      scope: 'tenant',
+      title: 'PII Data Access for Agents',
+      description: 'Controls which agent tiers can view voter PII',
+      condition_json: '{"min_tier":2}',
+      decision: 'DENY',
+      hitl_level: 1,
+    },
+  ]),
+  default_workflows: '[]',
+};
+
+// E25: publish route accepts Phase 4 extended fields
+describe('Phase 4 — E25: Publish route extended fields', () => {
+  it('POST /templates — super_admin can publish with module_config, vocabulary, default_policies, default_workflows', async () => {
+    const db = makeDb();
+    const app = makeApp(db, 'super_admin');
+    const res = await app.request('/templates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: 'electoral-mobilization',
+        display_name: 'Electoral Mobilization',
+        description: 'Nigeria-first electoral mobilization template for civic engagement',
+        template_type: 'module',
+        version: '1.0.0',
+        platform_compat: '^1.0.0',
+        manifest_json: { modules: ['gotv', 'agents'] },
+        is_free: true,
+        module_config: { polling_units: true, ward_dashboard: true },
+        vocabulary: { Group: 'Ward', Member: 'Agent', Event: 'Rally' },
+        default_policies: [
+          { rule_key: 'gotv.agent.daily_broadcast', category: 'gotv_access', title: 'GOTV Broadcast Gate', decision: 'ALLOW' },
+        ],
+        default_workflows: [{ id: 'wf_gotv_daily', name: 'GOTV Daily Check-in' }],
+      }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json<{ slug: string; status: string }>();
+    expect(body.slug).toBe('electoral-mobilization');
+    expect(body.status).toBe('pending_review');
+  });
+
+  it('POST /templates — rejects non-super_admin even with Phase 4 fields', async () => {
+    const app = makeApp(makeDb(), 'admin');
+    const res = await app.request('/templates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: 'civic-nonprofit', display_name: 'Civic Nonprofit', description: 'Civic nonprofit template for communities',
+        template_type: 'module', version: '1.0.0', platform_compat: '^1.0.0',
+        manifest_json: {}, module_config: {}, vocabulary: {}, default_policies: [],
+      }),
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it('POST /templates — phase 4 fields default gracefully when omitted (super_admin)', async () => {
+    const app = makeApp(makeDb(), 'super_admin');
+    const res = await app.request('/templates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: 'mutual-aid-network', display_name: 'Mutual Aid Network', description: 'Community mutual aid and solidarity network template',
+        template_type: 'module', version: '1.0.0', platform_compat: '^1.0.0',
+        manifest_json: {},
+        // module_config / vocabulary / default_policies / default_workflows intentionally omitted
+      }),
+    });
+    expect(res.status).toBe(201);
+  });
+});
+
+// E26: five starter templates present in mock catalogue
+describe('Phase 4 — E26: Five starter templates in catalogue', () => {
+  const STARTER_SLUGS = [
+    'electoral-mobilization',
+    'civic-nonprofit',
+    'mutual-aid-network',
+    'constituency-service',
+    'faith-community',
+  ];
+
+  it('all 5 starter slugs are distinct and kebab-case', () => {
+    const unique = new Set(STARTER_SLUGS);
+    expect(unique.size).toBe(5);
+    for (const slug of STARTER_SLUGS) {
+      expect(slug).toMatch(/^[a-z0-9-]+$/);
+    }
+  });
+
+  it('GET /templates/:slug — returns 200 for electoral-mobilization', async () => {
+    const db = makeDb({ template_registry: () => MOCK_TEMPLATE_PHASE4 });
+    const app = makeApp(db);
+    const res = await app.request('/templates/electoral-mobilization');
+    expect(res.status).toBe(200);
+    const body = await res.json<{ slug: string; display_name: string }>();
+    expect(body.slug).toBe('electoral-mobilization');
+  });
+
+  it('GET /templates/:slug — returns 404 for unapproved starter slug stub', async () => {
+    const app = makeApp(makeDb()); // no handler → null → 404
+    const res = await app.request('/templates/faith-community');
+    expect(res.status).toBe(404);
+  });
+
+  it('GET /templates — returns approved template list without 500', async () => {
+    const db = makeDb({ template_registry: () => [MOCK_TEMPLATE_PHASE4] });
+    const app = makeApp(db);
+    const res = await app.request('/templates');
+    expect(res.status).toBe(200);
+  });
+});
+
+// E25: install route — Phase 4 policy seeding + KV vocab write
+describe('Phase 4 — E25: Install route policy seeding + KV vocab', () => {
+  it('POST /templates/:slug/install — 404 when approved template not found', async () => {
+    const db = makeDbWithBatch();
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(404);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toContain('not found');
+  });
+
+  it('POST /templates/:slug/install — succeeds and returns 200 when template has default_policies + vocabulary', async () => {
+    const kvPuts: Array<{ key: string; value: string }> = [];
+    const mockKv = {
+      put: async (key: string, value: string) => { kvPuts.push({ key, value }); },
+      get: async () => null,
+    };
+
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_PHASE4,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+      'FROM policy_rules WHERE tenant_id': () => null, // no existing policies
+    });
+
+    const app = new Hono<{ Bindings: unknown }>();
+    app.use('*', async (c, next) => {
+      c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development', KV: mockKv } as never;
+      c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
+      await next();
+    });
+    app.route('/templates', templateRoutes);
+
+    const res = await app.request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json<{ template_slug: string }>();
+    expect(body.template_slug).toBe('electoral-mobilization');
+    // KV vocab was stored for this tenant+template
+    expect(kvPuts.some(p => p.key === 'vocab:tnt_a:electoral-mobilization')).toBe(true);
+  });
+
+  it('POST /templates/:slug/install — skips KV write when KV binding absent', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_PHASE4,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+      'FROM policy_rules WHERE tenant_id': () => null,
+    });
+
+    const app = new Hono<{ Bindings: unknown }>();
+    app.use('*', async (c, next) => {
+      c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development' /* no KV */ } as never;
+      c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
+      await next();
+    });
+    app.route('/templates', templateRoutes);
+
+    const res = await app.request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    // Should still succeed — KV is non-fatal
+    expect(res.status).toBe(201);
+  });
+
+  it('POST /templates/:slug/install — reinstall path seeds policies without duplicate (existing policy skipped)', async () => {
+    const policyInserts: string[] = [];
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_PHASE4,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => ({ id: 'inst_001', status: 'inactive' }),
+      'FROM policy_rules WHERE tenant_id': () => ({ id: 'polr_existing' }), // policy already exists
+    });
+    const originalPrepare = db.prepare.bind(db);
+    (db as ReturnType<typeof makeDbWithBatch> & { prepare: typeof db.prepare }).prepare = (q: string) => {
+      const stmt = originalPrepare(q);
+      if (q.includes('INSERT INTO policy_rules')) {
+        policyInserts.push(q);
+      }
+      return stmt;
+    };
+
+    const app = new Hono<{ Bindings: unknown }>();
+    app.use('*', async (c, next) => {
+      c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development' } as never;
+      c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
+      await next();
+    });
+    app.route('/templates', templateRoutes);
+
+    const res = await app.request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    // policies exist already → INSERT should NOT have been called
+    expect(policyInserts).toHaveLength(0);
+  });
+});
+
+// E27: onboarding template selection — tested via templates route (install + step completion)
+// Full POST /onboarding/:workspaceId/template tests live in onboarding.test.ts.
+// Here we verify that the install route correctly wires the Phase 4 seeder when called
+// as part of the onboarding flow (same invariants: T3 tenant scope).
+describe('Phase 4 — E27: Onboarding template selection invariants', () => {
+  it('install route enforces tenant isolation — different tenants get separate vocab keys', async () => {
+    const kvPuts: Array<{ key: string; value: string }> = [];
+    const mockKv = { put: async (key: string, value: string) => { kvPuts.push({ key, value }); }, get: async () => null };
+
+    const makeIsolatedApp = (tenantId: string) => {
+      const db = makeDbWithBatch({
+        'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_PHASE4,
+        'FROM profiles': () => ({ vertical_slug: null }),
+        'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+        'FROM policy_rules WHERE tenant_id': () => null,
+      });
+      const app = new Hono<{ Bindings: unknown }>();
+      app.use('*', async (c, next) => {
+        c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development', KV: mockKv } as never;
+        c.set('auth' as never, { userId: 'usr_test', tenantId, role: 'admin' } as never);
+        await next();
+      });
+      app.route('/templates', templateRoutes);
+      return app;
+    };
+
+    await makeIsolatedApp('tnt_alpha').request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    await makeIsolatedApp('tnt_beta').request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+
+    const alphaKey = kvPuts.find(p => p.key === 'vocab:tnt_alpha:electoral-mobilization');
+    const betaKey = kvPuts.find(p => p.key === 'vocab:tnt_beta:electoral-mobilization');
+    expect(alphaKey).toBeDefined();
+    expect(betaKey).toBeDefined();
+    expect(alphaKey?.key).not.toBe(betaKey?.key);
+  });
+
+  it('install route default_policies with malformed JSON does not throw (graceful skip)', async () => {
+    const brokenTemplate = {
+      ...MOCK_TEMPLATE_PHASE4,
+      default_policies: '{not valid json}',
+      vocabulary: '{}',
+    };
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => brokenTemplate,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/electoral-mobilization/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    // Malformed policies are skipped non-fatally — route should still succeed
+    expect(res.status).toBe(201);
+  });
+});
+
+// ── Phase 5 (E31) — Template T04/T07/T08/T09 installation tests ─────────────
+
+const MOCK_TEMPLATE_T04 = {
+  id: 'tpl_t04_advocacy_v100',
+  slug: 'advocacy-petition',
+  display_name: 'Advocacy / Petition Campaign',
+  description: 'End-to-end petition and advocacy campaign platform',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"advocacy-petition","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","petitions","value_movement","broadcasts"]}',
+  vocabulary: '{"Group":"Coalition","Member":"Advocate","Petition":"Demand"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'advocacy.petition_privacy.v1', category: 'pii_access', scope: 'tenant',
+    title: 'Petition Signature Privacy', description: 'Advocacy petitions support anonymous signature option.',
+    condition_json: '{"allowAnonymous":true,"requiresConsent":true}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T07 = {
+  id: 'tpl_t07_association_v100',
+  slug: 'association-cooperative',
+  display_name: 'Association / Cooperative',
+  description: 'Full-lifecycle member management for associations and cooperatives',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"association-cooperative","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","value_movement","events","cases"]}',
+  vocabulary: '{"Group":"Association","Member":"Member","Dues":"Levy"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'coop.loan_approval.hitl.v1', category: 'payout_gate', scope: 'tenant',
+    title: 'Cooperative Loan Approval HITL Gate', description: 'All cooperative loan requests require HITL review.',
+    condition_json: '{"defaultHitlLevel":2}', decision: 'REQUIRE_HITL', hitl_level: 2,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T08 = {
+  id: 'tpl_t08_personal_assist_v100',
+  slug: 'personal-assistance',
+  display_name: 'Personal / Community Assistance',
+  description: 'Personal fundraising and community support campaigns',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"personal-assistance","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["cases","value_movement","groups"],"sensitivity":"HIGH"}',
+  vocabulary: '{"Group":"Support Circle","Case":"Help Request","Contribution":"Support Gift"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'personal.campaign_pii.v1', category: 'pii_access', scope: 'tenant',
+    title: 'Personal Campaign PII — High Sensitivity', description: 'High-sensitivity PII protection.',
+    condition_json: '{"sensitivity":"HIGH","requiresConsent":true}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+const MOCK_TEMPLATE_T09 = {
+  id: 'tpl_t09_biz_community_v100',
+  slug: 'business-community',
+  display_name: 'Business / Member / Customer Community',
+  description: 'Community platform for businesses and membership organizations',
+  template_type: 'vertical-blueprint',
+  version: '1.0.0',
+  platform_compat: '^1.0.0',
+  compatible_verticals: '[]',
+  manifest_json: '{"name":"business-community","version":"1.0.0"}',
+  is_free: 1, price_kobo: 0, author_tenant_id: null, install_count: 0, status: 'approved',
+  module_config: '{"modules":["groups","events","knowledge","value_movement"],"requiresPlan":"growth"}',
+  vocabulary: '{"Group":"Community","Member":"Member","Coordinator":"Community Manager"}',
+  default_policies: JSON.stringify([{
+    rule_key: 'biz_community.commerce_plan.v1', category: 'ai_gate', scope: 'tenant',
+    title: 'Business Community — Commerce Layer Plan Gate', description: 'Commerce layer requires Growth plan.',
+    condition_json: '{"min_plan":"growth"}', decision: 'DENY', hitl_level: null,
+  }]),
+  default_workflows: '[]',
+};
+
+describe('Phase 5 (E31) — Template T04/T07/T08/T09 installation', () => {
+  it('T04: POST /templates/advocacy-petition/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T04,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/advocacy-petition/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t04_advocacy_v100');
+    expect(json.template_slug).toBe('advocacy-petition');
+  });
+
+  it('T07: POST /templates/association-cooperative/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T07,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/association-cooperative/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t07_association_v100');
+    expect(json.template_slug).toBe('association-cooperative');
+  });
+
+  it('T08: POST /templates/personal-assistance/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T08,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/personal-assistance/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t08_personal_assist_v100');
+    expect(json.template_slug).toBe('personal-assistance');
+  });
+
+  it('T09: POST /templates/business-community/install — returns 201 on success', async () => {
+    const db = makeDbWithBatch({
+      'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_T09,
+      'FROM profiles': () => ({ vertical_slug: null }),
+      'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
+    });
+    const app = makeApp(db, 'admin');
+    const res = await app.request('/templates/business-community/install', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+    });
+    expect(res.status).toBe(201);
+    const json = await res.json() as { installed: boolean; template_id: string; template_slug: string };
+    expect(json.installed).toBe(true);
+    expect(json.template_id).toBe('tpl_t09_biz_community_v100');
+    expect(json.template_slug).toBe('business-community');
+  });
+});

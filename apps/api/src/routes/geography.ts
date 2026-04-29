@@ -182,6 +182,96 @@ geographyRoutes.get('/places/:placeId/ancestry', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
+// Phase 6 / E35: GET /geography/countries — list available countries
+// Returns all country-level place nodes in the places table.
+// ---------------------------------------------------------------------------
+
+geographyRoutes.get('/countries', async (c) => {
+  interface CountryRow {
+    id: string;
+    name: string;
+    geography_type: string;
+    country_code: string | null;
+  }
+
+  try {
+    const { results } = await c.env.DB.prepare(
+      `SELECT id, name, geography_type, country_code
+       FROM places
+       WHERE geography_type = 'country'
+       ORDER BY name ASC
+       LIMIT 50`,
+    ).all<CountryRow>();
+
+    c.header('Cache-Control', 'public, max-age=86400');
+    return c.json({
+      data: results.map((r) => ({
+        id: r.id,
+        name: r.name,
+        country_code: r.country_code ?? null,
+      })),
+      count: results.length,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Internal error';
+    return c.json({ error: message }, 500);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Phase 6 / E35: GET /geography/countries/:countryCode/regions
+// Returns top-level administrative divisions for a given country.
+// For NG: states; for GH: regions; for KE: counties.
+// ---------------------------------------------------------------------------
+
+geographyRoutes.get('/countries/:countryCode/regions', async (c) => {
+  const countryCode = c.req.param('countryCode').toUpperCase();
+
+  const VALID_COUNTRY_CODES = ['NG', 'GH', 'KE'];
+  if (!VALID_COUNTRY_CODES.includes(countryCode)) {
+    return c.json({ error: `Country '${countryCode}' is not supported. Valid: ${VALID_COUNTRY_CODES.join(', ')}` }, 400);
+  }
+
+  interface RegionRow {
+    id: string;
+    name: string;
+    geography_type: string;
+    parent_id: string | null;
+    country_code: string | null;
+  }
+
+  // Map each country to its level-1 geography_type
+  const LEVEL1_TYPE: Record<string, string> = {
+    NG: 'state',
+    GH: 'region',
+    KE: 'county',
+  };
+
+  const geographyType = LEVEL1_TYPE[countryCode]!;
+
+  try {
+    const { results } = await c.env.DB.prepare(
+      `SELECT id, name, geography_type, parent_id, country_code
+       FROM places
+       WHERE geography_type = ? AND country_code = ?
+       ORDER BY name ASC
+       LIMIT 500`,
+    ).bind(geographyType, countryCode).all<RegionRow>();
+
+    c.header('Cache-Control', 'public, max-age=86400');
+    return c.json({
+      country_code: countryCode,
+      geography_type: geographyType,
+      data: results,
+      count: results.length,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Internal error';
+    return c.json({ error: message }, 500);
+  }
+});
+
+// ---------------------------------------------------------------------------
 // M7e: States, LGAs, Wards — D1 direct queries (public, cacheable)
 // ---------------------------------------------------------------------------
 

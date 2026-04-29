@@ -1,0 +1,22 @@
+{
+  "name": "@webwaka/wakapage-blocks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "[Pillar 2+3] WakaPage MVP block type contracts for WebWaka OS. Types and interfaces only — no renderer. Phase 0 foundation.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@webwaka/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}

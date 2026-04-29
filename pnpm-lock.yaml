@@ -76,6 +76,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@hono/zod-validator':
+        specifier: ^0.4.3
+        version: 0.4.3(hono@4.12.14)(zod@3.25.76)
       '@webwaka/ai':
         specifier: workspace:*
         version: link:../../packages/ai-abstraction
@@ -109,6 +112,9 @@ importers:
       '@webwaka/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
+      '@webwaka/fundraising':
+        specifier: workspace:*
+        version: link:../../packages/fundraising
       '@webwaka/geography':
         specifier: workspace:*
         version: link:../../packages/core/geography
@@ -151,6 +157,9 @@ importers:
       '@webwaka/superagent':
         specifier: workspace:*
         version: link:../../packages/superagent
+      '@webwaka/support-groups':
+        specifier: workspace:*
+        version: link:../../packages/support-groups
       '@webwaka/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -598,6 +607,9 @@ importers:
       '@webwaka/verticals-youth-organization':
         specifier: workspace:*
         version: link:../../packages/verticals-youth-organization
+      '@webwaka/wakapage-blocks':
+        specifier: workspace:*
+        version: link:../../packages/wakapage-blocks
       aws4fetch:
         specifier: ^1.0.20
         version: 1.0.20
@@ -638,6 +650,9 @@ importers:
       '@webwaka/verticals':
         specifier: workspace:*
         version: link:../../packages/verticals
+      '@webwaka/wakapage-blocks':
+        specifier: workspace:*
+        version: link:../../packages/wakapage-blocks
       '@webwaka/white-label-theming':
         specifier: workspace:*
         version: link:../../packages/white-label-theming
@@ -925,6 +940,18 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
+  packages/analytics:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
   packages/auth:
     dependencies:
       '@webwaka/ai':
@@ -949,6 +976,28 @@ importers:
       '@webwaka/auth':
         specifier: workspace:*
         version: link:../auth
+
+  packages/cases:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/claims:
     dependencies:
@@ -1095,6 +1144,99 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
+  packages/fundraising:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/payments':
+        specifier: workspace:*
+        version: link:../payments
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/groups:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/groups-civic:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/groups-cooperative:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/groups-electoral:
+    dependencies:
+      '@webwaka/groups':
+        specifier: workspace:*
+        version: link:../groups
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/groups-faith:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
   packages/hl-wallet:
     dependencies:
       '@webwaka/entitlements':
@@ -1137,6 +1279,18 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/ledger:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/logging:
@@ -1245,6 +1399,19 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
+  packages/policy-engine:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
   packages/pos:
     dependencies:
       '@webwaka/auth':
@@ -1350,6 +1517,25 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  packages/support-groups:
+    dependencies:
+      '@webwaka/entitlements':
+        specifier: workspace:*
+        version: link:../entitlements
+      '@webwaka/events':
+        specifier: workspace:*
+        version: link:../events
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.2.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/types:
@@ -4421,17 +4607,45 @@ importers:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
+  packages/wakapage-blocks:
+    dependencies:
+      '@webwaka/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
   packages/webhooks:
     devDependencies:
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
+      vitest:
+        specifier: ^1.6.1
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/white-label-theming:
     devDependencies:
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
+
+  packages/workflows:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
 
   packages/workspaces: {}
 
@@ -5283,6 +5497,12 @@ packages:
     resolution: {integrity: sha512-uv/x7EyT9/fRM0oxNP2myhxHtB1pZyHYMMLVoBGFff57cyINSGftPf3ZhqNzww7ajn/ufr/Bx6OPXX/TUFezmQ==}
     peerDependencies:
       vitest: ^4.1.0
+
+  '@hono/zod-validator@0.4.3':
+    resolution: {integrity: sha512-xIgMYXDyJ4Hj6ekm9T9Y27s080Nl9NXHcJkOvkXPhubOLj8hZkOL8pDnnXfvCf5xEE8Q4oMFenQUZZREUY2gqQ==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
 
   '@hookform/resolvers@3.10.0':
     resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
@@ -8898,6 +9118,11 @@ snapshots:
     dependencies:
       fast-check: 4.7.0
       vitest: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+
+  '@hono/zod-validator@0.4.3(hono@4.12.14)(zod@3.25.76)':
+    dependencies:
+      hono: 4.12.14
+      zod: 3.25.76
 
   '@hookform/resolvers@3.10.0(react-hook-form@7.72.1(react@18.3.1))':
     dependencies:

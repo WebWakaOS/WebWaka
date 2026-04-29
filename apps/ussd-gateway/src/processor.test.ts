@@ -361,3 +361,63 @@ describe('processUSSDInput — community_menu (Branch 5)', () => {
     expect(result.text).toMatch(/^CON /);
   });
 });
+
+// ── Phase 3 (E25) — Branch 6: My Groups processor tests ─────────────────────
+
+const myGroupsData = [
+  { id: 'grp_001', name: 'Lagos Volunteers' },
+  { id: 'grp_002', name: 'Abuja Community' },
+];
+const broadcastsData = [
+  { id: 'bc_001', subject: 'Monthly Meeting', body: 'Join us on Sunday at 3pm.', sentAt: 1700000000 },
+  { id: 'bc_002', subject: 'Dues Reminder', body: 'Pay dues before month end.', sentAt: 1700001000 },
+];
+
+describe('processUSSDInput — branch 6 (My Groups, Phase 3 E25)', () => {
+  it('routes "6" from main_menu to groups_list state', () => {
+    const session = makeSession('main_menu', { myGroups: myGroupsData });
+    const result = processUSSDInput(session, '6');
+    expect(result.session.state).toBe('groups_list');
+    expect(result.text).toMatch(/^CON /);
+    expect(result.text).toContain('Lagos Volunteers');
+    expect(result.ended).toBe(false);
+  });
+
+  it('selecting a group from groups_list goes to groups_broadcasts', () => {
+    const session = makeSession('groups_list', {
+      myGroups: myGroupsData,
+      'groupBroadcasts_grp_001': broadcastsData,
+    });
+    const result = processUSSDInput(session, '1');
+    expect(result.session.state).toBe('groups_broadcasts');
+    expect(result.text).toContain('Monthly Meeting');
+    expect(result.ended).toBe(false);
+  });
+
+  it('viewing a broadcast from groups_broadcasts goes to groups_view_broadcast', () => {
+    const session = makeSession('groups_broadcasts', {
+      myGroups: myGroupsData,
+      selectedGroupIndex: 0,
+      selectedGroupId: 'grp_001',
+      'groupBroadcasts_grp_001': broadcastsData,
+    });
+    const result = processUSSDInput(session, '1');
+    expect(result.session.state).toBe('groups_view_broadcast');
+    expect(result.text).toContain('Join us on Sunday');
+    expect(result.ended).toBe(false);
+  });
+
+  it('"0" from groups_view_broadcast returns to groups_broadcasts', () => {
+    const session = makeSession('groups_view_broadcast', {
+      myGroups: myGroupsData,
+      selectedGroupIndex: 0,
+      selectedGroupId: 'grp_001',
+      'groupBroadcasts_grp_001': broadcastsData,
+      viewingBroadcastIndex: 0,
+    });
+    const result = processUSSDInput(session, '0');
+    expect(result.session.state).toBe('groups_broadcasts');
+    expect(result.text).toMatch(/^CON /);
+    expect(result.ended).toBe(false);
+  });
+});

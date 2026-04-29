@@ -10,7 +10,7 @@
  *  - Happy path marks status = 'completed' with export_key
  */
 
-import { describe, it, expect, vi, beforeEach, type MockedFunction } from 'vitest';
+import { describe, it, expect, vi, type MockedFunction } from 'vitest';
 import { compileDsarExport, storeExport, DsarProcessorService } from './dsar-processor.js';
 import type { DsarExportPayload, DsarEnv } from './dsar-processor.js';
 
@@ -176,10 +176,6 @@ describe('storeExport', () => {
 // ---------------------------------------------------------------------------
 
 describe('DsarProcessorService', () => {
-  let svc: DsarProcessorService;
-
-  beforeEach(() => { svc = new DsarProcessorService(); });
-
   function makePendingEnv(rows: Array<{ id: string; user_id: string; tenant_id: string; retry_count: number }>) {
     const updateBind = vi.fn(() => ({ run: vi.fn().mockResolvedValue({ success: true }) }));
     const firstBind  = vi.fn(() => ({ first: vi.fn().mockResolvedValue(null), run: vi.fn().mockResolvedValue({ success: true }), all: vi.fn().mockResolvedValue({ results: [] }) }));
@@ -201,12 +197,14 @@ describe('DsarProcessorService', () => {
   }
 
   it('processes no rows when queue is empty', async () => {
+    const svc = new DsarProcessorService();
     const { env, prepare } = makePendingEnv([]);
     await svc.processNextBatch(env, 10);
     expect(prepare).toHaveBeenCalledTimes(1); // Only the SELECT query
   });
 
   it('happy path: marks completed and stores export_key', async () => {
+    const svc = new DsarProcessorService();
     const row = { id: 'r-1', user_id: 'u-1', tenant_id: 't-1', retry_count: 0 };
     const updates: string[] = [];
 
@@ -229,6 +227,7 @@ describe('DsarProcessorService', () => {
   });
 
   it('increments retry_count on failure and keeps status pending', async () => {
+    const svc = new DsarProcessorService();
     const row = { id: 'r-fail', user_id: 'u-1', tenant_id: 't-1', retry_count: 0 };
     const updatedStatuses: string[] = [];
     const updatedRetryCounts: number[] = [];
@@ -259,6 +258,7 @@ describe('DsarProcessorService', () => {
   });
 
   it('marks permanently_failed after retry_count reaches 3', async () => {
+    const svc = new DsarProcessorService();
     const row = { id: 'r-perm', user_id: 'u-1', tenant_id: 't-1', retry_count: 2 };
     const updatedStatuses: string[] = [];
 

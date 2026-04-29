@@ -12,6 +12,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/pos',        label: 'Point of Sale', icon: '🛒' },
   { to: '/offerings',  label: 'Offerings',  icon: '📦' },
   { to: '/vertical',   label: 'My Vertical', icon: '🏢' },
+  { to: '/wakapage',   label: 'WakaPage',   icon: '🌐' },
   { to: '/settings',   label: 'Settings',   icon: '⚙️' },
 ];
 

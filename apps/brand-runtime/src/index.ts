@@ -39,6 +39,7 @@ import { portalRouter } from './routes/portal.js';
 import { blogRouter } from './routes/blog.js';
 import { shopRouter } from './routes/shop.js';
 import { sitemapRouter } from './routes/sitemap.js';
+import { wakaPageRouter } from './routes/wakapage.js';
 import { brandingEntitlementMiddleware } from './middleware/branding-entitlement.js';
 import { whiteLabelDepthMiddleware } from './middleware/white-label-depth.js';
 import { tenantResolve } from './middleware/tenant-resolve.js';
@@ -160,6 +161,9 @@ app.route('/portal', portalRouter);
 app.route('/blog', blogRouter);
 app.route('/shop', shopRouter);
 app.route('/', sitemapRouter);
+
+// ─── WakaPage public renderer (Phase 2 — ADR-0041) ──────────────────────
+app.route('/wakapage', wakaPageRouter);
 
 // ─── Branded public home ─────────────────────────────────────────────────
 app.route('/', brandedPageRouter);

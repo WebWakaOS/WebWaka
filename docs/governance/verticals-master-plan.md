@@ -4,7 +4,8 @@
 **Author:** Replit Agent (M8 Planning)
 **Date:** 2026-04-09
 **Phase 0 Source:** `docs/planning/m8-phase0-original-verticals.md`
-**Seed:** `infra/db/seeds/0004_verticals-master.csv` (160 verticals)
+**Seed:** `infra/db/seeds/0004_verticals-master.csv` (160 rows: 157 active + 3 deprecated)
+**Reconciliation:** STOP-AND-RECONCILE audit 2026-04-25 — see `docs/reports/vertical-taxonomy-reconciliation-report-2026-04-25.md`
 
 ---
 
@@ -24,9 +25,9 @@ WebWaka OS is built once and reused infinitely. Verticals are the sector-specifi
 | Priority | Label | Count | Requirement |
 |---|---|---|---|
 | **P1** | Original (pre-Top100) | 17 | 100% feature parity — must implement first |
-| **P2** | Top100 High-Fit (≥30/30) | ~80 | High Nigeria SME density and fit |
-| **P3** | Top100 Medium (20–29) | ~63 | Valid Nigeria market segments |
-| **TOTAL** | | **160** | All seeded in migration 0036 |
+| **P2** | Top100 High-Fit (≥30/30) | 63 active | High Nigeria SME density and fit |
+| **P3** | Top100 Medium (20–29) | 77 active | Valid Nigeria market segments |
+| **TOTAL active** | | **157** | 160 rows total; 3 deprecated (gym-fitness, petrol-station, nurtw) |
 
 ---
 
@@ -83,7 +84,7 @@ These 17 verticals are explicitly designed into the platform DNA. All must reach
 
 ---
 
-## 3-in-1 Pillar Classification for All 160 Verticals
+## 3-in-1 Pillar Classification for All Active Verticals
 
 All verticals default to serving **Pillars 1 and 3** (ops + marketplace/discovery). The full classification is stored in the `primary_pillars` column of the `verticals` D1 table (migration 0037). Below are the classification rules:
 
@@ -170,7 +171,7 @@ Verticals extend this base FSM with sector-specific intermediate states:
 ### Framework Over Implementation
 
 M8 delivers:
-1. **Infrastructure** — verticals table + 160 seeds + `packages/verticals/` FSM engine
+1. **Infrastructure** — verticals table + 160 CSV rows (157 active) + `packages/verticals/` FSM engine
 2. **Sample vertical per milestone** — one full implementation as template for parallel work
 3. **Research template** — `docs/templates/vertical-template.md` for per-vertical briefs
 4. **Parallel post-M8a** — any vertical can be built in any order after framework is ready
@@ -215,5 +216,5 @@ Each vertical gets its own research brief using `docs/templates/vertical-templat
 ---
 
 *Last updated: 2026-04-09*
-*Source data: `infra/db/seeds/0004_verticals-master.csv` — 160 verticals seeded*
+*Source data: `infra/db/seeds/0004_verticals-master.csv` — 160 rows (157 active, 3 deprecated — reconciled 2026-04-25)*
 *Migration: `infra/db/migrations/0036_verticals_table.sql`*

@@ -1,0 +1,50 @@
+🚨 REPLIT — POLITICAL ROLE-SPECIFIC TEMPLATE EXPANSION BLUEPRINT 🚨
+
+PRECONDITION:
+Platform template universe now at 192 templates across 6 new groups.
+The general expansion blueprint is complete and audited.
+
+PROBLEM:
+The expansion blueprint missed the specific political personality/role granularity requested:
+- Ward Councillor
+- Local Government Chairman  
+- Vice Chairman
+- House of Assembly Member
+- House of Representatives Member
+- Senator
+- Governor
+- Deputy Governor
+- Presidential Candidate
+- Political Appointee
+- Party Chapter Officer
+- etc.
+
+MISSION:
+Create a dedicated Political Role Template Expansion Blueprint using the exact same methodology as the audited general expansion (docs/templates/expansion/).
+
+Your job:
+1. Deeply research Nigeria's political hierarchy, office mandates, public presence needs, campaign vs incumbent differences, constituency service patterns, and trust signals.
+2. Map each role to its specific template needs — do NOT treat politicians as one generic template.
+3. Propose the complete political template family structure with anchors, variants, and standalone roles.
+4. Clear all candidates against the existing 192-template universe and the 160-row CSV (collision analysis).
+5. Output a priority queue for political template activation.
+
+OUTPUT SAME FORMAT AS AUDITED BLUEPRINT:
+- 00-Political-Master-Blueprint.md (executive + methodology)
+- 01-Political-Gap-Analysis.md
+- 02-Political-Candidate-Registry.md (all roles scored + VN-IDs)
+- 03-Political-Family-Structure.md
+- 04-Political-Market-Intelligence.md
+- 05-Political-Regulatory.md
+- 06-Political-Priority-Queue.md
+- 07-Political-Collision-Analysis.md (vs 192 templates + CSV)
+
+Include:
+- Candidate vs Incumbent splits
+- Constituency-service vs Campaign variants
+- Party office vs Public office distinctions
+- Ward/LGA/State/Federal geography relevance
+- Nigeria-first regulatory (INEC, state electoral commissions)
+- Trust signals per role (years served, constituency projects, legislative record)
+
+EXECUTE NOW.

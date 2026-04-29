@@ -19,21 +19,29 @@ import {
   communityAnnouncements,
   communityEvents,
   communityGroups,
+  groupsMenu,
+  groupBroadcastMenu,
+  viewBroadcast,
   endSession,
 } from './menus.js';
+import type { GroupBroadcastItem, BroadcastSnippet } from './menus.js';
 
 describe('mainMenu', () => {
   it('starts with CON prefix', () => {
     expect(mainMenu()).toMatch(/^CON /);
   });
 
-  it('lists all 5 options', () => {
+  it('lists all 5 original options', () => {
     const menu = mainMenu();
     expect(menu).toContain('1. My Wallet');
     expect(menu).toContain('2. Send Money');
     expect(menu).toContain('3. Trending Now');
     expect(menu).toContain('4. Book Transport');
     expect(menu).toContain('5. Community');
+  });
+
+  it('Phase 3 (E25): includes option 6 My Groups', () => {
+    expect(mainMenu()).toContain('6. My Groups');
   });
 });
 
@@ -252,5 +260,71 @@ describe('endSession', () => {
 
   it('includes the message', () => {
     expect(endSession('Transfer complete')).toContain('Transfer complete');
+  });
+});
+
+// ── Phase 3 (E25) — Branch 6: My Groups ─────────────────────────────────────
+
+const sampleGroups: GroupBroadcastItem[] = [
+  { id: 'grp_001', name: 'Lagos Volunteers' },
+  { id: 'grp_002', name: 'Abuja Community' },
+];
+
+const sampleBroadcasts: BroadcastSnippet[] = [
+  { id: 'bc_001', subject: 'Monthly Meeting', body: 'Join us on Sunday at 3pm for our monthly meeting.', sentAt: 1700000000 },
+  { id: 'bc_002', subject: 'Dues Reminder', body: 'Please pay your dues before end of month.', sentAt: 1700001000 },
+];
+
+describe('groupsMenu (Phase 3 E25)', () => {
+  it('starts with CON prefix', () => {
+    expect(groupsMenu(sampleGroups)).toMatch(/^CON /);
+  });
+
+  it('shows "no groups" message when empty', () => {
+    expect(groupsMenu([])).toContain('no groups');
+  });
+
+  it('shows numbered list of groups with back option', () => {
+    const text = groupsMenu(sampleGroups);
+    expect(text).toContain('1. Lagos Volunteers');
+    expect(text).toContain('2. Abuja Community');
+    expect(text).toContain('0. Back');
+  });
+});
+
+describe('groupBroadcastMenu (Phase 3 E25)', () => {
+  it('starts with CON prefix and shows group name', () => {
+    const text = groupBroadcastMenu('Lagos Volunteers', sampleBroadcasts);
+    expect(text).toMatch(/^CON /);
+    expect(text).toContain('Lagos Volunteers');
+  });
+
+  it('shows "No broadcasts yet" when empty', () => {
+    expect(groupBroadcastMenu('Test Group', [])).toContain('No broadcasts yet');
+  });
+
+  it('shows numbered list of up to 3 broadcasts', () => {
+    const text = groupBroadcastMenu('Lagos Volunteers', sampleBroadcasts);
+    expect(text).toContain('1. Monthly Meeting');
+    expect(text).toContain('2. Dues Reminder');
+    expect(text).toContain('0. Back');
+  });
+});
+
+describe('viewBroadcast (Phase 3 E25)', () => {
+  it('starts with CON prefix and shows subject + body', () => {
+    const text = viewBroadcast('Lagos Volunteers', sampleBroadcasts[0]!);
+    expect(text).toMatch(/^CON /);
+    expect(text).toContain('Monthly Meeting');
+    expect(text).toContain('Join us on Sunday');
+    expect(text).toContain('0. Back');
+  });
+
+  it('truncates body to 120 chars with ellipsis', () => {
+    const longBody = 'A'.repeat(200);
+    const text = viewBroadcast('G', { id: 'x', subject: 'Long', body: longBody, sentAt: 0 });
+    const bodyPart = text.split('\n').slice(1, -1).join('\n');
+    expect(bodyPart.length).toBeLessThanOrEqual(130);
+    expect(text).toContain('...');
   });
 });

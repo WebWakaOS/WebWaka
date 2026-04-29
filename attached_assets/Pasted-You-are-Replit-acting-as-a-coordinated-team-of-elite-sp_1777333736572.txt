@@ -1,0 +1,533 @@
+You are Replit, acting as a coordinated team of elite specialist agents performing the most thorough internal architecture review, codebase audit, governance review, deep external research, and implementation-planning synthesis possible for the WebWaka platform.
+
+This task is NOT about speed.
+This task is about thoroughness, correctness, evidence, and completeness.
+Thoroughness is non-negotiable.
+No shortcuts.
+No skipped files.
+No assumptions without proof.
+No generic summaries.
+No pretending.
+No using stale governance statements when newer code or newer documents have overtaken them.
+
+Your mission is to:
+1. read and understand the entire current WebWaka platform in extreme depth,
+2. review every code file and every document file that exists right now without skipping anything,
+3. determine the true current architecture of WebWaka, especially:
+   - the 3-in-1 architecture,
+   - the current support-group implementation,
+   - fundraising/shared value movement,
+   - discovery/public surfaces,
+   - WakaPage/public blocks,
+   - AI/Superagent cross-cutting architecture,
+   - governance, entitlements, events, search, workflows, and compliance,
+4. identify what in the current platform should be preserved, deprecated, refactored, generalized, renamed, modularized, or rebuilt,
+5. determine how WebWaka should evolve immediately, before launch, into a full Universal Mobilization Platform built on:
+   - core platform
+   - capability modules
+   - templates
+   - policy engine
+   - build once, use infinitely
+   - offline-first
+   - mobile-first
+   - PWA-first
+6. deeply research external best practices and standards,
+7. synthesize all internal evidence with external research and local Nigerian/African realities,
+8. produce a comprehensive planning document that will be the basis for actual implementation and execution planning.
+
+==================================================
+NON-NEGOTIABLE OPERATING RULES
+==================================================
+
+1. READ EVERYTHING
+You must read every existing code file and every existing document file in the current WebWaka repository.
+Do not skip files because they look unimportant.
+Do not only inspect entry points.
+Do not rely on filenames alone.
+Do not sample. Read all.
+
+2. EVIDENCE ONLY
+Every material claim must be backed by direct evidence from:
+- actual code,
+- actual config,
+- actual migrations,
+- actual tests,
+- actual docs,
+- actual grep/search findings,
+- actual file paths,
+- actual runtime or build outputs where applicable.
+
+If you cannot prove something from the repository or external evidence, you must say so clearly.
+
+3. NEWEST REALITY OVERRIDES OLDER GOVERNANCE TEXT
+You must read all governance and planning documents deeply, including old ones.
+However:
+- if an older governance document says one thing,
+- and a newer implementation, newer architecture note, newer report, newer migration, newer package, or newer validated plan says something else,
+then the newer reality overrides the older one.
+You must not blindly inherit stale governance assumptions.
+
+4. NO FAKE COMPLETENESS
+Do not say “implemented” unless code exists.
+Do not say “integrated” unless it is actually wired.
+Do not say “resolved” unless the problem is really resolved.
+Do not say “aligned” unless the structures are actually aligned.
+
+5. THOROUGHNESS OVER SPEED
+You are not optimizing for fast output.
+You are optimizing for a high-confidence architecture and implementation document that leaves nothing important out.
+
+6. MULTI-AGENT EXECUTION IS REQUIRED
+You must use the best possible specialist agents for each part of the work.
+Do not do this as a shallow single-pass review.
+Use a coordinated agent team with clear roles and explicit deliverables.
+
+==================================================
+CORE GOAL
+==================================================
+
+WebWaka has not launched yet.
+That means this is the best possible moment to:
+- refactor anything that should be refactored,
+- deprecate anything that should be deprecated,
+- rename or restructure anything that is too narrow,
+- generalize the platform correctly,
+- rebuild platform foundations where needed,
+before public adoption makes bad architecture expensive.
+
+Your strategic target is to determine exactly how the present WebWaka platform should evolve into a:
+
+WEBWAKA UNIVERSAL MOBILIZATION PLATFORM
+
+This means a system that can support:
+- elections and political organizing,
+- nonprofits and volunteer programs,
+- mutual aid networks,
+- issue advocacy,
+- petitions,
+- community action,
+- public service delivery,
+- local problem reporting,
+- constituency/community office workflows,
+- faith/community mobilization,
+- schools/alumni/professional networks,
+- cooperatives and associations,
+- personal support initiatives,
+- material need coordination,
+- financial need coordination,
+- awareness campaigns,
+- for-profit member/customer communities,
+- and future verticals
+without rewriting the platform core for each use case.
+
+The target architecture should be:
+- build once, use infinitely,
+- core platform + capability modules + templates + policy engine,
+- offline-first,
+- mobile-first,
+- PWA-first,
+- multi-tenant,
+- evidence-driven,
+- operationally deep,
+- governance-aware,
+- adaptable to Nigerian and broader African realities,
+- architecturally coherent.
+
+==================================================
+REQUIRED AGENT TEAM
+==================================================
+
+You must internally assign and coordinate at least these specialist agents:
+
+1. ORCHESTRATOR AGENT
+- manages task breakdown,
+- tracks evidence quality,
+- prevents skipped areas,
+- ensures output consistency.
+
+2. REPOSITORY CARTOGRAPHER AGENT
+- maps the entire repository,
+- catalogs packages, apps, docs, scripts, configs, tests, migrations, reports,
+- identifies architectural seams and dependency graph.
+
+3. ARCHITECTURE ANALYST AGENT
+- infers actual current architecture from code,
+- traces domain boundaries,
+- identifies coupling, overlap, modularity, duplication, and hidden assumptions.
+
+4. GOVERNANCE & DOCUMENT INTELLIGENCE AGENT
+- reads all governance, reports, ADRs, planning docs, specs, notes,
+- identifies chronology,
+- flags stale guidance,
+- determines what is current truth vs historical intent.
+
+5. DOMAIN MODEL AGENT
+- analyzes whether current WebWaka objects and flows are too election-specific or sufficiently generic,
+- designs the universal domain model needed for the future platform.
+
+6. AI / SUPERAGENT AGENT
+- deeply reviews superagent, AI config, capability metadata, vertical AI config, HITL, governance alignment, prompt architecture, cross-cutting AI role,
+- determines how AI should fit into the universal platform without unsafe or hardcoded coupling.
+
+7. OFFLINE-FIRST / PWA / MOBILE AGENT
+- reviews current frontend/mobile architecture,
+- identifies what exists now and what is missing for true offline-first/PWA-first/mobile-first operation,
+- proposes required refactors.
+
+8. DATA / DATABASE / SEARCH AGENT
+- reviews migrations, schemas, repository patterns, indexing, search, analytics, events, auditability,
+- determines what should be generalized or renamed.
+
+9. SECURITY / TRUST / POLICY AGENT
+- reviews auth, permissions, entitlements, privacy, consent, moderation, auditability, trust-and-safety requirements,
+- designs future policy-engine expectations.
+
+10. IMPLEMENTATION PLANNING AGENT
+- converts findings into concrete build plan,
+- sequences refactors, deprecations, new builds, migration path, rollout phases.
+
+11. EXTERNAL RESEARCH AGENT
+- performs deep online research on architecture, offline-first PWAs, modular SaaS, volunteer/case/community/civic platforms, policy engines, trust/safety, African low-connectivity realities, public-interest platforms, digital public infrastructure patterns, and best practices.
+
+12. SYNTHESIS EDITOR AGENT
+- combines all verified findings into one comprehensive, high-precision final document.
+
+==================================================
+MANDATORY INTERNAL REVIEW SCOPE
+==================================================
+
+You must review all current WebWaka code and docs, including but not limited to:
+
+A. MONOREPO / ROOT
+- all workspace configs
+- package manager configs
+- tsconfigs
+- lint/test configs
+- AGENTS/README/docs
+- scripts and automation
+- CI/CD config if present
+
+B. APPS
+Review every app and all files inside them:
+- api
+- notificator
+- frontend/web if present
+- admin/dashboards if present
+- any other apps
+
+C. PACKAGES
+Review every package and all files inside them:
+- support-groups
+- fundraising
+- community
+- events
+- entitlements
+- superagent
+- wakapage-blocks
+- any shared utilities
+- any auth, messaging, storage, search, analytics, payments, forms, workflow, or UI packages if present
+
+D. MIGRATIONS / DATA MODEL
+Read all migrations thoroughly.
+Understand chronology and schema evolution.
+Do not just read current tables; understand evolution.
+
+E. ROUTES / SERVICES / REPOSITORIES
+Review all routes, handlers, services, repositories, validators, event publishers, search indexing code, background jobs if any, and integration points.
+
+F. TESTS
+Read tests deeply.
+Use tests as evidence of intended behavior, but do not confuse test intent with implementation reality.
+
+G. GOVERNANCE / REPORTS / DOCS
+Read every architecture doc, implementation report, forensic report, governance file, plan, ADR, roadmap, or audit document.
+Determine chronology and truth status.
+
+==================================================
+SPECIFIC REVIEW QUESTIONS YOU MUST ANSWER
+==================================================
+
+You must answer, with evidence, at minimum the following:
+
+1. What is the true current architecture of WebWaka today?
+2. What does the “3-in-1 architecture” currently mean in code, not just in docs?
+3. Which parts of the platform are actually generic already?
+4. Which parts are falsely generic in language but narrow in implementation?
+5. Which entities, routes, modules, and docs are too election-specific or support-group-specific?
+6. Which current packages should become core platform modules?
+7. Which current packages should remain template-specific or vertical-specific extensions?
+8. How should support-groups be generalized into a universal groups/networks/chapters/campaigns model?
+9. How should fundraising be generalized into a broader value movement / money / aid / dues / grant / in-kind engine?
+10. How should current public/discovery/search layers evolve into universal discovery and mobilization surfaces?
+11. How should WakaPage blocks evolve in the universal platform?
+12. How should AI/Superagent become a true cross-cutting layer rather than a narrow vertical add-on?
+13. Which current governance assumptions are stale and overtaken by implementation?
+14. Which current docs are still authoritative?
+15. Which routes, tables, services, terms, and module names should be deprecated before launch?
+16. Which current architectural decisions are strong and should be preserved?
+17. Which current architectural decisions will create long-term debt if not fixed now?
+18. What must be rebuilt now because retrofitting later will be too expensive?
+19. What is required to make WebWaka truly offline-first?
+20. What is required to make WebWaka truly PWA-first?
+21. What is required to make WebWaka truly mobile-first for Nigeria/Africa field reality?
+22. What is required to make WebWaka “build once, use infinitely” in practice, not just as a slogan?
+23. How should a policy engine be introduced?
+24. What should be core platform vs capability modules vs templates vs policy layer?
+25. What should be the migration path from today’s codebase to that target architecture?
+
+==================================================
+EXTERNAL RESEARCH REQUIREMENTS
+==================================================
+
+After the internal repository review, you must perform deep online research.
+
+Research topics must include:
+- multi-tenant SaaS architecture best practices
+- modular platform and plugin/module architecture
+- workflow engine design
+- policy/rules engine patterns
+- offline-first architecture
+- IndexedDB/local-first/browser sync design
+- PWA-first standards and background sync
+- conflict resolution strategies
+- volunteer management platforms
+- community organizing platforms
+- petition/advocacy platforms
+- nonprofit CRM and case management platforms
+- mutual aid / service coordination models
+- public-interest / civic tech best practices
+- digital public infrastructure and reusable trust/payment/identity layers
+- trust & safety / moderation / privacy / consent best practices
+- low-bandwidth / low-connectivity / Android-first product design
+- African/Nigerian operational realities relevant to adoption and design
+
+You must synthesize external research with:
+- current WebWaka code reality,
+- current product ambition,
+- local context,
+- pre-launch refactor opportunity.
+
+Do not produce generic external research summaries.
+The purpose is to shape implementation decisions for WebWaka.
+
+==================================================
+REQUIRED OUTPUTS
+==================================================
+
+You must produce ONE master comprehensive document plus supporting appendices if needed.
+
+Preferred title:
+WEBWAKA UNIVERSAL MOBILIZATION PLATFORM
+COMPREHENSIVE ARCHITECTURE REVIEW, REFACTOR STRATEGY, AND IMPLEMENTATION BLUEPRINT
+
+The document must be exhaustive and highly structured.
+
+==================================================
+MANDATORY DOCUMENT STRUCTURE
+==================================================
+
+PART 1 — Executive Overview
+- What WebWaka is today
+- What it should become
+- Why refactor now before launch
+- Top-level recommendation
+
+PART 2 — Repository Reality Audit
+- Repository map
+- Apps and packages
+- Current architectural layers
+- Evidence-based summary of what exists today
+
+PART 3 — Current 3-in-1 Architecture
+- What the 3-in-1 architecture currently means in docs
+- What it actually means in code
+- What parts are solid
+- What parts are incomplete, narrow, or inconsistent
+
+PART 4 — Current AI / Superagent Cross-Cutting Architecture
+- What exists today
+- How AI is wired
+- Governance and HITL
+- Capability metadata
+- Vertical AI config
+- Where AI is too narrow, too coupled, or misaligned
+- How AI should evolve into a universal cross-cutting layer
+
+PART 5 — Governance Chronology and Truth Map
+- Chronological review of governance/planning/implementation docs
+- Which documents are historical only
+- Which are overtaken
+- Which remain authoritative
+- Where new code overrides old documents
+- Where documents are ahead of code
+
+PART 6 — Domain Model Audit
+- Current entities and flows
+- Support-group-specific assumptions
+- Election-specific assumptions
+- Generic reusable primitives already present
+- Proposed universal domain model
+
+PART 7 — What Must Be Preserved
+- Existing strengths worth keeping
+- Existing modules/patterns that should form the foundation
+
+PART 8 — What Must Be Deprecated
+- Package names, route names, data models, terms, assumptions, docs, governance language, and architectural patterns that should be retired before launch
+- For each item: why deprecate, replacement path, urgency
+
+PART 9 — What Must Be Refactored
+- By module/package/app
+- For each item: current state, target state, rationale, refactor scope, difficulty, risk
+
+PART 10 — What Must Be Built Anew
+- Entirely new foundations/modules needed for the Universal Mobilization Platform
+- Policy engine
+- template system
+- workflow engine enhancements
+- offline-first substrate
+- PWA shell requirements
+- universal requests/cases/referrals layer
+- universal value movement layer
+- trust/safety systems
+- geography engine if needed
+- analytics/event model if needed
+
+PART 11 — Target Architecture Blueprint
+- Core platform
+- Capability modules
+- Templates
+- Policy engine
+- Cross-cutting AI layer
+- Cross-cutting search/discovery layer
+- Cross-cutting analytics/audit/event layer
+- How all layers interact
+
+PART 12 — Offline-First / Mobile-First / PWA-First Blueprint
+- Current state
+- Gaps
+- Required foundations
+- Sync model
+- conflict-resolution model
+- storage model
+- UX implications
+- Nigeria/Africa field reality implications
+
+PART 13 — Local Context Adaptation
+- Nigeria/Africa realities
+- low bandwidth
+- trust and verification realities
+- multi-language / literacy / accessibility considerations
+- informal and formal organizing structures
+- public-interest and community use realities
+- payment and identity considerations
+
+PART 14 — External Research Synthesis
+- Best practices and standards
+- competitor/adjacent-pattern lessons
+- what applies directly to WebWaka
+- what should be avoided
+
+PART 15 — Implementation Roadmap
+- sequencing
+- phase 0 refactor-before-launch
+- phase 1 foundations
+- phase 2 module generalization
+- phase 3 templates
+- phase 4 intelligence and ecosystem
+- dependencies
+- critical path
+- risk management
+
+PART 16 — Build Once, Use Infinitely Translation
+- exact architectural rules and standards that operationalize the principle
+- what engineers must do and must never do
+- naming, abstraction, module, and policy rules
+
+PART 17 — Final Recommendations
+- explicit go-forward decisions
+- do-now actions
+- no-go patterns
+- launch-readiness prerequisites for the new architecture
+
+APPENDICES
+- full file inventory reviewed
+- evidence map
+- deprecated-to-replacement mapping
+- package-by-package recommendations
+- route-by-route recommendations
+- schema/table/entity recommendations
+- doc-authority matrix
+- research bibliography
+
+==================================================
+EVIDENCE FORMAT REQUIREMENTS
+==================================================
+
+In the final document:
+- every major claim about the current codebase must include evidence references:
+  - file paths
+  - package names
+  - route files
+  - migration files
+  - doc files
+  - test files
+- every major external best-practice claim must cite the external source used
+- when a governance doc is overtaken, state both:
+  - the older source
+  - the newer overriding source or code evidence
+
+You are not allowed to say:
+- “it appears”
+- “likely”
+- “probably”
+unless you explicitly explain why direct proof is unavailable.
+
+==================================================
+EXECUTION METHOD
+==================================================
+
+Do this in order:
+
+STEP 1 — Repository inventory
+Map every file and directory.
+
+STEP 2 — Full reading pass
+Read every code and document file.
+No skipping.
+
+STEP 3 — Architecture extraction
+Infer actual architecture from code.
+
+STEP 4 — Governance chronology
+Build truth map of docs vs implementation.
+
+STEP 5 — Deep targeted analysis
+Support-groups, fundraising, discovery, WakaPage, entitlements, events, AI/Superagent, governance, offline readiness, search, routing, data model.
+
+STEP 6 — External research
+Deep research, not shallow search.
+
+STEP 7 — Synthesis
+Combine internal truth + external best practice + local context.
+
+STEP 8 — Final blueprint
+Produce the comprehensive document.
+
+==================================================
+QUALITY BAR
+==================================================
+
+The final output must be good enough that:
+- a human architect can use it directly to plan refactoring and implementation,
+- a technical team can derive epics and workstreams from it,
+- no major current-platform area has been skipped,
+- no stale governance assumption is treated as current truth,
+- no unsupported claim survives,
+- the recommendation is fit for pre-launch architectural reset.
+
+If there is a conflict between speed and completeness, choose completeness.
+If there is a conflict between readability and evidence density, preserve both by using appendices and structured writing.
+If there is a conflict between old documents and newer code, the newer verified reality wins.
+
+Begin now.

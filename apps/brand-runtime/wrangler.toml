@@ -71,15 +71,10 @@ binding = "THEME_CACHE"
 id = "d89a05e8c5814c6c966061f62dd24f8c"
 
 # Cart sessions (Pillar 2 e-commerce). 24h TTL.
-# P1 audit fix (2026-04-25): binding was missing in production wrangler.toml.
-# CART_KV is created via `wrangler kv:namespace create webwaka-cart-production`
-# and the resulting ID must replace the placeholder before first deploy.
-# TODO(ops): replace this id with the production CART_KV namespace id created
-# via wrangler. The placeholder below uses the THEME_CACHE id as a deployment-
-# safe stand-in so the worker still binds; ops MUST swap this on first deploy.
+# Namespace: webwaka-cart-production (ad5ee7647f9b47d698f6ed8880c4d6b3)
 [[env.production.kv_namespaces]]
 binding = "CART_KV"
-id = "d89a05e8c5814c6c966061f62dd24f8c"
+id = "ad5ee7647f9b47d698f6ed8880c4d6b3"
 
 # R2 — brand asset storage (logos, cover images, favicons)
 [[env.production.r2_buckets]]

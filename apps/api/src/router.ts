@@ -65,6 +65,10 @@ import { negotiationRouter } from './routes/negotiation.js';
 import { partnerRoutes } from './routes/partners.js';
 import { templateRoutes } from './routes/templates.js';
 import { complianceRoutes } from './routes/compliance.js';
+import {
+  regulatoryVerificationRoutes,
+  platformAdminSectorLicensesRoutes,
+} from './routes/regulatory-verification.js';
 import { webhookRoutes } from './routes/webhooks.js';
 import { resendBounceWebhook } from './routes/resend-bounce-webhook.js';
 import { openapiRoutes, swaggerRoutes } from './routes/openapi.js';
@@ -90,6 +94,21 @@ import { platformAdminBillingRoutes } from './routes/platform-admin-billing.js';
 import { platformAdminVerticalsRoutes } from './routes/platform-admin-verticals.js';
 import { tenantBrandingRoutes } from './routes/tenant-branding.js';
 import { profileRoutes } from './routes/profiles.js';
+import { wakaPageRoutes } from './routes/wakapage.js';
+import { supportGroupRoutes } from './routes/support-groups.js';
+import { groupRoutes } from './routes/groups.js';
+import { casesRoutes } from './routes/cases.js';
+import { fundraisingRoutes } from './routes/fundraising.js';
+import { duesRoutes } from './routes/dues.js';
+import { mutualAidRoutes } from './routes/mutual-aid.js';
+import { workflowRoutes } from './routes/workflows.js';
+import { phase2AnalyticsRoutes } from './routes/phase2-analytics.js';
+import { pollsRoutes } from './routes/polls.js';
+import { communityReportRoutes } from './routes/community-reports.js';
+import { imagePipelineRoutes } from './routes/image-pipeline.js';
+import { whatsappTemplateRoutes } from './routes/whatsapp-templates.js';
+import { appealsRoutes } from './routes/appeals.js';
+import { developerRoutes } from './routes/developer.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -100,6 +119,15 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('*', errorLogMiddleware);
 
   // -------------------------------------------------------------------------
+  // Phase 6 / ADR-0018: API versioning — add X-API-Version: 1 to every
+  // response so external consumers can detect the API version at runtime.
+  // -------------------------------------------------------------------------
+  app.use('*', async (c, next) => {
+    await next();
+    c.res.headers.set('X-API-Version', '1');
+  });
+
+  // -------------------------------------------------------------------------
   // Public routes (no auth)
   // -------------------------------------------------------------------------
 
@@ -108,6 +136,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   app.get('/version', (c) => c.json({ version: API_VERSION }));
   app.route('/openapi.json', openapiRoutes);
   app.route('/docs', swaggerRoutes); // GOV-03: Swagger UI
+  app.route('/developer', developerRoutes); // Phase 6 / E33: Public API developer info
   app.route('/geography', geographyRoutes);
   app.route('/discovery', discoveryRoutes);
 
@@ -884,4 +913,294 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // COMP-001 / ENH-039: NDPR DSAR (Data Subject Access Request) endpoints.
   // Auth enforced inside the route handler — authMiddleware applied on all routes.
   app.route('/compliance', complianceRoutes);
+
+  // -------------------------------------------------------------------------
+  // Regulatory Verification — Compliance-gated template licence submissions
+  //   POST /regulatory-verification/submit  — submit licence for review
+  //   GET  /regulatory-verification/status  — get all verifications for workspace
+  //
+  // All routes: auth required + audit log.
+  // -------------------------------------------------------------------------
+
+  app.use('/regulatory-verification/*', authMiddleware);
+  app.use('/regulatory-verification/*', auditLogMiddleware);
+  app.route('/regulatory-verification', regulatoryVerificationRoutes);
+
+  // -------------------------------------------------------------------------
+  // Platform-admin sector licence review
+  //   GET  /platform-admin/sector-licenses           — list (filterable)
+  //   GET  /platform-admin/sector-licenses/:id       — detail
+  //   POST /platform-admin/sector-licenses/:id/verify  — approve
+  //   POST /platform-admin/sector-licenses/:id/reject  — reject
+  //   POST /platform-admin/sector-licenses/:id/expire  — expire verified
+  //
+  // All routes: super_admin only.
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/sector-licenses/*', authMiddleware);
+  app.use('/platform-admin/sector-licenses/*', requireRole('super_admin'));
+  app.use('/platform-admin/sector-licenses/*', auditLogMiddleware);
+  app.route('/platform-admin/sector-licenses', platformAdminSectorLicensesRoutes);
+
+  // -------------------------------------------------------------------------
+  // WakaPage — Phase 1 (ADR-0041)
+  //   POST   /wakapages                     — create page (admin/super_admin)
+  //   GET    /wakapages/:id                 — fetch page + blocks (any authed member)
+  //   PATCH  /wakapages/:id                 — update page metadata (admin/super_admin)
+  //   POST   /wakapages/:id/blocks          — add block (admin/super_admin)
+  //   PATCH  /wakapages/:id/blocks/:blockId — update block (admin/super_admin)
+  //   DELETE /wakapages/:id/blocks/:blockId — delete block (admin/super_admin)
+  //   POST   /wakapages/:id/publish         — publish page + index + emit event (admin/super_admin)
+  //
+  // Auth required on all routes (authMiddleware applied here).
+  // Entitlement (wakaPagePublicPage boolean) checked inside route handlers.
+  // -------------------------------------------------------------------------
+
+  app.use('/wakapages/*', authMiddleware);
+  app.use('/wakapages/*', auditLogMiddleware);
+  app.route('/wakapages', wakaPageRoutes);
+
+  // -------------------------------------------------------------------------
+  // Support Groups — 3-in-1: Operations / Branding / Discovery
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /support-groups/public              — discovery list
+  //   GET  /support-groups/public/:idOrSlug    — public profile
+  //   GET  /support-groups/:id/events/public   — public events for group
+  //
+  // Authenticated (JWT required) — all other paths:
+  //   POST   /support-groups                       — create group
+  //   GET    /support-groups                       — list workspace groups
+  //   GET    /support-groups/:idOrSlug             — get group
+  //   PATCH  /support-groups/:id                   — update group
+  //   POST   /support-groups/:id/join              — join group
+  //   GET    /support-groups/:id/members           — list members
+  //   POST   /support-groups/:id/members/:m/approve
+  //   PATCH  /support-groups/:id/members/:m/role
+  //   POST   /support-groups/:id/meetings          — schedule meeting
+  //   GET    /support-groups/:id/meetings          — list meetings
+  //   POST   /support-groups/:id/broadcasts        — broadcast (entitlement-gated)
+  //   GET    /support-groups/:id/broadcasts
+  //   POST   /support-groups/:id/events            — create event
+  //   GET    /support-groups/:id/events            — list events
+  //   POST   /support-groups/:id/gotv              — GOTV (entitlement-gated, P13)
+  //   POST   /support-groups/:id/gotv/:g/confirm
+  //   GET    /support-groups/:id/gotv/stats
+  //   POST   /support-groups/:id/petitions         — open petition
+  //   POST   /support-groups/petitions/:p/sign     — sign petition
+  //   GET    /support-groups/:id/analytics         — analytics (entitlement-gated)
+  //
+  // T3: tenant_id from JWT on auth routes; X-Tenant-Id header on public routes.
+  // P13: voter_ref never returned in API responses.
+  // -------------------------------------------------------------------------
+
+  // Auth middleware — applied BEFORE route registration (Hono requirement)
+  // Scoped to all paths except /public* (which use X-Tenant-Id header instead)
+  app.use('/support-groups', authMiddleware);
+  app.use('/support-groups', auditLogMiddleware);
+  app.use('/support-groups/:id', authMiddleware);
+  app.use('/support-groups/:id', auditLogMiddleware);
+  app.use('/support-groups/:id/*', authMiddleware);
+  app.use('/support-groups/:id/*', auditLogMiddleware);
+  app.use('/support-groups/petitions/:petitionId/sign', authMiddleware);
+  app.use('/support-groups/petitions/:petitionId/sign', auditLogMiddleware);
+
+  // Route registration — public GET /support-groups/public* are unguarded above
+  app.route('/support-groups', supportGroupRoutes);
+
+  // -------------------------------------------------------------------------
+  // Groups — Phase 0 rename: /groups replaces /support-groups
+  // @webwaka/groups uses renamed tables (groups_* after migration 0432).
+  // /support-groups remains active for backward compat until migration 0438.
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /groups/public              — discovery list
+  //   GET  /groups/public/:idOrSlug   — public group profile
+  //   GET  /groups/:id/events/public  — public events for group
+  //
+  // Authenticated (JWT required) — all other paths:
+  //   POST/GET/PATCH /groups, /groups/:id, /groups/:id/* — full CRUD
+  //
+  // T3: tenant_id from JWT; P10: NDPR consent on join; P13: voter_ref in
+  //     /electoral/* only (not exposed here).
+  // -------------------------------------------------------------------------
+
+  app.use('/groups', authMiddleware);
+  app.use('/groups', auditLogMiddleware);
+  app.use('/groups/:id', authMiddleware);
+  app.use('/groups/:id', auditLogMiddleware);
+  app.use('/groups/:id/*', authMiddleware);
+  app.use('/groups/:id/*', auditLogMiddleware);
+  app.use('/groups/petitions/:petitionId/sign', authMiddleware);
+  app.use('/groups/petitions/:petitionId/sign', auditLogMiddleware);
+
+  app.route('/groups', groupRoutes);
+
+  // -------------------------------------------------------------------------
+  // Cases — Phase 1 case management (create → assign → note → resolve → close)
+  //
+  // POST   /cases                   — open a new case
+  // GET    /cases                   — list workspace cases
+  // GET    /cases/summary           — dashboard stats
+  // GET    /cases/:id               — get case
+  // POST   /cases/:id/assign        — assign to agent
+  // POST   /cases/:id/notes         — add note
+  // GET    /cases/:id/notes         — list notes
+  // POST   /cases/:id/resolve       — resolve
+  // POST   /cases/:id/close         — close
+  // POST   /cases/:id/reopen        — reopen
+  //
+  // Entitlement: starter+ (assertCasesEnabled)
+  // T3: tenantId from JWT on every query.
+  // P10: ndprConsented required on create.
+  // -------------------------------------------------------------------------
+
+  app.use('/cases', authMiddleware);
+  app.use('/cases', auditLogMiddleware);
+  app.use('/cases/:id', authMiddleware);
+  app.use('/cases/:id', auditLogMiddleware);
+  app.use('/cases/:id/*', authMiddleware);
+  app.use('/cases/:id/*', auditLogMiddleware);
+  app.use('/cases/summary', authMiddleware);
+  app.use('/cases/summary', auditLogMiddleware);
+
+  app.route('/cases', casesRoutes);
+
+  // -------------------------------------------------------------------------
+  // Fundraising — shared campaign engine
+  //
+  // Public (no auth — X-Tenant-Id header):
+  //   GET  /fundraising/public              — campaign discovery list
+  //   GET  /fundraising/public/:idOrSlug    — public campaign profile
+  //   GET  /fundraising/public/:id/donor-wall
+  //
+  // Authenticated (JWT required):
+  //   POST   /fundraising/campaigns               — create campaign
+  //   GET    /fundraising/campaigns               — list workspace campaigns
+  //   GET    /fundraising/campaigns/:idOrSlug     — get campaign
+  //   PATCH  /fundraising/campaigns/:id           — update
+  //   POST   /fundraising/campaigns/:id/publish
+  //   POST   /fundraising/campaigns/:id/moderate
+  //   POST   /fundraising/campaigns/:id/contributions     (P9 kobo, [A1] INEC cap)
+  //   POST   /fundraising/campaigns/:id/contributions/:c/confirm
+  //   GET    /fundraising/campaigns/:id/contributions     (P13: donor_phone stripped)
+  //   POST   /fundraising/campaigns/:id/pledges           (entitlement-gated, P13)
+  //   POST   /fundraising/campaigns/:id/milestones
+  //   GET    /fundraising/campaigns/:id/milestones
+  //   POST   /fundraising/campaigns/:id/updates
+  //   GET    /fundraising/campaigns/:id/updates
+  //   POST   /fundraising/campaigns/:id/rewards           (entitlement-gated)
+  //   POST   /fundraising/campaigns/:id/payout-requests   ([A2] HITL for political)
+  //   GET    /fundraising/campaigns/:id/payout-requests
+  //   POST   /fundraising/campaigns/:id/payout-requests/:p/approve
+  //   POST   /fundraising/campaigns/:id/payout-requests/:p/reject
+  //   POST   /fundraising/campaigns/:id/compliance
+  //   GET    /fundraising/campaigns/:id/stats
+  //
+  // T3: tenant_id from JWT; P9: kobo int; P13: donor_phone/bank_account_number stripped
+  // [A1] INEC cap: ₦50m per contributor for political/election campaigns
+  // [A2] CBN: Paystack pass-through; HITL required for political/election payouts
+  // -------------------------------------------------------------------------
+
+  // Auth middleware — applied BEFORE route registration
+  // /fundraising/public* paths are left unguarded (X-Tenant-Id based)
+  app.use('/fundraising/campaigns', authMiddleware);
+  app.use('/fundraising/campaigns', auditLogMiddleware);
+  app.use('/fundraising/campaigns/*', authMiddleware);
+  app.use('/fundraising/campaigns/*', auditLogMiddleware);
+
+  app.route('/fundraising', fundraisingRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Value Movement: Dues Collection (FR-VM-15)
+  // POST /dues/schedules · GET /dues/schedules · GET /dues/schedules/:id
+  // GET /dues/schedules/:id/status · POST /dues/schedules/:id/pay
+  // POST /dues/schedules/:id/close
+  // -------------------------------------------------------------------------
+  app.use('/dues/*', authMiddleware);
+  app.use('/dues/*', auditLogMiddleware);
+  app.route('/dues', duesRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Value Movement: Mutual Aid (FR-VM-16)
+  // POST /mutual-aid · GET /mutual-aid · GET /mutual-aid/:id
+  // POST /mutual-aid/:id/vote · POST /mutual-aid/:id/disburse
+  // -------------------------------------------------------------------------
+  app.use('/mutual-aid', authMiddleware);
+  app.use('/mutual-aid', auditLogMiddleware);
+  app.use('/mutual-aid/*', authMiddleware);
+  app.use('/mutual-aid/*', auditLogMiddleware);
+  app.route('/mutual-aid', mutualAidRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Workflow Engine
+  // GET /workflows/definitions · GET /workflows/definitions/:key
+  // POST /workflows/definitions/:key/start
+  // GET /workflows/instances · GET /workflows/instances/:id
+  // POST /workflows/instances/:id/advance
+  // -------------------------------------------------------------------------
+  app.use('/workflows/*', authMiddleware);
+  app.use('/workflows/*', auditLogMiddleware);
+  app.route('/workflows', workflowRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Analytics (M12 gate: 3 workspace metrics)
+  // GET /analytics/v2/workspace · GET /analytics/v2/groups/:id
+  // GET /analytics/v2/campaigns/:id
+  // -------------------------------------------------------------------------
+  app.use('/analytics/v2/*', authMiddleware);
+  app.route('/analytics/v2', phase2AnalyticsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Group Polls/Surveys (T006)
+  // POST /groups/:groupId/polls · GET /groups/:groupId/polls
+  // GET /groups/:groupId/polls/:pollId
+  // POST /groups/:groupId/polls/:pollId/vote
+  // POST /groups/:groupId/polls/:pollId/close
+  // -------------------------------------------------------------------------
+  app.use('/groups/:groupId/polls', authMiddleware);
+  app.use('/groups/:groupId/polls/*', authMiddleware);
+  app.route('/groups', pollsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 2 — Community Reporting / Content Flags (T008)
+  // POST /content-flags · GET /content-flags · PATCH /content-flags/:id
+  // -------------------------------------------------------------------------
+  app.use('/content-flags', authMiddleware);
+  app.use('/content-flags', auditLogMiddleware);
+  app.use('/content-flags/*', authMiddleware);
+  app.use('/content-flags/*', auditLogMiddleware);
+  app.route('/content-flags', communityReportRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 3 (E23) — Low-Bandwidth Image Pipeline
+  // POST /image-variants · GET /image-variants/:entityType/:entityId
+  // PATCH /image-variants/:id/process
+  // -------------------------------------------------------------------------
+  app.use('/image-variants', authMiddleware);
+  app.use('/image-variants/*', authMiddleware);
+  app.route('/image-variants', imagePipelineRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 3 (E24) — WhatsApp Business API Template Management
+  // GET /whatsapp-templates · POST /whatsapp-templates
+  // GET /whatsapp-templates/defaults · GET /whatsapp-templates/:id
+  // PATCH /whatsapp-templates/:id/status
+  // -------------------------------------------------------------------------
+  app.use('/whatsapp-templates', authMiddleware);
+  app.use('/whatsapp-templates/*', authMiddleware);
+  app.route('/whatsapp-templates', whatsappTemplateRoutes);
+
+  // -------------------------------------------------------------------------
+  // Phase 5 (E32) — Moderation Appeal Flow
+  // POST /appeals               — submit appeal (auth required, any role)
+  // GET  /appeals/admin         — list pending appeals (admin/super_admin)
+  // PATCH /appeals/admin/:id    — review appeal (admin/super_admin)
+  // T5: admin role enforced inside handler; P13: reviewer_id not in public responses
+  // -------------------------------------------------------------------------
+  app.use('/appeals', authMiddleware);
+  app.use('/appeals/*', authMiddleware);
+  app.use('/appeals', auditLogMiddleware);
+  app.use('/appeals/*', auditLogMiddleware);
+  app.route('/appeals', appealsRoutes);
 }

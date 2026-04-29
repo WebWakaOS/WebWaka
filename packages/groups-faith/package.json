@@ -1,0 +1,20 @@
+{
+  "name": "@webwaka/groups-faith",
+  "version": "0.1.0",
+  "description": "[Phase 2] Faith community group extension — denomination, tithe bridge (FR-GRP-P4)",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

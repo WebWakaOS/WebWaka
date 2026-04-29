@@ -1434,6 +1434,7 @@ paths:
 
         Results are sorted by pillar (ascending) then alphabetically by capability key.
       operationId: listCapabilities
+      security: []
       responses:
         "200":
           description: Full capability catalogue

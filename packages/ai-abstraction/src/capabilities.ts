@@ -9,6 +9,10 @@
  * P10: NDPR consent required before any capability executes.
  * P12: No AI on USSD sessions.
  * P13: No raw PII passed to AI providers.
+ *
+ * Phase 5 (E29): 5 new mobilization-intelligence capabilities added.
+ *   mobilization_analytics, broadcast_scheduler, member_segmentation,
+ *   petition_optimizer, case_classifier (PRD §12.8 roadmap)
  */
 
 import type { AIRoutingContext, AIRoutingErrorCode } from './types.js';
@@ -54,7 +58,13 @@ export type AICapabilityType =
   | 'content_moderation'      // text safety check before publish
   | 'sentiment_analysis'      // sentiment classification for reviews / feedback
   | 'translation'             // translate content to local Nigerian languages + Pidgin
-  | 'document_extractor';     // extract structured data from PDFs / images (CAC, INEC, etc.)
+  | 'document_extractor'      // extract structured data from PDFs / images (CAC, INEC, etc.)
+  // Phase 5 (E29) — Mobilization Intelligence (PRD §12.8)
+  | 'mobilization_analytics'  // predict optimal broadcast time, engagement drop-off, GOTV conversion
+  | 'broadcast_scheduler'     // AI-recommended broadcast schedule from member activity patterns
+  | 'member_segmentation'     // auto-segment members by activity, geography, engagement
+  | 'petition_optimizer'      // suggest petition body improvements for higher signature conversion
+  | 'case_classifier';        // auto-classify incoming cases by type, urgency, optimal handler
 
 // ---------------------------------------------------------------------------
 // Capability → minimum plan required
@@ -89,6 +99,12 @@ const CAPABILITY_PLAN_TIER: Record<AICapabilityType, 'growth' | 'pro' | 'enterpr
   sentiment_analysis:        'growth',
   translation:               'growth',
   document_extractor:        'pro',
+  // Phase 5 (E29) — Mobilization Intelligence
+  mobilization_analytics:    'pro',
+  broadcast_scheduler:       'pro',
+  member_segmentation:       'pro',
+  petition_optimizer:        'growth',
+  case_classifier:           'growth',
 };
 export { CAPABILITY_PLAN_TIER };
 
@@ -115,6 +131,8 @@ export type CapabilityCheckResult =
  *   2. P10 — require NDPR consent
  *   3. aiRights — plan entitlement check
  *   4. Spend cap — monthly WakaCU budget
+ *   5. Phase 5 (E29): tenant-level prohibited_capabilities check (PRD §10.5)
+ *   6. Phase 5 (E29): maxAutonomyLevel check — blocks write-capable capabilities when exceeded
  */
 export function evaluateAICapability(ctx: AIRoutingContext): CapabilityCheckResult {
   // P12 — absolutely no AI on USSD sessions
@@ -150,6 +168,41 @@ export function evaluateAICapability(ctx: AIRoutingContext): CapabilityCheckResu
       allowed: false,
       code: 'SPEND_CAP_EXCEEDED',
       reason: `Monthly WakaCU spend cap of ${ctx.spendCapWakaCu} has been reached for this workspace.`,
+    };
+  }
+
+  // Phase 5 (E29) — Tenant-level prohibited_capabilities gate (PRD §10.5)
+  // Sourced from policy_rules ai_gate category at evaluation time.
+  if (ctx.prohibitedCapabilities && ctx.prohibitedCapabilities.length > 0) {
+    if (ctx.prohibitedCapabilities.includes(ctx.capability)) {
+      return {
+        allowed: false,
+        code: 'ENTITLEMENT_DENIED',
+        reason: `Capability '${ctx.capability}' is prohibited by tenant AI policy (PRD §10.5: ai_governance.prohibited_capabilities).`,
+      };
+    }
+  }
+
+  // Phase 5 (E29) — maxAutonomyLevel gate (PRD §10.5)
+  // Write-capable mobilization capabilities (autonomy > 2) require explicit policy allowance.
+  // Platform default max autonomy = 2 (advisory only, P7). Tenants may lower this.
+  const WRITE_CAPABLE_CAPABILITIES: readonly AICapabilityType[] = [
+    'mobilization_analytics',
+    'broadcast_scheduler',
+    'member_segmentation',
+    'petition_optimizer',
+    'case_classifier',
+    'function_call',
+  ];
+  if (
+    ctx.maxAutonomyLevel != null &&
+    ctx.maxAutonomyLevel < 1 &&
+    WRITE_CAPABLE_CAPABILITIES.includes(ctx.capability)
+  ) {
+    return {
+      allowed: false,
+      code: 'ENTITLEMENT_DENIED',
+      reason: `Tenant AI autonomy level ${ctx.maxAutonomyLevel} does not permit capability '${ctx.capability}'. Minimum autonomy level 1 required (PRD §10.5).`,
     };
   }
 

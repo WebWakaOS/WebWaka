@@ -111,3 +111,131 @@ describe('GET /geography/wards', () => {
     expect(body['error']).toMatch(/lgaId/);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Phase 6 (E35): Multi-Country Geography Tests
+// ---------------------------------------------------------------------------
+
+function makeMultiCountryApp(overrides: {
+  countries?: object[];
+  regions?: object[];
+} = {}): Hono {
+  const app = new Hono();
+
+  const countryRows = overrides.countries ?? [
+    { id: 'place_ng_country', name: 'Nigeria', country_code: 'NG' },
+    { id: 'place_gh_country', name: 'Ghana', country_code: 'GH' },
+    { id: 'place_ke_country', name: 'Kenya', country_code: 'KE' },
+  ];
+
+  const regionRows = overrides.regions ?? [
+    { id: 'place_gh_region_greater_accra', name: 'Greater Accra', geography_type: 'region', parent_id: 'place_gh_country', country_code: 'GH' },
+    { id: 'place_gh_region_ashanti', name: 'Ashanti', geography_type: 'region', parent_id: 'place_gh_country', country_code: 'GH' },
+  ];
+
+  const allFn = <T>(sql: string) => {
+    if (sql.includes("geography_type = 'country'")) return Promise.resolve({ results: countryRows as T[] });
+    if (sql.includes('geography_type = ?') && sql.includes('country_code = ?')) return Promise.resolve({ results: regionRows as T[] });
+    return Promise.resolve({ results: [] as T[] });
+  };
+
+  const mockDB = {
+    prepare: vi.fn().mockImplementation((sql: string) => ({
+      bind: (..._args: unknown[]) => ({
+        all: <T>() => allFn<T>(sql),
+      }),
+      all: <T>() => allFn<T>(sql),
+    })),
+  };
+
+  const mockKVCache = {
+    get: vi.fn().mockResolvedValue(null),
+    put: vi.fn().mockResolvedValue(undefined),
+  };
+
+  app.use('*', async (c, next) => {
+    c.env = { DB: mockDB, GEOGRAPHY_CACHE: mockKVCache } as never;
+    await next();
+  });
+
+  app.route('/geography', geographyRoutes);
+  return app;
+}
+
+describe('Phase 6 (E35) — GET /geography/countries', () => {
+  it('returns 200 with list of countries', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { data: Array<{ country_code: string }>; count: number };
+    expect(body.count).toBe(3);
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+
+  it('returns NG, GH, KE country codes', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries');
+    const body = await res.json() as { data: Array<{ country_code: string }> };
+    const codes = body.data.map((c) => c.country_code);
+    expect(codes).toContain('NG');
+    expect(codes).toContain('GH');
+    expect(codes).toContain('KE');
+  });
+
+  it('returns Cache-Control public header', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries');
+    expect(res.headers.get('cache-control')).toMatch(/public/);
+  });
+});
+
+describe('Phase 6 (E35) — GET /geography/countries/:countryCode/regions', () => {
+  it('returns 200 with Ghana regions', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries/GH/regions');
+    expect(res.status).toBe(200);
+    const body = await res.json() as {
+      country_code: string;
+      geography_type: string;
+      data: unknown[];
+      count: number;
+    };
+    expect(body.country_code).toBe('GH');
+    expect(body.geography_type).toBe('region');
+    expect(body.count).toBe(2);
+  });
+
+  it('maps KE to county geography_type', async () => {
+    const app = makeMultiCountryApp({
+      regions: [{ id: 'place_ke_county_nairobi', name: 'Nairobi', geography_type: 'county', parent_id: 'place_ke_country', country_code: 'KE' }],
+    });
+    const res = await app.request('/geography/countries/KE/regions');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { geography_type: string };
+    expect(body.geography_type).toBe('county');
+  });
+
+  it('maps NG to state geography_type', async () => {
+    const app = makeMultiCountryApp({ regions: [] });
+    const res = await app.request('/geography/countries/NG/regions');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { geography_type: string };
+    expect(body.geography_type).toBe('state');
+  });
+
+  it('returns 400 for unsupported country code', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries/US/regions');
+    expect(res.status).toBe(400);
+    const body = await res.json() as { error: string };
+    expect(body.error).toMatch(/not supported/);
+  });
+
+  it('is case-insensitive on country code parameter', async () => {
+    const app = makeMultiCountryApp();
+    const res = await app.request('/geography/countries/gh/regions');
+    expect(res.status).toBe(200);
+    const body = await res.json() as { country_code: string };
+    expect(body.country_code).toBe('GH');
+  });
+});

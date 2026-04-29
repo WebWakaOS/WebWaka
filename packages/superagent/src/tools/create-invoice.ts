@@ -22,6 +22,12 @@ interface LineItem {
   total_kobo: number;
 }
 
+interface RawLineItem {
+  description: unknown;
+  qty: unknown;
+  unit_price_kobo: unknown;
+}
+
 function isPositiveInteger(v: unknown): v is number {
   return typeof v === 'number' && Number.isFinite(v) && Number.isInteger(v) && v > 0;
 }
@@ -73,7 +79,7 @@ export const createInvoiceTool: RegisteredTool = {
 
   async handler(args, ctx) {
     const contactId = typeof args.contact_id === 'string' ? args.contact_id.trim() : '';
-    const rawItems  = Array.isArray(args.line_items) ? args.line_items : [];
+    const rawItems  = Array.isArray(args.line_items) ? (args.line_items as RawLineItem[]) : [];
     const dueDate   = typeof args.due_date === 'string' ? args.due_date.trim() || null : null;
 
     if (!contactId) {
@@ -87,8 +93,8 @@ export const createInvoiceTool: RegisteredTool = {
     const lineItems: LineItem[] = [];
     for (const [i, item] of rawItems.entries()) {
       const desc  = typeof item.description === 'string' ? item.description.trim() : '';
-      const qty   = item.qty;
-      const price = item.unit_price_kobo;
+      const qty: unknown   = item.qty;
+      const price: unknown = item.unit_price_kobo;
 
       if (!desc) {
         return JSON.stringify({ error: 'INVALID_LINE_ITEM', message: `Line item ${i + 1}: description is required.` });

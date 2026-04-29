@@ -199,6 +199,52 @@ export const SocialEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Groups (Phase 0 rename from SupportGroupEventType — 15 events)
+// Event string values are unchanged for backward compat with existing consumers.
+// ---------------------------------------------------------------------------
+
+export const GroupEventType = {
+  GroupCreated:            'support_group.created',
+  GroupUpdated:            'support_group.updated',
+  GroupArchived:           'support_group.archived',
+  GroupMemberJoined:       'support_group.member_joined',
+  GroupMemberApproved:     'support_group.member_approved',
+  GroupMemberSuspended:    'support_group.member_suspended',
+  GroupBroadcastSent:      'support_group.broadcast_sent',
+  GroupMeetingScheduled:   'support_group.meeting_scheduled',
+  GroupMeetingCompleted:   'support_group.meeting_completed',
+  GroupResolutionRecorded: 'support_group.resolution_recorded',
+  GroupEventCreated:       'support_group.event_created',
+  GroupGotvRecorded:       'support_group.gotv_recorded',
+  GroupGotvVoteConfirmed:  'support_group.gotv_vote_confirmed',
+  GroupPetitionOpened:     'support_group.petition_opened',
+  GroupPetitionSigned:     'support_group.petition_signed',
+} as const;
+
+/** @deprecated Use GroupEventType */
+export const SupportGroupEventType = GroupEventType;
+
+// ---------------------------------------------------------------------------
+// Fundraising (12 events)
+// ---------------------------------------------------------------------------
+
+export const FundraisingEventType = {
+  FundraisingCampaignCreated:        'fundraising.campaign_created',
+  FundraisingCampaignApproved:       'fundraising.campaign_approved',
+  FundraisingCampaignRejected:       'fundraising.campaign_rejected',
+  FundraisingCampaignCompleted:      'fundraising.campaign_completed',
+  FundraisingContributionReceived:   'fundraising.contribution_received',
+  FundraisingContributionConfirmed:  'fundraising.contribution_confirmed',
+  FundraisingContributionFailed:     'fundraising.contribution_failed',
+  FundraisingPledgeCreated:          'fundraising.pledge_created',
+  FundraisingMilestoneReached:       'fundraising.milestone_reached',
+  FundraisingUpdatePosted:           'fundraising.update_posted',
+  FundraisingPayoutRequested:        'fundraising.payout_requested',
+  FundraisingPayoutApproved:         'fundraising.payout_approved',
+  FundraisingPayoutRejected:         'fundraising.payout_rejected',
+} as const;
+
+// ---------------------------------------------------------------------------
 // Partner Ecosystem (6 events)
 // ---------------------------------------------------------------------------
 
@@ -310,6 +356,62 @@ export const WalletEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// WakaPage (Smart Profile / Public Page Builder) — Phase 0 foundation
+// Namespace: wakapage.*
+// Added: Phase 0 ADR-0041
+// ---------------------------------------------------------------------------
+
+export const WakaPageEventType = {
+  // Page lifecycle
+  WakaPageCreated:          'wakapage.page.created',
+  WakaPagePublished:        'wakapage.page.published',
+  WakaPageUnpublished:      'wakapage.page.unpublished',
+  WakaPageDeleted:          'wakapage.page.deleted',
+  WakaPageSlugChanged:      'wakapage.page.slug_changed',
+  // Block management
+  WakaPageBlockAdded:       'wakapage.block.added',
+  WakaPageBlockUpdated:     'wakapage.block.updated',
+  WakaPageBlockRemoved:     'wakapage.block.removed',
+  WakaPageBlockReordered:   'wakapage.block.reordered',
+  // Public surface engagement (analytics)
+  WakaPageViewed:           'wakapage.page.viewed',
+  WakaPageBlockClicked:     'wakapage.block.clicked',
+  WakaPageLeadCaptured:     'wakapage.lead.captured',
+  // Template & theme
+  WakaPageTemplateApplied:  'wakapage.template.applied',
+  WakaPageThemeUpdated:     'wakapage.theme.updated',
+  // QR / share
+  WakaPageQrGenerated:      'wakapage.qr.generated',
+  WakaPageShareLinkCopied:  'wakapage.share.link_copied',
+} as const;
+
+export type WakaPageEventType = (typeof WakaPageEventType)[keyof typeof WakaPageEventType];
+
+// WakaPage typed payloads
+
+export interface WakaPageCreatedPayload {
+  pageId: string;
+  workspaceId: string;
+  profileId: string;
+  slug: string;
+}
+
+export interface WakaPageViewedPayload {
+  pageId: string;
+  workspaceId: string;
+  visitorId?: string;
+  referrer?: string;
+  countryCode?: string;
+}
+
+export interface WakaPageLeadCapturedPayload {
+  pageId: string;
+  workspaceId: string;
+  blockId: string;
+  leadId: string;
+}
+
+// ---------------------------------------------------------------------------
 // Legacy event types (preserved for backwards compatibility — Milestone 6)
 // These constants are intentionally kept to avoid breaking existing callers.
 // ---------------------------------------------------------------------------
@@ -326,7 +428,73 @@ export const LegacyEventType = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// Unified EventType constant — all 122+ event keys combined
+// CaseEventType — Phase 1 case management lifecycle events
+// ---------------------------------------------------------------------------
+
+export const CaseEventType = {
+  CaseOpened:            'case.opened',
+  CaseAssigned:          'case.assigned',
+  CaseNoteAdded:         'case.note_added',
+  CaseStatusChanged:     'case.status_changed',
+  CaseResolved:          'case.resolved',
+  CaseClosed:            'case.closed',
+  CaseReopened:          'case.reopened',
+  CaseSlaBreached:       'case.sla_breached',
+} as const;
+export type CaseEventType = (typeof CaseEventType)[keyof typeof CaseEventType];
+
+// ---------------------------------------------------------------------------
+// Phase 2 event types
+// ---------------------------------------------------------------------------
+
+// DuesEventType — Dues Collection lifecycle (FR-VM-15)
+export const DuesEventType = {
+  DuesScheduleCreated:  'dues.schedule_created',
+  DuesPaymentRecorded:  'dues.payment_recorded',
+  DuesPaymentOverdue:   'dues.payment_overdue',
+  DuesScheduleClosed:   'dues.schedule_closed',
+} as const;
+export type DuesEventType = (typeof DuesEventType)[keyof typeof DuesEventType];
+
+// MutualAidEventType — Mutual Aid lifecycle (FR-VM-16)
+export const MutualAidEventType = {
+  MutualAidRequested:   'mutual_aid.requested',
+  MutualAidVoteCast:    'mutual_aid.vote_cast',
+  MutualAidApproved:    'mutual_aid.approved',
+  MutualAidDisbursed:   'mutual_aid.disbursed',
+  MutualAidRejected:    'mutual_aid.rejected',
+} as const;
+export type MutualAidEventType = (typeof MutualAidEventType)[keyof typeof MutualAidEventType];
+
+// WorkflowEventType — Workflow Engine lifecycle (Phase 2 T003)
+export const WorkflowEventType = {
+  WorkflowStarted:       'workflow.started',
+  WorkflowStepCompleted: 'workflow.step_completed',
+  WorkflowCompleted:     'workflow.completed',
+  WorkflowRejected:      'workflow.rejected',
+  WorkflowCancelled:     'workflow.cancelled',
+} as const;
+export type WorkflowEventType = (typeof WorkflowEventType)[keyof typeof WorkflowEventType];
+
+// PollEventType — Group Polls/Surveys (Phase 2 T006)
+export const PollEventType = {
+  PollCreated:  'poll.created',
+  PollVoteCast: 'poll.vote_cast',
+  PollClosed:   'poll.closed',
+} as const;
+export type PollEventType = (typeof PollEventType)[keyof typeof PollEventType];
+
+// ContentFlagEventType — Community Reporting (Phase 2 T008)
+export const ContentFlagEventType = {
+  ContentFlagged:      'content.flagged',
+  ContentFlagReviewed: 'content.flag_reviewed',
+  ContentFlagActioned: 'content.flag_actioned',
+} as const;
+export type ContentFlagEventType = (typeof ContentFlagEventType)[keyof typeof ContentFlagEventType];
+
+// ---------------------------------------------------------------------------
+// Unified EventType constant — all event keys combined
+// Phase 0: SupportGroupEventType → GroupEventType (alias maintained for compat).
 // ---------------------------------------------------------------------------
 
 export const EventType = {
@@ -334,6 +502,7 @@ export const EventType = {
   ...WorkspaceEventType,
   ...BillingEventType,
   ...KycEventType,
+  ...CaseEventType,
   ...ClaimEventType,
   ...NegotiationEventType,
   ...SupportEventType,
@@ -341,6 +510,8 @@ export const EventType = {
   ...OnboardingEventType,
   ...PosFinanceEventType,
   ...SocialEventType,
+  ...GroupEventType,
+  ...FundraisingEventType,
   ...PartnerEventType,
   ...BankTransferEventType,
   ...B2bEventType,
@@ -350,6 +521,11 @@ export const EventType = {
   ...VerticalEventType,
   ...WalletEventType,
   ...LegacyEventType,
+  ...DuesEventType,
+  ...MutualAidEventType,
+  ...WorkflowEventType,
+  ...PollEventType,
+  ...ContentFlagEventType,
 } as const;
 
 export type EventType = (typeof EventType)[keyof typeof EventType];
@@ -503,4 +679,31 @@ export interface VerticalEventPayload {
   recordType: string;
   workspaceId: string;
   details?: Record<string, unknown>;
+}
+
+// ---------------------------------------------------------------------------
+// WhatsApp Business API Template Management (Phase 3, E24)
+// ---------------------------------------------------------------------------
+
+export const WhatsAppTemplateEventType = {
+  /** Template submitted to Meta for approval */
+  WhatsAppTemplateSubmitted:  'whatsapp_template.submitted',
+  /** Meta approved the template — ready for use */
+  WhatsAppTemplateApproved:   'whatsapp_template.approved',
+  /** Meta rejected the template — fallback_to_inapp activated */
+  WhatsAppTemplateRejected:   'whatsapp_template.rejected',
+  /** Template deprecated (superseded or no longer needed) */
+  WhatsAppTemplateDeprecated: 'whatsapp_template.deprecated',
+} as const;
+
+export type WhatsAppTemplateEventKey = keyof typeof WhatsAppTemplateEventType;
+export type WhatsAppTemplateEventValue = typeof WhatsAppTemplateEventType[WhatsAppTemplateEventKey];
+
+export interface WhatsAppTemplateEventPayload {
+  templateId: string;
+  tenantId: string;
+  eventType: string;
+  templateName: string;
+  templateStatus: string;
+  rejectionReason?: string;
 }

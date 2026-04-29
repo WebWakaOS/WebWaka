@@ -38,6 +38,57 @@ const router = new Hono<{ Bindings: Env; Variables: Variables }>();
 type Offering = { name: string; description: string | null; price_kobo: number | null };
 type ProfileRow = { description: string | null; phone: string | null; email: string | null; website: string | null; place_name: string | null; category: string | null };
 
+// ---------------------------------------------------------------------------
+// Sector licence verification — compliance-gated template slugs
+// ---------------------------------------------------------------------------
+
+const GATED_SLUG_TO_VERTICAL: Record<string, string> = {
+  'hospital-secondary-care':            'hospital',
+  'university-higher-education':        'university',
+  'diagnostic-lab-medical-laboratory':  'diagnostic-lab',
+  'microfinance-bank-mfb-site':         'microfinance-bank',
+  'insurance-company-underwriter-site': 'insurance-company',
+  'pension-fund-pfa-site':              'pension-fund',
+  'stockbroker-securities-dealer':      'stockbroker',
+};
+
+type SectorLicenseInfo = {
+  status: string;
+  licenseNumber: string | null;
+  licenseBody: string | null;
+};
+
+async function fetchSectorLicenseStatus(
+  env: Env,
+  tenantId: string,
+  templateSlug: string | null,
+): Promise<SectorLicenseInfo> {
+  const none: SectorLicenseInfo = { status: 'not_submitted', licenseNumber: null, licenseBody: null };
+  if (!templateSlug) return none;
+  const verticalSlug = GATED_SLUG_TO_VERTICAL[templateSlug];
+  if (!verticalSlug) return none;
+
+  try {
+    const row = await env.DB.prepare(
+      `SELECT license_number, status, regulatory_body
+       FROM sector_license_verifications
+       WHERE workspace_id = ? AND vertical_slug = ?
+       ORDER BY (status = 'verified') DESC, submitted_at DESC
+       LIMIT 1`,
+    ).bind(tenantId, verticalSlug).first<{ license_number: string; status: string; regulatory_body: string }>();
+
+    if (!row) return none;
+
+    return {
+      status: row.status,
+      licenseNumber: row.status === 'verified' ? row.license_number : null,
+      licenseBody: row.regulatory_body,
+    };
+  } catch {
+    return none;
+  }
+}
+
 async function resolveTheme(
   c: Context<{ Bindings: Env; Variables: Variables }>,
 ): Promise<{ cssVars: string; theme: TenantTheme } | null> {
@@ -113,6 +164,7 @@ router.get('/', async (c) => {
   // Marketplace-driven rendering: per-page-type resolver (P0 fix: now reads
   // template_render_overrides per migration 0228).
   const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'home');
+  const sectorLicense = await fetchSectorLicenseStatus(c.env, theme.tenantId, templateContract?.slug ?? null);
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'home')) {
     body = templateContract.renderPage({
@@ -132,6 +184,9 @@ router.get('/', async (c) => {
         offerings: offerings.map((o) => ({ name: o.name, description: o.description, priceKobo: o.price_kobo })),
         description: profile?.description ?? null,
         tagline: null,
+        sectorLicenseStatus: sectorLicense.status,
+        sectorLicenseNumber: sectorLicense.licenseNumber,
+        sectorLicenseBody: sectorLicense.licenseBody,
       },
     });
   } else {
@@ -170,6 +225,7 @@ router.get('/about', async (c) => {
   const profile = await fetchProfile(c.env, theme.tenantId);
 
   const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'about');
+  const sectorLicense = await fetchSectorLicenseStatus(c.env, theme.tenantId, templateContract?.slug ?? null);
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'about')) {
     body = templateContract.renderPage({
@@ -191,6 +247,9 @@ router.get('/about', async (c) => {
         placeName: profile?.place_name ?? null,
         phone: profile?.phone ?? null,
         website: profile?.website ?? null,
+        sectorLicenseStatus: sectorLicense.status,
+        sectorLicenseNumber: sectorLicense.licenseNumber,
+        sectorLicenseBody: sectorLicense.licenseBody,
       },
     });
   } else {
@@ -224,6 +283,7 @@ router.get('/services', async (c) => {
   const offerings = await fetchOfferings(c.env, theme.tenantId, 50);
 
   const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'services');
+  const sectorLicense = await fetchSectorLicenseStatus(c.env, theme.tenantId, templateContract?.slug ?? null);
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'services')) {
     body = templateContract.renderPage({
@@ -241,6 +301,9 @@ router.get('/services', async (c) => {
       pageType: 'services',
       data: {
         offerings: offerings.map((o) => ({ name: o.name, description: o.description, priceKobo: o.price_kobo })),
+        sectorLicenseStatus: sectorLicense.status,
+        sectorLicenseNumber: sectorLicense.licenseNumber,
+        sectorLicenseBody: sectorLicense.licenseBody,
       },
     });
   } else {
@@ -272,6 +335,7 @@ router.get('/contact', async (c) => {
   const profile = await fetchProfile(c.env, theme.tenantId);
 
   const templateContract = await resolveTemplate(theme.tenantId, c.env.DB, 'contact');
+  const sectorLicense = await fetchSectorLicenseStatus(c.env, theme.tenantId, templateContract?.slug ?? null);
   let body: string;
   if (templateContract && templateSupportsPage(templateContract, 'contact')) {
     body = templateContract.renderPage({
@@ -291,6 +355,9 @@ router.get('/contact', async (c) => {
         phone: profile?.phone ?? null,
         email: profile?.email ?? null,
         placeName: profile?.place_name ?? null,
+        sectorLicenseStatus: sectorLicense.status,
+        sectorLicenseNumber: sectorLicense.licenseNumber,
+        sectorLicenseBody: sectorLicense.licenseBody,
       },
     });
   } else {

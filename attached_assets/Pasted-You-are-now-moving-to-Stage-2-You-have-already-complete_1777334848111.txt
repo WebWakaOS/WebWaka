@@ -1,0 +1,383 @@
+You are now moving to Stage 2.
+
+You have already completed:
+1. the full WebWaka master architecture/codebase/governance/external-research review, and
+2. the QA verification of that review.
+
+Your task now is to convert those verified findings into a phased, implementation-grade Product Requirements Document (PRD) for the WebWaka Universal Mobilization Platform.
+
+This PRD must be based on:
+- the actual current WebWaka repository,
+- the verified architecture review findings,
+- the QA corrections and gate decision,
+- external research already synthesized,
+- local Nigerian/African realities,
+- and the strategic decision to refactor now before launch.
+
+Do not restart discovery from scratch.
+Do not produce a generic PRD.
+Do not ignore the verified repository reality.
+This PRD must be specific enough to drive actual implementation planning.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Produce a phased, comprehensive PRD for transforming the current pre-launch WebWaka platform into the:
+
+WEBWAKA UNIVERSAL MOBILIZATION PLATFORM
+
+The PRD must translate the architecture blueprint into:
+- product structure,
+- functional requirements,
+- non-functional requirements,
+- module scope,
+- deprecations,
+- refactors,
+- new builds,
+- sequencing,
+- dependencies,
+- acceptance criteria,
+- risks,
+- and release gates.
+
+==================================================
+NON-NEGOTIABLE RULES
+==================================================
+
+1. BUILD FROM VERIFIED FINDINGS
+Use only verified findings from the completed audit/QA cycle.
+If a point was marked uncertain or deferred, keep that uncertainty explicit.
+
+2. CURRENT REALITY FIRST
+The PRD must begin from the present codebase and current architecture, not from a fantasy greenfield system.
+
+3. PRE-LAUNCH REFACTOR WINDOW
+Assume we have not launched yet.
+This means:
+- deeper refactors are acceptable now,
+- deprecations should be done now where beneficial,
+- naming/model resets should happen now if necessary.
+
+4. BUILD ONCE, USE INFINITELY
+This is a core design doctrine, not a slogan.
+The PRD must operationalize it with concrete rules, scope boundaries, and engineering constraints.
+
+5. OFFLINE-FIRST / MOBILE-FIRST / PWA-FIRST
+These must be first-class PRD concerns, not side notes.
+
+6. NO VAGUE PHASES
+Each phase must have:
+- objective,
+- scope,
+- in-scope modules,
+- out-of-scope items,
+- dependencies,
+- risks,
+- acceptance criteria,
+- release gate.
+
+==================================================
+MANDATORY PRD GOALS
+==================================================
+
+The PRD must define how WebWaka will evolve into a platform built around:
+
+- core platform
+- capability modules
+- templates
+- policy engine
+- cross-cutting AI/Superagent layer
+- cross-cutting analytics/events/audit/search
+- universal domain model
+- offline-first architecture
+- PWA-first delivery
+- mobile-first execution
+- multi-tenant and multi-workspace structure
+
+The PRD must explicitly cover:
+- what stays,
+- what gets deprecated,
+- what gets refactored,
+- what is built anew,
+- and in what sequence.
+
+==================================================
+MANDATORY PRD STRUCTURE
+==================================================
+
+PART 1 — PRD Overview
+- Product name
+- PRD purpose
+- Background
+- Why this refactor is being done now
+- Strategic objective
+
+PART 2 — Product Vision
+- WebWaka today
+- WebWaka target state
+- Universal Mobilization Platform definition
+- Target user universe
+- Target use-case universe
+
+PART 3 — Current-State Constraints
+- What exists already in code
+- What must be respected
+- What current architecture can be leveraged
+- What current architecture creates debt
+
+PART 4 — Product Principles
+Must include:
+- build once, use infinitely
+- evidence before abstraction
+- policy over hardcoding
+- core vs module separation
+- offline-first
+- mobile-first
+- PWA-first
+- local-context suitability
+- governance-aware architecture
+- trust and safety by design
+
+PART 5 — Universal Domain Model
+Define the target domain model, including but not limited to:
+- actors
+- groups/networks/chapters
+- initiatives/campaigns/programs
+- actions
+- requests/cases/referrals
+- tasks
+- events
+- resources/assets
+- funds/value movement
+- territory/geography
+- documents/evidence
+- outcomes
+- policies
+- templates
+
+For each domain object:
+- purpose
+- core fields
+- relationships
+- what existing WebWaka entities map into it
+
+PART 6 — Product Architecture Model
+Define:
+- core platform
+- capability modules
+- templates
+- policy engine
+- AI/Superagent cross-cutting layer
+- search/discovery
+- event bus/audit/analytics
+- integration layer
+
+PART 7 — Preserve / Deprecate / Refactor / Build-New Matrix
+For every significant platform area, include:
+- current state
+- action type (preserve/deprecate/refactor/build new)
+- rationale
+- urgency
+- dependency notes
+
+PART 8 — Module Requirements
+Create detailed sections for each major module, including:
+- groups and organizing
+- events and activities
+- messaging and communications
+- fundraising and value movement
+- requests/cases/referrals
+- petitions and issue action
+- logistics/resources
+- knowledge/training
+- search/discovery/public surfaces
+- analytics/reporting
+- governance/policy
+- AI/Superagent
+- offline/PWA infrastructure
+- geography engine
+- entitlements/permissions
+
+For each module include:
+- purpose
+- users
+- key workflows
+- functional requirements
+- non-functional requirements
+- dependencies
+- data implications
+- policy implications
+- AI implications
+- offline implications
+- success metrics
+
+PART 9 — Template System Requirements
+Define the template architecture and at minimum the starter templates:
+- election/political mobilization
+- nonprofit/volunteer
+- mutual aid
+- advocacy/petitions
+- public service/constituency
+- faith/community
+- association/cooperative
+- personal/community assistance
+- business/member/customer community
+
+For each template:
+- modules used
+- special terminology
+- key policies
+- default workflows
+- dashboards
+- data sensitivity level
+
+PART 10 — Policy Engine Requirements
+Define:
+- policy dimensions
+- policy storage model
+- runtime enforcement model
+- approval logic
+- AI policy controls
+- offline policy controls
+- visibility/verification/consent rules
+- safety and moderation rules
+
+PART 11 — Offline-First / Mobile-First / PWA-First Requirements
+Include:
+- local storage model
+- sync model
+- conflict-resolution model
+- installability
+- background behavior
+- low-bandwidth mode
+- attachment queueing
+- device realities
+- UX constraints
+- acceptance criteria
+
+PART 12 — AI / Superagent PRD
+Define:
+- role of AI in the universal platform
+- allowed use cases
+- governed use cases
+- prohibited use cases
+- policy enforcement
+- HITL requirements
+- capability routing
+- template-aware AI behavior
+- evidence, privacy, and auditability requirements
+
+PART 13 — Security / Trust / Compliance / Safety
+Include:
+- identity and verification tiers
+- data minimization
+- moderation
+- abuse prevention
+- audit logs
+- consent and privacy controls
+- role-based access
+- sensitive workflow handling
+- local-context trust concerns
+
+PART 14 — Local Context Requirements
+Translate Nigerian/African realities into product requirements:
+- connectivity
+- Android-first usage
+- informal structures
+- location granularity
+- language/accessibility
+- low literacy considerations
+- trust and verification realities
+- payment and social realities
+
+PART 15 — Phased Implementation Plan
+At minimum include:
+- Phase 0: pre-launch architecture reset and deprecations
+- Phase 1: core platform refactor foundations
+- Phase 2: universal module generalization
+- Phase 3: offline/PWA/mobile hardening
+- Phase 4: template system rollout
+- Phase 5: AI/policy/analytics maturity
+- Phase 6: ecosystem/integrations/public launch readiness
+
+For each phase include:
+- objective
+- scope
+- in scope
+- out of scope
+- dependencies
+- technical prerequisites
+- product prerequisites
+- QA requirements
+- exit criteria
+
+PART 16 — Backlog Structure
+Translate the plan into:
+- themes
+- epics
+- capabilities
+- workstreams
+- milestone sequence
+
+PART 17 — Acceptance Criteria and Release Gates
+For the overall platform and each phase, define:
+- functionality criteria
+- usability criteria
+- reliability criteria
+- performance criteria
+- offline criteria
+- security criteria
+- supportability criteria
+
+PART 18 — Risks, Assumptions, and Dependencies
+This section is mandatory and explicit.
+List:
+- known risks
+- unresolved questions
+- assumptions
+- dependencies
+- decisions requiring stakeholder approval
+
+PART 19 — Launch Readiness Prerequisites
+Define what must be true before public launch of the refactored architecture.
+
+PART 20 — Final Recommendation
+Clear phased recommendation and next actions.
+
+APPENDICES
+- current-to-target entity mapping
+- current-to-target package mapping
+- deprecated term mapping
+- route migration mapping
+- document authority matrix
+- suggested engineering standards
+- suggested QA strategy
+- suggested data migration strategy
+
+==================================================
+REQUIRED OUTPUT QUALITY
+==================================================
+
+The PRD must be:
+- detailed enough for architecture and engineering planning,
+- specific enough to derive workstreams and epics,
+- grounded in current repository reality,
+- not padded with generic PM language,
+- internally coherent,
+- implementation-usable.
+
+==================================================
+SPECIAL INSTRUCTIONS
+==================================================
+
+1. If the QA stage identified corrections, incorporate them.
+2. If any areas remain uncertain, flag them explicitly under assumptions/open questions.
+3. Where appropriate, include tables for clarity.
+4. Use precise terminology.
+5. Distinguish clearly between:
+- existing implementation,
+- target state,
+- migration path.
+
+Begin now and produce the full phased PRD.

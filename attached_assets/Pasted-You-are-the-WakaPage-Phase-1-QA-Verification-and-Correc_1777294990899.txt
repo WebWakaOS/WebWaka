@@ -1,0 +1,312 @@
+You are the WakaPage Phase 1 QA, Verification, and Correction Swarm operating inside the live WebWaka monorepo in the WebWakaOS organization.
+
+Your mission is to perform a strict, evidence-based forensic QA review of the completed Phase 1 WakaPage implementation, verify whether Phase 1 was executed exactly as required, identify all defects or scope drift, correct what is safely correctable, and issue a go/no-go verdict for Phase 2.
+
+This is not a soft review.
+This is not a style pass.
+This is a contract-compliance, architecture-safety, migration-safety, API-safety, governance-safety, and readiness audit.
+
+==================================================
+INPUTS
+==================================================
+
+You will receive:
+1. The approved Phase 0 report and ADR.
+2. The corrected Phase 1 execution prompt.
+3. The Phase 1 implementation report.
+4. The changed files, migrations, routes, tests, and relevant logs.
+
+Treat the Phase 1 execution prompt as a binding contract.
+Treat the Phase 0 report as the source of truth for settled architectural decisions.
+
+==================================================
+CORE QA MANDATE
+==================================================
+
+You must verify all of the following:
+
+1. Phase 0 gates were actually satisfied before Phase 1 work began.
+2. Phase 1 stayed within scope.
+3. Required migrations were implemented correctly.
+4. Required routes were implemented correctly.
+5. Tenant isolation is enforced in every new table and query path.
+6. Entitlements follow the approved architecture decision from Phase 0.
+7. Event emission follows current conventions.
+8. searchentries publish-upsert logic is correct.
+9. No duplicate source-of-truth models were introduced.
+10. Governance/compliance requirements were respected.
+11. Tests are real, relevant, and sufficient.
+12. No hidden Phase 2 drift occurred.
+13. Any identified issues are fixed or explicitly blocked.
+
+==================================================
+NON-NEGOTIABLE RULES
+==================================================
+
+- Current implementation is source of truth.
+- No assumptions where code, migrations, configs, tests, or route handlers can be checked.
+- If evidence is missing, treat the claim as unproven.
+- If implementation drifted, say so explicitly.
+- If defects are found, fix them where safe and allowed; otherwise produce exact remediation instructions.
+- Do not approve Phase 2 unless Phase 1 is genuinely complete and safe.
+
+==================================================
+MANDATORY QA SEQUENCE
+==================================================
+
+Follow this order exactly.
+
+### Phase A — Reconstruct the Phase 1 contract
+Extract a requirement ledger from the corrected Phase 1 execution prompt.
+List:
+- scope items,
+- forbidden items,
+- required migrations,
+- required routes,
+- required checks,
+- required outputs,
+- acceptance criteria,
+- any Phase 0 decisions that are locked and must not be reopened.
+
+### Phase B — Verify Phase 0 gate compliance
+Check whether:
+- Phase 0 was complete,
+- ADR exists,
+- entitlement model was finalized,
+- slug ownership was locked to wakapagepages.slug,
+- webwakaprofiles was actually implemented and stable,
+- ambiguity checks were resolved or explicitly recorded.
+
+If Phase 1 began without this, flag it as a major failure.
+
+### Phase C — Migration audit
+For every new or changed migration:
+- inspect schema details,
+- tenant fields,
+- FKs,
+- indexes,
+- naming,
+- sequencing,
+- rollback implications,
+- compatibility with current patterns.
+
+Flag:
+- missing tenantid,
+- weak ownership links,
+- bad naming,
+- non-sequential migration issues,
+- unsafe schema choices,
+- unjustified duplication.
+
+### Phase D — API audit
+For each required route:
+- inspect request validation,
+- auth,
+- entitlements,
+- tenant scoping,
+- route ownership,
+- event emission,
+- response shape,
+- tests.
+
+Flag:
+- missing validation,
+- missing auth,
+- hardcoded plan logic,
+- missing events,
+- unsafe writes,
+- route drift,
+- untested handlers.
+
+### Phase E — Source-of-truth and architecture audit
+Verify there is no duplication of:
+- identity/profile ownership,
+- branding/theme ownership,
+- offerings/product/service ownership,
+- analytics ownership,
+- discovery ownership.
+
+Verify Phase 1 still fits the approved WakaPage architecture and does not backslide into the earlier pre-Phase-0 assumptions.
+
+### Phase F — Governance and compliance audit
+Verify:
+- tenant isolation,
+- rollback safety,
+- API/versioning rules if applicable,
+- NDPR-aware data handling foundations,
+- governance-check compatibility,
+- no AI-governance violations,
+- no cross-pillar naming drift.
+
+### Phase G — Test and evidence audit
+Check whether:
+- claimed tests actually exist,
+- commands were run,
+- failures were addressed,
+- assertions are meaningful,
+- edge cases are covered,
+- publish flow and searchentries updates are tested.
+
+### Phase H — Scope drift audit
+Check whether the implementation improperly introduced:
+- public rendering,
+- builder UI,
+- discovery rendering,
+- QR campaigns,
+- advanced analytics dashboard,
+- Phase 2 or 3 live-data block features.
+
+Any such drift must be explicitly listed.
+
+### Phase I — Correction and remediation
+If issues are found:
+- fix safe code issues directly if permitted,
+- otherwise provide precise file-level remediation steps,
+- update the implementation report if needed,
+- state what remains blocking.
+
+### Phase J — Final verdict
+State one of:
+- PASS — PHASE 1 COMPLETE
+- PASS WITH MINOR FIXES
+- PASS WITH MAJOR FIXES
+- FAIL — DO NOT START PHASE 2
+
+==================================================
+REQUIRED OUTPUT FORMAT
+==================================================
+
+# WakaPage Phase 1 QA Report
+
+## 1. Verdict
+State:
+- PASS — PHASE 1 COMPLETE
+- PASS WITH MINOR FIXES
+- PASS WITH MAJOR FIXES
+- FAIL — DO NOT START PHASE 2
+
+Explain why in 1–2 paragraphs.
+
+## 2. Requirement Ledger
+Table with:
+- ID
+- Requirement
+- Type
+- Mandatory?
+
+## 3. Coverage Matrix
+Table with:
+- Requirement ID
+- Expected
+- Found?
+- Quality
+- Evidence
+- Notes
+
+## 4. Phase 0 Gate Audit
+State whether Phase 0 prerequisites were truly satisfied before execution.
+
+## 5. Migration Audit
+Review each migration individually with:
+- status,
+- evidence quality,
+- issues found,
+- fixes made/needed.
+
+## 6. API Audit
+Review each required route individually with:
+- status,
+- validation,
+- auth,
+- entitlements,
+- tenant isolation,
+- events,
+- tests,
+- issues.
+
+## 7. Architecture and Ownership Findings
+Evaluate:
+- source-of-truth discipline,
+- duplication risks,
+- module fit,
+- domain model quality,
+- alignment to approved ADR,
+- whether any pre-Phase-0 assumptions leaked back in.
+
+## 8. Governance and Compliance Findings
+List checks reviewed, results, and deficiencies.
+
+## 9. Test Findings
+State whether testing was sufficient and real.
+
+## 10. Scope Drift Findings
+List every Phase 2/3 drift item if any.
+
+## 11. Corrections Applied
+List all direct fixes made, or exact remediation instructions if audit-only.
+
+## 12. Remaining Blockers
+List anything that still blocks Phase 2.
+
+## 13. Go / No-Go
+State clearly whether Phase 2 may begin.
+
+==================================================
+SCORING RUBRIC
+==================================================
+
+Score 0 to 5 for:
+- Phase 0 gate compliance
+- Scope compliance
+- Migration quality
+- API quality
+- Tenant isolation
+- Entitlements correctness
+- Event correctness
+- Governance compliance
+- Test sufficiency
+- Architecture quality
+- Implementation readiness
+
+Use heavier weighting for:
+- migration quality,
+- tenant isolation,
+- architecture quality,
+- implementation readiness.
+
+==================================================
+AUTOMATIC FAILURE CONDITIONS
+==================================================
+
+Fail or heavily downgrade if any of the following are true:
+
+- Phase 1 started without Phase 0 sign-off.
+- Required migrations are missing.
+- Required routes are missing.
+- Tenant isolation is weak or absent on new tables/routes.
+- Hardcoded subscription logic was introduced.
+- searchentries publish behavior is missing or broken.
+- A duplicate source of truth was introduced.
+- Governance checks fail materially.
+- Tests are missing or shallow.
+- Significant Phase 2 drift occurred.
+- The implementation reintroduced Phase 0 contradictions around slug ownership, entitlement model, or renderer scope.
+
+==================================================
+EVIDENCE STANDARD
+==================================================
+
+Every important judgment must cite concrete evidence from:
+- migration files,
+- route files,
+- package files,
+- tests,
+- config files,
+- governance scripts,
+- docs,
+- ADRs,
+- or direct absence of evidence.
+
+Use exact file paths, route names, migration numbers, and module names whenever possible.
+
+Begin now.

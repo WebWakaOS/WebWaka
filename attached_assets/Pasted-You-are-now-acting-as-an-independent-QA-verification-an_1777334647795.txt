@@ -1,0 +1,266 @@
+You are now acting as an independent QA verification and audit agent.
+
+Your job is NOT to create a new architecture recommendation from scratch.
+Your job is to verify whether the previous Replit output fully and correctly executed the master prompt requirements.
+
+You must act as a zero-trust verifier.
+Assume the prior output may contain omissions, unsupported claims, shallow summaries, skipped files, stale governance assumptions, or unverified architectural conclusions.
+Do not trust the previous output until it is verified.
+
+==================================================
+PRIMARY QA OBJECTIVE
+==================================================
+
+Determine whether the previous Replit master-review output:
+
+1. actually reviewed the whole current WebWaka repository thoroughly,
+2. actually read all code files and document files without skipping,
+3. correctly identified the real present-state architecture of WebWaka,
+4. correctly analyzed the current 3-in-1 architecture,
+5. correctly analyzed the AI/Superagent cross-cutting architecture,
+6. correctly distinguished current truth from stale governance/history,
+7. correctly identified what should be deprecated, refactored, preserved, and built anew,
+8. correctly translated the platform into a build-once-use-infinitely architecture,
+9. correctly handled offline-first, mobile-first, and PWA-first concerns,
+10. correctly synthesized external research with internal code reality and local context,
+11. produced a comprehensive implementation-planning document with no major gaps.
+
+==================================================
+NON-NEGOTIABLE QA RULES
+==================================================
+
+1. DO NOT TRUST THE PRIOR OUTPUT
+Verify every major claim.
+
+2. EVIDENCE ONLY
+Every QA conclusion must be backed by:
+- repository evidence,
+- file inventory evidence,
+- specific file paths,
+- command outputs,
+- grep/search outputs,
+- document coverage proof,
+- or explicit absence of proof.
+
+3. NO SELF-REVIEW BIAS
+You are reviewing the previous output as if it were produced by another team.
+
+4. CHECK FOR OMISSIONS, NOT JUST ERRORS
+A missing major area counts as a failure even if the included sections are high quality.
+
+5. CHECK BOTH BREADTH AND DEPTH
+It is not enough that the output “mentions” something.
+You must verify:
+- whether it was actually reviewed,
+- whether the reasoning was evidence-based,
+- whether the conclusions were complete enough to support implementation planning.
+
+6. STALE-DOC OVERRIDE CHECK
+You must verify whether the prior output correctly handled older governance documents being overtaken by newer code, newer docs, newer migrations, or newer validated plans.
+
+==================================================
+MANDATORY QA TASKS
+==================================================
+
+STEP 1 — Verify repository coverage
+- Reconstruct the repository inventory.
+- Check whether the prior output included or demonstrably reviewed:
+  - all apps,
+  - all packages,
+  - all migrations,
+  - all route files,
+  - all repo-level configs,
+  - all tests,
+  - all docs/governance/reports/specs/ADRs.
+- Produce a coverage table:
+  - area
+  - was it reviewed?
+  - proof of review
+  - depth rating
+  - any gaps
+
+STEP 2 — Verify evidence quality
+For each major section of the prior output, determine:
+- were claims tied to actual file paths?
+- were claims backed by code evidence or just narrative?
+- were external research claims actually cited and applied meaningfully?
+- did the output confuse docs with implementation?
+- did it make unsupported assumptions?
+
+STEP 3 — Verify 3-in-1 architecture analysis
+Check whether the prior output:
+- correctly defined what the 3-in-1 architecture currently means in docs,
+- correctly defined what it currently means in code,
+- distinguished solid vs incomplete parts,
+- avoided overstating implemented surfaces.
+
+STEP 4 — Verify AI/Superagent analysis
+Check whether the prior output deeply and correctly reviewed:
+- superagent package,
+- capability metadata,
+- vertical AI config,
+- governance/HITL,
+- AI-related routes/integrations,
+- cross-cutting role of AI,
+- current limitations and future generalization path.
+
+STEP 5 — Verify governance chronology and truth map
+Check whether the prior output:
+- actually read governance/report/planning/history docs,
+- identified what is stale,
+- identified what is current,
+- identified where code overrides docs,
+- identified where docs are ahead of code.
+
+STEP 6 — Verify preserve / deprecate / refactor / build-new recommendations
+For each category:
+- preserved,
+- deprecated,
+- refactored,
+- built anew,
+verify whether the recommendations were:
+- evidence-backed,
+- complete,
+- logically sequenced,
+- specific enough to guide engineering action.
+
+STEP 7 — Verify architecture target quality
+Check whether the proposed target architecture is:
+- internally coherent,
+- compatible with current code reality,
+- truly build-once-use-infinitely,
+- structured as core platform + capability modules + templates + policy engine,
+- not just a slogan-level description.
+
+STEP 8 — Verify offline-first / mobile-first / PWA-first treatment
+Check whether the prior output:
+- described current state vs target state,
+- identified missing technical foundations,
+- discussed storage, sync, conflict resolution, installability, background behavior, and UX implications,
+- addressed local connectivity/device realities.
+
+STEP 9 — Verify external research synthesis
+Check whether external research was:
+- sufficiently deep,
+- relevant,
+- translated into architecture decisions,
+- adapted to Nigerian/African realities,
+- not just appended as generic best-practice filler.
+
+STEP 10 — Determine implementation readiness
+Answer:
+- Is the prior output strong enough to be used as the basis for implementation planning?
+- If no, what exactly is missing?
+- What follow-up review is required before PRD generation?
+
+==================================================
+MANDATORY QA OUTPUT FORMAT
+==================================================
+
+Your output must have these sections:
+
+1. QA Verdict
+Choose one:
+- PASS
+- PASS WITH GAPS
+- CONDITIONAL PASS
+- FAIL
+
+2. Executive QA Summary
+- 1–2 paragraphs only
+- clear and direct
+
+3. Coverage Audit
+Table with:
+- repository area
+- expected coverage
+- actual coverage found
+- evidence of review
+- depth rating (High / Medium / Low / Missing)
+- QA finding
+
+4. Evidence Quality Audit
+- Where the prior output was strongly evidence-backed
+- Where it was weak, vague, or assumption-driven
+
+5. 3-in-1 Architecture QA
+- What was done well
+- What is missing
+- Whether the current-code analysis is trustworthy
+
+6. AI / Superagent QA
+- adequacy of review
+- missing areas
+- unsupported claims if any
+
+7. Governance Truth-Map QA
+- did it correctly distinguish stale vs current?
+- where did it fail if any?
+
+8. Recommendation QA
+Subsections for:
+- preserve
+- deprecate
+- refactor
+- build anew
+For each subsection, state whether the recommendations are implementation-grade.
+
+9. Offline / Mobile / PWA QA
+- adequacy and gaps
+
+10. External Research QA
+- adequacy and gaps
+
+11. Critical Omissions
+- any major unreviewed areas
+- any major unsupported conclusions
+- any must-fix gaps before PRD phase
+
+12. Gate Decision
+Choose one:
+- APPROVED TO PROCEED TO PRD
+- APPROVED TO PROCEED AFTER MINOR FIXES
+- NOT APPROVED — RE-RUN MASTER REVIEW WITH CORRECTIONS
+
+13. Mandatory Corrections Before PRD
+- exact bullet list
+- no vague wording
+
+==================================================
+SCORING FRAMEWORK
+==================================================
+
+Score the prior output on a 0–5 scale for each:
+
+- repository coverage
+- code evidence density
+- governance chronology accuracy
+- 3-in-1 architecture accuracy
+- AI/Superagent depth
+- deprecation/refactor specificity
+- offline/PWA depth
+- local-context adaptation
+- external research quality
+- implementation readiness
+
+Then provide:
+- total score out of 50
+- interpretation of score
+
+==================================================
+FAIL CONDITIONS
+==================================================
+
+You must return FAIL or NOT APPROVED if any of these are true:
+- major repository areas were skipped,
+- important claims are unsupported,
+- stale governance is treated as current truth,
+- current code reality is materially misdescribed,
+- AI/Superagent review is shallow,
+- 3-in-1 analysis is superficial,
+- preserve/deprecate/refactor/build-new recommendations are too vague to act on,
+- the output is not reliable enough to guide implementation planning.
+
+Be strict.
+The purpose of this QA prompt is to ensure nothing important slips through.
+Begin the verification now.

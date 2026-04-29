@@ -35,3 +35,64 @@ export { observeNetworkState, getNetworkState } from './offline-indicator.js';
 export type { NetworkState } from './offline-indicator.js';
 export { registerSyncServiceWorker } from './service-worker.js';
 export { generateId } from './utils.js';
+
+// Phase 1 (T004): entity registry for Groups + Cases offline scope
+export {
+  SYNC_ENTITY_REGISTRY,
+  SYNC_ENTITY_MAP,
+  SYNC_ENTITY_NAMES,
+  OFFLINE_WRITE_ENABLED_ENTITIES,
+} from './entity-registry.js';
+export type { SyncEntityConfig } from './entity-registry.js';
+
+// Phase 3 (E21, E22, E23) — Cache budget + conflict resolution + PII + financial guard + image cache
+
+export type {
+  GroupMemberCacheItem,
+  BroadcastDraftCacheItem,
+  CaseCacheItem,
+  EventCacheItem,
+  GeographyCacheItem,
+  PolicyCacheItem,
+  ImageVariantCacheItem,
+} from './db.js';
+
+export {
+  CacheBudgetManager,
+  cacheBudgetManager,
+  CACHE_BUDGETS,
+} from './cache-budget.js';
+export type {
+  CacheModule,
+  CacheBudget,
+  ModulePressureEntry,
+  StoragePressureReport,
+} from './cache-budget.js';
+
+export {
+  ConflictStore,
+  conflictStore,
+} from './conflict-resolution.js';
+export type { ConflictRecord } from './conflict-resolution.js';
+
+export {
+  DraftAutosaveManager,
+  draftAutosaveManager,
+} from './draft-autosave.js';
+
+export {
+  clearPiiOnLogout,
+  PII_TABLES_TO_CLEAR,
+} from './pii-clear.js';
+export type { PiiTable, PiiClearResult } from './pii-clear.js';
+
+export {
+  assertFinancialBlocked,
+  OfflineFinancialError,
+} from './financial-guard.js';
+
+export {
+  ImageVariantCache,
+  imageVariantCache,
+} from './image-cache.js';
+export type { ImageVariants } from './image-cache.js';

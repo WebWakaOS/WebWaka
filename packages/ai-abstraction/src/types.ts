@@ -270,6 +270,19 @@ export interface AIRoutingContext {
   currentSpendWakaCu: number;
   /** The specific AI capability being requested */
   capability: import('./capabilities.js').AICapabilityType;
+  /**
+   * Phase 5 (E29): Tenant-level prohibited capabilities.
+   * Sourced from policy_rules (ai_gate domain, prohibited_capabilities condition).
+   * When set, blocks the specific capability even if the plan tier is sufficient.
+   * PRD §10.5: ai_governance.prohibited_capabilities
+   */
+  prohibitedCapabilities?: string[] | null;
+  /**
+   * Phase 5 (E29): Maximum AI autonomy level permitted for this tenant.
+   * 0 = no AI autonomy; 2 = advisory max (platform default).
+   * PRD §10.5: ai_governance.max_autonomy_level
+   */
+  maxAutonomyLevel?: number | null;
 }
 
 // ---------------------------------------------------------------------------

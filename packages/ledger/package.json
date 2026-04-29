@@ -1,0 +1,21 @@
+{
+  "name": "@webwaka/ledger",
+  "version": "0.1.0",
+  "description": "[Phase 1] Shared atomic double-entry ledger with CTE pattern \u2014 used by pos and hl-wallet",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

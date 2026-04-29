@@ -11,6 +11,7 @@
  */
 
 import { DsarProcessorService } from './dsar-processor.js';
+import { DataRetentionService } from './data-retention.js';
 
 export interface Env {
   DB: D1Database;
@@ -131,6 +132,31 @@ const JOBS: Record<string, JobFn> = {
     // P13: export payload is never logged.
     const svc = new DsarProcessorService();
     await svc.processNextBatch(env, 10);
+  },
+
+  'pii-data-retention': async (env: Env) => {
+    // Phase 5 (E30): NDPR data retention enforcement.
+    // Pseudonymizes expired PII across fundraising_contributions, fundraising_pledges,
+    // and cases tables. Records each run in data_retention_log.
+    // G23: audit_logs are NEVER touched — append-only invariant enforced.
+    // P13: only row counts and table names logged; no PII in logs.
+    const svc = new DataRetentionService();
+    const result = await svc.processRetentionSweep(env, 100);
+    console.log(JSON.stringify({
+      level: 'info',
+      event: 'pii_data_retention_complete',
+      jobRunAt: result.jobRunAt,
+      tablesProcessed: result.tablesProcessed,
+      rowsPseudonymized: result.rowsPseudonymized,
+      errorCount: result.errors.length,
+    }));
+    if (result.errors.length > 0) {
+      console.error(JSON.stringify({
+        level: 'error',
+        event: 'pii_data_retention_errors',
+        errors: result.errors,
+      }));
+    }
   },
 };
 
