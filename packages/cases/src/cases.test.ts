@@ -114,10 +114,12 @@ function makeMockDb() {
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
                 const row = cases[idx];
-                row.assigned_to_user_id = args[0];
-                row.assigned_at = args[1];
-                row.status = 'assigned';
-                row.updated_at = args[2];
+                if (row) {
+                  row.assigned_to_user_id = args[0] as string;
+                  row.assigned_at = args[1] as number;
+                  row.status = 'assigned';
+                  row.updated_at = args[2] as number;
+                }
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'resolved' ───────────────────

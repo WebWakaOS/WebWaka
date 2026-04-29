@@ -27,7 +27,7 @@ interface DataRetentionCondition {
 const SECONDS_PER_DAY = 86400;
 
 export function evaluateDataRetention(rule: PolicyRule, ctx: PolicyContext): PolicyEvalResult {
-  const cond = rule.conditionJson as DataRetentionCondition;
+  const cond = rule.conditionJson as unknown as DataRetentionCondition;
   const dataCategory = ctx.dataCategory as string | undefined;
   const recordAgeSeconds = ctx.recordAgeSeconds as number | undefined;
   const isErasureRequest = ctx.isErasureRequest as boolean | undefined;
