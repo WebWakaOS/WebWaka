@@ -10,7 +10,7 @@
  *  - Happy path marks status = 'completed' with export_key
  */
 
-import { describe, it, expect, vi, beforeEach, type MockedFunction } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { compileDsarExport, storeExport, DsarProcessorService } from './dsar-processor.js';
 import type { DsarExportPayload, DsarEnv } from './dsar-processor.js';
 
