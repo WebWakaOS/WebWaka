@@ -37,6 +37,7 @@ export {
   WorkspaceEventType,
   BillingEventType,
   KycEventType,
+  CaseEventType,
   ClaimEventType,
   NegotiationEventType,
   SupportEventType,
@@ -55,6 +56,7 @@ export {
   WakaPageEventType,
   LegacyEventType,
   SupportGroupEventType,
+  GroupEventType,
   FundraisingEventType,
 } from './event-types.js';
 
