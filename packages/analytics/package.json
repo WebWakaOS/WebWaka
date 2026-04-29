@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/analytics",
   "version": "0.1.0",
-  "description": "[Phase 2] Analytics unification — trackEvent(), workspace/group/campaign metrics queries",
+  "description": "[Pillar 2] Analytics unification — trackEvent(), workspace/group/campaign metrics queries",
   "private": true,
   "type": "module",
   "exports": {
