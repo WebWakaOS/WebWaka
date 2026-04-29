@@ -198,7 +198,10 @@
     "@webwaka/wakapage-blocks": "workspace:*",
     "aws4fetch": "^1.0.20",
     "hono": "^4.12.14",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@webwaka/cases": "workspace:*",
+    "@webwaka/groups": "workspace:*",
+    "@webwaka/analytics": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
