@@ -25,7 +25,7 @@ interface PayoutGateCondition {
 }
 
 export function evaluatePayoutGate(rule: PolicyRule, ctx: PolicyContext): PolicyEvalResult {
-  const cond = rule.conditionJson as PayoutGateCondition;
+  const cond = rule.conditionJson as unknown as PayoutGateCondition;
   const campaignType = ctx.campaignType as string | undefined;
   const amountKobo = (ctx.amountKobo ?? 0) as number;
   const complianceDeclared = ctx.complianceDeclared as boolean | undefined;
@@ -37,7 +37,7 @@ export function evaluatePayoutGate(rule: PolicyRule, ctx: PolicyContext): Policy
 
   // Auto-approve small payouts
   if (cond.auto_approve_below_kobo != null && amountKobo < cond.auto_approve_below_kobo) {
-    return allow(rule.ruleKey, `Payout ₦${(amountKobo / 100).toFixed(2)} is below auto-approve threshold`);
+    return allow(rule.ruleKey, `Payout ${amountKobo} kobo is below auto-approve threshold`);
   }
 
   // HITL required for specific campaign types

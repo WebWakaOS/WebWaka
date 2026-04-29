@@ -24,7 +24,7 @@ interface KycCondition {
 }
 
 export function evaluateKycRequirement(rule: PolicyRule, ctx: PolicyContext): PolicyEvalResult {
-  const cond = rule.conditionJson as KycCondition;
+  const cond = rule.conditionJson as unknown as KycCondition;
   const kycTier = (ctx.kycTier ?? 0) as number;
   const operation = ctx.operation as string | undefined;
 
