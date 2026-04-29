@@ -154,6 +154,22 @@ describe('GET /pos-business/product/:id', () => {
   });
 });
 
+describe('PATCH /product/:id', () => {
+  beforeEach(() => { vi.clearAllMocks(); });
+
+  it('returns 400 when body is invalid JSON', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/product/prd_001', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Sales — P9 invariant testing
 // ---------------------------------------------------------------------------
