@@ -3,6 +3,7 @@
  * ≥12 test cases covering list, publish (super_admin gate), install, installed, rollback.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 import { templateRoutes } from './templates.js';
