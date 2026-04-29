@@ -30,6 +30,7 @@ interface D1Like {
 }
 
 export interface HitlSubmission {
+  id?: string;
   tenantId: string;
   workspaceId: string;
   userId: string;
@@ -82,7 +83,7 @@ export class HitlService {
   }
 
   async submit(input: HitlSubmission): Promise<{ queueItemId: string }> {
-    const id = crypto.randomUUID();
+    const id = input.id ?? crypto.randomUUID();
 
     let expiryHours = input.expiresInHours ?? DEFAULT_EXPIRY_HOURS;
     if (input.hitlLevel === 3) {

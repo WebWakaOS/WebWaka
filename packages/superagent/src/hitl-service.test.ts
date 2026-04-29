@@ -60,6 +60,26 @@ describe('HitlService', () => {
       expect(batchCall.length).toBe(2);
     });
 
+    it('uses provided id for idempotent submission', async () => {
+      const db = makeMockDB();
+      const svc = new HitlService({ db: db as never });
+
+      const providedId = 'custom-id-123';
+      const result = await svc.submit({
+        id: providedId,
+        tenantId: 't1',
+        workspaceId: 'w1',
+        userId: 'u1',
+        vertical: 'hospital',
+        capability: 'bio_generator',
+        hitlLevel: 1,
+        aiRequestPayload: '{"prompt":"test"}',
+      });
+
+      expect(result.queueItemId).toBe(providedId);
+      expect(db.batch).toHaveBeenCalledOnce();
+    });
+
     it('stores response payload when provided', async () => {
       const db = makeMockDB();
       const svc = new HitlService({ db: db as never });
