@@ -76,7 +76,8 @@ export type GroupEventType =
   | 'service'
   | 'outreach'
   | 'worship'
-  | 'meeting';
+  | 'meeting'
+  | 'general';
 
 export type GroupEventStatus = 'scheduled' | 'ongoing' | 'completed' | 'cancelled';
 

@@ -28,7 +28,7 @@ import {
   assertCasesEnabled,
 } from '@webwaka/cases';
 import { CaseEventType } from '@webwaka/events';
-import { publishEvent } from '../lib/event-publisher.js';
+import { publishEvent } from '../lib/publish-event.js';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 

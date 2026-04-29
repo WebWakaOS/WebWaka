@@ -114,10 +114,12 @@ function makeMockDb() {
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
                 const row = cases[idx];
-                row.assigned_to_user_id = args[0];
-                row.assigned_at = args[1];
-                row.status = 'assigned';
-                row.updated_at = args[2];
+                if (row) {
+                  row.assigned_to_user_id = args[0] as string;
+                  row.assigned_at = args[1] as number;
+                  row.status = 'assigned';
+                  row.updated_at = args[2] as number;
+                }
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'resolved' ───────────────────
@@ -129,9 +131,11 @@ function makeMockDb() {
                        r.status !== 'resolved' && r.status !== 'closed',
                 );
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                cases[idx].status = 'resolved';
-                cases[idx].resolved_at = args[0];
-                cases[idx].updated_at = args[1];
+                if (cases[idx]) {
+                  cases[idx]!.status = 'resolved';
+                  cases[idx]!.resolved_at = args[0] as number;
+                  cases[idx]!.updated_at = args[1] as number;
+                }
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'closed' ─────────────────────
@@ -140,9 +144,11 @@ function makeMockDb() {
                 const tenantId = args[args.length - 1] as string;
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                cases[idx].status = 'closed';
-                cases[idx].closed_at = args[0];
-                cases[idx].updated_at = args[1];
+                if (cases[idx]) {
+                  cases[idx]!.status = 'closed';
+                  cases[idx]!.closed_at = args[0] as number;
+                  cases[idx]!.updated_at = args[1] as number;
+                }
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'reopened' ───────────────────
@@ -154,17 +160,19 @@ function makeMockDb() {
                        (r.status === 'resolved' || r.status === 'closed'),
                 );
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                cases[idx].status = 'reopened';
-                cases[idx].resolved_at = null;
-                cases[idx].closed_at = null;
-                cases[idx].updated_at = args[0];
+                if (cases[idx]) {
+                  cases[idx]!.status = 'reopened';
+                  cases[idx]!.resolved_at = null;
+                  cases[idx]!.closed_at = null;
+                  cases[idx]!.updated_at = args[0] as number;
+                }
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET updated_at (from addNote) ─────────────
               if (lsql.includes('update cases set updated_at')) {
                 const [updatedAt, caseId, tenantId] = args as [number, string, string];
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
-                if (idx !== -1) cases[idx].updated_at = updatedAt;
+                if (idx !== -1 && cases[idx]) cases[idx]!.updated_at = updatedAt;
                 return { success: true, meta: { changes: 1 } };
               }
               return { success: true, meta: { changes: 0 } };
