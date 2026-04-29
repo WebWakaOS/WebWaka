@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';
 import Login from '@/pages/Login';
@@ -13,6 +14,26 @@ import Settings from '@/pages/Settings';
 import WakaPageManager from '@/pages/WakaPage';
 import VerifyEmail from '@/pages/VerifyEmail';
 import AcceptInvite from '@/pages/AcceptInvite';
+
+function RouteChangeManager() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to top on route change
+    window.scrollTo(0, 0);
+
+    // BUG-025: On every route change, move focus to #main-content or main
+    // so screen-reader users hear the new page heading rather than being
+    // stranded at the link they just activated.
+    const main = document.getElementById('main-content') || document.querySelector('main');
+    if (main) {
+      main.setAttribute('tabindex', '-1');
+      main.focus({ preventScroll: true });
+    }
+  }, [location.pathname]);
+
+  return null;
+}
 
 function NotFound() {
   return (
@@ -30,6 +51,7 @@ function NotFound() {
 export default function App() {
   return (
     <BrowserRouter>
+      <RouteChangeManager />
       <AuthProvider>
         <a
           href="#main-content"
