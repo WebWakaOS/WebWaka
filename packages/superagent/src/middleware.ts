@@ -47,6 +47,7 @@ type HonoMiddlewareArgs = [
     set(key: string, value: unknown): void;
     req: { header(name: string): string | undefined };
     env: AiGateEnv;
+    executionCtx?: { waitUntil?: (promise: Promise<unknown>) => void };
     json(data: unknown, status?: number): Response;
   },
   next: () => Promise<void>,
@@ -150,7 +151,7 @@ export async function aiConsentGate(
 
     // BUG-023 / COMP-004: Persist consent version — fire-and-forget, never blocks.
     // Fetch the consent_text_hash from the active consent record for audit trail.
-    void (async () => {
+    const persistPromise = (async () => {
       try {
         const consentRow = await (c.env.DB as unknown as {
           prepare(sql: string): {
@@ -170,6 +171,12 @@ export async function aiConsentGate(
         // Non-blocking — consent gate must not fail because of consent_history write
       }
     })();
+
+    if (c.executionCtx?.waitUntil) {
+      c.executionCtx.waitUntil(persistPromise);
+    } else {
+      void persistPromise;
+    }
 
     await next();
   } catch (err) {
