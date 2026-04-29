@@ -91,14 +91,20 @@ posBusinessRoutes.get('/products/:workspaceId/low-stock', async (c) => {
   // BUG-049: Workspace-level threshold default (migration 0383).
   // Priority: ?threshold query-param > workspace.low_stock_threshold > platform default (5).
   let threshold = 5;
-  if (c.req.query('threshold') !== undefined) {
-    threshold = parseInt(c.req.query('threshold')!, 10) || 5;
-  } else {
-    const ws = await c.env.DB.prepare(
-      'SELECT low_stock_threshold FROM workspaces WHERE id = ? AND tenant_id = ?',
-    ).bind(workspaceId, auth.tenantId).first<{ low_stock_threshold: number | null }>();
-    if (ws?.low_stock_threshold !== null && ws?.low_stock_threshold !== undefined) {
-      threshold = ws.low_stock_threshold;
+
+  const ws = await c.env.DB.prepare(
+    'SELECT low_stock_threshold FROM workspaces WHERE id = ? AND tenant_id = ?',
+  ).bind(workspaceId, auth.tenantId).first<{ low_stock_threshold: number | null }>();
+
+  if (ws?.low_stock_threshold !== null && ws?.low_stock_threshold !== undefined) {
+    threshold = ws.low_stock_threshold;
+  }
+
+  const thresholdQuery = c.req.query('threshold');
+  if (thresholdQuery !== undefined) {
+    const parsed = parseInt(thresholdQuery, 10);
+    if (!isNaN(parsed)) {
+      threshold = parsed;
     }
   }
 
