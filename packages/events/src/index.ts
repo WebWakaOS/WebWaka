@@ -37,6 +37,7 @@ export {
   WorkspaceEventType,
   BillingEventType,
   KycEventType,
+  CaseEventType,
   ClaimEventType,
   NegotiationEventType,
   SupportEventType,
