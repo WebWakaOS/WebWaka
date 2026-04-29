@@ -58,9 +58,23 @@ export class EventsCentreRepository {
     if (!Number.isInteger(input.packageKobo) || input.packageKobo < 0) throw new Error('P9: packageKobo must be a non-negative integer');
     if (!Number.isInteger(input.totalNights) || input.totalNights <= 0) throw new Error('totalNights must be a positive integer');
     // Section conflict check for each requested section
-    for (const sectionId of input.sectionIds) {
-      const clash = await this.db.prepare("SELECT id FROM events_centre_bookings WHERE profile_id=? AND tenant_id=? AND status NOT IN ('cancelled') AND section_ids LIKE ? AND NOT (end_date <= ? OR start_date >= ?)").bind(input.profileId, input.tenantId, `%${sectionId}%`, input.startDate, input.endDate).first();
-      if (clash) throw new Error(`Section "${sectionId}" has an overlapping booking for the requested dates`);
+    if (input.sectionIds.length > 0) {
+      const likeClauses = input.sectionIds.map(() => 'section_ids LIKE ?').join(' OR ');
+      const bindings = input.sectionIds.map((id) => `%${id}%`);
+      const clashResults = await this.db.prepare(
+        `SELECT id, section_ids FROM events_centre_bookings WHERE profile_id=? AND tenant_id=? AND status NOT IN ('cancelled') AND (${likeClauses}) AND NOT (end_date <= ? OR start_date >= ?)`
+      ).bind(input.profileId, input.tenantId, ...bindings, input.startDate, input.endDate).all<BookingRow>();
+
+      if (clashResults.results.length > 0) {
+        for (const row of clashResults.results) {
+          const bookedSections = JSON.parse(row.section_ids) as string[];
+          for (const sectionId of input.sectionIds) {
+            if (bookedSections.includes(sectionId)) {
+              throw new Error(`Section "${sectionId}" has an overlapping booking for the requested dates`);
+            }
+          }
+        }
+      }
     }
     const id = input.id ?? uuid(); const ts = now();
     await this.db.prepare('INSERT INTO events_centre_bookings (id,profile_id,tenant_id,client_phone,section_ids,event_type,start_date,end_date,total_nights,package_kobo,deposit_kobo,balance_kobo,status,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id, input.profileId, input.tenantId, input.clientPhone, JSON.stringify(input.sectionIds), input.eventType, input.startDate, input.endDate, input.totalNights, input.packageKobo, input.depositKobo, input.balanceKobo, 'enquiry', ts, ts).run();
