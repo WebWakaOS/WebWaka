@@ -16,17 +16,10 @@ import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 import { getWorkspaceMetrics, getGroupMetrics, getCampaignMetrics } from '@webwaka/analytics';
+import type { QueryD1Like as D1Like } from '@webwaka/analytics';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
-interface D1Like {
-  prepare(sql: string): {
-    bind(...args: unknown[]): {
-      first<T>(): Promise<T | null>;
-      all<T>(): Promise<{ results: T[] }>;
-    };
-  };
-}
 
 export const phase2AnalyticsRoutes = new Hono<AppEnv>();
 
