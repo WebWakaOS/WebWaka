@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ts from 'typescript';
 
 const SCAN_DIRS = [
   path.resolve(__dirname, '../../apps'),
@@ -22,8 +23,6 @@ const SDK_PATTERNS = [
   /require\s*\(\s*['"]openai['"]\s*\)/,
   /fetch\s*\(\s*['"]https:\/\/api\.openai\.com/,
   /fetch\s*\(\s*['"]https:\/\/api\.anthropic\.com/,
-  // BUG-018: Detect dynamic variable-based AI API calls that bypass hardcoded URL detection.
-  /\bfetch\s*\(\s*(AI_URL|OPENAI_URL|ANTHROPIC_URL|AI_ENDPOINT|LLM_URL|GPT_URL)\b/i,
   /process\.env\.(OPENAI|ANTHROPIC|GROQ|GEMINI|AI)_(KEY|SECRET|TOKEN|URL)\b/,
   /\bnew\s+Groq\s*\(/,
   /\bgroq\s*\.\s*chat\b/i,
@@ -35,11 +34,86 @@ function isAllowed(filePath: string): boolean {
   return ALLOWED_FILES.some((a) => filePath.includes(a));
 }
 
+function isAiRelated(text: string): boolean {
+  const t = text.toLowerCase();
+  return t.includes('api.openai.com') ||
+         t.includes('api.anthropic.com') ||
+         t.includes('api.groq.com') ||
+         t.includes('openai') ||
+         t.includes('anthropic') ||
+         t.includes('groq') ||
+         t.includes('gemini') ||
+         t.includes('llm') ||
+         t.includes('gpt') ||
+         t.includes('ai_url') ||
+         t.includes('ai_endpoint');
+}
+
+function checkFileAST(filePath: string, content: string): void {
+  const sourceFile = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true);
+  const dangerousVars = new Set<string>();
+  const dangerousProps = new Set<string>();
+
+  function visitDecl(node: ts.Node) {
+    if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.initializer) {
+      const text = node.initializer.getText(sourceFile);
+      if (isAiRelated(text) || text.includes('OPENAI_') || text.includes('ANTHROPIC_')) {
+        dangerousVars.add(node.name.text);
+      }
+    }
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && node.initializer) {
+      const text = node.initializer.getText(sourceFile);
+      if (isAiRelated(text) || text.includes('OPENAI_') || text.includes('ANTHROPIC_')) {
+        dangerousProps.add(node.name.text);
+      }
+    }
+    ts.forEachChild(node, visitDecl);
+  }
+
+  function visitFetch(node: ts.Node) {
+    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === 'fetch') {
+      if (node.arguments.length > 0) {
+        const arg = node.arguments[0];
+        const argText = arg.getText(sourceFile);
+        let isDangerous = false;
+
+        // Check if the whole argument text contains any dangerous keywords
+        if (isAiRelated(argText) || argText.includes('OPENAI_') || argText.includes('ANTHROPIC_')) {
+            isDangerous = true;
+        }
+
+        // Check if any sub-node is an identifier from our dangerous sets
+        function findDangerousIdentifier(subNode: ts.Node) {
+            if (ts.isIdentifier(subNode) && dangerousVars.has(subNode.text)) {
+                isDangerous = true;
+            }
+            if (ts.isPropertyAccessExpression(subNode) && ts.isIdentifier(subNode.name) && dangerousProps.has(subNode.name.text)) {
+                isDangerous = true;
+            }
+            ts.forEachChild(subNode, findDangerousIdentifier);
+        }
+
+        findDangerousIdentifier(arg);
+
+        if (isDangerous) {
+          console.error(`FAIL: ${filePath} — direct AI SDK call (dynamic variable): fetch(${argText})`);
+          failures++;
+        }
+      }
+    }
+    ts.forEachChild(node, visitFetch);
+  }
+
+  visitDecl(sourceFile);
+  visitFetch(sourceFile);
+}
+
 function checkFile(filePath: string): void {
   if (isAllowed(filePath)) return;
 
   const content = fs.readFileSync(filePath, 'utf8');
 
+  // Regex checks
   for (const pattern of SDK_PATTERNS) {
     const match = content.match(pattern);
     if (match) {
@@ -47,6 +121,9 @@ function checkFile(filePath: string): void {
       failures++;
     }
   }
+
+  // AST dynamic checks (BUG-018 replacement)
+  checkFileAST(filePath, content);
 }
 
 function walkDir(dir: string): void {
