@@ -219,6 +219,14 @@ export async function issueJwt(
  * The AuthContext is passed through all request handlers.
  */
 export function extractAuthContext(payload: JwtPayload): AuthContext {
+  if (!payload || typeof payload !== 'object') {
+    throw new JwtValidationError('Invalid payload passed to extractAuthContext');
+  }
+
+  if (!payload.sub || !payload.workspace_id || !payload.tenant_id || !payload.role) {
+    throw new JwtValidationError('Missing required claims in payload for AuthContext');
+  }
+
   return {
     userId: asId(payload.sub),
     workspaceId: asId(payload.workspace_id),

@@ -12,6 +12,7 @@ import { Role } from '@webwaka/types';
 import {
   verifyJwt,
   extractBearerToken,
+  extractAuthContext,
   JwtValidationError,
   MissingTenantContextError,
 } from './jwt.js';
@@ -184,6 +185,50 @@ describe('verifyJwt', () => {
 
     await expect(verifyJwt('', TEST_SECRET))
       .rejects.toThrow(JwtValidationError);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Test 7: extractBearerToken("Bearer abc123") → "abc123"
+// ---------------------------------------------------------------------------
+
+describe('extractAuthContext', () => {
+  it('9. correctly extracts AuthContext from valid JwtPayload', () => {
+    const payload: any = {
+      sub: 'user_123',
+      workspace_id: 'ws_123',
+      tenant_id: 'tenant_123',
+      role: Role.Admin,
+      iat: 1234567890,
+      exp: 1234567890 + 3600,
+    };
+
+    const context = extractAuthContext(payload);
+    expect(context.userId).toBe('user_123');
+    expect(context.workspaceId).toBe('ws_123');
+    expect(context.tenantId).toBe('tenant_123');
+    expect(context.role).toBe(Role.Admin);
+  });
+
+  it('10. throws JwtValidationError when payload is null or undefined', () => {
+    expect(() => extractAuthContext(null as any)).toThrow(JwtValidationError);
+    expect(() => extractAuthContext(undefined as any)).toThrow(JwtValidationError);
+    expect(() => extractAuthContext(123 as any)).toThrow(JwtValidationError);
+    expect(() => extractAuthContext('string' as any)).toThrow(JwtValidationError);
+  });
+
+  it('11. throws JwtValidationError when required claims are missing', () => {
+    const missingSub: any = { workspace_id: 'ws_123', tenant_id: 'tenant_123', role: Role.Admin };
+    expect(() => extractAuthContext(missingSub)).toThrow(JwtValidationError);
+
+    const missingWorkspace: any = { sub: 'user_123', tenant_id: 'tenant_123', role: Role.Admin };
+    expect(() => extractAuthContext(missingWorkspace)).toThrow(JwtValidationError);
+
+    const missingTenant: any = { sub: 'user_123', workspace_id: 'ws_123', role: Role.Admin };
+    expect(() => extractAuthContext(missingTenant)).toThrow(JwtValidationError);
+
+    const missingRole: any = { sub: 'user_123', workspace_id: 'ws_123', tenant_id: 'tenant_123' };
+    expect(() => extractAuthContext(missingRole)).toThrow(JwtValidationError);
   });
 });
 
