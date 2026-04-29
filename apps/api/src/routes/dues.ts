@@ -24,7 +24,7 @@ import {
   getDuesSchedule,
   listDuesSchedules,
   recordDuesPayment,
-  listSchedulePayments,
+  listSchedulePayments as _listSchedulePayments,
   getMemberDuesStatus,
   closeDuesSchedule,
 } from '@webwaka/fundraising';

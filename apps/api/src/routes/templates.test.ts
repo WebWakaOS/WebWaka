@@ -1006,10 +1006,10 @@ describe('Phase 4 — E27: Onboarding template selection invariants', () => {
       return app;
     };
 
-    await (await makeIsolatedApp('tnt_alpha')).request('/templates/electoral-mobilization/install', {
+    await makeIsolatedApp('tnt_alpha').request('/templates/electoral-mobilization/install', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
     });
-    await (await makeIsolatedApp('tnt_beta')).request('/templates/electoral-mobilization/install', {
+    await makeIsolatedApp('tnt_beta').request('/templates/electoral-mobilization/install', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
     });
 
