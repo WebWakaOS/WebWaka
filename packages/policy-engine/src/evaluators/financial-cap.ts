@@ -59,7 +59,7 @@ export function evaluateFinancialCap(
     if (amountKobo > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Transaction amount ${amountKobo} kobo exceeds cap ${cond.cap_kobo} kobo`,
+        `Transaction amount ₦${amountKobo / 100} exceeds cap ₦${cond.cap_kobo / 100}`,
       );
     }
   } else if (cond.per === 'contributor_campaign') {
@@ -67,7 +67,7 @@ export function evaluateFinancialCap(
     if (totalAfter > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Cumulative contribution ${totalAfter} kobo would exceed cap ${cond.cap_kobo} kobo`,
+        `Cumulative contribution ₦${totalAfter / 100} would exceed cap ₦${cond.cap_kobo / 100}`,
       );
     }
   } else if (cond.per === 'daily') {
@@ -75,7 +75,7 @@ export function evaluateFinancialCap(
     if (dailyTotalAfter > cond.cap_kobo) {
       return deny(
         rule.ruleKey,
-        `Daily total ${dailyTotalAfter} kobo would exceed daily cap ${cond.cap_kobo} kobo`,
+        `Daily total ₦${dailyTotalAfter / 100} would exceed daily cap ₦${cond.cap_kobo / 100}`,
       );
     }
   }
