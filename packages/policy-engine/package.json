@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/policy-engine",
   "version": "0.1.0",
-  "description": "[Phase 0 skeleton] Platform policy rule engine — INEC caps, NDPR gates, AI gates, content moderation gates, payout approval rules",
+  "description": "[Cross-cutting] Platform policy rule engine — INEC caps, NDPR gates, AI gates, content moderation gates, payout approval rules",
   "private": true,
   "type": "module",
   "exports": {
