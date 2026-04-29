@@ -114,12 +114,10 @@ function makeMockDb() {
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
                 const row = cases[idx];
-                if (row) {
-                  row.assigned_to_user_id = args[0];
-                  row.assigned_at = args[1];
-                  row.status = 'assigned';
-                  row.updated_at = args[2];
-                }
+                row.assigned_to_user_id = args[0];
+                row.assigned_at = args[1];
+                row.status = 'assigned';
+                row.updated_at = args[2];
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'resolved' ───────────────────
@@ -131,12 +129,9 @@ function makeMockDb() {
                        r.status !== 'resolved' && r.status !== 'closed',
                 );
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                const row = cases[idx];
-                if (row) {
-                  row.status = 'resolved';
-                  row.resolved_at = args[0];
-                  row.updated_at = args[1];
-                }
+                cases[idx].status = 'resolved';
+                cases[idx].resolved_at = args[0];
+                cases[idx].updated_at = args[1];
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'closed' ─────────────────────
@@ -145,12 +140,9 @@ function makeMockDb() {
                 const tenantId = args[args.length - 1] as string;
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                const row = cases[idx];
-                if (row) {
-                  row.status = 'closed';
-                  row.closed_at = args[0];
-                  row.updated_at = args[1];
-                }
+                cases[idx].status = 'closed';
+                cases[idx].closed_at = args[0];
+                cases[idx].updated_at = args[1];
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET status = 'reopened' ───────────────────
@@ -162,25 +154,17 @@ function makeMockDb() {
                        (r.status === 'resolved' || r.status === 'closed'),
                 );
                 if (idx === -1) return { success: true, meta: { changes: 0 } };
-                const row = cases[idx];
-                if (row) {
-                  row.status = 'reopened';
-                  row.resolved_at = null;
-                  row.closed_at = null;
-                  row.updated_at = args[0];
-                }
+                cases[idx].status = 'reopened';
+                cases[idx].resolved_at = null;
+                cases[idx].closed_at = null;
+                cases[idx].updated_at = args[0];
                 return { success: true, meta: { changes: 1 } };
               }
               // ── UPDATE cases SET updated_at (from addNote) ─────────────
               if (lsql.includes('update cases set updated_at')) {
                 const [updatedAt, caseId, tenantId] = args as [number, string, string];
                 const idx = cases.findIndex(r => r.id === caseId && r.tenant_id === tenantId);
-                if (idx !== -1) {
-                  const row = cases[idx];
-                  if (row) {
-                    row.updated_at = updatedAt;
-                  }
-                }
+                if (idx !== -1) cases[idx].updated_at = updatedAt;
                 return { success: true, meta: { changes: 1 } };
               }
               return { success: true, meta: { changes: 0 } };
@@ -296,7 +280,7 @@ describe('@webwaka/cases — repository', () => {
     const notes = await listNotes(db as never, c.id, TENANT, true);
     const assignNote = notes.find(n => n.noteType === 'assignment');
     expect(assignNote).toBeDefined();
-    if (assignNote) expect(assignNote.isInternal).toBe(true);
+    expect(assignNote?.isInternal).toBe(true);
   });
 
   it('T12 — assignCase throws if case not found', async () => {
@@ -359,7 +343,7 @@ describe('@webwaka/cases — repository', () => {
     await resolveCase(db as never, { caseId: c.id, tenantId: TENANT, resolvedByUserId: USER_A, resolutionNote: 'Fixed it.' });
     const notes = await listNotes(db as never, c.id, TENANT);
     const resNote = notes.find(n => n.noteType === 'resolution');
-    if (resNote) expect(resNote.body).toBe('Fixed it.');
+    expect(resNote?.body).toBe('Fixed it.');
   });
 
   it('T19 — resolveCase throws if already resolved', async () => {

@@ -165,7 +165,7 @@ describe('PATCH /pos-business/product/:id', () => {
       body: 'invalid json',
     });
     expect(res.status).toBe(400);
-    const body = await res.json<{ error: string }>();
+    const body = (await res.json()) as { error: string };
     expect(body.error).toBe('Invalid JSON body');
   });
 
@@ -178,7 +178,7 @@ describe('PATCH /pos-business/product/:id', () => {
       body: JSON.stringify({ name: 'Updated Product' }),
     });
     expect(res.status).toBe(200);
-    const body = await res.json<{ product: { name: string } }>();
+    const body = (await res.json()) as { product: { name: string } };
     expect(body.product.name).toBe('Updated Product');
   });
 
@@ -202,7 +202,7 @@ describe('PATCH /pos-business/product/:id', () => {
       body: JSON.stringify({ name: 'Updated Product' }),
     });
     expect(res.status).toBe(400);
-    const body = await res.json<{ error: string }>();
+    const body = (await res.json()) as { error: string };
     expect(body.error).toBe('Update failed');
   });
 });

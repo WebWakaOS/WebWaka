@@ -154,8 +154,9 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
   it('parses a valid cases_board config', () => {
     const config: CasesBoardBlockConfig = {
       heading: 'Open Cases',
-      filterByType: ['welfare', 'legal', 'housing'],
-      maxCases: 10,
+      caseTypes: ['welfare', 'legal', 'housing'],
+      showClosed: false,
+      maxVisible: 10,
     };
     const json = JSON.stringify(config);
     const parsed = parseBlockConfig('cases_board', json);
@@ -173,16 +174,18 @@ describe('Phase 4 — E28: CasesBoardBlockConfig', () => {
     const config: BlockConfig = {
       blockType: 'cases_board',
       heading: 'Constituency Cases',
-      filterByType: ['infrastructure', 'healthcare'],
-      maxCases: 20,
+      caseTypes: ['infrastructure', 'healthcare'],
+      showClosed: true,
+      maxVisible: 20,
     };
     const json = serializeBlockConfig(config);
     const parsed = parseBlockConfig('cases_board', json);
     expect(parsed).not.toBeNull();
     if (parsed?.blockType === 'cases_board') {
       expect(parsed.heading).toBe('Constituency Cases');
-      expect(parsed.filterByType).toEqual(['infrastructure', 'healthcare']);
-      expect(parsed.maxCases).toBe(20);
+      expect(parsed.caseTypes).toEqual(['infrastructure', 'healthcare']);
+      expect(parsed.showClosed).toBe(true);
+      expect(parsed.maxVisible).toBe(20);
     }
   });
 });
@@ -192,6 +195,8 @@ describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
     const config: DuesStatusBlockConfig = {
       heading: 'Member Dues',
       showHistory: true,
+      cycleLabel: 'Monthly',
+      gracePeriodDays: 7,
     };
     const json = JSON.stringify(config);
     const parsed = parseBlockConfig('dues_status', json);
@@ -210,12 +215,15 @@ describe('Phase 4 — E28: DuesStatusBlockConfig', () => {
       blockType: 'dues_status',
       heading: 'Ward Dues 2025',
       showHistory: false,
+      cycleLabel: 'Annual',
+      gracePeriodDays: 14,
     };
     const json = serializeBlockConfig(config);
     const parsed = parseBlockConfig('dues_status', json);
     expect(parsed).not.toBeNull();
     if (parsed?.blockType === 'dues_status') {
-      expect(parsed.showHistory).toBe(false);
+      expect(parsed.cycleLabel).toBe('Annual');
+      expect(parsed.gracePeriodDays).toBe(14);
     }
   });
 });
@@ -224,7 +232,9 @@ describe('Phase 4 — E28: MutualAidWallBlockConfig', () => {
   it('parses a valid mutual_aid_wall config', () => {
     const config: MutualAidWallBlockConfig = {
       heading: 'Community Aid',
-      maxItems: 8,
+      showDisbursements: true,
+      maxRequests: 8,
+      allowAnonRequests: false,
     };
     const json = JSON.stringify(config);
     const parsed = parseBlockConfig('mutual_aid_wall', json);
@@ -241,13 +251,16 @@ describe('Phase 4 — E28: MutualAidWallBlockConfig', () => {
     const config: BlockConfig = {
       blockType: 'mutual_aid_wall',
       heading: 'Neighbourhood Solidarity',
-      maxItems: 15,
+      showDisbursements: true,
+      maxRequests: 15,
+      allowAnonRequests: true,
     };
     const json = serializeBlockConfig(config);
     const parsed = parseBlockConfig('mutual_aid_wall', json);
     expect(parsed).not.toBeNull();
     if (parsed?.blockType === 'mutual_aid_wall') {
       expect(parsed.heading).toBe('Neighbourhood Solidarity');
+      expect(parsed.allowAnonRequests).toBe(true);
     }
   });
 });
@@ -258,18 +271,18 @@ describe('Phase 4 — E28: GroupBlockConfig extended fields', () => {
       heading: 'Ward Network',
       showMemberCount: true,
       joinCtaLabel: 'Join Ward',
-      groupId: 'Ward',
-      showDuesStatus: true,
-      showCasesPreview: true,
-      showMutualAidWall: false,
+      group: 'Ward',
+      enableDuesDisplay: true,
+      enableCasesTeaser: true,
+      enableMutualAidTeaser: false,
     };
     const json = JSON.stringify(config);
     const parsed = parseBlockConfig('group', json);
     expect(parsed).not.toBeNull();
     expect(parsed?.blockType).toBe('group');
     if (parsed?.blockType === 'group') {
-      expect(parsed.showDuesStatus).toBe(true);
-      expect(parsed.showCasesPreview).toBe(true);
+      expect(parsed.enableDuesDisplay).toBe(true);
+      expect(parsed.enableCasesTeaser).toBe(true);
     }
   });
 
@@ -278,16 +291,16 @@ describe('Phase 4 — E28: GroupBlockConfig extended fields', () => {
       blockType: 'group',
       heading: 'Faith Group',
       showMemberCount: false,
-      groupId: 'Ministry',
-      showDuesStatus: true,
-      showCasesPreview: false,
-      showMutualAidWall: true,
+      group: 'Ministry',
+      enableDuesDisplay: true,
+      enableCasesTeaser: false,
+      enableMutualAidTeaser: true,
     };
     const json = serializeBlockConfig(config);
     const parsed = parseBlockConfig('group', json);
     if (parsed?.blockType === 'group') {
-      expect(parsed.groupId).toBe('Ministry');
-      expect(parsed.showMutualAidWall).toBe(true);
+      expect(parsed.group).toBe('Ministry');
+      expect(parsed.enableMutualAidTeaser).toBe(true);
     }
   });
 });
