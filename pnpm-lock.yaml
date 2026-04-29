@@ -619,6 +619,9 @@ importers:
       '@webwaka/wakapage-blocks':
         specifier: workspace:*
         version: link:../../packages/wakapage-blocks
+      '@webwaka/workflows':
+        specifier: workspace:*
+        version: link:../../packages/workflows
       aws4fetch:
         specifier: ^1.0.20
         version: 1.0.20
