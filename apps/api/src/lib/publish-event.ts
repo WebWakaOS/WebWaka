@@ -38,6 +38,9 @@ export interface PublishEventParams {
   workspaceId?: string;
   /** Event payload — variables available to template renderer */
   payload?: Record<string, unknown>;
+  /** Aggregate context (for domain events using cases / groups pattern) */
+  aggregateId?: string;
+  aggregateType?: string;
   /** N-011: distributed tracing */
   correlationId?: string;
   /** N-060a: origin tag (default: 'api') */
