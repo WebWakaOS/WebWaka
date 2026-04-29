@@ -4,7 +4,6 @@ import hashlib
 import importlib.util
 import json
 import shutil
-from pathlib import Path
 
 SPEC = importlib.util.spec_from_file_location("polling_generator_base", "infra/db/seed/scripts/generate_s05_polling_units_sql.py")
 g = importlib.util.module_from_spec(SPEC)
