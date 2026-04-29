@@ -6,7 +6,7 @@
  * T4: Atomic conditional UPDATE — double-spend prevention verified.
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { creditWallet, debitWallet, getLedger, createWallet } from '../ledger.js';
 import { WalletError } from '../errors.js';
 
