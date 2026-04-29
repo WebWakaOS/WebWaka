@@ -88,7 +88,7 @@ const APPROVED_TEMPLATE = {
 // ---------------------------------------------------------------------------
 
 function makeApp(db: ReturnType<typeof makeDb>, role = 'admin', tenantId = 'tnt_a', kv?: typeof MOCK_KV) {
-  const app = new Hono<{ Bindings: unknown }>();
+  const app = new Hono<{ Bindings: never }>();
   app.use('*', async (c, next) => {
     c.env = {
       DB: db,
@@ -346,7 +346,7 @@ describe('POST /onboarding/:workspaceId/template — E27: Template selection dur
 
     // vocabulary written to KV with tenant-scoped key (TR-T-02)
     expect(kvPuts.some(p => p.key === 'vocab:tnt_a:electoral-mobilization')).toBe(true);
-    expect(kvPuts[0].value).toBe(APPROVED_TEMPLATE.vocabulary);
+    expect(kvPuts[0]?.value).toBe(APPROVED_TEMPLATE.vocabulary);
   });
 
   it('succeeds even when KV binding is absent (non-fatal)', async () => {
