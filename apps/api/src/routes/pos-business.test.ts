@@ -79,6 +79,18 @@ const MOCK_CUSTOMER = { id: 'cus_001', workspaceId: 'wsp_a', tenantId: 'tnt_a', 
 describe('POST /pos-business/products', () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
+  it('returns 400 for invalid JSON body', async () => {
+    const app = makeApp();
+    const res = await app.request('/pos-business/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'invalid-json',
+    });
+    expect(res.status).toBe(400);
+    const body = await res.json<{ error: string }>();
+    expect(body.error).toBe('Invalid JSON body');
+  });
+
   it('returns 400 when required fields are missing', async () => {
     const app = makeApp();
     const res = await app.request('/pos-business/products', {
