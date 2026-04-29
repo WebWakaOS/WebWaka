@@ -23,17 +23,6 @@ export function WorkspaceLayout() {
     return () => window.removeEventListener('resize', handler);
   }, []);
 
-  // BUG-025: On every route change, move focus to #main-content so screen-reader
-  // users hear the new page heading rather than being stranded at the link they
-  // just activated.
-  useEffect(() => {
-    const el = document.getElementById('main-content');
-    if (el) {
-      el.setAttribute('tabindex', '-1');
-      el.focus({ preventScroll: true });
-    }
-  }, [location.pathname]);
-
   const { unreadCount, refresh } = useNotificationPoll({ enabled: !!user });
 
   if (!initialized || loading) return <FullPageSpinner />;
