@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/groups-civic",
   "version": "0.1.0",
-  "description": "[Phase 2] Civic group extension — NGO governance, beneficiary tracking (FR-GRP-P4)",
+  "description": "[Pillar 2] Civic group extension — NGO governance, beneficiary tracking (FR-GRP-P4)",
   "private": true,
   "type": "module",
   "exports": {
