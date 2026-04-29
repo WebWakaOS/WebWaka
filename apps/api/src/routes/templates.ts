@@ -129,41 +129,67 @@ async function seedTemplatePoliciesAndVocab(
   let policies: TemplateDefaultPolicy[] = [];
   try { policies = JSON.parse(policiesJson) as TemplateDefaultPolicy[]; } catch { /* malformed — skip */ }
 
-  for (const policy of policies) {
-    if (!policy.rule_key || !policy.category || !policy.title) continue;
-    try {
-      const existing = await db.prepare(
-        `SELECT id FROM policy_rules WHERE tenant_id = ? AND rule_key = ? AND scope = 'tenant'`,
-      ).bind(tenantId, policy.rule_key).first<{ id: string }>();
-      if (existing) continue;
+  const validPolicies = policies.filter((p) => p.rule_key && p.category && p.title);
 
-      const policyId = `polr_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
-      await db.prepare(`
-        INSERT INTO policy_rules
-          (id, tenant_id, workspace_id, rule_key, version, category, scope, status,
-           title, description, condition_json, decision, hitl_level,
-           effective_from, effective_to, created_by, created_at, updated_at)
-        VALUES (?, ?, NULL, ?, 1, ?, ?, 'published', ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
-      `).bind(
-        policyId,
-        tenantId,
-        policy.rule_key,
-        policy.category,
-        policy.scope ?? 'tenant',
-        policy.title,
-        policy.description ?? '',
-        policy.condition_json ?? '{}',
-        policy.decision ?? 'DENY',
-        policy.hitl_level ?? null,
-        now,
-        tenantId,
-        now,
-        now,
-      ).run();
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : '';
-      if (!msg.includes('no such table')) {
-        console.warn('[templates] policy seed failed (non-fatal):', policy.rule_key, err);
+  if (validPolicies.length > 0) {
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < validPolicies.length; i += BATCH_SIZE) {
+      const batch = validPolicies.slice(i, i + BATCH_SIZE);
+      const ruleKeys = batch.map((p) => p.rule_key);
+      const placeholders = ruleKeys.map(() => '?').join(',');
+
+      try {
+        const existingRows = await db.prepare(
+          `SELECT rule_key FROM policy_rules WHERE tenant_id = ? AND scope = 'tenant' AND rule_key IN (${placeholders})`
+        ).bind(tenantId, ...ruleKeys).all<{ rule_key: string }>();
+
+        let existingResults: { rule_key: string }[] = [];
+        if (existingRows && Array.isArray(existingRows.results)) {
+          existingResults = existingRows.results;
+        }
+
+        const existingKeys = new Set(existingResults.map((r) => r.rule_key));
+
+        for (const policy of batch) {
+          if (existingKeys.has(policy.rule_key)) continue;
+
+          try {
+            const policyId = `polr_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
+            await db.prepare(`
+              INSERT INTO policy_rules
+                (id, tenant_id, workspace_id, rule_key, version, category, scope, status,
+                 title, description, condition_json, decision, hitl_level,
+                 effective_from, effective_to, created_by, created_at, updated_at)
+              VALUES (?, ?, NULL, ?, 1, ?, ?, 'published', ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
+            `).bind(
+              policyId,
+              tenantId,
+              policy.rule_key,
+              policy.category,
+              policy.scope ?? 'tenant',
+              policy.title,
+              policy.description ?? '',
+              policy.condition_json ?? '{}',
+              policy.decision ?? 'DENY',
+              policy.hitl_level ?? null,
+              now,
+              tenantId,
+              now,
+              now,
+            ).run();
+            existingKeys.add(policy.rule_key);
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : '';
+            if (!msg.includes('no such table')) {
+              console.warn('[templates] policy seed failed (non-fatal):', policy.rule_key, err);
+            }
+          }
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : '';
+        if (!msg.includes('no such table')) {
+          console.warn('[templates] policy seed batch query failed (non-fatal):', err);
+        }
       }
     }
   }

@@ -952,7 +952,10 @@ describe('Phase 4 — E25: Install route policy seeding + KV vocab', () => {
       'FROM template_registry WHERE slug = ? AND status': () => MOCK_TEMPLATE_PHASE4,
       'FROM profiles': () => ({ vertical_slug: null }),
       'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => ({ id: 'inst_001', status: 'inactive' }),
-      'FROM policy_rules WHERE tenant_id': () => ({ id: 'polr_existing' }), // policy already exists
+      'FROM policy_rules WHERE tenant_id': () => [
+        { rule_key: 'gotv.agent.daily_broadcast' },
+        { rule_key: 'pii.agent.data_access' }
+      ], // policy already exists
     });
     const originalPrepare = db.prepare.bind(db);
     (db as ReturnType<typeof makeDbWithBatch> & { prepare: typeof db.prepare }).prepare = (q: string) => {
