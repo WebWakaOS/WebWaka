@@ -38,12 +38,18 @@ const EXEMPT_PATHS = new Set([
 function isExemptPath(path: string): boolean {
   // BUG-015: Normalize path before check — strip query string and trailing slash
   // so /auth/login/, /auth/login?redirect=x etc. are correctly exempted.
-  const normalizedPath = path.split('?')[0]!.replace(/\/+$/, '');
+  let normalizedPath = path.split('?')[0]!;
+  if (normalizedPath.length > 1 && normalizedPath.endsWith('/')) {
+    normalizedPath = normalizedPath.replace(/\/+$/, '');
+  }
+
   if (EXEMPT_PATHS.has(normalizedPath)) return true;
-  if (normalizedPath.startsWith('/health/')) return true;
-  if (normalizedPath.startsWith('/billing/')) return true;
-  if (normalizedPath.startsWith('/onboarding/')) return true;
-  if (normalizedPath.startsWith('/payments/')) return true;
+
+  if (normalizedPath === '/health' || normalizedPath.startsWith('/health/')) return true;
+  if (normalizedPath === '/billing' || normalizedPath.startsWith('/billing/')) return true;
+  if (normalizedPath === '/onboarding' || normalizedPath.startsWith('/onboarding/')) return true;
+  if (normalizedPath === '/payments' || normalizedPath.startsWith('/payments/')) return true;
+
   return false;
 }
 
