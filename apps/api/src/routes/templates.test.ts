@@ -905,7 +905,7 @@ describe('Phase 4 — E25: Install route policy seeding + KV vocab', () => {
       'FROM policy_rules WHERE tenant_id': () => null, // no existing policies
     });
 
-    const app = new Hono<{ Bindings: unknown }>();
+    const app = new Hono<{ Bindings: any }>();
     app.use('*', async (c, next) => {
       c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development', KV: mockKv } as never;
       c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
@@ -931,7 +931,7 @@ describe('Phase 4 — E25: Install route policy seeding + KV vocab', () => {
       'FROM policy_rules WHERE tenant_id': () => null,
     });
 
-    const app = new Hono<{ Bindings: unknown }>();
+    const app = new Hono<{ Bindings: any }>();
     app.use('*', async (c, next) => {
       c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development' /* no KV */ } as never;
       c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
@@ -963,7 +963,7 @@ describe('Phase 4 — E25: Install route policy seeding + KV vocab', () => {
       return stmt;
     };
 
-    const app = new Hono<{ Bindings: unknown }>();
+    const app = new Hono<{ Bindings: any }>();
     app.use('*', async (c, next) => {
       c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development' } as never;
       c.set('auth' as never, { userId: 'usr_test', tenantId: 'tnt_a', role: 'admin' } as never);
@@ -996,7 +996,7 @@ describe('Phase 4 — E27: Onboarding template selection invariants', () => {
         'FROM template_installations WHERE tenant_id = ? AND template_id = ?': () => null,
         'FROM policy_rules WHERE tenant_id': () => null,
       });
-      const app = new Hono<{ Bindings: unknown }>();
+      const app = new Hono<{ Bindings: any }>();
       app.use('*', async (c, next) => {
         c.env = { DB: db, JWT_SECRET: 'test', ENVIRONMENT: 'development', KV: mockKv } as never;
         c.set('auth' as never, { userId: 'usr_test', tenantId, role: 'admin' } as never);
