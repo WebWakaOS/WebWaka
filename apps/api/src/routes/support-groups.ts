@@ -193,7 +193,7 @@ supportGroupRoutes.post('/', async (c) => {
 
     await publishEvent(c.env, {
       eventId: crypto.randomUUID(),
-      eventKey: SupportGroupEventType.SupportGroupCreated,
+      eventKey: SupportGroupEventType.GroupCreated,
       tenantId, payload: { groupId: group.id, name: group.name },
     });
 
@@ -263,7 +263,7 @@ supportGroupRoutes.patch('/:id', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupUpdated,
+    eventKey: SupportGroupEventType.GroupUpdated,
     tenantId, payload: { groupId: updated.id },
   });
 
@@ -302,7 +302,7 @@ supportGroupRoutes.post('/:id/join', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupMemberJoined,
+    eventKey: SupportGroupEventType.GroupMemberJoined,
     tenantId, payload: { memberId: member.id, userId },
   });
 
@@ -332,7 +332,7 @@ supportGroupRoutes.post('/:id/members/:memberId/approve', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupMemberApproved,
+    eventKey: SupportGroupEventType.GroupMemberApproved,
     tenantId, payload: { memberId: c.req.param('memberId'), approvedBy: userId },
   });
 
@@ -385,7 +385,7 @@ supportGroupRoutes.post('/:id/meetings', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupMeetingScheduled,
+    eventKey: SupportGroupEventType.GroupMeetingScheduled,
     tenantId, payload: { meetingId: meeting.id },
   });
 
@@ -434,7 +434,7 @@ supportGroupRoutes.post('/:id/broadcasts', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupBroadcastSent,
+    eventKey: SupportGroupEventType.GroupBroadcastSent,
     tenantId, payload: { broadcastId: broadcast.id, channel: broadcast.channel },
   });
 
@@ -483,7 +483,7 @@ supportGroupRoutes.post('/:id/events', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupEventCreated,
+    eventKey: SupportGroupEventType.GroupEventCreated,
     tenantId, payload: { eventId: event.id },
   });
 
@@ -543,7 +543,7 @@ supportGroupRoutes.post('/:id/gotv', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupGotvRecorded,
+    eventKey: SupportGroupEventType.GroupGotvRecorded,
     tenantId,
     payload: { gotvId: record.id, pollingUnitCode: record.pollingUnitCode },
     // P13: voter_ref deliberately omitted from event payload
@@ -564,7 +564,7 @@ supportGroupRoutes.post('/:id/gotv/:gotvId/confirm', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupGotvVoteConfirmed,
+    eventKey: SupportGroupEventType.GroupGotvVoteConfirmed,
     tenantId, payload: { gotvId: c.req.param('gotvId') },
   });
 
@@ -605,7 +605,7 @@ supportGroupRoutes.post('/:id/petitions', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupPetitionOpened,
+    eventKey: SupportGroupEventType.GroupPetitionOpened,
     tenantId, payload: { petitionId: petition.id },
   });
 
@@ -629,7 +629,7 @@ supportGroupRoutes.post('/petitions/:petitionId/sign', async (c) => {
 
   await publishEvent(c.env, {
     eventId: crypto.randomUUID(),
-    eventKey: SupportGroupEventType.SupportGroupPetitionSigned,
+    eventKey: SupportGroupEventType.GroupPetitionSigned,
     tenantId, payload: { petitionId, userId },
   });
 
