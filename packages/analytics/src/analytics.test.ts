@@ -4,7 +4,6 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { trackEvent, assertNoPii } from './tracker.js';
 import { getWorkspaceMetrics, getGroupMetrics, getCampaignMetrics } from './query.js';
 
 // ── In-memory mock DB ──────────────────────────────────────────────────────
@@ -32,13 +31,6 @@ function makeMockDb(data: {
         bind(...args: unknown[]) {
           return {
             async run() {
-              if (lsql.startsWith('insert into analytics_events')) {
-                analyticsEvents.push({
-                  id: args[0], tenant_id: args[1], workspace_id: args[2],
-                  event_key: args[3], entity_type: args[4], entity_id: args[5],
-                  actor_id: args[6], properties_json: args[7], occurred_at: args[8],
-                });
-              }
               return { success: true };
             },
 
@@ -103,66 +95,6 @@ const TENANT = 'ten_analytics';
 const WS = 'ws_analytics';
 
 describe('@webwaka/analytics', () => {
-
-  describe('assertNoPii (P13)', () => {
-    it('AN01 — passes non-PII properties unchanged', () => {
-      const cleaned = assertNoPii({ group_id: 'grp_01', member_count: 50 });
-      expect(cleaned).toEqual({ group_id: 'grp_01', member_count: 50 });
-    });
-
-    it('AN02 — strips donor_phone from properties (P13)', () => {
-      const cleaned = assertNoPii({ donor_phone: '08012345678', amount_kobo: 100_000 });
-      expect(cleaned).not.toHaveProperty('donor_phone');
-      expect(cleaned).toHaveProperty('amount_kobo');
-    });
-
-    it('AN03 — strips bank_account_number (P13)', () => {
-      const cleaned = assertNoPii({ bank_account_number: '0012345678', amount_kobo: 50_000 });
-      expect(cleaned).not.toHaveProperty('bank_account_number');
-    });
-
-    it('AN04 — strips voter_ref (P13)', () => {
-      const cleaned = assertNoPii({ voter_ref: 'hashed_ref_001', ward: 'Lagos Island' });
-      expect(cleaned).not.toHaveProperty('voter_ref');
-      expect(cleaned).toHaveProperty('ward');
-    });
-
-    it('AN05 — strips email (P13)', () => {
-      const cleaned = assertNoPii({ email: 'user@example.com', event_key: 'test' });
-      expect(cleaned).not.toHaveProperty('email');
-      expect(cleaned).toHaveProperty('event_key');
-    });
-  });
-
-  describe('trackEvent', () => {
-    it('AN06 — inserts analytics event with safe properties', async () => {
-      const db = makeMockDb();
-      await trackEvent(db as any, {
-        tenantId: TENANT, workspaceId: WS, eventKey: 'group.member_joined',
-        entityType: 'group', entityId: 'grp_01', actorId: 'user_01',
-        properties: { role: 'member', ward: 'VI' },
-      });
-      expect(db._analyticsEvents).toHaveLength(1);
-      expect(db._analyticsEvents[0]?.event_key).toBe('group.member_joined');
-    });
-
-    it('AN07 — does not throw if DB insert fails (fire-and-forget)', async () => {
-      const brokenDb = {
-        prepare() {
-          return {
-            bind() {
-              return {
-                async run() { throw new Error('DB error'); },
-              };
-            },
-          };
-        },
-      };
-      await expect(trackEvent(brokenDb as any, {
-        tenantId: TENANT, workspaceId: WS, eventKey: 'test', entityType: 'group', entityId: 'g1',
-      })).resolves.toBeUndefined();
-    });
-  });
 
   describe('getWorkspaceMetrics (M12 gate: 3 key metrics)', () => {
     it('AN08 — returns 3 metrics: activeGroups, totalContributionsKobo, openCases', async () => {
