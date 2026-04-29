@@ -216,7 +216,7 @@ a:hover { text-decoration: underline; }
       }
     })();
 
-    // BUG-028: Service Worker registration — registers /sw.js for offline support
+    // Service Worker registration — registers /sw.js for offline support
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(err) {
