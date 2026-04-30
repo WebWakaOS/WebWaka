@@ -5,15 +5,22 @@
  * These tests compare legacy vertical routes vs new engine routes.
  */
 
-import { describe } from 'vitest';
+import { describe, beforeAll, afterAll } from 'vitest';
 import { createParityTest } from './parity-framework';
+import { setupParityTests, seedTestData, cleanupTestData, getAuthHeaders, TEST_CONFIG } from './test-fixtures';
 
-const BASE_URL = process.env.API_BASE_URL || 'http://localhost:8001';
+const BASE_URL = TEST_CONFIG.baseUrl;
+const AUTH_HEADERS = getAuthHeaders();
 
-// Sample auth token for testing (replace with actual test token)
-const AUTH_HEADERS = {
-  Authorization: `Bearer ${process.env.TEST_TOKEN || 'test-token'}`,
-};
+// Setup mocked backend if not using real one
+beforeAll(async () => {
+  setupParityTests();
+  await seedTestData();
+});
+
+afterAll(async () => {
+  await cleanupTestData();
+});
 
 describe('Parity Tests: Bakery Vertical', () => {
   createParityTest({
@@ -29,8 +36,8 @@ describe('Parity Tests: Bakery Vertical', () => {
     vertical: 'bakery',
     endpoint: '/profiles/:id (get)',
     method: 'GET',
-    legacyPath: '/v1/verticals/bakery/profiles/test-profile-id',
-    enginePath: '/bakery/profiles/test-profile-id',
+    legacyPath: '/v1/verticals/bakery/profiles/bakery-profile-1',
+    enginePath: '/bakery/profiles/bakery-profile-1',
     headers: AUTH_HEADERS,
   }, BASE_URL);
 });
@@ -49,8 +56,8 @@ describe('Parity Tests: Hotel Vertical', () => {
     vertical: 'hotel',
     endpoint: '/profiles/:id (get)',
     method: 'GET',
-    legacyPath: '/v1/verticals/hotel/profiles/test-profile-id',
-    enginePath: '/hotel/profiles/test-profile-id',
+    legacyPath: '/v1/verticals/hotel/profiles/hotel-profile-1',
+    enginePath: '/hotel/profiles/hotel-profile-1',
     headers: AUTH_HEADERS,
   }, BASE_URL);
 });
