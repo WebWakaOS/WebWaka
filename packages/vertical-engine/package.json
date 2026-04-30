@@ -1,0 +1,28 @@
+{
+  "name": "@webwaka/vertical-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Configuration-driven vertical management engine — replaces 159 individual vertical packages",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": { "source": "./src/index.ts" },
+    "./registry": { "source": "./src/registry.ts" },
+    "./generators": { "source": "./src/generators/index.ts" }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@webwaka/types": "workspace:*",
+    "@webwaka/entitlements": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "hono": "^4.12.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
