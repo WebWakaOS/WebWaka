@@ -357,7 +357,21 @@ export async function processQueueBatch(
       });
 
       // G10: retry() — CF Queue handles exponential backoff up to max_retries=5.
-      // After max_retries, CF Queue drops the message. Phase 7 adds DLQ inspector.
+      // After max_retries, CF Queue drops the message.
+      // M-8: Log dead-letter-candidate events for messages approaching max retries.
+      const attempts = (msg as unknown as { attempts?: number }).attempts || 0;
+      if (attempts >= 4) {
+        // This is likely the final retry (max_retries=5). Log as DLQ candidate.
+        console.error(JSON.stringify({
+          event: 'notification_dead_letter_candidate',
+          message_id: body.eventId || 'unknown',
+          tenant_id: body.tenantId || 'unknown',
+          event_key: body.eventKey || body.type || 'unknown',
+          error: errorMessage,
+          attempts: attempts + 1,
+          timestamp: new Date().toISOString(),
+        }));
+      }
       msg.retry();
     }
   }
