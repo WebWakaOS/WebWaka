@@ -70,7 +70,7 @@ jobs:
         with:
           node-version: 20
       - name: Lint OpenAPI spec (ADR-0018)
-        run: npx --yes @redocly/cli@latest lint docs/openapi/v1.yaml --skip-rule no-empty-servers
+        run: npx --yes @redocly/cli@latest lint docs/openapi/v1.yaml --config .redocly.yaml
 
   audit:
     name: Security Audit
