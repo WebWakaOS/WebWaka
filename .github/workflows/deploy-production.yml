@@ -187,27 +187,84 @@ jobs:
 
       - name: Guard 0432 schema compatibility on production D1
         # Migration 0432 renames support_groups to groups and updates references.
-        # Production may not have the search_entries.record_type column yet.
-        # This guard checks if the schema is compatible; if not, marks 0432 as applied
-        # and runs only the safe portions (table rename, not column updates).
+        # Production database may not have support_groups tables (already groups) or
+        # may lack search_entries.record_type column. This guard handles both scenarios.
         run: |
           cd apps/api
-          echo "Checking search_entries schema compatibility for 0432..."
-          COLUMN_EXISTS=$(npx wrangler d1 execute webwaka-production \
+          echo "Checking if 0432 migration is needed..."
+          
+          # Check if groups table already exists
+          GROUPS_EXISTS=$(npx wrangler d1 execute webwaka-production \
             --env production \
             --remote \
             --json \
-            --command="SELECT COUNT(*) as cnt FROM pragma_table_info('search_entries') WHERE name = 'record_type';" \
+            --command="SELECT COUNT(*) as cnt FROM sqlite_master WHERE type='table' AND name='groups';" \
             | jq -r '.[0].results[0].cnt' 2>/dev/null || echo "0")
           
-          if [ "$COLUMN_EXISTS" = "0" ]; then
-            echo "⚠️  search_entries.record_type column not found — marking 0432 as applied to skip"
+          if [ "$GROUPS_EXISTS" = "1" ]; then
+            echo "✅ groups table already exists — marking 0432 as applied (already migrated)"
             npx wrangler d1 execute webwaka-production \
               --env production \
               --remote \
               --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0432_rename_support_groups_to_groups.sql', datetime('now'));"
           else
-            echo "✅ Schema compatible — 0432 will run normally"
+            # Check if support_groups exists (needs migration) or neither exists (create from scratch)
+            SUPPORT_GROUPS_EXISTS=$(npx wrangler d1 execute webwaka-production \
+              --env production \
+              --remote \
+              --json \
+              --command="SELECT COUNT(*) as cnt FROM sqlite_master WHERE type='table' AND name='support_groups';" \
+              | jq -r '.[0].results[0].cnt' 2>/dev/null || echo "0")
+            
+            if [ "$SUPPORT_GROUPS_EXISTS" = "0" ]; then
+              echo "ℹ️  Neither groups nor support_groups exists — creating groups table structure"
+              # Create minimal groups table structure that 0433+ depend on
+              npx wrangler d1 execute webwaka-production \
+                --env production \
+                --remote \
+                --file=<(cat <<'EOF'
+CREATE TABLE IF NOT EXISTS groups (
+  id TEXT NOT NULL,
+  workspace_id TEXT NOT NULL,
+  tenant_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  description TEXT,
+  category TEXT NOT NULL DEFAULT 'general',
+  hierarchy_level TEXT,
+  parent_group_id TEXT,
+  place_id TEXT,
+  state_code TEXT,
+  lga_code TEXT,
+  ward_code TEXT,
+  polling_unit_code TEXT,
+  member_count INTEGER NOT NULL DEFAULT 0,
+  volunteer_count INTEGER NOT NULL DEFAULT 0,
+  visibility TEXT NOT NULL DEFAULT 'public',
+  join_policy TEXT NOT NULL DEFAULT 'open',
+  status TEXT NOT NULL DEFAULT 'active',
+  logo_url TEXT,
+  cover_url TEXT,
+  constitution_url TEXT,
+  website_url TEXT,
+  ndpr_consent_required INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (parent_group_id) REFERENCES groups(id) ON DELETE SET NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS uidx_groups_slug_tenant ON groups(slug, tenant_id);
+CREATE INDEX IF NOT EXISTS idx_groups_workspace_tenant ON groups(workspace_id, tenant_id);
+EOF
+)
+              echo "✅ groups table created — marking 0432 as applied"
+              npx wrangler d1 execute webwaka-production \
+                --env production \
+                --remote \
+                --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0432_rename_support_groups_to_groups.sql', datetime('now'));"
+            else
+              echo "✅ support_groups exists — 0432 will run normally to perform rename"
+            fi
           fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
