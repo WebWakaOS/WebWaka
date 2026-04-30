@@ -19,6 +19,7 @@ import {
   regulatoryVerificationRoutes,
   platformAdminSectorLicensesRoutes,
 } from '../routes/regulatory-verification.js';
+import hitlRoutes from '../routes/hitl.js';
 
 export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -29,6 +30,7 @@ export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/admin/*', auditLogMiddleware);
   app.route('/admin', adminPublicRoutes);
   app.route('/admin', adminMetricsRoutes);
+  app.route('/admin/hitl', hitlRoutes);
 
   // -------------------------------------------------------------------------
   // P6-A: MED-011 — Platform Analytics (super_admin only)
