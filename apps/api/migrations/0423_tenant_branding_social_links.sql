@@ -1,0 +1,29 @@
+-- Migration: 0423_tenant_branding_social_links
+-- Phase 1 — Extend tenant_branding with social_links_json.
+--
+-- WakaPage's social_links block reads social platform URLs from this column,
+-- which makes them a tenant-level branding asset rather than per-page config.
+-- This avoids duplicating social identity data across multiple page block configs.
+--
+-- social_links_json shape (validated at application layer):
+-- {
+--   "facebook": "https://...",
+--   "instagram": "https://...",
+--   "twitter": "https://...",
+--   "tiktok": "https://...",
+--   "whatsapp": "https://wa.me/...",
+--   "youtube": "https://...",
+--   "linkedin": "https://...",
+--   "telegram": "https://...",
+--   "website": "https://..."
+-- }
+-- All keys are optional. Unknown keys are stripped at save time.
+--
+-- Platform Invariants:
+--   T3 — tenant_branding.tenant_id (UNIQUE) covers T3
+--   G23 — additive only (ALTER TABLE ADD COLUMN)
+--   P9  — no monetary fields
+--
+-- Dependencies: tenant_branding (0197)
+
+ALTER TABLE tenant_branding ADD COLUMN social_links_json TEXT;
