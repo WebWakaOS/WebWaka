@@ -30,7 +30,7 @@ export { VerticalCRUD } from './crud.js';
 export { FSMEngine } from './fsm.js';
 
 // Registry
-export { getRegistry, getVerticalConfig, listSlugs } from './registry.js';
+export { getRegistry, getVerticalConfig, listSlugs, getRegistryStats } from './registry.js';
 
 // Generators
 export { generateRoutes } from './generators/route-generator.js';

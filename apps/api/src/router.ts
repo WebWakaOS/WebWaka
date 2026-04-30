@@ -30,6 +30,7 @@ import { registerAuthRoutes } from './route-groups/register-auth-routes.js';
 import { registerWorkspaceRoutes } from './route-groups/register-workspace-routes.js';
 import { registerFinancialRoutes } from './route-groups/register-financial-routes.js';
 import { registerVerticalRoutes } from './route-groups/register-vertical-routes.js';
+import { registerVerticalEngineRoutes } from './route-groups/register-vertical-engine-routes.js';
 import { registerSocialRoutes } from './route-groups/register-social-routes.js';
 import { registerAiRoutes } from './route-groups/register-ai-routes.js';
 import { registerAdminRoutes } from './route-groups/register-admin-routes.js';
@@ -58,7 +59,8 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   registerAuthRoutes(app);             // 2. Auth, identity, entity, claim
   registerWorkspaceRoutes(app);        // 3. Workspace management
   registerFinancialRoutes(app);        // 4. POS, payments, billing, wallet
-  registerVerticalRoutes(app);         // 5. All vertical-specific routes
+  registerVerticalRoutes(app);         // 5. All vertical-specific routes (legacy)
+  registerVerticalEngineRoutes(app);   // 5b. Vertical-engine routes (NEW - Phase 1)
   registerSocialRoutes(app);           // 6. Social, community, groups
   registerAiRoutes(app);               // 7. SuperAgent / AI
   registerAdminRoutes(app);            // 8. Admin + platform-admin

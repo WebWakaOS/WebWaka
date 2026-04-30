@@ -172,6 +172,9 @@ importers:
       '@webwaka/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@webwaka/vertical-engine':
+        specifier: workspace:*
+        version: link:../../packages/vertical-engine
       '@webwaka/verticals':
         specifier: workspace:*
         version: link:../../packages/verticals

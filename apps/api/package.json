@@ -50,6 +50,7 @@
     "@webwaka/superagent": "workspace:*",
     "@webwaka/support-groups": "workspace:*",
     "@webwaka/types": "workspace:*",
+    "@webwaka/vertical-engine": "workspace:*",
     "@webwaka/verticals": "workspace:*",
     "@webwaka/verticals-abattoir": "workspace:*",
     "@webwaka/verticals-accounting-firm": "workspace:*",

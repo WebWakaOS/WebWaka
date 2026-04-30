@@ -40,6 +40,7 @@
       "@webwaka/shared-config": ["packages/shared-config/src/index.ts"],
       "@webwaka/social": ["packages/social/src/index.ts"],
       "@webwaka/superagent": ["packages/superagent/src/index.ts"],
+      "@webwaka/vertical-engine": ["packages/vertical-engine/src/index.ts"],
       "@webwaka/verticals": ["packages/verticals/src/index.ts"],
       "@webwaka/verticals-abattoir": ["packages/verticals-abattoir/src/index.ts"],
       "@webwaka/verticals-accounting-firm": ["packages/verticals-accounting-firm/src/index.ts"],
