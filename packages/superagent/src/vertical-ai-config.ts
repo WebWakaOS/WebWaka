@@ -2860,7 +2860,13 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
  * Previously returned null for unknown slugs (Issue OE-5 — now fixed).
  */
 export function getVerticalAiConfig(slug: string): VerticalAiConfig {
-  return VERTICAL_AI_CONFIGS[slug] ?? DEFAULT_VERTICAL_AI_CONFIG;
+  const directConfig = VERTICAL_AI_CONFIGS[slug];
+  // Phase 0 / M1: If this is a deprecated alias, resolve to canonical config.
+  if (directConfig?.deprecated && directConfig.canonicalSlug) {
+    const canonical = VERTICAL_AI_CONFIGS[directConfig.canonicalSlug];
+    if (canonical) return canonical;
+  }
+  return directConfig ?? DEFAULT_VERTICAL_AI_CONFIG;
 }
 
 /**
