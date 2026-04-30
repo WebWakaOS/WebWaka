@@ -40,35 +40,42 @@ export default function AdminHITL() {
 
   async function fetchPendingActions() {
     try {
-      // TODO: Implement actual API endpoint
-      // Mock data for scaffold
-      setActions([
-        {
-          id: 'hitl_001',
-          vertical: 'bakery',
-          capability: 'inventory_advisory',
-          status: 'pending',
-          priority: 'high',
-          tenantId: 'tnt_123',
-          workspaceId: 'ws_456',
-          proposedAction: {
-            type: 'update_inventory',
-            payload: { productId: 'prod_789', quantity: 50 }
-          },
-          aiReasoning: 'Historical data shows 40% increase in bread sales during weekends.',
-          requestedAt: new Date().toISOString()
-        }
-      ]);
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions?status=pending`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch actions');
+      }
+
+      const data = await response.json();
+      setActions(data.actions || []);
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch HITL actions:', error);
       toast.error('Failed to load pending actions');
+      setLoading(false);
     }
   }
 
   async function handleApprove(action: HITLAction) {
     try {
-      // TODO: Implement actual API endpoint
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions/${action.id}/approve`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ note: '' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to approve action');
+      }
+
       toast.success(`Action approved: ${action.capability} for ${action.vertical}`);
       await fetchPendingActions();
       setSelectedAction(null);
@@ -79,7 +86,19 @@ export default function AdminHITL() {
 
   async function handleReject(action: HITLAction) {
     try {
-      // TODO: Implement actual API endpoint
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions/${action.id}/reject`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ note: '' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to reject action');
+      }
+
       toast.success(`Action rejected: ${action.capability} for ${action.vertical}`);
       await fetchPendingActions();
       setSelectedAction(null);
