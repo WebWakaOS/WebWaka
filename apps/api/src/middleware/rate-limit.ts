@@ -76,7 +76,7 @@ export function rateLimitMiddleware(opts: RateLimitOptions) {
         method: c.req.method,
         window_seconds: opts.windowSeconds,
         max_requests: opts.maxRequests,
-        key: key,
+        key: ipKey,
         timestamp: new Date().toISOString(),
       }));
       return c.json(
