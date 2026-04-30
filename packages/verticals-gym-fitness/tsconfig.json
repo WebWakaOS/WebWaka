@@ -7,9 +7,9 @@
       "@webwaka/verticals":     ["../verticals/src/index.ts"],
       "@webwaka/verticals-gym": ["../verticals-gym/src/index.ts"]
     },
-    "rootDir": ".",
+    "rootDir": "../..",
     "outDir": "dist",
     "types": ["@cloudflare/workers-types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../verticals-gym/src/**/*"]
 }

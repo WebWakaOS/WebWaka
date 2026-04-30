@@ -28,19 +28,20 @@ interface D1Like {
 }
 
 function toProfile(r: Record<string, unknown>): GymProfile {
-  return {
+  const base: GymProfile = {
     id: r['id'] as string,
     workspaceId: r['workspace_id'] as string,
     tenantId: r['tenant_id'] as string,
     businessName: (r['business_name'] as string) ?? (r['gym_name'] as string) ?? '',
-    gymName: r['gym_name'] as string | undefined,
     cacRc: r['cac_rc'] as string | null,
     nasfcCert: r['nasfc_cert'] as string | null,
-    capacity: r['capacity'] as number | undefined,
     status: r['status'] as GymFSMState,
     createdAt: r['created_at'] as number,
     updatedAt: r['updated_at'] as number,
   };
+  if (r['gym_name'] != null) base.gymName = r['gym_name'] as string;
+  if (r['capacity'] != null) base.capacity = r['capacity'] as number;
+  return base;
 }
 
 function toMembership(r: Record<string, unknown>): GymMembership {
