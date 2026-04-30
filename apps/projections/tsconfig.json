@@ -273,6 +273,9 @@
       "@webwaka/verticals-govt-school": [
         "../../packages/verticals-govt-school/src/index.ts"
       ],
+      "@webwaka/verticals-gym": [
+        "../../packages/verticals-gym/src/index.ts"
+      ],
       "@webwaka/verticals-gym-fitness": [
         "../../packages/verticals-gym-fitness/src/index.ts"
       ],

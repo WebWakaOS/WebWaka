@@ -2,7 +2,8 @@
   "name": "@webwaka/verticals-gym-fitness",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 1+3] gym-fitness vertical — FSM, compliance, P9/T3 invariants. Set J.",
+  "deprecated": "Use @webwaka/verticals-gym instead. This package is a deprecated alias (M1 decision).",
+  "description": "[DEPRECATED] Re-exports from @webwaka/verticals-gym. Use the canonical package directly.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -11,11 +12,12 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "echo 'no tests yet'",
+    "test": "echo 'Tests moved to @webwaka/verticals-gym (canonical)'",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@webwaka/verticals-gym": "workspace:*",
     "@webwaka/types": "workspace:*",
     "@webwaka/verticals": "workspace:*"
   },
