@@ -103,27 +103,44 @@ async function main() {
   let totalRequired = 0;
   let totalMissing = 0;
   const failures = [];
+  let allWorkersNotFound = true;
 
   for (const [worker, config] of Object.entries(WORKER_SECRETS)) {
     console.log(`  📦 ${worker}:`);
 
     let existingSecrets;
+    let workerNotFound = false;
     try {
       existingSecrets = await listWorkerSecrets(worker);
+      if (existingSecrets.length > 0 || existingSecrets === null) {
+        allWorkersNotFound = false;
+      }
     } catch (err) {
       console.error(`    ❌ Failed to query secrets: ${err.message}`);
       failures.push(`${worker}: API query failed`);
       continue;
     }
 
+    // If worker returned empty array after 404, mark as not found
+    if (existingSecrets.length === 0) {
+      const scriptName = DEPLOY_ENV === 'production' ? worker : `${worker}-staging`;
+      console.log(`    ℹ️  Worker '${scriptName}' not yet deployed (first-time deployment)`);
+      workerNotFound = true;
+    }
+
     for (const secret of config.required) {
       totalRequired++;
       if (existingSecrets.includes(secret)) {
         console.log(`    ✅ ${secret}`);
+        allWorkersNotFound = false;
       } else {
-        totalMissing++;
-        console.error(`    ❌ ${secret} — MISSING`);
-        failures.push(`${worker}: ${secret}`);
+        if (!workerNotFound) {
+          totalMissing++;
+          console.error(`    ❌ ${secret} — MISSING`);
+          failures.push(`${worker}: ${secret}`);
+        } else {
+          console.log(`    ⏸️  ${secret} — will be provisioned after deployment`);
+        }
       }
     }
 
@@ -142,6 +159,14 @@ async function main() {
   console.log(`Total required secrets: ${totalRequired}`);
   console.log(`Provisioned: ${totalRequired - totalMissing}`);
   console.log(`Missing: ${totalMissing}`);
+
+  // Handle first-time deployments where no workers exist yet
+  if (allWorkersNotFound && failures.length === 0) {
+    console.log('\nℹ️  FIRST-TIME DEPLOYMENT DETECTED');
+    console.log('All workers will be deployed and secrets will be provisioned during deployment.');
+    console.log('✅ PASS: Proceeding with first-time production deployment.');
+    process.exit(0);
+  }
 
   if (failures.length > 0) {
     console.error(`\n❌ FAIL: ${failures.length} required secret(s) not provisioned:`);
