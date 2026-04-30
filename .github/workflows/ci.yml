@@ -126,6 +126,12 @@ jobs:
         run: npx tsx scripts/governance-checks/check-webhook-signing.ts
       - name: Check secret rotation schedule (SEC-008)
         run: npx tsx scripts/verify-secrets.ts
+      - name: Check no rollback files in forward migrations (CI-005)
+        run: npx tsx scripts/governance-checks/check-no-rollback-in-forward-dir.ts
+      - name: Check migration SQL syntax (CI-006)
+        run: |
+          sudo apt-get install -y sqlite3 > /dev/null 2>&1
+          npx tsx scripts/governance-checks/check-migration-sql-syntax.ts
 
   smoke:
     name: Smoke Tests
