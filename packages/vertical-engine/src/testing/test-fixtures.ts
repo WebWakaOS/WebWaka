@@ -129,24 +129,26 @@ export function createMockFetch() {
     
     // Extract vertical from path
     const verticalMatch = path.match(/\/(bakery|hotel|pharmacy|gym|church)\//);
-    const vertical = verticalMatch ? verticalMatch[1] : 'bakery';
+    const vertical = (verticalMatch ? verticalMatch[1] : 'bakery') as string;
 
     let responseData: any = { error: 'Not mocked' };
     let status = 404;
+    
+    const method = init?.method || 'GET';
 
-    if (path.includes('/profiles') && init?.method === 'GET' && !path.match(/\/profiles\/[^/]+$/)) {
+    if (path.includes('/profiles') && method === 'GET' && !path.match(/\/profiles\/[^/]+$/)) {
       responseData = MOCK_RESPONSES['/profiles'](vertical);
       status = 200;
-    } else if (path.match(/\/profiles\/[^/]+$/) && init?.method === 'GET') {
+    } else if (path.match(/\/profiles\/[^/]+$/) && method === 'GET') {
       responseData = MOCK_RESPONSES['/profiles/:id'](vertical);
       status = 200;
-    } else if (path.includes('/profiles') && init?.method === 'POST') {
-      const body = init.body ? JSON.parse(init.body as string) : {};
+    } else if (path.includes('/profiles') && method === 'POST') {
+      const body = init?.body ? JSON.parse(init.body as string) : {};
       responseData = MOCK_RESPONSES['/profiles (create)'](vertical, body);
       status = 201;
-    } else if (path.match(/\/profiles\/[^/]+$/) && (init?.method === 'PATCH' || init?.method === 'PUT')) {
-      const id = path.split('/').pop()!;
-      const body = init.body ? JSON.parse(init.body as string) : {};
+    } else if (path.match(/\/profiles\/[^/]+$/) && (method === 'PATCH' || method === 'PUT')) {
+      const id = path.split('/').pop() || '';
+      const body = init?.body ? JSON.parse(init.body as string) : {};
       responseData = MOCK_RESPONSES['/profiles/:id (update)'](vertical, id, body);
       status = 200;
     }
