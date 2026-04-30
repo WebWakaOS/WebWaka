@@ -475,16 +475,15 @@ CREATE INDEX IF NOT EXISTS idx_group_analytics_period ON group_analytics(period_
 -- ============================================================
 
 UPDATE search_entries
-SET record_type = 'group'
-WHERE record_type = 'support_group';
+SET entity_type = 'group'
+WHERE entity_type = 'support_group';
 
 -- ============================================================
--- 16. Update wakapage_blocks block_type reference
+-- 16. Update wakapage_blocks block_type reference (REMOVED)
 -- ============================================================
-
-UPDATE wakapage_blocks
-SET block_type = 'group'
-WHERE block_type = 'support_group';
+-- NOTE: block_type stores UI block types ('hero', 'bio', etc.), not entity types.
+-- The UPDATE below was semantically incorrect and has been removed.
+-- wakapage_blocks references groups via group_id foreign key, not via block_type.
 
 -- ============================================================
 -- NOTE: Old tables (support_groups, support_group_*) are NOT dropped in this migration.
