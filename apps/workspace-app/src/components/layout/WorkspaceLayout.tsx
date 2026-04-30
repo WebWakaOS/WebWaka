@@ -8,8 +8,23 @@ import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { NotificationDrawer } from '@/components/notifications/NotificationDrawer';
 import { useNotificationPoll } from '@/hooks/useNotificationPoll';
 import { OfflineBanner } from '@/components/ui/OfflineBanner';
+// M-3: Billing status banner
+import { BillingProvider, BillingStatusBanner, useBilling } from '@/components/BillingStatusBanner';
+import { registerBillingStatusListener } from '@/lib/api';
 
 const MOBILE_BREAKPOINT = 768;
+
+/**
+ * M-3: Inner component that wires the API interceptor to BillingContext.
+ * Must be inside <BillingProvider> to access useBilling().
+ */
+function BillingStatusSync() {
+  const { updateStatus } = useBilling();
+  useEffect(() => {
+    return registerBillingStatusListener(updateStatus);
+  }, [updateStatus]);
+  return null;
+}
 
 export function WorkspaceLayout() {
   const { user, loading, initialized } = useAuth();
@@ -40,64 +55,75 @@ export function WorkspaceLayout() {
   if (!user) return <Navigate to="/login" replace state={{ from: location }} />;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {!isMobile && <Sidebar />}
+    // M-3: Wrap the entire layout in BillingProvider so any descendent can
+    // call useBilling() or ReadOnlyGuard without additional context setup.
+    <BillingProvider>
+      {/* M-3: Wires the API interceptor → BillingContext */}
+      <BillingStatusSync />
 
-      {/* Top bar notification bell (desktop only) */}
-      {!isMobile && (
-        <div style={{
-          position: 'fixed',
-          top: 12,
-          right: 16,
-          zIndex: 200,
-        }}>
-          <NotificationBell
-            unreadCount={unreadCount}
-            onClick={() => setDrawerOpen((o) => !o)}
-            open={drawerOpen}
-          />
-        </div>
-      )}
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
+        {!isMobile && <Sidebar />}
 
-      <div
-        style={{
-          flex: 1,
-          marginLeft: isMobile ? 0 : 240,
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-        }}
-      >
-        {/* BUG-010 / ENH-002 / ENH-020: Offline indicator — shown when navigator.onLine is false */}
-        <OfflineBanner />
+        {/* Top bar notification bell (desktop only) */}
+        {!isMobile && (
+          <div style={{
+            position: 'fixed',
+            top: 12,
+            right: 16,
+            zIndex: 200,
+          }}>
+            <NotificationBell
+              unreadCount={unreadCount}
+              onClick={() => setDrawerOpen((o) => !o)}
+              open={drawerOpen}
+            />
+          </div>
+        )}
 
-        <main
-          id="main-content"
-          role="main"
+        <div
           style={{
             flex: 1,
-            paddingBottom: isMobile ? 72 : 0,
-            background: '#f8f9fa',
-            overflowX: 'hidden',
+            marginLeft: isMobile ? 0 : 240,
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
           }}
         >
-          <Outlet />
-        </main>
-      </div>
-      {isMobile && <BottomNav />}
+          {/* BUG-010 / ENH-002 / ENH-020: Offline indicator */}
+          <OfflineBanner />
 
-      {/* Notification drawer */}
-      <NotificationDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        onCountChange={() => { void refresh(); }}
-      />
-    </div>
+          {/* M-3: Billing status banner — shown when subscription is suspended/grace_period */}
+          <BillingStatusBanner />
+
+          <main
+            id="main-content"
+            role="main"
+            style={{
+              flex: 1,
+              paddingBottom: isMobile ? 72 : 0,
+              background: '#f8f9fa',
+              overflowX: 'hidden',
+            }}
+          >
+            <Outlet />
+          </main>
+        </div>
+        {isMobile && <BottomNav />}
+
+        {/* Notification drawer */}
+        <NotificationDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          onCountChange={() => { void refresh(); }}
+        />
+      </div>
+    </BillingProvider>
   );
 }
 
 export function RequireGuest() {
   const { user, loading, initialized } = useAuth();
+  const location = useLocation();
   if (!initialized || loading) return <FullPageSpinner />;
   if (user) return <Navigate to="/dashboard" replace />;
   return <Outlet />;

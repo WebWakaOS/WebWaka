@@ -1,3 +1,11 @@
+/**
+ * WebWaka Workspace API Client
+ *
+ * Changes:
+ *  - M-3: X-Billing-Status interceptor — reads the header from every response
+ *    and notifies registered listeners so BillingProvider can update React state.
+ */
+
 const API_BASE = import.meta.env.VITE_API_URL ?? '/api';
 
 export class ApiError extends Error {
@@ -10,6 +18,36 @@ export class ApiError extends Error {
     this.name = 'ApiError';
   }
 }
+
+// ---------------------------------------------------------------------------
+// M-3: Billing-status pub/sub (module-level, outside React tree)
+// ---------------------------------------------------------------------------
+
+type BillingStatusValue = 'active' | 'suspended' | 'grace_period' | 'unknown';
+type BillingStatusListener = (status: BillingStatusValue) => void;
+
+const billingStatusListeners = new Set<BillingStatusListener>();
+
+/** Register a listener for X-Billing-Status header values. Returns an unsubscribe fn. */
+export function registerBillingStatusListener(fn: BillingStatusListener): () => void {
+  billingStatusListeners.add(fn);
+  return () => billingStatusListeners.delete(fn);
+}
+
+/** Parse and broadcast the X-Billing-Status header (if present). */
+function notifyBillingStatus(res: Response): void {
+  const raw = res.headers.get('X-Billing-Status');
+  if (!raw) return;
+  const valid: BillingStatusValue[] = ['active', 'suspended', 'grace_period', 'unknown'];
+  const status: BillingStatusValue = (valid.includes(raw as BillingStatusValue)
+    ? raw
+    : 'unknown') as BillingStatusValue;
+  billingStatusListeners.forEach((fn) => fn(status));
+}
+
+// ---------------------------------------------------------------------------
+// Token helpers
+// ---------------------------------------------------------------------------
 
 function getToken(): string | null {
   return localStorage.getItem('ww_token');
@@ -32,6 +70,10 @@ export function getRefreshToken(): string | null {
   return localStorage.getItem('ww_refresh');
 }
 
+// ---------------------------------------------------------------------------
+// Core fetch wrapper
+// ---------------------------------------------------------------------------
+
 async function request<T>(
   path: string,
   opts: RequestInit & { skipAuth?: boolean } = {}
@@ -46,6 +88,10 @@ async function request<T>(
     if (token) headers['Authorization'] = `Bearer ${token}`;
   }
   const res = await fetch(`${API_BASE}${path}`, { ...fetchOpts, headers });
+
+  // M-3: Intercept billing status on every response
+  notifyBillingStatus(res);
+
   if (res.status === 401 && !skipAuth) {
     const refresh = getRefreshToken();
     if (refresh) {
@@ -53,6 +99,8 @@ async function request<T>(
       if (refreshed) {
         headers['Authorization'] = `Bearer ${getToken()}`;
         const retried = await fetch(`${API_BASE}${path}`, { ...fetchOpts, headers });
+        // M-3: Also intercept billing status on retried response
+        notifyBillingStatus(retried);
         if (retried.ok) return retried.json() as Promise<T>;
       }
     }

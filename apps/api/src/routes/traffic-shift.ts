@@ -11,6 +11,7 @@ import { authMiddleware } from '../middleware/auth.js';
 import { requireRole } from '../middleware/require-role.js';
 import {
   getTrafficShiftMetrics,
+  getCanaryHealthMetrics,
   resetTrafficShiftMetrics,
   TRAFFIC_SHIFT_CONFIGS,
 } from '../middleware/traffic-shift.js';
@@ -162,6 +163,20 @@ app.post('/verticals', authMiddleware, requireRole('super_admin'), async (c) => 
     config,
     warning: 'This is a runtime change only. Update code for persistent changes.',
   });
+});
+
+
+
+/**
+ * M-2: Canary health status — structured latency + error-rate signals
+ * GET /admin/canary-status
+ *
+ * Returns P50/P95 latency and error rates for both engine and legacy cohorts,
+ * plus an overall health classification (healthy | degraded | critical).
+ */
+app.get('/canary-status', authMiddleware, requireRole('admin'), async (c) => {
+  const metrics = getCanaryHealthMetrics();
+  return c.json(metrics, metrics.health === 'critical' ? 503 : 200);
 });
 
 export default app;

@@ -1,0 +1,138 @@
+# M-4: Visual Regression Baseline Automation
+#
+# This workflow regenerates Playwright visual snapshot baselines and opens a
+# pull request with the updated snapshots for human approval before merging.
+#
+# Triggers:
+#   - Manual dispatch (workflow_dispatch) — run on demand
+#   - Weekly on Monday 04:00 UTC to keep baselines fresh
+#
+# Acceptance:
+#   - Baselines are generated in CI (not just developer machines)
+#   - Updated snapshots open a PR for review before merging to main/staging
+#   - Cycle-09 visual tests can then be run in CI against the committed baseline
+
+name: Visual Regression Baseline Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Branch to update snapshots on'
+        required: false
+        default: 'staging'
+        type: string
+      update_reason:
+        description: 'Reason for snapshot update (included in PR description)'
+        required: false
+        default: 'Scheduled baseline refresh'
+        type: string
+  schedule:
+    # Every Monday at 04:00 UTC
+    - cron: '0 4 * * 1'
+
+jobs:
+  update-visual-baselines:
+    name: Regenerate Playwright Visual Snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.target_branch || 'staging' }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start platform-admin server
+        run: |
+          node apps/platform-admin/server.js &
+          # Wait for server to be ready
+          timeout 30 bash -c 'until curl -sf http://localhost:5000/health > /dev/null 2>&1 || curl -sf http://localhost:5000 > /dev/null 2>&1; do sleep 1; done'
+          echo "Platform-admin ready"
+        env:
+          NODE_ENV: test
+          PORT: 5000
+
+      - name: Regenerate visual snapshots
+        run: pnpm test:visual --update-snapshots
+        env:
+          PLATFORM_ADMIN_URL: http://localhost:5000
+          CI: true
+
+      - name: Check for snapshot changes
+        id: diff
+        run: |
+          git add tests/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No snapshot changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            git diff --cached --stat
+          fi
+
+      - name: Create pull request with updated snapshots
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/update-visual-baselines-${{ github.run_number }}
+          base: ${{ github.event.inputs.target_branch || 'staging' }}
+          commit-message: 'chore(visual): update Playwright snapshot baselines [automated]'
+          title: '📸 Visual Regression Baseline Update'
+          body: |
+            ## Visual Snapshot Baseline Update
+
+            **Triggered by:** ${{ github.event_name == 'workflow_dispatch' && github.actor || 'Scheduled run (Monday 04:00 UTC)' }}
+            **Reason:** ${{ github.event.inputs.update_reason || 'Scheduled baseline refresh' }}
+            **Run:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            ### What changed?
+
+            This PR contains automatically regenerated Playwright visual snapshots.
+            Review the diff below to confirm the visual changes are **intentional** before merging.
+
+            ### How to verify
+
+            ```bash
+            # Pull this branch and run visual tests against the new baselines
+            git checkout chore/update-visual-baselines-${{ github.run_number }}
+            pnpm test:visual
+            ```
+
+            > ⚠️ **Do not merge** if any snapshot changes look like regressions.
+            > Only merge when all visual changes are expected (e.g. intentional UI updates).
+
+            ---
+            *This PR was created automatically by the `visual-regression-baseline.yml` workflow.*
+          labels: |
+            visual-regression
+            automated
+            needs-review
+          draft: false
+
+      - name: No changes — skip PR
+        if: steps.diff.outputs.changed == 'false'
+        run: echo "✅ Snapshots are up to date — no PR needed"
