@@ -298,7 +298,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: npm install -g wrangler@3
+      - run: npm install -g wrangler@4
       - name: Deploy ${{ matrix.app }} to Cloudflare Workers (production)
         run: |
           cd apps/${{ matrix.app }}
