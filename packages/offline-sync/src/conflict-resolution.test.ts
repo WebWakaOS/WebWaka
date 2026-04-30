@@ -18,8 +18,9 @@ describe('@webwaka/offline-sync — conflict resolution integration', () => {
     serverVersion: { updatedAt: number; payload: Record<string, unknown> },
   ): { winner: 'server' | 'client'; resolution: ConflictResolution; finalPayload: Record<string, unknown> } {
     // P11: Server-wins strategy — server version takes precedence
-    const clientUpdated = clientItem.createdAt;
-    const serverUpdated = serverVersion.updatedAt;
+    // Note: In a last-writer-wins strategy, we'd compare timestamps:
+    // clientItem.createdAt vs serverVersion.updatedAt
+    // But P11 mandates server always wins regardless.
 
     // Server-wins: always accept server version
     return {
