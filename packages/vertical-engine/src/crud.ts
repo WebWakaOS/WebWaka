@@ -292,7 +292,7 @@ export class VerticalCRUD {
    * Get AI-safe projection (excludes P13 PII fields).
    */
   getAISafeFields(): FieldDef[] {
-    return this.fields.filter(f => !f.isPII && f.aiVisible !== false) as FieldDef[];
+    return this.fields.filter(f => !f.isPII && f.aiVisible !== false);
   }
 
   // -------------------------------------------------------------------------
