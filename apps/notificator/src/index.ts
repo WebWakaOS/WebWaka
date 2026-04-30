@@ -31,6 +31,12 @@ import { resolveDigestType, runDigestSweep, runRetentionSweep, runDomainVerifica
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
+// H-7: Request-ID propagation for distributed tracing
+app.use('*', async (c, next) => {
+  const requestId = c.req.header('X-Request-ID') || crypto.randomUUID();
+  c.header('X-Request-ID', requestId);
+  await next();
+});
 
 // ---------------------------------------------------------------------------
 // Health — liveness probe

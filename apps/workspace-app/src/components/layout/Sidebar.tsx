@@ -9,6 +9,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard',  label: 'Dashboard',  icon: '🏠' },
+  { to: '/ai',         label: 'AI Assistant', icon: '🤖' },
   { to: '/pos',        label: 'Point of Sale', icon: '🛒' },
   { to: '/offerings',  label: 'Offerings',  icon: '📦' },
   { to: '/vertical',   label: 'My Vertical', icon: '🏢' },

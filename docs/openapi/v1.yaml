@@ -91,6 +91,8 @@ paths:
                   timestamp:
                     type: string
                     format: date-time
+        "400":
+          $ref: "#/components/responses/BadRequest"
 
   /auth/login:
     post:
@@ -158,6 +160,8 @@ paths:
                 properties:
                   revoked:
                     type: boolean
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /platform/analytics/summary:
     get:
@@ -478,6 +482,8 @@ paths:
                   perPage:
                     type: integer
 
+        "401":
+          $ref: "#/components/responses/Unauthorized"
   /templates/{slug}/rate:
     post:
       tags: [Templates]
@@ -927,6 +933,8 @@ paths:
                       $ref: "#/components/schemas/FxRate"
                   total:
                     type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
     post:
       tags: [FxRates]
       summary: Upsert an FX rate (super_admin only)
@@ -1465,6 +1473,8 @@ paths:
                           type: string
                           enum: [growth, pro, enterprise]
 
+        "400":
+          $ref: "#/components/responses/BadRequest"
   /superagent/vertical/{slug}/capabilities:
     get:
       tags: [SuperAgent]

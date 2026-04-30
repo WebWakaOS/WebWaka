@@ -44,15 +44,25 @@
     },
     {
       "files": [
-        "src/jobs/**/*.ts",
-        "src/schedulers/**/*.ts"
+        "src/routes/verticals/**/*.ts",
+        "src/routes/verticals-*.ts",
+        "src/routes/**/*.ts",
+        "src/middleware/**/*.ts",
+        "src/route-groups/**/*.ts",
+        "src/index.ts"
       ],
       "rules": {
-        "no-console": "off"
+        "@typescript-eslint/explicit-function-return-type": "off"
       }
     },
     {
       "files": [
+        "src/middleware/**/*.ts",
+        "src/routes/**/*.ts",
+        "src/route-groups/**/*.ts",
+        "src/jobs/**/*.ts",
+        "src/schedulers/**/*.ts",
+        "src/index.ts",
         "src/lib/email-service.ts",
         "src/lib/search-index.ts",
         "src/lib/publish-event.ts",

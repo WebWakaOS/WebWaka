@@ -55,6 +55,14 @@ export interface VerticalAiConfig {
    * sensitive verticals may be capped at 4096.
    */
   contextWindowTokens?: number;
+  /**
+   * Phase 0 M1/M2/M3: deprecated vertical aliases.
+   * If true, this config entry is for a deprecated slug that has been merged
+   * into a canonical vertical. The `canonicalSlug` field points to the canonical entry.
+   */
+  deprecated?: boolean;
+  /** The canonical slug this deprecated entry has been merged into. */
+  canonicalSlug?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -1453,9 +1461,14 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
     ],
   },
 
+  // DEPRECATED: gym-fitness is deprecated alias for gym (M1 decision).
+  // Requests using slug 'gym-fitness' are resolved to 'gym' via vertical_synonyms.
+  // Config retained here for backward-compat lookups until Phase 1 vertical-engine migration.
   'gym-fitness': {
     slug: 'gym-fitness',
     primaryPillar: 2,
+    deprecated: true,
+    canonicalSlug: 'gym',
     allowedCapabilities: [
       'bio_generator',
       'scheduling_assistant',
@@ -2847,7 +2860,13 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
  * Previously returned null for unknown slugs (Issue OE-5 — now fixed).
  */
 export function getVerticalAiConfig(slug: string): VerticalAiConfig {
-  return VERTICAL_AI_CONFIGS[slug] ?? DEFAULT_VERTICAL_AI_CONFIG;
+  const directConfig = VERTICAL_AI_CONFIGS[slug];
+  // Phase 0 / M1: If this is a deprecated alias, resolve to canonical config.
+  if (directConfig?.deprecated && directConfig.canonicalSlug) {
+    const canonical = VERTICAL_AI_CONFIGS[directConfig.canonicalSlug];
+    if (canonical) return canonical;
+  }
+  return directConfig ?? DEFAULT_VERTICAL_AI_CONFIG;
 }
 
 /**

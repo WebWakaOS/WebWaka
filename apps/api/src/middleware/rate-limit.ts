@@ -68,6 +68,17 @@ export function rateLimitMiddleware(opts: RateLimitOptions) {
     if (exceeded) {
       // SEC-005: Add Retry-After header (RFC 7231 §7.1.3)
       c.header('Retry-After', String(opts.windowSeconds));
+      // M-7: Structured log for rate-limit monitoring/alerting
+      console.log(JSON.stringify({
+        event: 'rate_limit_exceeded',
+        ip: ip || 'unknown',
+        path: c.req.path,
+        method: c.req.method,
+        window_seconds: opts.windowSeconds,
+        max_requests: opts.maxRequests,
+        key: ipKey,
+        timestamp: new Date().toISOString(),
+      }));
       return c.json(
         {
           error: 'rate_limit_exceeded',

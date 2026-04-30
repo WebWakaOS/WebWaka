@@ -70,7 +70,7 @@ jobs:
         with:
           node-version: 20
       - name: Lint OpenAPI spec (ADR-0018)
-        run: npx --yes @redocly/cli@latest lint docs/openapi/v1.yaml --skip-rule no-empty-servers
+        run: npx --yes @redocly/cli@latest lint docs/openapi/v1.yaml --config .redocly.yaml
 
   audit:
     name: Security Audit
@@ -126,6 +126,12 @@ jobs:
         run: npx tsx scripts/governance-checks/check-webhook-signing.ts
       - name: Check secret rotation schedule (SEC-008)
         run: npx tsx scripts/verify-secrets.ts
+      - name: Check no rollback files in forward migrations (CI-005)
+        run: npx tsx scripts/governance-checks/check-no-rollback-in-forward-dir.ts
+      - name: Check migration SQL syntax (CI-006)
+        run: |
+          sudo apt-get install -y sqlite3 > /dev/null 2>&1
+          npx tsx scripts/governance-checks/check-migration-sql-syntax.ts
 
   smoke:
     name: Smoke Tests
@@ -160,6 +166,17 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generate smoke test JWT tokens
+        id: jwt
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET_STAGING }}
+        run: |
+          OUTPUT=$(node infra/k6/generate-smoke-jwt.mjs)
+          echo "SMOKE_JWT=$(echo "$OUTPUT" | grep '^SMOKE_JWT=' | cut -d= -f2-)" >> $GITHUB_OUTPUT
+          echo "SMOKE_SUPER_ADMIN_JWT=$(echo "$OUTPUT" | grep '^SMOKE_SUPER_ADMIN_JWT=' | cut -d= -f2-)" >> $GITHUB_OUTPUT
       - name: Install k6
         run: |
           sudo gpg -k
@@ -172,6 +189,9 @@ jobs:
       - name: Run k6 smoke test (staging API)
         env:
           BASE_URL: ${{ secrets.STAGING_API_URL || 'http://localhost:8787' }}
-          JWT_TOKEN: ${{ secrets.STAGING_SMOKE_JWT }}
-          SUPER_ADMIN_JWT: ${{ secrets.STAGING_SMOKE_SUPER_ADMIN_JWT }}
-        run: k6 run --env BASE_URL=$BASE_URL --env JWT_TOKEN=$JWT_TOKEN --env SUPER_ADMIN_JWT=$SUPER_ADMIN_JWT infra/k6/smoke.js
+        run: |
+          k6 run \
+            --env BASE_URL=$BASE_URL \
+            --env JWT_TOKEN=${{ steps.jwt.outputs.SMOKE_JWT }} \
+            --env SUPER_ADMIN_JWT=${{ steps.jwt.outputs.SMOKE_SUPER_ADMIN_JWT }} \
+            infra/k6/smoke.js

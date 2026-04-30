@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { AIProvider } from '@/contexts/AIContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -13,6 +14,8 @@ import Settings from '@/pages/Settings';
 import WakaPageManager from '@/pages/WakaPage';
 import VerifyEmail from '@/pages/VerifyEmail';
 import AcceptInvite from '@/pages/AcceptInvite';
+import AIPage from '@/pages/AI';
+import AdminHITL from '@/pages/AdminHITL';
 
 function NotFound() {
   return (
@@ -31,6 +34,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <AIProvider>
         <a
           href="#main-content"
           style={{
@@ -60,6 +64,8 @@ export default function App() {
             <Route path="/offerings/new" element={<Offerings />} />
             <Route path="/vertical" element={<VerticalView />} />
             <Route path="/wakapage" element={<WakaPageManager />} />
+            <Route path="/ai" element={<AIPage />} />
+            <Route path="/admin/hitl" element={<AdminHITL />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
 
@@ -71,6 +77,7 @@ export default function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </AIProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -28,12 +28,15 @@ function main(): void {
     }
   }
 
-  // ARC-07: Routes were split from index.ts into router.ts. Check router.ts first, fall back to index.ts.
+  // ARC-07: Routes were split from index.ts into router.ts, and further into route-groups/.
+  // Check router.ts, index.ts, and route-groups/register-ai-routes.ts.
   const routerPath = path.resolve(__dirname, '../../apps/api/src/router.ts');
   const indexPath = path.resolve(__dirname, '../../apps/api/src/index.ts');
+  const aiRoutesPath = path.resolve(__dirname, '../../apps/api/src/route-groups/register-ai-routes.ts');
   const routerSource = fs.existsSync(routerPath) ? fs.readFileSync(routerPath, 'utf8') : '';
   const indexContent = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
-  const combinedContent = routerSource + '\n' + indexContent;
+  const aiRoutesContent = fs.existsSync(aiRoutesPath) ? fs.readFileSync(aiRoutesPath, 'utf8') : '';
+  const combinedContent = routerSource + '\n' + indexContent + '\n' + aiRoutesContent;
 
   const hasUssdExclusion = combinedContent.includes('ussdExclusionMiddleware') && combinedContent.includes("'/superagent");
   if (!hasUssdExclusion) {

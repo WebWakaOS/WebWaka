@@ -4,11 +4,12 @@
     "baseUrl": ".",
     "paths": {
       "@webwaka/types":     ["../types/src/index.ts"],
-      "@webwaka/verticals": ["../verticals/src/index.ts"]
+      "@webwaka/verticals": ["../verticals/src/index.ts"],
+      "@webwaka/verticals-laundry-service": ["../verticals-laundry-service/src/index.ts"]
     },
-    "rootDir": ".",
+    "rootDir": "../..",
     "outDir": "dist",
     "types": ["@cloudflare/workers-types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../verticals-laundry-service/src/**/*"]
 }

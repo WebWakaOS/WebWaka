@@ -220,7 +220,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       # Install wrangler globally so every matrix worker can deploy without
       # needing wrangler in its own package.json (only apps/api carries it).
-      - run: npm install -g wrangler@3
+      - run: npm install -g wrangler@4
       - name: Deploy ${{ matrix.app }} to Cloudflare Workers (staging)
         run: |
           cd apps/${{ matrix.app }}

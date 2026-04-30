@@ -32,6 +32,7 @@
  */
 
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
 import type { Env, Variables } from './env.js';
 import { brandedPageRouter } from './routes/branded-page.js';
@@ -47,6 +48,14 @@ import { tenantResolve } from './middleware/tenant-resolve.js';
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 app.use('*', secureHeaders());
+// H-6: CORS for public-facing brand runtime
+app.use('*', cors({ origin: '*', allowMethods: ['GET', 'HEAD', 'OPTIONS'], maxAge: 86400 }));
+// H-7: Request-ID propagation for distributed tracing
+app.use('*', async (c, next) => {
+  const requestId = c.req.header('X-Request-ID') || crypto.randomUUID();
+  c.header('X-Request-ID', requestId);
+  await next();
+});
 
 // ─── Liveness probe (no auth, no tenant resolution) ───────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'brand-runtime' }));

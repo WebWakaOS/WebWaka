@@ -50,6 +50,7 @@
     "@webwaka/superagent": "workspace:*",
     "@webwaka/support-groups": "workspace:*",
     "@webwaka/types": "workspace:*",
+    "@webwaka/vertical-engine": "workspace:*",
     "@webwaka/verticals": "workspace:*",
     "@webwaka/verticals-abattoir": "workspace:*",
     "@webwaka/verticals-accounting-firm": "workspace:*",
@@ -208,6 +209,6 @@
     "@cloudflare/workers-types": "^4.20241205.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0",
-    "wrangler": "^3.90.0"
+    "wrangler": "^4.0.0"
   }
 }

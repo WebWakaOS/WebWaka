@@ -45,6 +45,8 @@ setJExtendedRouter.route('/generator-repair',       generatorRepairRoutes);
 setJExtendedRouter.route('/it-support',             itSupportRoutes);
 setJExtendedRouter.route('/laundry',                laundryRoutes);
 setJExtendedRouter.route('/optician',               opticianRoutes);
+// M1 decision: `gym` is canonical; `gym-fitness` is deprecated alias (routes to same handlers)
+setJExtendedRouter.route('/gym',                    gymFitnessRoutes);
 setJExtendedRouter.route('/gym-fitness',            gymFitnessRoutes);
 setJExtendedRouter.route('/printing-press',         printingPressRoutes);
 setJExtendedRouter.route('/land-surveyor',          landSurveyorRoutes);

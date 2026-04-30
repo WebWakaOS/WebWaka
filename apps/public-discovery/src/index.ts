@@ -22,6 +22,7 @@
  */
 
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
 import type { Env } from './env.js';
 import { listingsRouter } from './routes/listings.js';
@@ -31,6 +32,14 @@ import { geographyRouter } from './routes/geography.js';
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
+// H-6: CORS for public discovery API
+app.use('*', cors({ origin: '*', allowMethods: ['GET', 'HEAD', 'OPTIONS'], maxAge: 86400 }));
+// H-7: Request-ID propagation for distributed tracing
+app.use('*', async (c, next) => {
+  const requestId = c.req.header('X-Request-ID') || crypto.randomUUID();
+  c.header('X-Request-ID', requestId);
+  await next();
+});
 
 // ─── Liveness probe ────────────────────────────────────────────────────────
 app.get('/health', (c) => c.json({ ok: true, worker: 'public-discovery' }));
