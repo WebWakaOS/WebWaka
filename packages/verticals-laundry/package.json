@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "deprecated": "Use @webwaka/verticals-laundry-service instead. This package is a deprecated alias (M2 decision).",
-  "description": "[DEPRECATED] Re-exports from @webwaka/verticals-laundry-service. Use the canonical package directly.",
+  "description": "[Pillar 2] [DEPRECATED] Re-exports from @webwaka/verticals-laundry-service. Use the canonical package directly.",
   "main": "./src/index.ts",
   "exports": {
     ".": {

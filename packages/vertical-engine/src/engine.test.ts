@@ -10,7 +10,7 @@ import { VerticalCRUD } from './crud.js';
 import { VerticalEngine } from './engine.js';
 import { getVerticalConfig, getRegistry, listSlugs, getRegistryStats } from './registry.js';
 import { generateRoutes } from './generators/route-generator.js';
-import type { VerticalConfig, FSMConfig } from './schema.js';
+import type { FSMConfig } from './schema.js';
 
 // ---------------------------------------------------------------------------
 // Mock D1 Database
@@ -27,7 +27,8 @@ function makeDb() {
   return {
     prepare: (sql: string) => ({
       bind: (...vals: unknown[]) => ({
-        run: async () => {
+        // eslint-disable-next-line @typescript-eslint/require-await
+        run: async (): Promise<{ success: boolean }> => {
           const upper = sql.trim().toUpperCase();
           if (upper.startsWith('INSERT')) {
             const tM = sql.match(/INTO\s+(\w+)/i);
@@ -94,6 +95,7 @@ function makeDb() {
           }
           return { success: true };
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         first: async <T>() => {
           const tM = sql.match(/FROM\s+(\w+)/i);
           if (!tM) return null as T;
@@ -115,6 +117,7 @@ function makeDb() {
           if (tid && row['tenant_id'] !== tid) return null as T;
           return row as T;
         },
+        // eslint-disable-next-line @typescript-eslint/require-await
         all: async <T>() => {
           const tM = sql.match(/FROM\s+(\w+)/i);
           if (!tM) return { results: [] as T[] };

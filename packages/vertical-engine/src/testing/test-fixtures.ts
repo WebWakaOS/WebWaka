@@ -91,7 +91,7 @@ export const MOCK_RESPONSES = {
   '/profiles/:id': (vertical: string) => ({
     profile: MOCK_PROFILES[vertical as keyof typeof MOCK_PROFILES],
   }),
-  '/profiles (create)': (vertical: string, data: any) => ({
+  '/profiles (create)': (vertical: string, data: Record<string, unknown>) => ({
     profile: {
       id: `${vertical}-profile-new`,
       ...data,
@@ -99,7 +99,7 @@ export const MOCK_RESPONSES = {
       createdAt: new Date().toISOString(),
     },
   }),
-  '/profiles/:id (update)': (vertical: string, id: string, data: any) => ({
+  '/profiles/:id (update)': (vertical: string, _id: string, data: Record<string, unknown>) => ({
     profile: {
       ...MOCK_PROFILES[vertical as keyof typeof MOCK_PROFILES],
       ...data,
@@ -122,6 +122,7 @@ export function getAuthHeaders(): Record<string, string> {
  * Mock fetch for tests without live backend
  */
 export function createMockFetch() {
+  // eslint-disable-next-line @typescript-eslint/require-await
   return async (url: string, init?: RequestInit): Promise<Response> => {
     // Parse URL to determine which mock response to return
     const urlObj = new URL(url, TEST_CONFIG.baseUrl);
@@ -131,7 +132,7 @@ export function createMockFetch() {
     const verticalMatch = path.match(/\/(bakery|hotel|pharmacy|gym|church)\//);
     const vertical = (verticalMatch ? verticalMatch[1] : 'bakery') as string;
 
-    let responseData: any = { error: 'Not mocked' };
+    let responseData: Record<string, unknown> = { error: 'Not mocked' };
     let status = 404;
     
     const method = init?.method || 'GET';
@@ -143,12 +144,12 @@ export function createMockFetch() {
       responseData = MOCK_RESPONSES['/profiles/:id'](vertical);
       status = 200;
     } else if (path.includes('/profiles') && method === 'POST') {
-      const body = init?.body ? JSON.parse(init.body as string) : {};
+      const body = init?.body ? JSON.parse(init.body as string) as Record<string, unknown> : {};
       responseData = MOCK_RESPONSES['/profiles (create)'](vertical, body);
       status = 201;
     } else if (path.match(/\/profiles\/[^/]+$/) && (method === 'PATCH' || method === 'PUT')) {
       const id = path.split('/').pop() || '';
-      const body = init?.body ? JSON.parse(init.body as string) : {};
+      const body = init?.body ? JSON.parse(init.body as string) as Record<string, unknown> : {};
       responseData = MOCK_RESPONSES['/profiles/:id (update)'](vertical, id, body);
       status = 200;
     }
@@ -169,6 +170,7 @@ export function createMockFetch() {
 export function setupParityTests() {
   // If not using real backend, mock fetch
   if (!TEST_CONFIG.useRealBackend) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     global.fetch = createMockFetch() as any;
     console.log('🧪 Using mocked backend for parity tests');
   } else {
@@ -180,6 +182,7 @@ export function setupParityTests() {
  * Create test database records for parity testing
  * (Only runs if using real backend)
  */
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function seedTestData() {
   if (!TEST_CONFIG.useRealBackend) {
     console.log('⏭️  Skipping test data seeding (mocked backend)');
@@ -197,6 +200,7 @@ export async function seedTestData() {
 /**
  * Cleanup test data after tests
  */
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function cleanupTestData() {
   if (!TEST_CONFIG.useRealBackend) {
     return;

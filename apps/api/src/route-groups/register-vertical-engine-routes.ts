@@ -25,7 +25,7 @@ import { getRegistry, listSlugs, generateRoutes } from '@webwaka/vertical-engine
  * If header is '1', request proceeds to engine routes.
  * Otherwise, request passes through to legacy routes (no-op middleware).
  */
-function engineFeatureFlagMiddleware(c: { req: { header: (name: string) => string | undefined }; res: unknown }, next: () => Promise<void>) {
+function _engineFeatureFlagMiddleware(c: { req: { header: (name: string) => string | undefined }; res: unknown }, next: () => Promise<void>) {
   const useEngine = c.req.header('X-Use-Engine');
   if (useEngine === '1') {
     // Request is for the engine path

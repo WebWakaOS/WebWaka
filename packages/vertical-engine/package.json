@@ -2,7 +2,7 @@
   "name": "@webwaka/vertical-engine",
   "version": "0.1.0",
   "private": true,
-  "description": "Configuration-driven vertical management engine — replaces 159 individual vertical packages",
+  "description": "[Cross-cutting] Configuration-driven vertical management engine — replaces 159 individual vertical packages",
   "main": "./src/index.ts",
   "exports": {
     ".": { "source": "./src/index.ts" },

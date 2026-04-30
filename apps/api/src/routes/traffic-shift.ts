@@ -10,7 +10,6 @@ import type { Env } from '../env.js';
 import { authMiddleware } from '../middleware/auth.js';
 import { requireRole } from '../middleware/require-role.js';
 import {
-  getTrafficShiftConfig,
   getTrafficShiftMetrics,
   resetTrafficShiftMetrics,
   TRAFFIC_SHIFT_CONFIGS,

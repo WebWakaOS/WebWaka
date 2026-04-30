@@ -25,7 +25,7 @@ const app = new Hono<{ Bindings: Env }>();
  * GET /admin/hitl/actions?status=pending&vertical=bakery
  */
 app.get('/actions', authMiddleware, requireRole('admin'), async (c) => {
-  const { status, vertical, capability, priority } = c.req.query();
+  const { status, vertical, capability, priority: _priority } = c.req.query();
   
   const db = c.env.DB;
   const auth = c.get('auth') as Auth;
@@ -63,6 +63,7 @@ app.get('/actions', authMiddleware, requireRole('admin'), async (c) => {
 
   const results = await db.prepare(query).bind(...params).all();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const actions = results.results.map((row: any) => ({
     id: row.id,
     vertical: row.vertical,
@@ -287,7 +288,7 @@ app.post('/actions/:id/modify', authMiddleware, requireRole('admin'), async (c) 
 /**
  * Helper: Derive priority from HITL level and capability
  */
-function derivePriority(hitlLevel: number, capability: string): 'low' | 'medium' | 'high' {
+function derivePriority(hitlLevel: number, _capability: string): 'low' | 'medium' | 'high' {
   if (hitlLevel === 3) return 'high';
   if (hitlLevel === 2) return 'medium';
   return 'low';

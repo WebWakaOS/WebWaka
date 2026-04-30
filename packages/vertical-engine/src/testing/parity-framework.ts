@@ -16,6 +16,7 @@
  *   });
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { describe, it, expect } from 'vitest';
 
 export interface ParityTestConfig {
@@ -142,7 +143,7 @@ function compareObjects(
 
   if (obj1 === null || obj2 === null) {
     if (obj1 !== obj2) {
-      diffs.push(`${path}: value mismatch (${obj1} vs ${obj2})`);
+      diffs.push(`${path}: value mismatch (${String(obj1)} vs ${String(obj2)})`);
     }
     return diffs;
   }
@@ -161,8 +162,8 @@ function compareObjects(
   }
 
   if (typeof obj1 === 'object' && typeof obj2 === 'object') {
-    const keys1 = Object.keys(obj1 as object);
-    const keys2 = Object.keys(obj2 as object);
+    const keys1 = Object.keys(obj1 as Record<string, unknown>);
+    const keys2 = Object.keys(obj2 as Record<string, unknown>);
 
     const allKeys = new Set([...keys1, ...keys2]);
 
@@ -171,9 +172,9 @@ function compareObjects(
       const val1 = (obj1 as Record<string, unknown>)[key];
       const val2 = (obj2 as Record<string, unknown>)[key];
 
-      if (!(key in (obj1 as object))) {
+      if (!(key in (obj1 as Record<string, unknown>))) {
         diffs.push(`${keyPath}: missing in legacy`);
-      } else if (!(key in (obj2 as object))) {
+      } else if (!(key in (obj2 as Record<string, unknown>))) {
         diffs.push(`${keyPath}: missing in engine`);
       } else {
         diffs.push(...compareObjects(val1, val2, keyPath));
@@ -183,7 +184,7 @@ function compareObjects(
   }
 
   if (obj1 !== obj2) {
-    diffs.push(`${path}: value mismatch ("${obj1}" vs "${obj2}")`);
+    diffs.push(`${path}: value mismatch ("${String(obj1)}" vs "${String(obj2)}")`);
   }
 
   return diffs;
