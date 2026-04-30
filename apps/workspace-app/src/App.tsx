@@ -15,6 +15,7 @@ import WakaPageManager from '@/pages/WakaPage';
 import VerifyEmail from '@/pages/VerifyEmail';
 import AcceptInvite from '@/pages/AcceptInvite';
 import AIPage from '@/pages/AI';
+import AdminHITL from '@/pages/AdminHITL';
 
 function NotFound() {
   return (
@@ -64,6 +65,7 @@ export default function App() {
             <Route path="/vertical" element={<VerticalView />} />
             <Route path="/wakapage" element={<WakaPageManager />} />
             <Route path="/ai" element={<AIPage />} />
+            <Route path="/admin/hitl" element={<AdminHITL />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
 
