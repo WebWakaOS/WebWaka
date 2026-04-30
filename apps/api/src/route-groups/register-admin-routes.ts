@@ -20,6 +20,7 @@ import {
   platformAdminSectorLicensesRoutes,
 } from '../routes/regulatory-verification.js';
 import hitlRoutes from '../routes/hitl.js';
+import trafficShiftRoutes from '../routes/traffic-shift.js';
 
 export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -31,6 +32,7 @@ export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   app.route('/admin', adminPublicRoutes);
   app.route('/admin', adminMetricsRoutes);
   app.route('/admin/hitl', hitlRoutes);
+  app.route('/admin/traffic-shift', trafficShiftRoutes);
 
   // -------------------------------------------------------------------------
   // P6-A: MED-011 — Platform Analytics (super_admin only)
