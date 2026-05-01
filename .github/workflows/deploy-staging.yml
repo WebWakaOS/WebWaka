@@ -397,7 +397,7 @@ jobs:
         run: |
           wrangler pages deploy "${{ matrix.app.dist }}" \
             --project-name "${{ matrix.app.project }}" \
-            --branch staging \
+            --branch staging --deployment-environment preview \
             --commit-hash "${{ github.sha }}"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
