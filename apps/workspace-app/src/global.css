@@ -1,0 +1,113 @@
+/**
+ * WebWaka Workspace — Global CSS
+ *
+ * Provides:
+ * 1. CSS custom properties (light + dark mode variables)
+ * 2. Dark mode overrides for key layout elements
+ * 3. Base resets inherited from design-system
+ *
+ * These variables are used by inline-style components via JS helpers
+ * in src/lib/theme.ts, and override body-level colors in dark mode.
+ */
+
+/* ── CSS Custom Properties ─────────────────────────────────────────────────── */
+:root {
+  --ww-primary:      #0F4C81;
+  --ww-primary-hover: #0d3f6e;
+  --ww-success:      #059669;
+  --ww-danger:       #dc2626;
+  --ww-warning:      #f59e0b;
+
+  --ww-bg:           #f8f9fa;
+  --ww-surface:      #ffffff;
+  --ww-surface-2:    #f9fafb;
+  --ww-border:       #e5e7eb;
+
+  --ww-text:         #111827;
+  --ww-text-muted:   #6b7280;
+  --ww-text-subtle:  #9ca3af;
+
+  --ww-radius:       8px;
+  --ww-radius-lg:    12px;
+  --ww-shadow:       0 1px 3px rgba(0,0,0,0.08);
+  --ww-shadow-md:    0 4px 12px rgba(0,0,0,0.10);
+}
+
+html[data-theme="dark"] {
+  --ww-bg:           #0d1117;
+  --ww-surface:      #161b22;
+  --ww-surface-2:    #21262d;
+  --ww-border:       #30363d;
+
+  --ww-text:         #e6edf3;
+  --ww-text-muted:   #8b949e;
+  --ww-text-subtle:  #484f58;
+
+  --ww-shadow:       0 1px 3px rgba(0,0,0,0.3);
+  --ww-shadow-md:    0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* ── Dark mode surface overrides ───────────────────────────────────────────── */
+/* Applies to .ww-card utility class and any element with data-surface="true" */
+html[data-theme="dark"] .ww-surface,
+html[data-theme="dark"] [data-surface] {
+  background-color: var(--ww-surface) !important;
+  border-color: var(--ww-border) !important;
+  color: var(--ww-text) !important;
+}
+
+html[data-theme="dark"] .ww-surface-2 {
+  background-color: var(--ww-surface-2) !important;
+}
+
+/* Input overrides for dark mode */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background-color: var(--ww-surface-2) !important;
+  border-color: var(--ww-border) !important;
+  color: var(--ww-text) !important;
+  color-scheme: dark;
+}
+
+/* Scrollbar overrides for dark mode */
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #161b22;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #30363d;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* ── Scrollbar base ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── BottomNav scrollbar hide ───────────────────────────────────────────────── */
+nav[aria-label="Main navigation"]::-webkit-scrollbar { display: none; }
+
+/* ── Focus visible ring ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--ww-primary);
+  outline-offset: 2px;
+}
+
+/* ── Utility classes (align with design-system package) ────────────────────── */
+.ww-surface {
+  background: var(--ww-surface);
+  border: 1px solid var(--ww-border);
+  border-radius: var(--ww-radius-lg);
+  color: var(--ww-text);
+}
+
+.ww-text-muted { color: var(--ww-text-muted); }
+
+/* ── Selection color ────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(15, 76, 129, 0.2);
+  color: inherit;
+}
