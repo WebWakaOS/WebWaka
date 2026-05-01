@@ -2,7 +2,7 @@ name: Rollback Worker (Blue-Green)
 
 # Promotes the previous Cloudflare Worker version to 100% traffic.
 # Rollback completes in ~20 seconds (CF Deployments API, no re-build).
-# See: docs/adr/ADR-0042-blue-green-deployment.md
+# See: docs/adr/ADR-0046-blue-green-deployment.md
 
 on:
   workflow_dispatch:
