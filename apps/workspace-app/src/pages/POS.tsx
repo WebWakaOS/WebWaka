@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { formatNaira } from '@/lib/currency';
 import { toast } from '@/lib/toast';
@@ -9,6 +9,7 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { db } from '@webwaka/offline-sync';
 // BUG-046: CSS Modules — phase 1: structural/layout classes extracted
 import s from './POS.module.css';
+import { t } from '@/lib/i18n';
 
 interface Product {
   id: string;
@@ -48,19 +49,23 @@ const PAYMENT_LABELS: Record<PaymentMethod, string> = {
 export default function POS() {
   const { user } = useAuth();
   const workspaceId = user?.workspaceId;
-  // BUG-010: Network status for offline queue branching
   const isOnline = useOnlineStatus();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
   const [checkingOut, setCheckingOut] = useState(false);
   const [receiptVisible, setReceiptVisible] = useState(false);
   const [lastOrderId, setLastOrderId] = useState('');
   const [lastOrderTotal, setLastOrderTotal] = useState(0);
   const [lastOrderVat, setLastOrderVat] = useState(0);
+  // Quick-add qty stepper state
+  const [quickAddProduct, setQuickAddProduct] = useState<Product | null>(null);
+  const [quickAddQty, setQuickAddQty] = useState(1);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!workspaceId) {
@@ -79,9 +84,26 @@ export default function POS() {
       .finally(() => setLoadingProducts(false));
   }, [workspaceId]);
 
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // Keyboard shortcut: '/' focuses product search
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
+
+  // Derive category list from products
+  const categories = ['all', ...Array.from(new Set(products.map(p => p.category).filter(Boolean) as string[])).sort()];
+
+  const filtered = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   const addToCart = useCallback((product: Product) => {
     setCart(prev => {
@@ -215,7 +237,7 @@ export default function POS() {
     const receiptSubtotal = lastOrderTotal - lastOrderVat;
     return (
       <div className={s.page}>
-        {/* ENH-018: Print-friendly receipt — @media print hides everything except the receipt */}
+        {/* ENH-018: Print-friendly receipt */}
         <style>{`
           @media print {
             body > *:not(#pos-receipt-root) { display: none !important; }
@@ -226,12 +248,21 @@ export default function POS() {
         `}</style>
         <div id="pos-receipt-root" className={s.page}>
           <div className={`${s.receipt} pos-receipt-print`}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>🧾</div>
+            {/* Receipt branding — business name from workspace */}
+            {user?.businessName && (
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#0F4C81', marginBottom: 4 }}>
+                {user.businessName}
+              </div>
+            )}
+            <div style={{ fontSize: 48, marginBottom: 8 }}>🧾</div>
             <h2 style={{ fontSize: 22, fontWeight: 700, color: '#166534', marginBottom: 8 }}>
               Sale recorded!
             </h2>
             <p style={{ fontSize: 15, color: '#374151', marginBottom: 4 }}>
               Order ID: <strong>{lastOrderId}</strong>
+            </p>
+            <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 12 }}>
+              {new Date().toLocaleString('en-NG')}
             </p>
             {/* COMP-005: VAT breakdown on receipt */}
             <div style={{ width: '100%', borderTop: '1px solid #e5e7eb', paddingTop: 12, marginBottom: 12, textAlign: 'left' }}>
@@ -267,23 +298,133 @@ export default function POS() {
 
   return (
     <div className={s.page}>
+      {/* Quick-add quantity modal */}
+      {quickAddProduct && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200,
+          padding: 16,
+        }} onClick={e => { if (e.target === e.currentTarget) setQuickAddProduct(null); }}>
+          <div style={{
+            background: '#fff', borderRadius: 16, padding: 28, maxWidth: 320, width: '100%',
+            textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+          }}>
+            <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>Add to cart</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8 }}>
+              {quickAddProduct.name}
+            </div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#0F4C81', marginBottom: 20 }}>
+              {formatNaira(quickAddProduct.price_kobo * quickAddQty)}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
+              <button
+                onClick={() => setQuickAddQty(q => Math.max(1, q - 1))}
+                style={{
+                  width: 44, height: 44, borderRadius: '50%', border: '2px solid #d1d5db',
+                  background: '#fff', fontSize: 20, fontWeight: 700, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+                aria-label="Decrease quantity"
+              >−</button>
+              <span style={{ fontSize: 28, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>{quickAddQty}</span>
+              <button
+                onClick={() => {
+                  const max = quickAddProduct.stock_qty;
+                  setQuickAddQty(q => max !== null ? Math.min(max, q + 1) : q + 1);
+                }}
+                style={{
+                  width: 44, height: 44, borderRadius: '50%', border: '2px solid #0F4C81',
+                  background: '#0F4C81', fontSize: 20, fontWeight: 700, cursor: 'pointer', color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+                aria-label="Increase quantity"
+              >+</button>
+            </div>
+            {quickAddProduct.stock_qty !== null && (
+              <div style={{ fontSize: 12, color: quickAddProduct.stock_qty < 5 ? '#dc2626' : '#9ca3af', marginBottom: 12 }}>
+                {quickAddProduct.stock_qty} in stock
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button
+                onClick={() => setQuickAddProduct(null)}
+                style={{
+                  flex: 1, padding: '12px', borderRadius: 8, border: '1.5px solid #e5e7eb',
+                  background: '#fff', color: '#374151', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                }}
+              >Cancel</button>
+              <button
+                onClick={() => {
+                  // Add the specified quantity to cart
+                  for (let i = 0; i < quickAddQty; i++) addToCart(quickAddProduct);
+                  setQuickAddProduct(null);
+                  setQuickAddQty(1);
+                  toast.success(`${quickAddQty}× ${quickAddProduct.name} added`);
+                }}
+                style={{
+                  flex: 2, padding: '12px', borderRadius: 8, border: 'none',
+                  background: '#0F4C81', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                }}
+              >
+                Add {quickAddQty} to cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header className={s.header}>
         <h1 className={s.heading}>Point of Sale</h1>
-        <div style={{ fontSize: 14, color: '#6b7280' }}>
-          {cart.length > 0 && `${cart.reduce((acc, i) => acc + i.qty, 0)} items in cart`}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {cart.length > 0 && (
+            <span style={{ fontSize: 13, color: '#6b7280' }}>
+              {cart.reduce((acc, i) => acc + i.qty, 0)} items in cart
+            </span>
+          )}
+          <span style={{ fontSize: 11, color: '#9ca3af' }} title="Press / to focus search">
+            Press <kbd style={{ background: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: 3, padding: '1px 5px', fontSize: 10 }}>/</kbd> to search
+          </span>
         </div>
       </header>
 
       <div className={s.layout}>
         <div className={s.productsPanel}>
           <input
+            ref={searchRef}
             type="search"
-            placeholder="Search products…"
+            placeholder={t('pos.search_placeholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className={s.searchInput}
-            aria-label="Search products"
+            aria-label="Search products (press / to focus)"
           />
+
+          {/* Category tabs */}
+          {categories.length > 2 && (
+            <div style={{
+              display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 10, marginBottom: 8,
+              scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch',
+            }} role="tablist" aria-label="Product categories">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  role="tab"
+                  aria-selected={activeCategory === cat}
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600,
+                    border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: 32,
+                    background: activeCategory === cat ? '#0F4C81' : '#f0f9ff',
+                    color: activeCategory === cat ? '#fff' : '#0F4C81',
+                    transition: 'all 0.15s',
+                    flexShrink: 0,
+                  }}
+                >
+                  {cat === 'all' ? 'All' : cat}
+                </button>
+              ))}
+            </div>
+          )}
 
           {loadingProducts ? (
             <div style={{ padding: '32px 0', textAlign: 'center', color: '#6b7280' }}>
@@ -297,32 +438,42 @@ export default function POS() {
             </div>
           ) : (
             <div className={s.productsGrid} role="list" aria-label="Products">
-              {filtered.map(product => (
-                <button
-                  key={product.id}
-                  role="listitem"
-                  onClick={() => addToCart(product)}
-                  className={s.productCard}
-                  aria-label={`Add ${product.name} to cart`}
-                >
-                  <div style={{ fontSize: 28, marginBottom: 6 }} aria-hidden="true">📦</div>
-                  <div className={s.productName}>{product.name}</div>
-                  {product.category && (
-                    <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 4 }}>
-                      {product.category}
-                    </div>
-                  )}
-                  <div className={s.productPrice}>{formatNaira(product.price_kobo)}</div>
-                  {product.sku && (
-                    <div style={{ fontSize: 11, color: '#6b7280' }}>per {product.sku}</div>
-                  )}
-                  {product.stock_qty !== null && (
-                    <div style={{ fontSize: 11, color: product.stock_qty < 5 ? '#dc2626' : '#6b7280' }}>
-                      Stock: {product.stock_qty}
-                    </div>
-                  )}
-                </button>
-              ))}
+              {filtered.map(product => {
+                // Deterministic category color strip
+                const catColors = ['#0F4C81', '#059669', '#7c3aed', '#d97706', '#dc2626', '#0891b2'];
+                const colorIdx = product.category ? Math.abs(product.category.split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % catColors.length : 0;
+                const catColor = product.category ? catColors[colorIdx] : 'transparent';
+
+                return (
+                  <button
+                    key={product.id}
+                    role="listitem"
+                    onClick={() => addToCart(product)}
+                    onDoubleClick={() => { setQuickAddProduct(product); setQuickAddQty(1); }}
+                    onContextMenu={e => { e.preventDefault(); setQuickAddProduct(product); setQuickAddQty(1); }}
+                    className={s.productCard}
+                    aria-label={`Add ${product.name} to cart — double-tap for quantity`}
+                    style={{ borderLeft: `3px solid ${catColor}` }}
+                  >
+                    <div style={{ fontSize: 24, marginBottom: 4 }} aria-hidden="true">📦</div>
+                    <div className={s.productName}>{product.name}</div>
+                    {product.category && (
+                      <div style={{ fontSize: 10, color: catColor, fontWeight: 700, marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        {product.category}
+                      </div>
+                    )}
+                    <div className={s.productPrice}>{formatNaira(product.price_kobo)}</div>
+                    {product.sku && (
+                      <div style={{ fontSize: 11, color: '#6b7280' }}>per {product.sku}</div>
+                    )}
+                    {product.stock_qty !== null && (
+                      <div style={{ fontSize: 10, color: product.stock_qty < 5 ? '#dc2626' : '#9ca3af', marginTop: 2 }}>
+                        {product.stock_qty < 5 && '⚠️ '}{product.stock_qty} left
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

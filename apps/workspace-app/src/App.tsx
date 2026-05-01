@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { AIProvider } from '@/contexts/AIContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';
 import { FullPageSpinner } from '@/components/ui/Spinner';
+import { AriaLiveRegion } from '@/components/ui/AriaLiveRegion';
 
 // ── Route-level code splitting (fix: reduces initial bundle size for 2G/3G users) ──
 // Each page is lazily loaded — only downloaded when the route is first visited.
@@ -66,6 +67,8 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <AIProvider>
+          {/* Persistent screen reader live region — must be in DOM at all times */}
+          <AriaLiveRegion />
           <a
             href="#main-content"
             style={{

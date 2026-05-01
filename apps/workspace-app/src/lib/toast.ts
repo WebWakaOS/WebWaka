@@ -4,8 +4,22 @@ interface ToastOptions {
   duration?: number;
 }
 
+// Persistent screen-reader announce function — set by AriaLiveRegion component
+// Using a module-level ref avoids circular imports
+let _liveAnnounce: ((msg: string) => void) | null = null;
+
+/** Called by AriaLiveRegion to register the announcement function */
+export function registerLiveAnnouncer(fn: (msg: string) => void): () => void {
+  _liveAnnounce = fn;
+  return () => { _liveAnnounce = null; };
+}
+
 function show(message: string, type: ToastType, opts: ToastOptions = {}): void {
   const duration = opts.duration ?? (type === 'error' ? 5000 : 3000);
+
+  // Announce to screen reader via persistent live region
+  _liveAnnounce?.(message);
+
   const existing = document.getElementById('ww-toast-container');
   const container = existing ?? (() => {
     const el = document.createElement('div');
@@ -18,16 +32,18 @@ function show(message: string, type: ToastType, opts: ToastOptions = {}): void {
     document.body.appendChild(el);
     return el;
   })();
+
   const colors: Record<ToastType, string> = {
     success: '#166534',
     error:   '#991b1b',
     info:    '#1e40af',
     warning: '#92400e',
   };
-  const toast = document.createElement('div');
-  toast.setAttribute('role', 'status');
-  toast.setAttribute('aria-live', 'polite');
-  toast.style.cssText = [
+
+  const toastEl = document.createElement('div');
+  // No aria-live here — the persistent AriaLiveRegion in App.tsx handles announcements
+  // to prevent double-announcements and ensure reliable delivery across screen readers.
+  toastEl.style.cssText = [
     `background:${colors[type]}`,
     'color:#fff',
     'padding:12px 20px',
@@ -41,13 +57,13 @@ function show(message: string, type: ToastType, opts: ToastOptions = {}): void {
     'opacity:0',
     'transition:opacity 0.2s ease',
   ].join(';');
-  toast.textContent = message;
-  container.appendChild(toast);
-  requestAnimationFrame(() => { toast.style.opacity = '1'; });
+  toastEl.textContent = message;
+  container.appendChild(toastEl);
+  requestAnimationFrame(() => { toastEl.style.opacity = '1'; });
   setTimeout(() => {
-    toast.style.opacity = '0';
+    toastEl.style.opacity = '0';
     setTimeout(() => {
-      toast.remove();
+      toastEl.remove();
       if (container.children.length === 0) container.remove();
     }, 200);
   }, duration);
@@ -55,7 +71,7 @@ function show(message: string, type: ToastType, opts: ToastOptions = {}): void {
 
 export const toast = {
   success: (msg: string, opts?: ToastOptions) => show(msg, 'success', opts),
-  error: (msg: string, opts?: ToastOptions) => show(msg, 'error', opts),
-  info: (msg: string, opts?: ToastOptions) => show(msg, 'info', opts),
+  error:   (msg: string, opts?: ToastOptions) => show(msg, 'error', opts),
+  info:    (msg: string, opts?: ToastOptions) => show(msg, 'info', opts),
   warning: (msg: string, opts?: ToastOptions) => show(msg, 'warning', opts),
 };

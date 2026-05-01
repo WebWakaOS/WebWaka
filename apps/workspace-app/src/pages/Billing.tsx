@@ -3,6 +3,7 @@
  * Plan info, bank transfer (primary), HandyLife wallet credit.
  */
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
 import { formatNaira } from '@/lib/currency';
@@ -67,6 +68,7 @@ interface BankDetails {
 }
 
 export default function Billing() {
+  const { user } = useAuth();
   const [billing, setBilling] = useState<BillingStatus | null>(null);
   const [wallet, setWallet] = useState<WalletBalance | null>(null);
   const [loading, setLoading] = useState(true);
@@ -348,8 +350,42 @@ export default function Billing() {
             <h2 style={{ fontSize: 17, fontWeight: 700, marginBottom: 16 }}>Pay by Bank Transfer</h2>
             <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20, lineHeight: 1.6 }}>
               Transfer the amount for your chosen plan to the account below.
-              Include your User ID as the payment reference so we can match your payment.
+              Use your User ID as the payment reference so we can match your payment.
             </p>
+
+            {/* Payment reference copy box */}
+            {user?.id && (
+              <div style={{
+                background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8,
+                padding: '12px 16px', marginBottom: 20,
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              }}>
+                <div>
+                  <div style={{ fontSize: 12, color: '#166534', fontWeight: 600, marginBottom: 2 }}>
+                    YOUR PAYMENT REFERENCE
+                  </div>
+                  <div style={{ fontSize: 15, fontFamily: 'monospace', color: '#111827', fontWeight: 600 }}>
+                    {user.id}
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard?.writeText(user.id ?? '').then(() => {
+                      toast.success('Payment reference copied to clipboard');
+                    }).catch(() => {
+                      toast.info(`Your reference: ${user.id}`);
+                    });
+                  }}
+                  style={{
+                    background: '#059669', color: '#fff', border: 'none',
+                    borderRadius: 6, padding: '8px 14px', fontSize: 12, fontWeight: 700,
+                    cursor: 'pointer', flexShrink: 0, minHeight: 36,
+                  }}
+                >
+                  📋 Copy reference
+                </button>
+              </div>
+            )}
 
             {bankLoading && (
               <div style={{ padding: 20, textAlign: 'center', color: '#6b7280', fontSize: 14 }}>
@@ -376,7 +412,6 @@ export default function Billing() {
                   { label: 'Account Name', value: bankDetails.account_name ?? '—' },
                   { label: 'Account Number', value: bankDetails.account_number ?? '—' },
                   ...(bankDetails.sort_code ? [{ label: 'Sort Code', value: bankDetails.sort_code }] : []),
-                  { label: 'Reference', value: 'Your User ID (shown in Settings → Profile)' },
                 ].map(row => (
                   <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
                     <span style={{ fontWeight: 600, color: '#374151', minWidth: 140 }}>{row.label}</span>
@@ -391,7 +426,28 @@ export default function Billing() {
               border: '1px solid #fde68a', borderRadius: 8, fontSize: 13, color: '#92400e',
             }}>
               <strong>⚠️ After transferring:</strong> Email <a href="mailto:billing@webwaka.com" style={{ color: '#0F4C81' }}>billing@webwaka.com</a> with
-              your transaction reference. Plan activation takes 1–2 business days.
+              your transaction reference number and the copied User ID above. Plan activation takes 1–2 business days.
+            </div>
+
+            {/* Pending payment self-tracker */}
+            <div style={{ marginTop: 16, padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
+                Waiting for plan activation?
+              </div>
+              <p style={{ fontSize: 12, color: '#6b7280', marginBottom: 8, lineHeight: 1.5 }}>
+                After sending your transfer, email billing@webwaka.com with your User ID and transaction proof.
+                Activation typically takes 1 business day during business hours (Mon–Fri 9am–5pm WAT).
+              </p>
+              <a
+                href="mailto:billing@webwaka.com?subject=Plan%20Upgrade%20Transfer%20Proof&body=Hi%20WebWaka%20Billing%2C%0A%0AI%20have%20made%20a%20bank%20transfer%20for%20plan%20upgrade.%0A%0AUser%20ID%3A%20"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  background: '#0F4C81', color: '#fff', padding: '8px 14px',
+                  borderRadius: 6, fontSize: 12, fontWeight: 600, textDecoration: 'none',
+                }}
+              >
+                📧 Email transfer proof
+              </a>
             </div>
           </div>
         </div>

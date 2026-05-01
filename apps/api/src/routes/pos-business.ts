@@ -282,6 +282,103 @@ posBusinessRoutes.get('/sales/:workspaceId/summary', async (c) => {
   return c.json({ date: dateStr, ...summary });
 });
 
+// ---------------------------------------------------------------------------
+// GET /pos-business/sales/:workspaceId/trend?days=7|30
+// Returns daily revenue/order counts for the last N days for sparkline display
+// ---------------------------------------------------------------------------
+
+posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const { workspaceId } = c.req.param();
+  const days = Math.min(Math.max(parseInt(c.req.query('days') ?? '7', 10) || 7, 2), 30);
+
+  const db = c.env.DB as unknown as { prepare: (q: string) => { bind: (...a: unknown[]) => { all: <T>() => Promise<{ results: T[] }> } } };
+
+  // Build daily buckets for the last `days` days (UTC)
+  const now = Math.floor(Date.now() / 1000);
+  const buckets: { date: string; dayStart: number; dayEnd: number }[] = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(Date.now() - i * 86400_000);
+    const dateStr = d.toISOString().split('T')[0];
+    const dayStart = Math.floor(new Date(`${dateStr}T00:00:00Z`).getTime() / 1000);
+    buckets.push({ date: dateStr, dayStart, dayEnd: dayStart + 86400 });
+  }
+
+  const rangeStart = buckets[0].dayStart;
+  const rangeEnd = buckets[buckets.length - 1].dayEnd;
+
+  // Fetch all sales in the window in one query
+  const { results } = await db
+    .prepare(
+      `SELECT
+         strftime('%Y-%m-%d', datetime(created_at, 'unixepoch')) AS sale_date,
+         COUNT(*) AS order_count,
+         COALESCE(SUM(total_kobo), 0) AS total_kobo
+       FROM pos_sales
+       WHERE workspace_id = ? AND tenant_id = ?
+         AND created_at >= ? AND created_at < ?
+       GROUP BY sale_date`
+    )
+    .bind(workspaceId, auth.tenantId, rangeStart, rangeEnd)
+    .all<{ sale_date: string; order_count: number; total_kobo: number }>();
+
+  // Map results to buckets (fill zeros for empty days)
+  const byDate = new Map(results.map(r => [r.sale_date, r]));
+  const trend = buckets.map(b => {
+    const r = byDate.get(b.date);
+    return {
+      date: b.date,
+      orderCount: r?.order_count ?? 0,
+      totalKobo: r?.total_kobo ?? 0,
+    };
+  });
+
+  // Calculate delta vs previous period (compare last day to day before last)
+  const last = trend[trend.length - 1];
+  const prev = trend[trend.length - 2];
+  const deltaKobo = last.totalKobo - (prev?.totalKobo ?? 0);
+  const deltaOrders = last.orderCount - (prev?.orderCount ?? 0);
+
+  return c.json({ days, trend, deltaKobo, deltaOrders });
+});
+
+// ---------------------------------------------------------------------------
+// GET /pos-business/sales/:workspaceId/top-products?limit=3&days=7
+// Returns the top selling products by revenue in the last N days
+// ---------------------------------------------------------------------------
+
+posBusinessRoutes.get('/sales/:workspaceId/top-products', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const { workspaceId } = c.req.param();
+  const limit = Math.min(parseInt(c.req.query('limit') ?? '3', 10) || 3, 10);
+  const days = Math.min(parseInt(c.req.query('days') ?? '7', 10) || 7, 30);
+  const since = Math.floor(Date.now() / 1000) - days * 86400;
+
+  const db = c.env.DB as unknown as { prepare: (q: string) => { bind: (...a: unknown[]) => { all: <T>() => Promise<{ results: T[] }> } } };
+
+  const { results } = await db
+    .prepare(
+      `SELECT
+         p.name,
+         p.id,
+         COUNT(si.id) AS units_sold,
+         COALESCE(SUM(si.qty), 0) AS total_qty,
+         COALESCE(SUM(si.price_kobo * si.qty), 0) AS total_kobo
+       FROM pos_sale_items si
+       JOIN pos_products p ON p.id = si.product_id
+       JOIN pos_sales s ON s.id = si.sale_id
+       WHERE s.workspace_id = ? AND s.tenant_id = ?
+         AND s.created_at >= ?
+       GROUP BY p.id, p.name
+       ORDER BY total_kobo DESC
+       LIMIT ?`
+    )
+    .bind(workspaceId, auth.tenantId, since, limit)
+    .all<{ name: string; id: string; units_sold: number; total_qty: number; total_kobo: number }>();
+
+  return c.json({ topProducts: results, days });
+});
+
 posBusinessRoutes.get('/sales/:workspaceId', async (c) => {
   const auth = c.get('auth') as { userId: string; tenantId: string };
   const { workspaceId } = c.req.param();

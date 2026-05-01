@@ -558,6 +558,9 @@ export default function WakaPageManager() {
   const [leads, setLeads] = useState<WakaLead[]>([]);
   const [leadsTotal, setLeadsTotal] = useState(0);
   const [qr, setQr] = useState<QrResponse | null>(null);
+  // Preview panel state
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewMode, setPreviewMode] = useState<'builder' | 'customer'>('builder');
 
   const [creating, setCreating] = useState(false);
   const [publishing, setPublishing] = useState(false);
@@ -823,7 +826,23 @@ export default function WakaPageManager() {
   }
 
   return (
-    <main id="main-content" style={{ padding: '24px', maxWidth: 640, margin: '0 auto' }}>
+    <main
+      id="main-content"
+      style={{
+        display: showPreview ? 'grid' : 'block',
+        gridTemplateColumns: showPreview ? '1fr 380px' : undefined,
+        gap: showPreview ? 0 : undefined,
+        height: showPreview ? 'calc(100vh - 64px)' : undefined,
+        overflow: showPreview ? 'hidden' : undefined,
+      }}
+    >
+      {/* Builder panel (always visible) */}
+      <div style={{
+        padding: '24px',
+        overflowY: showPreview ? 'auto' : undefined,
+        maxWidth: showPreview ? undefined : 640,
+        margin: showPreview ? 0 : '0 auto',
+      }}>
       {showAddBlock && (
         <AddBlockModal
           onAdd={blockType => void handleAddBlock(blockType)}
@@ -905,6 +924,16 @@ export default function WakaPageManager() {
           >
             {loadingQr ? 'Loading…' : '📷 Share / QR Code'}
           </Button>
+          {/* Preview panel toggle */}
+          {qr?.publicUrl && (
+            <Button
+              onClick={() => setShowPreview(v => !v)}
+              variant="secondary"
+              style={{ fontSize: 14 }}
+            >
+              {showPreview ? '✕ Close Preview' : '👁 Preview'}
+            </Button>
+          )}
         </div>
       )}
 
@@ -987,6 +1016,82 @@ export default function WakaPageManager() {
             </div>
           )}
         </section>
+      )}
+
+      </div>{/* end builder panel */}
+
+      {/* Preview panel — iframe of the live public page */}
+      {showPreview && qr?.publicUrl && (
+        <div style={{
+          borderLeft: '1px solid var(--ww-border, #e5e7eb)',
+          display: 'flex', flexDirection: 'column',
+          background: 'var(--ww-surface-2, #f9fafb)',
+          overflow: 'hidden',
+        }}>
+          {/* Preview toolbar */}
+          <div style={{
+            padding: '10px 16px', borderBottom: '1px solid var(--ww-border, #e5e7eb)',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            background: 'var(--ww-surface, #fff)',
+          }}>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {(['builder', 'customer'] as const).map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => setPreviewMode(mode)}
+                  style={{
+                    padding: '4px 12px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                    fontSize: 12, fontWeight: 600,
+                    background: previewMode === mode ? '#0F4C81' : '#f0f9ff',
+                    color: previewMode === mode ? '#fff' : '#0F4C81',
+                  }}
+                >
+                  {mode === 'builder' ? '🖊 Builder' : '👤 As Customer'}
+                </button>
+              ))}
+            </div>
+            <a
+              href={qr.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontSize: 11, color: '#0F4C81', textDecoration: 'none', fontWeight: 600 }}
+            >
+              Open ↗
+            </a>
+          </div>
+
+          {/* iframe preview */}
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+            {previewMode === 'customer' && (
+              <div style={{
+                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                background: 'rgba(0,0,0,0.04)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                zIndex: 1, pointerEvents: 'none',
+              }}>
+                <div style={{
+                  background: 'rgba(15,76,129,0.9)', color: '#fff', fontSize: 10,
+                  padding: '3px 8px', borderRadius: 4, fontWeight: 600,
+                  position: 'absolute', top: 8, left: 8,
+                }}>
+                  Customer View
+                </div>
+              </div>
+            )}
+            <iframe
+              src={qr.publicUrl}
+              title="WakaPage live preview"
+              style={{
+                border: 'none',
+                transform: 'scale(0.85)',
+                transformOrigin: 'top left',
+                width: 'calc(100% / 0.85)',
+                height: 'calc(100% / 0.85)',
+              } as React.CSSProperties}
+              sandbox="allow-same-origin allow-scripts allow-forms"
+            />
+          </div>
+        </div>
       )}
     </main>
   );
