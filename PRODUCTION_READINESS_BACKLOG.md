@@ -364,19 +364,19 @@ The k6 load smoke test failure is:
 **Action**: Document API versioning policy (ADR); implement `/v2/` prefix routing when breaking changes are needed; add `Sunset` headers for deprecated endpoints.  
 **Acceptance**: Versioning ADR committed; clients receive `Sunset` headers 90 days before removal.
 
-#### L-6: Automated Performance Regression Detection
+#### L-6: Automated Performance Regression Detection ✅ RESOLVED
 **Area**: Performance, CI/CD  
 **Description**: k6 runs on staging but results aren't compared against baselines. There's no automated detection of latency regressions between releases.  
 **Action**: Store k6 results in a persistent store; compare P95 latency against the previous successful run; alert on >20% regression.  
 **Acceptance**: Performance regression alerts fire automatically; dashboard shows trend.
 
-#### L-7: Frontend Bundle Size Monitoring
+#### L-7: Frontend Bundle Size Monitoring ✅ RESOLVED
 **Area**: Performance, Frontend  
 **Description**: `apps/workspace-app` uses Vite for building but bundle size isn't tracked or gated in CI.  
 **Action**: Add `vite-plugin-bundle-analysis` or a CI step that compares output bundle size against a baseline; fail if increase >10%.  
 **Acceptance**: Bundle size tracked per build; regression alerts prevent bloat.
 
-#### L-8: Database Query Performance Monitoring
+#### L-8: Database Query Performance Monitoring ✅ RESOLVED
 **Area**: Database, Performance  
 **Description**: D1 queries are executed directly without query-level timing or EXPLAIN analysis. Slow queries on large datasets (774 LGAs, 8809 wards) could impact response times.  
 **Action**: Add query-level timing to repository methods; log slow queries (>100ms); add EXPLAIN-based index recommendations.  

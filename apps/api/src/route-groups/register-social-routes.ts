@@ -17,6 +17,7 @@ import { duesRoutes } from '../routes/dues.js';
 import { mutualAidRoutes } from '../routes/mutual-aid.js';
 import { workflowRoutes } from '../routes/workflows.js';
 import { phase2AnalyticsRoutes } from '../routes/phase2-analytics.js';
+import { e2eeRoutes } from '../routes/e2ee.js';
 import { pollsRoutes } from '../routes/polls.js';
 import { communityReportRoutes } from '../routes/community-reports.js';
 import { appealsRoutes } from '../routes/appeals.js';
@@ -157,4 +158,10 @@ export function registerSocialRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/appeals', auditLogMiddleware);
   app.use('/appeals/*', auditLogMiddleware);
   app.route('/appeals', appealsRoutes);
+
+  // ── E2EE key management (L-9 / ADR-0043) ────────────────────────────────
+  app.use('/profile/e2e-pubkey', authMiddleware);
+  app.use('/profile/e2e-pubkey/*', authMiddleware);
+  app.use('/profile/:id/e2e-pubkey', authMiddleware);
+  app.route('/', e2eeRoutes);
 }
