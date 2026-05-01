@@ -20,6 +20,12 @@
  * - Logic: both IP key and workspace key are checked. If EITHER exceeds the
  *   threshold, the request is rejected. The workspace key is only applied when
  *   the auth context is already populated (i.e., on authenticated routes).
+ *
+ * M-7: Structured rate-limit logging for OTP monitoring/alerting.
+ * Each 429 emits a JSON log with: event, rule_id, key_prefix, user_id,
+ * workspace_id, ip, path, method, window_seconds, max_requests, timestamp.
+ * These are queryable via Cloudflare Logpush / Workers Trace Events.
+ * See docs/runbooks/otp-rate-limit-monitoring.md for alerting queries.
  */
 
 import { createMiddleware } from 'hono/factory';
@@ -30,6 +36,11 @@ interface RateLimitOptions {
   keyPrefix: string;
   maxRequests: number;
   windowSeconds: number;
+  /**
+   * M-7: Human-readable rule identifier (e.g. 'R5', 'R9', 'R9_sms').
+   * Included in the structured log for per-rule alerting.
+   */
+  ruleId?: string;
 }
 
 /** Read a KV count safely — returns 0 on any error (fail-open per ARC-17). */
@@ -52,8 +63,9 @@ export function rateLimitMiddleware(opts: RateLimitOptions) {
     // SEC-004: Also apply a secondary workspace-scoped key when auth context is
     // already set (authenticated routes). This prevents one workspace from
     // exhausting the shared-NAT IP bucket for all workspaces behind the same ISP.
-    const auth = c.get('auth') as { workspaceId?: string } | undefined;
+    const auth = c.get('auth') as { workspaceId?: string; userId?: string; tenantId?: string } | undefined;
     const workspaceId = auth?.workspaceId;
+    const userId = auth?.userId;
     const wsKey = workspaceId ? `rl:${opts.keyPrefix}:ws:${workspaceId}` : null;
 
     // SEC-005: Fail open when KV is unavailable — never block requests due to
@@ -68,17 +80,30 @@ export function rateLimitMiddleware(opts: RateLimitOptions) {
     if (exceeded) {
       // SEC-005: Add Retry-After header (RFC 7231 §7.1.3)
       c.header('Retry-After', String(opts.windowSeconds));
-      // M-7: Structured log for rate-limit monitoring/alerting
+
+      // M-7: Full structured log for rate-limit monitoring/alerting.
+      // Fields are chosen to support Cloudflare Logpush queries:
+      //   - Filter by event='rate_limit_exceeded' + rule_id='R5' → identity abuse
+      //   - Filter by key_prefix='otp:*' → OTP channel abuse monitoring
+      //   - Aggregate by workspace_id → per-tenant spike detection
       console.log(JSON.stringify({
+        level: 'warn',
         event: 'rate_limit_exceeded',
-        ip: ip || 'unknown',
+        rule_id: opts.ruleId ?? opts.keyPrefix,
+        key_prefix: opts.keyPrefix,
+        user_id: userId ?? null,
+        workspace_id: workspaceId ?? null,
+        ip: ip,
         path: c.req.path,
         method: c.req.method,
         window_seconds: opts.windowSeconds,
         max_requests: opts.maxRequests,
-        key: ipKey,
+        ip_count: ipCount,
+        ws_count: wsCount,
+        exceeded_by: Math.max(ipCount, wsCount) - opts.maxRequests + 1,
         timestamp: new Date().toISOString(),
       }));
+
       return c.json(
         {
           error: 'rate_limit_exceeded',
@@ -117,4 +142,5 @@ export const identityRateLimit = rateLimitMiddleware({
   keyPrefix: 'identity:verify',
   maxRequests: 2,
   windowSeconds: 3600,
+  ruleId: 'R5',
 });

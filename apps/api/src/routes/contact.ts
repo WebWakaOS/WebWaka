@@ -205,6 +205,25 @@ contactRoutes.post('/verify/:channel', async (c) => {
   } catch (err) {
     if (err instanceof OTPError) {
       const status = err.code === 'rate_limited' || err.code === 'channel_locked' ? 429 : 422;
+      // M-7: Emit structured log for OTP rate-limit/channel-lock events so operators
+      // can monitor abuse patterns via Cloudflare Logpush or Workers Trace Events.
+      // Fields align with rate-limit.ts to support unified alerting queries.
+      if (status === 429) {
+        const auth2 = c.get('auth') as { userId?: string; workspaceId?: string } | undefined;
+        console.log(JSON.stringify({
+          level: 'warn',
+          event: 'rate_limit_exceeded',
+          rule_id: 'R9',
+          key_prefix: `otp:${channel}`,
+          channel,
+          purpose,
+          user_id: auth2?.userId ?? null,
+          workspace_id: auth2?.workspaceId ?? null,
+          otp_error_code: err.code,
+          path: c.req.path,
+          timestamp: new Date().toISOString(),
+        }));
+      }
       return c.json({ error: err.code, message: err.message }, status);
     }
     console.error('[contact/verify]', err instanceof Error ? err.message : err);
