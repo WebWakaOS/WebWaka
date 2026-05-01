@@ -1,25 +1,30 @@
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AIProvider } from '@/contexts/AIContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import ForgotPassword from '@/pages/ForgotPassword';
-import ResetPassword from '@/pages/ResetPassword';
-import Dashboard from '@/pages/Dashboard';
-import POS from '@/pages/POS';
-import Offerings from '@/pages/Offerings';
-import VerticalView from '@/pages/VerticalView';
-import Settings from '@/pages/Settings';
-import WakaPageManager from '@/pages/WakaPage';
-import VerifyEmail from '@/pages/VerifyEmail';
-import AcceptInvite from '@/pages/AcceptInvite';
-import AIPage from '@/pages/AI';
-import AdminHITL from '@/pages/AdminHITL';
-import Billing from '@/pages/Billing';
-import PlatformAdmin from '@/pages/PlatformAdmin';
-import PartnerAdmin from '@/pages/PartnerAdmin';
-import Onboarding from '@/pages/Onboarding';
+import { FullPageSpinner } from '@/components/ui/Spinner';
+
+// ── Route-level code splitting (fix: reduces initial bundle size for 2G/3G users) ──
+// Each page is lazily loaded — only downloaded when the route is first visited.
+const Login          = lazy(() => import('@/pages/Login'));
+const Register       = lazy(() => import('@/pages/Register'));
+const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
+const ResetPassword  = lazy(() => import('@/pages/ResetPassword'));
+const Dashboard      = lazy(() => import('@/pages/Dashboard'));
+const POS            = lazy(() => import('@/pages/POS'));
+const Offerings      = lazy(() => import('@/pages/Offerings'));
+const VerticalView   = lazy(() => import('@/pages/VerticalView'));
+const Settings       = lazy(() => import('@/pages/Settings'));
+const WakaPageManager = lazy(() => import('@/pages/WakaPage'));
+const VerifyEmail    = lazy(() => import('@/pages/VerifyEmail'));
+const AcceptInvite   = lazy(() => import('@/pages/AcceptInvite'));
+const AIPage         = lazy(() => import('@/pages/AI'));
+const AdminHITL      = lazy(() => import('@/pages/AdminHITL'));
+const Billing        = lazy(() => import('@/pages/Billing'));
+const PlatformAdmin  = lazy(() => import('@/pages/PlatformAdmin'));
+const PartnerAdmin   = lazy(() => import('@/pages/PartnerAdmin'));
+const Onboarding     = lazy(() => import('@/pages/Onboarding'));
 
 function NotFound() {
   return (
@@ -29,7 +34,7 @@ function NotFound() {
     }}>
       <div style={{ fontSize: 64 }} aria-hidden="true">🔍</div>
       <h1 style={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>Page not found</h1>
-      <p style={{ color: '#6b7280', fontSize: 15 }}>The page you\'re looking for doesn\'t exist.</p>
+      <p style={{ color: '#6b7280', fontSize: 15 }}>The page you're looking for doesn't exist.</p>
       <Link to="/dashboard" style={{
         color: '#0F4C81', fontWeight: 600, textDecoration: 'none', padding: '12px 24px',
         background: '#f0f9ff', borderRadius: 8, minHeight: 44, display: 'flex', alignItems: 'center',
@@ -59,41 +64,44 @@ export default function App() {
             Skip to main content
           </a>
 
-          <Routes>
-            {/* Guest-only routes */}
-            <Route element={<RequireGuest />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-            </Route>
+          {/* Suspense boundary wraps all lazy routes */}
+          <Suspense fallback={<FullPageSpinner />}>
+            <Routes>
+              {/* Guest-only routes */}
+              <Route element={<RequireGuest />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+              </Route>
 
-            {/* Authenticated workspace routes */}
-            <Route element={<WorkspaceLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/pos" element={<POS />} />
-              <Route path="/offerings" element={<Offerings />} />
-              <Route path="/offerings/new" element={<Offerings />} />
-              <Route path="/vertical" element={<VerticalView />} />
-              <Route path="/wakapage" element={<WakaPageManager />} />
-              <Route path="/ai" element={<AIPage />} />
-              <Route path="/admin/hitl" element={<AdminHITL />} />
-              <Route path="/billing" element={<Billing />} />
-              <Route path="/settings" element={<Settings />} />
-              {/* C5: Role-gated admin routes */}
-              <Route path="/platform/*" element={<PlatformAdmin />} />
-              <Route path="/partner/*" element={<PartnerAdmin />} />
-            </Route>
+              {/* Authenticated workspace routes */}
+              <Route element={<WorkspaceLayout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/pos" element={<POS />} />
+                <Route path="/offerings" element={<Offerings />} />
+                <Route path="/offerings/new" element={<Offerings />} />
+                <Route path="/vertical" element={<VerticalView />} />
+                <Route path="/wakapage" element={<WakaPageManager />} />
+                <Route path="/ai" element={<AIPage />} />
+                <Route path="/admin/hitl" element={<AdminHITL />} />
+                <Route path="/billing" element={<Billing />} />
+                <Route path="/settings" element={<Settings />} />
+                {/* C5: Role-gated admin routes */}
+                <Route path="/platform/*" element={<PlatformAdmin />} />
+                <Route path="/partner/*" element={<PartnerAdmin />} />
+              </Route>
 
-            {/* Public routes */}
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/accept-invite" element={<AcceptInvite />} />
-            {/* Onboarding wizard */}
-            <Route path="/onboarding" element={<Onboarding />} />
+              {/* Public routes */}
+              <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/accept-invite" element={<AcceptInvite />} />
+              {/* Onboarding wizard */}
+              <Route path="/onboarding" element={<Onboarding />} />
 
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </AIProvider>
       </AuthProvider>
     </BrowserRouter>

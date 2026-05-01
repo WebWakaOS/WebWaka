@@ -160,7 +160,7 @@ app.get('/', (c) => {
       --border: #1f2937;
       --text: #e5e7eb;
       --muted: #6b7280;
-      --blue: #3b82f6;
+      --blue: #0F4C81;
     }
     body {
       background: var(--dark);
@@ -179,13 +179,13 @@ app.get('/', (c) => {
     .logo { display: flex; align-items: center; gap: 0.75rem; }
     .logo-mark {
       width: 36px; height: 36px;
-      background: var(--blue);
+      background: #0F4C81;
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 1.1rem; color: #fff;
     }
     .logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.5px; }
-    .logo-text span { color: var(--blue); }
+    .logo-text span { color: #0F4C81; }
     .badge {
       font-size: 0.7rem;
       background: #1f2937;
@@ -198,14 +198,14 @@ app.get('/', (c) => {
       font-size: 0.75rem;
       background: rgba(59,130,246,0.1);
       border: 1px solid rgba(59,130,246,0.3);
-      color: var(--blue);
+      color: #0F4C81;
       padding: 0.25rem 0.75rem;
       border-radius: 999px;
     }
     main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
     .hero { text-align: center; padding: 3rem 1rem 2rem; }
     .hero h1 { font-size: 2.25rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.75rem; }
-    .hero h1 em { font-style: normal; color: var(--blue); }
+    .hero h1 em { font-style: normal; color: #0F4C81; }
     .hero p { color: var(--muted); font-size: 1rem; max-width: 560px; margin: 0 auto 2rem; line-height: 1.6; }
     .status-pill {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -214,7 +214,7 @@ app.get('/', (c) => {
     }
     .dot {
       width: 8px; height: 8px; border-radius: 50%;
-      background: var(--blue);
+      background: #0F4C81;
       animation: pulse 2s infinite;
     }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -240,7 +240,7 @@ app.get('/', (c) => {
       margin-top: 1rem; font-size: 0.75rem; padding: 0.2rem 0.6rem;
       border-radius: 999px; display: inline-block;
     }
-    .status-active { background: rgba(59,130,246,0.1); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+    .status-active { background: rgba(59,130,246,0.1); color: #0F4C81; border: 1px solid rgba(59,130,246,0.3); }
     .status-pending { background: #1f2937; color: var(--muted); }
     .api-note {
       background: var(--card); border: 1px solid var(--border);
@@ -288,7 +288,7 @@ app.get('/', (c) => {
       <div style="color:#6b7280;font-size:0.85rem;padding:1rem;text-align:center">Loading…</div>
     </div>
     <div style="padding:0.75rem 1rem;border-top:1px solid #1f2937;text-align:center">
-      <button onclick="loadNotifications()" style="background:none;border:none;color:#3b82f6;font-size:0.8rem;cursor:pointer">Refresh</button>
+      <button onclick="loadNotifications()" style="background:none;border:none;color:#0F4C81;font-size:0.8rem;cursor:pointer">Refresh</button>
     </div>
   </div>
 
@@ -381,7 +381,7 @@ app.get('/', (c) => {
       <input id="jwtToken" type="password" placeholder="super_admin JWT"
         style="background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem;flex:1;min-width:200px" />
       <button onclick="loadDashboard()"
-        style="background:var(--blue);color:#fff;border:none;padding:0.6rem 1.25rem;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600">
+        style="background:#0F4C81;color:#fff;border:none;padding:0.6rem 1.25rem;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600">
         Load
       </button>
     </div>
@@ -431,7 +431,7 @@ app.get('/', (c) => {
         'section-api': 'nav-api',
         'section-dashboard': 'nav-dashboard'
       };
-      var activeStyle = 'color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,0.08)';
+      var activeStyle = 'color:#0F4C81;border-color:#0F4C81;background:rgba(59,130,246,0.08)';
       var inactiveStyle = 'color:var(--muted);border-color:transparent;background:transparent';
 
       function setActive(sectionId) {
@@ -501,7 +501,7 @@ app.get('/', (c) => {
           const unread = !n.read_at;
           return '<div style="padding:0.75rem;border-bottom:1px solid #1f2937;' + (unread ? 'background:rgba(59,130,246,0.05)' : '') + '">' +
             '<div style="display:flex;gap:0.5rem">' +
-            (unread ? '<div style="width:6px;height:6px;border-radius:50%;background:#3b82f6;margin-top:5px;flex-shrink:0"></div>' : '<div style="width:6px;flex-shrink:0"></div>') +
+            (unread ? '<div style="width:6px;height:6px;border-radius:50%;background:#0F4C81;margin-top:5px;flex-shrink:0"></div>' : '<div style="width:6px;flex-shrink:0"></div>') +
             '<div><div style="font-size:0.85rem;font-weight:' + (unread ? '600' : '400') + '">' + (n.title || n.event_key || 'Notification') + '</div>' +
             '<div style="font-size:0.75rem;color:#6b7280">' + ts + '</div></div></div></div>';
         }).join('');

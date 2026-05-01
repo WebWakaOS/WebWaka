@@ -1,25 +1,32 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  HomeIcon, AIIcon, POSIcon, OfferingsIcon, VerticalIcon,
+  WakaPageIcon, BillingIcon, SettingsIcon, ShieldIcon, HandshakeIcon,
+} from '@/components/ui/Icons';
+import type { ComponentType } from 'react';
+
+interface IconProps { size?: number; color?: string; }
 
 interface NavItem {
   to: string;
   label: string;
-  icon: string;
+  Icon: ComponentType<IconProps>;
   roles?: string[];
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { to: '/dashboard',  label: 'Dashboard',    icon: '🏠' },
-  { to: '/ai',         label: 'AI Assistant', icon: '🤖' },
-  { to: '/pos',        label: 'Point of Sale', icon: '🛒' },
-  { to: '/offerings',  label: 'Offerings',    icon: '📦' },
-  { to: '/vertical',   label: 'My Vertical',  icon: '🏢' },
-  { to: '/wakapage',   label: 'WakaPage',     icon: '🌐' },
-  { to: '/billing',    label: 'Billing',      icon: '💳' },
-  { to: '/settings',   label: 'Settings',     icon: '⚙️' },
+  { to: '/dashboard',  label: 'Dashboard',    Icon: HomeIcon },
+  { to: '/ai',         label: 'AI Assistant', Icon: AIIcon },
+  { to: '/pos',        label: 'Point of Sale', Icon: POSIcon },
+  { to: '/offerings',  label: 'Offerings',    Icon: OfferingsIcon },
+  { to: '/vertical',   label: 'My Vertical',  Icon: VerticalIcon },
+  { to: '/wakapage',   label: 'WakaPage',     Icon: WakaPageIcon },
+  { to: '/billing',    label: 'Billing',      Icon: BillingIcon },
+  { to: '/settings',   label: 'Settings',     Icon: SettingsIcon },
   // Role-gated items
-  { to: '/platform',   label: 'Platform Admin', icon: '🛡️', roles: ['super_admin'] },
-  { to: '/partner',    label: 'Partner Portal', icon: '🤝', roles: ['partner'] },
+  { to: '/platform',   label: 'Platform Admin', Icon: ShieldIcon,    roles: ['super_admin'] },
+  { to: '/partner',    label: 'Partner Portal', Icon: HandshakeIcon, roles: ['partner'] },
 ];
 
 export function Sidebar() {
@@ -74,32 +81,22 @@ export function Sidebar() {
               minHeight: 44,
             })}
           >
-            <span aria-hidden="true" style={{ fontSize: 18 }}>{item.icon}</span>
+            <item.Icon size={18} color="currentColor" />
             {item.label}
           </NavLink>
         ))}
       </nav>
 
       <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {user?.businessName ?? user?.email}
-        </div>
-        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          {user?.role}
         </div>
         <button
           onClick={() => void logout()}
           style={{
-            background: 'rgba(255,255,255,0.1)',
-            border: 'none',
-            color: 'rgba(255,255,255,0.8)',
-            borderRadius: 6,
-            padding: '8px 14px',
-            fontSize: 13,
-            cursor: 'pointer',
-            width: '100%',
-            textAlign: 'left',
-            minHeight: 36,
+            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            color: '#fff', padding: '8px 16px', borderRadius: 6, fontSize: 13,
+            cursor: 'pointer', width: '100%', fontWeight: 500, minHeight: 36,
           }}
         >
           Sign out

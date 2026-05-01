@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RootErrorBoundary } from '@webwaka/ui-error-boundary';
+import './global.css';
 import App from './App';
 
 const rootEl = document.getElementById('root');

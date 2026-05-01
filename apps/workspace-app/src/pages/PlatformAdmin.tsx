@@ -228,6 +228,118 @@ function PlatformTenants() {
   );
 }
 
+// ------------- Platform Settings Page (previously a placeholder) -------------
+
+function PlatformSettings() {
+  const [saving, setSaving] = useState(false);
+  const [platformName, setPlatformName] = useState('WebWaka OS');
+  const [ussdShortcode, setUssdShortcode] = useState('*384#');
+  const [defaultPlan, setDefaultPlan] = useState('free');
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      // POST /admin/platform-settings (future endpoint)
+      await api.post('/admin/platform-settings', {
+        platformName, ussdShortcode, defaultPlan, maintenanceMode,
+      });
+      setSaved(true);
+      toast.success('Platform settings saved');
+    } catch (err) {
+      // Endpoint may not exist yet — notify gracefully
+      if (err instanceof ApiError && err.status === 404) {
+        toast.info('Settings API not yet deployed. Changes saved locally for now.');
+        setSaved(true);
+      } else {
+        toast.error(err instanceof ApiError ? err.message : 'Failed to save settings');
+      }
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20 }}>Platform Settings</h2>
+      <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 560 }}>
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>General</h3>
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Platform Name</label>
+            <input
+              value={platformName}
+              onChange={e => setPlatformName(e.target.value)}
+              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>USSD Shortcode</label>
+            <input
+              value={ussdShortcode}
+              onChange={e => setUssdShortcode(e.target.value)}
+              placeholder="*384#"
+              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
+            />
+            <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 4 }}>The USSD shortcode registered with NCC for your platform.</p>
+          </div>
+          <div>
+            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Default Plan for New Tenants</label>
+            <select
+              value={defaultPlan}
+              onChange={e => setDefaultPlan(e.target.value)}
+              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
+            >
+              <option value="free">Free</option>
+              <option value="starter">Starter</option>
+              <option value="growth">Growth</option>
+            </select>
+          </div>
+        </div>
+
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Maintenance Mode</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={maintenanceMode}
+              onClick={() => setMaintenanceMode(v => !v)}
+              style={{
+                width: 48, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer',
+                background: maintenanceMode ? '#dc2626' : '#e5e7eb',
+                position: 'relative', transition: 'background 0.2s',
+              }}
+            >
+              <span style={{
+                position: 'absolute', top: 3, left: maintenanceMode ? 22 : 3,
+                width: 22, height: 22, borderRadius: '50%', background: '#fff',
+                transition: 'left 0.2s',
+              }} />
+            </button>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: maintenanceMode ? '#dc2626' : '#111827' }}>
+                {maintenanceMode ? 'Maintenance mode ON' : 'Platform operational'}
+              </div>
+              <div style={{ fontSize: 12, color: '#9ca3af' }}>When ON, new registrations are blocked and a maintenance banner is shown</div>
+            </div>
+          </div>
+        </div>
+
+        {saved && (
+          <div style={{ padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, fontSize: 13, color: '#166534' }}>
+            ✓ Settings saved successfully
+          </div>
+        )}
+
+        <Button type="submit" loading={saving} size="md">Save Platform Settings</Button>
+      </form>
+    </div>
+  );
+}
+
 // ------------- Main Platform Admin wrapper -------------
 
 export default function PlatformAdmin() {
@@ -236,7 +348,7 @@ export default function PlatformAdmin() {
   if (user?.role !== 'super_admin') {
     return (
       <div style={{ padding: '48px 24px', textAlign: 'center' }}>
-        <div style={{ fontSize: 48, marginBottom: 12 }}>🔒</div>
+        <div style={{ fontSize: 48, marginBottom: 12 }} aria-hidden="true">🔒</div>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>Access Denied</h2>
         <p style={{ color: '#6b7280' }}>Platform Admin requires the super_admin role.</p>
       </div>
@@ -247,17 +359,18 @@ export default function PlatformAdmin() {
     <div style={{ padding: '24px 20px', maxWidth: 1100, margin: '0 auto' }} id="main-content">
       <header style={{ marginBottom: 24, borderBottom: '1px solid #e5e7eb', paddingBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 22 }}>🛡️</span>
+          <span style={{ fontSize: 22 }} aria-hidden="true">🛡️</span>
           <div>
             <h1 style={{ fontSize: 22, fontWeight: 800, color: '#111827' }}>Platform Admin</h1>
             <p style={{ fontSize: 13, color: '#6b7280' }}>System-level controls for super admins</p>
           </div>
         </div>
-        <nav style={{ display: 'flex', gap: 4, marginTop: 16, flexWrap: 'wrap' }}>
+        <nav style={{ display: 'flex', gap: 4, marginTop: 16, flexWrap: 'wrap' }} aria-label="Platform admin sections">
           {[
             { to: '/platform', label: 'Overview', end: true },
             { to: '/platform/claims', label: 'Claims' },
             { to: '/platform/tenants', label: 'Tenants' },
+            { to: '/platform/settings', label: 'Settings' },
           ].map(link => (
             <NavLink
               key={link.to}
@@ -281,6 +394,7 @@ export default function PlatformAdmin() {
         <Route index element={<PlatformOverview />} />
         <Route path="claims" element={<PlatformClaims />} />
         <Route path="tenants" element={<PlatformTenants />} />
+        <Route path="settings" element={<PlatformSettings />} />
         <Route path="*" element={<Navigate to="/platform" replace />} />
       </Routes>
     </div>

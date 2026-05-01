@@ -1,20 +1,22 @@
 /**
  * Onboarding Wizard -- 3-step guided flow for new users (M3 fix)
  */
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { api, ApiError, authApi } from '@/lib/api';
 import { toast } from '@/lib/toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { VERTICAL_REGISTRY } from '@/lib/verticals';
+import { VERTICAL_REGISTRY, searchVerticals } from '@/lib/verticals';
 
 const STEPS = ['Business Profile', 'Choose Vertical', 'Create First Offering'];
 
+// Corrected popular vertical slugs matching the full VERTICAL_REGISTRY
 const POPULAR_VERTICALS = [
   'palm-oil', 'restaurant', 'supermarket', 'pharmacy', 'hotel',
-  'bakery', 'beauty-salon', 'laundry', 'tailoring', 'auto-workshop',
+  'bakery', 'beauty-salon', 'laundry', 'tailor', 'auto-mechanic',
+  'pos-business', 'school',
 ];
 
 export default function Onboarding() {
@@ -29,6 +31,12 @@ export default function Onboarding() {
 
   // Step 2: Vertical
   const [selectedVertical, setSelectedVertical] = useState('');
+  const [verticalSearch, setVerticalSearch] = useState('');
+
+  const filteredVerticals = useMemo(
+    () => searchVerticals(verticalSearch),
+    [verticalSearch],
+  );
 
   // Step 3: Offering
   const [offeringName, setOfferingName] = useState('');
@@ -166,35 +174,96 @@ export default function Onboarding() {
         {step === 1 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <h2 style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 4 }}>What kind of business?</h2>
-            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>Select your primary business vertical</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              {popularMetas.map(v => (
+            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>
+              Select your primary business vertical ({Object.keys(VERTICAL_REGISTRY).length}+ available)
+            </p>
+
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="Search verticals…"
+              value={verticalSearch}
+              onChange={e => setVerticalSearch(e.target.value)}
+              style={{
+                border: '1.5px solid #d1d5db', borderRadius: 8, padding: '11px 14px',
+                fontSize: 14, minHeight: 44, width: '100%',
+              }}
+              aria-label="Search business verticals"
+            />
+
+            {/* Popular verticals (shown when no search query) */}
+            {!verticalSearch && (
+              <>
+                <p style={{ fontSize: 12, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Popular</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  {popularMetas.map(v => (
+                    <button
+                      key={v.slug}
+                      onClick={() => setSelectedVertical(v.slug)}
+                      style={{
+                        textAlign: 'left', padding: '10px 12px',
+                        border: `2px solid ${selectedVertical === v.slug ? '#0F4C81' : '#e5e7eb'}`,
+                        borderRadius: 10, background: selectedVertical === v.slug ? '#eff6ff' : '#fff',
+                        cursor: 'pointer', fontSize: 13,
+                        display: 'flex', alignItems: 'center', gap: 8,
+                      }}
+                    >
+                      <span style={{ fontSize: 18 }} aria-hidden="true">{v.icon}</span>
+                      <span style={{ fontWeight: 500, color: selectedVertical === v.slug ? '#0F4C81' : '#374151' }}>{v.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Search results */}
+            {verticalSearch && (
+              <div style={{
+                maxHeight: 280, overflowY: 'auto', border: '1px solid #e5e7eb',
+                borderRadius: 10, padding: 8, display: 'flex', flexDirection: 'column', gap: 4,
+              }}>
+                {filteredVerticals.length === 0 ? (
+                  <p style={{ color: '#9ca3af', textAlign: 'center', padding: '16px', fontSize: 14 }}>No verticals found</p>
+                ) : (
+                  filteredVerticals.map(v => (
+                    <button
+                      key={v.slug}
+                      onClick={() => { setSelectedVertical(v.slug); setVerticalSearch(''); }}
+                      style={{
+                        textAlign: 'left', padding: '10px 12px',
+                        border: `1.5px solid ${selectedVertical === v.slug ? '#0F4C81' : 'transparent'}`,
+                        borderRadius: 8, background: selectedVertical === v.slug ? '#eff6ff' : 'transparent',
+                        cursor: 'pointer', fontSize: 13,
+                        display: 'flex', alignItems: 'center', gap: 8,
+                      }}
+                    >
+                      <span style={{ fontSize: 18 }} aria-hidden="true">{v.icon}</span>
+                      <div>
+                        <span style={{ fontWeight: 600, color: selectedVertical === v.slug ? '#0F4C81' : '#111827' }}>{v.label}</span>
+                        <span style={{ fontSize: 11, color: '#9ca3af', marginLeft: 6 }}>{v.category}</span>
+                      </div>
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+
+            {selectedVertical && (
+              <div style={{
+                padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0',
+                borderRadius: 8, fontSize: 13, color: '#166534',
+                display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <span>✓</span>
+                <strong>Selected:</strong> {VERTICAL_REGISTRY[selectedVertical]?.label ?? selectedVertical}
                 <button
-                  key={v.slug}
-                  onClick={() => setSelectedVertical(v.slug)}
-                  style={{
-                    textAlign: 'left', padding: '12px 14px',
-                    border: `2px solid ${selectedVertical === v.slug ? '#0F4C81' : '#e5e7eb'}`,
-                    borderRadius: 10, background: selectedVertical === v.slug ? '#eff6ff' : '#fff',
-                    cursor: 'pointer', fontSize: 14,
-                    display: 'flex', alignItems: 'center', gap: 8,
-                  }}
-                >
-                  <span style={{ fontSize: 20 }}>{v.icon}</span>
-                  <span style={{ fontWeight: 500, color: selectedVertical === v.slug ? '#0F4C81' : '#374151' }}>{v.label}</span>
-                </button>
-              ))}
-            </div>
-            <select
-              value={selectedVertical}
-              onChange={e => setSelectedVertical(e.target.value)}
-              style={{ border: '1.5px solid #d1d5db', borderRadius: 8, padding: '11px 14px', fontSize: 14, minHeight: 44 }}
-            >
-              <option value="">Or select from full list…</option>
-              {Object.values(VERTICAL_REGISTRY).map(v => (
-                <option key={v.slug} value={v.slug}>{v.icon} {v.label}</option>
-              ))}
-            </select>
+                  onClick={() => setSelectedVertical('')}
+                  style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', fontSize: 16 }}
+                  aria-label="Clear selection"
+                >×</button>
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: 10 }}>
               <Button variant="secondary" onClick={() => setStep(0)}>Back</Button>
               <Button fullWidth loading={saving} onClick={() => void handleStep2()} disabled={!selectedVertical}>
