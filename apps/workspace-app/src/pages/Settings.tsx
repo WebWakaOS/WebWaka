@@ -18,7 +18,7 @@ function applyDarkMode(enabled: boolean): void {
   localStorage.setItem(DARK_MODE_KEY, String(enabled));
 }
 
-type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security';
+type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security' | 'payment';
 
 const DELETE_PHRASE = 'delete my account';
 
@@ -74,6 +74,16 @@ export default function Settings() {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('member');
   const [inviting, setInviting] = useState(false);
+
+  // Payment Settings: workspace bank account (where this business receives payments from customers)
+  const [payBankName, setPayBankName] = useState('');
+  const [payAccountNumber, setPayAccountNumber] = useState('');
+  const [payAccountName, setPayAccountName] = useState('');
+  const [payBankCode, setPayBankCode] = useState('');
+  const [paySortCode, setPaySortCode] = useState('');
+  const [payLoading, setPayLoading] = useState(false);
+  const [paySaving, setPaySaving] = useState(false);
+  const [payLoaded, setPayLoaded] = useState(false);
 
   useEffect(() => {
     applyDarkMode(darkMode);
@@ -132,6 +142,7 @@ export default function Settings() {
     if (tab === 'security') void loadSessions();
     if (tab === 'team') void loadInvitations();
     if (tab === 'notifications' && !prefLoaded) void loadNotificationPrefs();
+    if (tab === 'payment' && !payLoaded && user?.workspaceId) void loadWorkspaceBankAccount();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, loadSessions, loadInvitations]);
 
@@ -152,6 +163,63 @@ export default function Settings() {
       setPrefLoaded(true);
     }
   }, []);
+
+  // Payment: Load existing workspace bank account from PATCH /workspaces/:id response data
+  const loadWorkspaceBankAccount = useCallback(async () => {
+    if (!user?.workspaceId) return;
+    setPayLoading(true);
+    try {
+      // GET /workspaces/:id is not exposed; read from /billing/bank-details which
+      // already cascades workspace → platform → env and returns type: 'workspace' if set.
+      const res = await api.get<{
+        configured: boolean;
+        type?: string;
+        bank_name?: string;
+        account_number?: string;
+        account_name?: string;
+        bank_code?: string;
+        sort_code?: string;
+      }>('/billing/bank-details');
+      if (res.configured && res.type === 'workspace') {
+        setPayBankName(res.bank_name ?? '');
+        setPayAccountNumber(res.account_number ?? '');
+        setPayAccountName(res.account_name ?? '');
+        setPayBankCode(res.bank_code ?? '');
+        setPaySortCode(res.sort_code ?? '');
+      }
+    } catch { /* ignore */ }
+    finally { setPayLoading(false); setPayLoaded(true); }
+  }, [user?.workspaceId]);
+
+  const handleSavePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user?.workspaceId) return;
+    if (!payBankName.trim() || !payAccountNumber.trim() || !payAccountName.trim()) {
+      toast.error('Bank name, account number, and account name are required');
+      return;
+    }
+    if (!/^\d{10}$/.test(payAccountNumber.trim())) {
+      toast.error('Account number must be exactly 10 digits (Nigerian NUBAN format)');
+      return;
+    }
+    setPaySaving(true);
+    try {
+      await api.patch(`/workspaces/${user.workspaceId}`, {
+        bankAccount: {
+          bank_name: payBankName.trim(),
+          account_number: payAccountNumber.trim(),
+          account_name: payAccountName.trim(),
+          ...(payBankCode.trim() ? { bank_code: payBankCode.trim() } : {}),
+          ...(paySortCode.trim() ? { sort_code: paySortCode.trim() } : {}),
+        },
+      });
+      toast.success('Payment bank account saved');
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : 'Failed to save payment settings');
+    } finally {
+      setPaySaving(false);
+    }
+  };
 
   // P19-B: Profile save
   const handleSave = async (e: React.FormEvent) => {
@@ -650,6 +718,73 @@ export default function Settings() {
             </section>
           )}
 
+          {tab === 'payment' && (
+            <section aria-label="Payment settings">
+              <h2 style={styles.sectionHeading}>Payment Settings</h2>
+              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20, lineHeight: 1.6 }}>
+                Configure your business bank account. This is the account <strong>your customers</strong> will use
+                to send payments to you (e.g. for WakaPage orders, POS bank transfers, etc.).
+                This is <em>different</em> from the platform billing account used for WebWaka subscription payments.
+              </p>
+
+              {payLoading ? (
+                <div style={{ padding: 24, textAlign: 'center', color: '#6b7280' }}>Loading…</div>
+              ) : (
+                <form onSubmit={handleSavePayment} style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 480 }}>
+                  <div>
+                    <label style={styles.label}>Bank Name *</label>
+                    <input
+                      required value={payBankName} onChange={e => setPayBankName(e.target.value)}
+                      placeholder="e.g. GTBank, UBA, First Bank"
+                      style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, marginTop: 4 }}
+                    />
+                  </div>
+                  <div>
+                    <label style={styles.label}>Account Name *</label>
+                    <input
+                      required value={payAccountName} onChange={e => setPayAccountName(e.target.value)}
+                      placeholder="Your registered business name"
+                      style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, marginTop: 4 }}
+                    />
+                  </div>
+                  <div>
+                    <label style={styles.label}>Account Number * <span style={{ color: '#9ca3af', fontWeight: 400 }}>(10-digit NUBAN)</span></label>
+                    <input
+                      required value={payAccountNumber} onChange={e => setPayAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      placeholder="0123456789" maxLength={10}
+                      style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, fontFamily: 'monospace', letterSpacing: '0.1em', marginTop: 4 }}
+                    />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <div>
+                      <label style={styles.label}>Bank Code (optional)</label>
+                      <input
+                        value={payBankCode} onChange={e => setPayBankCode(e.target.value)}
+                        placeholder="058"
+                        style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, marginTop: 4 }}
+                      />
+                    </div>
+                    <div>
+                      <label style={styles.label}>Sort Code (optional)</label>
+                      <input
+                        value={paySortCode} onChange={e => setPaySortCode(e.target.value)}
+                        placeholder=""
+                        style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, marginTop: 4 }}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '12px 14px', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 8, fontSize: 13, color: '#92400e' }}>
+                    💡 This account is shown on your WakaPage and to customers making bank transfers to your business.
+                    It is <strong>never</strong> used for WebWaka subscription billing.
+                  </div>
+
+                  <Button type="submit" loading={paySaving} size="md">Save Payment Account</Button>
+                </form>
+              )}
+            </section>
+          )}
+
           {tab === 'appearance' && (
             <section aria-label="Appearance settings">
               <h2 style={styles.sectionHeading}>Appearance</h2>
@@ -798,6 +933,7 @@ const TABS = [
   { id: 'profile',       icon: '👤', label: 'Profile' },
   { id: 'team',          icon: '👥', label: 'Team' },
   { id: 'notifications', icon: '🔔', label: 'Notifications' },
+  { id: 'payment',       icon: '💳', label: 'Payment' },
   { id: 'appearance',    icon: '🎨', label: 'Appearance' },
   { id: 'security',      icon: '🔐', label: 'Security' },
 ];

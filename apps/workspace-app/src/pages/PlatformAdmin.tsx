@@ -228,114 +228,199 @@ function PlatformTenants() {
   );
 }
 
-// ------------- Platform Settings Page (previously a placeholder) -------------
+// ------------- Platform Settings Page (DB-backed via WALLET_KV) -------------
 
 function PlatformSettings() {
   const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+
+  // Platform bank account (for receiving WebWaka subscription payments)
+  const [bankName, setBankName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [bankCode, setBankCode] = useState('');
+  const [sortCode, setSortCode] = useState('');
+  const [bankSource, setBankSource] = useState<'kv' | 'env' | 'none'>('none');
+
+  // Platform config
   const [platformName, setPlatformName] = useState('WebWaka OS');
   const [ussdShortcode, setUssdShortcode] = useState('*384#');
   const [defaultPlan, setDefaultPlan] = useState('free');
   const [maintenanceMode, setMaintenanceMode] = useState(false);
-  const [saved, setSaved] = useState(false);
 
-  const handleSave = async (e: React.FormEvent) => {
+  useEffect(() => {
+    // Load current platform bank account from /platform-admin/settings/payment
+    api.get<{
+      bank_account: { bank_name: string; account_number: string; account_name: string; bank_code?: string; sort_code?: string } | null;
+      source: 'kv' | 'env' | 'none';
+    }>('/platform-admin/settings/payment')
+      .then(res => {
+        if (res.bank_account) {
+          setBankName(res.bank_account.bank_name ?? '');
+          setAccountNumber(res.bank_account.account_number ?? '');
+          setAccountName(res.bank_account.account_name ?? '');
+          setBankCode(res.bank_account.bank_code ?? '');
+          setSortCode(res.bank_account.sort_code ?? '');
+        }
+        setBankSource(res.source);
+      })
+      .catch(() => { /* silently fail */ })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleSaveBankAccount = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!bankName.trim() || !accountNumber.trim() || !accountName.trim()) {
+      toast.error('Bank name, account number, and account name are required');
+      return;
+    }
+    if (!/^\d{10}$/.test(accountNumber.trim())) {
+      toast.error('Account number must be exactly 10 digits (Nigerian NUBAN format)');
+      return;
+    }
     setSaving(true);
     try {
-      // POST /admin/platform-settings (future endpoint)
-      await api.post('/admin/platform-settings', {
-        platformName, ussdShortcode, defaultPlan, maintenanceMode,
+      await api.patch('/platform-admin/settings/payment', {
+        bank_name: bankName.trim(),
+        account_number: accountNumber.trim(),
+        account_name: accountName.trim(),
+        ...(bankCode.trim() ? { bank_code: bankCode.trim() } : {}),
+        ...(sortCode.trim() ? { sort_code: sortCode.trim() } : {}),
       });
+      setBankSource('kv');
       setSaved(true);
-      toast.success('Platform settings saved');
+      toast.success('Platform bank account saved');
     } catch (err) {
-      // Endpoint may not exist yet — notify gracefully
-      if (err instanceof ApiError && err.status === 404) {
-        toast.info('Settings API not yet deployed. Changes saved locally for now.');
-        setSaved(true);
-      } else {
-        toast.error(err instanceof ApiError ? err.message : 'Failed to save settings');
-      }
+      toast.error(err instanceof ApiError ? err.message : 'Failed to save bank account');
     } finally {
       setSaving(false);
     }
   };
 
+  if (loading) {
+    return <div style={{ padding: 24, color: '#6b7280' }}>Loading settings…</div>;
+  }
+
   return (
     <div>
       <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20 }}>Platform Settings</h2>
-      <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 560 }}>
-        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>General</h3>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Platform Name</label>
-            <input
-              value={platformName}
-              onChange={e => setPlatformName(e.target.value)}
-              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
-            />
-          </div>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>USSD Shortcode</label>
-            <input
-              value={ussdShortcode}
-              onChange={e => setUssdShortcode(e.target.value)}
-              placeholder="*384#"
-              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
-            />
-            <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 4 }}>The USSD shortcode registered with NCC for your platform.</p>
-          </div>
-          <div>
-            <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Default Plan for New Tenants</label>
-            <select
-              value={defaultPlan}
-              onChange={e => setDefaultPlan(e.target.value)}
-              style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}
-            >
-              <option value="free">Free</option>
-              <option value="starter">Starter</option>
-              <option value="growth">Growth</option>
-            </select>
-          </div>
-        </div>
 
-        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Maintenance Mode</h3>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={maintenanceMode}
-              onClick={() => setMaintenanceMode(v => !v)}
-              style={{
-                width: 48, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer',
-                background: maintenanceMode ? '#dc2626' : '#e5e7eb',
-                position: 'relative', transition: 'background 0.2s',
-              }}
-            >
-              <span style={{
-                position: 'absolute', top: 3, left: maintenanceMode ? 22 : 3,
-                width: 22, height: 22, borderRadius: '50%', background: '#fff',
-                transition: 'left 0.2s',
-              }} />
-            </button>
+      {/* ── Platform receiving bank account ───────────────────────────── */}
+      <form onSubmit={handleSaveBankAccount}>
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24, marginBottom: 20, maxWidth: 600 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 700 }}>Platform Receiving Bank Account</h3>
+            <span style={{
+              fontSize: 11, padding: '3px 10px', borderRadius: 999,
+              background: bankSource === 'kv' ? '#f0fdf4' : bankSource === 'env' ? '#fef9c3' : '#fef2f2',
+              color: bankSource === 'kv' ? '#166534' : bankSource === 'env' ? '#92400e' : '#dc2626',
+              border: `1px solid ${bankSource === 'kv' ? '#bbf7d0' : bankSource === 'env' ? '#fde68a' : '#fecaca'}`,
+              fontWeight: 600,
+            }}>
+              {bankSource === 'kv' ? 'Saved in KV ✓' : bankSource === 'env' ? 'From env var' : 'Not configured'}
+            </span>
+          </div>
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16, lineHeight: 1.6 }}>
+            This is the account where <strong>WebWaka</strong> receives subscription payments from workspace owners
+            when they upgrade their plan via bank transfer. Different from each business's own customer payment account.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: maintenanceMode ? '#dc2626' : '#111827' }}>
-                {maintenanceMode ? 'Maintenance mode ON' : 'Platform operational'}
+              <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Bank Name *</label>
+              <input value={bankName} onChange={e => setBankName(e.target.value)} required placeholder="e.g. Zenith Bank Nigeria"
+                style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Account Name *</label>
+              <input value={accountName} onChange={e => setAccountName(e.target.value)} required placeholder="WebWaka Technologies Limited"
+                style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Account Number * <span style={{ color: '#9ca3af', fontWeight: 400 }}>(10-digit NUBAN)</span></label>
+              <input value={accountNumber} onChange={e => setAccountNumber(e.target.value)} required
+                placeholder="0123456789" maxLength={10} pattern="\d{10}"
+                style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44, fontFamily: 'monospace', letterSpacing: '0.1em' }} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div>
+                <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Bank Code (optional)</label>
+                <input value={bankCode} onChange={e => setBankCode(e.target.value)} placeholder="057"
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
               </div>
-              <div style={{ fontSize: 12, color: '#9ca3af' }}>When ON, new registrations are blocked and a maintenance banner is shown</div>
+              <div>
+                <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Sort Code (optional)</label>
+                <input value={sortCode} onChange={e => setSortCode(e.target.value)} placeholder=""
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {saved && (
-          <div style={{ padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, fontSize: 13, color: '#166534' }}>
-            ✓ Settings saved successfully
+          {saved && (
+            <div style={{ marginTop: 14, padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, fontSize: 13, color: '#166534' }}>
+              ✓ Platform bank account saved to KV storage. Takes effect immediately on all new upgrade requests.
+            </div>
+          )}
+
+          <div style={{ marginTop: 16 }}>
+            <Button type="submit" loading={saving} size="md">Save Platform Bank Account</Button>
           </div>
-        )}
-
-        <Button type="submit" loading={saving} size="md">Save Platform Settings</Button>
+        </div>
       </form>
+
+      {/* ── General platform settings ─────────────────────────────────── */}
+      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 24, maxWidth: 600, display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>General</h3>
+        <p style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.5 }}>
+          These settings are informational — update the corresponding Cloudflare Worker vars to change runtime behavior.
+        </p>
+        <div>
+          <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Platform Name</label>
+          <input value={platformName} onChange={e => setPlatformName(e.target.value)}
+            style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
+        </div>
+        <div>
+          <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>USSD Shortcode</label>
+          <input value={ussdShortcode} onChange={e => setUssdShortcode(e.target.value)} placeholder="*384#"
+            style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }} />
+          <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 4 }}>NCC registration pending. Update when approved.</p>
+        </div>
+        <div>
+          <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Default Plan for New Tenants</label>
+          <select value={defaultPlan} onChange={e => setDefaultPlan(e.target.value)}
+            style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #d1d5db', borderRadius: 8, fontSize: 15, minHeight: 44 }}>
+            <option value="free">Free</option>
+            <option value="starter">Starter</option>
+            <option value="growth">Growth</option>
+          </select>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={maintenanceMode}
+            onClick={() => setMaintenanceMode(v => !v)}
+            style={{
+              width: 48, height: 28, borderRadius: 14, border: 'none', cursor: 'pointer',
+              background: maintenanceMode ? '#dc2626' : '#e5e7eb',
+              position: 'relative', transition: 'background 0.2s', flexShrink: 0,
+            }}
+          >
+            <span style={{
+              position: 'absolute', top: 3, left: maintenanceMode ? 22 : 3,
+              width: 22, height: 22, borderRadius: '50%', background: '#fff',
+              transition: 'left 0.2s',
+            }} />
+          </button>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: maintenanceMode ? '#dc2626' : '#111827' }}>
+              {maintenanceMode ? 'Maintenance mode ON' : 'Platform operational'}
+            </div>
+            <div style={{ fontSize: 12, color: '#9ca3af' }}>Toggle via Cloudflare Worker vars for production effect</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
