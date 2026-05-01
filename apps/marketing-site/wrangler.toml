@@ -1,10 +1,7 @@
-# WebWaka Marketing Site — Cloudflare Pages
-# Deploy via: wrangler pages deploy dist --project-name webwaka-marketing-site
-
 name = "webwaka-marketing-site"
 pages_build_output_dir = "dist"
 
-[env.staging]
+[env.preview]
 pages_build_output_dir = "dist"
 
 [env.production]
