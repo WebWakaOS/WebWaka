@@ -50,12 +50,17 @@ export const csrfMiddleware = createMiddleware<{ Bindings: Env }>(async (c, next
 
   if (environment === 'production') {
     allowedOrigins.add('https://app.webwaka.com');
+    allowedOrigins.add('https://workspace.webwaka.com');
     allowedOrigins.add('https://admin.webwaka.com');
     allowedOrigins.add('https://webwaka.com');
+    allowedOrigins.add('https://www.webwaka.com');
   } else {
     allowedOrigins.add('http://localhost:5000');
     allowedOrigins.add('http://localhost:3000');
+    allowedOrigins.add('http://localhost:5173');
     allowedOrigins.add('http://127.0.0.1:5000');
+    allowedOrigins.add('http://127.0.0.1:5173');
+    allowedOrigins.add('https://webwaka-workspace-app.pages.dev');
   }
 
   let requestOrigin: string;
