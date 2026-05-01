@@ -10,30 +10,30 @@
 ## A. FRONTEND EXPERIENCE LAYER
 
 ### A1. Marketing Site — Full React SPA upgrade
-- [ ] A1-1: Convert single-file App.tsx to multi-page React app with real routes
-- [ ] A1-2: Add Features page with detailed vertical showcase
-- [ ] A1-3: Add full Pricing page with plan comparison table
-- [ ] A1-4: Add Blog/Resources section (static seed posts)
-- [ ] A1-5: Add About/Mission page
-- [ ] A1-6: Improve hero section — animated counters, video/CTA split
-- [ ] A1-7: Add sticky navigation with mobile hamburger menu
-- [ ] A1-8: Add footer with full sitemap links
+- [x] A1-1: Convert single-file App.tsx to multi-page React app with real routes
+- [x] A1-2: Add Features page with detailed vertical showcase
+- [x] A1-3: Add full Pricing page with plan comparison table
+- [x] A1-4: Add Blog/Resources section (static seed posts)
+- [x] A1-5: Add About/Mission page
+- [x] A1-6: Improve hero section — animated counters, video/CTA split
+- [x] A1-7: Add sticky navigation with mobile hamburger menu
+- [x] A1-8: Add footer with full sitemap links
 - [ ] A1-9: SEO meta tags, OG image, JSON-LD on all pages
 - [ ] A1-10: PWA manifest + offline shell for marketing site
 
 ### A2. Workspace App — Missing pages
 - [ ] A2-1: Inventory management page (stock levels, low-stock alerts, adjustments)
-- [ ] A2-2: Staff/Team management page (invite, roles, permissions, activity log)
+- [x] A2-2: Staff/Team management page (invite, roles, permissions, activity log)
 - [ ] A2-3: Analytics/Reports page (revenue charts, top products, export CSV)
 - [ ] A2-4: Customers page (CRM-lite: customer list, purchase history, notes)
-- [ ] A2-5: Notifications page (full list view, mark all read, filter by type)
+- [x] A2-5: Notifications page (full list view, mark all read, filter by type)
 
 ### A3. Workspace App — UX gaps
-- [ ] A3-1: Empty states for all list pages (Offerings, POS with no products, etc.)
-- [ ] A3-2: Loading skeletons on Dashboard stat cards
-- [ ] A3-3: Mobile BottomNav — add missing pages (Analytics, Customers)
-- [ ] A3-4: Global search bar in Sidebar/TopBar
-- [ ] A3-5: Onboarding completion redirect — after step 3 go to Dashboard with confetti
+- [x] A3-1: Empty states for all list pages (Offerings, POS with no products, etc.)
+- [x] A3-2: Loading skeletons on Dashboard stat cards
+- [x] A3-3: Mobile BottomNav — add missing pages (Analytics, Customers)
+- [x] A3-4: Global search bar in Sidebar/TopBar
+- [x] A3-5: Onboarding completion redirect — after step 3 go to Dashboard with confetti
 
 ---
 
