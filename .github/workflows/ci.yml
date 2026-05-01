@@ -202,6 +202,13 @@ jobs:
             sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
           sudo apt-get install k6
+      - name: Restore k6 performance baseline
+        uses: actions/cache@v4
+        with:
+          path: infra/k6/baseline.json
+          key: k6-baseline-${{ github.ref_name }}
+          restore-keys: |
+            k6-baseline-staging
       - name: Run k6 smoke test (staging API)
         env:
           BASE_URL: ${{ secrets.STAGING_API_URL || 'http://localhost:8787' }}
@@ -210,4 +217,16 @@ jobs:
             --env BASE_URL=$BASE_URL \
             --env JWT_TOKEN=${{ steps.jwt.outputs.SMOKE_JWT }} \
             --env SUPER_ADMIN_JWT=${{ steps.jwt.outputs.SMOKE_SUPER_ADMIN_JWT }} \
+            --summary-export=infra/k6/results.json \
             infra/k6/smoke.js
+      - name: Compare against performance baseline
+        env:
+          K6_RESULTS_FILE: infra/k6/results.json
+          GITHUB_SHA: ${{ github.sha }}
+        run: node infra/k6/compare-baseline.mjs
+      - name: Save updated k6 baseline
+        uses: actions/cache/save@v4
+        if: success()
+        with:
+          path: infra/k6/baseline.json
+          key: k6-baseline-${{ github.ref_name }}
