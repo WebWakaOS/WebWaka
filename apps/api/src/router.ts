@@ -36,6 +36,7 @@ import { registerAiRoutes } from './route-groups/register-ai-routes.js';
 import { registerAdminRoutes } from './route-groups/register-admin-routes.js';
 import { registerNotificationRoutes } from './route-groups/register-notification-routes.js';
 import { registerPlatformFeatureRoutes } from './route-groups/register-platform-feature-routes.js';
+import { v2Router } from './routes/v2/index.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -66,4 +67,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   registerAdminRoutes(app);            // 8. Admin + platform-admin
   registerNotificationRoutes(app);     // 9. Notifications + provider webhooks
   registerPlatformFeatureRoutes(app);  // 10. Templates, partners, compliance, etc.
+
+  // ADR-0018: /v2/ prefix reserved for breaking changes
+  app.route('/v2', v2Router);
 }
