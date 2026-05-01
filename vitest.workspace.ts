@@ -171,5 +171,6 @@ import { defineWorkspace } from 'vitest/config';
   'packages/verticals/vitest.config.ts',
   'apps/schedulers/vitest.config.ts',
   'apps/log-tail/vitest.config.ts',
+  'tests/chaos/vitest.config.ts',
   ]);
   
