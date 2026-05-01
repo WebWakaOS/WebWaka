@@ -134,6 +134,8 @@ jobs:
           npx tsx scripts/governance-checks/check-migration-sql-syntax.ts
       - name: Check publishEvent correlationId propagation (H-7)
         run: npx tsx scripts/governance-checks/check-publish-event-correlation.ts
+      - name: Check cross-worker security baseline (H-6)
+        run: npx tsx scripts/governance-checks/check-security-baseline.ts
 
   smoke:
     name: Smoke Tests

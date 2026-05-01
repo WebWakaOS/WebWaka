@@ -133,11 +133,16 @@ The k6 load smoke test failure is:
 **Acceptance**: CI fails if sandbox mode is misconfigured for any environment.
 
 #### H-6: Cross-Worker Security Header Consistency
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security  
 **Description**: Each worker independently applies `secureHeaders()`, CORS, and request-id middleware. No automated check ensures all workers apply the same security baseline.  
-**Action**: Create a governance check that verifies each worker's entry point calls `secureHeaders()` and applies CORS middleware from `@webwaka/shared-config`.  
-**Acceptance**: New governance check passes for all 10 workers.
-
+**Resolution**:
+- Added `X-Request-ID` middleware to `projections` and `tenant-public` (the two HTTP workers missing it)
+- `notificator` and `ussd-gateway` correctly exempt from CORS/requestId (no browser clients — queue consumer and USSD telco protocol respectively)
+- `schedulers` fully exempt (pure cron worker, no Hono HTTP surface)
+- New governance check: `scripts/governance-checks/check-security-baseline.ts` — validates all 9 workers against the baseline
+- CI: check wired into `governance` job as "Check cross-worker security baseline (H-6)"
+- All 9 workers pass ✅
 #### H-7: Request-ID Propagation Across Workers
 **Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Observability  
