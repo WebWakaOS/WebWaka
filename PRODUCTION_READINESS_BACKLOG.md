@@ -60,22 +60,40 @@ The k6 load smoke test failure is:
 ### 🔴 CRITICAL Priority (Must-Do Before Production)
 
 #### C-1: Provision k6 Staging JWT Secrets
+**Status**: ✅ RESOLVED (code) / ⚠️ ACTION REQUIRED (ops)  
 **Area**: CI/CD, Security  
 **Description**: The k6 smoke test fails because `JWT_TOKEN` and `SUPER_ADMIN_JWT` environment variables are not provisioned in the GitHub Actions staging environment. Without these, authenticated endpoint checks cannot verify production readiness.  
 **Action**: Generate staging smoke JWT tokens (with a dedicated service account), store in GitHub Actions secrets.  
-**Acceptance**: k6 smoke passes with all checks green or gracefully skips auth-only checks.
+**Resolution**:
+- `infra/k6/generate-smoke-jwt.mjs` — generates `SMOKE_JWT` (member) + `SMOKE_SUPER_ADMIN_JWT` (super_admin) signed with `JWT_SECRET`
+- CI `k6-smoke` job reads `JWT_SECRET_STAGING` from GitHub secrets and generates tokens at runtime
+- Tokens are short-lived (1h), scoped to `ws_smoke_test_staging` / `tnt_smoke_test_staging`
+- k6 smoke remains `continue-on-error: true` — non-blocking, surfaces as warning
+- **Ops action required**: provision `JWT_SECRET_STAGING` secret in GitHub repo settings → Settings → Secrets → Actions
+  Use the same HMAC key as the staging `JWT_SECRET` wrangler secret
 
 #### C-2: Wrangler Version Upgrade (3.x → 4.x)
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Infrastructure, CI/CD  
 **Description**: Deploy logs show "wrangler 3.114.17 (update available 4.86.0)". Wrangler 3.x is deprecated and will stop receiving security patches. The `primary_location` field in D1 config generates a warning (not yet in wrangler 3 schema).  
 **Action**: Upgrade wrangler to v4 in `apps/api/package.json` and `deploy-workers-staging` workflow (`npm install -g wrangler@4`). Verify no breaking changes in deploy commands.  
-**Acceptance**: Deploy passes without deprecation warnings; `primary_location` warning disappears.
+**Resolution**:
+- `apps/api/package.json`: wrangler already at `^4.0.0`; lockfile resolves to `4.86.0`
+- All 4 workflow `npm install -g wrangler@4` references correct (deploy-staging.yml ×2, deploy-production.yml ×2)
+- `primary_location` in `apps/api/wrangler.toml` is valid in Wrangler 4 D1 schema — no warning
+- No code changes needed; issue was already addressed in a prior commit
 
 #### C-3: Production Environment Secrets Provisioning Validation
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security, Operations  
 **Description**: The platform requires 11+ secrets per the `wrangler.toml` comment block. While the rotation log shows all secrets documented, there's no automated check that production secrets are actually provisioned before a production deploy.  
 **Action**: Add a pre-deploy step in `deploy-production.yml` that verifies all required secrets are non-empty (without exposing values). Use `wrangler secret list` or a dedicated verification script.  
-**Acceptance**: Production deploy fails fast if any required secret is missing.
+**Resolution**:
+- `scripts/verify-deploy-secrets.mjs` exists — uses Cloudflare API to list provisioned secrets per worker WITHOUT exposing values
+- Checks `webwaka-api` (11 required), `webwaka-ussd-gateway` (1 required), `webwaka-notificator` (2 required)
+- Handles first-time deploy gracefully (worker 404 = not yet deployed, not a failure)
+- CI `deploy-production.yml`: `validate-secrets` job runs BEFORE `migrate-production` — hard gate
+- `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` already present as GitHub secrets
 
 #### C-4: Migration SQL Validation Gate in CI
 **Status**: ✅ RESOLVED (2026-05-01)  
@@ -219,10 +237,19 @@ The k6 load smoke test failure is:
 **Acceptance**: One-page runbook covers all critical operations; existing files redirect to it.
 
 #### M-6: Wallet Feature Flag Verification
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Financial, Operations  
-**Description**: HandyLife Wallet (`hl-wallet`) uses KV-stored feature flags. No test verifies that the feature flag evaluation path works correctly when flags are absent vs present.  
-**Action**: Add integration tests that verify wallet routes return 503 when feature is disabled, and 200 when enabled with proper flag values.  
-**Acceptance**: Feature flag tests pass in CI; wallet cannot be accidentally enabled.
+**Description**: HandyLife Wallet (`hl-wallet`) uses KV-stored feature flags. No test verifies that the feature flag evaluation path works correctly when flags are absent vs present.
+**Resolution**:
+- `apps/api/src/routes/hl-wallet.test.feature-flags.ts` — 18 tests covering all three gated routes:
+  POST /wallet/transfer (transfers_enabled), POST /wallet/withdraw (withdrawals_enabled), POST /wallet/fund/online (online_funding_enabled)
+- Tests verify: 503 when flag absent, 503 when flag="0", null (gate pass) when flag="1"
+- Cross-flag isolation: enabling one flag does not unblock others
+- Live-reload toggle tests: flag toggled on/off at runtime; gate responds immediately
+- `apps/api/src/routes/hl-wallet.test.idempotency.ts` — 4 idempotency tests also pass
+- `apps/api/vitest.config.ts` include extended to `['src/**/*.test.ts', 'src/**/*.test.*.ts']`
+  — double-extension test files now picked up by CI test runner
+- All 22 wallet tests pass: `vitest run` ✅
 
 #### M-7: OTP Rate Limit Monitoring Dashboard
 **Area**: Security, Observability  
