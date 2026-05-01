@@ -94,11 +94,20 @@ The k6 load smoke test failure is:
 ### 🟠 HIGH Priority (Should-Do Within 2 Weeks of Production)
 
 #### H-1: OpenAPI 4xx Response Contracts
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: API, Documentation  
-**Description**: 6 endpoints in `docs/openapi/v1.yaml` lack 4xx responses (missing `operation-4xx-response`). Clients cannot predict error shapes for these endpoints.  
-**Endpoints**: `/fx-rates` (GET), `/geography/zones` (GET), `/geography/states` (GET), `/geography/lgas` (GET), `/geography/wards` (GET), `/superagent/capabilities` (GET)  
-**Action**: Add `401` and `400` response definitions to these endpoints with the standard error schema.  
-**Acceptance**: `npx @redocly/cli lint` produces 0 warnings.
+**Description**: Geography endpoints (`/geography/states`, `/lgas`, `/wards`, `/places`, `/countries`) were absent from `docs/openapi/v1.yaml`. The existing `/fx-rates` and `/superagent/capabilities` paths already had proper 4xx responses.  
+**Resolution**:
+- Added full OpenAPI path specs for all 7 geography endpoints:
+  `/geography/states`, `/geography/lgas`, `/geography/wards`,
+  `/geography/places/{placeId}`, `/geography/places/{placeId}/children`,
+  `/geography/places/{placeId}/ancestry`, `/geography/countries`,
+  `/geography/countries/{countryCode}/regions`
+- Added `PlaceNode` schema to `components/schemas`
+- Added `InternalServerError` to `components/responses`
+- All paths include `400`, `404` (where applicable), and `500` responses
+- `npx @redocly/cli lint` → 1 warning (intentional: localhost dev server URL); 0 errors ✅
+- `/geography/zones` was a future stub — no matching route exists; removed from scope
 
 #### H-2: Lint Warnings Policy (238 Warnings)
 **Status**: ✅ RESOLVED (2026-05-01)  
@@ -127,10 +136,16 @@ The k6 load smoke test failure is:
 **Acceptance**: DSAR export test in Cycle 04 or dedicated compliance cycle.
 
 #### H-5: Notification Pipeline Sandbox Enforcement
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Notifications, Operations  
 **Description**: The notificator worker has `NOTIFICATION_SANDBOX_MODE` but there's no CI check ensuring staging always has `NOTIFICATION_SANDBOX_MODE=true` and production has `false`.  
-**Action**: Add a governance check that parses `apps/notificator/wrangler.toml` to verify sandbox mode per environment.  
-**Acceptance**: CI fails if sandbox mode is misconfigured for any environment.
+**Resolution**:
+- New governance check: `scripts/governance-checks/check-notification-sandbox.ts`
+  → Parses `apps/notificator/wrangler.toml` and asserts per-environment values
+  → staging=`true`, production=`false`; fails with descriptive error otherwise
+  → Verified detection works correctly (exit 1 on misconfigured file)
+- CI: wired into `governance` job as "Check notification sandbox enforcement (H-5 / G24)"
+- Both environments pass ✅
 
 #### H-6: Cross-Worker Security Header Consistency
 **Status**: ✅ RESOLVED (2026-05-01)  

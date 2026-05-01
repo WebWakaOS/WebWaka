@@ -1,81 +1,107 @@
+#!/usr/bin/env tsx
 /**
- * Governance Check: Notification Sandbox Mode Enforcement (H-5)
+ * Governance check: H-5 — Notification Pipeline Sandbox Enforcement (G24 / OQ-012)
  *
- * Verifies that the notificator worker has sandbox mode properly configured:
- * - Staging: NOTIFICATION_SANDBOX_MODE must be "true"
- * - Production: NOTIFICATION_SANDBOX_MODE must be "false" or absent
+ * Parses apps/notificator/wrangler.toml to assert:
+ *   - [env.staging]   → NOTIFICATION_SANDBOX_MODE must be "true"
+ *   - [env.production] → NOTIFICATION_SANDBOX_MODE must be "false"
  *
- * This prevents accidental production notifications from staging and ensures
- * production notifications actually send.
+ * This prevents accidental real notifications from staging and ensures
+ * production is not silently silenced by a misconfigured sandbox flag.
+ *
+ * Exit 0 = assertions pass.  Exit 1 = one or more assertions fail.
  */
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, existsSync } from 'fs';
+import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const NOTIFICATOR_WRANGLER = join(process.cwd(), 'apps', 'notificator', 'wrangler.toml');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname_local = dirname(__filename);
+const REPO_ROOT = resolve(__dirname_local, '../..');
 
-let content: string;
-try {
-  content = readFileSync(NOTIFICATOR_WRANGLER, 'utf-8');
-} catch {
-  console.log('SKIP: apps/notificator/wrangler.toml not found');
+const WRANGLER_TOML = resolve(REPO_ROOT, 'apps/notificator/wrangler.toml');
+
+if (!existsSync(WRANGLER_TOML)) {
+  console.error(`❌  apps/notificator/wrangler.toml not found at: ${WRANGLER_TOML}`);
+  process.exit(1);
+}
+
+const content = readFileSync(WRANGLER_TOML, 'utf8');
+
+// ---------------------------------------------------------------------------
+// Parse a specific [env.<name>] section and extract NOTIFICATION_SANDBOX_MODE
+// ---------------------------------------------------------------------------
+function extractSandboxMode(env: string): string | null {
+  // Match the section from [env.<name>] until the next top-level [section]
+  const sectionPattern = new RegExp(
+    `\\[env\\.${env}\\][\\s\\S]*?(?=\\n\\[(?!env\\.${env})|$)`,
+    'g',
+  );
+  const sectionMatch = sectionPattern.exec(content);
+  if (!sectionMatch) return null;
+
+  const section = sectionMatch[0];
+
+  // Extract NOTIFICATION_SANDBOX_MODE from this section only
+  // It may be under [env.<name>.vars] or directly after [env.<name>]
+  const varMatch = /NOTIFICATION_SANDBOX_MODE\s*=\s*"([^"]+)"/.exec(section);
+  return varMatch ? varMatch[1] : null;
+}
+
+// ---------------------------------------------------------------------------
+// Rules
+// ---------------------------------------------------------------------------
+interface Rule {
+  env: string;
+  expected: string;
+  description: string;
+}
+
+const RULES: Rule[] = [
+  {
+    env: 'staging',
+    expected: 'true',
+    description: 'NOTIFICATION_SANDBOX_MODE must be "true" in staging (G24 / OQ-012) — all deliveries should be redirected to sandbox targets',
+  },
+  {
+    env: 'production',
+    expected: 'false',
+    description: 'NOTIFICATION_SANDBOX_MODE must be "false" in production (G24 / OQ-012) — real notifications must be enabled for users',
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Run
+// ---------------------------------------------------------------------------
+let failures = 0;
+
+for (const rule of RULES) {
+  const actual = extractSandboxMode(rule.env);
+
+  if (actual === null) {
+    console.error(`  ✗  [env.${rule.env}] NOTIFICATION_SANDBOX_MODE not found in wrangler.toml`);
+    console.error(`       → ${rule.description}`);
+    failures++;
+    continue;
+  }
+
+  if (actual !== rule.expected) {
+    console.error(`  ✗  [env.${rule.env}] NOTIFICATION_SANDBOX_MODE = "${actual}" (expected "${rule.expected}")`);
+    console.error(`       → ${rule.description}`);
+    failures++;
+  } else {
+    console.log(`  ✓  [env.${rule.env}] NOTIFICATION_SANDBOX_MODE = "${actual}"`);
+  }
+}
+
+console.log('');
+if (failures === 0) {
+  console.log('✅  Notification sandbox enforcement check passed.');
   process.exit(0);
-}
-
-// Parse environment sections
-const envSections: Record<string, string> = {};
-let currentEnv = 'default';
-const lines = content.split('\n');
-
-for (const line of lines) {
-  const envMatch = line.match(/^\[env\.(\w+)\]/);
-  if (envMatch) {
-    currentEnv = envMatch[1]!;
-    envSections[currentEnv] = '';
-  } else {
-    envSections[currentEnv] = (envSections[currentEnv] || '') + line + '\n';
-  }
-}
-
-let passed = true;
-
-// Check staging environment
-const stagingSection = envSections['staging'] || '';
-const stagingSandbox = stagingSection.match(/NOTIFICATION_SANDBOX_MODE\s*=\s*"?(true|false)"?/);
-if (stagingSandbox) {
-  if (stagingSandbox[1] === 'true') {
-    console.log('  ✅ Staging: NOTIFICATION_SANDBOX_MODE = true');
-  } else {
-    console.error('  ❌ Staging: NOTIFICATION_SANDBOX_MODE should be "true", got:', stagingSandbox[1]);
-    passed = false;
-  }
 } else {
-  // Check if it's set at the top level (default applies to all envs)
-  const defaultSandbox = (envSections['default'] || '').match(/NOTIFICATION_SANDBOX_MODE\s*=\s*"?(true|false)"?/);
-  if (defaultSandbox && defaultSandbox[1] === 'true') {
-    console.log('  ✅ Staging: NOTIFICATION_SANDBOX_MODE = true (inherited from default)');
-  } else {
-    console.warn('  ⚠️  Staging: NOTIFICATION_SANDBOX_MODE not explicitly set');
-    // Not a failure if sandbox mode is enforced via Worker secret
-  }
-}
-
-// Check production environment
-const productionSection = envSections['production'] || '';
-const productionSandbox = productionSection.match(/NOTIFICATION_SANDBOX_MODE\s*=\s*"?(true|false)"?/);
-if (productionSandbox) {
-  if (productionSandbox[1] === 'false') {
-    console.log('  ✅ Production: NOTIFICATION_SANDBOX_MODE = false');
-  } else {
-    console.error('  ❌ Production: NOTIFICATION_SANDBOX_MODE should be "false", got:', productionSandbox[1]);
-    passed = false;
-  }
-} else {
-  console.log('  ✅ Production: NOTIFICATION_SANDBOX_MODE not set (defaults to live mode)');
-}
-
-if (passed) {
-  console.log('PASS: Notification sandbox mode correctly configured per environment.');
-} else {
+  console.error(`❌  ${failures} sandbox enforcement rule(s) failed.`);
+  console.error('    Fix apps/notificator/wrangler.toml before deploying.');
   process.exit(1);
 }

@@ -136,6 +136,8 @@ jobs:
         run: npx tsx scripts/governance-checks/check-publish-event-correlation.ts
       - name: Check cross-worker security baseline (H-6)
         run: npx tsx scripts/governance-checks/check-security-baseline.ts
+      - name: Check notification sandbox enforcement (H-5 / G24)
+        run: npx tsx scripts/governance-checks/check-notification-sandbox.ts
 
   smoke:
     name: Smoke Tests
