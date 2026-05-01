@@ -2,7 +2,6 @@
  * ConfirmModal — accessible in-app confirmation dialog.
  * Replaces window.confirm() for destructive actions.
  */
-import React from 'react';
 
 interface Props {
   open: boolean;

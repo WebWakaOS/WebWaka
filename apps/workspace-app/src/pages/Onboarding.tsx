@@ -1,5 +1,5 @@
 /**
- * Onboarding Wizard — 3-step guided flow for new users (M3 fix)
+ * Onboarding Wizard -- 3-step guided flow for new users (M3 fix)
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -61,7 +61,7 @@ export default function Onboarding() {
       }
       setStep(2);
     } catch {
-      // Non-blocking — vertical activation may require KYC; proceed anyway
+      // Non-blocking -- vertical activation may require KYC; proceed anyway
       setStep(2);
     } finally {
       setSaving(false);
@@ -85,10 +85,10 @@ export default function Onboarding() {
           category: offeringCategory.trim() || undefined,
         });
       }
-      toast.success(’🎉 All done! Your workspace is ready.');
+      toast.success('🎉 All done! Your workspace is ready.');
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      // Non-blocking — go to dashboard anyway
+      // Non-blocking -- go to dashboard anyway
       navigate('/dashboard', { replace: true });
     } finally {
       setSaving(false);

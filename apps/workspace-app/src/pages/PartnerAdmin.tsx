@@ -3,8 +3,7 @@
  * Role-gated: partner only
  */
 import { useState, useEffect } from 'react';
-import { api, ApiError } from '@/lib/api';
-import { toast } from '@/lib/toast';
+import { api } from '@/lib/api';
 import { formatNaira } from '@/lib/currency';
 import { useAuth } from '@/contexts/AuthContext';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar } from './Sidebar';
 import { BottomNav } from './BottomNav';
@@ -28,7 +28,6 @@ function BillingStatusSync() {
 
 export function WorkspaceLayout() {
   const { user, loading, initialized } = useAuth();
-  const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < MOBILE_BREAKPOINT);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -139,7 +138,6 @@ export function WorkspaceLayout() {
 
 export function RequireGuest() {
   const { user, loading, initialized } = useAuth();
-  const location = useLocation();
   if (!initialized || loading) return <FullPageSpinner />;
   if (user) return <Navigate to="/dashboard" replace />;
   return <Outlet />;

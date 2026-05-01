@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
@@ -15,10 +19,25 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@webwaka/offline-sync": ["../../packages/offline-sync/src/index.ts"],
-      "@webwaka/types": ["../../packages/types/src/index.ts"]
+      "@/*": [
+        "src/*"
+      ],
+      "@webwaka/offline-sync": [
+        "../../packages/offline-sync/src/index.ts"
+      ],
+      "@webwaka/types": [
+        "../../packages/types/src/index.ts"
+      ]
     }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.test.tsx",
+    "src/**/*.test.ts",
+    "src/components/__tests__/**"
+  ]
 }

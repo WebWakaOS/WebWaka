@@ -4,7 +4,7 @@
 name = "webwaka-workspace-app"
 pages_build_output_dir = "dist"
 
-[env.staging]
+[env.preview]
 pages_build_output_dir = "dist"
 
 [env.production]
