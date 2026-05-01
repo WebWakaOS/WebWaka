@@ -442,14 +442,21 @@ export default function Dashboard() {
           <article key={stat.label} style={styles.statCard}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
-                <div style={{ fontSize: 26, marginBottom: 4 }} aria-hidden="true">{stat.icon}</div>
-                <div style={styles.statValue}>
-                  {loading
-                    ? <span style={{ color: '#d1d5db' }}>…</span>
-                    : stat.locked
+                {!loading && <div style={{ fontSize: 26, marginBottom: 4 }} aria-hidden="true">{stat.icon}</div>}
+                {loading ? (
+                  <>
+                    {/* A3-2: skeleton shimmer */}
+                    <div style={{ width: 90, height: 28, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', borderRadius: 6, marginBottom: 6, animation: 'shimmer 1.4s infinite' }} />
+                    <div style={{ width: 60, height: 12, background: '#f3f4f6', borderRadius: 4 }} />
+                    <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+                  </>
+                ) : (
+                  <div style={styles.statValue}>
+                    {stat.locked
                       ? <span style={{ color: '#d1d5db' }} title="Upgrade to access Commerce metrics">—</span>
                       : stat.value}
-                </div>
+                  </div>
+                )}
                 <div style={styles.statLabel}>{stat.label}</div>
               </div>
               {!stat.locked && !loading && stat.trend && stat.trend.length >= 2 && (
