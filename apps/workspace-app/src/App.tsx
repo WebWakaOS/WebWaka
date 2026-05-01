@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, Link, Suspense, lazy } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AIProvider } from '@/contexts/AIContext';
 import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayout';

@@ -123,7 +123,6 @@ export const VERTICAL_REGISTRY: Record<string, VerticalMeta> = {
   // ── Education & Training ───────────────────────────────────────────────────
   'book-club':             { slug: 'book-club',             label: 'Book Club',                 icon: '📖', category: 'Education' },
   'creche':                { slug: 'creche',                label: 'Crèche',                    icon: '👶', category: 'Education', aiCapability: 'ENROLLMENT_CAPACITY_ADVISORY' },
-  'driving-school':        { slug: 'driving-school',        label: 'Driving School',            icon: '🚗', category: 'Education' },
   'govt-school':           { slug: 'govt-school',           label: 'Government School',         icon: '🏫', category: 'Education' },
   'nursery-school':        { slug: 'nursery-school',        label: 'Nursery School',            icon: '🎒', category: 'Education' },
   'private-school':        { slug: 'private-school',        label: 'Private School',            icon: '🏫', category: 'Education' },

@@ -412,8 +412,6 @@ function ContactPage({ onBack }: { onBack: () => void }) {
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 100,
