@@ -108,9 +108,16 @@ The k6 load smoke test failure is:
 **Acceptance**: Lint warnings < 20 (or all warnings explicitly acknowledged in `.eslintrc`).
 
 #### H-3: Moderate Dependency Vulnerabilities Triage
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security  
 **Description**: `pnpm audit` reports 2 moderate vulnerabilities. While not blocking (audit level is set to `high`), these should be tracked.  
-**Action**: Run `pnpm audit --json`, document each vulnerability with: package, affected version, fix version, exploitability assessment. Create issues with SLA (30 days for moderate).  
+**Resolution**:
+
+| # | Package | Advisory | Fix | Disposition |
+|---|---------|----------|-----|-------------|
+| 1 | `postcss <8.5.10` | GHSA-qx2v-qp2m-jg93 — XSS via unescaped `</style>` in stringify output | `pnpm.overrides.postcss: >=8.5.10` added to root `package.json` | **PATCHED** |
+| 2 | `vite <=6.4.1` | GHSA-4w7w-66w2-5vf9 — path traversal in optimised deps `.map` handling | No vite 5.x patch available; fix is vite >=6.4.2 which breaks vitest 1.x. `vite` is a **dev-only / build-time** tool — Cloudflare Workers production environment never runs the vite dev server. | **RISK ACCEPTED** — dev-tool only, zero prod-surface exposure. Revisit when upgrading to vitest 2.x. |
+
 **Acceptance**: All moderate vulns either patched or documented with risk acceptance.
 
 #### H-4: DSAR Export End-to-End Verification
