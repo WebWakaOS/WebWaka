@@ -332,16 +332,25 @@ The k6 load smoke test failure is:
 **Acceptance**: Logs searchable in external tool; 7-day retention minimum.
 
 #### L-2: API Rate Limiting per Tier (Usage-Based)
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Billing, API  
 **Description**: Current rate limiting is IP-based (100/60s global). No tier-based rate limiting exists that aligns with subscription plans (Free: lower limits, Pro: higher).  
-**Action**: Implement per-tier rate limits that read from the subscription table. Free tier: 30/min, Starter: 60/min, Pro: 200/min.  
-**Acceptance**: Rate limits correlate with subscription tier; upgrade prompts shown at 80% consumption.
+**Resolution**:
+- `apps/api/src/middleware/rate-limit-tiers.ts` — tier config for free(30), starter(60), growth(120), pro(200), enterprise(1000) req/min with per-tier warning thresholds
+- `apps/api/src/middleware/rate-limit.ts` — `tierRateLimitMiddleware()` appended: reads subscription_plan from D1 (workspace row), enforces KV sliding-window limit, sets `X-RateLimit-{Tier,Limit,Remaining,Reset,Warning}` headers, emits `tier_rate_limit_exceeded` structured log with `rule_id: L-2`
+- 429 body includes `plan`, `limit`, and upgrade prompt ("Upgrade for higher limits")
+- Fails open on KV or DB unavailability (ARC-17)
+- `apps/api/src/middleware/rate-limit-tiers.test.ts` — 24 tests: all tier configs, isApproachingLimit thresholds, middleware header injection, block at limit, upgrade message, fail-open KV, fail-open DB, warning header on/off ✅
 
 #### L-3: Automated Secret Rotation Reminders
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security, Operations  
-**Description**: Secret rotation is tracked in `docs/ops/secrets-rotation-log.md` with manual dates. No automation reminds operators when rotation is due.  
-**Action**: Add a scheduled workflow that checks rotation dates and opens a GitHub issue 7 days before expiry.  
-**Acceptance**: Issues auto-created for upcoming rotation; no secrets exceed 90-day window.
+**Description**: Secret rotation is tracked in `infra/cloudflare/secrets-rotation-log.md` with manual dates. No automation reminds operators when rotation is due.  
+**Resolution**:
+- `.github/workflows/secret-rotation-reminder.yml` — upgraded workflow: reads `infra/cloudflare/secrets-rotation-log.md`, detects secrets due within 7 days or already overdue, opens labelled GitHub issue (`secret-rotation, security, ops`) deduplicating against open issues
+- Issue body includes per-secret status (⚠️ upcoming / ⛔ overdue), rotation procedure steps, and links to canonical runbook
+- Runs: every Monday 09:00 UTC + `workflow_dispatch` manual trigger
+- `permissions: issues: write` declared explicitly (least privilege) ✅
 
 #### L-4: Blue-Green Deployment with Instant Rollback
 **Area**: Infrastructure  
