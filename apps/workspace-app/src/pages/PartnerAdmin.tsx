@@ -1,6 +1,9 @@
 /**
  * Partner Admin — C5: Partner tools merged into workspace-app
  * Role-gated: partner only
+ *
+ * FIX: Moved all hooks to the top of the component (before any conditional return)
+ * to comply with React Rules of Hooks. The role guard now renders inside JSX.
  */
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
@@ -30,25 +33,21 @@ interface Settlement {
 
 export default function PartnerAdmin() {
   const { user } = useAuth();
+  // All hooks must be called unconditionally — role guard handled in render
   const [partner, setPartner] = useState<Partner | null>(null);
   const [credits, setCredits] = useState<CreditPool | null>(null);
   const [settlements, setSettlements] = useState<Settlement[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'credits' | 'settlements'>('overview');
 
-  if (user?.role !== 'partner') {
-    return (
-      <div style={{ padding: '48px 24px', textAlign: 'center' }}>
-        <div style={{ fontSize: 48, marginBottom: 12 }}>🔒</div>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>Access Denied</h2>
-        <p style={{ color: '#6b7280' }}>Partner Portal requires the partner role.</p>
-      </div>
-    );
-  }
+  const isPartner = user?.role === 'partner';
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    // Load partner info from current user's linked partner
+    // Skip data loading if user does not have the partner role
+    if (!isPartner) {
+      setLoading(false);
+      return;
+    }
     Promise.allSettled([
       api.get<{ partners: Partner[] }>('/partners?limit=1'),
     ]).then(([partnerRes]) => {
@@ -66,7 +65,18 @@ export default function PartnerAdmin() {
         }
       }
     }).finally(() => setLoading(false));
-  }, []);
+  }, [isPartner]);
+
+  // Role guard — rendered after all hooks
+  if (!isPartner) {
+    return (
+      <div style={{ padding: '48px 24px', textAlign: 'center' }}>
+        <div style={{ fontSize: 48, marginBottom: 12 }} aria-hidden="true">🔒</div>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>Access Denied</h2>
+        <p style={{ color: '#6b7280' }}>Partner Portal requires the partner role.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return <div style={{ padding: '48px 24px', textAlign: 'center', color: '#6b7280' }}>Loading partner data…</div>;
@@ -76,7 +86,7 @@ export default function PartnerAdmin() {
     <div style={{ padding: '24px 20px', maxWidth: 900, margin: '0 auto' }} id="main-content">
       <header style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 22 }}>🤝</span>
+          <span style={{ fontSize: 22 }} aria-hidden="true">🤝</span>
           <div>
             <h1 style={{ fontSize: 22, fontWeight: 800, color: '#111827' }}>Partner Portal</h1>
             <p style={{ fontSize: 13, color: '#6b7280' }}>
@@ -134,6 +144,23 @@ export default function PartnerAdmin() {
               </li>
             ))}
           </ul>
+          {partner && (
+            <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #f3f4f6' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>Quick Links</h3>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <a
+                  href={`https://partner.webwaka.com/?partnerId=${partner.id}`}
+                  target="_blank" rel="noopener noreferrer"
+                  style={{
+                    fontSize: 13, color: '#0F4C81', textDecoration: 'none',
+                    padding: '8px 14px', background: '#f0f9ff', borderRadius: 6, fontWeight: 600,
+                  }}
+                >
+                  Open Partner Portal →
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

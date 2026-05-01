@@ -53,17 +53,25 @@ const PLANS = [
   },
 ];
 
-const BANK_DETAILS = {
-  bankName: 'Zenith Bank Nigeria',
-  accountName: 'WebWaka Technologies Limited',
-  accountNumber: '1234567890',
-  reference: 'Add your User ID as payment reference',
-};
+// Bank details are loaded from the API (/billing/bank-details).
+// The API reads PLATFORM_BANK_ACCOUNT_JSON from Cloudflare Worker vars.
+// This constant is intentionally removed — never hardcode payment details.
+
+interface BankDetails {
+  configured: boolean;
+  message?: string;
+  bank_name?: string;
+  account_number?: string;
+  account_name?: string;
+  sort_code?: string;
+}
 
 export default function Billing() {
   const [billing, setBilling] = useState<BillingStatus | null>(null);
   const [wallet, setWallet] = useState<WalletBalance | null>(null);
   const [loading, setLoading] = useState(true);
+  const [bankDetails, setBankDetails] = useState<BankDetails | null>(null);
+  const [bankLoading, setBankLoading] = useState(false);
   const [changingPlan, setChangingPlan] = useState<string | null>(null);
   const [fundingAmount, setFundingAmount] = useState('');
   const [fundingLoading, setFundingLoading] = useState(false);
@@ -79,6 +87,16 @@ export default function Billing() {
       setLoading(false);
     });
   }, []);
+
+  // Lazy-load bank details only when the bank tab is first opened
+  useEffect(() => {
+    if (activeTab !== 'bank' || bankDetails !== null || bankLoading) return;
+    setBankLoading(true);
+    api.get<BankDetails>('/billing/bank-details')
+      .then(res => setBankDetails(res))
+      .catch(() => setBankDetails({ configured: false, message: 'Unable to load bank details. Please contact billing@webwaka.com.' }))
+      .finally(() => setBankLoading(false));
+  }, [activeTab, bankDetails, bankLoading]);
 
   const handleChangePlan = async (planId: string) => {
     if (planId === billing?.plan) return;
@@ -252,19 +270,42 @@ export default function Billing() {
               Transfer the amount for your chosen plan to the account below.
               Include your User ID as the payment reference so we can match your payment.
             </p>
-            <div style={{ background: '#f0f9ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                { label: 'Bank', value: BANK_DETAILS.bankName },
-                { label: 'Account Name', value: BANK_DETAILS.accountName },
-                { label: 'Account Number', value: BANK_DETAILS.accountNumber },
-                { label: 'Reference', value: BANK_DETAILS.reference },
-              ].map(row => (
-                <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
-                  <span style={{ fontWeight: 600, color: '#374151', minWidth: 140 }}>{row.label}</span>
-                  <span style={{ color: '#0F4C81', fontWeight: 500, fontFamily: 'monospace', fontSize: 15 }}>{row.value}</span>
-                </div>
-              ))}
-            </div>
+
+            {bankLoading && (
+              <div style={{ padding: 20, textAlign: 'center', color: '#6b7280', fontSize: 14 }}>
+                Loading bank details…
+              </div>
+            )}
+
+            {!bankLoading && bankDetails && !bankDetails.configured && (
+              <div style={{
+                padding: '16px 20px', background: '#fef9c3', border: '1px solid #fef08a',
+                borderRadius: 10, fontSize: 14, color: '#92400e', lineHeight: 1.6,
+              }}>
+                <strong>Bank transfer details not yet configured.</strong><br />
+                {bankDetails.message ?? 'Please contact'}{' '}
+                <a href="mailto:billing@webwaka.com" style={{ color: '#0F4C81', fontWeight: 600 }}>billing@webwaka.com</a>
+                {' '}to get payment details.
+              </div>
+            )}
+
+            {!bankLoading && bankDetails?.configured && (
+              <div style={{ background: '#f0f9ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  { label: 'Bank', value: bankDetails.bank_name ?? '—' },
+                  { label: 'Account Name', value: bankDetails.account_name ?? '—' },
+                  { label: 'Account Number', value: bankDetails.account_number ?? '—' },
+                  ...(bankDetails.sort_code ? [{ label: 'Sort Code', value: bankDetails.sort_code }] : []),
+                  { label: 'Reference', value: 'Your User ID (shown in Settings → Profile)' },
+                ].map(row => (
+                  <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
+                    <span style={{ fontWeight: 600, color: '#374151', minWidth: 140 }}>{row.label}</span>
+                    <span style={{ color: '#0F4C81', fontWeight: 500, fontFamily: 'monospace', fontSize: 15 }}>{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div style={{
               marginTop: 20, padding: '12px 16px', background: '#fffbeb',
               border: '1px solid #fde68a', borderRadius: 8, fontSize: 13, color: '#92400e',

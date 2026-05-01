@@ -374,6 +374,11 @@ jobs:
             build_cmd: pnpm --filter @webwaka/marketing-site build
             dist: apps/marketing-site/dist
             api_url: ""
+          - name: platform-admin
+            project: webwaka-platform-admin
+            build_cmd: echo "No build step needed for platform-admin static site"
+            dist: apps/platform-admin/public
+            api_url: ""
       fail-fast: false
     steps:
       - uses: actions/checkout@v4

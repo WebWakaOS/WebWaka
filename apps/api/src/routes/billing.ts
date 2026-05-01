@@ -710,4 +710,51 @@ billingRoutes.get('/history', async (c) => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// GET /billing/bank-details — public-ish (JWT required), reads PLATFORM_BANK_ACCOUNT_JSON
+// Returns bank account details for manual bank-transfer payments.
+// ---------------------------------------------------------------------------
+
+billingRoutes.get('/bank-details', async (c) => {
+  const raw = c.env.PLATFORM_BANK_ACCOUNT_JSON;
+
+  interface BankAccount {
+    bank_name?: string;
+    account_number?: string;
+    account_name?: string;
+    sort_code?: string;
+  }
+
+  let details: BankAccount = {};
+  if (raw) {
+    try {
+      details = JSON.parse(raw) as BankAccount;
+    } catch {
+      // malformed JSON — return unconfigured state
+    }
+  }
+
+  const isConfigured =
+    !!details.account_number &&
+    details.account_number !== 'XXXXXXXXXX' &&
+    details.account_number.length >= 10;
+
+  if (!isConfigured) {
+    return c.json({
+      configured: false,
+      message:
+        'Bank transfer details are not yet configured. Please contact billing@webwaka.com for payment assistance.',
+    });
+  }
+
+  return c.json({
+    configured: true,
+    bank_name: details.bank_name ?? '',
+    account_number: details.account_number ?? '',
+    account_name: details.account_name ?? '',
+    sort_code: details.sort_code ?? '',
+    payment_mode: c.env.DEFAULT_PAYMENT_MODE ?? 'bank_transfer',
+  });
+});
+
 export { billingRoutes };

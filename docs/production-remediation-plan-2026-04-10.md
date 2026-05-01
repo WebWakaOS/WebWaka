@@ -35,8 +35,8 @@ The following KV namespaces do not exist in the Cloudflare account and must be c
 
 ```bash
 # Run from repo root (requires CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID in env)
-export CLOUDFLARE_API_TOKEN="mx5yewdNFpT7oGZxt81BdUKJ1UF3_tUaiVL0rrG_"
-export CLOUDFLARE_ACCOUNT_ID="a5f5864b726209519e0c361f2bb90e79"
+export CLOUDFLARE_API_TOKEN="[REDACTED — token was rotated; see Cloudflare dashboard for current credentials]"
+export CLOUDFLARE_ACCOUNT_ID="[REDACTED — see infra/cloudflare/environments.md for current account ID]"
 
 # Geography cache (apps/api)
 npx wrangler kv namespace create "GEOGRAPHY_CACHE" --env staging
@@ -363,8 +363,8 @@ zone_name = "webwaka.com"
 The CI workflow already runs `wrangler d1 migrations apply` — but it has never succeeded because `database_name` was wrong. After DEPLOY-002, the CI command will target the correct database. However, 8 specific migrations were flagged as never applied; run them manually first to verify:
 
 ```bash
-export CLOUDFLARE_API_TOKEN="mx5yewdNFpT7oGZxt81BdUKJ1UF3_tUaiVL0rrG_"
-export CLOUDFLARE_ACCOUNT_ID="a5f5864b726209519e0c361f2bb90e79"
+export CLOUDFLARE_API_TOKEN="[REDACTED — token was rotated; see Cloudflare dashboard for current credentials]"
+export CLOUDFLARE_ACCOUNT_ID="[REDACTED — see infra/cloudflare/environments.md for current account ID]"
 
 # Apply ALL migrations to staging D1
 npx wrangler d1 migrations apply webwaka-os-staging \
