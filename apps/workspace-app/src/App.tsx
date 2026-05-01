@@ -6,26 +6,28 @@ import { WorkspaceLayout, RequireGuest } from '@/components/layout/WorkspaceLayo
 import { FullPageSpinner } from '@/components/ui/Spinner';
 import { AriaLiveRegion } from '@/components/ui/AriaLiveRegion';
 
-// ── Route-level code splitting (fix: reduces initial bundle size for 2G/3G users) ──
-// Each page is lazily loaded — only downloaded when the route is first visited.
-const Login          = lazy(() => import('@/pages/Login'));
-const Register       = lazy(() => import('@/pages/Register'));
-const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
-const ResetPassword  = lazy(() => import('@/pages/ResetPassword'));
-const Dashboard      = lazy(() => import('@/pages/Dashboard'));
-const POS            = lazy(() => import('@/pages/POS'));
-const Offerings      = lazy(() => import('@/pages/Offerings'));
-const VerticalView   = lazy(() => import('@/pages/VerticalView'));
-const Settings       = lazy(() => import('@/pages/Settings'));
+// ── Route-level code splitting ──────────────────────────────────────────────
+const Login           = lazy(() => import('@/pages/Login'));
+const Register        = lazy(() => import('@/pages/Register'));
+const ForgotPassword  = lazy(() => import('@/pages/ForgotPassword'));
+const ResetPassword   = lazy(() => import('@/pages/ResetPassword'));
+const Dashboard       = lazy(() => import('@/pages/Dashboard'));
+const POS             = lazy(() => import('@/pages/POS'));
+const Offerings       = lazy(() => import('@/pages/Offerings'));
+const Inventory       = lazy(() => import('@/pages/Inventory'));
+const Analytics       = lazy(() => import('@/pages/Analytics'));
+const Customers       = lazy(() => import('@/pages/Customers'));
+const VerticalView    = lazy(() => import('@/pages/VerticalView'));
+const Settings        = lazy(() => import('@/pages/Settings'));
 const WakaPageManager = lazy(() => import('@/pages/WakaPage'));
-const VerifyEmail    = lazy(() => import('@/pages/VerifyEmail'));
-const AcceptInvite   = lazy(() => import('@/pages/AcceptInvite'));
-const AIPage         = lazy(() => import('@/pages/AI'));
-const AdminHITL      = lazy(() => import('@/pages/AdminHITL'));
-const Billing        = lazy(() => import('@/pages/Billing'));
-const PlatformAdmin  = lazy(() => import('@/pages/PlatformAdmin'));
-const PartnerAdmin   = lazy(() => import('@/pages/PartnerAdmin'));
-const Onboarding     = lazy(() => import('@/pages/Onboarding'));
+const VerifyEmail     = lazy(() => import('@/pages/VerifyEmail'));
+const AcceptInvite    = lazy(() => import('@/pages/AcceptInvite'));
+const AIPage          = lazy(() => import('@/pages/AI'));
+const AdminHITL       = lazy(() => import('@/pages/AdminHITL'));
+const Billing         = lazy(() => import('@/pages/Billing'));
+const PlatformAdmin   = lazy(() => import('@/pages/PlatformAdmin'));
+const PartnerAdmin    = lazy(() => import('@/pages/PartnerAdmin'));
+const Onboarding      = lazy(() => import('@/pages/Onboarding'));
 
 /** Role guard: allows access only if user has one of the specified roles */
 function RequireRole({ roles, children }: { roles: string[]; children: ReactNode }) {
@@ -67,7 +69,6 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <AIProvider>
-          {/* Persistent screen reader live region — must be in DOM at all times */}
           <AriaLiveRegion />
           <a
             href="#main-content"
@@ -83,7 +84,6 @@ export default function App() {
             Skip to main content
           </a>
 
-          {/* Suspense boundary wraps all lazy routes */}
           <Suspense fallback={<FullPageSpinner />}>
             <Routes>
               {/* Guest-only routes */}
@@ -100,6 +100,9 @@ export default function App() {
                 <Route path="/pos" element={<POS />} />
                 <Route path="/offerings" element={<Offerings />} />
                 <Route path="/offerings/new" element={<Offerings />} />
+                <Route path="/inventory" element={<Inventory />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/customers" element={<Customers />} />
                 <Route path="/vertical" element={<VerticalView />} />
                 <Route path="/wakapage" element={<WakaPageManager />} />
                 <Route path="/ai" element={<AIPage />} />
@@ -110,7 +113,6 @@ export default function App() {
                 } />
                 <Route path="/billing" element={<Billing />} />
                 <Route path="/settings" element={<Settings />} />
-                {/* C5: Role-gated admin routes */}
                 <Route path="/platform/*" element={<PlatformAdmin />} />
                 <Route path="/partner/*" element={<PartnerAdmin />} />
               </Route>
@@ -118,7 +120,6 @@ export default function App() {
               {/* Public routes */}
               <Route path="/verify-email" element={<VerifyEmail />} />
               <Route path="/accept-invite" element={<AcceptInvite />} />
-              {/* Onboarding wizard */}
               <Route path="/onboarding" element={<Onboarding />} />
 
               <Route path="/" element={<Navigate to="/dashboard" replace />} />

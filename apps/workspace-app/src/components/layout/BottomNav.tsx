@@ -8,18 +8,48 @@ import type { ComponentType } from 'react';
 
 interface IconProps { size?: number; color?: string; }
 
+// Inline icons for new Wave 2 nav items
+function AnalyticsIcon({ size = 18, color = 'currentColor' }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  );
+}
+
+function InventoryIcon({ size = 18, color = 'currentColor' }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="5" rx="1" />
+      <rect x="2" y="11" width="20" height="5" rx="1" />
+      <rect x="2" y="19" width="20" height="2" rx="1" />
+    </svg>
+  );
+}
+
+function CustomersIcon({ size = 18, color = 'currentColor' }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+    </svg>
+  );
+}
+
 interface NavItem {
   to: string;
   label: string;
   Icon: ComponentType<IconProps>;
 }
 
-// Base 8 items shown to everyone (no billing in bottom nav — accessed via settings or dashboard)
 const BASE_ITEMS: NavItem[] = [
   { to: '/dashboard',  label: 'Home',       Icon: HomeIcon },
   { to: '/ai',         label: 'AI',         Icon: AIIcon },
   { to: '/pos',        label: 'POS',        Icon: POSIcon },
   { to: '/offerings',  label: 'Offerings',  Icon: OfferingsIcon },
+  { to: '/inventory',  label: 'Inventory',  Icon: InventoryIcon },
+  { to: '/analytics',  label: 'Analytics',  Icon: AnalyticsIcon },
+  { to: '/customers',  label: 'Customers',  Icon: CustomersIcon },
   { to: '/vertical',   label: 'Vertical',   Icon: VerticalIcon },
   { to: '/wakapage',   label: 'WakaPage',   Icon: WakaPageIcon },
   { to: '/settings',   label: 'Settings',   Icon: SettingsIcon },
@@ -49,9 +79,7 @@ export function BottomNav() {
         background: '#fff',
         borderTop: '1px solid #e5e7eb',
         display: 'flex',
-        /* Allow horizontal scroll on very small screens */
         overflowX: 'auto',
-        /* Scrollbar hidden but scrollable */
         scrollbarWidth: 'none',
         zIndex: 100,
         paddingBottom: 'env(safe-area-inset-bottom)',
