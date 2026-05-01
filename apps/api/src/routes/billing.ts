@@ -711,49 +711,110 @@ billingRoutes.get('/history', async (c) => {
 });
 
 // ---------------------------------------------------------------------------
-// GET /billing/bank-details — public-ish (JWT required), reads PLATFORM_BANK_ACCOUNT_JSON
-// Returns bank account details for manual bank-transfer payments.
+// ---------------------------------------------------------------------------
+// GET /billing/bank-details — JWT required
+//
+// Priority order for bank account details:
+//   1. Workspace-level bank account (payment_bank_account_json in workspaces table)
+//      → The bank account THIS WORKSPACE uses to receive payments from THEIR customers
+//   2. Platform-level bank account (WALLET_KV → PLATFORM_BANK_ACCOUNT_JSON env)
+//      → The bank account WebWaka uses to receive SUBSCRIPTION PAYMENTS from workspace owners
+//   3. Not configured (returns configured: false)
+//
+// The type flag in the response tells the frontend which level answered:
+//   type: 'workspace'  → workspace admin's own business bank account
+//   type: 'platform'   → platform subscription payment account (used for billing only)
+//   type: 'none'       → no bank account configured at either level
 // ---------------------------------------------------------------------------
 
 billingRoutes.get('/bank-details', async (c) => {
-  const raw = c.env.PLATFORM_BANK_ACCOUNT_JSON;
+  const auth = c.get('auth') as { workspaceId?: string; tenantId: string };
+  const db = c.env.DB as unknown as {
+    prepare(q: string): {
+      bind(...args: unknown[]): {
+        first<T>(): Promise<T | null>;
+      };
+    };
+  };
 
   interface BankAccount {
-    bank_name?: string;
+    bank_name?:      string;
     account_number?: string;
-    account_name?: string;
-    sort_code?: string;
+    account_name?:   string;
+    sort_code?:      string;
+    bank_code?:      string;
   }
 
-  let details: BankAccount = {};
-  if (raw) {
+  function isConfiguredAccount(acc: BankAccount | null): boolean {
+    return (
+      !!acc &&
+      !!acc.account_number &&
+      acc.account_number !== 'XXXXXXXXXX' &&
+      acc.account_number !== 'N/A' &&
+      acc.account_number.length >= 10
+    );
+  }
+
+  // ── Step 1: Workspace-level bank account ────────────────────────────────
+  if (auth.workspaceId) {
     try {
-      details = JSON.parse(raw) as BankAccount;
-    } catch {
-      // malformed JSON — return unconfigured state
-    }
+      const row = await db
+        .prepare('SELECT payment_bank_account_json FROM workspaces WHERE id = ? AND tenant_id = ?')
+        .bind(auth.workspaceId, auth.tenantId)
+        .first<{ payment_bank_account_json: string | null }>();
+
+      if (row?.payment_bank_account_json) {
+        const wsBank = JSON.parse(row.payment_bank_account_json) as BankAccount;
+        if (isConfiguredAccount(wsBank)) {
+          return c.json({
+            configured: true,
+            type: 'workspace',
+            bank_name: wsBank.bank_name ?? '',
+            account_number: wsBank.account_number ?? '',
+            account_name: wsBank.account_name ?? '',
+            sort_code: wsBank.sort_code ?? '',
+            bank_code: wsBank.bank_code ?? '',
+          });
+        }
+      }
+    } catch { /* fall through to platform level */ }
   }
 
-  const isConfigured =
-    !!details.account_number &&
-    details.account_number !== 'XXXXXXXXXX' &&
-    details.account_number.length >= 10;
+  // ── Step 2: Platform-level bank account (KV → env) ─────────────────────
+  let platformBank: BankAccount | null = null;
+  try {
+    const kv = c.env.WALLET_KV;
+    if (kv) {
+      const kvRaw = await kv.get('platform:payment:bank_account');
+      if (kvRaw) {
+        platformBank = JSON.parse(kvRaw) as BankAccount;
+      }
+    }
+    if (!isConfiguredAccount(platformBank) && c.env.PLATFORM_BANK_ACCOUNT_JSON) {
+      platformBank = JSON.parse(c.env.PLATFORM_BANK_ACCOUNT_JSON) as BankAccount;
+    }
+  } catch { /* fall through */ }
 
-  if (!isConfigured) {
+  if (isConfiguredAccount(platformBank)) {
     return c.json({
-      configured: false,
-      message:
-        'Bank transfer details are not yet configured. Please contact billing@webwaka.com for payment assistance.',
+      configured: true,
+      type: 'platform',
+      bank_name: platformBank!.bank_name ?? '',
+      account_number: platformBank!.account_number ?? '',
+      account_name: platformBank!.account_name ?? '',
+      sort_code: platformBank!.sort_code ?? '',
+      bank_code: platformBank!.bank_code ?? '',
     });
   }
 
+  // ── Step 3: Nothing configured ──────────────────────────────────────────
   return c.json({
-    configured: true,
-    bank_name: details.bank_name ?? '',
-    account_number: details.account_number ?? '',
-    account_name: details.account_name ?? '',
-    sort_code: details.sort_code ?? '',
-    payment_mode: c.env.DEFAULT_PAYMENT_MODE ?? 'bank_transfer',
+    configured: false,
+    type: 'none',
+    message:
+      'Bank transfer details are not yet configured. ' +
+      'Workspace admin: go to Settings → Payment to add your bank account. ' +
+      'Or contact billing@webwaka.com for assistance.',
   });
 });
 

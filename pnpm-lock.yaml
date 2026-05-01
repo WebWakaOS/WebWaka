@@ -47,7 +47,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   apps/admin-dashboard:
     dependencies:
@@ -643,7 +643,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
       wrangler:
         specifier: ^4.0.0
         version: 4.86.0(@cloudflare/workers-types@4.20260405.1)
@@ -686,7 +686,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
       wrangler:
         specifier: ^4.0.0
         version: 4.86.0(@cloudflare/workers-types@4.20260405.1)
@@ -707,14 +707,14 @@ importers:
         specifier: ^18.3.0
         version: 18.3.7(@types/react@18.3.28)
       '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.7.0(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))
+        specifier: ^5.2.0
+        version: 5.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))
       typescript:
         specifier: ^5.5.2
         version: 5.9.3
       vite:
         specifier: '>=5.4.21'
-        version: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+        version: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
 
   apps/notificator:
     dependencies:
@@ -745,7 +745,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   apps/partner-admin:
     dependencies:
@@ -761,7 +761,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   apps/platform-admin:
     dependencies:
@@ -833,7 +833,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
       wrangler:
         specifier: ^4.0.0
         version: 4.86.0(@cloudflare/workers-types@4.20260405.1)
@@ -848,7 +848,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.0.0
-        version: 2.1.9(@types/node@20.19.39)(@vitest/ui@1.6.1(vitest@1.6.1))(jsdom@24.1.3)(terser@5.46.1)
+        version: 2.1.9(@types/node@20.19.39)(@vitest/ui@1.6.1(vitest@1.6.1))(esbuild@0.27.7)(jsdom@24.1.3)(terser@5.46.2)(tsx@4.21.0)
       wrangler:
         specifier: ^4.0.0
         version: 4.86.0(@cloudflare/workers-types@4.20260405.1)
@@ -895,7 +895,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
       wrangler:
         specifier: ^4.0.0
         version: 4.86.0(@cloudflare/workers-types@4.20260405.1)
@@ -937,8 +937,8 @@ importers:
         specifier: ^18.3.0
         version: 18.3.7(@types/react@18.3.28)
       '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.7.0(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))
+        specifier: ^5.2.0
+        version: 5.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))
       '@vitest/ui':
         specifier: ^1.6.0
         version: 1.6.1(vitest@1.6.1)
@@ -947,13 +947,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: '>=5.4.21'
-        version: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+        version: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
       vite-plugin-pwa:
-        specifier: ^0.20.0
-        version: 0.20.5(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
+        specifier: ^1.2.0
+        version: 1.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
       workbox-window:
         specifier: ^7.1.0
         version: 7.4.0
@@ -965,7 +965,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/ai-adapters:
     dependencies:
@@ -978,7 +978,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/analytics:
     devDependencies:
@@ -990,7 +990,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/auth:
     dependencies:
@@ -1009,7 +1009,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/auth-tenancy:
     dependencies:
@@ -1037,7 +1037,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/claims:
     dependencies:
@@ -1050,7 +1050,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/community:
     dependencies:
@@ -1072,7 +1072,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/contact:
     dependencies:
@@ -1088,7 +1088,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/core:
     devDependencies:
@@ -1100,7 +1100,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/core/geography:
     dependencies:
@@ -1113,7 +1113,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/core/politics:
     dependencies:
@@ -1129,7 +1129,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/design-system:
     devDependencies:
@@ -1151,7 +1151,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/entitlements:
     dependencies:
@@ -1164,7 +1164,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/events:
     devDependencies:
@@ -1173,7 +1173,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/frontend:
     devDependencies:
@@ -1182,7 +1182,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/fundraising:
     dependencies:
@@ -1204,7 +1204,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/groups:
     dependencies:
@@ -1223,7 +1223,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/groups-civic:
     devDependencies:
@@ -1235,7 +1235,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/groups-cooperative:
     devDependencies:
@@ -1247,7 +1247,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/groups-electoral:
     dependencies:
@@ -1263,7 +1263,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/groups-faith:
     devDependencies:
@@ -1275,7 +1275,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/hl-wallet:
     dependencies:
@@ -1297,7 +1297,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/i18n:
     devDependencies:
@@ -1306,7 +1306,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/identity:
     dependencies:
@@ -1319,7 +1319,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/ledger:
     devDependencies:
@@ -1331,7 +1331,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/logging:
     devDependencies:
@@ -1340,7 +1340,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/negotiation:
     dependencies:
@@ -1356,7 +1356,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/notifications:
     dependencies:
@@ -1381,7 +1381,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/offerings: {}
 
@@ -1408,7 +1408,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/otp:
     dependencies:
@@ -1421,7 +1421,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/payments:
     dependencies:
@@ -1437,7 +1437,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/policy-engine:
     dependencies:
@@ -1450,7 +1450,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/pos:
     dependencies:
@@ -1469,7 +1469,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/profiles:
     dependencies:
@@ -1482,7 +1482,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/relationships:
     dependencies:
@@ -1495,7 +1495,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/search-indexing:
     dependencies:
@@ -1508,7 +1508,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/shared-config: {}
 
@@ -1529,7 +1529,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/superagent:
     dependencies:
@@ -1557,7 +1557,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/support-groups:
     dependencies:
@@ -1576,7 +1576,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/types:
     devDependencies:
@@ -1585,7 +1585,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/ui-error-boundary:
     dependencies:
@@ -1626,7 +1626,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/vertical-events:
     dependencies:
@@ -1649,7 +1649,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-abattoir:
     dependencies:
@@ -1668,7 +1668,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-accounting-firm:
     dependencies:
@@ -1687,7 +1687,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-advertising-agency:
     dependencies:
@@ -1706,7 +1706,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-agro-input:
     dependencies:
@@ -1725,7 +1725,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-airport-shuttle:
     dependencies:
@@ -1744,7 +1744,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-airtime-reseller:
     dependencies:
@@ -1763,7 +1763,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-artisanal-mining:
     dependencies:
@@ -1782,7 +1782,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-auto-mechanic:
     dependencies:
@@ -1801,7 +1801,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-bakery:
     dependencies:
@@ -1820,7 +1820,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-beauty-salon:
     dependencies:
@@ -1839,7 +1839,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-book-club:
     dependencies:
@@ -1858,7 +1858,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-bookshop:
     dependencies:
@@ -1877,7 +1877,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-borehole-driller:
     dependencies:
@@ -1896,7 +1896,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-building-materials:
     dependencies:
@@ -1915,7 +1915,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-bureau-de-change:
     dependencies:
@@ -1934,7 +1934,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-campaign-office:
     dependencies:
@@ -1953,7 +1953,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-car-wash:
     dependencies:
@@ -1972,7 +1972,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cargo-truck:
     dependencies:
@@ -1991,7 +1991,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cassava-miller:
     dependencies:
@@ -2010,7 +2010,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-catering:
     dependencies:
@@ -2029,7 +2029,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-church:
     dependencies:
@@ -2048,7 +2048,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cleaning-company:
     dependencies:
@@ -2067,7 +2067,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cleaning-service:
     dependencies:
@@ -2086,7 +2086,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-clearing-agent:
     dependencies:
@@ -2105,7 +2105,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-clinic:
     dependencies:
@@ -2124,7 +2124,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cocoa-exporter:
     dependencies:
@@ -2143,7 +2143,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cold-room:
     dependencies:
@@ -2162,7 +2162,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-community-hall:
     dependencies:
@@ -2181,7 +2181,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-community-health:
     dependencies:
@@ -2200,7 +2200,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-community-radio:
     dependencies:
@@ -2219,7 +2219,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-constituency-office:
     dependencies:
@@ -2238,7 +2238,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-construction:
     dependencies:
@@ -2257,7 +2257,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-container-depot:
     dependencies:
@@ -2276,7 +2276,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-cooperative:
     dependencies:
@@ -2295,7 +2295,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-courier:
     dependencies:
@@ -2314,7 +2314,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-creator:
     dependencies:
@@ -2333,7 +2333,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-creche:
     dependencies:
@@ -2352,7 +2352,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-dental-clinic:
     dependencies:
@@ -2371,7 +2371,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-dispatch-rider:
     dependencies:
@@ -2390,7 +2390,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-driving-school:
     dependencies:
@@ -2409,7 +2409,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-elderly-care:
     dependencies:
@@ -2428,7 +2428,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-electrical-fittings:
     dependencies:
@@ -2447,7 +2447,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-electronics-repair:
     dependencies:
@@ -2466,7 +2466,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-event-hall:
     dependencies:
@@ -2485,7 +2485,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-event-planner:
     dependencies:
@@ -2504,7 +2504,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-events-centre:
     dependencies:
@@ -2523,7 +2523,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-farm:
     dependencies:
@@ -2542,7 +2542,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-fashion-brand:
     dependencies:
@@ -2561,7 +2561,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-ferry:
     dependencies:
@@ -2580,7 +2580,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-fish-market:
     dependencies:
@@ -2599,7 +2599,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-florist:
     dependencies:
@@ -2618,7 +2618,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-food-processing:
     dependencies:
@@ -2637,7 +2637,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-food-vendor:
     dependencies:
@@ -2656,7 +2656,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-fuel-station:
     dependencies:
@@ -2675,7 +2675,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-funeral-home:
     dependencies:
@@ -2694,7 +2694,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-furniture-maker:
     dependencies:
@@ -2713,7 +2713,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-gas-distributor:
     dependencies:
@@ -2732,7 +2732,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-generator-dealer:
     dependencies:
@@ -2751,7 +2751,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-generator-repair:
     dependencies:
@@ -2770,7 +2770,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-government-agency:
     dependencies:
@@ -2789,7 +2789,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-govt-school:
     dependencies:
@@ -2808,7 +2808,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-gym:
     dependencies:
@@ -2827,7 +2827,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-gym-fitness:
     dependencies:
@@ -2849,7 +2849,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-hair-salon:
     dependencies:
@@ -2868,7 +2868,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-handyman:
     dependencies:
@@ -2887,7 +2887,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-haulage:
     dependencies:
@@ -2906,7 +2906,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-hire-purchase:
     dependencies:
@@ -2925,7 +2925,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-hotel:
     dependencies:
@@ -2944,7 +2944,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-insurance-agent:
     dependencies:
@@ -2963,7 +2963,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-internet-cafe:
     dependencies:
@@ -2982,7 +2982,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-iron-steel:
     dependencies:
@@ -3001,7 +3001,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-it-support:
     dependencies:
@@ -3020,7 +3020,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-land-surveyor:
     dependencies:
@@ -3039,7 +3039,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-laundry:
     dependencies:
@@ -3061,7 +3061,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-laundry-service:
     dependencies:
@@ -3080,7 +3080,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-law-firm:
     dependencies:
@@ -3099,7 +3099,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-lga-office:
     dependencies:
@@ -3118,7 +3118,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-logistics-delivery:
     dependencies:
@@ -3137,7 +3137,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-market:
     dependencies:
@@ -3156,7 +3156,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-market-association:
     dependencies:
@@ -3175,7 +3175,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-ministry-mission:
     dependencies:
@@ -3194,7 +3194,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-mobile-money-agent:
     dependencies:
@@ -3213,7 +3213,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-mosque:
     dependencies:
@@ -3232,7 +3232,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-motivational-speaker:
     dependencies:
@@ -3251,7 +3251,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-motor-park:
     dependencies:
@@ -3270,7 +3270,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-motorcycle-accessories:
     dependencies:
@@ -3289,7 +3289,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-music-studio:
     dependencies:
@@ -3308,7 +3308,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-newspaper-dist:
     dependencies:
@@ -3327,7 +3327,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-ngo:
     dependencies:
@@ -3346,7 +3346,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-nursery-school:
     dependencies:
@@ -3365,7 +3365,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-nurtw:
     dependencies:
@@ -3384,7 +3384,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-oil-gas-services:
     dependencies:
@@ -3403,7 +3403,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-okada-keke:
     dependencies:
@@ -3422,7 +3422,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-optician:
     dependencies:
@@ -3441,7 +3441,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-orphanage:
     dependencies:
@@ -3460,7 +3460,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-paints-distributor:
     dependencies:
@@ -3479,7 +3479,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-palm-oil:
     dependencies:
@@ -3498,7 +3498,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-petrol-station:
     dependencies:
@@ -3517,7 +3517,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-pharmacy:
     dependencies:
@@ -3536,7 +3536,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-pharmacy-chain:
     dependencies:
@@ -3555,7 +3555,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-phone-repair-shop:
     dependencies:
@@ -3574,7 +3574,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-photography-studio:
     dependencies:
@@ -3593,7 +3593,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-plumbing-supplies:
     dependencies:
@@ -3612,7 +3612,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-podcast-studio:
     dependencies:
@@ -3631,7 +3631,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-political-party:
     dependencies:
@@ -3650,7 +3650,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-politician:
     dependencies:
@@ -3669,7 +3669,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-polling-unit:
     dependencies:
@@ -3688,7 +3688,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-pos-business:
     dependencies:
@@ -3704,7 +3704,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-poultry-farm:
     dependencies:
@@ -3723,7 +3723,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-pr-firm:
     dependencies:
@@ -3742,7 +3742,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-print-shop:
     dependencies:
@@ -3761,7 +3761,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-printing-press:
     dependencies:
@@ -3780,7 +3780,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-private-school:
     dependencies:
@@ -3799,7 +3799,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-produce-aggregator:
     dependencies:
@@ -3818,7 +3818,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-professional:
     dependencies:
@@ -3837,7 +3837,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-professional-association:
     dependencies:
@@ -3856,7 +3856,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-property-developer:
     dependencies:
@@ -3875,7 +3875,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-real-estate-agency:
     dependencies:
@@ -3894,7 +3894,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-recording-label:
     dependencies:
@@ -3913,7 +3913,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-rehab-centre:
     dependencies:
@@ -3932,7 +3932,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-restaurant:
     dependencies:
@@ -3951,7 +3951,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-restaurant-chain:
     dependencies:
@@ -3970,7 +3970,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-rideshare:
     dependencies:
@@ -3989,7 +3989,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-road-transport-union:
     dependencies:
@@ -4008,7 +4008,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-savings-group:
     dependencies:
@@ -4027,7 +4027,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-school:
     dependencies:
@@ -4046,7 +4046,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-security-company:
     dependencies:
@@ -4065,7 +4065,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-shoemaker:
     dependencies:
@@ -4084,7 +4084,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-solar-installer:
     dependencies:
@@ -4103,7 +4103,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-sole-trader:
     dependencies:
@@ -4122,7 +4122,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-spa:
     dependencies:
@@ -4141,7 +4141,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-spare-parts:
     dependencies:
@@ -4160,7 +4160,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-sports-academy:
     dependencies:
@@ -4179,7 +4179,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-sports-club:
     dependencies:
@@ -4198,7 +4198,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-startup:
     dependencies:
@@ -4217,7 +4217,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-supermarket:
     dependencies:
@@ -4236,7 +4236,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tailor:
     dependencies:
@@ -4255,7 +4255,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tailoring-fashion:
     dependencies:
@@ -4274,7 +4274,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-talent-agency:
     dependencies:
@@ -4293,7 +4293,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tax-consultant:
     dependencies:
@@ -4312,7 +4312,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tech-hub:
     dependencies:
@@ -4331,7 +4331,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-training-institute:
     dependencies:
@@ -4350,7 +4350,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-transit:
     dependencies:
@@ -4369,7 +4369,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-travel-agent:
     dependencies:
@@ -4388,7 +4388,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tutoring:
     dependencies:
@@ -4407,7 +4407,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-tyre-shop:
     dependencies:
@@ -4426,7 +4426,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-used-car-dealer:
     dependencies:
@@ -4445,7 +4445,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-vegetable-garden:
     dependencies:
@@ -4464,7 +4464,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-vet-clinic:
     dependencies:
@@ -4483,7 +4483,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-ward-rep:
     dependencies:
@@ -4502,7 +4502,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-warehouse:
     dependencies:
@@ -4521,7 +4521,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-waste-management:
     dependencies:
@@ -4540,7 +4540,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-water-treatment:
     dependencies:
@@ -4559,7 +4559,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-water-vendor:
     dependencies:
@@ -4578,7 +4578,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-wedding-planner:
     dependencies:
@@ -4597,7 +4597,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-welding-fabrication:
     dependencies:
@@ -4616,7 +4616,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-wholesale-market:
     dependencies:
@@ -4635,7 +4635,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-womens-association:
     dependencies:
@@ -4654,7 +4654,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/verticals-youth-organization:
     dependencies:
@@ -4673,7 +4673,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/wakapage-blocks:
     dependencies:
@@ -4686,7 +4686,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/webhooks:
     devDependencies:
@@ -4695,7 +4695,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.1
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/white-label-theming:
     devDependencies:
@@ -4713,7 +4713,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.6.0
-        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+        version: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   packages/workspaces: {}
 
@@ -4742,6 +4742,10 @@ packages:
     resolution: {integrity: sha512-T1NCJqT/j9+cn8fvkt7jtwbLBfLC/1y1c7NtCeXFRgzGTsafi68MRv8yzkYSapBnFA6L3U2VSc02ciDzoAJhJg==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/compat-data@7.29.3':
+    resolution: {integrity: sha512-LIVqM46zQWZhj17qA8wb4nW/ixr2y1Nw+r1etiAWgRM6U1IqP+LNhL1yg440jYZR72jCWcWbLWzIosH+uP1fqg==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/core@7.29.0':
     resolution: {integrity: sha512-CGOfOJqWjg2qW/Mb6zNsDm+u5vFQ8DxXfbM09z69p5Z6+mE1ikP2jUXw+j42Pf1XTYED2Rni5f95npYeuwMDQA==}
     engines: {node: '>=6.9.0'}
@@ -4758,8 +4762,8 @@ packages:
     resolution: {integrity: sha512-JYtls3hqi15fcx5GaSNL7SCTJ2MNmjrkHXg4FSpOA/grxK8KwyZ5bubHsCq8FXCkua6xhuaaBit+3b7+VZRfcA==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/helper-create-class-features-plugin@7.28.6':
-    resolution: {integrity: sha512-dTOdvsjnG3xNT9Y0AUg1wAl38y+4Rl4sf9caSQZOXdNqVn+H+HbbJ4IyyHaIqNR6SW9oJpA/RuRjsjCw2IdIow==}
+  '@babel/helper-create-class-features-plugin@7.29.3':
+    resolution: {integrity: sha512-RpLYy2sb51oNLjuu1iD3bwBqCBWUzjO0ocp+iaCP/lJtb2CPLcnC2Fftw+4sAzaMELGeWTgExSKADbdo0GFVzA==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -4856,6 +4860,12 @@ packages:
 
   '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@7.27.1':
     resolution: {integrity: sha512-g4L7OYun04N1WyqMNjldFwlfPCLVkgB54A/YCXICZYBsvJJE3kByKv9c9+R/nAfmIfjl2rKYLNyMHboYbZaWaA==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+
+  '@babel/plugin-bugfix-safari-rest-destructuring-rhs-array@7.29.3':
+    resolution: {integrity: sha512-SRS46DFR4HqzUzCVgi90/xMoL+zeBDBvWdKYXSEzh79kXswNFEglUpMKxR04//dPqwYXWUBJ3mpUd933ru9Kmg==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -5214,8 +5224,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
 
-  '@babel/preset-env@7.29.2':
-    resolution: {integrity: sha512-DYD23veRYGvBFhcTY1iUvJnDNpuqNd/BzBwCvzOTKUnJjKg5kpUBh3/u9585Agdkgj+QuygG7jLfOPWMa2KVNw==}
+  '@babel/preset-env@7.29.3':
+    resolution: {integrity: sha512-ySZypNLAIH1ClygLDQzVMoGQRViATnkHkYYV6TcNDz+8+jwZCdsguGvsb3EY5d9wyWyhmF1iSuFM0Yh5XPnqSA==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -5374,8 +5384,17 @@ packages:
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
 
+  '@emnapi/core@1.10.0':
+    resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
+
+  '@emnapi/runtime@1.10.0':
+    resolution: {integrity: sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA==}
+
   '@emnapi/runtime@1.9.2':
     resolution: {integrity: sha512-3U4+MIWHImeyu1wnmVygh5WlgfYDtyf0k8AbLhMFxOipihf6nrWC4syIm/SwEeec0mNSafiiNnMJwbza/Is6Lw==}
+
+  '@emnapi/wasi-threads@1.2.1':
+    resolution: {integrity: sha512-uTII7OYF+/Mes/MrcIOYp5yOtSMLBWSIoLPpcgwipoiKbli6k322tcoFsxoIIxPDqW01SQGAgko4EzZi2BNv2w==}
 
   '@esbuild/aix-ppc64@0.27.7':
     resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
@@ -5762,6 +5781,12 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
+  '@napi-rs/wasm-runtime@1.1.4':
+    resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
+    peerDependencies:
+      '@emnapi/core': ^1.7.1
+      '@emnapi/runtime': ^1.7.1
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -5773,6 +5798,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@oxc-project/types@0.127.0':
+    resolution: {integrity: sha512-aIYXQBo4lCbO4z0R3FHeucQHpF46l2LbMdxRvqvuRuW2OxdnSkcng5B8+K12spgLDj93rtN3+J2Vac/TIO+ciQ==}
 
   '@playwright/test@1.59.1':
     resolution: {integrity: sha512-PG6q63nQg5c9rIi4/Z5lR5IVF7yU5MqmKaPOe0HSc0O2cX1fPi96sUQu5j7eo4gKCkB2AnNGoWt7y4/Xx3Kcqg==}
@@ -5798,8 +5826,100 @@ packages:
   '@replit/connectors-sdk@0.4.0':
     resolution: {integrity: sha512-wRuktfdoBsM19NJUi24xzCkQ+idglmU4Cq2ZWvTAnNUVGdcMmn3rLN1F1/MNZCc2HdG+awcGa81XMLpZXZujUg==}
 
-  '@rolldown/pluginutils@1.0.0-beta.27':
-    resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
+  '@rolldown/binding-android-arm64@1.0.0-rc.17':
+    resolution: {integrity: sha512-s70pVGhw4zqGeFnXWvAzJDlvxhlRollagdCCKRgOsgUOH3N1l0LIxf83AtGzmb5SiVM4Hjl5HyarMRfdfj3DaQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
+  '@rolldown/binding-darwin-arm64@1.0.0-rc.17':
+    resolution: {integrity: sha512-4ksWc9n0mhlZpZ9PMZgTGjeOPRu8MB1Z3Tz0Mo02eWfWCHMW1zN82Qz/pL/rC+yQa+8ZnutMF0JjJe7PjwasYw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@rolldown/binding-darwin-x64@1.0.0-rc.17':
+    resolution: {integrity: sha512-SUSDOI6WwUVNcWxd02QEBjLdY1VPHvlEkw6T/8nYG322iYWCTxRb1vzk4E+mWWYehTp7ERibq54LSJGjmouOsw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
+  '@rolldown/binding-freebsd-x64@1.0.0-rc.17':
+    resolution: {integrity: sha512-hwnz3nw9dbJ05EDO/PvcjaaewqqDy7Y1rn1UO81l8iIK1GjenME75dl16ajbvSSMfv66WXSRCYKIqfgq2KCfxw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-rc.17':
+    resolution: {integrity: sha512-IS+W7epTcwANmFSQFrS1SivEXHtl1JtuQA9wlxrZTcNi6mx+FDOYrakGevvvTwgj2JvWiK8B29/qD9BELZPyXQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-rc.17':
+    resolution: {integrity: sha512-e6usGaHKW5BMNZOymS1UcEYGowQMWcgZ71Z17Sl/h2+ZziNJ1a9n3Zvcz6LdRyIW5572wBCTH/Z+bKuZouGk9Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+
+  '@rolldown/binding-linux-arm64-musl@1.0.0-rc.17':
+    resolution: {integrity: sha512-b/CgbwAJpmrRLp02RPfhbudf5tZnN9nsPWK82znefso832etkem8H7FSZwxrOI9djcdTP7U6YfNhbRnh7djErg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+
+  '@rolldown/binding-linux-ppc64-gnu@1.0.0-rc.17':
+    resolution: {integrity: sha512-4EII1iNGRUN5WwGbF/kOh/EIkoDN9HsupgLQoXfY+D1oyJm7/F4t5PYU5n8SWZgG0FEwakyM8pGgwcBYruGTlA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+
+  '@rolldown/binding-linux-s390x-gnu@1.0.0-rc.17':
+    resolution: {integrity: sha512-AH8oq3XqQo4IibpVXvPeLDI5pzkpYn0WiZAfT05kFzoJ6tQNzwRdDYQ45M8I/gslbodRZwW8uxLhbSBbkv96rA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+
+  '@rolldown/binding-linux-x64-gnu@1.0.0-rc.17':
+    resolution: {integrity: sha512-cLnjV3xfo7KslbU41Z7z8BH/E1y5mzUYzAqih1d1MDaIGZRCMqTijqLv76/P7fyHuvUcfGsIpqCdddbxLLK9rA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+
+  '@rolldown/binding-linux-x64-musl@1.0.0-rc.17':
+    resolution: {integrity: sha512-0phclDw1spsL7dUB37sIARuis2tAgomCJXAHZlpt8PXZ4Ba0dRP1e+66lsRqrfhISeN9bEGNjQs+T/Fbd7oYGw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+
+  '@rolldown/binding-openharmony-arm64@1.0.0-rc.17':
+    resolution: {integrity: sha512-0ag/hEgXOwgw4t8QyQvUCxvEg+V0KBcA6YuOx9g0r02MprutRF5dyljgm3EmR02O292UX7UeS6HzWHAl6KgyhA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@rolldown/binding-wasm32-wasi@1.0.0-rc.17':
+    resolution: {integrity: sha512-LEXei6vo0E5wTGwpkJ4KoT3OZJRnglwldt5ziLzOlc6qqb55z4tWNq2A+PFqCJuvWWdP53CVhG1Z9NtToDPJrA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [wasm32]
+
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-rc.17':
+    resolution: {integrity: sha512-gUmyzBl3SPMa6hrqFUth9sVfcLBlYsbMzBx5PlexMroZStgzGqlZ26pYG89rBb45Mnia+oil6YAIFeEWGWhoZA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
+  '@rolldown/binding-win32-x64-msvc@1.0.0-rc.17':
+    resolution: {integrity: sha512-3hkiolcUAvPB9FLb3UZdfjVVNWherN1f/skkGWJP/fgSQhYUZpSIRr0/I8ZK9TkF3F7kxvJAk0+IcKvPHk9qQg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
+  '@rolldown/pluginutils@1.0.0-rc.17':
+    resolution: {integrity: sha512-n8iosDOt6Ig1UhJ2AYqoIhHWh/isz0xpicHTzpKBeotdVsTEcxsSA/i3EVM7gQAj0rU27OLAxCjzlj15IWY7bg==}
+
+  '@rolldown/pluginutils@1.0.0-rc.3':
+    resolution: {integrity: sha512-eybk3TjzzzV97Dlj5c+XrBFW57eTNhzod66y9HrBlzJ6NsCrWCp/2kaPS3K9wJmurBC0Tdw4yPjXKZqlznim3Q==}
 
   '@rollup/plugin-babel@5.3.1':
     resolution: {integrity: sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q==}
@@ -5988,6 +6108,9 @@ packages:
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
 
+  '@tybys/wasm-util@0.10.1':
+    resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
+
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
 
@@ -6096,9 +6219,9 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@vitejs/plugin-react@4.7.0':
-    resolution: {integrity: sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
+  '@vitejs/plugin-react@5.2.0':
+    resolution: {integrity: sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: '>=5.4.21'
 
@@ -6172,8 +6295,8 @@ packages:
   ajv@6.14.0:
     resolution: {integrity: sha512-IWrosm/yrn43eiKqkfkHis7QioDleaXQHdDVPKg0FSwwd/DuvyX79TZnFOnYpB7dcsFAMmtFztZuXPDvSePkFw==}
 
-  ajv@8.18.0:
-    resolution: {integrity: sha512-PlXPeEWMXMZ7sPYOHqmDyCJzcfNrUr3fGNKtezX14ykXOEIvyK81d+qydx89KY5O71FKMPaQ2vBfBFI5NHR63A==}
+  ajv@8.20.0:
+    resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -6276,6 +6399,9 @@ packages:
 
   brace-expansion@2.0.3:
     resolution: {integrity: sha512-MCV/fYJEbqx68aE58kv2cA/kiky1G8vux3OR6/jbS+jIMe/6fJWa0DTzJU7dqijOWYwHi1t29FlfYI9uytqlpA==}
+
+  brace-expansion@2.1.0:
+    resolution: {integrity: sha512-TN1kCZAgdgweJhWWpgKYrQaMNHcDULHkWwQIspdtjV4Y5aurRdZpjAqn6yX3FPqTA9ngHCc4hJxMAMgGfve85w==}
 
   brace-expansion@5.0.5:
     resolution: {integrity: sha512-VZznLgtwhn+Mact9tfiwx64fA9erHH/MCXEUfB/0bX/6Fz6ny5EGTXYltMocqg4xFAQZtnO3DHWWXi8RiuN7cQ==}
@@ -6800,6 +6926,10 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hasown@2.0.3:
+    resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
+    engines: {node: '>= 0.4'}
+
   hono@4.12.14:
     resolution: {integrity: sha512-am5zfg3yu6sqn5yjKBNqhnTX7Cv+m00ox+7jbaKkrLMRJ4rAdldd1xPd/JzbBWspqaQv6RSTrgFN95EsfhC+7w==}
     engines: {node: '>=16.9.0'}
@@ -7055,8 +7185,8 @@ packages:
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
 
-  jsonfile@6.2.0:
-    resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
+  jsonfile@6.2.1:
+    resolution: {integrity: sha512-zwOTdL3rFQ/lRdBnntKVOX6k5cKJwEc1HdilT71BWEu7J41gXIB2MRp+vxduPSwZJPWBxEzv4yH1wYLJGUHX4Q==}
 
   jsonpointer@5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
@@ -7076,6 +7206,76 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  lightningcss-android-arm64@1.32.0:
+    resolution: {integrity: sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [android]
+
+  lightningcss-darwin-arm64@1.32.0:
+    resolution: {integrity: sha512-RzeG9Ju5bag2Bv1/lwlVJvBE3q6TtXskdZLLCyfg5pt+HLz9BqlICO7LZM7VHNTTn/5PRhHFBSjk5lc4cmscPQ==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  lightningcss-darwin-x64@1.32.0:
+    resolution: {integrity: sha512-U+QsBp2m/s2wqpUYT/6wnlagdZbtZdndSmut/NJqlCcMLTWp5muCrID+K5UJ6jqD2BFshejCYXniPDbNh73V8w==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  lightningcss-freebsd-x64@1.32.0:
+    resolution: {integrity: sha512-JCTigedEksZk3tHTTthnMdVfGf61Fky8Ji2E4YjUTEQX14xiy/lTzXnu1vwiZe3bYe0q+SpsSH/CTeDXK6WHig==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [freebsd]
+
+  lightningcss-linux-arm-gnueabihf@1.32.0:
+    resolution: {integrity: sha512-x6rnnpRa2GL0zQOkt6rts3YDPzduLpWvwAF6EMhXFVZXD4tPrBkEFqzGowzCsIWsPjqSK+tyNEODUBXeeVHSkw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm]
+    os: [linux]
+
+  lightningcss-linux-arm64-gnu@1.32.0:
+    resolution: {integrity: sha512-0nnMyoyOLRJXfbMOilaSRcLH3Jw5z9HDNGfT/gwCPgaDjnx0i8w7vBzFLFR1f6CMLKF8gVbebmkUN3fa/kQJpQ==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  lightningcss-linux-arm64-musl@1.32.0:
+    resolution: {integrity: sha512-UpQkoenr4UJEzgVIYpI80lDFvRmPVg6oqboNHfoH4CQIfNA+HOrZ7Mo7KZP02dC6LjghPQJeBsvXhJod/wnIBg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  lightningcss-linux-x64-gnu@1.32.0:
+    resolution: {integrity: sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  lightningcss-linux-x64-musl@1.32.0:
+    resolution: {integrity: sha512-bYcLp+Vb0awsiXg/80uCRezCYHNg1/l3mt0gzHnWV9XP1W5sKa5/TCdGWaR/zBM2PeF/HbsQv/j2URNOiVuxWg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  lightningcss-win32-arm64-msvc@1.32.0:
+    resolution: {integrity: sha512-8SbC8BR40pS6baCM8sbtYDSwEVQd4JlFTOlaD3gWGHfThTcABnNDBda6eTZeqbofalIJhFx0qKzgHJmcPTnGdw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  lightningcss-win32-x64-msvc@1.32.0:
+    resolution: {integrity: sha512-Amq9B/SoZYdDi1kFrojnoqPLxYhQ4Wo5XiL8EVJrVsB8ARoC1PWW6VGtT0WKCemjy8aC+louJnjS7U18x3b06Q==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [win32]
+
+  lightningcss@1.32.0:
+    resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
+    engines: {node: '>= 12.0.0'}
 
   local-pkg@0.5.1:
     resolution: {integrity: sha512-9rrA30MRRP3gBD3HTGnC6cDFpaE1kVDWxWgqWJUN0RvDNAo+Nz/9GxB+nHOH0ifbVFy0hSA1V6vFDvnx54lTEQ==}
@@ -7197,6 +7397,11 @@ packages:
 
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@3.3.12:
+    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -7363,6 +7568,10 @@ packages:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
 
+  postcss@8.5.13:
+    resolution: {integrity: sha512-qif0+jGGZoLWdHey3UFHHWP0H7Gbmsk8T5VEqyYFbWqPr1XqvLGBbk/sl8V5exGmcYJklJOhOQq1pV9IcsiFag==}
+    engines: {node: ^10 || ^12 || >=14}
+
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -7421,8 +7630,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-refresh@0.17.0:
-    resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
+  react-refresh@0.18.0:
+    resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
   react-router-dom@6.30.3:
@@ -7504,6 +7713,11 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
+  rolldown@1.0.0-rc.17:
+    resolution: {integrity: sha512-ZrT53oAKrtA4+YtBWPQbtPOxIbVDbxT0orcYERKd63VJTF13zPcgXTvD4843L8pcsI7M6MErt8QtON6lrB9tyA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+
   rollup@2.80.0:
     resolution: {integrity: sha512-cIFJOD1DESzpjOBl763Kp1AH7UE/0fcdHe6rZXUdQ9c50uvgigvW97u3IcSeBwOkgqL/PXPBktBCh0KEu5L8XQ==}
     engines: {node: '>=10.0.0'}
@@ -7523,8 +7737,8 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  safe-array-concat@1.1.3:
-    resolution: {integrity: sha512-AURm5f0jYEOydBj7VQlVvDrjeFgthDdEF5H1dP+6mNpoXOMo1quQqJ4wvJDyRZ9+pO3kGWoOdmV08cSv2aJV6Q==}
+  safe-array-concat@1.1.4:
+    resolution: {integrity: sha512-wtZlHyOje6OZTGqAoaDKxFkgRtkF9CnHAVnCHKfuj200wAgL+bSJhdsCD2l0Qx/2ekEXjPWcyKkfGb5CPboslg==}
     engines: {node: '>=0.4'}
 
   safe-push-apply@1.0.0:
@@ -7723,8 +7937,8 @@ packages:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
 
-  terser@5.46.1:
-    resolution: {integrity: sha512-vzCjQO/rgUuK9sf8VJZvjqiqiHFaZLnOiimmUuOKODxWL8mm/xua7viT7aqX7dgPY60otQjUotzFMmCB4VdmqQ==}
+  terser@5.46.2:
+    resolution: {integrity: sha512-uxfo9fPcSgLDYob/w1FuL0c99MWiJDnv+5qXSQc5+Ki5NjVNsYi66INnMFBjf6uFz6OnX12piJQPF4IpjJTNTw==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -7906,14 +8120,14 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-plugin-pwa@0.20.5:
-    resolution: {integrity: sha512-aweuI/6G6n4C5Inn0vwHumElU/UEpNuO+9iZzwPZGTCH87TeZ6YFMrEY6ZUBQdIHHlhTsbMDryFARcSuOdsz9Q==}
+  vite-plugin-pwa@1.2.0:
+    resolution: {integrity: sha512-a2xld+SJshT9Lgcv8Ji4+srFJL4k/1bVbd1x06JIkvecpQkwkvCncD1+gSzcdm3s+owWLpMJerG3aN5jupJEVw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@vite-pwa/assets-generator': ^0.2.6
+      '@vite-pwa/assets-generator': ^1.0.0
       vite: '>=5.4.21'
-      workbox-build: ^7.1.0
-      workbox-window: ^7.1.0
+      workbox-build: ^7.4.0
+      workbox-window: ^7.4.0
     peerDependenciesMeta:
       '@vite-pwa/assets-generator':
         optional: true
@@ -7947,6 +8161,49 @@ packages:
       sugarss:
         optional: true
       terser:
+        optional: true
+
+  vite@8.0.10:
+    resolution: {integrity: sha512-rZuUu9j6J5uotLDs+cAA4O5H4K1SfPliUlQwqa6YEwSrWDZzP4rhm00oJR5snMewjxF5V/K3D4kctsUTsIU9Mw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^20.19.0 || >=22.12.0
+      '@vitejs/devtools': ^0.1.0
+      esbuild: '>=0.25.0'
+      jiti: '>=1.21.0'
+      less: ^4.0.0
+      sass: ^1.70.0
+      sass-embedded: ^1.70.0
+      stylus: '>=0.54.8'
+      sugarss: ^5.0.0
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: ^2.4.2
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      '@vitejs/devtools':
+        optional: true
+      esbuild:
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
         optional: true
 
   vitest@1.6.1:
@@ -8164,9 +8421,9 @@ packages:
 
 snapshots:
 
-  '@apideck/better-ajv-errors@0.3.7(ajv@8.18.0)':
+  '@apideck/better-ajv-errors@0.3.7(ajv@8.20.0)':
     dependencies:
-      ajv: 8.18.0
+      ajv: 8.20.0
       jsonpointer: 5.0.1
       leven: 3.1.0
 
@@ -8185,6 +8442,8 @@ snapshots:
       picocolors: 1.1.1
 
   '@babel/compat-data@7.29.0': {}
+
+  '@babel/compat-data@7.29.3': {}
 
   '@babel/core@7.29.0':
     dependencies:
@@ -8226,7 +8485,7 @@ snapshots:
       lru-cache: 5.1.1
       semver: 6.3.1
 
-  '@babel/helper-create-class-features-plugin@7.28.6(@babel/core@7.29.0)':
+  '@babel/helper-create-class-features-plugin@7.29.3(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-annotate-as-pure': 7.27.3
@@ -8354,6 +8613,14 @@ snapshots:
       '@babel/core': 7.29.0
       '@babel/helper-plugin-utils': 7.28.6
 
+  '@babel/plugin-bugfix-safari-rest-destructuring-rhs-array@7.29.3(@babel/core@7.29.0)':
+    dependencies:
+      '@babel/core': 7.29.0
+      '@babel/helper-plugin-utils': 7.28.6
+      '@babel/helper-skip-transparent-expression-wrappers': 7.27.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@7.27.1(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
@@ -8427,7 +8694,7 @@ snapshots:
   '@babel/plugin-transform-class-properties@7.28.6(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
-      '@babel/helper-create-class-features-plugin': 7.28.6(@babel/core@7.29.0)
+      '@babel/helper-create-class-features-plugin': 7.29.3(@babel/core@7.29.0)
       '@babel/helper-plugin-utils': 7.28.6
     transitivePeerDependencies:
       - supports-color
@@ -8435,7 +8702,7 @@ snapshots:
   '@babel/plugin-transform-class-static-block@7.28.6(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
-      '@babel/helper-create-class-features-plugin': 7.28.6(@babel/core@7.29.0)
+      '@babel/helper-create-class-features-plugin': 7.29.3(@babel/core@7.29.0)
       '@babel/helper-plugin-utils': 7.28.6
     transitivePeerDependencies:
       - supports-color
@@ -8638,7 +8905,7 @@ snapshots:
   '@babel/plugin-transform-private-methods@7.28.6(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
-      '@babel/helper-create-class-features-plugin': 7.28.6(@babel/core@7.29.0)
+      '@babel/helper-create-class-features-plugin': 7.29.3(@babel/core@7.29.0)
       '@babel/helper-plugin-utils': 7.28.6
     transitivePeerDependencies:
       - supports-color
@@ -8647,7 +8914,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-annotate-as-pure': 7.27.3
-      '@babel/helper-create-class-features-plugin': 7.28.6(@babel/core@7.29.0)
+      '@babel/helper-create-class-features-plugin': 7.29.3(@babel/core@7.29.0)
       '@babel/helper-plugin-utils': 7.28.6
     transitivePeerDependencies:
       - supports-color
@@ -8734,9 +9001,9 @@ snapshots:
       '@babel/helper-create-regexp-features-plugin': 7.28.5(@babel/core@7.29.0)
       '@babel/helper-plugin-utils': 7.28.6
 
-  '@babel/preset-env@7.29.2(@babel/core@7.29.0)':
+  '@babel/preset-env@7.29.3(@babel/core@7.29.0)':
     dependencies:
-      '@babel/compat-data': 7.29.0
+      '@babel/compat-data': 7.29.3
       '@babel/core': 7.29.0
       '@babel/helper-compilation-targets': 7.28.6
       '@babel/helper-plugin-utils': 7.28.6
@@ -8744,6 +9011,7 @@ snapshots:
       '@babel/plugin-bugfix-firefox-class-in-computed-class-key': 7.28.5(@babel/core@7.29.0)
       '@babel/plugin-bugfix-safari-class-field-initializer-scope': 7.27.1(@babel/core@7.29.0)
       '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression': 7.27.1(@babel/core@7.29.0)
+      '@babel/plugin-bugfix-safari-rest-destructuring-rhs-array': 7.29.3(@babel/core@7.29.0)
       '@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining': 7.27.1(@babel/core@7.29.0)
       '@babel/plugin-bugfix-v8-static-class-fields-redefine-readonly': 7.28.6(@babel/core@7.29.0)
       '@babel/plugin-proposal-private-property-in-object': 7.21.0-placeholder-for-preset-env.2(@babel/core@7.29.0)
@@ -9034,7 +9302,23 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.4': {}
 
+  '@emnapi/core@1.10.0':
+    dependencies:
+      '@emnapi/wasi-threads': 1.2.1
+      tslib: 2.8.1
+    optional: true
+
+  '@emnapi/runtime@1.10.0':
+    dependencies:
+      tslib: 2.8.1
+    optional: true
+
   '@emnapi/runtime@1.9.2':
+    dependencies:
+      tslib: 2.8.1
+    optional: true
+
+  '@emnapi/wasi-threads@1.2.1':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -9143,7 +9427,7 @@ snapshots:
   '@fast-check/vitest@0.4.0(vitest@1.6.1)':
     dependencies:
       fast-check: 4.7.0
-      vitest: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+      vitest: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   '@hono/zod-validator@0.4.3(hono@4.12.14)(zod@3.25.76)':
     dependencies:
@@ -9320,6 +9604,13 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
+  '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
+    dependencies:
+      '@emnapi/core': 1.10.0
+      '@emnapi/runtime': 1.10.0
+      '@tybys/wasm-util': 0.10.1
+    optional: true
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -9331,6 +9622,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
+
+  '@oxc-project/types@0.127.0': {}
 
   '@playwright/test@1.59.1':
     dependencies:
@@ -9354,7 +9647,58 @@ snapshots:
 
   '@replit/connectors-sdk@0.4.0': {}
 
-  '@rolldown/pluginutils@1.0.0-beta.27': {}
+  '@rolldown/binding-android-arm64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-darwin-arm64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-darwin-x64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-freebsd-x64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-arm64-musl@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-ppc64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-s390x-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-x64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-x64-musl@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-openharmony-arm64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-wasm32-wasi@1.0.0-rc.17':
+    dependencies:
+      '@emnapi/core': 1.10.0
+      '@emnapi/runtime': 1.10.0
+      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+    optional: true
+
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-win32-x64-msvc@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/pluginutils@1.0.0-rc.17': {}
+
+  '@rolldown/pluginutils@1.0.0-rc.3': {}
 
   '@rollup/plugin-babel@5.3.1(@babel/core@7.29.0)(@types/babel__core@7.20.5)(rollup@2.80.0)':
     dependencies:
@@ -9387,7 +9731,7 @@ snapshots:
     dependencies:
       serialize-javascript: 7.0.5
       smob: 1.6.1
-      terser: 5.46.1
+      terser: 5.46.2
     optionalDependencies:
       rollup: 2.80.0
 
@@ -9493,6 +9837,11 @@ snapshots:
       json5: 2.2.3
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.12
+
+  '@tybys/wasm-util@0.10.1':
+    dependencies:
+      tslib: 2.8.1
+    optional: true
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -9631,15 +9980,15 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitejs/plugin-react@4.7.0(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))':
+  '@vitejs/plugin-react@5.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.29.0)
       '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.29.0)
-      '@rolldown/pluginutils': 1.0.0-beta.27
+      '@rolldown/pluginutils': 1.0.0-rc.3
       '@types/babel__core': 7.20.5
-      react-refresh: 0.17.0
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+      react-refresh: 0.18.0
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -9656,13 +10005,13 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.9(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))':
+  '@vitest/mocker@2.1.9(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 2.1.9
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
 
   '@vitest/pretty-format@2.1.9':
     dependencies:
@@ -9708,7 +10057,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.1
       sirv: 2.0.4
-      vitest: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1)
+      vitest: 1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)
 
   '@vitest/utils@1.6.1':
     dependencies:
@@ -9742,7 +10091,7 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
-  ajv@8.18.0:
+  ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
       fast-uri: 3.1.0
@@ -9802,7 +10151,7 @@ snapshots:
 
   babel-plugin-polyfill-corejs2@0.4.17(@babel/core@7.29.0):
     dependencies:
-      '@babel/compat-data': 7.29.0
+      '@babel/compat-data': 7.29.3
       '@babel/core': 7.29.0
       '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)
       semver: 6.3.1
@@ -9842,6 +10191,10 @@ snapshots:
       concat-map: 0.0.1
 
   brace-expansion@2.0.3:
+    dependencies:
+      balanced-match: 1.0.2
+
+  brace-expansion@2.1.0:
     dependencies:
       balanced-match: 1.0.2
 
@@ -10072,7 +10425,7 @@ snapshots:
       has-property-descriptors: 1.0.2
       has-proto: 1.2.0
       has-symbols: 1.1.0
-      hasown: 2.0.2
+      hasown: 2.0.3
       internal-slot: 1.1.0
       is-array-buffer: 3.0.5
       is-callable: 1.2.7
@@ -10090,7 +10443,7 @@ snapshots:
       object.assign: 4.1.7
       own-keys: 1.0.1
       regexp.prototype.flags: 1.5.4
-      safe-array-concat: 1.1.3
+      safe-array-concat: 1.1.4
       safe-push-apply: 1.0.0
       safe-regex-test: 1.1.0
       set-proto: 1.0.0
@@ -10350,7 +10703,7 @@ snapshots:
     dependencies:
       at-least-node: 1.0.0
       graceful-fs: 4.2.11
-      jsonfile: 6.2.0
+      jsonfile: 6.2.1
       universalify: 2.0.1
 
   fs.realpath@1.0.0: {}
@@ -10369,7 +10722,7 @@ snapshots:
       call-bound: 1.0.4
       define-properties: 1.2.1
       functions-have-names: 1.2.3
-      hasown: 2.0.2
+      hasown: 2.0.3
       is-callable: 1.2.7
 
   functions-have-names@1.2.3: {}
@@ -10484,6 +10837,10 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hasown@2.0.3:
+    dependencies:
+      function-bind: 1.1.2
+
   hono@4.12.14: {}
 
   html-encoding-sniffer@4.0.0:
@@ -10537,7 +10894,7 @@ snapshots:
   internal-slot@1.1.0:
     dependencies:
       es-errors: 1.3.0
-      hasown: 2.0.2
+      hasown: 2.0.3
       side-channel: 1.1.0
 
   is-array-buffer@3.0.5:
@@ -10567,7 +10924,7 @@ snapshots:
 
   is-core-module@2.16.1:
     dependencies:
-      hasown: 2.0.2
+      hasown: 2.0.3
 
   is-data-view@1.0.2:
     dependencies:
@@ -10622,7 +10979,7 @@ snapshots:
       call-bound: 1.0.4
       gopd: 1.2.0
       has-tostringtag: 1.0.2
-      hasown: 2.0.2
+      hasown: 2.0.3
 
   is-regexp@1.0.0: {}
 
@@ -10739,7 +11096,7 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  jsonfile@6.2.0:
+  jsonfile@6.2.1:
     dependencies:
       universalify: 2.0.1
     optionalDependencies:
@@ -10759,6 +11116,55 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  lightningcss-android-arm64@1.32.0:
+    optional: true
+
+  lightningcss-darwin-arm64@1.32.0:
+    optional: true
+
+  lightningcss-darwin-x64@1.32.0:
+    optional: true
+
+  lightningcss-freebsd-x64@1.32.0:
+    optional: true
+
+  lightningcss-linux-arm-gnueabihf@1.32.0:
+    optional: true
+
+  lightningcss-linux-arm64-gnu@1.32.0:
+    optional: true
+
+  lightningcss-linux-arm64-musl@1.32.0:
+    optional: true
+
+  lightningcss-linux-x64-gnu@1.32.0:
+    optional: true
+
+  lightningcss-linux-x64-musl@1.32.0:
+    optional: true
+
+  lightningcss-win32-arm64-msvc@1.32.0:
+    optional: true
+
+  lightningcss-win32-x64-msvc@1.32.0:
+    optional: true
+
+  lightningcss@1.32.0:
+    dependencies:
+      detect-libc: 2.1.2
+    optionalDependencies:
+      lightningcss-android-arm64: 1.32.0
+      lightningcss-darwin-arm64: 1.32.0
+      lightningcss-darwin-x64: 1.32.0
+      lightningcss-freebsd-x64: 1.32.0
+      lightningcss-linux-arm-gnueabihf: 1.32.0
+      lightningcss-linux-arm64-gnu: 1.32.0
+      lightningcss-linux-arm64-musl: 1.32.0
+      lightningcss-linux-x64-gnu: 1.32.0
+      lightningcss-linux-x64-musl: 1.32.0
+      lightningcss-win32-arm64-msvc: 1.32.0
+      lightningcss-win32-x64-msvc: 1.32.0
 
   local-pkg@0.5.1:
     dependencies:
@@ -10850,7 +11256,7 @@ snapshots:
 
   minimatch@5.1.9:
     dependencies:
-      brace-expansion: 2.0.3
+      brace-expansion: 2.1.0
 
   minimatch@9.0.9:
     dependencies:
@@ -10872,6 +11278,8 @@ snapshots:
   ms@2.1.3: {}
 
   nanoid@3.3.11: {}
+
+  nanoid@3.3.12: {}
 
   natural-compare@1.4.0: {}
 
@@ -11014,6 +11422,12 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
+  postcss@8.5.13:
+    dependencies:
+      nanoid: 3.3.12
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+
   postcss@8.5.8:
     dependencies:
       nanoid: 3.3.11
@@ -11060,7 +11474,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-refresh@0.17.0: {}
+  react-refresh@0.18.0: {}
 
   react-router-dom@6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -11149,6 +11563,27 @@ snapshots:
     dependencies:
       glob: 7.2.3
 
+  rolldown@1.0.0-rc.17:
+    dependencies:
+      '@oxc-project/types': 0.127.0
+      '@rolldown/pluginutils': 1.0.0-rc.17
+    optionalDependencies:
+      '@rolldown/binding-android-arm64': 1.0.0-rc.17
+      '@rolldown/binding-darwin-arm64': 1.0.0-rc.17
+      '@rolldown/binding-darwin-x64': 1.0.0-rc.17
+      '@rolldown/binding-freebsd-x64': 1.0.0-rc.17
+      '@rolldown/binding-linux-arm-gnueabihf': 1.0.0-rc.17
+      '@rolldown/binding-linux-arm64-gnu': 1.0.0-rc.17
+      '@rolldown/binding-linux-arm64-musl': 1.0.0-rc.17
+      '@rolldown/binding-linux-ppc64-gnu': 1.0.0-rc.17
+      '@rolldown/binding-linux-s390x-gnu': 1.0.0-rc.17
+      '@rolldown/binding-linux-x64-gnu': 1.0.0-rc.17
+      '@rolldown/binding-linux-x64-musl': 1.0.0-rc.17
+      '@rolldown/binding-openharmony-arm64': 1.0.0-rc.17
+      '@rolldown/binding-wasm32-wasi': 1.0.0-rc.17
+      '@rolldown/binding-win32-arm64-msvc': 1.0.0-rc.17
+      '@rolldown/binding-win32-x64-msvc': 1.0.0-rc.17
+
   rollup@2.80.0:
     optionalDependencies:
       fsevents: 2.3.3
@@ -11192,7 +11627,7 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  safe-array-concat@1.1.3:
+  safe-array-concat@1.1.4:
     dependencies:
       call-bind: 1.0.9
       call-bound: 1.0.4
@@ -11441,7 +11876,7 @@ snapshots:
 
   term-size@2.2.1: {}
 
-  terser@5.46.1:
+  terser@5.46.2:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.16.0
@@ -11604,54 +12039,62 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
-  vite-node@1.6.1(@types/node@20.19.39)(terser@5.46.1):
+  vite-node@1.6.1(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       pathe: 1.1.2
       picocolors: 1.1.1
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@types/node'
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
       - less
-      - lightningcss
       - sass
       - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
+      - tsx
+      - yaml
 
-  vite-node@2.1.9(@types/node@20.19.39)(terser@5.46.1):
+  vite-node@2.1.9(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 1.1.2
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@types/node'
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
       - less
-      - lightningcss
       - sass
       - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
+      - tsx
+      - yaml
 
-  vite-plugin-pwa@0.20.5(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0):
+  vite-plugin-pwa@1.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0):
     dependencies:
       debug: 4.4.3
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.16
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
       workbox-build: 7.4.0(@types/babel__core@7.20.5)
       workbox-window: 7.4.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@5.4.21(@types/node@20.19.39)(terser@5.46.1):
+  vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(terser@5.46.2):
     dependencies:
       esbuild: 0.27.7
       postcss: 8.5.8
@@ -11659,9 +12102,24 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.19.39
       fsevents: 2.3.3
-      terser: 5.46.1
+      lightningcss: 1.32.0
+      terser: 5.46.2
 
-  vitest@1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(jsdom@24.1.3)(terser@5.46.1):
+  vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0):
+    dependencies:
+      lightningcss: 1.32.0
+      picomatch: 4.0.4
+      postcss: 8.5.13
+      rolldown: 1.0.0-rc.17
+      tinyglobby: 0.2.16
+    optionalDependencies:
+      '@types/node': 20.19.39
+      esbuild: 0.27.7
+      fsevents: 2.3.3
+      terser: 5.46.2
+      tsx: 4.21.0
+
+  vitest@1.6.1(@types/node@20.19.39)(@vitest/ui@1.6.1)(esbuild@0.27.7)(jsdom@24.1.3)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0):
     dependencies:
       '@vitest/expect': 1.6.1
       '@vitest/runner': 1.6.1
@@ -11680,14 +12138,17 @@ snapshots:
       strip-literal: 2.1.1
       tinybench: 2.9.0
       tinypool: 0.8.4
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
-      vite-node: 1.6.1(@types/node@20.19.39)(terser@5.46.1)
+      vite: 5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(terser@5.46.2)
+      vite-node: 1.6.1(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.39
       '@vitest/ui': 1.6.1(vitest@1.6.1)
       jsdom: 24.1.3
     transitivePeerDependencies:
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
       - less
       - lightningcss
       - sass
@@ -11696,11 +12157,13 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
+      - yaml
 
-  vitest@2.1.9(@types/node@20.19.39)(@vitest/ui@1.6.1(vitest@1.6.1))(jsdom@24.1.3)(terser@5.46.1):
+  vitest@2.1.9(@types/node@20.19.39)(@vitest/ui@1.6.1(vitest@1.6.1))(esbuild@0.27.7)(jsdom@24.1.3)(terser@5.46.2)(tsx@4.21.0):
     dependencies:
       '@vitest/expect': 2.1.9
-      '@vitest/mocker': 2.1.9(vite@5.4.21(@types/node@20.19.39)(terser@5.46.1))
+      '@vitest/mocker': 2.1.9(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.9
       '@vitest/snapshot': 2.1.9
@@ -11716,16 +12179,18 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.1.1
       tinyrainbow: 1.2.0
-      vite: 5.4.21(@types/node@20.19.39)(terser@5.46.1)
-      vite-node: 2.1.9(@types/node@20.19.39)(terser@5.46.1)
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
+      vite-node: 2.1.9(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.39
       '@vitest/ui': 1.6.1(vitest@1.6.1)
       jsdom: 24.1.3
     transitivePeerDependencies:
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
       - less
-      - lightningcss
       - msw
       - sass
       - sass-embedded
@@ -11733,6 +12198,8 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
+      - yaml
 
   w3c-xmlserializer@5.0.0:
     dependencies:
@@ -11822,16 +12289,16 @@ snapshots:
 
   workbox-build@7.4.0(@types/babel__core@7.20.5):
     dependencies:
-      '@apideck/better-ajv-errors': 0.3.7(ajv@8.18.0)
+      '@apideck/better-ajv-errors': 0.3.7(ajv@8.20.0)
       '@babel/core': 7.29.0
-      '@babel/preset-env': 7.29.2(@babel/core@7.29.0)
+      '@babel/preset-env': 7.29.3(@babel/core@7.29.0)
       '@babel/runtime': 7.29.2
       '@rollup/plugin-babel': 5.3.1(@babel/core@7.29.0)(@types/babel__core@7.20.5)(rollup@2.80.0)
       '@rollup/plugin-node-resolve': 15.3.1(rollup@2.80.0)
       '@rollup/plugin-replace': 2.4.2(rollup@2.80.0)
       '@rollup/plugin-terser': 0.4.4(rollup@2.80.0)
       '@surma/rollup-plugin-off-main-thread': 2.2.3
-      ajv: 8.18.0
+      ajv: 8.20.0
       common-tags: 1.8.2
       fast-json-stable-stringify: 2.1.0
       fs-extra: 9.1.0
