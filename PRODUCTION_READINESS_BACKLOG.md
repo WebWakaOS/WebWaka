@@ -264,16 +264,42 @@ The k6 load smoke test failure is:
 **Acceptance**: Failed notification events don't silently disappear; operators can view/retry them.
 
 #### M-9: Offline-Sync Conflict Resolution Testing
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Mobile/Offline, Data Integrity  
-**Description**: The offline-sync package implements "server-wins" conflict resolution (P11) but E2E conflict scenarios aren't tested at the integration level.  
-**Action**: Add integration tests that simulate: client edits → goes offline → server edits same entity → client syncs → verify server version wins.  
-**Acceptance**: Conflict resolution test passes; no data loss in concurrent edit scenarios.
+**Description**: The offline-sync package implements "server-wins" conflict resolution (P11) but E2E conflict scenarios weren\'t tested at the integration level.
+**Resolution**:
+- `packages/offline-sync/src/conflict-e2e.test.ts` — 11 new E2E lifecycle tests added:
+  1. Full lifecycle: client offline-edit → 409 from server → ConflictStore records → server-wins applied
+  2. POST /sync/apply body shape verified (clientId, entity, operation, payload)
+  3. Authorization header correctly forwarded
+  4. 3 concurrent queued edits: 2 synced + 1 conflict → correct counts
+  5. FIFO order preserved across entity types (P11)
+  6. Network error does not block subsequent items in queue
+  7. ConflictStore notification text user-readable, contains type + truncated ID (PRD §11.7)
+  8. Multiple conflicts tracked and resolved independently
+  9. resolveServerWins throws for unknown conflict ID (safety contract)
+  10. clear() removes all records on logout
+  11. Idempotency: second processPendingQueue is a no-op post-sync
+- Full offline-sync suite: **66 tests passing** (55 existing + 11 new)
 
 #### M-10: Multi-Tenant Data Isolation Stress Test
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security, Database  
-**Description**: Governance checks verify tenant isolation in source code patterns, but no runtime test verifies that one tenant cannot access another's data through timing or error-message leakage.  
-**Action**: Add a dedicated cross-tenant isolation E2E test that creates data in tenant A, then attempts access from tenant B, verifying 404 (not 403, to prevent enumeration).  
-**Acceptance**: Cross-tenant access returns consistent 404; response timing is uniform.
+**Description**: Governance checks verify tenant isolation in source code patterns, but no deterministic runtime test verified cross-tenant 404 behaviour or error-body leakage.
+**Resolution**:
+- `apps/api/src/routes/cross-tenant-isolation.test.ts` — 15 tests covering 6 attack vectors:
+  1. **Cross-tenant GET → 404 (not 403)**: Tenant B querying Tenant A individual returns 404 — prevents entity enumeration
+  2. **T3 verified**: `getIndividualById` called with JWT tenantId, never URL-derived or body-derived tenant
+  3. **Error body leak check**: 404 body contains no other tenant\'s ID, workspace ID, "forbidden" or "permission" language
+  4. **Organizations**: same cross-tenant 404 contract verified for org routes
+  5. **List scoping**: `listIndividualsByTenant` / `listOrganizationsByTenant` called with JWT tenant only
+  6. **Concurrent isolation**: 5 concurrent A+B request pairs — Tenant B always gets 404, Tenant A never 403
+  7. **Timing uniformity**: non-existent vs cross-tenant 404 response spread < 20ms (anti-enumeration)
+  8. **T3 body injection**: `POST /individuals` with `body.tenant_id=B` — DB called with JWT tenant A
+  9. **T3 query injection**: `GET ?tenant_id=B` — list uses JWT tenant A, not query param
+  10. **404 shape consistency**: both 404 scenarios return identical top-level `{error: string}` — no body-variance oracle
+- Companion to Playwright E2E files (08-, 25-, 27-cross-tenant-isolation.e2e.ts) for live-server testing
+- All 15 tests pass deterministically with no network I/O
 
 ---
 
