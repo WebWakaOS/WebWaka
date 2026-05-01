@@ -170,5 +170,6 @@ import { defineWorkspace } from 'vitest/config';
   'packages/verticals-youth-organization/vitest.config.ts',
   'packages/verticals/vitest.config.ts',
   'apps/schedulers/vitest.config.ts',
+  'apps/log-tail/vitest.config.ts',
   ]);
   

@@ -1,0 +1,19 @@
+{
+  "name": "@webwaka/log-tail",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Tail Worker — forwards structured logs to external sinks (Axiom/Datadog/Logtail)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:production": "wrangler deploy --env production",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240909.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.9",
+    "wrangler": "^4.0.0"
+  }
+}
