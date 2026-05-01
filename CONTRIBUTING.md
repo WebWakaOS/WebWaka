@@ -352,3 +352,40 @@ All KV reads in application code MUST use `kvGet` / `kvGetText` — never raw `k
 ## Questions
 
 Open an issue using the appropriate template, or consult the agent coordination model in [AGENTS.md](./AGENTS.md).
+
+---
+
+## Expand-Only Migration Policy (L-4 / ADR-0042)
+
+WebWaka uses versioned Worker rollback for instant code rollback (<30 seconds).
+Because D1 schema migrations are NOT rolled back automatically, all migrations
+must be **backward-compatible with the previous Worker version**. This is the
+_expand-only_ (also called _expand-contract_) pattern.
+
+### Rules
+
+| Allowed | Not Allowed (without two-phase deploy) |
+|---------|----------------------------------------|
+| `ADD COLUMN col TYPE DEFAULT val` | `DROP COLUMN` |
+| `CREATE TABLE` | `DROP TABLE` |
+| `CREATE INDEX` | `RENAME TABLE / COLUMN` |
+| `ALTER TABLE ADD COLUMN … NOT NULL DEFAULT …` | `ADD COLUMN … NOT NULL` (no default) |
+| Add optional FK | Change column type |
+
+### Two-phase deploy for breaking changes
+
+If a breaking schema change is unavoidable:
+
+1. **Phase 1 (expand)**: Add new schema alongside old.
+   - Deploy migration only.
+   - Both old and new Worker versions work.
+2. **Phase 2 (contract)**: Deploy new Worker code ≥7 days later.
+   - Remove old columns/tables only after Phase 2 has been stable for ≥7 days.
+
+### Why this matters
+
+If a Worker rollback is triggered (e.g. `rollback-worker.yml`), the previous Worker
+version must still function with the latest D1 schema. A `DROP COLUMN` in a migration
+that the old Worker reads will cause a 500 error. With expand-only, rollback is always safe.
+
+See [docs/adr/ADR-0042-blue-green-deployment.md](docs/adr/ADR-0042-blue-green-deployment.md).
