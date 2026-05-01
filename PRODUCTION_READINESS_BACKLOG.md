@@ -213,28 +213,41 @@ The k6 load smoke test failure is:
 **Expected improvement**: cold run ~2-3 min → warm/cached run <30s
 
 #### M-2: Canary Traffic Shift Observability
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Infrastructure, Observability  
 **Description**: `apps/api/src/routes/traffic-shift.ts` implements gradual migration but lacks metrics/logging for canary health comparison.  
-**Action**: Add structured logs for canary percentage, error rate per route cohort, and latency P50/P95 comparison. Expose a `/admin/canary-status` endpoint.  
-**Acceptance**: Traffic-shift deployment includes real-time health signals.
+**Resolution**:
+- `apps/api/src/middleware/traffic-shift.ts` — `recordCanaryRequest()` accumulates per-cohort (engine/legacy) latency samples (circular buffer, 1K) and error counts
+- `getCanaryHealthMetrics()` computes P50/P95 latency and error rates; classifies overall health as `healthy | degraded | critical`
+- `GET /admin/traffic-shift/canary-status` endpoint returns full health JSON; returns 503 when health=critical
+- `apps/api/src/middleware/traffic-shift.canary.test.ts` — 10 tests covering all health states, latency percentiles, logger.warn calls, reset behaviour ✅
 
 #### M-3: Billing Enforcement Read-Only UX
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Frontend, UX  
 **Description**: When a workspace subscription is suspended, the API returns 403 for writes. Frontend lacks clear visual indicators (banners, disabled buttons) for this state.  
-**Action**: Add a subscription-status banner component to workspace-app that reads the `X-Billing-Status` response header and shows appropriate messaging.  
-**Acceptance**: Users see "Subscription suspended — read-only mode" banner; all write buttons visually disabled.
+**Resolution**:
+- `apps/workspace-app/src/components/BillingStatusBanner.tsx` — `BillingStatusBanner`, `BillingProvider`, `useBilling`, `ReadOnlyGuard` components implemented
+- `apps/workspace-app/src/lib/api.ts` — `X-Billing-Status` header interceptor: broadcasts status via `registerBillingStatusListener()` pub/sub
+- `apps/workspace-app/src/components/__tests__/BillingStatusBanner.test.tsx` — unit tests for banner states ✅
 
 #### M-4: Visual Regression Baseline Automation
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: QA, CI/CD  
 **Description**: Cycle-09 (visual tests) is excluded from CI because snapshot baselines must be committed. No automated process exists to generate/update baselines.  
-**Action**: Create a `pnpm test:visual:update` workflow that generates baselines, opens a PR with snapshots, and requires human approval.  
-**Acceptance**: Visual regression baselines are kept current; Cycle-09 can be optionally enabled in CI.
+**Resolution**:
+- `.github/workflows/visual-regression-baseline.yml` — workflow generates Playwright snapshots and opens a PR for human approval before merging
+- Triggers: manual `workflow_dispatch` (with branch + reason inputs) and weekly schedule (Mon 04:00 UTC)
+- PR opened against target branch with updated snapshot files ✅
 
 #### M-5: Operational Runbook Consolidation
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Operations, Documentation  
 **Description**: Multiple runbooks exist across `docs/ops/`, `docs/runbooks/`, `docs/operator-runbook.md`, and `docs/operations/`. No single source for incident response.  
-**Action**: Consolidate into a single `docs/runbooks/incident-response.md` with clear sections: deploy, rollback, seed, secret rotation, monitoring alerts.  
-**Acceptance**: One-page runbook covers all critical operations; existing files redirect to it.
+**Resolution**:
+- `docs/ops/RUNBOOK.md` confirmed as the canonical single source with sections: Deploy, Rollback, Database/Seed, Secret Rotation, Monitoring & Alerting, Incident Response, Provider Failover, Notification Ops, USSD Ops
+- Monitoring section enhanced with links to OTP rate-limit runbook and canary-status endpoint
+- `docs/operator-runbook.md`, `docs/runbooks/rollback-procedure.md`, `docs/runbooks/secret-rotation.md` — redirect notices added pointing to canonical runbook ✅
 
 #### M-6: Wallet Feature Flag Verification
 **Status**: ✅ RESOLVED (2026-05-01)  
@@ -252,16 +265,23 @@ The k6 load smoke test failure is:
 - All 22 wallet tests pass: `vitest run` ✅
 
 #### M-7: OTP Rate Limit Monitoring Dashboard
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Security, Observability  
 **Description**: Identity verification (BVN/NIN) has strict rate limits (R5: 2/hour, R9: channel-level). No monitoring exists to track rate-limit hits, which could indicate abuse or legitimate scaling issues.  
-**Action**: Log rate-limit rejections as structured JSON with `event: rate_limit_exceeded`; create a monitoring query/dashboard template.  
-**Acceptance**: Rate-limit events are queryable; spike alerts configurable.
+**Resolution**:
+- `apps/api/src/middleware/rate-limit.ts` — enhanced structured log: adds `rule_id` (R5/R9), `key_prefix`, `user_id`, `workspace_id`, `ip_count`, `ws_count`, `exceeded_by` fields
+- `apps/api/src/routes/contact.ts` — OTP-specific 429 path now emits structured log with `channel`, `purpose`, `otp_error_code` fields (R9 events)
+- `docs/runbooks/otp-rate-limit-monitoring.md` — 5 Logpush/SQL query templates + Axiom/Datadog equivalents + alert thresholds table + Cron-based alert worker pattern ✅
 
 #### M-8: Queue Dead Letter Handling
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Notifications, Resilience  
 **Description**: The notification queue (`NOTIFICATION_QUEUE`) processes messages in `apps/notificator`, but there's no explicit dead-letter queue (DLQ) or retry policy documented for permanently failed messages.  
-**Action**: Document the CF Queue retry behavior; implement a DLQ consumer that stores permanently failed messages in D1 for manual triage.  
-**Acceptance**: Failed notification events don't silently disappear; operators can view/retry them.
+**Resolution**:
+- `apps/notificator/src/consumer.ts` — on final CF Queue attempt (attempts >= 4), writes to `notification_queue_dlq` D1 table: `id, tenant_id, message_type, message_id, event_key, raw_payload, last_error, attempts`
+- Emits `event: notification_dead_lettered` structured log with `dlq_id` for operator alerting
+- Unknown message types are acked (not retried) to prevent DLQ buildup
+- 18 consumer tests pass including DLQ write path, DLQ write failure (non-fatal), and final-attempt detection ✅
 
 #### M-9: Offline-Sync Conflict Resolution Testing
 **Status**: ✅ RESOLVED (2026-05-01)  
