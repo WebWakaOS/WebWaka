@@ -55,7 +55,7 @@ router.get('/:entityType/:id', async (c) => {
         .prepare(
           `SELECT e.id, e.name, e.category, e.description,
                   gp.name AS place_name, gp.id AS place_id,
-                  e.logo_url, e.phone, e.website
+                  e.logo_url, e.phone, e.website, e.wakapage_slug, e.trust_score, e.is_claimed
            FROM ${table} e
            LEFT JOIN places gp ON gp.id = e.place_id
            WHERE e.id = ? AND e.is_published = 1
@@ -138,11 +138,41 @@ router.get('/:entityType/:id', async (c) => {
   // This is the canonical ordering endpoint exposed by Pillar 1 (Operations API)
   const apiOrderUrl = `https://api.webwaka.com/entities/${esc(id)}/order`;
 
-  const claimCta = entityType === 'organization' ? `
+
+
+  // D1-5: Trust score, verified badge, WakaPage embed
+  const stars = (profile as { trust_score?: number | null }).trust_score
+    ? Math.round(Math.min(5, Math.max(0, ((profile as { trust_score?: number | null }).trust_score as number) / 20)))
+    : 0;
+  const starStr = stars > 0
+    ? '\u2605'.repeat(stars) + '\u2606'.repeat(5 - stars)
+    : '';
+  const trustBadge = starStr
+    ? `<div style="margin:.5rem 0;font-size:1.125rem;color:#f59e0b" aria-label="${stars} out of 5 trust score">${starStr}</div>`
+    : '';
+  const isClaimed = (profile as { is_claimed?: number | null }).is_claimed ?? 0;
+  const verifiedBadge = isClaimed
+    ? '<span style="display:inline-block;margin:.25rem 0;padding:2px 10px;background:#dcfce7;color:#16a34a;border-radius:999px;font-size:.8125rem;font-weight:600">\u2713 Verified Business</span>'
+    : '';
+  const wakaSlug = (profile as { wakapage_slug?: string | null }).wakapage_slug ?? null;
+  const wakapageEmbed = wakaSlug
+    ? `<section style="margin:2rem 0">
+        <h2 style="font-size:1.125rem;font-weight:700;margin-bottom:.75rem">Business Page</h2>
+        <iframe
+          src="https://pages.webwaka.com/${esc(wakaSlug)}"
+          title="${esc(profile.name)} WakaPage"
+          loading="lazy"
+          style="width:100%;min-height:600px;border:1px solid var(--ww-border);border-radius:var(--ww-radius)"
+          allow="payment"
+        ></iframe>
+      </section>`
+    : '';
+
+  const claimCta = entityType === 'organization' && !isClaimed ? `
     <div class="ww-cta-banner" style="margin-top:2rem">
       <h3>Is this your business?</h3>
-      <p>Claim this listing to update your info, add offerings, and build your brand.</p>
-      <a class="ww-cta-btn" href="https://webwaka.com/claim/${esc(id)}">Claim This Business</a>
+      <p>Claim this listing to update your info, add offerings, and grow your brand on WebWaka.</p>
+      <a class="ww-cta-btn" href="https://webwaka.com/claim/${esc(id)}">Claim This Business Free</a>
     </div>` : '';
 
   const body = `
@@ -152,6 +182,8 @@ router.get('/:entityType/:id', async (c) => {
       <div>
         ${profile.category ? `<span class="ww-badge">${esc(profile.category)}</span>` : ''}
         <h1 style="font-size:1.75rem;font-weight:800;line-height:1.2">${esc(profile.name)}</h1>
+        ${verifiedBadge}
+        ${trustBadge}
         ${profile.place_name ? `<p style="color:var(--ww-text-muted);margin-top:.375rem">${esc(profile.place_name)}</p>` : ''}
         ${profile.phone ? `<p style="margin-top:.375rem"><a href="tel:${esc(profile.phone)}">${esc(profile.phone)}</a></p>` : ''}
         ${profile.website ? `<p style="margin-top:.375rem"><a href="${safeHref(profile.website)}" target="_blank" rel="noopener">${esc(profile.website)}</a></p>` : ''}
@@ -161,6 +193,7 @@ router.get('/:entityType/:id', async (c) => {
     </div>
     ${profile.description ? `<p style="margin-top:1.5rem;color:var(--ww-text-muted);line-height:1.7;max-width:44rem">${esc(profile.description)}</p>` : ''}
     ${offeringsHtml}
+    ${wakapageEmbed}
     ${claimCta}`;
 
   const description = profile.description ?? `${profile.name} on WebWaka`;

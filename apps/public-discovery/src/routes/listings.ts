@@ -24,6 +24,42 @@ import { detectLocale, createI18n } from '@webwaka/i18n';
 
 const router = new Hono<{ Bindings: Env }>();
 
+// -- Card rendering helper (D1-5: trust score, logo, verified badge) --
+function renderCard(r: {
+  id: string;
+  name: string;
+  category: string | null;
+  place_name: string | null;
+  logo_url?: string | null;
+  trust_score?: number | null;
+  is_claimed?: number | null;
+}): string {
+  const stars = r.trust_score
+    ? Math.round(Math.min(5, Math.max(0, r.trust_score / 20)))
+    : 0;
+  const starStr = stars > 0
+    ? '\u2605'.repeat(stars) + '\u2606'.repeat(5 - stars)
+    : '';
+  const verified = r.is_claimed
+    ? '<span class="ww-verified-badge">\u2713 Verified</span>'
+    : '';
+  const initial = esc(r.name.slice(0, 1).toUpperCase());
+  const logoEl = r.logo_url
+    ? `<img src="${esc(r.logo_url)}" alt="${esc(r.name)} logo" class="ww-card-logo" loading="lazy" width="48" height="48" />`
+    : `<div class="ww-card-logo-placeholder" aria-hidden="true">${initial}</div>`;
+  return (
+    '<a class="ww-card ww-card-v2" href="/discover/profile/organization/' +
+    esc(r.id) + '" aria-label="' + esc(r.name) + '">' +
+    '<div class="ww-card-header">' + logoEl +
+    '<div class="ww-card-meta"><span class="ww-badge">' + esc(r.category ?? 'Business') + '</span>' + verified + '</div>' +
+    '</div>' +
+    '<h3 class="ww-card-name">' + esc(r.name) + '</h3>' +
+    '<p class="ww-card-location">\u{1F4CD} ' + esc(r.place_name ?? 'Nigeria') + '</p>' +
+    (starStr ? '<div class="ww-stars" aria-label="' + stars + ' out of 5 stars">' + starStr + '</div>' : '') +
+    '</a>'
+  );
+}
+
 const SECTORS = [
   'Restaurant', 'Salon', 'Market', 'Motor Park', 'Bakery',
   'Pharmacy', 'Laundry', 'Logistics', 'Education', 'Agriculture',
@@ -54,14 +90,15 @@ router.get('/', async (c) => {
   try {
     const recent = await c.env.DB
       .prepare(
-        `SELECT o.id, o.name, o.category, gp.name AS place_name
+        `SELECT o.id, o.name, o.category, gp.name AS place_name,
+               o.logo_url, o.trust_score, o.is_claimed
          FROM organizations o
          LEFT JOIN places gp ON gp.id = o.place_id
          WHERE o.is_published = 1
          ORDER BY o.created_at DESC
          LIMIT 8`,
       )
-      .all<{ id: string; name: string; category: string; place_name: string }>();
+      .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
     const rows = recent.results ?? [];
     if (rows.length > 0) {
       recentListings = `
@@ -221,16 +258,17 @@ router.get('/in/:placeId', async (c) => {
     const safePlaceId = placeId.replace(/[%_\\]/g, '\\$&');
     const rows = await c.env.DB
       .prepare(
-        `SELECT o.id, o.name, o.category, gp.name AS place_name
+        `SELECT o.id, o.name, o.category, gp.name AS place_name,
+               o.logo_url, o.trust_score, o.is_claimed
          FROM organizations o
          JOIN places gp ON gp.id = o.place_id
          WHERE (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')
          AND o.is_published = 1
-         ORDER BY o.name ASC
-         LIMIT 50`,
+         ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
+         LIMIT 60`,
       )
       .bind(placeId, `%"${safePlaceId}"%`)
-      .all<{ id: string; name: string; category: string; place_name: string }>();
+      .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
     results = rows.results ?? [];
     await c.env.DISCOVERY_CACHE.put(cacheKey, JSON.stringify(results), { expirationTtl: 60 });
   } else {
@@ -241,15 +279,7 @@ router.get('/in/:placeId', async (c) => {
     results.length === 0
       ? '<p style="color:var(--ww-text-muted)">No listings found in this area yet. Be the first to list your business!</p>'
       : `<div class="ww-grid">${results
-          .map(
-            (r) => `
-          <a class="ww-card" href="/discover/profile/organization/${esc(r.id)}" style="display:block;text-decoration:none;color:inherit">
-            <span class="ww-badge">${esc(r.category ?? 'Business')}</span>
-            <h3>${esc(r.name)}</h3>
-            <p>${esc(r.place_name ?? 'Nigeria')}</p>
-          </a>`,
-          )
-          .join('')}</div>`;
+          .map(renderCard).join('')}</div>`;
 
   const body = `
     <a href="/discover" style="font-size:.875rem;color:var(--ww-text-muted)">&larr; All locations</a>
@@ -331,17 +361,18 @@ router.get('/search', async (c) => {
   const safePlaceId = placeId ? placeId.replace(/[%_\\]/g, '\\$&') : null;
   const results = await c.env.DB
     .prepare(
-      `SELECT o.id, o.name, o.category, gp.name AS place_name
+      `SELECT o.id, o.name, o.category, gp.name AS place_name,
+               o.logo_url, o.trust_score, o.is_claimed
        FROM organizations o
        JOIN places gp ON gp.id = o.place_id
        WHERE o.is_published = 1
          AND (o.name LIKE '%' || ? || '%' OR o.category LIKE '%' || ? || '%')
          ${placeId ? "AND (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')" : ''}
-       ORDER BY o.name ASC
-       LIMIT 30`,
+       ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
+         LIMIT 60`,
     )
     .bind(...(placeId && safePlaceId ? [q, q, placeId, `%"${safePlaceId}"%`] : [q, q]))
-    .all<{ id: string; name: string; category: string; place_name: string }>();
+    .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
 
   const rows = results.results ?? [];
 
@@ -349,15 +380,7 @@ router.get('/search', async (c) => {
     rows.length === 0
       ? `<p style="color:var(--ww-text-muted)">No results found for "${esc(q)}".</p>`
       : `<div class="ww-grid">${rows
-          .map(
-            (r) => `
-          <a class="ww-card" href="/discover/profile/organization/${esc(r.id)}" style="display:block;text-decoration:none;color:inherit">
-            <span class="ww-badge">${esc(r.category ?? 'Business')}</span>
-            <h3>${esc(r.name)}</h3>
-            <p>${esc(r.place_name ?? 'Nigeria')}</p>
-          </a>`,
-          )
-          .join('')}</div>`;
+          .map(renderCard).join('')}</div>`;
 
   const geoNotice = geoPlaceName
     ? `<p style="margin-bottom:0.5rem;font-size:0.8125rem;color:var(--ww-text-muted)">
@@ -410,16 +433,17 @@ router.get('/category/:cat', async (c) => {
   try {
     const rows = await c.env.DB
       .prepare(
-        `SELECT o.id, o.name, o.category, gp.name AS place_name
+        `SELECT o.id, o.name, o.category, gp.name AS place_name,
+               o.logo_url, o.trust_score, o.is_claimed
          FROM organizations o
          LEFT JOIN places gp ON gp.id = o.place_id
          WHERE o.is_published = 1
            AND LOWER(o.category) = LOWER(?)
-         ORDER BY o.name ASC
-         LIMIT 50`,
+         ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
+         LIMIT 60`,
       )
       .bind(cat)
-      .all<{ id: string; name: string; category: string; place_name: string }>();
+      .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
     results = rows.results ?? [];
   } catch { /* table may not exist */ }
 
@@ -427,15 +451,7 @@ router.get('/category/:cat', async (c) => {
     results.length === 0
       ? `<p style="color:var(--ww-text-muted)">No ${esc(displayCat)} businesses listed yet.</p>`
       : `<div class="ww-grid">${results
-          .map(
-            (r) => `
-          <a class="ww-card" href="/discover/profile/organization/${esc(r.id)}" style="display:block;text-decoration:none;color:inherit">
-            <span class="ww-badge">${esc(r.category ?? displayCat)}</span>
-            <h3>${esc(r.name)}</h3>
-            <p>${esc(r.place_name ?? 'Nigeria')}</p>
-          </a>`,
-          )
-          .join('')}</div>`;
+          .map(renderCard).join('')}</div>`;
 
   const body = `
     <a href="/discover" style="font-size:.875rem;color:var(--ww-text-muted)">&larr; All categories</a>
