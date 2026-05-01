@@ -144,3 +144,132 @@ export const identityRateLimit = rateLimitMiddleware({
   windowSeconds: 3600,
   ruleId: 'R5',
 });
+
+// ---------------------------------------------------------------------------
+// L-2: Tier-Based Rate Limiting
+//
+// Enforces per-subscription-plan request limits that align with billing tiers:
+//   free: 30 req/min  |  starter: 60 req/min  |  growth: 120 req/min
+//   pro: 200 req/min  |  enterprise: 1000 req/min
+//
+// Reads subscription_plan from D1 (workspace row) using the auth context
+// already set by authMiddleware. The X-RateLimit-Warning header is added at
+// 80-95% consumption (configurable per tier) to let clients back off gracefully.
+//
+// Response headers set on every request:
+//   X-RateLimit-Tier      — plan name (e.g. "pro")
+//   X-RateLimit-Limit     — requests per minute for this tier
+//   X-RateLimit-Remaining — requests left in current window
+//   X-RateLimit-Reset     — Unix timestamp when window resets
+//   X-RateLimit-Warning   — "true" when >= warningThreshold of limit consumed
+// ---------------------------------------------------------------------------
+import { getTierRateLimit, isApproachingLimit } from './rate-limit-tiers.js';
+
+interface WorkspaceRow {
+  subscription_plan: string | null;
+}
+
+/**
+ * Tier-based global rate limiter.
+ * Apply AFTER authMiddleware so c.get('auth') is populated.
+ * Skips enforcement if auth context is absent (unauthenticated routes handled
+ * by the IP-only rateLimitMiddleware above).
+ */
+export function tierRateLimitMiddleware() {
+  return createMiddleware<{ Bindings: Env }>(async (c, next) => {
+    const auth = c.get('auth') as
+      | { workspaceId?: string; tenantId?: string; userId?: string }
+      | undefined;
+
+    // Only enforce on authenticated requests — unauthenticated routes use IP limits
+    if (!auth?.tenantId) {
+      await next();
+      return;
+    }
+
+    // Resolve plan: prefer workspaceId lookup, fall back to tenant-level, then 'free'
+    let plan = 'free';
+    try {
+      if (auth.workspaceId) {
+        const row = await c.env.DB.prepare(
+          `SELECT subscription_plan FROM workspaces WHERE id = ? AND tenant_id = ? LIMIT 1`,
+        )
+          .bind(auth.workspaceId, auth.tenantId)
+          .first<WorkspaceRow>();
+        if (row?.subscription_plan) plan = row.subscription_plan;
+      } else {
+        const row = await c.env.DB.prepare(
+          `SELECT subscription_plan FROM workspaces WHERE tenant_id = ? LIMIT 1`,
+        )
+          .bind(auth.tenantId)
+          .first<WorkspaceRow>();
+        if (row?.subscription_plan) plan = row.subscription_plan;
+      }
+    } catch {
+      // DB lookup failure → fail open with 'free' tier limits
+    }
+
+    const tierConfig = getTierRateLimit(plan);
+    const windowSeconds = 60; // 1-minute sliding window for general tier limit
+    const rlKey = `rl:tier:ws:${auth.workspaceId ?? auth.tenantId}`;
+    const kv = c.env.RATE_LIMIT_KV;
+
+    let currentCount = 0;
+    try {
+      const raw = await kv.get(rlKey);
+      currentCount = raw ? parseInt(raw, 10) : 0;
+    } catch {
+      // KV unavailable — fail open (ARC-17)
+    }
+
+    const remaining = Math.max(0, tierConfig.requestsPerMinute - currentCount);
+    const resetAt = Math.floor(Date.now() / 1000) + windowSeconds;
+
+    // Set informational headers on every response
+    c.header('X-RateLimit-Tier', tierConfig.plan);
+    c.header('X-RateLimit-Limit', String(tierConfig.requestsPerMinute));
+    c.header('X-RateLimit-Remaining', String(remaining));
+    c.header('X-RateLimit-Reset', String(resetAt));
+
+    if (isApproachingLimit(currentCount, tierConfig, 'requestsPerMinute')) {
+      c.header('X-RateLimit-Warning', 'true');
+    }
+
+    if (currentCount >= tierConfig.requestsPerMinute) {
+      c.header('Retry-After', String(windowSeconds));
+      console.log(JSON.stringify({
+        level: 'warn',
+        event: 'tier_rate_limit_exceeded',
+        rule_id: 'L-2',
+        plan: tierConfig.plan,
+        limit: tierConfig.requestsPerMinute,
+        user_id: auth.userId ?? null,
+        workspace_id: auth.workspaceId ?? null,
+        tenant_id: auth.tenantId,
+        path: c.req.path,
+        method: c.req.method,
+        timestamp: new Date().toISOString(),
+      }));
+      return c.json(
+        {
+          error: 'rate_limit_exceeded',
+          message: `Your ${tierConfig.plan} plan allows ${tierConfig.requestsPerMinute} requests/minute. Upgrade for higher limits.`,
+          plan: tierConfig.plan,
+          limit: tierConfig.requestsPerMinute,
+          retry_after_seconds: windowSeconds,
+        },
+        429,
+      );
+    }
+
+    // Increment counter — failure is non-fatal (fail open)
+    try {
+      await kv.put(rlKey, String(currentCount + 1), { expirationTtl: windowSeconds });
+    } catch {
+      // KV write failure — log but do not block request
+      console.error(JSON.stringify({ level: 'error', event: 'ratelimit_kv_degraded', key: rlKey }));
+    }
+
+    await next();
+  });
+}
