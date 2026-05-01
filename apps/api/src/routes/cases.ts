@@ -122,6 +122,7 @@ casesRoutes.post('/', zValidator('json', CreateCaseSchema), async (c) => {
     aggregateType: 'case',
     actorId: auth.userId,
     payload: { caseId: newCase.id, title: newCase.title, priority: newCase.priority },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ case: newCase }, 201);
@@ -200,6 +201,7 @@ casesRoutes.post('/:id/assign', zValidator('json', AssignSchema), async (c) => {
       aggregateId: updated.id, aggregateType: 'case',
       actorId: auth.userId,
       payload: { caseId: updated.id, assignedToUserId },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ case: updated });
@@ -230,6 +232,7 @@ casesRoutes.post('/:id/notes', zValidator('json', AddNoteSchema), async (c) => {
     aggregateId: c.req.param('id'), aggregateType: 'case',
     actorId: auth.userId,
     payload: { noteId: note.id, isInternal: note.isInternal },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ note }, 201);
@@ -265,6 +268,7 @@ casesRoutes.post('/:id/resolve', zValidator('json', ResolveSchema), async (c) =>
       aggregateId: resolved.id, aggregateType: 'case',
       actorId: auth.userId,
       payload: { caseId: resolved.id },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ case: resolved });
@@ -293,6 +297,7 @@ casesRoutes.post('/:id/close', async (c) => {
     aggregateId: closed.id, aggregateType: 'case',
     actorId: auth.userId,
     payload: { caseId: closed.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ case: closed });
@@ -316,6 +321,7 @@ casesRoutes.post('/:id/reopen', zValidator('json', ReopenSchema), async (c) => {
     aggregateId: reopened.id, aggregateType: 'case',
     actorId: auth.userId,
     payload: { caseId: reopened.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ case: reopened });

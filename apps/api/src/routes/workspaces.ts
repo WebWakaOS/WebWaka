@@ -323,6 +323,7 @@ workspaceRoutes.patch('/:id', async (c) => {
     },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   return c.json({
     workspaceId,
@@ -420,6 +421,7 @@ workspaceRoutes.post('/:id/invite', async (c) => {
     payload: { workspace_id: workspaceId, invitee_id: userId, role: roleValue, has_email: !!body.email },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // G2: email send is secondary/optional — kill-switch guards the notification pipeline.
@@ -737,6 +739,7 @@ workspaceRoutes.delete('/:id/members/:userId', async (c) => {
     payload: { removed_user_id: targetUserId, removed_by: auth.userId },
     source: 'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ workspaceId, removedUserId: targetUserId, removed: true });
@@ -800,6 +803,7 @@ workspaceRoutes.patch('/:id/members/:userId/role', async (c) => {
     payload: { target_user_id: targetUserId, previous_role: previousRole, new_role: newRole },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ workspaceId, userId: targetUserId, previousRole, newRole, updated: true });

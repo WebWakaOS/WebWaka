@@ -206,6 +206,7 @@ fundraisingRoutes.post('/campaigns', async (c) => {
       eventId: crypto.randomUUID(),
       eventKey: FundraisingEventType.FundraisingCampaignCreated,
       tenantId, payload: { campaignId: campaign.id, title: campaign.title, campaignType: campaign.campaignType },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ campaign }, 201);
@@ -294,6 +295,7 @@ fundraisingRoutes.post('/campaigns/:id/publish', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: FundraisingEventType.FundraisingCampaignApproved,
     tenantId, payload: { campaignId: campaign.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ campaign });
@@ -320,6 +322,7 @@ fundraisingRoutes.post('/campaigns/:id/moderate', async (c) => {
       ? FundraisingEventType.FundraisingCampaignApproved
       : FundraisingEventType.FundraisingCampaignRejected,
     tenantId, payload: { campaignId: c.req.param('id'), moderatedBy: userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -380,6 +383,7 @@ fundraisingRoutes.post('/campaigns/:id/contributions', async (c) => {
     eventKey: FundraisingEventType.FundraisingContributionReceived,
     tenantId, payload: { contributionId: contribution.id, amountKobo: contribution.amountKobo },
     // P13: donor_phone deliberately omitted from event payload
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // Strip P13 fields from response
@@ -403,6 +407,7 @@ fundraisingRoutes.post('/campaigns/:id/contributions/:cId/confirm', async (c) =>
     eventId: crypto.randomUUID(),
     eventKey: FundraisingEventType.FundraisingContributionConfirmed,
     tenantId, payload: { contributionId: c.req.param('cId'), paystackRef: parsed.data.paystackRef },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -450,6 +455,7 @@ fundraisingRoutes.post('/campaigns/:id/pledges', async (c) => {
     eventKey: FundraisingEventType.FundraisingPledgeCreated,
     tenantId, payload: { pledgeId: pledge.id, amountKobo: pledge.amountKobo, frequency: pledge.frequency },
     // P13: pledgerPhone omitted from event payload
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   const { pledgerPhone: _p, ...safePledge } = pledge;
@@ -512,6 +518,7 @@ fundraisingRoutes.post('/campaigns/:id/updates', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: FundraisingEventType.FundraisingUpdatePosted,
     tenantId, payload: { updateId: update.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ update }, 201);
@@ -581,6 +588,7 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests', async (c) => {
     tenantId, payload: { payoutRequestId: payoutRequest.id, amountKobo: payoutRequest.amountKobo,
       hitlRequired: payoutRequest.hitlRequired },
     // P13: bankAccountNumber stripped (already masked in repository output)
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   const { bankAccountNumber: _acct, ...safePayout } = payoutRequest;
@@ -612,6 +620,7 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests/:prId/approve', async (c)
     eventId: crypto.randomUUID(),
     eventKey: FundraisingEventType.FundraisingPayoutApproved,
     tenantId, payload: { payoutRequestId: c.req.param('prId'), reviewerId: userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -633,6 +642,7 @@ fundraisingRoutes.post('/campaigns/:id/payout-requests/:prId/reject', async (c) 
     eventId: crypto.randomUUID(),
     eventKey: FundraisingEventType.FundraisingPayoutRejected,
     tenantId, payload: { payoutRequestId: c.req.param('prId'), reviewerId: userId, note: parsed.data.note },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });

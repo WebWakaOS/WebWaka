@@ -318,6 +318,7 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/confirm', async (c) => {
     },
     source:   'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // ── 6. Fire workspace.activated event ───────────────────────────────────
@@ -336,6 +337,7 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/confirm', async (c) => {
     },
     source:   'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -409,6 +411,7 @@ platformAdminBillingRoutes.post('/upgrade-requests/:id/reject', async (c) => {
     },
     source:   'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

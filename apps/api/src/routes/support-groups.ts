@@ -195,6 +195,7 @@ supportGroupRoutes.post('/', async (c) => {
       eventId: crypto.randomUUID(),
       eventKey: SupportGroupEventType.GroupCreated,
       tenantId, payload: { groupId: group.id, name: group.name },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ group }, 201);
@@ -265,6 +266,7 @@ supportGroupRoutes.patch('/:id', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupUpdated,
     tenantId, payload: { groupId: updated.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ group: updated });
@@ -304,6 +306,7 @@ supportGroupRoutes.post('/:id/join', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupMemberJoined,
     tenantId, payload: { memberId: member.id, userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ member }, 201);
@@ -334,6 +337,7 @@ supportGroupRoutes.post('/:id/members/:memberId/approve', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupMemberApproved,
     tenantId, payload: { memberId: c.req.param('memberId'), approvedBy: userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -387,6 +391,7 @@ supportGroupRoutes.post('/:id/meetings', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupMeetingScheduled,
     tenantId, payload: { meetingId: meeting.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ meeting }, 201);
@@ -436,6 +441,7 @@ supportGroupRoutes.post('/:id/broadcasts', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupBroadcastSent,
     tenantId, payload: { broadcastId: broadcast.id, channel: broadcast.channel },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ broadcast }, 201);
@@ -485,6 +491,7 @@ supportGroupRoutes.post('/:id/events', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupEventCreated,
     tenantId, payload: { eventId: event.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ event }, 201);
@@ -547,6 +554,7 @@ supportGroupRoutes.post('/:id/gotv', async (c) => {
     tenantId,
     payload: { gotvId: record.id, pollingUnitCode: record.pollingUnitCode },
     // P13: voter_ref deliberately omitted from event payload
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // P13: return record without voter_ref
@@ -566,6 +574,7 @@ supportGroupRoutes.post('/:id/gotv/:gotvId/confirm', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupGotvVoteConfirmed,
     tenantId, payload: { gotvId: c.req.param('gotvId') },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -607,6 +616,7 @@ supportGroupRoutes.post('/:id/petitions', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupPetitionOpened,
     tenantId, payload: { petitionId: petition.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ petition }, 201);
@@ -631,6 +641,7 @@ supportGroupRoutes.post('/petitions/:petitionId/sign', async (c) => {
     eventId: crypto.randomUUID(),
     eventKey: SupportGroupEventType.GroupPetitionSigned,
     tenantId, payload: { petitionId, userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });

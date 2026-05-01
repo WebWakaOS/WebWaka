@@ -379,6 +379,7 @@ walletRoutes.post('/fund/bank-transfer', async (c) => {
         amount_naira: (body.amount_kobo / 100).toFixed(2),
         reference:    bankTransferReference,
       },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // WF-034: audit log (fire-and-forget)
@@ -516,6 +517,7 @@ walletRoutes.post('/spend', async (c) => {
           order_id:      body.order_id ?? null,
           new_balance_kobo: wallet.balanceKobo - body.amount_kobo,
         },
+        correlationId: c.get('requestId') ?? undefined,
       });
 
       // WF-026: Record MLA commissions up the referral chain (fire-and-forget)
@@ -653,6 +655,7 @@ walletRoutes.post('/transfer', async (c) => {
       actorId:   auth.userId,
       actorType: 'user',
       payload:   {},
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
     return c.json({
       error:   'wallet_feature_disabled',
@@ -714,6 +717,7 @@ walletRoutes.post('/transfer', async (c) => {
         amount_naira:   (transfer.amountKobo / 100).toFixed(2),
         reference:      transfer.reference,
       },
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
 
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
@@ -781,6 +785,7 @@ walletRoutes.post('/withdraw', async (c) => {
       actorId:   auth.userId,
       actorType: 'user',
       payload:   {},
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
     return c.json({
       error:   'wallet_feature_disabled',
@@ -846,6 +851,7 @@ walletRoutes.post('/withdraw', async (c) => {
         reference:     withdrawal.reference,
         status:        withdrawal.status,
       },
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
 
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
@@ -1253,6 +1259,7 @@ walletAdminRoutes.post('/:walletId/freeze', async (c) => {
     actorId:   auth.userId,
     actorType: 'admin',
     payload:   { wallet_id: walletId, frozen_reason: body.reason },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // WF-034: audit log (fire-and-forget)
@@ -1304,6 +1311,7 @@ walletAdminRoutes.post('/:walletId/unfreeze', async (c) => {
     actorId:   auth.userId,
     actorType: 'admin',
     payload:   { wallet_id: walletId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // WF-034: audit log (fire-and-forget)
@@ -1352,6 +1360,7 @@ walletAdminRoutes.post('/funding/:id/confirm', async (c) => {
         new_balance_naira:  ((walletRow?.balance_kobo ?? 0) / 100).toFixed(2),
         reference:          fr.bankTransferOrderId,
       },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // WF-034: audit log (fire-and-forget)
@@ -1397,6 +1406,7 @@ walletAdminRoutes.post('/funding/:id/reject', async (c) => {
         reference:        fr.bankTransferOrderId,
         rejection_reason: body.reason,
       },
+      correlationId: c.get('requestId') ?? undefined,
     });
     // WF-034: audit log (fire-and-forget)
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
@@ -1480,6 +1490,7 @@ walletAdminRoutes.post('/withdrawals/:id/confirm', async (c) => {
         account_number: withdrawal.accountNumber,
         provider_ref:  withdrawal.providerRef,
       },
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
 
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {
@@ -1531,6 +1542,7 @@ walletAdminRoutes.post('/withdrawals/:id/reject', async (c) => {
         amount_naira:     (withdrawal.amountKobo / 100).toFixed(2),
         rejection_reason: body.reason,
       },
+      correlationId: c.get('requestId') ?? undefined,
     }).catch(() => {});
 
     writeWalletAuditLog(c.env.DB as unknown as D1Compat, {

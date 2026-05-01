@@ -83,6 +83,7 @@ identityRoutes.post('/verify-bvn', async (c) => {
       payload: { record_type: 'BVN', provider: result.provider, verified: result.verified },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     // N-083: identity.verified event (NDPR P10 — identity successfully confirmed)
     void publishEvent(c.env, {
@@ -94,6 +95,7 @@ identityRoutes.post('/verify-bvn', async (c) => {
       payload: { record_type: 'BVN', provider: result.provider },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ success: true, result: { verified: result.verified, full_name: result.full_name, phone_match: result.phone_match, provider: result.provider } });
   } catch (err) {
@@ -108,6 +110,7 @@ identityRoutes.post('/verify-bvn', async (c) => {
         payload: { record_type: 'BVN', error_code: (err as IdentityError).code },
         source: 'api',
         severity: 'warning',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({ error: err.code, message: err.message }, err.code === 'consent_missing' ? 403 : 422);
     }
@@ -164,6 +167,7 @@ identityRoutes.post('/verify-nin', async (c) => {
       payload: { record_type: 'NIN', provider: result.provider, verified: result.verified },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     // N-083: identity.verified event (NDPR P10 — identity successfully confirmed)
     void publishEvent(c.env, {
@@ -175,6 +179,7 @@ identityRoutes.post('/verify-nin', async (c) => {
       payload: { record_type: 'NIN', provider: result.provider },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ success: true, result: { verified: result.verified, full_name: result.full_name, gender: result.gender, dob: result.dob, provider: result.provider } });
   } catch (err) {
@@ -188,6 +193,7 @@ identityRoutes.post('/verify-nin', async (c) => {
         payload: { record_type: 'NIN', error_code: (err as IdentityError).code },
         source: 'api',
         severity: 'warning',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({ error: err.code, message: err.message }, err.code === 'consent_missing' ? 403 : 422);
     }

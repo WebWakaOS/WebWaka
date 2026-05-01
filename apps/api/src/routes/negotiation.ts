@@ -354,6 +354,7 @@ negotiationRouter.post('/sessions', async (c) => {
       payload: { session_id: session.id, listing_type: listingType, listing_id: listingId, initial_offer_kobo: initialOffer },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ session }, 201);
   } catch (err) {
@@ -450,6 +451,7 @@ negotiationRouter.post('/sessions/:id/offer', async (c) => {
       payload: { session_id: id, offer_id: offer.id, amount_kobo: amountKobo, offered_by: offeredBy },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ offer });
   } catch (err) {
@@ -490,6 +492,7 @@ negotiationRouter.post('/sessions/:id/accept', async (c) => {
       payload: { session_id: id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ session, price_lock_token });
@@ -523,6 +526,7 @@ negotiationRouter.post('/sessions/:id/decline', async (c) => {
       payload: { session_id: id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ declined: true });
   } catch (err) {
@@ -552,6 +556,7 @@ negotiationRouter.post('/sessions/:id/cancel', async (c) => {
       payload: { session_id: id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ cancelled: true });
   } catch (err) {

@@ -290,6 +290,7 @@ airtimeRoutes.post('/topup', async (c) => {
     payload: { phone, amount_kobo: amountKobo, network },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // Step 2: Call Termii Airtime API. If this fails, we refund the deduction.
@@ -327,6 +328,7 @@ airtimeRoutes.post('/topup', async (c) => {
       payload: { phone, amount_kobo: amountKobo, network, error: msg },
       source: 'api',
       severity: 'warning',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ error: 'provider_error', message: msg }, 502);
   }
@@ -341,6 +343,7 @@ airtimeRoutes.post('/topup', async (c) => {
     payload: { phone, amount_kobo: amountKobo, network },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

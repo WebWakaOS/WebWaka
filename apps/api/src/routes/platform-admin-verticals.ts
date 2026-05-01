@@ -359,6 +359,7 @@ platformAdminVerticalsRoutes.post('/:workspaceId/:slug/claim', async (c) => {
     payload:   { workspace_id: workspaceId, slug, notes: body.notes ?? null, initiated_by: 'platform_admin' },
     source:    'api',
     severity:  'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ id, workspace_id: workspaceId, vertical: slug, state: 'claimed', created_at: now }, 201);
@@ -464,6 +465,7 @@ platformAdminVerticalsRoutes.post('/:workspaceId/:slug/activate', async (c) => {
     },
     source:   'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -535,6 +537,7 @@ platformAdminVerticalsRoutes.post('/:workspaceId/:slug/suspend', async (c) => {
     },
     source:   'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -626,6 +629,7 @@ platformAdminVerticalsRoutes.post('/:workspaceId/:slug/reinstate', async (c) => 
     },
     source:   'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -693,6 +697,7 @@ platformAdminVerticalsRoutes.post('/:workspaceId/:slug/deprecate', async (c) => 
     },
     source:   'api',
     severity: 'critical',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

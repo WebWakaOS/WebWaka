@@ -260,6 +260,7 @@ posBusinessRoutes.post('/sales', async (c) => {
       },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ sale }, 201);
   } catch (err: unknown) {
@@ -295,7 +296,7 @@ posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
   const db = c.env.DB as unknown as { prepare: (q: string) => { bind: (...a: unknown[]) => { all: <T>() => Promise<{ results: T[] }> } } };
 
   // Build daily buckets for the last `days` days (UTC)
-  const now = Math.floor(Date.now() / 1000);
+  // Note: _now unused — day buckets computed from Date.now() directly below
   const buckets: { date: string; dayStart: number; dayEnd: number }[] = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(Date.now() - i * 86400_000);

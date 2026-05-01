@@ -155,6 +155,7 @@ superagentRoutes.post('/consent', async (c) => {
     payload: { consent_id: consentId, purpose },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ consent_id: consentId, purpose, granted: true }, 201);
@@ -370,6 +371,7 @@ superagentRoutes.post(
         payload: { capability, vertical: verticalSlug, sector: complianceResult.sector, hitl_level: complianceResult.hitlLevel },
         source: 'api',
         severity: 'warning',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({
         error: 'HITL_REQUIRED',
@@ -390,6 +392,7 @@ superagentRoutes.post(
       payload: { capability, vertical: verticalSlug || null },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // Step 0c: Strip PII from messages before AI call (P13 enforcement)
@@ -501,6 +504,7 @@ superagentRoutes.post(
         payload: { capability, scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit },
         source: 'api',
         severity: 'critical',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({
         error: 'BUDGET_EXCEEDED',
@@ -616,6 +620,7 @@ superagentRoutes.post(
           },
           source: 'api',
           severity: 'info',
+          correlationId: c.get('requestId') ?? undefined,
         });
 
         // Append assistant message (with tool_calls) + tool result messages
@@ -649,6 +654,7 @@ superagentRoutes.post(
         payload: { capability, vertical: verticalSlug, provider: resolved.config.provider ?? 'unknown', error: message },
         source: 'api',
         severity: 'critical',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({ error: 'AI_PROVIDER_ERROR', message }, 503);
     }
@@ -770,6 +776,7 @@ superagentRoutes.post(
             },
             source: 'api',
             severity: 'warning',
+            correlationId: c.get('requestId') ?? undefined,
           });
           const notifId = crypto.randomUUID();
           spendDb
@@ -818,6 +825,7 @@ superagentRoutes.post(
       },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // Step 10: Persist session messages (SA-6.x)
@@ -991,6 +999,7 @@ superagentRoutes.post(
         payload: { capability, vertical: verticalSlug, sector: complianceResult.sector, hitl_level: complianceResult.hitlLevel },
         source: 'api',
         severity: 'warning',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({
         error: 'HITL_REQUIRED',
@@ -1070,6 +1079,7 @@ superagentRoutes.post(
         payload: { capability, scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit },
         source: 'api',
         severity: 'critical',
+        correlationId: c.get('requestId') ?? undefined,
       });
       return c.json({ error: 'BUDGET_EXCEEDED', scope: budgetCheck.budgetScope, remaining: budgetCheck.remaining, limit: budgetCheck.limit }, 429);
     }
@@ -1165,6 +1175,7 @@ superagentRoutes.post(
       payload: { capability, vertical: verticalSlug || null, streaming: true },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // Step 9: Build SSE ReadableStream bridging the adapter's AsyncIterable
@@ -1655,6 +1666,7 @@ superagentRoutes.patch('/hitl/:id/review', async (c) => {
       payload: { queue_item_id: queueItemId, reviewer_id: auth.userId, note: body.note ?? null },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 
@@ -1832,6 +1844,7 @@ superagentRoutes.post('/hitl/:id/resume', async (c) => {
     },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

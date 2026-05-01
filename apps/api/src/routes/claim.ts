@@ -174,6 +174,7 @@ claimRoutes.post('/intent', async (c) => {
     payload: { claim_id: claimId, profile_id: profileId, verification_method: verificationMethod },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ claimRequestId: claimId, status: 'pending', expiresAt }, 201);
@@ -298,6 +299,7 @@ claimRoutes.post('/advance', async (c) => {
     payload: { claim_id: claimRequestId, profile_id: claimRow.profile_id, action, ...(rejectionReason ? { reason: rejectionReason } : {}) },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ claimRequestId, status: newStatus, profileState: newProfileState });
@@ -414,6 +416,7 @@ claimRoutes.post('/verify', async (c) => {
     payload: { claim_id: claimRequestId, profile_id: claimRow.profile_id, method: method ?? claimRow.verification_method },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ claimRequestId, status: 'pending', message: 'Verification submitted — awaiting admin approval' });
@@ -537,6 +540,7 @@ claimRoutes.post('/escalate', async (c) => {
     },
     source: 'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ claimRequestId, status: 'escalated', escalated: true });

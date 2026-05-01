@@ -128,6 +128,7 @@ transportRoutes.post('/motor-park/:id/transition', async (c) => {
       payload: { entity_type: 'motor_park', entity_id: c.req.param('id'), status: parkStatus },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
   return c.json({ motor_park: park });
@@ -236,6 +237,7 @@ transportRoutes.post('/transit', async (c) => {
     payload: { entity_type: 'transit', entity_id: transit.id, operator_name: body.operator_name as string },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   return c.json({ transit }, 201);
 });
@@ -272,6 +274,7 @@ transportRoutes.post('/transit/:id/transition', async (c) => {
       payload: { entity_type: 'transit', entity_id: c.req.param('id'), status: transitStatus },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
   return c.json({ transit });
@@ -329,6 +332,7 @@ transportRoutes.post('/rideshare/:id/transition', async (c) => {
       payload: { entity_type: 'rideshare', entity_id: c.req.param('id'), status: rideStatus },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
   return c.json({ rideshare: driver });

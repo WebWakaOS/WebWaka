@@ -258,6 +258,7 @@ authRoutes.post('/login', async (c) => {
       payload: { reason: 'login_lockout_active', locked_until: lockValue },
       source: 'api',
       severity: 'warning',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json(errorResponse(ErrorCode.Forbidden, 'Account temporarily locked. Try again later.'), 429);
   }
@@ -324,6 +325,7 @@ authRoutes.post('/login', async (c) => {
       payload: { reason: 'wrong_password' },
       source: 'api',
       severity: 'warning',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // N-080: increment failed-attempt counter; lock account at MAX_LOGIN_FAIL threshold.
@@ -344,6 +346,7 @@ authRoutes.post('/login', async (c) => {
           payload: { reason: 'too_many_failed_logins', locked_until: lockedUntil, attempts: failCount },
           source: 'api',
           severity: 'critical',
+          correlationId: c.get('requestId') ?? undefined,
         });
       }
     } catch {
@@ -439,6 +442,7 @@ authRoutes.post('/login', async (c) => {
     payload: {},
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // BUG-004: Issue opaque refresh token (single-use, stored as SHA-256 hash in D1).
@@ -577,6 +581,7 @@ authRoutes.post('/register', async (c) => {
     payload: { email, workspace_id: workspaceId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   void publishEvent(c.env, {
     eventId: crypto.randomUUID(),
@@ -588,6 +593,7 @@ authRoutes.post('/register', async (c) => {
     payload: { workspace_id: workspaceId, plan: 'free', business_name: businessName },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -793,6 +799,7 @@ authRoutes.patch('/profile', async (c) => {
     },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   return c.json({ message: 'Profile updated successfully.' });
 });
@@ -839,6 +846,7 @@ authRoutes.post('/forgot-password', async (c) => {
           payload: { name: userName, reset_url: resetUrl, expires_in_hours: RESET_TOKEN_TTL_HOURS },
           source: 'api',
           severity: 'info',
+          correlationId: c.get('requestId') ?? undefined,
         });
       } else {
         // Kill-switch fallback: legacy EmailService path
@@ -933,6 +941,7 @@ authRoutes.post('/reset-password', async (c) => {
       payload: { method: 'reset' },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 
@@ -1086,6 +1095,7 @@ authRoutes.delete('/me', async (c) => {
     payload: { reason: 'ndpr_erasure_request' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // COMP-002/003: Return erasure receipt ID so the user (and compliance ops) can
@@ -1185,6 +1195,7 @@ authRoutes.post('/change-password', async (c) => {
     payload: { method: 'change' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ message: 'Password changed successfully.' });
@@ -1315,6 +1326,7 @@ authRoutes.post('/invite', async (c) => {
       },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   } else {
     // Kill-switch fallback: legacy EmailService path
@@ -1517,6 +1529,7 @@ authRoutes.post('/accept-invite', async (c) => {
     payload: { invite_id: inviteId, role },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // N-081/T2: workspace.invite_accepted — workspace gained a new member
@@ -1530,6 +1543,7 @@ authRoutes.post('/accept-invite', async (c) => {
     payload: { invite_id: inviteId, role, new_member_id: userId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -1625,6 +1639,7 @@ authRoutes.delete('/sessions/:id', async (c) => {
     payload: { session_id: sessionId, scope: 'single' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ message: 'Session revoked.' });
@@ -1695,6 +1710,7 @@ authRoutes.delete('/sessions', async (c) => {
     payload: { scope: 'all_other', revoked_count: activeSessions.length },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ message: 'All other sessions have been revoked.', revokedCount: activeSessions.length });
@@ -1763,6 +1779,7 @@ authRoutes.post('/send-verification', async (c) => {
         payload: { name, verify_url: verifyUrl, expires_in_hours: VERIFY_TOKEN_TTL / 3600 },
         source: 'api',
         severity: 'info',
+        correlationId: c.get('requestId') ?? undefined,
       });
     } else {
       // Kill-switch fallback: legacy EmailService path
@@ -1843,6 +1860,7 @@ authRoutes.get('/verify-email', async (c) => {
       payload: {},
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 

@@ -220,6 +220,7 @@ partnerRoutes.post('/', async (c) => {
     payload: { partner_id: id, company_name: body.companyName, category: 'partner' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   // N-091: partner.onboarded event (category='partner' for inbox filtering)
   void publishEvent(c.env, {
@@ -232,6 +233,7 @@ partnerRoutes.post('/', async (c) => {
     payload: { partner_id: id, company_name: body.companyName, category: 'partner' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ partner }, 201);
@@ -345,6 +347,7 @@ partnerRoutes.patch('/:id/status', async (c) => {
       payload: { partner_id: partnerId, category: 'partner' },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   } else if (body.status === 'suspended') {
     void publishEvent(c.env, {
@@ -356,6 +359,7 @@ partnerRoutes.patch('/:id/status', async (c) => {
       payload: { partner_id: partnerId, reason: 'suspended', category: 'partner' },
       source: 'api',
       severity: 'warning',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 
@@ -545,6 +549,7 @@ partnerRoutes.post('/:id/sub-partners', async (c) => {
     payload: { sub_partner_id: id, parent_partner_id: partnerId, tenant_id: body.tenantId, category: 'partner' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ subPartner }, 201);
@@ -1168,6 +1173,7 @@ partnerRoutes.post('/:id/settlements/calculate', async (c) => {
     },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json(

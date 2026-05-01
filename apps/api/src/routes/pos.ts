@@ -190,6 +190,7 @@ posRoutes.post('/float/credit', async (c) => {
       payload: { agent_id: agentId, amount_kobo: amountKobo, reference, ledger_id: result.id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {
@@ -240,6 +241,7 @@ posRoutes.post('/float/debit', async (c) => {
       payload: { agent_id: agentId, amount_kobo: amountKobo, reference, ledger_id: result.id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {
@@ -294,6 +296,7 @@ posRoutes.post('/float/reverse', async (c) => {
       payload: { original_reference: originalReference, reversal_reference: reversalReference, reason, ledger_id: result.id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ ledgerId: result.id, runningBalanceKobo: result.runningBalanceKobo }, 201);
   } catch (err) {

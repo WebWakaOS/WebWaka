@@ -125,6 +125,7 @@ b2bMarketplaceRoutes.post('/rfqs', async (c) => {
     payload: { rfq_id: id, category: body.category, title: body.title },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ rfq }, 201);
@@ -240,6 +241,7 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids', async (c) => {
     payload: { rfq_id: rfqId, bid_id: bidId, bid_amount_kobo: body.bid_amount_kobo, seller_entity_id: body.seller_entity_id },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ bid_id: bidId, status: 'submitted' }, 201);
@@ -309,6 +311,7 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids/:bidId/accept', async (c) => {
     payload: { rfq_id: rfqId, bid_id: bidId, purchase_order_id: poId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   void publishEvent(c.env, {
     eventId: poId,
@@ -320,6 +323,7 @@ b2bMarketplaceRoutes.post('/rfqs/:rfqId/bids/:bidId/accept', async (c) => {
     payload: { purchase_order_id: poId, rfq_id: rfqId, bid_id: bidId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ purchase_order_id: poId, status: 'rfq_accepted' }, 201);
@@ -399,6 +403,7 @@ b2bMarketplaceRoutes.post('/purchase-orders/:poId/deliver', async (c) => {
     payload: { purchase_order_id: poId, seller_entity_id: po.seller_entity_id },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true, status: 'delivered' });
@@ -521,6 +526,7 @@ b2bMarketplaceRoutes.post('/invoices', async (c) => {
     payload: { invoice_id: invoiceId, purchase_order_id: body.purchase_order_id, invoice_number: invoiceNumber, total_kobo: totalKobo },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ invoice_id: invoiceId, invoice_number: invoiceNumber, total_kobo: totalKobo }, 201);
@@ -630,6 +636,7 @@ b2bMarketplaceRoutes.post('/disputes', async (c) => {
     },
     source: 'api',
     severity: 'critical',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ dispute_id: disputeId, status: 'open' }, 201);

@@ -112,6 +112,7 @@ communityRoutes.post('/channels/:id/posts', async (c) => {
       payload: { post_id: post.id, channel_id: id, author_id: auth.userId },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ post }, 201);
   } catch (err) {
@@ -252,6 +253,7 @@ communityRoutes.post('/join', async (c) => {
       payload: { community_id: parsed.data.communityId, tier_id: parsed.data.tierId, membership_id: membership.id },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ membership }, 201);
   } catch (err) {

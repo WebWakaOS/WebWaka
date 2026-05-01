@@ -209,6 +209,7 @@ billingRoutes.post('/enforce', async (c) => {
       payload: { subscription_id: sub.id, plan: sub.plan, grace_period_end: gracePeriodEnd },
       source: 'api',
       severity: 'warning',
+      correlationId: c.get('requestId') ?? undefined,
     });
     transitionsToGrace++;
   }
@@ -244,6 +245,7 @@ billingRoutes.post('/enforce', async (c) => {
       payload: { subscription_id: sub.id },
       source: 'api',
       severity: 'critical',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     // N-081/T2: workspace.suspended — billing enforcement suspended this workspace
@@ -257,6 +259,7 @@ billingRoutes.post('/enforce', async (c) => {
       payload: { subscription_id: sub.id, reason: 'grace_period_expired' },
       source: 'api',
       severity: 'critical',
+      correlationId: c.get('requestId') ?? undefined,
     });
     transitionsToSuspended++;
   }
@@ -342,6 +345,7 @@ billingRoutes.post('/reactivate', async (c) => {
     payload: { subscription_id: sub.id, plan: sub.plan, change_type: 'reactivate' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -445,6 +449,7 @@ billingRoutes.post('/change-plan', async (c) => {
       payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'upgrade' },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     // N-082: billing.subscription_renewed for plan upgrade
     void publishEvent(c.env, {
@@ -457,6 +462,7 @@ billingRoutes.post('/change-plan', async (c) => {
       payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'upgrade' },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({
@@ -499,6 +505,7 @@ billingRoutes.post('/change-plan', async (c) => {
       payload: { subscription_id: sub.id, previous_plan: currentPlan, new_plan: newPlan, change_type: 'downgrade' },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({
@@ -579,6 +586,7 @@ billingRoutes.post('/cancel', async (c) => {
     payload: { subscription_id: sub.id, plan: sub.plan, cancels_at: sub.current_period_end },
     source: 'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -645,6 +653,7 @@ billingRoutes.post('/revert-cancel', async (c) => {
     payload: { subscription_id: sub.id, plan: sub.plan, change_type: 'revert_cancel' },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

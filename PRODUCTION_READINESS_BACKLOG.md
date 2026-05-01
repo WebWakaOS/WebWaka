@@ -101,6 +101,7 @@ The k6 load smoke test failure is:
 **Acceptance**: `npx @redocly/cli lint` produces 0 warnings.
 
 #### H-2: Lint Warnings Policy (238 Warnings)
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Code Quality  
 **Description**: 238 ESLint warnings in `apps/api` — primarily `@typescript-eslint/explicit-function-return-type` on vertical route files and `no-console` on legitimate logging.  
 **Action**: Either (a) add explicit return types to all vertical route handlers via a codemod, or (b) disable the rule for `src/routes/verticals/` with a documented justification. For `no-console`, gate behind a lint override in production log paths.  
@@ -131,6 +132,7 @@ The k6 load smoke test failure is:
 **Acceptance**: New governance check passes for all 10 workers.
 
 #### H-7: Request-ID Propagation Across Workers
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Observability  
 **Description**: The API worker sets `X-Request-ID` but inter-worker calls (e.g., API → notificator queue) don't propagate the correlation ID. This makes distributed tracing across workers difficult.  
 **Action**: Include `request_id` in queue message payloads; ensure notificator, projections, and schedulers log with the original request_id when processing async work.  

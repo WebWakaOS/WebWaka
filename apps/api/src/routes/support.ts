@@ -126,6 +126,7 @@ supportRoutes.post('/tickets', async (c) => {
     payload: { ticket_id: id, subject: body.subject, priority },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ ticket }, 201);
@@ -303,6 +304,7 @@ supportRoutes.patch('/tickets/:id', async (c) => {
         payload: { ticket_id: ticketId, resolved_by: auth.userId },
         source: 'api',
         severity: 'info',
+        correlationId: c.get('requestId') ?? undefined,
       });
     } else if (body.status === 'closed') {
       void publishEvent(c.env, {
@@ -314,6 +316,7 @@ supportRoutes.patch('/tickets/:id', async (c) => {
         payload: { ticket_id: ticketId, closed_by: auth.userId },
         source: 'api',
         severity: 'info',
+        correlationId: c.get('requestId') ?? undefined,
       });
     }
   }
@@ -328,6 +331,7 @@ supportRoutes.patch('/tickets/:id', async (c) => {
       payload: { ticket_id: ticketId, replied_by: auth.userId },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
   // N-086: fire assigned event when assignee changes
@@ -341,6 +345,7 @@ supportRoutes.patch('/tickets/:id', async (c) => {
       payload: { ticket_id: ticketId, assigned_to: body.assigneeId },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 

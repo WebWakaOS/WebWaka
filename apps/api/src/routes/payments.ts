@@ -352,6 +352,7 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         payload: { reference, amount_kobo: verified.amountKobo, plan: result.plan, billing_id: result.billingId },
         source: 'api',
         severity: 'info',
+        correlationId: c.get('requestId') ?? undefined,
       });
 
       // N-081/T2: workspace.activated — payment verified; workspace is now on a paid plan
@@ -365,6 +366,7 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         payload: { plan: result.plan, reference, billing_id: result.billingId },
         source: 'api',
         severity: 'info',
+        correlationId: c.get('requestId') ?? undefined,
       });
 
       return c.json({
@@ -387,6 +389,7 @@ paymentsVerifyRoute.post('/verify', async (c) => {
         payload: { reference, amount_kobo: verified.amountKobo, status: verified.status },
         source: 'api',
         severity: 'warning',
+        correlationId: c.get('requestId') ?? undefined,
       });
 
       return c.json({ status: verified.status, error: 'Payment was not successful' }, 402);

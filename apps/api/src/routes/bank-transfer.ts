@@ -133,6 +133,7 @@ bankTransferRoutes.post('/', async (c) => {
     payload: { order_id: id, amount_kobo: body.amount_kobo, reference },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ order }, 201);
@@ -260,6 +261,7 @@ bankTransferRoutes.post('/:orderId/proof', async (c) => {
     payload: { order_id: orderId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true, status: 'proof_submitted' });
@@ -315,6 +317,7 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
     payload: { order_id: orderId, confirmed_by: auth.userId },
     source: 'api',
     severity: 'critical',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   // WF-021/022: Auto-credit wallet if this bank transfer has an associated hl_funding_request.
@@ -350,6 +353,7 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
             confirmed_by:            auth.userId,
           },
           source: 'api',
+          correlationId: c.get('requestId') ?? undefined,
         });
       } else {
         // HITL required: leave funding request pending, alert super-admin
@@ -367,6 +371,7 @@ bankTransferRoutes.post('/:orderId/confirm', async (c) => {
             action_required:         'Confirm or reject via /platform-admin/wallets/funding/:id/confirm',
           },
           source: 'api',
+          correlationId: c.get('requestId') ?? undefined,
         });
       }
     }
@@ -437,6 +442,7 @@ bankTransferRoutes.post('/:orderId/reject', async (c) => {
     payload: { order_id: orderId, reason: body.reason, type: 'proof_rejected' },
     source: 'api',
     severity: 'critical',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true, status: 'rejected' });
@@ -534,6 +540,7 @@ bankTransferRoutes.post('/:orderId/dispute', async (c) => {
     payload: { order_id: orderId, dispute_id: disputeId, type: 'disputed', reason: body.reason, disputed_amount_kobo: body.disputed_amount_kobo ?? null },
     source: 'api',
     severity: 'critical',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ dispute_id: disputeId, status: 'open' }, 201);
@@ -591,6 +598,7 @@ bankTransferRoutes.delete('/:orderId', async (c) => {
     payload: { order_id: orderId, cancelled_by: auth.userId },
     source: 'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true, status: 'cancelled' });
@@ -640,6 +648,7 @@ bankTransferRoutes.post('/:orderId/request-otp', async (c) => {
     payload: { order_id: orderId, requested_by: auth.userId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true, status: 'awaiting_otp', message: 'OTP requested for this transfer' });
