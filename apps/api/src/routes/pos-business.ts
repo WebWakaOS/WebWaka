@@ -300,13 +300,13 @@ posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
   const buckets: { date: string; dayStart: number; dayEnd: number }[] = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(Date.now() - i * 86400_000);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = d.toISOString().split('T')[0] ?? d.toISOString().slice(0, 10);
     const dayStart = Math.floor(new Date(`${dateStr}T00:00:00Z`).getTime() / 1000);
     buckets.push({ date: dateStr, dayStart, dayEnd: dayStart + 86400 });
   }
 
-  const rangeStart = buckets[0].dayStart;
-  const rangeEnd = buckets[buckets.length - 1].dayEnd;
+  const rangeStart = buckets[0]!.dayStart;
+  const rangeEnd = buckets[buckets.length - 1]!.dayEnd;
 
   // Fetch all sales in the window in one query
   const { results } = await db
@@ -337,8 +337,8 @@ posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
   // Calculate delta vs previous period (compare last day to day before last)
   const last = trend[trend.length - 1];
   const prev = trend[trend.length - 2];
-  const deltaKobo = last.totalKobo - (prev?.totalKobo ?? 0);
-  const deltaOrders = last.orderCount - (prev?.orderCount ?? 0);
+  const deltaKobo = (last?.totalKobo ?? 0) - (prev?.totalKobo ?? 0);
+  const deltaOrders = (last?.orderCount ?? 0) - (prev?.orderCount ?? 0);
 
   return c.json({ days, trend, deltaKobo, deltaOrders });
 });
@@ -632,3 +632,7 @@ posBusinessRoutes.get('/customers/:workspaceId/summary', async (c) => {
     return c.json({ total_customers: 0, repeat_customers: 0, new_this_period: 0 });
   }
 });
+
+// ─── Wave 2: Brand Settings API ───────────────────────────────────────────────
+// Note: these live in pos-business.ts temporarily; should be extracted to
+// brand-settings.ts in a future refactor.

@@ -28,6 +28,7 @@ const Billing         = lazy(() => import('@/pages/Billing'));
 const PlatformAdmin   = lazy(() => import('@/pages/PlatformAdmin'));
 const PartnerAdmin    = lazy(() => import('@/pages/PartnerAdmin'));
 const Onboarding      = lazy(() => import('@/pages/Onboarding'));
+const BrandSettings   = lazy(() => import('@/pages/BrandSettings'));
 
 /** Role guard: allows access only if user has one of the specified roles */
 function RequireRole({ roles, children }: { roles: string[]; children: ReactNode }) {
@@ -104,6 +105,7 @@ export default function App() {
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/vertical" element={<VerticalView />} />
+                <Route path="/brand" element={<BrandSettings />} />
                 <Route path="/wakapage" element={<WakaPageManager />} />
                 <Route path="/ai" element={<AIPage />} />
                 <Route path="/admin/hitl" element={

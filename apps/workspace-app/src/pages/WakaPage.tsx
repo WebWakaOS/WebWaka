@@ -564,6 +564,7 @@ export default function WakaPageManager() {
 
   const [creating, setCreating] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [unpublishing, setUnpublishing] = useState(false);
   const [loadingLeads, setLoadingLeads] = useState(false);
   const [showAddBlock, setShowAddBlock] = useState(false);
   const [addingBlock, setAddingBlock] = useState(false);
@@ -655,6 +656,22 @@ export default function WakaPageManager() {
       }
     } finally {
       setPublishing(false);
+    }
+  };
+
+
+  const handleUnpublish = async () => {
+    if (!page || unpublishing) return;
+    if (!window.confirm('Are you sure you want to unpublish? Your WakaPage will go offline.')) return;
+    setUnpublishing(true);
+    try {
+      await api.post(`/v0/wakapages/${page.id}/unpublish`, {});
+      toast.success('WakaPage has been taken offline.');
+      await loadPage();
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : 'Failed to unpublish.');
+    } finally {
+      setUnpublishing(false);
     }
   };
 
@@ -924,6 +941,16 @@ export default function WakaPageManager() {
           >
             {loadingQr ? 'Loading…' : '📷 Share / QR Code'}
           </Button>
+          {page.publicationState === 'published' && (
+            <Button
+              onClick={() => void handleUnpublish()}
+              disabled={unpublishing}
+              variant="secondary"
+              style={{ fontSize: 14, color: '#dc2626', borderColor: '#fca5a5' }}
+            >
+              {unpublishing ? 'Unpublishing…' : '⏸ Unpublish'}
+            </Button>
+          )}
           {/* Preview panel toggle */}
           {qr?.publicUrl && (
             <Button
