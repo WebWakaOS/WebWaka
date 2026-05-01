@@ -71,4 +71,22 @@ export const ig: Partial<I18nLocale> = {
   notif_powered_by: 'WebWaka na-akwado',
   notif_marketing_address_label: 'Adreesị ozi:',
   notif_too_many_emails: 'Ị na-anata ọtụtụ email? Ị nwere ike ijikwa ọchọchọ ọkwa gị na ntọala akaụntụ gị.',
+
+  // API Error messages (L-12)
+  api_err_bad_request: 'Ariao ojoo. Biko lelee ihe i tinye.',
+  api_err_unauthorized: 'A anaghị ikwe gi. Biko banye wee nwaa ozoo.',
+  api_err_forbidden: 'Enweghị ikike. Ị enweghị ike ime nke a.',
+  api_err_not_found: 'Achọtaghị ihe a chọrọ.',
+  api_err_conflict: 'Ihe a adịlarị.',
+  api_err_validation_failed: 'Nnwale ọjọọ. Biko lelee ihe i tinye.',
+  api_err_rate_limit_exceeded: 'Ariao ọtụtụ ọnụ. Biko chere obere oge.',
+  api_err_payload_too_large: 'Ariao ka ukwuu. Biko belata ogo ya.',
+  api_err_internal_error: 'Mperi emeela. Biko nwaa ozoo.',
+  api_err_service_unavailable: 'Oru anaghị arụ oru ugbu a. Biko nwaa ozoo.',
+  api_err_email_required: 'Email na paswooodu dị mkpa.',
+  api_err_invalid_credentials: 'Email ma ọ bụ paswooodu adighị mma.',
+  api_err_account_locked: 'Akauntubu mechiri obere oge.',
+  api_err_email_exists: 'Akauntubu nwere email a adịlarị.',
+  api_err_business_name_short: 'Aha oru aghọtabeghị ihe 2 mkpụrụedemede.',
+  api_err_invalid_email: 'Biko tinye adreesi email ziri ezi.',
 };

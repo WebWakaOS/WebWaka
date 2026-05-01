@@ -24,6 +24,7 @@
 import type { Hono } from 'hono';
 import type { Env } from './env.js';
 import { errorLogMiddleware } from './middleware/error-log.js';
+import { localeMiddleware } from './middleware/locale.js';
 
 import { registerPublicRoutes } from './route-groups/register-public-routes.js';
 import { registerAuthRoutes } from './route-groups/register-auth-routes.js';
@@ -45,6 +46,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // P20-E: Structured error logging — global, applied before all routes.
   app.use('*', errorLogMiddleware);
+
+  // L-12: Locale detection — injects c.get('locale') for i18n error messages.
+  app.use('*', localeMiddleware);
 
   // Phase 6 / ADR-0018: API versioning — add X-API-Version: 1 to every response.
   app.use('*', async (c, next) => {
