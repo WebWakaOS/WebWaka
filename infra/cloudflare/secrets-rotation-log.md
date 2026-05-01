@@ -22,6 +22,7 @@
 | `TELEGRAM_WEBHOOK_SECRET` | CF Worker Secret | 2026-04-01 | 2026-04-01 | 2026-07-01 | Generate new random string. `wrangler secret put TELEGRAM_WEBHOOK_SECRET`. Update webhook via Telegram setWebhook API. |
 | `AFRICAS_TALKING_USERNAME` | CF Worker Secret (ussd-gateway) | 2026-04-01 | 2026-04-01 | 2026-07-01 | Update username in Africa's Talking Dashboard. `wrangler secret put AFRICAS_TALKING_USERNAME`. |
 | `AFRICAS_TALKING_API_KEY` | CF Worker Secret (ussd-gateway) | 2026-04-01 | 2026-04-01 | 2026-07-01 | Regenerate in Africa's Talking Dashboard → Settings → API Key. `wrangler secret put AFRICAS_TALKING_API_KEY`. |
+| `AXIOM_API_TOKEN` | CF Worker Secret (log-tail) | 2026-05-01 | 2026-05-01 | 2026-08-01 | Regenerate in Axiom Dashboard → Settings → API Tokens. `wrangler secret put AXIOM_API_TOKEN --env staging` and `--env production`. Update log-tail worker. See ADR-0045. |
 | `WHATSAPP_PHONE_NUMBER_ID` | CF Worker Secret | 2026-04-01 | 2026-04-01 | 2026-07-01 | Update from Meta Business Manager → Phone Numbers. `wrangler secret put WHATSAPP_PHONE_NUMBER_ID`. |
 
 ## Rotation Checklist
