@@ -121,13 +121,115 @@ function StatusBadge({ state }: { state: string }) {
 // ---- Block config editors (H3 fix: per-block content editing) ----
 
 const BLOCK_FIELDS: Record<string, Array<{ key: string; label: string; type?: string; placeholder?: string }>> = {
-  hero:         [{ key: 'title', label: 'Title', placeholder: 'Welcome to my business' }, { key: 'subtitle', label: 'Subtitle', placeholder: 'We offer quality services' }, { key: 'ctaText', label: 'CTA Button text', placeholder: 'Contact us' }],
-  bio:          [{ key: 'text', label: 'About text', placeholder: 'Tell customers about your business…' }],
-  contact_form: [{ key: 'email', label: 'Contact email', placeholder: 'you@business.com' }, { key: 'phone', label: 'Contact phone', placeholder: '+2348000000000' }],
-  social_links: [{ key: 'instagram', label: 'Instagram URL', placeholder: 'https://instagram.com/...' }, { key: 'facebook', label: 'Facebook URL', placeholder: 'https://facebook.com/...' }, { key: 'twitter', label: 'Twitter/X URL', placeholder: 'https://x.com/...' }, { key: 'whatsapp', label: 'WhatsApp number', placeholder: '+2348000000000' }],
-  cta_button:   [{ key: 'label', label: 'Button text', placeholder: 'Book now' }, { key: 'url', label: 'Button URL', placeholder: 'https://...' }],
-  map_embed:    [{ key: 'address', label: 'Business address', placeholder: '12 Market Street, Lagos' }],
-  faq:          [{ key: 'q1', label: 'Question 1', placeholder: 'What are your hours?' }, { key: 'a1', label: 'Answer 1', placeholder: 'We are open 9am–5pm' }],
+  hero:         [
+    { key: 'title', label: 'Headline', placeholder: 'Welcome to my business' },
+    { key: 'subtitle', label: 'Subtitle', placeholder: 'We offer quality services' },
+    { key: 'ctaText', label: 'CTA Button text', placeholder: 'Contact us' },
+    { key: 'ctaUrl', label: 'CTA Button URL', placeholder: 'https://...' },
+    { key: 'backgroundImage', label: 'Background image URL (optional)', placeholder: 'https://...' },
+  ],
+  bio:          [
+    { key: 'text', label: 'About text', placeholder: 'Tell customers about your business…' },
+    { key: 'founderName', label: 'Founder / Contact name (optional)', placeholder: 'John Doe' },
+    { key: 'yearsInBusiness', label: 'Years in business (optional)', placeholder: '5' },
+  ],
+  offerings:    [
+    { key: 'title', label: 'Section title', placeholder: 'Our Services' },
+    { key: 'item1', label: 'Offering 1', placeholder: 'Web Design — ₦50,000' },
+    { key: 'item2', label: 'Offering 2', placeholder: 'Branding — ₦30,000' },
+    { key: 'item3', label: 'Offering 3 (optional)', placeholder: 'Consulting — ₦10,000/hr' },
+  ],
+  contact_form: [
+    { key: 'email', label: 'Receiving email', placeholder: 'you@business.com' },
+    { key: 'phone', label: 'Contact phone', placeholder: '+2348000000000' },
+    { key: 'successMessage', label: 'Thank-you message', placeholder: 'We will get back to you within 24 hours.' },
+  ],
+  social_links: [
+    { key: 'instagram', label: 'Instagram URL', placeholder: 'https://instagram.com/yourbusiness' },
+    { key: 'facebook', label: 'Facebook URL', placeholder: 'https://facebook.com/yourbusiness' },
+    { key: 'twitter', label: 'Twitter/X URL', placeholder: 'https://x.com/yourbusiness' },
+    { key: 'whatsapp', label: 'WhatsApp number', placeholder: '+2348000000000' },
+    { key: 'tiktok', label: 'TikTok URL (optional)', placeholder: 'https://tiktok.com/@yourbusiness' },
+    { key: 'youtube', label: 'YouTube URL (optional)', placeholder: 'https://youtube.com/@yourbusiness' },
+  ],
+  cta_button:   [
+    { key: 'label', label: 'Button text', placeholder: 'Book now' },
+    { key: 'url', label: 'Button URL', placeholder: 'https://...' },
+    { key: 'subtitle', label: 'Supporting text (optional)', placeholder: 'Free consultation available' },
+  ],
+  map_embed:    [
+    { key: 'address', label: 'Business address', placeholder: '12 Market Street, Lagos, Nigeria' },
+    { key: 'landmark', label: 'Nearby landmark (optional)', placeholder: 'Near Ikeja City Mall' },
+    { key: 'directions', label: 'Directions text (optional)', placeholder: 'Turn left at the junction…' },
+  ],
+  faq:          [
+    { key: 'q1', label: 'Question 1', placeholder: 'What are your hours?' },
+    { key: 'a1', label: 'Answer 1', placeholder: 'We are open 9am–5pm Monday–Saturday.' },
+    { key: 'q2', label: 'Question 2', placeholder: 'Do you deliver?' },
+    { key: 'a2', label: 'Answer 2', placeholder: 'Yes, we deliver within Lagos.' },
+    { key: 'q3', label: 'Question 3 (optional)', placeholder: 'How do I pay?' },
+    { key: 'a3', label: 'Answer 3 (optional)', placeholder: 'We accept cash, bank transfer, and POS.' },
+  ],
+  // ── Previously missing block types — now added ──────────────────────────
+  gallery:      [
+    { key: 'title', label: 'Gallery title', placeholder: 'Our Work' },
+    { key: 'image1', label: 'Image 1 URL', placeholder: 'https://...' },
+    { key: 'caption1', label: 'Image 1 caption', placeholder: 'Before and after' },
+    { key: 'image2', label: 'Image 2 URL (optional)', placeholder: 'https://...' },
+    { key: 'caption2', label: 'Image 2 caption (optional)', placeholder: '' },
+    { key: 'image3', label: 'Image 3 URL (optional)', placeholder: 'https://...' },
+    { key: 'caption3', label: 'Image 3 caption (optional)', placeholder: '' },
+  ],
+  testimonials: [
+    { key: 'name1', label: 'Customer 1 name', placeholder: 'Adaeze O.' },
+    { key: 'text1', label: 'Customer 1 review', placeholder: 'Excellent service, highly recommend!' },
+    { key: 'stars1', label: 'Rating (1–5)', placeholder: '5', type: 'number' },
+    { key: 'name2', label: 'Customer 2 name (optional)', placeholder: 'Emeka B.' },
+    { key: 'text2', label: 'Customer 2 review (optional)', placeholder: 'Very professional and timely.' },
+    { key: 'stars2', label: 'Rating (1–5)', placeholder: '5', type: 'number' },
+  ],
+  video_embed:  [
+    { key: 'videoUrl', label: 'YouTube or Vimeo URL', placeholder: 'https://youtube.com/watch?v=...' },
+    { key: 'title', label: 'Video title', placeholder: 'Watch our introduction video' },
+    { key: 'description', label: 'Short description (optional)', placeholder: 'See how we work.' },
+  ],
+  blog_post:    [
+    { key: 'title', label: 'Post title', placeholder: 'New products now available!' },
+    { key: 'date', label: 'Publish date', placeholder: 'May 2026', type: 'text' },
+    { key: 'summary', label: 'Post summary', placeholder: 'We just added 10 new products to our catalogue…' },
+    { key: 'readMoreUrl', label: 'Read more URL (optional)', placeholder: 'https://...' },
+  ],
+  event_list:   [
+    { key: 'event1Name', label: 'Event 1 name', placeholder: 'Grand Opening Sale' },
+    { key: 'event1Date', label: 'Event 1 date', placeholder: 'June 15, 2026' },
+    { key: 'event1Location', label: 'Event 1 location', placeholder: 'Our Lagos Store' },
+    { key: 'event2Name', label: 'Event 2 name (optional)', placeholder: 'Workshop' },
+    { key: 'event2Date', label: 'Event 2 date (optional)', placeholder: '' },
+    { key: 'event2Location', label: 'Event 2 location (optional)', placeholder: '' },
+  ],
+  community:    [
+    { key: 'groupName', label: 'Community / group name', placeholder: 'Adaeze Farms Customer Club' },
+    { key: 'description', label: 'What is this community about?', placeholder: 'Join our loyal customer group for exclusive deals.' },
+    { key: 'joinUrl', label: 'Join link or WhatsApp group URL', placeholder: 'https://chat.whatsapp.com/...' },
+    { key: 'memberCount', label: 'Member count (optional)', placeholder: '250' },
+  ],
+  social_feed:  [
+    { key: 'platform', label: 'Platform (instagram / twitter / tiktok)', placeholder: 'instagram' },
+    { key: 'handle', label: 'Handle (without @)', placeholder: 'yourbusiness' },
+    { key: 'displayCount', label: 'Number of posts to show', placeholder: '6' },
+  ],
+  countdown:    [
+    { key: 'title', label: 'Countdown title', placeholder: 'Grand Opening in:' },
+    { key: 'targetDate', label: 'Target date (ISO format)', placeholder: '2026-12-31', type: 'date' },
+    { key: 'subtitle', label: 'Subtitle after countdown', placeholder: 'Join us for special opening discounts!' },
+  ],
+  trust_badges: [
+    { key: 'badge1', label: 'Badge / Certification 1', placeholder: 'CAC Registered Business' },
+    { key: 'badge2', label: 'Badge / Certification 2', placeholder: 'NDPR Compliant' },
+    { key: 'badge3', label: 'Badge / Certification 3 (optional)', placeholder: 'ISO 9001 Certified' },
+    { key: 'badge4', label: 'Badge / Certification 4 (optional)', placeholder: '10+ Years in Business' },
+    { key: 'badge5', label: 'Badge / Certification 5 (optional)', placeholder: '' },
+  ],
 };
 
 function BlockEditModal({

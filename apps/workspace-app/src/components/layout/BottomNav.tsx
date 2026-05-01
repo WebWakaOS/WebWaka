@@ -1,33 +1,40 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  HomeIcon, AIIcon, POSIcon, OfferingsIcon, VerticalIcon,
+  WakaPageIcon, SettingsIcon, ShieldIcon, HandshakeIcon,
+} from '@/components/ui/Icons';
+import type { ComponentType } from 'react';
+
+interface IconProps { size?: number; color?: string; }
 
 interface NavItem {
   to: string;
   label: string;
-  icon: string;
+  Icon: ComponentType<IconProps>;
 }
 
-// Full parity with desktop Sidebar (7 items)
+// Base 8 items shown to everyone (no billing in bottom nav — accessed via settings or dashboard)
 const BASE_ITEMS: NavItem[] = [
-  { to: '/dashboard',  label: 'Home',       icon: '🏠' },
-  { to: '/ai',         label: 'AI',         icon: '🤖' },
-  { to: '/pos',        label: 'POS',        icon: '🛒' },
-  { to: '/offerings',  label: 'Offerings',  icon: '📦' },
-  { to: '/vertical',   label: 'Vertical',   icon: '🏢' },
-  { to: '/wakapage',   label: 'WakaPage',   icon: '🌐' },
-  { to: '/settings',   label: 'Settings',   icon: '⚙️' },
+  { to: '/dashboard',  label: 'Home',       Icon: HomeIcon },
+  { to: '/ai',         label: 'AI',         Icon: AIIcon },
+  { to: '/pos',        label: 'POS',        Icon: POSIcon },
+  { to: '/offerings',  label: 'Offerings',  Icon: OfferingsIcon },
+  { to: '/vertical',   label: 'Vertical',   Icon: VerticalIcon },
+  { to: '/wakapage',   label: 'WakaPage',   Icon: WakaPageIcon },
+  { to: '/settings',   label: 'Settings',   Icon: SettingsIcon },
 ];
 
 export function BottomNav() {
   const { user } = useAuth();
   const role = user?.role ?? '';
-  const items = [
+  const items: NavItem[] = [
     ...BASE_ITEMS,
     ...(role === 'super_admin'
-      ? [{ to: '/platform', label: 'Platform', icon: '🛡️' }]
+      ? [{ to: '/platform', label: 'Platform', Icon: ShieldIcon }]
       : []),
     ...(role === 'partner'
-      ? [{ to: '/partner', label: 'Partner', icon: '🤝' }]
+      ? [{ to: '/partner', label: 'Partner', Icon: HandshakeIcon }]
       : []),
   ];
 
@@ -42,7 +49,10 @@ export function BottomNav() {
         background: '#fff',
         borderTop: '1px solid #e5e7eb',
         display: 'flex',
+        /* Allow horizontal scroll on very small screens */
         overflowX: 'auto',
+        /* Scrollbar hidden but scrollable */
+        scrollbarWidth: 'none',
         zIndex: 100,
         paddingBottom: 'env(safe-area-inset-bottom)',
         boxShadow: '0 -2px 12px rgba(0,0,0,0.06)',
@@ -55,13 +65,13 @@ export function BottomNav() {
           to={item.to}
           style={({ isActive }) => ({
             flex: '0 0 auto',
-            minWidth: 60,
+            minWidth: 56,
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: 'column' as const,
+            alignItems: 'center' as const,
+            justifyContent: 'center' as const,
             gap: 2,
-            padding: '10px 8px',
+            padding: '8px 6px',
             minHeight: 56,
             textDecoration: 'none',
             color: isActive ? '#0F4C81' : '#6b7280',
@@ -70,7 +80,7 @@ export function BottomNav() {
             transition: 'all 0.15s ease',
           })}
         >
-          <span aria-hidden="true" style={{ fontSize: 18 }}>{item.icon}</span>
+          <item.Icon size={18} color="currentColor" />
           <span style={{ fontSize: 10, fontWeight: 600 }}>{item.label}</span>
         </NavLink>
       ))}
