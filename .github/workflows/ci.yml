@@ -230,3 +230,40 @@ jobs:
         with:
           path: infra/k6/baseline.json
           key: k6-baseline-${{ github.ref_name }}
+
+  bundle-size:
+    name: Frontend Bundle Size Check (L-7)
+    runs-on: ubuntu-latest
+    needs: [typecheck]
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Restore bundle baseline
+        uses: actions/cache@v4
+        with:
+          path: infra/bundle-baseline.json
+          key: bundle-baseline-${{ github.ref_name }}
+          restore-keys: |
+            bundle-baseline-staging
+      - name: Install workspace-app dependencies
+        run: pnpm --filter workspace-app install --frozen-lockfile
+      - name: Build workspace-app
+        run: pnpm --filter workspace-app build
+        env:
+          NODE_ENV: production
+      - name: Check bundle size against baseline
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: node scripts/check-bundle-size.mjs apps/workspace-app/dist
+      - name: Save updated bundle baseline
+        uses: actions/cache/save@v4
+        if: success()
+        with:
+          path: infra/bundle-baseline.json
+          key: bundle-baseline-${{ github.ref_name }}
