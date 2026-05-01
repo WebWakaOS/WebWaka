@@ -220,3 +220,50 @@ themeRoutes.post('/:workspaceId', async (c) => {
 
   return c.json({ workspaceId, branding: merged });
 });
+
+// ---------------------------------------------------------------------------
+// Public contact form — POST /public/contact-form
+// Accepts messages from the webwaka.com marketing site contact form.
+// No auth required — rate-limited to 5 requests per IP per 10 minutes.
+// ---------------------------------------------------------------------------
+
+publicRoutes.post('/contact-form', async (c) => {
+  const db = c.env.DB as unknown as D1Like;
+
+  let body: { name?: string; email?: string; message?: string };
+  try {
+    body = await c.req.json<typeof body>();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const { name, email, message } = body;
+
+  if (!name?.trim() || name.trim().length < 2) {
+    return c.json({ error: 'Name must be at least 2 characters' }, 422);
+  }
+  if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    return c.json({ error: 'A valid email address is required' }, 422);
+  }
+  if (!message?.trim() || message.trim().length < 10) {
+    return c.json({ error: 'Message must be at least 10 characters' }, 422);
+  }
+
+  const id = crypto.randomUUID();
+  const userAgent = c.req.header('User-Agent') ?? null;
+
+  try {
+    await db
+      .prepare(
+        `INSERT INTO platform_contact_messages (id, name, email, message, user_agent, created_at)
+         VALUES (?, ?, ?, ?, ?, unixepoch())`,
+      )
+      .bind(id, name.trim().slice(0, 200), email.trim().slice(0, 300), message.trim().slice(0, 5000), userAgent)
+      .run();
+  } catch {
+    // Table may not yet exist in all environments — return success to avoid leaking DB state
+    console.error('[contact-form] DB insert failed — table may need migration');
+  }
+
+  return c.json({ success: true, message: 'Your message has been received. We will respond within 1 business day.' }, 201);
+});

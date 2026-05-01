@@ -860,22 +860,41 @@ export default function Settings() {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {sessions.map(s => (
-                      <div key={s.id} style={styles.sessionRow}>
+                      <div key={s.id} style={{
+                        ...styles.sessionRow,
+                        borderColor: s.isCurrent ? '#0F4C81' : '#e5e7eb',
+                        background: s.isCurrent ? '#f0f9ff' : '#f9fafb',
+                      }}>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>{s.deviceHint}</div>
-                          <div style={{ fontSize: 12, color: '#6b7280' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: 14, fontWeight: 500, color: '#111827' }}>{s.deviceHint}</span>
+                            {s.isCurrent && (
+                              <span style={{
+                                fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+                                background: '#0F4C81', color: '#fff', letterSpacing: '0.05em',
+                              }}>
+                                THIS DEVICE
+                              </span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>
                             Started: {new Date(s.issuedAt * 1000).toLocaleString()} &middot;{' '}
                             Last seen: {new Date(s.lastSeenAt * 1000).toLocaleString()}
                           </div>
                         </div>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          loading={revokingSession === s.id}
-                          onClick={() => void handleRevokeSession(s.id)}
-                        >
-                          Revoke
-                        </Button>
+                        {!s.isCurrent && (
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            loading={revokingSession === s.id}
+                            onClick={() => void handleRevokeSession(s.id)}
+                          >
+                            Revoke
+                          </Button>
+                        )}
+                        {s.isCurrent && (
+                          <span style={{ fontSize: 12, color: '#0F4C81', fontWeight: 600, padding: '8px 12px' }}>Active</span>
+                        )}
                       </div>
                     ))}
                   </div>

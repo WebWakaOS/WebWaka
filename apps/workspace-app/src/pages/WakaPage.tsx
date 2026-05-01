@@ -307,11 +307,19 @@ function BlockCard({
   onToggle,
   onDelete,
   onEdit,
+  onMoveUp,
+  onMoveDown,
+  isFirst,
+  isLast,
 }: {
   block: WakaBlock;
   onToggle: (id: string, visible: boolean) => void;
   onDelete: (id: string) => void;
   onEdit: (block: WakaBlock) => void;
+  onMoveUp: (id: string) => void;
+  onMoveDown: (id: string) => void;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
   return (
     <div style={{
@@ -320,6 +328,32 @@ function BlockCard({
       background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10,
       flexWrap: 'wrap',
     }}>
+      {/* Move up/down controls */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0 }}>
+        <button
+          onClick={() => onMoveUp(block.id)}
+          disabled={isFirst}
+          aria-label={`Move ${BLOCK_TYPES[block.blockType] ?? block.blockType} up`}
+          style={{
+            width: 22, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: isFirst ? '#f9fafb' : '#f0f9ff', border: '1px solid #bfdbfe',
+            borderRadius: 4, cursor: isFirst ? 'default' : 'pointer', fontSize: 10,
+            color: isFirst ? '#d1d5db' : '#0F4C81', padding: 0,
+          }}
+        >▲</button>
+        <button
+          onClick={() => onMoveDown(block.id)}
+          disabled={isLast}
+          aria-label={`Move ${BLOCK_TYPES[block.blockType] ?? block.blockType} down`}
+          style={{
+            width: 22, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: isLast ? '#f9fafb' : '#f0f9ff', border: '1px solid #bfdbfe',
+            borderRadius: 4, cursor: isLast ? 'default' : 'pointer', fontSize: 10,
+            color: isLast ? '#d1d5db' : '#0F4C81', padding: 0,
+          }}
+        >▼</button>
+      </div>
+
       <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: '#111827', minWidth: 120 }}>
         {BLOCK_TYPES[block.blockType] ?? block.blockType}
         {!block.isVisible && (
@@ -547,6 +581,12 @@ export default function WakaPageManager() {
       if (first) {
         const detail = await api.get<PageDetailResponse>(`/v0/wakapages/${first.id}`);
         setBlocks(detail.blocks ?? []);
+        // Pre-fetch QR URL for published pages so the "View Live" button is immediately available
+        if (first.publicationState === 'published') {
+          api.get<QrResponse>(`/v0/wakapages/${first.id}/qr`)
+            .then(data => setQr(data))
+            .catch(() => { /* non-fatal */ });
+        }
       }
     } catch (err) {
       if (err instanceof ApiError && err.status === 404) {
@@ -656,6 +696,45 @@ export default function WakaPageManager() {
     } catch {
       toast.error('Could not remove block.');
       setBlocks(prev);
+    }
+  };
+
+  // Block reordering — optimistic local sort + API PATCH
+  const handleMoveBlock = async (blockId: string, direction: 'up' | 'down') => {
+    if (!page) return;
+    const sorted = [...blocks].sort((a, b) => a.sortOrder - b.sortOrder);
+    const idx = sorted.findIndex(b => b.id === blockId);
+    if (idx < 0) return;
+    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= sorted.length) return;
+
+    // Swap sortOrder values
+    const aOrder = sorted[idx].sortOrder;
+    const bOrder = sorted[swapIdx].sortOrder;
+    const updatedA = { ...sorted[idx], sortOrder: bOrder };
+    const updatedB = { ...sorted[swapIdx], sortOrder: aOrder };
+
+    // Optimistic update
+    setBlocks(prev => prev.map(b => {
+      if (b.id === updatedA.id) return updatedA;
+      if (b.id === updatedB.id) return updatedB;
+      return b;
+    }));
+
+    // Persist both changes
+    try {
+      await Promise.all([
+        api.patch(`/v0/wakapages/${page.id}/blocks/${updatedA.id}`, { sort_order: updatedA.sortOrder }),
+        api.patch(`/v0/wakapages/${page.id}/blocks/${updatedB.id}`, { sort_order: updatedB.sortOrder }),
+      ]);
+    } catch {
+      // Revert on failure
+      setBlocks(prev => prev.map(b => {
+        if (b.id === sorted[idx].id) return sorted[idx];
+        if (b.id === sorted[swapIdx].id) return sorted[swapIdx];
+        return b;
+      }));
+      toast.error('Could not reorder blocks. Please try again.');
     }
   };
 
@@ -796,6 +875,29 @@ export default function WakaPageManager() {
               {publishing ? 'Publishing…' : '🚀 Publish Now'}
             </Button>
           )}
+          {page.publicationState === 'published' && qr?.publicUrl && (
+            <a
+              href={qr.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: '#059669', color: '#fff', fontSize: 14, fontWeight: 600,
+                padding: '10px 18px', borderRadius: 8, textDecoration: 'none', minHeight: 40,
+              }}
+            >
+              🌐 View Live Page
+            </a>
+          )}
+          {page.publicationState === 'published' && !qr?.publicUrl && (
+            <Button
+              onClick={() => void handleShowQr()}
+              disabled={loadingQr}
+              style={{ background: '#059669', color: '#fff', fontSize: 14 }}
+            >
+              {loadingQr ? 'Loading…' : '🌐 View Live Page'}
+            </Button>
+          )}
           <Button
             onClick={() => void handleShowQr()}
             disabled={loadingQr}
@@ -842,13 +944,17 @@ export default function WakaPageManager() {
             {blocks
               .slice()
               .sort((a, b) => a.sortOrder - b.sortOrder)
-              .map(block => (
+              .map((block, idx, arr) => (
                 <BlockCard
                   key={block.id}
                   block={block}
                   onToggle={(id, vis) => void handleToggleBlock(id, vis)}
                   onDelete={(id) => void handleDeleteBlock(id)}
                   onEdit={(b) => setEditingBlock(b)}
+                  onMoveUp={(id) => void handleMoveBlock(id, 'up')}
+                  onMoveDown={(id) => void handleMoveBlock(id, 'down')}
+                  isFirst={idx === 0}
+                  isLast={idx === arr.length - 1}
                 />
               ))}
           </div>

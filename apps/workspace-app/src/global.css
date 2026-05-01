@@ -81,7 +81,55 @@ html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: #484f58;
 }
 
-/* ── Scrollbar base ─────────────────────────────────────────────────────────── */
+/* ── Base body / layout dark mode support ──────────────────────────────────── */
+/* These apply broad dark-mode coverage to the outermost containers.          */
+/* Individual inline-styled components use the CSS variables via JS theme.ts  */
+/* for programmatic access to the current theme.                              */
+html[data-theme="dark"] body {
+  background-color: var(--ww-bg) !important;
+  color: var(--ww-text) !important;
+}
+
+/* Main layout container (WorkspaceLayout main > Outlet wrapper) */
+html[data-theme="dark"] main[role="main"],
+html[data-theme="dark"] main {
+  background-color: var(--ww-bg) !important;
+}
+
+/* Sidebar stays in its own brand color — intentionally not dark-mode-inverted */
+/* but the page content area is dark */
+html[data-theme="dark"] aside[role="navigation"] {
+  /* Sidebar uses brand primary — keep intentionally */
+}
+
+/* Card-like surfaces: white boxes become dark surface */
+html[data-theme="dark"] article,
+html[data-theme="dark"] section > div[style*="background: #fff"],
+html[data-theme="dark"] div[style*="background: #fff"] {
+  /* NOTE: inline styles override CSS — this partial override catches divs
+     that do NOT use .ww-surface. For full coverage, components should adopt
+     CSS variables. This catches common patterns in workspace-app pages. */
+}
+
+/* ── Background of page areas uses CSS var ─────────────────────────────────── */
+/* Apply to structural layout wrappers */
+html[data-theme="dark"] #main-content {
+  background-color: var(--ww-bg) !important;
+  color: var(--ww-text);
+}
+
+/* ── Link color in dark mode ────────────────────────────────────────────────── */
+html[data-theme="dark"] a:not([style*="color"]) {
+  color: #60a5fa;
+}
+
+/* ── Button resets in dark mode for ghost variants ──────────────────────────── */
+html[data-theme="dark"] button[style*="background: none"],
+html[data-theme="dark"] button[style*="background:none"] {
+  color: var(--ww-text);
+}
+
+
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }

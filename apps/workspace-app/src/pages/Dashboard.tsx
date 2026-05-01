@@ -102,9 +102,9 @@ function useEmailVerified() {
     setSending(true);
     try {
       await authApi.sendVerification();
-      alert('Verification email sent — check your inbox.');
+      toast.success('Verification email sent — check your inbox.');
     } catch {
-      alert('Failed to send verification email. Please try again later.');
+      toast.error('Failed to send verification email. Please try again later.');
     } finally {
       setSending(false);
     }

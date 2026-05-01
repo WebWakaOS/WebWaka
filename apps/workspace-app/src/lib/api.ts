@@ -178,6 +178,7 @@ export type SessionInfo = {
   expiresAt: number;
   lastSeenAt: number;
   isExpired: boolean;
+  isCurrent?: boolean;
 };
 
 export type InvitationInfo = {

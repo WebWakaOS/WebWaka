@@ -2,7 +2,7 @@
  * VerticalView — C3 fix: AI Advisory wired to real SuperAgent /chat API.
  * H10 fix: Compliance data fetched from workspace verticals API.
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { getVerticalMeta, VERTICAL_REGISTRY } from '@/lib/verticals';
@@ -10,6 +10,128 @@ import { sendChat } from '@/lib/superagent-api';
 import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
 import { useAuth } from '@/contexts/AuthContext';
+
+// ─── Searchable Vertical Selector ──────────────────────────────────────────
+
+function VerticalSelector({
+  value,
+  onChange,
+  disabled,
+}: {
+  value: string;
+  onChange: (slug: string) => void;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  const meta = VERTICAL_REGISTRY[value];
+
+  const allVerticals = Object.values(VERTICAL_REGISTRY);
+  const filtered = query.trim()
+    ? allVerticals.filter(v =>
+        v.label.toLowerCase().includes(query.toLowerCase()) ||
+        v.category.toLowerCase().includes(query.toLowerCase()),
+      )
+    : allVerticals;
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        setQuery('');
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: 'relative', minWidth: 220 }}>
+      <button
+        type="button"
+        disabled={disabled}
+        aria-label="Select business vertical"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        onClick={() => { setOpen(v => !v); setQuery(''); }}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '10px 14px', borderRadius: 8, border: '1.5px solid #d1d5db',
+          background: '#fff', cursor: disabled ? 'not-allowed' : 'pointer',
+          fontSize: 14, minHeight: 44, minWidth: 220, width: '100%',
+          justifyContent: 'space-between', opacity: disabled ? 0.6 : 1,
+        }}
+      >
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {meta?.icon && <span aria-hidden="true">{meta.icon}</span>}
+          <span style={{ fontWeight: 500 }}>{meta?.label ?? value}</span>
+        </span>
+        <span aria-hidden="true" style={{ fontSize: 10, color: '#9ca3af' }}>▼</span>
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Business verticals"
+          style={{
+            position: 'absolute', top: '100%', left: 0, right: 0,
+            background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 200, marginTop: 4,
+            maxHeight: 320, display: 'flex', flexDirection: 'column',
+          }}
+        >
+          <div style={{ padding: 8, borderBottom: '1px solid #f3f4f6' }}>
+            <input
+              type="text"
+              autoFocus
+              placeholder="Search verticals…"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              style={{
+                width: '100%', border: '1.5px solid #d1d5db', borderRadius: 6,
+                padding: '8px 12px', fontSize: 14, outline: 'none',
+              }}
+              aria-label="Search business verticals"
+            />
+          </div>
+          <div style={{ overflowY: 'auto', flex: 1 }}>
+            {filtered.length === 0 ? (
+              <div style={{ padding: '12px 16px', color: '#9ca3af', fontSize: 13 }}>No verticals found</div>
+            ) : (
+              filtered.map(v => (
+                <button
+                  key={v.slug}
+                  role="option"
+                  aria-selected={v.slug === value}
+                  type="button"
+                  onClick={() => { onChange(v.slug); setOpen(false); setQuery(''); }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    width: '100%', padding: '10px 16px', border: 'none', textAlign: 'left',
+                    background: v.slug === value ? '#eff6ff' : 'transparent',
+                    cursor: 'pointer', fontSize: 14,
+                    borderLeft: v.slug === value ? '3px solid #0F4C81' : '3px solid transparent',
+                  }}
+                >
+                  <span aria-hidden="true" style={{ fontSize: 16 }}>{v.icon}</span>
+                  <div>
+                    <div style={{ fontWeight: v.slug === value ? 600 : 400, color: v.slug === value ? '#0F4C81' : '#111827' }}>
+                      {v.label}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#9ca3af' }}>{v.category}</div>
+                  </div>
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 type Tab = 'overview' | 'advisory' | 'compliance';
 
@@ -168,17 +290,11 @@ export default function VerticalView() {
             }}>ACTIVE</span>
           )}
         </div>
-        <select
+        <VerticalSelector
           value={selectedVertical}
-          onChange={e => { setSelectedVertical(e.target.value); setAdvisory(null); setAdvisoryError(null); }}
-          style={styles.verticalSelect}
-          aria-label="Select vertical"
+          onChange={(slug) => { setSelectedVertical(slug); setAdvisory(null); setAdvisoryError(null); }}
           disabled={loadingVertical}
-        >
-          {Object.values(VERTICAL_REGISTRY).map(v => (
-            <option key={v.slug} value={v.slug}>{v.icon} {v.label}</option>
-          ))}
-        </select>
+        />
       </header>
 
       <div role="tablist" aria-label="Vertical sections" style={styles.tabs}>

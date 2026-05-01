@@ -335,18 +335,36 @@ function TermsPage({ onBack }: { onBack: () => void }) {
 }
 
 // ─── Contact Page ─────────────────────────────────────────────────────────────
+const API_BASE = 'https://api.webwaka.com';
+
 function ContactPage({ onBack }: { onBack: () => void }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setSending(true);
-    // In production, integrate with your email/support backend
-    setTimeout(() => { setSending(false); setSent(true); }, 1200);
+    try {
+      const res = await fetch(`${API_BASE}/public/contact-form`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message.trim() }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({})) as { error?: string };
+        throw new Error((data as { error?: string }).error ?? `Request failed (${res.status})`);
+      }
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send message. Please try again or email hello@webwaka.com.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -378,8 +396,13 @@ function ContactPage({ onBack }: { onBack: () => void }) {
           <p style={{ color: '#166534', fontWeight: 600 }}>Message sent! We'll respond within 1 business day.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <form onSubmit={e => void handleSubmit(e)} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Send us a message</h2>
+          {error && (
+            <div style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, fontSize: 14, color: '#991b1b' }}>
+              {error}
+            </div>
+          )}
           <div>
             <label style={{ fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 4 }}>Name *</label>
             <input required value={name} onChange={e => setName(e.target.value)} placeholder="Your name"
@@ -412,6 +435,8 @@ function ContactPage({ onBack }: { onBack: () => void }) {
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 100,
@@ -429,7 +454,8 @@ function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
         </button>
 
         {/* Desktop nav */}
-        <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }} aria-label="Main navigation">
+        <nav style={{ display: 'none', gap: 32, alignItems: 'center', ...(typeof window !== 'undefined' && window.innerWidth >= 768 ? { display: 'flex' } : {}) }}
+          className="desktop-nav" aria-label="Main navigation">
           {['Features', 'Pricing', 'Verticals', 'About'].map(item => (
             <a
               key={item}
@@ -453,7 +479,89 @@ function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
             Sign in
           </a>
         </nav>
+
+        {/* Mobile: Sign-in + Hamburger */}
+        <div className="mobile-nav-controls" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <a
+            href="https://workspace.webwaka.com"
+            className="mobile-signin"
+            style={{
+              background: PRIMARY, color: '#fff', padding: '8px 14px', borderRadius: 8,
+              fontSize: 13, fontWeight: 600, textDecoration: 'none',
+            }}
+          >
+            Sign in
+          </a>
+          <button
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            className="hamburger-btn"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 8,
+              display: 'flex', flexDirection: 'column', gap: 5, minWidth: 44, minHeight: 44,
+              alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <span style={{ width: 22, height: 2, background: '#374151', display: 'block', transition: 'all 0.2s', transform: menuOpen ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+            <span style={{ width: 22, height: 2, background: '#374151', display: 'block', transition: 'all 0.2s', opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ width: 22, height: 2, background: '#374151', display: 'block', transition: 'all 0.2s', transform: menuOpen ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+          </button>
+        </div>
       </div>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <nav
+          id="mobile-menu"
+          aria-label="Mobile navigation"
+          className="mobile-menu"
+          style={{
+            background: '#fff', borderTop: '1px solid #e5e7eb',
+            display: 'flex', flexDirection: 'column',
+          }}
+        >
+          {['Features', 'Pricing', 'Verticals', 'About'].map(item => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                padding: '14px 24px', fontSize: 15, fontWeight: 500,
+                color: '#374151', borderBottom: '1px solid #f3f4f6',
+                textDecoration: 'none', display: 'block',
+              }}
+            >
+              {item}
+            </a>
+          ))}
+          <a
+            href="https://workspace.webwaka.com/register"
+            style={{
+              display: 'block', margin: 16,
+              background: PRIMARY, color: '#fff', padding: '13px 20px', borderRadius: 8,
+              fontSize: 15, fontWeight: 600, textAlign: 'center', textDecoration: 'none',
+            }}
+          >
+            Start free →
+          </a>
+        </nav>
+      )}
+
+      {/* Responsive CSS injected once */}
+      <style>{`
+        .desktop-nav { display: flex !important; }
+        .mobile-nav-controls { display: none !important; }
+        .mobile-menu { display: flex !important; }
+        @media (max-width: 767px) {
+          .desktop-nav { display: none !important; }
+          .mobile-nav-controls { display: flex !important; }
+        }
+        @media (min-width: 768px) {
+          .mobile-menu { display: none !important; }
+        }
+      `}</style>
     </header>
   );
 }

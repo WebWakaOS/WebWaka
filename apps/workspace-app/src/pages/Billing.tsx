@@ -76,6 +76,8 @@ export default function Billing() {
   const [fundingAmount, setFundingAmount] = useState('');
   const [fundingLoading, setFundingLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'plans' | 'bank' | 'wallet'>('plans');
+  // Downgrade confirmation state
+  const [downgradeTarget, setDowngradeTarget] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.allSettled([
@@ -98,12 +100,7 @@ export default function Billing() {
       .finally(() => setBankLoading(false));
   }, [activeTab, bankDetails, bankLoading]);
 
-  const handleChangePlan = async (planId: string) => {
-    if (planId === billing?.plan) return;
-    if (planId === 'enterprise') {
-      toast.info('Contact sales@webwaka.com for Enterprise pricing.');
-      return;
-    }
+  const doChangePlan = async (planId: string) => {
     setChangingPlan(planId);
     try {
       await api.post('/billing/change-plan', { plan: planId });
@@ -116,6 +113,27 @@ export default function Billing() {
     } finally {
       setChangingPlan(null);
     }
+  };
+
+  const handleChangePlan = async (planId: string) => {
+    if (planId === billing?.plan) return;
+    if (planId === 'enterprise') {
+      toast.info('Contact sales@webwaka.com for Enterprise pricing.');
+      return;
+    }
+
+    // Downgrade confirmation: show modal before proceeding
+    const PLAN_ORDER = ['free', 'starter', 'growth', 'enterprise'];
+    const currentIdx = PLAN_ORDER.indexOf(billing?.plan ?? 'free');
+    const targetIdx = PLAN_ORDER.indexOf(planId);
+    const isDowngrade = targetIdx < currentIdx;
+
+    if (isDowngrade) {
+      setDowngradeTarget(planId);
+      return;
+    }
+
+    await doChangePlan(planId);
   };
 
   const handleFundWallet = async () => {
@@ -155,6 +173,68 @@ export default function Billing() {
 
   return (
     <div style={{ padding: '24px 20px', maxWidth: 900, margin: '0 auto' }} id="main-content">
+
+      {/* Downgrade confirmation modal */}
+      {downgradeTarget && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 300, padding: 20,
+        }}>
+          <div style={{
+            background: '#fff', borderRadius: 16, padding: '32px 28px',
+            maxWidth: 440, width: '100%', boxShadow: '0 8px 40px rgba(0,0,0,0.15)',
+          }}>
+            <div style={{ fontSize: 40, textAlign: 'center', marginBottom: 16 }} aria-hidden="true">⚠️</div>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8, textAlign: 'center' }}>
+              Downgrade to {downgradeTarget.charAt(0).toUpperCase() + downgradeTarget.slice(1)}?
+            </h2>
+            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 8, lineHeight: 1.6 }}>
+              Downgrading will immediately reduce your plan features:
+            </p>
+            <ul style={{ fontSize: 14, color: '#374151', marginBottom: 24, paddingLeft: 20, lineHeight: 1.8 }}>
+              {downgradeTarget === 'free' && (
+                <>
+                  <li>POS terminal access will be removed</li>
+                  <li>Offerings above the Free limit will be hidden</li>
+                  <li>Team members beyond the Free limit will lose access</li>
+                  <li>Advanced analytics will be disabled</li>
+                </>
+              )}
+              {downgradeTarget === 'starter' && (
+                <>
+                  <li>Unlimited offerings will be reduced to 50</li>
+                  <li>Advanced AI advisory will be restricted</li>
+                  <li>Vertical intelligence features will be disabled</li>
+                  <li>B2B marketplace access will be removed</li>
+                </>
+              )}
+            </ul>
+            <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 20 }}>
+              Your data is preserved. You can upgrade again at any time.
+            </p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <Button
+                variant="secondary"
+                onClick={() => setDowngradeTarget(null)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="danger"
+                loading={changingPlan === downgradeTarget}
+                onClick={() => {
+                  const t = downgradeTarget;
+                  setDowngradeTarget(null);
+                  void doChangePlan(t);
+                }}
+              >
+                Confirm downgrade
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       <header style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: 26, fontWeight: 700, color: '#111827', marginBottom: 4 }}>Billing & Plans</h1>
         <p style={{ fontSize: 14, color: '#6b7280' }}>Manage your subscription and payment methods</p>
