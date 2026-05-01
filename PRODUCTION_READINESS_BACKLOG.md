@@ -159,6 +159,7 @@ The k6 load smoke test failure is:
 **Acceptance**: All moderate vulns either patched or documented with risk acceptance.
 
 #### H-4: DSAR Export End-to-End Verification
+**Status**: ✅ RESOLVED (2026-05-01)
 **Area**: Compliance (NDPR), Security  
 **Description**: DSAR (Data Subject Access Request) export flow uses R2 buckets (`DSAR_BUCKET`) and pre-signed URLs. No E2E test covers the full flow: request → schedule → generate → store in R2 → provide download link.  
 **Action**: Add an E2E test (Playwright or integration) that verifies DSAR request creation, scheduler pickup, R2 storage, and signed URL generation.  
@@ -326,6 +327,7 @@ The k6 load smoke test failure is:
 ### 🟢 LONG-TERM (Backlog — 4-8 Weeks)
 
 #### L-1: Structured Logging to External Sink
+**Status**: ✅ RESOLVED (2026-05-01)
 **Area**: Observability  
 **Description**: All logging currently goes to `console.log/error` which is captured by Cloudflare's tail worker or dashboard. No persistent log sink (e.g., Axiom, Datadog, Logtail) is integrated.  
 **Action**: Evaluate and integrate a log drain (CF Logpush or tail worker → external sink). Ensure all workers emit structured JSON.  
@@ -353,12 +355,14 @@ The k6 load smoke test failure is:
 - `permissions: issues: write` declared explicitly (least privilege) ✅
 
 #### L-4: Blue-Green Deployment with Instant Rollback
+**Status**: ✅ RESOLVED (2026-05-01)
 **Area**: Infrastructure  
 **Description**: Current deployment is in-place (wrangler deploy overwrites). A failed deploy requires re-running the pipeline. Blue-green with wrangler's environment aliasing would enable instant rollback.  
 **Action**: Implement environment aliasing or versioned Workers with custom routing rules for zero-downtime deployments.  
 **Acceptance**: Rollback to previous version takes <30 seconds; no migration state conflicts.
 
 #### L-5: Comprehensive API Versioning Strategy
+**Status**: ✅ RESOLVED (2026-05-01)
 **Area**: API, Backend  
 **Description**: `X-API-Version: 1` header is set globally. No explicit v2 path or deprecation strategy exists for breaking changes.  
 **Action**: Document API versioning policy (ADR); implement `/v2/` prefix routing when breaking changes are needed; add `Sunset` headers for deprecated endpoints.  
@@ -383,24 +387,28 @@ The k6 load smoke test failure is:
 **Acceptance**: Slow queries logged with execution plan; indexes added for common patterns.
 
 #### L-9: End-to-End Encryption for Sensitive Messages (DM)
+**Status**: ✅ RESOLVED (2026-05-01) — ADR-0043 committed; migration plan documented
 **Area**: Security, Privacy  
 **Description**: DM encryption uses AES-GCM with `DM_MASTER_KEY`. For true E2E encryption, client-side keys should be used instead of a server-held master key.  
 **Action**: Research and design a client-side key exchange protocol (Signal Protocol or similar); plan migration path from server-side encryption.  
 **Acceptance**: Design ADR committed; migration plan documented.
 
 #### L-10: Multi-Region D1 Replication
+**Status**: ✅ DEFERRED — ADR-0044 committed; blocked on CF D1 feature availability
 **Area**: Infrastructure, Performance  
 **Description**: D1 `primary_location = "wnam"` means all writes go to Western North America. For Nigeria-focused users, read latency is higher than optimal.  
 **Action**: When Cloudflare D1 supports read replicas in African regions, configure `read_replication` for low-latency reads. Monitor D1 feature announcements.  
 **Acceptance**: Read latency from Nigerian edge < 50ms when regional replicas are available.
 
 #### L-11: Comprehensive Chaos Engineering
+**Status**: ✅ RESOLVED (2026-05-01) — ADR-0047 + Phase 1 chaos tests (6 scenarios, 11 tests)
 **Area**: Resilience, Operations  
 **Description**: No systematic chaos testing exists (e.g., KV unavailability, queue saturation, D1 latency spikes). The rate-limit middleware's "fail open" behavior is tested in unit tests but not at integration level.  
 **Action**: Build a chaos test suite that simulates: KV outage (rate limiting fails open), queue saturation (backpressure behavior), D1 slow response (timeout handling).  
 **Acceptance**: System degrades gracefully under all failure modes; no data loss.
 
 #### L-12: Internationalization (i18n) for Error Messages
+**Status**: ✅ RESOLVED (2026-05-01)
 **Area**: UX, i18n  
 **Description**: All API error messages are in English. The platform targets multiple African markets (Nigeria, Ghana, Kenya) with diverse language preferences.  
 **Action**: Implement error message localization using the existing `@webwaka/i18n` package; accept `Accept-Language` header for response language.  
