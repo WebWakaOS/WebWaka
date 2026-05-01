@@ -2,9 +2,9 @@
  * Billing Status Banner Component (M-3)
  *
  * Displays a warning/info banner when the workspace subscription is
- * suspended, showing "read-only mode" messaging and disabling write buttons.
+ * suspended or in grace period, disabling write buttons.
  *
- * Reads X-Billing-Status from API responses via BillingContext.
+ * NOTE: Tailwind replaced with inline styles for workspace-app compat.
  */
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
@@ -42,44 +42,90 @@ export function useBilling() {
   return useContext(BillingContext);
 }
 
-/**
- * Banner component shown when workspace is in read-only mode
- */
+interface BannerConfig {
+  bg: string;
+  border: string;
+  textColor: string;
+  badgeBg: string;
+  badgeText: string;
+  message: string;
+}
+
+const BANNER_CONFIGS: Record<BillingStatus, BannerConfig | null> = {
+  active: null,
+  suspended: {
+    bg: '#fff5f5',
+    border: '#fecaca',
+    textColor: '#991b1b',
+    badgeBg: '#fee2e2',
+    badgeText: '#991b1b',
+    message:
+      'Your subscription is suspended. Workspace is in read-only mode. Please renew to restore full access.',
+  },
+  grace_period: {
+    bg: '#fffbeb',
+    border: '#fde68a',
+    textColor: '#92400e',
+    badgeBg: '#fef9c3',
+    badgeText: '#92400e',
+    message:
+      'Your subscription payment is overdue. You are in a grace period — please renew soon to avoid service interruption.',
+  },
+  unknown: {
+    bg: '#f9fafb',
+    border: '#e5e7eb',
+    textColor: '#374151',
+    badgeBg: '#f3f4f6',
+    badgeText: '#374151',
+    message: 'Unable to verify subscription status. Some features may be limited.',
+  },
+};
+
 export function BillingStatusBanner() {
   const { status, isReadOnly } = useBilling();
-
-  if (status === 'active') return null;
-
-  const bannerStyles: Record<BillingStatus, { bg: string; text: string; message: string }> = {
-    suspended: {
-      bg: 'bg-red-50 border-red-200',
-      text: 'text-red-800',
-      message: 'Your subscription is suspended. Your workspace is in read-only mode. Please renew to restore full access.',
-    },
-    grace_period: {
-      bg: 'bg-yellow-50 border-yellow-200',
-      text: 'text-yellow-800',
-      message: 'Your subscription payment is overdue. You are in a grace period — please renew soon to avoid service interruption.',
-    },
-    active: { bg: '', text: '', message: '' },
-    unknown: {
-      bg: 'bg-gray-50 border-gray-200',
-      text: 'text-gray-800',
-      message: 'Unable to verify subscription status. Some features may be limited.',
-    },
-  };
-
-  const style = bannerStyles[status] || bannerStyles.unknown;
+  const config = BANNER_CONFIGS[status];
+  if (!config) return null;
 
   return (
-    <div className={`border-b px-4 py-3 ${style.bg} ${style.text}`} role="alert">
-      <div className="flex items-center gap-2">
-        <svg className="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+    <div
+      role="alert"
+      style={{
+        borderBottom: `1px solid ${config.border}`,
+        background: config.bg,
+        padding: '10px 16px',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <svg
+          aria-hidden="true"
+          style={{ height: 20, width: 20, flexShrink: 0, color: config.textColor }}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+            clipRule="evenodd"
+          />
         </svg>
-        <span className="text-sm font-medium">{style.message}</span>
+        <span style={{ fontSize: 13, fontWeight: 500, color: config.textColor, flex: 1 }}>
+          {config.message}
+        </span>
         {isReadOnly && (
-          <span className="ml-auto inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
+          <span
+            style={{
+              marginLeft: 'auto',
+              display: 'inline-flex',
+              alignItems: 'center',
+              borderRadius: 9999,
+              background: config.badgeBg,
+              padding: '2px 10px',
+              fontSize: 11,
+              fontWeight: 600,
+              color: config.badgeText,
+              flexShrink: 0,
+            }}
+          >
             Read-Only Mode
           </span>
         )}
@@ -89,14 +135,25 @@ export function BillingStatusBanner() {
 }
 
 /**
- * HOC/wrapper that disables buttons when workspace is read-only
+ * HOC/wrapper that disables children when workspace is read-only
  */
-export function ReadOnlyGuard({ children, fallback }: { children: React.ReactNode; fallback?: React.ReactNode }) {
+export function ReadOnlyGuard({
+  children,
+  fallback,
+}: {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}) {
   const { isReadOnly } = useBilling();
 
   if (isReadOnly) {
-    return fallback ? <>{fallback}</> : (
-      <div className="pointer-events-none opacity-50" title="Workspace is in read-only mode">
+    return fallback ? (
+      <>{fallback}</>
+    ) : (
+      <div
+        style={{ pointerEvents: 'none', opacity: 0.5 }}
+        title="Workspace is in read-only mode"
+      >
         {children}
       </div>
     );

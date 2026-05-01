@@ -44,6 +44,15 @@
       html[data-theme="light"] {
         color-scheme: light;
       }
+      /* M1: Compact view */
+      html[data-compact="true"] .ww-list-item,
+      html[data-compact="true"] [role="listitem"] {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+      }
+      html[data-compact="true"] article {
+        padding: 12px 14px !important;
+      }
     </style>
     <!-- Anti-FOUC: apply saved theme before React renders to prevent flash -->
     <script>

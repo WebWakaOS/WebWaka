@@ -166,8 +166,9 @@ export default function Dashboard() {
           <p style={styles.subheading}>Here's what's happening with your business today.</p>
         </div>
         <div style={styles.tenantBadge}>
-          <span style={{ fontSize: 11, color: '#6b7280' }}>Tenant</span>
-          <code style={{ fontSize: 12, color: '#0F4C81', fontWeight: 600 }}>{user?.tenantId ?? '—'}</code>
+          {(user?.businessName) && (
+            <span style={{ fontSize: 13, color: '#111827', fontWeight: 600 }}>{user.businessName}</span>
+          )}
           {data.billing && (
             <span style={{
               fontSize: 10, padding: '2px 8px', borderRadius: 10, marginTop: 2,

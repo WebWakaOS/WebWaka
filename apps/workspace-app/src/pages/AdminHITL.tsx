@@ -1,15 +1,10 @@
 /**
- * Admin HITL (Human-In-The-Loop) Dashboard
- * 
- * Phase 1 Task (Step 4): Admin dashboard HITL UI scaffold
- * 
- * Provides interface for admin/super_admin to review and approve/reject
- * AI-generated actions that require human oversight (autonomy level 3).
+ * AdminHITL — refactored to use shared api.ts (H7 fix)
  */
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '../components/ui/Button';
 import { toast } from '../lib/toast';
+import { api, ApiError } from '../lib/api';
 
 interface HITLAction {
   id: string;
@@ -27,182 +22,223 @@ interface HITLAction {
   requestedAt: string;
 }
 
+const PRIORITY_COLORS: Record<string, string> = {
+  high: '#ef4444',
+  medium: '#f59e0b',
+  low: '#6b7280',
+};
+
 export default function AdminHITL() {
   const [actions, setActions] = useState<HITLAction[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedAction, setSelectedAction] = useState<HITLAction | null>(null);
+  const [processing, setProcessing] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchPendingActions();
-    const interval = setInterval(fetchPendingActions, 10000);
-    return () => clearInterval(interval);
+  const fetchPendingActions = useCallback(async () => {
+    try {
+      const data = await api.get<{ actions: HITLAction[] }>(
+        '/admin/hitl/actions?status=pending',
+      );
+      setActions(data.actions ?? []);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 404) {
+        // endpoint not yet deployed — show empty state
+        setActions([]);
+      } else {
+        toast.error('Failed to load pending actions');
+      }
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  async function fetchPendingActions() {
+  useEffect(() => {
+    void fetchPendingActions();
+    const interval = setInterval(() => { void fetchPendingActions(); }, 10_000);
+    return () => clearInterval(interval);
+  }, [fetchPendingActions]);
+
+  const handleApprove = async (action: HITLAction) => {
+    setProcessing(action.id);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions?status=pending`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch actions');
-      }
-
-      const data = await response.json();
-      setActions(data.actions || []);
-      setLoading(false);
-    } catch (error) {
-      console.error('Failed to fetch HITL actions:', error);
-      toast.error('Failed to load pending actions');
-      setLoading(false);
-    }
-  }
-
-  async function handleApprove(action: HITLAction) {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions/${action.id}/approve`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ note: '' }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to approve action');
-      }
-
-      toast.success(`Action approved: ${action.capability} for ${action.vertical}`);
-      await fetchPendingActions();
+      await api.post(`/admin/hitl/actions/${action.id}/approve`, { note: '' });
+      toast.success(`Approved: ${action.capability} for ${action.vertical}`);
       setSelectedAction(null);
-    } catch (error) {
-      toast.error('Failed to approve action');
-    }
-  }
-
-  async function handleReject(action: HITLAction) {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/admin/hitl/actions/${action.id}/reject`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('ww_token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ note: '' }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to reject action');
-      }
-
-      toast.success(`Action rejected: ${action.capability} for ${action.vertical}`);
       await fetchPendingActions();
-      setSelectedAction(null);
-    } catch (error) {
-      toast.error('Failed to reject action');
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to approve action';
+      toast.error(msg);
+    } finally {
+      setProcessing(null);
     }
-  }
+  };
+
+  const handleReject = async (action: HITLAction) => {
+    setProcessing(action.id);
+    try {
+      await api.post(`/admin/hitl/actions/${action.id}/reject`, { note: '' });
+      toast.success(`Rejected: ${action.capability} for ${action.vertical}`);
+      setSelectedAction(null);
+      await fetchPendingActions();
+    } catch (err) {
+      const msg = err instanceof ApiError ? err.message : 'Failed to reject action';
+      toast.error(msg);
+    } finally {
+      setProcessing(null);
+    }
+  };
 
   const pendingActions = actions.filter(a => a.status === 'pending');
 
   return (
-    <div style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>
+    <div style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto' }} id="main-content">
+      <header style={{ marginBottom: 32 }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: '#111827', marginBottom: 6 }}>
           AI Action Review Queue
         </h1>
-        <p style={{ color: '#6b7280', fontSize: '15px' }}>
+        <p style={{ color: '#6b7280', fontSize: 14 }}>
           Review and approve AI-suggested actions requiring human oversight
         </p>
-        <div style={{ marginTop: '16px' }}>
-          <span style={{ padding: '8px 16px', background: '#f3f4f6', borderRadius: '8px', fontSize: '16px', fontWeight: 600 }}>
+        <div style={{ marginTop: 14 }}>
+          <span style={{
+            padding: '6px 16px', background: pendingActions.length > 0 ? '#fef9c3' : '#f3f4f6',
+            borderRadius: 8, fontSize: 15, fontWeight: 600,
+            color: pendingActions.length > 0 ? '#92400e' : '#374151',
+          }}>
             {pendingActions.length} Pending
           </span>
         </div>
-      </div>
+      </header>
 
       {loading ? (
-        <div style={{ padding: '48px', textAlign: 'center', background: '#f9fafb', borderRadius: '12px' }}>
-          <p style={{ color: '#6b7280' }}>Loading actions...</p>
+        <div style={{ padding: '48px', textAlign: 'center', background: '#f9fafb', borderRadius: 12 }}>
+          <p style={{ color: '#6b7280' }}>Loading actions…</p>
         </div>
       ) : pendingActions.length === 0 ? (
-        <div style={{ padding: '48px', textAlign: 'center', background: '#f9fafb', borderRadius: '12px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✓</div>
-          <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>All Caught Up!</h3>
+        <div style={{ padding: '48px', textAlign: 'center', background: '#f9fafb', borderRadius: 12 }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
+          <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 8 }}>All Caught Up!</h3>
           <p style={{ color: '#6b7280' }}>No pending actions require review</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: selectedAction ? '1fr 1fr' : '1fr', gap: '24px' }}>
-          <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: selectedAction ? '1fr 1fr' : '1fr',
+          gap: 24,
+        }}>
+          {/* Action list */}
+          <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {pendingActions.map(action => (
               <div
                 key={action.id}
                 onClick={() => setSelectedAction(action)}
+                role="button"
+                tabIndex={0}
+                aria-pressed={selectedAction?.id === action.id}
+                onKeyDown={(e) => e.key === 'Enter' && setSelectedAction(action)}
                 style={{
-                  padding: '20px',
-                  marginBottom: '16px',
+                  padding: 20,
+                  marginBottom: 16,
                   background: '#fff',
-                  border: selectedAction?.id === action.id ? '2px solid #0F4C81' : '1px solid #e5e7eb',
-                  borderRadius: '12px',
+                  border: selectedAction?.id === action.id
+                    ? '2px solid #0F4C81'
+                    : '1px solid #e5e7eb',
+                  borderRadius: 12,
                   cursor: 'pointer',
+                  transition: 'border-color 0.15s',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{action.vertical}</h3>
-                  <span style={{ padding: '4px 12px', background: '#dc2626', color: '#fff', borderRadius: '6px', fontSize: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, alignItems: 'flex-start' }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, color: '#111827' }}>{action.vertical}</h3>
+                  <span style={{
+                    padding: '3px 10px',
+                    background: PRIORITY_COLORS[action.priority] ?? '#6b7280',
+                    color: '#fff',
+                    borderRadius: 6,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                  }}>
                     {action.priority}
                   </span>
                 </div>
-                <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '8px' }}>{action.capability}</p>
-                <p style={{ color: '#6b7280', fontSize: '14px' }}>{action.aiReasoning.substring(0, 100)}...</p>
+                <p style={{ color: '#374151', fontSize: 13, marginBottom: 4 }}>{action.capability}</p>
+                <p style={{ color: '#6b7280', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {action.aiReasoning.substring(0, 100)}{action.aiReasoning.length > 100 ? '…' : ''}
+                </p>
               </div>
             ))}
           </div>
 
+          {/* Detail pane */}
           {selectedAction && (
-            <div style={{ padding: '24px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', position: 'sticky', top: '24px' }}>
-              <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '16px' }}>Action Details</h2>
-              
-              <div style={{ marginBottom: '16px' }}>
-                <h4 style={{ fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Vertical & Capability</h4>
-                <p>{selectedAction.vertical} / {selectedAction.capability}</p>
+            <div style={{
+              padding: 24,
+              background: '#fff',
+              border: '1px solid #e5e7eb',
+              borderRadius: 12,
+              position: 'sticky',
+              top: 24,
+              maxHeight: '80vh',
+              overflowY: 'auto',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color: '#111827' }}>Action Details</h2>
+                <button
+                  onClick={() => setSelectedAction(null)}
+                  style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#6b7280', lineHeight: 1 }}
+                  aria-label="Close detail panel"
+                >×</button>
               </div>
 
-              <div style={{ marginBottom: '16px' }}>
-                <h4 style={{ fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>AI Reasoning</h4>
-                <p style={{ color: '#6b7280', fontSize: '14px' }}>{selectedAction.aiReasoning}</p>
-              </div>
+              <dl style={{ display: 'flex', flexDirection: 'column', gap: 16, fontSize: 14 }}>
+                <div>
+                  <dt style={{ fontWeight: 600, color: '#374151', marginBottom: 4 }}>Vertical / Capability</dt>
+                  <dd style={{ color: '#111827' }}>{selectedAction.vertical} / {selectedAction.capability}</dd>
+                </div>
+                <div>
+                  <dt style={{ fontWeight: 600, color: '#374151', marginBottom: 4 }}>AI Reasoning</dt>
+                  <dd style={{ color: '#6b7280', lineHeight: 1.6 }}>{selectedAction.aiReasoning}</dd>
+                </div>
+                <div>
+                  <dt style={{ fontWeight: 600, color: '#374151', marginBottom: 4 }}>Proposed Action</dt>
+                  <dd>
+                    <pre style={{
+                      fontSize: 12,
+                      background: '#f9fafb',
+                      padding: 12,
+                      borderRadius: 8,
+                      overflowX: 'auto',
+                      border: '1px solid #e5e7eb',
+                      lineHeight: 1.5,
+                    }}>
+                      {JSON.stringify(selectedAction.proposedAction, null, 2)}
+                    </pre>
+                  </dd>
+                </div>
+                <div>
+                  <dt style={{ fontWeight: 600, color: '#374151', marginBottom: 4 }}>Context</dt>
+                  <dd style={{ color: '#6b7280', lineHeight: 1.8 }}>
+                    Tenant: {selectedAction.tenantId}<br />
+                    Workspace: {selectedAction.workspaceId}<br />
+                    Requested: {new Date(selectedAction.requestedAt).toLocaleString()}
+                  </dd>
+                </div>
+              </dl>
 
-              <div style={{ marginBottom: '16px' }}>
-                <h4 style={{ fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Proposed Action</h4>
-                <pre style={{ fontSize: '12px', background: '#f9fafb', padding: '12px', borderRadius: '8px', overflowX: 'auto' }}>
-                  {JSON.stringify(selectedAction.proposedAction, null, 2)}
-                </pre>
-              </div>
-
-              <div style={{ marginBottom: '24px' }}>
-                <h4 style={{ fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>Context</h4>
-                <p style={{ fontSize: '13px', color: '#6b7280' }}>
-                  Tenant: {selectedAction.tenantId}<br />
-                  Workspace: {selectedAction.workspaceId}<br />
-                  Requested: {new Date(selectedAction.requestedAt).toLocaleString()}
-                </p>
-              </div>
-
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
                 <Button
-                  onClick={() => handleApprove(selectedAction)}
-                  style={{ flex: 1, background: '#10b981' }}
+                  onClick={() => void handleApprove(selectedAction)}
+                  loading={processing === selectedAction.id}
+                  style={{ flex: 1, background: '#059669', borderColor: '#059669', justifyContent: 'center' }}
                 >
                   ✓ Approve
                 </Button>
                 <Button
-                  onClick={() => handleReject(selectedAction)}
-                  style={{ flex: 1, background: '#ef4444' }}
+                  variant="danger"
+                  onClick={() => void handleReject(selectedAction)}
+                  loading={processing === selectedAction.id}
+                  style={{ flex: 1, justifyContent: 'center' }}
                 >
                   ✕ Reject
                 </Button>

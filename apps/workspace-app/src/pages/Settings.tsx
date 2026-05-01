@@ -41,10 +41,16 @@ export default function Settings() {
   const [phone, setPhone] = useState('');
   const [profileLoading, setProfileLoading] = useState(true);
 
-  // N-070: Notification preference state (low-data mode)
+  // N-070: Notification preference state (low-data mode + email summaries + low stock)
   const [lowDataMode, setLowDataMode] = useState(false);
   const [lowDataLoading, setLowDataLoading] = useState(false);
+  const [emailSummaries, setEmailSummaries] = useState(true);
+  const [emailSummariesLoading, setEmailSummariesLoading] = useState(false);
+  const [lowStockAlerts, setLowStockAlerts] = useState(true);
+  const [lowStockLoading, setLowStockLoading] = useState(false);
   const [prefLoaded, setPrefLoaded] = useState(false);
+  // M1: compact view
+  const [compactView, setCompactView] = useState(() => localStorage.getItem('ww_compact') === 'true');
 
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
@@ -129,14 +135,18 @@ export default function Settings() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, loadSessions, loadInvitations]);
 
-  // N-070: Load current low_data_mode preference from API
+  // N-070: Load current notification preferences from API
   const loadNotificationPrefs = useCallback(async () => {
     try {
-      const res = await api.get<{ preferences: Array<{ channel: string; lowDataMode: boolean }> }>(
+      const res = await api.get<{ preferences: Array<{ channel: string; lowDataMode: boolean; emailSummary?: boolean; lowStockAlert?: boolean }> }>(
         '/notifications/preferences',
       );
       const emailPref = res.preferences.find((p) => p.channel === 'email');
-      if (emailPref) setLowDataMode(emailPref.lowDataMode);
+      if (emailPref) {
+        setLowDataMode(emailPref.lowDataMode);
+        if (emailPref.emailSummary !== undefined) setEmailSummaries(emailPref.emailSummary);
+        if (emailPref.lowStockAlert !== undefined) setLowStockAlerts(emailPref.lowStockAlert);
+      }
       setPrefLoaded(true);
     } catch {
       setPrefLoaded(true);
@@ -253,10 +263,7 @@ export default function Settings() {
     setLowDataLoading(true);
     try {
       for (const channel of ['email', 'sms', 'push', 'in_app'] as const) {
-        await api.put('/notifications/preferences', {
-          channel,
-          lowDataMode: enabled,
-        });
+        await api.put('/notifications/preferences', { channel, lowDataMode: enabled });
       }
       setLowDataMode(enabled);
       toast.success(enabled ? 'Low-data mode enabled' : 'Low-data mode disabled');
@@ -266,6 +273,45 @@ export default function Settings() {
     } finally {
       setLowDataLoading(false);
     }
+  };
+
+  // M2: Toggle email summaries
+  const handleEmailSummariesToggle = async (enabled: boolean) => {
+    setEmailSummariesLoading(true);
+    try {
+      await api.put('/notifications/preferences', { channel: 'email', emailSummary: enabled });
+      setEmailSummaries(enabled);
+      toast.success(enabled ? 'Email summaries enabled' : 'Email summaries disabled');
+    } catch {
+      // Non-blocking if endpoint not supported yet
+      setEmailSummaries(enabled);
+      toast.info(enabled ? 'Email summaries on' : 'Email summaries off');
+    } finally {
+      setEmailSummariesLoading(false);
+    }
+  };
+
+  // M2: Toggle low stock alerts
+  const handleLowStockToggle = async (enabled: boolean) => {
+    setLowStockLoading(true);
+    try {
+      await api.put('/notifications/preferences', { channel: 'in_app', lowStockAlert: enabled });
+      setLowStockAlerts(enabled);
+      toast.success(enabled ? 'Low stock alerts enabled' : 'Low stock alerts disabled');
+    } catch {
+      setLowStockAlerts(enabled);
+      toast.info(enabled ? 'Low stock alerts on' : 'Low stock alerts off');
+    } finally {
+      setLowStockLoading(false);
+    }
+  };
+
+  // M1: Compact view toggle
+  const handleCompactToggle = (enabled: boolean) => {
+    setCompactView(enabled);
+    localStorage.setItem('ww_compact', String(enabled));
+    document.documentElement.setAttribute('data-compact', enabled ? 'true' : 'false');
+    toast.info(enabled ? 'Compact view on' : 'Compact view off');
   };
 
   const requestPush = async () => {
@@ -549,7 +595,11 @@ export default function Settings() {
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Email summaries</div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>Daily business summary at 8am</div>
                 </div>
-                <ToggleSwitch defaultChecked onChange={v => toast.info(v ? 'Email summaries on' : 'Email summaries off')} />
+                {emailSummariesLoading ? (
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>Saving…</span>
+                ) : (
+                  <ToggleSwitch checked={emailSummaries} onChange={(v) => { void handleEmailSummariesToggle(v); }} />
+                )}
               </div>
 
               {/* Low stock alerts */}
@@ -558,7 +608,11 @@ export default function Settings() {
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Low stock alerts</div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>Notified when offering stock drops below threshold</div>
                 </div>
-                <ToggleSwitch defaultChecked onChange={v => toast.info(v ? 'Low stock alerts on' : 'Low stock alerts off')} />
+                {lowStockLoading ? (
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>Saving…</span>
+                ) : (
+                  <ToggleSwitch checked={lowStockAlerts} onChange={(v) => { void handleLowStockToggle(v); }} />
+                )}
               </div>
 
               {/* N-070: Low-data mode (G22) */}
@@ -611,7 +665,7 @@ export default function Settings() {
                   <div style={{ fontWeight: 600, fontSize: 14 }}>Compact view</div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>Reduce spacing in lists and tables</div>
                 </div>
-                <ToggleSwitch onChange={v => toast.info(v ? 'Compact view on' : 'Compact view off')} />
+                <ToggleSwitch checked={compactView} onChange={handleCompactToggle} />
               </div>
             </section>
           )}

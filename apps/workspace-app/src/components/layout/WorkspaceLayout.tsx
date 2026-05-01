@@ -80,6 +80,22 @@ export function WorkspaceLayout() {
           </div>
         )}
 
+        {/* M6: Mobile top bar with notification bell */}
+        {isMobile && (
+          <div style={{
+            position: 'sticky', top: 0, zIndex: 99,
+            background: '#0F4C81', padding: '12px 16px',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          }}>
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#fff' }}>WebWaka OS</span>
+            <NotificationBell
+              unreadCount={unreadCount}
+              onClick={() => setDrawerOpen((o) => !o)}
+              open={drawerOpen}
+            />
+          </div>
+        )}
+
         <div
           style={{
             flex: 1,

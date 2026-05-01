@@ -40,7 +40,8 @@ export default function Register() {
         phone: data.phone || undefined,
       });
       toast.success('Account created! Welcome to WebWaka.');
-      navigate('/dashboard', { replace: true });
+      // M3: Route new users through onboarding wizard
+      navigate('/onboarding', { replace: true });
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Registration failed. Please try again.';
       toast.error(msg);

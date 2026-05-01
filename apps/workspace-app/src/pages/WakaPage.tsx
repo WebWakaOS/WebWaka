@@ -118,55 +118,134 @@ function StatusBadge({ state }: { state: string }) {
   );
 }
 
+// ---- Block config editors (H3 fix: per-block content editing) ----
+
+const BLOCK_FIELDS: Record<string, Array<{ key: string; label: string; type?: string; placeholder?: string }>> = {
+  hero:         [{ key: 'title', label: 'Title', placeholder: 'Welcome to my business' }, { key: 'subtitle', label: 'Subtitle', placeholder: 'We offer quality services' }, { key: 'ctaText', label: 'CTA Button text', placeholder: 'Contact us' }],
+  bio:          [{ key: 'text', label: 'About text', placeholder: 'Tell customers about your business…' }],
+  contact_form: [{ key: 'email', label: 'Contact email', placeholder: 'you@business.com' }, { key: 'phone', label: 'Contact phone', placeholder: '+2348000000000' }],
+  social_links: [{ key: 'instagram', label: 'Instagram URL', placeholder: 'https://instagram.com/...' }, { key: 'facebook', label: 'Facebook URL', placeholder: 'https://facebook.com/...' }, { key: 'twitter', label: 'Twitter/X URL', placeholder: 'https://x.com/...' }, { key: 'whatsapp', label: 'WhatsApp number', placeholder: '+2348000000000' }],
+  cta_button:   [{ key: 'label', label: 'Button text', placeholder: 'Book now' }, { key: 'url', label: 'Button URL', placeholder: 'https://...' }],
+  map_embed:    [{ key: 'address', label: 'Business address', placeholder: '12 Market Street, Lagos' }],
+  faq:          [{ key: 'q1', label: 'Question 1', placeholder: 'What are your hours?' }, { key: 'a1', label: 'Answer 1', placeholder: 'We are open 9am–5pm' }],
+};
+
+function BlockEditModal({
+  block,
+  onSave,
+  onClose,
+  saving,
+}: {
+  block: WakaBlock;
+  onSave: (id: string, config: Record<string, string>) => void;
+  onClose: () => void;
+  saving: boolean;
+}) {
+  const fields = BLOCK_FIELDS[block.blockType] ?? [];
+  const initialConfig: Record<string, string> = (() => {
+    try { return JSON.parse(block.configJson) as Record<string, string>; } catch { return {}; }
+  })();
+  const [config, setConfig] = useState<Record<string, string>>(initialConfig);
+
+  if (fields.length === 0) {
+    return (
+      <div style={{
+        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 16,
+      }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+        <div style={{ background: '#fff', borderRadius: 16, padding: 28, maxWidth: 380, width: '100%', textAlign: 'center' }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>No editable fields</h2>
+          <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>This block type has no configurable fields yet.</p>
+          <button onClick={onClose} style={{ padding: '10px 24px', background: '#f3f4f6', border: 'none', borderRadius: 8, fontWeight: 600, cursor: 'pointer' }}>Close</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 16,
+    }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: '#fff', borderRadius: 16, padding: 24, maxWidth: 460, width: '100%', maxHeight: '80vh', overflowY: 'auto' }}>
+        <h2 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
+          Edit — {BLOCK_TYPES[block.blockType] ?? block.blockType}
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 20 }}>
+          {fields.map(f => (
+            <div key={f.key} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <label style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>{f.label}</label>
+              <input
+                type={f.type ?? 'text'}
+                value={config[f.key] ?? ''}
+                onChange={e => setConfig(prev => ({ ...prev, [f.key]: e.target.value }))}
+                placeholder={f.placeholder}
+                style={{ border: '1.5px solid #d1d5db', borderRadius: 8, padding: '10px 14px', fontSize: 14, minHeight: 44 }}
+              />
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+          <button onClick={onClose} style={{ padding: '10px 18px', border: '1.5px solid #e5e7eb', borderRadius: 8, background: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: 14, minHeight: 44 }}>Cancel</button>
+          <button
+            onClick={() => onSave(block.id, config)}
+            disabled={saving}
+            style={{ padding: '10px 20px', border: 'none', borderRadius: 8, background: saving ? '#9ca3af' : '#0F4C81', color: '#fff', fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14, minHeight: 44 }}
+          >
+            {saving ? 'Saving…' : 'Save block'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BlockCard({
   block,
   onToggle,
   onDelete,
+  onEdit,
 }: {
   block: WakaBlock;
   onToggle: (id: string, visible: boolean) => void;
   onDelete: (id: string) => void;
+  onEdit: (block: WakaBlock) => void;
 }) {
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 12,
+      display: 'flex', alignItems: 'center', gap: 8,
       padding: '12px 16px',
       background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10,
+      flexWrap: 'wrap',
     }}>
-      <span style={{
-        flex: 1, fontSize: 14, fontWeight: 600, color: '#111827',
-      }}>
+      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: '#111827', minWidth: 120 }}>
         {BLOCK_TYPES[block.blockType] ?? block.blockType}
         {!block.isVisible && (
-          <span style={{ marginLeft: 8, fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>
-            (hidden)
-          </span>
+          <span style={{ marginLeft: 8, fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>(hidden)</span>
         )}
       </span>
       <button
+        onClick={() => onEdit(block)}
+        style={{ background: '#f0f9ff', border: '1px solid #bfdbfe', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: '#0F4C81', fontWeight: 600 }}
+      >
+        Edit
+      </button>
+      <button
         onClick={() => onToggle(block.id, !block.isVisible)}
-        style={{
-          background: 'none', border: '1px solid #d1d5db', borderRadius: 6,
-          padding: '4px 10px', fontSize: 12, cursor: 'pointer',
-          color: block.isVisible ? '#374151' : '#9ca3af',
-        }}
-        title={block.isVisible ? 'Hide block' : 'Show block'}
+        style={{ background: 'none', border: '1px solid #d1d5db', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: block.isVisible ? '#374151' : '#9ca3af' }}
       >
         {block.isVisible ? 'Hide' : 'Show'}
       </button>
       <button
         onClick={() => onDelete(block.id)}
-        style={{
-          background: 'none', border: '1px solid #fca5a5', borderRadius: 6,
-          padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: '#ef4444',
-        }}
-        title="Remove block"
+        style={{ background: 'none', border: '1px solid #fca5a5', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: '#ef4444' }}
       >
         Remove
       </button>
     </div>
   );
 }
+
 
 function LeadCard({ lead }: { lead: WakaLead }) {
   return (
@@ -351,6 +430,9 @@ export default function WakaPageManager() {
   const [addingBlock, setAddingBlock] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [loadingQr, setLoadingQr] = useState(false);
+  // H3: Block editing
+  const [editingBlock, setEditingBlock] = useState<WakaBlock | null>(null);
+  const [savingBlockConfig, setSavingBlockConfig] = useState(false);
 
   // Fetch the workspace's WakaPage on mount
   const loadPage = useCallback(async () => {
@@ -475,6 +557,24 @@ export default function WakaPageManager() {
     }
   };
 
+  // H3: Save block config
+  const handleSaveBlockConfig = async (blockId: string, config: Record<string, string>) => {
+    if (!page) return;
+    setSavingBlockConfig(true);
+    try {
+      await api.patch(`/v0/wakapages/${page.id}/blocks/${blockId}`, {
+        config_json: JSON.stringify(config),
+      });
+      setBlocks(prev => prev.map(b => b.id === blockId ? { ...b, configJson: JSON.stringify(config) } : b));
+      toast.success('Block content saved!');
+      setEditingBlock(null);
+    } catch {
+      toast.error('Could not save block content. Please try again.');
+    } finally {
+      setSavingBlockConfig(false);
+    }
+  };
+
   const handleShowQr = async () => {
     if (!page || loadingQr) return;
     if (qr) { setShowQr(true); return; }
@@ -552,6 +652,14 @@ export default function WakaPageManager() {
       )}
       {showQr && qr && (
         <QrModal qr={qr} onClose={() => setShowQr(false)} />
+      )}
+      {editingBlock && (
+        <BlockEditModal
+          block={editingBlock}
+          onSave={(id, config) => void handleSaveBlockConfig(id, config)}
+          onClose={() => setEditingBlock(null)}
+          saving={savingBlockConfig}
+        />
       )}
 
       {/* Header */}
@@ -638,6 +746,7 @@ export default function WakaPageManager() {
                   block={block}
                   onToggle={(id, vis) => void handleToggleBlock(id, vis)}
                   onDelete={(id) => void handleDeleteBlock(id)}
+                  onEdit={(b) => setEditingBlock(b)}
                 />
               ))}
           </div>

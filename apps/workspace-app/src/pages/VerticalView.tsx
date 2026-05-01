@@ -1,55 +1,159 @@
-import { useState } from 'react';
+/**
+ * VerticalView — C3 fix: AI Advisory wired to real SuperAgent /chat API.
+ * H10 fix: Compliance data fetched from workspace verticals API.
+ */
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { getVerticalMeta, VERTICAL_REGISTRY } from '@/lib/verticals';
+import { sendChat } from '@/lib/superagent-api';
+import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Tab = 'overview' | 'advisory' | 'compliance';
 
 interface AdvisoryResult {
   capability: string;
-  count: number;
   summary: string;
-  recommendations: string[];
-  hitl_required?: boolean;
+  sessionId?: string;
+  hitlPending?: boolean;
+  hitlId?: string;
+  wakacu?: number;
 }
 
+interface ComplianceItem {
+  label: string;
+  desc: string;
+  icon: string;
+  ok: boolean | null;   // null = loading/unknown
+}
+
+interface WorkspaceVertical {
+  slug: string;
+  state: string;
+  activated_at: number | null;
+}
+
+const DEFAULT_COMPLIANCE: ComplianceItem[] = [
+  { icon: '🔐', label: 'NDPR Data Protection',      desc: 'Personal data handled per Nigerian DPR guidelines', ok: null },
+  { icon: '📋', label: 'NAFDAC Registration',        desc: 'Food & drug regulatory compliance',                ok: null },
+  { icon: '🏠', label: 'CAC Business Registration', desc: 'Corporate Affairs Commission filing',             ok: null },
+  { icon: '💸', label: 'FIRS Tax Registration',      desc: 'Federal Inland Revenue Service TIN',             ok: null },
+  { icon: '🌍', label: 'SON Product Certification',  desc: 'Standards Organisation of Nigeria',             ok: null },
+];
+
 export default function VerticalView() {
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = (searchParams.get('tab') as Tab) ?? 'overview';
+
+  // Determine active vertical from workspace or default
   const [selectedVertical, setSelectedVertical] = useState('palm-oil');
+  const [workspaceVertical, setWorkspaceVertical] = useState<WorkspaceVertical | null>(null);
+  const [loadingVertical, setLoadingVertical] = useState(false);
+
+  // Advisory state
   const [advisory, setAdvisory] = useState<AdvisoryResult | null>(null);
   const [advisoryLoading, setAdvisoryLoading] = useState(false);
+  const [advisoryError, setAdvisoryError] = useState<string | null>(null);
+
+  // Compliance state
+  const [complianceItems, setComplianceItems] = useState<ComplianceItem[]>(DEFAULT_COMPLIANCE);
+  const [complianceLoading, setComplianceLoading] = useState(false);
 
   const meta = getVerticalMeta(selectedVertical);
 
   const setTab = (tab: Tab) => setSearchParams({ tab });
 
+  // Load workspace vertical info
+  useEffect(() => {
+    if (!user?.workspaceId) return;
+    setLoadingVertical(true);
+    api.get<{ verticals: WorkspaceVertical[] }>(`/workspaces/${user.workspaceId}/verticals`)
+      .then(res => {
+        const active = res.verticals.find(v => v.state === 'active');
+        if (active) {
+          setWorkspaceVertical(active);
+          setSelectedVertical(active.slug);
+        }
+      })
+      .catch(() => { /* non-blocking — user can still select manually */ })
+      .finally(() => setLoadingVertical(false));
+  }, [user?.workspaceId]);
+
+  // Load compliance data when tab opened
+  useEffect(() => {
+    if (activeTab !== 'compliance') return;
+    if (!user?.workspaceId) return;
+    setComplianceLoading(true);
+    api.get<{ vertical: WorkspaceVertical & { requirements?: { key: string; met: boolean }[] } }>(
+      `/workspaces/${user.workspaceId}/verticals/${selectedVertical}`,
+    )
+      .then(res => {
+        const reqs = res.vertical?.requirements ?? [];
+        // Map backend requirements to display items
+        setComplianceItems(
+          DEFAULT_COMPLIANCE.map(item => {
+            const key = item.label.toLowerCase().replace(/[^a-z]+/g, '_');
+            const found = reqs.find(r => r.key.includes(key.split('_')[0]));
+            return { ...item, ok: found ? found.met : item.ok };
+          }),
+        );
+      })
+      .catch(() => {
+        // Fall back to neutral display if endpoint not available
+        setComplianceItems(DEFAULT_COMPLIANCE.map(i => ({ ...i, ok: null })));
+      })
+      .finally(() => setComplianceLoading(false));
+  }, [activeTab, selectedVertical, user?.workspaceId]);
+
+  // Real advisory via SuperAgent /chat
   const requestAdvisory = async () => {
+    if (!meta?.aiCapability) {
+      toast.error('This vertical does not have an AI advisory capability.');
+      return;
+    }
     setAdvisoryLoading(true);
     setAdvisory(null);
+    setAdvisoryError(null);
     try {
-      await new Promise(r => setTimeout(r, 1500));
-      setAdvisory({
-        capability: meta?.aiCapability ?? 'GENERAL_ADVISORY',
-        count: 12,
-        summary: `Based on 12 recent transactions for your ${meta?.label ?? selectedVertical} profile, production efficiency is trending upward this quarter.`,
-        recommendations: [
-          'Consider restocking raw materials within 3 days based on current throughput.',
-          'Peak demand detected on Thursdays — schedule additional labour.',
-          'Price of competing products in your LGA has dropped by 8%. Consider a 5% price adjustment.',
-        ],
-        hitl_required: selectedVertical === 'creche',
+      const prompt =
+        `You are a business advisor for a ${meta.label} business in Nigeria. ` +
+        `Analyse recent sales and operational patterns and provide 3-5 specific, actionable recommendations. ` +
+        `Focus on inventory management, pricing strategy, and demand forecasting. ` +
+        `Format your response as a summary paragraph followed by a numbered list of recommendations.`;
+
+      const res = await sendChat({
+        message: prompt,
+        capability: meta.aiCapability,
+        vertical: selectedVertical,
       });
-    } catch {
-      toast.error('Advisory request failed');
+
+      setAdvisory({
+        capability: meta.aiCapability,
+        summary: res.content,
+        sessionId: res.session_id,
+        hitlPending: res.hitl_pending,
+        hitlId: res.hitl_id,
+        wakacu: res.usage?.wakacu_burned,
+      });
+    } catch (err) {
+      const msg =
+        err instanceof ApiError
+          ? err.message
+          : err instanceof Error
+          ? err.message
+          : 'Advisory request failed. Please try again.';
+      setAdvisoryError(msg);
+      toast.error(msg);
     } finally {
       setAdvisoryLoading(false);
     }
   };
 
   return (
-    <div style={styles.page}>
+    <div style={styles.page} id="main-content">
       <header style={styles.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <span aria-hidden="true" style={{ fontSize: 36 }}>{meta?.icon ?? '🏢'}</span>
@@ -57,12 +161,19 @@ export default function VerticalView() {
             <h1 style={styles.heading}>{meta?.label ?? selectedVertical}</h1>
             <p style={styles.subheading}>Vertical profile &amp; AI advisory</p>
           </div>
+          {workspaceVertical && (
+            <span style={{
+              fontSize: 11, padding: '3px 10px', borderRadius: 20,
+              background: '#dcfce7', color: '#166534', fontWeight: 700,
+            }}>ACTIVE</span>
+          )}
         </div>
         <select
           value={selectedVertical}
-          onChange={e => setSelectedVertical(e.target.value)}
+          onChange={e => { setSelectedVertical(e.target.value); setAdvisory(null); setAdvisoryError(null); }}
           style={styles.verticalSelect}
           aria-label="Select vertical"
+          disabled={loadingVertical}
         >
           {Object.values(VERTICAL_REGISTRY).map(v => (
             <option key={v.slug} value={v.slug}>{v.icon} {v.label}</option>
@@ -95,28 +206,39 @@ export default function VerticalView() {
             <div style={styles.infoGrid}>
               <div style={styles.infoCard}>
                 <div style={styles.infoLabel}>Status</div>
-                <div style={{ ...styles.infoValue, color: '#166534' }}>Active ✓</div>
+                <div style={{ ...styles.infoValue, color: workspaceVertical ? '#166534' : '#92400e' }}>
+                  {workspaceVertical ? 'Active ✓' : 'Not activated'}
+                </div>
               </div>
-              <div style={styles.infoCard}>
-                <div style={styles.infoLabel}>Profile ID</div>
-                <code style={{ fontSize: 13 }}>{selectedVertical}_demo_001</code>
-              </div>
+              {workspaceVertical && (
+                <div style={styles.infoCard}>
+                  <div style={styles.infoLabel}>Vertical</div>
+                  <code style={{ fontSize: 13 }}>{workspaceVertical.slug}</code>
+                </div>
+              )}
               <div style={styles.infoCard}>
                 <div style={styles.infoLabel}>AI Capability</div>
                 <div style={styles.infoValue}>{meta?.aiCapability ?? 'None'}</div>
               </div>
-              <div style={styles.infoCard}>
-                <div style={styles.infoLabel}>FSM State</div>
-                <div style={styles.infoValue}>active</div>
-              </div>
+              {workspaceVertical && (
+                <div style={styles.infoCard}>
+                  <div style={styles.infoLabel}>State</div>
+                  <div style={styles.infoValue}>{workspaceVertical.state}</div>
+                </div>
+              )}
             </div>
             <div style={styles.sectionCard}>
               <h2 style={styles.cardHeading}>About this vertical</h2>
               <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.6 }}>
-                Your {meta?.label} profile is fully onboarded and active on WebWaka OS.
-                All regulatory compliance metadata is up to date. You can access AI-powered
-                business advisory from the Advisory tab.
+                Your {meta?.label} vertical profile gives you access to industry-specific
+                AI advisory, compliance tracking, and business intelligence tools.
+                Activate your vertical to unlock all features.
               </p>
+              {!workspaceVertical && (
+                <p style={{ fontSize: 13, color: '#6b7280', marginTop: 12 }}>
+                  To activate this vertical, contact your platform admin or go to Settings.
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -133,36 +255,52 @@ export default function VerticalView() {
                 <div style={styles.sectionCard}>
                   <h2 style={styles.cardHeading}>AI Advisory — {meta.aiCapability}</h2>
                   <p style={{ fontSize: 14, color: '#374151', marginBottom: 16, lineHeight: 1.6 }}>
-                    Request AI-generated business insights based on your anonymised trading data.
+                    Request real AI-generated business insights based on your workspace data.
                     All analysis is NDPR-compliant — personal data is never sent to AI systems.
                   </p>
-                  {advisory?.hitl_required && (
+                  {advisory?.hitlPending && (
                     <div role="alert" style={styles.hitlBanner}>
-                      ⚠️ <strong>Human-in-the-loop required</strong> — this advisory involves sensitive data and requires human review before action.
+                      ⚠️ <strong>Human-in-the-loop required</strong> — this advisory involves sensitive
+                      data and requires human review before action. Check the HITL queue.
                     </div>
                   )}
-                  <Button onClick={requestAdvisory} loading={advisoryLoading} size="md">
+                  {advisoryError && (
+                    <div role="alert" style={{ ...styles.hitlBanner, background: '#fef2f2', border: '1px solid #fecaca' }}>
+                      <strong>Error:</strong> {advisoryError}
+                    </div>
+                  )}
+                  <Button
+                    onClick={() => void requestAdvisory()}
+                    loading={advisoryLoading}
+                    size="md"
+                    disabled={advisoryLoading}
+                  >
                     {advisoryLoading ? 'Analysing…' : '🧠 Request advisory'}
                   </Button>
                 </div>
 
                 {advisory && (
                   <div style={styles.sectionCard}>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Advisory results</h3>
-                    <p style={{ fontSize: 14, color: '#374151', marginBottom: 16, lineHeight: 1.6 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700 }}>Advisory results</h3>
+                      {advisory.wakacu !== undefined && (
+                        <span style={{ fontSize: 11, color: '#6b7280', background: '#f3f4f6', padding: '2px 8px', borderRadius: 8 }}>
+                          {advisory.wakacu} WakaCU used
+                        </span>
+                      )}
+                    </div>
+                    <div style={{
+                      fontSize: 14, color: '#374151', lineHeight: 1.7,
+                      whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                    }}>
                       {advisory.summary}
-                    </p>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: '#374151' }}>Recommendations</h4>
-                    <ul style={{ paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-                      {advisory.recommendations.map((rec, i) => (
-                        <li key={i} style={styles.recommendation}>
-                          <span aria-hidden="true" style={{ fontSize: 18 }}>💡</span>
-                          <span style={{ fontSize: 14, color: '#374151' }}>{rec}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    </div>
                     <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 16 }}>
-                      Data points analysed: {advisory.count} · Capability: {advisory.capability}
+                      Capability: {advisory.capability}
+                      {advisory.sessionId && ` · Session: ${advisory.sessionId.slice(0, 8)}…`}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 4, fontStyle: 'italic' }}>
+                      AI responses are generated. Verify important information before acting.
                     </p>
                   </div>
                 )}
@@ -173,17 +311,26 @@ export default function VerticalView() {
 
         {activeTab === 'compliance' && (
           <div style={styles.sectionCard}>
-            <h2 style={styles.cardHeading}>Regulatory compliance</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <h2 style={styles.cardHeading}>Regulatory compliance</h2>
+              {complianceLoading && (
+                <span style={{ fontSize: 12, color: '#6b7280' }}>Loading…</span>
+              )}
+            </div>
             <div role="list" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {COMPLIANCE_ITEMS.map(item => (
+              {complianceItems.map(item => (
                 <div key={item.label} role="listitem" style={styles.complianceItem}>
                   <span aria-hidden="true" style={{ fontSize: 20 }}>{item.icon}</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>{item.label}</div>
                     <div style={{ fontSize: 12, color: '#6b7280' }}>{item.desc}</div>
                   </div>
-                  <span style={{ fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 12, background: item.ok ? '#dcfce7' : '#fef9c3', color: item.ok ? '#166534' : '#92400e' }}>
-                    {item.ok ? 'PASS' : 'PENDING'}
+                  <span style={{
+                    fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 12,
+                    background: item.ok === null ? '#f3f4f6' : item.ok ? '#dcfce7' : '#fef9c3',
+                    color: item.ok === null ? '#6b7280' : item.ok ? '#166534' : '#92400e',
+                  }}>
+                    {item.ok === null ? 'CHECKING' : item.ok ? 'PASS' : 'PENDING'}
                   </span>
                 </div>
               ))}
@@ -194,14 +341,6 @@ export default function VerticalView() {
     </div>
   );
 }
-
-const COMPLIANCE_ITEMS = [
-  { icon: '🔐', label: 'NDPR Data Protection',       desc: 'Personal data handled per Nigerian DPR guidelines', ok: true },
-  { icon: '📋', label: 'NAFDAC Registration',         desc: 'Food & drug regulatory compliance', ok: true },
-  { icon: '🏛️',  label: 'CAC Business Registration',  desc: 'Corporate Affairs Commission filing', ok: true },
-  { icon: '💸', label: 'FIRS Tax Registration',       desc: 'Federal Inland Revenue Service TIN', ok: false },
-  { icon: '🌍', label: 'SON Product Certification',   desc: 'Standards Organisation of Nigeria', ok: false },
-];
 
 const styles = {
   page: { padding: '24px 20px', maxWidth: 900, margin: '0 auto' } as React.CSSProperties,
@@ -220,6 +359,5 @@ const styles = {
   cardHeading: { fontSize: 17, fontWeight: 700, color: '#111827', marginBottom: 12 } as React.CSSProperties,
   hitlBanner: { background: '#fef9c3', border: '1px solid #fbbf24', borderRadius: 8, padding: '12px 16px', fontSize: 14, marginBottom: 16 } as React.CSSProperties,
   emptyState: { textAlign: 'center' as const, padding: '64px 20px', color: '#9ca3af' },
-  recommendation: { display: 'flex', alignItems: 'flex-start', gap: 10, background: '#f8f9fa', borderRadius: 8, padding: '12px 14px' } as React.CSSProperties,
   complianceItem: { display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #f3f4f6' } as React.CSSProperties,
 };

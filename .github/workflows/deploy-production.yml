@@ -437,3 +437,50 @@ jobs:
           SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
           SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
 
+  # ── Deploy frontend apps to Cloudflare Pages (production) ──────────────────
+  deploy-pages-production:
+    name: Deploy CF Pages (Production)
+    needs: [deploy-api-production, deploy-workers-production]
+    runs-on: ubuntu-latest
+    environment: production
+    strategy:
+      matrix:
+        app:
+          - name: workspace-app
+            project: webwaka-workspace-app
+            build_cmd: pnpm --filter @webwaka/workspace-app build
+            dist: apps/workspace-app/dist
+            api_url: https://api.webwaka.com
+          - name: marketing-site
+            project: webwaka-marketing-site
+            build_cmd: pnpm --filter @webwaka/marketing-site build
+            dist: apps/marketing-site/dist
+            api_url: ""
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: npm install -g wrangler@4
+
+      - name: Build ${{ matrix.app.name }}
+        run: ${{ matrix.app.build_cmd }}
+        env:
+          VITE_API_URL: ${{ matrix.app.api_url }}
+          NODE_ENV: production
+
+      - name: Deploy ${{ matrix.app.name }} to CF Pages (production)
+        run: |
+          wrangler pages deploy "${{ matrix.app.dist }}" \
+            --project-name "${{ matrix.app.project }}" \
+            --branch main \
+            --commit-hash "${{ github.sha }}"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

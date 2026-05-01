@@ -5,20 +5,30 @@ interface NavItem {
   to: string;
   label: string;
   icon: string;
+  roles?: string[];
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { to: '/dashboard',  label: 'Dashboard',  icon: '🏠' },
+  { to: '/dashboard',  label: 'Dashboard',    icon: '🏠' },
   { to: '/ai',         label: 'AI Assistant', icon: '🤖' },
   { to: '/pos',        label: 'Point of Sale', icon: '🛒' },
-  { to: '/offerings',  label: 'Offerings',  icon: '📦' },
-  { to: '/vertical',   label: 'My Vertical', icon: '🏢' },
-  { to: '/wakapage',   label: 'WakaPage',   icon: '🌐' },
-  { to: '/settings',   label: 'Settings',   icon: '⚙️' },
+  { to: '/offerings',  label: 'Offerings',    icon: '📦' },
+  { to: '/vertical',   label: 'My Vertical',  icon: '🏢' },
+  { to: '/wakapage',   label: 'WakaPage',     icon: '🌐' },
+  { to: '/billing',    label: 'Billing',      icon: '💳' },
+  { to: '/settings',   label: 'Settings',     icon: '⚙️' },
+  // Role-gated items
+  { to: '/platform',   label: 'Platform Admin', icon: '🛡️', roles: ['super_admin'] },
+  { to: '/partner',    label: 'Partner Portal', icon: '🤝', roles: ['partner'] },
 ];
 
 export function Sidebar() {
   const { user, logout } = useAuth();
+  const role = user?.role ?? '';
+
+  const visibleItems = NAV_ITEMS.filter(
+    (item) => !item.roles || item.roles.includes(role),
+  );
 
   return (
     <aside
@@ -36,6 +46,7 @@ export function Sidebar() {
         top: 0,
         bottom: 0,
         zIndex: 50,
+        overflowY: 'auto',
       }}
     >
       <div style={{ padding: '0 20px 24px', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
@@ -44,7 +55,7 @@ export function Sidebar() {
       </div>
 
       <nav style={{ flex: 1, padding: '16px 0' }}>
-        {NAV_ITEMS.map(item => (
+        {visibleItems.map(item => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -71,13 +82,13 @@ export function Sidebar() {
 
       <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(255,255,255,0.15)' }}>
         <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {user?.email}
+          {user?.businessName ?? user?.email}
         </div>
         <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           {user?.role}
         </div>
         <button
-          onClick={logout}
+          onClick={() => void logout()}
           style={{
             background: 'rgba(255,255,255,0.1)',
             border: 'none',

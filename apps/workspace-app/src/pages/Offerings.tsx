@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { formatNaira, nairaToKobo, koboToNaira } from '@/lib/currency';
 import { toast } from '@/lib/toast';
 import { api, ApiError } from '@/lib/api';
@@ -10,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 interface Product {
   id: string;
   name: string;
+  description?: string;
   price_kobo: number;
   category: string | null;
   active: boolean;
@@ -34,7 +36,7 @@ const EMPTY_FORM: ProductFormState = {
   name: '',
   description: '',
   priceNaira: '',
-  unit: 'kg',
+  unit: '',
   category: 'General',
 };
 
@@ -49,14 +51,12 @@ export default function Offerings() {
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductFormState>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
   useEffect(() => {
-    if (!workspaceId) {
-      setLoadingProducts(false);
-      return;
-    }
+    if (!workspaceId) { setLoadingProducts(false); return; }
     api.get<ProductsResponse>(`/pos-business/products/${workspaceId}?active=0`)
       .then(res => setProducts(res.products))
       .catch(err => {
@@ -70,20 +70,16 @@ export default function Offerings() {
   }, [workspaceId]);
 
   const filtered = products.filter(p =>
-    filter === 'all' ? true : filter === 'active' ? p.active : !p.active
+    filter === 'all' ? true : filter === 'active' ? p.active : !p.active,
   );
 
-  const openNew = () => {
-    setEditId(null);
-    setForm(EMPTY_FORM);
-    setShowForm(true);
-  };
+  const openNew = () => { setEditId(null); setForm(EMPTY_FORM); setShowForm(true); };
 
   const openEdit = (p: Product) => {
     setEditId(p.id);
     setForm({
       name: p.name,
-      description: '',
+      description: p.description ?? '',
       priceNaira: koboToNaira(p.price_kobo).toFixed(2),
       unit: p.sku ?? '',
       category: p.category ?? 'General',
@@ -103,6 +99,7 @@ export default function Offerings() {
       if (editId) {
         const res = await api.patch<{ product: Product }>(`/pos-business/product/${editId}`, {
           name: form.name.trim(),
+          description: form.description.trim() || undefined,  // H6 FIX
           price_kobo: nairaToKobo(price),
           sku: form.unit.trim() || null,
           category: form.category.trim() || null,
@@ -113,6 +110,7 @@ export default function Offerings() {
         const res = await api.post<{ product: Product }>('/pos-business/products', {
           workspace_id: workspaceId,
           name: form.name.trim(),
+          description: form.description.trim() || undefined,  // H6 FIX
           price_kobo: nairaToKobo(price),
           sku: form.unit.trim() || undefined,
           category: form.category.trim() || undefined,
@@ -132,19 +130,17 @@ export default function Offerings() {
   const toggleActive = async (p: Product) => {
     if (!workspaceId) return;
     try {
-      const res = await api.patch<{ product: Product }>(`/pos-business/product/${p.id}`, {
-        active: !p.active,
-      });
+      const res = await api.patch<{ product: Product }>(`/pos-business/product/${p.id}`, { active: !p.active });
       setProducts(prev => prev.map(item => item.id === p.id ? res.product : item));
       toast.info(`Offering ${res.product.active ? 'activated' : 'deactivated'}`);
-    } catch {
-      toast.error('Failed to update offering status.');
-    }
+    } catch { toast.error('Failed to update offering status.'); }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Delete this offering? This cannot be undone.')) return;
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    const id = deleteTarget.id;
     setDeleting(id);
+    setDeleteTarget(null);
     try {
       await api.delete(`/pos-business/product/${id}`);
       setProducts(prev => prev.filter(p => p.id !== id));
@@ -161,6 +157,18 @@ export default function Offerings() {
 
   return (
     <div style={styles.page}>
+      {/* Confirm delete modal (M7 fix: replace window.confirm) */}
+      <ConfirmModal
+        open={!!deleteTarget}
+        title="Delete offering?"
+        message={`"${deleteTarget?.name ?? ''}" will be permanently deleted. This cannot be undone.`}
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        danger
+        onConfirm={() => void handleDelete()}
+        onCancel={() => setDeleteTarget(null)}
+      />
+
       <header style={styles.header}>
         <div>
           <h1 style={styles.heading}>Offerings</h1>
@@ -198,7 +206,7 @@ export default function Offerings() {
                   onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
                   placeholder="Brief description for customers (optional)"
                   rows={3}
-                  style={{ ...styles.textarea }}
+                  style={styles.textarea}
                 />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -227,9 +235,7 @@ export default function Offerings() {
                 placeholder="Produce, Grains, Protein…"
               />
               <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 8 }}>
-                <Button type="button" variant="secondary" onClick={() => setShowForm(false)}>
-                  Cancel
-                </Button>
+                <Button type="button" variant="secondary" onClick={() => setShowForm(false)}>Cancel</Button>
                 <Button type="submit" loading={saving}>
                   {editId ? 'Save changes' : 'Create offering'}
                 </Button>
@@ -246,7 +252,7 @@ export default function Offerings() {
             onClick={() => setFilter(f)}
             style={{
               padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 500,
-              cursor: 'pointer', border: '1.5px solid', minHeight: 36, touchAction: 'manipulation',
+              cursor: 'pointer', border: '1.5px solid', minHeight: 36,
               borderColor: filter === f ? '#0F4C81' : '#e5e7eb',
               background: filter === f ? '#0F4C81' : '#fff',
               color: filter === f ? '#fff' : '#374151',
@@ -258,26 +264,19 @@ export default function Offerings() {
       </div>
 
       {loadingProducts ? (
-        <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
-          Loading offerings…
-        </div>
+        <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>Loading offerings…</div>
       ) : (
         <div role="list" aria-label="Offerings" style={styles.list}>
           {filtered.map(product => (
-            <article
-              key={product.id}
-              role="listitem"
-              style={{ ...styles.card, opacity: product.active ? 1 : 0.65 }}
-            >
+            <article key={product.id} role="listitem" style={{ ...styles.card, opacity: product.active ? 1 : 0.65 }}>
               <div style={styles.cardLeft}>
                 <div style={styles.cardName}>{product.name}</div>
-                <div style={{ display: 'flex', gap: 8, marginTop: 6, flexWrap: 'wrap' }}>
-                  {product.category && (
-                    <span style={styles.tag}>{product.category}</span>
-                  )}
-                  {product.sku && (
-                    <span style={styles.tag}>per {product.sku}</span>
-                  )}
+                {product.description && (
+                  <p style={{ fontSize: 13, color: '#6b7280', marginTop: 2, marginBottom: 4 }}>{product.description}</p>
+                )}
+                <div style={{ display: 'flex', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
+                  {product.category && <span style={styles.tag}>{product.category}</span>}
+                  {product.sku && <span style={styles.tag}>per {product.sku}</span>}
                   <span style={{
                     ...styles.tag,
                     background: product.active ? '#dcfce7' : '#fee2e2',
@@ -289,19 +288,16 @@ export default function Offerings() {
               </div>
               <div style={styles.cardRight}>
                 <div style={styles.price}>{formatNaira(product.price_kobo)}</div>
-                {product.sku && (
-                  <div style={{ fontSize: 12, color: '#9ca3af' }}>per {product.sku}</div>
-                )}
+                {product.sku && <div style={{ fontSize: 12, color: '#9ca3af' }}>per {product.sku}</div>}
                 <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
                   <Button size="sm" variant="ghost" onClick={() => openEdit(product)}>Edit</Button>
-                  <Button size="sm" variant="secondary" onClick={() => toggleActive(product)}>
+                  <Button size="sm" variant="secondary" onClick={() => void toggleActive(product)}>
                     {product.active ? 'Deactivate' : 'Activate'}
                   </Button>
                   <Button
-                    size="sm"
-                    variant="danger"
+                    size="sm" variant="danger"
                     loading={deleting === product.id}
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => setDeleteTarget(product)}
                   >
                     Delete
                   </Button>
@@ -312,12 +308,7 @@ export default function Offerings() {
           {filtered.length === 0 && (
             <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
               No offerings found.{' '}
-              <button
-                onClick={openNew}
-                style={{ color: '#0F4C81', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}
-              >
-                Add one
-              </button>
+              <button onClick={openNew} style={{ color: '#0F4C81', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Add one</button>
             </div>
           )}
         </div>

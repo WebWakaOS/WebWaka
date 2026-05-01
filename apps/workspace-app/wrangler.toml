@@ -1,0 +1,11 @@
+# WebWaka Workspace App — Cloudflare Pages
+# Deploy via: wrangler pages deploy dist --project-name webwaka-workspace-app
+
+name = "webwaka-workspace-app"
+pages_build_output_dir = "dist"
+
+[env.staging]
+pages_build_output_dir = "dist"
+
+[env.production]
+pages_build_output_dir = "dist"

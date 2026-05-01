@@ -16,14 +16,24 @@ import VerifyEmail from '@/pages/VerifyEmail';
 import AcceptInvite from '@/pages/AcceptInvite';
 import AIPage from '@/pages/AI';
 import AdminHITL from '@/pages/AdminHITL';
+import Billing from '@/pages/Billing';
+import PlatformAdmin from '@/pages/PlatformAdmin';
+import PartnerAdmin from '@/pages/PartnerAdmin';
+import Onboarding from '@/pages/Onboarding';
 
 function NotFound() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, gap: 16 }}>
+    <div style={{
+      minHeight: '100vh', display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center', padding: 24, gap: 16,
+    }}>
       <div style={{ fontSize: 64 }} aria-hidden="true">🔍</div>
       <h1 style={{ fontSize: 24, fontWeight: 700, color: '#111827' }}>Page not found</h1>
-      <p style={{ color: '#6b7280', fontSize: 15 }}>The page you're looking for doesn't exist.</p>
-      <Link to="/dashboard" style={{ color: '#0F4C81', fontWeight: 600, textDecoration: 'none', padding: '12px 24px', background: '#f0f9ff', borderRadius: 8, minHeight: 44, display: 'flex', alignItems: 'center' }}>
+      <p style={{ color: '#6b7280', fontSize: 15 }}>The page you\'re looking for doesn\'t exist.</p>
+      <Link to="/dashboard" style={{
+        color: '#0F4C81', fontWeight: 600, textDecoration: 'none', padding: '12px 24px',
+        background: '#f0f9ff', borderRadius: 8, minHeight: 44, display: 'flex', alignItems: 'center',
+      }}>
         Go to dashboard
       </Link>
     </div>
@@ -35,48 +45,55 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <AIProvider>
-        <a
-          href="#main-content"
-          style={{
-            position: 'absolute', top: -100, left: 16, zIndex: 9999,
-            background: '#0F4C81', color: '#fff', padding: '12px 20px', borderRadius: 8,
-            textDecoration: 'none', fontWeight: 600, fontSize: 14,
-            transition: 'top 0.15s ease',
-          }}
-          onFocus={e => { e.currentTarget.style.top = '16px'; }}
-          onBlur={e => { e.currentTarget.style.top = '-100px'; }}
-        >
-          Skip to main content
-        </a>
+          <a
+            href="#main-content"
+            style={{
+              position: 'absolute', top: -100, left: 16, zIndex: 9999,
+              background: '#0F4C81', color: '#fff', padding: '12px 20px', borderRadius: 8,
+              textDecoration: 'none', fontWeight: 600, fontSize: 14,
+              transition: 'top 0.15s ease',
+            }}
+            onFocus={e => { e.currentTarget.style.top = '16px'; }}
+            onBlur={e => { e.currentTarget.style.top = '-100px'; }}
+          >
+            Skip to main content
+          </a>
 
-        <Routes>
-          <Route element={<RequireGuest />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-          </Route>
+          <Routes>
+            {/* Guest-only routes */}
+            <Route element={<RequireGuest />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+            </Route>
 
-          <Route element={<WorkspaceLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/pos" element={<POS />} />
-            <Route path="/offerings" element={<Offerings />} />
-            <Route path="/offerings/new" element={<Offerings />} />
-            <Route path="/vertical" element={<VerticalView />} />
-            <Route path="/wakapage" element={<WakaPageManager />} />
-            <Route path="/ai" element={<AIPage />} />
-            <Route path="/admin/hitl" element={<AdminHITL />} />
-            <Route path="/settings" element={<Settings />} />
-          </Route>
+            {/* Authenticated workspace routes */}
+            <Route element={<WorkspaceLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/pos" element={<POS />} />
+              <Route path="/offerings" element={<Offerings />} />
+              <Route path="/offerings/new" element={<Offerings />} />
+              <Route path="/vertical" element={<VerticalView />} />
+              <Route path="/wakapage" element={<WakaPageManager />} />
+              <Route path="/ai" element={<AIPage />} />
+              <Route path="/admin/hitl" element={<AdminHITL />} />
+              <Route path="/billing" element={<Billing />} />
+              <Route path="/settings" element={<Settings />} />
+              {/* C5: Role-gated admin routes */}
+              <Route path="/platform/*" element={<PlatformAdmin />} />
+              <Route path="/partner/*" element={<PartnerAdmin />} />
+            </Route>
 
-          {/* P20-C: Email verification — public, no auth needed */}
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          {/* P20-A: Invite acceptance — public, no auth needed */}
-          <Route path="/accept-invite" element={<AcceptInvite />} />
+            {/* Public routes */}
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/accept-invite" element={<AcceptInvite />} />
+            {/* Onboarding wizard */}
+            <Route path="/onboarding" element={<Onboarding />} />
 
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </AIProvider>
       </AuthProvider>
     </BrowserRouter>
