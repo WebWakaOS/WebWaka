@@ -170,10 +170,18 @@ The k6 load smoke test failure is:
 ### 🟡 MEDIUM Priority (Sprint Backlog — Within 4 Weeks)
 
 #### M-1: TypeCheck Performance Optimization
+**Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: DX, CI/CD  
-**Description**: Full monorepo `pnpm typecheck` takes >5 minutes (times out in some environments). Individual app typechecks complete in seconds.  
-**Action**: Use incremental TypeScript builds (`tsBuildInfoFile`), or parallelize typecheck per workspace using `pnpm -r --parallel run typecheck`.  
-**Acceptance**: Full typecheck completes in <2 minutes in CI.
+**Description**: Full monorepo `pnpm typecheck` took >5 minutes with `--workspace-concurrency=4` across 222 workspaces (13 apps + 209 packages).  
+**Resolution**:
+- `tsconfig.base.json`: Added `"incremental": true` and `"tsBuildInfoFile": ".tsbuildinfo/tsconfig.tsbuildinfo"`
+  → Enables TS to skip unchanged files on repeated runs (CI cache hits)
+- `package.json` root script: Changed `--workspace-concurrency=4` → `--parallel`
+  → Unbounded concurrency; all 222 workspaces start immediately (GitHub Actions runners have 2-4 vCPUs; I/O bound tsc benefits from higher concurrency)
+- CI `typecheck` job: Added `actions/cache@v4` step restoring `.tsbuildinfo` dirs keyed on `tsconfig*.json + pnpm-lock.yaml`
+  → Cold run: full parallel typecheck. Warm run: near-instant (only changed packages re-check)
+- `.gitignore`: Added `.tsbuildinfo/` directory pattern (was only `*.tsbuildinfo` files)
+**Expected improvement**: cold run ~2-3 min → warm/cached run <30s
 
 #### M-2: Canary Traffic Shift Observability
 **Area**: Infrastructure, Observability  

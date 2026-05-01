@@ -28,6 +28,16 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - name: Restore TypeScript incremental cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/**/.tsbuildinfo
+            packages/**/.tsbuildinfo
+            .tsbuildinfo
+          key: tsbuildinfo-${{ runner.os }}-${{ hashFiles('**/tsconfig*.json', 'pnpm-lock.yaml') }}
+          restore-keys: |
+            tsbuildinfo-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
 

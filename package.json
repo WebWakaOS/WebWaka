@@ -5,7 +5,7 @@
   "description": "WebWaka OS monorepo \u2014 governance-driven platform for Africa",
   "scripts": {
     "dev": "node apps/platform-admin/server.js",
-    "typecheck": "pnpm -r --workspace-concurrency=4 run typecheck",
+    "typecheck": "pnpm -r --parallel run typecheck",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
     "build": "pnpm -r run build",

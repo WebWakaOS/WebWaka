@@ -12,6 +12,7 @@
  *   3. Ack message on success
  *   4. On failure: write to notification_audit_log (G9 — never silently discard)
  *   5. Call retry() — CF Queue handles backoff up to max_retries=5
+ *   6. On final retry (attempt >= 4): write to notification_queue_dlq (M-8)
  *
  * Phase 2+: NotificationService.raise() wired to rule eval + channel dispatch.
  * Phase 5 (N-063, N-064): DigestEngine.processDigestBatch() wired.
@@ -19,7 +20,7 @@
  * Guardrails enforced:
  *   G1  — all D1 queries include tenant_id (T3 isolation)
  *   G9  — failures written to notification_audit_log before retry
- *   G10 — silent discard FORBIDDEN; retry() on every unhandled error
+ *   G10 — silent discard FORBIDDEN; retry() on every unhandled error; DLQ write on final attempt (M-8)
  *   G24 — sandbox config logged per batch; Phase 7 wires delivery redirect
  */
 
@@ -358,15 +359,39 @@ export async function processQueueBatch(
 
       // G10: retry() — CF Queue handles exponential backoff up to max_retries=5.
       // After max_retries, CF Queue drops the message.
-      // M-8: Log dead-letter-candidate events for messages approaching max retries.
-      const attempts = (msg as unknown as { attempts?: number }).attempts || 0;
+      // M-8 (RESOLVED): On final attempt, write to notification_queue_dlq before retry.
+      //   CF Queue drops after max_retries=5 (attempts 0-4). When attempts >= 4 this
+      //   is the last chance to persist the payload before CF discards it permanently.
+      const attempts = (msg as unknown as { attempts?: number }).attempts ?? 0;
       if (attempts >= 4) {
-        // This is likely the final retry (max_retries=5). Log as DLQ candidate.
+        // Final attempt: persist to DLQ for operator triage / replay.
+        const dlqId = 'ndlq_' + crypto.randomUUID().replace(/-/g, '');
+        const tenantId = body.tenantId ?? 'unknown';
+        const messageType = body.type ?? 'unknown';
+        const messageId = body.eventId ?? (body as unknown as { deliveryId?: string }).deliveryId ?? null;
+        const eventKey = body.eventKey ?? body.type ?? null;
+        let rawPayload = '{}';
+        try { rawPayload = JSON.stringify(body); } catch { /* non-fatal */ }
+
+        await db
+          .prepare(
+            `INSERT OR IGNORE INTO notification_queue_dlq
+               (id, tenant_id, message_type, message_id, event_key, raw_payload, last_error, attempts)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          )
+          .bind(dlqId, tenantId, messageType, messageId, eventKey, rawPayload, errorMessage, attempts + 1)
+          .run()
+          .catch((dlqErr: unknown) => {
+            // DLQ write failure is non-fatal — log but do not block retry.
+            console.error(`${logPrefix} DLQ write failed — ${String(dlqErr)}`);
+          });
+
         console.error(JSON.stringify({
-          event: 'notification_dead_letter_candidate',
-          message_id: body.eventId || 'unknown',
-          tenant_id: body.tenantId || 'unknown',
-          event_key: body.eventKey || body.type || 'unknown',
+          event: 'notification_dead_lettered',
+          dlq_id: dlqId,
+          message_id: messageId ?? 'unknown',
+          tenant_id: tenantId,
+          event_key: eventKey ?? 'unknown',
           error: errorMessage,
           attempts: attempts + 1,
           timestamp: new Date().toISOString(),
