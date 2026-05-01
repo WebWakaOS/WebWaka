@@ -214,7 +214,11 @@ router.get('/', async (c) => {
     type: 'business.business',
   });
 
-  return c.html(baseTemplate({ title: 'Welcome', cssVars, logoUrl: theme.logoUrl, displayName: theme.displayName, faviconUrl: theme.faviconUrl, body, headExtra }));
+  return c.html(baseTemplate({
+    title: 'Welcome', cssVars, logoUrl: theme.logoUrl, displayName: theme.displayName,
+    faviconUrl: theme.faviconUrl, body, headExtra,
+    whatsappNumber: profile?.phone ?? null,
+  }));
 });
 
 router.get('/about', async (c) => {

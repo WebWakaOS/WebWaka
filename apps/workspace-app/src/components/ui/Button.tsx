@@ -8,11 +8,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-const VARIANTS = {
-  primary:   { background: '#0F4C81', color: '#fff', border: 'none' },
-  secondary: { background: '#e2e8f0', color: '#1e293b', border: 'none' },
-  ghost:     { background: 'transparent', color: '#0F4C81', border: '1.5px solid #0F4C81' },
-  danger:    { background: '#dc2626', color: '#fff', border: 'none' },
+// Use CSS custom properties for all colors — respects dark mode and white-label theming
+const VARIANTS: Record<string, React.CSSProperties> = {
+  primary:   { background: 'var(--ww-primary, #0F4C81)', color: '#fff', border: 'none' },
+  secondary: { background: 'var(--ww-surface-2, #e2e8f0)', color: 'var(--ww-text, #1e293b)', border: '1.5px solid var(--ww-border, #e5e7eb)' },
+  ghost:     { background: 'transparent', color: 'var(--ww-primary, #0F4C81)', border: '1.5px solid var(--ww-primary, #0F4C81)' },
+  danger:    { background: 'var(--ww-danger, #dc2626)', color: '#fff', border: 'none' },
 };
 
 const SIZES = {
@@ -32,7 +33,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         style={{
           ...v, ...s,
           width: fullWidth ? '100%' : undefined,
-          borderRadius: 8,
+          borderRadius: 'var(--ww-radius, 8px)',
           fontWeight: 600,
           cursor: (disabled || loading) ? 'not-allowed' : 'pointer',
           opacity: (disabled || loading) ? 0.65 : 1,
@@ -40,13 +41,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           alignItems: 'center',
           justifyContent: 'center',
           gap: 8,
-          transition: 'opacity 0.15s ease, transform 0.1s ease',
+          transition: 'opacity 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease',
           touchAction: 'manipulation',
+          boxShadow: variant === 'primary' ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
           ...style,
         }}
         {...rest}
       >
-        {loading && <Spinner size={16} color={variant === 'primary' || variant === 'danger' ? '#fff' : '#0F4C81'} />}
+        {loading && <Spinner size={16} color={variant === 'primary' || variant === 'danger' ? '#fff' : 'var(--ww-primary, #0F4C81)'} />}
         {children}
       </button>
     );

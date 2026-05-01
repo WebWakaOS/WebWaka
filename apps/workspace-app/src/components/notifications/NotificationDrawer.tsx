@@ -83,6 +83,8 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  // Category filter tabs
+  const [activeCategory, setActiveCategory] = useState<string>('all');
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -93,7 +95,7 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
     else setLoadingMore(true);
 
     try {
-      const params = new URLSearchParams({ limit: '20' });
+      const params = new URLSearchParams({ limit: '50' });
       if (cursor) params.set('cursor', cursor);
       const res = await api.get<{ items: InboxItem[]; nextCursor: string | null }>(
         `/notifications/inbox?${params.toString()}`,
@@ -126,6 +128,11 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [open, onClose]);
+
+  // Derive category list from items
+  const categories = ['all', ...Array.from(new Set(items.map(i => i.category).filter(Boolean) as string[])).sort()];
+  const filteredItems = activeCategory === 'all' ? items : items.filter(i => i.category === activeCategory);
+  const unreadInCategory = filteredItems.filter(i => !i.isRead).length;
 
   const handleAction = async (itemId: string, action: 'read' | 'archive' | 'dismiss') => {
     setActionLoading(itemId);
@@ -207,21 +214,19 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
           flexShrink: 0,
         }}>
           <h2 style={{ fontSize: 17, fontWeight: 700, color: '#111827', margin: 0 }}>
-            Notifications
+            Notifications {unreadInCategory > 0 && (
+              <span style={{ fontSize: 12, background: '#0F4C81', color: '#fff', borderRadius: 999, padding: '1px 7px', marginLeft: 6 }}>
+                {unreadInCategory}
+              </span>
+            )}
           </h2>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {items.some((i) => !i.isRead) && (
               <button
                 onClick={() => void handleMarkAllRead()}
                 style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: '#0F4C81',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '4px 8px',
-                  borderRadius: 4,
+                  fontSize: 12, fontWeight: 600, color: '#0F4C81',
+                  background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', borderRadius: 4,
                 }}
               >
                 Mark all read
@@ -232,23 +237,57 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
               onClick={onClose}
               aria-label="Close notifications"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 32,
-                height: 32,
-                borderRadius: 6,
-                border: 'none',
-                background: '#f3f4f6',
-                cursor: 'pointer',
-                fontSize: 18,
-                color: '#374151',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: 32, height: 32, borderRadius: 6, border: 'none',
+                background: '#f3f4f6', cursor: 'pointer', fontSize: 18, color: '#374151',
               }}
             >
               ×
             </button>
           </div>
         </div>
+
+        {/* Category tabs */}
+        {categories.length > 2 && (
+          <div style={{
+            display: 'flex', overflowX: 'auto', padding: '8px 20px',
+            borderBottom: '1px solid #e5e7eb', gap: 6, scrollbarWidth: 'none',
+            flexShrink: 0,
+          }} role="tablist" aria-label="Notification categories">
+            {categories.map(cat => {
+              const catUnread = cat === 'all'
+                ? items.filter(i => !i.isRead).length
+                : items.filter(i => i.category === cat && !i.isRead).length;
+              return (
+                <button
+                  key={cat}
+                  role="tab"
+                  aria-selected={activeCategory === cat}
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    padding: '4px 12px', borderRadius: 16, fontSize: 12, fontWeight: 600,
+                    border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                    background: activeCategory === cat ? '#0F4C81' : '#f0f9ff',
+                    color: activeCategory === cat ? '#fff' : '#0F4C81',
+                    display: 'flex', alignItems: 'center', gap: 5,
+                  }}
+                >
+                  {cat === 'all' ? 'All' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  {catUnread > 0 && (
+                    <span style={{
+                      background: activeCategory === cat ? 'rgba(255,255,255,0.3)' : '#0F4C81',
+                      color: activeCategory === cat ? '#fff' : '#fff',
+                      borderRadius: 999, fontSize: 10, fontWeight: 700,
+                      padding: '0 5px', minWidth: 16, textAlign: 'center',
+                    }}>
+                      {catUnread}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* List */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
@@ -284,7 +323,11 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
             </div>
           ) : (
             <>
-              {items.map((item) => (
+              {filteredItems.length === 0 && activeCategory !== 'all' ? (
+                <div style={{ padding: '32px', textAlign: 'center', color: '#9ca3af' }}>
+                  No {activeCategory} notifications.
+                </div>
+              ) : filteredItems.map((item) => (
                 <div
                   key={item.id}
                   style={{
@@ -324,13 +367,26 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
                       <span style={{ fontSize: 11, color: '#9ca3af' }}>
                         {relativeTime(item.createdAt)}
                       </span>
+                      {item.category && (
+                        <span style={{
+                          fontSize: 10, fontWeight: 600, padding: '1px 6px',
+                          borderRadius: 999, background: '#f0f9ff', color: '#0F4C81',
+                          textTransform: 'capitalize',
+                        }}>
+                          {item.category}
+                        </span>
+                      )}
                       {item.ctaUrl && item.ctaLabel && (
                         <a
                           href={item.ctaUrl}
-                          style={{ fontSize: 12, color: '#0F4C81', fontWeight: 600 }}
+                          style={{
+                            fontSize: 12, color: '#fff', fontWeight: 600,
+                            background: '#0F4C81', padding: '3px 10px', borderRadius: 4,
+                            textDecoration: 'none',
+                          }}
                           onClick={() => { if (!item.isRead) void handleAction(item.id, 'read'); }}
                         >
-                          {item.ctaLabel}
+                          {item.ctaLabel} →
                         </a>
                       )}
                     </div>
@@ -368,14 +424,9 @@ export function NotificationDrawer({ open, onClose, onCountChange }: Notificatio
                     onClick={() => { void fetchItems(nextCursor); }}
                     disabled={loadingMore}
                     style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: '#0F4C81',
-                      background: 'none',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: 6,
-                      padding: '6px 16px',
-                      cursor: loadingMore ? 'not-allowed' : 'pointer',
+                      fontSize: 13, fontWeight: 600, color: '#0F4C81',
+                      background: 'none', border: '1px solid #e5e7eb', borderRadius: 6,
+                      padding: '6px 16px', cursor: loadingMore ? 'not-allowed' : 'pointer',
                       opacity: loadingMore ? 0.6 : 1,
                     }}
                   >

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { toast } from '@/lib/toast';
 import { authApi, api, ApiError, type SessionInfo, type InvitationInfo } from '@/lib/api';
+import { useI18n, type Locale } from '@/lib/i18n';
 
 const DARK_MODE_KEY = 'ww_dark_mode';
 
@@ -18,7 +19,7 @@ function applyDarkMode(enabled: boolean): void {
   localStorage.setItem(DARK_MODE_KEY, String(enabled));
 }
 
-type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security' | 'payment';
+type Tab = 'profile' | 'team' | 'notifications' | 'appearance' | 'security' | 'payment' | 'language';
 
 const DELETE_PHRASE = 'delete my account';
 
@@ -30,6 +31,7 @@ export default function Settings() {
   const { user, logout } = useAuth();
   const [tab, setTab] = useState<Tab>('profile');
   const [saving, setSaving] = useState(false);
+  const { locale, setLocale } = useI18n();
 
   // BUG-035: Responsive Settings nav — switch to horizontal scroll tab bar on narrow screens
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
@@ -686,23 +688,29 @@ export default function Settings() {
               {/* N-070: Low-data mode (G22) */}
               <div style={{ ...styles.toggleRow, borderTop: '1px solid #e5e7eb', paddingTop: 16, marginTop: 8 }}>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: 14 }}>Low-data mode</div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>
+                    Low-data mode
+                    {lowDataMode && (
+                      <span style={{
+                        marginLeft: 8, fontSize: 10, fontWeight: 700, padding: '2px 8px',
+                        borderRadius: 999, background: '#fef3c7', color: '#92400e',
+                        verticalAlign: 'middle',
+                      }}>
+                        📡 DIGEST MODE ACTIVE
+                      </span>
+                    )}
+                  </div>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>
                     Reduces notification data usage: suppresses push notifications, image attachments,
                     and limits SMS to critical-only alerts. Ideal for slow or metered connections.
                   </div>
                   {lowDataMode && (
                     <div style={{
-                      marginTop: 6,
-                      fontSize: 12,
-                      color: '#92400e',
-                      background: '#fffbeb',
-                      border: '1px solid #fde68a',
-                      borderRadius: 4,
-                      padding: '4px 8px',
-                      display: 'inline-block',
+                      marginTop: 6, fontSize: 12, color: '#92400e',
+                      background: '#fffbeb', border: '1px solid #fde68a',
+                      borderRadius: 4, padding: '4px 8px', display: 'inline-block',
                     }}>
-                      Low-data mode active — push & images suppressed
+                      Low-data mode active — push & images suppressed. Updates delivered in digest batches every 6 hours.
                     </div>
                   )}
                 </div>
@@ -910,6 +918,80 @@ export default function Settings() {
               </div>
             </section>
           )}
+
+          {/* Language tab */}
+          {tab === 'language' && (
+            <section aria-label="Language settings">
+              <h2 style={styles.sectionHeading}>Language / Ede</h2>
+              <p style={{ fontSize: 14, color: 'var(--ww-text-muted, #6b7280)', marginBottom: 24, lineHeight: 1.6 }}>
+                Choose your preferred language for the workspace interface.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {([
+                  { value: 'en', label: 'English', sublabel: 'Standard Nigerian English', icon: '🇳🇬' },
+                  { value: 'pcm', label: 'Nigerian Pidgin', sublabel: 'Naija Pidgin English', icon: '🗣️' },
+                ] as { value: Locale; label: string; sublabel: string; icon: string }[]).map(lang => (
+                  <button
+                    key={lang.value}
+                    onClick={() => {
+                      setLocale(lang.value);
+                      toast.success(lang.value === 'pcm' ? 'Language don change to Pidgin!' : 'Language changed to English.');
+                    }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      padding: '16px 18px', borderRadius: 10, cursor: 'pointer',
+                      border: `2px solid ${locale === lang.value ? 'var(--ww-primary, #0F4C81)' : 'var(--ww-border, #e5e7eb)'}`,
+                      background: locale === lang.value ? 'var(--ww-surface-2, #eff6ff)' : 'var(--ww-surface, #fff)',
+                      textAlign: 'left', width: '100%',
+                    }}
+                  >
+                    <span style={{ fontSize: 28, flexShrink: 0 }}>{lang.icon}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ww-text, #111827)' }}>
+                        {lang.label}
+                      </div>
+                      <div style={{ fontSize: 13, color: 'var(--ww-text-muted, #6b7280)' }}>
+                        {lang.sublabel}
+                      </div>
+                    </div>
+                    {locale === lang.value && (
+                      <div style={{
+                        width: 24, height: 24, borderRadius: '50%',
+                        background: 'var(--ww-primary, #0F4C81)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0,
+                      }}>
+                        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                          <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ marginTop: 24, padding: '12px 16px', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 8, fontSize: 13, color: '#92400e' }}>
+                💡 More languages coming soon: Yorùbá, Hausa, Igbo, Swahili.
+                Your language preference is saved to this device.
+              </div>
+
+              {/* USSD info */}
+              <div style={{ marginTop: 24, padding: '16px 20px', background: 'linear-gradient(135deg, #0d3f6e 0%, #0F4C81 100%)', borderRadius: 10, color: '#fff' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span>📱</span> USSD Access — *384#
+                </div>
+                <p style={{ fontSize: 13, opacity: 0.9, lineHeight: 1.6, marginBottom: 12 }}>
+                  Any phone on any Nigerian network can access WebWaka features by dialling{' '}
+                  <strong>*384#</strong> — no internet or smartphone needed.
+                  Share this number with your customers so they can find your business without data.
+                </p>
+                <div style={{ fontSize: 12, opacity: 0.75 }}>
+                  Supported networks: MTN, Glo, Airtel, 9mobile
+                </div>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>
@@ -955,6 +1037,7 @@ const TABS = [
   { id: 'payment',       icon: '💳', label: 'Payment' },
   { id: 'appearance',    icon: '🎨', label: 'Appearance' },
   { id: 'security',      icon: '🔐', label: 'Security' },
+  { id: 'language',      icon: '🌍', label: 'Language' },
 ];
 
 const styles = {
