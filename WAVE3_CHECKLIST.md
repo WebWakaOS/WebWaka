@@ -47,11 +47,11 @@
 - [x] A3-7: Implement `BYOK key rotation` — `PUT /superagent/byok/:id/rotate` replaces encrypted key in D1, invalidates KV cache
 
 ### A4. HITL — End-to-End Flow Hardening
-- [ ] A4-1: Add `POST /admin/hitl/actions/:id/approve` and `/reject` API endpoints with full test coverage (currently AdminHITL.tsx polls but the approve/reject endpoints need verification in tests)
+- [x] A4-1: Add `POST /admin/hitl/actions/:id/approve` and `/reject` API endpoints with full test coverage (currently AdminHITL.tsx polls but the approve/reject endpoints need verification in tests)
 - [x] A4-2: Add HITL expiry cron in `apps/schedulers` — sweep `ai_hitl_queue` for expired `pending` items and flip to `expired`, then notify workspace admin
-- [ ] A4-3: Add HITL Level 3 (regulatory 72h window) enforcement test — verify Level 3 items cannot be auto-approved before 72h
-- [ ] A4-4: Add HITL notification: when a HITL item is submitted, fire a workspace notification to designated reviewers (integrate with `packages/notifications`)
-- [ ] A4-5: Add HITL audit trail: append structured event to `ai_hitl_events` on every status change (pending → approved/rejected/expired/executed)
+- [x] A4-3: Add HITL Level 3 (regulatory 72h window) enforcement test — verify Level 3 items cannot be auto-approved before 72h
+- [x] A4-4: Add HITL notification: when a HITL item is submitted, fire a workspace notification to designated reviewers (integrate with `packages/notifications`)
+- [x] A4-5: Add HITL audit trail: append structured event to `ai_hitl_events` on every status change (pending → approved/rejected/expired/executed)
 
 ### A5. State Persistence & Session Hardening
 - [ ] A5-1: Add `SessionService` TTL cleanup cron in `apps/schedulers` — expire sessions older than 7 days of inactivity (currently no cleanup job exists)
