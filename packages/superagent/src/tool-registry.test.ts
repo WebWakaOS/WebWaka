@@ -68,18 +68,18 @@ describe('A2-6: ToolMetadata — pillar, autonomyThreshold, readOnly', () => {
     );
     const cat = registry.getCatalogue();
     expect(cat).toHaveLength(1);
-    expect(cat[0].pillar).toBe(3);
-    expect(cat[0].autonomyThreshold).toBeNull();
-    expect(cat[0].readOnly).toBe(true);
+    expect(cat[0]!.pillar).toBe(3);
+    expect(cat[0]!.autonomyThreshold).toBeNull();
+    expect(cat[0]!.readOnly).toBe(true);
   });
 
   it('applies safe defaults when metadata is omitted (readOnly=true, pillar=1, autonomyThreshold=null)', () => {
     const registry = new ToolRegistry();
     registry.register(makeTool('no_meta', async () => 'ok'));
     const cat = registry.getCatalogue();
-    expect(cat[0].pillar).toBe(1);
-    expect(cat[0].autonomyThreshold).toBeNull();
-    expect(cat[0].readOnly).toBe(true);
+    expect(cat[0]!.pillar).toBe(1);
+    expect(cat[0]!.autonomyThreshold).toBeNull();
+    expect(cat[0]!.readOnly).toBe(true);
   });
 
   it('stores write-capable metadata correctly', () => {
@@ -87,7 +87,7 @@ describe('A2-6: ToolMetadata — pillar, autonomyThreshold, readOnly', () => {
     registry.register(
       makeTool('log_payment', async () => '{}', { pillar: 1, autonomyThreshold: 3, readOnly: false }),
     );
-    const entry = registry.getCatalogue()[0];
+    const entry = registry.getCatalogue()[0]!;
     expect(entry.readOnly).toBe(false);
     expect(entry.autonomyThreshold).toBe(3);
   });
@@ -101,7 +101,7 @@ describe('A2-6: ToolMetadata — pillar, autonomyThreshold, readOnly', () => {
       makeTool('tool_a', async () => 'v2', { pillar: 2, autonomyThreshold: 2, readOnly: false }),
     );
     expect(registry.size).toBe(1);
-    const entry = registry.getCatalogue()[0];
+    const entry = registry.getCatalogue()[0]!;
     expect(entry.pillar).toBe(2);
     expect(entry.readOnly).toBe(false);
   });
@@ -134,7 +134,7 @@ describe('A2-7: getCatalogue() — tool catalogue for GET /superagent/tools', ()
     registry.register(
       makeTool('check_stock', async () => '{}', { pillar: 1, autonomyThreshold: null, readOnly: true }),
     );
-    const [entry] = registry.getCatalogue();
+    const entry = registry.getCatalogue()[0]!;
     expect(entry.name).toBe('check_stock');
     expect(entry.description).toContain('check_stock');
   });
@@ -144,7 +144,7 @@ describe('A2-7: getCatalogue() — tool catalogue for GET /superagent/tools', ()
     registry.register(
       makeTool('search_cats', async () => '[]', { pillar: 3, autonomyThreshold: null, readOnly: true }),
     );
-    const [entry] = registry.getCatalogue();
+    const entry = registry.getCatalogue()[0]!;
     expect(entry.parametersSchema).toMatchObject({ type: 'object' });
   });
 
@@ -219,8 +219,8 @@ describe('A2-8: executeWithTimeout() — per-tool deadline', () => {
     );
 
     expect(results).toHaveLength(2);
-    expect(JSON.parse(results[0].content)).toBe('a');
-    const slowResult = JSON.parse(results[1].content);
+    expect(JSON.parse(results[0]!.content)).toBe('a');
+    const slowResult = JSON.parse(results[1]!.content);
     expect(slowResult.error).toBe('TOOL_TIMEOUT');
   }, 2_000);
 

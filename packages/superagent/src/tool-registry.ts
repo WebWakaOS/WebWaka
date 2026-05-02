@@ -164,7 +164,7 @@ export class ToolRegistry {
         pillar: meta.pillar,
         autonomyThreshold: meta.autonomyThreshold,
         readOnly: meta.readOnly,
-        parametersSchema: fn.parameters as Record<string, unknown>,
+        parametersSchema: fn.parameters as unknown as Record<string, unknown>,
       };
     });
   }
