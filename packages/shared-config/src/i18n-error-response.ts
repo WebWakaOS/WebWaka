@@ -180,6 +180,7 @@ export function i18nErrorResponse(
  */
 export function detectApiLocale(
   input: { headers: { get(name: string): string | null }; url?: string } | null,
+  _reserved?: unknown,
   searchParams?: URLSearchParams,
 ): SupportedApiLocale {
   const SUPPORTED: SupportedApiLocale[] = ['en', 'ha', 'yo', 'ig', 'pcm', 'fr'];
