@@ -1,0 +1,283 @@
+🚨 WEBWAKA MASTER REFACTOR + STRATEGIC ENHANCEMENT PROGRAM PROMPT 🚨
+
+You are Replit Agent operating as a coordinated team of world-class experts for WebWaka:
+- platform architect
+- SaaS modernization strategist
+- AI-native systems architect
+- backend lead
+- frontend/platform UX lead
+- billing and entitlements architect
+- auth/authorization/governance architect
+- data and analytics architect
+- DevOps/Cloudflare deployment lead
+- QA and release-hardening lead
+
+Repository:
+https://github.com/WebWakaOS/WebWaka
+
+Deployment model:
+GitHub CI/CD pipeline → Cloudflare staging → Cloudflare production
+
+Primary domain:
+https://WebWaka.com
+
+I will provide the GitHub PAT and Cloudflare API Token when needed.
+
+MISSION
+Conduct a formal end-to-end Master Refactor and Strategic Enhancement Program for WebWaka.
+
+This is not a small enhancement pass.
+This is not a bug-fix sprint.
+This is not an MVP exercise.
+
+This is a full strategic platform modernization initiative to make WebWaka the best possible platform within its intended context by:
+- deeply reviewing the actual platform codebase and architecture,
+- understanding what already exists,
+- determining what must be retained, improved, refactored, re-architected, deprecated, or removed,
+- conducting deep external research on global best practices and standards,
+- synthesizing those best practices with WebWaka’s realities, principles, and Nigeria-first/Africa-first context,
+- producing a formal and highly detailed implementation program,
+- then implementing the program phase by phase with staging-first deployment and strict QA discipline.
+
+THOROUGHNESS IS FAR MORE IMPORTANT THAN SPEED.
+
+NON-NEGOTIABLE PRINCIPLES
+- Build Once Use Infinitely
+- Mobile First
+- PWA First
+- Offline First
+- Nigeria First
+- Africa First
+- Vendor Neutral AI
+- Governance first
+- Runtime configurability over hardcoding where appropriate
+- Least privilege
+- Full auditability
+- Staging-first deployment
+- No assumptions
+- No shortcuts
+- No drift
+
+MANDATORY OPERATING MODEL
+You must work in the following sequence and not skip any part:
+
+PHASE 0 — DEEP DISCOVERY AND PLATFORM UNDERSTANDING
+1. Conduct an exhaustive review of the entire repo.
+2. Read all key docs: governance, architecture, AI, milestones, monetization, deployment, QA, strategy, and any existing audit/planning documents.
+3. Review all major apps, packages, routes, middleware, schemas, migrations, tests, scripts, workflows, seeds, configs, and Cloudflare deployment files.
+4. Understand what currently exists in reality, not what prior summaries claim.
+5. Produce an evidence-based current-state assessment of:
+   - what is strong and should be retained
+   - what exists but needs improvement
+   - what should be refactored
+   - what should be re-architected
+   - what should be deprecated or removed
+6. Identify structural duplication, drift, dead code, fake implementations, shell surfaces, missing foundations, and architectural bottlenecks.
+
+PHASE 1 — DEEP EXTERNAL RESEARCH
+7. Conduct deep online research into global best practices and standards relevant to:
+   - multi-tenant SaaS architecture
+   - AI-native SaaS platforms
+   - extensible/module/template/plugin architectures
+   - dynamic control planes for plans/pricing/entitlements/permissions
+   - delegated administration and policy governance
+   - search, analytics, reporting, and exports
+   - frontend platform standardization
+   - observability and production hardening
+   - low-bandwidth/offline-first emerging-market product design
+   - secure staged rollout and modernization strategy
+8. Use high-quality sources and synthesize the findings into practical recommendations, not generic summaries.
+9. Adapt recommendations to WebWaka’s context, including:
+   - Nigeria-first and Africa-first realities
+   - Cloudflare-first deployment model
+   - AI-native ambition
+   - white-label multi-tenant structure
+   - platform not yet launched
+   - desire to refactor now rather than carry debt forward
+
+PHASE 2 — SYNTHESIS INTO A FORMAL MASTER PROGRAM
+10. Create a formal Master Refactor and Strategic Enhancement Program for WebWaka.
+11. Group the program into major transformation tracks.
+12. For each track, define:
+   - rationale
+   - current state
+   - target state
+   - keep / improve / refactor / re-architect / deprecate / remove decisions
+   - detailed sub-initiatives
+   - dependencies
+   - risks
+   - migration considerations
+   - rollout considerations
+   - QA considerations
+13. Produce a staged-wave implementation model with explicit sequencing.
+14. Ensure the program is end-to-end, not selective.
+
+THE PROGRAM MUST INCLUDE AT LEAST THESE TRANSFORMATION TRACKS
+
+TRACK 1 — PLATFORM ARCHITECTURE SIMPLIFICATION
+- router decomposition
+- shared service/repository patterns
+- codebase consistency
+- dead package cleanup
+- drift reduction
+- removal of structural duplication
+- stronger domain boundaries
+
+TRACK 2 — DYNAMIC CONTROL PLANE
+- subscriptions
+- pricing
+- plan versioning
+- grandfathering
+- entitlements
+- custom roles
+- groups
+- per-user overrides
+- delegated admin boundaries
+- feature flags
+- runtime configuration
+
+TRACK 3 — AI-NATIVE OPERATING LAYER
+- SuperAgent v2
+- tool registry completion
+- agent loop/multi-step orchestration
+- HITL UI
+- AI governance controls
+- prompt management
+- inline AI surfaces
+- AI observability
+- AI across all pillars and user categories
+
+TRACK 4 — FRONTEND AND EXPERIENCE UNIFICATION
+- admin dashboard rebuild/completion
+- partner admin rebuild/completion
+- public discovery rebuild/completion
+- brand runtime enhancement
+- workspace app evolution
+- design system enforcement
+- shared component patterns
+- role-aware navigation and UX
+- mobile-first and responsive quality
+
+TRACK 5 — VERTICAL ENGINE + TEMPLATE/MODULE EXTENSIBILITY
+- move away from duplicated vertical packages where appropriate
+- configuration-driven vertical engine
+- module/template architecture
+- manifest/versioning/compatibility model
+- extension governance
+- marketplace-readiness if appropriate
+
+TRACK 6 — DATA, ANALYTICS, REPORTING, SEARCH, AND EXPORTS
+- analytics aggregation
+- workspace/tenant reporting
+- search indexing and search UX
+- CSV/PDF export capabilities
+- operational dashboards
+- executive/admin insights
+
+TRACK 7 — GOVERNANCE, SECURITY, OBSERVABILITY, AND DEPLOYMENT HARDENING
+- policy enforcement
+- audit trail expansion
+- permission safety
+- rollout controls
+- monitoring/alerting/tracing
+- smoke checks
+- recovery and rollback readiness
+- staging/production parity checks
+
+TRACK 8 — CONTEXTUAL MARKET READINESS
+- Nigeria-first operational fit
+- Africa-scale readiness
+- low-bandwidth resilience
+- offline and sync hardening
+- localization/i18n maturity
+- payment evolution path
+- public-sector/enterprise trust requirements
+- USSD/WhatsApp/mobile access considerations
+
+PHASE 3 — DETAILED IMPLEMENTATION PLAN
+15. After defining the master program, produce a very detailed end-to-end implementation plan.
+16. The plan must be grouped into staged waves and phases.
+17. For each wave and phase, define:
+   - exact objectives
+   - scope
+   - affected apps/packages/modules
+   - required schema changes
+   - required API changes
+   - required frontend changes
+   - required migration steps
+   - tests required
+   - risks and rollback considerations
+   - deployment order
+   - validation checklist
+18. The plan must clearly separate:
+   - foundational work
+   - enabling work
+   - execution work
+   - QA/remediation work
+   - rollout work
+
+PHASE 4 — IMPLEMENTATION EXECUTION
+19. After the program and plan are complete, begin implementation phase by phase.
+20. Implement thoroughly, not partially.
+21. Push changes step by step to GitHub staging branch after each meaningful implementation batch.
+22. Verify GitHub CI after each push.
+23. Verify Cloudflare staging after each deployment.
+24. Do not merge to main until staging is fully green for the completed batch or release scope.
+25. Continue phase by phase until the full scoped program is implemented.
+
+PHASE 5 — QA, REMEDIATION, AND RELEASE DISCIPLINE
+26. After each phase, perform follow-up QA, regression checks, and remediation.
+27. Detect and fix drift immediately.
+28. Maintain a living implementation log and decision log in the repo.
+29. No phase is complete until:
+   - code is implemented
+   - tests are added/updated
+   - staging is green
+   - key flows are verified
+   - docs are updated
+30. At the end of the program, do a full end-to-end QA and hardening pass before merging to main and deploying production.
+
+REQUIRED OUTPUTS BEFORE IMPLEMENTATION
+Before writing major implementation code, produce these artifacts in the repo:
+1. Current-state assessment
+2. Best-practice research synthesis
+3. Master Refactor and Strategic Enhancement Program
+4. Detailed staged-wave implementation plan
+5. Risk register
+6. Keep / Improve / Refactor / Re-architect / Deprecate / Remove matrix
+7. Staging-first rollout and QA strategy
+
+IMPLEMENTATION RULES
+- Do not rewrite blindly.
+- Prefer migration-safe, staged refactors.
+- Preserve working behavior unless intentionally changed.
+- Refactor now where needed because the platform has not launched.
+- Eliminate architectural debt when justified.
+- Use evidence and context to decide what to keep vs change.
+- Do not overfit to generic Western SaaS assumptions if they conflict with Nigeria-first/Africa-first realities.
+- Do not leave placeholder shells if a track includes real UX completion.
+- Ensure every important decision is documented.
+
+DEPLOYMENT DISCIPLINE
+- Staging branch first
+- GitHub push step by step
+- Cloudflare staging verification after every meaningful batch
+- Only then main branch
+- Then Cloudflare production
+- Then production verification
+
+SUCCESS STANDARD
+This initiative succeeds only if:
+- Replit first performs deep platform understanding,
+- then performs deep external research,
+- then synthesizes the findings into a formal master program,
+- then produces a detailed phased implementation plan,
+- then implements phase by phase thoroughly,
+- then validates through staging-first QA discipline,
+- and the platform becomes materially stronger, cleaner, more scalable, more governable, and more future-proof.
+
+BEGIN NOW
+Start with PHASE 0 only.
+Do the deep repo and documentation review first.
+Do not jump into implementation before producing the required program and plan artifacts.
+Thoroughness remains far more important than speed.
