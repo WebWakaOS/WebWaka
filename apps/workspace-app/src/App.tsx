@@ -29,6 +29,7 @@ const PlatformAdmin   = lazy(() => import('@/pages/PlatformAdmin'));
 const PartnerAdmin    = lazy(() => import('@/pages/PartnerAdmin'));
 const Onboarding      = lazy(() => import('@/pages/Onboarding'));
 const BrandSettings   = lazy(() => import('@/pages/BrandSettings'));
+const SalesHistory    = lazy(() => import('@/pages/SalesHistory'));
 const Staff           = lazy(() => import('@/pages/Staff'));
 const Notifications   = lazy(() => import('@/pages/Notifications'));
 
@@ -116,6 +117,7 @@ export default function App() {
                   </RequireRole>
                 } />
                 <Route path="/billing" element={<Billing />} />
+                <Route path="/sales-history" element={<SalesHistory />} />
                 <Route path="/staff" element={<Staff />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/settings" element={<Settings />} />
