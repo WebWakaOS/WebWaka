@@ -15,7 +15,7 @@
  *   - P13 invariant: no export payload appears in console output.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Hono } from 'hono';
 import { complianceRoutes } from './compliance.js';
 
