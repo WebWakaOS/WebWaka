@@ -11,8 +11,11 @@
  */
 
 import { Hono } from 'hono';
-import type { AppEnv } from '../types/env.js';
-import { requireAuth } from '../middleware/auth.js';
+import type { Env } from '../env.js';
+import type { AuthContext } from '@webwaka/types';
+import { authMiddleware } from '../middleware/auth.js';
+
+type AppEnv = { Bindings: Env; Variables: { auth: AuthContext; userId: string; tenantId: string } };
 
 export const e2eeRoutes = new Hono<AppEnv>();
 
@@ -64,7 +67,7 @@ function validateEcdhPublicKey(jwk: unknown): { valid: boolean; error?: string }
  * Registers or updates the authenticated user's ECDH public key.
  * Body: { publicKey: JWK }
  */
-e2eeRoutes.patch('/profile/e2e-pubkey', requireAuth, async (c) => {
+e2eeRoutes.patch('/profile/e2e-pubkey', authMiddleware, async (c) => {
   const userId: string = c.get('userId');
   const tenantId: string = c.get('tenantId');
 
@@ -111,7 +114,7 @@ e2eeRoutes.patch('/profile/e2e-pubkey', requireAuth, async (c) => {
  * Required to encrypt a DM to that user.
  * Authentication required (public keys are accessible to authenticated users only).
  */
-e2eeRoutes.get('/profile/:id/e2e-pubkey', requireAuth, async (c) => {
+e2eeRoutes.get('/profile/:id/e2e-pubkey', authMiddleware, async (c) => {
   const tenantId: string = c.get('tenantId');
   const targetId = c.req.param('id');
 
@@ -157,7 +160,7 @@ e2eeRoutes.get('/profile/:id/e2e-pubkey', requireAuth, async (c) => {
  * After revocation, senders cannot encrypt new DMs to this user (E2EE).
  * Existing E2EE messages remain readable to the recipient if they have their private key.
  */
-e2eeRoutes.delete('/profile/e2e-pubkey', requireAuth, async (c) => {
+e2eeRoutes.delete('/profile/e2e-pubkey', authMiddleware, async (c) => {
   const userId: string = c.get('userId');
   const tenantId: string = c.get('tenantId');
   const nowEpoch = Math.floor(Date.now() / 1000);

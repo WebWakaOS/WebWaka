@@ -17,7 +17,10 @@
  */
 
 import type { Context, Next } from 'hono';
-import type { AppEnv } from '../types/env.js';
+import type { Env } from '../env.js';
+import type { AuthContext } from '@webwaka/types';
+
+type AppEnv = { Bindings: Env; Variables: { auth: AuthContext; userId: string; tenantId: string; locale: string } };
 import { detectApiLocale, type SupportedApiLocale } from '@webwaka/shared-config';
 
 export async function localeMiddleware(c: Context<AppEnv>, next: Next): Promise<void> {
