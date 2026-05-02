@@ -14,6 +14,19 @@ async function get<T>(path: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function post<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(BASE + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({})) as { error?: string };
+    throw new Error(d.error ?? `HTTP ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface Place {
@@ -37,6 +50,8 @@ export interface Listing {
   rating?: number;
   reviewCount?: number;
   vertical?: string;
+  claimed?: boolean;
+  verified?: boolean;
 }
 
 export interface Profile {
@@ -54,6 +69,11 @@ export interface Profile {
   tags?: string[];
   rating?: number;
   reviewCount?: number;
+  claimed?: boolean;
+  verified?: boolean;
+  wakaPageUrl?: string;
+  offerings?: Array<{ id: string; name: string; price?: number; unit?: string }>;
+  gallery?: string[];
 }
 
 export interface GeoChild {
@@ -76,15 +96,29 @@ export interface SearchResult {
   total: number;
   query: string;
   place?: string;
+  /** total pages at the requested limit */
+  pages?: number;
+  page?: number;
+}
+
+export interface ClaimRequest {
+  entityType: string;
+  entityId: string;
+  contactName: string;
+  contactPhone: string;
+  contactEmail: string;
+  businessRole: string;
 }
 
 // ─── Endpoint helpers ─────────────────────────────────────────────────────────
 
 export const discoveryApi = {
   home:     ()                           => get<DiscoverHome>('/discover'),
-  inPlace:  (placeId: string)            => get<{ listings: Listing[]; place: Place }>(`/discover/in/${placeId}`),
-  search:   (q: string, place?: string)  => get<SearchResult>(`/discover/search?q=${encodeURIComponent(q)}${place ? `&place=${encodeURIComponent(place)}` : ''}`),
-  category: (cat: string)                => get<{ listings: Listing[]; category: string }>(`/discover/category/${encodeURIComponent(cat)}`),
+  inPlace:  (placeId: string, page = 1)  => get<{ listings: Listing[]; place: Place; total?: number }>(`/discover/in/${placeId}?page=${page}`),
+  search:   (q: string, place?: string, page = 1) =>
+    get<SearchResult>(`/discover/search?q=${encodeURIComponent(q)}${place ? `&place=${encodeURIComponent(place)}` : ''}&page=${page}`),
+  category: (cat: string, page = 1)     => get<{ listings: Listing[]; category: string; total?: number }>(`/discover/category/${encodeURIComponent(cat)}?page=${page}`),
   geo:      (placeId: string)            => get<{ place: Place; children: GeoChild[] }>(`/discover/geo/${placeId}`),
   profile:  (entityType: string, id: string) => get<Profile>(`/discover/${entityType}/${id}`),
+  submitClaim: (req: ClaimRequest)       => post<{ success: boolean; claimId: string }>('/discover/claims', req),
 };

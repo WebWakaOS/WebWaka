@@ -1,18 +1,22 @@
 /**
  * WebWaka Partner Admin SPA — App shell
  * E1-1: React SPA replacing the HTML-only partner-admin worker frontend.
+ * E1-7: Onboarding wizard for first-login flow.
  */
 import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { loadSavedCredentials, setCredentials, clearCredentials, type Credentials } from './lib/api';
 
-import Login      from './pages/Login';
-import Overview   from './pages/Overview';
-import Credits    from './pages/Credits';
-import Settlements from './pages/Settlements';
-import SubPartners from './pages/SubPartners';
-import Branding   from './pages/Branding';
+import Login         from './pages/Login';
+import Overview      from './pages/Overview';
+import Credits       from './pages/Credits';
+import Settlements   from './pages/Settlements';
+import SubPartners   from './pages/SubPartners';
+import Branding      from './pages/Branding';
 import Notifications from './pages/Notifications';
+import Onboarding    from './pages/Onboarding';
+
+const ONBOARDING_KEY = 'pa_onboarding_done';
 
 const NAV_LINKS = [
   { to: '/overview',      label: 'Overview'      },
@@ -24,7 +28,10 @@ const NAV_LINKS = [
 ];
 
 export default function App() {
-  const [authed, setAuthed] = useState<boolean>(() => loadSavedCredentials() !== null);
+  const [authed,       setAuthed]       = useState<boolean>(() => loadSavedCredentials() !== null);
+  const [onboarded,    setOnboarded]    = useState<boolean>(() => {
+    try { return localStorage.getItem(ONBOARDING_KEY) === '1'; } catch { return false; }
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +41,9 @@ export default function App() {
   function handleLogin(creds: Credentials) {
     setCredentials(creds);
     setAuthed(true);
-    navigate('/overview', { replace: true });
+    // Navigate to onboarding if not yet done, otherwise overview
+    const done = (() => { try { return localStorage.getItem(ONBOARDING_KEY) === '1'; } catch { return false; } })();
+    navigate(done ? '/overview' : '/onboarding', { replace: true });
   }
 
   function handleLogout() {
@@ -43,11 +52,26 @@ export default function App() {
     navigate('/login', { replace: true });
   }
 
+  function handleOnboardingComplete() {
+    try { localStorage.setItem(ONBOARDING_KEY, '1'); } catch { /* ignore */ }
+    setOnboarded(true);
+  }
+
   if (!authed) {
     return (
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="*"      element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
+  }
+
+  // Onboarding flow (full-screen, no nav)
+  if (!onboarded) {
+    return (
+      <Routes>
+        <Route path="/onboarding" element={<Onboarding onComplete={handleOnboardingComplete} />} />
+        <Route path="*"           element={<Navigate to="/onboarding" replace />} />
       </Routes>
     );
   }
@@ -71,16 +95,29 @@ export default function App() {
           </span>
           <span style={{ color: 'var(--muted)', fontSize: '0.8125rem' }}>Partner Admin</span>
         </div>
-        <button
-          onClick={handleLogout}
-          style={{
-            background: 'transparent', border: '1px solid var(--border)',
-            color: 'var(--muted)', borderRadius: 6, padding: '4px 12px',
-            fontSize: '0.8125rem', fontWeight: 600,
-          }}
-        >
-          Sign out
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <button
+            onClick={() => { try { localStorage.removeItem(ONBOARDING_KEY); } catch { /* ignore */ } setOnboarded(false); navigate('/onboarding', { replace: true }); }}
+            title="Re-run onboarding wizard"
+            style={{
+              background: 'transparent', border: '1px solid var(--border)',
+              color: 'var(--muted)', borderRadius: 6, padding: '4px 10px',
+              fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Setup Wizard
+          </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              background: 'transparent', border: '1px solid var(--border)',
+              color: 'var(--muted)', borderRadius: 6, padding: '4px 12px',
+              fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Sign out
+          </button>
+        </div>
       </header>
 
       {/* ── Nav tabs ─────────────────────────────────────────────────── */}
@@ -118,6 +155,7 @@ export default function App() {
           <Route path="/sub-partners"  element={<SubPartners />}   />
           <Route path="/branding"      element={<Branding />}      />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/onboarding"    element={<Onboarding onComplete={handleOnboardingComplete} />} />
           <Route path="*"              element={<Navigate to="/overview" replace />} />
         </Routes>
       </main>
