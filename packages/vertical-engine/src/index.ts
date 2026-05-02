@@ -38,3 +38,8 @@ export { generateRoutes } from './generators/route-generator.js';
 // Wave 3 additions
 export { REGISTRY } from './registry.js';
 export { generateAllRoutes } from './generators/route-generator.js';
+
+export { FSMHistoryService } from './fsm-history.js';
+export type { FSMHistoryEntry, FSMHistoryWriteParams } from './fsm-history.js';
+export { emitFSMTransitionEvent } from './fsm.js';
+export type { FSMEventEmitter } from './fsm.js';

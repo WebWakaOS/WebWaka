@@ -40,8 +40,8 @@
 ### A3. AI Governance — Billing, BYOK, Failover
 - [x] A3-1: Add `ByokKeyService` integration test — verify Level 1 (user BYOK) and Level 2 (workspace BYOK) resolution paths are actually exercised in CI
 - [x] A3-2: Implement Level 5 fallback behaviour: currently `resolveAdapter` throws `NO_ADAPTER_AVAILABLE` — add a genuine fallback model config (e.g. groq/llama-3.1-8b-instant with a platform key) before the hard throw
-- [ ] A3-3: Add `CreditBurnEngine` edge-case tests: insufficient balance, partner pool exhausted, monthly cap reached — currently only happy path is tested
-- [ ] A3-4: Add `SpendControls` hard-cap enforcement test in the `/superagent/chat` route — verify 402 is returned when budget is exceeded
+- [x] A3-3: Add `CreditBurnEngine` edge-case tests: insufficient balance, partner pool exhausted, monthly cap reached — currently only happy path is tested
+- [x] A3-4: Add `SpendControls` hard-cap enforcement test in the `/superagent/chat` route — verify 402 is returned when budget is exceeded
 - [x] A3-5: Implement AI billing reconciliation cron: `apps/schedulers` — nightly job that scans `ai_usage_events` for unmatched `wc_transactions` and flags discrepancies
 - [x] A3-6: Add `POST /superagent/byok` and `DELETE /superagent/byok/:id` endpoints (currently `KeyService` exists but no HTTP surface exists to add/remove BYOK keys)
 - [x] A3-7: Implement `BYOK key rotation` — `PUT /superagent/byok/:id/rotate` replaces encrypted key in D1, invalidates KV cache
@@ -84,9 +84,9 @@
 - [x] B1-4: Cross-check `VERTICAL_AI_CONFIGS` (159 entries in `vertical-ai-config.ts`) vs engine registry — ensure every registry slug has a corresponding AI config entry (run as governance check)
 
 ### B2. Shared FSM Patterns
-- [ ] B2-1: Add `FSMEngine.validateConfig()` — static method that validates a `VerticalFSMConfig` at registration time (catch orphan states, missing transitions, unreachable states)
-- [ ] B2-2: Add FSM event emission: on every state transition, publish an event via `packages/events` (`vertical.state.transitioned`) to enable downstream reactions (audit, notification, analytics)
-- [ ] B2-3: Add FSM history: store last N state transitions in a `profile_state_history` table (migration needed) for audit/compliance
+- [x] B2-1: Add `FSMEngine.validateConfig()` — static method that validates a `VerticalFSMConfig` at registration time (catch orphan states, missing transitions, unreachable states)
+- [x] B2-2: Add FSM event emission: on every state transition, publish an event via `packages/events` (`vertical.state.transitioned`) to enable downstream reactions (audit, notification, analytics)
+- [x] B2-3: Add FSM history: store last N state transitions in a `profile_state_history` table (migration needed) for audit/compliance
 - [x] B2-4: Add FSM bulk validation test: run `FSMEngine.validateConfig()` against all 157 registry FSM configs in a single vitest spec
 
 ### B3. Shared UI & Workflow Primitives

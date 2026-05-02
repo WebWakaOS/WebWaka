@@ -166,3 +166,62 @@ export class FSMEngine {
   }
 
 }
+
+
+// ── B2-2: FSM Event Emission ──────────────────────────────────────────────────
+
+/**
+ * Minimal event emitter interface — implemented by packages/events publisher.
+ * Decoupled via interface so FSMEngine has no hard dependency on event bus.
+ */
+export interface FSMEventEmitter {
+  emit(
+    event: 'vertical.state.transitioned',
+    payload: {
+      slug: string;
+      profileId: string;
+      workspaceId: string;
+      tenantId: string;
+      fromState: string;
+      toState: string;
+      triggeredBy: string;
+      transitionedAt: string;
+      guardName?: string;
+    },
+  ): Promise<void> | void;
+}
+
+/**
+ * emitFSMTransitionEvent — call after a successful state transition.
+ * Fires 'vertical.state.transitioned' on the provided emitter (if any).
+ * Safe to call with emitter=undefined (no-op).
+ */
+export async function emitFSMTransitionEvent(
+  emitter: FSMEventEmitter | undefined,
+  params: {
+    slug: string;
+    profileId: string;
+    workspaceId: string;
+    tenantId: string;
+    fromState: string;
+    toState: string;
+    triggeredBy: string;
+    guardName?: string;
+  },
+): Promise<void> {
+  if (!emitter) return;
+  try {
+    await emitter.emit('vertical.state.transitioned', {
+      ...params,
+      transitionedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    // Event emission failures must not break the transition — log only
+    console.error(JSON.stringify({
+      level: 'warn',
+      event: 'fsm_event_emit_failed',
+      slug: params.slug,
+      error: err instanceof Error ? err.message : String(err),
+    }));
+  }
+}
