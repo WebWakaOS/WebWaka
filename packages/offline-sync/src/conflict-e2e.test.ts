@@ -74,8 +74,8 @@ function makeAdapter(items: SyncQueueItem[] = []): SyncAdapter & {
   };
 }
 
-beforeEach(() => vi.restoreAllMocks());
-afterEach(() => vi.restoreAllMocks());
+beforeEach(() => { vi.restoreAllMocks(); });
+afterEach(() => { vi.restoreAllMocks(); });
 
 // ---------------------------------------------------------------------------
 // Scenario 1: Basic conflict lifecycle — client offline, server wins
@@ -123,9 +123,9 @@ describe('M-9 | E2E: client-offline → server-edits → client-syncs → server
 
     // Adapter recorded the server-wins resolution
     expect(adapter._resolutions).toHaveLength(1);
-    expect(adapter._resolutions[0].id).toBe(clientItem.id);
-    expect(adapter._resolutions[0].resolution.strategy).toBe('server-wins');
-    expect(adapter._resolutions[0].resolution.resolvedAt).toBeTypeOf('number');
+    expect(adapter._resolutions[0]!.id).toBe(clientItem.id);
+    expect(adapter._resolutions[0]!.resolution.strategy).toBe('server-wins');
+    expect(adapter._resolutions[0]!.resolution.resolvedAt).toBeTypeOf('number');
 
     // Item is now marked synced (server-wins = accepted server version)
     const finalItem = adapter._store.get(clientItem.id);
@@ -228,7 +228,7 @@ describe('M-9 | E2E: multiple concurrent offline edits with mixed outcomes', () 
     expect(result.synced).toBe(2);
     expect(result.conflicts).toBe(1);
     expect(result.errors).toBe(0);
-    expect(adapter._resolutions[0].resolution.strategy).toBe('server-wins');
+    expect(adapter._resolutions[0]!.resolution.strategy).toBe('server-wins');
   });
 
   it('FIFO ordering is preserved across entity types (P11)', async () => {
@@ -309,8 +309,8 @@ describe('M-9 | E2E: ConflictStore notification text (PRD §11.7)', () => {
     store.resolveServerWins(r1.id);
     const active = store.getActiveConflicts();
     expect(active).toHaveLength(1);
-    expect(active[0].entityId).toBe('plc_222');
-    expect(active[0].resolvedStrategy).toBe('pending');
+    expect(active[0]!.entityId).toBe('plc_222');
+    expect(active[0]!.resolvedStrategy).toBe('pending');
 
     // Resolve r2
     store.resolveServerWins(r2.id);
