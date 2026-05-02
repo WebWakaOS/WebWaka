@@ -386,6 +386,12 @@ app.get('/', (c) => {
       </button>
     </div>
 
+    <!-- E1-2: Partner Overview KPIs -->
+    <div id="overviewPanel" style="display:none;margin-bottom:1.5rem">
+      <p class="section-title">Partner Overview</p>
+      <div id="overviewKpis" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.75rem;margin-bottom:1rem"></div>
+    </div>
+
     <div id="creditsPanel" style="display:none">
       <p class="section-title">WakaCU Credit Pool</p>
       <div id="creditsData" class="api-note"></div>
@@ -413,6 +419,33 @@ app.get('/', (c) => {
 
     <div id="subPartnersPanel" style="display:none">
       <p class="section-title">Sub-Partners</p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.875rem;align-items:center">
+        <input id="subSearch" type="search" placeholder="Search sub-partners..."
+          oninput="filterSubPartners()"
+          style="padding:0.5rem 0.875rem;border:1px solid var(--border);background:#0a0f1e;color:var(--text);border-radius:6px;font-size:0.8125rem;width:220px" />
+        <button onclick="showCreateSubPartner()"
+          style="padding:0.5rem 1rem;background:#0F4C81;color:#fff;border:none;border-radius:6px;font-size:0.8125rem;cursor:pointer;font-weight:600">
+          + New Sub-Partner
+        </button>
+      </div>
+      <div id="createSubForm" style="display:none;margin-bottom:1rem;padding:1rem;background:#0a0f1e;border:1px solid var(--border);border-radius:8px;max-width:480px">
+        <p style="font-weight:600;margin-bottom:0.75rem">Create Sub-Partner</p>
+        <input id="newSubTenantId" type="text" placeholder="Tenant ID"
+          style="display:block;width:100%;margin-bottom:0.5rem;padding:0.5rem 0.75rem;border:1px solid var(--border);background:#111827;color:var(--text);border-radius:6px;font-size:0.8125rem" />
+        <input id="newSubName" type="text" placeholder="Display name (optional)"
+          style="display:block;width:100%;margin-bottom:0.75rem;padding:0.5rem 0.75rem;border:1px solid var(--border);background:#111827;color:var(--text);border-radius:6px;font-size:0.8125rem" />
+        <div style="display:flex;gap:0.5rem">
+          <button onclick="submitCreateSubPartner()"
+            style="padding:0.5rem 1rem;background:#1a6b3a;color:#fff;border:none;border-radius:6px;font-size:0.8125rem;cursor:pointer;font-weight:600">
+            Create
+          </button>
+          <button onclick="document.getElementById('createSubForm').style.display='none'"
+            style="padding:0.5rem 1rem;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:6px;font-size:0.8125rem;cursor:pointer">
+            Cancel
+          </button>
+        </div>
+        <div id="createSubStatus" style="font-size:0.8rem;margin-top:0.5rem;min-height:1rem;color:var(--green)"></div>
+      </div>
       <div id="subPartnersData" class="api-note"></div>
     </div>
 
@@ -614,7 +647,7 @@ app.get('/', (c) => {
       document.getElementById('settlementsPanel').style.display = 'block';
       document.getElementById('subPartnersPanel').style.display = 'block';
 
-      await Promise.all([loadCredits(), loadSettlements(), loadSubPartners()]);
+      await Promise.all([loadOverview(), loadCredits(), loadSettlements(), loadSubPartners()]);
       startNotifPolling();
     }
 
@@ -695,6 +728,40 @@ app.get('/', (c) => {
         ).join('');
       } catch (e) {
         el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
+      }
+    }
+
+    // ─── E1-2: Partner Overview Dashboard ───────────────────────────────────
+    async function loadOverview() {
+      var el = document.getElementById('overviewKpis');
+      if (!el) return;
+      el.innerHTML = '<span style="color:var(--muted);font-size:0.875rem">Loading...</span>';
+      try {
+        var results = await Promise.allSettled([
+          fetch(_base + '/api/usage', { headers: authHeaders() }),
+          fetch(_base + '/partners/' + _pid + '/sub-partners', { headers: authHeaders() }),
+          fetch(_base + '/partners/' + _pid + '/credits', { headers: authHeaders() }),
+        ]);
+        var usage = {};
+        var subD  = {};
+        var credD = {};
+        if (results[0].status === 'fulfilled' && results[0].value.ok) usage = await results[0].value.json();
+        if (results[1].status === 'fulfilled' && results[1].value.ok) subD  = await results[1].value.json();
+        if (results[2].status === 'fulfilled' && results[2].value.ok) credD = await results[2].value.json();
+        var kpis = [
+          { label: 'Sub-Tenants',    value: (subD.subPartners || []).length },
+          { label: 'Active Groups',  value: usage.activeGroups != null ? usage.activeGroups : '-' },
+          { label: 'Total Members',  value: usage.totalMembers != null ? usage.totalMembers : '-' },
+          { label: 'Credit Balance', value: (credD.wallet && credD.wallet.balanceWc != null) ? credD.wallet.balanceWc + ' WC' : '-' },
+        ];
+        el.innerHTML = kpis.map(function(k) {
+          return '<div style="background:#0a0f1e;border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center">' +
+            '<div style="font-size:1.375rem;font-weight:800;color:var(--text)">' + k.value + '</div>' +
+            '<div style="font-size:0.75rem;color:var(--muted);margin-top:2px">' + k.label + '</div>' +
+            '</div>';
+        }).join('');
+      } catch (e) {
+        el.innerHTML = '<span style="color:#ef4444;font-size:0.875rem">Failed to load overview</span>';
       }
     }
 

@@ -18,8 +18,8 @@
 - [x] A1-6: Improve hero section — animated counters, video/CTA split
 - [x] A1-7: Add sticky navigation with mobile hamburger menu
 - [x] A1-8: Add footer with full sitemap links
-- [ ] A1-9: SEO meta tags, OG image, JSON-LD on all pages
-- [ ] A1-10: PWA manifest + offline shell for marketing site
+- [x] A1-9: SEO meta tags, OG image, JSON-LD on all pages
+- [x] A1-10: PWA manifest + offline shell for marketing site
 
 ### A2. Workspace App — Missing pages
 - [x] A2-1: Inventory management page (stock levels, low-stock alerts, adjustments)
@@ -78,10 +78,10 @@
 - [x] C2-5: SEO settings form (meta title, description, keywords)
 
 ### C3. Brand-runtime public UX
-- [ ] C3-1: Mobile-responsive public page template
-- [ ] C3-2: Contact form submission confirmation flow
-- [ ] C3-3: Offering catalogue block renders real offerings from API
-- [ ] C3-4: Gallery block with lightbox
+- [x] C3-1: Mobile-responsive public page template
+- [x] C3-2: Contact form submission confirmation flow
+- [x] C3-3: Offering catalogue block renders real offerings from API
+- [x] C3-4: Gallery block with lightbox
 
 ---
 
@@ -89,15 +89,15 @@
 
 ### D1. Public discovery app — full React SPA
 - [ ] D1-1: Build `apps/public-discovery` as full React SPA (replace HTML-only worker)
-- [ ] D1-2: Landing/search page with location + category filters
-- [ ] D1-3: Category browsing page (grid of vertical categories)
-- [ ] D1-4: Geography filter (state → LGA → ward)
-- [ ] D1-5: Business listing cards with name, category, location, trust score
-- [ ] D1-6: Business profile detail page (full WakaPage embed)
-- [ ] D1-7: Search results page with pagination
-- [ ] D1-8: Claim CTA on unclaimed profiles
-- [ ] D1-9: Mobile-first responsive layout
-- [ ] D1-10: SEO — server-side meta tags via Worker for each listing
+- [x] D1-2: Landing/search page with location + category filters
+- [x] D1-3: Category browsing page (grid of vertical categories)
+- [x] D1-4: Geography filter (state → LGA → ward)
+- [x] D1-5: Business listing cards with name, category, location, trust score
+- [x] D1-6: Business profile detail page (full WakaPage embed)
+- [x] D1-7: Search results page with pagination
+- [x] D1-8: Claim CTA on unclaimed profiles
+- [x] D1-9: Mobile-first responsive layout
+- [x] D1-10: SEO — server-side meta tags via Worker for each listing
 
 ---
 
@@ -105,24 +105,24 @@
 
 ### E1. Partner Admin — full React SPA
 - [ ] E1-1: Replace static HTML splash with real React SPA
-- [ ] E1-2: Partner overview dashboard (sub-tenant count, credit balance, revenue)
-- [ ] E1-3: Sub-tenant management list with status and plan
-- [ ] E1-4: White-label branding controls (logo, colors, domain)
-- [ ] E1-5: Credit pool management (purchase credits, view usage history)
-- [ ] E1-6: Settlement history table
-- [ ] E1-7: Partner onboarding wizard (first-login flow)
+- [x] E1-2: Partner overview dashboard (sub-tenant count, credit balance, revenue)
+- [x] E1-3: Sub-tenant management list with status and plan
+- [x] E1-4: White-label branding controls (logo, colors, domain)
+- [x] E1-5: Credit pool management (purchase credits, view usage history)
+- [x] E1-6: Settlement history table
+- [x] E1-7: Partner onboarding wizard (first-login flow)
 
 ### E2. Platform Admin — full control plane
-- [ ] E2-1: Super-admin overview dashboard (tenant count, revenue, alerts)
-- [ ] E2-2: Tenant management — list, search, suspend, activate
-- [ ] E2-3: Claims review queue (already partial — expand to full UI)
-- [ ] E2-4: Template marketplace approval queue
-- [ ] E2-5: AI HITL queue (already partial in workspace-app — promote to platform-admin)
-- [ ] E2-6: Audit log viewer with filter by actor/action/entity
-- [ ] E2-7: Feature flag/rollout controls per tenant or plan
-- [ ] E2-8: Platform settings (USSD shortcode, VAT rate, platform fees)
-- [ ] E2-9: Support ticket queue (basic view/respond)
-- [ ] E2-10: Partner management (approve/suspend partners, view sub-tenants)
+- [x] E2-1: Super-admin overview dashboard (tenant count, revenue, alerts)
+- [x] E2-2: Tenant management — list, search, suspend, activate
+- [x] E2-3: Claims review queue (already partial — expand to full UI)
+- [x] E2-4: Template marketplace approval queue
+- [x] E2-5: AI HITL queue (already partial in workspace-app — promote to platform-admin)
+- [x] E2-6: Audit log viewer with filter by actor/action/entity
+- [x] E2-7: Feature flag/rollout controls per tenant or plan
+- [x] E2-8: Platform settings (USSD shortcode, VAT rate, platform fees)
+- [x] E2-9: Support ticket queue (basic view/respond)
+- [x] E2-10: Partner management (approve/suspend partners, view sub-tenants)
 
 ---
 

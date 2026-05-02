@@ -3,6 +3,7 @@
  * Role-gated: super_admin only
  */
 import React, { useState, useEffect } from 'react';
+import AdminHITL from './AdminHITL';
 import { Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
@@ -884,6 +885,7 @@ export default function PlatformAdmin() {
             { to: '/platform/tenants', label: 'Tenants' },
             { to: '/platform/settings', label: 'Settings' },
             { to: '/platform/partners', label: 'Partners' },
+            { to: '/platform/hitl', label: 'HITL Queue' },
             { to: '/platform/templates', label: 'Templates' },
             { to: '/platform/support', label: 'Support' },
             { to: '/platform/audit-log', label: 'Audit Log' },
@@ -913,6 +915,7 @@ export default function PlatformAdmin() {
         <Route path="tenants" element={<PlatformTenants />} />
         <Route path="settings" element={<PlatformSettings />} />
         <Route path="partners" element={<PlatformPartners />} />
+        <Route path="hitl" element={<AdminHITL />} />
         <Route path="templates" element={<PlatformTemplates />} />
         <Route path="support" element={<PlatformSupport />} />
         <Route path="audit-log" element={<PlatformAuditLog />} />

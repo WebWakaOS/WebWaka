@@ -90,7 +90,7 @@ router.get('/', async (c) => {
       .prepare(`SELECT id, name FROM places WHERE geography_type = 'state' ORDER BY name ASC`)
       .all<{ id: string; name: string }>();
     stateChips = (states.results ?? [])
-      .map((s) => `<a class="ww-chip" href="/discover/in/${esc(s.id)}">${esc(s.name)}</a>`)
+      .map((s) => `<a class="ww-chip" href="/discover/geo/${esc(s.id)}">${esc(s.name)}</a>`)
       .join('');
   } catch {
     stateChips = '<p style="color:var(--ww-text-muted);font-size:.875rem">States loading...</p>';
@@ -618,5 +618,80 @@ router.post('/discover/:id/report', async (c) => {
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+
+// D1-4: Geography drill-down — GET /discover/geo/:placeId
+// Lists child places (LGAs under state, wards under LGA) and their business counts
+router.get('/geo/:placeId', async (c) => {
+  const locale = detectLocale(c.req.raw);
+  const t = createI18n(locale);
+  const placeId = c.req.param('placeId');
+
+  // Fetch parent info
+  let parentName = 'this area';
+  let parentType = 'state';
+  try {
+    const parentRow = await c.env.DB
+      .prepare('SELECT name, geography_type FROM places WHERE id = ? LIMIT 1')
+      .bind(placeId)
+      .first<{ name: string; geography_type: string }>();
+    if (parentRow) { parentName = parentRow.name; parentType = parentRow.geography_type; }
+  } catch { /* fallback */ }
+
+  // Fetch children (LGAs or wards)
+  let children: Array<{ id: string; name: string; count: number }> = [];
+  try {
+    const rows = await c.env.DB
+      .prepare(
+        `SELECT p.id, p.name,
+                COUNT(o.id) AS count
+         FROM places p
+         LEFT JOIN organizations o ON o.place_id = p.id AND o.is_published = 1
+         WHERE p.parent_id = ?
+         GROUP BY p.id, p.name
+         ORDER BY count DESC, p.name ASC
+         LIMIT 100`,
+      )
+      .bind(placeId)
+      .all<{ id: string; name: string; count: number }>();
+    children = rows.results ?? [];
+  } catch { /* fallback */ }
+
+  const childType = parentType === 'state' ? 'LGA' : parentType === 'lga' ? 'Ward' : 'Area';
+
+  const childCards = children.length === 0
+    ? `<p style="color:var(--ww-text-muted)">No sub-areas found. <a href="/discover/in/${esc(placeId)}" style="color:var(--ww-primary)">Browse all businesses in ${esc(parentName)}</a>.</p>`
+    : `<div class="ww-grid">
+        ${children.map(ch => `
+        <a class="ww-card" href="${ch.count > 0 ? `/discover/in/${esc(ch.id)}` : `/discover/geo/${esc(ch.id)}`}" style="text-decoration:none;color:inherit">
+          <h3>${esc(ch.name)}</h3>
+          <p style="color:var(--ww-text-muted);font-size:.8125rem">${ch.count} business${ch.count !== 1 ? 'es' : ''}</p>
+        </a>`).join('')}
+      </div>`;
+
+  const body = `
+    <nav style="font-size:.875rem;color:var(--ww-text-muted);margin-bottom:1rem">
+      <a href="/discover" style="color:var(--ww-primary)">Discover</a> &rsaquo; ${esc(parentName)}
+    </nav>
+    <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:.5rem">${esc(parentName)}</h1>
+    <p style="color:var(--ww-text-muted);margin-bottom:1.5rem">Browse by ${childType}</p>
+    ${childCards}
+    <div style="margin-top:1.5rem">
+      <a href="/discover/in/${esc(placeId)}" style="color:var(--ww-primary);font-size:.875rem;font-weight:600">
+        &rarr; Show all businesses in ${esc(parentName)}
+      </a>
+    </div>`;
+
+  const headExtra = `<meta name="description" content="Browse businesses in ${esc(parentName)} by ${childType} on WebWaka Discover." />`;
+
+  return c.html(baseTemplate({
+    title: `${parentName} — WebWaka Discover`,
+    body,
+    headExtra,
+    locale,
+    searchLabel: t('action_search'),
+    footerTagline: t('footer_tagline'),
+  }));
+});
 
 export { router as listingsRouter };
