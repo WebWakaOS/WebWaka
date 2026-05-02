@@ -15,7 +15,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { Hono } from 'hono';
 import { geographyRoutes } from './geography.js';
 import { discoveryRoutes as _discoveryRoutes } from './discovery.js';
-import app from '../index.js';
+import app from '../app.js';
 
 const JWT_SECRET = 'test-secret-32-chars-minimum-length-required';
 

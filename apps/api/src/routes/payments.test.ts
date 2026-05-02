@@ -14,7 +14,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
-import app from '../index.js';
+import app from '../app.js';
 import walletRoutes from './hl-wallet.js';
 import type { Env } from '../env.js';
 

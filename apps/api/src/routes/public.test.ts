@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import app from '../index.js';
+import app from '../app.js';
 import type { Env } from '../env.js';
 import { issueJwt } from '@webwaka/auth';
 import { Role } from '@webwaka/types';

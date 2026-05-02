@@ -21,7 +21,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 import { templateRoutes } from './templates.js';
 import { workspaceRoutes } from './workspaces.js';
-import app from '../index.js';
+import app from '../app.js';
 
 // ---------------------------------------------------------------------------
 // Mock @webwaka/payments — avoids real Paystack HTTP calls

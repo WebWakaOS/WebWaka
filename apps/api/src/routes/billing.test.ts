@@ -17,7 +17,7 @@
  */
 
 import { describe, it, expect, vi } from 'vitest';
-import app from '../index.js';
+import app from '../app.js';
 import type { Env } from '../env.js';
 
 const JWT_SECRET = 'test-jwt-secret-minimum-32-characters!';
