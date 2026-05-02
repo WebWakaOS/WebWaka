@@ -1,10 +1,10 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-    test: {
+  test: {
     globals: true,
     environment: 'node',
-    pool: 'vmForks',
+    pool: 'forks',
     server: {
       deps: {
         inline: [/@webwaka\//],
