@@ -8,11 +8,11 @@
  * 4. BillingStatusBanner renders nothing when status is 'active'
  * 5. BillingStatusBanner renders alert with "Read-Only Mode" badge when suspended
  * 6. BillingStatusBanner renders grace_period message
- * 7. ReadOnlyGuard wraps children in pointer-events-none when suspended
+ * 7. ReadOnlyGuard wraps children with inline style pointer-events:none when suspended
  * 8. registerBillingStatusListener fires on X-Billing-Status header parse
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import React from 'react';
 import {
@@ -157,11 +157,11 @@ describe('ReadOnlyGuard', () => {
       </BillingProvider>
     );
     expect(screen.getByText('Save')).toBeTruthy();
-    const btn = screen.getByText('Save').closest('button');
-    expect(btn?.closest('[class*="pointer-events-none"]')).toBeNull();
+    // No title attribute when active — guard renders a fragment
+    expect(screen.queryByTitle('Workspace is in read-only mode')).toBeNull();
   });
 
-  it('wraps children in pointer-events-none when suspended', async () => {
+  it('wraps children with inline style pointer-events:none when suspended', async () => {
     render(
       <BillingProvider>
         <ReadOnlyGuard>
@@ -173,9 +173,9 @@ describe('ReadOnlyGuard', () => {
     await act(async () => {
       screen.getByText('update').click();
     });
-    // The Save button's parent div should have pointer-events-none class
+    // ReadOnlyGuard renders <div title="Workspace is in read-only mode" style={{pointerEvents:'none'}}>
     const wrapper = screen.getByTitle('Workspace is in read-only mode');
-    expect(wrapper.className).toContain('pointer-events-none');
+    expect(wrapper.style.pointerEvents).toBe('none');
   });
 });
 
@@ -197,7 +197,6 @@ describe('registerBillingStatusListener (M-3 API interceptor)', () => {
     unsub();
 
     // After unsub, calling through the register mechanism won't call this fn
-    // (We test by checking the Set is unsubscribed)
     listener('active');
     // listener was called directly — just verifying unsub doesn't throw
     expect(listener).toHaveBeenCalledTimes(1);
