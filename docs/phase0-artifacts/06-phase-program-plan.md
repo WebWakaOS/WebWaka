@@ -159,11 +159,11 @@ PHASE 0: Deep Discovery and Platform Understanding    ← CURRENT (completing no
 
 ### Phase 2 Exit Gate
 
-- [ ] All 70 P3 niches have Pillar 2 brand-runtime templates (SHIPPED status)
-- [ ] All 70 P3 niches have Pillar 3 discovery templates
-- [ ] i18n: ha/ig/yo/pcm ≥ 90% coverage
-- [ ] INEC 2023 HoA candidates seeded
-- [ ] Priority state assemblies seeded
+- [x] All 71 P3 niches have Pillar 2 brand-runtime templates (SHIPPED status) ← **DONE** (2026-05-02: all 71 IMPLEMENTED → SHIPPED in pillar3-niche-registry.json; 207 total templates in BUILT_IN_TEMPLATES)
+- [x] All 78 P3 niches have Pillar 3 discovery/marketplace templates ← **DONE** (2026-05-02: migration 0464 seeds all 78 P3 templates into D1 `template_registry`, template_type=\'website\', status=\'approved\')
+- [ ] i18n: ha/ig/yo/pcm ≥ 90% coverage ← **PENDING** (DEBT-004, P2-i18n-001–007)
+- [ ] INEC 2023 HoA candidates seeded ← **PENDING** (P2-SEED-001)
+- [ ] Priority state assemblies seeded ← **PENDING** (P2-SEED-002/003)
 
 ---
 

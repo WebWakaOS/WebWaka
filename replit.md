@@ -57,6 +57,15 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **Public API Versioning**: Global `X-API-Version: 1` header, and a `/developer` endpoint providing API metadata, capabilities, and changelog.
 - **Webhook SDK**: TypeScript event payload types for all webhook events to facilitate integration.
 
+### Phase 2 P3 Niche Completion Sprint — Template Registry Seeded (2026-05-02)
+All 78 P3-tier website templates are now fully shipped:
+- **Migration 0464** (`infra/db/migrations/0464_seed_p3_website_templates.sql`): Seeds all 78 P3 templates into D1 `template_registry` with `template_type='website'`, `status='approved'`, `is_free=1`, `author_tenant_id=NULL`. Uses `unixepoch('now')` — D1/SQLite compatible, no PostgreSQL syntax. INSERT OR IGNORE for idempotency.
+- **pillar3-niche-registry.json**: All 71 IMPLEMENTED entries promoted to SHIPPED (shippedAt: 2026-05-02). All 78 P3 entries now SHIPPED.
+- **Execution board** (`docs/templates/pillar3-template-execution-board.md`): All 78 rows SHIPPED ✅. Summary: 78 SHIPPED, 0 READY_FOR_RESEARCH.
+- **Universe map** (`docs/phase0-artifacts/05-vertical-and-niche-universe-map.md`): Pillar 2 count updated to 207 SHIPPED; Pillar 3 count updated to 78 SHIPPED, 0 READY_FOR_RESEARCH.
+- **Phase 2 exit gate**: First two gates checked (P3 Pillar 2 templates SHIPPED; P3 marketplace templates seeded). Remaining: i18n ≥90% coverage, INEC HoA seed, state assemblies seed.
+- **Note**: Existing `infra/db/seeds/templates/` SQL files (207 files) target a `website_templates` table with PostgreSQL ARRAY syntax — these are reference documents only, never applied to D1.
+
 ### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
 All engineering tasks in the Phase 1 Pre-Launch Refactor are now complete:
 - **DEBT-001 (P1-010–014)**: `@webwaka/support-groups` fully genericised → `@webwaka/groups` canonical. Migration 0462 drops 14 shadow tables. `GroupEventType` is canonical; `SupportGroupEventType` is deprecated alias.

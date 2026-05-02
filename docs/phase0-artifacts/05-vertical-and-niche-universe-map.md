@@ -29,10 +29,10 @@
 
 | Status | Count | Description |
 |---|---|---|
-| SHIPPED | **154** | All P1 + P2 + 7 P3 niches have brand-runtime templates |
+| SHIPPED | **207** | All P1 + P2 + all 78 P3 niches have brand-runtime templates |
 | P3 SHIPPED via P2 sprint | 7 | tax-consultant, tutoring, creche, mobile-money-agent, bureau-de-change, hire-purchase, community-hall |
-| CURRENT (next P3 to build) | **1** | `mosque` (VN-CIV-004) |
-| READY_FOR_RESEARCH | **70** | Remaining P3 niches |
+| P3 SHIPPED via Phase 2 sprint | 71 | All remaining P3 niches (sessions A–F, 2026-04-26; promoted to SHIPPED 2026-05-02) |
+| READY_FOR_RESEARCH | **0** | All P3 niches complete |
 
 **Template system:** `apps/brand-runtime/src/lib/template-resolver.ts` → `BUILT_IN_TEMPLATES` Map → 207 niche directories in `apps/brand-runtime/src/templates/niches/`
 
@@ -42,8 +42,9 @@
 
 | Status | Count | Description |
 |---|---|---|
-| SHIPPED (via P2 sprint) | **7** | Same 7 P3 niches above |
-| READY_FOR_RESEARCH | **70** | Remaining P3 niches awaiting Pillar 3 template |
+| SHIPPED | **78** | All 78 P3 niches: 7 via P2 sprint + 71 via Phase 2 sprint |
+| template_registry seeded | **78** | Migration 0464 seeds all 78 into D1 template_registry (template_type='website', status='approved') |
+| READY_FOR_RESEARCH | **0** | All P3 niches complete |
 
 ---
 
