@@ -1,6 +1,7 @@
 /**
  * Tests for offline-indicator — network state observation (ENH-37).
  * Uses jsdom environment (see vitest.config.ts).
+ * @vitest-environment jsdom
  */
 
 import { describe, it, expect, vi, afterEach } from 'vitest';

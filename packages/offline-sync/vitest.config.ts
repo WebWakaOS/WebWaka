@@ -11,6 +11,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     pool: 'vmForks',
+    setupFiles: ['./src/test-setup.ts'],
     server: {
       deps: {
         inline: [/@webwaka\//],
