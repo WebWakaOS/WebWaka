@@ -256,8 +256,8 @@ complianceRoutes.get('/dsar/token/:token', async (c) => {
   const object = await c.env.DSAR_BUCKET.get(payload.exportKey);
   if (!object) {
     return c.json({
-      message: 'Export data has expired from storage. Please submit a new DSAR request.',
-    }, 410);
+      message: 'Export data not found in storage. Please submit a new DSAR request.',
+    }, 404);
   }
 
   const body = await object.arrayBuffer();

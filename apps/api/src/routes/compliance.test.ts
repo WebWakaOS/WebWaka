@@ -17,6 +17,12 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { Hono } from 'hono';
+
+// Mock authMiddleware to be a no-op pass-through in tests
+vi.mock('../middleware/auth.js', () => ({
+  authMiddleware: vi.fn(async (_c: unknown, next: () => Promise<void>) => { await next(); }),
+}));
+
 import { complianceRoutes } from './compliance.js';
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -77,7 +83,8 @@ function buildApp(env: Record<string, unknown>, auth = makeAuth()) {
   // Inject mock auth into every request
   app.use('*', async (c, next) => {
     c.set('auth', auth);
-    Object.assign(c.env, env);
+    if (!c.env) (c as unknown as { env: Record<string, unknown> }).env = {};
+    Object.assign(c.env as Record<string, unknown>, env);
     await next();
   });
   app.route('/compliance', complianceRoutes);

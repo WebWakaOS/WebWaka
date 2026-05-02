@@ -2,11 +2,17 @@
  * Tests for E2EE key management routes (L-9 / ADR-0043)
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext; userId: string; tenantId: string } };
 import { Hono } from 'hono';
+
+// ── Mock authMiddleware to be a no-op pass-through ─────────────────────────
+vi.mock('../middleware/auth.js', () => ({
+  authMiddleware: vi.fn(async (_c: unknown, next: () => Promise<void>) => { await next(); }),
+}));
+
 import { e2eeRoutes } from './e2ee.js';
 
 // ── Test helpers ──────────────────────────────────────────────────────────────
@@ -18,7 +24,6 @@ const VALID_P256_JWK = {
   y: 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
   use: 'enc',
 };
-
 
 function makeDb(rows: Record<string, unknown> | null = null) {
   const stmt = {
@@ -32,13 +37,27 @@ function makeDb(rows: Record<string, unknown> | null = null) {
   };
 }
 
+function makeApp(db: ReturnType<typeof makeDb> | null = null) {
+  const app = new Hono<AppEnv>();
+  app.use('*', async (c, next) => {
+    c.set('userId', 'u1');
+    c.set('tenantId', 't1');
+    if (db) {
+      // c.env may be undefined in Hono test context — initialise it first
+      if (!c.env) (c as unknown as { env: Record<string, unknown> }).env = {};
+      ((c.env as unknown) as Record<string, unknown>).DB = db;
+    }
+    await next();
+  });
+  app.route('/', e2eeRoutes);
+  return app;
+}
+
 // ── PATCH /profile/e2e-pubkey ────────────────────────────────────────────────
 
 describe('PATCH /profile/e2e-pubkey', () => {
   it('returns 400 for missing publicKey', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
-    app.route('/', e2eeRoutes);
+    const app = makeApp();
     const res = await app.request('/profile/e2e-pubkey', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -48,9 +67,7 @@ describe('PATCH /profile/e2e-pubkey', () => {
   });
 
   it('returns 400 when private key component (d) is present', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
-    app.route('/', e2eeRoutes);
+    const app = makeApp();
     const res = await app.request('/profile/e2e-pubkey', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -62,9 +79,7 @@ describe('PATCH /profile/e2e-pubkey', () => {
   });
 
   it('returns 400 for wrong curve', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
-    app.route('/', e2eeRoutes);
+    const app = makeApp();
     const res = await app.request('/profile/e2e-pubkey', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -78,23 +93,12 @@ describe('PATCH /profile/e2e-pubkey', () => {
 
 describe('JWK validation logic', () => {
   it('valid P-256 JWK passes without d', async () => {
-    // Indirect test via PATCH — if validation passes, DB call is attempted
-    // We just need the validation branch not to return 400
-    // (DB mock is not set up here; we only care about the validation response code)
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => {
-      c.set('userId', 'u1');
-      c.set('tenantId', 't1');
-      ((c.env as unknown) as Record<string, unknown>).DB = makeDb();
-      await next();
-    });
-    app.route('/', e2eeRoutes);
+    const app = makeApp(makeDb());
     const res = await app.request('/profile/e2e-pubkey', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ publicKey: VALID_P256_JWK }),
     });
-    // Should not be a 400 validation error
     expect(res.status).not.toBe(400);
   });
 });
@@ -103,14 +107,7 @@ describe('JWK validation logic', () => {
 
 describe('GET /profile/:id/e2e-pubkey', () => {
   it('returns 404 when no key on record', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => {
-      c.set('userId', 'u1');
-      c.set('tenantId', 't1');
-      ((c.env as unknown) as Record<string, unknown>).DB = makeDb({ e2e_public_key: null, e2e_pubkey_updated_at: null });
-      await next();
-    });
-    app.route('/', e2eeRoutes);
+    const app = makeApp(makeDb({ e2e_public_key: null, e2e_pubkey_updated_at: null }));
     const res = await app.request('/profile/user-999/e2e-pubkey');
     expect(res.status).toBe(404);
     const body = await res.json() as { e2ee_enabled: boolean };
@@ -118,17 +115,10 @@ describe('GET /profile/:id/e2e-pubkey', () => {
   });
 
   it('returns publicKey JSON when key exists', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => {
-      c.set('userId', 'u1');
-      c.set('tenantId', 't1');
-      ((c.env as unknown) as Record<string, unknown>).DB = makeDb({
-        e2e_public_key: JSON.stringify(VALID_P256_JWK),
-        e2e_pubkey_updated_at: 1700000000,
-      });
-      await next();
-    });
-    app.route('/', e2eeRoutes);
+    const app = makeApp(makeDb({
+      e2e_public_key: JSON.stringify(VALID_P256_JWK),
+      e2e_pubkey_updated_at: 1700000000,
+    }));
     const res = await app.request('/profile/user-001/e2e-pubkey');
     expect(res.status).toBe(200);
     const body = await res.json() as { e2ee_enabled: boolean; publicKey: { crv: string } };
@@ -141,14 +131,7 @@ describe('GET /profile/:id/e2e-pubkey', () => {
 
 describe('DELETE /profile/e2e-pubkey', () => {
   it('returns 200 and ok:true', async () => {
-    const app = new Hono<AppEnv>();
-    app.use('*', async (c, next) => {
-      c.set('userId', 'u1');
-      c.set('tenantId', 't1');
-      ((c.env as unknown) as Record<string, unknown>).DB = makeDb();
-      await next();
-    });
-    app.route('/', e2eeRoutes);
+    const app = makeApp(makeDb());
     const res = await app.request('/profile/e2e-pubkey', { method: 'DELETE' });
     expect(res.status).toBe(200);
     const body = await res.json() as { ok: boolean };
