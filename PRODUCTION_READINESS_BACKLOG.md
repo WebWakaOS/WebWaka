@@ -72,6 +72,14 @@ The k6 load smoke test failure is:
 - **Ops action required**: provision `JWT_SECRET_STAGING` secret in GitHub repo settings → Settings → Secrets → Actions
   Use the same HMAC key as the staging `JWT_SECRET` wrangler secret
 
+**Step-by-step ops instructions (Wave 3 C5-1):**
+1. In the Cloudflare dashboard, find the staging worker `webwaka-api-staging` → Settings → Variables → JWT_SECRET value.
+2. Copy that value.
+3. In GitHub: repo → Settings → Secrets and variables → Actions → New repository secret.
+4. Name: `JWT_SECRET_STAGING`, Value: (paste the Cloudflare staging JWT_SECRET value).
+5. Verify: re-run the `k6-smoke` CI job — the `Generate smoke test JWT tokens` step should pass and emit `JWT provisioned` rather than `WARN: JWT_SECRET not set`.
+6. Mark C5-1 / D1 complete in `WAVE3_CHECKLIST.md`.
+
 #### C-2: Wrangler Version Upgrade (3.x → 4.x)
 **Status**: ✅ RESOLVED (2026-05-01)  
 **Area**: Infrastructure, CI/CD  

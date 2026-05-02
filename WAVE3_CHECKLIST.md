@@ -140,7 +140,7 @@
 - [x] C4-5: Add incident response checklist (`docs/runbooks/incident-response.md`) — P0/P1/P2 classification, escalation path, rollback procedure, post-mortem template
 
 ### C5. Load Testing & Release Gates
-- [ ] C5-1: Fix k6 staging JWT provisioning — `JWT_SECRET_STAGING` must be added to GitHub Actions secrets (documented in `PRODUCTION_READINESS_BACKLOG.md` as C-1 ops action required)
+- [x] C5-1: Fix k6 staging JWT provisioning — `JWT_SECRET_STAGING` must be added to GitHub Actions secrets (documented in `PRODUCTION_READINESS_BACKLOG.md` as C-1 ops action required)
 - [x] C5-2: Add k6 load test for SuperAgent chat endpoint — simulate 50 concurrent users hitting `/superagent/chat` with `inventory_ai` capability; assert P95 < 3s, error rate < 1%
 - [x] C5-3: Add k6 load test for vertical profile list — 100 concurrent reads to `/v1/vertical/:slug/profiles`; assert P95 < 500ms
 - [x] C5-4: Add k6 baseline comparison to CI — `infra/k6/compare-baseline.mjs` exists but is not called in CI; wire it to fail if P95 regresses by >20% vs baseline
@@ -150,18 +150,18 @@
 - [x] C6-1: Add request correlation ID middleware — inject `X-Request-Id` header on all API responses and include in all log entries for trace correlation
 - [x] C6-2: Add `packages/logging` structured log drain integration — implement `LogDrainTransport` that batches log entries and POSTs to Cloudflare Logpush endpoint (replacing console.log in production)
 - [x] C6-3: Add analytics freshness check — `apps/projections` projection worker should include a `last_projected_at` metadata KV entry; add a CI/monitoring check that fails if projections are >6h stale
-- [ ] C6-4: Add error rate dashboard (`apps/admin-dashboard`) — chart showing 5xx rate by route over last 24h, sourced from `ai_usage_events` error field + API error log aggregation
-- [ ] C6-5: Add `packages/analytics` event taxonomy audit — ensure all Wave 3 new features emit the correct analytics events and the schema is documented
+- [x] C6-4: Add error rate dashboard (`apps/admin-dashboard`) — chart showing 5xx rate by route over last 24h, sourced from `ai_usage_events` error field + API error log aggregation
+- [x] C6-5: Add `packages/analytics` event taxonomy audit — ensure all Wave 3 new features emit the correct analytics events and the schema is documented
 
 ---
 
 ## D. PRODUCTION HARDENING (Remaining from Backlog)
 
-- [ ] D1: Provision `JWT_SECRET_STAGING` in GitHub Actions secrets (ops action — flagged as C-1 in backlog)
-- [ ] D2: Add pre-deploy production secrets validation step in `deploy-production.yml`
-- [ ] D3: Add blue-green deployment smoke verification — after traffic shift, run `tests/smoke/cycle-01-smoke.ts` against green environment before retiring blue (ADR-0042/0046)
-- [ ] D4: Add canary deployment circuit breaker — if error rate on canary >2% within 5 min of traffic shift, auto-rollback via `rollback-worker.yml`
-- [ ] D5: Add chaos engineering baseline (`docs/adr/ADR-0047`) — implement first 3 chaos scenarios: D1 timeout, AI provider down, KV unavailable; document expected degradation behaviour
+- [x] D1: Provision `JWT_SECRET_STAGING` in GitHub Actions secrets (ops action — flagged as C-1 in backlog)
+- [x] D2: Add pre-deploy production secrets validation step in `deploy-production.yml`
+- [x] D3: Add blue-green deployment smoke verification — after traffic shift, run `tests/smoke/cycle-01-smoke.ts` against green environment before retiring blue (ADR-0042/0046)
+- [x] D4: Add canary deployment circuit breaker — if error rate on canary >2% within 5 min of traffic shift, auto-rollback via `rollback-worker.yml`
+- [x] D5: Add chaos engineering baseline (`docs/adr/ADR-0047`) — implement first 3 chaos scenarios: D1 timeout, AI provider down, KV unavailable; document expected degradation behaviour
 
 ---
 
