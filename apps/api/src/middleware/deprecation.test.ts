@@ -56,7 +56,7 @@ describe('sunsetMiddleware', () => {
     const app = makeApp({ sunsetDate: new Date('2026-09-29'), successorUrl: 'https://example.com' });
     await app.request('/deprecated/resource');
     expect(warnSpy).toHaveBeenCalledOnce();
-    const logged = JSON.parse((warnSpy.mock.calls[0][0] as string));
+    const logged = JSON.parse((warnSpy.mock.calls[0]![0] as string));
     expect(logged.event).toBe('deprecated_endpoint_called');
     expect(logged.path).toBe('/deprecated/resource');
     expect(logged.successor).toBe('https://example.com');

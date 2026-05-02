@@ -71,7 +71,7 @@ describe('instrumentedQuery', () => {
     });
 
     expect(warnSpy).toHaveBeenCalledOnce();
-    const logged = JSON.parse((warnSpy.mock.calls[0][0] as string));
+    const logged = JSON.parse((warnSpy.mock.calls[0]![0] as string));
     expect(logged.event).toBe('slow_query');
     expect(logged.request_id).toBe('req-abc');
     expect(logged.tenant_id).toBe('tenant-xyz');
@@ -99,12 +99,12 @@ describe('instrumentedQuery', () => {
 
   it('handles queries with no params', async () => {
     const db = makeD1Mock([{ count: 5 }], 0);
-    const stmt = (db as any).prepare.mock.results[0]?.value;
+    const _stmt = (db as unknown as { prepare: { mock: { results: Array<{ value: unknown }> } } }).prepare.mock.results[0]?.value;
 
     const { results } = await instrumentedQuery(db, 'SELECT count(*) as count FROM places', []);
 
     expect(results).toHaveLength(1);
-    expect((results[0] as any).count).toBe(5);
+    expect((results[0] as Record<string, number>).count).toBe(5);
   });
 
   it('records correct rowCount for empty results', async () => {
@@ -143,7 +143,7 @@ describe('instrumentedBatch', () => {
     });
 
     expect(warnSpy).toHaveBeenCalledOnce();
-    const logged = JSON.parse((warnSpy.mock.calls[0][0] as string));
+    const logged = JSON.parse((warnSpy.mock.calls[0]![0] as string));
     expect(logged.event).toBe('slow_batch');
     expect(logged.statementCount).toBe(1);
     expect(logged.request_id).toBe('req-batch');
