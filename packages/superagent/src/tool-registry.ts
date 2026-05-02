@@ -1,26 +1,17 @@
 /**
- * Tool Registry — SA-5.x
+ * Tool Registry — SA-5.x / Wave 3
  * WebWaka OS — Typed, auth-aware tool execution registry for SuperAgent.
  *
- * The registry holds all tools that the AI model is allowed to call when
- * processing a 'function_call' capability request. Each tool has:
- *   - A ToolDefinition (JSON Schema — sent to the AI model)
- *   - A handler function (executed server-side when the model requests it)
+ * Wave 3 additions:
+ *   - RegisteredTool now carries optional metadata (pillar, autonomyThreshold, readOnly)
+ *   - executeWithTimeout() wraps handlers with a configurable deadline
+ *   - getCatalogue() returns the full tool catalogue for GET /superagent/tools
  *
  * Platform Invariants:
  *   P7  — Tool handlers must NOT call AI APIs directly
  *   P8  — Tool handlers must NOT log API keys or BYOK credentials
  *   P13 — Tool handlers must NOT include raw PII in return values
  *   T3  — All D1 queries in tool handlers must be tenant-scoped
- *
- * Handlers receive the tenant ID and workspace context so every D1 query is
- * scoped to the requesting tenant (T3). They return a string result which is
- * fed back to the model as a tool message.
- *
- * Safety:
- *   - MAX_TOOL_ROUNDS limits multi-turn execution to prevent infinite loops
- *   - Unknown tool names return a descriptive error string (not a throw) so the
- *     model can communicate the failure to the user gracefully
  */
 
 import type { ToolDefinition, ToolCall } from '@webwaka/ai';
@@ -29,9 +20,11 @@ import type { HitlService } from './hitl-service.js';
 export { ToolDefinition, ToolCall };
 
 export const MAX_TOOL_ROUNDS = 3;
+/** Default per-tool execution timeout in milliseconds */
+export const DEFAULT_TOOL_TIMEOUT_MS = 5_000;
 
 // ---------------------------------------------------------------------------
-// Execution context injected into every tool handler (T3 — tenant-scoped)
+// Execution context
 // ---------------------------------------------------------------------------
 
 export interface ToolExecutionContext {
@@ -39,20 +32,13 @@ export interface ToolExecutionContext {
   workspaceId: string;
   userId: string;
   db: D1Database;
-  /** SA-5.x: Vertical slug for this request — required for HITL submission context. */
   vertical: string;
-  /** SA-5.x: HITL service for write-gating below the vertical's autonomy threshold. */
   hitlService: HitlService;
-  /**
-   * SA-5.x: Autonomy level for this request (1 | 2 | 3).
-   * Write-capable tools queue a HITL item instead of writing directly when the
-   * vertical's autonomy level is below the tool's required threshold.
-   */
   autonomyLevel: 1 | 2 | 3;
 }
 
 // ---------------------------------------------------------------------------
-// Tool handler signature
+// Tool handler + metadata
 // ---------------------------------------------------------------------------
 
 export type ToolHandler = (
@@ -60,57 +46,76 @@ export type ToolHandler = (
   ctx: ToolExecutionContext,
 ) => Promise<string>;
 
-// ---------------------------------------------------------------------------
-// Registered tool — definition + handler
-// ---------------------------------------------------------------------------
+/** Wave 3: extended metadata on each registered tool */
+export interface ToolMeta {
+  /** Platform pillar this tool primarily serves */
+  pillar: 1 | 2 | 3;
+  /** true = handler never writes to DB; false = may write (HITL-gated) */
+  readOnly: boolean;
+  /**
+   * Minimum autonomy level required to execute without HITL queuing.
+   * undefined = always executes (read-only or no autonomy gating needed).
+   */
+  autonomyThreshold?: 1 | 2 | 3;
+  /** Human-readable display label for the tool catalogue */
+  displayName: string;
+  /** Execution timeout override in ms (default: DEFAULT_TOOL_TIMEOUT_MS) */
+  timeoutMs?: number;
+}
 
 export interface RegisteredTool {
   definition: ToolDefinition;
   handler: ToolHandler;
+  /** Wave 3: optional metadata — enriches catalogue and observability */
+  meta?: ToolMeta;
 }
 
 // ---------------------------------------------------------------------------
-// ToolRegistry class
+// Tool catalogue entry (safe to return over HTTP)
+// ---------------------------------------------------------------------------
+
+export interface ToolCatalogueEntry {
+  name: string;
+  description: string;
+  pillar: number | null;
+  readOnly: boolean | null;
+  autonomyThreshold: number | null;
+  displayName: string | null;
+}
+
+// ---------------------------------------------------------------------------
+// ToolRegistry
 // ---------------------------------------------------------------------------
 
 export class ToolRegistry {
   private readonly tools = new Map<string, RegisteredTool>();
 
-  /**
-   * Register a tool in the registry.
-   * The tool name must be unique — re-registering overrides the previous entry.
-   */
   register(tool: RegisteredTool): void {
     this.tools.set(tool.definition.function.name, tool);
   }
 
-  /**
-   * Return all tool definitions to be sent to the AI model.
-   * Returns an empty array if no tools are registered.
-   */
   getDefinitions(): ToolDefinition[] {
     return Array.from(this.tools.values()).map((t) => t.definition);
   }
 
-  /**
-   * Execute a tool call from the AI model.
-   *
-   * - Parses the JSON arguments string from the model.
-   * - Invokes the handler with the parsed args and execution context.
-   * - Returns the result as a string for the tool message.
-   * - On any error, returns a structured error string so the model can report
-   *   the failure to the user instead of crashing the conversation.
-   */
-  async execute(
-    toolCall: ToolCall,
-    ctx: ToolExecutionContext,
-  ): Promise<string> {
-    const tool = this.tools.get(toolCall.function.name);
+  /** Wave 3: return safe tool catalogue for GET /superagent/tools */
+  getCatalogue(): ToolCatalogueEntry[] {
+    return Array.from(this.tools.values()).map((t) => ({
+      name: t.definition.function.name,
+      description: t.definition.function.description ?? '',
+      pillar: t.meta?.pillar ?? null,
+      readOnly: t.meta?.readOnly ?? null,
+      autonomyThreshold: t.meta?.autonomyThreshold ?? null,
+      displayName: t.meta?.displayName ?? t.definition.function.name,
+    }));
+  }
 
+  async execute(toolCall: ToolCall, ctx: ToolExecutionContext): Promise<string> {
+    const tool = this.tools.get(toolCall.function.name);
     if (!tool) {
       return JSON.stringify({
         error: 'TOOL_NOT_FOUND',
-        message: `No tool named '${toolCall.function.name}' is registered. Available tools: ${
+        message: `No tool named '${toolCall.function.name}'. Available: ${
           Array.from(this.tools.keys()).join(', ') || '(none)'
         }`,
       });
@@ -130,19 +135,39 @@ export class ToolRegistry {
       return await tool.handler(args, ctx);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      return JSON.stringify({
-        error: 'TOOL_EXECUTION_FAILED',
-        tool: toolCall.function.name,
-        message,
-      });
+      return JSON.stringify({ error: 'TOOL_EXECUTION_FAILED', tool: toolCall.function.name, message });
     }
   }
 
   /**
-   * Execute all tool calls from an AI response in parallel.
-   * Returns an array of { tool_call_id, content } pairs ready to be
-   * appended to the conversation as tool messages.
+   * Wave 3: Execute a single tool with a timeout.
+   * If the handler exceeds timeoutMs, returns a TOOL_TIMEOUT error string.
    */
+  async executeWithTimeout(
+    toolCall: ToolCall,
+    ctx: ToolExecutionContext,
+    timeoutMs?: number,
+  ): Promise<string> {
+    const tool = this.tools.get(toolCall.function.name);
+    const deadline = timeoutMs ?? tool?.meta?.timeoutMs ?? DEFAULT_TOOL_TIMEOUT_MS;
+
+    const timeout = new Promise<string>((resolve) =>
+      setTimeout(
+        () =>
+          resolve(
+            JSON.stringify({
+              error: 'TOOL_TIMEOUT',
+              tool: toolCall.function.name,
+              message: `Tool '${toolCall.function.name}' exceeded ${deadline}ms execution deadline`,
+            }),
+          ),
+        deadline,
+      ),
+    );
+
+    return Promise.race([this.execute(toolCall, ctx), timeout]);
+  }
+
   async executeAll(
     toolCalls: ToolCall[],
     ctx: ToolExecutionContext,
@@ -150,12 +175,11 @@ export class ToolRegistry {
     return Promise.all(
       toolCalls.map(async (tc) => ({
         tool_call_id: tc.id,
-        content: await this.execute(tc, ctx),
+        content: await this.executeWithTimeout(tc, ctx),
       })),
     );
   }
 
-  /** Number of registered tools. */
   get size(): number {
     return this.tools.size;
   }

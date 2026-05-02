@@ -2214,3 +2214,117 @@ superagentRoutes.get('/partner-pool/report', async (c) => {
     })),
   });
 });
+
+// ---------------------------------------------------------------------------
+// BYOK Key Management — Wave 3 (A3-6, A3-7)
+// POST   /superagent/byok          — Add/replace a BYOK key
+// GET    /superagent/byok          — List active BYOK keys (hints only, no plaintext)
+// DELETE /superagent/byok/:id      — Revoke a BYOK key
+// PUT    /superagent/byok/:id/rotate — Rotate (replace) a BYOK key
+// ---------------------------------------------------------------------------
+
+import { KeyService } from '@webwaka/superagent';
+
+superagentRoutes.post('/byok', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+
+  let body: { provider?: string; scope?: string; raw_key?: string };
+  try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON' }, 400); }
+
+  const { provider, scope = 'workspace', raw_key } = body;
+  if (!provider || !raw_key) return c.json({ error: 'provider and raw_key are required' }, 400);
+  if (!['openai','anthropic','google','byok_custom'].includes(provider)) {
+    return c.json({ error: `Unsupported provider: ${provider}` }, 400);
+  }
+  if (!['user','workspace'].includes(scope)) {
+    return c.json({ error: `Invalid scope: ${scope}` }, 400);
+  }
+
+  const ks = new KeyService({ db: db as unknown as D1Database, encryptionSecret: c.env.ENCRYPTION_SECRET ?? '' });
+  const result = await ks.upsert({
+    tenantId: auth.tenantId,
+    scope: scope as 'user' | 'workspace',
+    userId: scope === 'user' ? auth.userId : null,
+    provider: provider as 'openai' | 'anthropic' | 'google' | 'byok_custom',
+    rawKey: raw_key,
+  });
+
+  return c.json({ id: result.id, provider, scope, key_hint: result.keyHint, created_at: result.createdAt });
+});
+
+superagentRoutes.get('/byok', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+  const ks = new KeyService({ db: db as unknown as D1Database, encryptionSecret: c.env.ENCRYPTION_SECRET ?? '' });
+  const keys = await ks.listActive(auth.tenantId);
+  return c.json({ keys: keys.map((k) => ({ id: k.id, provider: k.provider, scope: k.scope, key_hint: k.keyHint, created_at: k.createdAt })) });
+});
+
+superagentRoutes.delete('/byok/:id', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+  const { id } = c.req.param();
+  const ks = new KeyService({ db: db as unknown as D1Database, encryptionSecret: c.env.ENCRYPTION_SECRET ?? '' });
+  const ok = await ks.revoke(id, auth.tenantId);
+  if (!ok) return c.json({ error: 'Key not found or already revoked' }, 404);
+  return c.json({ revoked: true, id });
+});
+
+superagentRoutes.put('/byok/:id/rotate', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+  const { id } = c.req.param();
+
+  let body: { raw_key?: string };
+  try { body = await c.req.json(); } catch { return c.json({ error: 'Invalid JSON' }, 400); }
+  if (!body.raw_key) return c.json({ error: 'raw_key is required' }, 400);
+
+  const ks = new KeyService({ db: db as unknown as D1Database, encryptionSecret: c.env.ENCRYPTION_SECRET ?? '' });
+  const result = await ks.rotate(id, auth.tenantId, body.raw_key);
+  if (!result) return c.json({ error: 'Key not found' }, 404);
+
+  return c.json({ id: result.id, provider: result.provider, key_hint: result.keyHint, rotated_at: new Date().toISOString() });
+});
+
+// ---------------------------------------------------------------------------
+// Tool Catalogue — Wave 3 (A2-7)
+// GET /superagent/tools — returns all registered tool definitions (non-sensitive)
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/tools', async (c) => {
+  const { createDefaultToolRegistry } = await import('@webwaka/superagent');
+  const registry = createDefaultToolRegistry();
+  return c.json({
+    tools: registry.getCatalogue(),
+    count: registry.size,
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session management — Wave 3 (A5-2)
+// GET    /superagent/sessions       — list sessions for current user
+// DELETE /superagent/sessions/:id   — delete a session (GDPR)
+// ---------------------------------------------------------------------------
+
+superagentRoutes.get('/sessions', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+  const cursor = c.req.query('cursor') ?? undefined;
+  const limitStr = c.req.query('limit') ?? '20';
+  const limit = Math.min(parseInt(limitStr, 10) || 20, 100);
+
+  const ss = new SessionService({ db });
+  const result = await ss.listSessions(auth.tenantId, auth.userId, { cursor, limit });
+  return c.json(result);
+});
+
+superagentRoutes.delete('/sessions/:id', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string };
+  const db = c.env.DB as unknown as D1Like;
+  const { id } = c.req.param();
+  const ss = new SessionService({ db });
+  const deleted = await ss.deleteSession(id, auth.tenantId);
+  if (!deleted) return c.json({ error: 'Session not found' }, 404);
+  return c.json({ deleted: true, id });
+});
