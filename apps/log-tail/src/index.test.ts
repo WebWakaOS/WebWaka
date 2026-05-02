@@ -14,7 +14,7 @@ const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 // Import after stubbing
-const { default: handler } = await import('./index.js');
+const { default: handler } = await import('./handler.js');
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
