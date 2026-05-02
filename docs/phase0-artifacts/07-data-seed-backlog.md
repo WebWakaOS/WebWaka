@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0535–0537 markets & motor parks deep extraction — 780 new entities DONE)  
+**Last updated:** 2026-05-02 (0538–0539 estates & car dealers deep extraction — 467 new entities DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0537 is **0538**.
+**Convention:** Next available migration number after 0539 is **0540**.
 
 ---
 
@@ -190,10 +190,12 @@ All S12, S13, S14, and S15 source batches now fully migrated. Named-only records
 | P10 | Markets & Plazas deep extraction — Batch 1 (284 entities, Overpass API) | 0535 | **284** | ✅ DONE (2026-05-02) |
 | P10b | Markets & Plazas deep extraction — Batch 2 (283 entities, Overpass API) | 0536 | **283** | ✅ DONE (2026-05-02) |
 | P11 | Motor Parks & Transport Terminals deep extraction (213 entities, Overpass API) | 0537 | **213** | ✅ DONE (2026-05-02) |
-| **TOTAL** | | **0467–0470 + 0473–0537 (69 migrations)** | **112,572 records** | |
+| P12 | Estates & Gated Communities deep extraction (402 entities, Overpass API) | 0538 | **402** | ✅ DONE (2026-05-02) |
+| P13 | Car Dealers & Vehicle Sales deep extraction (65 entities, Overpass API) | 0539 | **65** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0539 (71 migrations)** | **113,039 records** | |
 
-**Total SQL generated (all batches):** ~896,000 lines across 69 migrations + 69 rollbacks  
-**Next migration number:** 0538  
+**Total SQL generated (all batches):** ~903,000 lines across 71 migrations + 71 rollbacks  
+**Next migration number:** 0540  
 **Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair names not findable from accessible sources); Bauchi state assembly (no Wikipedia article, no NigerianLeaders data, official BSHA site inaccessible); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found in any accessible source)
 
 ---
