@@ -101,7 +101,7 @@ export async function runAgentLoopStream(input: AgentLoopStreamInput): Promise<v
     messages: msgs,
     maxTokens,
     temperature,
-    tools: withTools && toolRegistry ? toolRegistry.getToolDefinitions() : undefined,
+    tools: withTools && toolRegistry ? toolRegistry.getDefinitions() : undefined,
     toolChoice: withTools && toolRegistry ? 'auto' : undefined,
   } as AIRequest);
 

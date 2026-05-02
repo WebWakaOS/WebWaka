@@ -154,7 +154,7 @@ export type {
 } from './session-service.js';
 
 // Wave 3 exports
-export { AgentLoop, runAgentLoop } from './agent-loop.js';
+export { runAgentLoop } from './agent-loop.js';
 export type {
   AgentLoopInput,
   AgentLoopResult,

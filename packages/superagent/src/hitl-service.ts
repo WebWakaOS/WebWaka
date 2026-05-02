@@ -93,7 +93,7 @@ const L5_MINIMUM_REVIEW_HOURS = 72;
 
 export class HitlService {
   private readonly db: D1Like;
-  private readonly notifier?: HitlNotifier;
+  private readonly notifier: HitlNotifier | undefined;
 
   constructor(deps: HitlServiceDeps) {
     this.db = deps.db;
