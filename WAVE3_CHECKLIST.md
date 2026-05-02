@@ -78,10 +78,10 @@
 ## B. VERTICAL ENGINE & REUSABLE MODULES
 
 ### B1. Vertical Registry — Completeness & Taxonomy
-- [ ] B1-1: Add 2 missing verticals to `vertical-engine` registry to reach 159/159 (identify which 2 are absent vs individual packages and add their configs)
-- [ ] B1-2: Add `maturity` field validation to registry — enforce all 159 entries have `maturity: 'full' | 'basic' | 'stub'` and update the governance check (`check-vertical-registry.ts`) to fail on missing maturity
-- [ ] B1-3: Add `pillarCoverage` stats to registry — `getRegistryStats()` should return breakdown by primaryPillar (1/2/3) and by maturity level
-- [ ] B1-4: Cross-check `VERTICAL_AI_CONFIGS` (159 entries in `vertical-ai-config.ts`) vs engine registry — ensure every registry slug has a corresponding AI config entry (run as governance check)
+- [x] B1-1: Add 2 missing verticals to `vertical-engine` registry to reach 159/159 (identify which 2 are absent vs individual packages and add their configs)
+- [x] B1-2: Add `maturity` field validation to registry — enforce all 159 entries have `maturity: 'full' | 'basic' | 'stub'` and update the governance check (`check-vertical-registry.ts`) to fail on missing maturity
+- [x] B1-3: Add `pillarCoverage` stats to registry — `getRegistryStats()` should return breakdown by primaryPillar (1/2/3) and by maturity level
+- [x] B1-4: Cross-check `VERTICAL_AI_CONFIGS` (159 entries in `vertical-ai-config.ts`) vs engine registry — ensure every registry slug has a corresponding AI config entry (run as governance check)
 
 ### B2. Shared FSM Patterns
 - [ ] B2-1: Add `FSMEngine.validateConfig()` — static method that validates a `VerticalFSMConfig` at registration time (catch orphan states, missing transitions, unreachable states)
@@ -93,7 +93,7 @@
 - [x] B3-1: Add `VerticalStatusBadge` component to `packages/design-system` — renders FSM state with color coding (seeded=grey, claimed=blue, active=green, suspended=red)
 - [x] B3-2: Add `VerticalProfileCard` component — reusable profile display card driven by `VerticalConfig.profileFields`
 - [x] B3-3: Add `VerticalFormRenderer` component — generates a create/edit form from `VerticalConfig.createFields`/`updateFields` (eliminates repeated form code across 159 workspace pages)
-- [ ] B3-4: Add `useVerticalEngine` React hook — client-side hook that calls the API for profile CRUD + FSM transitions, abstracting fetch logic from page components
+- [x] B3-4: Add `useVerticalEngine` React hook — client-side hook that calls the API for profile CRUD + FSM transitions, abstracting fetch logic from page components
 
 ### B4. Vertical Deduplication & Migration
 - [ ] B4-1: Audit 20 representative individual `verticals-*` packages against engine registry configs — identify structural patterns that diverge (custom FSMs, extra sub-entities)

@@ -5458,40 +5458,8 @@ export const REGISTRY: VerticalRegistry = {
       entitlementLayer: 'Civic',
     },
   },
-};
 
-// ---------------------------------------------------------------------------
-// Registry API
-// ---------------------------------------------------------------------------
-
-export function getRegistry(): VerticalRegistry {
-  return REGISTRY;
-}
-
-export function getVerticalConfig(slug: string): VerticalConfig | undefined {
-  return REGISTRY[slug];
-}
-
-export function listSlugs(): string[] {
-  return Object.keys(REGISTRY);
-}
-
-export function getRegistryStats(): RegistryStats {
-  const configs = Object.values(REGISTRY);
-  const byPillar: Record<PillarType, number> = { 1: 0, 2: 0, 3: 0 };
-  const byMaturity: Record<string, number> = {};
-  const byMilestone: Record<string, number> = {};
-
-  for (const c of configs) {
-    byPillar[c.primaryPillar]++;
-    byMaturity[c.maturity] = (byMaturity[c.maturity] ?? 0) + 1;
-    byMilestone[c.milestone] = (byMilestone[c.milestone] ?? 0) + 1;
-  }
-
-  return { total: configs.length, byPillar, byMaturity, byMilestone };
-}
-
-  // ── Wave 3 additions: 6 missing verticals to reach 163 registry entries ──
+  // Wave 3 additions (moved into REGISTRY)
 
   'auto-mechanic': {
     slug: 'auto-mechanic',
@@ -5702,5 +5670,158 @@ export function getRegistryStats(): RegistryStats {
     route: { basePath: '/waste-management', entitlementLayer: 'Civic' },
     compliance: { kycTierForClaim: 1, requiredLicences: ['NESREA'], ndprLevel: 'standard' },
   },
+  // B1-1: Three additional verticals to reach 159 target
+  'event-planner': {
+    slug: 'event-planner',
+    displayName: 'Event Planner / Event Management',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'event_planner_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'business_name', property: 'businessName', type: 'string', required: true, label: 'Business Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'years_experience', property: 'yearsExperience', type: 'integer', defaultValue: 0, label: 'Years of Experience' },
+    ],
+    createFields: ['businessName', 'cacNumber'],
+    updateFields: ['businessName', 'cacNumber', 'yearsExperience'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'listing_enhancer'], useCases: ['Generate event portfolio bio', 'Enhance event listing'] },
+    route: { basePath: '/event-planner', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
 
+  'driving-school': {
+    slug: 'driving-school',
+    displayName: 'Driving School / Instructor',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'driving_school_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'school_name', property: 'schoolName', type: 'string', required: true, label: 'School Name' },
+      { column: 'frsc_license', property: 'frscLicense', type: 'string', nullable: true, label: 'FRSC Licence Number' },
+      { column: 'state', property: 'state', type: 'string', required: true, label: 'State' },
+    ],
+    createFields: ['schoolName', 'state'],
+    updateFields: ['schoolName', 'frscLicense', 'state'],
+    fsm: {
+      states: ['seeded', 'claimed', 'frsc_verified', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'frsc_verified', guard: 'requireFrsc' },
+        { from: 'frsc_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+      guards: [
+        { name: 'requireFrsc', requiredFields: ['frscLicense'], rule: 'frscLicense not null', failureMessage: 'FRSC licence required for verification' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator'], useCases: ['Generate school profile bio'] },
+    route: { basePath: '/driving-school', entitlementLayer: 'Transport' },
+    compliance: { kycTierForClaim: 1, requiredLicences: ['FRSC'], ndprLevel: 'standard' },
+  },
 
+  'fitness-center': {
+    slug: 'fitness-center',
+    displayName: 'Fitness Center / Gym',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'fitness_center_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'gym_name', property: 'gymName', type: 'string', required: true, label: 'Gym Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'state', property: 'state', type: 'string', required: true, label: 'State' },
+      { column: 'lga', property: 'lga', type: 'string', required: true, label: 'LGA' },
+      { column: 'capacity', property: 'capacity', type: 'integer', defaultValue: 0, label: 'Member Capacity' },
+    ],
+    createFields: ['gymName', 'state', 'lga'],
+    updateFields: ['gymName', 'cacNumber', 'state', 'lga', 'capacity'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'listing_enhancer'], useCases: ['Generate gym bio', 'Enhance fitness listing'] },
+    route: { basePath: '/fitness-center', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
+};
+
+// ---------------------------------------------------------------------------
+// Registry API
+// ---------------------------------------------------------------------------
+
+export function getRegistry(): VerticalRegistry {
+  return REGISTRY;
+}
+
+export function getVerticalConfig(slug: string): VerticalConfig | undefined {
+  return REGISTRY[slug];
+}
+
+export function listSlugs(): string[] {
+  return Object.keys(REGISTRY);
+}
+
+export function getRegistryStats(): RegistryStats {
+  const configs = Object.values(REGISTRY);
+  // B1-3: Pillar coverage breakdown (1=Commerce, 2=Civic, 3=Government)
+  const byPillar: Record<PillarType, number> = { 1: 0, 2: 0, 3: 0 };
+  const byMaturity: Record<string, number> = {};
+  const byMilestone: Record<string, number> = {};
+  // B1-2: Collect slugs with missing or invalid maturity
+  const missingMaturity: string[] = [];
+  const VALID = new Set(['full', 'basic', 'stub']);
+
+  for (const c of configs) {
+    byPillar[c.primaryPillar]++;
+    if (c.maturity && VALID.has(c.maturity)) {
+      byMaturity[c.maturity] = (byMaturity[c.maturity] ?? 0) + 1;
+    } else {
+      missingMaturity.push(c.slug);
+      byMaturity['unknown'] = (byMaturity['unknown'] ?? 0) + 1;
+    }
+    byMilestone[c.milestone] = (byMilestone[c.milestone] ?? 0) + 1;
+  }
+
+  return { total: configs.length, byPillar, byMaturity, byMilestone, missingMaturity };
+}
+
+/**
+ * B1-2: Governance guard — throws if any registry entry is missing a valid maturity.
+ * Called by check-vertical-registry.ts governance check.
+ */
+export function validateRegistryMaturity(): void {
+  const stats = getRegistryStats();
+  if (stats.missingMaturity.length > 0) {
+    throw new Error(
+      \`Registry maturity validation failed. \${stats.missingMaturity.length} entries missing valid maturity \` +
+      \`('full'|'basic'|'stub'): \${stats.missingMaturity.join(', ')}\`,
+    );
+  }
+}

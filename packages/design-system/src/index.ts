@@ -290,3 +290,7 @@ button, input, select, textarea {
 }
 `;
 }
+
+// Wave 3 (B3-4): Vertical engine hook
+export { useVerticalEngine } from './hooks/useVerticalEngine.js';
+export type { VerticalProfile, UseVerticalEngineOptions, UseVerticalEngineResult } from './hooks/useVerticalEngine.js';
