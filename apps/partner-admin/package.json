@@ -2,7 +2,7 @@
   "name": "@webwaka/partner-admin",
   "version": "0.1.0",
   "private": true,
-  "description": "[Pillar 1] Partner/tenant management portal \u2014 M11 Partner & White-Label",
+  "description": "[Pillar 1] Partner/tenant management portal — M11 Partner & White-Label",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -18,6 +18,6 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.0.0",
     "typescript": "^5.0.0",
-    "vitest": "^1.6.0"
+    "vitest": "^2.1.9"
   }
 }

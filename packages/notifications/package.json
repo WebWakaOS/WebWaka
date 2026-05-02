@@ -22,7 +22,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240524.0",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "vitest": "^2.1.9"
   },
   "keywords": [
     "notifications",

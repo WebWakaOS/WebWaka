@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/ussd-gateway",
   "version": "0.1.0",
-  "description": "[Pillar 1] USSD gateway Worker \u2014 *384# shortcode via Africa's Talking",
+  "description": "[Pillar 1] USSD gateway Worker — *384# shortcode via Africa's Talking",
   "private": true,
   "type": "module",
   "scripts": {
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
     "typescript": "^5.3.0",
-    "vitest": "^1.2.0",
+    "vitest": "^2.1.9",
     "wrangler": "^4.0.0"
   }
 }
