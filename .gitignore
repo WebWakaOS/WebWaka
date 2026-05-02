@@ -49,3 +49,4 @@ pnpm-debug.log*
 
 # WebWaka Superagent workspace (not part of project source)
 .agents/
+apps/*/package-lock.json
