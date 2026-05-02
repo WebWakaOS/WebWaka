@@ -107,3 +107,19 @@ VALUES
     unixepoch(),     -- eligible immediately on first deploy
     30               -- normal priority
   );
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Scheduler job registration — pilot-health-log
+-- ─────────────────────────────────────────────────────────────────────────────
+
+INSERT OR IGNORE INTO scheduled_jobs
+  (name, description, enabled, run_interval_seconds, next_run_at, priority)
+VALUES
+  (
+    'pilot-health-log',
+    'Wave 4 (M11): Daily cohort health summary — logs operator status counts + 7-day NPS snapshot.',
+    1,
+    86400,           -- run daily
+    unixepoch(),     -- eligible immediately on first deploy
+    25               -- slightly lower priority than prune job
+  );

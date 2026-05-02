@@ -14,3 +14,5 @@ DELETE FROM pilot_feature_flags WHERE id IN (
 DELETE FROM pilot_operators WHERE id IN (
   'pop_c1_001', 'pop_c1_002', 'pop_c1_003', 'pop_c1_004', 'pop_c1_005'
 );
+
+DELETE FROM scheduled_jobs WHERE name = 'pilot-health-log';
