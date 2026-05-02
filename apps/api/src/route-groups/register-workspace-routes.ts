@@ -18,6 +18,8 @@ import { onboardingRoutes } from '../routes/onboarding.js';
 import { profileRoutes } from '../routes/profiles.js';
 import { tenantBrandingRoutes } from '../routes/tenant-branding.js';
 import { workspaceAnalyticsRoutes } from '../routes/workspace-analytics.js';
+// Wave 4 (M11): Pilot feedback widget endpoint
+import { pilotFeedbackRoute } from '../routes/pilot-feedback-route.js';
 
 export function registerWorkspaceRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -74,4 +76,12 @@ export function registerWorkspaceRoutes(app: Hono<{ Bindings: Env }>): void {
 
   app.use('/analytics/workspace/*', authMiddleware);
   app.route('/analytics/workspace', workspaceAnalyticsRoutes);
+
+  // -------------------------------------------------------------------------
+  // Wave 4 (M11): Pilot feedback — auth required, any workspace user
+  // POST /workspace/feedback — submit NPS, bug, feature_request, or general
+  // -------------------------------------------------------------------------
+
+  app.use('/workspace/feedback*', authMiddleware);
+  app.route('/workspace/feedback', pilotFeedbackRoute());
 }

@@ -23,6 +23,8 @@ import hitlRoutes from '../routes/hitl.js';
 import trafficShiftRoutes from '../routes/traffic-shift.js';
 // Wave 3 (A6-1): Admin AI usage analytics
 import { adminAiUsageRoutes } from '../routes/admin-ai-usage.js';
+// Wave 4 (M11): Pilot rollout admin routes
+import { pilotAdminRoutes } from '../routes/platform-admin-pilots.js';
 
 export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -109,4 +111,13 @@ export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/platform-admin/sector-licenses/*', requireRole('super_admin'));
   app.use('/platform-admin/sector-licenses/*', auditLogMiddleware);
   app.route('/platform-admin/sector-licenses', platformAdminSectorLicensesRoutes);
+
+  // -------------------------------------------------------------------------
+  // Wave 4 (M11): Pilot rollout admin — operators, feature flags, feedback
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/pilots/*', authMiddleware);
+  app.use('/platform-admin/pilots/*', requireRole('super_admin'));
+  app.use('/platform-admin/pilots/*', auditLogMiddleware);
+  app.route('/platform-admin/pilots', pilotAdminRoutes());
 }
