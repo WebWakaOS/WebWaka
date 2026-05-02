@@ -2,7 +2,7 @@
   "name": "@webwaka/log-tail",
   "version": "0.1.0",
   "private": true,
-  "description": "Cloudflare Tail Worker — forwards structured logs to external sinks (Axiom/Datadog/Logtail)",
+  "description": "[Infra] Cloudflare Tail Worker \u2014 forwards structured logs to external sinks (Axiom/Datadog/Logtail)",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

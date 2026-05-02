@@ -2,7 +2,7 @@
   "name": "@webwaka/partner-admin-spa",
   "version": "0.1.0",
   "private": true,
-  "description": "WebWaka Partner Admin — React SPA (E1-1)",
+  "description": "[Pillar 2] WebWaka Partner Admin \u2014 React SPA (E1-1)",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5175",

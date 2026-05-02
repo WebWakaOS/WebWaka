@@ -2,7 +2,7 @@
   "name": "@webwaka/discovery-spa",
   "version": "0.1.0",
   "private": true,
-  "description": "WebWaka Public Discovery — React SPA (D1-1)",
+  "description": "[Pillar 1] WebWaka Public Discovery \u2014 React SPA (D1-1)",
   "type": "module",
   "scripts": {
     "dev": "vite --port 5176",
