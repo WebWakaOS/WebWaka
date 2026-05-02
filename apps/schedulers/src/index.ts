@@ -276,6 +276,23 @@ const JOBS: Record<string, JobFn> = {
       }));
     }
   },
+
+  // Wave 4 (M11): Pilot feature flag expiry pruning
+  // Runs daily; removes expired per-tenant pilot feature flags from pilot_feature_flags.
+  'pilot-prune-expired-flags': async (env: Env) => {
+    const now = new Date().toISOString();
+    const result = await env.DB.prepare(
+      `DELETE FROM pilot_feature_flags
+       WHERE expires_at IS NOT NULL AND expires_at <= ?`,
+    ).bind(now).run();
+    const removed = result.meta?.changes ?? 0;
+    console.log(JSON.stringify({
+      level: 'info',
+      event: 'pilot_flags_pruned',
+      removed,
+      ts: now,
+    }));
+  },
 };
 
 export default {
