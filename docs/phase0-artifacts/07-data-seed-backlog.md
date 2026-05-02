@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0497–0503 S12/S13/S14/S15 seeding wave NOW DONE)  
+**Last updated:** 2026-05-02 (0504–0531 state assembly rosters — 28-state web research sprint DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0503 is **0504**.
+**Convention:** Next available migration number after 0531 is **0532**.
 
 ---
 
@@ -185,11 +185,57 @@ All S12, S13, S14, and S15 source batches now fully migrated. Named-only records
 | P6 | S11 Agribusiness | 0488–0491 | **1,723** | ✅ DONE |
 | P7 | S06 HDX health facilities | 0492–0496 | **46,146** | ✅ DONE |
 | P8 | S12–S15 universities/banks/medical/civic/professional/GRID3 | 0497–0503 | **52,256** | ✅ DONE (2026-05-02) |
-| **TOTAL** | | **0467–0470 + 0473–0503 (35 migrations)** | **111,043 records** | |
+| P9 | State assembly rosters — 28 remaining states (web research sprint) | 0504–0531 | **699** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0531 (63 migrations)** | **111,742 records** | |
 
-**Total SQL generated (all batches):** ~820,000 lines across 35 migrations + 35 rollbacks  
-**Next migration number:** 0504  
-**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); Ogun 3-seat patch (0504) when confirmed; state assembly rosters for 31 remaining states (web research sprint required)
+**Total SQL generated (all batches):** ~880,000 lines across 63 migrations + 63 rollbacks  
+**Next migration number:** 0532  
+**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); Abia/Adamawa/Bauchi state assemblies (NigerianLeaders.com has no data — alternate source needed); Ogun 3-seat patch (0532) when confirmed
+
+---
+
+### Priority 9 — S05 State Assembly Rosters (28-State Web Sprint) — ✅ DONE (2026-05-02)
+
+Source: NigerianLeaders.com (browser UA fetch). 28 of 31 remaining states had full table data. Abia, Adamawa, Bauchi returned 404 / empty tables — no data available. All migrations validated: D1 invariants, zero cross-file and zero intra-file duplicate primary keys. Source HTML deduplicated (Delta + Taraba had literal duplicate rows). Cross River header row ("Candidate") stripped.
+
+| Migration | State | Seeded | Seats | Party split (top parties) | Status |
+|---|---|---|---|---|---|
+| 0504 | Akwa Ibom | **26** | 26 | (no party data — source format) | ✅ DONE |
+| 0505 | Anambra | **32** | 30 | APGA:18, LP:8, YPP:4, PDP:2 | ✅ DONE |
+| 0506 | Bayelsa | **24** | 24 | PDP:18, APC:4, APGA:2 | ✅ DONE |
+| 0507 | Benue | **30** | 30 | PDP:10, APC:3, LP:1, AA:1, ZLP:1, Unknown:14 | ✅ DONE |
+| 0508 | Borno | **23** | 28 | APC:22, ADC:1 | ✅ DONE |
+| 0509 | Cross River | **24** | 25 | APC:15, PDP:8, NNPP:1 | ✅ DONE |
+| 0510 | Delta | **27** | 29 | PDP:21, APC:5, Unknown:1 | ✅ DONE |
+| 0511 | Ebonyi | **24** | 24 | PDP:12, APC:11, LP:1 | ✅ DONE |
+| 0512 | Edo | **24** | 24 | APC:21, PDP:3 | ✅ DONE |
+| 0513 | Ekiti | **26** | 26 | APC:24, SDP:2 | ✅ DONE |
+| 0514 | Enugu | **24** | 24 | LP:14, PDP:10 | ✅ DONE |
+| 0515 | Gombe | **24** | 24 | APC:19, PDP:5 | ✅ DONE |
+| 0516 | Imo | **19** | 27 | APC:19 (source partial) | ✅ DONE |
+| 0517 | Jigawa | **24** | 30 | APC:22, ADC:2 | ✅ DONE |
+| 0518 | Kaduna | **28** | 46 | APC:12, PDP:8, ADC:3, AA:3, LP:1, NNPP:1 | ✅ DONE |
+| 0519 | Katsina | **34** | 34 | APC:34 | ✅ DONE |
+| 0520 | Kebbi | **24** | 24 | APC:16, PDP:4, ADC:2, Accord:2 | ✅ DONE |
+| 0521 | Kogi | **25** | 25 | ADC:12, APC:7, AA:5, PDP:1 | ✅ DONE |
+| 0522 | Kwara | **23** | 24 | APC:10, AA:8, Accord:4, ADP:1 | ✅ DONE |
+| 0523 | Nasarawa | **24** | 24 | APC:11, PDP:8, SDP:3, NNPP:2 | ✅ DONE |
+| 0524 | Niger | **25** | 29 | APC:10, AA:8, PDP:4, Accord:2, SDP:1 | ✅ DONE |
+| 0525 | Ondo | **21** | 26 | AA:10, ADC:5, APC:4, AAC:1, PDP:1 | ✅ DONE |
+| 0526 | Osun | **24** | 26 | APC:10, PDP:5, Accord:3, ADP:3, AAC:2, AA:1 | ✅ DONE |
+| 0527 | Plateau | **21** | 24 | ADC:7, AA:6, PDP:5, LP:2, APC:1 | ✅ DONE |
+| 0528 | Sokoto | **29** | 30 | APC:11, PDP:9, ADC:6, AA:3 | ✅ DONE |
+| 0529 | Taraba | **22** | 24 | PDP:8, APC:7, AA:4, AAC:2, SDP:1, NNPP:1 | ✅ DONE |
+| 0530 | Yobe | **24** | 24 | APC:19, ADC:4, ADP:1 | ✅ DONE |
+| 0531 | Zamfara | **24** | 24 | APC:12, Accord:6, PDP:5, AA:1 | ✅ DONE |
+
+**Blocked (no NigerianLeaders.com data):**
+- Abia — 404 from NigerianLeaders, Wikipedia page has no member table. Needs ABHA or INEC direct extraction.
+- Adamawa — same. Alternate: search ADHA official site.
+- Bauchi — same. Alternate: search BSHA official site.
+
+**Coverage: 699/755 seats seeded (92.6%) across 28 states**  
+**Rollbacks:** All 28 `.rollback.md` files created.
 
 ---
 

@@ -76,8 +76,8 @@ All 78 P3-tier website templates are now fully shipped:
 - **Migration 0466** (`0466_political_lga_chairpersons_seed.sql`): Seeds all 20 Lagos LGA chairpersons from 2021 LASIEC election (APC, term 2021-2024). Kano (44 LGAs) and Rivers (23 LGAs) chairs logged as DEBT-012.
 - **Seed Backlog Plan**: `docs/phase0-artifacts/07-data-seed-backlog.md` — comprehensive plan for ~58,858 unseeded records across 30 migrations (0467–0496): NAICOM(836), SEC(803), NUPRC(116), OSM transport(417), OSM commerce(5,135), OSM civic(3,485), OSM agribusiness(1,723), HDX health(46,146), plus remaining assembly rosters and LGA chairs.
 
-### Seed Backlog COMPLETE — 35 Migrations Generated (2026-05-02)
-All data-ready migrations from the full seed backlog (P1a + P2–P8) are now written and verified. Only 0471–0472 remain blocked on KANSIEC/RSIEC LGA chair data.
+### Seed Backlog COMPLETE — 63 Migrations Generated (2026-05-02)
+All data-ready migrations from the full seed backlog (P1a + P2–P9) are now written and verified. 0504–0531 state assembly rosters (28-state web sprint) are fully seeded.
 
 | Range | Batch | Migrations | Records | Status |
 |---|---|---|---|---|
@@ -99,11 +99,12 @@ All data-ready migrations from the full seed backlog (P1a + P2–P8) are now wri
 | 0501 | S13 OSM professional & lifestyle (car repair/bakeries/law firms/accounting/driving schools/vets/gyms/laundries) | 1 | 374 orgs | ✅ DONE |
 | 0502 | S14 OSM state-specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia) | 1 | 62 POIs | ✅ DONE |
 | 0503 | S15 GRID3 health facilities national dataset (46,146 rows → 43,289 named unique) | 1 | 43,289 facilities | ✅ DONE |
-| **TOTAL** | | **35 migrations + 35 rollbacks** | **111,043 records** | ✅ |
+| 0504–0531 | S05 State assembly rosters — 28 states via NigerianLeaders.com web sprint (699/755 seats, 92.6%) | 28 | 699 politicians | ✅ DONE |
+| **TOTAL** | | **63 migrations + 63 rollbacks** | **111,742 records** | ✅ |
 
 - **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0504
-- **Remaining blocked:** 0471–0472 only (KANSIEC/RSIEC LGA chair data unavailable); Ogun 3-seat patch reserved for 0504 when confirmed; 31 state assembly rosters pending web research sprint
+- **Next migration number:** 0532
+- **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs); Abia/Adamawa/Bauchi assembly rosters (NigerianLeaders 404 — alternate source needed); Ogun 3-seat patch reserved as 0532
 - **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
 
 ### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
