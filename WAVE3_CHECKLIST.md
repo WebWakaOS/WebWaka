@@ -60,7 +60,7 @@
 - [x] A5-4: Implement session title auto-generation: after first assistant message, call a cheap AI completion to set `title` in `ai_sessions` (currently always null)
 
 ### A6. AI Observability & Background Jobs
-- [ ] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)
+- [x] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)
 - [ ] A6-2: Add AI usage chart component in `apps/admin-dashboard` — daily spend, top tenants, top capabilities (currently no AI-specific admin UI)
 - [x] A6-3: Add AI anomaly detection cron in `apps/schedulers` — flag tenants with unusual WakaCU spend velocity (>3x rolling average) and write to an `ai_anomaly_flags` table
 - [x] A6-4: Add structured AI error logging to `packages/logging` — `logAiEvent(logger, event)` helper that emits a structured JSON log line with routing level, capability, duration, tokens, error code (if any) without PII
@@ -119,8 +119,8 @@
 - [ ] C1-5: Add test for every governance check in `scripts/governance-checks/` — verify each check correctly catches a known violation (currently governance checks run but aren't themselves tested)
 
 ### C2. API Resilience & Performance
-- [ ] C2-1: Add retry middleware to all outbound AI provider calls in `packages/ai-adapters` — exponential backoff with jitter, max 3 retries, provider-specific error classification (rate limit vs server error)
-- [ ] C2-2: Add circuit breaker per AI provider — after 5 consecutive failures, mark provider as `OPEN` for 60s and skip in routing chain (prevents cascade)
+- [x] C2-1: Add retry middleware to all outbound AI provider calls in `packages/ai-adapters` — exponential backoff with jitter, max 3 retries, provider-specific error classification (rate limit vs server error)
+- [x] C2-2: Add circuit breaker per AI provider — after 5 consecutive failures, mark provider as `OPEN` for 60s and skip in routing chain (prevents cascade)
 - [ ] C2-3: Add `db-perf.ts` query budget enforcement — currently `db-perf.ts` exists but is not wired to CI; add a test that runs all common query patterns against an in-memory D1 and asserts they complete within budget
 - [ ] C2-4: Add API response time logging middleware — log `duration_ms` on every request in structured JSON; wire to Cloudflare logpush drain (ADR-0045)
 - [ ] C2-5: Add OpenAPI spec completeness check — verify every Hono route has a corresponding OpenAPI operation defined; fail CI if routes are undocumented
@@ -147,7 +147,7 @@
 - [ ] C5-5: Add release gate checklist (`docs/release/release-gate.md`) — mandatory checks before any production deploy: CI green, load test pass, HITL queue drained, anomaly flags reviewed, rollback plan documented
 
 ### C6. Logging Quality & Analytics Freshness
-- [ ] C6-1: Add request correlation ID middleware — inject `X-Request-Id` header on all API responses and include in all log entries for trace correlation
+- [x] C6-1: Add request correlation ID middleware — inject `X-Request-Id` header on all API responses and include in all log entries for trace correlation
 - [ ] C6-2: Add `packages/logging` structured log drain integration — implement `LogDrainTransport` that batches log entries and POSTs to Cloudflare Logpush endpoint (replacing console.log in production)
 - [ ] C6-3: Add analytics freshness check — `apps/projections` projection worker should include a `last_projected_at` metadata KV entry; add a CI/monitoring check that fails if projections are >6h stale
 - [ ] C6-4: Add error rate dashboard (`apps/admin-dashboard`) — chart showing 5xx rate by route over last 24h, sourced from `ai_usage_events` error field + API error log aggregation

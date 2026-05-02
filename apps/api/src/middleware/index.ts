@@ -16,6 +16,8 @@ import { createCorsConfig } from '@webwaka/shared-config';
 import type { Env } from '../env.js';
 import { contentTypeValidationMiddleware } from './content-type-validation.js';
 import { csrfMiddleware } from './csrf.js';
+// Wave 3 (C6-1): Correlation ID propagation for distributed tracing
+import { correlationIdMiddleware } from './correlation-id.js';
 import { rateLimitMiddleware } from './rate-limit.js';
 import { monitoringMiddleware } from './monitoring.js';
 import { lowDataMiddleware } from './low-data.js';
@@ -31,6 +33,9 @@ export function registerMiddleware(app: Hono<{ Bindings: Env }>): void {
     c.header('X-Request-ID', requestId);
     await next();
   });
+
+  // Wave 3 (C6-1): Correlation ID — propagate or generate X-Correlation-ID
+  app.use('*', correlationIdMiddleware);
 
   // DEV-04: Monitoring middleware — tracks latency, error rates, alerting webhook
   app.use('*', monitoringMiddleware);
