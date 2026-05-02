@@ -18,7 +18,8 @@ const { default: handler } = await import('./index.js');
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-function makeTailEvent(overrides: Record<string, unknown> = {}) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function makeTailEvent(overrides: Record<string, unknown> = {}): any {
   return {
     scriptName: 'api-worker',
     outcome: 'ok',
@@ -55,7 +56,7 @@ describe('log-tail worker — console sink', () => {
     const logSpy = vi.spyOn(console, 'log');
     await handler.tail([makeTailEvent()], { LOG_SINK: 'console', ENVIRONMENT: 'test' }, mockCtx);
     expect(logSpy).toHaveBeenCalledOnce();
-    const output = JSON.parse((logSpy.mock.calls[0][0] as string));
+    const output = JSON.parse((logSpy.mock.calls[0]![0] as string));
     expect(output.service).toBe('api-worker');
     expect(output.environment).toBe('test');
     expect(output.message).toBe('request handled');
@@ -69,7 +70,7 @@ describe('log-tail worker — console sink', () => {
     expect(logSpy).not.toHaveBeenCalled(); // errors go to console.error
     const errSpy = vi.spyOn(console, 'error');
     await handler.tail([event], { LOG_SINK: 'console', ENVIRONMENT: 'test' }, mockCtx);
-    const output = JSON.parse((errSpy.mock.calls[0][0] as string));
+    const output = JSON.parse((errSpy.mock.calls[0]![0] as string));
     expect(output.request_url).not.toContain('token=secret');
     expect(output.request_url).toBe('https://api.webwaka.com/v1/health');
   });
@@ -90,7 +91,7 @@ describe('log-tail worker — console sink', () => {
     const event = makeTailEvent({ outcome: 'exceededCpu', logs: [], exceptions: [] });
     await handler.tail([event], { LOG_SINK: 'console', ENVIRONMENT: 'staging' }, mockCtx);
     expect(warnSpy).toHaveBeenCalledOnce();
-    const output = JSON.parse((warnSpy.mock.calls[0][0] as string));
+    const output = JSON.parse((warnSpy.mock.calls[0]![0] as string));
     expect(output.outcome).toBe('exceededCpu');
     expect(output.level).toBe('warn');
   });
@@ -123,7 +124,7 @@ describe('log-tail worker — axiom sink', () => {
       handler.tail([makeTailEvent()], { LOG_SINK: 'axiom', LOG_SINK_TOKEN: 'bad' }, mockCtx),
     ).resolves.toBeUndefined();
     expect(errSpy).toHaveBeenCalledOnce();
-    const logged = JSON.parse((errSpy.mock.calls[0][0] as string));
+    const logged = JSON.parse((errSpy.mock.calls[0]![0] as string));
     expect(logged.event).toBe('log_drain_error');
     expect(logged.sink).toBe('axiom');
   });

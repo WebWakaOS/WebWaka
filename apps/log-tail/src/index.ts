@@ -104,8 +104,6 @@ async function sendToDatadog({ events, env }: SinkPayload): Promise<void> {
   const ddEvents = events.map((e) => ({
     ddsource: 'cloudflare-workers',
     ddtags: env.LOG_SINK_DATASET || 'env:production',
-    service: e.service,
-    message: e.message,
     ...e,
   }));
 
@@ -183,6 +181,9 @@ function normaliseTailEvent(
       message = messageArr.map((m) => (typeof m === 'string' ? m : JSON.stringify(m))).join(' ');
     }
 
+    const resolvedRequestId = parsed?.ctx
+      ? (parsed.ctx as Record<string, string>).request_id
+      : undefined;
     const event: NormalisedEvent = {
       timestamp: new Date(log.timestamp).toISOString(),
       service,
@@ -190,9 +191,7 @@ function normaliseTailEvent(
       outcome,
       level: log.level || 'info',
       message,
-      request_id: parsed?.ctx
-        ? (parsed.ctx as Record<string, string>).request_id
-        : undefined,
+      ...(resolvedRequestId !== undefined ? { request_id: resolvedRequestId } : {}),
     };
 
     if (parsed) {
@@ -204,6 +203,8 @@ function normaliseTailEvent(
 
   // Exceptions from the worker
   for (const exc of tailEvent.exceptions) {
+    const reqMethod = tailEvent.event?.request?.method;
+    const reqUrl = sanitizeUrl(tailEvent.event?.request?.url);
     events.push({
       timestamp: new Date(exc.timestamp).toISOString(),
       service,
@@ -212,13 +213,15 @@ function normaliseTailEvent(
       level: 'error',
       message: `Exception: ${exc.name}: ${exc.message}`,
       error: `${exc.name}: ${exc.message}`,
-      request_method: tailEvent.event?.request?.method,
-      request_url: sanitizeUrl(tailEvent.event?.request?.url),
+      ...(reqMethod !== undefined ? { request_method: reqMethod } : {}),
+      ...(reqUrl !== undefined ? { request_url: reqUrl } : {}),
     });
   }
 
   // If no logs/exceptions but there's a non-ok outcome, emit a synthetic event
   if (events.length === 0 && outcome !== 'ok') {
+    const reqMethod = tailEvent.event?.request?.method;
+    const reqUrl = sanitizeUrl(tailEvent.event?.request?.url);
     events.push({
       timestamp: baseTime,
       service,
@@ -226,8 +229,8 @@ function normaliseTailEvent(
       outcome,
       level: 'warn',
       message: `Worker finished with outcome: ${outcome}`,
-      request_method: tailEvent.event?.request?.method,
-      request_url: sanitizeUrl(tailEvent.event?.request?.url),
+      ...(reqMethod !== undefined ? { request_method: reqMethod } : {}),
+      ...(reqUrl !== undefined ? { request_url: reqUrl } : {}),
     });
   }
 
