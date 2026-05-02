@@ -61,17 +61,17 @@
 
 ### A6. AI Observability & Background Jobs
 - [x] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)
-- [ ] A6-2: Add AI usage chart component in `apps/admin-dashboard` — daily spend, top tenants, top capabilities (currently no AI-specific admin UI)
+- [x] A6-2: Add AI usage chart component in `apps/admin-dashboard` — daily spend, top tenants, top capabilities (currently no AI-specific admin UI)
 - [x] A6-3: Add AI anomaly detection cron in `apps/schedulers` — flag tenants with unusual WakaCU spend velocity (>3x rolling average) and write to an `ai_anomaly_flags` table
 - [x] A6-4: Add structured AI error logging to `packages/logging` — `logAiEvent(logger, event)` helper that emits a structured JSON log line with routing level, capability, duration, tokens, error code (if any) without PII
 - [x] A6-5: Add AI background job infrastructure: `packages/superagent/src/background-jobs/` with a typed `BackgroundJob` interface and two initial jobs: `demand-forecast-job.ts` and `shift-summary-job.ts` (triggered by Cloudflare Cron via schedulers)
 
 ### A7. Inline AI Surfaces
-- [ ] A7-1: Add `AIInsightWidget` component (`packages/design-system`) — reusable inline AI suggestion card (shows capability output inline without full chat UI)
-- [ ] A7-2: Wire `inventory_ai` capability to Inventory page — add "AI Reorder Suggestions" panel that calls `POST /superagent/chat` with `capability: inventory_ai`
-- [ ] A7-3: Wire `pos_receipt_ai` capability to POS receipt modal — add "Enhance Receipt" button
-- [ ] A7-4: Wire `bio_generator` capability to Brand Settings page — add "Generate Bio" one-click button
-- [ ] A7-5: Wire `shift_summary_ai` capability to Dashboard — add "Today's Summary" AI card (end-of-day)
+- [x] A7-1: Add `AIInsightWidget` component (`packages/design-system`) — reusable inline AI suggestion card (shows capability output inline without full chat UI)
+- [x] A7-2: Wire `inventory_ai` capability to Inventory page — add "AI Reorder Suggestions" panel that calls `POST /superagent/chat` with `capability: inventory_ai`
+- [x] A7-3: Wire `pos_receipt_ai` capability to POS receipt modal — add "Enhance Receipt" button
+- [x] A7-4: Wire `bio_generator` capability to Brand Settings page — add "Generate Bio" one-click button
+- [x] A7-5: Wire `shift_summary_ai` capability to Dashboard — add "Today's Summary" AI card (end-of-day)
 
 ---
 

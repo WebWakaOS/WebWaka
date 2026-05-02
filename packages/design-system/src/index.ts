@@ -294,3 +294,10 @@ button, input, select, textarea {
 // Wave 3 (B3-4): Vertical engine hook
 export { useVerticalEngine } from './hooks/useVerticalEngine.js';
 export type { VerticalProfile, UseVerticalEngineOptions, UseVerticalEngineResult } from './hooks/useVerticalEngine.js';
+
+// Wave 3 A7-1: AIInsightWidget
+export { AIInsightWidget } from './components/AIInsightWidget.js';
+export type { AIInsightWidgetProps, AIWidgetVariant } from './components/AIInsightWidget.js';
+
+// Wave 3 A7-2..A7-5: AI wiring components
+export * from './components/ai-wiring/index.js';
