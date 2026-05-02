@@ -109,10 +109,11 @@ All data-ready migrations from the full seed backlog (P1a + P2–P9) are now wri
 | 0538 | Estates & Gated Communities deep extraction (OSM Overpass: place=neighbourhood + landuse=residential named + residential=gated_community) | 1 | 402 entities | ✅ DONE |
 | 0539 | Car Dealers & Vehicle Sales deep extraction (OSM Overpass: shop=car/car_dealer/vehicle/motorcycle + brand name matching) | 1 | 65 entities | ✅ DONE |
 | 0540 | Extended Health Facilities deep extraction (OSM Overpass: healthcare=maternity/health_post/laboratory/nursing_home/blood_bank/physiotherapist/alternative — NOT in 0499) | 1 | 628 entities | ✅ DONE |
-| **TOTAL** | | **72 migrations + 72 rollbacks** | **113,667 records** | ✅ |
+| 0541 | Petrol & Fuel Stations deep extraction (OSM Overpass: amenity=fuel/filling_station — new OSM IDs not in 0488) | 1 | 50 entities | ✅ DONE |
+| **TOTAL** | | **73 migrations + 73 rollbacks** | **113,717 records** | ✅ |
 
 - **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0541
+- **Next migration number:** 0542
 - **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs — APC won all 44 Kano / PDP won all 23 Rivers; individual names not in accessible sources); Bauchi assembly (31 seats, no Wikipedia article, no NigerianLeaders data); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found)
 - **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
 
