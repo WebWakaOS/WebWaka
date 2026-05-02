@@ -103,10 +103,13 @@ All data-ready migrations from the full seed backlog (P1a + P2–P9) are now wri
 | 0532 | Ogun 3-seat patch (Ado-Odo/Ota I confirmed; 2 seats still unavailable) | 1 | 1 politician | ✅ DONE |
 | 0533 | Abia State Assembly full roster (24/24 seats via Wikipedia) | 1 | 24 politicians | ✅ DONE |
 | 0534 | Adamawa State Assembly full roster (25/25 seats via Wikipedia election article, color-coded) | 1 | 25 politicians | ✅ DONE |
-| **TOTAL** | | **66 migrations + 66 rollbacks** | **111,792 records** | ✅ |
+| 0535 | Markets & Plazas deep extraction — Batch 1 (OSM Overpass: amenity=marketplace + shop=mall/wholesale/dept_store + landuse=retail + name-match) | 1 | 284 entities | ✅ DONE |
+| 0536 | Markets & Plazas deep extraction — Batch 2 | 1 | 283 entities | ✅ DONE |
+| 0537 | Motor Parks & Transport Terminals deep extraction (OSM Overpass: amenity=bus_station/taxi + public_transport=station + name~"motor park") | 1 | 213 entities | ✅ DONE |
+| **TOTAL** | | **69 migrations + 69 rollbacks** | **112,572 records** | ✅ |
 
 - **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0535
+- **Next migration number:** 0538
 - **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs — APC won all 44 Kano / PDP won all 23 Rivers; individual names not in accessible sources); Bauchi assembly (31 seats, no Wikipedia article, no NigerianLeaders data); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found)
 - **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
 

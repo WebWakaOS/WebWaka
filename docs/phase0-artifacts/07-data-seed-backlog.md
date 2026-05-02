@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0532–0534 blocked-state deep-search sprint — Ogun patch + Abia + Adamawa DONE)  
+**Last updated:** 2026-05-02 (0535–0537 markets & motor parks deep extraction — 780 new entities DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0534 is **0535**.
+**Convention:** Next available migration number after 0537 is **0538**.
 
 ---
 
@@ -187,10 +187,13 @@ All S12, S13, S14, and S15 source batches now fully migrated. Named-only records
 | P8 | S12–S15 universities/banks/medical/civic/professional/GRID3 | 0497–0503 | **52,256** | ✅ DONE (2026-05-02) |
 | P9 | State assembly rosters — 28 remaining states (web research sprint) | 0504–0531 | **699** | ✅ DONE (2026-05-02) |
 | P9b | Blocked-state deep-search sprint (Ogun patch + Abia + Adamawa) | 0532–0534 | **50** | ✅ DONE (2026-05-02) |
-| **TOTAL** | | **0467–0470 + 0473–0534 (66 migrations)** | **111,792 records** | |
+| P10 | Markets & Plazas deep extraction — Batch 1 (284 entities, Overpass API) | 0535 | **284** | ✅ DONE (2026-05-02) |
+| P10b | Markets & Plazas deep extraction — Batch 2 (283 entities, Overpass API) | 0536 | **283** | ✅ DONE (2026-05-02) |
+| P11 | Motor Parks & Transport Terminals deep extraction (213 entities, Overpass API) | 0537 | **213** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0537 (69 migrations)** | **112,572 records** | |
 
-**Total SQL generated (all batches):** ~888,000 lines across 66 migrations + 66 rollbacks  
-**Next migration number:** 0535  
+**Total SQL generated (all batches):** ~896,000 lines across 69 migrations + 69 rollbacks  
+**Next migration number:** 0538  
 **Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair names not findable from accessible sources); Bauchi state assembly (no Wikipedia article, no NigerianLeaders data, official BSHA site inaccessible); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found in any accessible source)
 
 ---
