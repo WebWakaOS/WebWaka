@@ -189,9 +189,35 @@ PLAN_CONFIGS static fallback     (compatibility bridge — zero breaking changes
 entitlement_definitions.default_value  (absolute last resort)
 ```
 
-## 9. Next Steps (Batch 2+)
+## 9. Billing Runtime Configuration (Completed)
 
-- [ ] Billing route: read period length from `billing_intervals.interval_days` instead of hardcoded 30 days  
+**Migration 0472:** `apps/api/migrations/0472_billing_config_flags.sql`
+
+Seeds two flags into `configuration_flags` (dashboard-editable, no redeploy required):
+- `billing_grace_period_days` (integer, default `7`) — days before suspension after a subscription expires
+- `billing_default_interval_code` (string, default `monthly`) — which `billing_intervals.code` to use when renewing
+
+**Three helpers added to `apps/api/src/routes/billing.ts`:**
+
+| Helper | DB source | Fallback |
+|---|---|---|
+| `lookupIntervalDays(db, code)` | `billing_intervals.interval_days WHERE code = ?` | 30 |
+| `lookupGracePeriodSeconds(db)` | `configuration_flags WHERE code = 'billing_grace_period_days'` | 7 × 86400 |
+| `loadPlanRank(db)` | `subscription_packages WHERE status='active' ORDER BY sort_order` | `STATIC_PLAN_RANK` (7 plans) |
+
+**Hardcoded values replaced:**
+- `GRACE_PERIOD_SECONDS = 7 * 24 * 60 * 60` → `lookupGracePeriodSeconds(db)` in `/billing/enforce`
+- `now + 30 * 24 * 60 * 60` → `lookupIntervalDays(db)` in `/billing/reactivate`
+- `now + 30 * 24 * 60 * 60` → `lookupIntervalDays(db)` in `/billing/change-plan` (upgrade path)
+- `PLAN_RANK` / `VALID_PLANS` (static 4-plan map) → `loadPlanRank(db)` (7 plans from DB)
+
+**All helpers wrapped in try/catch** — zero disruption if tables absent (pre-migration deploy).
+
+**Static fallback updated:** `STATIC_PLAN_RANK` now covers all 7 plans seeded in 0471:
+`free(0) → starter(1) → growth(2) → pro(3) → enterprise(4) → partner(5) → sub_partner(6)`
+
+## 10. Next Steps (Batch 3+)
+
 - [ ] KV caching layer for `FlagService.resolve()` to avoid per-request DB reads  
 - [ ] `PilotFlagService` → delegate to `FlagService` (keep existing table as source-of-truth, add bridge)  
 - [ ] E2E tests: create package → bind entitlements → resolve for workspace  

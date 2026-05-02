@@ -63,6 +63,7 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **API**: 30+ routes under `/platform-admin/cp/*` (super_admin only + audit log) for plans, entitlements, roles, groups, feature flags, delegation policies, and audit query.
 - **Dashboard**: `apps/platform-admin/public/control-plane.html` — tabbed UI for all 5 control layers.
 - **Entitlement Middleware Wire-Up**: `apps/api/src/middleware/workspace-entitlement-context.ts` — shared builder that calls `EntitlementEngine.resolveForWorkspace()` on every gated request, maps DB codes → `Partial<PlanConfig>`, merges layer grants into `ctx.activeLayers`, and falls back to `PLAN_CONFIGS` transparently when control-plane tables are absent.
+- **Billing Runtime Configuration**: Migration 0472 seeds `billing_grace_period_days` (integer) and `billing_default_interval_code` (string) flags. `billing.ts` now uses `lookupIntervalDays`, `lookupGracePeriodSeconds`, and `loadPlanRank` DB helpers (all with graceful fallback) instead of the three hardcoded values (`30 * 24 * 60 * 60`, `7 * 24 * 60 * 60`, and the 4-plan static `PLAN_RANK`). Static fallback updated to all 7 seeded plans.
 - **Compatibility**: `PLAN_CONFIGS` and `ROLE_HIERARCHY` preserved unchanged as static fallbacks. No breaking changes.
 - **Implementation Register**: `IMPLEMENTATION_REGISTER.md` — full audit of hardcoded config locations, DB tables, API routes, resolution order, and migration risks.
 

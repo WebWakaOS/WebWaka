@@ -25,16 +25,84 @@ import { BillingEventType, WorkspaceEventType } from '@webwaka/events';
 
 type Auth = { userId: string; tenantId: string; role?: string; workspaceId?: string };
 
-const GRACE_PERIOD_SECONDS = 7 * 24 * 60 * 60;
+const FALLBACK_GRACE_PERIOD_SECONDS = 7 * 24 * 60 * 60;
+const FALLBACK_INTERVAL_DAYS = 30;
 
-const PLAN_RANK: Record<string, number> = {
+const STATIC_PLAN_RANK: Record<string, number> = {
   free: 0,
   starter: 1,
   growth: 2,
-  enterprise: 3,
+  pro: 3,
+  enterprise: 4,
+  partner: 5,
+  sub_partner: 6,
 };
 
-const VALID_PLANS = Object.keys(PLAN_RANK);
+// ---------------------------------------------------------------------------
+// DB-backed billing configuration helpers — all fall back gracefully when
+// the control-plane tables are absent (pre-migration deploy).
+// ---------------------------------------------------------------------------
+
+async function lookupIntervalDays(
+  db: Env['DB'],
+  intervalCode: string = 'monthly',
+): Promise<number> {
+  try {
+    const row = await db
+      .prepare(`SELECT interval_days FROM billing_intervals WHERE code = ? LIMIT 1`)
+      .bind(intervalCode)
+      .first<{ interval_days: number | null }>();
+    if (row && typeof row.interval_days === 'number' && row.interval_days > 0) {
+      return row.interval_days;
+    }
+  } catch {
+    // billing_intervals table not yet migrated — use fallback
+  }
+  return FALLBACK_INTERVAL_DAYS;
+}
+
+async function lookupGracePeriodSeconds(db: Env['DB']): Promise<number> {
+  try {
+    const row = await db
+      .prepare(
+        `SELECT default_value FROM configuration_flags
+         WHERE code = 'billing_grace_period_days'
+           AND value_type = 'integer' AND is_active = 1
+         LIMIT 1`,
+      )
+      .first<{ default_value: string }>();
+    if (row) {
+      const days = parseInt(row.default_value, 10);
+      if (!isNaN(days) && days > 0) return days * 24 * 60 * 60;
+    }
+  } catch {
+    // configuration_flags table not yet migrated — use fallback
+  }
+  return FALLBACK_GRACE_PERIOD_SECONDS;
+}
+
+async function loadPlanRank(
+  db: Env['DB'],
+): Promise<{ rank: Record<string, number>; valid: string[] }> {
+  try {
+    const rows = await db
+      .prepare(
+        `SELECT slug, sort_order FROM subscription_packages
+         WHERE status = 'active'
+         ORDER BY sort_order ASC`,
+      )
+      .all<{ slug: string; sort_order: number }>();
+    const slugs = rows.results ?? [];
+    if (slugs.length > 0) {
+      const rank: Record<string, number> = {};
+      slugs.forEach((r, i) => { rank[r.slug] = i; });
+      return { rank, valid: slugs.map((r) => r.slug) };
+    }
+  } catch {
+    // subscription_packages table not yet migrated — use static fallback
+  }
+  return { rank: STATIC_PLAN_RANK, valid: Object.keys(STATIC_PLAN_RANK) };
+}
 
 const billingRoutes = new Hono<{ Bindings: Env }>();
 
@@ -187,9 +255,11 @@ billingRoutes.post('/enforce', async (c) => {
       current_period_end: number;
     }>();
 
+  const gracePeriodSecs = await lookupGracePeriodSeconds(db);
+
   let transitionsToGrace = 0;
   for (const sub of expiredActive.results ?? []) {
-    const gracePeriodEnd = sub.current_period_end + GRACE_PERIOD_SECONDS;
+    const gracePeriodEnd = sub.current_period_end + gracePeriodSecs;
     await db
       .prepare(
         `UPDATE subscriptions SET status = 'past_due', enforcement_status = 'grace_period',
@@ -311,7 +381,8 @@ billingRoutes.post('/reactivate', async (c) => {
   }
 
   const now = Math.floor(Date.now() / 1000);
-  const periodEnd = now + 30 * 24 * 60 * 60;
+  const intervalDays = await lookupIntervalDays(c.env.DB);
+  const periodEnd = now + intervalDays * 24 * 60 * 60;
 
   await db
     .prepare(
@@ -374,10 +445,12 @@ billingRoutes.post('/change-plan', async (c) => {
 
   const { plan: newPlan, notes } = body;
 
-  if (!newPlan || !VALID_PLANS.includes(newPlan)) {
+  const { rank: planRank, valid: validPlans } = await loadPlanRank(db);
+
+  if (!newPlan || !validPlans.includes(newPlan)) {
     return c.json(
       {
-        error: `Invalid plan. Valid plans: ${VALID_PLANS.join(', ')}`,
+        error: `Invalid plan. Valid plans: ${validPlans.join(', ')}`,
         code: 'INVALID_PLAN',
       },
       422,
@@ -407,15 +480,16 @@ billingRoutes.post('/change-plan', async (c) => {
     );
   }
 
-  const currentRank = PLAN_RANK[currentPlan] ?? 0;
-  const newRank = PLAN_RANK[newPlan] ?? 0;
+  const currentRank = planRank[currentPlan] ?? 0;
+  const newRank = planRank[newPlan] ?? 0;
   const isUpgrade = newRank > currentRank;
   const _changeType = isUpgrade ? 'upgrade' : 'downgrade';
 
   const now = Math.floor(Date.now() / 1000);
 
   if (isUpgrade) {
-    const newPeriodEnd = now + 30 * 24 * 60 * 60;
+    const intervalDays = await lookupIntervalDays(db);
+    const newPeriodEnd = now + intervalDays * 24 * 60 * 60;
     await db
       .prepare(
         `UPDATE subscriptions SET plan = ?, status = 'active', enforcement_status = 'none',
