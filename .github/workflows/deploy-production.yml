@@ -461,6 +461,16 @@ jobs:
             build_cmd: echo "No build step needed for platform-admin static site"
             dist: apps/platform-admin/public
             api_url: ""
+          - name: discovery-spa
+            project: webwaka-discovery
+            build_cmd: pnpm --filter @webwaka/discovery-spa build
+            dist: apps/discovery-spa/dist
+            api_url: https://api.webwaka.com
+          - name: partner-admin-spa
+            project: webwaka-partner-admin-spa
+            build_cmd: pnpm --filter @webwaka/partner-admin-spa build
+            dist: apps/partner-admin-spa/dist
+            api_url: https://api.webwaka.com
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -478,6 +488,7 @@ jobs:
         run: ${{ matrix.app.build_cmd }}
         env:
           VITE_API_URL: ${{ matrix.app.api_url }}
+          VITE_DISCOVERY_API: ${{ matrix.app.api_url }}
           NODE_ENV: production
 
       - name: Deploy ${{ matrix.app.name }} to CF Pages (production)

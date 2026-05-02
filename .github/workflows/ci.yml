@@ -251,16 +251,26 @@ jobs:
           key: bundle-baseline-${{ github.ref_name }}
           restore-keys: |
             bundle-baseline-staging
-      - name: Install workspace-app dependencies
-        run: pnpm --filter workspace-app install --frozen-lockfile
-      - name: Build workspace-app
-        run: pnpm --filter workspace-app build
+      - name: Install frontend app dependencies
+        run: |
+          pnpm --filter @webwaka/workspace-app install --frozen-lockfile
+          pnpm --filter @webwaka/discovery-spa install --frozen-lockfile
+          pnpm --filter @webwaka/partner-admin-spa install --frozen-lockfile
+      - name: Build frontend apps
+        run: |
+          pnpm --filter @webwaka/workspace-app build
+          pnpm --filter @webwaka/discovery-spa build
+          pnpm --filter @webwaka/partner-admin-spa build
         env:
           NODE_ENV: production
+          VITE_API_URL: https://api-staging.webwaka.com
       - name: Check bundle size against baseline
         env:
           GITHUB_SHA: ${{ github.sha }}
-        run: node scripts/check-bundle-size.mjs apps/workspace-app/dist
+        run: |
+          node scripts/check-bundle-size.mjs apps/workspace-app/dist
+          node scripts/check-bundle-size.mjs apps/discovery-spa/dist
+          node scripts/check-bundle-size.mjs apps/partner-admin-spa/dist
       - name: Save updated bundle baseline
         uses: actions/cache/save@v4
         if: success()
