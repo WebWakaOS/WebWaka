@@ -1,0 +1,255 @@
+🚨 WEBWAKA FOLLOW-UP MASTER QA PROMPT — FULL TESTING, STRICT VERIFICATION, ZERO-DRIFT AUDIT, AND COMPLETE REMEDIATION 🚨
+
+You are Replit Agent operating as an independent senior QA auditor, platform verifier, bug hunter, regression tester, remediation engineer, deployment validator, and release hardening operator for WebWaka.
+
+Repository:
+https://github.com/WebWakaOS/WebWaka
+
+Deployment model:
+GitHub CI/CD pipeline → Cloudflare staging → Cloudflare production
+
+Primary domain:
+https://WebWaka.com
+
+I will provide the GitHub PAT and Cloudflare API Token when needed.
+
+MISSION
+Perform a full follow-up QA pass on the WebWaka implementation after the Dynamic Configurability and Delegated Governance initiative has been implemented.
+
+Your job is NOT to trust the prior implementation report.
+Your job is to verify everything from the actual repo, actual code, actual tests, actual CI state, actual Cloudflare staging state, and actual production readiness state.
+
+If anything is incomplete, drifting from the required initiative, buggy, stubbed, broken, unsafe, or insufficiently wired, you must fix it completely, push fixes step by step to GitHub staging, validate on Cloudflare staging until fully green, then only after all is green merge to main and deploy production to Cloudflare and verify production too.
+
+THIS IS A VERIFY + TEST + FIND GAPS + FIX EVERYTHING + DEPLOY SAFELY MANDATE
+
+NON-NEGOTIABLE QA RULES
+- Do not assume prior implementation is complete.
+- Do not trust documentation without code proof.
+- Do not trust UI presence without backend/API verification.
+- Do not trust backend presence without real UI/API usage verification.
+- Do not trust tests unless they truly exercise the implemented behavior.
+- Do not accept partial implementation, fake implementation, placeholder UI, dead routes, unbound permissions, or silent failures.
+- Any detected issue must be fixed, not merely listed.
+- Push remediation step by step to staging after each meaningful fix batch.
+- Verify Cloudflare staging repeatedly until the platform is fully green.
+- Do not merge to main until staging is fully green.
+- Do not declare success until production is also green.
+- Zero drift means implemented behavior must match the intended initiative, not a reduced interpretation of it.
+- Zero bugs means no known critical, high, or medium defects remain; any residual low issue must be explicitly justified and accepted.
+- Thoroughness is more important than speed.
+
+WHAT YOU MUST AUDIT AGAINST
+Audit the implementation against the intended initiative in full, including all of these required outcomes:
+
+1. Dynamic subscription catalog
+- packages/plans are runtime-managed
+- package names are dynamic
+- pricing is dynamic
+- billing periods support free trial, monthly, quarterly, annual, lifetime, and any custom duration that was intended
+- plan activation/deactivation/versioning works
+- grandfathering or equivalent migration-safe handling works
+
+2. Dynamic entitlements engine
+- entitlements are no longer materially hardcoded where they should be dynamic
+- pillar/module/feature access is runtime-evaluated
+- quotas/limits/caps are enforced correctly
+- AI access rights and wallet-related entitlements are wired correctly
+- override logic works correctly
+
+3. Dynamic authorization and privilege system
+- system roles work
+- custom roles work
+- user groups work
+- group inheritance works
+- per-user grants/denials work
+- scope boundaries work
+- no privilege escalation path exists
+
+4. Delegated admin governance
+- higher-level admins can delegate bounded rights
+- lower-level admins cannot exceed assigned ceilings
+- “who can configure what” is itself governed
+- sensitive config changes are protected appropriately
+- all relevant actions are audit-logged
+
+5. Feature flags and runtime configuration
+- centralized runtime config exists
+- per-environment, per-tenant, per-partner, per-workspace, or equivalent scoped flags work where intended
+- important hardcoded toggles were migrated properly
+- kill-switch / enable-disable behavior works safely
+
+6. Dashboards and UX
+- Super Admin control surfaces work
+- Platform Admin control surfaces work within boundaries
+- Partner Admin control surfaces work within boundaries
+- Tenant Admin control surfaces work within boundaries
+- critical admin configuration screens are real, not shells
+- destructive operations are safe
+- UI respects permissions correctly
+
+7. Migration safety
+- existing hardcoded state was migrated safely
+- seeded values reflect expected prior system behavior
+- legacy logic does not silently override the new system
+- no production-breaking regression exists from the cutover
+
+8. Tests and deployment integrity
+- unit/integration/e2e coverage is meaningful
+- CI is green
+- GitHub Actions are green
+- Cloudflare staging is green
+- production deployment path is ready and safe
+
+MANDATORY EXECUTION ORDER
+
+PHASE 0 — INDEPENDENT RE-AUDIT
+1. Pull latest repo state from relevant branches.
+2. Review all implementation changes made for this initiative.
+3. Review affected docs, migrations, packages, apps, routes, services, seeds, dashboards, and deployment workflows.
+4. Produce a strict verification checklist based on intended scope.
+5. Identify every possible drift point, weak spot, bug risk, incomplete item, or mismatch between intended architecture and actual implementation.
+
+PHASE 1 — DEEP TESTING
+6. Run and/or inspect unit tests, integration tests, e2e tests, smoke tests, linting, type checks, and governance checks.
+7. Test critical flows manually or through automation, including:
+   - package creation and editing
+   - pricing changes
+   - plan versioning
+   - plan assignment
+   - entitlement enforcement
+   - role creation
+   - group creation
+   - group inheritance
+   - per-user overrides
+   - delegated admin boundary enforcement
+   - audit log creation
+   - feature flag behavior
+   - upgrade/downgrade or migration behavior
+   - unauthorized attempts and denial paths
+8. Test across relevant user categories and scopes.
+9. Test mobile/responsive admin usability where applicable.
+10. Verify both happy paths and denial/error paths.
+
+PHASE 2 — DRIFT ANALYSIS
+11. Compare implemented behavior to the full intended initiative.
+12. Flag any of the following as drift:
+   - missing sub-capabilities
+   - reduced interpretations of requirements
+   - static fallback where runtime configurability was required
+   - UI without working backend
+   - backend without accessible/admin-manageable UI where required
+   - missing audit trail
+   - missing boundary enforcement
+   - incomplete migration
+   - fake toggles or fake controls
+   - permission checks only on frontend
+   - tests that don’t prove the real behavior
+13. Build a complete issue register grouped by:
+   - critical
+   - high
+   - medium
+   - low
+
+PHASE 3 — COMPLETE REMEDIATION
+14. Fix all critical issues first.
+15. Then fix all high issues.
+16. Then fix all medium issues.
+17. Then fix all low issues that should reasonably be fixed before release.
+18. Do not leave a known correctness issue behind if it can be fixed.
+19. Do not patch symptoms only; fix root causes.
+20. If a schema, seed, API, UI, permission evaluator, or workflow must change to properly resolve an issue, make the full fix.
+
+PHASE 4 — STEP-BY-STEP GITHUB PUSHES
+21. Commit and push all remediation work to the staging branch step by step after each meaningful batch.
+22. Use clean, descriptive commit messages.
+23. Keep a remediation log in the repo so another agent could resume seamlessly if needed.
+24. Re-run relevant checks after each push.
+
+PHASE 5 — CLOUDFLARE STAGING VALIDATION
+25. Ensure each meaningful fix batch deploys through GitHub CI/CD to Cloudflare staging.
+26. Verify staging environment behavior after each deployment.
+27. Continue fixing and redeploying until staging is fully green.
+28. Confirm staging reflects the latest code accurately.
+29. Perform end-to-end testing on staging, not just local verification.
+
+PHASE 6 — STAGING GATE
+30. Do not proceed to main until ALL of the following are true:
+   - no critical issues remain
+   - no high issues remain
+   - no medium issues remain
+   - intended initiative scope is fully implemented
+   - CI is green
+   - governance checks are green
+   - staging GitHub status is green
+   - Cloudflare staging is green
+   - core admin workflows are verified working
+   - permission and entitlement boundaries are verified working
+   - no meaningful drift remains
+
+PHASE 7 — MAIN MERGE + PRODUCTION DEPLOY
+31. Once staging is fully green, merge the validated result to main.
+32. Deploy production through the GitHub CI/CD pipeline to Cloudflare.
+33. Verify the production deployment directly.
+34. Confirm the production environment matches the final staging state.
+
+PHASE 8 — FINAL PRODUCTION QA
+35. Run a final production-ready verification pass.
+36. Confirm:
+   - dashboards load and function
+   - permissions are enforced correctly
+   - configuration changes persist and evaluate correctly
+   - no environment-specific breakage exists
+   - audit trails are available
+   - no deployment regressions exist
+37. If anything fails, use staging-first correction discipline and repeat until production is green.
+
+MINIMUM BUG/DRIFT CLASSES TO LOOK FOR
+- hardcoded fallback still overriding dynamic config
+- pricing UI saved but not respected by billing logic
+- entitlement changes saved but not enforced at runtime
+- custom roles created but ignored by middleware
+- group inheritance present in UI but not used in authorization
+- per-user overrides not taking precedence correctly
+- delegated admins able to assign powers above their ceiling
+- delegated admins blocked from actions they should legitimately have
+- audit logs missing or incomplete for sensitive changes
+- config flags saved but not read by application logic
+- stale caches causing wrong entitlement or config behavior
+- unsafe destructive actions without confirmation/guardrails
+- seed/migration bugs causing mismatched defaults
+- branch drift between staging and main
+- Cloudflare deployment mismatch with GitHub source
+- responsive/mobile admin screens broken
+- hidden console/runtime errors
+- broken empty states, loading states, or validation states
+- role-aware navigation exposing inaccessible pages
+- unauthorized API access still possible
+- legacy hardcoded logic silently still active
+
+REQUIRED EVIDENCE IN THE FINAL REPORT
+Your final report must include:
+1. audit scope covered
+2. exact verification checklist used
+3. issues found
+4. fixes applied
+5. exact files changed
+6. tests run and outcomes
+7. GitHub staging push history summary
+8. Cloudflare staging verification summary
+9. main merge summary
+10. Cloudflare production verification summary
+11. remaining issues if any
+12. final PASS or FAIL verdict
+
+PASS STANDARD
+Return PASS only if:
+- the initiative was implemented fully with no material drift,
+- no known critical/high/medium bugs remain,
+- staging is fully green,
+- Cloudflare staging is fully green,
+- main is fully updated,
+- Cloudflare production is fully green,
+- and the implemented system is genuinely production-ready.
+
+If anything material is missing, drifting, broken, or not fully deployed, return FAIL, keep fixing, and do not stop until the platform is actually green.

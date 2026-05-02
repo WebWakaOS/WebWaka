@@ -14,18 +14,7 @@
 import { Hono } from 'hono';
 import type { Env } from '../../env.js';
 import { createControlPlane } from '@webwaka/control-plane';
-import type { ActorContext } from '@webwaka/control-plane';
-
-function resolveActor(c: { get: (k: string) => unknown }): ActorContext {
-  const auth = c.get('auth') as { userId: string; tenantId?: string; role?: string } | undefined;
-  return {
-    actorId: auth?.userId ?? 'system',
-    actorRole: auth?.role ?? 'super_admin',
-    actorLevel: 'super_admin',
-    tenantId: auth?.tenantId,
-    requestId: crypto.randomUUID(),
-  };
-}
+import { resolveActor } from './resolve-actor.js';
 
 const entitlementRoutes = new Hono<{ Bindings: Env }>();
 
