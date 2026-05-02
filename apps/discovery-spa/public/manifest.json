@@ -1,0 +1,25 @@
+{
+  "name": "WebWaka Discovery",
+  "short_name": "WebWaka",
+  "description": "Discover local businesses across Nigeria — search, browse by location, and explore by category.",
+  "start_url": "/discover",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "lang": "en-NG",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
