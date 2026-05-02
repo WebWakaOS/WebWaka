@@ -3,7 +3,7 @@
 **Branch:** staging
 **Agent:** WebWaka (Base44 Super Agent)
 **Date:** 2026-05-02
-**Status:** IN PROGRESS
+**Status:** IN PROGRESS (Wave 3 — Batches 1-4 complete, ~35% done)
 
 ---
 
@@ -21,48 +21,48 @@
 ## A. AI-NATIVE CORE
 
 ### A1. SuperAgent — Agent Loop & Prompt Management
-- [ ] A1-1: Extract agent-loop logic from `apps/api/src/routes/superagent.ts` into a standalone `packages/superagent/src/agent-loop.ts` module (currently inline in route — hard to test and extend)
-- [ ] A1-2: Add `PromptManager` class (`packages/superagent/src/prompt-manager.ts`) — loads versioned system prompts from vertical config, supports locale injection, and prevents raw user-constructed prompt injection
-- [ ] A1-3: Add per-vertical system prompt templates to `vertical-ai-config.ts` (currently no system prompt is injected — agent loop starts cold)
-- [ ] A1-4: Add `agent-loop.test.ts` with full coverage: tool round capping, error recovery, HITL gating, multi-turn state
+- [x] A1-1: Extract agent-loop logic from `apps/api/src/routes/superagent.ts` into a standalone `packages/superagent/src/agent-loop.ts` module (currently inline in route — hard to test and extend)
+- [x] A1-2: Add `PromptManager` class (`packages/superagent/src/prompt-manager.ts`) — loads versioned system prompts from vertical config, supports locale injection, and prevents raw user-constructed prompt injection
+- [x] A1-3: Add per-vertical system prompt templates to `vertical-ai-config.ts` (currently no system prompt is injected — agent loop starts cold)
+- [x] A1-4: Add `agent-loop.test.ts` with full coverage: tool round capping, error recovery, HITL gating, multi-turn state
 - [ ] A1-5: Add streaming agent loop variant in `agent-loop-stream.ts` for `POST /superagent/chat/stream` (currently the stream route is separate and lacks multi-turn tool support)
 
 ### A2. Tool Registry — Completeness & Runtime
-- [ ] A2-1: Add `search_offerings` tool (Pillar 3 — marketplace lookup for agent context)
-- [ ] A2-2: Add `get_customer_history` tool (CRM read — purchase history for bookings context)
-- [ ] A2-3: Add `log_payment` tool (write-capable, HITL-gated at autonomy < 3, guarded by `guardAIFinancialWrite`)
-- [ ] A2-4: Add `get_analytics_summary` tool (read-only, Pillar 1 — gives agent daily/weekly stats context)
-- [ ] A2-5: Add `create_support_ticket` tool (write-capable, HITL-gated at autonomy < 2)
-- [ ] A2-6: Add tool-level metadata (description, pillar, autonomyThreshold, readOnly flag) to `RegisteredTool` interface and propagate to all 9 existing + 5 new tools
-- [ ] A2-7: Expose `GET /superagent/tools` endpoint returning the registered tool catalogue (non-sensitive, useful for UI and debugging)
-- [ ] A2-8: Add `ToolRegistry.executeWithTimeout()` — wrap each tool call with a configurable deadline (default 5s) to prevent slow D1 queries blocking the agent loop
+- [x] A2-1: Add `search_offerings` tool (Pillar 3 — marketplace lookup for agent context)
+- [x] A2-2: Add `get_customer_history` tool (CRM read — purchase history for bookings context)
+- [x] A2-3: Add `log_payment` tool (write-capable, HITL-gated at autonomy < 3, guarded by `guardAIFinancialWrite`)
+- [x] A2-4: Add `get_analytics_summary` tool (read-only, Pillar 1 — gives agent daily/weekly stats context)
+- [x] A2-5: Add `create_support_ticket` tool (write-capable, HITL-gated at autonomy < 2)
+- [x] A2-6: Add tool-level metadata (description, pillar, autonomyThreshold, readOnly flag) to `RegisteredTool` interface and propagate to all 9 existing + 5 new tools
+- [x] A2-7: Expose `GET /superagent/tools` endpoint returning the registered tool catalogue (non-sensitive, useful for UI and debugging)
+- [x] A2-8: Add `ToolRegistry.executeWithTimeout()` — wrap each tool call with a configurable deadline (default 5s) to prevent slow D1 queries blocking the agent loop
 
 ### A3. AI Governance — Billing, BYOK, Failover
 - [ ] A3-1: Add `ByokKeyService` integration test — verify Level 1 (user BYOK) and Level 2 (workspace BYOK) resolution paths are actually exercised in CI
 - [ ] A3-2: Implement Level 5 fallback behaviour: currently `resolveAdapter` throws `NO_ADAPTER_AVAILABLE` — add a genuine fallback model config (e.g. groq/llama-3.1-8b-instant with a platform key) before the hard throw
 - [ ] A3-3: Add `CreditBurnEngine` edge-case tests: insufficient balance, partner pool exhausted, monthly cap reached — currently only happy path is tested
 - [ ] A3-4: Add `SpendControls` hard-cap enforcement test in the `/superagent/chat` route — verify 402 is returned when budget is exceeded
-- [ ] A3-5: Implement AI billing reconciliation cron: `apps/schedulers` — nightly job that scans `ai_usage_events` for unmatched `wc_transactions` and flags discrepancies
-- [ ] A3-6: Add `POST /superagent/byok` and `DELETE /superagent/byok/:id` endpoints (currently `KeyService` exists but no HTTP surface exists to add/remove BYOK keys)
-- [ ] A3-7: Implement `BYOK key rotation` — `PUT /superagent/byok/:id/rotate` replaces encrypted key in D1, invalidates KV cache
+- [x] A3-5: Implement AI billing reconciliation cron: `apps/schedulers` — nightly job that scans `ai_usage_events` for unmatched `wc_transactions` and flags discrepancies
+- [x] A3-6: Add `POST /superagent/byok` and `DELETE /superagent/byok/:id` endpoints (currently `KeyService` exists but no HTTP surface exists to add/remove BYOK keys)
+- [x] A3-7: Implement `BYOK key rotation` — `PUT /superagent/byok/:id/rotate` replaces encrypted key in D1, invalidates KV cache
 
 ### A4. HITL — End-to-End Flow Hardening
 - [ ] A4-1: Add `POST /admin/hitl/actions/:id/approve` and `/reject` API endpoints with full test coverage (currently AdminHITL.tsx polls but the approve/reject endpoints need verification in tests)
-- [ ] A4-2: Add HITL expiry cron in `apps/schedulers` — sweep `ai_hitl_queue` for expired `pending` items and flip to `expired`, then notify workspace admin
+- [x] A4-2: Add HITL expiry cron in `apps/schedulers` — sweep `ai_hitl_queue` for expired `pending` items and flip to `expired`, then notify workspace admin
 - [ ] A4-3: Add HITL Level 3 (regulatory 72h window) enforcement test — verify Level 3 items cannot be auto-approved before 72h
 - [ ] A4-4: Add HITL notification: when a HITL item is submitted, fire a workspace notification to designated reviewers (integrate with `packages/notifications`)
 - [ ] A4-5: Add HITL audit trail: append structured event to `ai_hitl_events` on every status change (pending → approved/rejected/expired/executed)
 
 ### A5. State Persistence & Session Hardening
 - [ ] A5-1: Add `SessionService` TTL cleanup cron in `apps/schedulers` — expire sessions older than 7 days of inactivity (currently no cleanup job exists)
-- [ ] A5-2: Add `GET /superagent/sessions` and `DELETE /superagent/sessions/:id` routes for session listing and GDPR-compliant deletion
+- [x] A5-2: Add `GET /superagent/sessions` and `DELETE /superagent/sessions/:id` routes for session listing and GDPR-compliant deletion
 - [ ] A5-3: Add context-window trim test: verify `loadHistory(maxTokens)` correctly drops oldest messages when budget is exceeded
 - [ ] A5-4: Implement session title auto-generation: after first assistant message, call a cheap AI completion to set `title` in `ai_sessions` (currently always null)
 
 ### A6. AI Observability & Background Jobs
 - [ ] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)
 - [ ] A6-2: Add AI usage chart component in `apps/admin-dashboard` — daily spend, top tenants, top capabilities (currently no AI-specific admin UI)
-- [ ] A6-3: Add AI anomaly detection cron in `apps/schedulers` — flag tenants with unusual WakaCU spend velocity (>3x rolling average) and write to an `ai_anomaly_flags` table
+- [x] A6-3: Add AI anomaly detection cron in `apps/schedulers` — flag tenants with unusual WakaCU spend velocity (>3x rolling average) and write to an `ai_anomaly_flags` table
 - [ ] A6-4: Add structured AI error logging to `packages/logging` — `logAiEvent(logger, event)` helper that emits a structured JSON log line with routing level, capability, duration, tokens, error code (if any) without PII
 - [ ] A6-5: Add AI background job infrastructure: `packages/superagent/src/background-jobs/` with a typed `BackgroundJob` interface and two initial jobs: `demand-forecast-job.ts` and `shift-summary-job.ts` (triggered by Cloudflare Cron via schedulers)
 
@@ -87,12 +87,12 @@
 - [ ] B2-1: Add `FSMEngine.validateConfig()` — static method that validates a `VerticalFSMConfig` at registration time (catch orphan states, missing transitions, unreachable states)
 - [ ] B2-2: Add FSM event emission: on every state transition, publish an event via `packages/events` (`vertical.state.transitioned`) to enable downstream reactions (audit, notification, analytics)
 - [ ] B2-3: Add FSM history: store last N state transitions in a `profile_state_history` table (migration needed) for audit/compliance
-- [ ] B2-4: Add FSM bulk validation test: run `FSMEngine.validateConfig()` against all 157 registry FSM configs in a single vitest spec
+- [x] B2-4: Add FSM bulk validation test: run `FSMEngine.validateConfig()` against all 157 registry FSM configs in a single vitest spec
 
 ### B3. Shared UI & Workflow Primitives
-- [ ] B3-1: Add `VerticalStatusBadge` component to `packages/design-system` — renders FSM state with color coding (seeded=grey, claimed=blue, active=green, suspended=red)
-- [ ] B3-2: Add `VerticalProfileCard` component — reusable profile display card driven by `VerticalConfig.profileFields`
-- [ ] B3-3: Add `VerticalFormRenderer` component — generates a create/edit form from `VerticalConfig.createFields`/`updateFields` (eliminates repeated form code across 159 workspace pages)
+- [x] B3-1: Add `VerticalStatusBadge` component to `packages/design-system` — renders FSM state with color coding (seeded=grey, claimed=blue, active=green, suspended=red)
+- [x] B3-2: Add `VerticalProfileCard` component — reusable profile display card driven by `VerticalConfig.profileFields`
+- [x] B3-3: Add `VerticalFormRenderer` component — generates a create/edit form from `VerticalConfig.createFields`/`updateFields` (eliminates repeated form code across 159 workspace pages)
 - [ ] B3-4: Add `useVerticalEngine` React hook — client-side hook that calls the API for profile CRUD + FSM transitions, abstracting fetch logic from page components
 
 ### B4. Vertical Deduplication & Migration

@@ -2315,7 +2315,7 @@ superagentRoutes.get('/sessions', async (c) => {
   const limit = Math.min(parseInt(limitStr, 10) || 20, 100);
 
   const ss = new SessionService({ db });
-  const result = await ss.listSessions(auth.tenantId, auth.userId, { cursor, limit });
+  const result = await ss.listSessions({ tenantId: auth.tenantId, userId: auth.userId, cursor, limit });
   return c.json(result);
 });
 
