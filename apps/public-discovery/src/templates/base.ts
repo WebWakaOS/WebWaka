@@ -309,6 +309,59 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border: 1.5px solid var(--ww-primary);
 }
 
+
+/* ── D1-3: Category icon cards ──────────────────────────────────────── */
+.ww-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .625rem;
+}
+@media(min-width:480px){ .ww-cat-grid { grid-template-columns: repeat(6, 1fr); } }
+@media(min-width:768px){ .ww-cat-grid { grid-template-columns: repeat(8, 1fr); } }
+.ww-cat-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: .375rem; padding: .75rem .5rem;
+  background: var(--ww-bg-surface);
+  border: 1px solid var(--ww-border);
+  border-radius: var(--ww-radius);
+  text-align: center; text-decoration: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ww-cat-card:hover {
+  border-color: var(--ww-primary);
+  box-shadow: 0 2px 12px rgba(26,107,58,.12);
+  text-decoration: none;
+}
+.ww-cat-emoji { font-size: 1.75rem; line-height: 1; }
+.ww-cat-label {
+  font-size: .6875rem; font-weight: 600;
+  color: var(--ww-text); line-height: 1.2;
+}
+
+/* ── D1-7: Pagination ────────────────────────────────────────────────── */
+.ww-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: .75rem; margin: 2rem 0 1rem; flex-wrap: wrap;
+}
+.ww-pagination-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .5rem 1rem; min-height: 40px;
+  border: 1px solid var(--ww-border); border-radius: var(--ww-radius);
+  background: var(--ww-bg); color: var(--ww-primary);
+  font-size: .875rem; font-weight: 600; text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+a.ww-pagination-btn:hover {
+  background: var(--ww-accent); border-color: var(--ww-primary);
+  text-decoration: none;
+}
+.ww-pagination-disabled {
+  color: var(--ww-text-muted); cursor: not-allowed; opacity: .5;
+}
+.ww-pagination-info {
+  font-size: .875rem; color: var(--ww-text-muted);
+}
+
 </style>
 </head>
 <body>

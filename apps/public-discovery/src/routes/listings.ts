@@ -60,10 +60,24 @@ function renderCard(r: {
   );
 }
 
-const SECTORS = [
-  'Restaurant', 'Salon', 'Market', 'Motor Park', 'Bakery',
-  'Pharmacy', 'Laundry', 'Logistics', 'Education', 'Agriculture',
-  'Healthcare', 'Real Estate',
+// D1-3: Category grid with emoji icons
+const SECTORS: Array<{ label: string; emoji: string; slug: string }> = [
+  { label: 'Restaurant',    emoji: '🍲', slug: 'Restaurant'    },
+  { label: 'Salon',         emoji: '💇', slug: 'Salon'         },
+  { label: 'Market',        emoji: '🛒', slug: 'Market'        },
+  { label: 'Motor Park',    emoji: '🚌', slug: 'Motor Park'    },
+  { label: 'Bakery',        emoji: '🥐', slug: 'Bakery'        },
+  { label: 'Pharmacy',      emoji: '💊', slug: 'Pharmacy'      },
+  { label: 'Laundry',       emoji: '👕', slug: 'Laundry'       },
+  { label: 'Logistics',     emoji: '📦', slug: 'Logistics'     },
+  { label: 'Education',     emoji: '📚', slug: 'Education'     },
+  { label: 'Agriculture',   emoji: '🌾', slug: 'Agriculture'   },
+  { label: 'Healthcare',    emoji: '🏥', slug: 'Healthcare'    },
+  { label: 'Real Estate',   emoji: '🏠', slug: 'Real Estate'   },
+  { label: 'Fashion',       emoji: '👗', slug: 'Fashion'       },
+  { label: 'Technology',    emoji: '💻', slug: 'Technology'    },
+  { label: 'Finance',       emoji: '🏦', slug: 'Finance'       },
+  { label: 'Transport',     emoji: '🚗', slug: 'Transport'     },
 ];
 
 // GET /discover — platform home
@@ -82,8 +96,9 @@ router.get('/', async (c) => {
     stateChips = '<p style="color:var(--ww-text-muted);font-size:.875rem">States loading...</p>';
   }
 
+  // D1-3: Category icon grid
   const sectorChips = SECTORS
-    .map((s) => `<a class="ww-chip" href="/discover/category/${encodeURIComponent(s)}">${esc(s)}</a>`)
+    .map((s) => `<a class="ww-cat-card" href="/discover/category/${encodeURIComponent(s.slug)}" aria-label="${s.label} businesses"><span class="ww-cat-emoji" aria-hidden="true">${s.emoji}</span><span class="ww-cat-label">${s.label}</span></a>`)
     .join('');
 
   let recentListings = '';
@@ -132,7 +147,7 @@ router.get('/', async (c) => {
 
     <section style="margin-top:1.5rem">
       <h2 class="ww-section-title">Browse by Category</h2>
-      <div class="ww-chip-list">${sectorChips}</div>
+      <div class="ww-cat-grid">${sectorChips}</div>
     </section>
 
     <section style="margin-top:2rem">
@@ -229,12 +244,31 @@ function buildItemListSchema(
   return node;
 }
 
+
+// D1-7: Pagination helper — renders prev/next links
+const PAGE_SIZE = 24;
+
+function renderPagination(baseUrl: string, page: number, hasMore: boolean): string {
+  if (page <= 1 && !hasMore) return '';
+  const prevUrl = page > 2 ? `${baseUrl}&page=${page - 1}` : (page === 2 ? baseUrl.replace(/&page=\d+/, '') : '');
+  const nextUrl = hasMore ? `${baseUrl}&page=${page + 1}` : '';
+  return `
+  <nav class="ww-pagination" aria-label="Pagination">
+    ${prevUrl ? `<a href="${prevUrl}" class="ww-pagination-btn">&larr; Previous</a>` : '<span class="ww-pagination-btn ww-pagination-disabled">&larr; Previous</span>'}
+    <span class="ww-pagination-info">Page ${page}</span>
+    ${nextUrl ? `<a href="${nextUrl}" class="ww-pagination-btn">Next &rarr;</a>` : '<span class="ww-pagination-btn ww-pagination-disabled">Next &rarr;</span>'}
+  </nav>`;
+}
+
 // GET /discover/in/:placeId — entities in geography subtree
 router.get('/in/:placeId', async (c) => {
   const locale = detectLocale(c.req.raw);
   const t = createI18n(locale);
   const placeId = c.req.param('placeId');
-  const cacheKey = `disc:place:${placeId}`;
+  const rawPage = parseInt(c.req.query('page') ?? '1', 10);
+  const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+  const offset = (page - 1) * PAGE_SIZE;
+  const cacheKey = `disc:place:${placeId}:p${page}`;
 
   let placeName = 'this area';
   try {
@@ -251,6 +285,7 @@ router.get('/in/:placeId', async (c) => {
   }> | null;
 
   let results: typeof cached;
+  let hasMorePlace = false;
 
   if (!cached) {
     // BUG-P3-001 fix: ancestry_path subtree query replaces path LIKE subquery.
@@ -265,12 +300,14 @@ router.get('/in/:placeId', async (c) => {
          WHERE (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')
          AND o.is_published = 1
          ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
-         LIMIT 60`,
+         LIMIT ${PAGE_SIZE + 1} OFFSET ${offset}`,
       )
       .bind(placeId, `%"${safePlaceId}"%`)
       .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
-    results = rows.results ?? [];
+    const allRows = rows.results ?? [];
+    results = allRows.slice(0, PAGE_SIZE);
     await c.env.DISCOVERY_CACHE.put(cacheKey, JSON.stringify(results), { expirationTtl: 60 });
+    hasMorePlace = allRows.length > PAGE_SIZE;
   } else {
     results = cached;
   }
@@ -280,12 +317,14 @@ router.get('/in/:placeId', async (c) => {
       ? '<p style="color:var(--ww-text-muted)">No listings found in this area yet. Be the first to list your business!</p>'
       : `<div class="ww-grid">${results
           .map(renderCard).join('')}</div>`;
+  const pagination = renderPagination(`/discover/in/${placeId}?`, page, hasMorePlace);
 
   const body = `
     <a href="/discover" style="font-size:.875rem;color:var(--ww-text-muted)">&larr; All locations</a>
     <h1 style="font-size:1.5rem;font-weight:800;margin:1rem 0">Businesses in ${esc(placeName)}</h1>
     <p style="color:var(--ww-text-muted);margin-bottom:1.5rem">${results.length} listing${results.length !== 1 ? 's' : ''} found</p>
     ${cards}
+    ${pagination}
     ${results.length === 0 ? `
     <div class="ww-cta-banner">
       <h3>Know a business in ${esc(placeName)}?</h3>
@@ -324,6 +363,10 @@ router.get('/search', async (c) => {
   const t = createI18n(locale);
   const q = (c.req.query('q') ?? '').trim();
   let placeId = c.req.query('place') ?? null;
+  const catFilter = (c.req.query('cat') ?? '').trim();
+  const rawSearchPage = parseInt(c.req.query('page') ?? '1', 10);
+  const searchPage = isNaN(rawSearchPage) || rawSearchPage < 1 ? 1 : rawSearchPage;
+  const searchOffset = (searchPage - 1) * PAGE_SIZE;
 
   if (!q) return c.redirect('/discover');
 
@@ -359,6 +402,12 @@ router.get('/search', async (c) => {
   // BUG-P3-001 fix: ancestry_path subtree query replaces path LIKE subquery.
   // When placeId present, bind it twice (once for gp.id = ?, once for LIKE pattern).
   const safePlaceId = placeId ? placeId.replace(/[%_\\]/g, '\\$&') : null;
+  const catSql = catFilter ? 'AND LOWER(o.category) = LOWER(?)' : '';
+  const searchBinds: unknown[] = [q, q];
+  if (catFilter) searchBinds.push(catFilter);
+  if (placeId && safePlaceId) { searchBinds.push(placeId); searchBinds.push(`%"${safePlaceId}"%`); }
+  searchBinds.push(PAGE_SIZE + 1, searchOffset);
+
   const results = await c.env.DB
     .prepare(
       `SELECT o.id, o.name, o.category, gp.name AS place_name,
@@ -367,14 +416,17 @@ router.get('/search', async (c) => {
        JOIN places gp ON gp.id = o.place_id
        WHERE o.is_published = 1
          AND (o.name LIKE '%' || ? || '%' OR o.category LIKE '%' || ? || '%')
+         ${catFilter ? 'AND LOWER(o.category) = LOWER(?)' : ''}
          ${placeId ? "AND (gp.id = ? OR gp.ancestry_path LIKE ? ESCAPE '\\')" : ''}
        ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
-         LIMIT 60`,
+       LIMIT ? OFFSET ?`,
     )
-    .bind(...(placeId && safePlaceId ? [q, q, placeId, `%"${safePlaceId}"%`] : [q, q]))
+    .bind(...searchBinds)
     .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
 
-  const rows = results.results ?? [];
+  const allSearchRows = results.results ?? [];
+  const rows = allSearchRows.slice(0, PAGE_SIZE);
+  const hasMoreSearch = allSearchRows.length > PAGE_SIZE;
 
   const cards =
     rows.length === 0
@@ -389,14 +441,20 @@ router.get('/search', async (c) => {
        </p>`
     : '';
 
+  const searchBaseUrl = `/discover/search?q=${encodeURIComponent(q)}${catFilter ? `&cat=${encodeURIComponent(catFilter)}` : ''}${placeId ? `&place=${placeId}` : ''}`;
+  const searchPagination = renderPagination(searchBaseUrl + '&', searchPage, hasMoreSearch);
+  const catFilterBadge = catFilter ? `<span class="ww-badge" style="margin-bottom:.75rem;display:inline-block">${esc(catFilter)} <a href="/discover/search?q=${encodeURIComponent(q)}" style="color:inherit;margin-left:.25rem">&times;</a></span>` : '';
+
   const body = `
     <form class="ww-search" method="GET" action="/discover/search">
       <input name="q" type="search" value="${esc(q)}" autocomplete="off" />
       <button type="submit">Search</button>
     </form>
     ${geoNotice}
+    ${catFilterBadge}
     <p style="margin-bottom:1rem;color:var(--ww-text-muted)">${rows.length} result${rows.length !== 1 ? 's' : ''} for "${esc(q)}"</p>
-    ${cards}`;
+    ${cards}
+    ${searchPagination}`;
 
   const headExtra = `
     <meta name="description" content="Search results for '${esc(q)}' on WebWaka Discover" />
@@ -428,8 +486,12 @@ router.get('/category/:cat', async (c) => {
   const t = createI18n(locale);
   const cat = c.req.param('cat');
   const displayCat = cat.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
+  const rawCatPage = parseInt(c.req.query('page') ?? '1', 10);
+  const catPage = isNaN(rawCatPage) || rawCatPage < 1 ? 1 : rawCatPage;
+  const catOffset = (catPage - 1) * PAGE_SIZE;
 
   let results: Array<{ id: string; name: string; category: string; place_name: string }> = [];
+  let hasMoreCat = false;
   try {
     const rows = await c.env.DB
       .prepare(
@@ -440,11 +502,13 @@ router.get('/category/:cat', async (c) => {
          WHERE o.is_published = 1
            AND LOWER(o.category) = LOWER(?)
          ORDER BY COALESCE(o.trust_score, 0) DESC, o.name ASC
-         LIMIT 60`,
+         LIMIT ${PAGE_SIZE + 1} OFFSET ${catOffset}`,
       )
       .bind(cat)
       .all<{ id: string; name: string; category: string; place_name: string; logo_url: string | null; trust_score: number | null; is_claimed: number | null }>();
-    results = rows.results ?? [];
+    const allCatRows = rows.results ?? [];
+    results = allCatRows.slice(0, PAGE_SIZE);
+    hasMoreCat = allCatRows.length > PAGE_SIZE;
   } catch { /* table may not exist */ }
 
   const cards =
@@ -463,7 +527,7 @@ router.get('/category/:cat', async (c) => {
       <h3>Run a ${esc(displayCat)} business?</h3>
       <p>Be the first to list in this category on WebWaka.</p>
       <a class="ww-cta-btn" href="https://webwaka.com">Get Started Free</a>
-    </div>` : ''}`;
+    </div>` : renderPagination(`/discover/category/${encodeURIComponent(cat)}?`, catPage, hasMoreCat)}`;
 
   const headExtra = `
     <meta name="description" content="Browse ${esc(displayCat)} businesses across Nigeria on WebWaka Discover." />
