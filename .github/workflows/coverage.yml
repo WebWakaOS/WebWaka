@@ -1,0 +1,73 @@
+name: Coverage Gate
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - main
+  push:
+    branches:
+      - staging
+      - main
+
+concurrency:
+  group: coverage-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Coverage ≥ 70% (superagent · ai-abstraction · vertical-engine)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Run coverage for the three critical packages
+      - name: Coverage — packages/superagent
+        run: |
+          cd packages/superagent
+          pnpm vitest run --coverage \
+            --coverage.provider=v8 \
+            --coverage.reporter=json-summary \
+            --coverage.thresholds.lines=70 \
+            --coverage.thresholds.functions=70 \
+            --coverage.thresholds.branches=60
+
+      - name: Coverage — packages/ai-abstraction
+        run: |
+          cd packages/ai-abstraction
+          pnpm vitest run --coverage \
+            --coverage.provider=v8 \
+            --coverage.reporter=json-summary \
+            --coverage.thresholds.lines=70 \
+            --coverage.thresholds.functions=70 \
+            --coverage.thresholds.branches=60
+
+      - name: Coverage — packages/vertical-engine
+        run: |
+          cd packages/vertical-engine
+          pnpm vitest run --coverage \
+            --coverage.provider=v8 \
+            --coverage.reporter=json-summary \
+            --coverage.thresholds.lines=70 \
+            --coverage.thresholds.functions=70 \
+            --coverage.thresholds.branches=60
+
+      # Upload combined coverage as artifact for PR comments
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports-${{ github.sha }}
+          path: |
+            packages/superagent/coverage/coverage-summary.json
+            packages/ai-abstraction/coverage/coverage-summary.json
+            packages/vertical-engine/coverage/coverage-summary.json
+          retention-days: 14

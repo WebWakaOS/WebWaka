@@ -124,4 +124,22 @@ export const fr: Partial<I18nLocale> = {
   notif_powered_by: 'Propulsé par WebWaka',
   notif_marketing_address_label: 'Adresse postale :',
   notif_too_many_emails: 'Vous recevez trop d\'e-mails ? Vous pouvez gérer vos préférences de notification dans les paramètres de votre compte.',
+
+  // API Error messages (L-12)
+  api_err_bad_request: 'Requete incorrecte. Veuillez verifier vos donnees.',
+  api_err_unauthorized: 'Non autorise. Veuillez vous connecter et reessayer.',
+  api_err_forbidden: 'Acces refuse. Vous n\'avez pas la permission.',
+  api_err_not_found: 'La ressource demandee est introuvable.',
+  api_err_conflict: 'Cette ressource existe deja.',
+  api_err_validation_failed: 'Validation echouee. Veuillez corriger vos donnees.',
+  api_err_rate_limit_exceeded: 'Trop de requetes. Veuillez patienter et reessayer.',
+  api_err_payload_too_large: 'Requete trop volumineuse. Veuillez reduire la taille.',
+  api_err_internal_error: 'Une erreur inattendue s\'est produite. Reessayez plus tard.',
+  api_err_service_unavailable: 'Service temporairement indisponible. Reessayez bientot.',
+  api_err_email_required: 'L\'email et le mot de passe sont requis.',
+  api_err_invalid_credentials: 'Email ou mot de passe incorrect.',
+  api_err_account_locked: 'Compte temporairement verrouille. Reessayez plus tard.',
+  api_err_email_exists: 'Un compte avec cet email existe deja.',
+  api_err_business_name_short: 'Le nom de l\'entreprise doit comporter au moins 2 caracteres.',
+  api_err_invalid_email: 'Veuillez entrer une adresse email valide.',
 };

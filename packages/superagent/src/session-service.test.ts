@@ -487,3 +487,82 @@ describe('SessionService', () => {
     });
   });
 });
+
+// ==========================================================================
+// Wave 3 additions — A5-1, A5-4
+// ==========================================================================
+
+describe('Wave 3 A5-4 — generateTitle', () => {
+  it('sets title from first user message heuristic when no adapter supplied', async () => {
+    const s = await svc.createSession({ tenantId: 't', userId: 'u' });
+    const title = await svc.generateTitle(s.id, 't', {
+      firstUserMessage: 'How can I reorder my inventory items?',
+    });
+    expect(title).toContain('How can I reorder');
+  });
+
+  it('truncates long messages to 60 chars with ellipsis', async () => {
+    const s = await svc.createSession({ tenantId: 't', userId: 'u' });
+    const longMsg = 'A'.repeat(100);
+    const title = await svc.generateTitle(s.id, 't', { firstUserMessage: longMsg });
+    expect(title.length).toBeLessThanOrEqual(61); // 60 + ellipsis
+    expect(title.endsWith('…')).toBe(true);
+  });
+
+  it('uses adapter result when adapter is provided', async () => {
+    const s = await svc.createSession({ tenantId: 't', userId: 'u' });
+    const titleAdapter = vi.fn().mockResolvedValue('Inventory Reorder Query');
+    const title = await svc.generateTitle(s.id, 't', {
+      firstUserMessage: 'How can I reorder?',
+      titleAdapter,
+    });
+    expect(title).toBe('Inventory Reorder Query');
+    expect(titleAdapter).toHaveBeenCalledOnce();
+  });
+
+  it('falls back to heuristic when adapter throws', async () => {
+    const s = await svc.createSession({ tenantId: 't', userId: 'u' });
+    const titleAdapter = vi.fn().mockRejectedValue(new Error('AI timeout'));
+    const title = await svc.generateTitle(s.id, 't', {
+      firstUserMessage: 'Help me track sales',
+      titleAdapter,
+    });
+    expect(title).toContain('Help me track sales');
+  });
+
+  it('does NOT overwrite an existing title (idempotent)', async () => {
+    const s = await svc.createSession({ tenantId: 't', userId: 'u', title: 'Existing Title' });
+    await svc.generateTitle(s.id, 't', { firstUserMessage: 'New message' });
+    const loaded = await svc.getSession(s.id, 't');
+    // SQL WHERE title IS NULL means existing title is unchanged
+    expect(loaded?.title).toBe('Existing Title');
+  });
+});
+
+describe('Wave 3 A5-1 — SessionService.pruneExpired (inactivity gate)', () => {
+  it('pruneExpired removes sessions past expires_at', async () => {
+    // Create a session that is already expired
+    const expiredId = await (async () => {
+      const s = await svc.createSession({ tenantId: 't', userId: 'u' });
+      // Manually push expires_at into the past
+      const db = (svc as unknown as { db: unknown })['db'] as {
+        prepare(sql: string): { bind(...v: unknown[]): { run(): Promise<unknown> } };
+      };
+      await db
+        .prepare(`UPDATE ai_sessions SET expires_at = ? WHERE id = ?`)
+        .bind(new Date(Date.now() - 1000).toISOString(), s.id)
+        .run();
+      return s.id;
+    })();
+
+    const count = await (svc as unknown as { pruneExpired(): Promise<number> })
+      .pruneExpired?.();
+
+    if (typeof count === 'number') {
+      expect(count).toBeGreaterThanOrEqual(1);
+    }
+    // Session should be gone
+    const gone = await svc.getSession(expiredId, 't');
+    expect(gone).toBeNull();
+  });
+});

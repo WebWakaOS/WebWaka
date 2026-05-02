@@ -2,11 +2,13 @@
  * Platform Admin — C5: Super Admin tools merged into workspace-app
  * Role-gated: super_admin only
  */
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import AdminHITL from './AdminHITL';
 import { Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/contexts/AuthContext';
 
 // ------------- Types -------------
@@ -41,13 +43,46 @@ interface Tenant {
 // ------------- Sub-pages -------------
 
 function PlatformOverview() {
+  const [stats, setStats] = React.useState<{ tenants: number; partners: number; pendingClaims: number; pendingHITL: number } | null>(null);
+  React.useEffect(() => {
+    Promise.all([
+      api.get<{ total?: number; tenants?: unknown[] }>('/platform/tenants?limit=1').catch(() => null),
+      api.get<{ total?: number; partners?: unknown[] }>('/platform/partners?limit=1').catch(() => null),
+      api.get<{ claims?: unknown[] }>('/admin/claims?status=pending&limit=50').catch(() => null),
+    ]).then(([t, p, cl]) => {
+      setStats({
+        tenants: (t as { total?: number } | null)?.total ?? (t as { tenants?: unknown[] } | null)?.tenants?.length ?? 0,
+        partners: (p as { total?: number } | null)?.total ?? (p as { partners?: unknown[] } | null)?.partners?.length ?? 0,
+        pendingClaims: (cl as { claims?: unknown[] } | null)?.claims?.length ?? 0,
+        pendingHITL: 0,
+      });
+    });
+  }, []);
+  const kpis = [
+    { label: 'Total Tenants', value: stats?.tenants ?? '—', color: '#0F4C81', icon: '🏢' },
+    { label: 'Partners', value: stats?.partners ?? '—', color: '#7c3aed', icon: '🤝' },
+    { label: 'Pending Claims', value: stats?.pendingClaims ?? '—', color: stats?.pendingClaims ? '#dc2626' : '#16a34a', icon: '📋' },
+    { label: 'HITL Queue', value: stats?.pendingHITL ?? '—', color: '#d97706', icon: '🤖' },
+  ];
   return (
     <div>
-      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20 }}>Platform Overview</h2>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Platform Overview</h2>
+      {/* KPI stat cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
+        {kpis.map(k => (
+          <div key={k.label} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px', textAlign: 'center' }}>
+            <div style={{ fontSize: 28 }} aria-hidden="true">{k.icon}</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: k.color, lineHeight: 1 }}>{k.value}</div>
+            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>{k.label}</div>
+          </div>
+        ))}
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
         {[
           { label: 'Claims', icon: '📋', href: '/platform/claims', desc: 'Review claim requests' },
           { label: 'Tenants', icon: '🏢', href: '/platform/tenants', desc: 'Manage organizations' },
+          { label: 'Templates', icon: '🧩', href: '/platform/templates', desc: 'Marketplace approvals' },
+          { label: 'Support', icon: '🎫', href: '/platform/support', desc: 'Ticket queue' },
           { label: 'Platform Settings', icon: '⚙️', href: '/platform/settings', desc: 'System configuration' },
         ].map(card => (
           <NavLink key={card.href} to={card.href}
@@ -186,26 +221,39 @@ function PlatformClaims() {
 function PlatformTenants() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    api.get<{ tenants: Tenant[] }>('/platform/tenants?limit=50')
+    api.get<{ tenants: Tenant[] }>('/platform/tenants?limit=100')
       .then(r => setTenants(r.tenants ?? []))
       .catch(() => setTenants([]))
       .finally(() => setLoading(false));
   }, []);
 
+  const filtered = search.trim()
+    ? tenants.filter(t => t.name?.toLowerCase().includes(search.toLowerCase()) || t.status?.toLowerCase().includes(search.toLowerCase()))
+    : tenants;
+
   return (
     <div>
-      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 20 }}>Tenants</h2>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700 }}>Tenants</h2>
+        <input
+          type="search" placeholder="Search tenants…" value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{ padding: '8px 14px', border: '1.5px solid #e5e7eb', borderRadius: 8, fontSize: 14, minWidth: 200, outline: 'none' }}
+          aria-label="Search tenants"
+        />
+      </div>
       {loading ? (
         <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading tenants…</p>
-      ) : tenants.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '48px', background: '#f9fafb', borderRadius: 12 }}>
           <p style={{ color: '#6b7280' }}>No tenants found or you lack permission.</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {tenants.map(t => (
+          {filtered.map(t => (
             <div key={t.id} style={{
               background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '14px 16px',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -427,6 +475,386 @@ function PlatformSettings() {
 
 // ------------- Main Platform Admin wrapper -------------
 
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Wave 2: Audit Log Viewer
+// ──────────────────────────────────────────────────────────────────────────────
+function PlatformAuditLog() {
+  interface AuditEntry { id: string; actor_email: string; action: string; entity: string; entity_id: string; created_at: number; meta: string | null }
+  const [entries, setEntries] = useState<AuditEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    api.get<{ log: AuditEntry[] }>('/platform/audit-log?limit=100')
+      .then(r => setEntries(r.log ?? []))
+      .catch(() => setEntries([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filtered = entries.filter(e =>
+    !filter || e.actor_email.includes(filter) || e.action.includes(filter) || e.entity.includes(filter)
+  );
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Audit Log</h2>
+      <Input value={filter} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilter(e.target.value)} placeholder="Filter by actor, action, or entity…" style={{ marginBottom: 16, maxWidth: 360 }} />
+      {loading ? <p style={{ color: '#9ca3af' }}>Loading…</p> : filtered.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>📋</div>
+          {filter ? 'No entries match your filter.' : 'No audit log entries yet.'}
+        </div>
+      ) : (
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <thead>
+              <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                {['Time', 'Actor', 'Action', 'Entity', 'ID'].map(h => (
+                  <th key={h} style={{ padding: '10px 12px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((e, i) => (
+                <tr key={e.id} style={{ borderBottom: '1px solid #f3f4f6', background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
+                  <td style={{ padding: '8px 12px', color: '#9ca3af', fontSize: 12, whiteSpace: 'nowrap' }}>
+                    {new Date(e.created_at * 1000).toLocaleString('en-NG', { dateStyle: 'short', timeStyle: 'short' })}
+                  </td>
+                  <td style={{ padding: '8px 12px', fontSize: 12, maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.actor_email}</td>
+                  <td style={{ padding: '8px 12px', fontWeight: 500 }}>{e.action}</td>
+                  <td style={{ padding: '8px 12px', color: '#6b7280' }}>{e.entity}</td>
+                  <td style={{ padding: '8px 12px', color: '#9ca3af', fontFamily: 'monospace', fontSize: 11 }}>{e.entity_id?.slice(0, 8)}…</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Wave 2: Partner Management
+// ──────────────────────────────────────────────────────────────────────────────
+function PlatformPartners() {
+  interface PartnerRow { id: string; name: string; status: string; sub_tenant_count: number; created_at: number }
+  const [partners, setPartners] = useState<PartnerRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [acting, setActing] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.get<{ partners: PartnerRow[] }>('/platform/partners?limit=100')
+      .then(r => setPartners(r.partners ?? []))
+      .catch(() => setPartners([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const toggle = async (id: string, currentStatus: string) => {
+    const newStatus = currentStatus === 'suspended' ? 'active' : 'suspended';
+    setActing(id);
+    try {
+      await api.patch(`/platform/partners/${id}`, { status: newStatus });
+      setPartners(prev => prev.map(p => p.id === id ? { ...p, status: newStatus } : p));
+      toast.success(`Partner ${newStatus}`);
+    } catch {
+      toast.error('Action failed');
+    } finally {
+      setActing(null);
+    }
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Partner Accounts</h2>
+      {loading ? <p style={{ color: '#9ca3af' }}>Loading…</p> : partners.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>🤝</div>
+          No partner accounts yet.
+        </div>
+      ) : (
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+          <thead>
+            <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+              {['Partner', 'Sub-Tenants', 'Status', 'Joined', 'Actions'].map(h => (
+                <th key={h} style={{ padding: '10px 12px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {partners.map((p, i) => (
+              <tr key={p.id} style={{ borderBottom: '1px solid #f3f4f6', background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
+                <td style={{ padding: '10px 12px', fontWeight: 500 }}>{p.name}</td>
+                <td style={{ padding: '10px 12px' }}>{p.sub_tenant_count}</td>
+                <td style={{ padding: '10px 12px' }}>
+                  <span style={{ padding: '2px 10px', borderRadius: 999, fontSize: 12, fontWeight: 600, background: p.status === 'active' ? '#dcfce7' : '#fee2e2', color: p.status === 'active' ? '#16a34a' : '#dc2626' }}>
+                    {p.status}
+                  </span>
+                </td>
+                <td style={{ padding: '10px 12px', color: '#9ca3af', fontSize: 12 }}>
+                  {new Date(p.created_at * 1000).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: '2-digit' })}
+                </td>
+                <td style={{ padding: '10px 12px' }}>
+                  <button onClick={() => toggle(p.id, p.status)} disabled={acting === p.id}
+                    style={{ fontSize: 12, fontWeight: 600, padding: '4px 10px', borderRadius: 6, cursor: 'pointer', border: '1px solid', borderColor: p.status === 'suspended' ? '#d1fae5' : '#fecaca', background: p.status === 'suspended' ? '#f0fdf4' : '#fff5f5', color: p.status === 'suspended' ? '#059669' : '#dc2626' }}>
+                    {acting === p.id ? '…' : p.status === 'suspended' ? 'Activate' : 'Suspend'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Wave 2: Feature Flags
+// ──────────────────────────────────────────────────────────────────────────────
+// ─── E2-4: Template Marketplace Approval Queue ───────────────────────────────
+interface TemplateSubmission {
+  id: string;
+  name: string;
+  vertical: string;
+  submitted_by: string;
+  status: string;
+  created_at: string;
+}
+
+function PlatformTemplates() {
+  const [items, setItems] = React.useState<TemplateSubmission[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [acting, setActing] = React.useState<string | null>(null);
+
+  const load = () => {
+    api.get<{ templates: TemplateSubmission[] }>('/platform/templates?status=pending&limit=50')
+      .then(r => setItems(r.templates ?? []))
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
+  };
+  React.useEffect(load, []);
+
+  const decide = async (id: string, action: 'approve' | 'reject') => {
+    setActing(id);
+    try {
+      await api.patch(`/platform/templates/${id}`, { status: action === 'approve' ? 'approved' : 'rejected' });
+      toast.success(`Template ${action}d`);
+      load();
+    } catch { toast.error('Action failed'); }
+    finally { setActing(null); }
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Template Marketplace Approvals</h2>
+      {loading ? <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading…</p> : items.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 40, background: '#f9fafb', borderRadius: 12 }}>
+          <div style={{ fontSize: 36, marginBottom: 8 }}>&#x2705;</div>
+          <p style={{ color: '#6b7280' }}>No templates pending approval.</p>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {items.map(t => (
+            <div key={t.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{t.name}</div>
+                <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>Vertical: {t.vertical} · Submitted by: {t.submitted_by}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => void decide(t.id, 'approve')} disabled={acting === t.id}
+                  style={{ padding: '6px 14px', borderRadius: 7, border: 'none', background: '#dcfce7', color: '#16a34a', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
+                  {acting === t.id ? '…' : 'Approve'}
+                </button>
+                <button onClick={() => void decide(t.id, 'reject')} disabled={acting === t.id}
+                  style={{ padding: '6px 14px', borderRadius: 7, border: 'none', background: '#fee2e2', color: '#dc2626', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
+                  {acting === t.id ? '…' : 'Reject'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── E2-9: Support Ticket Queue ───────────────────────────────────────────────
+interface SupportTicket {
+  id: string;
+  subject: string;
+  tenant_name: string;
+  priority: string;
+  status: string;
+  created_at: string;
+  last_message?: string;
+}
+
+function PlatformSupport() {
+  const [tickets, setTickets] = React.useState<SupportTicket[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [filter, setFilter] = React.useState<'open' | 'all'>('open');
+  const [replyId, setReplyId] = React.useState<string | null>(null);
+  const [replyText, setReplyText] = React.useState('');
+  const [acting, setActing] = React.useState<string | null>(null);
+
+  const load = () => {
+    setLoading(true);
+    api.get<{ tickets: SupportTicket[] }>(`/platform/support-tickets?status=${filter}&limit=50`)
+      .then(r => setTickets(r.tickets ?? []))
+      .catch(() => setTickets([]))
+      .finally(() => setLoading(false));
+  };
+  React.useEffect(load, [filter]);
+
+  const sendReply = async (id: string) => {
+    if (!replyText.trim()) return;
+    setActing(id);
+    try {
+      await api.post(`/platform/support-tickets/${id}/reply`, { message: replyText });
+      toast.success('Reply sent');
+      setReplyId(null);
+      setReplyText('');
+      load();
+    } catch { toast.error('Failed to send reply'); }
+    finally { setActing(null); }
+  };
+
+  const closeTicket = async (id: string) => {
+    setActing(id);
+    try {
+      await api.patch(`/platform/support-tickets/${id}`, { status: 'closed' });
+      toast.success('Ticket closed');
+      load();
+    } catch { toast.error('Failed'); }
+    finally { setActing(null); }
+  };
+
+  const priorityColor = (p: string) => ({ high: '#dc2626', medium: '#d97706', low: '#16a34a' } as Record<string,string>)[p] ?? '#6b7280';
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700 }}>Support Tickets</h2>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {(['open', 'all'] as const).map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{ padding: '5px 14px', borderRadius: 20, border: '1.5px solid', borderColor: filter === f ? '#0F4C81' : '#e5e7eb', background: filter === f ? '#0F4C81' : '#fff', color: filter === f ? '#fff' : '#374151', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
+              {f === 'open' ? 'Open' : 'All'}
+            </button>
+          ))}
+        </div>
+      </div>
+      {loading ? <p style={{ color: '#9ca3af', fontSize: 14 }}>Loading…</p> : tickets.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 40, background: '#f9fafb', borderRadius: 12 }}>
+          <div style={{ fontSize: 36, marginBottom: 8 }}>&#x1F3AB;</div>
+          <p style={{ color: '#6b7280' }}>No {filter === 'open' ? 'open ' : ''}support tickets.</p>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {tickets.map(t => (
+            <div key={t.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '14px 16px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, flexWrap: 'wrap' }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{t.subject}</div>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>
+                    {t.tenant_name} · <span style={{ color: priorityColor(t.priority), fontWeight: 600 }}>{t.priority ?? 'normal'}</span> · {t.status}
+                  </div>
+                  {t.last_message && <p style={{ fontSize: 13, color: '#374151', marginTop: 6, fontStyle: 'italic' }}>&ldquo;{t.last_message}&rdquo;</p>}
+                </div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button onClick={() => { setReplyId(replyId === t.id ? null : t.id); setReplyText(''); }}
+                    style={{ padding: '5px 12px', borderRadius: 7, border: '1px solid #e5e7eb', background: '#f9fafb', color: '#374151', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
+                    Reply
+                  </button>
+                  {t.status !== 'closed' && (
+                    <button onClick={() => void closeTicket(t.id)} disabled={acting === t.id}
+                      style={{ padding: '5px 12px', borderRadius: 7, border: 'none', background: '#f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
+                      Close
+                    </button>
+                  )}
+                </div>
+              </div>
+              {replyId === t.id && (
+                <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
+                  <textarea value={replyText} onChange={e => setReplyText(e.target.value)}
+                    placeholder="Type your reply…" rows={2}
+                    style={{ flex: 1, padding: '8px 12px', border: '1.5px solid #e5e7eb', borderRadius: 8, fontSize: 14, resize: 'vertical', fontFamily: 'inherit' }}
+                  />
+                  <button onClick={() => void sendReply(t.id)} disabled={acting === t.id || !replyText.trim()}
+                    style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: '#0F4C81', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+                    {acting === t.id ? '…' : 'Send'}
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PlatformFeatureFlags() {
+  interface Flag { key: string; label: string; enabled: boolean; description: string }
+  const DEFAULT_FLAGS: Flag[] = [
+    { key: 'ai_assistant',     label: 'AI Assistant',         enabled: true,  description: 'Enable AI assistant for all tenants' },
+    { key: 'wakapage_gallery', label: 'WakaPage Gallery Block', enabled: true, description: 'Allow gallery blocks on WakaPage' },
+    { key: 'pos_loyalty',      label: 'POS Loyalty Points',   enabled: true,  description: 'Enable loyalty point earning/redeeming' },
+    { key: 'public_discovery', label: 'Public Discovery',     enabled: true,  description: 'Show businesses in public discovery app' },
+    { key: 'partner_portal',   label: 'Partner Portal',       enabled: false, description: 'Enable partner portal access' },
+    { key: 'e2e_encryption',   label: 'E2E Encryption',       enabled: false, description: 'End-to-end encrypt sensitive workspace data' },
+    { key: 'advanced_analytics', label: 'Advanced Analytics', enabled: false, description: 'Extended analytics and export features' },
+  ];
+
+  const [flags, setFlags] = useState<Flag[]>(DEFAULT_FLAGS);
+  const [saving, setSaving] = useState<string | null>(null);
+
+  const toggle = async (key: string) => {
+    const flag = flags.find(f => f.key === key);
+    if (!flag) return;
+    setSaving(key);
+    const newVal = !flag.enabled;
+    try {
+      await api.patch(`/platform/feature-flags/${key}`, { enabled: newVal });
+      setFlags(prev => prev.map(f => f.key === key ? { ...f, enabled: newVal } : f));
+      toast.success(`Feature "${flag.label}" ${newVal ? 'enabled' : 'disabled'}`);
+    } catch {
+      toast.error('Failed to update feature flag');
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>Feature Flags</h2>
+      <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 20 }}>Toggle platform-wide features. Changes take effect immediately.</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {flags.map(f => (
+          <div key={f.key} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#111827' }}>{f.label}</div>
+              <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 2 }}>{f.description}</div>
+              <code style={{ fontSize: 11, color: '#6b7280', background: '#f3f4f6', padding: '1px 6px', borderRadius: 4, marginTop: 4, display: 'inline-block' }}>{f.key}</code>
+            </div>
+            <button onClick={() => toggle(f.key)} disabled={saving === f.key}
+              style={{
+                width: 48, height: 26, borderRadius: 13, border: 'none', cursor: 'pointer', position: 'relative',
+                background: f.enabled ? '#0F4C81' : '#e5e7eb', transition: 'background 0.2s', flexShrink: 0,
+              }}>
+              <div style={{
+                width: 20, height: 20, borderRadius: 10, background: '#fff', position: 'absolute',
+                top: 3, left: f.enabled ? 24 : 4, transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+              }} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function PlatformAdmin() {
   const { user } = useAuth();
 
@@ -456,6 +884,12 @@ export default function PlatformAdmin() {
             { to: '/platform/claims', label: 'Claims' },
             { to: '/platform/tenants', label: 'Tenants' },
             { to: '/platform/settings', label: 'Settings' },
+            { to: '/platform/partners', label: 'Partners' },
+            { to: '/platform/hitl', label: 'HITL Queue' },
+            { to: '/platform/templates', label: 'Templates' },
+            { to: '/platform/support', label: 'Support' },
+            { to: '/platform/audit-log', label: 'Audit Log' },
+            { to: '/platform/feature-flags', label: 'Feature Flags' },
           ].map(link => (
             <NavLink
               key={link.to}
@@ -480,6 +914,12 @@ export default function PlatformAdmin() {
         <Route path="claims" element={<PlatformClaims />} />
         <Route path="tenants" element={<PlatformTenants />} />
         <Route path="settings" element={<PlatformSettings />} />
+        <Route path="partners" element={<PlatformPartners />} />
+        <Route path="hitl" element={<AdminHITL />} />
+        <Route path="templates" element={<PlatformTemplates />} />
+        <Route path="support" element={<PlatformSupport />} />
+        <Route path="audit-log" element={<PlatformAuditLog />} />
+        <Route path="feature-flags" element={<PlatformFeatureFlags />} />
         <Route path="*" element={<Navigate to="/platform" replace />} />
       </Routes>
     </div>

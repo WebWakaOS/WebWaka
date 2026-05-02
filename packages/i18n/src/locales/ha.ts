@@ -72,4 +72,22 @@ export const ha: Partial<I18nLocale> = {
   notif_powered_by: 'Ƙarfin WebWaka',
   notif_marketing_address_label: 'Adireshi ta wasika:',
   notif_too_many_emails: 'Kuna karɓar imeloli da yawa? Zaku iya sarrafa zaɓuɓɓukan sanarwa a cikin saitunan asusunka.',
+
+  // API Error messages (L-12)
+  api_err_bad_request: 'Bukatar da ba ta dace ba. Da fatan za a duba shigarwar ku.',
+  api_err_unauthorized: 'Ba a ba ku izini ba. Da fatan za a shiga kuma ku sake gwadawa.',
+  api_err_forbidden: 'An hana shiga. Ba ku da izinin yin wannan.',
+  api_err_not_found: 'Ba a sami albarkatun da aka nema ba.',
+  api_err_conflict: 'Wannan albarkatun yana wanzu tuni.',
+  api_err_validation_failed: 'Tabbatarwa ta kasa. Da fatan za a bincika shigarwar ku.',
+  api_err_rate_limit_exceeded: 'Bukatoci da yawa. Da fatan za a jira kadan sannan ku sake gwadawa.',
+  api_err_payload_too_large: 'Bukatar ta yi girma. Da fatan za a rage girman.',
+  api_err_internal_error: 'An sami kuskure. Da fatan za a sake gwadawa daga baya.',
+  api_err_service_unavailable: 'Sabis ba ya aiki na dan lokaci. Sake gwadawa.',
+  api_err_email_required: 'Ana buƙatar imel da kalmar shiga.',
+  api_err_invalid_credentials: 'Imel ko kalmar shiga ba daidai ba.',
+  api_err_account_locked: 'An kulle asusun na dan lokaci.',
+  api_err_email_exists: 'Akwai asusun tare da wannan imel tuni.',
+  api_err_business_name_short: 'Sunan kasuwanci dole ya ƙunshi akaai haruffa 2.',
+  api_err_invalid_email: 'Da fatan za a shigar da adireshin imel mai inganci.',
 };

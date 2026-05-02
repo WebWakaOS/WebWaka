@@ -1,5 +1,11 @@
 # Rollback Procedure — WebWaka OS
 
+> ⚠️ **This document has been superseded.**
+> The canonical operational runbook is now: **[`docs/ops/RUNBOOK.md`](../ops/RUNBOOK.md)**
+> This file is retained for historical reference only.
+
+---
+
 **Last updated:** 2026-04-12
 **Owner:** Platform Engineering
 

@@ -1,5 +1,11 @@
 # WebWaka OS — Operator Runbook
 
+> ⚠️ **This document has been superseded.**
+> The canonical operational runbook is now: **[`docs/ops/RUNBOOK.md`](../ops/RUNBOOK.md)**
+> This file is retained for historical reference only.
+
+---
+
 **Platform:** Cloudflare Workers + D1 + KV  
 **Prepared:** 2026-04-10  
 **Contact:** Platform Engineering Team

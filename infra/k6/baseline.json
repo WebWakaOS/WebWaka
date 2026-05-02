@@ -1,0 +1,7 @@
+{
+  "date": "2026-05-01",
+  "p95": 450,
+  "p50": 180,
+  "errorRate": 0.001,
+  "commit": "initial-baseline"
+}

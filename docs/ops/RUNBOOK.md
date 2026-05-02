@@ -160,10 +160,12 @@ curl https://api.webwaka.com/health/version
 
 ### Error monitoring
 The API worker emits structured JSON logs for:
-- `event: rate_limit_exceeded` — Track abuse patterns
+- `event: rate_limit_exceeded` — Track abuse patterns (see [OTP rate-limit monitoring runbook](../runbooks/otp-rate-limit-monitoring.md) for query templates and alert thresholds)
 - `event: auth_failed` — Monitor unauthorized access attempts
 - `event: scheduler_job_failed` — Job execution failures
 - `event: billing_enforcement_blocked` — Suspended workspaces
+- `event: ratelimit_kv_degraded` — KV namespace unavailability (SEV-2 monitor)
+- `event: canary_health_degraded` — Traffic-shift engine cohort error-rate spike (see `/admin/traffic-shift/canary-status`)
 
 ---
 

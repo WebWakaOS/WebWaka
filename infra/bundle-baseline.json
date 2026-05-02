@@ -1,0 +1,9 @@
+{
+  "date": "2026-05-01",
+  "total": 2621440,
+  "js": 1966080,
+  "css": 204800,
+  "html": 8192,
+  "other": 442368,
+  "commit": "initial-baseline"
+}

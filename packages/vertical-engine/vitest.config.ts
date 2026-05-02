@@ -12,8 +12,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    pool: 'vmForks',
+    server: {
+      deps: {
+        inline: [/@webwaka\//],
+      },
+    },
     include: ['src/**/*.test.ts'],
-    testTimeout: 30000, // 30s for parity tests with network calls
-    hookTimeout: 10000,
   },
 });

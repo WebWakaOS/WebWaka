@@ -23,6 +23,7 @@ export default function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [saving, setSaving] = useState(false);
 
   // Step 1: Profile
@@ -93,11 +94,14 @@ export default function Onboarding() {
           category: offeringCategory.trim() || undefined,
         });
       }
-      toast.success('🎉 All done! Your workspace is ready.');
-      navigate('/dashboard', { replace: true });
+      toast.success('🎉 Your workspace is ready!');
+      // A3-5: brief confetti splash then redirect
+      setShowConfetti(true);
+      setTimeout(() => navigate('/dashboard', { replace: true, state: { confetti: true } }), 1800);
     } catch (err) {
       // Non-blocking -- go to dashboard anyway
-      navigate('/dashboard', { replace: true });
+      setShowConfetti(true);
+      setTimeout(() => navigate('/dashboard', { replace: true, state: { confetti: true } }), 1800);
     } finally {
       setSaving(false);
     }
@@ -317,6 +321,38 @@ export default function Onboarding() {
           </form>
         )}
       </div>
+
+      {/* A3-5: confetti celebration overlay */}
+      {showConfetti && (
+        <div role="status" aria-live="polite" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9999, overflow: 'hidden' }}>
+          <style>{`
+            @keyframes confettiFall {
+              0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+              100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+            }
+          `}</style>
+          {Array.from({ length: 60 }).map((_, i) => {
+            const colors = ['#0F4C81','#059669','#f59e0b','#ec4899','#8b5cf6','#10b981'];
+            const color = colors[i % colors.length];
+            const left = `${Math.random() * 100}%`;
+            const delay = `${Math.random() * 0.8}s`;
+            const size = 8 + Math.random() * 8;
+            const duration = `${1.2 + Math.random() * 0.8}s`;
+            return (
+              <div key={i} style={{
+                position: 'absolute', top: 0, left,
+                width: size, height: size * (Math.random() > 0.5 ? 1 : 2.5),
+                background: color, borderRadius: Math.random() > 0.5 ? '50%' : 2,
+                animation: `confettiFall ${duration} ${delay} ease-in forwards`,
+              }} />
+            );
+          })}
+          <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+            <div style={{ fontSize: 56 }}>🎉</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#0F4C81', marginTop: 8 }}>You're all set!</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

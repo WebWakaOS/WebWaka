@@ -1423,6 +1423,279 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
 
+
+  # ---------------------------------------------------------------------------
+  # Geography — Nigerian Administrative Hierarchy (T6, M7e)
+  # ---------------------------------------------------------------------------
+
+  /geography/states:
+    get:
+      tags: [Geography]
+      summary: List all Nigerian states (public)
+      operationId: listGeographyStates
+      security: []
+      description: |
+        Returns all state-level place nodes. Results are cached for 24 hours.
+        No authentication required.
+      responses:
+        "200":
+          description: List of Nigerian states
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/lgas:
+    get:
+      tags: [Geography]
+      summary: List LGAs for a given state (public)
+      operationId: listGeographyLGAs
+      security: []
+      description: |
+        Returns all local government areas that are children of the given state.
+        `stateId` is required. Results are cached for 24 hours.
+      parameters:
+        - name: stateId
+          in: query
+          required: true
+          description: ID of the parent state place node
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of LGAs for the given state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/wards:
+    get:
+      tags: [Geography]
+      summary: List wards for a given LGA (public)
+      operationId: listGeographyWards
+      security: []
+      description: |
+        Returns all ward-level place nodes that are children of the given LGA.
+        `lgaId` is required. Results are cached for 24 hours.
+      parameters:
+        - name: lgaId
+          in: query
+          required: true
+          description: ID of the parent LGA place node
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of wards for the given LGA
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/places/{placeId}:
+    get:
+      tags: [Geography]
+      summary: Get a single place node by ID (public)
+      operationId: getGeographyPlace
+      security: []
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Place node
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/PlaceNode"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/places/{placeId}/children:
+    get:
+      tags: [Geography]
+      summary: List direct children of a place node (public)
+      operationId: getGeographyPlaceChildren
+      security: []
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Direct child place nodes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/places/{placeId}/ancestry:
+    get:
+      tags: [Geography]
+      summary: Get full ancestry breadcrumb path for a place (public)
+      operationId: getGeographyPlaceAncestry
+      security: []
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ancestry chain from root to the given place
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  placeId:
+                    type: string
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/countries:
+    get:
+      tags: [Geography]
+      summary: List available countries (public)
+      operationId: listGeographyCountries
+      security: []
+      responses:
+        "200":
+          description: List of country-level place nodes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        country_code:
+                          type: string
+                          nullable: true
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /geography/countries/{countryCode}/regions:
+    get:
+      tags: [Geography]
+      summary: List top-level administrative regions for a country (public)
+      operationId: listGeographyCountryRegions
+      security: []
+      description: |
+        Returns all level-1 administrative divisions for the given country code.
+        Supported: `NG` (states), `GH` (regions), `KE` (counties).
+      parameters:
+        - name: countryCode
+          in: path
+          required: true
+          description: ISO-3166-1 alpha-2 country code (NG, GH, KE)
+          schema:
+            type: string
+            enum: [NG, GH, KE]
+      responses:
+        "200":
+          description: List of level-1 administrative regions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country_code:
+                    type: string
+                  geography_type:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlaceNode"
+                  count:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   # ---------------------------------------------------------------------------
   # SuperAgent — AI Orchestration (SA-1.x, SA-4.x, SA-5.x)
   # ---------------------------------------------------------------------------
@@ -2071,6 +2344,26 @@ components:
       bearerFormat: JWT
 
   schemas:
+    PlaceNode:
+      type: object
+      description: A node in the Nigerian (or multi-country) administrative geography hierarchy.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        geography_type:
+          type: string
+          description: "Place type: country, state, local_government_area, ward, polling_unit"
+          example: state
+        parent_id:
+          type: string
+          nullable: true
+        ancestry_path:
+          type: string
+          nullable: true
+          description: JSON-encoded array of ancestor place IDs from root to parent
+
     Error:
       type: object
       required: [error]
@@ -2333,3 +2626,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
+    InternalServerError:
+      description: Unexpected server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error" 

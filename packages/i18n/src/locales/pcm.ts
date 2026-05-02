@@ -72,4 +72,22 @@ export const pcm: Partial<I18nLocale> = {
   notif_powered_by: 'WebWaka power am',
   notif_marketing_address_label: 'Mailing address:',
   notif_too_many_emails: 'Too many emails dey bother you? You fit manage your notification settings for your account.',
+
+  // API Error messages (L-12)
+  api_err_bad_request: 'Dis request no good. Abeg check wetin you enter.',
+  api_err_unauthorized: 'You no get permission. Abeg login come try again.',
+  api_err_forbidden: 'You no fit do dis one.',
+  api_err_not_found: 'We no fit find wetin you dey look for.',
+  api_err_conflict: 'Dis thing don already dey.',
+  api_err_validation_failed: 'Something no correct. Abeg check your input.',
+  api_err_rate_limit_exceeded: 'Too many requests. Abeg wait small come try again.',
+  api_err_payload_too_large: 'Your request too big. Abeg reduce am.',
+  api_err_internal_error: 'Something just happen. Abeg try again later.',
+  api_err_service_unavailable: 'Service no dey work now. Try again soon.',
+  api_err_email_required: 'Abeg put your email and password.',
+  api_err_invalid_credentials: 'Email or password no correct.',
+  api_err_account_locked: 'Your account don lock for now. Try again later.',
+  api_err_email_exists: 'Account with dis email don already dey.',
+  api_err_business_name_short: 'Business name must be at least 2 letters.',
+  api_err_invalid_email: 'Abeg put correct email address.',
 };

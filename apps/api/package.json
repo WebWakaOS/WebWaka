@@ -2,7 +2,7 @@
   "name": "@webwaka/api",
   "version": "1.0.0",
   "private": true,
-  "description": "[Pillar 1] Cloudflare Workers API \u2014 Hono + WebWaka OS backend.",
+  "description": "[Pillar 1] Cloudflare Workers API — Hono + WebWaka OS backend.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -208,7 +208,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0",
+    "vitest": "^2.1.9",
     "wrangler": "^4.0.0"
   }
 }

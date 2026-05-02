@@ -24,6 +24,7 @@
 import type { Hono } from 'hono';
 import type { Env } from './env.js';
 import { errorLogMiddleware } from './middleware/error-log.js';
+import { localeMiddleware } from './middleware/locale.js';
 
 import { registerPublicRoutes } from './route-groups/register-public-routes.js';
 import { registerAuthRoutes } from './route-groups/register-auth-routes.js';
@@ -36,6 +37,7 @@ import { registerAiRoutes } from './route-groups/register-ai-routes.js';
 import { registerAdminRoutes } from './route-groups/register-admin-routes.js';
 import { registerNotificationRoutes } from './route-groups/register-notification-routes.js';
 import { registerPlatformFeatureRoutes } from './route-groups/register-platform-feature-routes.js';
+import { v2Router } from './routes/v2/index.js';
 
 export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -44,6 +46,9 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // P20-E: Structured error logging — global, applied before all routes.
   app.use('*', errorLogMiddleware);
+
+  // L-12: Locale detection — injects c.get('locale') for i18n error messages.
+  app.use('*', localeMiddleware);
 
   // Phase 6 / ADR-0018: API versioning — add X-API-Version: 1 to every response.
   app.use('*', async (c, next) => {
@@ -66,4 +71,7 @@ export function registerRoutes(app: Hono<{ Bindings: Env }>): void {
   registerAdminRoutes(app);            // 8. Admin + platform-admin
   registerNotificationRoutes(app);     // 9. Notifications + provider webhooks
   registerPlatformFeatureRoutes(app);  // 10. Templates, partners, compliance, etc.
+
+  // ADR-0018: /v2/ prefix reserved for breaking changes
+  app.route('/v2', v2Router);
 }

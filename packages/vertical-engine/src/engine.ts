@@ -109,6 +109,30 @@ export class VerticalEngine {
     return this.crud.listSubEntities(def, profileId, tenantId);
   }
 
+
+  async updateSubEntity(
+    entityName: string,
+    subId: string,
+    profileId: string,
+    tenantId: string,
+    input: Record<string, unknown>,
+  ): Promise<Record<string, unknown> | null> {
+    const def = this.getSubEntity(entityName);
+    if (!def) throw new Error(`Sub-entity '${entityName}' not found in ${this.slug}`);
+    return this.crud.updateSubEntity(def, subId, profileId, tenantId, input);
+  }
+
+  async deleteSubEntity(
+    entityName: string,
+    subId: string,
+    profileId: string,
+    tenantId: string,
+  ): Promise<boolean> {
+    const def = this.getSubEntity(entityName);
+    if (!def) throw new Error(`Sub-entity '${entityName}' not found in ${this.slug}`);
+    return this.crud.deleteSubEntity(def, subId, profileId, tenantId);
+  }
+
   // -------------------------------------------------------------------------
   // AI helpers
   // -------------------------------------------------------------------------

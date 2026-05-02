@@ -57,6 +57,13 @@ interface D1Like {
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
+// H-7 / H-6: Request-ID propagation for distributed tracing
+app.use('*', async (c, next) => {
+  const requestId = c.req.header('X-Request-ID') ?? crypto.randomUUID();
+  c.set('requestId' as never, requestId);
+  c.header('X-Request-ID', requestId);
+  await next();
+});
 app.use('*', async (c, next) => {
   const config = createCorsConfig({
     environment: c.env.ENVIRONMENT,

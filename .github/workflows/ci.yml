@@ -28,6 +28,16 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - name: Restore TypeScript incremental cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/**/.tsbuildinfo
+            packages/**/.tsbuildinfo
+            .tsbuildinfo
+          key: tsbuildinfo-${{ runner.os }}-${{ hashFiles('**/tsconfig*.json', 'pnpm-lock.yaml') }}
+          restore-keys: |
+            tsbuildinfo-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
 
@@ -132,6 +142,12 @@ jobs:
         run: |
           sudo apt-get install -y sqlite3 > /dev/null 2>&1
           npx tsx scripts/governance-checks/check-migration-sql-syntax.ts
+      - name: Check publishEvent correlationId propagation (H-7)
+        run: npx tsx scripts/governance-checks/check-publish-event-correlation.ts
+      - name: Check cross-worker security baseline (H-6)
+        run: npx tsx scripts/governance-checks/check-security-baseline.ts
+      - name: Check notification sandbox enforcement (H-5 / G24)
+        run: npx tsx scripts/governance-checks/check-notification-sandbox.ts
 
   smoke:
     name: Smoke Tests
@@ -186,6 +202,13 @@ jobs:
             sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
           sudo apt-get install k6
+      - name: Restore k6 performance baseline
+        uses: actions/cache@v4
+        with:
+          path: infra/k6/baseline.json
+          key: k6-baseline-${{ github.ref_name }}
+          restore-keys: |
+            k6-baseline-staging
       - name: Run k6 smoke test (staging API)
         env:
           BASE_URL: ${{ secrets.STAGING_API_URL || 'http://localhost:8787' }}
@@ -194,4 +217,63 @@ jobs:
             --env BASE_URL=$BASE_URL \
             --env JWT_TOKEN=${{ steps.jwt.outputs.SMOKE_JWT }} \
             --env SUPER_ADMIN_JWT=${{ steps.jwt.outputs.SMOKE_SUPER_ADMIN_JWT }} \
+            --summary-export=infra/k6/results.json \
             infra/k6/smoke.js
+      - name: Compare against performance baseline
+        env:
+          K6_RESULTS_FILE: infra/k6/results.json
+          GITHUB_SHA: ${{ github.sha }}
+        run: node infra/k6/compare-baseline.mjs
+      - name: Save updated k6 baseline
+        uses: actions/cache/save@v4
+        if: success()
+        with:
+          path: infra/k6/baseline.json
+          key: k6-baseline-${{ github.ref_name }}
+
+  bundle-size:
+    name: Frontend Bundle Size Check (L-7)
+    runs-on: ubuntu-latest
+    needs: [typecheck]
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Restore bundle baseline
+        uses: actions/cache@v4
+        with:
+          path: infra/bundle-baseline.json
+          key: bundle-baseline-${{ github.ref_name }}
+          restore-keys: |
+            bundle-baseline-staging
+      - name: Install frontend app dependencies
+        run: |
+          pnpm --filter @webwaka/workspace-app install --frozen-lockfile
+          pnpm --filter @webwaka/discovery-spa install --frozen-lockfile
+          pnpm --filter @webwaka/partner-admin-spa install --frozen-lockfile
+      - name: Build frontend apps
+        run: |
+          pnpm --filter @webwaka/workspace-app build
+          pnpm --filter @webwaka/discovery-spa build
+          pnpm --filter @webwaka/partner-admin-spa build
+        env:
+          NODE_ENV: production
+          VITE_API_URL: https://api-staging.webwaka.com
+      - name: Check bundle size against baseline
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          node scripts/check-bundle-size.mjs apps/workspace-app/dist
+          node scripts/check-bundle-size.mjs apps/discovery-spa/dist
+          node scripts/check-bundle-size.mjs apps/partner-admin-spa/dist
+      - name: Save updated bundle baseline
+        uses: actions/cache/save@v4
+        if: success()
+        with:
+          path: infra/bundle-baseline.json
+          key: bundle-baseline-${{ github.ref_name }}

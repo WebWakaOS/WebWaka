@@ -1,20 +1,17 @@
 {
   "name": "@webwaka/analytics",
   "version": "0.1.0",
-  "description": "[Pillar 2] Analytics unification — trackEvent(), workspace/group/campaign metrics queries",
-  "private": true,
+  "description": "[Infra] Analytics event taxonomy and emission utilities",
   "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "main": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "build": "tsc -p tsconfig.build.json"
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.4.0",
+    "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }
 }

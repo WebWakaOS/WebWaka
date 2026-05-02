@@ -14,6 +14,7 @@ import { auditLogMiddleware } from '../middleware/audit-log.js';
 import { PlatformLayer } from '@webwaka/types';
 import { politicianRoutes } from '../routes/politician.js';
 import { posBusinessRoutes } from '../routes/pos-business.js';
+import { brandSettingsRoutes } from '../routes/brand-settings.js';
 import { transportRoutes } from '../routes/transport.js';
 import { civicRoutes } from '../routes/civic.js';
 import { commerceRoutes } from '../routes/commerce.js';
@@ -49,6 +50,10 @@ export function registerVerticalRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/pos-business/*', requireEntitlement(PlatformLayer.Commerce));
   app.use('/pos-business', requireEntitlement(PlatformLayer.Commerce));
   app.route('/pos-business', posBusinessRoutes);
+
+  // Brand Settings
+  app.use('/brand-settings/*', authMiddleware);
+  app.route('/brand-settings', brandSettingsRoutes);
 
   // -------------------------------------------------------------------------
   // M8c: Transport vertical routes — auth required (T3, P9, P12)

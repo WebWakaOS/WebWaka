@@ -288,6 +288,68 @@ export class VerticalCRUD {
     return results.map(r => this.subEntityRowToEntity(r, entityDef));
   }
 
+
+  /**
+   * Wave 3 (B3-2): Update a sub-entity by ID.
+   * T3: must belong to profileId AND tenantId.
+   */
+  async updateSubEntity(
+    entityDef: SubEntityDef,
+    subId: string,
+    profileId: string,
+    tenantId: string,
+    input: Record<string, unknown>,
+  ): Promise<Record<string, unknown> | null> {
+    const setClauses: string[] = [];
+    const values: unknown[] = [];
+
+    for (const field of entityDef.fields) {
+      if (['id', entityDef.profileForeignKey, 'tenant_id', 'created_at'].includes(field.column)) continue;
+      const val = input[field.property];
+      if (val !== undefined) {
+        if (field.isKobo && (typeof val !== 'number' || !Number.isInteger(val))) {
+          throw new Error(`${field.property} must be an integer (P9)`);
+        }
+        setClauses.push(`${field.column} = ?`);
+        values.push(val);
+      }
+    }
+
+    if (setClauses.length === 0) return null;
+
+    values.push(subId, profileId, tenantId);
+    await this.db
+      .prepare(`UPDATE ${entityDef.tableName} SET ${setClauses.join(', ')} WHERE id=? AND ${entityDef.profileForeignKey}=? AND tenant_id=?`)
+      .bind(...values)
+      .run();
+
+    const row = await this.db
+      .prepare(`SELECT * FROM ${entityDef.tableName} WHERE id=? AND tenant_id=?`)
+      .bind(subId, tenantId)
+      .first<Record<string, unknown>>();
+
+    if (!row) return null;
+    return this.subEntityRowToEntity(row, entityDef);
+  }
+
+  /**
+   * Wave 3 (B3-2): Hard-delete a sub-entity by ID.
+   * T3: must belong to profileId AND tenantId.
+   */
+  async deleteSubEntity(
+    entityDef: SubEntityDef,
+    subId: string,
+    profileId: string,
+    tenantId: string,
+  ): Promise<boolean> {
+    const result = await this.db
+      .prepare(`DELETE FROM ${entityDef.tableName} WHERE id=? AND ${entityDef.profileForeignKey}=? AND tenant_id=?`)
+      .bind(subId, profileId, tenantId)
+      .run();
+    return (result.meta?.changes ?? 0) > 0;
+  }
+
+
   /**
    * Get AI-safe projection (excludes P13 PII fields).
    */

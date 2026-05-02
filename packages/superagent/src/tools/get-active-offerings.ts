@@ -91,4 +91,5 @@ export const getActiveOfferingsTool: RegisteredTool = {
       })),
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

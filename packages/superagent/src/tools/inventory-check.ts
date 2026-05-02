@@ -101,4 +101,5 @@ export const inventoryCheckTool: RegisteredTool = {
       products,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

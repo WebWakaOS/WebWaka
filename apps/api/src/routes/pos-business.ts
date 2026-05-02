@@ -260,6 +260,7 @@ posBusinessRoutes.post('/sales', async (c) => {
       },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ sale }, 201);
   } catch (err: unknown) {
@@ -295,17 +296,17 @@ posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
   const db = c.env.DB as unknown as { prepare: (q: string) => { bind: (...a: unknown[]) => { all: <T>() => Promise<{ results: T[] }> } } };
 
   // Build daily buckets for the last `days` days (UTC)
-  const now = Math.floor(Date.now() / 1000);
+  // Note: _now unused — day buckets computed from Date.now() directly below
   const buckets: { date: string; dayStart: number; dayEnd: number }[] = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(Date.now() - i * 86400_000);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = d.toISOString().split('T')[0] ?? d.toISOString().slice(0, 10);
     const dayStart = Math.floor(new Date(`${dateStr}T00:00:00Z`).getTime() / 1000);
     buckets.push({ date: dateStr, dayStart, dayEnd: dayStart + 86400 });
   }
 
-  const rangeStart = buckets[0].dayStart;
-  const rangeEnd = buckets[buckets.length - 1].dayEnd;
+  const rangeStart = buckets[0]!.dayStart;
+  const rangeEnd = buckets[buckets.length - 1]!.dayEnd;
 
   // Fetch all sales in the window in one query
   const { results } = await db
@@ -336,8 +337,8 @@ posBusinessRoutes.get('/sales/:workspaceId/trend', async (c) => {
   // Calculate delta vs previous period (compare last day to day before last)
   const last = trend[trend.length - 1];
   const prev = trend[trend.length - 2];
-  const deltaKobo = last.totalKobo - (prev?.totalKobo ?? 0);
-  const deltaOrders = last.orderCount - (prev?.orderCount ?? 0);
+  const deltaKobo = (last?.totalKobo ?? 0) - (prev?.totalKobo ?? 0);
+  const deltaOrders = (last?.orderCount ?? 0) - (prev?.orderCount ?? 0);
 
   return c.json({ days, trend, deltaKobo, deltaOrders });
 });
@@ -523,3 +524,115 @@ posBusinessRoutes.post('/customer/:id/loyalty/redeem', async (c) => {
     return c.json({ error: message }, 400);
   }
 });
+
+// ─── Wave 2: Inventory Adjustment + Audit Log ─────────────────────────────────
+
+/**
+ * POST /pos-business/inventory/:workspaceId/adjust
+ * Adjust product stock (receive / return / write-off).
+ * Creates an audit log entry.
+ */
+posBusinessRoutes.post('/inventory/:workspaceId/adjust', async (c) => {
+  const auth = c.get('auth') as { userId: string; tenantId: string; email?: string };
+  const { workspaceId } = c.req.param();
+
+  let body: { product_id?: string; change_type?: string; qty?: number; note?: string | null };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const { product_id, change_type, qty, note = null } = body;
+  if (!product_id) return c.json({ error: 'product_id is required' }, 400);
+  if (!change_type || !['receive', 'return', 'writeoff', 'adjustment'].includes(change_type)) {
+    return c.json({ error: 'change_type must be receive | return | writeoff | adjustment' }, 400);
+  }
+  if (!qty || qty < 1) return c.json({ error: 'qty must be >= 1' }, 400);
+
+  const db = c.env.DB;
+
+  // Fetch current product
+  const product = await db.prepare(
+    'SELECT id, stock_qty, name, workspace_id FROM pos_products WHERE id = ? AND tenant_id = ?'
+  ).bind(product_id, auth.tenantId).first<{ id: string; stock_qty: number | null; name: string; workspace_id: string }>();
+
+  if (!product) return c.json({ error: 'Product not found' }, 404);
+  if (product.workspace_id !== workspaceId) return c.json({ error: 'Workspace mismatch' }, 403);
+
+  const qtyBefore = product.stock_qty ?? 0;
+  const qtyChange = change_type === 'writeoff' ? -qty : change_type === 'return' ? qty : qty;
+  const qtyAfter = Math.max(0, qtyBefore + qtyChange);
+
+  await db.batch([
+    db.prepare('UPDATE pos_products SET stock_qty = ?, updated_at = ? WHERE id = ? AND tenant_id = ?')
+      .bind(qtyAfter, Math.floor(Date.now() / 1000), product_id, auth.tenantId),
+    db.prepare(
+      `INSERT INTO inventory_audit_log (id, tenant_id, workspace_id, product_id, product_name, change_type, qty_before, qty_change, qty_after, note, actor_email, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      crypto.randomUUID(), auth.tenantId, workspaceId, product_id, product.name,
+      change_type, qtyBefore, change_type === 'writeoff' ? -qty : qty, qtyAfter,
+      note, auth.email ?? 'system', Math.floor(Date.now() / 1000)
+    ),
+  ]);
+
+  return c.json({ success: true, qty_before: qtyBefore, qty_after: qtyAfter, change_type });
+});
+
+/**
+ * GET /pos-business/inventory/:workspaceId/log
+ * Retrieve inventory audit log for a workspace.
+ */
+posBusinessRoutes.get('/inventory/:workspaceId/log', async (c) => {
+  const auth = c.get('auth') as { tenantId: string };
+  const { workspaceId } = c.req.param();
+  const limit = Math.min(parseInt(c.req.query('limit') ?? '100', 10), 500);
+
+  const db = c.env.DB;
+  let rows: { results: unknown[] };
+  try {
+    rows = await db.prepare(
+      `SELECT * FROM inventory_audit_log WHERE tenant_id = ? AND workspace_id = ? ORDER BY created_at DESC LIMIT ?`
+    ).bind(auth.tenantId, workspaceId, limit).all();
+  } catch {
+    // Table may not exist yet — return empty gracefully
+    return c.json({ log: [], total: 0 });
+  }
+
+  return c.json({ log: rows.results, total: rows.results.length });
+});
+
+/**
+ * GET /pos-business/customers/:workspaceId/summary
+ * Customer summary: total, repeat rate, new this period.
+ */
+posBusinessRoutes.get('/customers/:workspaceId/summary', async (c) => {
+  const auth = c.get('auth') as { tenantId: string };
+  const { workspaceId } = c.req.param();
+  const days = Math.min(parseInt(c.req.query('days') ?? '30', 10), 365);
+  const since = Math.floor(Date.now() / 1000) - days * 86400;
+
+  const db = c.env.DB;
+  try {
+    const [total, repeat, newThis] = await Promise.all([
+      db.prepare('SELECT COUNT(*) as cnt FROM pos_customers WHERE tenant_id = ? AND workspace_id = ?')
+        .bind(auth.tenantId, workspaceId).first<{ cnt: number }>(),
+      db.prepare('SELECT COUNT(*) as cnt FROM pos_customers WHERE tenant_id = ? AND workspace_id = ? AND total_orders >= 2')
+        .bind(auth.tenantId, workspaceId).first<{ cnt: number }>(),
+      db.prepare('SELECT COUNT(*) as cnt FROM pos_customers WHERE tenant_id = ? AND workspace_id = ? AND created_at >= ?')
+        .bind(auth.tenantId, workspaceId, since).first<{ cnt: number }>(),
+    ]);
+    return c.json({
+      total_customers: total?.cnt ?? 0,
+      repeat_customers: repeat?.cnt ?? 0,
+      new_this_period: newThis?.cnt ?? 0,
+    });
+  } catch {
+    return c.json({ total_customers: 0, repeat_customers: 0, new_this_period: 0 });
+  }
+});
+
+// ─── Wave 2: Brand Settings API ───────────────────────────────────────────────
+// Note: these live in pos-business.ts temporarily; should be extracted to
+// brand-settings.ts in a future refactor.

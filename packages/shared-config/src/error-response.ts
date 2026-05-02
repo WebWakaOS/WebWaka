@@ -8,20 +8,27 @@
  *   details?: unknown,   // optional validation details / context
  *   request_id?: string  // optional correlation ID (ARC-19, future)
  * }
+ *
+ * NOTE: ErrorCode is intentionally a `const` object (not a TS enum) so that it
+ * compiles cleanly with any transform (esbuild, oxc, SWC, tsc) and survives
+ * Vite 8 SSR module evaluation without temporal dead zone issues.
  */
 
-export enum ErrorCode {
-  BadRequest = 'bad_request',
-  Unauthorized = 'unauthorized',
-  Forbidden = 'forbidden',
-  NotFound = 'not_found',
-  Conflict = 'conflict',
-  ValidationFailed = 'validation_failed',
-  RateLimitExceeded = 'rate_limit_exceeded',
-  PayloadTooLarge = 'payload_too_large',
-  InternalError = 'internal_error',
-  ServiceUnavailable = 'service_unavailable',
-}
+export const ErrorCode = {
+  BadRequest: 'bad_request',
+  Unauthorized: 'unauthorized',
+  Forbidden: 'forbidden',
+  NotFound: 'not_found',
+  Conflict: 'conflict',
+  ValidationFailed: 'validation_failed',
+  RateLimitExceeded: 'rate_limit_exceeded',
+  PayloadTooLarge: 'payload_too_large',
+  InternalError: 'internal_error',
+  ServiceUnavailable: 'service_unavailable',
+} as const;
+
+// Derive a union type so `ErrorCode[keyof typeof ErrorCode]` works as a type annotation
+export type ErrorCodeValue = (typeof ErrorCode)[keyof typeof ErrorCode];
 
 export interface ApiErrorResponse {
   error: string;
@@ -31,7 +38,7 @@ export interface ApiErrorResponse {
 }
 
 export function errorResponse(
-  code: ErrorCode,
+  code: ErrorCodeValue,
   message: string,
   details?: unknown,
   requestId?: string,

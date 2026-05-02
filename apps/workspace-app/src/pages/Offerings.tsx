@@ -328,9 +328,19 @@ export default function Offerings() {
             </article>
           ))}
           {filtered.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '48px 0', color: '#9ca3af' }}>
-              No offerings found.{' '}
-              <button onClick={openNew} style={{ color: '#0F4C81', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Add one</button>
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <div style={{ fontSize: 56, marginBottom: 16 }}>{filter === 'all' ? '📦' : '🔍'}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8 }}>
+                {filter === 'all' ? 'No offerings yet' : `No ${filter} offerings`}
+              </h3>
+              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20, maxWidth: 340, margin: '0 auto 20px' }}>
+                {filter === 'all'
+                  ? 'Add your products or services so they appear in your POS and WakaPage storefront.'
+                  : `Try switching to "All" or add a new ${filter} offering.`}
+              </p>
+              <button onClick={openNew} style={{ background: '#0F4C81', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 22px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+                + Add offering
+              </button>
             </div>
           )}
         </div>

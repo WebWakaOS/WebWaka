@@ -216,4 +216,58 @@ export class KeyService {
       .run();
     return (result.meta?.changes ?? 0) > 0;
   }
+  // ── Wave 3 aliases & additions ───────────────────────────────────────────
+
+  /** Wave 3 alias for upsertKey — matches HTTP route naming */
+  async upsert(input: UpsertKeyInput): Promise<{ id: string; keyHint: string; createdAt: string }> {
+    const result = await this.upsertKey(input);
+    return { id: result.id, keyHint: result.keyHint, createdAt: new Date().toISOString() };
+  }
+
+  /** Wave 3 alias for listKeys — returns only active keys */
+  async listActive(tenantId: string): Promise<Omit<SuperAgentKey, 'encryptedKey'>[]> {
+    const all = await this.listKeys(tenantId);
+    return all.filter((k) => k.isActive);
+  }
+
+  /** Wave 3 alias for revokeKey */
+  async revoke(id: string, tenantId: string): Promise<boolean> {
+    return this.revokeKey(id, tenantId);
+  }
+
+  /**
+   * Wave 3 (A3-7): Rotate a BYOK key — replace encrypted key, update hint.
+   * Returns null if the key is not found or belongs to a different tenant.
+   * P8: raw key is never stored; encrypted immediately.
+   */
+  async rotate(id: string, tenantId: string, newRawKey: string): Promise<Omit<SuperAgentKey, 'encryptedKey'> | null> {
+    // Verify ownership
+    const existing = await this.db
+      .prepare('SELECT id, provider, scope, user_id FROM superagent_keys WHERE id = ? AND tenant_id = ? AND is_active = 1')
+      .bind(id, tenantId)
+      .first<{ id: string; provider: string; scope: string; user_id: string | null }>();
+
+    if (!existing) return null;
+
+    const encryptedKey = await encryptKey(newRawKey, this.encryptionSecret);
+    const keyHint = newRawKey.slice(-4);
+
+    await this.db
+      .prepare('UPDATE superagent_keys SET encrypted_key = ?, key_hint = ? WHERE id = ? AND tenant_id = ?')
+      .bind(encryptedKey, keyHint, id, tenantId)
+      .run();
+
+    return {
+      id,
+      tenantId,
+      scope: existing.scope as SuperAgentKeyScope,
+      userId: existing.user_id,
+      provider: existing.provider as SuperAgentKeyProvider,
+      keyHint,
+      createdAt: new Date().toISOString(),
+      revokedAt: null,
+      isActive: true,
+    };
+  }
+
 }

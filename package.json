@@ -5,7 +5,7 @@
   "description": "WebWaka OS monorepo \u2014 governance-driven platform for Africa",
   "scripts": {
     "dev": "node apps/platform-admin/server.js",
-    "typecheck": "pnpm -r --workspace-concurrency=4 run typecheck",
+    "typecheck": "pnpm -r --parallel run typecheck",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
     "build": "pnpm -r run build",
@@ -45,7 +45,8 @@
     "seed:phase-7": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-7-fx-rates.sql",
     "seed:phase-8": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-8-ussd-sessions.sql",
     "seed:all": "pnpm seed:phase-1 && pnpm seed:phase-2 && pnpm seed:phase-3 && pnpm seed:phase-4 && pnpm seed:phase-5 && pnpm seed:phase-6 && pnpm seed:phase-7 && pnpm seed:phase-8",
-    "seed:reset-destructive": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/reset/reset-after-destructive.sql"
+    "seed:reset-destructive": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/reset/reset-after-destructive.sql",
+    "generate:vertical": "tsx scripts/generate-vertical.ts"
   },
   "engines": {
     "node": ">=20",
@@ -60,7 +61,7 @@
     "eslint": "^8.57.0",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "vitest": "^2.1.9"
   },
   "dependencies": {
     "@replit/connectors-sdk": "^0.4.0",
@@ -71,7 +72,11 @@
       "undici": ">=6.21.1",
       "esbuild": ">=0.25.0",
       "vite": ">=5.4.21",
-      "serialize-javascript": ">=7.0.3"
+      "serialize-javascript": ">=7.0.3",
+      "postcss": ">=8.5.10"
+    },
+    "patchedDependencies": {
+      "vite-node@2.1.9": "patches/vite-node@2.1.9.patch"
     }
   }
 }

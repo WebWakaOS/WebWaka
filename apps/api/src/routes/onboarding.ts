@@ -241,6 +241,7 @@ onboardingRoutes.put('/:workspaceId/:step', async (c) => {
       payload: { workspace_id: workspaceId, first_step: step },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
   if (isComplete) {
@@ -254,6 +255,7 @@ onboardingRoutes.put('/:workspaceId/:step', async (c) => {
       payload: { workspace_id: workspaceId },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
   }
 
@@ -323,6 +325,7 @@ onboardingRoutes.post('/:workspaceId/mark-stalled', async (c) => {
     },
     source: 'api',
     severity: 'warning',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

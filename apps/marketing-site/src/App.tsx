@@ -12,7 +12,8 @@
  * - Sitemap and robots.txt added to public/
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useDocumentMeta } from './hooks/useDocumentMeta';
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 const PRIMARY = '#0F4C81';
@@ -128,13 +129,14 @@ const VERTICALS = [
   '⛪ Church', '🧵 Tailoring', '🛒 Supermarket', '🔩 Spare Parts', '🌻 Vegetable Garden',
 ];
 
-const STATS = [
-  { value: '159+', label: 'Business verticals' },
-  { value: '₦0', label: 'To get started' },
-  { value: '36', label: 'Nigerian states covered' },
-  { value: '5ms', label: 'API response time' },
-];
 
+
+const BLOG_POSTS = [
+  { id: 'launch-nigeria', date: 'April 2025', tag: 'Announcement', title: "WebWaka OS is Live — Nigeria's First AI-Native Business OS", excerpt: 'Today we launch WebWaka OS to the Nigerian market. 159 business verticals, NDPR-compliant, offline-first, and free to start.', readTime: '4 min read' },
+  { id: 'ussd-power', date: 'March 2025', tag: 'Product', title: 'How USSD Makes WebWaka Accessible to 100M Nigerians Without Smartphones', excerpt: 'Nigeria has 200M+ mobile subscribers but only ~40% use smartphones. USSD bridges the gap.', readTime: '6 min read' },
+  { id: 'ai-advisory', date: 'February 2025', tag: 'AI', title: 'AI Advisory for Palm Oil Mills: Real Insights, Not Generic Chatbots', excerpt: 'We trained our AI on 159 Nigerian business verticals. Here is what that means for a palm oil mill owner in Edo State.', readTime: '5 min read' },
+  { id: 'wakapage', date: 'January 2025', tag: 'Product', title: 'WakaPage: Your Free Business Page in Under 5 Minutes', excerpt: 'Every business deserves a professional online presence. WakaPage gives you that — with a QR code, booking, and payments built in.', readTime: '3 min read' },
+];
 // ─── Routing helper ───────────────────────────────────────────────────────────
 function usePageRoute() {
   const [page, setPage] = useState(() => {
@@ -166,6 +168,38 @@ function usePageRoute() {
   }, []);
 
   return { page, navigate };
+}
+
+
+// -- Animated counter hook (A1-6) --
+function useCounter(target: number, duration = 1500, active = true) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active || target === 0) { setCount(target); return; }
+    let start = 0;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(start);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [target, duration, active]);
+  return count;
+}
+
+function useInView(threshold = 0.2) {
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
 }
 
 // ─── NDPR Cookie Consent Banner ───────────────────────────────────────────────
@@ -218,6 +252,8 @@ function CookieConsentBanner({ onConsent }: { onConsent: (status: 'accepted' | '
 
 // ─── Privacy Policy Page ──────────────────────────────────────────────────────
 function PrivacyPolicyPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Privacy Policy", path: "/privacy" });
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px' }}>
       <button onClick={onBack} style={{ background: 'none', border: 'none', color: PRIMARY, fontWeight: 600, fontSize: 14, cursor: 'pointer', marginBottom: 32, padding: 0 }}>
@@ -275,6 +311,8 @@ function PrivacyPolicyPage({ onBack }: { onBack: () => void }) {
 
 // ─── Terms of Service Page ────────────────────────────────────────────────────
 function TermsPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Terms of Service", path: "/terms" });
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px' }}>
       <button onClick={onBack} style={{ background: 'none', border: 'none', color: PRIMARY, fontWeight: 600, fontSize: 14, cursor: 'pointer', marginBottom: 32, padding: 0 }}>
@@ -338,6 +376,8 @@ function TermsPage({ onBack }: { onBack: () => void }) {
 const API_BASE = 'https://api.webwaka.com';
 
 function ContactPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Contact Us", description: "Reach the WebWaka OS team — support, partnerships, and media enquiries.", path: "/contact" });
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -432,6 +472,238 @@ function ContactPage({ onBack }: { onBack: () => void }) {
   );
 }
 
+
+// ─── Features Page (A1-2) ─────────────────────────────────────────────
+const FEATURES_DETAILED = [
+  { icon: '&#x1F6D2;', title: 'Point of Sale (POS)', desc: 'Fast, offline-capable POS terminal with Nigerian VAT (7.5%) built in.', details: ['Works offline - syncs when connection returns', 'Accept cash, bank transfer, and card payments', 'Automatic VAT (7.5%) computation and receipts', 'Multi-currency: Naira primary, USD display', 'FIRS-compliant receipt generation', 'Low-stock alerts and inventory deduction on sale'] },
+  { icon: '&#x1F916;', title: 'AI Advisory', desc: 'Real AI-powered business insights tailored to your specific vertical.', details: ['Trained on 159 Nigerian business verticals', 'Revenue forecasting and trend analysis', 'Pricing recommendations based on local market data', 'Compliance alerts (CBN, FIRS, NDPR)', 'Inventory optimisation suggestions', 'Natural language Q&A for business decisions'] },
+  { icon: '&#x1F310;', title: 'WakaPage', desc: 'Your free professional business page with QR code, bookings, and payments.', details: ['Up in under 5 minutes - no coding required', 'Custom domain support for paid plans', 'QR code for print marketing', 'Integrated booking and payment (HandyLife wallet)', 'SEO-optimised for Google discovery', 'Multi-language (English, Hausa, Yoruba, Igbo)'] },
+  { icon: '&#x1F4F1;', title: 'USSD Access (*384#)', desc: 'Run your business from any phone, even without internet.', details: ['Works on any feature phone or smartphone', 'No data or app required', 'Sales recording, inventory check, cash summaries', 'Staff-accessible sub-menus', 'Works nationwide across all Nigerian networks', 'Voice-prompted menus for low-literacy users'] },
+  { icon: '&#x1F4CA;', title: 'Analytics & Reports', desc: 'Real-time revenue, inventory, and customer data in one dashboard.', details: ['Daily, weekly, monthly revenue charts', 'Top products and low performers', 'Customer purchase frequency and loyalty metrics', 'Export to CSV/Excel for accountants', 'VAT summary report for FIRS filing', 'Multi-location consolidation for chains'] },
+  { icon: '&#x1F510;', title: 'NDPR & Compliance', desc: 'Built for Nigeria first. Full compliance built in, not bolted on.', details: ['NDPR-compliant data handling and consent flows', 'CBN KYC tiers for wallet features', 'FIRS VAT (7.5%) auto-computation', 'CAC business registration workflow', 'FRSC and identity verification integrations', 'Audit logs for all sensitive operations'] },
+];
+
+function FeaturesPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Features", description: "Explore WebWaka OS features — POS terminal, AI advisory, WakaPage builder, USSD access, and 159+ business verticals.", path: "/features" });
+  return (
+    <main style={{ background: '#fff', minHeight: '100vh' }}>
+      <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <button onClick={() => onNavigate('home')} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', padding: '6px 14px', borderRadius: 6, fontSize: 13, cursor: 'pointer', marginBottom: 20 }}>
+            &larr; Back
+          </button>
+          <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#fff', marginBottom: 16 }}>Every feature your business needs</h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.85)', maxWidth: 540, margin: '0 auto' }}>Built for African business reality - offline-first, multilingual, and NDPR compliant from day one.</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 28 }}>
+          {FEATURES_DETAILED.map(f => (
+            <div key={f.title} style={{ background: '#f9fafb', borderRadius: 16, padding: 28, border: '1px solid #e5e7eb' }}>
+              <div style={{ fontSize: 40, marginBottom: 14 }} dangerouslySetInnerHTML={{ __html: f.icon }} aria-hidden="true" />
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>{f.title}</h2>
+              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16, lineHeight: 1.6 }}>{f.desc}</p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {f.details.map(d => (
+                  <li key={d} style={{ fontSize: 14, color: '#374151', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                    <span style={{ color: '#059669', fontWeight: 700, marginTop: 1 }}>&#x2713;</span>{d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 64 }}>
+          <a href="https://workspace.webwaka.com/register" style={{ background: PRIMARY, color: '#fff', padding: '16px 40px', borderRadius: 10, fontSize: 16, fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>
+            Start free - no card needed &rarr;
+          </a>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+// ─── Pricing Page (A1-3) ─────────────────────────────────────────────
+const PRICING_COMPARISON = [
+  { feature: 'WakaPage public profile', free: true, starter: true, growth: true, enterprise: true },
+  { feature: 'AI advisory queries/month', free: '5', starter: '50', growth: 'Unlimited', enterprise: 'Unlimited' },
+  { feature: 'POS terminal', free: false, starter: true, growth: true, enterprise: true },
+  { feature: 'Offerings/products', free: '10', starter: '50', growth: 'Unlimited', enterprise: 'Unlimited' },
+  { feature: 'Team members', free: '1', starter: '10', growth: 'Unlimited', enterprise: 'Unlimited' },
+  { feature: 'USSD access (*384#)', free: true, starter: true, growth: true, enterprise: true },
+  { feature: 'Analytics dashboard', free: 'Basic', starter: true, growth: 'Advanced', enterprise: 'Custom' },
+  { feature: 'B2B marketplace access', free: false, starter: false, growth: true, enterprise: true },
+  { feature: 'White-label branding', free: false, starter: false, growth: false, enterprise: true },
+  { feature: 'Custom domain', free: false, starter: false, growth: true, enterprise: true },
+  { feature: 'FIRS VAT reports', free: false, starter: true, growth: true, enterprise: true },
+  { feature: 'API access', free: false, starter: false, growth: true, enterprise: true },
+  { feature: 'SLA / dedicated support', free: false, starter: false, growth: false, enterprise: true },
+];
+
+function checkCell(val: boolean | string) {
+  if (val === true) return <span style={{ color: '#059669', fontSize: 18 }}>&#x2713;</span>;
+  if (val === false) return <span style={{ color: '#d1d5db', fontSize: 16 }}>&#x2013;</span>;
+  return <span style={{ fontSize: 13, color: '#374151' }}>{val}</span>;
+}
+
+function PricingPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Pricing", description: "Transparent pricing for every stage — Free, Starter ₦5,000/mo, Growth ₦15,000/mo. Try WebWaka OS free.", path: "/pricing" });
+  return (
+    <main style={{ background: '#fff', minHeight: '100vh' }}>
+      <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <button onClick={() => onNavigate('home')} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', padding: '6px 14px', borderRadius: 6, fontSize: 13, cursor: 'pointer', marginBottom: 20 }}>&larr; Back</button>
+          <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#fff', marginBottom: 16 }}>Simple, transparent pricing</h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.85)' }}>Pay by bank transfer or HandyLife wallet. No hidden fees. Cancel anytime.</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 24px 0' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 20, alignItems: 'start' }}>
+          {PRICING_PLANS.map(plan => (
+            <div key={plan.id} style={{ background: plan.highlight ? PRIMARY : '#f9fafb', border: plan.highlight ? 'none' : '1px solid #e5e7eb', borderRadius: 16, padding: 28, boxShadow: plan.highlight ? '0 8px 32px rgba(15,76,129,0.25)' : 'none', transform: plan.highlight ? 'scale(1.03)' : 'none' }}>
+              {plan.highlight && <div style={{ background: '#fff', color: PRIMARY, fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 999, marginBottom: 16, display: 'inline-block' }}>MOST POPULAR</div>}
+              <div style={{ fontSize: 18, fontWeight: 700, color: plan.highlight ? '#fff' : '#111827', marginBottom: 4 }}>{plan.name}</div>
+              <div style={{ fontSize: 12, color: plan.highlight ? 'rgba(255,255,255,0.7)' : '#6b7280', marginBottom: 14 }}>{plan.desc}</div>
+              <div style={{ marginBottom: 20 }}>
+                <span style={{ fontSize: 28, fontWeight: 800, color: plan.highlight ? '#fff' : PRIMARY }}>{plan.price}</span>
+                <span style={{ fontSize: 13, color: plan.highlight ? 'rgba(255,255,255,0.7)' : '#9ca3af' }}>{plan.period}</span>
+              </div>
+              <a href={plan.id === 'enterprise' ? 'mailto:sales@webwaka.com' : 'https://workspace.webwaka.com/register'} style={{ display: 'block', textAlign: 'center', background: plan.highlight ? '#fff' : PRIMARY, color: plan.highlight ? PRIMARY : '#fff', padding: '11px 20px', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>{plan.cta}</a>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 24px 80px', overflowX: 'auto' }}>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111827', marginBottom: 24, textAlign: 'center' }}>Full feature comparison</h2>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+          <thead>
+            <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+              <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600 }}>Feature</th>
+              {['Free', 'Starter', 'Growth', 'Enterprise'].map(p => (
+                <th key={p} style={{ textAlign: 'center', padding: '10px 12px', color: p === 'Growth' ? PRIMARY : '#374151', fontWeight: 700 }}>{p}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {PRICING_COMPARISON.map((row, i) => (
+              <tr key={row.feature} style={{ background: i % 2 === 0 ? '#f9fafb' : '#fff', borderBottom: '1px solid #f3f4f6' }}>
+                <td style={{ padding: '10px 12px', color: '#374151', fontWeight: 500 }}>{row.feature}</td>
+                <td style={{ textAlign: 'center', padding: '10px 12px' }}>{checkCell(row.free)}</td>
+                <td style={{ textAlign: 'center', padding: '10px 12px' }}>{checkCell(row.starter)}</td>
+                <td style={{ textAlign: 'center', padding: '10px 12px' }}>{checkCell(row.growth)}</td>
+                <td style={{ textAlign: 'center', padding: '10px 12px' }}>{checkCell(row.enterprise)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+
+// ─── Blog Page (A1-4) ─────────────────────────────────────────────
+function BlogPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Blog & Resources", description: "Expert insights on digital transformation for African businesses — POS tips, fintech trends, SME growth strategies.", path: "/blog" });
+  return (
+    <main style={{ background: '#fff', minHeight: '100vh' }}>
+      <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <button onClick={() => onNavigate('home')} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', padding: '6px 14px', borderRadius: 6, fontSize: 13, cursor: 'pointer', marginBottom: 20 }}>&larr; Back</button>
+          <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#fff', marginBottom: 16 }}>Resources & Updates</h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.85)' }}>Product updates, business tips, and insights for Nigerian entrepreneurs.</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '72px 24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+          {BLOG_POSTS.map(post => (
+            <article key={post.id} style={{ border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, background: '#f9fafb' }}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10 }}>
+                <span style={{ background: '#e0f2fe', color: '#0369a1', fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999 }}>{post.tag}</span>
+                <span style={{ fontSize: 12, color: '#9ca3af' }}>{post.date}</span>
+                <span style={{ fontSize: 12, color: '#9ca3af' }}>&#183; {post.readTime}</span>
+              </div>
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 8 }}>{post.title}</h2>
+              <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.7, marginBottom: 12 }}>{post.excerpt}</p>
+              <a href="https://blog.webwaka.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: PRIMARY, fontWeight: 600 }}>Read on blog.webwaka.com &rarr;</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
+// ─── About Page (A1-5) ─────────────────────────────────────────────
+const TEAM_ROLES = [
+  { name: 'Founder & CEO', role: 'Architecture & Vision', emoji: '&#x1F31F;' },
+  { name: 'Head of Product', role: 'Platform & Verticals', emoji: '&#x1F4BC;' },
+  { name: 'Head of Engineering', role: 'Infrastructure & API', emoji: '&#x1F5A5;' },
+  { name: 'Head of AI', role: 'Advisory Intelligence', emoji: '&#x1F916;' },
+  { name: 'Head of Compliance', role: 'NDPR & CBN', emoji: '&#x1F512;' },
+  { name: 'Head of Growth', role: 'Nigeria & Expansion', emoji: '&#x1F30D;' },
+];
+
+function AboutPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "About WebWaka", description: "Our mission: governance-driven AI transformation for Africa's 40M+ SMEs. Built by Nigerians, for Africa.", path: "/about" });
+  return (
+    <main style={{ background: '#fff', minHeight: '100vh' }}>
+      <div style={{ background: DARK, padding: '64px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 780, margin: '0 auto' }}>
+          <button onClick={() => onNavigate('home')} style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', padding: '6px 14px', borderRadius: 6, fontSize: 13, cursor: 'pointer', marginBottom: 20 }}>&larr; Back</button>
+          <h1 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 800, color: '#fff', marginBottom: 16 }}>Built for Africa. Starting with Nigeria.</h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)', maxWidth: 640, margin: '0 auto', lineHeight: 1.8 }}>
+            We believe every business in Africa - from a market trader in Onitsha to a government agency in Abuja - deserves world-class digital infrastructure at zero entry cost.
+          </p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '72px 24px' }}>
+        <section style={{ marginBottom: 64 }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#111827', marginBottom: 16 }}>Our Mission</h2>
+          <p style={{ fontSize: 16, color: '#374151', lineHeight: 1.8, maxWidth: 680 }}>
+            WebWaka OS exists to eliminate the digital divide for African businesses. We are building a governance-driven, multi-tenant, white-label, AI-native platform that makes Nigerian business operations as seamless as enterprise software - but accessible to a palm oil farmer, a roadside tailor, or a church secretary.
+          </p>
+        </section>
+        <section style={{ marginBottom: 64 }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#111827', marginBottom: 24 }}>What we believe</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 20 }}>
+            {[
+              { icon: '&#x1F1F3;&#x1F1EC;', title: 'Nigeria First', desc: 'Every feature is designed for Nigerian business reality before anything else.' },
+              { icon: '&#x1F4F4;', title: 'Offline First', desc: 'No internet? No problem. Core features work on USSD and sync when back online.' },
+              { icon: '&#x1F30D;', title: 'Pan-African', desc: 'Nigeria is the start. We are building for all 54 African nations.' },
+              { icon: '&#x1F512;', title: 'Compliance Native', desc: 'NDPR, CBN, FIRS - built in from day one, not added as an afterthought.' },
+            ].map(v => (
+              <div key={v.title} style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 14, padding: 24 }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }} dangerouslySetInnerHTML={{ __html: v.icon }} aria-hidden="true" />
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>{v.title}</h3>
+                <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6 }}>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section style={{ marginBottom: 64 }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#111827', marginBottom: 24 }}>The team</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 16 }}>
+            {TEAM_ROLES.map(t => (
+              <div key={t.name} style={{ textAlign: 'center', padding: 20, background: '#f9fafb', borderRadius: 12, border: '1px solid #e5e7eb' }}>
+                <div style={{ fontSize: 36, marginBottom: 8 }} dangerouslySetInnerHTML={{ __html: t.emoji }} aria-hidden="true" />
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 4 }}>{t.name}</div>
+                <div style={{ fontSize: 12, color: '#6b7280' }}>{t.role}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+        <div style={{ textAlign: 'center' }}>
+          <a href="mailto:hello@webwaka.com" style={{ background: PRIMARY, color: '#fff', padding: '14px 36px', borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>Get in touch</a>
+        </div>
+      </div>
+    </main>
+  );
+}
+
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
@@ -456,16 +728,12 @@ function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
         {/* Desktop nav */}
         <nav style={{ display: 'none', gap: 32, alignItems: 'center', ...(typeof window !== 'undefined' && window.innerWidth >= 768 ? { display: 'flex' } : {}) }}
           className="desktop-nav" aria-label="Main navigation">
-          {['Features', 'Pricing', 'Verticals', 'About'].map(item => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              style={{ fontSize: 14, fontWeight: 500, color: '#374151', transition: 'color 0.15s' }}
-              onMouseOver={e => (e.currentTarget.style.color = PRIMARY)}
-              onMouseOut={e => (e.currentTarget.style.color = '#374151')}
-            >
-              {item}
-            </a>
+          {([['Features','features'],['Pricing','pricing'],['Blog','blog'],['About','about']] as [string,string][]).map(([label,route]) => (
+            <button key={route} onClick={() => onNavigate(route)}
+              style={{ fontSize: 14, fontWeight: 500, color: '#374151', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0', transition: 'color 0.15s' }}
+              onMouseOver={e => { (e.currentTarget as HTMLButtonElement).style.color = PRIMARY; }}
+              onMouseOut={e => { (e.currentTarget as HTMLButtonElement).style.color = '#374151'; }}
+            >{label}</button>
           ))}
           <a
             href="https://workspace.webwaka.com"
@@ -522,19 +790,11 @@ function Nav({ onNavigate }: { onNavigate: (page: string) => void }) {
             display: 'flex', flexDirection: 'column',
           }}
         >
-          {['Features', 'Pricing', 'Verticals', 'About'].map(item => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                padding: '14px 24px', fontSize: 15, fontWeight: 500,
-                color: '#374151', borderBottom: '1px solid #f3f4f6',
-                textDecoration: 'none', display: 'block',
-              }}
-            >
-              {item}
-            </a>
+          {([['Features','features'],['Pricing','pricing'],['Blog','blog'],['About','about']] as [string,string][]).map(([label,route]) => (
+            <button key={route}
+              onClick={() => { onNavigate(route); setMenuOpen(false); }}
+              style={{ padding: '14px 24px', fontSize: 15, fontWeight: 500, color: '#374151', borderBottom: '1px solid #f3f4f6', background: 'none', border: 'none', cursor: 'pointer', display: 'block', width: '100%', textAlign: 'left' }}
+            >{label}</button>
           ))}
           <a
             href="https://workspace.webwaka.com/register"
@@ -617,15 +877,27 @@ function Hero() {
 }
 
 function Stats() {
+  const { ref, inView } = useInView();
+  const statDefs = [
+    { val: 159, suffix: '+', label: 'Business verticals' },
+    { val: 0, prefix: '₦', suffix: '', label: 'To get started' },
+    { val: 36, suffix: '', label: 'Nigerian states covered' },
+    { val: 5, suffix: 'ms', label: 'API response time' },
+  ];
   return (
     <section style={{ background: '#f8f9fa', padding: '40px 24px', borderBottom: '1px solid #e5e7eb' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 24 }}>
-        {STATS.map(s => (
-          <div key={s.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 36, fontWeight: 800, color: PRIMARY, marginBottom: 4 }}>{s.value}</div>
-            <div style={{ fontSize: 14, color: '#6b7280' }}>{s.label}</div>
-          </div>
-        ))}
+      <div ref={ref} style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 24 }}>
+        {statDefs.map((s) => {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const v = useCounter(s.val, 1400, inView);
+          const display = s.val === 0 ? '₦0' : `${s.prefix ?? ''}${v}${s.suffix}`;
+          return (
+            <div key={s.label} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 36, fontWeight: 800, color: PRIMARY, marginBottom: 4 }}>{display}</div>
+              <div style={{ fontSize: 14, color: '#6b7280' }}>{s.label}</div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -818,16 +1090,16 @@ function CTA() {
 
 function Footer({ onNavigate }: { onNavigate: (page: string) => void }) {
   // Map link labels to their proper destinations
-  const FOOTER_LINKS: Record<string, Record<string, { href: string; external?: boolean }>> = {
+  const FOOTER_LINKS: Record<string, Record<string, { href: string; external?: boolean; page?: boolean }>> = {
     Product: {
-      Features: { href: '#features' },
-      Pricing: { href: '#pricing' },
+      Features: { href: 'features', page: true },
+      Pricing: { href: 'pricing', page: true },
       Verticals: { href: '#verticals' },
       USSD: { href: '#features' },
     },
     Company: {
-      About: { href: '#about' },
-      Blog: { href: 'https://blog.webwaka.com', external: true },
+      About: { href: 'about', page: true },
+      Blog: { href: 'blog', page: true },
       Careers: { href: 'mailto:careers@webwaka.com', external: true },
       Contact: { href: '#/contact' },
     },
@@ -913,6 +1185,10 @@ export default function App() {
     if (page === 'privacy') return <PrivacyPolicyPage onBack={() => navigate('home')} />;
     if (page === 'terms') return <TermsPage onBack={() => navigate('home')} />;
     if (page === 'contact') return <ContactPage onBack={() => navigate('home')} />;
+    if (page === 'features') return <FeaturesPage onNavigate={navigate} />;
+    if (page === 'pricing') return <PricingPage onNavigate={navigate} />;
+    if (page === 'blog') return <BlogPage onNavigate={navigate} />;
+    if (page === 'about') return <AboutPage onNavigate={navigate} />;
     return (
       <main>
         <Hero />

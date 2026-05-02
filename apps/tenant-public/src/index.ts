@@ -70,6 +70,12 @@ interface ProfileRow {
 const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', secureHeaders());
+// H-7 / H-6: Request-ID propagation for distributed tracing
+app.use('*', async (c, next) => {
+  const requestId = c.req.header('X-Request-ID') ?? crypto.randomUUID();
+  c.header('X-Request-ID', requestId);
+  await next();
+});
 // SEC-06 + SEC-08 + ARC-05: Use shared CORS config with environment-aware localhost gating
 app.use('*', async (c, next) => {
   const config = createCorsConfig({

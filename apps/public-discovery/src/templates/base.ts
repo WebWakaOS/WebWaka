@@ -215,7 +215,154 @@ button, input, select, textarea { font: inherit; color: inherit; }
   transition: background 0.1s ease;
 }
 .ww-chip:hover { background: var(--ww-bg-surface); text-decoration: none; }
-  </style>
+  
+/* D1-5: Enhanced card styles */
+.ww-card-v2 {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.ww-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: .625rem;
+  margin-bottom: .5rem;
+}
+.ww-card-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--ww-border);
+  flex-shrink: 0;
+}
+.ww-card-logo-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--ww-primary);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ww-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+}
+.ww-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ww-text);
+  margin-bottom: .25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ww-card-location {
+  font-size: .8125rem;
+  color: var(--ww-text-muted);
+  margin-bottom: .25rem;
+}
+.ww-stars {
+  color: var(--ww-secondary);
+  font-size: .875rem;
+  letter-spacing: .05em;
+}
+.ww-verified-badge {
+  font-size: .75rem;
+  font-weight: 600;
+  color: #059669;
+  background: #dcfce7;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.ww-pagination {
+  display: flex;
+  gap: 10px;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.ww-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: .5rem 1rem;
+  border-radius: var(--ww-radius);
+  font-size: .875rem;
+  font-weight: 600;
+  background: var(--ww-primary);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.ww-btn:hover { opacity: .85; text-decoration: none; }
+.ww-btn-outline {
+  background: transparent;
+  color: var(--ww-primary);
+  border: 1.5px solid var(--ww-primary);
+}
+
+
+/* ── D1-3: Category icon cards ──────────────────────────────────────── */
+.ww-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .625rem;
+}
+@media(min-width:480px){ .ww-cat-grid { grid-template-columns: repeat(6, 1fr); } }
+@media(min-width:768px){ .ww-cat-grid { grid-template-columns: repeat(8, 1fr); } }
+.ww-cat-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: .375rem; padding: .75rem .5rem;
+  background: var(--ww-bg-surface);
+  border: 1px solid var(--ww-border);
+  border-radius: var(--ww-radius);
+  text-align: center; text-decoration: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ww-cat-card:hover {
+  border-color: var(--ww-primary);
+  box-shadow: 0 2px 12px rgba(26,107,58,.12);
+  text-decoration: none;
+}
+.ww-cat-emoji { font-size: 1.75rem; line-height: 1; }
+.ww-cat-label {
+  font-size: .6875rem; font-weight: 600;
+  color: var(--ww-text); line-height: 1.2;
+}
+
+/* ── D1-7: Pagination ────────────────────────────────────────────────── */
+.ww-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: .75rem; margin: 2rem 0 1rem; flex-wrap: wrap;
+}
+.ww-pagination-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .5rem 1rem; min-height: 40px;
+  border: 1px solid var(--ww-border); border-radius: var(--ww-radius);
+  background: var(--ww-bg); color: var(--ww-primary);
+  font-size: .875rem; font-weight: 600; text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+a.ww-pagination-btn:hover {
+  background: var(--ww-accent); border-color: var(--ww-primary);
+  text-decoration: none;
+}
+.ww-pagination-disabled {
+  color: var(--ww-text-muted); cursor: not-allowed; opacity: .5;
+}
+.ww-pagination-info {
+  font-size: .875rem; color: var(--ww-text-muted);
+}
+
+</style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>

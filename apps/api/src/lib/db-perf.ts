@@ -48,6 +48,7 @@ export async function instrumentedQuery<T>(
   };
 
   if (slow) {
+    // eslint-disable-next-line no-console
     console.warn(JSON.stringify({
       event: 'slow_query',
       ...metrics,
@@ -74,6 +75,7 @@ export async function instrumentedBatch(
   const durationMs = performance.now() - start;
 
   if (durationMs > SLOW_QUERY_THRESHOLD_MS * 2) {
+    // eslint-disable-next-line no-console
     console.warn(JSON.stringify({
       event: 'slow_batch',
       durationMs: Math.round(durationMs * 100) / 100,

@@ -169,5 +169,11 @@ import { defineWorkspace } from 'vitest/config';
   'packages/verticals-womens-association/vitest.config.ts',
   'packages/verticals-youth-organization/vitest.config.ts',
   'packages/verticals/vitest.config.ts',
+  'apps/schedulers/vitest.config.ts',
+  'apps/log-tail/vitest.config.ts',
+  'apps/workspace-app/vitest.config.ts',
+  'tests/chaos/vitest.config.ts',
+  'packages/ai-adapters/vitest.config.ts',
+  'tests/regression/vitest.config.ts',
+  'tests/governance/vitest.config.ts',
   ]);
-  

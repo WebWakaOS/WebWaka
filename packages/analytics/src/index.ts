@@ -1,21 +1,6 @@
 /**
- * @webwaka/analytics — Public API
- *
- * Phase 2: Unified analytics trackEvent + workspace/group/campaign metrics.
+ * @webwaka/analytics — Analytics event taxonomy and emission utilities.
+ * Wave 3 C6-5
  */
-
-export type {
-  AnalyticsEvent,
-  TrackEventInput,
-  WorkspaceMetrics,
-  GroupMetrics,
-  CampaignMetrics,
-} from './types.js';
-
-export { PII_FIELD_BLOCKLIST } from './types.js';
-
-export { trackEvent, assertNoPii } from './tracker.js';
-export type { D1Like as TrackerD1Like } from './tracker.js';
-
-export { getWorkspaceMetrics, getGroupMetrics, getCampaignMetrics } from './query.js';
-export type { D1Like as QueryD1Like } from './query.js';
+export { ANALYTICS_EVENTS, VALID_EVENT_NAMES, emitEvent } from './event-taxonomy.js';
+export type { EventName } from './event-taxonomy.js';

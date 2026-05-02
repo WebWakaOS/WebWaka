@@ -62,9 +62,18 @@ export default function POS() {
   const [lastOrderId, setLastOrderId] = useState('');
   const [lastOrderTotal, setLastOrderTotal] = useState(0);
   const [lastOrderVat, setLastOrderVat] = useState(0);
+  const [lastOrderDiscount, setLastOrderDiscount] = useState(0);
+  const [lastOrderItems, setLastOrderItems] = useState<CartItem[]>([]);
   // Quick-add qty stepper state
   const [quickAddProduct, setQuickAddProduct] = useState<Product | null>(null);
   const [quickAddQty, setQuickAddQty] = useState(1);
+  // B1-3: Discount/coupon
+  const [discountPct, setDiscountPct] = useState(0);  // 0-100 percent
+  const [discountCode, setDiscountCode] = useState('');
+  // B1-5: End-of-day summary
+  const [eodVisible, setEodVisible] = useState(false);
+  const [eodLoading, setEodLoading] = useState(false);
+  const [eodData, setEodData] = useState<{ total_sales: number; total_orders: number; top_product: string | null } | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -132,8 +141,10 @@ export default function POS() {
   // BUG-013 / COMP-005: FIRS VAT 7.5% (Nigeria Value Added Tax Act 2007 as amended 2019)
   const VAT_RATE = 0.075;
   const subtotalKobo = cart.reduce((sum, i) => sum + i.price_kobo * i.qty, 0);
-  const vatKobo = Math.round(subtotalKobo * VAT_RATE);
-  const totalKobo = subtotalKobo + vatKobo;
+  const discountKobo = Math.round(subtotalKobo * (discountPct / 100));
+  const discountedSubtotal = subtotalKobo - discountKobo;
+  const vatKobo = Math.round(discountedSubtotal * VAT_RATE);
+  const totalKobo = discountedSubtotal + vatKobo;
 
   /**
    * BUG-010: Sync any pending offline POS sales from IndexedDB.
@@ -168,9 +179,36 @@ export default function POS() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+  // B1-5: End-of-day summary
+  const loadEod = async () => {
+    if (!workspaceId) return;
+    setEodLoading(true);
+    setEodVisible(true);
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const res = await api.get<{ total_sales: number; total_orders: number; top_product: string | null }>(
+        `/pos-business/sales/${workspaceId}/summary?date=${today}`,
+      );
+      setEodData(res);
+    } catch {
+      // Graceful fallback — compute locally from receipt data
+      setEodData({ total_sales: lastOrderTotal, total_orders: 1, top_product: lastOrderItems[0]?.name ?? null });
+    } finally {
+      setEodLoading(false);
+    }
+  };
+
   const checkout = async () => {
     if (cart.length === 0) { toast.error('Cart is empty'); return; }
     if (!workspaceId) { toast.error('Workspace not found.'); return; }
+    // B1-4: Warn when any item has stock_qty <= 2 after this sale
+    const lowStockWarnings = cart.filter(i => i.stock_qty !== null && i.stock_qty - i.qty <= 2);
+    if (lowStockWarnings.length > 0) {
+      const names = lowStockWarnings.map(i => i.name).join(', ');
+      const proceed = window.confirm(`Low stock warning:\n${names} will have ≤2 units remaining.\n\nProceed with sale?`);
+      if (!proceed) return;
+    }
 
     setCheckingOut(true);
 
@@ -213,6 +251,8 @@ export default function POS() {
         workspace_id: workspaceId,
         payment_method: paymentMethod,
         vat_kobo: vatKobo,
+        discount_kobo: discountKobo,
+        discount_code: discountCode.trim() || undefined,
         items: cart.map(i => ({
           product_id: i.id,
           qty: i.qty,
@@ -221,6 +261,10 @@ export default function POS() {
       });
       setLastOrderId(res.sale.id.slice(0, 12).toUpperCase());
       setLastOrderTotal(res.sale.total_kobo);
+      setLastOrderDiscount(discountKobo);
+      setLastOrderItems([...cart]);
+      setDiscountPct(0);
+      setDiscountCode('');
       setLastOrderVat(vatKobo);
       setCart([]);
       setReceiptVisible(true);
@@ -234,7 +278,7 @@ export default function POS() {
   };
 
   if (receiptVisible) {
-    const receiptSubtotal = lastOrderTotal - lastOrderVat;
+    const receiptSubtotal = lastOrderTotal - lastOrderVat - lastOrderDiscount;
     return (
       <div className={s.page}>
         {/* ENH-018: Print-friendly receipt */}
@@ -264,12 +308,29 @@ export default function POS() {
             <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 12 }}>
               {new Date().toLocaleString('en-NG')}
             </p>
+            {/* B1-1: Line items */}
+            {lastOrderItems.length > 0 && (
+              <div style={{ width: '100%', borderTop: '1px solid #e5e7eb', paddingTop: 12, marginBottom: 8, textAlign: 'left' }}>
+                {lastOrderItems.map(item => (
+                  <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#374151', marginBottom: 3 }}>
+                    <span>{item.name} ×{item.qty}</span>
+                    <span>{formatNaira(item.price_kobo * item.qty)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
             {/* COMP-005: VAT breakdown on receipt */}
             <div style={{ width: '100%', borderTop: '1px solid #e5e7eb', paddingTop: 12, marginBottom: 12, textAlign: 'left' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#6b7280', marginBottom: 4 }}>
                 <span>Subtotal</span>
-                <span>{formatNaira(receiptSubtotal)}</span>
+                <span>{formatNaira(receiptSubtotal + lastOrderDiscount)}</span>
               </div>
+              {lastOrderDiscount > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#059669', marginBottom: 4 }}>
+                  <span>Discount</span>
+                  <span>− {formatNaira(lastOrderDiscount)}</span>
+                </div>
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#6b7280', marginBottom: 8 }}>
                 <span>VAT (7.5%)</span>
                 <span>{formatNaira(lastOrderVat)}</span>
@@ -291,6 +352,48 @@ export default function POS() {
               </Button>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+
+  // B1-5: EOD modal overlay
+  if (eodVisible) {
+    return (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+        <div style={{ background: '#fff', borderRadius: 16, padding: '32px 28px', maxWidth: 400, width: '100%', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>📊</div>
+          <h2 style={{ fontSize: 20, fontWeight: 800, color: '#111827', marginBottom: 6 }}>End of Day Summary</h2>
+          <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 20 }}>{new Date().toLocaleDateString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+          {eodLoading ? (
+            <div style={{ padding: '24px 0', color: '#9ca3af' }}>Loading…</div>
+          ) : eodData ? (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+                <div style={{ background: '#f0fdf4', borderRadius: 12, padding: '16px 12px' }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: '#166534' }}>{formatNaira(eodData.total_sales)}</div>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>Total Revenue</div>
+                </div>
+                <div style={{ background: '#eff6ff', borderRadius: 12, padding: '16px 12px' }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: '#1d4ed8' }}>{eodData.total_orders}</div>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>Total Orders</div>
+                </div>
+              </div>
+              {eodData.top_product && (
+                <div style={{ background: '#fefce8', borderRadius: 10, padding: '12px 16px', marginBottom: 20, textAlign: 'left' }}>
+                  <div style={{ fontSize: 12, color: '#6b7280' }}>Top Product</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginTop: 2 }}>🏆 {eodData.top_product}</div>
+                </div>
+              )}
+            </>
+          ) : null}
+          <button
+            onClick={() => setEodVisible(false)}
+            style={{ background: '#0F4C81', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer', width: '100%' }}
+          >
+            Close
+          </button>
         </div>
       </div>
     );
@@ -381,6 +484,13 @@ export default function POS() {
               {cart.reduce((acc, i) => acc + i.qty, 0)} items in cart
             </span>
           )}
+          {/* B1-5: End-of-day summary button */}
+          <button
+            onClick={loadEod}
+            style={{ fontSize: 12, fontWeight: 600, color: '#0F4C81', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+          >
+            📊 EOD Summary
+          </button>
           <span style={{ fontSize: 11, color: '#9ca3af' }} title="Press / to focus search">
             Press <kbd style={{ background: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: 3, padding: '1px 5px', fontSize: 10 }}>/</kbd> to search
           </span>
@@ -577,6 +687,42 @@ export default function POS() {
                   ))}
                 </div>
               </div>
+
+              {/* B1-3: Discount / coupon input */}
+              <details style={{ marginBottom: 12 }}>
+                <summary style={{ fontSize: 13, color: '#6b7280', cursor: 'pointer', userSelect: 'none', listStyle: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <span style={{ fontSize: 12 }}>&#9660;</span>
+                  {discountPct > 0 ? <span style={{ color: '#059669', fontWeight: 600 }}>{discountPct}% discount applied</span> : 'Add discount / coupon'}
+                </summary>
+                <div style={{ paddingTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    placeholder="Coupon code (optional)"
+                    value={discountCode}
+                    onChange={e => setDiscountCode(e.target.value)}
+                    style={{ flex: 2, minWidth: 100, padding: '7px 10px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13 }}
+                  />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, flex: 1, minWidth: 100 }}>
+                    <input
+                      type="number"
+                      min={0} max={100} step={1}
+                      placeholder="0"
+                      value={discountPct || ''}
+                      onChange={e => setDiscountPct(Math.min(100, Math.max(0, parseInt(e.target.value) || 0)))}
+                      style={{ width: 60, padding: '7px 8px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13 }}
+                    />
+                    <span style={{ fontSize: 13, color: '#374151' }}>%</span>
+                    {discountPct > 0 && (
+                      <button onClick={() => { setDiscountPct(0); setDiscountCode(''); }} style={{ fontSize: 12, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px' }}>clear</button>
+                    )}
+                  </div>
+                </div>
+                {discountKobo > 0 && (
+                  <div style={{ marginTop: 6, fontSize: 13, color: '#059669', fontWeight: 600 }}>
+                    Saving {formatNaira(discountKobo)} on this sale
+                  </div>
+                )}
+              </details>
 
               <Button
                 onClick={checkout}

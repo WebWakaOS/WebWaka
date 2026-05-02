@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { api, ApiError } from '@/lib/api';
 import { toast } from '@/lib/toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -309,6 +309,7 @@ function BlockCard({
   onEdit,
   onMoveUp,
   onMoveDown,
+  onDuplicate,
   isFirst,
   isLast,
 }: {
@@ -318,6 +319,7 @@ function BlockCard({
   onEdit: (block: WakaBlock) => void;
   onMoveUp: (id: string) => void;
   onMoveDown: (id: string) => void;
+  onDuplicate: (id: string) => void;
   isFirst: boolean;
   isLast: boolean;
 }) {
@@ -371,6 +373,14 @@ function BlockCard({
         style={{ background: 'none', border: '1px solid #d1d5db', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: block.isVisible ? '#374151' : '#9ca3af' }}
       >
         {block.isVisible ? 'Hide' : 'Show'}
+      </button>
+      {/* C1-5: Duplicate block */}
+      <button
+        onClick={() => onDuplicate(block.id)}
+        style={{ background: 'none', border: '1px solid #d1d5db', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', color: '#6b7280' }}
+        title="Duplicate this block"
+      >
+        ⎘ Copy
       </button>
       <button
         onClick={() => onDelete(block.id)}
@@ -564,6 +574,7 @@ export default function WakaPageManager() {
 
   const [creating, setCreating] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [unpublishing, setUnpublishing] = useState(false);
   const [loadingLeads, setLoadingLeads] = useState(false);
   const [showAddBlock, setShowAddBlock] = useState(false);
   const [addingBlock, setAddingBlock] = useState(false);
@@ -572,6 +583,10 @@ export default function WakaPageManager() {
   // H3: Block editing
   const [editingBlock, setEditingBlock] = useState<WakaBlock | null>(null);
   const [savingBlockConfig, setSavingBlockConfig] = useState(false);
+  // C1-4: iframe ref + key to force preview refresh after saves
+  const iframeRef = React.useRef<HTMLIFrameElement>(null);
+  const [previewKey, setPreviewKey] = useState(0);
+  const bumpPreview = React.useCallback(() => setPreviewKey(k => k + 1), []);
 
   // Fetch the workspace's WakaPage on mount
   const loadPage = useCallback(async () => {
@@ -658,6 +673,22 @@ export default function WakaPageManager() {
     }
   };
 
+
+  const handleUnpublish = async () => {
+    if (!page || unpublishing) return;
+    if (!window.confirm('Are you sure you want to unpublish? Your WakaPage will go offline.')) return;
+    setUnpublishing(true);
+    try {
+      await api.post(`/v0/wakapages/${page.id}/unpublish`, {});
+      toast.success('WakaPage has been taken offline.');
+      await loadPage();
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : 'Failed to unpublish.');
+    } finally {
+      setUnpublishing(false);
+    }
+  };
+
   const handleAddBlock = async (blockType: string) => {
     if (!page || addingBlock) return;
     setAddingBlock(true);
@@ -683,6 +714,7 @@ export default function WakaPageManager() {
     setBlocks(prev => prev.map(b => b.id === blockId ? { ...b, isVisible: visible } : b));
     try {
       await api.patch(`/v0/wakapages/${page.id}/blocks/${blockId}`, { is_visible: visible ? 1 : 0 });
+      bumpPreview(); // C1-4
     } catch {
       toast.error('Could not update block visibility.');
       setBlocks(prev => prev.map(b => b.id === blockId ? { ...b, isVisible: !visible } : b));
@@ -699,6 +731,28 @@ export default function WakaPageManager() {
     } catch {
       toast.error('Could not remove block.');
       setBlocks(prev);
+    }
+  };
+
+
+  // C1-5: Duplicate a block — creates a new block with the same type + config right below
+  const handleDuplicateBlock = async (blockId: string) => {
+    if (!page) return;
+    const src = blocks.find(b => b.id === blockId);
+    if (!src) return;
+    try {
+      const maxOrder = Math.max(...blocks.map(b => b.sortOrder), 0);
+      const res = await api.post<{ block: WakaBlock }>(`/v0/wakapages/${page.id}/blocks`, {
+        block_type: src.blockType,
+        sort_order: maxOrder + 1,
+        config_json: src.configJson,
+        is_visible: 1,
+      });
+      if (res?.block) setBlocks(prev => [...prev, res.block]);
+      toast.success('Block duplicated');
+      bumpPreview();
+    } catch {
+      toast.error('Could not duplicate block');
     }
   };
 
@@ -924,6 +978,16 @@ export default function WakaPageManager() {
           >
             {loadingQr ? 'Loading…' : '📷 Share / QR Code'}
           </Button>
+          {page.publicationState === 'published' && (
+            <Button
+              onClick={() => void handleUnpublish()}
+              disabled={unpublishing}
+              variant="secondary"
+              style={{ fontSize: 14, color: '#dc2626', borderColor: '#fca5a5' }}
+            >
+              {unpublishing ? 'Unpublishing…' : '⏸ Unpublish'}
+            </Button>
+          )}
           {/* Preview panel toggle */}
           {qr?.publicUrl && (
             <Button
@@ -979,6 +1043,7 @@ export default function WakaPageManager() {
                   block={block}
                   onToggle={(id, vis) => void handleToggleBlock(id, vis)}
                   onDelete={(id) => void handleDeleteBlock(id)}
+                  onDuplicate={(id) => void handleDuplicateBlock(id)}
                   onEdit={(b) => setEditingBlock(b)}
                   onMoveUp={(id) => void handleMoveBlock(id, 'up')}
                   onMoveDown={(id) => void handleMoveBlock(id, 'down')}
@@ -1079,6 +1144,8 @@ export default function WakaPageManager() {
               </div>
             )}
             <iframe
+              key={previewKey}
+              ref={iframeRef}
               src={qr.publicUrl}
               title="WakaPage live preview"
               style={{

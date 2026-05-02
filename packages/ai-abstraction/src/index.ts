@@ -44,3 +44,17 @@ export {
   resolveAdapter,
   PLATFORM_AGGREGATORS,
 } from './router.js';
+
+// Wave 3 (C2-1): Retry middleware for AI adapter calls
+export { withRetry, classifyError, backoffMs, AIRetryError } from './retry.js';
+export type { RetryOptions } from './retry.js';
+
+// Wave 3 (C2-2): Circuit breaker for AI providers
+export {
+  CircuitBreaker,
+  CircuitOpenError,
+  getCircuitBreaker,
+  resetAllCircuitBreakers,
+  isProviderOpen,
+} from './circuit-breaker.js';
+export type { CircuitBreakerOptions, CircuitState } from './circuit-breaker.js';

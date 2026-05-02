@@ -1,26 +1,20 @@
 {
   "name": "@webwaka/logging",
   "version": "0.1.0",
-  "private": true,
-  "description": "[Infra] Structured JSON logger with severity levels, context enrichment, and PII masking. WebWaka OS M10.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "description": "[Infra] Structured log drain transport for Cloudflare Workers",
+  "type": "module",
+  "main": "./src/index.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "source": "./src/index.ts",
-      "import": "./dist/index.js"
-    }
+    ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "clean": "rm -rf dist",
-    "lint": "echo 'no lint yet'"
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
+    "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }
 }

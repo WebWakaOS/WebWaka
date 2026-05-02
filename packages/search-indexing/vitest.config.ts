@@ -10,7 +10,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    passWithNoTests: true,
+    pool: 'vmForks',
+    server: {
+      deps: {
+        inline: [/@webwaka\//],
+      },
+    },
     include: ['src/**/*.test.ts'],
   },
 });

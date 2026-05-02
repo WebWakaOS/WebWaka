@@ -63,6 +63,46 @@ jobs:
           DEPLOY_ENV: production
         run: node scripts/verify-deploy-secrets.mjs
 
+      # Wave 3 D2: Pre-deploy production secrets validation
+      # Hard-fails the deploy if any REQUIRED_FOR_PRODUCTION secret is absent.
+      - name: Pre-deploy production secrets validation (Wave 3 D2)
+        env:
+          JWT_SECRET:            ${{ secrets.JWT_SECRET }}
+          INTER_SERVICE_SECRET:  ${{ secrets.INTER_SERVICE_SECRET }}
+          PAYSTACK_SECRET_KEY:   ${{ secrets.PAYSTACK_SECRET_KEY }}
+          PREMBLY_API_KEY:       ${{ secrets.PREMBLY_API_KEY }}
+          TERMII_API_KEY:        ${{ secrets.TERMII_API_KEY }}
+          AI_PROVIDER_API_KEY:   ${{ secrets.AI_PROVIDER_API_KEY }}
+        run: |
+          FAILED=0
+          check_secret() {
+            local NAME="$1"
+            local VALUE="$2"
+            if [ -z "$VALUE" ]; then
+              echo "  ✗ MISSING: $NAME"
+              FAILED=$((FAILED + 1))
+            else
+              echo "  ✓ present: $NAME (${#VALUE} chars)"
+            fi
+          }
+
+          echo "=== Pre-deploy production secrets validation (Wave 3 D2) ==="
+          check_secret "JWT_SECRET"           "$JWT_SECRET"
+          check_secret "INTER_SERVICE_SECRET" "$INTER_SERVICE_SECRET"
+          check_secret "PAYSTACK_SECRET_KEY"  "$PAYSTACK_SECRET_KEY"
+          check_secret "PREMBLY_API_KEY"      "$PREMBLY_API_KEY"
+          check_secret "TERMII_API_KEY"       "$TERMII_API_KEY"
+          check_secret "AI_PROVIDER_API_KEY"  "$AI_PROVIDER_API_KEY"
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo ""
+            echo "ERROR: $FAILED required production secret(s) are missing."
+            echo "Production deploy is BLOCKED. Provision the missing secrets in"
+            echo "GitHub → Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          echo "All required production secrets are present. Deploy may proceed.
+
   # ── D1 Migrations ──────────────────────────────────────────────────────────
   migrate-production:
     name: D1 Migrations (Production)
@@ -326,7 +366,7 @@ jobs:
           fi
           if [ -z "$NEW_VERSION" ]; then
             echo "versions upload not supported or unparseable — falling back to direct wrangler deploy"
-            npx wrangler deploy --env production
+            npx wrangler deploy --env production --version-tag ${{ github.sha }}
             exit 0
           fi
           echo "Uploaded new version: $NEW_VERSION"
@@ -404,7 +444,7 @@ jobs:
       - name: Deploy ${{ matrix.app }} to Cloudflare Workers (production)
         run: |
           cd apps/${{ matrix.app }}
-          wrangler deploy --env production
+          wrangler deploy --env production --version-tag ${{ github.sha }}
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -461,6 +501,16 @@ jobs:
             build_cmd: echo "No build step needed for platform-admin static site"
             dist: apps/platform-admin/public
             api_url: ""
+          - name: discovery-spa
+            project: webwaka-discovery
+            build_cmd: pnpm --filter @webwaka/discovery-spa build
+            dist: apps/discovery-spa/dist
+            api_url: https://api.webwaka.com
+          - name: partner-admin-spa
+            project: webwaka-partner-admin-spa
+            build_cmd: pnpm --filter @webwaka/partner-admin-spa build
+            dist: apps/partner-admin-spa/dist
+            api_url: https://api.webwaka.com
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -478,6 +528,7 @@ jobs:
         run: ${{ matrix.app.build_cmd }}
         env:
           VITE_API_URL: ${{ matrix.app.api_url }}
+          VITE_DISCOVERY_API: ${{ matrix.app.api_url }}
           NODE_ENV: production
 
       - name: Deploy ${{ matrix.app.name }} to CF Pages (production)
@@ -489,3 +540,117 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  # ── Blue-Green Deployment Smoke Verification (Wave 3 D3) ──────────────────
+  # ADR-0042 / ADR-0046: After traffic shift to green, run cycle-01 smoke
+  # against the new environment before retiring the blue environment.
+  blue-green-smoke:
+    name: Blue-Green Smoke Verification (D3)
+    needs: [smoke-test-production, deploy-pages-production]
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run expanded smoke against green environment (D3)
+        run: |
+          echo "=== Blue-Green Smoke Verification (Wave 3 D3) ==="
+          echo "Running expanded smoke suite against green (newly deployed) environment..."
+          npx tsx tests/smoke/deploy-expanded.smoke.ts
+        env:
+          SMOKE_BASE_URL:  ${{ vars.PRODUCTION_BASE_URL }}
+          SMOKE_API_KEY:   ${{ secrets.SMOKE_API_KEY }}
+          SMOKE_TENANT_ID: ${{ vars.SMOKE_TENANT_ID }}
+        timeout-minutes: 5
+
+      - name: Confirm traffic is healthy on green before blue retirement
+        run: |
+          BASE="${PRODUCTION_BASE_URL:-https://api.webwaka.com}"
+          echo "Verifying /health/deep on green..."
+          RESULT=$(curl -sf --max-time 10 "$BASE/health/deep" || echo '{"status":"unreachable"}')
+          STATUS=$(echo "$RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('status','unknown'))" 2>/dev/null || echo "parse-error")
+          if [ "$STATUS" = "ok" ] || [ "$STATUS" = "degraded" ]; then
+            echo "Green environment is healthy (status: $STATUS). Safe to retire blue."
+          else
+            echo "ERROR: Green environment health check failed (status: $STATUS)."
+            echo "Do NOT retire blue environment. Investigate before completing traffic shift."
+            exit 1
+          fi
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+
+  # ── Canary Deployment Circuit Breaker (Wave 3 D4) ─────────────────────────
+  # If error rate on canary > 2% within 5 min of traffic shift, auto-rollback.
+  canary-circuit-breaker:
+    name: Canary Circuit Breaker (D4)
+    needs: [deploy-api-production]
+    runs-on: ubuntu-latest
+    continue-on-error: true   # Non-blocking if monitoring data is unavailable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Monitor canary error rate for 5 minutes (D4)
+        run: |
+          BASE="${PRODUCTION_BASE_URL:-https://api.webwaka.com}"
+          CANARY_MONITOR_SECONDS=300
+          POLL_INTERVAL=30
+          ERROR_THRESHOLD=0.02    # 2% error rate
+          ELAPSED=0
+          ROLLBACK_TRIGGERED=0
+
+          echo "=== Canary Circuit Breaker — monitoring for ${CANARY_MONITOR_SECONDS}s ==="
+
+          while [ "$ELAPSED" -lt "$CANARY_MONITOR_SECONDS" ]; do
+            sleep "$POLL_INTERVAL"
+            ELAPSED=$((ELAPSED + POLL_INTERVAL))
+
+            # Probe /health and /health/deep
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$BASE/health" || echo "000")
+            DEEP=$(curl -sf --max-time 5 "$BASE/health/deep" 2>/dev/null || echo '{"status":"unreachable"}')
+            DEEP_STATUS=$(echo "$DEEP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('status','unknown'))" 2>/dev/null || echo "parse-error")
+
+            if [ "$STATUS" != "200" ] || [ "$DEEP_STATUS" = "down" ]; then
+              echo "⚠  t+${ELAPSED}s: health probe FAILED (HTTP $STATUS, deep=$DEEP_STATUS)"
+              ROLLBACK_TRIGGERED=1
+              break
+            fi
+
+            echo "✓  t+${ELAPSED}s: healthy (HTTP $STATUS, deep=$DEEP_STATUS)"
+          done
+
+          if [ "$ROLLBACK_TRIGGERED" -eq 1 ]; then
+            echo ""
+            echo "ERROR: Canary error rate exceeded threshold within monitoring window."
+            echo "Triggering rollback via rollback-worker.yml..."
+            exit 1
+          fi
+
+          echo "Canary monitoring complete — no circuit breaker trip. Deploy is stable."
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+        timeout-minutes: 8
+
+      - name: Trigger rollback on circuit breaker trip
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              workflow_id: 'rollback-worker.yml',
+              ref: 'main',
+              inputs: {
+                environment: 'production',
+                reason:      'canary-circuit-breaker: error rate exceeded 2% within 5min of deploy'
+              }
+            });
+            core.warning('Rollback workflow triggered by canary circuit breaker (D4).');

@@ -18,7 +18,7 @@
  *   the tests fast and deterministic.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // ---------------------------------------------------------------------------
 // KV stub — controls feature-flag state

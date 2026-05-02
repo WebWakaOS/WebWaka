@@ -225,6 +225,25 @@ export const en = {
   // Legal footer (NDPR compliance)
   notif_legal_footer_ndpr: 'This communication is sent in compliance with the Nigeria Data Protection Regulation (NDPR) 2019.',
   notif_legal_footer_rights: '© {year} {company_name}. All rights reserved.',
+
+  // API Error messages (L-12 — i18n error responses)
+  api_err_bad_request: 'Bad request. Please check your input.',
+  api_err_unauthorized: 'You are not authorised. Please sign in and try again.',
+  api_err_forbidden: 'Access denied. You do not have permission to do this.',
+  api_err_not_found: 'The requested resource was not found.',
+  api_err_conflict: 'This resource already exists.',
+  api_err_validation_failed: 'Validation failed. Please check your input and try again.',
+  api_err_rate_limit_exceeded: 'Too many requests. Please wait a moment and try again.',
+  api_err_payload_too_large: 'Request is too large. Please reduce the size and try again.',
+  api_err_internal_error: 'An unexpected error occurred. Please try again later.',
+  api_err_service_unavailable: 'Service temporarily unavailable. Please try again shortly.',
+  api_err_email_required: 'Email and password are required.',
+  api_err_invalid_credentials: 'Invalid email or password.',
+  api_err_account_locked: 'Account temporarily locked. Try again later.',
+  api_err_email_exists: 'An account with this email already exists.',
+  api_err_business_name_short: 'Business name must be at least 2 characters.',
+  api_err_invalid_email: 'Please enter a valid email address.',
+
   // Unsubscribe
   notif_unsubscribe_text: 'You are receiving this because you have an account with {tenant_name}.',
   notif_unsubscribe_action: 'Unsubscribe',

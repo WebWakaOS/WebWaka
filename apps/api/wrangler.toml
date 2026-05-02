@@ -22,6 +22,9 @@ migrations_dir = "migrations"
 # WNAM (Western North America) is the closest Cloudflare D1 region to Nigeria
 # with GDPR-adequate transfer safeguards. See docs/governance/compliance-dashboard.md.
 primary_location = "wnam"
+# L-10: pre-positioned for D1 read replication (no-op until CF activates African replicas)
+# See docs/adr/ADR-0044-d1-multi-region-replication.md
+read_replication = { mode = "auto" }
 
 [[env.staging.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -98,6 +101,9 @@ migrations_dir = "migrations"
 # WNAM (Western North America) is the closest Cloudflare D1 region to Nigeria
 # with GDPR-adequate transfer safeguards. See docs/governance/compliance-dashboard.md.
 primary_location = "wnam"
+# L-10: pre-positioned for D1 read replication (no-op until CF activates African replicas)
+# See docs/adr/ADR-0044-d1-multi-region-replication.md
+read_replication = { mode = "auto" }
 
 [[env.production.kv_namespaces]]
 binding = "RATE_LIMIT_KV"
@@ -161,3 +167,12 @@ custom_domain = true
 #   LOG_PII_SALT
 #   DM_MASTER_KEY
 #   PRICE_LOCK_SECRET
+
+# ── Tail Worker — structured log forwarding to external sink (L-1) ────────────
+# The log-tail worker receives all log events and ships them to the configured
+# external sink (Axiom/Datadog/Logtail). Deploy apps/log-tail first.
+[[tail_consumers]]
+service = "log-tail"
+
+[[env.production.tail_consumers]]
+service = "log-tail-production"

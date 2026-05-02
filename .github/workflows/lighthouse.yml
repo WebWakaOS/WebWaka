@@ -1,0 +1,73 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [staging, main]
+  push:
+    branches: [staging, main]
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Lighthouse ≥ 85 Perf / ≥ 90 A11y
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build workspace-app
+        run: pnpm --filter @webwaka/workspace-app build
+        env:
+          NODE_ENV: production
+          VITE_API_URL: https://api-staging.webwaka.com
+
+      - name: Build marketing-site
+        run: pnpm --filter @webwaka/marketing-site build
+        env:
+          NODE_ENV: production
+        # Allow missing — marketing site may not exist yet
+        continue-on-error: true
+
+      - name: Install @lhci/cli
+        run: npm install -g @lhci/cli@0.14
+
+      - name: Run Lighthouse CI — workspace-app
+        run: |
+          lhci autorun \
+            --collect.staticDistDir=apps/workspace-app/dist \
+            --assert.assertions.categories:performance.minScore=0.85 \
+            --assert.assertions.categories:accessibility.minScore=0.90 \
+            --assert.assertions.categories:best-practices.minScore=0.80 \
+            --assert.preset=lighthouse:no-pwa \
+            --upload.target=temporary-public-storage
+        continue-on-error: false
+
+      - name: Run Lighthouse CI — marketing-site (if built)
+        if: hashFiles('apps/marketing-site/dist/index.html') != ''
+        run: |
+          lhci autorun \
+            --collect.staticDistDir=apps/marketing-site/dist \
+            --assert.assertions.categories:performance.minScore=0.85 \
+            --assert.assertions.categories:accessibility.minScore=0.90 \
+            --assert.preset=lighthouse:no-pwa \
+            --upload.target=temporary-public-storage
+        continue-on-error: false
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports-${{ github.sha }}
+          path: .lighthouseci/
+          retention-days: 14

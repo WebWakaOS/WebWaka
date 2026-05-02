@@ -1,0 +1,224 @@
+name: Rollback Worker (Blue-Green)
+
+# Promotes the previous Cloudflare Worker version to 100% traffic.
+# Rollback completes in ~20 seconds (CF Deployments API, no re-build).
+# See: docs/adr/ADR-0046-blue-green-deployment.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      worker_name:
+        description: 'Worker script name to roll back'
+        required: true
+        type: choice
+        options:
+          - webwaka-api
+          - webwaka-api-production
+          - log-tail
+          - log-tail-production
+          - notificator
+          - schedulers
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      confirm:
+        description: 'Type ROLLBACK to confirm'
+        required: true
+        type: string
+      target_version_id:
+        description: 'Specific version ID to promote (leave blank for previous version)'
+        required: false
+        type: string
+
+concurrency:
+  group: rollback-worker-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Rollback Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate confirmation
+        run: |
+          if [ "${{ inputs.confirm }}" != "ROLLBACK" ]; then
+            echo "::error::Confirmation failed. You must type 'ROLLBACK' to confirm."
+            exit 1
+          fi
+          echo "Confirmation accepted."
+          echo "Worker: ${{ inputs.worker_name }}"
+          echo "Environment: ${{ inputs.environment }}"
+
+  rollback:
+    name: Promote Previous Version
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      rolled_back_to: ${{ steps.promote.outputs.version_id }}
+      previous_version: ${{ steps.fetch_history.outputs.current_version }}
+    steps:
+      - name: Fetch deployment history
+        id: fetch_history
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WORKER: ${{ inputs.worker_name }}
+        run: |
+          echo "Fetching deployment history for worker: $WORKER"
+
+          RESPONSE=$(curl -s -f \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/workers/scripts/${WORKER}/deployments")
+
+          if ! echo "$RESPONSE" | jq -e '.success' > /dev/null 2>&1; then
+            echo "::error::Failed to fetch deployment history"
+            echo "$RESPONSE" | jq .
+            exit 1
+          fi
+
+          # Extract versions ordered by deployment time (newest first)
+          echo "$RESPONSE" | jq '.result.items' > /tmp/deployments.json
+          echo "Deployment history:"
+          cat /tmp/deployments.json | jq '[.[] | {id: .versions[0].version_id, created: .created_on}]'
+
+          # Current version = first item
+          CURRENT=$(cat /tmp/deployments.json | jq -r '.[0].versions[0].version_id // empty')
+          echo "Current live version: $CURRENT"
+          echo "current_version=$CURRENT" >> "$GITHUB_OUTPUT"
+
+          # Determine target version
+          TARGET_INPUT="${{ inputs.target_version_id }}"
+          if [ -n "$TARGET_INPUT" ]; then
+            echo "Using specified target version: $TARGET_INPUT"
+            echo "target_version=$TARGET_INPUT" >> "$GITHUB_OUTPUT"
+          else
+            PREVIOUS=$(cat /tmp/deployments.json | jq -r '.[1].versions[0].version_id // empty')
+            if [ -z "$PREVIOUS" ]; then
+              echo "::error::No previous version found. Cannot rollback."
+              exit 1
+            fi
+            echo "Previous version to restore: $PREVIOUS"
+            echo "target_version=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Promote previous version to 100% traffic
+        id: promote
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WORKER: ${{ inputs.worker_name }}
+          VERSION_ID: ${{ steps.fetch_history.outputs.target_version }}
+        run: |
+          echo "Promoting version $VERSION_ID to 100% traffic..."
+
+          RESPONSE=$(curl -s -f -X PUT \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/workers/scripts/${WORKER}/deployments" \
+            --data "{
+              \"strategy\": \"percentage\",
+              \"versions\": [{
+                \"version_id\": \"$VERSION_ID\",
+                \"percentage\": 100
+              }],
+              \"annotations\": {
+                \"workers/message\": \"Rollback from GitHub Actions — triggered by ${{ github.actor }}\",
+                \"workers/tag\": \"rollback-${{ github.run_id }}\"
+              }
+            }")
+
+          if ! echo "$RESPONSE" | jq -e '.success' > /dev/null 2>&1; then
+            echo "::error::Failed to promote version"
+            echo "$RESPONSE" | jq .
+            exit 1
+          fi
+
+          echo "Successfully promoted version $VERSION_ID to 100% traffic."
+          echo "version_id=$VERSION_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for propagation
+        run: sleep 8
+
+      - name: Health check post-rollback
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          if [ "$ENVIRONMENT" = "production" ]; then
+            HEALTH_URL="https://api.webwaka.com/health"
+          else
+            HEALTH_URL="https://api-staging.webwaka.com/health"
+          fi
+
+          echo "Checking health at $HEALTH_URL ..."
+          STATUS=$(curl -s -o /tmp/health_body.txt -w "%{http_code}" \
+            --max-time 15 "$HEALTH_URL" || echo "000")
+          BODY=$(cat /tmp/health_body.txt 2>/dev/null | head -c 200)
+
+          echo "HTTP Status: $STATUS"
+          echo "Response: $BODY"
+
+          if [ "$STATUS" = "200" ]; then
+            echo "Health check PASSED after rollback."
+          elif [ "$STATUS" = "403" ] && echo "$BODY" | grep -qiE '(cloudflare|cf-ray)'; then
+            echo "CF WAF challenge — Worker is reachable (expected for CI runner IPs)."
+          else
+            echo "::error::Health check FAILED ($STATUS) after rollback."
+            echo "::error::Immediate action required — investigate worker state."
+            exit 1
+          fi
+
+  # Re-promote current version if health check fails (safety net)
+  emergency-revert:
+    name: Emergency Re-Promote (if rollback fails)
+    needs: rollback
+    if: failure()
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Re-promote the version that was live before rollback
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WORKER: ${{ inputs.worker_name }}
+          VERSION_ID: ${{ needs.rollback.outputs.previous_version }}
+        run: |
+          if [ -z "$VERSION_ID" ]; then
+            echo "::error::Cannot emergency-revert: previous version ID not available."
+            exit 1
+          fi
+          echo "Emergency re-promoting $VERSION_ID to 100%..."
+          curl -s -X PUT \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/workers/scripts/${WORKER}/deployments" \
+            --data "{
+              \"strategy\": \"percentage\",
+              \"versions\": [{\"version_id\": \"$VERSION_ID\", \"percentage\": 100}],
+              \"annotations\": {\"workers/message\": \"Emergency re-promote after failed rollback\"}
+            }" | jq '.success'
+
+  summary:
+    name: Rollback Summary
+    needs: [rollback]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write job summary
+        run: |
+          echo "## Worker Rollback — ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Worker** | \`${{ inputs.worker_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Environment** | ${{ inputs.environment }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Rolled back to** | \`${{ needs.rollback.outputs.rolled_back_to }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Previous version** | \`${{ needs.rollback.outputs.previous_version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Triggered by** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Time** | $(date -u +%Y-%m-%dT%H:%M:%SZ) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Run** | [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |" >> $GITHUB_STEP_SUMMARY

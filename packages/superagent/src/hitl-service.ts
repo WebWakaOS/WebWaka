@@ -67,8 +67,25 @@ export interface HitlQueueItem {
   createdAt: string;
 }
 
+/**
+ * A4-4 (Wave 3): Optional notification hook fired after a HITL item is submitted.
+ * Implementations should notify designated reviewers via packages/notifications.
+ */
+export interface HitlNotifier {
+  notifyReviewers(opts: {
+    queueItemId: string;
+    tenantId: string;
+    workspaceId: string;
+    vertical: string;
+    capability: string;
+    hitlLevel: 1 | 2 | 3;
+  }): Promise<void>;
+}
+
 export interface HitlServiceDeps {
   db: D1Like;
+  /** Optional — wire in production to fire reviewer notifications on submit */
+  notifier?: HitlNotifier;
 }
 
 const DEFAULT_EXPIRY_HOURS = 24;
@@ -76,9 +93,11 @@ const L5_MINIMUM_REVIEW_HOURS = 72;
 
 export class HitlService {
   private readonly db: D1Like;
+  private readonly notifier: HitlNotifier | undefined;
 
   constructor(deps: HitlServiceDeps) {
     this.db = deps.db;
+    this.notifier = deps.notifier;
   }
 
   async submit(input: HitlSubmission): Promise<{ queueItemId: string }> {
@@ -122,6 +141,24 @@ export class HitlService {
         )
         .bind(crypto.randomUUID(), input.tenantId, id, input.userId),
     ]);
+
+    // A4-4: Notify reviewers non-blocking — submit always succeeds regardless
+    if (this.notifier) {
+      void this.notifier
+        .notifyReviewers({
+          queueItemId: id,
+          tenantId: input.tenantId,
+          workspaceId: input.workspaceId,
+          vertical: input.vertical,
+          capability: input.capability,
+          hitlLevel: input.hitlLevel,
+        })
+        .catch((err) =>
+          console.error(
+            JSON.stringify({ level: 'warn', event: 'hitl_notify_failed', error: String(err) }),
+          ),
+        );
+    }
 
     return { queueItemId: id };
   }

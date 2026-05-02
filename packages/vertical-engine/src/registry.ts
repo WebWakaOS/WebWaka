@@ -14,7 +14,7 @@ import type { VerticalConfig, VerticalRegistry, RegistryStats, PillarType } from
 // Registry Data
 // ---------------------------------------------------------------------------
 
-const REGISTRY: VerticalRegistry = {
+export const REGISTRY: VerticalRegistry = {
   bakery: {
     slug: 'bakery',
     displayName: 'Bakery / Confectionery',
@@ -5458,6 +5458,318 @@ const REGISTRY: VerticalRegistry = {
       entitlementLayer: 'Civic',
     },
   },
+
+  // Wave 3 additions (moved into REGISTRY)
+
+  'auto-mechanic': {
+    slug: 'auto-mechanic',
+    displayName: 'Auto Mechanic / Garage',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'auto_mechanic_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'workshop_name', property: 'workshopName', type: 'string', required: true, label: 'Workshop Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'vio_registration', property: 'vioRegistration', type: 'string', nullable: true, label: 'VIO Registration' },
+      { column: 'state', property: 'state', type: 'string', required: true, label: 'State' },
+      { column: 'lga', property: 'lga', type: 'string', required: true, label: 'LGA' },
+    ],
+    createFields: ['workshopName', 'cacNumber', 'state', 'lga'],
+    updateFields: ['workshopName', 'cacNumber', 'vioRegistration', 'state', 'lga'],
+    fsm: {
+      states: ['seeded', 'claimed', 'vio_verified', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed', guard: 'requireKycTier1' },
+        { from: 'claimed', to: 'vio_verified', guard: 'requireVio' },
+        { from: 'vio_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+      guards: [
+        { name: 'requireKycTier1', requiredFields: ['kycTier'], rule: 'KYC tier >= 1', failureMessage: 'KYC Tier 1 required' },
+        { name: 'requireVio', requiredFields: ['vioRegistration'], rule: 'vioRegistration not null', failureMessage: 'VIO registration required' },
+      ],
+    },
+    subEntities: [
+      { name: 'jobCards', tableName: 'mechanic_job_cards', profileForeignKey: 'profile_id', fields: [
+        { column: 'vehicle_plate', property: 'vehiclePlate', type: 'string', required: true },
+        { column: 'complaint', property: 'complaint', type: 'string', required: true },
+        { column: 'labour_cost_kobo', property: 'labourCostKobo', type: 'kobo', isKobo: true, required: true },
+        { column: 'status', property: 'status', type: 'enum', enumValues: ['pending', 'diagnosing', 'in_progress', 'ready', 'delivered'] },
+      ]},
+    ],
+    ai: { autonomyLevel: 2, allowedCapabilities: ['inventory_ai', 'shift_summary_ai', 'bio_generator'], useCases: ['Parts inventory reorder alerts', 'Daily job summary'] },
+    route: { basePath: '/auto-mechanic', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, requiredLicences: ['VIO'], ndprLevel: 'standard' },
+  },
+
+  'construction': {
+    slug: 'construction',
+    displayName: 'Construction / Contractor',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'construction_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'company_name', property: 'companyName', type: 'string', required: true, label: 'Company Name' },
+      { column: 'coren_number', property: 'corenNumber', type: 'string', nullable: true, label: 'COREN Registration' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'specialty', property: 'specialty', type: 'enum', enumValues: ['building', 'civil', 'electrical', 'plumbing', 'roads'], nullable: true, label: 'Specialty' },
+    ],
+    createFields: ['companyName', 'cacNumber', 'specialty'],
+    updateFields: ['companyName', 'corenNumber', 'cacNumber', 'specialty'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 2, allowedCapabilities: ['bio_generator', 'listing_enhancer', 'translation'], useCases: ['Generate project portfolio bio', 'Enhance listing description'] },
+    route: { basePath: '/construction', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
+  'fuel-station': {
+    slug: 'fuel-station',
+    displayName: 'Fuel Station / Filling Station',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'fuel_station_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'station_name', property: 'stationName', type: 'string', required: true, label: 'Station Name' },
+      { column: 'dpr_licence', property: 'dprLicence', type: 'string', nullable: true, label: 'DPR Licence' },
+      { column: 'ipman_membership', property: 'ipmanMembership', type: 'string', nullable: true, label: 'IPMAN Membership' },
+      { column: 'pump_count', property: 'pumpCount', type: 'integer', defaultValue: 0, label: 'Number of Pumps' },
+    ],
+    createFields: ['stationName', 'dprLicence', 'pumpCount'],
+    updateFields: ['stationName', 'dprLicence', 'ipmanMembership', 'pumpCount'],
+    fsm: {
+      states: ['seeded', 'claimed', 'dpr_verified', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'dpr_verified', guard: 'requireDpr' },
+        { from: 'dpr_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+      guards: [
+        { name: 'requireDpr', requiredFields: ['dprLicence'], rule: 'dprLicence not null', failureMessage: 'DPR licence required for verification' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 2, allowedCapabilities: ['inventory_ai', 'price_suggest', 'bio_generator'], useCases: ['Fuel inventory monitoring', 'Price advisory'] },
+    route: { basePath: '/fuel-station', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, requiredLicences: ['DPR'], ndprLevel: 'standard' },
+  },
+
+  'gym-fitness': {
+    slug: 'gym-fitness',
+    displayName: 'Gym / Fitness Centre',
+    primaryPillar: 2,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'gym_fitness_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'gym_name', property: 'gymName', type: 'string', required: true, label: 'Gym Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'facility_type', property: 'facilityType', type: 'enum', enumValues: ['gym', 'fitness_studio', 'sports_complex', 'yoga_studio'], nullable: true },
+      { column: 'membership_capacity', property: 'membershipCapacity', type: 'integer', nullable: true },
+    ],
+    createFields: ['gymName', 'facilityType'],
+    updateFields: ['gymName', 'cacNumber', 'facilityType', 'membershipCapacity'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 2, allowedCapabilities: ['bio_generator', 'scheduling_assistant', 'brand_copywriter'], useCases: ['Generate gym bio', 'Class schedule management'] },
+    route: { basePath: '/gym-fitness', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
+  'laundry-service': {
+    slug: 'laundry-service',
+    displayName: 'Laundry Service',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'basic',
+    tableName: 'laundry_service_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'business_name', property: 'businessName', type: 'string', required: true, label: 'Business Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+    ],
+    createFields: ['businessName'],
+    updateFields: ['businessName', 'cacNumber'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'translation'], useCases: ['Generate business bio'] },
+    route: { basePath: '/laundry-service', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
+  'waste-management': {
+    slug: 'waste-management',
+    displayName: 'Waste Management / Collection',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'basic',
+    tableName: 'waste_management_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'company_name', property: 'companyName', type: 'string', required: true, label: 'Company Name' },
+      { column: 'nesrea_permit', property: 'nesreaPermit', type: 'string', nullable: true, label: 'NESREA Permit' },
+      { column: 'state_env_permit', property: 'stateEnvPermit', type: 'string', nullable: true, label: 'State Environmental Permit' },
+    ],
+    createFields: ['companyName'],
+    updateFields: ['companyName', 'nesreaPermit', 'stateEnvPermit'],
+    fsm: {
+      states: ['seeded', 'claimed', 'nesrea_verified', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'nesrea_verified', guard: 'requireNesrea' },
+        { from: 'nesrea_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+      guards: [
+        { name: 'requireNesrea', requiredFields: ['nesreaPermit'], rule: 'nesreaPermit not null', failureMessage: 'NESREA permit required' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'listing_enhancer'], useCases: ['Generate company profile bio'] },
+    route: { basePath: '/waste-management', entitlementLayer: 'Civic' },
+    compliance: { kycTierForClaim: 1, requiredLicences: ['NESREA'], ndprLevel: 'standard' },
+  },
+  // B1-1: Three additional verticals to reach 159 target
+  'event-planner': {
+    slug: 'event-planner',
+    displayName: 'Event Planner / Event Management',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'event_planner_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'business_name', property: 'businessName', type: 'string', required: true, label: 'Business Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'years_experience', property: 'yearsExperience', type: 'integer', defaultValue: 0, label: 'Years of Experience' },
+    ],
+    createFields: ['businessName', 'cacNumber'],
+    updateFields: ['businessName', 'cacNumber', 'yearsExperience'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'listing_enhancer'], useCases: ['Generate event portfolio bio', 'Enhance event listing'] },
+    route: { basePath: '/event-planner', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
+  'driving-school': {
+    slug: 'driving-school',
+    displayName: 'Driving School / Instructor',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'driving_school_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'school_name', property: 'schoolName', type: 'string', required: true, label: 'School Name' },
+      { column: 'frsc_license', property: 'frscLicense', type: 'string', nullable: true, label: 'FRSC Licence Number' },
+      { column: 'state', property: 'state', type: 'string', required: true, label: 'State' },
+    ],
+    createFields: ['schoolName', 'state'],
+    updateFields: ['schoolName', 'frscLicense', 'state'],
+    fsm: {
+      states: ['seeded', 'claimed', 'frsc_verified', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'frsc_verified', guard: 'requireFrsc' },
+        { from: 'frsc_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+      guards: [
+        { name: 'requireFrsc', requiredFields: ['frscLicense'], rule: 'frscLicense not null', failureMessage: 'FRSC licence required for verification' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator'], useCases: ['Generate school profile bio'] },
+    route: { basePath: '/driving-school', entitlementLayer: 'Transport' },
+    compliance: { kycTierForClaim: 1, requiredLicences: ['FRSC'], ndprLevel: 'standard' },
+  },
+
+  'fitness-center': {
+    slug: 'fitness-center',
+    displayName: 'Fitness Center / Gym',
+    primaryPillar: 1,
+    milestone: 'M9',
+    maturity: 'full',
+    tableName: 'fitness_center_profiles',
+    entityType: 'organization',
+    profileFields: [
+      { column: 'gym_name', property: 'gymName', type: 'string', required: true, label: 'Gym Name' },
+      { column: 'cac_number', property: 'cacNumber', type: 'string', nullable: true, label: 'CAC Number' },
+      { column: 'state', property: 'state', type: 'string', required: true, label: 'State' },
+      { column: 'lga', property: 'lga', type: 'string', required: true, label: 'LGA' },
+      { column: 'capacity', property: 'capacity', type: 'integer', defaultValue: 0, label: 'Member Capacity' },
+    ],
+    createFields: ['gymName', 'state', 'lga'],
+    updateFields: ['gymName', 'cacNumber', 'state', 'lga', 'capacity'],
+    fsm: {
+      states: ['seeded', 'claimed', 'active', 'suspended'],
+      initialState: 'seeded',
+      transitions: [
+        { from: 'seeded', to: 'claimed' },
+        { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
+      ],
+    },
+    subEntities: [],
+    ai: { autonomyLevel: 1, allowedCapabilities: ['bio_generator', 'listing_enhancer'], useCases: ['Generate gym bio', 'Enhance fitness listing'] },
+    route: { basePath: '/fitness-center', entitlementLayer: 'Commerce' },
+    compliance: { kycTierForClaim: 1, ndprLevel: 'standard' },
+  },
+
 };
 
 // ---------------------------------------------------------------------------
@@ -5478,15 +5790,38 @@ export function listSlugs(): string[] {
 
 export function getRegistryStats(): RegistryStats {
   const configs = Object.values(REGISTRY);
+  // B1-3: Pillar coverage breakdown (1=Commerce, 2=Civic, 3=Government)
   const byPillar: Record<PillarType, number> = { 1: 0, 2: 0, 3: 0 };
   const byMaturity: Record<string, number> = {};
   const byMilestone: Record<string, number> = {};
+  // B1-2: Collect slugs with missing or invalid maturity
+  const missingMaturity: string[] = [];
+  const VALID = new Set(['full', 'basic', 'stub']);
 
   for (const c of configs) {
     byPillar[c.primaryPillar]++;
-    byMaturity[c.maturity] = (byMaturity[c.maturity] ?? 0) + 1;
+    if (c.maturity && VALID.has(c.maturity)) {
+      byMaturity[c.maturity] = (byMaturity[c.maturity] ?? 0) + 1;
+    } else {
+      missingMaturity.push(c.slug);
+      byMaturity['unknown'] = (byMaturity['unknown'] ?? 0) + 1;
+    }
     byMilestone[c.milestone] = (byMilestone[c.milestone] ?? 0) + 1;
   }
 
-  return { total: configs.length, byPillar, byMaturity, byMilestone };
+  return { total: configs.length, byPillar, byMaturity, byMilestone, missingMaturity };
+}
+
+/**
+ * B1-2: Governance guard — throws if any registry entry is missing a valid maturity.
+ * Called by check-vertical-registry.ts governance check.
+ */
+export function validateRegistryMaturity(): void {
+  const stats = getRegistryStats();
+  if (stats.missingMaturity.length > 0) {
+    throw new Error(
+      \`Registry maturity validation failed. \${stats.missingMaturity.length} entries missing valid maturity \` +
+      \`('full'|'basic'|'stub'): \${stats.missingMaturity.join(', ')}\`,
+    );
+  }
 }

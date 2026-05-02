@@ -253,9 +253,16 @@ export interface VerticalConfig {
 
 export type VerticalRegistry = Record<string, VerticalConfig>;
 
+export type VerticalMaturity = 'full' | 'basic' | 'stub';
+export const VALID_MATURITIES: VerticalMaturity[] = ['full', 'basic', 'stub'];
+
 export interface RegistryStats {
   total: number;
+  /** B1-3: Breakdown by primaryPillar (1 = Commerce, 2 = Civic, 3 = Government) */
   byPillar: Record<PillarType, number>;
-  byMaturity: Record<string, number>;
+  /** B1-3: Breakdown by maturity level (full / basic / stub) */
+  byMaturity: Record<VerticalMaturity | string, number>;
   byMilestone: Record<string, number>;
+  /** B1-2: Slugs that are missing a valid maturity field */
+  missingMaturity: string[];
 }

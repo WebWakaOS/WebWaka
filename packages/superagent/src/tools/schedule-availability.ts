@@ -124,4 +124,5 @@ export const scheduleAvailabilityTool: RegisteredTool = {
       breakdown,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

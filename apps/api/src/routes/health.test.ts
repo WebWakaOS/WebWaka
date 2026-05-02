@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import worker from '../index.js';
+import app from '../app.js';
 import type { Env } from '../env.js';
 
 const stubKV = {
@@ -51,7 +51,7 @@ function req(path: string, init: RequestInit = {}): Request {
 
 describe('GET /health — liveness probe', () => {
   it('returns 200 with status: ok', async () => {
-    const res = await worker.fetch(req('/health'), makeEnv());
+    const res = await app.fetch(req('/health'), makeEnv());
     expect(res.status).toBe(200);
     const body = await res.json() as Record<string, unknown>;
     expect(body['status']).toBe('ok');
@@ -61,19 +61,19 @@ describe('GET /health — liveness probe', () => {
   });
 
   it('returns correct Content-Type', async () => {
-    const res = await worker.fetch(req('/health'), makeEnv());
+    const res = await app.fetch(req('/health'), makeEnv());
     expect(res.headers.get('content-type')).toMatch(/application\/json/);
   });
 
   it('returns 200 for staging environment', async () => {
-    const res = await worker.fetch(req('/health'), makeEnv({ ENVIRONMENT: 'staging' }));
+    const res = await app.fetch(req('/health'), makeEnv({ ENVIRONMENT: 'staging' }));
     expect(res.status).toBe(200);
     const body = await res.json() as Record<string, unknown>;
     expect(body['environment']).toBe('staging');
   });
 
   it('does not require Authorization header', async () => {
-    const res = await worker.fetch(req('/health'), makeEnv());
+    const res = await app.fetch(req('/health'), makeEnv());
     expect(res.status).not.toBe(401);
     expect(res.status).not.toBe(403);
   });
@@ -81,7 +81,7 @@ describe('GET /health — liveness probe', () => {
 
 describe('GET /health/version', () => {
   it('returns version string', async () => {
-    const res = await worker.fetch(req('/health/version'), makeEnv());
+    const res = await app.fetch(req('/health/version'), makeEnv());
     expect(res.status).toBe(200);
     const body = await res.json() as Record<string, unknown>;
     expect(typeof body['version']).toBe('string');

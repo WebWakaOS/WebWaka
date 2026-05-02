@@ -168,4 +168,5 @@ export const updateInventoryTool: RegisteredTool = {
       message: `Inventory updated: ${product.name} ${product.stock_qty} → ${newStock} units${reason ? ` (${reason})` : ''}.`,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: 3, readOnly: false },
 };

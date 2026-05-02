@@ -291,14 +291,24 @@ interface PendingRow {
 }
 
 export class DsarProcessorService {
-  async processNextBatch(env: DsarEnv, limit = 10): Promise<void> {
+  private readonly _env?: DsarEnv;
+
+  /** env can be injected at construction time OR passed per-call (legacy) */
+  constructor(env?: DsarEnv) {
+    this._env = env;
+  }
+
+  async processNextBatch(envOrLimit?: DsarEnv | number, limit = 10): Promise<void> {
+    // Resolve env: per-call arg takes priority, then constructor-injected
+    const env: DsarEnv = (typeof envOrLimit === 'object' ? envOrLimit : this._env)!;
+    const resolvedLimit = typeof envOrLimit === 'number' ? envOrLimit : limit;
     const { results } = await env.DB.prepare(
       `SELECT id, user_id, tenant_id, retry_count
        FROM dsar_requests
        WHERE status IN ('pending', 'failed') AND retry_count < 3
        ORDER BY requested_at ASC
        LIMIT ?`,
-    ).bind(limit).all<PendingRow>();
+    ).bind(resolvedLimit).all<PendingRow>();
 
     for (const req of results) {
       await this._processOne(env, req);

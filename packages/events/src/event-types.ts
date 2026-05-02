@@ -322,15 +322,30 @@ export const SystemEventType = {
 // ---------------------------------------------------------------------------
 
 export const VerticalEventType = {
-  VerticalRecordCreated:     'vertical.record_created',
-  VerticalRecordUpdated:     'vertical.record_updated',
-  VerticalRecordDeleted:     'vertical.record_deleted',
-  VerticalStaffAssigned:     'vertical.staff_assigned',
-  VerticalPaymentReceived:   'vertical.payment_received',
-  VerticalServiceCompleted:  'vertical.service_completed',
-  VerticalAppointmentBooked: 'vertical.appointment_booked',
-  VerticalStockLow:          'vertical.stock_low',
+  VerticalRecordCreated:       'vertical.record_created',
+  VerticalRecordUpdated:       'vertical.record_updated',
+  VerticalRecordDeleted:       'vertical.record_deleted',
+  VerticalStaffAssigned:       'vertical.staff_assigned',
+  VerticalPaymentReceived:     'vertical.payment_received',
+  VerticalServiceCompleted:    'vertical.service_completed',
+  VerticalAppointmentBooked:   'vertical.appointment_booked',
+  VerticalStockLow:            'vertical.stock_low',
+  /** B2-2: Emitted on every FSM state transition */
+  VerticalStateTransitioned:   'vertical.state.transitioned',
 } as const;
+
+/** B2-2: Payload for vertical.state.transitioned */
+export interface VerticalStateTransitionedPayload {
+  slug: string;
+  profileId: string;
+  workspaceId: string;
+  tenantId: string;
+  fromState: string;
+  toState: string;
+  triggeredBy: string;       // userId or 'system'
+  transitionedAt: string;   // ISO timestamp
+  guardName?: string;        // guard evaluated, if any
+}
 
 // ---------------------------------------------------------------------------
 // Wallet event types — HandyLife Wallet (WF-001 – WF-056)

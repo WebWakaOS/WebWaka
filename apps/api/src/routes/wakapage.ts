@@ -318,6 +318,7 @@ wakaPageRoutes.post('/', async (c) => {
       subjectId: pageId,
       subjectType: 'wakapage',
       payload: { pageId, profileId, slug: rawSlug },
+      correlationId: c.get('requestId') ?? undefined,
     });
   } catch {
     // Non-fatal
@@ -589,6 +590,7 @@ wakaPageRoutes.post('/:id/blocks', async (c) => {
       subjectId: pageId,
       subjectType: 'wakapage',
       payload: { blockId, blockType, pageId },
+      correlationId: c.get('requestId') ?? undefined,
     });
   } catch {
     // Non-fatal
@@ -693,6 +695,7 @@ wakaPageRoutes.patch('/:id/blocks/:blockId', async (c) => {
       subjectId: pageId,
       subjectType: 'wakapage',
       payload: { blockId, pageId },
+      correlationId: c.get('requestId') ?? undefined,
     });
   } catch {
     // Non-fatal
@@ -747,6 +750,7 @@ wakaPageRoutes.delete('/:id/blocks/:blockId', async (c) => {
       subjectId: pageId,
       subjectType: 'wakapage',
       payload: { blockId, pageId },
+      correlationId: c.get('requestId') ?? undefined,
     });
   } catch {
     // Non-fatal
@@ -852,6 +856,7 @@ wakaPageRoutes.post('/:id/publish', async (c) => {
         profileId: page.profile_id,
         publishedAt,
       },
+      correlationId: c.get('requestId') ?? undefined,
     });
   } catch {
     // Non-fatal

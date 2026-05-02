@@ -8,7 +8,7 @@
  */
 
 import { describe, it, expect, vi, beforeAll } from 'vitest';
-import app from '../index.js';
+import app from '../app.js';
 import { issueJwt } from '@webwaka/auth';
 import { Role, SubscriptionPlan, SubscriptionStatus } from '@webwaka/types';
 import type { UserId, WorkspaceId, TenantId } from '@webwaka/types';

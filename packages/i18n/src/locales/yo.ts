@@ -71,4 +71,22 @@ export const yo: Partial<I18nLocale> = {
   notif_powered_by: 'Agbára WebWaka',
   notif_marketing_address_label: 'Àdírẹ́sì ifiweranṣẹ:',
   notif_too_many_emails: 'Ṣe o ń gba ọ̀pọ̀lọpọ̀ ìmẹ́ẹ̀lì? O lè ṣàkóso àwọn àṣàyàn ìwífún ní ètò àkáǹtì rẹ.',
+
+  // API Error messages (L-12)
+  api_err_bad_request: 'Ibeere ko to. Jowo sayewo awon ohun ti o fi sii.',
+  api_err_unauthorized: 'Ko jero re. Jowo wole ki o si tun gbiyanju.',
+  api_err_forbidden: 'Wole ko. O ko ni igba lati se eyi.',
+  api_err_not_found: 'A ko ri ohun ti a wa.',
+  api_err_conflict: 'Ohun ini yii ti wa tele.',
+  api_err_validation_failed: 'Idanwo kunfa. Jowo sayewo awon ohun ti o fi sii.',
+  api_err_rate_limit_exceeded: 'Ibeere pupo ju. Jowo duro fun iseru die.',
+  api_err_payload_too_large: 'Ibeere tobi ju. Jowo dinkun iwon naa.',
+  api_err_internal_error: 'Asise selele. Jowo tun gbiyanju leyin naa.',
+  api_err_service_unavailable: 'Isee ko wa fun igba die. Jowo tun gbiyanju laipe.',
+  api_err_email_required: 'A nilo imeeli ati owo asiri.',
+  api_err_invalid_credentials: 'Imeeli tabi owo asiri ko to.',
+  api_err_account_locked: 'Akosile ti di ti fun igba die.',
+  api_err_email_exists: 'Akosile pelu imeeli yii ti wa.',
+  api_err_business_name_short: 'Oruko isee gbodo ni o kere ju awon ede 2.',
+  api_err_invalid_email: 'Jowo te adireeesi imeeli to to.',
 };

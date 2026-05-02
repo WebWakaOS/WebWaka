@@ -155,6 +155,7 @@ profileRoutes.patch('/:profileId/visibility', async (c) => {
     payload:   { profile_id: profileId, visibility: body.visibility, previous_visibility: profile.visibility },
     source:    'api',
     severity:  'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({
@@ -258,6 +259,7 @@ profileRoutes.patch('/:profileId/claim-state', async (c) => {
     payload:   { profile_id: profileId, from_state: 'verified', to_state: 'managed', workspace_id: auth.workspaceId },
     source:    'api',
     severity:  'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({

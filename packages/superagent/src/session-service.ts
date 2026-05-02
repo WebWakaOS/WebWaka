@@ -397,6 +397,56 @@ export class SessionService {
     return result.meta?.changes ?? 0;
   }
 
+
+  // ── Session title auto-generation (A5-4) ─────────────────────────────────
+
+  /**
+   * Generate and set a session title from the first user message.
+   *
+   * Called after the first assistant response is appended.
+   * Uses a deterministic heuristic (first 60 chars of first user message)
+   * rather than a separate AI call, keeping the method fast and free.
+   *
+   * For a full AI-generated title, pass a `titleAdapter` that calls a cheap
+   * model (e.g. groq/llama-3.1-8b-instant) to summarise the first exchange.
+   * The adapter is optional — if absent, the heuristic title is used.
+   */
+  async generateTitle(
+    sessionId: string,
+    tenantId: string,
+    opts: {
+      firstUserMessage: string;
+      /** Optional: AI completion function for a proper title. Returns null on failure. */
+      titleAdapter?: (prompt: string) => Promise<string | null>;
+    },
+  ): Promise<string> {
+    let title: string | null = null;
+
+    if (opts.titleAdapter) {
+      const prompt =
+        `Generate a concise 4-6 word session title (no punctuation) for a conversation ` +
+        `that starts with: "${opts.firstUserMessage.slice(0, 200)}"`;
+      try {
+        title = await opts.titleAdapter(prompt);
+      } catch {
+        title = null;
+      }
+    }
+
+    // Fallback: first 60 chars of the user message, truncated cleanly
+    if (!title) {
+      title = opts.firstUserMessage.trim().slice(0, 60);
+      if (opts.firstUserMessage.length > 60) title += '…';
+    }
+
+    await this.db
+      .prepare(`UPDATE ai_sessions SET title = ? WHERE id = ? AND tenant_id = ? AND title IS NULL`)
+      .bind(title, sessionId, tenantId)
+      .run();
+
+    return title;
+  }
+
   // ── Internal mapping ────────────────────────────────────────────────────────
 
   private mapSession(row: {

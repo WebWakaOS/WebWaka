@@ -185,6 +185,7 @@ groupRoutes.post('/', async (c) => {
       eventKey: GroupEventType.GroupCreated,
       tenantId,
       payload: { groupId: group.id, name: group.name },
+      correlationId: c.get('requestId') ?? undefined,
     });
 
     return c.json({ group }, 201);
@@ -250,6 +251,7 @@ groupRoutes.patch('/:id', async (c) => {
     eventKey: GroupEventType.GroupUpdated,
     tenantId,
     payload: { groupId: updated.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ group: updated });
@@ -290,6 +292,7 @@ groupRoutes.post('/:id/join', async (c) => {
     eventKey: GroupEventType.GroupMemberJoined,
     tenantId,
     payload: { memberId: member.id, userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ member }, 201);
@@ -321,6 +324,7 @@ groupRoutes.post('/:id/members/:memberId/approve', async (c) => {
     eventKey: GroupEventType.GroupMemberApproved,
     tenantId,
     payload: { memberId: c.req.param('memberId'), approvedBy: userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });
@@ -375,6 +379,7 @@ groupRoutes.post('/:id/meetings', async (c) => {
     eventKey: GroupEventType.GroupMeetingScheduled,
     tenantId,
     payload: { meetingId: meeting.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ meeting }, 201);
@@ -426,6 +431,7 @@ groupRoutes.post('/:id/broadcasts', async (c) => {
     eventKey: GroupEventType.GroupBroadcastSent,
     tenantId,
     payload: { broadcastId: broadcast.id, channel: broadcast.channel },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ broadcast }, 201);
@@ -478,6 +484,7 @@ groupRoutes.post('/:id/events', async (c) => {
     eventKey: GroupEventType.GroupEventCreated,
     tenantId,
     payload: { eventId: event.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ event }, 201);
@@ -534,6 +541,7 @@ groupRoutes.post('/:id/petitions', async (c) => {
     eventKey: GroupEventType.GroupPetitionOpened,
     tenantId,
     payload: { petitionId: petition.id },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ petition }, 201);
@@ -561,6 +569,7 @@ groupRoutes.post('/petitions/:petitionId/sign', async (c) => {
     eventKey: GroupEventType.GroupPetitionSigned,
     tenantId,
     payload: { petitionId, userId },
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ success: true });

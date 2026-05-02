@@ -149,6 +149,7 @@ socialRoutes.post('/follow/:id', async (c) => {
       payload: { follower_id: auth.userId, followee_id: followeeId },
       source: 'api',
       severity: 'info',
+      correlationId: c.get('requestId') ?? undefined,
     });
     return c.json({ follow }, 201);
   } catch (err) {
@@ -210,6 +211,7 @@ socialRoutes.post('/posts', async (c) => {
     payload: { post_id: post.id, author_id: auth.userId },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
   return c.json({ post }, 201);
 });
@@ -371,6 +373,7 @@ socialRoutes.post('/stories', async (c) => {
     payload: { story_id: story.id, author_id: auth.userId, post_type: 'story', expires_at: story.expiresAt },
     source: 'api',
     severity: 'info',
+    correlationId: c.get('requestId') ?? undefined,
   });
 
   return c.json({ story }, 201);

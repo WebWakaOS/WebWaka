@@ -125,6 +125,28 @@ const JOBS: Record<string, JobFn> = {
     }));
   },
 
+
+  // Wave 3 (A5-1): AI session inactivity TTL cleanup — expire sessions idle for 7+ days
+  'ai-session-inactivity-cleanup': async (env: Env) => {
+    // Sessions where last_active_at is older than 7 days and status is still 'active'
+    // are marked 'expired'. Their messages are retained for GDPR export until
+    // the standard expires_at TTL fires (handled by ai-session-prune).
+    // T3: query uses no cross-tenant joins; session rows already carry tenant_id.
+    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const result = await env.DB.prepare(
+      `UPDATE ai_sessions
+       SET status = 'expired', updated_at = datetime('now')
+       WHERE status = 'active'
+         AND last_active_at < ?
+         AND last_active_at IS NOT NULL`,
+    ).bind(cutoff).run();
+    const expired = result.meta?.changes ?? 0;
+    console.log(JSON.stringify({
+      level: 'info', event: 'ai_sessions_inactivity_expired',
+      count: expired, cutoffDate: cutoff,
+    }));
+  },
+
   'dsar-export-processor': async (env: Env) => {
     // COMP-002: Process pending DSAR export requests (R2-backed, with retry).
     // Delegates to DsarProcessorService which compiles 8 data categories per user.
@@ -132,6 +154,102 @@ const JOBS: Record<string, JobFn> = {
     // P13: export payload is never logged.
     const svc = new DsarProcessorService();
     await svc.processNextBatch(env, 10);
+  },
+
+
+  // Wave 3 (A4-2): HITL expiry sweep — mark overdue pending items as expired
+  'hitl-expiry-sweep': async (env: Env) => {
+    const now = new Date().toISOString();
+    const result = await env.DB.prepare(
+      `UPDATE ai_hitl_queue
+       SET status = 'expired', reviewed_at = datetime('now')
+       WHERE status = 'pending' AND expires_at < ?`,
+    ).bind(now).run();
+    const expired = result.meta?.changes ?? 0;
+    if (expired > 0) {
+      console.log(JSON.stringify({
+        level: 'info', event: 'hitl_items_expired', count: expired,
+      }));
+    }
+  },
+
+  // Wave 3 (A6-3): AI spend anomaly detection — flag tenants with >3x rolling avg spend
+  'ai-spend-anomaly-check': async (env: Env) => {
+    // Compute each tenant's 7-day rolling average and compare to last 24h spend
+    const anomalies = await env.DB.prepare(
+      `WITH rolling AS (
+         SELECT tenant_id,
+                AVG(wc_charged) AS avg_wc_per_call,
+                COUNT(*) AS call_count_7d
+         FROM ai_usage_events
+         WHERE created_at >= datetime('now', '-7 days')
+         GROUP BY tenant_id
+       ),
+       recent AS (
+         SELECT tenant_id, SUM(wc_charged) AS spend_24h, COUNT(*) AS calls_24h
+         FROM ai_usage_events
+         WHERE created_at >= datetime('now', '-1 day')
+         GROUP BY tenant_id
+       )
+       SELECT r.tenant_id, r.spend_24h, r.calls_24h,
+              ro.avg_wc_per_call, ro.call_count_7d
+       FROM recent r
+       JOIN rolling ro ON ro.tenant_id = r.tenant_id
+       WHERE ro.avg_wc_per_call > 0
+         AND r.spend_24h > (ro.avg_wc_per_call * ro.call_count_7d * 3)`,
+    ).all<{
+      tenant_id: string; spend_24h: number; calls_24h: number;
+      avg_wc_per_call: number; call_count_7d: number;
+    }>();
+
+    if (anomalies.results.length === 0) return;
+
+    // Write flags to ai_anomaly_flags table (created in migration Wave 3)
+    for (const row of anomalies.results) {
+      await env.DB.prepare(
+        `INSERT INTO ai_anomaly_flags
+           (id, tenant_id, flag_type, spend_24h_wc, avg_spend_wc, multiplier, detected_at)
+         VALUES (?, ?, 'spend_spike', ?, ?, ?, datetime('now'))
+         ON CONFLICT (tenant_id, flag_type, date(detected_at)) DO UPDATE
+           SET spend_24h_wc = excluded.spend_24h_wc,
+               multiplier = excluded.multiplier,
+               detected_at = excluded.detected_at`,
+      ).bind(
+        crypto.randomUUID(),
+        row.tenant_id,
+        row.spend_24h,
+        Math.round(row.avg_wc_per_call * row.call_count_7d),
+        Math.round(row.spend_24h / (row.avg_wc_per_call * row.call_count_7d) * 10) / 10,
+      ).run();
+    }
+
+    console.error(JSON.stringify({
+      level: 'warn', event: 'ai_spend_anomalies_detected',
+      count: anomalies.results.length,
+      tenants: anomalies.results.map((r) => r.tenant_id),
+    }));
+  },
+
+  // Wave 3 (A3-5): AI billing reconciliation — flag unmatched usage events
+  'ai-billing-reconciliation': async (env: Env) => {
+    // Find ai_usage_events from >5 min ago with wc_charged > 0 but no matching wc_transaction
+    const unmatched = await env.DB.prepare(
+      `SELECT u.id, u.tenant_id, u.wc_charged, u.created_at
+       FROM ai_usage_events u
+       LEFT JOIN wc_transactions t ON t.reference_id = u.id
+       WHERE u.wc_charged > 0
+         AND u.created_at < datetime('now', '-5 minutes')
+         AND t.id IS NULL
+       LIMIT 100`,
+    ).all<{ id: string; tenant_id: string; wc_charged: number; created_at: string }>();
+
+    if (unmatched.results.length === 0) return;
+
+    console.error(JSON.stringify({
+      level: 'error', event: 'ai_billing_reconciliation_gap',
+      unmatched_count: unmatched.results.length,
+      sample_ids: unmatched.results.slice(0, 5).map((r) => r.id),
+    }));
   },
 
   'pii-data-retention': async (env: Env) => {
