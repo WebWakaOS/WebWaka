@@ -3,7 +3,7 @@
 **Branch:** staging
 **Agent:** WebWaka (Base44 Super Agent)
 **Date:** 2026-05-02
-**Status:** IN PROGRESS (Wave 3 — Batches 1-4 complete, ~35% done)
+**Status:** IN PROGRESS (Wave 3 — Batches 1-5 complete, ~33% done)
 
 ---
 
@@ -25,7 +25,7 @@
 - [x] A1-2: Add `PromptManager` class (`packages/superagent/src/prompt-manager.ts`) — loads versioned system prompts from vertical config, supports locale injection, and prevents raw user-constructed prompt injection
 - [x] A1-3: Add per-vertical system prompt templates to `vertical-ai-config.ts` (currently no system prompt is injected — agent loop starts cold)
 - [x] A1-4: Add `agent-loop.test.ts` with full coverage: tool round capping, error recovery, HITL gating, multi-turn state
-- [ ] A1-5: Add streaming agent loop variant in `agent-loop-stream.ts` for `POST /superagent/chat/stream` (currently the stream route is separate and lacks multi-turn tool support)
+- [x] A1-5: Add streaming agent loop variant in `agent-loop-stream.ts` for `POST /superagent/chat/stream` (currently the stream route is separate and lacks multi-turn tool support)
 
 ### A2. Tool Registry — Completeness & Runtime
 - [x] A2-1: Add `search_offerings` tool (Pillar 3 — marketplace lookup for agent context)
@@ -38,8 +38,8 @@
 - [x] A2-8: Add `ToolRegistry.executeWithTimeout()` — wrap each tool call with a configurable deadline (default 5s) to prevent slow D1 queries blocking the agent loop
 
 ### A3. AI Governance — Billing, BYOK, Failover
-- [ ] A3-1: Add `ByokKeyService` integration test — verify Level 1 (user BYOK) and Level 2 (workspace BYOK) resolution paths are actually exercised in CI
-- [ ] A3-2: Implement Level 5 fallback behaviour: currently `resolveAdapter` throws `NO_ADAPTER_AVAILABLE` — add a genuine fallback model config (e.g. groq/llama-3.1-8b-instant with a platform key) before the hard throw
+- [x] A3-1: Add `ByokKeyService` integration test — verify Level 1 (user BYOK) and Level 2 (workspace BYOK) resolution paths are actually exercised in CI
+- [x] A3-2: Implement Level 5 fallback behaviour: currently `resolveAdapter` throws `NO_ADAPTER_AVAILABLE` — add a genuine fallback model config (e.g. groq/llama-3.1-8b-instant with a platform key) before the hard throw
 - [ ] A3-3: Add `CreditBurnEngine` edge-case tests: insufficient balance, partner pool exhausted, monthly cap reached — currently only happy path is tested
 - [ ] A3-4: Add `SpendControls` hard-cap enforcement test in the `/superagent/chat` route — verify 402 is returned when budget is exceeded
 - [x] A3-5: Implement AI billing reconciliation cron: `apps/schedulers` — nightly job that scans `ai_usage_events` for unmatched `wc_transactions` and flags discrepancies
@@ -63,8 +63,8 @@
 - [ ] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)
 - [ ] A6-2: Add AI usage chart component in `apps/admin-dashboard` — daily spend, top tenants, top capabilities (currently no AI-specific admin UI)
 - [x] A6-3: Add AI anomaly detection cron in `apps/schedulers` — flag tenants with unusual WakaCU spend velocity (>3x rolling average) and write to an `ai_anomaly_flags` table
-- [ ] A6-4: Add structured AI error logging to `packages/logging` — `logAiEvent(logger, event)` helper that emits a structured JSON log line with routing level, capability, duration, tokens, error code (if any) without PII
-- [ ] A6-5: Add AI background job infrastructure: `packages/superagent/src/background-jobs/` with a typed `BackgroundJob` interface and two initial jobs: `demand-forecast-job.ts` and `shift-summary-job.ts` (triggered by Cloudflare Cron via schedulers)
+- [x] A6-4: Add structured AI error logging to `packages/logging` — `logAiEvent(logger, event)` helper that emits a structured JSON log line with routing level, capability, duration, tokens, error code (if any) without PII
+- [x] A6-5: Add AI background job infrastructure: `packages/superagent/src/background-jobs/` with a typed `BackgroundJob` interface and two initial jobs: `demand-forecast-job.ts` and `shift-summary-job.ts` (triggered by Cloudflare Cron via schedulers)
 
 ### A7. Inline AI Surfaces
 - [ ] A7-1: Add `AIInsightWidget` component (`packages/design-system`) — reusable inline AI suggestion card (shows capability output inline without full chat UI)

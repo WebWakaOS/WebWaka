@@ -170,3 +170,11 @@ export { getCustomerHistoryTool } from './tools/get-customer-history.js';
 export { getAnalyticsSummaryTool } from './tools/get-analytics-summary.js';
 export { logPaymentTool } from './tools/log-payment.js';
 export { createSupportTicketTool } from './tools/create-support-ticket.js';
+
+// Wave 3 additions
+export { runAgentLoopStream } from './agent-loop-stream.js';
+export type { AgentLoopStreamInput, SSEEvent, SSEEmitter, StreamingAIAdapter } from './agent-loop-stream.js';
+export { jobRegistry, jobsByName } from './background-jobs/registry.js';
+export type { BackgroundJob, BackgroundJobResult, BackgroundJobEnv } from './background-jobs/types.js';
+export { DemandForecastJob } from './background-jobs/demand-forecast-job.js';
+export { ShiftSummaryJob } from './background-jobs/shift-summary-job.js';

@@ -217,7 +217,30 @@ export async function resolveAdapter(
     };
   }
 
-  // ─── Level 5: No adapter available ───────────────────────────────────────
+  // ─── Level 5: Fallback model (Wave 3 A3-2) ──────────────────────────────
+  // Use the smallest/cheapest Groq model as a last-resort fallback.
+  // Only a few text-generation capabilities are supported here.
+  // If GROQ_API_KEY is missing we finally throw NO_ADAPTER_AVAILABLE.
+  const LEVEL5_CAPABILITIES: string[] = [
+    'superagent_chat', 'bio_generator', 'brand_copywriter',
+    'listing_enhancer', 'shift_summary_ai', 'pos_receipt_ai',
+  ];
+  if (LEVEL5_CAPABILITIES.includes(capability)) {
+    const groqKey = envVars['GROQ_API_KEY'];
+    if (groqKey) {
+      return {
+        config: {
+          provider: 'groq',
+          model: 'llama-3.1-8b-instant',
+          apiKey: groqKey,
+          baseUrl: 'https://api.groq.com/openai/v1',
+        },
+        level: 5,
+        wakaCuPer1kTokens: 1,
+      };
+    }
+  }
+
   throw new AIRoutingError(
     'NO_ADAPTER_AVAILABLE',
     `No AI key is configured for capability '${capability}' on tenant '${tenantId}'. ` +
