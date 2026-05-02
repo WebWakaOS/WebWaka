@@ -76,23 +76,29 @@ All 78 P3-tier website templates are now fully shipped:
 - **Migration 0466** (`0466_political_lga_chairpersons_seed.sql`): Seeds all 20 Lagos LGA chairpersons from 2021 LASIEC election (APC, term 2021-2024). Kano (44 LGAs) and Rivers (23 LGAs) chairs logged as DEBT-012.
 - **Seed Backlog Plan**: `docs/phase0-artifacts/07-data-seed-backlog.md` — comprehensive plan for ~58,858 unseeded records across 30 migrations (0467–0496): NAICOM(836), SEC(803), NUPRC(116), OSM transport(417), OSM commerce(5,135), OSM civic(3,485), OSM agribusiness(1,723), HDX health(46,146), plus remaining assembly rosters and LGA chairs.
 
-### Seed Backlog COMPLETE — 24 Migrations Generated (2026-05-02)
-All data-ready migrations from the seed backlog (P2–P7) are now written and verified. 6 editorial-blocked migrations (0467–0472) remain pending Wikipedia/KANSIEC/RSIEC extraction.
+### Seed Backlog COMPLETE — 28 Migrations Generated (2026-05-02)
+All data-ready migrations from the seed backlog (P1a + P2–P7) are now written and verified. Only 0471–0472 remain blocked on KANSIEC/RSIEC LGA chair data.
 
 | Range | Batch | Migrations | Records | Status |
 |---|---|---|---|---|
+| 0467 | Kano State Assembly full roster (39/40 seats, 25 NNPP + 14 APC) | 1 | 39 politicians | ✅ DONE |
+| 0468 | Rivers State Assembly full roster (32/32 seats, 15 PDP + 14 Accord + 3 others) | 1 | 32 politicians | ✅ DONE |
+| 0469 | Ogun State Assembly full roster (23/26 seats, 18 APC + 4 PDP + 1 AA) | 1 | 23 politicians | ✅ DONE |
+| 0470 | Oyo State Assembly full roster (32/32 seats, 28 PDP + 4 APC) | 1 | 32 politicians | ✅ DONE |
+| 0471–0472 | Kano + Rivers LGA chairpersons | 2 | 0 | ⏳ BLOCKED (KANSIEC/RSIEC) |
 | 0473–0475 | S07 Financial regulation (NAICOM+NUPRC+SEC) | 3 | 1,755 orgs | ✅ DONE |
 | 0476 | S08 OSM transport hubs + bus stations | 1 | 417 POIs | ✅ DONE |
 | 0477–0483 | S09 OSM commerce & services (hotels/pharmacies/supermarkets/food/markets/salons/spare-parts) | 7 | 5,135 POIs | ✅ DONE |
 | 0484–0487 | S10 OSM civic & religious (churches/mosques/NGOs/cooperatives) | 4 | 3,485 entities | ✅ DONE |
 | 0488–0491 | S11 OSM agribusiness (fuel/agri/farms/boreholes) | 4 | 1,723 entities | ✅ DONE |
 | 0492–0496 | S06-B HDX eHealth health facilities (5 geographic zones: NC+NE/NW/SE/SS/SW) | 5 | 46,146 facilities | ✅ DONE |
-| **TOTAL** | | **24 migrations + 24 rollbacks** | **58,661 orgs** | ✅ |
+| **TOTAL** | | **28 migrations + 28 rollbacks** | **58,787 records** | ✅ |
 
-- **SQL volume:** 410,974 lines, 114.9 MB across all 24 migration files
-- **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`
+- **0467–0470 sources:** NigerianLeaders.com (Kano/Rivers/Oyo) + OGHA Official site (Ogun) + INEC 2023 cross-ref for party composition
+- **0467–0470 notes:** Constituency place IDs resolved at state level (state fallback, confidence 0.8); 3 Ogun seats unresolved (Ijebu North II, Ado-Odo/Ota I + 1 further) — reserved for patch migration 0497; INSERT OR IGNORE throughout so 0465 Speaker records are unaffected
+- **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
 - **Next migration number:** 0497
-- **Remaining blocked:** 0467–0472 (state assembly rosters + Kano/Rivers LGA chairs — need editorial data)
+- **Remaining blocked:** 0471–0472 only (KANSIEC/RSIEC LGA chair election results not publicly available); 0497 reserved for Ogun patch
 
 ### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
 All engineering tasks in the Phase 1 Pre-Launch Refactor are now complete:

@@ -1,6 +1,6 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (all P2–P7 migrations DONE)  
+**Last updated:** 2026-05-02 (0467–0470 state assembly full rosters NOW DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
 **Convention:** Next available migration number after 0496 is **0497**.
 
@@ -33,19 +33,25 @@
 
 ## Seed Backlog Status
 
-### Priority 1 — Phase 2 Gate Remainder (DEBT-012) — BLOCKED: editorial
+### Priority 1 — Phase 2 Gate Remainder (DEBT-012) — ✅ DONE: 0467–0470 (2026-05-02)
 
-#### SEED-P2-A · Full State Assembly Rosters
+#### SEED-P2-A · Full State Assembly Rosters — ✅ DONE (2026-05-02)
 **Migration targets:** 0467–0470  
-**Blocked by:** Editorial extraction from Wikipedia per state  
-**Total missing members:** 126 (Kano 39 + Rivers 31 + Ogun 25 + Oyo 31)
+**Sources:** NigerianLeaders.com + OGHA Official Site + INEC 2023 cross-reference  
+**Members seeded:** 126 (Kano 39 + Rivers 32 + Ogun 23 + Oyo 32)
 
-| Migration | State | Seats | Outstanding | Source | Status |
-|---|---|---|---|---|---|
-| 0467 | Kano | 40 | 39 | Wikipedia: List of Kano HoA 2023-27 | ⏳ BLOCKED |
-| 0468 | Rivers | 32 | 31 | Wikipedia: List of Rivers HoA 2023-27 | ⏳ BLOCKED |
-| 0469 | Ogun | 26 | 25 | Wikipedia: List of Ogun HoA 2023-27 | ⏳ BLOCKED |
-| 0470 | Oyo | 32 | 31 | Wikipedia: List of Oyo HoA 2023-27 | ⏳ BLOCKED |
+| Migration | State | Seats | Seeded | Party split | Source | Status |
+|---|---|---|---|---|---|---|
+| 0467 | Kano | 40 | **39** | 25 NNPP + 14 APC | NigerianLeaders.com | ✅ DONE |
+| 0468 | Rivers | 32 | **32** | 15 PDP + 14 Accord + 3 others | NigerianLeaders.com | ✅ DONE |
+| 0469 | Ogun | 26 | **23** | 18 APC + 4 PDP + 1 AA | OGHA Official + NL | ✅ DONE (3 seats unresolved — Ijebu North II, Ado-Odo/Ota I, one further) |
+| 0470 | Oyo | 32 | **32** | 28 PDP + 4 APC | NL + INEC cross-ref | ✅ DONE |
+
+**Notes:**
+- Ogun 3 missing seats: source data for Ijebu North II (name field malformed in NL table) and Ado-Odo/Ota I (garbled NL table row) — patch migration 0497 when confirmed
+- Oyo: NL data had significant errors; used AI search cross-reference against INEC composition (PDP=28, APC=4) as authoritative — individual name corrections can be patched via 0497
+- All INSERT OR IGNORE — safe to re-apply; constituency place IDs resolved at state level pending full constituency seed
+- Rollback files: all 4 `.rollback.sql` files created
 
 #### SEED-P2-B · Kano + Rivers LGA Chairpersons
 **Migration targets:** 0471–0472  
@@ -145,18 +151,19 @@
 
 | Priority | Batch | Migrations | Records seeded | Status |
 |---|---|---|---|---|
-| P1 | State assemblies + LGA chairs | 0467–0472 | 0 | ⏳ BLOCKED (editorial) |
+| P1a | State assembly full rosters (Kano/Rivers/Ogun/Oyo) | 0467–0470 | **126** | ✅ DONE (2026-05-02) |
+| P1b | Kano + Rivers LGA chairpersons | 0471–0472 | 0 | ⏳ BLOCKED (KANSIEC/RSIEC) |
 | P2 | S07 Financial regulation | 0473–0475 | **1,755** | ✅ DONE |
 | P3 | S08 Transport POIs | 0476 | **417** | ✅ DONE |
 | P4 | S09 Commerce & services | 0477–0483 | **5,135** | ✅ DONE |
 | P5 | S10 Civic & religious | 0484–0487 | **3,485** | ✅ DONE |
 | P6 | S11 Agribusiness | 0488–0491 | **1,723** | ✅ DONE |
 | P7 | S06 HDX health facilities | 0492–0496 | **46,146** | ✅ DONE |
-| **TOTAL** | | **0473–0496 (24 migrations)** | **58,661 orgs** | |
+| **TOTAL** | | **0467–0470 + 0473–0496 (28 migrations)** | **58,787 records** | |
 
-**Total SQL generated:** 410,974 lines across 24 migrations + 24 rollbacks = 114.9 MB  
+**Total SQL generated (all batches):** ~425,000 lines across 28 migrations + 28 rollbacks  
 **Next migration number:** 0497  
-**Remaining backlog:** 0467–0472 (editorial-blocked, ~193 political records)
+**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); 0497 reserved for Ogun 3-seat patch + Oyo name corrections when confirmed
 
 ---
 
