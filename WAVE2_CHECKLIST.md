@@ -88,7 +88,7 @@
 ## D. DISCOVERY PILLAR
 
 ### D1. Public discovery app — full React SPA
-- [ ] D1-1: Build `apps/public-discovery` as full React SPA (replace HTML-only worker)
+- [x] D1-1: Build `apps/public-discovery` as full React SPA (replace HTML-only worker)
 - [x] D1-2: Landing/search page with location + category filters
 - [x] D1-3: Category browsing page (grid of vertical categories)
 - [x] D1-4: Geography filter (state → LGA → ward)
@@ -104,7 +104,7 @@
 ## E. PARTNER AND PLATFORM ADMINISTRATION
 
 ### E1. Partner Admin — full React SPA
-- [ ] E1-1: Replace static HTML splash with real React SPA
+- [x] E1-1: Replace static HTML splash with real React SPA
 - [x] E1-2: Partner overview dashboard (sub-tenant count, credit balance, revenue)
 - [x] E1-3: Sub-tenant management list with status and plan
 - [x] E1-4: White-label branding controls (logo, colors, domain)

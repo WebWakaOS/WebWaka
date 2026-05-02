@@ -1,0 +1,11 @@
+# WebWaka Partner Admin SPA — Cloudflare Pages
+# Deploy: wrangler pages deploy dist --project-name webwaka-partner-admin-spa
+
+name = "webwaka-partner-admin-spa"
+pages_build_output_dir = "dist"
+
+[env.preview]
+pages_build_output_dir = "dist"
+
+[env.production]
+pages_build_output_dir = "dist"

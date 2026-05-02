@@ -1,0 +1,26 @@
+{
+  "name": "@webwaka/partner-admin-spa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WebWaka Partner Admin — React SPA (E1-1)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5175",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'no tests yet'"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "^5.5.2",
+    "vite": "^8.0.10"
+  }
+}

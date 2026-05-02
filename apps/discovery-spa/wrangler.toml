@@ -1,0 +1,11 @@
+# WebWaka Discovery SPA — Cloudflare Pages
+# Deploy: wrangler pages deploy dist --project-name webwaka-discovery-spa
+
+name = "webwaka-discovery-spa"
+pages_build_output_dir = "dist"
+
+[env.preview]
+pages_build_output_dir = "dist"
+
+[env.production]
+pages_build_output_dir = "dist"
