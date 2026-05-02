@@ -152,3 +152,21 @@ export type {
   AppendMessageInput,
   SessionServiceDeps,
 } from './session-service.js';
+
+// Wave 3 exports
+export { AgentLoop, runAgentLoop } from './agent-loop.js';
+export type {
+  AgentLoopInput,
+  AgentLoopResult,
+  AIAdapter,
+  AIAdapterResponse,
+} from './agent-loop.js';
+
+export { PromptManager } from './prompt-manager.js';
+export type { PromptContext, BuiltPrompt } from './prompt-manager.js';
+
+export { searchOfferingsTool } from './tools/search-offerings.js';
+export { getCustomerHistoryTool } from './tools/get-customer-history.js';
+export { getAnalyticsSummaryTool } from './tools/get-analytics-summary.js';
+export { logPaymentTool } from './tools/log-payment.js';
+export { createSupportTicketTool } from './tools/create-support-ticket.js';
