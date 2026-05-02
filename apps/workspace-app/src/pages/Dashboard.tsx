@@ -8,6 +8,8 @@ import { SparklineChart } from '@/components/ui/SparklineChart';
 import { ProgressChecklist } from '@/components/ui/ProgressChecklist';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { t } from '@/lib/i18n';
+import { PilotFeedbackWidget } from '@/components/PilotFeedbackWidget';
+import { usePilotFlag } from '@/hooks/usePilotFlag';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -308,6 +310,9 @@ export default function Dashboard() {
   const { data, loading, isOnline } = useDashboardData(user?.workspaceId);
   const { verified, sending, dismissed, sendVerification, dismiss } = useEmailVerified();
   const push = usePushPrompt(data.summary?.orderCount ?? null);
+  // FE-PILOT-01: pilot feedback widget — shown only for pilot tenants
+  const { enabled: isPilot } = usePilotFlag('ai_chat_beta', user?.workspaceId);
+  const isFirstTxn = (data.summary?.orderCount ?? 0) === 1;
   const [sparkRange, setSparkRange] = useState<'7d' | '30d'>('7d');
 
   const hour = new Date().getHours();
