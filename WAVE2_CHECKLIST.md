@@ -22,10 +22,10 @@
 - [ ] A1-10: PWA manifest + offline shell for marketing site
 
 ### A2. Workspace App — Missing pages
-- [ ] A2-1: Inventory management page (stock levels, low-stock alerts, adjustments)
+- [x] A2-1: Inventory management page (stock levels, low-stock alerts, adjustments)
 - [x] A2-2: Staff/Team management page (invite, roles, permissions, activity log)
-- [ ] A2-3: Analytics/Reports page (revenue charts, top products, export CSV)
-- [ ] A2-4: Customers page (CRM-lite: customer list, purchase history, notes)
+- [x] A2-3: Analytics/Reports page (revenue charts, top products, export CSV)
+- [x] A2-4: Customers page (CRM-lite: customer list, purchase history, notes)
 - [x] A2-5: Notifications page (full list view, mark all read, filter by type)
 
 ### A3. Workspace App — UX gaps
@@ -40,42 +40,42 @@
 ## B. OPERATIONS PILLAR
 
 ### B1. POS enhancements
-- [ ] B1-1: Receipt PDF/print export with business branding
-- [ ] B1-2: Sales history page with date range filter
-- [ ] B1-3: Discount/coupon input field on checkout
-- [ ] B1-4: Stock decrement confirmation on low-stock items
-- [ ] B1-5: End-of-day summary modal (total sales, total orders, top product)
+- [x] B1-1: Receipt PDF/print export with business branding
+- [x] B1-2: Sales history page with date range filter
+- [x] B1-3: Discount/coupon input field on checkout
+- [x] B1-4: Stock decrement confirmation on low-stock items
+- [x] B1-5: End-of-day summary modal (total sales, total orders, top product)
 
 ### B2. Inventory
-- [ ] B2-1: Full Inventory page: list all products with stock levels
-- [ ] B2-2: Bulk stock adjustment (receive stock, return stock)
-- [ ] B2-3: Low-stock threshold settings per product
-- [ ] B2-4: Inventory audit log (who changed what and when)
-- [ ] B2-5: Export inventory to CSV
+- [x] B2-1: Full Inventory page: list all products with stock levels
+- [x] B2-2: Bulk stock adjustment (receive stock, return stock)
+- [x] B2-3: Low-stock threshold settings per product
+- [x] B2-4: Inventory audit log (who changed what and when)
+- [x] B2-5: Export inventory to CSV
 
 ### B3. Operational dashboards
-- [ ] B3-1: Analytics page — 7/30/90 day revenue trends (line chart)
-- [ ] B3-2: Analytics page — top 10 products by revenue
-- [ ] B3-3: Analytics page — customer count and repeat rate
-- [ ] B3-4: Analytics page — CSV export for accountants
+- [x] B3-1: Analytics page — 7/30/90 day revenue trends (line chart)
+- [x] B3-2: Analytics page — top 10 products by revenue
+- [x] B3-3: Analytics page — customer count and repeat rate
+- [x] B3-4: Analytics page — CSV export for accountants
 
 ---
 
 ## C. BRAND PILLAR
 
 ### C1. WakaPage editor
-- [ ] C1-1: Block config forms per block type (hero title/subtitle, bio text, CTA URL)
-- [ ] C1-2: Block visibility toggle (show/hide without deleting)
-- [ ] C1-3: Drag-to-reorder blocks (replace ▲▼ buttons on desktop)
-- [ ] C1-4: Preview mode refresh auto-loads on block save
-- [ ] C1-5: Publish/Unpublish flow with confirmation and status badge
+- [x] C1-1: Block config forms per block type (hero title/subtitle, bio text, CTA URL)
+- [x] C1-2: Block visibility toggle (show/hide without deleting)
+- [x] C1-3: Drag-to-reorder blocks (replace ▲▼ buttons on desktop)
+- [x] C1-4: Preview mode refresh auto-loads on block save
+- [x] C1-5: Publish/Unpublish flow with confirmation and status badge
 
 ### C2. Theme/Branding controls
-- [ ] C2-1: Theme picker page — choose from preset color themes
-- [ ] C2-2: Business logo upload + preview
-- [ ] C2-3: Custom domain input field with DNS instructions
-- [ ] C2-4: Social links manager (WhatsApp, Instagram, Twitter, Facebook, TikTok)
-- [ ] C2-5: SEO settings form (meta title, description, keywords)
+- [x] C2-1: Theme picker page — choose from preset color themes
+- [x] C2-2: Business logo upload + preview
+- [x] C2-3: Custom domain input field with DNS instructions
+- [x] C2-4: Social links manager (WhatsApp, Instagram, Twitter, Facebook, TikTok)
+- [x] C2-5: SEO settings form (meta title, description, keywords)
 
 ### C3. Brand-runtime public UX
 - [ ] C3-1: Mobile-responsive public page template
