@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0541 petrol/fuel stations deep extraction — 50 new entities DONE)  
+**Last updated:** 2026-05-02 (0542–0543 schools & educational institutions deep extraction — 2,018 new entities DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0541 is **0542**.
+**Convention:** Next available migration number after 0543 is **0544**.
 
 ---
 
@@ -194,10 +194,12 @@ All S12, S13, S14, and S15 source batches now fully migrated. Named-only records
 | P13 | Car Dealers & Vehicle Sales deep extraction (65 entities, Overpass API) | 0539 | **65** | ✅ DONE (2026-05-02) |
 | P14 | Extended Health Facilities deep extraction — healthcare=* tags (628 entities, Overpass API) | 0540 | **628** | ✅ DONE (2026-05-02) |
 | P15 | Petrol & Fuel Stations deep extraction — amenity=fuel new IDs not in 0488 (50 entities) | 0541 | **50** | ✅ DONE (2026-05-02) |
-| **TOTAL** | | **0467–0470 + 0473–0541 (73 migrations)** | **113,717 records** | |
+| P16 | Schools & Educational Institutions deep extraction — amenity=school/college/kindergarten/language_school/training — new IDs not in 0500/0501 — Batch 1 (1,009 entities) | 0542 | **1,009** | ✅ DONE (2026-05-02) |
+| P17 | Schools & Educational Institutions deep extraction — Batch 2 (remaining 1,009 entities) | 0543 | **1,009** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0543 (75 migrations)** | **115,735 records** | |
 
-**Total SQL generated (all batches):** ~909,000 lines across 73 migrations + 73 rollbacks  
-**Next migration number:** 0542  
+**Total SQL generated (all batches):** ~925,000 lines across 75 migrations + 75 rollbacks  
+**Next migration number:** 0544  
 **Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair names not findable from accessible sources); Bauchi state assembly (no Wikipedia article, no NigerianLeaders data, official BSHA site inaccessible); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found in any accessible source)
 
 ---

@@ -110,10 +110,12 @@ All data-ready migrations from the full seed backlog (P1a + P2–P9) are now wri
 | 0539 | Car Dealers & Vehicle Sales deep extraction (OSM Overpass: shop=car/car_dealer/vehicle/motorcycle + brand name matching) | 1 | 65 entities | ✅ DONE |
 | 0540 | Extended Health Facilities deep extraction (OSM Overpass: healthcare=maternity/health_post/laboratory/nursing_home/blood_bank/physiotherapist/alternative — NOT in 0499) | 1 | 628 entities | ✅ DONE |
 | 0541 | Petrol & Fuel Stations deep extraction (OSM Overpass: amenity=fuel/filling_station — new OSM IDs not in 0488) | 1 | 50 entities | ✅ DONE |
-| **TOTAL** | | **73 migrations + 73 rollbacks** | **113,717 records** | ✅ |
+| 0542 | Schools & Educational Institutions deep extraction — Batch 1 (OSM Overpass: amenity=school/college/kindergarten/language_school/training — new OSM IDs not in 0500/0501) | 1 | 1,009 entities | ✅ DONE |
+| 0543 | Schools & Educational Institutions deep extraction — Batch 2 (OSM Overpass: remaining 1,009 schools not in 0500/0501) | 1 | 1,009 entities | ✅ DONE |
+| **TOTAL** | | **75 migrations + 75 rollbacks** | **115,735 records** | ✅ |
 
 - **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0542
+- **Next migration number:** 0544
 - **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs — APC won all 44 Kano / PDP won all 23 Rivers; individual names not in accessible sources); Bauchi assembly (31 seats, no Wikipedia article, no NigerianLeaders data); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found)
 - **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
 
