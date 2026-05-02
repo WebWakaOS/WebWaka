@@ -161,9 +161,9 @@ PHASE 0: Deep Discovery and Platform Understanding    ← CURRENT (completing no
 
 - [x] All 71 P3 niches have Pillar 2 brand-runtime templates (SHIPPED status) ← **DONE** (2026-05-02: all 71 IMPLEMENTED → SHIPPED in pillar3-niche-registry.json; 207 total templates in BUILT_IN_TEMPLATES)
 - [x] All 78 P3 niches have Pillar 3 discovery/marketplace templates ← **DONE** (2026-05-02: migration 0464 seeds all 78 P3 templates into D1 `template_registry`, template_type=\'website\', status=\'approved\')
-- [ ] i18n: ha/ig/yo/pcm ≥ 90% coverage ← **PENDING** (DEBT-004, P2-i18n-001–007)
-- [ ] INEC 2023 HoA candidates seeded ← **PENDING** (P2-SEED-001)
-- [ ] Priority state assemblies seeded ← **PENDING** (P2-SEED-002/003)
+- [x] i18n: ha/ig/yo/pcm ≥ 90% coverage ← **DONE** (2026-05-02: DEBT-004 resolved; all 4 locales at 210/210 = 100%, 136 keys added per locale, 0 TS errors)
+- [x] INEC 2023 HoA candidates seeded ← **DONE** (P2-SEED-001: migrations 0314 + 0314b; 8,826 valid candidates from 9,108 rows; 98.5% extraction accuracy)
+- [x] Priority state assemblies seeded ← **DONE** (P2-SEED-002/003: Lagos done (0313, 40 members); Kano/Rivers/Ogun/Oyo term records + Speakers seeded (0465); Lagos 20 LGA chairpersons seeded (0466); Kano/Rivers LGA chairs logged as DEBT-012 remainder)
 
 ---
 

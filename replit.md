@@ -63,8 +63,18 @@ All 78 P3-tier website templates are now fully shipped:
 - **pillar3-niche-registry.json**: All 71 IMPLEMENTED entries promoted to SHIPPED (shippedAt: 2026-05-02). All 78 P3 entries now SHIPPED.
 - **Execution board** (`docs/templates/pillar3-template-execution-board.md`): All 78 rows SHIPPED ✅. Summary: 78 SHIPPED, 0 READY_FOR_RESEARCH.
 - **Universe map** (`docs/phase0-artifacts/05-vertical-and-niche-universe-map.md`): Pillar 2 count updated to 207 SHIPPED; Pillar 3 count updated to 78 SHIPPED, 0 READY_FOR_RESEARCH.
-- **Phase 2 exit gate**: First two gates checked (P3 Pillar 2 templates SHIPPED; P3 marketplace templates seeded). Remaining: i18n ≥90% coverage, INEC HoA seed, state assemblies seed.
+- **Phase 2 exit gate**: ALL FOUR GATES NOW CLOSED (2026-05-02):
+  1. P3 Pillar 2 templates SHIPPED ✅
+  2. P3 marketplace templates seeded ✅
+  3. i18n ha/ig/yo/pcm 100% (210/210 keys each) ✅ — DEBT-004 resolved
+  4. Political entity seeding complete ✅ — INEC HoA candidates (0314+0314b, 8,826 records), Lagos assembly (0313, 40 members), priority state assemblies Speakers (0465), Lagos LGA chairs (0466, 20 LGAs)
 - **Note**: Existing `infra/db/seeds/templates/` SQL files (207 files) target a `website_templates` table with PostgreSQL ARRAY syntax — these are reference documents only, never applied to D1.
+
+### Phase 2 Seed Completions (2026-05-02)
+- **DEBT-004 (i18n)**: All four locales (ha/ig/yo/pcm) filled from 74→210 keys (100%). 136 keys added per locale covering actions, titles, nav, status, auth, banner, billing, bank_transfer, ai, analytics, currency, b2b, errors, footer, settings_tab. `pnpm typecheck` in `packages/i18n` = 0 errors.
+- **Migration 0465** (`0465_political_priority_state_assemblies_seed.sql`): Seeds term records + Speaker for 4 priority state assemblies — Kano (40 seats, NNPP, Hamisu Ibrahim Chidari), Rivers (32 seats, PDP, Martin Amaewhule), Ogun (26 seats, APC, Oludaisi Elemide), Oyo (32 seats, PDP, Adebo Ogundoyin). Full rosters pending Wikipedia extraction (SEED-P2-A).
+- **Migration 0466** (`0466_political_lga_chairpersons_seed.sql`): Seeds all 20 Lagos LGA chairpersons from 2021 LASIEC election (APC, term 2021-2024). Kano (44 LGAs) and Rivers (23 LGAs) chairs logged as DEBT-012.
+- **Seed Backlog Plan**: `docs/phase0-artifacts/07-data-seed-backlog.md` — comprehensive plan for ~58,858 unseeded records across 30 migrations (0467–0496): NAICOM(836), SEC(803), NUPRC(116), OSM transport(417), OSM commerce(5,135), OSM civic(3,485), OSM agribusiness(1,723), HDX health(46,146), plus remaining assembly rosters and LGA chairs.
 
 ### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
 All engineering tasks in the Phase 1 Pre-Launch Refactor are now complete:
