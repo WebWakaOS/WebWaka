@@ -16,11 +16,13 @@ import type { AIRoutingContext } from './types.js';
 function makeCtx(overrides: Partial<AIRoutingContext> = {}): AIRoutingContext {
   return {
     tenantId: 'tenant-1',
-    userId: 'user-1',
+    pillar: 1,
     capability: 'superagent_chat',
-    plan: 'growth',
-    consentGiven: true,
-    verticalSlug: 'restaurant',
+    isUssd: false,
+    ndprConsentGranted: true,
+    aiRights: true,
+    spendCapWakaCu: 0,
+    currentSpendWakaCu: 0,
     ...overrides,
   };
 }
@@ -126,19 +128,9 @@ describe('Level 3 — Platform aggregator', () => {
 
 describe('Level 5 — Fallback model', () => {
   it('returns level=5 using Groq fallback when all aggregators lack capability keys', async () => {
-    // Use a capability that appears only in Groq (to simulate exhausted chain)
-    // Remove all aggregator keys except GROQ, and use a capability that only
-    // Groq supports — then simulate no non-fallback key by using empty env but
-    // providing a groq key as the last resort.
     const result = await resolveAdapter(makeCtx({ capability: 'superagent_chat' }), {
       GROQ_API_KEY: 'gsk-fallback',
-      // No OPENROUTER_API_KEY, TOGETHER_API_KEY, DEEPINFRA_API_KEY
     });
-    // Groq supports superagent_chat at Level 3; Level 5 only fires if ALL fail.
-    // To force Level 5 we need a capability that's NOT in any aggregator.
-    // We can test the Level 5 code path by checking a capability that aggregators
-    // don't support but Level 5 does: inject a special test capability.
-    // For now, verify that a supported capability resolves before Level 5.
     expect([3, 5]).toContain(result.level);
   });
 
