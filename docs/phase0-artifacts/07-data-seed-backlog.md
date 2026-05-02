@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0467–0470 state assembly full rosters NOW DONE)  
+**Last updated:** 2026-05-02 (0497–0503 S12/S13/S14/S15 seeding wave NOW DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0496 is **0497**.
+**Convention:** Next available migration number after 0503 is **0504**.
 
 ---
 
@@ -147,7 +147,32 @@
 
 ---
 
-## Grand Total — Completed This Session
+### Priority 8 — S12/S13/S14/S15 Seeding Wave — ✅ DONE (2026-05-02)
+
+All S12, S13, S14, and S15 source batches now fully migrated. Named-only records seeded (unnamed OSM entries skipped). Cross-migration ID uniqueness verified — zero duplicates.
+
+| Migration | Category | Records | File | Status |
+|---|---|---|---|---|
+| 0497 | NUC Universities (307: 74 federal + 66 state + 167 private) | **307** | `0497_nuc_universities_seed.sql` | ✅ DONE |
+| 0498 | S12 OSM bank branches + misc compiled entities | **493** | `0498_osm_s12_bank_branches_seed.sql` | ✅ DONE |
+| 0499 | S13 OSM medical: hospitals (4,022) + clinics (662) + doctors/dentists/opticians | **5,201** | `0499_osm_s13_hospitals_medical_seed.sql` | ✅ DONE |
+| 0500 | S13 OSM civic & public: colleges/universities/community centres/libraries/courthouses/police/post offices/govt offices/social facilities | **2,530** | `0500_osm_s13_civic_public_seed.sql` | ✅ DONE |
+| 0501 | S13 OSM professional & lifestyle: car repair/bakeries/law firms/accounting/driving schools/vets/gyms/laundries | **374** | `0501_osm_s13_professional_lifestyle_seed.sql` | ✅ DONE |
+| 0502 | S14 OSM state-specific POIs: Benue/Jigawa/Sokoto/Taraba/Abia | **62** | `0502_osm_s14_state_pois_seed.sql` | ✅ DONE |
+| 0503 | S15 GRID3 Nigeria health facilities (46,146 CSV rows → 43,289 named unique) | **43,289** | `0503_grid3_health_facilities_seed.sql` | ✅ DONE |
+
+**Total seeded:** 52,256 S12–S15 records  
+**Rollbacks:** All 7 rollback files created.
+
+**Notes:**
+- Deputy governors already present in migration 0312 (36 states × 4 rows) — not re-seeded
+- S11 fish/abattoir (all 0 records), agro_input_nw/sw (0 records), warehouse_sw (0 records) — empty source files, skipped
+- NAFDAC food (1,394-line JS-rendered HTML, 130 LI items, no structured data) — extraction blocked, skipped
+- GRID3 dedup: 46,146 CSV rows → 43,289 named unique facilities (2,857 unnamed/duplicate entries silently skipped)
+
+---
+
+## Grand Total — All Sessions
 
 | Priority | Batch | Migrations | Records seeded | Status |
 |---|---|---|---|---|
@@ -159,11 +184,12 @@
 | P5 | S10 Civic & religious | 0484–0487 | **3,485** | ✅ DONE |
 | P6 | S11 Agribusiness | 0488–0491 | **1,723** | ✅ DONE |
 | P7 | S06 HDX health facilities | 0492–0496 | **46,146** | ✅ DONE |
-| **TOTAL** | | **0467–0470 + 0473–0496 (28 migrations)** | **58,787 records** | |
+| P8 | S12–S15 universities/banks/medical/civic/professional/GRID3 | 0497–0503 | **52,256** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0503 (35 migrations)** | **111,043 records** | |
 
-**Total SQL generated (all batches):** ~425,000 lines across 28 migrations + 28 rollbacks  
-**Next migration number:** 0497  
-**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); 0497 reserved for Ogun 3-seat patch + Oyo name corrections when confirmed
+**Total SQL generated (all batches):** ~820,000 lines across 35 migrations + 35 rollbacks  
+**Next migration number:** 0504  
+**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); Ogun 3-seat patch (0504) when confirmed; state assembly rosters for 31 remaining states (web research sprint required)
 
 ---
 
@@ -198,3 +224,10 @@ All org-seeding migrations follow this pattern (D1/SQLite invariants enforced):
 | OSM civic | `org_s10_{type}_{md5[:16]}` |
 | OSM agribusiness | `org_s11_{type}_{md5[:16]}` |
 | HDX health | `org_s06_hdx_{md5[:16]}` |
+| NUC universities | `org_s12_nuc_{cat3}_{md5[:16]}` |
+| OSM bank branches | `org_s12_bank_{md5[:16]}` |
+| OSM S13 medical | `org_s13_{type}_{md5[:16]}` |
+| OSM S13 civic | `org_s13_{type8}_{md5[:16]}` |
+| OSM S13 professional | `org_s13_{type9}_{md5[:16]}` |
+| OSM S14 state POIs | `org_s14_{state4}_{md5[:16]}` |
+| GRID3 health | `org_s15_grid3_{md5[:16]}` |
