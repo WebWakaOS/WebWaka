@@ -96,16 +96,16 @@
 - [x] B3-4: Add `useVerticalEngine` React hook — client-side hook that calls the API for profile CRUD + FSM transitions, abstracting fetch logic from page components
 
 ### B4. Vertical Deduplication & Migration
-- [ ] B4-1: Audit 20 representative individual `verticals-*` packages against engine registry configs — identify structural patterns that diverge (custom FSMs, extra sub-entities)
-- [ ] B4-2: Create migration guide (`docs/vertical-engine/migration-from-package.md`) — step-by-step instructions for replacing a `verticals-*` package with a pure engine config entry
-- [ ] B4-3: Migrate 5 high-traffic verticals from standalone packages to engine-only: `restaurant`, `pharmacy`, `hotel`, `school`, `farm` — verify parity via `parity-framework.ts`
-- [ ] B4-4: Add `parity.test.ts` coverage for all 157 engine-registered verticals (currently parity framework exists but test only covers a subset)
-- [ ] B4-5: Add `new-vertical.config.ts` template + generator script: `pnpm run generate:vertical <slug>` that scaffolds a new engine config entry with placeholders (reduces new vertical setup friction)
+- [x] B4-1: Audit 20 representative individual `verticals-*` packages against engine registry configs — identify structural patterns that diverge (custom FSMs, extra sub-entities)
+- [x] B4-2: Create migration guide (`docs/vertical-engine/migration-from-package.md`) — step-by-step instructions for replacing a `verticals-*` package with a pure engine config entry
+- [x] B4-3: Migrate 5 high-traffic verticals from standalone packages to engine-only: `restaurant`, `pharmacy`, `hotel`, `school`, `farm` — verify parity via `parity-framework.ts`
+- [x] B4-4: Add `parity.test.ts` coverage for all 157 engine-registered verticals (currently parity framework exists but test only covers a subset)
+- [x] B4-5: Add `new-vertical.config.ts` template + generator script: `pnpm run generate:vertical <slug>` that scaffolds a new engine config entry with placeholders (reduces new vertical setup friction)
 
 ### B5. Configuration-Driven Route Generation
-- [ ] B5-1: Add `RouteGenerator.generateAllRoutes(registry, app)` — wire all 157 registry verticals to Hono routes automatically (currently individual vertical route files exist for each of 159 packages)
-- [ ] B5-2: Add generated route coverage test — verify every slug in the engine registry has a corresponding HTTP route registered
-- [ ] B5-3: Add `entitlementLayer` enforcement in generated routes — automatically check `VerticalConfig.route.entitlementLayer` against `packages/entitlements` before allowing profile operations
+- [x] B5-1: Add `RouteGenerator.generateAllRoutes(registry, app)` — wire all 157 registry verticals to Hono routes automatically (currently individual vertical route files exist for each of 159 packages)
+- [x] B5-2: Add generated route coverage test — verify every slug in the engine registry has a corresponding HTTP route registered
+- [x] B5-3: Add `entitlementLayer` enforcement in generated routes — automatically check `VerticalConfig.route.entitlementLayer` against `packages/entitlements` before allowing profile operations
 
 ---
 

@@ -2,7 +2,7 @@
   "name": "webwaka-os",
   "version": "1.0.0",
   "private": true,
-  "description": "WebWaka OS monorepo — governance-driven platform for Africa",
+  "description": "WebWaka OS monorepo \u2014 governance-driven platform for Africa",
   "scripts": {
     "dev": "node apps/platform-admin/server.js",
     "typecheck": "pnpm -r --parallel run typecheck",
@@ -45,7 +45,8 @@
     "seed:phase-7": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-7-fx-rates.sql",
     "seed:phase-8": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/seed/phase-8-ussd-sessions.sql",
     "seed:all": "pnpm seed:phase-1 && pnpm seed:phase-2 && pnpm seed:phase-3 && pnpm seed:phase-4 && pnpm seed:phase-5 && pnpm seed:phase-6 && pnpm seed:phase-7 && pnpm seed:phase-8",
-    "seed:reset-destructive": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/reset/reset-after-destructive.sql"
+    "seed:reset-destructive": "./apps/api/node_modules/.bin/wrangler d1 execute webwaka-staging --env staging --config apps/api/wrangler.toml --remote --file=scripts/reset/reset-after-destructive.sql",
+    "generate:vertical": "tsx scripts/generate-vertical.ts"
   },
   "engines": {
     "node": ">=20",

@@ -252,6 +252,33 @@ export function generateAllRoutes(
     try {
       const router = generateRoutes(config);
       const basePath = config.route?.basePath ?? `/${slug}`;
+
+      // B5-3: Entitlement layer enforcement — guard every mounted vertical
+      // with a middleware that checks VerticalConfig.route.entitlementLayer.
+      // The entitlement layer is stored on the request context by the platform
+      // auth middleware (key: 'entitlements' — a Set<string>).
+      // If the context has no entitlement info we allow through (open verticals).
+      const entitlementLayer = config.route?.entitlementLayer;
+      if (entitlementLayer) {
+        app.use(`${basePath}/*`, async (c: Context, next) => {
+          try {
+            const entitlements = c.get('entitlements' as never) as Set<string> | undefined;
+            // If entitlements context is not set (no auth middleware) — allow through
+            if (entitlements && !entitlements.has(entitlementLayer)) {
+              return c.json(
+                {
+                  error: 'entitlement_required',
+                  message: `This feature requires the '${entitlementLayer}' entitlement.`,
+                  requiredEntitlement: entitlementLayer,
+                },
+                403,
+              );
+            }
+          } catch { /* entitlement context not available — allow through */ }
+          await next();
+        });
+      }
+
       app.route(basePath, router);
       mounted.push(slug);
     } catch (err) {
