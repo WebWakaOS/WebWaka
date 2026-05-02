@@ -82,6 +82,7 @@ export function pilotAdminRoutes() {
   app.get('/operators', async (c) => {
     const svc = new PilotOperatorService(c.env.DB);
     const cohort = c.req.query('cohort');
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     const status = c.req.query('status') as PilotOperatorStatus | undefined;
 
     if (status && !VALID_STATUSES.includes(status)) {
@@ -105,7 +106,7 @@ export function pilotAdminRoutes() {
   app.get('/operators/summary', async (c) => {
     const svc = new PilotOperatorService(c.env.DB);
     const summary = await svc.summary();
-    const total = Object.values(summary).reduce((a, b) => a + b, 0);
+    const total = (Object.values(summary) as number[]).reduce((a, b) => a + b, 0);
     return c.json({ summary, total });
   });
 

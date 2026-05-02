@@ -57,6 +57,16 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **Public API Versioning**: Global `X-API-Version: 1` header, and a `/developer` endpoint providing API metadata, capabilities, and changelog.
 - **Webhook SDK**: TypeScript event payload types for all webhook events to facilitate integration.
 
+### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
+All engineering tasks in the Phase 1 Pre-Launch Refactor are now complete:
+- **DEBT-001 (P1-010–014)**: `@webwaka/support-groups` fully genericised → `@webwaka/groups` canonical. Migration 0462 drops 14 shadow tables. `GroupEventType` is canonical; `SupportGroupEventType` is deprecated alias.
+- **DEBT-002 (P1-020–023)**: Fundraising INEC-specific fields renamed (`inecCapKobo` → `contributionCapKobo`, etc.), migration 0463. `evaluateFinancialCap()` from `@webwaka/policy-engine` wired in contribution handler. `checkContributionCap()` added as generic fallback.
+- **DEBT-003 (P1-030/031)**: All 11 `PlatformLayer` values verified active. Civic/AI = plan-gated; Political/Institutional = enterprise-only. No dead values.
+- **DEBT-005 (P1-040/041)**: Dead `_engineFeatureFlagMiddleware` no-op removed from `register-vertical-engine-routes.ts`; migration path documented.
+- **DEBT-008 (P1-050)**: `pnpm audit` = 0 vulnerabilities.
+- **P1-005 ESLint**: 0 errors across all scanned route files (`timing.test.ts`, `search-index.ts`, `platform-admin-pilots.ts` fixed).
+- **Remaining Phase 1 exit gate items (ops-only)**: CF API token rotation (RISK-001), SMOKE_API_KEY provisioning, notification engine staging deployment.
+
 ### Dynamic Configurability & Delegated Governance (2026-05-02)
 - **`@webwaka/control-plane`** package (`packages/control-plane/`): 6 runtime services (PlanCatalogService, EntitlementEngine, PermissionResolver, FlagService, DelegationGuard, AuditService) backed by 20 new D1 tables.
 - **Migrations 0464–0471**: 8 migration pairs (forward + rollback) covering subscription_packages, billing_intervals, package_pricing, entitlement_definitions, package_entitlement_bindings, workspace_entitlement_overrides, custom_roles, permission_definitions, role_permission_bindings, user_groups, group_memberships, admin_delegation_policies, configuration_flags, configuration_overrides, governance_audit_log, plus seed data translating all 7 hardcoded PLAN_CONFIGS into DB records.

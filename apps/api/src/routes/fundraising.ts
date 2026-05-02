@@ -66,7 +66,7 @@ import {
   listPayoutRequests,
   addComplianceDeclaration,
   getCampaignStats,
-  checkInecCap,
+
   assertCampaignCreationAllowed,
   assertPayoutsEnabled,
   assertPledgesEnabled,
@@ -81,6 +81,8 @@ import {
   type FundraisingEntitlements,
 } from '@webwaka/fundraising';
 import { indexFundraisingCampaign } from '../lib/search-index.js';
+import { evaluateFinancialCap } from '@webwaka/policy-engine';
+import type { PolicyRule } from '@webwaka/policy-engine';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 type D1Like = Env['DB'];
@@ -116,7 +118,7 @@ fundraisingRoutes.get('/public', async (c) => {
   const campaigns = await listPublicCampaigns(db as never, {
     tenantId,
     campaignType:   q('campaign_type') ?? undefined,
-    supportGroupId: q('support_group_id') ?? undefined,
+    groupId: q('group_id') ?? undefined,
     limit:  parseInt(q('limit')  ?? '50', 10),
     offset: parseInt(q('offset') ?? '0',  10),
   });
@@ -166,13 +168,13 @@ const createCampaignSchema = z.object({
   coverImageUrl:   z.string().url().optional(),
   visibility:      z.enum(['public','private','unlisted']).optional(),
   endsAt:          z.number().int().optional(),
-  inecCapKobo:     z.number().int().min(0).optional(),
-  inecDisclosureRequired: z.boolean().optional(),
+  contributionCapKobo:    z.number().int().min(0).optional(),
+  disclosureRequired:     z.boolean().optional(),
   ndprConsentRequired:    z.boolean().optional(),
   donorWallEnabled:       z.boolean().optional(),
   anonymousAllowed:       z.boolean().optional(),
   rewardsEnabled:         z.boolean().optional(),
-  supportGroupId:  z.string().optional(),
+  groupId:         z.string().optional(),
 });
 
 fundraisingRoutes.post('/campaigns', async (c) => {
@@ -198,7 +200,7 @@ fundraisingRoutes.post('/campaigns', async (c) => {
       await indexFundraisingCampaign(db as never, {
         id: campaign.id, title: campaign.title, tenantId, workspaceId,
         campaignType: campaign.campaignType, slug: campaign.slug, visibility: campaign.visibility,
-        supportGroupId: campaign.supportGroupId,
+        groupId: campaign.groupId,
       });
     } catch { /* non-fatal */ }
 
@@ -274,7 +276,7 @@ fundraisingRoutes.patch('/campaigns/:id', async (c) => {
     await indexFundraisingCampaign(db as never, {
       id: updated.id, title: updated.title, tenantId, workspaceId: updated.workspaceId,
       campaignType: updated.campaignType, slug: updated.slug, visibility: updated.visibility,
-      supportGroupId: updated.supportGroupId,
+      groupId: updated.groupId,
     });
   } catch { /* non-fatal */ }
 
@@ -359,17 +361,32 @@ fundraisingRoutes.post('/campaigns/:id/contributions', async (c) => {
   if (!campaign) return c.json({ error: 'NOT_FOUND' }, 404);
   if (campaign.status !== 'active') return c.json({ error: 'CAMPAIGN_NOT_ACTIVE' }, 400);
 
-  // [A1] INEC cap check — only for political/election campaigns
-  if (campaign.inecCapKobo > 0) {
+  // P1-022 (DEBT-002): Contribution cap check via policy engine evaluator.
+  // contributionCapKobo > 0 for political/election campaigns (default ₦50m INEC cap).
+  // Non-political campaigns have contributionCapKobo = 0 (no cap applied).
+  if (campaign.contributionCapKobo > 0) {
     const existingTotal = await (db as unknown as { prepare: (q: string) => { bind: (...a: unknown[]) => { first: <T>() => Promise<T | null> } } })
       .prepare(`SELECT COALESCE(SUM(amount_kobo),0) as total FROM fundraising_contributions
                 WHERE campaign_id = ? AND tenant_id = ? AND donor_phone = ? AND status = 'confirmed'`)
       .bind(c.req.param('id'), tenantId, parsed.data.donorPhone)
       .first<{ total: number }>();
-    try {
-      checkInecCap(parsed.data.amountKobo, campaign.inecCapKobo, existingTotal?.total ?? 0);
-    } catch (err) {
-      return c.json({ error: 'INEC_CAP_EXCEEDED', message: (err as Error).message }, 400);
+    const capRule: PolicyRule = {
+      id: 'campaign-cap', tenantId: null, workspaceId: null,
+      ruleKey: 'contribution_cap', version: 1, category: 'contribution_cap',
+      scope: 'platform', status: 'published',
+      title: 'Campaign contribution cap',
+      description: null,
+      conditionJson: { cap_kobo: campaign.contributionCapKobo, per: 'contributor_campaign' },
+      decision: 'ALLOW', hitlLevel: null, effectiveFrom: 0, effectiveTo: null,
+      createdBy: 'system', createdAt: 0, updatedAt: 0,
+    };
+    const evalResult = evaluateFinancialCap(capRule, {
+      tenantId, amountKobo: parsed.data.amountKobo,
+      priorTotalKobo: existingTotal?.total ?? 0,
+      campaignType: campaign.campaignType,
+    });
+    if (evalResult.decision === 'DENY') {
+      return c.json({ error: 'INEC_CAP_EXCEEDED', message: evalResult.reason }, 400);
     }
   }
 

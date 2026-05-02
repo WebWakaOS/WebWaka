@@ -56,7 +56,6 @@ export type BlockType =
   | 'community'       // @webwaka/community spaces
   | 'event_list'      // @webwaka/community events list
   | 'group'              // @webwaka/groups public profile + join CTA (Phase 0 rename from support_group)
-  | 'support_group'      // @deprecated Use 'group'. Kept for migration compat (0432).
   | 'fundraising_campaign' // @webwaka/fundraising public campaign + donate CTA
   // ---------------------------------------------------------------------------
   // Phase 4 — Template System Rollout (M14 gate: 4 new block types)
@@ -94,7 +93,6 @@ export const BLOCK_TYPES: ReadonlySet<BlockType> = new Set<BlockType>([
   'community',
   'event_list',
   'group',
-  'support_group',         // deprecated — kept until migration 0438 drops shadow tables
   'fundraising_campaign',
   // Phase 4 additions (M14 gate)
   'cases_board',
@@ -396,7 +394,6 @@ export type BlockConfig =
   | ({ blockType: 'community' } & CommunityBlockConfig)
   | ({ blockType: 'event_list' } & EventListBlockConfig)
   | ({ blockType: 'group' } & GroupBlockConfig)
-  | ({ blockType: 'support_group' } & GroupBlockConfig)   // deprecated alias
   | ({ blockType: 'fundraising_campaign' } & FundraisingCampaignBlockConfig)
   // Phase 4 (M14 gate)
   | ({ blockType: 'cases_board' } & CasesBoardBlockConfig)

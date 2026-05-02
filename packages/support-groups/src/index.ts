@@ -1,12 +1,11 @@
 /**
- * @webwaka/support-groups — Public API
+ * @webwaka/support-groups — Public API (DEPRECATED)
  *
  * @deprecated Phase 0 (ADR-0042): This package is superseded by @webwaka/groups.
  *   - All new code MUST use @webwaka/groups instead.
- *   - This package remains functional for backward compat until migration 0438
- *     drops the support_groups_* shadow tables (after Phase 0 QA gate passes).
+ *   - API route /support-groups now issues 308 redirects to /groups.
+ *   - Migration 0462 drops the support_groups_* shadow tables.
  *   - Do NOT add new features here; extend @webwaka/groups instead.
- *   - API route: /support-groups is kept alive alongside /groups until 0438.
  *
  * Build Once Use Infinitely (P1):
  *   This package has NO vertical-specific logic in its core.
@@ -46,4 +45,5 @@ export {
 export type { D1Like } from './repository.js';
 
 export const PACKAGE_VERSION = '0.1.0';
-export const VERTICAL_SLUG = 'support-group';
+/** @deprecated Use VERTICAL_SLUG = 'group' from @webwaka/groups */
+export const VERTICAL_SLUG = 'group';

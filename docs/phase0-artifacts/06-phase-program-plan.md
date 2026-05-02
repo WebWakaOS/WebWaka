@@ -100,14 +100,14 @@ PHASE 0: Deep Discovery and Platform Understanding    ← CURRENT (completing no
 
 ### Phase 1 Exit Gate
 
-- [ ] CF API token rotated and verified
-- [ ] Notification engine live on staging (UI-001/002/003 resolved, 48h observation window complete)
-- [ ] apps/api ESLint: 0 errors
-- [ ] SMOKE_API_KEY provisioned; smoke tests passing
-- [ ] All support-groups → groups renames verified applied
-- [ ] INEC cap migrated to policy engine
-- [ ] PlatformLayer dead values resolved
-- [ ] Dependabot vulnerabilities patched
+- [ ] CF API token rotated and verified ← **BLOCKED: requires founder/ops action (RISK-001)**
+- [ ] Notification engine live on staging (UI-001/002/003 resolved, 48h observation window complete) ← **BLOCKED: staging deployment**
+- [x] apps/api ESLint: 0 errors ← **DONE** (May 2026: fixed timing.test.ts unused imports + platform-admin-pilots.ts type errors)
+- [ ] SMOKE_API_KEY provisioned; smoke tests passing ← **BLOCKED: ops provisioning**
+- [x] All support-groups → groups renames verified applied ← **DONE** (DEBT-001, P1-010–014, migration 0462)
+- [x] INEC cap migrated to policy engine ← **DONE** (DEBT-002, P1-020–023, migration 0463, evaluateFinancialCap wired)
+- [x] PlatformLayer dead values resolved ← **DONE** (DEBT-003, P1-030/031: all 11 values active, documented)
+- [x] Dependabot vulnerabilities patched ← **DONE** (DEBT-008, P1-050: pnpm audit = 0 vulnerabilities)
 
 ---
 

@@ -39,6 +39,7 @@ export {
   migrateTitheToFundraising,
   getCampaignStats,
   checkInecCap,
+  checkContributionCap,
   INEC_DEFAULT_CAP_KOBO,
 } from './repository.js';
 

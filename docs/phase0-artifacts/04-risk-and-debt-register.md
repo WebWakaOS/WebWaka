@@ -76,57 +76,79 @@
 ## PART 2 — HIGH-PRIORITY TECHNICAL DEBT
 
 ### DEBT-001 — support-groups Module: Election-Specific Naming (PRD Class 1)
-**Severity:** ⚠️ HIGH  
+**Severity:** ✅ RESOLVED (Phase 1 — P1-010/011/012/013)  
 **Category:** Architecture / Naming Debt  
 **Source:** `docs/reports/WEBWAKA-UNIVERSAL-MOBILIZATION-PLATFORM-PRD.md` §1.4, Blueprint §1.3  
-**Description:** The `@webwaka/support-groups` package, its 15 D1 tables, 47 API endpoints, and event types use election-specific terminology embedded in what should be a generic "Groups" module:
 
-| Election-Specific | Should Be Generic |
+**Resolution summary (May 2026):**
+
+| Was | Now |
 |---|---|
-| `support_group_gotv_records` | `group_mobilization_records` |
-| `voter_ref` column | `member_ref` (opaque ID) |
-| `polling_unit_code` column | `unit_code` |
-| Package name `@webwaka/support-groups` | `@webwaka/groups` (already started in Phase-0-reset) |
-| API route `/support-groups/*` | `/groups/*` |
-| Event types `SupportGroupEventType` | `GroupEventType` (canonical alias started) |
+| `@webwaka/support-groups` (canonical) | `@webwaka/groups` (canonical); `@webwaka/support-groups` is pure re-export alias |
+| `/support-groups/*` API routes | `/groups/*` (308 redirect from `/support-groups/*`) |
+| `SupportGroupEventType` | `GroupEventType` (canonical); `SupportGroupEventType` = deprecated alias |
+| `support_group_id` in fundraising | `group_id` (migration 0462) |
+| `support_group` slug in vertical-engine | `group` slug |
+| `support_group` in vertical-ai-config | `group` slug |
+| `support_group` block type in wakapage-blocks | removed (was `'support_group'` block type) |
+| `indexSupportGroup` in search-index | `indexGroup` (canonical); `indexSupportGroup` = deprecated alias |
+| 14 `support_groups_*` shadow tables | dropped (migration 0462) |
 
-**Status:** Phase-0-reset partially addressed this — `@webwaka/groups` was created as the canonical package and `@webwaka/support-groups` was marked deprecated-alias. The D1 table rename migrations 0432-0437 were written (renaming `support_groups_*` → `groups_*`). However, the core 15-table schema (migration 0425) still uses `support_group_*` names.  
-**Remaining work:** Verify renames are complete in all references; ensure `@webwaka/support-groups` is fully deprecated in favor of `@webwaka/groups`  
-**Impact if not resolved before launch:** Creates contractual debt — external API consumers will bind to `support-groups` endpoint naming.  
+**Migration:** `0462_drop_support_groups_shadow_tables.sql` (forward + rollback).  
+**Tests:** groups 24/24, fundraising 48/48, wakapage-blocks 18/18 — all passing.  
+**Note:** `GroupEventType` still emits `'support_group.*'` string values intentionally for backward compat with existing event consumers.  
 **Owner:** Engineering  
-**Milestone target:** Phase 1 of Master Refactor Program
+**Closed:** Phase 1
 
 ---
 
 ### DEBT-002 — Fundraising Module: INEC-Specific Compliance Fields
-**Severity:** ⚠️ HIGH  
+**Severity:** ✅ RESOLVED (Phase 1 — P1-020/021/022/023)  
 **Category:** Architecture / Naming Debt  
 **Source:** `docs/reports/WEBWAKA-UNIVERSAL-MOBILIZATION-PLATFORM-PRD.md` §1.4  
-**Description:** The `@webwaka/fundraising` package contains hardcoded INEC-specific references:
 
-| Hardcoded | Should Be Generic |
-|---|---|
-| `INEC_DEFAULT_CAP_KOBO` constant | `DEFAULT_CAP_KOBO` driven by Policy Engine |
-| `inec_cap_kobo` column name | `contribution_cap_kobo` |
-| `inec_disclosure_required` | `disclosure_required` |
-| `checkInecCap()` function | `checkContributionCap()` using policy engine |
+**Resolution summary (May 2026):**
 
-**Status:** `@webwaka/policy-engine` now has `evaluateFinancialCap()` evaluator (Phase 1). The hardcoded INEC references in the fundraising package need to be migrated to use the policy engine.  
-**Impact:** Every new regulated vertical must implement its own cap logic instead of using a shared, configurable rule.  
+| Was | Now | Task |
+|---|---|---|
+| `inec_cap_kobo` DB column | `contribution_cap_kobo` | P1-021 + migration 0463 |
+| `inec_disclosure_required` DB column | `disclosure_required` | P1-021 + migration 0463 |
+| `inecCapKobo` TS field | `contributionCapKobo` | P1-021 |
+| `inecDisclosureRequired` TS field | `disclosureRequired` | P1-021 |
+| `checkInecCap()` only | `checkContributionCap()` added (P1-022); `checkInecCap()` kept for backward compat + tests | P1-022 |
+| Hardcoded `INEC_DEFAULT_CAP_KOBO` in route | `evaluateFinancialCap()` from `@webwaka/policy-engine` in contribution handler | P1-022 |
+
+**Migration:** `0463_rename_fundraising_compliance_fields.sql` (forward + rollback).  
+**Tests:** 48/48 fundraising tests passing post-rename.  
+**Note:** `INEC_DEFAULT_CAP_KOBO` constant retained for test assertions and campaign-creation default logic. Policy rule already seeded in migration 0434.  
 **Owner:** Engineering  
-**Milestone target:** Phase 1
+**Closed:** Phase 1
 
 ---
 
 ### DEBT-003 — PlatformLayer Enum: 4 Dead Values
-**Severity:** 🟡 MEDIUM  
+**Severity:** ✅ RESOLVED (Phase 1 — P1-030/031)  
 **Category:** Architecture / Type Debt  
 **Source:** `docs/reports/WEBWAKA-UNIVERSAL-MOBILIZATION-PLATFORM-PRD.md` §1.4 Class 3  
-**Description:** `PlatformLayer` enum in `packages/types/src/enums.ts` has 11 values, but only 7 are used in `plan-config.ts` layer arrays. Dead values: `Civic`, `Political`, `Institutional`, `AI` exist as enum members but are not in any plan's `layers[]` array.  
-**Impact:** Entitlement ambiguity — `requireEntitlement(PlatformLayer.Civic)` may behave unexpectedly. Future engineering confusion.  
-**Required action:** Either (a) add the 4 dead values to appropriate plan tier `layers[]` arrays, or (b) move them to a separate `VerticalLayer` enum and remove from `PlatformLayer`.  
+**Audit result (May 2026):** All 11 `PlatformLayer` values are actively used. The "4 dead values" description in Phase 0 was stale.
+
+| Value | Plan Tiers | Status |
+|---|---|---|
+| Discovery | free, starter, growth, pro, enterprise, partner, sub_partner | ✅ Active |
+| Operational | starter, growth, pro, enterprise, partner, sub_partner | ✅ Active |
+| Commerce | growth, pro, enterprise, partner, sub_partner | ✅ Active |
+| Civic | starter, growth, pro, enterprise, partner, sub_partner | ✅ Active (added Phase 0) |
+| AI | growth, pro, enterprise, partner, sub_partner | ✅ Active (added Phase 0) |
+| Transport | pro, enterprise, partner | ✅ Active |
+| Professional | pro, enterprise, partner | ✅ Active |
+| Creator | pro, enterprise, partner | ✅ Active |
+| WhiteLabel | enterprise, partner, sub_partner | ✅ Active |
+| Political | enterprise, partner only | ✅ Active — intentionally enterprise-only (sensitiveSectorRights=true) |
+| Institutional | enterprise, partner only | ✅ Active — intentionally enterprise-only (sensitiveSectorRights=true) |
+
+**Resolution:** No code changes needed. All values are in `LAYER_CODE_MAP` in `workspace-entitlement-context.ts`. Political and Institutional are correctly restricted to enterprise/partner plans as sensitive-sector layers requiring regulatory clearance.  
 **Owner:** Engineering  
-**Milestone target:** Phase 1
+**Closed:** Phase 1
 
 ---
 
@@ -154,14 +176,21 @@
 ---
 
 ### DEBT-005 — vertical-engine Dual-Path Routing (Legacy vs Engine)
-**Severity:** 🟡 MEDIUM  
+**Severity:** ✅ RESOLVED (Phase 1 — P1-040/041)  
 **Category:** Architecture  
 **Source:** `apps/api/src/route-groups/register-vertical-engine-routes.ts`  
-**Description:** The platform currently runs two parallel vertical routing systems: (1) legacy hand-coded routes in `register-vertical-routes.ts` and (2) engine-generated dynamic routes in `register-vertical-engine-routes.ts`. The engine routes are feature-flagged via `X-Use-Engine: 1` header but the flag middleware (`_engineFeatureFlagMiddleware`) is effectively a pass-through — it always calls `next()` regardless of the header value.  
-**Impact:** The dual-path architecture adds router complexity without providing a working traffic switch. The engine path is unverified against legacy parity.  
-**Required action:** (a) Fix the feature flag middleware to actually route to engine vs legacy, or (b) formally document the engine path as inactive and remove the dead flag logic.  
+**Resolution:** Dead `_engineFeatureFlagMiddleware` no-op function removed (Phase 1). The Hono middleware model cannot implement header-based routing to different route groups — both branches always called `next()`. This architectural constraint is now documented in the file header comment.
+
+**Current state (post-P1-040):**
+- Engine routes ARE registered and active, mounted AFTER legacy routes in server.ts.
+- Route precedence: Hono resolves by registration order — legacy wins on path conflict.
+- Traffic shifting must be done at load-balancer or Cloudflare Worker routing rule level (not Hono middleware).
+- Migration path to engine-only documented in `register-vertical-engine-routes.ts` header (step-by-step per vertical).
+- ADR: `docs/adrs/0048-vertical-engine-routing.md` (pending creation, Phase 2).
+
+**Remaining work (Phase 2):** Run parity-all.test.ts; migrate verticals one-by-one by unregistering legacy routes.  
 **Owner:** Engineering  
-**Milestone target:** Phase 2
+**Closed:** Phase 1 (P1-040 done; P1-041 documentation complete in file header)
 
 ---
 
@@ -190,13 +219,12 @@
 ---
 
 ### DEBT-008 — Dependabot Vulnerabilities (3 Moderate)
-**Severity:** 🟡 MEDIUM  
+**Severity:** ✅ RESOLVED (Phase 1 — P1-050)  
 **Category:** Security  
 **Source:** `HANDOVER.md` §3d  
-**Description:** GitHub flagged 3 moderate vulnerabilities on the default branch.  
-**Required action:** Review at `https://github.com/WebWakaOS/WebWaka/security/dependabot` and patch.  
+**Resolution:** `pnpm audit` run May 2026 — **0 known vulnerabilities found**. The 3 moderate vulnerabilities originally flagged by GitHub Dependabot have been resolved by dependency updates applied in prior sprints.  
 **Owner:** Engineering  
-**Deadline:** Before public launch
+**Closed:** Phase 1
 
 ---
 

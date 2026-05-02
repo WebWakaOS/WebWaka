@@ -5391,16 +5391,16 @@ export const REGISTRY: VerticalRegistry = {
     },
   },
 
-  'support-group': {
-    slug: 'support-group',
-    displayName: 'Support Group',
+  'group': {
+    slug: 'group',
+    displayName: 'Group',
     primaryPillar: 1,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'support_group_profiles',
+    milestone: 'M9',
+    maturity: 'stub',
+    tableName: 'groups',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Support Group' },
+      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Group' },
     ],
     createFields: ['displayName'],
     updateFields: ['displayName'],
@@ -5420,7 +5420,7 @@ export const REGISTRY: VerticalRegistry = {
       contextWindowTokens: 8192,
     },
     route: {
-      basePath: '/support-group',
+      basePath: '/group',
       entitlementLayer: 'Civic',
     },
   },
@@ -5820,8 +5820,8 @@ export function validateRegistryMaturity(): void {
   const stats = getRegistryStats();
   if (stats.missingMaturity.length > 0) {
     throw new Error(
-      \`Registry maturity validation failed. \${stats.missingMaturity.length} entries missing valid maturity \` +
-      \`('full'|'basic'|'stub'): \${stats.missingMaturity.join(', ')}\`,
+      `Registry maturity validation failed. ${stats.missingMaturity.length} entries missing valid maturity ` +
+      `('full'|'basic'|'stub'): ${stats.missingMaturity.join(', ')}`,
     );
   }
 }
