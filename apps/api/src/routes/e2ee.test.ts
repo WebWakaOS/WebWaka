@@ -85,7 +85,7 @@ describe('JWK validation logic', () => {
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
-      (c.env as Record<string, unknown>).DB = makeDb();
+      ((c.env as unknown) as Record<string, unknown>).DB = makeDb();
       await next();
     });
     app.route('/', e2eeRoutes);
@@ -107,7 +107,7 @@ describe('GET /profile/:id/e2e-pubkey', () => {
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
-      (c.env as Record<string, unknown>).DB = makeDb({ e2e_public_key: null, e2e_pubkey_updated_at: null });
+      ((c.env as unknown) as Record<string, unknown>).DB = makeDb({ e2e_public_key: null, e2e_pubkey_updated_at: null });
       await next();
     });
     app.route('/', e2eeRoutes);
@@ -122,7 +122,7 @@ describe('GET /profile/:id/e2e-pubkey', () => {
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
-      (c.env as Record<string, unknown>).DB = makeDb({
+      ((c.env as unknown) as Record<string, unknown>).DB = makeDb({
         e2e_public_key: JSON.stringify(VALID_P256_JWK),
         e2e_pubkey_updated_at: 1700000000,
       });
@@ -145,7 +145,7 @@ describe('DELETE /profile/e2e-pubkey', () => {
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
-      (c.env as Record<string, unknown>).DB = makeDb();
+      ((c.env as unknown) as Record<string, unknown>).DB = makeDb();
       await next();
     });
     app.route('/', e2eeRoutes);
