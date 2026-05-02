@@ -17,22 +17,30 @@
  *   return i18nError('not_found', locale);
  */
 
-import { ErrorCode, errorResponse } from './error-response.js';
+import { ErrorCode, ErrorCodeValue, errorResponse } from './error-response.js';
 import type { ApiErrorResponse } from './error-response.js';
 
-// Map ErrorCode values to i18n keys
-const ERROR_CODE_TO_I18N_KEY: Record<string, string> = {
-  [ErrorCode.BadRequest]: 'api_err_bad_request',
-  [ErrorCode.Unauthorized]: 'api_err_unauthorized',
-  [ErrorCode.Forbidden]: 'api_err_forbidden',
-  [ErrorCode.NotFound]: 'api_err_not_found',
-  [ErrorCode.Conflict]: 'api_err_conflict',
-  [ErrorCode.ValidationFailed]: 'api_err_validation_failed',
-  [ErrorCode.RateLimitExceeded]: 'api_err_rate_limit_exceeded',
-  [ErrorCode.PayloadTooLarge]: 'api_err_payload_too_large',
-  [ErrorCode.InternalError]: 'api_err_internal_error',
-  [ErrorCode.ServiceUnavailable]: 'api_err_service_unavailable',
-};
+// Map ErrorCode values to i18n keys — lazily evaluated to avoid SSR circular
+// module initialisation issues when this file is re-exported via a barrel that
+// also exports error-response.ts (Vite 8 + Vitest 1.x interop).
+let _ERROR_CODE_TO_I18N_KEY: Record<string, string> | undefined;
+function getErrorCodeMap(): Record<string, string> {
+  if (!_ERROR_CODE_TO_I18N_KEY) {
+    _ERROR_CODE_TO_I18N_KEY = {
+      [ErrorCode.BadRequest]: 'api_err_bad_request',
+      [ErrorCode.Unauthorized]: 'api_err_unauthorized',
+      [ErrorCode.Forbidden]: 'api_err_forbidden',
+      [ErrorCode.NotFound]: 'api_err_not_found',
+      [ErrorCode.Conflict]: 'api_err_conflict',
+      [ErrorCode.ValidationFailed]: 'api_err_validation_failed',
+      [ErrorCode.RateLimitExceeded]: 'api_err_rate_limit_exceeded',
+      [ErrorCode.PayloadTooLarge]: 'api_err_payload_too_large',
+      [ErrorCode.InternalError]: 'api_err_internal_error',
+      [ErrorCode.ServiceUnavailable]: 'api_err_service_unavailable',
+    };
+  }
+  return _ERROR_CODE_TO_I18N_KEY;
+}
 
 // Inline minimal translations for API error keys
 // (avoids a circular dep on @webwaka/i18n at this package level)
@@ -130,10 +138,10 @@ const API_ERROR_MESSAGES: Record<SupportedApiLocale, Record<ApiErrorKey, string>
  * Falls back to English if the locale or key is not found.
  */
 export function getLocalizedErrorMessage(
-  code: ErrorCode,
+  code: ErrorCodeValue,
   locale: SupportedApiLocale = 'en',
 ): string {
-  const i18nKey = ERROR_CODE_TO_I18N_KEY[code] as ApiErrorKey | undefined;
+  const i18nKey = getErrorCodeMap()[code] as ApiErrorKey | undefined;
   if (!i18nKey) {
     return API_ERROR_MESSAGES.en.api_err_internal_error;
   }
@@ -154,7 +162,7 @@ export function getLocalizedErrorMessage(
  * @param requestId - Optional correlation ID
  */
 export function i18nErrorResponse(
-  code: ErrorCode,
+  code: ErrorCodeValue,
   locale: SupportedApiLocale,
   message?: string,
   details?: unknown,
