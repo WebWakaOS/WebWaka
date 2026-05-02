@@ -26,6 +26,7 @@ import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 import { PilotFeedbackService, PilotOperatorService, PilotFlagService } from '@webwaka/pilot';
 import type { PilotFeedbackType } from '@webwaka/pilot';
+import { createControlPlane } from '@webwaka/control-plane';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
@@ -92,8 +93,11 @@ export function pilotFeedbackRoute() {
 
   // ─── GET /workspace/pilot-flags/:flagName ─────────────────────────────────
   // FE-PILOT-01: Frontend flag check — returns { enabled: boolean }
-  // Reads feature flag from KV (feature_flag:<tenantId>:<flagName>).
-  // Falls back to pilot_feature_flags table if KV miss.
+  //
+  // Resolution order (delegated to PilotFlagService bridge):
+  //   1. pilot_feature_flags table (per-tenant explicit override)
+  //   2. Control-plane FlagService (platform configuration + KV cache)
+  //   3. false (safe default)
   app.get('/flags/:flagName', async (c) => {
     const auth = c.get('auth');
     const flagName = c.req.param('flagName');
@@ -103,17 +107,10 @@ export function pilotFeedbackRoute() {
     }
 
     try {
-      // 1. Try KV first (fast path)
-      const kvKey = `feature_flag:${auth.tenantId}:${flagName}`;
-      const kvVal = await (c.env as Record<string, unknown> & { FEATURE_FLAGS?: KVNamespace }).FEATURE_FLAGS?.get(kvKey);
-      if (kvVal !== null && kvVal !== undefined) {
-        return c.json({ enabled: kvVal === '1' });
-      }
-
-      // 2. Fall back to D1 pilot_feature_flags table
-      const flagSvc = new PilotFlagService(c.env.DB);
-      const flag = await flagSvc.getFlag(auth.tenantId, flagName).catch(() => null);
-      return c.json({ enabled: flag?.enabled === true });
+      const cp = createControlPlane(c.env.DB, c.env.KV);
+      const flagSvc = new PilotFlagService(c.env.DB, cp.flags);
+      const enabled = await flagSvc.isEnabled(auth.tenantId, flagName);
+      return c.json({ enabled });
     } catch {
       return c.json({ enabled: false });
     }

@@ -2,12 +2,18 @@
  * @webwaka/pilot — PilotFlagService
  *
  * Per-tenant feature flag overrides for pilot operators.
- * Complements the global KV wallet flags with DB-backed, per-tenant pilot gates.
+ * Bridges with the control-plane FlagService for a unified resolution chain.
  *
- * Resolution order:
- *   1. pilot_feature_flags table (per-tenant override, highest priority)
- *   2. Global KV flags (platform-wide default)
+ * Resolution order for isEnabled():
+ *   1. pilot_feature_flags table (per-tenant explicit override — highest priority)
+ *      • enabled = 1 and not expired → true
+ *      • enabled = 0 (or expired)    → false  (explicit disable; no fall-through)
+ *   2. Control-plane FlagService (platform configuration; resolves via DB + KV cache)
+ *      • resolve(flagCode, { tenantId }) returns 'true' / true  → true
+ *      • resolve(flagCode, { tenantId }) returns anything else  → false
  *   3. Hardcoded default = false (safest fallback)
+ *
+ * Write operations (grant / revoke) always target pilot_feature_flags directly.
  *
  * To grant a flag:   flagService.grant({ tenant_id, flag_name, reason, granted_by })
  * To check a flag:   flagService.isEnabled(tenant_id, 'ai_chat_beta')
@@ -26,8 +32,22 @@ interface D1Like {
   };
 }
 
+/**
+ * Minimal structural interface satisfied by control-plane FlagService.
+ * No import from @webwaka/control-plane required — structural compatibility only.
+ */
+export interface FlagServiceLike {
+  resolve(
+    flagCode: string,
+    ctx: { tenantId?: string; partnerId?: string; workspaceId?: string; planSlug?: string; environment?: string },
+  ): Promise<boolean | string>;
+}
+
 export class PilotFlagService {
-  constructor(private readonly db: D1Like) {}
+  constructor(
+    private readonly db: D1Like,
+    private readonly flagService?: FlagServiceLike,
+  ) {}
 
   async grant(input: EnrollPilotFlagInput): Promise<void> {
     const now = new Date().toISOString();
@@ -71,17 +91,53 @@ export class PilotFlagService {
 
   async isEnabled(tenantId: string, flagName: string): Promise<boolean> {
     const now = new Date().toISOString();
+
+    // ── Step 1: per-tenant explicit override ──────────────────────────────
+    // Query without the enabled filter so we can distinguish "no row" from
+    // "row exists but explicitly disabled".
     const row = await this.db
       .prepare(
         `SELECT enabled, expires_at
          FROM pilot_feature_flags
-         WHERE tenant_id = ? AND flag_name = ?
-           AND (expires_at IS NULL OR expires_at > ?)`,
+         WHERE tenant_id = ? AND flag_name = ?`,
       )
-      .bind(tenantId, flagName, now)
+      .bind(tenantId, flagName)
       .first<{ enabled: number; expires_at: string | null }>();
 
-    return row?.enabled === 1;
+    if (row !== null) {
+      // Row exists — respect it regardless of enabled value.
+      // An expired grant is treated the same as enabled = 0.
+      const notExpired = row.expires_at === null || row.expires_at > now;
+      return row.enabled === 1 && notExpired;
+    }
+
+    // ── Step 2: control-plane FlagService (platform-wide configuration) ───
+    if (this.flagService) {
+      try {
+        const val = await this.flagService.resolve(flagName, { tenantId });
+        return val === true || val === 'true';
+      } catch {
+        // FlagService unavailable — fall through to default
+      }
+    }
+
+    // ── Step 3: safe default ──────────────────────────────────────────────
+    return false;
+  }
+
+  /**
+   * Returns the raw pilot_feature_flags row for a tenant+flag, or null if
+   * no row exists. Does not apply bridge resolution — use isEnabled() for
+   * gate checks.
+   */
+  async getFlag(tenantId: string, flagName: string): Promise<PilotFeatureFlag | null> {
+    return this.db
+      .prepare(
+        `SELECT * FROM pilot_feature_flags
+         WHERE tenant_id = ? AND flag_name = ?`,
+      )
+      .bind(tenantId, flagName)
+      .first<PilotFeatureFlag>();
   }
 
   async listForTenant(tenantId: string): Promise<PilotFeatureFlag[]> {

@@ -253,9 +253,39 @@ Seeds two flags into `configuration_flags` (dashboard-editable, no redeploy requ
 
 **TypeScript:** Zero errors in `@webwaka/control-plane` (including 4 pre-existing `PaginatedResult` errors fixed). Zero new errors in `@webwaka/api`.
 
-## 11. Next Steps (Batch 4+)
+## 11. PilotFlagService → FlagService Bridge (Completed)
 
-- [ ] `PilotFlagService` → delegate to `FlagService` (keep existing table as source-of-truth, add bridge)  
+**Problem solved:** `PilotFlagService.isEnabled()` previously had no connection to the control-plane flag system. Additionally, `pilot-feedback-route.ts` called a non-existent `flagSvc.getFlag()` method (silent bug — caught by `.catch(() => null)` so never surfaced at runtime).
+
+**Files changed:**
+
+| File | Change |
+|---|---|
+| `packages/pilot/src/pilot-flag-service.ts` | Added `FlagServiceLike` structural interface; updated constructor to accept optional `flagService?`; rewrote `isEnabled()` with 3-step bridge; added `getFlag()` method |
+| `packages/pilot/src/tests/pilot-flag-service.test.ts` | 11 new tests (bridge behaviour + getFlag); stub `run()` now tracks actual `changes` count per operation |
+| `apps/api/src/routes/pilot-feedback-route.ts` | Replaced broken KV+getFlag pattern with `createControlPlane(db, kv).flags` passed into `PilotFlagService`; now calls `isEnabled()` |
+| `apps/api/src/routes/platform-admin-pilots.ts` | All `PilotFlagService` construction sites pass `createControlPlane(db, kv).flags` as bridge |
+
+**Resolution order for `isEnabled(tenantId, flagName)`:**
+
+| Priority | Source | Behaviour |
+|---|---|---|
+| 1 | `pilot_feature_flags` (per-tenant) | Row found with `enabled = 1` and not expired → `true`; row found with `enabled = 0` or expired → `false` (no fall-through) |
+| 2 | `FlagService.resolve(flagCode, { tenantId })` | Called only when no pilot row exists; `'true'` / `true` → `true`; anything else → `false` |
+| 3 | Default | `false` |
+
+**`FlagServiceLike` interface** — structural, not a named import from `@webwaka/control-plane`. Avoids adding a package dependency to `@webwaka/pilot`. The interface is satisfied by `FlagService` at the call site.
+
+**`getFlag(tenantId, flagName)`** — new method; returns raw `PilotFeatureFlag | null` from `pilot_feature_flags` without bridge resolution. Use for admin reads; use `isEnabled()` for gate checks.
+
+**Bugs fixed:**
+- `pilot-feedback-route.ts` called `flagSvc.getFlag()` which did not exist on `PilotFlagService` (TypeError swallowed by `.catch`); the route now calls `isEnabled()` through the bridge
+- Stub `run()` returned hardcoded `changes: 1` — now returns the actual count
+
+**Tests:** 18/18 pilot-flag-service tests pass (7 original + 11 new). 2,560/2,560 API tests pass.
+
+## 12. Next Steps (Batch 5+)
+
 - [ ] E2E tests: create package → bind entitlements → resolve for workspace  
 - [ ] Paystack plan code sync: when package pricing is set, sync `paystack_plan_code` to Paystack API  
 - [ ] Partner admin dashboard: scoped view of plans/flags/groups for partner-level admins  

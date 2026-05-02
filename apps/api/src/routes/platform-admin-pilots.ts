@@ -44,6 +44,7 @@ import {
   PilotFeedbackService,
 } from '@webwaka/pilot';
 import type { PilotOperatorStatus, CreatePilotOperatorInput } from '@webwaka/pilot';
+import { createControlPlane } from '@webwaka/control-plane';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
 
@@ -142,7 +143,8 @@ export function pilotAdminRoutes() {
       return c.json({ error: 'tenant_id and flag_name are required', code: 'INVALID_INPUT' }, 422);
     }
 
-    const svc = new PilotFlagService(c.env.DB);
+    const cp = createControlPlane(c.env.DB, c.env.KV);
+    const svc = new PilotFlagService(c.env.DB, cp.flags);
     await svc.grant({
       tenant_id: body.tenant_id,
       flag_name: body.flag_name,
@@ -159,14 +161,16 @@ export function pilotAdminRoutes() {
     const tenantId = c.req.param('tenantId');
     const flagName = c.req.param('flagName');
 
-    const svc = new PilotFlagService(c.env.DB);
+    const cp = createControlPlane(c.env.DB, c.env.KV);
+    const svc = new PilotFlagService(c.env.DB, cp.flags);
     await svc.revoke(tenantId, flagName);
     return c.json({ ok: true, tenant_id: tenantId, flag_name: flagName });
   });
 
   app.get('/flags/:tenantId', async (c) => {
     const tenantId = c.req.param('tenantId');
-    const svc = new PilotFlagService(c.env.DB);
+    const cp = createControlPlane(c.env.DB, c.env.KV);
+    const svc = new PilotFlagService(c.env.DB, cp.flags);
     const flags = await svc.listForTenant(tenantId);
     return c.json({ flags, tenant_id: tenantId });
   });
