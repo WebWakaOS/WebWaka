@@ -112,11 +112,11 @@
 ## C. PERFORMANCE, QA & OBSERVABILITY
 
 ### C1. Test Coverage & Regression Prevention
-- [ ] C1-1: Add Vitest coverage report to CI — run `pnpm test --coverage` and fail if line coverage drops below 70% on `packages/superagent`, `packages/ai-abstraction`, `packages/vertical-engine`
-- [ ] C1-2: Add regression test gate: new `tests/regression/` directory with tests that encode every CRITICAL/HIGH issue from `PRODUCTION_READINESS_BACKLOG.md` — ensures fixed bugs cannot re-emerge
-- [ ] C1-3: Add mutation testing baseline for `packages/superagent/src/credit-burn.ts` and `packages/superagent/src/spend-controls.ts` — financial logic must be mutation-resilient
-- [ ] C1-4: Add contract tests for all external AI provider adapters (`packages/ai-adapters`) — mock HTTP server that validates request shape matches provider spec
-- [ ] C1-5: Add test for every governance check in `scripts/governance-checks/` — verify each check correctly catches a known violation (currently governance checks run but aren't themselves tested)
+- [x] C1-1: Add Vitest coverage report to CI — run `pnpm test --coverage` and fail if line coverage drops below 70% on `packages/superagent`, `packages/ai-abstraction`, `packages/vertical-engine`
+- [x] C1-2: Add regression test gate: new `tests/regression/` directory with tests that encode every CRITICAL/HIGH issue from `PRODUCTION_READINESS_BACKLOG.md` — ensures fixed bugs cannot re-emerge
+- [x] C1-3: Add mutation testing baseline for `packages/superagent/src/credit-burn.ts` and `packages/superagent/src/spend-controls.ts` — financial logic must be mutation-resilient
+- [x] C1-4: Add contract tests for all external AI provider adapters (`packages/ai-adapters`) — mock HTTP server that validates request shape matches provider spec
+- [x] C1-5: Add test for every governance check in `scripts/governance-checks/` — verify each check correctly catches a known violation (currently governance checks run but aren't themselves tested)
 
 ### C2. API Resilience & Performance
 - [x] C2-1: Add retry middleware to all outbound AI provider calls in `packages/ai-adapters` — exponential backoff with jitter, max 3 retries, provider-specific error classification (rate limit vs server error)
