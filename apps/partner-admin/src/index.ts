@@ -416,10 +416,68 @@ app.get('/', (c) => {
       <div id="subPartnersData" class="api-note"></div>
     </div>
 
+
+    <!-- ─── E1-4: White-Label Branding Controls ─────────────────────────── -->
+    <div id="brandingPanel" style="display:none;margin-top:1.5rem">
+      <p class="section-title">White-Label Branding</p>
+      <p style="color:var(--muted);font-size:0.875rem;margin-bottom:1rem">Customise your partner instance: logo, primary colour, and custom domain.</p>
+      <form id="brandingForm" onsubmit="saveBranding(event)" style="display:flex;flex-direction:column;gap:0.875rem;max-width:480px">
+        <label style="font-size:0.8125rem;font-weight:600;color:var(--text)">
+          Logo URL
+          <input id="brandLogoUrl" type="url" placeholder="https://cdn.example.com/logo.png"
+            style="margin-top:4px;display:block;width:100%;background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem" />
+        </label>
+        <label style="font-size:0.8125rem;font-weight:600;color:var(--text)">
+          Primary Colour
+          <div style="display:flex;gap:0.5rem;align-items:center;margin-top:4px">
+            <input id="brandColorPicker" type="color" value="#0F4C81" onchange="document.getElementById('brandColorHex').value=this.value"
+              style="height:38px;width:48px;border:none;background:none;cursor:pointer;padding:0" />
+            <input id="brandColorHex" type="text" value="#0F4C81" placeholder="#0F4C81" maxlength="7"
+              oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/))document.getElementById('brandColorPicker').value=this.value"
+              style="flex:1;background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem" />
+          </div>
+        </label>
+        <label style="font-size:0.8125rem;font-weight:600;color:var(--text)">
+          Custom Domain <span style="font-weight:400;color:var(--muted)">(optional)</span>
+          <input id="brandDomain" type="text" placeholder="admin.yourcompany.com"
+            style="margin-top:4px;display:block;width:100%;background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem" />
+        </label>
+        <label style="font-size:0.8125rem;font-weight:600;color:var(--text)">
+          Support Email <span style="font-weight:400;color:var(--muted)">(shown on sub-tenant dashboards)</span>
+          <input id="brandSupportEmail" type="email" placeholder="support@yourcompany.com"
+            style="margin-top:4px;display:block;width:100%;background:#0a0f1e;border:1px solid var(--border);color:var(--text);padding:0.6rem 0.8rem;border-radius:6px;font-size:0.85rem" />
+        </label>
+        <div style="display:flex;gap:0.75rem;margin-top:0.25rem">
+          <button type="submit"
+            style="background:#0F4C81;color:#fff;border:none;padding:0.6rem 1.5rem;border-radius:6px;font-size:0.875rem;cursor:pointer;font-weight:600">
+            Save Branding
+          </button>
+          <button type="button" onclick="loadBranding()"
+            style="background:transparent;color:var(--muted);border:1px solid var(--border);padding:0.6rem 1.25rem;border-radius:6px;font-size:0.875rem;cursor:pointer">
+            Reload
+          </button>
+        </div>
+        <div id="brandingStatus" style="font-size:0.8125rem;min-height:1.2rem;color:var(--green)"></div>
+      </form>
+    </div>
+
+    <!-- ─── E1-7: Onboarding Wizard ───────────────────────────────────────── -->
+    <div id="onboardingWizard" style="display:none;margin-top:1.5rem">
+      <p class="section-title">Partner Onboarding</p>
+      <p style="color:var(--muted);font-size:0.875rem;margin-bottom:1.25rem">Complete these steps to finish setting up your partner account.</p>
+      <div id="onboardingSteps" style="display:flex;flex-direction:column;gap:0.75rem;max-width:520px">
+        <!-- Steps injected by JS -->
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.75rem">
+        <button id="onboardPrevBtn" onclick="onboardNav(-1)" style="display:none;background:transparent;color:var(--muted);border:1px solid var(--border);padding:0.5rem 1.25rem;border-radius:6px;font-size:0.875rem;cursor:pointer">&larr; Back</button>
+        <button id="onboardNextBtn" onclick="onboardNav(1)" style="background:#0F4C81;color:#fff;border:none;padding:0.5rem 1.5rem;border-radius:6px;font-size:0.875rem;cursor:pointer;font-weight:600">Next &rarr;</button>
+      </div>
+    </div>
+
   </main>
 
   <footer>
-    WebWaka OS &mdash; Partner Admin &mdash; Milestone 11 — Phase 3 &mdash; 2026-04-13
+    WebWaka OS &mdash; Partner Admin &mdash; Milestone 11 &mdash; Phase 3 &mdash; 2026-04-13
   </footer>
 
   <script>
@@ -639,6 +697,79 @@ app.get('/', (c) => {
         el.innerHTML = '<span style="color:#ef4444">Request failed: ' + e.message + '</span>';
       }
     }
+
+    // ─── E1-4: Branding Controls ─────────────────────────────────────────
+    async function loadBranding() {
+      if (!_base || !_pid) return;
+      try {
+        const r = await fetch(_base + '/partners/' + _pid + '/branding', { headers: authHeaders() });
+        if (!r.ok) return;
+        const d = await r.json();
+        if (d.logo_url)       document.getElementById('brandLogoUrl').value       = d.logo_url;
+        if (d.primary_color)  { document.getElementById('brandColorHex').value    = d.primary_color; document.getElementById('brandColorPicker').value = d.primary_color; }
+        if (d.custom_domain)  document.getElementById('brandDomain').value        = d.custom_domain;
+        if (d.support_email)  document.getElementById('brandSupportEmail').value  = d.support_email;
+      } catch {}
+    }
+
+    async function saveBranding(e) {
+      e.preventDefault();
+      const statusEl = document.getElementById('brandingStatus');
+      statusEl.textContent = 'Saving…';
+      try {
+        const body = {
+          logo_url:      document.getElementById('brandLogoUrl').value.trim() || null,
+          primary_color: document.getElementById('brandColorHex').value.trim() || '#0F4C81',
+          custom_domain: document.getElementById('brandDomain').value.trim() || null,
+          support_email: document.getElementById('brandSupportEmail').value.trim() || null,
+        };
+        const r = await fetch(_base + '/partners/' + _pid + '/branding', {
+          method: 'PATCH', headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (r.ok) { statusEl.textContent = '✓ Branding saved'; setTimeout(() => { statusEl.textContent = ''; }, 3000); }
+        else { statusEl.style.color = '#ef4444'; statusEl.textContent = 'Save failed (' + r.status + ')'; }
+      } catch (err) { statusEl.style.color = '#ef4444'; statusEl.textContent = 'Network error'; }
+    }
+
+    // ─── E1-7: Onboarding Wizard ─────────────────────────────────────────
+    const ONBOARD_STEPS = [
+      { id: 'profile',   title: 'Set Up Your Profile',    desc: 'Add your organisation name, logo URL, and support email in the Branding tab.' },
+      { id: 'branding',  title: 'Customise Branding',     desc: 'Set your primary colour and optional custom domain so sub-tenants see your brand.' },
+      { id: 'sub',       title: 'Invite Sub-Partners',    desc: 'Use the Sub-Partners panel to create your first white-label tenant.' },
+      { id: 'credits',   title: 'Load WakaCU Credits',    desc: 'Purchase and allocate credits to sub-tenants via the Credits panel.' },
+      { id: 'done',      title: 'All Done! 🎉',           desc: 'Your partner account is ready. Explore the dashboard and grow your network.' },
+    ];
+    let _onboardStep = 0;
+
+    function renderOnboardingSteps() {
+      const container = document.getElementById('onboardingSteps');
+      container.innerHTML = ONBOARD_STEPS.map((s, i) => {
+        const isActive  = i === _onboardStep;
+        const isDone    = i < _onboardStep;
+        return '<div style="display:flex;gap:0.875rem;align-items:flex-start;padding:0.875rem 1rem;border-radius:8px;border:1.5px solid ' +
+          (isActive ? '#0F4C81' : (isDone ? '#1a6b3a33' : 'var(--border)')) +
+          ';background:' + (isActive ? '#0F4C8115' : (isDone ? '#1a6b3a0a' : '#0a0f1e')) + '">' +
+          '<span style="font-size:1.25rem;min-width:28px">' + (isDone ? '✅' : (isActive ? '▶️' : '⬜')) + '</span>' +
+          '<div><strong style="font-size:0.9375rem;color:' + (isActive ? 'var(--text)' : 'var(--muted)') + '">' + s.title + '</strong>' +
+          '<p style="font-size:0.8125rem;color:var(--muted);margin-top:2px">' + s.desc + '</p></div></div>';
+      }).join('');
+      document.getElementById('onboardPrevBtn').style.display = _onboardStep > 0 ? 'inline-block' : 'none';
+      const nextBtn = document.getElementById('onboardNextBtn');
+      if (_onboardStep >= ONBOARD_STEPS.length - 1) { nextBtn.textContent = 'Finish'; nextBtn.onclick = () => { document.getElementById('onboardingWizard').style.display = 'none'; }; }
+      else { nextBtn.textContent = 'Next →'; nextBtn.onclick = () => onboardNav(1); }
+    }
+
+    function onboardNav(dir) {
+      _onboardStep = Math.max(0, Math.min(ONBOARD_STEPS.length - 1, _onboardStep + dir));
+      renderOnboardingSteps();
+    }
+
+    function showOnboarding() {
+      _onboardStep = 0;
+      renderOnboardingSteps();
+      document.getElementById('onboardingWizard').style.display = 'block';
+    }
   </script>
 </body>
 </html>`;
@@ -776,6 +907,50 @@ app.get('/api/credits', async (c) => {
     currency: pool?.currency ?? 'WC',
     computedAt: Math.floor(Date.now() / 1000),
   });
+});
+
+// ─── E1-4: Branding API ──────────────────────────────────────────────────────
+// GET  /partners/:id/branding  — fetch current branding config
+// PATCH /partners/:id/branding — save branding config
+
+app.get('/partners/:id/branding', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.param('id'));
+  if (!auth.ok) return c.json({ error: 'Unauthorized' }, auth.status);
+  const pid = c.req.param('id');
+  try {
+    const row = await c.env.DB
+      ?.prepare('SELECT logo_url, primary_color, custom_domain, support_email FROM partner_branding WHERE partner_id = ? LIMIT 1')
+      .bind(pid)
+      .first<{ logo_url: string | null; primary_color: string | null; custom_domain: string | null; support_email: string | null }>();
+    return c.json(row ?? { logo_url: null, primary_color: '#0F4C81', custom_domain: null, support_email: null });
+  } catch {
+    return c.json({ logo_url: null, primary_color: '#0F4C81', custom_domain: null, support_email: null });
+  }
+});
+
+app.patch('/partners/:id/branding', async (c) => {
+  const auth = requirePartnerAuth(c.req.header('Authorization'), c.req.param('id'));
+  if (!auth.ok) return c.json({ error: 'Unauthorized' }, auth.status);
+  const pid = c.req.param('id');
+  const body = await c.req.json<{ logo_url?: string | null; primary_color?: string; custom_domain?: string | null; support_email?: string | null }>();
+  try {
+    await c.env.DB
+      ?.prepare(
+        `INSERT INTO partner_branding (partner_id, logo_url, primary_color, custom_domain, support_email, updated_at)
+         VALUES (?, ?, ?, ?, ?, datetime('now'))
+         ON CONFLICT(partner_id) DO UPDATE SET
+           logo_url      = excluded.logo_url,
+           primary_color = excluded.primary_color,
+           custom_domain = excluded.custom_domain,
+           support_email = excluded.support_email,
+           updated_at    = excluded.updated_at`,
+      )
+      .bind(pid, body.logo_url ?? null, body.primary_color ?? '#0F4C81', body.custom_domain ?? null, body.support_email ?? null)
+      .run();
+    return c.json({ ok: true });
+  } catch (err) {
+    return c.json({ error: String(err) }, 500);
+  }
 });
 
 export default app;
