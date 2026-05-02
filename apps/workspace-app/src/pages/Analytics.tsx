@@ -224,7 +224,16 @@ export default function Analytics() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: 80, color: '#9ca3af' }}>Loading analytics…</div>
+        <div>
+          {/* B3 skeleton shimmer */}
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 28 }}>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} style={{ flex: 1, minWidth: 160, height: 90, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', borderRadius: 12, animation: 'shimmer 1.4s infinite' }} />
+            ))}
+          </div>
+          <div style={{ height: 200, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', borderRadius: 12, marginBottom: 24, animation: 'shimmer 1.4s infinite' }} />
+          <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+        </div>
       ) : (
         <>
           {/* Summary cards */}
