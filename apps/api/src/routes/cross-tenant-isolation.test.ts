@@ -144,7 +144,7 @@ function makeApp(tenantId: string, workspaceId: string): Hono {
 const appA = makeApp(TENANT_A, WORKSPACE_A);
 const appB = makeApp(TENANT_B, WORKSPACE_B);
 
-beforeEach(() => vi.clearAllMocks());
+beforeEach(() => { vi.clearAllMocks(); });
 
 // ---------------------------------------------------------------------------
 // 1. GET /:id cross-tenant → 404 (not 403)
