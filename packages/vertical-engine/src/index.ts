@@ -34,3 +34,7 @@ export { getRegistry, getVerticalConfig, listSlugs, getRegistryStats } from './r
 
 // Generators
 export { generateRoutes } from './generators/route-generator.js';
+
+// Wave 3 additions
+export { REGISTRY } from './registry.js';
+export { generateAllRoutes } from './generators/route-generator.js';
