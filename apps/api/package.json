@@ -24,6 +24,7 @@
     "@webwaka/analytics": "workspace:*",
     "@webwaka/auth": "workspace:*",
     "@webwaka/cases": "workspace:*",
+    "@webwaka/control-plane": "workspace:*",
     "@webwaka/claims": "workspace:*",
     "@webwaka/community": "workspace:*",
     "@webwaka/contact": "workspace:*",

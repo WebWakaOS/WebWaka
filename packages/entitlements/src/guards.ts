@@ -4,11 +4,45 @@
  *
  * Use guards in route handlers and service layer functions.
  * Use evaluate* functions in UI and telemetry contexts where you need the decision without throwing.
+ *
+ * DB-aware overloads (T006 — Entitlement Compatibility Bridge):
+ * Every plan-reading guard accepts an optional `resolvedEntitlements` parameter.
+ * When provided (from EntitlementEngine.resolveForWorkspace()), DB values take
+ * precedence over the static PLAN_CONFIGS fallback. Existing callers without
+ * the parameter continue to work unchanged — zero breaking changes.
  */
 
 import type { PlatformLayer, EntitlementContext } from '@webwaka/types';
 import { SubscriptionStatus } from '@webwaka/types';
 import { PLAN_CONFIGS } from './plan-config.js';
+import type { ResolvedEntitlements } from './evaluate.js';
+
+// ---------------------------------------------------------------------------
+// Internal config resolver — mirrors evaluate.ts without circular import
+// Priority: DB-resolved overrides → PLAN_CONFIGS[plan] → PLAN_CONFIGS.free
+// ---------------------------------------------------------------------------
+
+function resolveConfigFor(plan: string, resolved?: ResolvedEntitlements) {
+  const base = (PLAN_CONFIGS as Record<string, typeof PLAN_CONFIGS.free>)[plan] ?? PLAN_CONFIGS.free;
+  if (!resolved) return base;
+
+  return {
+    ...base,
+    ...(resolved.maxUsers          !== undefined && { maxUsers:          resolved.maxUsers }),
+    ...(resolved.maxPlaces         !== undefined && { maxPlaces:         resolved.maxPlaces }),
+    ...(resolved.maxOfferings      !== undefined && { maxOfferings:      resolved.maxOfferings }),
+    ...(resolved.layers            !== undefined && { layers:            resolved.layers }),
+    ...(resolved.brandingRights    !== undefined && { brandingRights:    resolved.brandingRights }),
+    ...(resolved.whiteLabelDepth   !== undefined && { whiteLabelDepth:   resolved.whiteLabelDepth }),
+    ...(resolved.delegationRights  !== undefined && { delegationRights:  resolved.delegationRights }),
+    ...(resolved.aiRights          !== undefined && { aiRights:          resolved.aiRights }),
+    ...(resolved.sensitiveSectorRights !== undefined && { sensitiveSectorRights: resolved.sensitiveSectorRights }),
+    ...(resolved.wakaPagePublicPage !== undefined && { wakaPagePublicPage: resolved.wakaPagePublicPage }),
+    ...(resolved.wakaPageAnalytics  !== undefined && { wakaPageAnalytics:  resolved.wakaPageAnalytics }),
+    ...(resolved.groupsEnabled      !== undefined && { groupsEnabled:      resolved.groupsEnabled }),
+    ...(resolved.valueMovementEnabled !== undefined && { valueMovementEnabled: resolved.valueMovementEnabled }),
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Entitlement error
@@ -30,6 +64,11 @@ export class EntitlementError extends Error {
 /**
  * Guard: workspace subscription must include the requested platform layer.
  * Platform Invariant T5.
+ *
+ * Note: this guard reads `ctx.activeLayers` (already resolved by the middleware
+ * that built the EntitlementContext), so it does NOT need resolvedEntitlements.
+ * For DB-first layer evaluation, pass the resolved layers into EntitlementContext
+ * before calling this guard.
  */
 export function requireLayerAccess(
   ctx: EntitlementContext,
@@ -54,9 +93,16 @@ export function requireLayerAccess(
 
 /**
  * Guard: workspace subscription must include branding rights.
+ *
+ * @param ctx - Entitlement context (subscriptionPlan, subscriptionStatus, activeLayers).
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
+ *   When provided, `brandingRights` from the DB takes precedence over PLAN_CONFIGS.
  */
-export function requireBrandingRights(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireBrandingRights(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.brandingRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include branding rights. Upgrade to Starter or above.`,
@@ -66,9 +112,15 @@ export function requireBrandingRights(ctx: EntitlementContext): void {
 
 /**
  * Guard: workspace must have delegation rights (create partner sub-workspaces).
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function requireDelegationRights(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireDelegationRights(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.delegationRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include delegation rights. Enterprise plan required.`,
@@ -78,9 +130,15 @@ export function requireDelegationRights(ctx: EntitlementContext): void {
 
 /**
  * Guard: workspace must have AI rights.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function requireAIAccess(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireAIAccess(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.aiRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include AI access. Upgrade to Growth or above.`,
@@ -91,9 +149,15 @@ export function requireAIAccess(ctx: EntitlementContext): void {
 /**
  * Guard: workspace must have sensitive-sector rights.
  * Required for political, medical, and other regulated verticals.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function requireSensitiveSectorAccess(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireSensitiveSectorAccess(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.sensitiveSectorRights) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include sensitive sector access. Enterprise plan required.`,
@@ -106,9 +170,15 @@ export function requireSensitiveSectorAccess(ctx: EntitlementContext): void {
  * Required to activate a WakaPage smart profile page.
  * Available from: starter and above.
  * (ADR-0041 — WakaPage Phase 0 entitlement decision)
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function requireWakaPageAccess(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireWakaPageAccess(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.wakaPagePublicPage) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include WakaPage. Upgrade to Starter or above.`,
@@ -119,9 +189,15 @@ export function requireWakaPageAccess(ctx: EntitlementContext): void {
 /**
  * Evaluate (non-throwing) whether the workspace has WakaPage public page rights.
  * Use in UI and telemetry contexts where you need the decision without throwing.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function evaluateWakaPageAccess(ctx: EntitlementContext): boolean {
-  return PLAN_CONFIGS[ctx.subscriptionPlan].wakaPagePublicPage;
+export function evaluateWakaPageAccess(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): boolean {
+  return resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements).wakaPagePublicPage;
 }
 
 /**
@@ -129,9 +205,15 @@ export function evaluateWakaPageAccess(ctx: EntitlementContext): boolean {
  * Required to access the WakaPage analytics dashboard.
  * Available from: growth and above.
  * (ADR-0041 — WakaPage Phase 0 entitlement decision)
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function requireWakaPageAnalytics(ctx: EntitlementContext): void {
-  const config = PLAN_CONFIGS[ctx.subscriptionPlan];
+export function requireWakaPageAnalytics(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
   if (!config.wakaPageAnalytics) {
     throw new EntitlementError(
       `Access denied: plan '${ctx.subscriptionPlan}' does not include WakaPage Analytics. Upgrade to Growth or above.`,
@@ -141,9 +223,15 @@ export function requireWakaPageAnalytics(ctx: EntitlementContext): void {
 
 /**
  * Evaluate (non-throwing) whether the workspace has WakaPage analytics rights.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
  */
-export function evaluateWakaPageAnalytics(ctx: EntitlementContext): boolean {
-  return PLAN_CONFIGS[ctx.subscriptionPlan].wakaPageAnalytics;
+export function evaluateWakaPageAnalytics(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): boolean {
+  return resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements).wakaPageAnalytics;
 }
 
 /**
@@ -157,6 +245,9 @@ export function evaluateWakaPageAnalytics(ctx: EntitlementContext): boolean {
  *
  * Phase 1: HandyLife-only (tenant_id = 'handylife').
  * Phase 2+: Additional tenants added via PATCH /platform-admin/wallets/feature-flags.
+ *
+ * Note: wallet eligibility is tenant-allowlist-based (not plan-based), so it
+ * does NOT use resolvedEntitlements.
  */
 export function requireWalletEntitlement(
   ctx: EntitlementContext,
@@ -178,4 +269,66 @@ export function requireWalletEntitlement(
       'Wallet access denied: your account is not yet eligible for HandyLife Wallet.',
     );
   }
+}
+
+/**
+ * Guard: workspace must have groups enabled.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
+ */
+export function requireGroupsEnabled(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
+  if (!config.groupsEnabled) {
+    throw new EntitlementError(
+      `Access denied: plan '${ctx.subscriptionPlan}' does not include Groups. Upgrade to Starter or above.`,
+    );
+  }
+}
+
+/**
+ * Evaluate (non-throwing) whether the workspace has groups enabled.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
+ */
+export function evaluateGroupsEnabled(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): boolean {
+  return resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements).groupsEnabled;
+}
+
+/**
+ * Guard: workspace must have value movement (fundraising/campaigns) enabled.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
+ */
+export function requireValueMovement(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): void {
+  const config = resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements);
+  if (!config.valueMovementEnabled) {
+    throw new EntitlementError(
+      `Access denied: plan '${ctx.subscriptionPlan}' does not include Value Movement. Upgrade to Starter or above.`,
+    );
+  }
+}
+
+/**
+ * Evaluate (non-throwing) whether the workspace has value movement enabled.
+ *
+ * @param ctx - Entitlement context.
+ * @param resolvedEntitlements - Optional DB-resolved entitlements from EntitlementEngine.
+ */
+export function evaluateValueMovement(
+  ctx: EntitlementContext,
+  resolvedEntitlements?: ResolvedEntitlements,
+): boolean {
+  return resolveConfigFor(ctx.subscriptionPlan, resolvedEntitlements).valueMovementEnabled;
 }

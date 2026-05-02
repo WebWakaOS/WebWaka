@@ -57,6 +57,14 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **Public API Versioning**: Global `X-API-Version: 1` header, and a `/developer` endpoint providing API metadata, capabilities, and changelog.
 - **Webhook SDK**: TypeScript event payload types for all webhook events to facilitate integration.
 
+### Dynamic Configurability & Delegated Governance (2026-05-02)
+- **`@webwaka/control-plane`** package (`packages/control-plane/`): 6 runtime services (PlanCatalogService, EntitlementEngine, PermissionResolver, FlagService, DelegationGuard, AuditService) backed by 20 new D1 tables.
+- **Migrations 0464–0471**: 8 migration pairs (forward + rollback) covering subscription_packages, billing_intervals, package_pricing, entitlement_definitions, package_entitlement_bindings, workspace_entitlement_overrides, custom_roles, permission_definitions, role_permission_bindings, user_groups, group_memberships, admin_delegation_policies, configuration_flags, configuration_overrides, governance_audit_log, plus seed data translating all 7 hardcoded PLAN_CONFIGS into DB records.
+- **API**: 30+ routes under `/platform-admin/cp/*` (super_admin only + audit log) for plans, entitlements, roles, groups, feature flags, delegation policies, and audit query.
+- **Dashboard**: `apps/platform-admin/public/control-plane.html` — tabbed UI for all 5 control layers.
+- **Compatibility**: `PLAN_CONFIGS` and `ROLE_HIERARCHY` preserved unchanged as static fallbacks. No breaking changes.
+- **Implementation Register**: `IMPLEMENTATION_REGISTER.md` — full audit of hardcoded config locations, DB tables, API routes, resolution order, and migration risks.
+
 ### Feature Specifications
 - **Nationwide Entity Seeding**: Multi-phase data ingestion for diverse Nigerian entities with provenance tracking.
 - **Claim & Activation Flow**: Multi-step process for entities to claim profiles and activate services.

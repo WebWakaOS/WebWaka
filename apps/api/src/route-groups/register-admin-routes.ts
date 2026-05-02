@@ -25,6 +25,13 @@ import trafficShiftRoutes from '../routes/traffic-shift.js';
 import { adminAiUsageRoutes } from '../routes/admin-ai-usage.js';
 // Wave 4 (M11): Pilot rollout admin routes
 import { pilotAdminRoutes } from '../routes/platform-admin-pilots.js';
+// Dynamic Configurability & Delegated Governance — Control Plane routes
+import { planRoutes } from '../routes/control-plane/plans.js';
+import { entitlementRoutes } from '../routes/control-plane/entitlements.js';
+import { roleRoutes } from '../routes/control-plane/roles.js';
+import { groupRoutes } from '../routes/control-plane/groups.js';
+import { flagRoutes } from '../routes/control-plane/flags.js';
+import { auditRoutes } from '../routes/control-plane/audit.js';
 
 export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -120,4 +127,31 @@ export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/platform-admin/pilots/*', requireRole('super_admin'));
   app.use('/platform-admin/pilots/*', auditLogMiddleware);
   app.route('/platform-admin/pilots', pilotAdminRoutes());
+
+  // -------------------------------------------------------------------------
+  // Dynamic Configurability & Delegated Governance — Control Plane
+  // All routes require super_admin and full audit logging.
+  // -------------------------------------------------------------------------
+
+  app.use('/platform-admin/cp/*', authMiddleware);
+  app.use('/platform-admin/cp/*', requireRole('super_admin'));
+  app.use('/platform-admin/cp/*', auditLogMiddleware);
+
+  // Layer 1: Dynamic subscription catalog
+  app.route('/platform-admin/cp/plans', planRoutes);
+
+  // Layer 2: Entitlement definitions + package/workspace bindings
+  app.route('/platform-admin/cp/entitlements', entitlementRoutes);
+
+  // Layer 3: Custom roles + permission definitions
+  app.route('/platform-admin/cp/roles', roleRoutes);
+
+  // Layer 3 cont: User groups + per-user permission overrides
+  app.route('/platform-admin/cp/groups', groupRoutes);
+
+  // Layer 5: Feature flags + runtime config + delegation
+  app.route('/platform-admin/cp/flags', flagRoutes);
+
+  // Cross-cutting: Governance audit log (read-only)
+  app.route('/platform-admin/cp/audit', auditRoutes);
 }

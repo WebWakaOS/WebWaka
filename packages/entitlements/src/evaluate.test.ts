@@ -155,3 +155,87 @@ describe('evaluateBrandingRights', () => {
     expect(evaluateBrandingRights(sub).allowed).toBe(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// DB-aware override tests (T006 — Entitlement Compatibility Bridge)
+// These verify that resolvedEntitlements from EntitlementEngine takes precedence
+// over PLAN_CONFIGS when provided.
+// ---------------------------------------------------------------------------
+
+describe('evaluateLayerAccess — DB-aware overrides', () => {
+  it('Free plan gains operational layer via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    // Normally free denies operational — DB resolves it as granted
+    const resolved = { layers: [PlatformLayer.Discovery, PlatformLayer.Operational] };
+    expect(evaluateLayerAccess(sub, PlatformLayer.Operational, resolved).allowed).toBe(true);
+  });
+
+  it('Enterprise plan loses a layer via DB override (downgrade scenario)', () => {
+    const sub = makeSub(SubscriptionPlan.Enterprise);
+    // DB override strips the layer (e.g. workspace suspended from sensitive sector)
+    const resolved = { layers: [PlatformLayer.Discovery] };
+    expect(evaluateLayerAccess(sub, PlatformLayer.Operational, resolved).allowed).toBe(false);
+  });
+
+  it('Cancelled subscription: DB override cannot bypass status check', () => {
+    const sub = makeSub(SubscriptionPlan.Free, SubscriptionStatus.Cancelled);
+    const resolved = { layers: Object.values(PlatformLayer) };
+    // Status is checked before config — cancelled always denies
+    expect(evaluateLayerAccess(sub, PlatformLayer.Discovery, resolved).allowed).toBe(false);
+  });
+});
+
+describe('evaluateUserLimit — DB-aware overrides', () => {
+  it('Free plan raised to 100 users via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    const resolved = { maxUsers: 100 };
+    // Free normally caps at 3; DB says 100
+    expect(evaluateUserLimit(sub, 50, resolved).allowed).toBe(true);
+    expect(evaluateUserLimit(sub, 100, resolved).allowed).toBe(false);
+  });
+
+  it('Enterprise unlimited overridden to a specific cap via DB', () => {
+    const sub = makeSub(SubscriptionPlan.Enterprise);
+    const resolved = { maxUsers: 10 };
+    expect(evaluateUserLimit(sub, 10, resolved).allowed).toBe(false);
+    expect(evaluateUserLimit(sub, 9, resolved).allowed).toBe(true);
+  });
+
+  it('Without resolvedEntitlements, falls back to PLAN_CONFIGS', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    // No override — static free cap is 3
+    expect(evaluateUserLimit(sub, 3).allowed).toBe(false);
+    expect(evaluateUserLimit(sub, 2).allowed).toBe(true);
+  });
+});
+
+describe('evaluatePlaceLimit — DB-aware overrides', () => {
+  it('Free plan raised to 5 places via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    const resolved = { maxPlaces: 5 };
+    expect(evaluatePlaceLimit(sub, 4, resolved).allowed).toBe(true);
+    expect(evaluatePlaceLimit(sub, 5, resolved).allowed).toBe(false);
+  });
+});
+
+describe('evaluateOfferingLimit — DB-aware overrides', () => {
+  it('Free plan made unlimited via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    const resolved = { maxOfferings: -1 };
+    expect(evaluateOfferingLimit(sub, 99999, resolved).allowed).toBe(true);
+  });
+});
+
+describe('evaluateBrandingRights — DB-aware overrides', () => {
+  it('Free plan granted branding rights via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Free);
+    const resolved = { brandingRights: true };
+    expect(evaluateBrandingRights(sub, resolved).allowed).toBe(true);
+  });
+
+  it('Starter plan loses branding rights via DB override', () => {
+    const sub = makeSub(SubscriptionPlan.Starter);
+    const resolved = { brandingRights: false };
+    expect(evaluateBrandingRights(sub, resolved).allowed).toBe(false);
+  });
+});
