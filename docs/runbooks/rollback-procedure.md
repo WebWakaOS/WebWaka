@@ -1,116 +1,163 @@
-# Rollback Procedure — WebWaka OS
+# Runbook: Rollback Procedure
 
-> ⚠️ **This document has been superseded.**
-> The canonical operational runbook is now: **[`docs/ops/RUNBOOK.md`](../ops/RUNBOOK.md)**
-> This file is retained for historical reference only.
-
----
-
-**Last updated:** 2026-04-12
-**Owner:** Platform Engineering
+**Release Gate:** G7 (Rollback Readiness)
+**Last reviewed:** 2026-05-02
 
 ---
 
-## 1. Cloudflare Workers Rollback (API)
+## Overview
 
-### Quick Rollback via Dashboard
+Two types of rollback may be required:
 
-1. Go to **Cloudflare Dashboard → Workers & Pages → webwaka-api**
-2. Select the environment (staging or production)
-3. Click **Deployments** tab
-4. Find the last known good deployment
-5. Click the three-dot menu → **Rollback to this deployment**
-6. Confirm the rollback
+| Type | When | Action |
+|------|------|--------|
+| **Worker rollback** | New deploy is unhealthy (5xx spike, smoke fails, canary trips) | Re-deploy previous stable worker version |
+| **Migration rollback** | Schema change caused data corruption or query failures | Apply `.rollback.sql` migration in reverse order |
 
-### Rollback via Wrangler CLI
-
-```bash
-npx wrangler deployments list --env production --config apps/api/wrangler.toml
-npx wrangler rollback --env production --config apps/api/wrangler.toml
-```
-
-### Verification
-
-```bash
-curl -s https://api.webwaka.com/health | jq .
-curl -s https://api.webwaka.com/health/ready | jq .
-curl -s https://api.webwaka.com/health/version | jq .version
-```
+Rollbacks should be completed within **15 minutes** of incident detection.
 
 ---
 
-## 2. D1 Database Migration Rollback
+## Part A — Worker Rollback
 
-### Automated (Recommended)
-
-Use the **Rollback D1 Migration** GitHub Actions workflow:
-
-1. Go to **Actions → Rollback D1 Migration → Run workflow**
-2. Enter the migration number (e.g., `0209`)
-3. Select the target environment
-4. Type `ROLLBACK` to confirm
-5. Click **Run workflow**
-
-### Manual
+### A1. Identify the Previous Stable Version
 
 ```bash
-npx wrangler d1 execute webwaka-staging \
-  --env staging \
-  --remote \
-  --file infra/db/migrations/0209_perf_indexes.rollback.sql \
-  --config apps/api/wrangler.toml
+# List recent deployments
+wrangler deployments list --name webwaka-api-production
+
+# The second entry is the previous stable version.
+# Note its deployment ID (e.g. abc1234def5)
+export PREVIOUS_VERSION=abc1234def5
 ```
 
-### Verification
-
-Check that the rolled-back tables/indexes no longer exist:
+### A2. Roll Back via GitHub Actions (Preferred)
 
 ```bash
-npx wrangler d1 execute webwaka-staging \
-  --env staging \
-  --remote \
-  --command "SELECT name FROM sqlite_master WHERE type='index'" \
-  --config apps/api/wrangler.toml
+gh workflow run rollback-worker.yml \
+  --ref main \
+  -f version=$PREVIOUS_VERSION \
+  -f environment=production
+```
+
+Monitor the workflow in GitHub Actions until it completes (≤ 5 min).
+
+### A3. Manual Rollback (Fallback)
+
+If the GitHub Actions workflow is unavailable:
+
+```bash
+wrangler rollback $PREVIOUS_VERSION \
+  --name webwaka-api-production \
+  --message "Emergency rollback — incident $(date +%Y%m%d-%H%M)"
+```
+
+### A4. Verify Worker Rollback
+
+```bash
+curl -sf https://api.webwaka.com/health | jq .
+# → {"status":"ok"}
+
+SMOKE_BASE_URL=https://api.webwaka.com \
+SMOKE_API_KEY=$SMOKE_API_KEY \
+node scripts/smoke-production.mjs
+# → All checks pass, exit 0
 ```
 
 ---
 
-## 3. KV Cache Invalidation
+## Part B — Migration Rollback
 
-If cached data is stale or corrupt:
+> ⚠️ Migration rollbacks modify production data. Requires two-person sign-off
+> (Engineering lead + RM) before execution.
+
+### B1. Identify the Migration to Rollback
 
 ```bash
-npx wrangler kv:key list --namespace-id <KV_NAMESPACE_ID> --prefix "discovery:search:" | \
-  jq -r '.[].name' | \
-  xargs -I {} npx wrangler kv:key delete --namespace-id <KV_NAMESPACE_ID> "{}"
+# Check current migration state
+wrangler d1 execute webwaka-production \
+  --command "SELECT name, applied_at FROM d1_migrations ORDER BY id DESC LIMIT 5;"
 ```
 
-For geography cache:
+### B2. Locate the Rollback Script
+
+All migrations have a paired rollback file:
+
+```
+apps/api/migrations/<NNNN>_<name>.sql
+apps/api/migrations/<NNNN>_<name>.rollback.sql
+```
+
+### B3. Execute Rollback via GitHub Actions (Preferred)
 
 ```bash
-npx wrangler kv:key delete --namespace-id <KV_NAMESPACE_ID> "geo:index"
+gh workflow run rollback-migration.yml \
+  --ref main \
+  -f migration=0463_pilot_cohort1_seed \
+  -f environment=production
+```
+
+### B4. Manual Migration Rollback (Fallback)
+
+```bash
+# Apply the rollback SQL against production D1
+wrangler d1 execute webwaka-production \
+  --file apps/api/migrations/0463_pilot_cohort1_seed.rollback.sql
+
+# Verify — migration should no longer appear as latest
+wrangler d1 execute webwaka-production \
+  --command "SELECT name FROM d1_migrations ORDER BY id DESC LIMIT 3;"
+```
+
+### B5. Verify Migration Rollback
+
+Run the full smoke test and confirm no regression in affected features.
+
+---
+
+## Part C — DNS Rollback
+
+If the DNS cutover itself is the source of the incident:
+
+```bash
+# In Cloudflare Dashboard → DNS:
+# Update api.webwaka.com CNAME back to:
+#   webwaka-api-staging.workers.dev
+
+# Verify within 60 seconds (Cloudflare proxied = near-instant propagation)
+curl -sf https://api.webwaka.com/health | jq .
 ```
 
 ---
 
-## 4. Full Rollback Checklist
+## Incident Logging
 
-| Step | Action | Owner |
-|---|---|---|
-| 1 | Identify the bad deployment (check error logs, health endpoint) | On-call |
-| 2 | Roll back Workers deployment via dashboard or CLI | On-call |
-| 3 | Roll back D1 migration if schema change was involved | On-call |
-| 4 | Invalidate KV cache if relevant | On-call |
-| 5 | Verify health endpoints return 200 | On-call |
-| 6 | Monitor error rates for 15 minutes | On-call |
-| 7 | Post incident summary in team channel | On-call |
+After any rollback, open an incident record in `docs/runbooks/incident-log.md`:
+
+```markdown
+## Incident YYYYMMDD-HHMM
+
+- **Type:** Worker / Migration / DNS
+- **Detected:** HH:MM UTC
+- **Mitigated:** HH:MM UTC (TTM: N minutes)
+- **Cause:** ...
+- **Action taken:** ...
+- **Previous version restored:** <version/migration>
+- **Follow-up:** ...
+- **Sign-off:** [Engineering lead] [RM]
+```
 
 ---
 
-## 5. Escalation
+## Contacts
 
-If rollback does not restore service:
+| Role | Responsibility |
+|------|---------------|
+| Engineering Lead | Execute worker/migration rollback |
+| RM (Release Manager) | Approve migration rollback, update status page |
+| Founder | Final go/no-go on re-deploy after incident |
 
-1. Check Cloudflare Status Page (cloudflarestatus.com) for platform issues
-2. Review Cloudflare Workers logs via `wrangler tail --env production`
-3. Escalate to Cloudflare support if D1 or Workers infrastructure is degraded
+---
+
+*Runbook owner: Engineering*
+*Must be reviewed and confirmed (G7-3) within 48h of each production deploy.*
