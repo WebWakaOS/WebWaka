@@ -2,9 +2,7 @@
 
 ## Overview
 
-WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system for Africa, starting with Nigeria. It is built on "Offline First," "Mobile First," and "Nigeria First" principles, utilizing a governance-driven monorepo architecture. The platform aims to establish a comprehensive digital infrastructure with extensive seeded data for various Nigerian sectors, robust notification and payment systems, B2B marketplace tools, and identity verification capabilities.
-
-The project's vision is to empower African businesses and individuals through a scalable and adaptable operating system for diverse vertical markets. Core capabilities include nationwide entity seeding across political, educational, health, commercial, and informal sectors, a comprehensive wallet and payment infrastructure, a production-ready multi-channel notification engine, advanced identity verification and KYC, entitlement-gated access control, and a robust API supported by CI/CD.
+WebWaka OS is a multi-tenant, multi-vertical, white-label SaaS platform operating system designed for Africa, with an initial focus on Nigeria. It adheres to "Offline First," "Mobile First," and "Nigeria First" principles, utilizing a governance-driven monorepo architecture. The platform aims to establish a comprehensive digital infrastructure across various Nigerian sectors, featuring extensive seeded data, robust notification and payment systems, B2B marketplace tools, and identity verification capabilities. Its vision is to empower African businesses and individuals through a scalable and adaptable operating system for diverse vertical markets. Key capabilities include nationwide entity seeding, a comprehensive wallet and payment infrastructure, a production-ready multi-channel notification engine, advanced identity verification and KYC, entitlement-gated access control, and a robust API with CI/CD.
 
 ## User Preferences
 
@@ -38,108 +36,23 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **Notification Engine**: Multi-channel (InApp, Email, SMS, WhatsApp, Telegram, FCM, Slack, Teams) with rule engine, templating, and digest capabilities, processed via Cloudflare Queues with an outbox pattern.
 - **Payment & Wallet System**: Comprehensive wallet functionality supporting transfers, withdrawals, and online funding, with flexible payment modes.
 - **Identity Verification**: Integrates with third-party services for BVN/NIN verification, including fallback mechanisms and rate limiting.
-- **Sector Licence Verification**: Manual document-upload and admin-review workflow for compliance-gated verticals, using a Finite State Machine for status management.
-- **AI Integration**: Vendor-neutral abstraction layer (`@webwaka/superagent`) with strict consent gates for NDPR compliance and support for AI agent sessions with conversation history persistence. Includes tool execution loop and built-in platform tools for inventory, sales, offerings, and scheduling.
-- **Search & Discovery**: FTS5 for full-text search and `search_entries` for discoverability with deterministic `searchEntryId`.
+- **Sector Licence Verification**: Manual document-upload and admin-review workflow using a Finite State Machine.
+- **AI Integration**: Vendor-neutral abstraction layer (`@webwaka/superagent`) with strict consent gates for NDPR compliance, AI agent sessions, tool execution loop, and built-in platform tools.
+- **Search & Discovery**: FTS5 for full-text search and `search_entries` for discoverability.
 - **Geo-spatial Data**: `@webwaka/geography` provides hierarchical geographical data for Nigeria, Ghana, and Kenya.
 - **Testing**: Extensive test suites using Vitest for unit/integration and Playwright for E2E testing.
 - **CI/CD**: GitHub Actions for automated type checking, testing, linting, security auditing, and deployment.
-- **Rate Limiting**: Implemented at API gateway for critical endpoints.
-- **Error Handling**: Centralized error handling with structured responses and audit logging.
-- **WakaPage**: A no-code landing page builder vertical, allowing users to create pages with various blocks, manage leads, and integrate with search indexing. Features a public renderer with PWA capabilities and analytics.
-- **Universal Module Platform (UMP)**: Core platform refactoring introducing `groups`, `cases`, and `ledger` packages. Features a policy engine for rule evaluation across various domains (financial, KYC, AI governance, moderation, data retention, payout), and differential offline sync for PWAs.
+- **Dynamic Configurability & Delegated Governance**: Implemented via `@webwaka/control-plane` package for runtime services like Plan Catalog, Entitlement Engine, Permission Resolver, Flag Service, Delegation Guard, and Audit Service. This supports dynamic pricing, entitlements, roles, groups, feature flags, and delegation policies, with a dashboard for administration.
+- **Universal Module Platform (UMP)**: Core platform refactoring introducing `groups`, `cases`, and `ledger` packages, featuring a policy engine and differential offline sync for PWAs.
+- **WakaPage**: A no-code landing page builder vertical with lead management and search indexing integration.
 - **Workflow Engine**: MVP for starting and advancing workflows with seeded definitions.
-- **Analytics Unification**: `trackEvent` with PII stripping and methods for `getWorkspaceMetrics`/`getGroupMetrics`/`getCampaignMetrics`.
-- **Fundraising Extensions**: Dues collection and mutual aid functionalities with defined schedules and approval flows.
+- **Analytics Unification**: `trackEvent` with PII stripping and methods for metrics.
+- **Fundraising Extensions**: Dues collection and mutual aid functionalities.
 - **Template System**: Extended template registry to include `module_config`, `vocabulary`, `default_policies`, and `default_workflows` for starter templates.
 - **Data Retention Automation**: Scheduled pseudonymization of expired PII for NDPR compliance.
-- **Moderation Appeal Flow**: System for users to appeal content moderation decisions, with admin review and escalation.
-- **Public API Versioning**: Global `X-API-Version: 1` header, and a `/developer` endpoint providing API metadata, capabilities, and changelog.
-- **Webhook SDK**: TypeScript event payload types for all webhook events to facilitate integration.
-
-### Phase 2 P3 Niche Completion Sprint — Template Registry Seeded (2026-05-02)
-All 78 P3-tier website templates are now fully shipped:
-- **Migration 0464** (`infra/db/migrations/0464_seed_p3_website_templates.sql`): Seeds all 78 P3 templates into D1 `template_registry` with `template_type='website'`, `status='approved'`, `is_free=1`, `author_tenant_id=NULL`. Uses `unixepoch('now')` — D1/SQLite compatible, no PostgreSQL syntax. INSERT OR IGNORE for idempotency.
-- **pillar3-niche-registry.json**: All 71 IMPLEMENTED entries promoted to SHIPPED (shippedAt: 2026-05-02). All 78 P3 entries now SHIPPED.
-- **Execution board** (`docs/templates/pillar3-template-execution-board.md`): All 78 rows SHIPPED ✅. Summary: 78 SHIPPED, 0 READY_FOR_RESEARCH.
-- **Universe map** (`docs/phase0-artifacts/05-vertical-and-niche-universe-map.md`): Pillar 2 count updated to 207 SHIPPED; Pillar 3 count updated to 78 SHIPPED, 0 READY_FOR_RESEARCH.
-- **Phase 2 exit gate**: ALL FOUR GATES NOW CLOSED (2026-05-02):
-  1. P3 Pillar 2 templates SHIPPED ✅
-  2. P3 marketplace templates seeded ✅
-  3. i18n ha/ig/yo/pcm 100% (210/210 keys each) ✅ — DEBT-004 resolved
-  4. Political entity seeding complete ✅ — INEC HoA candidates (0314+0314b, 8,826 records), Lagos assembly (0313, 40 members), priority state assemblies Speakers (0465), Lagos LGA chairs (0466, 20 LGAs)
-- **Note**: Existing `infra/db/seeds/templates/` SQL files (207 files) target a `website_templates` table with PostgreSQL ARRAY syntax — these are reference documents only, never applied to D1.
-
-### Phase 2 Seed Completions (2026-05-02)
-- **DEBT-004 (i18n)**: All four locales (ha/ig/yo/pcm) filled from 74→210 keys (100%). 136 keys added per locale covering actions, titles, nav, status, auth, banner, billing, bank_transfer, ai, analytics, currency, b2b, errors, footer, settings_tab. `pnpm typecheck` in `packages/i18n` = 0 errors.
-- **Migration 0465** (`0465_political_priority_state_assemblies_seed.sql`): Seeds term records + Speaker for 4 priority state assemblies — Kano (40 seats, NNPP, Hamisu Ibrahim Chidari), Rivers (32 seats, PDP, Martin Amaewhule), Ogun (26 seats, APC, Oludaisi Elemide), Oyo (32 seats, PDP, Adebo Ogundoyin). Full rosters pending Wikipedia extraction (SEED-P2-A).
-- **Migration 0466** (`0466_political_lga_chairpersons_seed.sql`): Seeds all 20 Lagos LGA chairpersons from 2021 LASIEC election (APC, term 2021-2024). Kano (44 LGAs) and Rivers (23 LGAs) chairs logged as DEBT-012.
-- **Seed Backlog Plan**: `docs/phase0-artifacts/07-data-seed-backlog.md` — comprehensive plan for ~58,858 unseeded records across 30 migrations (0467–0496): NAICOM(836), SEC(803), NUPRC(116), OSM transport(417), OSM commerce(5,135), OSM civic(3,485), OSM agribusiness(1,723), HDX health(46,146), plus remaining assembly rosters and LGA chairs.
-
-### Seed Backlog COMPLETE — 63 Migrations Generated (2026-05-02)
-All data-ready migrations from the full seed backlog (P1a + P2–P9) are now written and verified. 0504–0531 state assembly rosters (28-state web sprint) are fully seeded.
-
-| Range | Batch | Migrations | Records | Status |
-|---|---|---|---|---|
-| 0467 | Kano State Assembly full roster (39/40 seats, 25 NNPP + 14 APC) | 1 | 39 politicians | ✅ DONE |
-| 0468 | Rivers State Assembly full roster (32/32 seats, 15 PDP + 14 Accord + 3 others) | 1 | 32 politicians | ✅ DONE |
-| 0469 | Ogun State Assembly full roster (23/26 seats, 18 APC + 4 PDP + 1 AA) | 1 | 23 politicians | ✅ DONE |
-| 0470 | Oyo State Assembly full roster (32/32 seats, 28 PDP + 4 APC) | 1 | 32 politicians | ✅ DONE |
-| 0471–0472 | Kano + Rivers LGA chairpersons | 2 | 0 | ⏳ BLOCKED (KANSIEC/RSIEC) |
-| 0473–0475 | S07 Financial regulation (NAICOM+NUPRC+SEC) | 3 | 1,755 orgs | ✅ DONE |
-| 0476 | S08 OSM transport hubs + bus stations | 1 | 417 POIs | ✅ DONE |
-| 0477–0483 | S09 OSM commerce & services (hotels/pharmacies/supermarkets/food/markets/salons/spare-parts) | 7 | 5,135 POIs | ✅ DONE |
-| 0484–0487 | S10 OSM civic & religious (churches/mosques/NGOs/cooperatives) | 4 | 3,485 entities | ✅ DONE |
-| 0488–0491 | S11 OSM agribusiness (fuel/agri/farms/boreholes) | 4 | 1,723 entities | ✅ DONE |
-| 0492–0496 | S06-B HDX eHealth health facilities (5 geographic zones: NC+NE/NW/SE/SS/SW) | 5 | 46,146 facilities | ✅ DONE |
-| 0497 | S12 NUC Universities (74 federal + 66 state + 167 private) | 1 | 307 universities | ✅ DONE |
-| 0498 | S12 OSM bank branches + compiled misc entities | 1 | 493 orgs | ✅ DONE |
-| 0499 | S13 OSM hospitals & medical (hospital/clinic/doctors/dentist/optician) | 1 | 5,201 facilities | ✅ DONE |
-| 0500 | S13 OSM civic & public (colleges/universities/community centres/libraries/courts/police/post offices/govt offices) | 1 | 2,530 orgs | ✅ DONE |
-| 0501 | S13 OSM professional & lifestyle (car repair/bakeries/law firms/accounting/driving schools/vets/gyms/laundries) | 1 | 374 orgs | ✅ DONE |
-| 0502 | S14 OSM state-specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia) | 1 | 62 POIs | ✅ DONE |
-| 0503 | S15 GRID3 health facilities national dataset (46,146 rows → 43,289 named unique) | 1 | 43,289 facilities | ✅ DONE |
-| 0504–0531 | S05 State assembly rosters — 28 states via NigerianLeaders.com web sprint (699/755 seats, 92.6%) | 28 | 699 politicians | ✅ DONE |
-| 0532 | Ogun 3-seat patch (Ado-Odo/Ota I confirmed; 2 seats still unavailable) | 1 | 1 politician | ✅ DONE |
-| 0533 | Abia State Assembly full roster (24/24 seats via Wikipedia) | 1 | 24 politicians | ✅ DONE |
-| 0534 | Adamawa State Assembly full roster (25/25 seats via Wikipedia election article, color-coded) | 1 | 25 politicians | ✅ DONE |
-| 0535 | Markets & Plazas deep extraction — Batch 1 (OSM Overpass: amenity=marketplace + shop=mall/wholesale/dept_store + landuse=retail + name-match) | 1 | 284 entities | ✅ DONE |
-| 0536 | Markets & Plazas deep extraction — Batch 2 | 1 | 283 entities | ✅ DONE |
-| 0537 | Motor Parks & Transport Terminals deep extraction (OSM Overpass: amenity=bus_station/taxi + public_transport=station + name~"motor park") | 1 | 213 entities | ✅ DONE |
-| 0538 | Estates & Gated Communities deep extraction (OSM Overpass: place=neighbourhood + landuse=residential named + residential=gated_community) | 1 | 402 entities | ✅ DONE |
-| 0539 | Car Dealers & Vehicle Sales deep extraction (OSM Overpass: shop=car/car_dealer/vehicle/motorcycle + brand name matching) | 1 | 65 entities | ✅ DONE |
-| 0540 | Extended Health Facilities deep extraction (OSM Overpass: healthcare=maternity/health_post/laboratory/nursing_home/blood_bank/physiotherapist/alternative — NOT in 0499) | 1 | 628 entities | ✅ DONE |
-| 0541 | Petrol & Fuel Stations deep extraction (OSM Overpass: amenity=fuel/filling_station — new OSM IDs not in 0488) | 1 | 50 entities | ✅ DONE |
-| 0542 | Schools & Educational Institutions deep extraction — Batch 1 (OSM Overpass: amenity=school/college/kindergarten/language_school/training — new OSM IDs not in 0500/0501) | 1 | 1,009 entities | ✅ DONE |
-| 0543 | Schools & Educational Institutions deep extraction — Batch 2 (OSM Overpass: remaining 1,009 schools not in 0500/0501) | 1 | 1,009 entities | ✅ DONE |
-| **TOTAL** | | **75 migrations + 75 rollbacks** | **115,735 records** | ✅ |
-
-- **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0544
-- **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs — APC won all 44 Kano / PDP won all 23 Rivers; individual names not in accessible sources); Bauchi assembly (31 seats, no Wikipedia article, no NigerianLeaders data); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found)
-- **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
-
-### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
-All engineering tasks in the Phase 1 Pre-Launch Refactor are now complete:
-- **DEBT-001 (P1-010–014)**: `@webwaka/support-groups` fully genericised → `@webwaka/groups` canonical. Migration 0462 drops 14 shadow tables. `GroupEventType` is canonical; `SupportGroupEventType` is deprecated alias.
-- **DEBT-002 (P1-020–023)**: Fundraising INEC-specific fields renamed (`inecCapKobo` → `contributionCapKobo`, etc.), migration 0463. `evaluateFinancialCap()` from `@webwaka/policy-engine` wired in contribution handler. `checkContributionCap()` added as generic fallback.
-- **DEBT-003 (P1-030/031)**: All 11 `PlatformLayer` values verified active. Civic/AI = plan-gated; Political/Institutional = enterprise-only. No dead values.
-- **DEBT-005 (P1-040/041)**: Dead `_engineFeatureFlagMiddleware` no-op removed from `register-vertical-engine-routes.ts`; migration path documented.
-- **DEBT-008 (P1-050)**: `pnpm audit` = 0 vulnerabilities.
-- **P1-005 ESLint**: 0 errors across all scanned route files (`timing.test.ts`, `search-index.ts`, `platform-admin-pilots.ts` fixed).
-- **Remaining Phase 1 exit gate items (ops-only)**: CF API token rotation (RISK-001), SMOKE_API_KEY provisioning, notification engine staging deployment.
-
-### Dynamic Configurability & Delegated Governance (2026-05-02)
-- **`@webwaka/control-plane`** package (`packages/control-plane/`): 6 runtime services (PlanCatalogService, EntitlementEngine, PermissionResolver, FlagService, DelegationGuard, AuditService) backed by 20 new D1 tables.
-- **Migrations 0464–0471**: 8 migration pairs (forward + rollback) covering subscription_packages, billing_intervals, package_pricing, entitlement_definitions, package_entitlement_bindings, workspace_entitlement_overrides, custom_roles, permission_definitions, role_permission_bindings, user_groups, group_memberships, admin_delegation_policies, configuration_flags, configuration_overrides, governance_audit_log, plus seed data translating all 7 hardcoded PLAN_CONFIGS into DB records.
-- **API**: 30+ routes under `/platform-admin/cp/*` (super_admin only + audit log) for plans, entitlements, roles, groups, feature flags, delegation policies, and audit query.
-- **Dashboard**: `apps/platform-admin/public/control-plane.html` — tabbed UI for all 5 control layers.
-- **Entitlement Middleware Wire-Up**: `apps/api/src/middleware/workspace-entitlement-context.ts` — shared builder that calls `EntitlementEngine.resolveForWorkspace()` on every gated request, maps DB codes → `Partial<PlanConfig>`, merges layer grants into `ctx.activeLayers`, and falls back to `PLAN_CONFIGS` transparently when control-plane tables are absent.
-- **Billing Runtime Configuration**: Migration 0472 seeds `billing_grace_period_days` (integer) and `billing_default_interval_code` (string) flags. `billing.ts` now uses `lookupIntervalDays`, `lookupGracePeriodSeconds`, and `loadPlanRank` DB helpers (all with graceful fallback) instead of the three hardcoded values (`30 * 24 * 60 * 60`, `7 * 24 * 60 * 60`, and the 4-plan static `PLAN_RANK`). Static fallback updated to all 7 seeded plans.
-- **FlagService KV Caching**: `KVLike` interface added to `@webwaka/control-plane/types`. `FlagService` now accepts an optional `KVLike` (3rd constructor arg). `createControlPlane(db, kv?)` threads KV through to FlagService only. 3-tier cache: flag definitions (120s), resolved values (60s), kill-switch status (5s). Kill-switch flags bypass resolved-value cache for near-instant propagation. All 6 CP route files updated to pass `c.env.KV`. All KV operations are non-fatal (try/catch); DB remains source of truth.
-- **PilotFlagService Bridge**: `PilotFlagService` now accepts optional `FlagServiceLike` (2nd constructor arg). `isEnabled()` checks `pilot_feature_flags` first (explicit per-tenant override takes priority including explicit disables); if no row exists, delegates to control-plane `FlagService.resolve()`. Both pilot routes (`platform-admin-pilots.ts`, `pilot-feedback-route.ts`) pass `createControlPlane(db, kv).flags` as the bridge. Added `getFlag()` method. Fixed pre-existing silent bug: `pilot-feedback-route.ts` called non-existent `flagSvc.getFlag()` — replaced with `isEnabled()` via bridge.
-- **Compatibility**: `PLAN_CONFIGS` and `ROLE_HIERARCHY` preserved unchanged as static fallbacks. No breaking changes.
-- **Implementation Register**: `IMPLEMENTATION_REGISTER.md` — full audit of hardcoded config locations, DB tables, API routes, resolution order, and migration risks.
+- **Moderation Appeal Flow**: System for users to appeal content moderation decisions.
+- **Public API Versioning**: Global `X-API-Version` header and a `/developer` endpoint for API metadata.
+- **Webhook SDK**: TypeScript event payload types for all webhook events.
 
 ### Feature Specifications
 - **Nationwide Entity Seeding**: Multi-phase data ingestion for diverse Nigerian entities with provenance tracking.

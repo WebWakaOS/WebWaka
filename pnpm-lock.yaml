@@ -154,6 +154,9 @@ importers:
       '@webwaka/payments':
         specifier: workspace:*
         version: link:../../packages/payments
+      '@webwaka/policy-engine':
+        specifier: workspace:*
+        version: link:../../packages/policy-engine
       '@webwaka/politics':
         specifier: workspace:*
         version: link:../../packages/core/politics
