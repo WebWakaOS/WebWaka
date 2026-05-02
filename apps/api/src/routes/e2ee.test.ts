@@ -2,7 +2,10 @@
  * Tests for E2EE key management routes (L-9 / ADR-0043)
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+import type { Env } from '../env.js';
+import type { AuthContext } from '@webwaka/types';
+type AppEnv = { Bindings: Env; Variables: { auth: AuthContext; userId: string; tenantId: string } };
 import { Hono } from 'hono';
 import { e2eeRoutes } from './e2ee.js';
 
@@ -16,18 +19,6 @@ const VALID_P256_JWK = {
   use: 'enc',
 };
 
-function makeApp(userId = 'user-001', tenantId = 'tenant-001') {
-  const app = new Hono();
-  // Inject auth context
-  app.use('*', async (c, next) => {
-    c.set('userId', userId);
-    c.set('tenantId', tenantId);
-    await next();
-  });
-  // Mock requireAuth to pass through
-  app.route('/', e2eeRoutes);
-  return app;
-}
 
 function makeDb(rows: Record<string, unknown> | null = null) {
   const stmt = {
@@ -45,7 +36,7 @@ function makeDb(rows: Record<string, unknown> | null = null) {
 
 describe('PATCH /profile/e2e-pubkey', () => {
   it('returns 400 for missing publicKey', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
     app.route('/', e2eeRoutes);
     const res = await app.request('/profile/e2e-pubkey', {
@@ -57,7 +48,7 @@ describe('PATCH /profile/e2e-pubkey', () => {
   });
 
   it('returns 400 when private key component (d) is present', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
     app.route('/', e2eeRoutes);
     const res = await app.request('/profile/e2e-pubkey', {
@@ -71,7 +62,7 @@ describe('PATCH /profile/e2e-pubkey', () => {
   });
 
   it('returns 400 for wrong curve', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => { c.set('userId', 'u1'); c.set('tenantId', 't1'); await next(); });
     app.route('/', e2eeRoutes);
     const res = await app.request('/profile/e2e-pubkey', {
@@ -90,7 +81,7 @@ describe('JWK validation logic', () => {
     // Indirect test via PATCH — if validation passes, DB call is attempted
     // We just need the validation branch not to return 400
     // (DB mock is not set up here; we only care about the validation response code)
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
@@ -112,7 +103,7 @@ describe('JWK validation logic', () => {
 
 describe('GET /profile/:id/e2e-pubkey', () => {
   it('returns 404 when no key on record', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
@@ -127,7 +118,7 @@ describe('GET /profile/:id/e2e-pubkey', () => {
   });
 
   it('returns publicKey JSON when key exists', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
@@ -150,7 +141,7 @@ describe('GET /profile/:id/e2e-pubkey', () => {
 
 describe('DELETE /profile/e2e-pubkey', () => {
   it('returns 200 and ok:true', async () => {
-    const app = new Hono();
+    const app = new Hono<AppEnv>();
     app.use('*', async (c, next) => {
       c.set('userId', 'u1');
       c.set('tenantId', 't1');
