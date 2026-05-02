@@ -88,4 +88,5 @@ export const posRecentSalesTool: RegisteredTool = {
       })),
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

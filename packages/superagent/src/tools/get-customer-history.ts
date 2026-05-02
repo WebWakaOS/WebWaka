@@ -93,4 +93,5 @@ export const getCustomerHistoryTool: RegisteredTool = {
       });
     }
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

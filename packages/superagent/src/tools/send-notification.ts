@@ -146,4 +146,5 @@ export const sendNotificationTool: RegisteredTool = {
       message: `Notification queued for delivery via ${channel}. Outbox ID: ${id}.`,
     });
   },
+  metadata: { pillar: 2, autonomyThreshold: 2, readOnly: false },
 };

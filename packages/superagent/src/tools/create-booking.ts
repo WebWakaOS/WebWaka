@@ -195,4 +195,5 @@ export const createBookingTool: RegisteredTool = {
       message: `Booking created successfully. Booking ID: ${bookingId}.`,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: 3, readOnly: false },
 };

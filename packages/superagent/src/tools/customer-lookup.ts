@@ -164,4 +164,5 @@ export const customerLookupTool: RegisteredTool = {
       results: deduped,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

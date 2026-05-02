@@ -109,4 +109,5 @@ export const createSupportTicketTool: RegisteredTool = {
       });
     }
   },
+  metadata: { pillar: 2, autonomyThreshold: 2, readOnly: false },
 };

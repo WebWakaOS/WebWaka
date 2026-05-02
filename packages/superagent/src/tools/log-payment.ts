@@ -106,4 +106,5 @@ export const logPaymentTool: RegisteredTool = {
       });
     }
   },
+  metadata: { pillar: 1, autonomyThreshold: 3, readOnly: false },
 };

@@ -92,4 +92,5 @@ export const searchOfferingsTool: RegisteredTool = {
       });
     }
   },
+  metadata: { pillar: 1, autonomyThreshold: null, readOnly: true },
 };

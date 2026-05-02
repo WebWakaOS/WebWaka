@@ -182,4 +182,5 @@ export const createInvoiceTool: RegisteredTool = {
       message: `Draft invoice created. Invoice ID: ${id}. Total: ${totalKobo} kobo.`,
     });
   },
+  metadata: { pillar: 1, autonomyThreshold: 3, readOnly: false },
 };
