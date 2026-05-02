@@ -121,35 +121,35 @@
 ### C2. API Resilience & Performance
 - [x] C2-1: Add retry middleware to all outbound AI provider calls in `packages/ai-adapters` — exponential backoff with jitter, max 3 retries, provider-specific error classification (rate limit vs server error)
 - [x] C2-2: Add circuit breaker per AI provider — after 5 consecutive failures, mark provider as `OPEN` for 60s and skip in routing chain (prevents cascade)
-- [ ] C2-3: Add `db-perf.ts` query budget enforcement — currently `db-perf.ts` exists but is not wired to CI; add a test that runs all common query patterns against an in-memory D1 and asserts they complete within budget
-- [ ] C2-4: Add API response time logging middleware — log `duration_ms` on every request in structured JSON; wire to Cloudflare logpush drain (ADR-0045)
-- [ ] C2-5: Add OpenAPI spec completeness check — verify every Hono route has a corresponding OpenAPI operation defined; fail CI if routes are undocumented
+- [x] C2-3: Add `db-perf.ts` query budget enforcement — currently `db-perf.ts` exists but is not wired to CI; add a test that runs all common query patterns against an in-memory D1 and asserts they complete within budget
+- [x] C2-4: Add API response time logging middleware — log `duration_ms` on every request in structured JSON; wire to Cloudflare logpush drain (ADR-0045)
+- [x] C2-5: Add OpenAPI spec completeness check — verify every Hono route has a corresponding OpenAPI operation defined; fail CI if routes are undocumented
 
 ### C3. Frontend Performance
-- [ ] C3-1: Add Lighthouse CI to the CI pipeline — run against `apps/workspace-app` and `apps/marketing-site` builds; enforce Performance ≥ 85, Accessibility ≥ 90
-- [ ] C3-2: Add bundle size budget enforcement — `infra/bundle-baseline.json` exists; wire it to a CI step that fails if any worker or frontend bundle exceeds baseline by >15%
-- [ ] C3-3: Add lazy loading for heavy pages — `Analytics.tsx`, `AI.tsx`, and `VerticalView.tsx` should use `React.lazy()` + `Suspense` to reduce initial load
-- [ ] C3-4: Add `ResourceHints` component to `packages/design-system` — emits `<link rel="preconnect">` for AI provider domains and Cloudflare KV endpoints
-- [ ] C3-5: Add `ServiceWorker` precache manifest update — ensure Wave 3 new routes are added to the PWA precache list
+- [x] C3-1: Add Lighthouse CI to the CI pipeline — run against `apps/workspace-app` and `apps/marketing-site` builds; enforce Performance ≥ 85, Accessibility ≥ 90
+- [x] C3-2: Add bundle size budget enforcement — `infra/bundle-baseline.json` exists; wire it to a CI step that fails if any worker or frontend bundle exceeds baseline by >15%
+- [x] C3-3: Add lazy loading for heavy pages — `Analytics.tsx`, `AI.tsx`, and `VerticalView.tsx` should use `React.lazy()` + `Suspense` to reduce initial load
+- [x] C3-4: Add `ResourceHints` component to `packages/design-system` — emits `<link rel="preconnect">` for AI provider domains and Cloudflare KV endpoints
+- [x] C3-5: Add `ServiceWorker` precache manifest update — ensure Wave 3 new routes are added to the PWA precache list
 
 ### C4. Alerting & Production Diagnostics
-- [ ] C4-1: Add Cloudflare Logpush configuration to `infra/cloudflare/` — configure structured log drain to external sink (Grafana/Datadog/Axiom) for both staging and production
-- [ ] C4-2: Add health check expansion — current `/health` returns 200; expand to `/health/deep` that checks D1 connectivity, KV read, and AI provider reachability (with cached results, TTL 30s)
-- [ ] C4-3: Add alerting runbook (`docs/runbooks/alerts.md`) — for each alert type (high error rate, AI spend spike, D1 latency, worker CPU limit) document: trigger condition, diagnosis steps, remediation
-- [ ] C4-4: Add deployment smoke test expansion — current smoke only hits `/health`; add POST `/superagent/consent` (dry-run), GET `/v1/workspace`, GET `/v1/discovery/search?q=test` to staging smoke suite
-- [ ] C4-5: Add incident response checklist (`docs/runbooks/incident-response.md`) — P0/P1/P2 classification, escalation path, rollback procedure, post-mortem template
+- [x] C4-1: Add Cloudflare Logpush configuration to `infra/cloudflare/` — configure structured log drain to external sink (Grafana/Datadog/Axiom) for both staging and production
+- [x] C4-2: Add health check expansion — current `/health` returns 200; expand to `/health/deep` that checks D1 connectivity, KV read, and AI provider reachability (with cached results, TTL 30s)
+- [x] C4-3: Add alerting runbook (`docs/runbooks/alerts.md`) — for each alert type (high error rate, AI spend spike, D1 latency, worker CPU limit) document: trigger condition, diagnosis steps, remediation
+- [x] C4-4: Add deployment smoke test expansion — current smoke only hits `/health`; add POST `/superagent/consent` (dry-run), GET `/v1/workspace`, GET `/v1/discovery/search?q=test` to staging smoke suite
+- [x] C4-5: Add incident response checklist (`docs/runbooks/incident-response.md`) — P0/P1/P2 classification, escalation path, rollback procedure, post-mortem template
 
 ### C5. Load Testing & Release Gates
 - [ ] C5-1: Fix k6 staging JWT provisioning — `JWT_SECRET_STAGING` must be added to GitHub Actions secrets (documented in `PRODUCTION_READINESS_BACKLOG.md` as C-1 ops action required)
-- [ ] C5-2: Add k6 load test for SuperAgent chat endpoint — simulate 50 concurrent users hitting `/superagent/chat` with `inventory_ai` capability; assert P95 < 3s, error rate < 1%
-- [ ] C5-3: Add k6 load test for vertical profile list — 100 concurrent reads to `/v1/vertical/:slug/profiles`; assert P95 < 500ms
-- [ ] C5-4: Add k6 baseline comparison to CI — `infra/k6/compare-baseline.mjs` exists but is not called in CI; wire it to fail if P95 regresses by >20% vs baseline
-- [ ] C5-5: Add release gate checklist (`docs/release/release-gate.md`) — mandatory checks before any production deploy: CI green, load test pass, HITL queue drained, anomaly flags reviewed, rollback plan documented
+- [x] C5-2: Add k6 load test for SuperAgent chat endpoint — simulate 50 concurrent users hitting `/superagent/chat` with `inventory_ai` capability; assert P95 < 3s, error rate < 1%
+- [x] C5-3: Add k6 load test for vertical profile list — 100 concurrent reads to `/v1/vertical/:slug/profiles`; assert P95 < 500ms
+- [x] C5-4: Add k6 baseline comparison to CI — `infra/k6/compare-baseline.mjs` exists but is not called in CI; wire it to fail if P95 regresses by >20% vs baseline
+- [x] C5-5: Add release gate checklist (`docs/release/release-gate.md`) — mandatory checks before any production deploy: CI green, load test pass, HITL queue drained, anomaly flags reviewed, rollback plan documented
 
 ### C6. Logging Quality & Analytics Freshness
 - [x] C6-1: Add request correlation ID middleware — inject `X-Request-Id` header on all API responses and include in all log entries for trace correlation
-- [ ] C6-2: Add `packages/logging` structured log drain integration — implement `LogDrainTransport` that batches log entries and POSTs to Cloudflare Logpush endpoint (replacing console.log in production)
-- [ ] C6-3: Add analytics freshness check — `apps/projections` projection worker should include a `last_projected_at` metadata KV entry; add a CI/monitoring check that fails if projections are >6h stale
+- [x] C6-2: Add `packages/logging` structured log drain integration — implement `LogDrainTransport` that batches log entries and POSTs to Cloudflare Logpush endpoint (replacing console.log in production)
+- [x] C6-3: Add analytics freshness check — `apps/projections` projection worker should include a `last_projected_at` metadata KV entry; add a CI/monitoring check that fails if projections are >6h stale
 - [ ] C6-4: Add error rate dashboard (`apps/admin-dashboard`) — chart showing 5xx rate by route over last 24h, sourced from `ai_usage_events` error field + API error log aggregation
 - [ ] C6-5: Add `packages/analytics` event taxonomy audit — ensure all Wave 3 new features emit the correct analytics events and the schema is documented
 

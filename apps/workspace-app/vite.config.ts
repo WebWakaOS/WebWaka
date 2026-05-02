@@ -29,7 +29,20 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+                globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Wave 3 C3-5: ensure all new routes are listed so SW serves offline shell
+        additionalManifestEntries: [
+          { url: '/ai',            revision: null },
+          { url: '/vertical',      revision: null },
+          { url: '/analytics',     revision: null },
+          { url: '/billing',       revision: null },
+          { url: '/notifications', revision: null },
+          { url: '/sales-history', revision: null },
+          { url: '/staff',         revision: null },
+          { url: '/brand',         revision: null },
+          { url: '/admin/hitl',    revision: null },
+          { url: '/admin/platform',revision: null },
+        ],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/.*\/api\//,
