@@ -1,8 +1,8 @@
 # Data Seed Backlog — WebWaka OS
 **Created:** 2026-05-02  
-**Last updated:** 2026-05-02 (0504–0531 state assembly rosters — 28-state web research sprint DONE)  
+**Last updated:** 2026-05-02 (0532–0534 blocked-state deep-search sprint — Ogun patch + Abia + Adamawa DONE)  
 **Scope:** All source data files in `infra/db/seed/sources/` not yet converted to numbered migrations.  
-**Convention:** Next available migration number after 0531 is **0532**.
+**Convention:** Next available migration number after 0534 is **0535**.
 
 ---
 
@@ -186,11 +186,12 @@ All S12, S13, S14, and S15 source batches now fully migrated. Named-only records
 | P7 | S06 HDX health facilities | 0492–0496 | **46,146** | ✅ DONE |
 | P8 | S12–S15 universities/banks/medical/civic/professional/GRID3 | 0497–0503 | **52,256** | ✅ DONE (2026-05-02) |
 | P9 | State assembly rosters — 28 remaining states (web research sprint) | 0504–0531 | **699** | ✅ DONE (2026-05-02) |
-| **TOTAL** | | **0467–0470 + 0473–0531 (63 migrations)** | **111,742 records** | |
+| P9b | Blocked-state deep-search sprint (Ogun patch + Abia + Adamawa) | 0532–0534 | **50** | ✅ DONE (2026-05-02) |
+| **TOTAL** | | **0467–0470 + 0473–0534 (66 migrations)** | **111,792 records** | |
 
-**Total SQL generated (all batches):** ~880,000 lines across 63 migrations + 63 rollbacks  
-**Next migration number:** 0532  
-**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair data unavailable); Abia/Adamawa/Bauchi state assemblies (NigerianLeaders.com has no data — alternate source needed); Ogun 3-seat patch (0532) when confirmed
+**Total SQL generated (all batches):** ~888,000 lines across 66 migrations + 66 rollbacks  
+**Next migration number:** 0535  
+**Remaining backlog:** 0471–0472 (KANSIEC/RSIEC LGA chair names not findable from accessible sources); Bauchi state assembly (no Wikipedia article, no NigerianLeaders data, official BSHA site inaccessible); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found in any accessible source)
 
 ---
 
@@ -229,13 +230,36 @@ Source: NigerianLeaders.com (browser UA fetch). 28 of 31 remaining states had fu
 | 0530 | Yobe | **24** | 24 | APC:19, ADC:4, ADP:1 | ✅ DONE |
 | 0531 | Zamfara | **24** | 24 | APC:12, Accord:6, PDP:5, AA:1 | ✅ DONE |
 
-**Blocked (no NigerianLeaders.com data):**
-- Abia — 404 from NigerianLeaders, Wikipedia page has no member table. Needs ABHA or INEC direct extraction.
-- Adamawa — same. Alternate: search ADHA official site.
-- Bauchi — same. Alternate: search BSHA official site.
+**Resolved from this block via deep-search (Wikipedia election articles):**
+- Abia ✅ — 24/24 members extracted from Wikipedia `Abia_State_House_of_Assembly` table. Party breakdown: LP:8, PDP:13, APC:1, APGA:1, YPP:1. Migration: **0533** (2026-05-02).
+- Adamawa ✅ — 25/25 members extracted from Wikipedia `2023_Adamawa_State_House_of_Assembly_election` article via row background color coding (#006903=PDP, #87BEEB=APC). Party breakdown: PDP:15, APC:10. Migration: **0534** (2026-05-02).
+- Ogun (partial) ✅ — 1/3 remaining patch seats confirmed: Ado-Odo/Ota I → Yusuf Sherif Abiodun (APC) via 2019 Wikipedia cross-ref. Migration: **0532** (2026-05-02).
+
+**Still blocked:**
+- Bauchi — No Wikipedia HOSA election article, no NigerianLeaders data, BSHA official site returns 0B. 31 seats, Speaker=Abubakar Y. Suleiman (APC). BLOCKED.
+- Ogun IJEBU NORTH II (ADC) — NigerianLeaders table has corrupted name field ("Ijebu East Area"). No other accessible source found.
+- Ogun IJEBU EAST — Completely absent from NigerianLeaders. No accessible source found.
 
 **Coverage: 699/755 seats seeded (92.6%) across 28 states**  
 **Rollbacks:** All 28 `.rollback.md` files created.
+
+---
+
+### Priority 9b — Deep-Search Sprint: Blocked States + Ogun Patch — ✅ DONE (2026-05-02)
+
+Deep-search across Wikipedia election articles, NigerianLeaders cross-reference, and DuckDuckGo for the 6 items that were BLOCKED after the 28-state sprint. 3 resolved, 3 remain blocked.
+
+| Migration | Item | Members | Source | Status |
+|---|---|---|---|---|
+| 0532 | Ogun 3-seat patch (Ado-Odo/Ota I) | **1** | Wikipedia 2019 election article + NigerianLeaders row 20 cross-ref | ✅ DONE |
+| 0533 | Abia State Assembly full roster | **24/24** | Wikipedia `Abia_State_House_of_Assembly` member table | ✅ DONE |
+| 0534 | Adamawa State Assembly full roster | **25/25** | Wikipedia `2023_Adamawa_State_House_of_Assembly_election` (color-coded winners) | ✅ DONE |
+| 0535 | Bauchi State Assembly (31 seats) | — | No accessible source found | ⏳ BLOCKED |
+| 0471 | Kano LGA chairs (44 LGAs, all APC 2021) | — | Wikipedia confirms APC won all 44; no individual names accessible | ⏳ BLOCKED |
+| 0472 | Rivers LGA chairs (23 LGAs, all PDP 2021) | — | No accessible source found | ⏳ BLOCKED |
+
+**New records from P9b:** 50 (1 Ogun patch + 24 Abia + 25 Adamawa)  
+**Rollbacks:** All 3 rollback files created.
 
 ---
 

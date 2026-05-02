@@ -100,11 +100,14 @@ All data-ready migrations from the full seed backlog (P1a + P2–P9) are now wri
 | 0502 | S14 OSM state-specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia) | 1 | 62 POIs | ✅ DONE |
 | 0503 | S15 GRID3 health facilities national dataset (46,146 rows → 43,289 named unique) | 1 | 43,289 facilities | ✅ DONE |
 | 0504–0531 | S05 State assembly rosters — 28 states via NigerianLeaders.com web sprint (699/755 seats, 92.6%) | 28 | 699 politicians | ✅ DONE |
-| **TOTAL** | | **63 migrations + 63 rollbacks** | **111,742 records** | ✅ |
+| 0532 | Ogun 3-seat patch (Ado-Odo/Ota I confirmed; 2 seats still unavailable) | 1 | 1 politician | ✅ DONE |
+| 0533 | Abia State Assembly full roster (24/24 seats via Wikipedia) | 1 | 24 politicians | ✅ DONE |
+| 0534 | Adamawa State Assembly full roster (25/25 seats via Wikipedia election article, color-coded) | 1 | 25 politicians | ✅ DONE |
+| **TOTAL** | | **66 migrations + 66 rollbacks** | **111,792 records** | ✅ |
 
 - **D1 invariants enforced:** `INSERT OR IGNORE` everywhere, `unixepoch()` (no `NOW()`), `tenant_id='tenant_platform_seed'`, `workspace_id='workspace_platform_seed_discovery'`
-- **Next migration number:** 0532
-- **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs); Abia/Adamawa/Bauchi assembly rosters (NigerianLeaders 404 — alternate source needed); Ogun 3-seat patch reserved as 0532
+- **Next migration number:** 0535
+- **Remaining blocked:** 0471–0472 (KANSIEC/RSIEC LGA chairs — APC won all 44 Kano / PDP won all 23 Rivers; individual names not in accessible sources); Bauchi assembly (31 seats, no Wikipedia article, no NigerianLeaders data); Ogun IJEBU NORTH II + IJEBU EAST (2 seats, names not found)
 - **RISK-003 (ESLint apps/api): RESOLVED** — `.eslintrc.json` in apps/api already suppresses all 3 error categories (`no-unnecessary-type-assertion: off`, `no-unsafe-argument: off`, `no-unsafe-member-access: off`). No CI gate failure.
 
 ### Phase 1 Master Refactor — Engineering Complete (2026-05-02)
