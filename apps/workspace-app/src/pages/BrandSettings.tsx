@@ -29,6 +29,7 @@ interface BrandProfile {
   social_facebook: string | null;
   social_tiktok: string | null;
   social_youtube: string | null;
+  font_family: string | null;
   seo_title: string | null;
   seo_description: string | null;
   seo_keywords: string | null;
@@ -48,6 +49,20 @@ const THEMES = [
 ];
 
 // ─── Section wrapper ─────────────────────────────────────────────────────────
+
+// C2-extra: Google-hosted font options (no external fetch needed — font names are CSS-safe)
+const FONTS = [
+  { key: 'default',       label: 'System Default',  value: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+  { key: 'inter',         label: 'Inter',            value: '"Inter", sans-serif' },
+  { key: 'roboto',        label: 'Roboto',           value: '"Roboto", sans-serif' },
+  { key: 'open-sans',     label: 'Open Sans',        value: '"Open Sans", sans-serif' },
+  { key: 'lato',          label: 'Lato',             value: '"Lato", sans-serif' },
+  { key: 'poppins',       label: 'Poppins',          value: '"Poppins", sans-serif' },
+  { key: 'nunito',        label: 'Nunito',           value: '"Nunito", sans-serif' },
+  { key: 'playfair',      label: 'Playfair Display', value: '"Playfair Display", serif' },
+  { key: 'merriweather',  label: 'Merriweather',     value: '"Merriweather", serif' },
+];
+
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
@@ -82,7 +97,7 @@ export default function BrandSettings() {
     theme_key: 'waka_blue', primary_color: null, logo_url: null, custom_domain: null,
     social_whatsapp: null, social_instagram: null, social_twitter: null,
     social_facebook: null, social_tiktok: null, social_youtube: null,
-    seo_title: null, seo_description: null, seo_keywords: null,
+    font_family: null, seo_title: null, seo_description: null, seo_keywords: null,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
@@ -171,7 +186,14 @@ export default function BrandSettings() {
     }
   }, [loading, brand]);
 
-  if (loading) return <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af' }}>Loading brand settings…</div>;
+  if (loading) return (
+    <div style={{ padding: '24px 20px', maxWidth: 680, margin: '0 auto' }}>
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} style={{ height: 120, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', borderRadius: 12, marginBottom: 20, animation: 'shimmer 1.4s infinite' }} />
+      ))}
+      <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+    </div>
+  );
 
   const selectedTheme = THEMES.find(t => t.key === brand.theme_key) ?? THEMES[0]!;
 
@@ -214,6 +236,38 @@ export default function BrandSettings() {
             {saving === 'theme' ? 'Saving…' : 'Save Theme'}
           </Button>
         </div>
+      </Section>
+
+
+      {/* ── Font Family ────────────────────────────────────────────── */}
+      <Section title="Font Family" subtitle="Choose the typeface for your WakaPage. The font will be applied to headings and body text.">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+          {FONTS.map(f => {
+            const isSelected = (brand.font_family ?? 'default') === f.key;
+            return (
+              <button
+                key={f.key}
+                onClick={() => setBrand(prev => ({ ...prev, font_family: f.key }))}
+                style={{
+                  padding: '7px 14px', borderRadius: 20, fontSize: 13, fontWeight: isSelected ? 700 : 400,
+                  border: '1.5px solid', cursor: 'pointer',
+                  borderColor: isSelected ? '#0F4C81' : '#e5e7eb',
+                  background: isSelected ? '#eff6ff' : '#fff',
+                  color: isSelected ? '#0F4C81' : '#374151',
+                  fontFamily: f.value,
+                }}
+              >
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
+        <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 16 }}>
+          Preview: <span style={{ fontFamily: FONTS.find(f => f.key === (brand.font_family ?? 'default'))?.value }}>"The quick brown fox jumps over the lazy dog"</span>
+        </div>
+        <Button onClick={() => save('font', { font_family: brand.font_family })} disabled={saving === 'font'}>
+          {saving === 'font' ? 'Saving…' : 'Save Font'}
+        </Button>
       </Section>
 
       {/* ── Logo upload ────────────────────────────────────────────── */}
