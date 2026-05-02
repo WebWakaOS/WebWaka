@@ -158,9 +158,39 @@ Routes registered in: `apps/api/src/route-groups/register-admin-routes.ts`
 
 ---
 
-## 8. Next Steps (Batch 1+)
+## 8. Entitlement Middleware Wire-Up (T006 — Completed)
 
-- [ ] Wire `EntitlementEngine.resolveForWorkspace()` into `apps/api/src/middleware/entitlement.ts`  
+**New file:** `apps/api/src/middleware/workspace-entitlement-context.ts`
+
+Shared builder that runs on every entitlement-gated request:
+
+1. Queries `workspaces` table → `subscription_status`, `subscription_plan`, `active_layers`
+2. Calls `EntitlementEngine.resolveForWorkspace(workspaceId, planSlug)`
+3. Maps DB codes (snake_case) → `Partial<PlanConfig>` (camelCase) via two lookup tables:
+   - `NUMERIC_CODE_MAP`: `max_users` → `maxUsers`, `max_places` → `maxPlaces`, etc.
+   - `BOOLEAN_CODE_MAP`: `branding_rights` → `brandingRights`, `ai_rights` → `aiRights`, etc.
+4. Merges `layer_*` codes into `ctx.activeLayers` — DB layer grants intersect with workspace column
+5. Graceful fallback: if control-plane tables don't exist (pre-migration), returns `{}` → `PLAN_CONFIGS` used transparently
+
+**Updated files:**
+- `apps/api/src/middleware/entitlement.ts` — uses `buildWorkspaceContext()`, passes `ctx.entitlementCtx` to `requireLayerAccess`
+- `apps/api/src/middleware/ai-entitlement.ts` — uses `buildWorkspaceContext()`, passes `ctx.resolvedEntitlements` to `requireAIAccess` for DB-first AI rights resolution
+
+**Coverage:** Every route gated by `requireEntitlement(layer)` or `aiEntitlementMiddleware` now gets DB-first resolution automatically. This covers POS, all 159+ verticals, superagent, and vertical engine routes.
+
+**Resolution priority (enforced end-to-end):**
+```
+workspace_entitlement_overrides  (highest — per-workspace DB overrides, with optional expiry)
+  ↓
+package_entitlement_bindings     (per-plan DB entitlements seeded from PLAN_CONFIGS)
+  ↓
+PLAN_CONFIGS static fallback     (compatibility bridge — zero breaking changes)
+  ↓
+entitlement_definitions.default_value  (absolute last resort)
+```
+
+## 9. Next Steps (Batch 2+)
+
 - [ ] Billing route: read period length from `billing_intervals.interval_days` instead of hardcoded 30 days  
 - [ ] KV caching layer for `FlagService.resolve()` to avoid per-request DB reads  
 - [ ] `PilotFlagService` → delegate to `FlagService` (keep existing table as source-of-truth, add bridge)  

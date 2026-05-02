@@ -62,6 +62,7 @@ The system employs a serverless, edge-first architecture leveraging Cloudflare W
 - **Migrations 0464–0471**: 8 migration pairs (forward + rollback) covering subscription_packages, billing_intervals, package_pricing, entitlement_definitions, package_entitlement_bindings, workspace_entitlement_overrides, custom_roles, permission_definitions, role_permission_bindings, user_groups, group_memberships, admin_delegation_policies, configuration_flags, configuration_overrides, governance_audit_log, plus seed data translating all 7 hardcoded PLAN_CONFIGS into DB records.
 - **API**: 30+ routes under `/platform-admin/cp/*` (super_admin only + audit log) for plans, entitlements, roles, groups, feature flags, delegation policies, and audit query.
 - **Dashboard**: `apps/platform-admin/public/control-plane.html` — tabbed UI for all 5 control layers.
+- **Entitlement Middleware Wire-Up**: `apps/api/src/middleware/workspace-entitlement-context.ts` — shared builder that calls `EntitlementEngine.resolveForWorkspace()` on every gated request, maps DB codes → `Partial<PlanConfig>`, merges layer grants into `ctx.activeLayers`, and falls back to `PLAN_CONFIGS` transparently when control-plane tables are absent.
 - **Compatibility**: `PLAN_CONFIGS` and `ROLE_HIERARCHY` preserved unchanged as static fallbacks. No breaking changes.
 - **Implementation Register**: `IMPLEMENTATION_REGISTER.md` — full audit of hardcoded config locations, DB tables, API routes, resolution order, and migration risks.
 
