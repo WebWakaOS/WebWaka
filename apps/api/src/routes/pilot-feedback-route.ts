@@ -24,7 +24,7 @@
 import { Hono } from 'hono';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
-import { PilotFeedbackService, PilotOperatorService } from '@webwaka/pilot';
+import { PilotFeedbackService, PilotOperatorService, PilotFlagService } from '@webwaka/pilot';
 import type { PilotFeedbackType } from '@webwaka/pilot';
 
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext } };
@@ -88,6 +88,35 @@ export function pilotFeedbackRoute() {
     }
 
     return c.json({ ok: true, feedback_id: feedback.id }, 201);
+  });
+
+  // ─── GET /workspace/pilot-flags/:flagName ─────────────────────────────────
+  // FE-PILOT-01: Frontend flag check — returns { enabled: boolean }
+  // Reads feature flag from KV (feature_flag:<tenantId>:<flagName>).
+  // Falls back to pilot_feature_flags table if KV miss.
+  app.get('/flags/:flagName', async (c) => {
+    const auth = c.get('auth');
+    const flagName = c.req.param('flagName');
+
+    if (!flagName || !/^[a-z0-9_]{1,64}$/.test(flagName)) {
+      return c.json({ enabled: false });
+    }
+
+    try {
+      // 1. Try KV first (fast path)
+      const kvKey = `feature_flag:${auth.tenantId}:${flagName}`;
+      const kvVal = await (c.env as Record<string, unknown> & { FEATURE_FLAGS?: KVNamespace }).FEATURE_FLAGS?.get(kvKey);
+      if (kvVal !== null && kvVal !== undefined) {
+        return c.json({ enabled: kvVal === '1' });
+      }
+
+      // 2. Fall back to D1 pilot_feature_flags table
+      const flagSvc = new PilotFlagService(c.env.DB);
+      const flag = await flagSvc.getFlag(auth.tenantId, flagName).catch(() => null);
+      return c.json({ enabled: flag?.enabled === true });
+    } catch {
+      return c.json({ enabled: false });
+    }
   });
 
   return app;
