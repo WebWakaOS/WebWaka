@@ -8,10 +8,16 @@ import { defineConfig } from 'vitest/config';
         '@webwaka/verticals': path.resolve(__dirname, '../verticals/src/index.ts'),
       },
     },
-    test: {
-      globals: true,
-      environment: 'node',
-      include: ['src/**/*.test.ts'],
+  test: {
+    globals: true,
+    environment: 'node',
+    pool: 'vmForks',
+    server: {
+      deps: {
+        inline: [/@webwaka\//],
+      },
     },
+    include: ['src/**/*.test.ts'],
+  },
   });
   

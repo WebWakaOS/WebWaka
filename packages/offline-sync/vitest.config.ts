@@ -9,8 +9,13 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: 'node',
+    pool: 'vmForks',
+    server: {
+      deps: {
+        inline: [/@webwaka\//],
+      },
+    },
     include: ['src/**/*.test.ts'],
-    setupFiles: ['./src/test-setup.ts'],
   },
 });
