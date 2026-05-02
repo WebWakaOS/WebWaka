@@ -176,4 +176,5 @@ import { defineWorkspace } from 'vitest/config';
   'packages/ai-adapters/vitest.config.ts',
   'tests/regression/vitest.config.ts',
   'tests/governance/vitest.config.ts',
+  'packages/pilot/vitest.config.ts',
   ]);
