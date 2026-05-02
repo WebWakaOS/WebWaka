@@ -229,6 +229,43 @@ export default function Inventory() {
     }
   };
 
+  // B2-2: Bulk selection state
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkAdjType, setBulkAdjType] = useState<AdjustType>('receive');
+  const [bulkAdjQty, setBulkAdjQty] = useState('');
+  const [bulkAdjNote, setBulkAdjNote] = useState('');
+  const [bulkSaving, setBulkSaving] = useState(false);
+
+
+  // B2-2: Apply bulk adjustment to all selected products
+  const applyBulkAdjust = async () => {
+    if (selected.size === 0) { toast.error('Select at least one product'); return; }
+    const qty = parseInt(bulkAdjQty);
+    if (isNaN(qty) || qty <= 0) { toast.error('Enter a valid quantity'); return; }
+    if (!workspaceId) return;
+    setBulkSaving(true);
+    let successCount = 0;
+    for (const productId of Array.from(selected)) {
+      try {
+        await api.post(`/pos-business/inventory/${workspaceId}/adjust`, {
+          product_id: productId,
+          type: bulkAdjType,
+          qty,
+          note: bulkAdjNote.trim() || undefined,
+        });
+        successCount++;
+      } catch {
+        // continue with other products
+      }
+    }
+    setBulkSaving(false);
+    toast.success(`Bulk adjustment applied to ${successCount} product(s)`);
+    setSelected(new Set());
+    setBulkAdjQty('');
+    setBulkAdjNote('');
+    await loadProducts();
+  };
+
   const outCount = products.filter(p => (p.stock_qty ?? 1) === 0 && p.active).length;
   const lowCount = products.filter(p => {
     if (!p.active || p.stock_qty === null) return false;
@@ -293,6 +330,34 @@ export default function Inventory() {
             ))}
           </div>
 
+
+          {/* B2-2: Bulk action bar */}
+          {selected.size > 0 && (
+            <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: '12px 16px', marginBottom: 12, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#1d4ed8' }}>{selected.size} selected</span>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', flex: 1 }}>
+                {(['receive', 'return', 'writeoff'] as AdjustType[]).map(at => (
+                  <button key={at} onClick={() => setBulkAdjType(at)} style={{
+                    padding: '4px 12px', borderRadius: 16, fontSize: 12, fontWeight: 600, border: '1.5px solid',
+                    cursor: 'pointer',
+                    borderColor: bulkAdjType === at ? ADJUST_COLORS[at] : '#e5e7eb',
+                    background: bulkAdjType === at ? (at === 'receive' ? '#dcfce7' : at === 'return' ? '#dbeafe' : '#fee2e2') : '#fff',
+                    color: bulkAdjType === at ? ADJUST_COLORS[at] : '#6b7280',
+                  }}>{ADJUST_LABELS[at]}</button>
+                ))}
+                <input type="number" min={1} placeholder="Qty" value={bulkAdjQty} onChange={e => setBulkAdjQty(e.target.value)}
+                  style={{ width: 70, padding: '4px 8px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13 }} />
+                <input type="text" placeholder="Note (optional)" value={bulkAdjNote} onChange={e => setBulkAdjNote(e.target.value)}
+                  style={{ flex: 1, minWidth: 100, padding: '4px 8px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13 }} />
+                <button onClick={() => void applyBulkAdjust()} disabled={bulkSaving}
+                  style={{ background: '#0F4C81', color: '#fff', border: 'none', borderRadius: 8, padding: '6px 16px', fontSize: 13, fontWeight: 600, cursor: bulkSaving ? 'wait' : 'pointer' }}>
+                  {bulkSaving ? 'Saving…' : 'Apply to all'}
+                </button>
+                <button onClick={() => setSelected(new Set())} style={{ background: 'none', border: 'none', color: '#6b7280', cursor: 'pointer', fontSize: 12 }}>✕ Clear</button>
+              </div>
+            </div>
+          )}
+
           {/* Table */}
           {loading ? (
             <div style={{ textAlign: 'center', padding: 60, color: '#9ca3af' }}>Loading inventory…</div>
@@ -308,6 +373,7 @@ export default function Inventory() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
                 <thead>
                   <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                    <th style={{ padding: '10px 12px', width: 36 }}><input type="checkbox" onChange={e => setSelected(e.target.checked ? new Set(filtered.map(p => p.id)) : new Set())} checked={selected.size === filtered.length && filtered.length > 0} /></th>
                     {['Product', 'SKU', 'Price', 'Stock', 'Threshold', 'Actions'].map(h => (
                       <th key={h} style={{ padding: '10px 12px', textAlign: 'left', fontWeight: 600, color: '#374151', whiteSpace: 'nowrap' }}>{h}</th>
                     ))}
@@ -316,6 +382,7 @@ export default function Inventory() {
                 <tbody>
                   {filtered.map((p, i) => (
                     <tr key={p.id} style={{ borderBottom: '1px solid #f3f4f6', background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
+                      <td style={{ padding: '10px 12px', width: 36 }}><input type="checkbox" checked={selected.has(p.id)} onChange={e => setSelected(prev => { const s = new Set(prev); e.target.checked ? s.add(p.id) : s.delete(p.id); return s; })} /></td>
                       <td style={{ padding: '10px 12px', fontWeight: 500, color: '#111827' }}>
                         {p.name}
                         {!p.active && <span style={{ marginLeft: 6, fontSize: 11, color: '#9ca3af', background: '#f3f4f6', borderRadius: 4, padding: '1px 6px' }}>Inactive</span>}
@@ -358,7 +425,12 @@ export default function Inventory() {
       {tab === 'log' && (
         <>
           {auditLoading ? (
-            <div style={{ textAlign: 'center', padding: 60, color: '#9ca3af' }}>Loading audit log…</div>
+            <div>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} style={{ height: 44, background: 'linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)', backgroundSize: '200% 100%', borderRadius: 8, marginBottom: 8, animation: 'shimmer 1.4s infinite' }} />
+              ))}
+              <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+            </div>
           ) : auditLog.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60 }}>
               <div style={{ fontSize: 40, marginBottom: 10 }}>📋</div>
