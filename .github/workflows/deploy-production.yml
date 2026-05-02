@@ -454,7 +454,8 @@ jobs:
     name: Smoke Test (Production)
     needs: [deploy-api-production, deploy-workers-production]
     runs-on: ubuntu-latest
-    continue-on-error: true
+    # Wave 4 (G6-8): Hard gate — smoke failures now block blue-green promotion.
+    # Was continue-on-error: true; removed so canary circuit-breaker can act.
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -465,12 +466,21 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Run production smoke tests
+      - name: Run production smoke tests (scripts/smoke-production.mjs)
+        # G6-8: Hard gate smoke — exit 1 blocks downstream blue-green promotion.
+        run: node scripts/smoke-production.mjs
+        env:
+          SMOKE_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+          SMOKE_API_KEY: ${{ secrets.SMOKE_API_KEY }}
+          SMOKE_TIMEOUT_MS: "10000"
+      - name: Run extended smoke suite (tests/smoke/)
+        # Soft-gate: extended suite failures emit a warning but do not block.
+        continue-on-error: true
         run: |
           if [ -f "tests/smoke/package.json" ]; then
             pnpm --filter smoke run smoke:production
           else
-            echo "Smoke tests not yet implemented — skipping"
+            echo "Extended smoke suite not yet present — skipping"
           fi
         env:
           SMOKE_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
