@@ -54,10 +54,10 @@
 - [x] A4-5: Add HITL audit trail: append structured event to `ai_hitl_events` on every status change (pending → approved/rejected/expired/executed)
 
 ### A5. State Persistence & Session Hardening
-- [ ] A5-1: Add `SessionService` TTL cleanup cron in `apps/schedulers` — expire sessions older than 7 days of inactivity (currently no cleanup job exists)
+- [x] A5-1: Add `SessionService` TTL cleanup cron in `apps/schedulers` — expire sessions older than 7 days of inactivity (currently no cleanup job exists)
 - [x] A5-2: Add `GET /superagent/sessions` and `DELETE /superagent/sessions/:id` routes for session listing and GDPR-compliant deletion
-- [ ] A5-3: Add context-window trim test: verify `loadHistory(maxTokens)` correctly drops oldest messages when budget is exceeded
-- [ ] A5-4: Implement session title auto-generation: after first assistant message, call a cheap AI completion to set `title` in `ai_sessions` (currently always null)
+- [x] A5-3: Add context-window trim test: verify `loadHistory(maxTokens)` correctly drops oldest messages when budget is exceeded
+- [x] A5-4: Implement session title auto-generation: after first assistant message, call a cheap AI completion to set `title` in `ai_sessions` (currently always null)
 
 ### A6. AI Observability & Background Jobs
 - [ ] A6-1: Add `GET /admin/ai/usage` endpoint — aggregate usage by tenant, pillar, capability, provider for the platform admin dashboard (currently `admin-metrics.ts` exists but AI-specific aggregation is missing)

@@ -125,6 +125,28 @@ const JOBS: Record<string, JobFn> = {
     }));
   },
 
+
+  // Wave 3 (A5-1): AI session inactivity TTL cleanup — expire sessions idle for 7+ days
+  'ai-session-inactivity-cleanup': async (env: Env) => {
+    // Sessions where last_active_at is older than 7 days and status is still 'active'
+    // are marked 'expired'. Their messages are retained for GDPR export until
+    // the standard expires_at TTL fires (handled by ai-session-prune).
+    // T3: query uses no cross-tenant joins; session rows already carry tenant_id.
+    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const result = await env.DB.prepare(
+      `UPDATE ai_sessions
+       SET status = 'expired', updated_at = datetime('now')
+       WHERE status = 'active'
+         AND last_active_at < ?
+         AND last_active_at IS NOT NULL`,
+    ).bind(cutoff).run();
+    const expired = result.meta?.changes ?? 0;
+    console.log(JSON.stringify({
+      level: 'info', event: 'ai_sessions_inactivity_expired',
+      count: expired, cutoffDate: cutoff,
+    }));
+  },
+
   'dsar-export-processor': async (env: Env) => {
     // COMP-002: Process pending DSAR export requests (R2-backed, with retry).
     // Delegates to DsarProcessorService which compiles 8 data categories per user.
