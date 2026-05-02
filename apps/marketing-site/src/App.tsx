@@ -13,6 +13,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { useDocumentMeta } from './hooks/useDocumentMeta';
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
 const PRIMARY = '#0F4C81';
@@ -251,6 +252,8 @@ function CookieConsentBanner({ onConsent }: { onConsent: (status: 'accepted' | '
 
 // ─── Privacy Policy Page ──────────────────────────────────────────────────────
 function PrivacyPolicyPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Privacy Policy", path: "/privacy" });
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px' }}>
       <button onClick={onBack} style={{ background: 'none', border: 'none', color: PRIMARY, fontWeight: 600, fontSize: 14, cursor: 'pointer', marginBottom: 32, padding: 0 }}>
@@ -308,6 +311,8 @@ function PrivacyPolicyPage({ onBack }: { onBack: () => void }) {
 
 // ─── Terms of Service Page ────────────────────────────────────────────────────
 function TermsPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Terms of Service", path: "/terms" });
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px' }}>
       <button onClick={onBack} style={{ background: 'none', border: 'none', color: PRIMARY, fontWeight: 600, fontSize: 14, cursor: 'pointer', marginBottom: 32, padding: 0 }}>
@@ -371,6 +376,8 @@ function TermsPage({ onBack }: { onBack: () => void }) {
 const API_BASE = 'https://api.webwaka.com';
 
 function ContactPage({ onBack }: { onBack: () => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Contact Us", description: "Reach the WebWaka OS team — support, partnerships, and media enquiries.", path: "/contact" });
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -477,6 +484,8 @@ const FEATURES_DETAILED = [
 ];
 
 function FeaturesPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Features", description: "Explore WebWaka OS features — POS terminal, AI advisory, WakaPage builder, USSD access, and 159+ business verticals.", path: "/features" });
   return (
     <main style={{ background: '#fff', minHeight: '100vh' }}>
       <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
@@ -539,6 +548,8 @@ function checkCell(val: boolean | string) {
 }
 
 function PricingPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Pricing", description: "Transparent pricing for every stage — Free, Starter ₦5,000/mo, Growth ₦15,000/mo. Try WebWaka OS free.", path: "/pricing" });
   return (
     <main style={{ background: '#fff', minHeight: '100vh' }}>
       <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
@@ -594,6 +605,8 @@ function PricingPage({ onNavigate }: { onNavigate: (p: string) => void }) {
 
 // ─── Blog Page (A1-4) ─────────────────────────────────────────────
 function BlogPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "Blog & Resources", description: "Expert insights on digital transformation for African businesses — POS tips, fintech trends, SME growth strategies.", path: "/blog" });
   return (
     <main style={{ background: '#fff', minHeight: '100vh' }}>
       <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #1d6fad 100%)`, padding: '64px 24px', textAlign: 'center' }}>
@@ -634,6 +647,8 @@ const TEAM_ROLES = [
 ];
 
 function AboutPage({ onNavigate }: { onNavigate: (p: string) => void }) {
+  // A1-9: per-page meta
+  useDocumentMeta({ title: "About WebWaka", description: "Our mission: governance-driven AI transformation for Africa's 40M+ SMEs. Built by Nigerians, for Africa.", path: "/about" });
   return (
     <main style={{ background: '#fff', minHeight: '100vh' }}>
       <div style={{ background: DARK, padding: '64px 24px', textAlign: 'center' }}>
