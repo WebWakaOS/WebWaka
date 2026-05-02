@@ -126,17 +126,17 @@ describe('storeExport (H-4)', () => {
     const payload = {
       user_id: 'usr-1', tenant_id: 'tenant-1', request_id: 'req-1',
       exported_at: new Date().toISOString(),
-    } as Parameters<typeof storeExport>[1];
+    } as Parameters<typeof storeExport>[3];
 
-    const result = await storeExport(r2, payload);
+    const result = await storeExport(r2, payload.tenant_id!, payload.request_id!, payload);
 
     expect(r2.put).toHaveBeenCalledOnce();
-    expect(result.key).toMatch(/^dsar\//);
-    expect(result.key).toContain('req-1');
+    expect(result.exportKey).toMatch(/^dsar\//);
+    expect(result.exportKey).toContain('req-1');
     expect(result.expiresAt).toBeDefined();
-    // Expiry should be at least 7 days in the future
-    expect(new Date(result.expiresAt).getTime()).toBeGreaterThan(
-      Date.now() + 6 * 24 * 60 * 60 * 1000,
+    // Expiry should be at least 7 days in the future (seconds-based Unix timestamp)
+    expect(result.expiresAt).toBeGreaterThan(
+      Math.floor(Date.now() / 1000) + 6 * 24 * 60 * 60,
     );
   });
 
@@ -146,9 +146,9 @@ describe('storeExport (H-4)', () => {
       user_id: 'usr-2', tenant_id: 'tenant-2', request_id: 'req-2',
       exported_at: new Date().toISOString(),
       consent: [{ id: 'c1', purpose: 'ai_processing' }],
-    } as unknown as Parameters<typeof storeExport>[1];
+    } as unknown as Parameters<typeof storeExport>[3];
 
-    await storeExport(r2, payload);
+    await storeExport(r2, payload.tenant_id!, payload.request_id!, payload);
 
     const storedValue = (r2.put as ReturnType<typeof vi.fn>).mock.calls[0][1] as string;
     const parsed = JSON.parse(storedValue);
@@ -169,11 +169,11 @@ describe('storeExport (H-4)', () => {
     const payload = {
       user_id: 'usr-3', tenant_id: 'tenant-3', request_id: 'req-3',
       exported_at: new Date().toISOString(),
-    } as Parameters<typeof storeExport>[1];
+    } as Parameters<typeof storeExport>[3];
 
-    const result = await storeExport(r2, payload);
+    const result = await storeExport(r2, payload.tenant_id!, payload.request_id!, payload);
     expect(r2.put).toHaveBeenCalledTimes(2);
-    expect(result.key).toContain('req-3');
+    expect(result.exportKey).toContain('req-3');
   });
 });
 
@@ -195,11 +195,14 @@ describe('DsarProcessorService.processNextBatch (H-4)', () => {
     const db = {
       prepare: vi.fn().mockImplementation((sql: string) => ({
         bind: (..._args: unknown[]) => {
-          if (sql.includes('dsar_requests') && sql.includes('status IN')) {
-            return { first: vi.fn().mockResolvedValue(pendingRow) };
-          }
           if (sql.trim().toUpperCase().startsWith('UPDATE')) {
             return { run: updateRun };
+          }
+          if (sql.includes('dsar_requests') && (sql.includes('status IN') || sql.includes('retry_count'))) {
+            return {
+              all: vi.fn().mockResolvedValue({ results: [pendingRow] }),
+              first: vi.fn().mockResolvedValue(pendingRow),
+            };
           }
           return makeBindable();
         },
@@ -230,11 +233,14 @@ describe('DsarProcessorService.processNextBatch (H-4)', () => {
     const db = {
       prepare: vi.fn().mockImplementation((sql: string) => ({
         bind: (..._args: unknown[]) => {
-          if (sql.includes('dsar_requests') && sql.includes('status IN')) {
-            return { first: vi.fn().mockResolvedValue(pendingRow) };
-          }
           if (sql.trim().toUpperCase().startsWith('UPDATE')) {
             return { run: updateRun };
+          }
+          if (sql.includes('dsar_requests') && (sql.includes('status IN') || sql.includes('retry_count'))) {
+            return {
+              all: vi.fn().mockResolvedValue({ results: [pendingRow] }),
+              first: vi.fn().mockResolvedValue(pendingRow),
+            };
           }
           return makeBindable();
         },
@@ -261,12 +267,15 @@ describe('DsarProcessorService.processNextBatch (H-4)', () => {
     const db = {
       prepare: vi.fn().mockImplementation((sql: string) => ({
         bind: (..._args: unknown[]) => {
-          if (sql.includes('dsar_requests') && sql.includes('status IN')) {
-            // retry_count 3 should be excluded by the query — return null
-            return { first: vi.fn().mockResolvedValue(null) };
-          }
           if (sql.trim().toUpperCase().startsWith('UPDATE')) {
             return { run: updateRun };
+          }
+          if (sql.includes('dsar_requests') && (sql.includes('status IN') || sql.includes('retry_count'))) {
+            // retry_count 3 should be excluded by the query (WHERE retry_count < 3) — return empty
+            return {
+              all: vi.fn().mockResolvedValue({ results: [] }),
+              first: vi.fn().mockResolvedValue(null),
+            };
           }
           return makeBindable();
         },
@@ -302,8 +311,11 @@ describe('DSAR static config (H-4)', () => {
   it('DSAR_BUCKET R2 binding is declared in apps/api/wrangler.toml', async () => {
     const { readFileSync } = await import('fs');
     const { join } = await import('path');
+    // Resolve relative to this test file (tests/e2e/api/) → go up 3 levels to monorepo root
+    const { fileURLToPath } = await import('url');
+    const monorepoRoot = join(fileURLToPath(import.meta.url), '..', '..', '..', '..');
     const wrangler = readFileSync(
-      join(process.cwd(), 'apps', 'api', 'wrangler.toml'),
+      join(monorepoRoot, 'apps', 'api', 'wrangler.toml'),
       'utf-8',
     );
     expect(wrangler).toContain('DSAR_BUCKET');
@@ -312,8 +324,10 @@ describe('DSAR static config (H-4)', () => {
   it('DSAR_BUCKET R2 binding is declared in apps/schedulers wrangler.toml', async () => {
     const { readFileSync } = await import('fs');
     const { join, resolve } = await import('path');
+    const { fileURLToPath: fileURLToPath2 } = await import('url');
+    const monorepoRoot2 = join(fileURLToPath2(import.meta.url), '..', '..', '..', '..');
     const schedulersToml = resolve(
-      join(process.cwd(), 'apps', 'schedulers', 'wrangler.toml'),
+      join(monorepoRoot2, 'apps', 'schedulers', 'wrangler.toml'),
     );
     try {
       const content = readFileSync(schedulersToml, 'utf-8');
@@ -321,7 +335,7 @@ describe('DSAR static config (H-4)', () => {
     } catch {
       // If wrangler.toml for schedulers doesn't exist, check the combined config
       const apiToml = readFileSync(
-        join(process.cwd(), 'apps', 'api', 'wrangler.toml'),
+        join(monorepoRoot2, 'apps', 'api', 'wrangler.toml'),
         'utf-8',
       );
       expect(apiToml).toContain('DSAR_BUCKET');
