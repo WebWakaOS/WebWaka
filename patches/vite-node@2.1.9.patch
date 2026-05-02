@@ -1,0 +1,24 @@
+diff --git a/dist/client.mjs b/dist/client.mjs
+--- a/dist/client.mjs
++++ b/dist/client.mjs
+@@ -366,6 +366,7 @@
+       __vite_ssr_dynamic_import__: request,
+       __vite_ssr_exports__: exports,
+       __vite_ssr_exportAll__: (obj) => exportAll(exports, obj),
++      __vite_ssr_exportName__: (name, getter) => Object.defineProperty(exports, name, { enumerable: true, configurable: true, get: getter }),
+       __vite_ssr_import_meta__: meta,
+       // cjs compact
+       require: createRequire(href),
+
+diff --git a/dist/client.cjs b/dist/client.cjs
+--- a/dist/client.cjs
++++ b/dist/client.cjs
+@@ -368,6 +368,7 @@
+       __vite_ssr_dynamic_import__: request,
+       __vite_ssr_exports__: exports,
+       __vite_ssr_exportAll__: (obj) => exportAll(exports, obj),
++      __vite_ssr_exportName__: (name, getter) => Object.defineProperty(exports, name, { enumerable: true, configurable: true, get: getter }),
+       __vite_ssr_import_meta__: meta,
+       // cjs compact
+       require: node_module.createRequire(href),
+

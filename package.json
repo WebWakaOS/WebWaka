@@ -2,7 +2,7 @@
   "name": "webwaka-os",
   "version": "1.0.0",
   "private": true,
-  "description": "WebWaka OS monorepo — governance-driven platform for Africa",
+  "description": "WebWaka OS monorepo \u2014 governance-driven platform for Africa",
   "scripts": {
     "dev": "node apps/platform-admin/server.js",
     "typecheck": "pnpm -r --parallel run typecheck",
@@ -73,6 +73,9 @@
       "vite": ">=5.4.21",
       "serialize-javascript": ">=7.0.3",
       "postcss": ">=8.5.10"
+    },
+    "patchedDependencies": {
+      "vite-node@2.1.9": "patches/vite-node@2.1.9.patch"
     }
   }
 }
