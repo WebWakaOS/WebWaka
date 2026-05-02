@@ -212,6 +212,51 @@
       </div>
     </div>
 
+
+    <h2 class="section-title" id="pilot-heading">Pilot Cohort Dashboard</h2>
+    <div id="pilot-dashboard" role="region" aria-labelledby="pilot-heading" aria-live="polite">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;">
+          <div id="pilot-stat-active" style="padding:20px 24px;border-right:1px solid var(--border);">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;">Active Operators</div>
+            <div style="font-size:28px;font-weight:700;color:#22c55e;" aria-live="polite">—</div>
+          </div>
+          <div id="pilot-stat-pending" style="padding:20px 24px;border-right:1px solid var(--border);">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;">Pending Setup</div>
+            <div style="font-size:28px;font-weight:700;color:#f59e0b;" aria-live="polite">—</div>
+          </div>
+          <div id="pilot-stat-nps" style="padding:20px 24px;border-right:1px solid var(--border);">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;">Avg NPS Score</div>
+            <div style="font-size:28px;font-weight:700;color:#60a5fa;" aria-live="polite">—</div>
+          </div>
+          <div id="pilot-stat-feedback" style="padding:20px 24px;">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;">Feedback Responses</div>
+            <div style="font-size:28px;font-weight:700;color:#e5e7eb;" aria-live="polite">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NPS Trend Sparkline -->
+      <div class="card" style="margin-top:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;font-size:14px;font-weight:600;">NPS Trend (30 days)</h3>
+          <span id="pilot-nps-index" style="font-size:12px;background:#1f2937;padding:3px 10px;border-radius:20px;color:#9ca3af;">index: —</span>
+        </div>
+        <canvas id="pilot-nps-canvas" width="700" height="80" style="width:100%;height:80px;" aria-label="NPS trend chart"></canvas>
+        <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--muted);">
+          <span style="color:#22c55e;">■ Promoters (9–10)</span>
+          <span style="color:#f59e0b;">■ Passives (7–8)</span>
+          <span style="color:#ef4444;">■ Detractors (0–6)</span>
+        </div>
+      </div>
+
+      <!-- Operator List -->
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin:0 0 12px;font-size:14px;font-weight:600;">Cohort 1 Operators</h3>
+        <div id="pilot-operator-list" style="font-size:13px;color:var(--muted);">Loading...</div>
+      </div>
+    </div>
+
     <h2 class="section-title" id="principles-heading">Core Principles</h2>
     <div class="principles" role="list" aria-labelledby="principles-heading">
       <div class="principle" role="listitem">
@@ -254,6 +299,94 @@
   </footer>
 
   <script>
+    // ── Pilot Dashboard ────────────────────────────────────────────────────
+    (function loadPilotDashboard() {
+      const API = (window.WEBWAKA_API_URL || '') + '/platform-admin/pilots';
+      const token = localStorage.getItem('ww_admin_token') || '';
+
+      function setEl(id, text, color) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = text; if (color) el.style.color = color; }
+      }
+
+      function renderOperators(operators) {
+        var el = document.getElementById('pilot-operator-list');
+        if (!el) return;
+        if (!operators || operators.length === 0) {
+          el.textContent = 'No operators found.';
+          return;
+        }
+        var STATUS_COLOR = { active: '#22c55e', pending: '#f59e0b', suspended: '#ef4444', completed: '#60a5fa' };
+        el.innerHTML = operators.map(function(op) {
+          var color = STATUS_COLOR[op.status] || '#9ca3af';
+          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2937;">'
+            + '<div><div style="font-weight:600;color:#e5e7eb;">' + (op.name || op.operator_name || op.tenant_id) + '</div>'
+            + '<div style="color:#6b7280;font-size:12px;">' + (op.vertical_code || '—') + ' · ' + (op.cohort || '—') + '</div></div>'
+            + '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:' + color + '22;color:' + color + ';">' + op.status + '</span>'
+            + '</div>';
+        }).join('');
+      }
+
+      function drawSparkline(npsHistory) {
+        var canvas = document.getElementById('pilot-nps-canvas');
+        if (!canvas || !canvas.getContext || !npsHistory || npsHistory.length === 0) return;
+        var ctx = canvas.getContext('2d');
+        var W = canvas.offsetWidth || 700;
+        var H = 80;
+        canvas.width = W;
+        ctx.clearRect(0, 0, W, H);
+        var vals = npsHistory.map(function(d) { return d.avg_score || 0; });
+        var min = 0; var max = 10;
+        var step = W / Math.max(vals.length - 1, 1);
+        ctx.beginPath();
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 2;
+        vals.forEach(function(v, i) {
+          var x = i * step;
+          var y = H - ((v - min) / (max - min)) * (H - 12) - 4;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        // Fill under the line
+        ctx.lineTo((vals.length - 1) * step, H);
+        ctx.lineTo(0, H);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(96,165,250,0.08)';
+        ctx.fill();
+      }
+
+      fetch(API + '/operators/summary', {
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      })
+      .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function(d) {
+        setEl('pilot-stat-active',   String(d.active   ?? '—'), '#22c55e');
+        setEl('pilot-stat-pending',  String(d.pending  ?? '—'), '#f59e0b');
+        setEl('pilot-stat-nps',      d.avg_nps != null ? d.avg_nps.toFixed(1) : '—', '#60a5fa');
+        setEl('pilot-stat-feedback', String(d.feedback_count ?? '—'), '#e5e7eb');
+        var idx = d.nps_index != null ? (d.nps_index >= 0 ? '+' : '') + d.nps_index : '—';
+        setEl('pilot-nps-index', 'NPS index: ' + idx);
+        if (d.nps_history) drawSparkline(d.nps_history);
+      })
+      .catch(function() {
+        setEl('pilot-stat-active', 'N/A'); setEl('pilot-stat-pending', 'N/A');
+        setEl('pilot-stat-nps', 'N/A'); setEl('pilot-stat-feedback', 'N/A');
+        var el = document.getElementById('pilot-nps-index');
+        if (el) el.textContent = 'Requires super_admin login';
+      });
+
+      fetch(API + '/operators?cohort=cohort_1&limit=20', {
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      })
+      .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function(d) { renderOperators(d.operators || d); })
+      .catch(function() {
+        var el = document.getElementById('pilot-operator-list');
+        if (el) el.textContent = 'Requires super_admin login to view.';
+      });
+    })();
+    // ── End Pilot Dashboard ────────────────────────────────────────────────
+
     document.body.classList.add('app-loaded');
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(function() {});
