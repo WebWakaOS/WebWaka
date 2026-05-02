@@ -35,7 +35,7 @@ describe('AIUsageChart data types (A6-2)', () => {
     expect(typeof d.totalWakaCu).toBe('number');
   });
   it('DailySpend values are integers (P9)', () => {
-    makeMockData().dailySpend.forEach(d => {
+    makeMockData().dailySpend.forEach((d: DailySpend) => {
       expect(Number.isInteger(d.wakaCuTotal)).toBe(true);
     });
   });
@@ -46,13 +46,13 @@ describe('AIUsageChart data types (A6-2)', () => {
     }
   });
   it('topCapabilities have non-empty slugs', () => {
-    makeMockData().topCapabilities.forEach(c => {
+    makeMockData().topCapabilities.forEach((c: CapabilityUsage) => {
       expect(c.capability.length).toBeGreaterThan(0);
       expect(c.callCount).toBeGreaterThanOrEqual(0);
     });
   });
   it('unnamed tenant falls back to tenantId', () => {
-    const unnamed = makeMockData().topTenants.find(t => !t.tenantName);
+    const unnamed = makeMockData().topTenants.find((t: TenantSpend) => !t.tenantName);
     expect(unnamed?.tenantId).toBeTruthy();
   });
   it('totalWakaCu is a positive integer', () => {
