@@ -28,7 +28,7 @@ function resolveActor(c: { get: (k: string) => unknown }): ActorContext {
 const roleRoutes = new Hono<{ Bindings: Env }>();
 
 roleRoutes.get('/permissions', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const category = c.req.query('category');
   const scope = c.req.query('scope');
   const result = await cp.permissions.listPermissions({ category, scope });
@@ -36,14 +36,14 @@ roleRoutes.get('/permissions', async (c) => {
 });
 
 roleRoutes.get('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { tenantId?: string } | undefined;
   const roles = await cp.permissions.listRoles({ tenantId: auth?.tenantId, isActive: true });
   return c.json({ results: roles });
 });
 
 roleRoutes.post('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const auth = c.get('auth') as { tenantId?: string } | undefined;
   const body = await c.req.json<{ code: string; name: string; description?: string; base_role?: string; max_grantable_role?: string }>();
@@ -58,7 +58,7 @@ roleRoutes.post('/', async (c) => {
 });
 
 roleRoutes.get('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const role = await cp.permissions.getRole(c.req.param('id'));
   if (!role) return c.json({ error: 'Role not found' }, 404);
 
@@ -71,7 +71,7 @@ roleRoutes.get('/:id', async (c) => {
 });
 
 roleRoutes.post('/:id/permissions', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ permission_ids: string[]; granted?: boolean }>();
   if (!Array.isArray(body.permission_ids)) return c.json({ error: 'permission_ids array required' }, 400);

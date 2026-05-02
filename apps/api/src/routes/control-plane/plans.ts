@@ -33,7 +33,7 @@ function resolveActor(c: { get: (k: string) => unknown; env: Env; req: { header:
 const planRoutes = new Hono<{ Bindings: Env }>();
 
 planRoutes.get('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const status = c.req.query('status') as 'active' | 'inactive' | 'archived' | 'draft' | undefined;
   const audience = c.req.query('target_audience');
   const limit = parseInt(c.req.query('limit') ?? '50', 10);
@@ -44,7 +44,7 @@ planRoutes.get('/', async (c) => {
 });
 
 planRoutes.post('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ slug: string; name: string; description?: string; status?: 'active' | 'draft'; target_audience?: string; is_public?: boolean; sort_order?: number }>();
 
@@ -57,13 +57,13 @@ planRoutes.post('/', async (c) => {
 });
 
 planRoutes.get('/billing-intervals', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const intervals = await cp.plans.listBillingIntervals();
   return c.json({ results: intervals });
 });
 
 planRoutes.get('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const pkg = await cp.plans.getPackage(c.req.param('id'));
   if (!pkg) return c.json({ error: 'Package not found' }, 404);
 
@@ -76,7 +76,7 @@ planRoutes.get('/:id', async (c) => {
 });
 
 planRoutes.patch('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ name?: string; description?: string; status?: 'active' | 'inactive' | 'archived' | 'draft'; is_public?: boolean; sort_order?: number }>();
   const updated = await cp.plans.updatePackage(c.req.param('id'), body, actor);
@@ -84,21 +84,21 @@ planRoutes.patch('/:id', async (c) => {
 });
 
 planRoutes.post('/:id/activate', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   await cp.plans.activatePackage(c.req.param('id'), actor);
   return c.json({ success: true, message: 'Package activated' });
 });
 
 planRoutes.post('/:id/deactivate', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   await cp.plans.deactivatePackage(c.req.param('id'), actor);
   return c.json({ success: true, message: 'Package deactivated' });
 });
 
 planRoutes.post('/:id/archive', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ superseded_by?: string }>().catch(() => ({}));
   await cp.plans.archivePackage(c.req.param('id'), body.superseded_by ?? null, actor);
@@ -106,13 +106,13 @@ planRoutes.post('/:id/archive', async (c) => {
 });
 
 planRoutes.get('/:id/pricing', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const pricing = await cp.plans.getPackagePricing(c.req.param('id'));
   return c.json({ results: pricing });
 });
 
 planRoutes.put('/:id/pricing', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ billing_interval_id: string; price_kobo: number; currency?: string; effective_from?: number; effective_until?: number | null; trial_days_override?: number | null; paystack_plan_code?: string | null }>();
 

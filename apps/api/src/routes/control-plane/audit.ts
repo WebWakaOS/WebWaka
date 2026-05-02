@@ -11,7 +11,7 @@ import { createControlPlane } from '@webwaka/control-plane';
 const auditRoutes = new Hono<{ Bindings: Env }>();
 
 auditRoutes.get('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { tenantId?: string } | undefined;
   const tenantId = c.req.query('tenant_id') ?? auth?.tenantId;
   const resourceType = c.req.query('resource_type');

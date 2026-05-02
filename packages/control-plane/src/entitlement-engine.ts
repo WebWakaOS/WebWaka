@@ -47,7 +47,7 @@ export class EntitlementEngine {
       this.db.prepare(`SELECT COUNT(*) as total FROM entitlement_definitions ${where}`).bind(...bindings).first<{ total: number }>(),
     ]);
 
-    return { results: rows.results, total: countRow?.total, limit, offset };
+    return { results: rows.results, ...(countRow?.total !== undefined ? { total: countRow.total } : {}), limit, offset };
   }
 
   async getDefinition(idOrCode: string): Promise<EntitlementDefinition | null> {

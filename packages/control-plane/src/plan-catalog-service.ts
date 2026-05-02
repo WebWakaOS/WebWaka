@@ -72,7 +72,7 @@ export class PlanCatalogService {
         .bind(...bindings).first<{ total: number }>(),
     ]);
 
-    return { results: rows.results, total: countRow?.total, limit, offset };
+    return { results: rows.results, ...(countRow?.total !== undefined ? { total: countRow.total } : {}), limit, offset };
   }
 
   async getPackage(idOrSlug: string): Promise<SubscriptionPackage | null> {

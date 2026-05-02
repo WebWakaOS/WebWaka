@@ -39,7 +39,7 @@ groupRoutes.get('/', async (c) => {
 });
 
 groupRoutes.post('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const auth = c.get('auth') as { tenantId?: string; workspaceId?: string } | undefined;
   const body = await c.req.json<{ name: string; description?: string; group_type?: string; parent_id?: string }>();
@@ -54,7 +54,7 @@ groupRoutes.post('/', async (c) => {
 });
 
 groupRoutes.post('/:id/members', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { userId: string; tenantId?: string } | undefined;
   const body = await c.req.json<{ user_id: string }>();
   if (!body.user_id) return c.json({ error: 'user_id required' }, 400);
@@ -63,13 +63,13 @@ groupRoutes.post('/:id/members', async (c) => {
 });
 
 groupRoutes.delete('/:id/members/:uid', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   await cp.permissions.removeGroupMember(c.req.param('id'), c.req.param('uid'));
   return c.json({ success: true });
 });
 
 groupRoutes.post('/:id/roles', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { userId: string } | undefined;
   const body = await c.req.json<{ role_id: string }>();
   if (!body.role_id) return c.json({ error: 'role_id required' }, 400);
@@ -78,7 +78,7 @@ groupRoutes.post('/:id/roles', async (c) => {
 });
 
 groupRoutes.get('/users/:uid/permissions', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { tenantId?: string; workspaceId?: string } | undefined;
   const workspaceId = c.req.query('workspace_id') ?? auth?.workspaceId ?? '';
   const tenantId = auth?.tenantId ?? '';
@@ -93,7 +93,7 @@ groupRoutes.get('/users/:uid/permissions', async (c) => {
 });
 
 groupRoutes.post('/users/:uid/overrides', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const auth = c.get('auth') as { tenantId?: string } | undefined;
   const body = await c.req.json<{ permission_id: string; granted: boolean; workspace_id?: string; reason?: string; expires_at?: number }>();

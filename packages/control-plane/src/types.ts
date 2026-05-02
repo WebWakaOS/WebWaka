@@ -14,6 +14,14 @@ export interface D1Like {
   };
 }
 
+// ─── KV-like interface (Cloudflare KVNamespace compatible) ───────────────────
+
+export interface KVLike {
+  get(key: string): Promise<string | null>;
+  put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>;
+  delete(key: string): Promise<void>;
+}
+
 // ─── Pagination ──────────────────────────────────────────────────────────────
 
 export interface PaginationOptions {
@@ -194,6 +202,10 @@ export interface ConfigurationFlag {
   is_kill_switch: number;
   rollout_pct: number;
   is_active: number;
+  notes?: string;
+  created_by?: string;
+  created_at?: number;
+  updated_at?: number;
 }
 
 export interface FlagResolutionContext {

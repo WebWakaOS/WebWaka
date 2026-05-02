@@ -216,9 +216,45 @@ Seeds two flags into `configuration_flags` (dashboard-editable, no redeploy requ
 **Static fallback updated:** `STATIC_PLAN_RANK` now covers all 7 plans seeded in 0471:
 `free(0) → starter(1) → growth(2) → pro(3) → enterprise(4) → partner(5) → sub_partner(6)`
 
-## 10. Next Steps (Batch 3+)
+## 10. FlagService KV Caching (Completed)
 
-- [ ] KV caching layer for `FlagService.resolve()` to avoid per-request DB reads  
+**Files changed:**
+
+| File | Change |
+|---|---|
+| `packages/control-plane/src/types.ts` | Added `KVLike` interface; added `notes?`, `created_by?`, `created_at?`, `updated_at?` to `ConfigurationFlag` |
+| `packages/control-plane/src/flag-service.ts` | Full rewrite with 3-tier KV cache + private helpers |
+| `packages/control-plane/src/index.ts` | `createControlPlane(db, kv?)` — exports `KVLike` |
+| `apps/api/src/routes/control-plane/{flags,plans,entitlements,groups,roles,audit}.ts` | All `createControlPlane(c.env.DB)` → `createControlPlane(c.env.DB, c.env.KV)` |
+| `packages/control-plane/src/{entitlement-engine,permission-resolver,plan-catalog-service}.ts` | Fixed pre-existing `PaginatedResult` `exactOptionalPropertyTypes` errors (1-line conditional spread fix) |
+
+**3-tier cache key scheme (all writes non-fatal — DB is always source of truth):**
+
+| Cache key | Content | TTL |
+|---|---|---|
+| `cp:flag:def:v1:{idOrCode}` | Flag definition JSON | 120s |
+| `cp:flag:res:v1:{flagCode}:{ws}:{tenant}:{partner}:{plan}:{env}` | Resolved value string | 60s |
+| `cp:flag:ks:v1` | Kill-switch active (`'true'`/`'false'`) | 5s |
+
+**Behaviour per method:**
+
+- `getFlag(idOrCode)` — cache-read first; on miss: DB query + cache-write (120s TTL)
+- `resolve(flagCode, ctx)` — kill-switch flags bypass resolved-value cache entirely (must propagate within 5s via `cp:flag:ks:v1`); non-kill-switch flags: cache-read → on miss: `_resolveCore()` + cache-write (60s TTL)
+- `_isKillSwitchActive()` — separate 5s cache key; independent of flag-definition cache
+- `createFlag` — DB write + warm both `id` and `code` definition cache keys
+- `updateFlag` — DB write + bust `{id}` and `{code}` definition keys + `ks:v1` + re-warm with fresh data
+- `setOverride` / `removeOverride` — bust definition keys + `ks:v1`; resolved-value cache expires naturally within TTL (60s)
+
+**Consistency contract:**
+- Flag definition changes: visible within 120s (or instantly on next `updateFlag` which re-warms)
+- Override changes: visible within 60s
+- Kill-switch activation: visible within 5s
+- KV unavailable: all paths fall through to DB transparently (try/catch everywhere)
+
+**TypeScript:** Zero errors in `@webwaka/control-plane` (including 4 pre-existing `PaginatedResult` errors fixed). Zero new errors in `@webwaka/api`.
+
+## 11. Next Steps (Batch 4+)
+
 - [ ] `PilotFlagService` → delegate to `FlagService` (keep existing table as source-of-truth, add bridge)  
 - [ ] E2E tests: create package → bind entitlements → resolve for workspace  
 - [ ] Paystack plan code sync: when package pricing is set, sync `paystack_plan_code` to Paystack API  

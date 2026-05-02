@@ -50,7 +50,7 @@ export class PermissionResolver {
       this.db.prepare(`SELECT * FROM permission_definitions ${where} ORDER BY category, code LIMIT ? OFFSET ?`).bind(...bindings, limit, offset).all<PermissionDefinition>(),
       this.db.prepare(`SELECT COUNT(*) as total FROM permission_definitions ${where}`).bind(...bindings).first<{ total: number }>(),
     ]);
-    return { results: rows.results, total: countRow?.total, limit, offset };
+    return { results: rows.results, ...(countRow?.total !== undefined ? { total: countRow.total } : {}), limit, offset };
   }
 
   // ─── Custom Roles ─────────────────────────────────────────────────────────

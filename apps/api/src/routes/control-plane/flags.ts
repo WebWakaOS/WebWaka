@@ -32,7 +32,7 @@ function resolveActor(c: { get: (k: string) => unknown }): ActorContext {
 const flagRoutes = new Hono<{ Bindings: Env }>();
 
 flagRoutes.get('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const category = c.req.query('category');
   const isActive = c.req.query('is_active') !== 'false';
   const limit = parseInt(c.req.query('limit') ?? '100', 10);
@@ -42,7 +42,7 @@ flagRoutes.get('/', async (c) => {
 });
 
 flagRoutes.get('/resolve', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const auth = c.get('auth') as { tenantId?: string; workspaceId?: string } | undefined;
   const ctx: FlagResolutionContext = {
     tenantId: c.req.query('tenant_id') ?? auth?.tenantId,
@@ -56,7 +56,7 @@ flagRoutes.get('/resolve', async (c) => {
 });
 
 flagRoutes.post('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ code: string; name: string; description?: string; category?: string; value_type?: string; default_value?: string; min_scope?: string; is_kill_switch?: boolean; rollout_pct?: number }>();
   if (!body.code || !body.name) return c.json({ error: 'code and name are required' }, 400);
@@ -65,7 +65,7 @@ flagRoutes.post('/', async (c) => {
 });
 
 flagRoutes.get('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const flag = await cp.flags.getFlag(c.req.param('id'));
   if (!flag) return c.json({ error: 'Flag not found' }, 404);
 
@@ -78,7 +78,7 @@ flagRoutes.get('/:id', async (c) => {
 });
 
 flagRoutes.patch('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ name?: string; description?: string; default_value?: string; is_active?: number; rollout_pct?: number; notes?: string }>();
   const updated = await cp.flags.updateFlag(c.req.param('id'), body, actor);
@@ -86,7 +86,7 @@ flagRoutes.patch('/:id', async (c) => {
 });
 
 flagRoutes.put('/:id/override', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ scope: string; scope_id: string; value: string; reason?: string; expires_at?: number }>();
   if (!body.scope || !body.scope_id || body.value === undefined) {
@@ -97,7 +97,7 @@ flagRoutes.put('/:id/override', async (c) => {
 });
 
 flagRoutes.delete('/:id/override', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ scope: string; scope_id: string }>().catch(() => ({ scope: '', scope_id: '' }));
   await cp.flags.removeOverride(c.req.param('id'), body.scope, body.scope_id, actor);
@@ -105,13 +105,13 @@ flagRoutes.delete('/:id/override', async (c) => {
 });
 
 flagRoutes.get('/delegation/capabilities', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const caps = await cp.delegation.listCapabilities();
   return c.json({ results: caps });
 });
 
 flagRoutes.get('/delegation/policies', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const policies = await cp.delegation.listPolicies({
     grantorLevel: c.req.query('grantor_level'),
     granteeLevel: c.req.query('grantee_level'),
@@ -121,7 +121,7 @@ flagRoutes.get('/delegation/policies', async (c) => {
 });
 
 flagRoutes.post('/delegation/policies', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ grantor_level: string; grantee_level: string; capability: string; effect?: 'allow' | 'deny'; grantee_id?: string; ceiling_json?: string; requires_approval?: boolean }>();
   if (!body.grantor_level || !body.grantee_level || !body.capability) {

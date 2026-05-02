@@ -30,7 +30,7 @@ function resolveActor(c: { get: (k: string) => unknown }): ActorContext {
 const entitlementRoutes = new Hono<{ Bindings: Env }>();
 
 entitlementRoutes.get('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const category = c.req.query('category');
   const limit = parseInt(c.req.query('limit') ?? '100', 10);
   const offset = parseInt(c.req.query('offset') ?? '0', 10);
@@ -39,7 +39,7 @@ entitlementRoutes.get('/', async (c) => {
 });
 
 entitlementRoutes.post('/', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ code: string; name: string; description?: string; category?: string; value_type?: string; default_value?: string; unit?: string }>();
   if (!body.code || !body.name) return c.json({ error: 'code and name are required' }, 400);
@@ -48,7 +48,7 @@ entitlementRoutes.post('/', async (c) => {
 });
 
 entitlementRoutes.patch('/:id', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ name?: string; description?: string; default_value?: string; is_active?: number; sort_order?: number }>();
   const updated = await cp.entitlements.updateDefinition(c.req.param('id'), body, actor);
@@ -56,13 +56,13 @@ entitlementRoutes.patch('/:id', async (c) => {
 });
 
 entitlementRoutes.get('/packages/:pkgId', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const bindings = await cp.entitlements.getPackageEntitlements(c.req.param('pkgId'));
   return c.json({ results: bindings });
 });
 
 entitlementRoutes.put('/packages/:pkgId/:entId', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const body = await c.req.json<{ value: string }>();
   if (body.value === undefined) return c.json({ error: 'value is required' }, 400);
@@ -71,21 +71,21 @@ entitlementRoutes.put('/packages/:pkgId/:entId', async (c) => {
 });
 
 entitlementRoutes.delete('/packages/:pkgId/:entId', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   await cp.entitlements.removePackageEntitlement(c.req.param('pkgId'), c.req.param('entId'), actor);
   return c.json({ success: true });
 });
 
 entitlementRoutes.get('/workspaces/:workspaceId', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const planSlug = c.req.query('plan') ?? 'free';
   const resolved = await cp.entitlements.resolveForWorkspace(c.req.param('workspaceId'), planSlug);
   return c.json({ workspace_id: c.req.param('workspaceId'), plan: planSlug, entitlements: resolved });
 });
 
 entitlementRoutes.put('/workspaces/:workspaceId/:entId', async (c) => {
-  const cp = createControlPlane(c.env.DB);
+  const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
   const auth = c.get('auth') as { userId: string; tenantId?: string } | undefined;
   const body = await c.req.json<{ value: string; reason?: string; expires_at?: number }>();
