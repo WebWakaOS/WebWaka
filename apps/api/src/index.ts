@@ -16,59 +16,17 @@
  *   R5  — 2/hour BVN/NIN rate limit (M7a)
  *   R8  — SMS mandatory for transaction OTPs (M7a)
  *   R9  — channel-level OTP rate limits (M7a)
+ *
+ * NOTE: The Hono `app` instance lives in ./app.ts.
+ *       Tests should import from './app.js' to avoid the Vitest SSR interop issue
+ *       (`__vite_ssr_exportName__ is not defined`) caused by this file's
+ *       `export default { fetch, scheduled }` object-literal export.
  */
 
-import { Hono } from 'hono';
 import type { Env } from './env.js';
-import { registerMiddleware } from './middleware/index.js';
-import { registerRoutes } from './router.js';
+import app from './app.js';
 import { runNegotiationExpiry } from './jobs/negotiation-expiry.js';
 import { runOnboardingStalled } from './jobs/onboarding-stalled.js';
-
-const app = new Hono<{ Bindings: Env }>();
-
-registerMiddleware(app);
-registerRoutes(app);
-
-// ---------------------------------------------------------------------------
-// Global error handler
-// ---------------------------------------------------------------------------
-
-app.onError((err, c) => {
-  const authCtx = c.get('auth') as { userId?: string; tenantId?: string } | undefined;
-  const structured = {
-    level: 'error',
-    service: 'webwaka-api',
-    timestamp: new Date().toISOString(),
-    error: {
-      name: err instanceof Error ? err.name : 'UnknownError',
-      message: err instanceof Error ? err.message : String(err),
-      stack: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.stack : undefined,
-    },
-    context: {
-      route: c.req.path,
-      method: c.req.method,
-      tenantId: authCtx?.tenantId,
-      environment: c.env?.ENVIRONMENT,
-    },
-  };
-  console.error(JSON.stringify(structured));
-  return c.json(
-    {
-      error: 'Internal server error',
-      message: c.env?.ENVIRONMENT === 'development' && err instanceof Error ? err.message : undefined,
-    },
-    500,
-  );
-});
-
-// ---------------------------------------------------------------------------
-// 404 fallback
-// ---------------------------------------------------------------------------
-
-app.notFound((c) => {
-  return c.json({ error: `Route not found: ${c.req.method} ${c.req.path}` }, 404);
-});
 
 // ---------------------------------------------------------------------------
 // Cloudflare Workers entry point
