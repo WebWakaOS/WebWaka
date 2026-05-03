@@ -402,7 +402,7 @@ router.get('/search', async (c) => {
   // BUG-P3-001 fix: ancestry_path subtree query replaces path LIKE subquery.
   // When placeId present, bind it twice (once for gp.id = ?, once for LIKE pattern).
   const safePlaceId = placeId ? placeId.replace(/[%_\\]/g, '\\$&') : null;
-  const catSql = catFilter ? 'AND LOWER(o.category) = LOWER(?)' : '';
+  // catSql template — used inline in query string below via ${catFilter ? ...}
   const searchBinds: unknown[] = [q, q];
   if (catFilter) searchBinds.push(catFilter);
   if (placeId && safePlaceId) { searchBinds.push(placeId); searchBinds.push(`%"${safePlaceId}"%`); }
