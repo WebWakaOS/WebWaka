@@ -2,7 +2,7 @@
   "name": "@webwaka/control-plane",
   "version": "0.1.0",
   "private": true,
-  "description": "Dynamic Configurability and Delegated Governance control plane for WebWaka OS",
+  "description": "[Infra] Dynamic Configurability and Delegated Governance control plane for WebWaka OS",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {

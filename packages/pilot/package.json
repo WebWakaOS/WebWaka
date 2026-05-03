@@ -2,7 +2,7 @@
   "name": "@webwaka/pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "Pilot Rollout infrastructure — operator enrolment, per-tenant feature flags, NPS feedback. Milestone 11.",
+  "description": "[Infra] Pilot Rollout infrastructure — operator enrolment, per-tenant feature flags, NPS feedback. Milestone 11.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

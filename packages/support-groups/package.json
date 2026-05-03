@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/support-groups",
   "version": "0.1.0",
-  "description": "[DEPRECATED] Use @webwaka/groups. Kept for backward compat until migration 0462 is applied.",
+  "description": "[Infra] [DEPRECATED] Use @webwaka/groups. Kept for backward compat until migration 0462 is applied.",
   "private": true,
   "type": "module",
   "exports": {
