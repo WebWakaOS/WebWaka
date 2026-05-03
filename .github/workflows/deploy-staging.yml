@@ -44,6 +44,12 @@ jobs:
           # migrations (*.sql) and exclude rollback files (*.rollback.sql).
           # wrangler applies all *.sql files alphabetically; rollback files would
           # run before their forward migration and fail with "no such table".
+          #
+          # IMPORTANT: Clean apps/api/migrations/ first to remove any stale/orphaned
+          # committed migration files (old iterations removed from infra/db/migrations/).
+          # Without this, git checkout may retain removed migrations and wrangler
+          # would attempt to apply them against the wrong schema.
+          rm -f apps/api/migrations/*.sql
           mkdir -p apps/api/migrations
           for f in infra/db/migrations/*.sql; do
             [[ "$f" == *.rollback.sql ]] && continue

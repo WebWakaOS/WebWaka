@@ -123,7 +123,11 @@ jobs:
         run: |
           # Copy only forward migrations — exclude *.rollback.sql files which
           # would be applied out of order and fail with "no such table".
+          #
+          # IMPORTANT: Clean apps/api/migrations/ first to remove any stale/orphaned
+          # committed migration files (old iterations removed from infra/db/migrations/).
           if [ -d "infra/db/migrations" ]; then
+            rm -f apps/api/migrations/*.sql
             mkdir -p apps/api/migrations
             for f in infra/db/migrations/*.sql; do
               [[ "$f" == *.rollback.sql ]] && continue
