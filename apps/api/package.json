@@ -2,7 +2,7 @@
   "name": "@webwaka/api",
   "version": "1.0.0",
   "private": true,
-  "description": "[Pillar 1] Cloudflare Workers API — Hono + WebWaka OS backend.",
+  "description": "[Pillar 1] Cloudflare Workers API \u2014 Hono + WebWaka OS backend.",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -27,6 +27,7 @@
     "@webwaka/claims": "workspace:*",
     "@webwaka/community": "workspace:*",
     "@webwaka/contact": "workspace:*",
+    "@webwaka/control-plane": "workspace:*",
     "@webwaka/core": "workspace:*",
     "@webwaka/entities": "workspace:*",
     "@webwaka/entitlements": "workspace:*",
@@ -41,6 +42,7 @@
     "@webwaka/notifications": "workspace:*",
     "@webwaka/otp": "workspace:*",
     "@webwaka/payments": "workspace:*",
+    "@webwaka/policy-engine": "workspace:*",
     "@webwaka/politics": "workspace:*",
     "@webwaka/pos": "workspace:*",
     "@webwaka/profiles": "workspace:*",

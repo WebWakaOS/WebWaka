@@ -32,7 +32,7 @@ import { MAX_TOOL_ROUNDS } from './tool-registry.js';
 export type SSEEvent =
   | { type: 'token'; content: string }
   | { type: 'tool_start'; tool: string; round: number }
-  | { type: 'tool_result'; tool: string; success: boolean; error?: string }
+  | { type: 'tool_result'; tool: string; success: boolean; error?: string | undefined }
   | { type: 'done'; tokensUsed: number; toolRounds: number; provider: string; model: string; totalToolCallsExecuted: number }
   | { type: 'error'; message: string };
 
@@ -139,9 +139,10 @@ export async function runAgentLoopStream(input: AgentLoopStreamInput): Promise<v
     for (let i = 0; i < toolCalls.length; i++) {
       const tc = toolCalls[i]!;
       const result = toolResults[i];
-      const parsed = result ? (() => { try { return JSON.parse(result.content); } catch { return {}; } })() : {};
-      const success = !parsed?.error;
-      emit({ type: 'tool_result', tool: tc.function.name, success, error: parsed?.error });
+      const parsed: Record<string, unknown> = result ? (() => { try { return JSON.parse(result.content) as Record<string, unknown>; } catch { return {}; } })() : {};
+      const success = !parsed?.['error'];
+      const parsedError = parsed?.['error'] as string | undefined;
+      emit({ type: 'tool_result', tool: tc.function.name, success, ...(parsedError !== undefined && { error: parsedError }) });
     }
 
     // Append assistant + tool result messages

@@ -78,6 +78,30 @@ export function checkInecCap(
   }
 }
 
+/**
+ * Generic contribution cap check (DEBT-002 / P1-022).
+ *
+ * Replaces INEC-specific `checkInecCap()` for all regulated verticals.
+ * Use `evaluateFinancialCap` from `@webwaka/policy-engine` for structured
+ * policy decisions with audit trail; this function is a lightweight synchronous
+ * fallback when the policy engine is not available in the call path.
+ *
+ * @throws Error with `COMPLIANCE_VIOLATION` prefix if cap would be exceeded
+ */
+export function checkContributionCap(
+  amountKobo: number,
+  capKobo: number,
+  existingTotalKobo: number,
+): void {
+  if (capKobo <= 0) return;
+  if (existingTotalKobo + amountKobo > capKobo) {
+    const capNaira = capKobo / 100;
+    throw new Error(
+      `COMPLIANCE_VIOLATION: Contribution exceeds per-contributor cap of ₦${capNaira.toLocaleString()}`,
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Row mappers
 // ---------------------------------------------------------------------------
@@ -89,11 +113,11 @@ interface CampaignRow {
   contributor_count: number; currency_code: string;
   beneficiary_name: string; beneficiary_workspace_id: string | null;
   cover_image_url: string | null; status: string; visibility: string;
-  ends_at: number | null; inec_cap_kobo: number; inec_disclosure_required: number;
+  ends_at: number | null; contribution_cap_kobo: number; disclosure_required: number;
   ndpr_consent_required: number; donor_wall_enabled: number;
   anonymous_allowed: number; rewards_enabled: number; hitl_required: number;
   moderation_note: string | null; moderated_by: string | null; moderated_at: number | null;
-  support_group_id: string | null; created_at: number; updated_at: number;
+  group_id: string | null; created_at: number; updated_at: number;
 }
 
 function rowToCampaign(r: CampaignRow): FundraisingCampaign {
@@ -108,12 +132,12 @@ function rowToCampaign(r: CampaignRow): FundraisingCampaign {
     status: r.status as FundraisingCampaign['status'],
     visibility: r.visibility as FundraisingCampaign['visibility'],
     endsAt: r.ends_at,
-    inecCapKobo: r.inec_cap_kobo, inecDisclosureRequired: r.inec_disclosure_required === 1,
+    contributionCapKobo: r.contribution_cap_kobo, disclosureRequired: r.disclosure_required === 1,
     ndprConsentRequired: r.ndpr_consent_required === 1,
     donorWallEnabled: r.donor_wall_enabled === 1, anonymousAllowed: r.anonymous_allowed === 1,
     rewardsEnabled: r.rewards_enabled === 1, hitlRequired: r.hitl_required === 1,
     moderationNote: r.moderation_note, moderatedBy: r.moderated_by, moderatedAt: r.moderated_at,
-    supportGroupId: r.support_group_id,
+    groupId: r.group_id,
     createdAt: r.created_at, updatedAt: r.updated_at,
   };
 }
@@ -133,7 +157,7 @@ export async function createCampaign(
   const id = generateId('fc');
   const ts = now();
   const isPolitical = input.campaignType === 'political' || input.campaignType === 'election';
-  const inecCap = input.inecCapKobo ?? (isPolitical ? INEC_DEFAULT_CAP_KOBO : 0);
+  const contributionCap = input.contributionCapKobo ?? (isPolitical ? INEC_DEFAULT_CAP_KOBO : 0);
 
   await db
     .prepare(
@@ -141,9 +165,9 @@ export async function createCampaign(
          id, workspace_id, tenant_id, title, slug, description, story,
          campaign_type, goal_kobo, currency_code, beneficiary_name,
          beneficiary_workspace_id, cover_image_url, status, visibility, ends_at,
-         inec_cap_kobo, inec_disclosure_required, ndpr_consent_required,
+         contribution_cap_kobo, disclosure_required, ndpr_consent_required,
          donor_wall_enabled, anonymous_allowed, rewards_enabled, hitl_required,
-         support_group_id, created_at, updated_at
+         group_id, created_at, updated_at
        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,'draft',?,?,?,?,?,?,?,?,?,?,?,?)`,
     )
     .bind(
@@ -153,13 +177,13 @@ export async function createCampaign(
       input.currencyCode ?? 'NGN', input.beneficiaryName,
       input.beneficiaryWorkspaceId ?? null, input.coverImageUrl ?? null,
       input.visibility ?? 'public', input.endsAt ?? null,
-      inecCap, isPolitical || input.inecDisclosureRequired ? 1 : 0,
+      contributionCap, isPolitical || input.disclosureRequired ? 1 : 0,
       input.ndprConsentRequired !== false ? 1 : 0,
       input.donorWallEnabled !== false ? 1 : 0,
       input.anonymousAllowed !== false ? 1 : 0,
       input.rewardsEnabled ? 1 : 0,
       isPolitical ? 1 : 0, // hitl_required for political
-      input.supportGroupId ?? null,
+      input.groupId ?? null,
       ts, ts,
     )
     .run();
@@ -214,15 +238,15 @@ export async function listPublicCampaigns(
   opts: {
     tenantId: string;
     campaignType?: string;
-    supportGroupId?: string;
+    groupId?: string;
     limit?: number;
     offset?: number;
   },
 ): Promise<FundraisingCampaignPublicProfile[]> {
   const where = [`tenant_id = ?`, `visibility = 'public'`, `status = 'active'`];
   const vals: unknown[] = [opts.tenantId];
-  if (opts.campaignType)  { where.push(`campaign_type = ?`);   vals.push(opts.campaignType); }
-  if (opts.supportGroupId){ where.push(`support_group_id = ?`); vals.push(opts.supportGroupId); }
+  if (opts.campaignType) { where.push(`campaign_type = ?`); vals.push(opts.campaignType); }
+  if (opts.groupId)      { where.push(`group_id = ?`);      vals.push(opts.groupId); }
   vals.push(opts.limit ?? 50, opts.offset ?? 0);
 
   const { results } = await db

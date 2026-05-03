@@ -1,128 +1,187 @@
-# Release Gate Checklist — Wave 3 C5-5
+# WebWaka OS — Production Release Gate
 
-All items must be ✅ before any production deploy is approved.
-The Release Manager (RM) signs off on completion.
+**Target Release:** v1.0.0 (Milestone 12 — Production Launch)
+**Branch:** `staging` → `main`
+**Deploy Target:** Cloudflare Workers — `api.webwaka.com` + `workspace.webwaka.com`
+**Status:** 🔴 NOT READY — Gate items pending sign-off
 
 ---
 
-## Pre-Deploy: CI Green
+## How to Use This Document
 
-- [ ] `ci.yml` — All jobs passing: typecheck, test, lint, openapi-lint, security-audit, governance-checks, smoke, k6-load
-- [ ] `coverage.yml` — Line coverage ≥ 70% for superagent, ai-abstraction, vertical-engine
-- [ ] `lighthouse.yml` — Performance ≥ 85, Accessibility ≥ 90 on workspace-app
-- [ ] Frontend bundle size check — no regression > 15% vs baseline
-- [ ] No CRITICAL or HIGH issues open in `PRODUCTION_READINESS_BACKLOG.md`
+Each gate item must be verified and signed off by the designated owner before the
+production deploy workflow (`deploy-production.yml`) is triggered. Sign-off is a
+commit to this file adding `✅ [Name] [Date]` to the item.
 
-**Verify:**
+**Deploy is blocked until all items show ✅.**
+
+---
+
+## Gate Checklist
+
+### G1 — Code Quality & Test Coverage
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G1-1 | CI passes on `staging` branch (all checks green) | ⬜ | Engineering |
+| G1-2 | No CRITICAL or HIGH items in `PRODUCTION_READINESS_BACKLOG.md` | ⬜ | RM |
+| G1-3 | TypeScript typecheck passes: `pnpm -r typecheck` exits 0 | ⬜ | Engineering |
+| G1-4 | All vitest suites pass: `pnpm -r test` exits 0 | ⬜ | Engineering |
+| G1-5 | Bundle size check passes: `pnpm check:bundle-size` exits 0 | ⬜ | Engineering |
+| G1-6 | Governance checks pass: all `scripts/governance-checks/` scripts exit 0 | ⬜ | Engineering |
+
+### G2 — Performance
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G2-1 | k6 load test: `POST /auth/register` P95 < 1s at 50 VU | ⬜ | QA |
+| G2-2 | k6 load test: `GET /verticals` P95 < 500ms at 100 VU | ⬜ | QA |
+| G2-3 | k6 load test: `POST /superagent/chat` P95 < 3s at 20 VU | ⬜ | QA |
+| G2-4 | No D1 query > 200ms in staging Logpush for last 48h | ⬜ | Engineering |
+
+### G3 — Security
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G3-1 | `JWT_SECRET` ≥ 64 chars set in production Cloudflare secrets | ⬜ | Founder |
+| G3-2 | `INTER_SERVICE_SECRET` set in production Cloudflare secrets | ⬜ | Founder |
+| G3-3 | `PAYSTACK_SECRET_KEY` (live key, not test) set in production | ⬜ | Founder |
+| G3-4 | `PREMBLY_API_KEY` set in production | ⬜ | Founder |
+| G3-5 | `TERMII_API_KEY` set in production | ⬜ | Founder |
+| G3-6 | `AI_PROVIDER_API_KEY` set in production | ⬜ | Founder |
+| G3-7 | `SMOKE_API_KEY` set in production | ⬜ | Founder |
+| G3-8 | `R2_DSAR_ACCESS_KEY_ID` + `R2_DSAR_SECRET_ACCESS_KEY` set | ⬜ | Founder |
+| G3-9 | `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` in GitHub secrets | ⬜ | Founder |
+| G3-10 | CORS origin list reviewed: no `*` wildcard in production env | ⬜ | Engineering |
+| G3-11 | Security headers confirmed present in production (X-Content-Type, CSP, HSTS) | ⬜ | Engineering |
+
+### G4 — Database
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G4-1 | All 463 migrations applied to `webwaka-production` D1 | ⬜ | Engineering |
+| G4-2 | `d1_migrations` table shows migration `0463` as latest | ⬜ | Engineering |
+| G4-3 | Migration checksums match between staging and production runs | ⬜ | Engineering |
+| G4-4 | D1 backup confirmed before deploy (Cloudflare D1 export) | ⬜ | Founder |
+
+### G5 — Infrastructure & DNS
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G5-1 | `api.webwaka.com` CNAME → production worker route (not staging) | ⬜ | Founder |
+| G5-2 | `workspace.webwaka.com` CNAME verified | ⬜ | Founder |
+| G5-3 | Cloudflare SSL/TLS mode: Full (Strict) enabled on both hostnames | ⬜ | Founder |
+| G5-4 | Cloudflare WAF enabled on production zone | ⬜ | Founder |
+| G5-5 | Rate limiting rules active (auth routes: 20 req/min per IP) | ⬜ | Engineering |
+
+### G6 — Post-Deploy Smoke Tests
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G6-1 | `GET https://api.webwaka.com/health` → 200 `{"status":"ok"}` | ⬜ | Engineering |
+| G6-2 | `GET https://api.webwaka.com/health/deep` → 200 `{"status":"ok"}` | ⬜ | Engineering |
+| G6-3 | Auth smoke: register → OTP → JWT issued within 5s | ⬜ | QA |
+| G6-4 | `GET /verticals` returns ≥ 150 entries | ⬜ | QA |
+| G6-5 | `GET /superagent/capabilities` returns non-empty tool list | ⬜ | QA |
+| G6-6 | `GET /wallets/my` returns valid wallet for authenticated user | ⬜ | QA |
+| G6-7 | Pilot admin: `GET /platform-admin/pilots/operators/summary` returns 200 | ⬜ | QA |
+| G6-8 | Smoke script exits 0: `node scripts/smoke-production.mjs` | ⬜ | Engineering |
+
+### G7 — Rollback Readiness
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G7-1 | `rollback-worker.yml` workflow dispatch tested on staging | ⬜ | Engineering |
+| G7-2 | `rollback-migration.yml` workflow dispatch tested on staging | ⬜ | Engineering |
+| G7-3 | `docs/runbooks/rollback-procedure.md` reviewed < 48h before deploy | ⬜ | RM |
+| G7-4 | Previous stable worker version tag documented (ready to roll back to) | ⬜ | Engineering |
+
+### G8 — Compliance & Data Governance
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G8-1 | NDPR consent middleware active on production (verified via integration test) | ⬜ | Engineering |
+| G8-2 | DSAR export flow tested end-to-end on production D1 | ⬜ | Engineering |
+| G8-3 | `ndpr-retention-sweep` scheduler job confirmed active | ⬜ | Engineering |
+| G8-4 | KYC tier transaction limits verified against CBN guidelines | ⬜ | RM |
+| G8-5 | Privacy Policy + Terms of Service published at `webwaka.com/legal` | ⬜ | Founder |
+
+### G9 — Pilot Readiness (M11 prerequisite)
+
+| # | Item | Status | Owner |
+|---|------|--------|-------|
+| G9-1 | Cohort 1 seed migration 0463 applied to production D1 | ⬜ | Engineering |
+| G9-2 | Founder confirms cohort 1 operator list (5 operators) | ⬜ | Founder |
+| G9-3 | KV wallet flags warm-up for cohort_1 tenants executed | ⬜ | Engineering |
+| G9-4 | `pilot-health-log` and `pilot-prune-expired-flags` jobs verified active | ⬜ | Engineering |
+
+---
+
+## Sign-Off Summary
+
+| Gate Section | Items | Signed Off | Remaining |
+|---|---|---|---|
+| G1 Code Quality | 6 | 0 | 6 |
+| G2 Performance | 4 | 0 | 4 |
+| G3 Security | 11 | 0 | 11 |
+| G4 Database | 4 | 0 | 4 |
+| G5 Infrastructure | 5 | 0 | 5 |
+| G6 Smoke Tests | 8 | 0 | 8 |
+| G7 Rollback | 4 | 0 | 4 |
+| G8 Compliance | 5 | 0 | 5 |
+| G9 Pilot | 4 | 0 | 4 |
+| **Total** | **51** | **0** | **51** |
+
+---
+
+## Release Notes Draft (v1.0.0)
+
+### New in v1.0.0
+
+**Platform**
+- WebWaka OS: full multi-tenant SaaS platform for Nigerian SMEs
+- 150+ business verticals with FSM-driven lifecycle management
+- Marketplace with vertical discovery and operator onboarding
+
+**Payments & Finance**
+- HandyLife Wallet: NGN ledger wallet with tier-based KYC limits (CBN-compliant)
+- Paystack POS integration, split-payment, and payout flows
+- USSD gateway for feature-phone access (`*384*WEBWAKA#`)
+
+**AI & Automation**
+- Superagent: proactive AI assistant for business operators
+- Per-vertical AI tools, context-aware recommendations
+- AI usage analytics and spend controls
+
+**Compliance**
+- NDPR-compliant data handling (consent, DSAR, retention sweep)
+- Audit log (append-only) with automated redriving
+- KYC identity verification via Prembly
+
+**Pilot Programme**
+- Cohort 1: 5 pilot operators (restaurant, pharmacy, logistics, motor-park)
+- In-app NPS + feedback collection
+- Per-tenant feature flag overrides for controlled rollout
+
+---
+
+## Deployment Commands
+
 ```bash
-gh run list --workflow=ci.yml --branch=main --limit=1 --json status,conclusion
+# 1. Verify all gate items signed off
+grep '⬜' docs/release/release-gate.md && echo "GATE NOT PASSED" && exit 1
+
+# 2. Trigger production deploy (GitHub Actions)
+gh workflow run deploy-production.yml --ref main
+
+# 3. Post-deploy smoke
+node scripts/smoke-production.mjs
+
+# 4. Monitor for 15 minutes — watch for canary circuit breaker
+wrangler tail api-production --format json | grep '"level":"error"'
 ```
 
 ---
 
-## Pre-Deploy: Load Test Pass
-
-- [ ] k6 superagent-chat load test: P95 < 3s, error rate < 1%
-- [ ] k6 vertical-profiles load test: P95 < 500ms, error rate < 1%
-- [ ] k6 baseline comparison: no metric regressed by > 20%
-
-**Run:**
-```bash
-# Staging environment
-k6 run --env BASE_URL=https://api-staging.webwaka.com \
-        --env API_KEY=$STAGING_SMOKE_KEY \
-        --out json=results.json \
-        infra/k6/superagent-chat-load.js
-
-node infra/k6/compare-baseline.mjs
-```
-
----
-
-## Pre-Deploy: HITL Queue Drained
-
-- [ ] Zero open HITL tasks in `hitl_tasks` table with `status = 'pending'`
-- [ ] Or: RM confirms all pending tasks are for post-deploy review and can safely survive a deploy
-
-**Verify:**
-```bash
-wrangler d1 execute webwaka-db --env production \
-  --command "SELECT COUNT(*) as pending FROM hitl_tasks WHERE status = 'pending';"
-```
-
----
-
-## Pre-Deploy: Anomaly Review
-
-- [ ] No active spend-spike anomaly alerts in the last 24h
-- [ ] AI adapter error rate < 1% in last 1h (check Logpush / dashboard)
-- [ ] D1 latency < 200ms p95 in last 1h
-- [ ] No unacknowledged PagerDuty / monitoring alerts
-
-**Check:**
-```bash
-curl https://api-staging.webwaka.com/health/deep | jq .
-```
-
----
-
-## Pre-Deploy: Rollback Plan Documented
-
-- [ ] Migration rollback scripts present for every migration in this release:
-  ```bash
-  npx tsx scripts/governance-checks/check-rollback-scripts.ts
-  ```
-- [ ] Worker version ID for current production noted:
-  ```bash
-  wrangler versions list --env production | head -5
-  # Note the current VERSION_ID for instant rollback
-  ```
-- [ ] Rollback procedure tested on staging at least once
-
----
-
-## Deploy Steps
-
-1. **Tag the release:**
-   ```bash
-   git tag v<MAJOR>.<MINOR>.<PATCH> && git push origin v<MAJOR>.<MINOR>.<PATCH>
-   ```
-
-2. **Deploy to staging (if not already there):**
-   ```bash
-   pnpm run deploy:staging
-   ```
-
-3. **Run expanded smoke on staging:**
-   ```bash
-   SMOKE_BASE_URL=https://api-staging.webwaka.com \
-   SMOKE_API_KEY=$STAGING_SMOKE_KEY \
-   npx tsx tests/smoke/deploy-expanded.smoke.ts
-   ```
-
-4. **Promote to production:**
-   ```bash
-   pnpm run deploy:production
-   # Or trigger the deploy-production.yml workflow
-   ```
-
-5. **Confirm production smoke:**
-   ```bash
-   SMOKE_BASE_URL=https://api.webwaka.com \
-   SMOKE_API_KEY=$PROD_SMOKE_KEY \
-   npx tsx tests/smoke/deploy-expanded.smoke.ts
-   ```
-
-6. **Update `WAVE3_CHECKLIST.md`** and close any related issues.
-
----
-
-## Post-Deploy
-
-- [ ] Monitor error rate for 15 minutes post-deploy
-- [ ] Confirm `/health/deep` → `"status":"ok"` on production
-- [ ] Announce in `#releases` Slack channel with deploy summary
-- [ ] If anything looks wrong: **rollback immediately** (< 5 minutes):
-  ```bash
-  pnpm run rollback:worker -- --env production
-  ```
+*Document created: 2026-05-02 by WebWaka (Base44)*
+*Next review: before production deploy — all ⬜ must become ✅*

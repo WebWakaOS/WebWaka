@@ -52,7 +52,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    pool: 'vmForks',
+    pool: 'forks',
     // 'web' transform mode uses Vite's browser-side ESM transform instead of the
     // SSR module runner. This avoids Vite 8 + Vitest 1.x incompatibilities:
     //   - __vite_ssr_exportName__ is not defined / not a function

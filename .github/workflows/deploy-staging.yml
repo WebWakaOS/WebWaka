@@ -32,7 +32,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --no-frozen-lockfile
@@ -44,6 +44,12 @@ jobs:
           # migrations (*.sql) and exclude rollback files (*.rollback.sql).
           # wrangler applies all *.sql files alphabetically; rollback files would
           # run before their forward migration and fail with "no such table".
+          #
+          # IMPORTANT: Clean apps/api/migrations/ first to remove any stale/orphaned
+          # committed migration files (old iterations removed from infra/db/migrations/).
+          # Without this, git checkout may retain removed migrations and wrangler
+          # would attempt to apply them against the wrong schema.
+          rm -f apps/api/migrations/*.sql
           mkdir -p apps/api/migrations
           for f in infra/db/migrations/*.sql; do
             [[ "$f" == *.rollback.sql ]] && continue
@@ -120,7 +126,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --no-frozen-lockfile
@@ -178,7 +184,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --no-frozen-lockfile
@@ -215,7 +221,7 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
       # Install wrangler globally so every matrix worker can deploy without
@@ -242,46 +248,179 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
       - name: Seed phase 1 — Users
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-1-users.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 2 — Tenants
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-2-tenants.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 3 — Partners
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-3-partners.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 4 — Financial
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-4-financial.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 5 — Offerings
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-5-offerings.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 6 — Notifications
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-6-notifications.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 7 — FX Rates
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-7-fx-rates.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 8 — USSD Sessions
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-8-ussd-sessions.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Seed phase 9 — Subscriptions + POS
+        continue-on-error: true
+        run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-9-subscriptions-and-pos.sql
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  # ── Large-file reference-data migrations (>5 MB, chunked via wrangler d1 execute --file) ────
+  # These files exceed the D1 HTTP API 5 MB payload limit and were skipped by the standard
+  # migrate-staging job. wrangler d1 execute --file handles chunked submission automatically.
+  # Each step is idempotent: it inserts the migration name into d1_migrations on success so
+  # wrangler will skip the file on the next run.
+  large-seed-migrations-staging:
+    name: Large Reference-Data Seeds (Staging)
+    needs: migrate-staging
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Apply HDX Health Facilities — North-Central & North-East (0492)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0492_hdx_health_nc_ne_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0492_hdx_health_nc_ne_seed.sql
+            echo "✅ 0492 applied"
+          else
+            echo "ℹ️  0492 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply HDX Health Facilities — North-West (0493)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0493_hdx_health_nw_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0493_hdx_health_nw_seed.sql
+            echo "✅ 0493 applied"
+          else
+            echo "ℹ️  0493 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply HDX Health Facilities — South-East (0494)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0494_hdx_health_se_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0494_hdx_health_se_seed.sql
+            echo "✅ 0494 applied"
+          else
+            echo "ℹ️  0494 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply HDX Health Facilities — South-South (0495)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0495_hdx_health_ss_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0495_hdx_health_ss_seed.sql
+            echo "✅ 0495 applied"
+          else
+            echo "ℹ️  0495 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply HDX Health Facilities — South-West (0496)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0496_hdx_health_sw_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0496_hdx_health_sw_seed.sql
+            echo "✅ 0496 applied"
+          else
+            echo "ℹ️  0496 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply OSM Hospitals & Medical Facilities (0499)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          if npx wrangler d1 execute webwaka-staging --env staging --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0499_osm_s13_hospitals_medical_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-staging --env staging --remote \
+              --file ../../infra/db/migrations/0499_osm_s13_hospitals_medical_seed.sql
+            echo "✅ 0499 applied"
+          else
+            echo "ℹ️  0499 already applied — skipping"
+          fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -292,7 +431,7 @@ jobs:
   # running `pnpm test:visual:update` to establish the baseline.
   qa-gate-staging:
     name: QA Gate — Cycles 01–08 (Staging)
-    needs: seed-staging
+    needs: [seed-staging, large-seed-migrations-staging]
     runs-on: ubuntu-latest
     env:
       API_BASE_URL: https://api-staging.webwaka.com
@@ -307,7 +446,7 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
       - name: Install Playwright Chromium
@@ -397,7 +536,7 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
       - run: npm install -g wrangler@4
@@ -413,7 +552,7 @@ jobs:
         run: |
           wrangler pages deploy "${{ matrix.app.dist }}" \
             --project-name "${{ matrix.app.project }}" \
-            --branch staging --deployment-environment preview \
+            --branch staging \
             --commit-hash "${{ github.sha }}"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -3,9 +3,9 @@
  * Covers: tool round capping, error recovery, HITL gating, multi-turn state
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { runAgentLoop } from './agent-loop.js';
-import type { AgentLoopInput, AIAdapter, AIAdapterResponse } from './agent-loop.js';
+import type { AIAdapter, AIAdapterResponse } from './agent-loop.js';
 import { ToolRegistry } from './tool-registry.js';
 import { MAX_TOOL_ROUNDS } from './tool-registry.js';
 import type { ToolExecutionContext } from './tool-registry.js';

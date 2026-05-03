@@ -8,8 +8,9 @@
  *   P13 — donor_phone, pledger_phone, bank_account_number never forwarded to AI
  *
  * Assumptions encoded inline:
- *   [A1] INEC political cap: 5,000,000,000 kobo = ₦50,000,000 default.
- *        Overridable per campaign via inecCapKobo. Non-political = 0 (no cap).
+ *   [A1] Contribution cap: driven by policy engine (contribution_cap category).
+ *        Default: 5,000,000,000 kobo = ₦50,000,000 for INEC-regulated political campaigns.
+ *        Stored per campaign in contributionCapKobo. Non-political = 0 (no cap).
  *   [A2] CBN: pass-through via Paystack Transfers; no pooled escrow.
  *   [A3] Church tithe_records: bridged to this system via migration adapter.
  */
@@ -76,8 +77,10 @@ export interface FundraisingCampaign {
   status: CampaignStatus;
   visibility: CampaignVisibility;
   endsAt: number | null;
-  inecCapKobo: number;
-  inecDisclosureRequired: boolean;
+  /** Contribution cap in kobo. 0 = no cap. For political campaigns defaults to INEC ₦50m cap. */
+  contributionCapKobo: number;
+  /** Whether contributor disclosure is required (INEC mandate for political campaigns). */
+  disclosureRequired: boolean;
   ndprConsentRequired: boolean;
   donorWallEnabled: boolean;
   anonymousAllowed: boolean;
@@ -86,7 +89,7 @@ export interface FundraisingCampaign {
   moderationNote: string | null;
   moderatedBy: string | null;
   moderatedAt: number | null;
-  supportGroupId: string | null;
+  groupId: string | null;
   createdAt: number;
   updatedAt: number;
 }
@@ -106,13 +109,15 @@ export interface CreateCampaignInput {
   coverImageUrl?: string;
   visibility?: CampaignVisibility;
   endsAt?: number;
-  inecCapKobo?: number;
-  inecDisclosureRequired?: boolean;
+  /** Override the default contribution cap in kobo. Defaults to policy engine value for political campaigns. */
+  contributionCapKobo?: number;
+  /** Require contributor disclosure (e.g. INEC mandate). Defaults to true for political campaigns. */
+  disclosureRequired?: boolean;
   ndprConsentRequired?: boolean;
   donorWallEnabled?: boolean;
   anonymousAllowed?: boolean;
   rewardsEnabled?: boolean;
-  supportGroupId?: string;
+  groupId?: string;
 }
 
 export interface UpdateCampaignInput {

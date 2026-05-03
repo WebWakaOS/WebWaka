@@ -1,0 +1,12 @@
+# WebWaka Platform Admin — Cloudflare Pages
+# Deploy via: wrangler pages deploy dist --project-name webwaka-platform-admin
+# Or via GitHub Actions CI/CD.
+
+name = "webwaka-platform-admin"
+pages_build_output_dir = "dist"
+
+[env.preview]
+pages_build_output_dir = "dist"
+
+[env.production]
+pages_build_output_dir = "dist"

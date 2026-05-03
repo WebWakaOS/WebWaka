@@ -190,9 +190,38 @@
       "@webwaka/verticals-welding-fabrication": ["packages/verticals-welding-fabrication/src/index.ts"],
       "@webwaka/verticals-womens-association": ["packages/verticals-womens-association/src/index.ts"],
       "@webwaka/verticals-youth-organization": ["packages/verticals-youth-organization/src/index.ts"],
-      "@webwaka/white-label-theming": ["packages/white-label-theming/src/index.ts"]
+      "@webwaka/white-label-theming": ["packages/white-label-theming/src/index.ts"],
+      "@webwaka/control-plane": ["packages/control-plane/src/index.ts"],
+      "@webwaka/analytics": ["packages/analytics/src/index.ts"],
+      "@webwaka/cases": ["packages/cases/src/index.ts"],
+      "@webwaka/fundraising": ["packages/fundraising/src/index.ts"],
+      "@webwaka/groups": ["packages/groups/src/index.ts"],
+      "@webwaka/groups-civic": ["packages/groups-civic/src/index.ts"],
+      "@webwaka/groups-cooperative": ["packages/groups-cooperative/src/index.ts"],
+      "@webwaka/groups-electoral": ["packages/groups-electoral/src/index.ts"],
+      "@webwaka/groups-faith": ["packages/groups-faith/src/index.ts"],
+      "@webwaka/ledger": ["packages/ledger/src/index.ts"],
+      "@webwaka/logging": ["packages/logging/src/index.ts"],
+      "@webwaka/offerings": ["packages/offerings/src/index.ts"],
+      "@webwaka/pilot": ["packages/pilot/src/index.ts"],
+      "@webwaka/policy-engine": ["packages/policy-engine/src/index.ts"],
+      "@webwaka/verticals-farm": ["packages/verticals-farm/src/index.ts"],
+      "@webwaka/verticals-poultry-farm": ["packages/verticals-poultry-farm/src/index.ts"],
+      "@webwaka/verticals-pharmacy": ["packages/verticals-pharmacy/src/index.ts"],
+      "@webwaka/verticals-supermarket": ["packages/verticals-supermarket/src/index.ts"],
+      "@webwaka/verticals-lga-office": ["packages/verticals-lga-office/src/index.ts"],
+      "@webwaka/verticals-startup": ["packages/verticals-startup/src/index.ts"],
+      "@webwaka/verticals-fashion-brand": ["packages/verticals-fashion-brand/src/index.ts"],
+      "@webwaka/verticals-tailoring-fashion": ["packages/verticals-tailoring-fashion/src/index.ts"],
+      "@webwaka/verticals-tutoring": ["packages/verticals-tutoring/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts",
+    "src/**/*.test.*.ts",
+    "src/**/*.spec.ts"
+  ]
 }

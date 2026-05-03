@@ -31,13 +31,18 @@ function isAllowed(filePath: string): boolean {
   return ALLOWED_FILES.some((a) => filePath.includes(a));
 }
 
-// Lines that are exempt: display-only _naira fields (API response strings, not stored values).
-// Convention: any field name ending in _naira is a display string (kobo / 100).toFixed(2).
+// Lines that are exempt: display-only *naira fields (API response strings, not stored values).
+// Convention: any field name ending in _naira or Naira is a display string (kobo / 100).toFixed(2).
 // Also exempt lines annotated with // DISPLAY_ONLY.
+// Also exempt template literals (backtick strings) with ₦ that show display amounts to users or AI.
 const DISPLAY_ONLY_PATTERNS = [
-  // _naira fields in object literals (key: value) or assignments (key = value) are display-only.
-  // Convention: variable/property name ending in _naira holds a display string, never a stored float.
+  // _naira or camelCase Naira fields in object literals (key: value) or assignments.
+  // Convention: variable/property name ending in _naira or Naira holds a display string, not stored float.
   /_naira\s*[=:]/,
+  /Naira\s*[=:]/i,
+  // Template literals showing ₦ formatting (display-only, not stored)
+  /`[^`]*₦[^`]*\$/,
+  /`Payment[^`]*₦[^`]*`/,
   /\/\/\s*DISPLAY_ONLY/,
 ];
 

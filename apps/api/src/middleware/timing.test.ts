@@ -1,7 +1,7 @@
 /**
  * Timing middleware tests — Wave 3 C2-4
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // We test the log-output shape without invoking Hono
 // by replicating the log construction logic.

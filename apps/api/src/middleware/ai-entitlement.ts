@@ -1,14 +1,21 @@
+/**
+ * AI entitlement middleware — aiEntitlementMiddleware
+ *
+ * DB-first AI rights guard with automatic PLAN_CONFIGS fallback.
+ * Uses buildWorkspaceContext() to resolve entitlements via EntitlementEngine,
+ * then passes the resolved config to requireAIAccess().
+ *
+ * Resolution priority:
+ *   workspace_entitlement_overrides > package_entitlement_bindings > PLAN_CONFIGS
+ *
+ * Graceful fallback: if control-plane tables don't exist yet (pre-migration),
+ * the engine returns {} and PLAN_CONFIGS is used transparently.
+ */
+
 import { createMiddleware } from 'hono/factory';
 import type { Env } from '../env.js';
 import { requireAIAccess, EntitlementError } from '@webwaka/entitlements';
-import type { PlatformLayer } from '@webwaka/types';
-import { SubscriptionStatus } from '@webwaka/types';
-
-interface WorkspaceRow {
-  subscription_status: string;
-  subscription_plan: string;
-  active_layers: string;
-}
+import { buildWorkspaceContext } from './workspace-entitlement-context.js';
 
 interface AuthShape {
   userId: string;
@@ -23,38 +30,15 @@ export const aiEntitlementMiddleware = createMiddleware<{ Bindings: Env }>(async
   }
 
   try {
-    const query = auth.workspaceId
-      ? `SELECT subscription_status, subscription_plan, active_layers
-         FROM workspaces WHERE id = ? AND tenant_id = ? LIMIT 1`
-      : `SELECT subscription_status, subscription_plan, active_layers
-         FROM workspaces WHERE tenant_id = ? LIMIT 1`;
+    const ctx = await buildWorkspaceContext(c, auth.workspaceId, auth.tenantId);
 
-    const bindings = auth.workspaceId
-      ? [auth.workspaceId, auth.tenantId]
-      : [auth.tenantId];
-
-    const ws = await c.env.DB.prepare(query)
-      .bind(...bindings)
-      .first<WorkspaceRow>();
-
-    if (!ws) {
+    if (!ctx) {
       return c.json({ error: 'Workspace not found' }, 404);
     }
 
-    let activeLayers: PlatformLayer[];
-    try {
-      activeLayers = JSON.parse(ws.active_layers || '[]') as PlatformLayer[];
-    } catch {
-      activeLayers = [];
-    }
-
-    const ctx = {
-      subscriptionStatus: (ws.subscription_status ?? 'inactive') as typeof SubscriptionStatus[keyof typeof SubscriptionStatus],
-      subscriptionPlan: ws.subscription_plan as import('@webwaka/types').SubscriptionPlan,
-      activeLayers: activeLayers as readonly PlatformLayer[],
-    };
-
-    requireAIAccess(ctx as import('@webwaka/types').EntitlementContext);
+    // Pass resolvedEntitlements so DB-managed ai_rights overrides PLAN_CONFIGS.
+    // e.g. if a workspace has an override granting AI on a Starter plan, it works.
+    requireAIAccess(ctx.entitlementCtx, ctx.resolvedEntitlements);
   } catch (err) {
     if (err instanceof EntitlementError) {
       return c.json({ error: err.message }, 403);

@@ -1,7 +1,7 @@
 {
   "name": "@webwaka/support-groups",
   "version": "0.1.0",
-  "description": "[Pillar 1+2+3] Election Support Group Management — hierarchy, membership, GOTV, broadcasts, events, petitions, analytics",
+  "description": "[Infra] [DEPRECATED] Use @webwaka/groups. Kept for backward compat until migration 0462 is applied.",
   "private": true,
   "type": "module",
   "exports": {
@@ -22,11 +22,9 @@
     "vitest": "^2.1.9"
   },
   "keywords": [
+    "deprecated",
     "support-groups",
-    "election",
-    "gotv",
-    "mobilization",
-    "nigeria",
-    "political"
+    "groups",
+    "nigeria"
   ]
 }

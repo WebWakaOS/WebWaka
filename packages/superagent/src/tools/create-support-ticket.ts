@@ -70,8 +70,8 @@ export const createSupportTicketTool: RegisteredTool = {
       });
       return JSON.stringify({
         status: 'queued_for_review',
-        hitlId,
-        message: `Support ticket submission has been queued for admin review (HITL ID: ${hitlId}).`,
+        hitlId: hitlId.queueItemId,
+        message: `Support ticket submission has been queued for admin review (HITL ID: ${hitlId.queueItemId}).`,
       });
     }
 

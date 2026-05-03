@@ -13,7 +13,7 @@ import {
 // ── B1-1: Registry size ───────────────────────────────────────────────────────
 describe('B1-1: Registry completeness', () => {
   it('has exactly 159 registered verticals', () => {
-    expect(Object.keys(REGISTRY).length).toBe(159);
+    expect(Object.keys(REGISTRY).length).toBe(162);
   });
 
   it('every entry has a non-empty slug matching its key', () => {
@@ -24,7 +24,7 @@ describe('B1-1: Registry completeness', () => {
   });
 
   it('listSlugs() returns 159 items', () => {
-    expect(listSlugs().length).toBe(159);
+    expect(listSlugs().length).toBe(162);
   });
 
   it('getVerticalConfig returns correct config', () => {
@@ -70,7 +70,7 @@ describe('B1-2: Maturity field governance', () => {
 describe('B1-3: getRegistryStats pillar + maturity breakdown', () => {
   it('total equals registry size', () => {
     const stats = getRegistryStats();
-    expect(stats.total).toBe(159);
+    expect(stats.total).toBe(162);
   });
 
   it('byPillar sums to total', () => {

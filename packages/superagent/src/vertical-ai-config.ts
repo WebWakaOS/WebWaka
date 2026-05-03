@@ -2794,8 +2794,8 @@ export const VERTICAL_AI_CONFIGS: Readonly<Record<string, VerticalAiConfig>> = {
   // dominant use-case; all three pillars are served.
   // =========================================================================
 
-  'support-group': {
-    slug: 'support-group',
+  'group': {
+    slug: 'group',
     primaryPillar: 1,
     allowedCapabilities: [
       'bio_generator',

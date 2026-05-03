@@ -1,0 +1,431 @@
+🚨 WEBWAKA MASTER IMPLEMENTATION PROMPT — PLATFORM-WIDE DYNAMIC CONFIGURABILITY, DELEGATED GOVERNANCE, AND CONTROL-PLANE REFACTOR 🚨
+
+You are Replit Agent operating as a world-class platform architect, backend engineer, frontend engineer, auth/authorization architect, billing architect, policy/governance engineer, QA lead, and release operator for the WebWaka platform.
+
+Repository:
+https://github.com/WebWakaOS/WebWaka
+
+Deployment model:
+GitHub CI/CD pipeline → Cloudflare staging → Cloudflare production
+
+Primary domain:
+https://WebWaka.com
+
+I will provide the GitHub PAT and Cloudflare API Token when needed.
+
+MISSION
+Implement, end to end, a platform-wide Dynamic Configurability and Delegated Governance initiative across WebWaka so that static/hardcoded plans, pricing, entitlements, roles, privileges, admin rights, and platform configuration controls are refactored into runtime-configurable, dashboard-managed, policy-governed systems.
+
+This initiative must be implemented in staged batches directly in the WebWaka repo and taken all the way through:
+1. repo-wide discovery,
+2. architecture-grounded implementation,
+3. staged GitHub pushes,
+4. staging deployment through GitHub CI/CD to Cloudflare,
+5. full validation and fixing,
+6. main merge,
+7. production deployment to Cloudflare,
+8. final green verification.
+
+This is a full implementation mandate.
+Do not stop at planning.
+Do not stop at analysis.
+Do not deliver an MVP.
+Do not leave major items hardcoded if they should logically be runtime-managed.
+
+CORE OUTCOME
+WebWaka must become a deeply configurable SaaS control plane where:
+- Super Admin can configure almost everything globally.
+- Higher-level admins can delegate bounded configuration powers downward.
+- Platform Admins, Partner Admins, Tenant Admins, and other authorized admins can configure what they are allowed to configure.
+- Subscription packages and pricing are dynamic, not hardcoded.
+- Plan names, billing periods, plan durations, entitlements, quotas, privileges, AI allowances, and visibility rules are dynamic.
+- User groups, custom roles, inherited rights, and per-user overrides are dynamic.
+- The right to configure things is itself configurable and governed.
+- Every important configuration change is auditable.
+- Existing behavior is preserved safely during migration where needed.
+
+NON-NEGOTIABLE PRINCIPLES
+- Build Once Use Infinitely.
+- Mobile First.
+- PWA First.
+- Offline First where applicable.
+- Nigeria First.
+- Africa First.
+- Vendor Neutral AI.
+- Least privilege.
+- Hierarchical delegated administration.
+- Runtime configurability over source-code constants.
+- Full auditability.
+- Thoroughness over speed.
+- No assumptions.
+- No shortcuts.
+- No “good enough.”
+
+MANDATORY FIRST STEP — EXHAUSTIVE REVIEW
+Before implementing anything:
+1. Clone and review the full repo.
+2. Read all relevant governance, architecture, AI, monetization, deployment, and milestone docs.
+3. Review all relevant apps, packages, migrations, routes, middleware, workflows, seeds, and configs.
+4. Identify every place where important platform behavior is hardcoded but should be dynamically configurable.
+5. Produce a repo-grounded implementation register before making major changes.
+6. Use the actual repo as truth, not prior summaries.
+
+PLATFORM TRANSFORMATION TARGET
+
+WEBWAKA MUST GAIN THESE 5 DYNAMIC CONTROL LAYERS:
+
+LAYER 1 — DYNAMIC SUBSCRIPTION CATALOG
+Make subscriptions admin-defined and runtime-managed:
+- plan/package name
+- internal code/slug
+- description
+- active/inactive/archive status
+- billing types: free trial, monthly, quarterly, annually, lifetime, custom
+- trial settings
+- currency-ready pricing structure
+- price points
+- effective dates
+- plan versioning
+- grandfathering support
+- migration path rules between plans
+- package visibility rules
+- partner/tenant targeting rules
+- default package assignment rules
+
+LAYER 2 — DYNAMIC ENTITLEMENTS ENGINE
+Make entitlements runtime-managed:
+- pillar access
+- module access
+- feature access
+- quotas and limits
+- AI capabilities
+- wallet/credit permissions
+- usage caps
+- workflow rights
+- analytics/reporting rights
+- export rights
+- brand/discovery controls
+- override logic
+- inheritance logic
+- scoped entitlements by level
+
+LAYER 3 — DYNAMIC AUTHORIZATION + PRIVILEGE SYSTEM
+Replace static privilege assumptions with runtime-managed access control combining:
+- base system roles
+- custom roles
+- user groups
+- group inheritance
+- per-user grants
+- per-user denials
+- permission bundles
+- scoped permissions
+- hierarchy-aware boundaries
+- context-aware access checks where needed
+- delegated admin ceilings
+
+LAYER 4 — DELEGATED ADMIN GOVERNANCE
+Implement a hierarchical control model:
+- Super Admin defines global ceilings and control rules
+- Platform Admin works within super-admin-granted limits
+- Partner Admin works within partner boundaries
+- Tenant Admin works within tenant boundaries
+- Lower admins cannot create/assign/configure beyond the powers granted by higher admins
+- The ability to configure plans, prices, rights, groups, entitlements, and flags is itself configurable
+- Sensitive operations can have approval or restriction rules
+- All changes are audit-logged
+
+LAYER 5 — FEATURE FLAGS + RUNTIME CONFIGURATION
+Create a platform-wide configuration service for:
+- per-environment config
+- per-tenant config
+- per-partner config
+- per-workspace config
+- per-plan config
+- staged rollout controls
+- beta/preview toggles
+- emergency kill switches
+- enable/disable of major features
+- UI visibility flags
+- behavior/configuration overrides
+
+IMPLEMENTATION REQUIREMENTS
+
+A. DATA MODEL + MIGRATIONS
+Design and implement the data model needed for this initiative.
+Create all necessary migrations, seeds, and backward-compatible transitions.
+
+At minimum, evaluate and implement the necessary schema for:
+- subscription_packages
+- subscription_package_versions
+- billing_intervals / package_pricing
+- package_targeting_rules
+- entitlement_definitions
+- package_entitlement_bindings
+- custom_roles
+- permission_definitions
+- role_permission_bindings
+- user_groups
+- group_memberships
+- group_role_bindings
+- user_permission_overrides
+- admin_delegation_policies
+- configuration_flags
+- configuration_overrides
+- audit_events / governance_logs
+- approval_requirements where needed
+
+Preserve rollback safety and migration discipline.
+
+B. BACKEND / DOMAIN LAYER
+Refactor the hardcoded domain logic into services and evaluators.
+Implement or refactor:
+- plan catalog service
+- plan pricing/versioning service
+- entitlement evaluation service
+- permission resolution service
+- group inheritance resolution
+- user override resolution
+- admin delegation boundary evaluator
+- feature flag/config evaluation service
+- audit logging service
+- migration/seed initialization paths
+- compatibility bridge where existing logic still depends on old config
+
+C. API LAYER
+Create or refactor APIs for:
+- plan/package CRUD
+- package versioning
+- package pricing CRUD
+- billing interval management
+- plan activation/deactivation
+- entitlement CRUD
+- package-entitlement bindings
+- permission definition CRUD
+- custom role CRUD
+- group CRUD
+- membership assignment/removal
+- role assignment
+- per-user permission override assignment
+- admin delegation policy CRUD
+- feature flag/config CRUD
+- audit log/history querying
+- dry-run/simulation endpoints if useful for safe review
+
+All APIs must include:
+- validation
+- auth checks
+- delegated-boundary enforcement
+- audit logging
+- predictable error handling
+- test coverage
+
+D. FRONTEND / DASHBOARD LAYER
+Build the admin control surfaces needed for real use.
+
+At minimum, provide usable UI for:
+1. Super Admin dashboard
+   - package management
+   - pricing/versioning
+   - entitlements matrix
+   - permission definitions
+   - global roles/role templates
+   - user groups
+   - delegation policy controls
+   - feature flag/config controls
+   - audit trails
+
+2. Platform Admin dashboard
+   - bounded access to allowed configurations
+   - tenant/platform operations views
+   - delegated governance actions within permitted scope
+
+3. Partner Admin dashboard
+   - partner-bounded plan/tenant/config actions if allowed
+   - partner-scoped user and privilege management
+   - partner-scoped feature/config controls where granted
+
+4. Tenant Admin dashboard
+   - tenant-level roles, groups, assignments
+   - tenant configuration controls
+   - tenant-allowed entitlements/config toggles
+   - user-specific access assignment where allowed
+
+The UI must be:
+- actually usable
+- role-aware
+- responsive
+- coherent with the platform
+- backed by real APIs
+- not stubbed
+- safe for destructive actions
+
+E. POLICY + SECURITY + GOVERNANCE
+Implement:
+- least-privilege defaults
+- ceiling enforcement for delegated admins
+- anti-privilege-escalation logic
+- bounded assignment checks
+- approval or confirmation for sensitive changes where appropriate
+- full audit logs for config changes
+- consistent server-side enforcement
+- no reliance on frontend-only controls
+
+F. MIGRATION FROM HARDCODED STATE
+Create a safe transition strategy:
+- inventory all existing hardcoded plans/prices/entitlements/rights
+- seed current state into new dynamic models
+- preserve current operational behavior during rollout
+- gradually route old logic to new logic
+- remove or isolate old hardcoded logic after validation
+- do not break existing environments or tenants
+
+G. TESTING
+Add or update:
+- unit tests
+- integration tests
+- contract tests
+- end-to-end tests
+- regression tests
+
+Include tests for:
+- plan creation
+- plan versioning
+- trial/monthly/quarterly/annual/lifetime flows
+- grandfathering behavior
+- entitlement resolution
+- role and group inheritance
+- per-user overrides
+- delegated admin ceilings
+- policy denial cases
+- feature flag targeting
+- audit log generation
+- migration safety
+- staging deployment safety
+
+H. DOCUMENTATION
+Update the repo documentation with:
+- architecture changes
+- schema changes
+- API documentation
+- admin UX flows
+- delegated governance rules
+- migration notes
+- rollout notes
+- QA and verification notes
+
+BATCH EXECUTION PLAN
+
+BATCH 0 — DISCOVERY + IMPLEMENTATION REGISTER
+- Review all relevant code and docs.
+- Inventory all hardcoded configuration points.
+- Identify all affected packages/apps/routes/tables/UI surfaces.
+- Produce a full implementation register in the repo.
+- Identify risks and dependency order.
+
+BATCH 1 — CORE FOUNDATIONS
+- Implement core schema, migrations, seeds, models, service interfaces, permission/entitlement abstractions, and audit foundations.
+- Keep compatibility with current behavior while laying groundwork.
+
+BATCH 2 — SUBSCRIPTIONS + PRICING + PLAN VERSIONING
+- Implement dynamic package catalog.
+- Implement billing periods and pricing models.
+- Implement package versioning, lifecycle states, and grandfathering support.
+- Wire to existing monetization/billing flow where relevant.
+
+BATCH 3 — ENTITLEMENTS + ACCESS EVALUATION
+- Implement runtime entitlements.
+- Replace static plan matrices where appropriate.
+- Introduce entitlement resolution and scope-aware evaluation.
+
+BATCH 4 — ROLES + GROUPS + PER-USER OVERRIDES
+- Implement dynamic role definitions.
+- Implement groups and inherited rights.
+- Implement direct grants/denials per user.
+- Add resolution logic and UI/API support.
+
+BATCH 5 — DELEGATED ADMIN GOVERNANCE
+- Implement admin ceilings and delegation rules.
+- Implement who-can-configure-what logic.
+- Add governance UIs and enforcement paths.
+- Add audit visibility.
+
+BATCH 6 — FEATURE FLAGS + RUNTIME CONFIG
+- Implement central configuration/flag service.
+- Add scoped targeting.
+- Migrate important hardcoded toggles to runtime config.
+- Expose controls via relevant dashboards.
+
+BATCH 7 — DASHBOARD COMPLETION + UX HARDENING
+- Complete all required UI surfaces across Super Admin / Platform Admin / Partner Admin / Tenant Admin.
+- Ensure responsiveness, role-aware visibility, and usability.
+- Remove dead/stub control surfaces.
+
+BATCH 8 — MIGRATION + CLEANUP
+- Seed old hardcoded data into new system.
+- Cut over to new runtime-managed evaluation paths.
+- Remove or isolate obsolete hardcoded logic.
+- Fix regressions.
+
+BATCH 9 — FULL QA + STAGING VALIDATION
+- Audit the whole initiative.
+- Find and fix all remaining issues.
+- Push fixes step by step to GitHub staging.
+- Ensure CI is green.
+- Ensure Cloudflare staging is green.
+- Verify admin/user flows end to end.
+
+BATCH 10 — MAIN MERGE + PRODUCTION DEPLOY
+- Only after full staging green, merge finalized work to main.
+- Deploy production through GitHub CI/CD to Cloudflare.
+- Verify production thoroughly.
+- Fix any final issue using proper staging-first discipline.
+- Do not conclude until production is green.
+
+GITHUB + CLOUDFLARE DISCIPLINE
+- Work from the proper branch structure.
+- Push to staging step by step after each meaningful batch.
+- Keep commits logically grouped and clearly named.
+- Verify GitHub Actions after each push.
+- Verify Cloudflare staging after each deployment.
+- Only merge to main after staging is fully green.
+- Deploy production from main only.
+- Confirm production behavior and readiness after deploy.
+
+OUTPUT REQUIRED AFTER EACH BATCH
+After each batch, provide:
+- what was reviewed
+- what was implemented
+- exact files changed
+- migrations added
+- tests added/updated
+- what was pushed to staging
+- what was verified in staging
+- blockers or risks
+- next batch plan
+
+FINAL SUCCESS CRITERIA
+Only conclude the initiative when all of the following are true:
+- plans/packages are runtime-managed
+- pricing is runtime-managed
+- free trial / monthly / quarterly / annual / lifetime support exists
+- entitlements are runtime-managed
+- roles are runtime-managed
+- groups and inherited rights work
+- per-user overrides work
+- delegated admin ceilings work
+- feature flags/runtime config work
+- required admin dashboards work
+- hardcoded platform controls that should be dynamic are removed or isolated
+- staging is green
+- Cloudflare staging is green
+- main is green
+- Cloudflare production is green
+- the platform is materially more configurable than before
+- the work is documented and tested
+
+BEGIN NOW
+Start with Batch 0.
+Perform the exhaustive review first.
+Create the repo-grounded implementation register.
+Then execute the initiative batch by batch until it is complete.
+Do not stop at planning.

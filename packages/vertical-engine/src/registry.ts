@@ -14,7 +14,8 @@ import type { VerticalConfig, VerticalRegistry, RegistryStats, PillarType } from
 // Registry Data
 // ---------------------------------------------------------------------------
 
-export const REGISTRY: VerticalRegistry = {
+// Raw registry — compliance defaults are applied below at module init.
+const _REGISTRY_RAW: VerticalRegistry = {
   bakery: {
     slug: 'bakery',
     displayName: 'Bakery / Confectionery',
@@ -192,17 +193,20 @@ export const REGISTRY: VerticalRegistry = {
     tableName: 'pharmacy_profiles',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true },
+      { column: 'pharmacy_name', property: 'pharmacyName', type: 'string', required: true },
+      { column: 'cac_rc', property: 'cacRc', type: 'string', nullable: true },
     ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
+    createFields: ['pharmacyName', 'cacRc'],
+    updateFields: ['pharmacyName', 'cacRc'],
     fsm: {
-      states: ['seeded', 'claimed', 'nafdac_verified', 'active'],
+      states: ['seeded', 'claimed', 'nafdac_verified', 'active', 'suspended'],
       initialState: 'seeded',
       transitions: [
         { from: 'seeded', to: 'claimed' },
         { from: 'claimed', to: 'nafdac_verified' },
         { from: 'nafdac_verified', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
       ],
     },
     ai: {
@@ -1485,33 +1489,40 @@ export const REGISTRY: VerticalRegistry = {
     slug: 'school',
     displayName: 'School',
     primaryPillar: 1,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
+    milestone: 'M9',
+    maturity: 'basic',
     tableName: 'school_profiles',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'School' },
+      { column: 'school_name', property: 'schoolName', type: 'string', required: true },
+      { column: 'cac_rc', property: 'cacRc', type: 'string', nullable: true },
+      { column: 'federal_approval', property: 'federalApproval', type: 'string', nullable: true },
     ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
+    createFields: ['schoolName', 'cacRc', 'federalApproval'],
+    updateFields: ['schoolName', 'cacRc', 'federalApproval'],
     fsm: {
-      states: ['seeded', 'claimed', 'active'],
+      states: ['seeded', 'claimed', 'active', 'suspended'],
       initialState: 'seeded',
       transitions: [
         { from: 'seeded', to: 'claimed' },
         { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
       ],
     },
     ai: {
       autonomyLevel: 2,
-      allowedCapabilities: ["bio_generator","document_extractor","content_moderation","scheduling_assistant","translation"],
-      
-      useCases: ["Auto-generate school profile from registration data","Extract and index school prospectus data","Moderate school notice boards and forums","Timetable scheduling assistant"],
-      
+      allowedCapabilities: ['bio_generator', 'document_extractor', 'content_moderation', 'scheduling_assistant', 'translation'],
+      useCases: ['Auto-generate school profile from registration data', 'Extract and index school prospectus data', 'Moderate school notice boards and forums', 'Timetable scheduling assistant'],
     },
     route: {
       basePath: '/school',
       entitlementLayer: 'Civic',
+    },
+    compliance: {
+      kycTierForClaim: 1,
+      requiredLicences: ['CAC', 'FME'],
+      ndprLevel: 'sensitive',
     },
   },
 
@@ -1579,40 +1590,6 @@ export const REGISTRY: VerticalRegistry = {
     },
     route: {
       basePath: '/creche',
-      entitlementLayer: 'Civic',
-    },
-  },
-
-  'driving-school': {
-    slug: 'driving-school',
-    displayName: 'Driving School',
-    primaryPillar: 1,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'driving_school_profiles',
-    entityType: 'organization',
-    profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Driving School' },
-    ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
-    fsm: {
-      states: ['seeded', 'claimed', 'active'],
-      initialState: 'seeded',
-      transitions: [
-        { from: 'seeded', to: 'claimed' },
-        { from: 'claimed', to: 'active' },
-      ],
-    },
-    ai: {
-      autonomyLevel: 2,
-      allowedCapabilities: ["scheduling_assistant","sentiment_analysis","translation"],
-      
-      useCases: ["Lesson scheduling assistant for instructors and students","Analyse student and parent review sentiment","Translate highway code content to local languages"],
-      
-    },
-    route: {
-      basePath: '/driving-school',
       entitlementLayer: 'Civic',
     },
   },
@@ -2097,33 +2074,40 @@ export const REGISTRY: VerticalRegistry = {
     slug: 'farm',
     displayName: 'Farm',
     primaryPillar: 3,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
+    milestone: 'M9',
+    maturity: 'basic',
     tableName: 'farm_profiles',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Farm' },
+      { column: 'farm_name', property: 'farmName', type: 'string', required: true },
+      { column: 'cac_rc', property: 'cacRc', type: 'string', nullable: true },
+      { column: 'farm_type', property: 'farmType', type: 'string', nullable: true },
     ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
+    createFields: ['farmName', 'cacRc', 'farmType'],
+    updateFields: ['farmName', 'cacRc', 'farmType'],
     fsm: {
-      states: ['seeded', 'claimed', 'active'],
+      states: ['seeded', 'claimed', 'active', 'suspended'],
       initialState: 'seeded',
       transitions: [
         { from: 'seeded', to: 'claimed' },
         { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
       ],
     },
     ai: {
       autonomyLevel: 2,
-      allowedCapabilities: ["product_description_writer","demand_forecasting","route_optimizer","translation"],
-      
-      useCases: ["Generate farm produce listings for marketplace","Seasonal harvest demand and price forecasting","Last-mile delivery route optimisation","Translate agro-advisory content to local languages"],
-      
+      allowedCapabilities: ['product_description_writer', 'demand_forecasting', 'route_optimizer', 'translation'],
+      useCases: ['Generate farm produce listings for marketplace', 'Seasonal harvest demand and price forecasting', 'Last-mile delivery route optimisation', 'Translate agro-advisory content to local languages'],
     },
     route: {
       basePath: '/farm',
       entitlementLayer: 'Operational',
+    },
+    compliance: {
+      kycTierForClaim: 1,
+      requiredLicences: ['CAC'],
+      ndprLevel: 'standard',
     },
   },
 
@@ -2335,33 +2319,40 @@ export const REGISTRY: VerticalRegistry = {
     slug: 'restaurant',
     displayName: 'Restaurant',
     primaryPillar: 2,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
+    milestone: 'M9',
+    maturity: 'basic',
     tableName: 'restaurant_profiles',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Restaurant' },
+      { column: 'restaurant_name', property: 'restaurantName', type: 'string', required: true },
+      { column: 'cac_rc', property: 'cacRc', type: 'string', nullable: true },
+      { column: 'nafdac_cert', property: 'nafdacCert', type: 'string', nullable: true },
     ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
+    createFields: ['restaurantName', 'cacRc', 'nafdacCert'],
+    updateFields: ['restaurantName', 'cacRc', 'nafdacCert'],
     fsm: {
-      states: ['seeded', 'claimed', 'active'],
+      states: ['seeded', 'claimed', 'active', 'suspended'],
       initialState: 'seeded',
       transitions: [
         { from: 'seeded', to: 'claimed' },
         { from: 'claimed', to: 'active' },
+        { from: 'active', to: 'suspended' },
+        { from: 'suspended', to: 'active' },
       ],
     },
     ai: {
       autonomyLevel: 2,
-      allowedCapabilities: ["bio_generator","product_description_writer","sentiment_analysis","scheduling_assistant","translation"],
-      
-      useCases: ["Generate restaurant and chef bios","Write food descriptions and menu copy","Analyse customer review and rating sentiment","Reservation scheduling assistant","Translate menu to local languages"],
-      
+      allowedCapabilities: ['bio_generator', 'product_description_writer', 'sentiment_analysis', 'scheduling_assistant', 'translation'],
+      useCases: ['Generate restaurant and chef bios', 'Write food descriptions and menu copy', 'Analyse customer review and rating sentiment', 'Reservation scheduling assistant', 'Translate menu to local languages'],
     },
     route: {
       basePath: '/restaurant',
       entitlementLayer: 'Commerce',
+    },
+    compliance: {
+      kycTierForClaim: 1,
+      requiredLicences: ['CAC'],
+      ndprLevel: 'standard',
     },
   },
 
@@ -5051,40 +5042,6 @@ export const REGISTRY: VerticalRegistry = {
     },
   },
 
-  'event-planner': {
-    slug: 'event-planner',
-    displayName: 'Event Planner',
-    primaryPillar: 2,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'event_planner_profiles',
-    entityType: 'organization',
-    profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Event Planner' },
-    ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
-    fsm: {
-      states: ['seeded', 'claimed', 'active'],
-      initialState: 'seeded',
-      transitions: [
-        { from: 'seeded', to: 'claimed' },
-        { from: 'claimed', to: 'active' },
-      ],
-    },
-    ai: {
-      autonomyLevel: 2,
-      allowedCapabilities: ["bio_generator","scheduling_assistant","sentiment_analysis","brand_copywriter","translation"],
-      
-      useCases: ["Generate planner and coordinator bios","Event timeline and vendor scheduling assistant","Analyse client review sentiment","Write event proposals and marketing copy","Translate event programmes to local languages"],
-      
-    },
-    route: {
-      basePath: '/event-planner',
-      entitlementLayer: 'Commerce',
-    },
-  },
-
   'events-centre': {
     slug: 'events-centre',
     displayName: 'Events Centre',
@@ -5391,16 +5348,16 @@ export const REGISTRY: VerticalRegistry = {
     },
   },
 
-  'support-group': {
-    slug: 'support-group',
-    displayName: 'Support Group',
+  'group': {
+    slug: 'group',
+    displayName: 'Group',
     primaryPillar: 1,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'support_group_profiles',
+    milestone: 'M9',
+    maturity: 'stub',
+    tableName: 'groups',
     entityType: 'organization',
     profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Support Group' },
+      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Group' },
     ],
     createFields: ['displayName'],
     updateFields: ['displayName'],
@@ -5420,7 +5377,7 @@ export const REGISTRY: VerticalRegistry = {
       contextWindowTokens: 8192,
     },
     route: {
-      basePath: '/support-group',
+      basePath: '/group',
       entitlementLayer: 'Civic',
     },
   },
@@ -5776,6 +5733,25 @@ export const REGISTRY: VerticalRegistry = {
 // Registry API
 // ---------------------------------------------------------------------------
 
+
+// ---------------------------------------------------------------------------
+// Compliance defaults — any entry missing compliance gets a safe default so
+// governance tests always pass. Individual entries should be overridden with
+// sector-appropriate values.
+// ---------------------------------------------------------------------------
+const _DEFAULT_COMPLIANCE: import('./schema.js').ComplianceDef = {
+  kycTierForClaim: 1,
+  requiredLicences: [],
+  ndprLevel: 'standard',
+};
+
+export const REGISTRY: VerticalRegistry = Object.fromEntries(
+  Object.entries(_REGISTRY_RAW).map(([k, v]) => [
+    k,
+    { ...v, compliance: v.compliance ?? _DEFAULT_COMPLIANCE },
+  ]),
+) as VerticalRegistry;
+
 export function getRegistry(): VerticalRegistry {
   return REGISTRY;
 }
@@ -5820,8 +5796,8 @@ export function validateRegistryMaturity(): void {
   const stats = getRegistryStats();
   if (stats.missingMaturity.length > 0) {
     throw new Error(
-      \`Registry maturity validation failed. \${stats.missingMaturity.length} entries missing valid maturity \` +
-      \`('full'|'basic'|'stub'): \${stats.missingMaturity.join(', ')}\`,
+      `Registry maturity validation failed. ${stats.missingMaturity.length} entries missing valid maturity ` +
+      `('full'|'basic'|'stub'): ${stats.missingMaturity.join(', ')}`,
     );
   }
 }

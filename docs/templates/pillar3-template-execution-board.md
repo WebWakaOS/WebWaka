@@ -1,8 +1,8 @@
 # Pillar 3 Template Execution Board
 
 **Document type:** Operational status board  
-**Status:** COMPLETE — all 70 Pillar 3 niches implemented (sessions A–F, 2026-04-26)  
-**Date last updated:** 2026-04-26  
+**Status:** COMPLETE — all 78 P3 niches SHIPPED (71 via Phase 2 sprint 2026-05-02; 7 via P2 sprint 2026-04-25)  
+**Date last updated:** 2026-05-02  
 **Authority:** `docs/reports/pillar3-niche-identity-system-2026-04-26.md`
 
 ---
@@ -16,15 +16,15 @@
 | RESEARCH_SYNTHESIZED | 0 |
 | READY_FOR_IMPLEMENTATION | 0 |
 | IMPLEMENTATION_IN_PROGRESS | 0 |
-| IMPLEMENTED | 64 |
+| IMPLEMENTED | 0 |
 | VERIFIED | 0 |
 | APPROVED | 0 |
-| SHIPPED | 7 |
+| SHIPPED | 78 |
 | BLOCKED | 0 |
 | NEEDS_REVISION | 0 |
 | VARIANTS_PENDING | 0 |
 | ARCHIVED | 0 |
-| **TOTAL NICHES** | **77** |
+| **TOTAL NICHES** | **78** |
 
 ---
 
@@ -45,178 +45,178 @@ and are live in production as of 2026-04-26.
 
 ---
 
-## READY_FOR_RESEARCH — Civic (9 niches)
+## SHIPPED — Civic (9 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 1 | `P3-mosque-mosque-community-platform` | mosque | Mosque / Islamic Centre Community Platform | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-A | 2026-04-26 |
-| 2 | `P3-youth-organization-youth-org-portal` | youth-organization | Youth Organisation / Student Union Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 3 | `P3-womens-association-womens-assoc-portal` | womens-association | Women's Association / Forum Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 4 | `P3-professional-association-prof-assoc-portal` | professional-association | Professional Association / Regulatory Body Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 5 | `P3-orphanage-orphanage-welfare-portal` | orphanage | Orphanage / Child Welfare NGO Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 6 | `P3-sports-club-sports-club-portal` | sports-club | Sports Club / Amateur League Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 7 | `P3-book-club-book-club-platform` | book-club | Book Club / Reading Circle Platform | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 8 | `P3-market-association-market-assoc-portal` | market-association | Market Leaders / Traders Association Portal | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 9 | `P3-ministry-mission-ministry-mission-platform` | ministry-mission | Ministry / Apostolic Mission / Outreach Platform | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 1 | `P3-mosque-mosque-community-platform` | mosque | Mosque / Islamic Centre Community Platform | SHIPPED ✅ | replit-agent-2026-04-26-session-A | 2026-04-26 |
+| 2 | `P3-youth-organization-youth-org-portal` | youth-organization | Youth Organisation / Student Union Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 3 | `P3-womens-association-womens-assoc-portal` | womens-association | Women's Association / Forum Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 4 | `P3-professional-association-prof-assoc-portal` | professional-association | Professional Association / Regulatory Body Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 5 | `P3-orphanage-orphanage-welfare-portal` | orphanage | Orphanage / Child Welfare NGO Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 6 | `P3-sports-club-sports-club-portal` | sports-club | Sports Club / Amateur League Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 7 | `P3-book-club-book-club-platform` | book-club | Book Club / Reading Circle Platform | SHIPPED ✅ | — | 2026-04-26 |
+| 8 | `P3-market-association-market-assoc-portal` | market-association | Market Leaders / Traders Association Portal | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 9 | `P3-ministry-mission-ministry-mission-platform` | ministry-mission | Ministry / Apostolic Mission / Outreach Platform | SHIPPED ✅ | — | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Politics (4 niches)
+## SHIPPED — Politics (4 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 10 | `P3-campaign-office-campaign-office-ops` | campaign-office | Political Campaign Office Operations Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 11 | `P3-lga-office-lga-council-portal` | lga-office | Local Government Council / Ward Office Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 12 | `P3-polling-unit-rep-polling-unit-rep-site` | polling-unit-rep | Polling Unit Representative Information Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 13 | `P3-constituency-office-constituency-dev-portal` | constituency-office | Constituency Development Office Portal | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 10 | `P3-campaign-office-campaign-office-ops` | campaign-office | Political Campaign Office Operations Site | SHIPPED ✅ | — | 2026-04-26 |
+| 11 | `P3-lga-office-lga-council-portal` | lga-office | Local Government Council / Ward Office Portal | SHIPPED ✅ | — | 2026-04-26 |
+| 12 | `P3-polling-unit-rep-polling-unit-rep-site` | polling-unit-rep | Polling Unit Representative Information Site | SHIPPED ✅ | — | 2026-04-26 |
+| 13 | `P3-constituency-office-constituency-dev-portal` | constituency-office | Constituency Development Office Portal | SHIPPED ✅ | — | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Transport (5 niches)
+## SHIPPED — Transport (5 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 14 | `P3-okada-keke-okada-keke-coop` | okada-keke | Okada / Keke Rider Co-op Platform | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 15 | `P3-ferry-ferry-water-transport` | ferry | Ferry / Water Transport Operator Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 16 | `P3-airport-shuttle-airport-shuttle-booking` | airport-shuttle | Airport Shuttle Service Booking Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 17 | `P3-container-depot-container-depot-hub` | container-depot | Container Depot / Logistics Hub Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 18 | `P3-cargo-truck-cargo-fleet-ops` | cargo-truck | Cargo Truck / Fleet Operator Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 14 | `P3-okada-keke-okada-keke-coop` | okada-keke | Okada / Keke Rider Co-op Platform | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 15 | `P3-ferry-ferry-water-transport` | ferry | Ferry / Water Transport Operator Site | SHIPPED ✅ | — | 2026-04-26 |
+| 16 | `P3-airport-shuttle-airport-shuttle-booking` | airport-shuttle | Airport Shuttle Service Booking Site | SHIPPED ✅ | — | 2026-04-26 |
+| 17 | `P3-container-depot-container-depot-hub` | container-depot | Container Depot / Logistics Hub Site | SHIPPED ✅ | — | 2026-04-26 |
+| 18 | `P3-cargo-truck-cargo-fleet-ops` | cargo-truck | Cargo Truck / Fleet Operator Site | SHIPPED ✅ | — | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Financial (1 niche)
+## SHIPPED — Financial (1 niche)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 19 | `P3-airtime-reseller-airtime-vtu-reseller` | airtime-reseller | Airtime / VTU Reseller Service Site | READY_FOR_RESEARCH | — | 2026-04-26 |
+| 19 | `P3-airtime-reseller-airtime-vtu-reseller` | airtime-reseller | Airtime / VTU Reseller Service Site | SHIPPED ✅ | — | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Commerce / Automotive (5 niches)
+## SHIPPED — Commerce / Automotive (5 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 20 | `P3-used-car-dealer-used-car-dealer-site` | used-car-dealer | Used Car Dealer / Auto Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 21 | `P3-spare-parts-spare-parts-dealer` | spare-parts | Spare Parts Dealer (Ladipo / Nnewi) Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 22 | `P3-tyre-shop-tyre-shop-service` | tyre-shop | Tyre Shop / Vulcanizer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 23 | `P3-car-wash-car-wash-detailing` | car-wash | Car Wash / Auto Detailing Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 24 | `P3-motorcycle-accessories-moto-accessories-shop` | motorcycle-accessories | Motorcycle Accessories Shop Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 20 | `P3-used-car-dealer-used-car-dealer-site` | used-car-dealer | Used Car Dealer / Auto Trader Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 21 | `P3-spare-parts-spare-parts-dealer` | spare-parts | Spare Parts Dealer (Ladipo / Nnewi) Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 22 | `P3-tyre-shop-tyre-shop-service` | tyre-shop | Tyre Shop / Vulcanizer Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 23 | `P3-car-wash-car-wash-detailing` | car-wash | Car Wash / Auto Detailing Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 24 | `P3-motorcycle-accessories-moto-accessories-shop` | motorcycle-accessories | Motorcycle Accessories Shop Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Commerce / Construction & Hardware (6 niches)
+## SHIPPED — Commerce / Construction & Hardware (6 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 25 | `P3-building-materials-building-materials-supplier` | building-materials | Building Materials Supplier Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 26 | `P3-iron-steel-iron-steel-merchant` | iron-steel | Iron & Steel / Roofing Merchant Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 27 | `P3-electrical-fittings-electrical-fittings-dealer` | electrical-fittings | Electrical Fittings Dealer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
-| 28 | `P3-paints-distributor-paints-distributor-site` | paints-distributor | Paints & Coatings Distributor Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 29 | `P3-plumbing-supplies-plumbing-supplies-dealer` | plumbing-supplies | Plumbing Supplies Dealer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 30 | `P3-generator-dealer-generator-dealer-service` | generator-dealer | Generator Sales & Service Centre Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 25 | `P3-building-materials-building-materials-supplier` | building-materials | Building Materials Supplier Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 26 | `P3-iron-steel-iron-steel-merchant` | iron-steel | Iron & Steel / Roofing Merchant Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 27 | `P3-electrical-fittings-electrical-fittings-dealer` | electrical-fittings | Electrical Fittings Dealer Site | SHIPPED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 28 | `P3-paints-distributor-paints-distributor-site` | paints-distributor | Paints & Coatings Distributor Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 29 | `P3-plumbing-supplies-plumbing-supplies-dealer` | plumbing-supplies | Plumbing Supplies Dealer Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 30 | `P3-generator-dealer-generator-dealer-service` | generator-dealer | Generator Sales & Service Centre Site | SHIPPED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Commerce / Services & Other (12 niches)
+## SHIPPED — Commerce / Services & Other (12 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 31 | `P3-internet-cafe-internet-cafe-business-centre` | internet-cafe | Internet Café / Business Centre Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 32 | `P3-printing-press-printing-press-studio` | printing-press | Printing Press / Design Studio Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 33 | `P3-laundry-service-laundry-service-site` | laundry-service | Laundromat / Laundry Service Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 34 | `P3-hair-salon-hair-salon-site` | hair-salon | Hair Salon / Barbing Salon Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 35 | `P3-cleaning-company-cleaning-facility-mgmt` | cleaning-company | Cleaning & Facility Management Company Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 36 | `P3-shoemaker-shoemaker-atelier` | shoemaker | Shoe Cobbler / Shoe Maker Atelier Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 37 | `P3-tailoring-fashion-tailoring-atelier` | tailoring-fashion | Tailor / Fashion Designer Atelier Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 38 | `P3-phone-repair-shop-phone-repair-shop` | phone-repair-shop | Phone Repair & Accessories Shop Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 39 | `P3-water-vendor-water-vendor-site` | water-vendor | Water Tanker / Sachet Water Producer Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 40 | `P3-oil-gas-services-oil-gas-service-provider` | oil-gas-services | Oil & Gas Service Provider Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
-| 41 | `P3-borehole-driller-borehole-drilling` | borehole-driller | Borehole Drilling Company Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 42 | `P3-artisanal-mining-artisanal-mining-ops` | artisanal-mining | Artisanal Mining Operator Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 31 | `P3-internet-cafe-internet-cafe-business-centre` | internet-cafe | Internet Café / Business Centre Site | SHIPPED ✅ | — | 2026-04-26 |
+| 32 | `P3-printing-press-printing-press-studio` | printing-press | Printing Press / Design Studio Site | SHIPPED ✅ | — | 2026-04-26 |
+| 33 | `P3-laundry-service-laundry-service-site` | laundry-service | Laundromat / Laundry Service Site | SHIPPED ✅ | — | 2026-04-26 |
+| 34 | `P3-hair-salon-hair-salon-site` | hair-salon | Hair Salon / Barbing Salon Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 35 | `P3-cleaning-company-cleaning-facility-mgmt` | cleaning-company | Cleaning & Facility Management Company Site | SHIPPED ✅ | — | 2026-04-26 |
+| 36 | `P3-shoemaker-shoemaker-atelier` | shoemaker | Shoe Cobbler / Shoe Maker Atelier Site | SHIPPED ✅ | — | 2026-04-26 |
+| 37 | `P3-tailoring-fashion-tailoring-atelier` | tailoring-fashion | Tailor / Fashion Designer Atelier Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 38 | `P3-phone-repair-shop-phone-repair-shop` | phone-repair-shop | Phone Repair & Accessories Shop Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 39 | `P3-water-vendor-water-vendor-site` | water-vendor | Water Tanker / Sachet Water Producer Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 40 | `P3-oil-gas-services-oil-gas-service-provider` | oil-gas-services | Oil & Gas Service Provider Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 41 | `P3-borehole-driller-borehole-drilling` | borehole-driller | Borehole Drilling Company Site | SHIPPED ✅ | — | 2026-04-26 |
+| 42 | `P3-artisanal-mining-artisanal-mining-ops` | artisanal-mining | Artisanal Mining Operator Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Agricultural (9 niches)
+## SHIPPED — Agricultural (9 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 43 | `P3-poultry-farm-poultry-farm-site` | poultry-farm | Poultry Farm / Aquaculture Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 44 | `P3-cassava-miller-cassava-miller-site` | cassava-miller | Cassava / Maize / Rice Miller Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 45 | `P3-fish-market-fish-market-site` | fish-market | Fish Market / Fishmonger Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 46 | `P3-abattoir-abattoir-meat-processing` | abattoir | Abattoir / Meat Processing Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 47 | `P3-produce-aggregator-produce-aggregator-site` | produce-aggregator | Produce Storage / Market Aggregator Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 48 | `P3-vegetable-garden-urban-veg-garden` | vegetable-garden | Vegetable Garden / Urban Horticulture Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 49 | `P3-palm-oil-trader-palm-oil-trader-site` | palm-oil-trader | Palm Oil Producer / Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
-| 50 | `P3-cocoa-exporter-cocoa-export-trader` | cocoa-exporter | Cocoa / Export Commodities Trader Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 51 | `P3-food-processing-food-processing-factory` | food-processing | Food Processing Factory Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 43 | `P3-poultry-farm-poultry-farm-site` | poultry-farm | Poultry Farm / Aquaculture Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 44 | `P3-cassava-miller-cassava-miller-site` | cassava-miller | Cassava / Maize / Rice Miller Site | SHIPPED ✅ | — | 2026-04-26 |
+| 45 | `P3-fish-market-fish-market-site` | fish-market | Fish Market / Fishmonger Site | SHIPPED ✅ | — | 2026-04-26 |
+| 46 | `P3-abattoir-abattoir-meat-processing` | abattoir | Abattoir / Meat Processing Site | SHIPPED ✅ | — | 2026-04-26 |
+| 47 | `P3-produce-aggregator-produce-aggregator-site` | produce-aggregator | Produce Storage / Market Aggregator Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 48 | `P3-vegetable-garden-urban-veg-garden` | vegetable-garden | Vegetable Garden / Urban Horticulture Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 49 | `P3-palm-oil-trader-palm-oil-trader-site` | palm-oil-trader | Palm Oil Producer / Trader Site | SHIPPED ✅ | replit-agent-2026-04-26-session-B | 2026-04-26 |
+| 50 | `P3-cocoa-exporter-cocoa-export-trader` | cocoa-exporter | Cocoa / Export Commodities Trader Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 51 | `P3-food-processing-food-processing-factory` | food-processing | Food Processing Factory Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Media (2 niches)
+## SHIPPED — Media (2 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 52 | `P3-community-radio-community-radio-site` | community-radio | Community Radio / TV Station Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 53 | `P3-newspaper-distribution-newspaper-dist-agency` | newspaper-distribution | Newspaper Distribution Agency Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 52 | `P3-community-radio-community-radio-site` | community-radio | Community Radio / TV Station Site | SHIPPED ✅ | — | 2026-04-26 |
+| 53 | `P3-newspaper-distribution-newspaper-dist-agency` | newspaper-distribution | Newspaper Distribution Agency Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Professional (4 niches)
+## SHIPPED — Professional (4 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 54 | `P3-land-surveyor-land-surveyor-site` | land-surveyor | Land Surveyor / Registry Agent Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 55 | `P3-wedding-planner-wedding-planner-site` | wedding-planner | Wedding Planner / Celebrant Site | READY_FOR_RESEARCH | — | 2026-04-26 |
-| 56 | `P3-funeral-home-funeral-home-site` | funeral-home | Burial / Funeral Home Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
-| 57 | `P3-startup-startup-site` | startup | Startup / Early-Stage Company Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 58 | `P3-pr-firm-pr-firm-site` | pr-firm | Public Relations Firm Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 54 | `P3-land-surveyor-land-surveyor-site` | land-surveyor | Land Surveyor / Registry Agent Site | SHIPPED ✅ | — | 2026-04-26 |
+| 55 | `P3-wedding-planner-wedding-planner-site` | wedding-planner | Wedding Planner / Celebrant Site | SHIPPED ✅ | — | 2026-04-26 |
+| 56 | `P3-funeral-home-funeral-home-site` | funeral-home | Burial / Funeral Home Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 57 | `P3-startup-startup-site` | startup | Startup / Early-Stage Company Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 58 | `P3-pr-firm-pr-firm-site` | pr-firm | Public Relations Firm Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Education (3 niches)
+## SHIPPED — Education (3 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 59 | `P3-private-school-private-school-site` | private-school | Private School Operator Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
-| 60 | `P3-govt-school-govt-school-portal` | govt-school | Government School Management Portal | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 61 | `P3-nursery-school-nursery-school-site` | nursery-school | Nursery / Crèche / Early Childhood Centre Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 59 | `P3-private-school-private-school-site` | private-school | Private School Operator Site | SHIPPED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 60 | `P3-govt-school-govt-school-portal` | govt-school | Government School Management Portal | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 61 | `P3-nursery-school-nursery-school-site` | nursery-school | Nursery / Crèche / Early Childhood Centre Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Health (3 niches)
+## SHIPPED — Health (3 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 62 | `P3-community-health-community-health-site` | community-health | Community Health Worker Network Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
-| 63 | `P3-rehab-centre-rehab-centre-site` | rehab-centre | Rehabilitation / Recovery Centre Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 64 | `P3-elderly-care-elderly-care-facility` | elderly-care | Elderly Care Facility Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 62 | `P3-community-health-community-health-site` | community-health | Community Health Worker Network Site | SHIPPED ✅ | replit-agent-2026-04-26-session-C | 2026-04-26 |
+| 63 | `P3-rehab-centre-rehab-centre-site` | rehab-centre | Rehabilitation / Recovery Centre Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 64 | `P3-elderly-care-elderly-care-facility` | elderly-care | Elderly Care Facility Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Creator (4 niches)
+## SHIPPED — Creator (4 niches)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 65 | `P3-talent-agency-talent-agency-site` | talent-agency | Talent Agency / Model Agency Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 66 | `P3-recording-label-record-label-site` | recording-label | Record Label / Music Publisher Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 67 | `P3-podcast-studio-podcast-studio-site` | podcast-studio | Podcast Studio / Audio Platform Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
-| 68 | `P3-motivational-speaker-motivational-speaker-site` | motivational-speaker | Motivational Speaker / Training Firm Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 65 | `P3-talent-agency-talent-agency-site` | talent-agency | Talent Agency / Model Agency Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 66 | `P3-recording-label-record-label-site` | recording-label | Record Label / Music Publisher Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 67 | `P3-podcast-studio-podcast-studio-site` | podcast-studio | Podcast Studio / Audio Platform Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
+| 68 | `P3-motivational-speaker-motivational-speaker-site` | motivational-speaker | Motivational Speaker / Training Firm Site | SHIPPED ✅ | replit-agent-2026-04-26-session-E | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Institutional (1 niche)
+## SHIPPED — Institutional (1 niche)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 69 | `P3-government-agency-govt-agency-portal` | government-agency | Government Agency / Parastatal Portal | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 69 | `P3-government-agency-govt-agency-portal` | government-agency | Government Agency / Parastatal Portal | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
-## READY_FOR_RESEARCH — Place (1 niche)
+## SHIPPED — Place (1 niche)
 
 | # | Niche ID | Vertical | Niche Name | Status | Owner | Last Updated |
 |---|----------|---------|-----------|--------|-------|-------------|
-| 70 | `P3-events-centre-events-centre-rental` | events-centre | Events Centre / Hall Rental Site | IMPLEMENTED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
+| 70 | `P3-events-centre-events-centre-rental` | events-centre | Events Centre / Hall Rental Site | SHIPPED ✅ | replit-agent-2026-04-26-session-F | 2026-04-26 |
 
 ---
 
@@ -329,4 +329,4 @@ and are live in production as of 2026-04-26.
 4. Update the summary counts table at the top
 5. If a niche moves to IMPLEMENTED: move it to the "Completed Niches" table
 
-*Last updated: 2026-04-26 — Session-F IMPLEMENTED 20 templates (oil-gas-services, artisanal-mining, airport-shuttle, container-depot, cargo-truck, funeral-home, pr-firm, shoemaker, newspaper-distribution, laundry-service, cleaning-company, internet-cafe, orphanage, sports-club, book-club, polling-unit-rep, constituency-office, government-agency, events-centre, nursery-school). All 20 registered in BUILT_IN_TEMPLATES. SQL manifests written. Research briefs written. 77 records total: 7 SHIPPED, 64 IMPLEMENTED, 0 READY_FOR_RESEARCH. TypeScript compile: clean (0 errors). Pillar 3 queue fully exhausted — all 70 P3 niches implemented.*
+*Last updated: 2026-05-02 — Phase 2 Completion Sprint: all 71 IMPLEMENTED templates promoted to SHIPPED. Migration 0464 seeds all 78 P3 templates into template_registry. Total: 78 SHIPPED (7 original P2-sprint + 71 P3-sprint). BUILT_IN_TEMPLATES confirmed 207 entries. TypeScript: clean (0 errors). (oil-gas-services, artisanal-mining, airport-shuttle, container-depot, cargo-truck, funeral-home, pr-firm, shoemaker, newspaper-distribution, laundry-service, cleaning-company, internet-cafe, orphanage, sports-club, book-club, polling-unit-rep, constituency-office, government-agency, events-centre, nursery-school). All 20 registered in BUILT_IN_TEMPLATES. SQL manifests written. Research briefs written. 77 records total: 7 SHIPPED, 64 IMPLEMENTED, 0 READY_FOR_RESEARCH. TypeScript compile: clean (0 errors). Pillar 3 queue fully exhausted — all 70 P3 niches implemented.*

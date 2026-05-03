@@ -28,7 +28,7 @@ app.get('/', authMiddleware, requireRole('admin'), async (c) => {
   return c.json({
     current: metrics,
     environments: TRAFFIC_SHIFT_CONFIGS,
-    activeEnvironment: process.env.NODE_ENV || 'development',
+    activeEnvironment: c.env.ENVIRONMENT || 'development',
   });
 });
 
@@ -72,7 +72,7 @@ app.post('/percentage', authMiddleware, requireRole('super_admin'), async (c) =>
     }, 400);
   }
 
-  const env = process.env.NODE_ENV || 'development';
+  const env = c.env.ENVIRONMENT || 'development';
   const config = TRAFFIC_SHIFT_CONFIGS[env];
 
   if (!config) {
@@ -109,7 +109,7 @@ app.post('/toggle', authMiddleware, requireRole('super_admin'), async (c) => {
     }, 400);
   }
 
-  const env = process.env.NODE_ENV || 'development';
+  const env = c.env.ENVIRONMENT || 'development';
   const config = TRAFFIC_SHIFT_CONFIGS[env];
 
   if (!config) {
@@ -145,7 +145,7 @@ app.post('/verticals', authMiddleware, requireRole('super_admin'), async (c) => 
     }, 400);
   }
 
-  const env = process.env.NODE_ENV || 'development';
+  const env = c.env.ENVIRONMENT || 'development';
   const config = TRAFFIC_SHIFT_CONFIGS[env];
 
   if (!config) {

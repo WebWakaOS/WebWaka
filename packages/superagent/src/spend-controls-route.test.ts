@@ -7,7 +7,7 @@
  */
 import { describe, it, expect, vi } from 'vitest';
 import { Hono } from 'hono';
-import { SpendControls } from './spend-controls.js';
+
 
 // ── Minimal chat route stub that mirrors the real route's budget-check path ──
 

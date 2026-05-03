@@ -276,10 +276,11 @@ export async function removeWakaPageFromIndex(
 }
 
 // ---------------------------------------------------------------------------
-// Support Group indexing — Migration 0390 / 0393
+// Group indexing — Phase 0 rename (was: Support Group indexing, Migration 0390/0393)
+// entity_type column value is 'group' (migration 0462 backfills old 'support_group' rows)
 // ---------------------------------------------------------------------------
 
-interface SupportGroupEntry {
+interface GroupEntry {
   id: string;
   name: string;
   tenantId: TenantId;
@@ -291,8 +292,9 @@ interface SupportGroupEntry {
   visibility?: string;
 }
 
+
 /**
- * Index (or re-index) a support group in search_entries.
+ * Index (or re-index) a group in search_entries.
  *
  * Uses INSERT OR REPLACE with a deterministic search entry ID.
  * Private/invite_only groups are NOT indexed (removed if they exist).
@@ -300,10 +302,11 @@ interface SupportGroupEntry {
  *
  * Migration 0393 adds state_code, lga_code, campaign_type, group_type columns.
  * Migration 0394 adds ward_code column to search_entries for ward-level discovery.
+ * Migration 0462 backfills entity_type 'support_group' → 'group' in existing rows.
  */
-export async function indexSupportGroup(
+export async function indexGroup(
   db: D1Like,
-  entry: SupportGroupEntry,
+  entry: GroupEntry,
 ): Promise<void> {
   if (entry.visibility && entry.visibility !== 'public') {
     await removeFromIndex(db, entry.id, entry.tenantId);
@@ -311,7 +314,7 @@ export async function indexSupportGroup(
   }
 
   const keywords = normaliseKeywords(entry.name);
-  const id = searchEntryId('support_group', entry.id);
+  const id = searchEntryId('group', entry.id);
 
   await db
     .prepare(
@@ -320,7 +323,7 @@ export async function indexSupportGroup(
           place_id, ancestry_path, visibility,
           state_code, lga_code, ward_code, group_type,
           created_at, updated_at)
-       VALUES (?, 'support_group', ?, ?, ?, ?, NULL, '[]', 'public',
+       VALUES (?, 'group', ?, ?, ?, ?, NULL, '[]', 'public',
                ?, ?, ?, ?, unixepoch(), unixepoch())`,
     )
     .bind(
@@ -337,23 +340,29 @@ export async function indexSupportGroup(
     .run();
 }
 
+/** @deprecated Use indexGroup */
+export const indexSupportGroup = indexGroup;
+
 /**
- * Remove a support group from the search index.
+ * Remove a group from the search index.
  * Called on archive or visibility change to private.
  * Non-fatal — callers must wrap in try/catch.
  */
-export async function removeSupportGroupFromIndex(
+export async function removeGroupFromIndex(
   db: D1Like,
   groupId: string,
   tenantId: TenantId,
 ): Promise<void> {
   await db
     .prepare(
-      `DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'support_group' AND tenant_id = ?`,
+      `DELETE FROM search_entries WHERE entity_id = ? AND entity_type = 'group' AND tenant_id = ?`,
     )
     .bind(groupId, tenantId)
     .run();
 }
+
+/** @deprecated Use removeGroupFromIndex */
+export const removeSupportGroupFromIndex = removeGroupFromIndex;
 
 // ---------------------------------------------------------------------------
 // Fundraising Campaign indexing — Migration 0391 / 0393
@@ -367,7 +376,7 @@ interface FundraisingCampaignEntry {
   slug: string;
   campaignType?: string | null;
   visibility?: string;
-  supportGroupId?: string | null;
+  groupId?: string | null;
 }
 
 /**

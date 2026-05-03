@@ -14,6 +14,7 @@ import {
   type RegisteredTool,
   type ToolExecutionContext,
 } from './tool-registry.js';
+import type { HitlService } from './hitl-service.js';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -34,7 +35,7 @@ function makeTool(
       },
     },
     handler: async (_args, _ctx) => handler(),
-    metadata,
+    ...(metadata !== undefined && { metadata }),
   };
 }
 
@@ -45,7 +46,7 @@ const fakeCtx = {
   vertical: 'restaurant',
   autonomyLevel: 3,
   db: {} as D1Database,
-  hitlService: {} as any,
+  hitlService: {} as unknown as HitlService,
 } satisfies ToolExecutionContext;
 
 function makeCall(name: string, args: Record<string, unknown> = {}) {

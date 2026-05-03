@@ -29,6 +29,7 @@ function makeDB() {
         all: vi.fn().mockImplementation(async () => ({
           results: sql.includes('ORDER BY transitioned_at DESC')
             ? rows.filter(r => r['profile_id'] === args[0])
+                  .sort((a, b) => (b['transitioned_at'] as number) - (a['transitioned_at'] as number))
                   .slice(0, (args[1] as number) ?? 20)
             : [],
         })),

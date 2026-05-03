@@ -4,7 +4,7 @@
   "private": true,
   "description": "WebWaka OS monorepo \u2014 governance-driven platform for Africa",
   "scripts": {
-    "dev": "node apps/platform-admin/server.js",
+    "dev": "pnpm --filter @webwaka/platform-admin dev",
     "typecheck": "pnpm -r --parallel run typecheck",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",

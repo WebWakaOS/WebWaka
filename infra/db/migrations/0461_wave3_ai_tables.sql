@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS ai_anomaly_flags (
   multiplier    REAL    NOT NULL DEFAULT 0,
   resolved_at   TEXT,
   detected_at   TEXT    NOT NULL DEFAULT (datetime('now')),
-  UNIQUE (tenant_id, flag_type, date(detected_at))
+  day_date      TEXT    NOT NULL DEFAULT (date('now')),
+  UNIQUE (tenant_id, flag_type, day_date)
 );
 
 CREATE INDEX IF NOT EXISTS idx_ai_anomaly_flags_tenant

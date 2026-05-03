@@ -10,5 +10,5 @@
  * fall through to its correct ESM default export path.
  */
 
-// @ts-ignore — intentional global polyfill for Vite 8 + Vitest 1.x interop
+// @ts-expect-error — intentional global polyfill for Vite 8 + Vitest 1.x interop
 globalThis.__vite_ssr_exportName__ = () => {};

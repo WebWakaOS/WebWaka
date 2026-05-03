@@ -1,16 +1,25 @@
 /**
  * Route Group: Vertical Engine Dynamic Routes
- * Phase 1 Task 1.10: Dual-path routing for gradual migration
  *
- * This file implements the NEW vertical-engine powered routes.
- * Routes are mounted ALONGSIDE the existing legacy vertical routes.
- * Feature flag: X-Use-Engine: 1 → routes to engine; otherwise → legacy
+ * DEBT-005 resolution (P1-040/041): The original design planned header-based
+ * dual-path routing (X-Use-Engine: 1 → engine, otherwise → legacy). This was
+ * implemented as a no-op middleware that always called next() regardless of
+ * the header value — the dead function has been removed.
  *
- * Migration Strategy:
- * 1. Both paths operational (this phase)
- * 2. Parity testing proves equivalence
- * 3. Gradual traffic shift via feature flag
- * 4. Legacy deprecation after 2+ sprints of stability
+ * Current status (Phase 1):
+ *   - Engine routes ARE registered and active alongside legacy routes.
+ *   - Route precedence: Hono resolves by registration order in server.ts.
+ *     The engine routes are registered AFTER legacy, so legacy wins on conflict.
+ *   - Traffic shifting: use load-balancer or Cloudflare Worker routing rules
+ *     (not application-level header middleware) for gradual migration.
+ *
+ * Migration path to engine-only:
+ *   1. Run parity tests (parity-all.test.ts) to prove equivalence for each vertical.
+ *   2. Unregister legacy routes one vertical at a time (edit register-vertical-routes.ts).
+ *   3. Monitor error rates for 2+ sprints per vertical batch.
+ *   4. Once all verticals migrated, remove register-vertical-routes.ts entirely.
+ *
+ * ADR-0048: Vertical Engine Routing Strategy — see docs/adrs/0048-vertical-engine-routing.md
  */
 
 import type { Hono } from 'hono';
@@ -19,21 +28,6 @@ import { authMiddleware } from '../middleware/auth.js';
 import { requireEntitlement } from '../middleware/entitlement.js';
 import { PlatformLayer } from '@webwaka/types';
 import { getRegistry, listSlugs, generateRoutes } from '@webwaka/vertical-engine';
-
-/**
- * Feature flag middleware: routes requests based on X-Use-Engine header.
- * If header is '1', request proceeds to engine routes.
- * Otherwise, request passes through to legacy routes (no-op middleware).
- */
-function _engineFeatureFlagMiddleware(c: { req: { header: (name: string) => string | undefined }; res: unknown }, next: () => Promise<void>) {
-  const useEngine = c.req.header('X-Use-Engine');
-  if (useEngine === '1') {
-    // Request is for the engine path
-    return next();
-  }
-  // Skip to next route group (legacy)
-  return next();
-}
 
 /**
  * Map pillar to entitlement layer for guard middleware

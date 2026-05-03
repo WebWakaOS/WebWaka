@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "strict": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
@@ -13,15 +16,33 @@
     "outDir": "./dist",
     "rootDir": "../..",
     "jsx": "react-jsx",
-    "types": ["@cloudflare/workers-types"],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "paths": {
-      "@webwaka/ai": ["../../packages/ai-abstraction/src/index.ts"],
-      "@webwaka/auth": ["../../packages/auth/src/index.ts"],
-      "@webwaka/frontend": ["../../packages/frontend/src/index.ts"],
-      "@webwaka/payments": ["../../packages/payments/src/index.ts"],
-      "@webwaka/types": ["../../packages/types/src/index.ts"]
+      "@webwaka/ai": [
+        "../../packages/ai-abstraction/src/index.ts"
+      ],
+      "@webwaka/auth": [
+        "../../packages/auth/src/index.ts"
+      ],
+      "@webwaka/frontend": [
+        "../../packages/frontend/src/index.ts"
+      ],
+      "@webwaka/payments": [
+        "../../packages/payments/src/index.ts"
+      ],
+      "@webwaka/types": [
+        "../../packages/types/src/index.ts"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

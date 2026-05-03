@@ -59,7 +59,7 @@ for (const { slug, expectedPath, primaryField } of MIGRATED_VERTICALS) {
     });
 
     it('has compliance.kycTierForClaim defined', () => {
-      expect(config?.compliance.kycTierForClaim).toBeDefined();
+      expect(config?.compliance!.kycTierForClaim).toBeDefined();
     });
 
     it('generateRoutes() returns a Hono router', () => {

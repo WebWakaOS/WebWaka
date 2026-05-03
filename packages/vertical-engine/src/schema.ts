@@ -40,10 +40,12 @@ export type AICapabilityType =
   | 'function_call'
   | 'inventory_advisory'
   | 'inventory_ai'
+  | 'listing_enhancer'
   | 'policy_summarizer'
   | 'product_description_writer'
   | 'seo_meta_ai'
   | 'sentiment_analysis'
+  | 'shift_summary_ai'
   | 'translation'
   | 'scheduling_assistant'
   | 'price_suggest'
@@ -261,7 +263,7 @@ export interface RegistryStats {
   /** B1-3: Breakdown by primaryPillar (1 = Commerce, 2 = Civic, 3 = Government) */
   byPillar: Record<PillarType, number>;
   /** B1-3: Breakdown by maturity level (full / basic / stub) */
-  byMaturity: Record<VerticalMaturity | string, number>;
+  byMaturity: Record<string, number>;
   byMilestone: Record<string, number>;
   /** B1-2: Slugs that are missing a valid maturity field */
   missingMaturity: string[];

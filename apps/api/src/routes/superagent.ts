@@ -76,13 +76,14 @@ import { AiEventType } from '@webwaka/events';
 interface D1Like {
   prepare(sql: string): {
     bind(...values: unknown[]): {
-      run(): Promise<{ success: boolean }>;
+      run(): Promise<{ success: boolean; meta?: { changes?: number } }>;
       first<T>(): Promise<T | null>;
       all<T>(): Promise<{ results: T[] }>;
     };
     first<T>(): Promise<T | null>;
     all<T>(): Promise<{ results: T[] }>;
   };
+  batch(stmts: unknown[]): Promise<{ success: boolean }[]>;
 }
 
 // ---------------------------------------------------------------------------

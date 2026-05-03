@@ -54,17 +54,10 @@ export function registerSocialRoutes(app: Hono<{ Bindings: Env }>): void {
   app.route('/social', socialRoutes);
 
   // -------------------------------------------------------------------------
-  // Support Groups — 3-in-1: Operations / Branding / Discovery
+  // /support-groups — Phase 0 rename (ADR-0042): 308 redirect → /groups
+  // No auth middleware needed — redirect is immediate, no data processing.
   // -------------------------------------------------------------------------
 
-  app.use('/support-groups', authMiddleware);
-  app.use('/support-groups', auditLogMiddleware);
-  app.use('/support-groups/:id', authMiddleware);
-  app.use('/support-groups/:id', auditLogMiddleware);
-  app.use('/support-groups/:id/*', authMiddleware);
-  app.use('/support-groups/:id/*', auditLogMiddleware);
-  app.use('/support-groups/petitions/:petitionId/sign', authMiddleware);
-  app.use('/support-groups/petitions/:petitionId/sign', auditLogMiddleware);
   app.route('/support-groups', supportGroupRoutes);
 
   // -------------------------------------------------------------------------

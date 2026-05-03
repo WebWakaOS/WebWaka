@@ -52,7 +52,7 @@ function parseCSVLine(line: string): string[] {
   return fields;
 }
 
-function main(): void {
+async function main(): Promise<void> {
   if (!fs.existsSync(CSV_PATH)) {
     console.error('FAIL: Vertical registry CSV not found at', CSV_PATH);
     process.exit(1);

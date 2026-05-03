@@ -276,6 +276,75 @@ const JOBS: Record<string, JobFn> = {
       }));
     }
   },
+
+  // Wave 4 (M11): Pilot feature flag expiry pruning
+  // Runs daily; removes expired per-tenant pilot feature flags from pilot_feature_flags.
+  'pilot-prune-expired-flags': async (env: Env) => {
+    const now = new Date().toISOString();
+    const result = await env.DB.prepare(
+      `DELETE FROM pilot_feature_flags
+       WHERE expires_at IS NOT NULL AND expires_at <= ?`,
+    ).bind(now).run();
+    const removed = result.meta?.changes ?? 0;
+    console.log(JSON.stringify({
+      level: 'info',
+      event: 'pilot_flags_pruned',
+      removed,
+      ts: now,
+    }));
+  },
+
+  // Wave 4 (M11): Daily pilot cohort health summary log
+  // Logs active/churned/graduated/invited counts + NPS snapshot for observability.
+  'pilot-health-log': async (env: Env) => {
+    const now = new Date().toISOString();
+
+    // Operator status counts
+    const statusRows = await env.DB.prepare(
+      `SELECT status, COUNT(*) AS cnt
+       FROM pilot_operators
+       GROUP BY status`,
+    ).all<{ status: string; cnt: number }>();
+
+    const statusSummary: Record<string, number> = {};
+    let totalOperators = 0;
+    for (const row of statusRows.results) {
+      statusSummary[row.status] = row.cnt;
+      totalOperators += row.cnt;
+    }
+
+    // 7-day NPS snapshot
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const npsRow = await env.DB.prepare(
+      `SELECT
+         COUNT(*)                                         AS total_nps,
+         AVG(nps_score)                                   AS avg_nps,
+         SUM(CASE WHEN nps_score >= 9 THEN 1 ELSE 0 END) AS promoters,
+         SUM(CASE WHEN nps_score <= 6 THEN 1 ELSE 0 END) AS detractors
+       FROM pilot_feedback
+       WHERE feedback_type = 'nps' AND nps_score IS NOT NULL
+         AND submitted_at >= ?`,
+    ).bind(sevenDaysAgo)
+      .first<{ total_nps: number; avg_nps: number | null; promoters: number; detractors: number }>();
+
+    const totalNps = npsRow?.total_nps ?? 0;
+    const npsScore = totalNps > 0
+      ? Math.round((((npsRow?.promoters ?? 0) - (npsRow?.detractors ?? 0)) / totalNps) * 100)
+      : null;
+
+    console.log(JSON.stringify({
+      level: 'info',
+      event: 'pilot_health_log',
+      ts: now,
+      total_operators: totalOperators,
+      by_status: statusSummary,
+      nps_7d: {
+        total_responses: totalNps,
+        avg_score: npsRow?.avg_nps ?? null,
+        nps_index: npsScore,
+      },
+    }));
+  },
 };
 
 export default {

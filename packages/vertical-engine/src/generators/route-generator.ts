@@ -67,7 +67,7 @@ export function generateRoutes(config: VerticalConfig): Hono<AnyEnv> {
     if (!workspaceId) return c.json({ error: 'workspace_id required' }, 400);
     const body = await c.req.json<Record<string, unknown>>();
     try {
-      const profile = await engine.createProfile(tenantId, workspaceId, body);
+      const profile = await engine.createProfile(body, tenantId, workspaceId);
       return c.json(profile, 201);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Create failed';
@@ -115,8 +115,8 @@ export function generateRoutes(config: VerticalConfig): Hono<AnyEnv> {
     const engine = new VerticalEngine(config, db);
     const profile = await engine.findById(id, tenantId);
     if (!profile) return c.json({ error: 'Not found' }, 404);
-    const updated = await engine.updateProfile(id, tenantId, { status: 'deleted' });
-    return c.json({ deleted: true, id, previous_status: (profile as Record<string, unknown>)['status'] ?? null });
+    await engine.updateProfile(id, tenantId, { status: 'deleted' });
+    return c.json({ deleted: true, id, previous_status: (profile as unknown as Record<string, unknown>)['status'] ?? null });
   });
 
   // POST /:id/advance — FSM state transition

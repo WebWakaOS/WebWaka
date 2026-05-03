@@ -5,10 +5,12 @@
 -- Server remains able to handle both formats during migration window.
 
 -- DM E2EE columns (expand-only — existing rows keep encryption_version = 1)
-ALTER TABLE dms ADD COLUMN ciphertext_v2 TEXT;
-ALTER TABLE dms ADD COLUMN iv_v2 TEXT;
-ALTER TABLE dms ADD COLUMN sender_ephemeral_pubkey TEXT;
-ALTER TABLE dms ADD COLUMN encryption_version INTEGER NOT NULL DEFAULT 1;
+-- Table is dm_messages (created by 0033_social_dms.sql), not 'dms'.
+-- Fix: was mistakenly referencing non-existent 'dms' table.
+ALTER TABLE dm_messages ADD COLUMN ciphertext_v2 TEXT;
+ALTER TABLE dm_messages ADD COLUMN iv_v2 TEXT;
+ALTER TABLE dm_messages ADD COLUMN sender_ephemeral_pubkey TEXT;
+ALTER TABLE dm_messages ADD COLUMN encryption_version INTEGER NOT NULL DEFAULT 1;
 
 -- Profile E2EE public key (JWK JSON, stored per-user)
 ALTER TABLE profiles ADD COLUMN e2e_public_key TEXT;

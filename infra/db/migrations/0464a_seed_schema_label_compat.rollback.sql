@@ -1,0 +1,38 @@
+-- Rollback for 0464a_seed_schema_label_compat.sql
+-- D1 (SQLite 3.35+) supports DROP COLUMN.
+-- Only safe to apply if the new columns contain no data.
+
+ALTER TABLE seed_sources DROP COLUMN IF EXISTS label;
+ALTER TABLE seed_sources DROP COLUMN IF EXISTS confidence_tier;
+ALTER TABLE seed_runs DROP COLUMN IF EXISTS label;
+ALTER TABLE seed_runs DROP COLUMN IF EXISTS phase;
+ALTER TABLE seed_raw_artifacts DROP COLUMN IF EXISTS notes;
+ALTER TABLE seed_dedupe_decisions DROP COLUMN IF EXISTS notes;
+ALTER TABLE seed_dedupe_decisions DROP COLUMN IF EXISTS dedup_key;
+ALTER TABLE seed_dedupe_decisions DROP COLUMN IF EXISTS entity_type;
+ALTER TABLE seed_dedupe_decisions DROP COLUMN IF EXISTS entity_id;
+ALTER TABLE seed_entity_sources DROP COLUMN IF EXISTS confidence_tier;
+ALTER TABLE seed_place_resolutions DROP COLUMN IF EXISTS source_name;
+ALTER TABLE seed_ingestion_records DROP COLUMN IF EXISTS entity_id;
+ALTER TABLE seed_ingestion_records DROP COLUMN IF EXISTS entity_type;
+ALTER TABLE seed_ingestion_records DROP COLUMN IF EXISTS status;
+ALTER TABLE seed_identity_map DROP COLUMN IF EXISTS canonical_entity_id;
+ALTER TABLE seed_identity_map DROP COLUMN IF EXISTS source_entity_key;
+ALTER TABLE seed_enrichment DROP COLUMN IF EXISTS enrichment_type;
+ALTER TABLE individuals DROP COLUMN IF EXISTS full_name;
+ALTER TABLE individuals DROP COLUMN IF EXISTS workspace_id;
+ALTER TABLE search_entries DROP COLUMN IF EXISTS vertical;
+ALTER TABLE terms DROP COLUMN IF EXISTS label;
+ALTER TABLE terms DROP COLUMN IF EXISTS election_cycle_id;
+ALTER TABLE terms DROP COLUMN IF EXISTS level;
+ALTER TABLE terms DROP COLUMN IF EXISTS office_type;
+ALTER TABLE terms DROP COLUMN IF EXISTS jurisdiction_place_id;
+ALTER TABLE political_assignments DROP COLUMN IF EXISTS took_office_year;
+ALTER TABLE political_assignments DROP COLUMN IF EXISTS left_office_year;
+ALTER TABLE political_assignments DROP COLUMN IF EXISTS jurisdiction_place_id;
+ALTER TABLE politician_profiles DROP COLUMN IF EXISTS profile_id;
+ALTER TABLE politician_profiles DROP COLUMN IF EXISTS jurisdiction_place_id;
+ALTER TABLE politician_profiles DROP COLUMN IF EXISTS office_title;
+ALTER TABLE party_affiliations DROP COLUMN IF EXISTS start_year;
+ALTER TABLE party_affiliations DROP COLUMN IF EXISTS is_current;
+DROP TABLE IF EXISTS election_cycles;
