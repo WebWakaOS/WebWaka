@@ -3,7 +3,7 @@
     "../../.eslintrc.base.json"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.lint.json"
   },
   "env": {
     "node": false,

@@ -2,7 +2,7 @@
  * Tests for E2EE key management routes (L-9 / ADR-0043)
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { Env } from '../env.js';
 import type { AuthContext } from '@webwaka/types';
 type AppEnv = { Bindings: Env; Variables: { auth: AuthContext; userId: string; tenantId: string } };
