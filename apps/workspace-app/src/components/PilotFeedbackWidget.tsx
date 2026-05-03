@@ -17,7 +17,7 @@
  *   <PilotFeedbackWidget trigger="first_txn" workspaceId={workspaceId} />
  */
 
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { api } from '@/lib/api';
 
 // ─── Types ───────────────────────────────────────────────────────────────────

@@ -524,7 +524,7 @@ describe('Wave 3 A4-4 — HITL reviewer notification on submit', () => {
       vertical: 'restaurant',
       capability: 'superagent_chat',
       hitlLevel: 1,
-      actionPayload: { tool: 'create_booking', args: {} },
+      aiRequestPayload: JSON.stringify({ tool: 'create_booking', args: {} }),
     });
 
     // Notifier is called non-blocking — give microtasks a chance to flush
@@ -554,7 +554,7 @@ describe('Wave 3 A4-4 — HITL reviewer notification on submit', () => {
       vertical: 'pharmacy',
       capability: 'inventory_ai',
       hitlLevel: 2,
-      actionPayload: {},
+      aiRequestPayload: JSON.stringify({}),
     });
 
     expect(result.queueItemId).toBeDefined();

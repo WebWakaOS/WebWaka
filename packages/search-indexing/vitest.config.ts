@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    pool: 'vmForks',
+    pool: 'forks',
     server: {
       deps: {
         inline: [/@webwaka\//],

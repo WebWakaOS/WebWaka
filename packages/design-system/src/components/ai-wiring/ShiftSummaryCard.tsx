@@ -50,7 +50,9 @@ export const ShiftSummaryCard: React.FC<ShiftSummaryCardProps> = ({
     <section aria-label="Today's AI Shift Summary">
       <AIInsightWidget
         capability="shift_summary_ai" title="Today's Summary"
-        content={summary} loading={loading} error={error}
+        {...(summary !== undefined && { content: summary })}
+        {...(error !== undefined && { error })}
+        loading={loading}
         onRetry={fetchSummary}
         onDismiss={() => { setSummary(undefined); setError(undefined); }}
         variant="info"

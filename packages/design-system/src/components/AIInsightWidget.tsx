@@ -15,12 +15,12 @@ export type AIWidgetVariant = 'info' | 'suggestion' | 'warning';
 export interface AIInsightWidgetProps {
   capability: string;
   title: string;
-  content?: string;
-  loading?: boolean;
-  error?: string;
-  onDismiss?: () => void;
-  onApply?: (content: string) => void;
-  onRetry?: () => void;
+  content?: string | undefined;
+  loading?: boolean | undefined;
+  error?: string | undefined;
+  onDismiss?: (() => void) | undefined;
+  onApply?: ((content: string) => void) | undefined;
+  onRetry?: (() => void) | undefined;
   variant?: AIWidgetVariant;
   className?: string;
 }

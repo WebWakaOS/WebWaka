@@ -98,8 +98,8 @@ describe('B4-4: All 162 verticals — structural parity', () => {
       });
 
       it('compliance.kycTierForClaim is 0-3', () => {
-        expect(config.compliance.kycTierForClaim).toBeGreaterThanOrEqual(0);
-        expect(config.compliance.kycTierForClaim).toBeLessThanOrEqual(3);
+        expect(config.compliance!.kycTierForClaim).toBeGreaterThanOrEqual(0);
+        expect(config.compliance!.kycTierForClaim).toBeLessThanOrEqual(3);
       });
     });
   }

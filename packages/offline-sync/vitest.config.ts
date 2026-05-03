@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    pool: 'vmForks',
+    pool: 'forks',
     setupFiles: ['./src/test-setup.ts'],
     server: {
       deps: {

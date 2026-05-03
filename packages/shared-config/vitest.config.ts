@@ -30,7 +30,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    pool: 'vmForks',
+    pool: 'forks',
     deps: {
       optimizer: {
         ssr: {

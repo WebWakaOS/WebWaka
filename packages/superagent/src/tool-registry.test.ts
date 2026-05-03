@@ -35,7 +35,7 @@ function makeTool(
       },
     },
     handler: async (_args, _ctx) => handler(),
-    metadata,
+    ...(metadata !== undefined && { metadata }),
   };
 }
 
