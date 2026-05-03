@@ -4,8 +4,6 @@
 -- Source: OpenStreetMap Nigeria — State-Specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia)
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_s14_state_pois_ng_20260422','OpenStreetMap Nigeria — State-Specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia)','structured_extract','https://www.openstreetmap.org','seeded','OpenStreetMap Nigeria — State-Specific POIs (Benue/Jigawa/Sokoto/Taraba/Abia)');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s14_osm_state_pois_20260502','S14 OSM State POIs 2026-04-22','S12','completed',unixepoch(),unixepoch());

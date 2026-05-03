@@ -9,8 +9,6 @@
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
 
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 
 BEGIN TRANSACTION;
 

@@ -4,8 +4,6 @@
 -- Source: Securities and Exchange Commission Nigeria — Capital Market Operators Register
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_sec_register_20260502','Securities and Exchange Commission Nigeria — Capital Market Operators Register','official_register','https://sec.gov.ng','seeded','SEC Nigeria: 803 operators incl fund managers(193), solicitors(118), broker/dealers(109), issuing houses(54), etc.');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s07_sec_20260502','S07 SEC Capital Market Operators 2026-04-22','S07','completed',unixepoch(),unixepoch());

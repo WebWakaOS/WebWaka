@@ -4,8 +4,6 @@
 -- Source: National Universities Commission — Nigerian Universities Directory
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_nuc_universities_20260422','National Universities Commission — Nigerian Universities Directory','structured_extract','https://www.nuc.edu.ng/nigerian-univerisities/','seeded','National Universities Commission — Nigerian Universities Directory');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s12_nuc_universities_20260502','S12 NUC Universities 2026-04-22','S12','completed',unixepoch(),unixepoch());

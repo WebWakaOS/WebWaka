@@ -6,8 +6,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_fuel_ng_s19_20260502','OpenStreetMap Nigeria — Petrol & Fuel Stations (deep)','osm_extract','https://overpass-api.de','seeded','OSM ODbL — amenity=fuel/filling_station — new OSM IDs not in 0488 — Overpass 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s19_fuel_20260502','S19 OSM Nigeria Petrol & Fuel Stations (deep) 2026-05-02','S19','completed',unixepoch(),unixepoch());

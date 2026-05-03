@@ -7,8 +7,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_health_extra_ng_s18_20260502','OpenStreetMap Nigeria — Extended Health Facilities (healthcare=* deep)','osm_extract','https://overpass-api.de','seeded','OSM ODbL — healthcare=* tags not captured in 0499 — Overpass deep extraction 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s18_health_extra_20260502','S18 OSM Nigeria Extended Health Facilities (deep) 2026-05-02','S18','completed',unixepoch(),unixepoch());

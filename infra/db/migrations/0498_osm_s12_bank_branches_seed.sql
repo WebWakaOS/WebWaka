@@ -4,8 +4,6 @@
 -- Source: OpenStreetMap Nigeria — Bank Branches & Financial Offices
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_bank_branches_ng_20260422','OpenStreetMap Nigeria — Bank Branches & Financial Offices','structured_extract','https://www.openstreetmap.org','seeded','OpenStreetMap Nigeria — Bank Branches & Financial Offices');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s12_osm_bank_branches_20260502','S12 OSM Bank Branches 2026-04-22','S12','completed',unixepoch(),unixepoch());

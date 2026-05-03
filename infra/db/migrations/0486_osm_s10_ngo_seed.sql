@@ -4,8 +4,6 @@
 -- Source: OpenStreetMap Nigeria — NGOs & Non-Profit Organisations
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_ngos_ng_20260502','OpenStreetMap Nigeria — NGOs & Non-Profit Organisations','osm_extract','https://www.openstreetmap.org','seeded','OpenStreetMap ODbL licensed data');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s10_osm_ngos_20260502','S10 OSM OSM Nigeria NGOs & Non-Profit Organisations 2026-04-22','S07','completed',unixepoch(),unixepoch());

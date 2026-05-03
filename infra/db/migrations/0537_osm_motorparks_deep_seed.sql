@@ -5,8 +5,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_motorpark_ng_s16_20260502','OpenStreetMap Nigeria — Motor Parks & Transport Terminals Deep Extraction','osm_extract','https://overpass-api.de','seeded','OpenStreetMap ODbL licensed data — Overpass deep extraction 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s16_motorpark_20260502','S16 OSM Nigeria Motor Parks & Terminals (deep) 2026-05-02','S16','completed',unixepoch(),unixepoch());

@@ -4,8 +4,6 @@
 -- Source: OpenStreetMap Nigeria — Professional & Lifestyle Services
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_s13_professional_ng_20260422','OpenStreetMap Nigeria — Professional & Lifestyle Services','structured_extract','https://www.openstreetmap.org','seeded','OpenStreetMap Nigeria — Professional & Lifestyle Services');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s13_osm_professional_20260502','S13 OSM Professional 2026-04-22','S12','completed',unixepoch(),unixepoch());

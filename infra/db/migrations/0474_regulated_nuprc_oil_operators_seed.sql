@@ -4,8 +4,6 @@
 -- Source: NUPRC Oil & Gas Operators Register
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_nuprc_register_20260502','NUPRC Oil & Gas Operators Register','official_register','https://www.nuprc.gov.ng','seeded','Nigerian Upstream Petroleum Regulatory Commission — 116 licensed operators across PEL/OML/OPL/PPL/PML/PSC/MSC/EPL');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s07_nuprc_20260502','S07 NUPRC Oil Operators 2026-04-22','S07','completed',unixepoch(),unixepoch());

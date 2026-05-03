@@ -4,8 +4,6 @@
 -- Source: NAICOM Licensed Insurance Entities (consolidated)
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-PRAGMA journal_mode=WAL;
-PRAGMA synchronous=NORMAL;
 BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_naicom_register_20260502','NAICOM Licensed Insurance Entities (consolidated)','official_register','https://www.naicom.gov.ng','seeded','brokers(706)+life(14)+general(29)+composite(12)+takaful(5)+reinsurance(3)+microinsurance(17)+adjusters(47)+aggregators(3)=836');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s07_naicom_20260502','S07 NAICOM Insurance 2026-04-22','S07','completed',unixepoch(),unixepoch());
