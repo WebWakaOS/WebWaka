@@ -13,7 +13,7 @@ overrides:
 
 patchedDependencies:
   vite-node@2.1.9:
-    hash: 40621fbfb08c6d4a4ad367d70eb0c33fc905bbf4cae4d78331c4fe059f07b953
+    hash: 2hmroj23gxe2dgbujqsjub5724
     path: patches/vite-node@2.1.9.patch
 
 importers:
@@ -848,22 +848,31 @@ importers:
 
   apps/platform-admin:
     dependencies:
-      '@webwaka/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@webwaka/types':
-        specifier: workspace:*
-        version: link:../../packages/types
-      hono:
-        specifier: ^4.12.14
-        version: 4.12.14
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.24.0
+        version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20240524.0
-        version: 4.20260405.1
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.28)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.7.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))
       typescript:
-        specifier: ^5.4.5
+        specifier: ^5.5.2
         version: 5.9.3
+      vite:
+        specifier: '>=5.4.21'
+        version: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
 
   apps/projections:
     dependencies:
@@ -6021,6 +6030,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rolldown/pluginutils@1.0.0-beta.27':
+    resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
+
   '@rolldown/pluginutils@1.0.0-rc.17':
     resolution: {integrity: sha512-n8iosDOt6Ig1UhJ2AYqoIhHWh/isz0xpicHTzpKBeotdVsTEcxsSA/i3EVM7gQAj0rU27OLAxCjzlj15IWY7bg==}
 
@@ -6231,6 +6243,12 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+
+  '@vitejs/plugin-react@4.7.0':
+    resolution: {integrity: sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: '>=5.4.21'
 
   '@vitejs/plugin-react@5.2.0':
     resolution: {integrity: sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw==}
@@ -7668,6 +7686,10 @@ packages:
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+
+  react-refresh@0.17.0:
+    resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
+    engines: {node: '>=0.10.0'}
 
   react-refresh@0.18.0:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
@@ -9702,6 +9724,8 @@ snapshots:
   '@rolldown/binding-win32-x64-msvc@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/pluginutils@1.0.0-beta.27': {}
+
   '@rolldown/pluginutils@1.0.0-rc.17': {}
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
@@ -9946,6 +9970,18 @@ snapshots:
       eslint-visitor-keys: 3.4.3
 
   '@ungap/structured-clone@1.3.0': {}
+
+  '@vitejs/plugin-react@4.7.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))':
+    dependencies:
+      '@babel/core': 7.29.0
+      '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.29.0)
+      '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.29.0)
+      '@rolldown/pluginutils': 1.0.0-beta.27
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.17.0
+      vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
+    transitivePeerDependencies:
+      - supports-color
 
   '@vitejs/plugin-react@5.2.0(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0))':
     dependencies:
@@ -11457,6 +11493,8 @@ snapshots:
 
   react-is@18.3.1: {}
 
+  react-refresh@0.17.0: {}
+
   react-refresh@0.18.0: {}
 
   react-router-dom@6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
@@ -12022,7 +12060,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite-node@2.1.9(patch_hash=40621fbfb08c6d4a4ad367d70eb0c33fc905bbf4cae4d78331c4fe059f07b953)(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0):
+  vite-node@2.1.9(patch_hash=2hmroj23gxe2dgbujqsjub5724)(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
@@ -12129,7 +12167,7 @@ snapshots:
       tinypool: 1.1.1
       tinyrainbow: 1.2.0
       vite: 8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
-      vite-node: 2.1.9(patch_hash=40621fbfb08c6d4a4ad367d70eb0c33fc905bbf4cae4d78331c4fe059f07b953)(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
+      vite-node: 2.1.9(patch_hash=2hmroj23gxe2dgbujqsjub5724)(@types/node@20.19.39)(esbuild@0.27.7)(terser@5.46.2)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.39
