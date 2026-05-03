@@ -272,4 +272,12 @@ export interface Env {
    * Provision: wrangler kv namespace create WALLET_KV --env staging
    */
   WALLET_KV?: KVNamespace;
+
+  /**
+   * AES-256-GCM encryption secret for SuperAgent BYOK key storage.
+   * Used by KeyService to encrypt/decrypt user-provided API keys at rest.
+   * Set via: wrangler secret put ENCRYPTION_SECRET
+   * Must be at least 32 characters.
+   */
+  ENCRYPTION_SECRET?: string;
 }

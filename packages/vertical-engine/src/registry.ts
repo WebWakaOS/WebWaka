@@ -1583,40 +1583,6 @@ export const REGISTRY: VerticalRegistry = {
     },
   },
 
-  'driving-school': {
-    slug: 'driving-school',
-    displayName: 'Driving School',
-    primaryPillar: 1,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'driving_school_profiles',
-    entityType: 'organization',
-    profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Driving School' },
-    ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
-    fsm: {
-      states: ['seeded', 'claimed', 'active'],
-      initialState: 'seeded',
-      transitions: [
-        { from: 'seeded', to: 'claimed' },
-        { from: 'claimed', to: 'active' },
-      ],
-    },
-    ai: {
-      autonomyLevel: 2,
-      allowedCapabilities: ["scheduling_assistant","sentiment_analysis","translation"],
-      
-      useCases: ["Lesson scheduling assistant for instructors and students","Analyse student and parent review sentiment","Translate highway code content to local languages"],
-      
-    },
-    route: {
-      basePath: '/driving-school',
-      entitlementLayer: 'Civic',
-    },
-  },
-
   'govt-school': {
     slug: 'govt-school',
     displayName: 'Govt School',
@@ -5047,40 +5013,6 @@ export const REGISTRY: VerticalRegistry = {
     },
     route: {
       basePath: '/event-hall',
-      entitlementLayer: 'Commerce',
-    },
-  },
-
-  'event-planner': {
-    slug: 'event-planner',
-    displayName: 'Event Planner',
-    primaryPillar: 2,
-    milestone: 'M9', // TODO: Extract from original package if available
-    maturity: 'stub', // Mark as stub - needs full implementation
-    tableName: 'event_planner_profiles',
-    entityType: 'organization',
-    profileFields: [
-      { column: 'display_name', property: 'displayName', type: 'string', required: true, label: 'Event Planner' },
-    ],
-    createFields: ['displayName'],
-    updateFields: ['displayName'],
-    fsm: {
-      states: ['seeded', 'claimed', 'active'],
-      initialState: 'seeded',
-      transitions: [
-        { from: 'seeded', to: 'claimed' },
-        { from: 'claimed', to: 'active' },
-      ],
-    },
-    ai: {
-      autonomyLevel: 2,
-      allowedCapabilities: ["bio_generator","scheduling_assistant","sentiment_analysis","brand_copywriter","translation"],
-      
-      useCases: ["Generate planner and coordinator bios","Event timeline and vendor scheduling assistant","Analyse client review sentiment","Write event proposals and marketing copy","Translate event programmes to local languages"],
-      
-    },
-    route: {
-      basePath: '/event-planner',
       entitlementLayer: 'Commerce',
     },
   },

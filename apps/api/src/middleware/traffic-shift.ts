@@ -55,8 +55,8 @@ export const TRAFFIC_SHIFT_CONFIGS: Record<string, TrafficShiftConfig> = {
 /**
  * Get current environment's traffic shift config
  */
-export function getTrafficShiftConfig(): TrafficShiftConfig {
-  const env = process.env.NODE_ENV || 'development';
+export function getTrafficShiftConfig(environment = 'development'): TrafficShiftConfig {
+  const env = environment;
   return TRAFFIC_SHIFT_CONFIGS[env] || DEFAULT_CONFIG;
 }
 

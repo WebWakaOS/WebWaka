@@ -112,10 +112,10 @@ export class FSMHistoryService {
       fromState: r['from_state'] as string,
       toState: r['to_state'] as string,
       triggeredBy: r['triggered_by'] as string,
-      guardName: r['guard_name'] as string | undefined,
+      ...(r['guard_name'] != null ? { guardName: r['guard_name'] as string } : {}),
       transitionedAt: r['transitioned_at'] as number,
       metadata: r['metadata'] ? JSON.parse(r['metadata'] as string) as Record<string, unknown> : undefined,
-    }));
+    })) as FSMHistoryEntry[];
   }
 
   private async pruneOldEntries(profileId: string): Promise<void> {

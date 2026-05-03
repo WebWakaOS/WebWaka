@@ -32,7 +32,7 @@ entitlementRoutes.post('/', async (c) => {
   const actor = resolveActor(c);
   const body = await c.req.json<{ code: string; name: string; description?: string; category?: string; value_type?: string; default_value?: string; unit?: string }>();
   if (!body.code || !body.name) return c.json({ error: 'code and name are required' }, 400);
-  const def = await cp.entitlements.createDefinition(body, actor);
+  const def = await cp.entitlements.createDefinition(body as Parameters<typeof cp.entitlements.createDefinition>[0], actor);
   return c.json(def, 201);
 });
 

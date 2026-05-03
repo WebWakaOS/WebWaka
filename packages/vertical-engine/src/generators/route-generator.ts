@@ -67,7 +67,7 @@ export function generateRoutes(config: VerticalConfig): Hono<AnyEnv> {
     if (!workspaceId) return c.json({ error: 'workspace_id required' }, 400);
     const body = await c.req.json<Record<string, unknown>>();
     try {
-      const profile = await engine.createProfile(tenantId, workspaceId, body);
+      const profile = await engine.createProfile(body, tenantId, workspaceId);
       return c.json(profile, 201);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Create failed';

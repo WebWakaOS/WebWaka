@@ -50,7 +50,7 @@ flagRoutes.post('/', async (c) => {
   const actor = resolveActor(c);
   const body = await c.req.json<{ code: string; name: string; description?: string; category?: string; value_type?: string; default_value?: string; min_scope?: string; is_kill_switch?: boolean; rollout_pct?: number }>();
   if (!body.code || !body.name) return c.json({ error: 'code and name are required' }, 400);
-  const flag = await cp.flags.createFlag(body, actor);
+  const flag = await cp.flags.createFlag(body as Parameters<typeof cp.flags.createFlag>[0], actor);
   return c.json(flag, 201);
 });
 
@@ -117,7 +117,7 @@ flagRoutes.post('/delegation/policies', async (c) => {
   if (!body.grantor_level || !body.grantee_level || !body.capability) {
     return c.json({ error: 'grantor_level, grantee_level, and capability are required' }, 400);
   }
-  const policy = await cp.delegation.createPolicy(body, actor);
+  const policy = await cp.delegation.createPolicy(body as Parameters<typeof cp.delegation.createPolicy>[0], actor);
   return c.json(policy, 201);
 });
 

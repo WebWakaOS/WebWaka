@@ -88,7 +88,7 @@ planRoutes.post('/:id/deactivate', async (c) => {
 planRoutes.post('/:id/archive', async (c) => {
   const cp = createControlPlane(c.env.DB, c.env.KV);
   const actor = resolveActor(c);
-  const body = await c.req.json<{ superseded_by?: string }>().catch(() => ({}));
+  const body = await c.req.json<{ superseded_by?: string }>().catch(() => ({} as { superseded_by?: string }));
   await cp.plans.archivePackage(c.req.param('id'), body.superseded_by ?? null, actor);
   return c.json({ success: true, message: 'Package archived' });
 });

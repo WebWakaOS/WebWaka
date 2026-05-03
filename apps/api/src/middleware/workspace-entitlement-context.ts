@@ -211,7 +211,7 @@ export async function buildWorkspaceContext(
 
   // ── 6. Assemble EntitlementContext ────────────────────────────────────────
   const entitlementCtx: EntitlementContext = {
-    userId: '',  // populated by auth middleware upstream — not needed for entitlement checks
+    userId: '' as EntitlementContext['userId'],  // populated by auth middleware upstream — not needed for entitlement checks
     workspaceId: ws.id as EntitlementContext['workspaceId'],
     tenantId: tenantId as EntitlementContext['tenantId'],
     role: 'member' as EntitlementContext['role'], // role comes from auth, not needed here
