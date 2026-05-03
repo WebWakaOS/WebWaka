@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { FlagService } from '../flag-service.js';
 import { AuditService } from '../audit-service.js';
 import { StubD1, StubKV } from './stub-db.js';
@@ -254,7 +254,7 @@ describe('FlagService — resolve', () => {
   it('uses KV cache for resolved value', async () => {
     const kv = new StubKV();
     const { db, svc } = makeDb(kv);
-    const flag = seedFlag(db, { id: 'flag_kv', code: 'cached_feat', default_value: 'true' });
+    seedFlag(db, { id: 'flag_kv', code: 'cached_feat', default_value: 'true' });
     // First resolve warms cache
     const first = await svc.resolve('cached_feat', { tenantId: 'tenant_a' });
     expect(first).toBe(true);

@@ -263,7 +263,7 @@ export interface RegistryStats {
   /** B1-3: Breakdown by primaryPillar (1 = Commerce, 2 = Civic, 3 = Government) */
   byPillar: Record<PillarType, number>;
   /** B1-3: Breakdown by maturity level (full / basic / stub) */
-  byMaturity: Record<VerticalMaturity | string, number>;
+  byMaturity: Record<string, number>;
   byMilestone: Record<string, number>;
   /** B1-2: Slugs that are missing a valid maturity field */
   missingMaturity: string[];

@@ -19,6 +19,7 @@ jobs:
   typecheck:
     name: TypeScript Check
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -39,7 +40,8 @@ jobs:
           restore-keys: |
             tsbuildinfo-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
+      # Limit concurrency to avoid SIGTERM on 2-core GitHub runners with 200+ packages.
+      - run: pnpm -r --workspace-concurrency=4 run typecheck
 
   test:
     name: Tests

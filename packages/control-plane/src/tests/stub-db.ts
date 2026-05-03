@@ -18,14 +18,17 @@ export type Row = Record<string, unknown>;
 export class StubKV {
   private store = new Map<string, string>();
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async get(key: string): Promise<string | null> {
     return this.store.get(key) ?? null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async put(key: string, value: string, _opts?: { expirationTtl?: number }): Promise<void> {
     this.store.set(key, value);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async delete(key: string): Promise<void> {
     this.store.delete(key);
   }
@@ -93,18 +96,23 @@ export class StubD1 {
     return this;
   }
 
-  prepare(sql: string) {
+  prepare(sql: string): ReturnType<StubD1['prepare']> {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     return {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       bind(...args: unknown[]) {
         return {
+          // eslint-disable-next-line @typescript-eslint/require-await
           async run(): Promise<{ meta: { changes: number } }> {
             const changes = self._run(sql, args);
             return { meta: { changes } };
           },
+          // eslint-disable-next-line @typescript-eslint/require-await
           async first<T>(): Promise<T | null> {
             return self._queryFirst<T>(sql, args);
           },
+          // eslint-disable-next-line @typescript-eslint/require-await
           async all<T>(): Promise<{ results: T[] }> {
             return { results: self._queryAll<T>(sql, args) };
           },

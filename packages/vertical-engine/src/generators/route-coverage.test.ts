@@ -18,7 +18,7 @@ function makePlainApp(): Hono {
 
 // ── B5-2: Coverage ────────────────────────────────────────────────────────────
 describe('B5-2: generateAllRoutes() coverage', () => {
-  it('mounts all 159 registry verticals without errors', () => {
+  it('mounts all 162 registry verticals without errors', () => {
     const app = makePlainApp();
     const { mounted, errors } = generateAllRoutes(REGISTRY, app);
     expect(errors).toEqual([]);
@@ -34,10 +34,10 @@ describe('B5-2: generateAllRoutes() coverage', () => {
     }
   });
 
-  it('mounted count equals 159', () => {
+  it('mounted count equals 162', () => {
     const app = makePlainApp();
     const { mounted } = generateAllRoutes(REGISTRY, app);
-    expect(mounted.length).toBe(159);
+    expect(mounted.length).toBe(162);
   });
 
   it('each mounted basePath is unique', () => {

@@ -57,9 +57,30 @@ class SummaryStubDB extends StubDB {
 
     return {
       bind: (...args: unknown[]) => ({
-        run: async () => ({ meta: { changes: 0 } }),
+        run: async () => {
+          // Preserve INSERT logic — SummaryStubDB must still persist rows.
+          if (sqlUpper.startsWith('INSERT INTO PILOT_FEEDBACK')) {
+            rows.push({
+              id: args[0],
+              tenant_id: args[1],
+              workspace_id: args[2],
+              user_id: args[3],
+              feedback_type: args[4],
+              nps_score: args[5],
+              message: args[6],
+              context_route: args[7],
+              submitted_at: args[8],
+            });
+          }
+          return { meta: { changes: 1 } };
+        },
         first: async <T>() => {
-          // NPS stats query
+          // SELECT * FROM pilot_feedback WHERE id = ? — used by submit() to re-fetch
+          if (sqlUpper.includes('WHERE ID = ?')) {
+            const id = args[0] as string;
+            return (rows.find((r) => r.id === id) ?? null) as T | null;
+          }
+          // NPS stats aggregate query — treat args[0] as cutoff timestamp
           const cutoff = args[0] as string;
           const npsRows = rows.filter(
             (r) =>

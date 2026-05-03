@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { PermissionResolver } from '../permission-resolver.js';
 import { AuditService } from '../audit-service.js';
 import { StubD1 } from './stub-db.js';
-import type { ActorContext, PermissionDefinition } from '../types.js';
+import type { ActorContext } from '../types.js';
 
 const ACTOR: ActorContext = {
   actorId: 'admin_001',
@@ -11,7 +11,7 @@ const ACTOR: ActorContext = {
   tenantId: 'tenant_a',
 };
 
-const NOW = Math.floor(Date.now() / 1000);
+const _NOW = Math.floor(Date.now() / 1000);
 
 function makeDb() {
   const db = new StubD1();

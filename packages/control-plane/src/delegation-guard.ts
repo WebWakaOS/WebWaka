@@ -17,7 +17,7 @@ export class DelegationError extends Error {
   }
 }
 
-const LEVEL_RANK: Record<AdminLevel | string, number> = {
+const LEVEL_RANK: Record<string, number> = {
   super_admin: 0,
   platform_admin: 1,
   partner_admin: 2,
@@ -83,6 +83,7 @@ export class DelegationGuard {
   /**
    * Assert that actor can assign a role whose base_role does not exceed their own ceiling.
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   async assertCanAssignRole(actor: ActorContext, targetBaseRole: string): Promise<void> {
     if (actor.actorLevel === 'super_admin' || actor.actorLevel === 'system') return;
 

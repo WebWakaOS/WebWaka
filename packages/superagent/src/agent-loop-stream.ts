@@ -139,9 +139,9 @@ export async function runAgentLoopStream(input: AgentLoopStreamInput): Promise<v
     for (let i = 0; i < toolCalls.length; i++) {
       const tc = toolCalls[i]!;
       const result = toolResults[i];
-      const parsed = result ? (() => { try { return JSON.parse(result.content); } catch { return {}; } })() : {};
-      const success = !parsed?.error;
-      emit({ type: 'tool_result', tool: tc.function.name, success, error: parsed?.error });
+      const parsed: Record<string, unknown> = result ? (() => { try { return JSON.parse(result.content) as Record<string, unknown>; } catch { return {}; } })() : {};
+      const success = !parsed?.['error'];
+      emit({ type: 'tool_result', tool: tc.function.name, success, error: parsed?.['error'] as string | undefined });
     }
 
     // Append assistant + tool result messages

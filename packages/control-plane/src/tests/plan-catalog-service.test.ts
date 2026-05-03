@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { PlanCatalogService } from '../plan-catalog-service.js';
 import { AuditService } from '../audit-service.js';
 import { StubD1 } from './stub-db.js';

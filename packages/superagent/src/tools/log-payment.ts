@@ -73,8 +73,8 @@ export const logPaymentTool: RegisteredTool = {
       });
       return JSON.stringify({
         status: 'queued_for_review',
-        hitlId,
-        message: `Payment log queued for review (₦${(amountKobo / 100).toFixed(2)} via ${paymentMethod}). HITL ID: ${hitlId}`,
+        hitlId: hitlId.queueItemId,
+        message: `Payment log queued for review (₦${(amountKobo / 100).toFixed(2)} via ${paymentMethod}). HITL ID: ${hitlId.queueItemId}`,
       });
     }
 

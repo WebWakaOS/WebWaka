@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { PilotOperatorService } from '../pilot-operator-service.js';
-import type { PilotOperator } from '../types.js';
+
 
 // ---------------------------------------------------------------------------
 // Minimal in-memory D1 stub
@@ -48,7 +48,7 @@ class StubDB {
                 if (args[1] !== undefined) row.updated_at = args[1];
                 if (typeof args[2] === 'string' && args[2].includes('T')) {
                   // extra field (onboarded_at or graduated_at)
-                  const now = args[2] as string;
+                  const now = args[2];
                   if (row.status === 'active' && !row.onboarded_at) row.onboarded_at = now;
                   if (row.status === 'graduated' && !row.graduated_at) row.graduated_at = now;
                 }

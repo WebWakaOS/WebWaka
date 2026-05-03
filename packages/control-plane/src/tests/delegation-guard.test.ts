@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { DelegationGuard, DelegationError } from '../delegation-guard.js';
 import { AuditService } from '../audit-service.js';
 import { StubD1 } from './stub-db.js';
@@ -208,7 +208,7 @@ describe('DelegationGuard — createPolicy', () => {
 
 describe('DelegationGuard — listPolicies', () => {
   it('returns all active policies', async () => {
-    const { db, guard } = makeDb();
+    const { db: _db, guard } = makeDb();
     await guard.createPolicy(
       { grantor_level: 'super_admin', grantee_level: 'partner_admin', capability: 'plans.view', effect: 'allow' },
       SUPER_ADMIN,
@@ -222,7 +222,7 @@ describe('DelegationGuard — listPolicies', () => {
   });
 
   it('filters by grantee_level', async () => {
-    const { db, guard } = makeDb();
+    const { db: _db, guard } = makeDb();
     await guard.createPolicy(
       { grantor_level: 'super_admin', grantee_level: 'partner_admin', capability: 'plans.view', effect: 'allow' },
       SUPER_ADMIN,
@@ -237,7 +237,7 @@ describe('DelegationGuard — listPolicies', () => {
   });
 
   it('filters by capability', async () => {
-    const { db, guard } = makeDb();
+    const { db: _db, guard } = makeDb();
     await guard.createPolicy(
       { grantor_level: 'super_admin', grantee_level: 'partner_admin', capability: 'plans.view', effect: 'allow' },
       SUPER_ADMIN,

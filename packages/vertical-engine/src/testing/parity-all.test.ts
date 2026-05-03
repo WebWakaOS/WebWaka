@@ -19,7 +19,7 @@ type Row = Record<string, unknown>;
 const store = new Map<string, Row>();
 let idCounter = 0;
 
-const DB_STUB = {
+const _DB_STUB = {
   prepare: (sql: string) => ({
     bind: (..._args: unknown[]) => ({
       first: async <T = unknown>(): Promise<T | null> => {
@@ -48,11 +48,11 @@ beforeEach(() => {
 });
 
 // ── Structural checks (no HTTP / no DB needed) ────────────────────────────────
-describe('B4-4: All 159 verticals — structural parity', () => {
+describe('B4-4: All 162 verticals — structural parity', () => {
   const slugs = listSlugs();
 
-  it('all 159 slugs are accessible from REGISTRY', () => {
-    expect(slugs.length).toBe(159);
+  it('all 162 slugs are accessible from REGISTRY', () => {
+    expect(slugs.length).toBe(162);
   });
 
   for (const slug of slugs) {

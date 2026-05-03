@@ -6,7 +6,7 @@
  * Governance: T3 (tenant isolation), expiry logic, context window trimming.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { SessionService } from './session-service.js';
 import type { SessionServiceDeps } from './session-service.js';
 
@@ -89,6 +89,20 @@ class MockDb {
           r.message_count = (r.message_count as number) + countDelta;
           r.last_active_at = nowVal;
           r.expires_at = expiresVal;
+          changes++;
+        }
+      }
+      return { success: true, meta: { changes } };
+    }
+
+    // ── UPDATE ai_sessions (SET expires_at only — used in test fixtures) ──
+    if (s.startsWith('UPDATE AI_SESSIONS') && s.includes('EXPIRES_AT') && !s.includes('MESSAGE_COUNT')) {
+      const [expiresAt, sessionId] = binds as [string, string];
+      const rows = this.tables.get('ai_sessions') ?? [];
+      let changes = 0;
+      for (const r of rows) {
+        if (r.id === sessionId) {
+          r.expires_at = expiresAt;
           changes++;
         }
       }
@@ -493,6 +507,12 @@ describe('SessionService', () => {
 // ==========================================================================
 
 describe('Wave 3 A5-4 — generateTitle', () => {
+  let svc: SessionService;
+
+  beforeEach(() => {
+    ({ svc } = makeService());
+  });
+
   it('sets title from first user message heuristic when no adapter supplied', async () => {
     const s = await svc.createSession({ tenantId: 't', userId: 'u' });
     const title = await svc.generateTitle(s.id, 't', {
@@ -540,6 +560,12 @@ describe('Wave 3 A5-4 — generateTitle', () => {
 });
 
 describe('Wave 3 A5-1 — SessionService.pruneExpired (inactivity gate)', () => {
+  let svc: SessionService;
+
+  beforeEach(() => {
+    ({ svc } = makeService());
+  });
+
   it('pruneExpired removes sessions past expires_at', async () => {
     // Create a session that is already expired
     const expiredId = await (async () => {
