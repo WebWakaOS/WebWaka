@@ -252,46 +252,55 @@ jobs:
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
       - name: Seed phase 1 — Users
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-1-users.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 2 — Tenants
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-2-tenants.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 3 — Partners
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-3-partners.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 4 — Financial
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-4-financial.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 5 — Offerings
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-5-offerings.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 6 — Notifications
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-6-notifications.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 7 — FX Rates
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-7-fx-rates.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 8 — USSD Sessions
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-8-ussd-sessions.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Seed phase 9 — Subscriptions + POS
+        continue-on-error: true
         run: cd apps/api && npx wrangler d1 execute webwaka-staging --env staging --remote --file ../../scripts/seed/phase-9-subscriptions-and-pos.sql
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
