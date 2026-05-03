@@ -10,8 +10,6 @@
 -- ============================================================
 
 
-BEGIN TRANSACTION;
-
 -- ── Seed metadata ────────────────────────────────────────────────
 
 INSERT OR IGNORE INTO seed_sources (id, label, source_type, url, confidence_tier, notes)
@@ -2032,4 +2030,3 @@ VALUES (
   unixepoch(), unixepoch()
 );
 
-COMMIT;

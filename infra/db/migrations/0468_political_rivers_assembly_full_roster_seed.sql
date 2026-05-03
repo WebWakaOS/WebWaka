@@ -9,8 +9,6 @@
 -- ============================================================
 
 
-BEGIN TRANSACTION;
-
 -- ── Seed metadata ────────────────────────────────────────────────
 
 INSERT OR IGNORE INTO seed_sources (id, label, source_type, url, confidence_tier, notes)
@@ -2702,8 +2700,6 @@ VALUES (
   'political',
   unixepoch(), unixepoch()
 );
-
-COMMIT;
 
 -- 32 members inserted for Rivers State House of Assembly
 -- Migration 0468 complete

@@ -9,8 +9,6 @@
 -- ============================================================
 
 
-BEGIN TRANSACTION;
-
 -- ── Seed metadata ────────────────────────────────────────────────
 
 INSERT OR IGNORE INTO seed_sources (id, label, source_type, url, confidence_tier, notes)
@@ -1955,8 +1953,6 @@ VALUES (
   'political',
   unixepoch(), unixepoch()
 );
-
-COMMIT;
 
 -- 23 members inserted for Ogun State House of Assembly
 -- Migration 0469 complete

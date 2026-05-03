@@ -4,7 +4,6 @@
 -- Source: OpenStreetMap Nigeria — Spare Parts Dealers
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_spare_parts_ng_20260502','OpenStreetMap Nigeria — Spare Parts Dealers','osm_extract','https://www.openstreetmap.org','seeded','OpenStreetMap ODbL licensed data');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s09_osm_spareparts_20260502','S09 OSM OSM Nigeria Spare Parts Dealers 2026-04-22','S07','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_seed_run_s09_osm_spareparts_20260502','seed_run_s09_osm_spareparts_20260502','normalized','infra/db/seed/sources',NULL,228,'Auto-generated from OpenStreetMap Nigeria — Spare Parts Dealers');
@@ -1605,4 +1604,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s09_spare_parts_87be630fcd45c58a','seed_run_s09_osm_spareparts_20260502','organization','org_s09_spare_parts_87be630fcd45c58a','seed_source_osm_spare_parts_ng_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s09_spare_parts_87be630fcd45c58a','seed_run_s09_osm_spareparts_20260502','organization','org_s09_spare_parts_87be630fcd45c58a','licence_data','{"osm_id": "228369864", "amenity": "car_repair", "addr_state": null, "denomination": null, "operator": null}');
 
-COMMIT;

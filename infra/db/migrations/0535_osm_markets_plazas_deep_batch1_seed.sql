@@ -5,7 +5,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_market_ng_s16a_20260502','OpenStreetMap Nigeria — Markets & Plazas Deep Extraction — Batch 1','osm_extract','https://overpass-api.de','seeded','OpenStreetMap ODbL licensed data — Overpass deep extraction 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s16_market_batch1_20260502','S16 OSM Nigeria Markets & Plazas (deep) — Batch 1 2026-05-02','S16','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_s16_market_batch1_20260502','seed_run_s16_market_batch1_20260502','normalized','infra/db/seed/sources',NULL,284,'Auto-generated from Overpass API deep extraction 2026-05-02');
@@ -2282,4 +2281,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s16_market_59ee13f380797e84','seed_run_s16_market_batch1_20260502','organization','org_s16_market_59ee13f380797e84','seed_source_osm_market_ng_s16a_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s16_market_59ee13f380797e84','seed_run_s16_market_batch1_20260502','organization','org_s16_market_59ee13f380797e84','seed_source_osm_market_ng_s16a_20260502','{"osm_id": "13048283387", "osm_type": "node", "amenity": "school", "shop": "supermarket", "addr_state": "", "addr_lga": "", "operator": "", "opening_hours": ""}');
 
-COMMIT;

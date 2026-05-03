@@ -10,8 +10,6 @@
 -- ============================================================
 
 
-BEGIN TRANSACTION;
-
 -- ── LGA election cycle (Lagos 2021) ──────────────────────────────────────────
 INSERT OR IGNORE INTO seed_sources (id, label, source_type, url, confidence_tier, notes)
 VALUES ('seed_source_lasiec_lga_elections_lagos_2021_20260502',
@@ -1562,4 +1560,3 @@ VALUES (
   'political',
   unixepoch(), unixepoch()
 );
-COMMIT;

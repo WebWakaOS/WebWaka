@@ -4,7 +4,6 @@
 -- Source: OpenStreetMap Nigeria — Hotels & Guest Houses
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_hotels_ng_20260502','OpenStreetMap Nigeria — Hotels & Guest Houses','osm_extract','https://www.openstreetmap.org','seeded','OpenStreetMap ODbL licensed data');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s09_osm_hotels_20260502','S09 OSM OSM Nigeria Hotels & Guest Houses 2026-04-22','S07','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_seed_run_s09_osm_hotels_20260502','seed_run_s09_osm_hotels_20260502','normalized','infra/db/seed/sources',NULL,1598,'Auto-generated from OpenStreetMap Nigeria — Hotels & Guest Houses');
@@ -11195,4 +11194,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s09_hotel_278df30cbc2b9f2b','seed_run_s09_osm_hotels_20260502','organization','org_s09_hotel_278df30cbc2b9f2b','seed_source_osm_hotels_ng_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s09_hotel_278df30cbc2b9f2b','seed_run_s09_osm_hotels_20260502','organization','org_s09_hotel_278df30cbc2b9f2b','licence_data','{"osm_id": "1338111702", "amenity": "hotel", "addr_state": null, "operator": null, "brand": null}');
 
-COMMIT;

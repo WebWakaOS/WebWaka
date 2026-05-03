@@ -5,7 +5,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_estate_ng_s17_20260502','OpenStreetMap Nigeria — Estates & Gated Communities Deep Extraction','osm_extract','https://overpass-api.de','seeded','OpenStreetMap ODbL licensed data — Overpass deep extraction 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s17_estate_20260502','S17 OSM Nigeria Estates & Gated Communities (deep) 2026-05-02','S17','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_s17_estate_20260502','seed_run_s17_estate_20260502','normalized','infra/db/seed/sources',NULL,402,'Auto-generated from Overpass API deep extraction 2026-05-02');
@@ -3226,4 +3225,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s17_estate_fd782d44bee517ec','seed_run_s17_estate_20260502','organization','org_s17_estate_fd782d44bee517ec','seed_source_osm_estate_ng_s17_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s17_estate_fd782d44bee517ec','seed_run_s17_estate_20260502','organization','org_s17_estate_fd782d44bee517ec','seed_source_osm_estate_ng_s17_20260502','{"osm_id": "19652451", "osm_type": "relation", "place": "", "residential": "", "addr_state": "", "addr_lga": ""}');
 
-COMMIT;

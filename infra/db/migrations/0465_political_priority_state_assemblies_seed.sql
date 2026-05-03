@@ -10,8 +10,6 @@
 -- ============================================================
 
 
-BEGIN TRANSACTION;
-
 -- ============================================================
 -- Kano State House of Assembly (10th, 2023-2027)
 -- 40 seats | Source: Wikipedia
@@ -475,4 +473,3 @@ VALUES (
   'political',
   unixepoch(), unixepoch()
 );
-COMMIT;

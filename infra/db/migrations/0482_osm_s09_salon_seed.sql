@@ -4,7 +4,6 @@
 -- Source: OpenStreetMap Nigeria — Hair Salons & Barbers
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_salons_ng_20260502','OpenStreetMap Nigeria — Hair Salons & Barbers','osm_extract','https://www.openstreetmap.org','seeded','OpenStreetMap ODbL licensed data');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s09_osm_salons_20260502','S09 OSM OSM Nigeria Hair Salons & Barbers 2026-04-22','S07','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_seed_run_s09_osm_salons_20260502','seed_run_s09_osm_salons_20260502','normalized','infra/db/seed/sources',NULL,464,'Auto-generated from OpenStreetMap Nigeria — Hair Salons & Barbers');
@@ -3257,4 +3256,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s09_salon_378ff24961007794','seed_run_s09_osm_salons_20260502','organization','org_s09_salon_378ff24961007794','seed_source_osm_salons_ng_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s09_salon_378ff24961007794','seed_run_s09_osm_salons_20260502','organization','org_s09_salon_378ff24961007794','licence_data','{"osm_id": "416908048", "amenity": "hairdresser", "addr_state": null, "denomination": null, "operator": null}');
 
-COMMIT;

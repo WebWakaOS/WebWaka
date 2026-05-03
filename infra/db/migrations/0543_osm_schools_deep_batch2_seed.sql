@@ -5,7 +5,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_school_ng_s20b_20260502','OpenStreetMap Nigeria — Schools & Educational Institutions — Batch 2','osm_extract','https://overpass-api.de','seeded','OSM ODbL — Overpass deep extraction 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s20_school_batch2_20260502','S20 OSM Nigeria Schools & Educational Institutions (deep) Batch 2 2026-05-02','S20','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_s20_school_batch2_20260502','seed_run_s20_school_batch2_20260502','normalized','infra/db/seed/sources',NULL,1009,'Auto-generated from Overpass API deep extraction 2026-05-02');
@@ -8082,4 +8081,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s20_school_6af2097e27697ffc','seed_run_s20_school_batch2_20260502','organization','org_s20_school_6af2097e27697ffc','seed_source_osm_school_ng_s20b_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s20_school_6af2097e27697ffc','seed_run_s20_school_batch2_20260502','organization','org_s20_school_6af2097e27697ffc','seed_source_osm_school_ng_s20b_20260502','{"osm_id": "18945207", "osm_type": "relation", "amenity": "school", "isced_level": "", "operator": "", "website": "", "addr_state": "", "addr_lga": ""}');
 
-COMMIT;

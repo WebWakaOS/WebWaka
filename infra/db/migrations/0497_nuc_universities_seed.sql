@@ -4,7 +4,6 @@
 -- Source: National Universities Commission — Nigerian Universities Directory
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_nuc_universities_20260422','National Universities Commission — Nigerian Universities Directory','structured_extract','https://www.nuc.edu.ng/nigerian-univerisities/','seeded','National Universities Commission — Nigerian Universities Directory');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s12_nuc_universities_20260502','S12 NUC Universities 2026-04-22','S12','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_seed_run_s12_nuc_universities_20260502','seed_run_s12_nuc_universities_20260502','normalized','infra/db/seed/sources',NULL,307,'Auto-generated from National Universities Commission — Nigerian Universities Directory');
@@ -2158,4 +2157,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s12_nuc_pri_2df197645f6cb4d2','seed_run_s12_nuc_universities_20260502','organization','org_s12_nuc_pri_2df197645f6cb4d2','seed_source_nuc_universities_20260422','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s12_nuc_pri_2df197645f6cb4d2','seed_run_s12_nuc_universities_20260502','organization','org_s12_nuc_pri_2df197645f6cb4d2','licence_data','{"category": "private", "year_est": "2025", "website": "", "source": "nuc"}');
 
-COMMIT;

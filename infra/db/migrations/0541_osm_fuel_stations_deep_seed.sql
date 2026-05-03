@@ -6,7 +6,6 @@
 -- OSM data © OpenStreetMap contributors, ODbL licence
 -- Idempotent: all inserts use INSERT OR IGNORE
 -- ============================================================
-BEGIN TRANSACTION;
 INSERT OR IGNORE INTO seed_sources (id,label,source_type,url,confidence_tier,notes) VALUES ('seed_source_osm_fuel_ng_s19_20260502','OpenStreetMap Nigeria — Petrol & Fuel Stations (deep)','osm_extract','https://overpass-api.de','seeded','OSM ODbL — amenity=fuel/filling_station — new OSM IDs not in 0488 — Overpass 2026-05-02');
 INSERT OR IGNORE INTO seed_runs (id,label,phase,status,started_at,completed_at) VALUES ('seed_run_s19_fuel_20260502','S19 OSM Nigeria Petrol & Fuel Stations (deep) 2026-05-02','S19','completed',unixepoch(),unixepoch());
 INSERT OR IGNORE INTO seed_raw_artifacts (id,seed_run_id,artifact_type,file_path,content_hash,row_count,notes) VALUES ('seed_artifact_s19_fuel_20260502','seed_run_s19_fuel_20260502','normalized','infra/db/seed/sources',NULL,50,'Auto-generated from Overpass API 2026-05-02 — 50 new stations not in migration 0488');
@@ -411,4 +410,3 @@ INSERT OR IGNORE INTO seed_ingestion_records (id,seed_run_id,entity_type,entity_
 INSERT OR IGNORE INTO seed_entity_sources (id,seed_run_id,entity_type,entity_id,source_id,confidence_tier) VALUES ('es_s19_fuel_118228f183bb449a','seed_run_s19_fuel_20260502','organization','org_s19_fuel_118228f183bb449a','seed_source_osm_fuel_ng_s19_20260502','seeded');
 INSERT OR IGNORE INTO seed_enrichment (id,seed_run_id,entity_type,entity_id,enrichment_type,enrichment_json) VALUES ('enr_s19_fuel_118228f183bb449a','seed_run_s19_fuel_20260502','organization','org_s19_fuel_118228f183bb449a','seed_source_osm_fuel_ng_s19_20260502','{"osm_id": "13339151638", "osm_type": "node", "amenity": "fuel", "brand": "", "opening_hours": "Mo-Sa 08:00-20:00", "addr_state": "", "addr_lga": ""}');
 
-COMMIT;
