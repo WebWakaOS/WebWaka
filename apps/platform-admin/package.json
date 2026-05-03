@@ -1,23 +1,27 @@
 {
   "name": "@webwaka/platform-admin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "[Infra] WebWaka OS Platform Admin \u2014 local dev shim. Production: Cloudflare Pages.",
+  "description": "[Admin] WebWaka OS Platform Admin — React SPA for super-admin operations (Cloudflare Pages).",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "vite --host 0.0.0.0 --port 5174",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5174",
     "typecheck": "tsc --noEmit",
-    "test": "echo 'No tests in platform-admin yet \u2014 Milestone 2 pending'",
-    "lint": "echo 'No lint in platform-admin yet \u2014 Milestone 2 pending'",
-    "clean": "echo 'Nothing to clean in platform-admin yet'"
+    "test": "echo 'No unit tests for platform-admin SPA yet'",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 20"
   },
   "dependencies": {
-    "@webwaka/auth": "workspace:*",
-    "@webwaka/types": "workspace:*",
-    "hono": "^4.12.14"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240524.0",
-    "typescript": "^5.4.5"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.2",
+    "vite": "6.4.2"
   }
 }
