@@ -96,7 +96,7 @@ export class StubD1 {
     return this;
   }
 
-  prepare(sql: string): ReturnType<StubD1['prepare']> {
+  prepare(sql: string) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     return {
