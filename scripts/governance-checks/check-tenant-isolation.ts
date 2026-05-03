@@ -16,7 +16,22 @@ const HL_WALLET_DIRS = [
 
 // Files that are intentionally platform-admin/super-admin only, or are public read-only,
 // and do not receive tenant_id from user input in a dangerous way.
-const IGNORED_FILES = ['health.ts', 'geography.ts', 'discovery.ts', 'notification-admin-routes.ts'];
+// Control-plane routes (/platform-admin/cp/*) are super_admin-only and legitimately
+// accept tenant_id as a query parameter to look up data for other tenants.
+// Platform-admin pilot routes are also super_admin-only with full audit trail.
+const IGNORED_FILES = [
+  'health.ts',
+  'geography.ts',
+  'discovery.ts',
+  'notification-admin-routes.ts',
+  // Control-plane routes: super_admin gated via requireRole('super_admin').
+  // tenant_id from query is intentional — super_admin scopes queries to a specific tenant.
+  'audit.ts',     // /platform-admin/cp/audit — super_admin audit log query
+  'flags.ts',     // /platform-admin/cp/flags — flag resolution with tenant context
+  'groups.ts',    // /platform-admin/cp/groups — group member lookup by tenant
+  // Pilot admin routes: super_admin gated, body.tenant_id is the pilot tenant to register.
+  'platform-admin-pilots.ts',
+];
 
 const DANGEROUS_PATTERNS = [
   /\.prepare\([^)]*\)\s*\.bind\(\s*\)/,
