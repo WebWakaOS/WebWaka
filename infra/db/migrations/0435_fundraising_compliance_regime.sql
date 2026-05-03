@@ -42,11 +42,12 @@ ALTER TABLE fundraising_compliance_declarations
   ADD COLUMN compliance_regime TEXT NOT NULL DEFAULT 'none';
 
 -- Propagate from parent campaign
-UPDATE fundraising_compliance_declarations fcd
+-- Note: SQLite does not support table aliases in UPDATE statements.
+UPDATE fundraising_compliance_declarations
 SET compliance_regime = (
   SELECT fc.compliance_regime
   FROM fundraising_campaigns fc
-  WHERE fc.id = fcd.campaign_id
+  WHERE fc.id = fundraising_compliance_declarations.campaign_id
   LIMIT 1
 )
-WHERE fcd.compliance_regime = 'none';
+WHERE fundraising_compliance_declarations.compliance_regime = 'none';
