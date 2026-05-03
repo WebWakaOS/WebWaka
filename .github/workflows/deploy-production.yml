@@ -101,7 +101,7 @@ jobs:
             echo "GitHub → Settings → Secrets and variables → Actions."
             exit 1
           fi
-          echo "All required production secrets are present. Deploy may proceed.
+          echo "All required production secrets are present. Deploy may proceed."
 
   # ── D1 Migrations ──────────────────────────────────────────────────────────
   migrate-production:
