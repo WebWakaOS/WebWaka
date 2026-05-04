@@ -75,8 +75,6 @@ export type TemplateData<T extends EmailTemplate> =
   T extends 'email-verification' ? EmailVerificationData :
   never;
 
-const FROM_ADDRESS = 'WebWaka <noreply@webwaka.com>';
-
 // ---------------------------------------------------------------------------
 // HTML escaping helper — prevents HTML injection from user-controlled strings
 // ---------------------------------------------------------------------------

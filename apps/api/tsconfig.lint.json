@@ -621,6 +621,9 @@
       ],
       "@webwaka/verticals-tutoring": [
         "packages/verticals-tutoring/src/index.ts"
+      ],
+      "@webwaka/provider-registry": [
+        "packages/provider-registry/src/index.ts"
       ]
     }
   },
