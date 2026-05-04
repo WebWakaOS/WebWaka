@@ -41,10 +41,13 @@ VALUES ('seed_artifact_ogun_patch_20260502',
 
 -- 01. Yusuf Sherif Abiodun -- ADO-ODO/OTA I (APC)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_676ab14982a56ff0', 'Yusuf Sherif Abiodun',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Yusuf', 'Abiodun', 'Yusuf Sherif Abiodun',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,

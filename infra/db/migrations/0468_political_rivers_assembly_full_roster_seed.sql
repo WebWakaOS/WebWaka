@@ -47,10 +47,13 @@ VALUES (
 
 -- 01. John Dominic Iderima -- Abua/Odual (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_dc3e5fd8da553043', 'John Dominic Iderima',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'John', 'Iderima', 'John Dominic Iderima',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -130,10 +133,13 @@ VALUES (
 
 -- 02. Kpasa George -- Ahoada East I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_2e1bd9f1a4a1c1e8', 'Kpasa George',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Kpasa', 'George', 'Kpasa George',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -213,10 +219,13 @@ VALUES (
 
 -- 03. Ehie Ogerenye Edison -- Ahoada East II (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_6a9b81bc79defead', 'Ehie Ogerenye Edison',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Ehie', 'Edison', 'Ehie Ogerenye Edison',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -296,10 +305,13 @@ VALUES (
 
 -- 04. Iyalla Lemuel Ezekiel -- Ahoada West (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_b17056e9cfb8729b', 'Iyalla Lemuel Ezekiel',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Iyalla', 'Ezekiel', 'Iyalla Lemuel Ezekiel',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -379,10 +391,13 @@ VALUES (
 
 -- 05. Jack Major M -- Andoni I (PDP) - Leader of the House
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_0864f9c0206d624d', 'Jack Major M',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Jack', 'M', 'Jack Major M',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -462,10 +477,13 @@ VALUES (
 
 -- 06. Amachree Jerry Thom -- Asari-Toru I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_42f7557dd734dba4', 'Amachree Jerry Thom',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Amachree', 'Thom', 'Amachree Jerry Thom',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -545,10 +563,13 @@ VALUES (
 
 -- 07. Opuende Lolo Isaiah -- Asari-Toru II (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_0a7cff65abc5c1a7', 'Opuende Lolo Isaiah',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Opuende', 'Isaiah', 'Opuende Lolo Isaiah',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -628,10 +649,13 @@ VALUES (
 
 -- 08. Pepple Opuada Lionel -- Bonny (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_ddb204f2fb8f9f17', 'Pepple Opuada Lionel',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Pepple', 'Lionel', 'Pepple Opuada Lionel',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -711,10 +735,13 @@ VALUES (
 
 -- 09. George Prayer Ibim -- Degema (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_4011eb700d445302', 'George Prayer Ibim',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'George', 'Ibim', 'George Prayer Ibim',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -794,10 +821,13 @@ VALUES (
 
 -- 10. Igwe Obey Aforji -- Eleme (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_7636b67b3294d4d9', 'Igwe Obey Aforji',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Igwe', 'Aforji', 'Igwe Obey Aforji',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -877,10 +907,13 @@ VALUES (
 
 -- 11. Emeji Justina -- Emohua (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_0e781559f6b5be15', 'Emeji Justina',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Emeji', 'Justina', 'Emeji Justina',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -960,10 +993,13 @@ VALUES (
 
 -- 12. Dike Chinaka Emmanuel -- Etche I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_d94773e59c541c7a', 'Dike Chinaka Emmanuel',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Dike', 'Emmanuel', 'Dike Chinaka Emmanuel',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1043,10 +1079,13 @@ VALUES (
 
 -- 13. George Enemi Alabo -- Etche II (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_ec90b5b29dbde727', 'George Enemi Alabo',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'George', 'Alabo', 'George Enemi Alabo',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1126,10 +1165,13 @@ VALUES (
 
 -- 14. Maol Dumle -- Gokana (PDP) - Deputy Speaker
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_20e9929ed38e289d', 'Maol Dumle',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Maol', 'Dumle', 'Maol Dumle',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1209,10 +1251,13 @@ VALUES (
 
 -- 15. Nwonodi Maxwell Chukwudi -- Ikwere I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_ff9cdd4359cddabb', 'Nwonodi Maxwell Chukwudi',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Nwonodi', 'Chukwudi', 'Nwonodi Maxwell Chukwudi',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1292,10 +1337,13 @@ VALUES (
 
 -- 16. Choko Chioma -- Ikwere II (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_601ee45da90ed259', 'Choko Chioma',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Choko', 'Chioma', 'Choko Chioma',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1375,10 +1423,13 @@ VALUES (
 
 -- 17. Emmanuel Nule Ben -- Khana I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_6cfa65c171b4ee83', 'Emmanuel Nule Ben',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Emmanuel', 'Ben', 'Emmanuel Nule Ben',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1458,10 +1509,13 @@ VALUES (
 
 -- 18. Nwibakpo Rufus Leera -- Khana II (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_3e9feb65f8f5057c', 'Nwibakpo Rufus Leera',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Nwibakpo', 'Leera', 'Nwibakpo Rufus Leera',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1541,10 +1595,13 @@ VALUES (
 
 -- 19. Amaewhule Martin Chike -- Obio/Akpor I (PDP) - Speaker
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_d679a26509581401', 'Amaewhule Martin Chike',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Amaewhule', 'Chike', 'Amaewhule Martin Chike',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1624,10 +1681,13 @@ VALUES (
 
 -- 20. Wali Linda Nyememe -- Obio/Akpor II (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_8b2f07bca7e0a9f6', 'Wali Linda Nyememe',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Wali', 'Nyememe', 'Wali Linda Nyememe',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1707,10 +1767,13 @@ VALUES (
 
 -- 21. Ajie Henry Chinasa -- Ogba/Egbema/Ndoni I (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_324c398ed7e6e57f', 'Ajie Henry Chinasa',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Ajie', 'Chinasa', 'Ajie Henry Chinasa',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1790,10 +1853,13 @@ VALUES (
 
 -- 22. Ogbonna Chukwudi -- Ogba/Egbema/Ndoni II (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_c433ed9924f2ad36', 'Ogbonna Chukwudi',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Ogbonna', 'Chukwudi', 'Ogbonna Chukwudi',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1873,10 +1939,13 @@ VALUES (
 
 -- 23. Davids Okobiriari Arnold -- Ogu/Bolo (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_ecd4567d8e477235', 'Davids Okobiriari Arnold',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Davids', 'Arnold', 'Davids Okobiriari Arnold',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -1956,10 +2025,13 @@ VALUES (
 
 -- 24. Anele Christian Chinedu -- Omuma (ADC)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_5e077c7357b672b2', 'Anele Christian Chinedu',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Anele', 'Chinedu', 'Anele Christian Chinedu',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2039,10 +2111,13 @@ VALUES (
 
 -- 25. Omubo-Pepple Edwell Jacob -- Opobo/Nkoro I (AA)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_5811104ba519d292', 'Omubo-Pepple Edwell Jacob',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Omubo-Pepple', 'Jacob', 'Omubo-Pepple Edwell Jacob',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2122,10 +2197,13 @@ VALUES (
 
 -- 26. Ateke Ibimina -- Opobo/Nkoro II (AAC)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_7daf7111b5b4cc8b', 'Ateke Ibimina',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Ateke', 'Ibimina', 'Ateke Ibimina',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2205,10 +2283,13 @@ VALUES (
 
 -- 27. Titus David Nnji -- Oyigbo (A)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_85878005c201ad56', 'Titus David Nnji',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Titus', 'Nnji', 'Titus David Nnji',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2288,10 +2369,13 @@ VALUES (
 
 -- 28. Nyeche Prince Lemchi -- Port-Harcourt I (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_2dd7310df07875a3', 'Nyeche Prince Lemchi',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Nyeche', 'Lemchi', 'Nyeche Prince Lemchi',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2371,10 +2455,13 @@ VALUES (
 
 -- 29. Adoki Tonye Smart -- Port-Harcourt II (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_e702c91ae4e2a535', 'Adoki Tonye Smart',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Adoki', 'Smart', 'Adoki Tonye Smart',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2454,10 +2541,13 @@ VALUES (
 
 -- 30. Opara Azeru -- Port-Harcourt III (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_ef08ae654ea508c4', 'Opara Azeru',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Opara', 'Azeru', 'Opara Azeru',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2537,10 +2627,13 @@ VALUES (
 
 -- 31. Wami Solomon -- Tai (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_75403523cef2e7d0', 'Wami Solomon',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Wami', 'Solomon', 'Wami Solomon',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,
@@ -2620,10 +2713,13 @@ VALUES (
 
 -- 32. Opuende Lolo Isaiah -- Akuku-Toru (PDP)
 INSERT OR IGNORE INTO individuals
-  (id, full_name, tenant_id, workspace_id, verification_state, created_at, updated_at)
+  (id, full_name, first_name, last_name, display_name,
+   tenant_id, workspace_id, verification_state, created_at, updated_at)
 VALUES (
   'ind_32261913d0d31f3b', 'Opuende Lolo Isaiah',
-  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified', unixepoch(), unixepoch()
+  'Opuende', 'Isaiah', 'Opuende Lolo Isaiah',
+  'tenant_platform_seed', 'workspace_platform_seed_discovery', 'editorial_verified',
+  unixepoch(), unixepoch()
 );
 INSERT OR IGNORE INTO profiles
   (id, subject_id, subject_type, primary_place_id, tenant_id, workspace_id,

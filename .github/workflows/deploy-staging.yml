@@ -464,6 +464,61 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply political state assembly seeds (0467-0470, 0504-0534) via D1 REST API
+        continue-on-error: true
+        run: |
+          # Use D1 REST API /query — supports within-batch FK resolution
+          # (wrangler --file uses import API which does not).
+          DB_ID="52719457-5d5b-4f36-9a13-c90195ec78d2"
+          POLITICAL_SEEDS=(
+            "0467_political_kano_assembly_full_roster_seed.sql"
+            "0468_political_rivers_assembly_full_roster_seed.sql"
+            "0469_political_ogun_assembly_full_roster_seed.sql"
+            "0470_political_oyo_assembly_full_roster_seed.sql"
+            "0504_political_akwaibom_assembly_full_roster_seed.sql"
+            "0505_political_anambra_assembly_full_roster_seed.sql"
+            "0506_political_bayelsa_assembly_full_roster_seed.sql"
+            "0507_political_benue_assembly_full_roster_seed.sql"
+            "0508_political_borno_assembly_full_roster_seed.sql"
+            "0509_political_crossriver_assembly_full_roster_seed.sql"
+            "0510_political_delta_assembly_full_roster_seed.sql"
+            "0511_political_ebonyi_assembly_full_roster_seed.sql"
+            "0512_political_edo_assembly_full_roster_seed.sql"
+            "0513_political_ekiti_assembly_full_roster_seed.sql"
+            "0514_political_enugu_assembly_full_roster_seed.sql"
+            "0515_political_gombe_assembly_full_roster_seed.sql"
+            "0516_political_imo_assembly_full_roster_seed.sql"
+            "0517_political_jigawa_assembly_full_roster_seed.sql"
+            "0518_political_kaduna_assembly_full_roster_seed.sql"
+            "0519_political_katsina_assembly_full_roster_seed.sql"
+            "0520_political_kebbi_assembly_full_roster_seed.sql"
+            "0521_political_kogi_assembly_full_roster_seed.sql"
+            "0522_political_kwara_assembly_full_roster_seed.sql"
+            "0523_political_nasarawa_assembly_full_roster_seed.sql"
+            "0524_political_niger_assembly_full_roster_seed.sql"
+            "0525_political_ondo_assembly_full_roster_seed.sql"
+            "0526_political_osun_assembly_full_roster_seed.sql"
+            "0527_political_plateau_assembly_full_roster_seed.sql"
+            "0528_political_sokoto_assembly_full_roster_seed.sql"
+            "0529_political_taraba_assembly_full_roster_seed.sql"
+            "0530_political_yobe_assembly_full_roster_seed.sql"
+            "0531_political_zamfara_assembly_full_roster_seed.sql"
+            "0532_political_ogun_assembly_patch_seed.sql"
+            "0533_political_abia_assembly_full_roster_seed.sql"
+            "0534_political_adamawa_assembly_full_roster_seed.sql"
+          )
+          for SEED in "${POLITICAL_SEEDS[@]}"; do
+            SEED_PATH="../../infra/db/migrations/${SEED}"
+            if [ ! -f "$SEED_PATH" ]; then
+              echo "  ⚠️  ${SEED} not found — skipping"
+              continue
+            fi
+            python3 scripts/migrations/apply-d1-seed-via-api.py "$DB_ID" "$SEED_PATH" "$SEED" \
+              || echo "  ⚠️  ${SEED} returned non-zero but continuing"
+          done
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Apply pilot cohort 1 seed (0545) — after pilot rollout migration (0544)
         continue-on-error: true
         run: |
