@@ -213,3 +213,19 @@ providerAdminRoutes.delete('/:id/keys/:keyId', async (c) => {
   ).bind(crypto.randomUUID(), providerId, actor.actorId, actor.actorRole, JSON.stringify({ key_id: keyId })).run();
   return c.json({ message: 'API key removed from pool.', id: keyId });
 });
+
+// POST /admin/providers/cloudflare-email/activate — convenience endpoint
+// Activates the seeded Cloudflare Email provider (pvd_cloudflare_email_01)
+// after webwaka.com has been verified in the CF Email Service dashboard.
+// Safe to call multiple times (idempotent).
+providerAdminRoutes.post('/cloudflare-email/activate', async (c) => {
+  const actor = getActor(c);
+  // Activate CF Email (deactivates current active email provider per activateProvider logic)
+  await activateProvider(c.env.DB as never, 'pvd_cloudflare_email_01', actor);
+  const updated = await getProvider(c.env.DB as never, 'pvd_cloudflare_email_01');
+  return c.json({
+    message: 'Cloudflare Email Service activated as primary email provider.',
+    provider: updated,
+    note: 'Ensure SEND_EMAIL binding is configured in wrangler.toml and webwaka.com is verified in CF Email Service dashboard.',
+  });
+});
