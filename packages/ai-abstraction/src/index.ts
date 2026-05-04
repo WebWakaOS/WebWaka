@@ -58,3 +58,24 @@ export {
   isProviderOpen,
 } from './circuit-breaker.js';
 export type { CircuitBreakerOptions, CircuitState } from './circuit-breaker.js';
+
+// BATCH 3: Multi-key pool for AI providers (especially OpenRouter)
+export {
+  selectKeyFromPool,
+  markKeyRateLimited,
+  recordKeySuccess,
+  recordKeyFailure,
+  clearExpiredRateLimits,
+  getPoolHealth,
+} from './key-pool.js';
+export type { SelectedKey } from './key-pool.js';
+
+// BATCH 3: Free model allowlist governance
+export {
+  FREE_MODEL_ALLOWLIST,
+  FREE_MODELS_OPENROUTER,
+  FREE_MODELS_GROQ,
+  getPreferredFreeModel,
+  isModelFree,
+} from './free-models.js';
+export type { AggregatorProvider } from './free-models.js';

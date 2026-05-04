@@ -14,6 +14,8 @@ import { claimRoutes } from '../routes/claim.js';
 import { identityRoutes } from '../routes/identity.js';
 import { contactRoutes } from '../routes/contact.js';
 import { syncRoutes } from '../routes/sync.js';
+// BATCH 5: Phone OTP authentication routes
+import { otpRoutes } from '../routes/otp.js';
 
 export function registerAuthRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -48,6 +50,10 @@ export function registerAuthRoutes(app: Hono<{ Bindings: Env }>): void {
   app.use('/auth/accept-invite', rateLimitMiddleware({ keyPrefix: 'auth:acceptinvite', maxRequests: 10, windowSeconds: 300 }));
   app.use('/auth/verify-email', rateLimitMiddleware({ keyPrefix: 'auth:verifyemail', maxRequests: 10, windowSeconds: 300 }));
   app.route('/auth', authRoutes);
+
+  // BATCH 5: Phone OTP routes — public (no JWT needed), rate-limited at request time
+  app.use('/auth/otp/*', rateLimitMiddleware({ keyPrefix: 'auth:otp', maxRequests: 20, windowSeconds: 300 }));
+  app.route('/auth/otp', otpRoutes);
 
   // -------------------------------------------------------------------------
   // Authenticated entity routes

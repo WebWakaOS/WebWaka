@@ -1,8 +1,8 @@
 {
-  "name": "@webwaka/ai",
+  "name": "@webwaka/provider-registry",
   "version": "0.1.0",
   "private": true,
-  "description": "[AI] AI provider abstraction type contracts for WebWaka OS. Runtime adapters: Milestone 5+.",
+  "description": "[Infra] Platform-managed provider registry with encrypted credentials, hierarchical resolution, and audit logging",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -13,16 +13,15 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^2.1.9",
-    "typescript": "^5.4.5",
-    "vitest": "^2.1.9",
-    "@cloudflare/workers-types": "^4.20250214.0"
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.9"
   }
 }

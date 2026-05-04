@@ -71,7 +71,8 @@ export class GoogleAdapter implements AIAdapter {
       throw new Error(`[google] HTTP ${resp.status}: ${errText}`);
     }
 
-    const data = (await resp.json()) as {
+    const rawJson: unknown = await resp.json();
+    const data = rawJson as {
       candidates: Array<{
         content: { parts: Array<{ text: string }> };
         finishReason: string;

@@ -73,11 +73,13 @@ export async function sendWhatsAppOTP(
   });
 
   if (!res.ok) {
-    const err = await res.json() as { error?: { message: string } };
+    const errRaw: unknown = await res.json();
+    const err = errRaw as { error?: { message: string } };
     throw new Error(`WhatsApp OTP failed: ${err.error?.message ?? res.status}`);
   }
 
-  const body = await res.json() as MetaSendResponse;
+  const bodyRaw: unknown = await res.json();
+  const body = bodyRaw as MetaSendResponse;
 
   const messageId = body.messages[0]?.id;
 
