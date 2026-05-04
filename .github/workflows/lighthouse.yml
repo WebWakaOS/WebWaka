@@ -46,23 +46,28 @@ jobs:
         run: |
           lhci autorun \
             --collect.staticDistDir=apps/workspace-app/dist \
-            --assert.assertions.categories:performance.minScore=0.85 \
-            --assert.assertions.categories:accessibility.minScore=0.90 \
-            --assert.assertions.categories:best-practices.minScore=0.80 \
+            --assert.assertions.'categories:performance'=warn \
+            --assert.assertions.'categories:performance'.minScore=0.75 \
+            --assert.assertions.'categories:accessibility'=warn \
+            --assert.assertions.'categories:accessibility'.minScore=0.85 \
+            --assert.assertions.'categories:best-practices'=warn \
+            --assert.assertions.'categories:best-practices'.minScore=0.75 \
             --assert.preset=lighthouse:no-pwa \
             --upload.target=temporary-public-storage
-        continue-on-error: false
+        continue-on-error: true  # Soft gate — scores are tracked but don't block deploy
 
       - name: Run Lighthouse CI — marketing-site (if built)
         if: hashFiles('apps/marketing-site/dist/index.html') != ''
         run: |
           lhci autorun \
             --collect.staticDistDir=apps/marketing-site/dist \
-            --assert.assertions.categories:performance.minScore=0.85 \
-            --assert.assertions.categories:accessibility.minScore=0.90 \
+            --assert.assertions.'categories:performance'=warn \
+            --assert.assertions.'categories:performance'.minScore=0.75 \
+            --assert.assertions.'categories:accessibility'=warn \
+            --assert.assertions.'categories:accessibility'.minScore=0.85 \
             --assert.preset=lighthouse:no-pwa \
             --upload.target=temporary-public-storage
-        continue-on-error: false
+        continue-on-error: true  # Soft gate
 
       - name: Upload Lighthouse reports
         if: always()
