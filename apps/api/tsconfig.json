@@ -125,7 +125,7 @@
         "packages/profiles/src/index.ts"
       ],
       "@webwaka/provider-registry": [
-        "../../packages/provider-registry/src/index.ts"
+        "packages/provider-registry/src/index.ts"
       ],
       "@webwaka/relationships": [
         "packages/relationships/src/index.ts"

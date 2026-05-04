@@ -47,5 +47,5 @@ export function getPreferredFreeModel(provider: AggregatorProvider, capability?:
 }
 
 export function isModelFree(provider: AggregatorProvider, modelName: string): boolean {
-  return (FREE_MODEL_ALLOWLIST[provider] as readonly string[]).includes(modelName);
+  return FREE_MODEL_ALLOWLIST[provider].includes(modelName);
 }
