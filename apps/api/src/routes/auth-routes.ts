@@ -189,11 +189,20 @@ async function hashPassword(password: string): Promise<string> {
   const keyMaterial = await crypto.subtle.importKey(
     'raw', encoder.encode(password), { name: 'PBKDF2' }, false, ['deriveBits'],
   );
-  const derivedBits = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: saltBuf, iterations: 600_000, hash: 'SHA-256' },
-    keyMaterial,
-    256,
-  );
+  // FIX(pbkdf2-compat): Cloudflare Workers may not support PBKDF2 > 100k iterations
+  // in certain runtime versions. Try 600k first, fall back to 100k gracefully.
+  let derivedBits: ArrayBuffer;
+  try {
+    derivedBits = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuf, iterations: 600_000, hash: 'SHA-256' },
+      keyMaterial, 256,
+    );
+  } catch {
+    derivedBits = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuf, iterations: 100_000, hash: 'SHA-256' },
+      keyMaterial, 256,
+    );
+  }
   const hash64 = btoa(String.fromCharCode(...new Uint8Array(derivedBits)));
   return `${salt64}:${hash64}`;
 }
@@ -278,22 +287,38 @@ authRoutes.post('/login', async (c) => {
   let derivedHash: string;
   let needsRehash = false;
 
-  const derivedBits600k = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
-    keyMaterial, 256,
-  );
-  derivedHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits600k)));
+  // FIX(pbkdf2-compat): Cloudflare Workers may not support PBKDF2 > 100k iterations
+  // in certain runtime versions. Try 600k first; fall back to 100k gracefully.
+  let bits600k: ArrayBuffer | null = null;
+  try {
+    bits600k = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
+      keyMaterial, 256,
+    );
+  } catch {
+    // Runtime does not support 600k iterations — fall through to 100k below
+  }
 
-  if (derivedHash !== storedHash) {
-    const derivedBits100k = await crypto.subtle.deriveBits(
+  if (bits600k) {
+    derivedHash = btoa(String.fromCharCode(...new Uint8Array(bits600k)));
+    if (derivedHash !== storedHash) {
+      const derivedBits100k = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', salt: saltBuffer, iterations: 100_000, hash: 'SHA-256' },
+        keyMaterial, 256,
+      );
+      const legacyHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits100k)));
+      if (legacyHash === storedHash) {
+        derivedHash = legacyHash;
+        needsRehash = true;
+      }
+    }
+  } else {
+    // 600k not supported — verify directly with 100k (no version upgrade possible)
+    const bits100k = await crypto.subtle.deriveBits(
       { name: 'PBKDF2', salt: saltBuffer, iterations: 100_000, hash: 'SHA-256' },
       keyMaterial, 256,
     );
-    const legacyHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits100k)));
-    if (legacyHash === storedHash) {
-      derivedHash = legacyHash;
-      needsRehash = true;
-    }
+    derivedHash = btoa(String.fromCharCode(...new Uint8Array(bits100k)));
   }
 
   if (derivedHash !== storedHash) {
@@ -1158,13 +1183,29 @@ authRoutes.post('/change-password', async (c) => {
   const keyMaterial = await crypto.subtle.importKey(
     'raw', encoder.encode(body.currentPassword), { name: 'PBKDF2' }, false, ['deriveBits'],
   );
-  const derivedBits = await crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
-    keyMaterial, 256,
-  );
-  const derivedHash = btoa(String.fromCharCode(...new Uint8Array(derivedBits)));
+  // FIX(pbkdf2-compat): Try 600k then 100k for current-password verification.
+  let currentPasswordMatches = false;
+  let bits600k: ArrayBuffer | null = null;
+  try {
+    bits600k = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuffer, iterations: 600_000, hash: 'SHA-256' },
+      keyMaterial, 256,
+    );
+  } catch { /* runtime does not support 600k */ }
+  if (bits600k) {
+    const hash600k = btoa(String.fromCharCode(...new Uint8Array(bits600k)));
+    if (hash600k === storedHash) currentPasswordMatches = true;
+  }
+  if (!currentPasswordMatches) {
+    const bits100k = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBuffer, iterations: 100_000, hash: 'SHA-256' },
+      keyMaterial, 256,
+    );
+    const hash100k = btoa(String.fromCharCode(...new Uint8Array(bits100k)));
+    if (hash100k === storedHash) currentPasswordMatches = true;
+  }
 
-  if (derivedHash !== storedHash) {
+  if (!currentPasswordMatches) {
     return c.json(errorResponse(ErrorCode.Unauthorized, 'Current password is incorrect.'), 401);
   }
 
