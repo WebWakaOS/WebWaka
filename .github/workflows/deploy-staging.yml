@@ -99,6 +99,25 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
+      - name: Guard 0464b schema compat on staging (superseded by 0464a expansion)
+        run: |
+          cd apps/api
+          NOTES_EXISTS=$(npx wrangler d1 execute webwaka-staging \
+            --env staging --remote --json \
+            --command="SELECT COUNT(*) as cnt FROM pragma_table_info('seed_raw_artifacts') WHERE name='notes';" \
+            | jq -r '.[0].results[0].cnt' 2>/dev/null || echo "0")
+          if [ "$NOTES_EXISTS" = "1" ]; then
+            echo "✅ seed_raw_artifacts.notes exists (added by 0464a) — marking 0464b as applied on staging"
+            npx wrangler d1 execute webwaka-staging \
+              --env staging --remote \
+              --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0464b_seed_schema_extended_compat.sql', datetime('now'));"
+          else
+            echo "ℹ️  notes column not found on staging — 0464b will run normally"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Apply D1 migrations (staging)
         run: |
           # Run from apps/api so pnpm can resolve the wrangler binary.

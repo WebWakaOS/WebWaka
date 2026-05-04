@@ -406,6 +406,36 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
+      - name: Guard 0464b schema compat (superseded by 0464a expansion)
+        # Migration 0464b_seed_schema_extended_compat.sql was created as a second
+        # batch of schema bridge columns. However, 0464a was subsequently expanded
+        # to include ALL the same columns. On any environment where 0464a already ran,
+        # 0464b would fail with "duplicate column name: notes".
+        #
+        # This guard marks 0464b as applied if the notes column already exists
+        # on seed_raw_artifacts (proving 0464a already ran and added all the columns).
+        # The 0464b file has been updated to a no-op (SELECT 1), but this guard
+        # provides a double safety net for any environment still holding the old
+        # version of 0464b in its migration directory.
+        run: |
+          cd apps/api
+          echo "Checking if 0464b is superseded by 0464a on production D1..."
+          NOTES_EXISTS=$(npx wrangler d1 execute webwaka-production \
+            --env production --remote --json \
+            --command="SELECT COUNT(*) as cnt FROM pragma_table_info('seed_raw_artifacts') WHERE name='notes';" \
+            | jq -r '.[0].results[0].cnt' 2>/dev/null || echo "0")
+          if [ "$NOTES_EXISTS" = "1" ]; then
+            echo "✅ seed_raw_artifacts.notes exists (added by 0464a) — marking 0464b as applied to skip duplicate"
+            npx wrangler d1 execute webwaka-production \
+              --env production --remote \
+              --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0464b_seed_schema_extended_compat.sql', datetime('now'));"
+          else
+            echo "ℹ️  notes column not found — 0464b may be needed; wrangler will attempt to apply it"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Apply D1 migrations (production)
         run: |
           # Run from apps/api so pnpm can resolve the wrangler binary.
