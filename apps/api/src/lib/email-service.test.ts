@@ -35,7 +35,7 @@ describe('EmailService — dev-skip mode (no API key)', () => {
     });
     expect(result.ok).toBe(true);
     expect(result.id).toBe('dev-skipped');
-    expect(result.error).toContain('RESEND_API_KEY not set');
+    expect(result.error).toContain('No email provider configured');
   });
 
   it('does not call fetch when no api key', async () => {

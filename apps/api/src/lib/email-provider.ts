@@ -90,17 +90,23 @@ export class EmailProviderRouter {
   }
   async send(message: EmailMessage): Promise<EmailSendResult> {
     if (this.providers.length === 0) {
-      return { ok: false, provider: 'none', error: 'No email provider configured' };
+      return {
+        ok: false,
+        provider: 'none',
+        error: 'No email provider configured — email skipped in dev',
+      };
     }
+    let lastError: string | undefined;
     for (const provider of this.providers) {
       const result = await provider.send(message);
       if (result.ok) return result;
+      lastError = result.error;
       console.warn(JSON.stringify({
         level: 'warn', event: 'email_provider_failed',
         provider: provider.name, error: result.error,
       }));
     }
-    return { ok: false, provider: 'none', error: 'All email providers failed' };
+    return { ok: false, provider: 'none', error: lastError ?? 'All email providers failed' };
   }
   get primaryProvider(): 'cloudflare' | 'resend' | 'none' { return this.providers[0]?.name ?? 'none'; }
   get availableCount(): number { return this.providers.length; }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizePhoneToE164 } from '../otp.js';
+import { normalizePhoneToE164 } from './otp.js';
 
 describe('normalizePhoneToE164', () => {
   it('accepts +2348012345678 (already E.164)', () => {

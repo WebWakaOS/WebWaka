@@ -127,7 +127,7 @@ export async function activateProvider(
     .bind(providerId).first<{ category: ProviderCategory; scope: string; scope_id: string | null }>();
   if (!row) throw new Error(`Provider ${providerId} not found`);
   const singleActiveCategories: ProviderCategory[] = ['email', 'sms', 'payment', 'identity'];
-  if (singleActiveCategories.includes(row.category as ProviderCategory)) {
+  if (singleActiveCategories.includes(row.category)) {
     await db.prepare(
       `UPDATE provider_registry SET status = 'inactive', updated_at = unixepoch()
        WHERE category = ? AND scope = ? AND scope_id IS ? AND status = 'active' AND id != ?`,
