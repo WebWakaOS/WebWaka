@@ -99,6 +99,18 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
+      - name: Guard 0464d individuals table compat on staging (D1 blocks RENAME TABLE)
+        run: |
+          cd apps/api
+          echo "Marking 0464d as deferred on staging..."
+          npx wrangler d1 execute webwaka-staging \
+            --env staging --remote \
+            --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0464d_individuals_fullname_compat.sql', datetime('now'));"
+          echo "✅ 0464d recorded in d1_migrations on staging"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Guard 0464b schema compat on staging (superseded by 0464a expansion)
         run: |
           cd apps/api

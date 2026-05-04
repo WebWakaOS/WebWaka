@@ -406,6 +406,25 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
+      - name: Guard 0464d individuals table compat (D1 blocks RENAME TABLE on FK-referenced tables)
+        # Migration 0464d attempts to recreate individuals table with DEFAULT '' on
+        # first_name/last_name by using ALTER TABLE RENAME TO. However, D1 enforces
+        # FK constraints on RENAME TABLE operations (unlike standard SQLite), returning
+        # 'FOREIGN KEY constraint failed' since political_assignments references individuals.
+        # This guard marks 0464d as applied so wrangler skips it.
+        # The political seed data (0465-0534) will continue to be blocked until D1
+        # removes this restriction or the seeds are updated to provide first_name/last_name.
+        run: |
+          cd apps/api
+          echo "Marking 0464d as deferred (D1 FK blocks RENAME TABLE on individuals)..."
+          npx wrangler d1 execute webwaka-production \
+            --env production --remote \
+            --command="INSERT OR IGNORE INTO d1_migrations (name, applied_at) VALUES ('0464d_individuals_fullname_compat.sql', datetime('now'));"
+          echo "✅ 0464d recorded in d1_migrations — wrangler will skip it"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Guard 0464b schema compat (superseded by 0464a expansion)
         # Migration 0464b_seed_schema_extended_compat.sql was created as a second
         # batch of schema bridge columns. However, 0464a was subsequently expanded
