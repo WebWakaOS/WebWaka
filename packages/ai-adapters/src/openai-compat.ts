@@ -131,7 +131,8 @@ export class OpenAICompatAdapter implements AIAdapter {
       );
     }
 
-    const data = (await resp.json() as unknown) as {
+    const rawJsonEmbed: unknown = await resp.json();
+    const data = rawJsonEmbed as {
       data: Array<{ embedding: number[] }>;
       usage: { total_tokens: number };
       model: string;
