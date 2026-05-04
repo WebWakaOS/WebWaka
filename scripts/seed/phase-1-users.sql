@@ -7,9 +7,9 @@
 --                 auth system could never verify. The auth system uses PBKDF2-SHA256
 --                 (Web Crypto API, Cloudflare Workers) — NOT bcrypt.
 --   PREVIOUS BUG: USR-001 (super_admin) had totp_enabled=1 in staging with an
---                 undocumented TOTP secret, making login impossible. Production had
---                 totp_enabled=0, which triggers the mandatory enrolment gate — also
---                 impossible to bypass without being logged in first (chicken-and-egg).
+--                 undocumented TOTP secret, making login impossible without knowing
+--                 the secret. Production had totp_enabled=0, which triggers the
+--                 mandatory enrolment gate — another dead-end for seeded credentials.
 --   ROOT CAUSE:   Seed was authored assuming a Node.js/bcrypt stack. The actual stack
 --                 is Cloudflare Workers + Web Crypto PBKDF2.
 --
@@ -19,26 +19,32 @@
 --   Never store plaintext passwords. Never use real BVN/NIN/phone.
 --   Phone numbers use +234800000XXXX test range (non-routable).
 --
--- SUPER ADMIN TOTP:
+-- SUPER ADMIN TOTP: USR-001 uses a fixed, documented TOTP secret for QA.
 --   Secret (base32): JBSWY3DPEHPK3PXP
---   This is the well-known RFC 6238 test vector secret.
---   Scan QR: otpauth://totp/WebWaka:super%40test.webwaka.io?secret=JBSWY3DPEHPK3PXP&issuer=WebWaka
---   Or compute: python3 -c "import hmac,hashlib,struct,time,base64; t=int(time.time())//30; k=base64.b32decode('JBSWY3DPEHPK3PXP'); h=hmac.new(k,struct.pack('>Q',t),hashlib.sha1).digest(); o=h[19]&0xf; print(str(((h[o]&0x7f)<<24|(h[o+1]&0xff)<<16|(h[o+2]&0xff)<<8|(h[o+3]&0xff))%1000000).zfill(6))"
+--   This is the well-known RFC 6238 test vector secret ("Hello!" in ASCII).
+--   Use any TOTP app (Google Authenticator, Authy, etc.) or the helper script:
+--     python3 scripts/seed/totp-helper.py JBSWY3DPEHPK3PXP
+--   QR URI: otpauth://totp/WebWaka:super%40test.webwaka.io?secret=JBSWY3DPEHPK3PXP&issuer=WebWaka
 --
 -- P10 COMPLIANCE: KYC tier is set directly for test purposes only.
+--   In production, tier advancement requires full consent + verification flow.
+--
 -- T3 COMPLIANCE: Every user row includes tenant_id where applicable.
 --
 -- Schema alignment (0013_init_users + 0190_users_auth_columns + 0233):
 --   kyc_tier is TEXT: 't0'|'t1'|'t2'|'t3'  (NOT integer)
 --   email_verified is NOT a column (use email_verified_at INTEGER instead)
+--   phone_verified is NOT a column
 --   plan is NOT on users (subscription plans live in a separate table)
 --
--- Seed ID mapping:
+-- Seed ID → UUID mapping:
 --   USR-001 = 00000000-0000-4000-a000-000000000001
---   USR-002 = 00000000-0000-4000-a000-000000000002 ... etc.
+--   USR-002 = 00000000-0000-4000-a000-000000000002
+--   ... (sequence continues)
 
 -- USR-001: super_admin — platform-wide admin
--- LOGIN: email=super@test.webwaka.io  password=QaTest#2026!  totp=<from JBSWY3DPEHPK3PXP>
+-- Required before: any platform-admin tests, TC-PA001, TC-INV009, TC-F020
+-- LOGIN: email=super@test.webwaka.io  password=QaTest#2026!  totp=<6-digit from JBSWY3DPEHPK3PXP>
 INSERT OR REPLACE INTO users (
   id, email, phone,
   password_hash, password_hash_version,
@@ -61,6 +67,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-002: TNT-001 owner — main test tenant owner
+-- Required before: offering, POS, wallet, bank-transfer tests
 -- LOGIN: email=owner@tenant-a.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -103,6 +110,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-004: TNT-001 cashier
+-- Required before: TC-P001 (POS sale recording)
 -- LOGIN: email=cashier@tenant-a.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -124,6 +132,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-005: TNT-002 owner — free plan tenant
+-- Required before: TC-MON001, TC-MON003, TC-MON005 (free-tier limit tests)
 -- LOGIN: email=owner@tenant-b.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -145,6 +154,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-006: Partner admin — PTN-001
+-- Required before: any partner-admin tests, TC-PR001–PR008
 -- LOGIN: email=partner@test.webwaka.io  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -186,9 +196,11 @@ INSERT OR REPLACE INTO users (
   strftime('%s','now')
 );
 
--- USR-008: Unauthenticated / public — no row needed; represents anonymous requests.
+-- USR-008: Unauthenticated / public — no row needed; represents anonymous requests
+-- No INSERT for USR-008; referenced in test comments only.
 
 -- USR-009: USSD session user
+-- Required before: TC-US001–TC-US011
 -- LOGIN: email=ussd.user@tenant-a.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -210,6 +222,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-010: Buyer in TNT-001 — B2B buyer role
+-- Required before: TC-B001–TC-B009
 -- LOGIN: email=buyer@tenant-a.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -231,6 +244,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-011: Seller in TNT-003 — B2B seller role
+-- Required before: TC-B001–TC-B009
 -- LOGIN: email=seller@tenant-c.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -252,6 +266,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-012: law-firm tenant owner (TNT-004) — L3 HITL compliance tests
+-- Required before: TC-HR001, TC-HR002 (law-firm NBA HITL)
 -- LOGIN: email=lawfirm@tenant-d.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
@@ -273,6 +288,7 @@ INSERT OR REPLACE INTO users (
 );
 
 -- USR-013: polling-unit tenant admin (TNT-005) — voter PII compliance tests
+-- Required before: TC-HR005 (no voter PII in polling-unit)
 -- LOGIN: email=pollingunit@tenant-e.test  password=QaTest#2026!  (no TOTP)
 INSERT OR REPLACE INTO users (
   id, email, phone,
