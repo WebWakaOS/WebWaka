@@ -67,7 +67,7 @@ export class AnthropicAdapter implements AIAdapter {
       throw new Error(`[anthropic] HTTP ${resp.status}: ${errText}`);
     }
 
-    const data = (await resp.json()) as {
+    const data = (await resp.json() as unknown) as {
       content: Array<{ type: string; text: string }>;
       stop_reason: string;
       usage: { input_tokens: number; output_tokens: number };

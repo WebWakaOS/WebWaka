@@ -74,7 +74,7 @@ export class OpenAICompatAdapter implements AIAdapter {
       );
     }
 
-    const data = (await resp.json()) as {
+    const data = (await resp.json() as unknown) as {
       choices: Array<{
         message: {
           content: string | null;
@@ -130,7 +130,7 @@ export class OpenAICompatAdapter implements AIAdapter {
       );
     }
 
-    const data = (await resp.json()) as {
+    const data = (await resp.json() as unknown) as {
       data: Array<{ embedding: number[] }>;
       usage: { total_tokens: number };
       model: string;
