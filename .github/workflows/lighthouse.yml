@@ -21,7 +21,7 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20  # lhci@0.14 has Node.js 22 incompatibility; use 20 until lhci publishes a fix
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
@@ -40,7 +40,7 @@ jobs:
         continue-on-error: true
 
       - name: Install @lhci/cli
-        run: npm install -g @lhci/cli@0.14
+        run: npm install -g @lhci/cli@0.15.1
 
       - name: Run Lighthouse CI — workspace-app
         run: |

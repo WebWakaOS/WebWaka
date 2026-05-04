@@ -2,7 +2,7 @@
   "name": "@webwaka/vertical-engine",
   "version": "0.1.0",
   "private": true,
-  "description": "[Cross-cutting] Configuration-driven vertical management engine — replaces 159 individual vertical packages",
+  "description": "[Cross-cutting] Configuration-driven vertical management engine \u2014 replaces 159 individual vertical packages",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -22,11 +22,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@webwaka/types": "workspace:*",
-    "@webwaka/entitlements": "workspace:*"
+    "@webwaka/entitlements": "workspace:*",
+    "@webwaka/types": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "hono": "^4.12.0",
     "typescript": "^5.4.5",
     "vitest": "^2.1.9"

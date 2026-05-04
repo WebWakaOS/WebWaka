@@ -23,12 +23,13 @@
     "@webwaka/ai": "workspace:*",
     "@webwaka/ai-adapters": "workspace:*",
     "@webwaka/auth": "workspace:*",
-    "@webwaka/types": "workspace:*",
-    "@webwaka/entitlements": "workspace:*"
+    "@webwaka/entitlements": "workspace:*",
+    "@webwaka/types": "workspace:*"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "typescript": "^5.4.5",
-    "vitest": "^2.1.9",
-    "@cloudflare/workers-types": "^4.20241205.0"
+    "vitest": "^2.1.9"
   }
 }
