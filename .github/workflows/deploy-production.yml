@@ -143,10 +143,20 @@ jobs:
                 echo "  skipped oversized seed: $(basename "$f") (${FILE_SIZE} bytes)"
                 continue
               fi
+              # Skip political state-assembly seeds 0467-0534 — these contain FK-referenced
+              # inserts that fail in wrangler d1 migrations apply batch mode (SQLITE_CONSTRAINT
+              # FOREIGNKEY). They are applied correctly via wrangler d1 execute --file in the
+              # large-seed-migrations-production job which processes each file independently.
+              BASENAME=$(basename "$f")
+              NUM=$(echo "$BASENAME" | grep -oP '^\d+' | head -1 || true)
+              if [ -n "$NUM" ] && [ "$NUM" -ge 467 ] && [ "$NUM" -le 534 ] && echo "$BASENAME" | grep -q "_political_"; then
+                echo "  deferred to large-seeds (FK-safe): $BASENAME"
+                continue
+              fi
               cp "$f" apps/api/migrations/
             done
             COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
-            echo "Staged ${COUNT} forward migration files (rollbacks + LFS seeds excluded)"
+            echo "Staged ${COUNT} forward migration files (rollbacks + LFS seeds + political assembly seeds deferred)"
           else
             echo "No migrations directory found — skipping"
           fi

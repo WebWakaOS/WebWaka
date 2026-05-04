@@ -68,10 +68,19 @@ jobs:
               echo "  skipped oversized seed: $(basename "$f") (${FILE_SIZE} bytes)"
               continue
             fi
+            # Skip political state-assembly seeds 0467-0534 — FK constraint failures
+            # in wrangler d1 migrations apply batch mode. Applied via --file in the
+            # large-seed-migrations-staging job (idempotent, FK-safe execution).
+            BASENAME=$(basename "$f")
+            NUM=$(echo "$BASENAME" | grep -oP '^\d+' | head -1 || true)
+            if [ -n "$NUM" ] && [ "$NUM" -ge 467 ] && [ "$NUM" -le 534 ] && echo "$BASENAME" | grep -q "_political_"; then
+              echo "  deferred to large-seeds (FK-safe): $BASENAME"
+              continue
+            fi
             cp "$f" apps/api/migrations/
           done
           COUNT=$(ls apps/api/migrations/*.sql 2>/dev/null | wc -l)
-          echo "Staged ${COUNT} forward migration files (rollbacks + LFS seeds excluded)"
+          echo "Staged ${COUNT} forward migration files (rollbacks + LFS + political assembly seeds deferred)"
 
       - name: Pre-apply migration safety check (BUG-002 ALTER TABLE guard)
         # Scans staged migrations for ALTER TABLE ADD COLUMN patterns and checks whether
