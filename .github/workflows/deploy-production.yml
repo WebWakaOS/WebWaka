@@ -710,6 +710,84 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply political state assembly seeds (0467-0470, 0504-0534)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          POLITICAL_SEEDS=(
+            "0467_political_kano_assembly_full_roster_seed.sql"
+            "0468_political_rivers_assembly_full_roster_seed.sql"
+            "0469_political_ogun_assembly_full_roster_seed.sql"
+            "0470_political_oyo_assembly_full_roster_seed.sql"
+            "0504_political_akwaibom_assembly_full_roster_seed.sql"
+            "0505_political_anambra_assembly_full_roster_seed.sql"
+            "0506_political_bayelsa_assembly_full_roster_seed.sql"
+            "0507_political_benue_assembly_full_roster_seed.sql"
+            "0508_political_borno_assembly_full_roster_seed.sql"
+            "0509_political_crossriver_assembly_full_roster_seed.sql"
+            "0510_political_delta_assembly_full_roster_seed.sql"
+            "0511_political_ebonyi_assembly_full_roster_seed.sql"
+            "0512_political_edo_assembly_full_roster_seed.sql"
+            "0513_political_ekiti_assembly_full_roster_seed.sql"
+            "0514_political_enugu_assembly_full_roster_seed.sql"
+            "0515_political_gombe_assembly_full_roster_seed.sql"
+            "0516_political_imo_assembly_full_roster_seed.sql"
+            "0517_political_jigawa_assembly_full_roster_seed.sql"
+            "0518_political_kaduna_assembly_full_roster_seed.sql"
+            "0519_political_katsina_assembly_full_roster_seed.sql"
+            "0520_political_kebbi_assembly_full_roster_seed.sql"
+            "0521_political_kogi_assembly_full_roster_seed.sql"
+            "0522_political_kwara_assembly_full_roster_seed.sql"
+            "0523_political_nasarawa_assembly_full_roster_seed.sql"
+            "0524_political_niger_assembly_full_roster_seed.sql"
+            "0525_political_ondo_assembly_full_roster_seed.sql"
+            "0526_political_osun_assembly_full_roster_seed.sql"
+            "0527_political_plateau_assembly_full_roster_seed.sql"
+            "0528_political_sokoto_assembly_full_roster_seed.sql"
+            "0529_political_taraba_assembly_full_roster_seed.sql"
+            "0530_political_yobe_assembly_full_roster_seed.sql"
+            "0531_political_zamfara_assembly_full_roster_seed.sql"
+            "0532_political_ogun_assembly_patch_seed.sql"
+            "0533_political_abia_assembly_full_roster_seed.sql"
+            "0534_political_adamawa_assembly_full_roster_seed.sql"
+          )
+          for SEED in "${POLITICAL_SEEDS[@]}"; do
+            SEED_PATH="../../infra/db/migrations/${SEED}"
+            if [ ! -f "$SEED_PATH" ]; then
+              echo "  ⚠️  ${SEED} not found — skipping"
+              continue
+            fi
+            ALREADY=$(npx wrangler d1 execute webwaka-production --env production --remote \
+              --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='${SEED}'" \
+              --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d[0]['results'][0]['cnt'])" 2>/dev/null || echo "0")
+            if [ "$ALREADY" = "0" ]; then
+              npx wrangler d1 execute webwaka-production --env production --remote \
+                --file "$SEED_PATH" && echo "  ✅ ${SEED} applied" || echo "  ❌ ${SEED} failed (non-fatal)"
+            else
+              echo "  ℹ️  ${SEED} already applied — skipping"
+            fi
+          done
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Apply pilot cohort 1 seed (0545) — after pilot rollout migration (0544)
+        continue-on-error: true
+        run: |
+          cd apps/api
+          # 0544_pilot_rollout is applied by the regular migrate-production job first.
+          # This step applies the cohort 1 data seed idempotently.
+          if npx wrangler d1 execute webwaka-production --env production --remote \
+            --command="SELECT COUNT(*) as cnt FROM d1_migrations WHERE name='0545_pilot_cohort1_seed.sql'" \
+            --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d[0]['results'][0]['cnt']==0 else 1)" 2>/dev/null; then
+            npx wrangler d1 execute webwaka-production --env production --remote \
+              --file ../../infra/db/migrations/0545_pilot_cohort1_seed.sql
+            echo "✅ 0545 pilot cohort 1 seed applied to production"
+          else
+            echo "ℹ️  0545 already applied — skipping"
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
   # ── Smoke tests ────────────────────────────────────────────────────────────
   smoke-test-production:
