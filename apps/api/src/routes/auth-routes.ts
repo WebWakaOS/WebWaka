@@ -850,7 +850,7 @@ authRoutes.post('/forgot-password', async (c) => {
         });
       } else {
         // Kill-switch fallback: legacy EmailService path
-        const emailService = new EmailService(c.env.RESEND_API_KEY);
+        const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
         await emailService.sendTransactional(email, 'password-reset', {
           name: userName,
           reset_url: resetUrl,
@@ -1330,7 +1330,7 @@ authRoutes.post('/invite', async (c) => {
     });
   } else {
     // Kill-switch fallback: legacy EmailService path
-    const emailService = new EmailService(c.env.RESEND_API_KEY);
+    const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
     void emailService.sendTransactional(email, 'workspace-invite', {
       inviter_name: auth.userId,
       workspace_name: workspaceName,
@@ -1783,7 +1783,7 @@ authRoutes.post('/send-verification', async (c) => {
       });
     } else {
       // Kill-switch fallback: legacy EmailService path
-      const emailService = new EmailService(c.env.RESEND_API_KEY);
+      const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
       await emailService.sendTransactional(userRow.email, 'email-verification', {
         name,
         verify_url: verifyUrl,

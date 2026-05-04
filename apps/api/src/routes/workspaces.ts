@@ -428,7 +428,7 @@ workspaceRoutes.post('/:id/invite', async (c) => {
   // BUG-WS-01 fix: was `!== '1'` (inverted), meaning email was sent only when the
   // pipeline was DISABLED.  Corrected to `=== '1'` so email fires when pipeline is ON.
   if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1' && body.email) {
-    const emailService = new EmailService(c.env.RESEND_API_KEY);
+    const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
     void emailService.sendTransactional(body.email, 'workspace-invite', {
       inviter_name: String(auth.userId),
       workspace_name: workspace.name ?? workspaceId,

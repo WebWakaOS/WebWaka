@@ -230,30 +230,41 @@ function renderEmailVerification(data: EmailVerificationData): { subject: string
 }
 
 // ---------------------------------------------------------------------------
-// Resend API client
+// Email client — backed by EmailProviderRouter (CF Email first, Resend fallback)
 // ---------------------------------------------------------------------------
+
+import { EmailProviderRouter } from './email-provider.js';
+import type { CloudflareEmailProvider } from './email-provider.js';
 
 export interface SendResult {
   ok: boolean;
   id?: string;
   error?: string;
+  provider?: string;
 }
 
+/**
+ * EmailService — PROD-05 (updated for Cloudflare Email + Resend fallback)
+ * Maintains same sendTransactional() API throughout the codebase.
+ * Routes emails through CF Email (primary) or Resend (fallback).
+ */
 export class EmailService {
-  constructor(private readonly apiKey: string | undefined) {}
+  private readonly router: EmailProviderRouter;
 
-  /**
-   * Send a transactional email using the given template.
-   * If RESEND_API_KEY is not configured, the email is silently skipped
-   * (development mode) and a warning is returned.
-   */
+  constructor(
+    resendApiKey: string | undefined,
+    cfEmailBinding?: CloudflareEmailProvider['binding'],
+  ) {
+    this.router = new EmailProviderRouter(cfEmailBinding, resendApiKey);
+  }
+
   async sendTransactional<T extends EmailTemplate>(
     to: string,
     template: T,
     data: TemplateData<T>,
   ): Promise<SendResult> {
-    if (!this.apiKey) {
-      return { ok: true, id: 'dev-skipped', error: 'RESEND_API_KEY not set — email skipped in dev' };
+    if (this.router.availableCount === 0) {
+      return { ok: true, id: 'dev-skipped', error: 'No email provider configured — email skipped in dev' };
     }
 
     let rendered: { subject: string; html: string };
@@ -281,30 +292,9 @@ export class EmailService {
         return { ok: false, error: `Unknown template: ${String(template)}` };
     }
 
-    try {
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: FROM_ADDRESS,
-          to: [to],
-          subject: rendered.subject,
-          html: rendered.html,
-        }),
-      });
-
-      if (res.ok) {
-        const json = await res.json() as { id?: string };
-        return { ok: true, id: json.id };
-      }
-
-      const errBody = await res.text();
-      return { ok: false, error: `Resend API error ${res.status}: ${errBody}` };
-    } catch (e) {
-      return { ok: false, error: e instanceof Error ? e.message : 'network error' };
-    }
+    const result = await this.router.send({ to, subject: rendered.subject, html: rendered.html });
+    return { ok: result.ok, id: result.id, error: result.error, provider: result.provider };
   }
+
+  get activeProvider(): string { return this.router.primaryProvider; }
 }

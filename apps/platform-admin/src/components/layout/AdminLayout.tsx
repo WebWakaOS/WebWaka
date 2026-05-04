@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { to: '/entitlements', icon: '🔑', label: 'Entitlements' },
   { to: '/roles', icon: '🛡️', label: 'Roles & Groups' },
   { to: '/flags', icon: '🚩', label: 'Feature Flags' },
+  { section: 'INFRASTRUCTURE' },
+  { to: '/providers', icon: '🔌', label: 'Provider Registry' },
   { section: 'PLATFORM' },
   { to: '/tenants', icon: '🏢', label: 'Tenants' },
   { to: '/pilots', icon: '🚀', label: 'Pilot Operators' },

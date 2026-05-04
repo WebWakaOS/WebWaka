@@ -46,6 +46,7 @@
     "@webwaka/politics": "workspace:*",
     "@webwaka/pos": "workspace:*",
     "@webwaka/profiles": "workspace:*",
+    "@webwaka/provider-registry": "workspace:*",
     "@webwaka/relationships": "workspace:*",
     "@webwaka/shared-config": "workspace:*",
     "@webwaka/social": "workspace:*",

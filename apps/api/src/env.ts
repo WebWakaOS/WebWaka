@@ -275,9 +275,24 @@ export interface Env {
 
   /**
    * AES-256-GCM encryption secret for SuperAgent BYOK key storage.
-   * Used by KeyService to encrypt/decrypt user-provided API keys at rest.
    * Set via: wrangler secret put ENCRYPTION_SECRET
    * Must be at least 32 characters.
    */
   ENCRYPTION_SECRET?: string;
+
+  /**
+   * BATCH 4: Cloudflare Email Service binding (default transactional email).
+   * Add to wrangler.toml: [[email]] binding = "SEND_EMAIL" domain = "webwaka.com"
+   * EmailProviderRouter falls back to Resend when this binding is absent.
+   */
+  SEND_EMAIL?: {
+    send(msg: {
+      from: string;
+      to: string | string[];
+      subject: string;
+      html: string;
+      text?: string;
+      replyTo?: string;
+    }): Promise<void>;
+  };
 }

@@ -82,6 +82,13 @@ pattern = "api-staging.webwaka.com"
 zone_name = "webwaka.com"
 custom_domain = true
 
+# BATCH 9: Cloudflare Email Service binding
+# Requires webwaka.com verified as a sending domain in CF Email Service dashboard.
+# EmailProviderRouter falls back to Resend automatically if not yet verified.
+[[env.staging.email]]
+binding = "SEND_EMAIL"
+domain = "webwaka.com"
+
 # ── Production environment ────────────────────────────────────────────────────
 [env.production]
 name = "webwaka-api-production"
@@ -153,6 +160,12 @@ DSAR_BUCKET_NAME = "webwaka-dsar-exports-production"
 pattern = "api.webwaka.com"
 zone_name = "webwaka.com"
 custom_domain = true
+
+# BATCH 9: Cloudflare Email Service binding
+# EmailProviderRouter falls back to Resend automatically until domain is verified.
+[[env.production.email]]
+binding = "SEND_EMAIL"
+domain = "webwaka.com"
 
 # ── Secrets (set via wrangler secret put, never in this file) ─────────────────
 # Required:
