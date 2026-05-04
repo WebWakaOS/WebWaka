@@ -74,7 +74,8 @@ export class OpenAICompatAdapter implements AIAdapter {
       );
     }
 
-    const data = (await resp.json() as unknown) as {
+    const rawJson: unknown = await resp.json();
+    const data = rawJson as {
       choices: Array<{
         message: {
           content: string | null;
