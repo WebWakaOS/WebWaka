@@ -628,9 +628,9 @@ jobs:
             api_url: ""
           - name: platform-admin
             project: webwaka-platform-admin
-            build_cmd: echo "No build step needed for platform-admin static site"
-            dist: apps/platform-admin/public
-            api_url: ""
+            build_cmd: pnpm --filter @webwaka/platform-admin build
+            dist: apps/platform-admin/dist
+            api_url: https://api-staging.webwaka.com
           - name: discovery-spa
             project: webwaka-discovery
             build_cmd: pnpm --filter @webwaka/discovery-spa build
