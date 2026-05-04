@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 /**
  * Provider Registry — Resolution Tests
  *
@@ -18,7 +19,6 @@ const TEST_SECRET = 'test-encryption-secret-min-32-chars-ok';
 // Mock D1 builder — uses static responses, no actual async work
 // ---------------------------------------------------------------------------
 
-/* eslint-disable @typescript-eslint/require-await */
 function makeMockD1(rows: unknown[]): D1Like {
   let callIndex = 0;
   return {
@@ -32,7 +32,6 @@ function makeMockD1(rows: unknown[]): D1Like {
     batch: async () => [],
   } as unknown as D1Like;
 }
-/* eslint-enable @typescript-eslint/require-await */
 
 function makeProvider(overrides: Partial<Record<string, unknown>> = {}) {
   return {
