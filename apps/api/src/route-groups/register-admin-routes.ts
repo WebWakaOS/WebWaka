@@ -32,6 +32,8 @@ import { roleRoutes } from '../routes/control-plane/roles.js';
 import { groupRoutes } from '../routes/control-plane/groups.js';
 import { flagRoutes } from '../routes/control-plane/flags.js';
 import { auditRoutes } from '../routes/control-plane/audit.js';
+// BATCH 6: Provider Registry admin routes
+import { providerAdminRoutes } from '../routes/admin/providers.js';
 
 export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
   // -------------------------------------------------------------------------
@@ -154,4 +156,8 @@ export function registerAdminRoutes(app: Hono<{ Bindings: Env }>): void {
 
   // Cross-cutting: Governance audit log (read-only)
   app.route('/platform-admin/cp/audit', auditRoutes);
+
+  // BATCH 6: Provider Registry — platform-managed providers + AI key pool
+  app.use('/admin/providers*', authMiddleware);
+  app.route('/admin/providers', providerAdminRoutes);
 }

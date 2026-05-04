@@ -12,6 +12,8 @@ const Roles = lazy(() => import('@/pages/Roles'));
 const Pilots = lazy(() => import('@/pages/Pilots'));
 const Audit = lazy(() => import('@/pages/Audit'));
 const Tenants = lazy(() => import('@/pages/Tenants'));
+// BATCH 7: Provider Registry management
+const Providers = lazy(() => import('@/pages/Providers'));
 
 function LoadingScreen() {
   return (
@@ -54,6 +56,8 @@ export default function App() {
               <Route path="/tenants" element={<Tenants />} />
               <Route path="/pilots" element={<Pilots />} />
               <Route path="/audit" element={<Audit />} />
+              {/* BATCH 7: Provider Registry */}
+              <Route path="/providers" element={<Providers />} />
             </Route>
             <Route path="*" element={<Navigate to="/overview" replace />} />
           </Routes>
