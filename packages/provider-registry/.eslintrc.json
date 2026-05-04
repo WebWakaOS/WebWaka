@@ -1,5 +1,12 @@
 {
-  "name": "@webwaka/provider-registry",
-  "version": "0.1.0",
-  "description": "[Infra] Provider registry"
+  "extends": [
+    "../../.eslintrc.base.json"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true,
+    "es2022": true
+  }
 }
