@@ -768,7 +768,7 @@ jobs:
             "0534_political_adamawa_assembly_full_roster_seed.sql"
           )
           for SEED in "${POLITICAL_SEEDS[@]}"; do
-            SEED_PATH="../../infra/db/migrations/${SEED}"
+            SEED_PATH="infra/db/migrations/${SEED}"
             if [ ! -f "$SEED_PATH" ]; then
               echo "  ⚠️  ${SEED} not found — skipping"
               continue
