@@ -36,7 +36,7 @@ import type { UserId, WorkspaceId, TenantId } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 import { errorResponse, ErrorCode } from '@webwaka/shared-config';
 import { kvGetText } from '@webwaka/core';
-import { EmailService } from '../lib/email-service.js';
+import { getEmailService } from '../lib/provider-service-factory.js';
 import { publishEvent } from '../lib/publish-event.js';
 import { AuthEventType, WorkspaceEventType } from '@webwaka/events';
 import { propagateErasure } from '@webwaka/notifications';
@@ -849,8 +849,8 @@ authRoutes.post('/forgot-password', async (c) => {
           correlationId: c.get('requestId') ?? undefined,
         });
       } else {
-        // Kill-switch fallback: legacy EmailService path
-        const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
+        // Kill-switch fallback: legacy EmailService path (now registry-aware)
+        const emailService = await getEmailService(c.env);
         await emailService.sendTransactional(email, 'password-reset', {
           name: userName,
           reset_url: resetUrl,
@@ -1329,8 +1329,8 @@ authRoutes.post('/invite', async (c) => {
       correlationId: c.get('requestId') ?? undefined,
     });
   } else {
-    // Kill-switch fallback: legacy EmailService path
-    const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
+    // Kill-switch fallback: legacy EmailService path (now registry-aware)
+    const emailService = await getEmailService(c.env);
     void emailService.sendTransactional(email, 'workspace-invite', {
       inviter_name: auth.userId,
       workspace_name: workspaceName,
@@ -1782,8 +1782,8 @@ authRoutes.post('/send-verification', async (c) => {
         correlationId: c.get('requestId') ?? undefined,
       });
     } else {
-      // Kill-switch fallback: legacy EmailService path
-      const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
+      // Kill-switch fallback: legacy EmailService path (now registry-aware)
+      const emailService = await getEmailService(c.env);
       await emailService.sendTransactional(userRow.email, 'email-verification', {
         name,
         verify_url: verifyUrl,

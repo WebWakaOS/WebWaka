@@ -9,6 +9,7 @@ import { issueJwt } from '@webwaka/auth';
 import { Role } from '@webwaka/types';
 import { asId } from '@webwaka/types';
 import { errorResponse, ErrorCode } from '@webwaka/shared-config';
+import { getSmsApiKey } from '../lib/provider-service-factory.js';
 import type { Env } from '../env.js';
 
 const OTP_TTL_SECONDS = 600;
@@ -108,8 +109,10 @@ otpRoutes.post('/request', async (c) => {
     ).bind(crypto.randomUUID(), phoneE164, body.tenantId ?? null, body.purpose, otpHash, expiresAt).run();
   } catch { /* anti-enumeration: don't reveal DB errors */ }
 
-  if (c.env.TERMII_API_KEY) {
-    const smsResult = await sendSmsOtp(c.env.TERMII_API_KEY, phoneE164, otp);
+  // Resolve SMS API key from provider registry (falls back to env var)
+  const smsApiKey = await getSmsApiKey(c.env, body.tenantId ? { tenantId: body.tenantId } : {});
+  if (smsApiKey) {
+    const smsResult = await sendSmsOtp(smsApiKey, phoneE164, otp);
     if (!smsResult.ok) {
       console.error(JSON.stringify({ level: 'error', event: 'otp_sms_failed', error: smsResult.error }));
     }

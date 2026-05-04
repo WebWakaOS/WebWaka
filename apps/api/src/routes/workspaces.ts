@@ -26,7 +26,7 @@ import { initializePayment } from '@webwaka/payments';
 import { evaluateUserLimit, evaluateOfferingLimit, evaluatePlaceLimit } from '@webwaka/entitlements';
 import type { Env } from '../env.js';
 import { WebhookDispatcher } from '../lib/webhook-dispatcher.js';
-import { EmailService } from '../lib/email-service.js';
+import { getEmailService } from '../lib/provider-service-factory.js';
 import { indexOffering } from '../lib/search-index.js';
 import { publishEvent } from '../lib/publish-event.js';
 import { WorkspaceEventType } from '@webwaka/events';
@@ -428,7 +428,7 @@ workspaceRoutes.post('/:id/invite', async (c) => {
   // BUG-WS-01 fix: was `!== '1'` (inverted), meaning email was sent only when the
   // pipeline was DISABLED.  Corrected to `=== '1'` so email fires when pipeline is ON.
   if (c.env.NOTIFICATION_PIPELINE_ENABLED === '1' && body.email) {
-    const emailService = new EmailService(c.env.RESEND_API_KEY, c.env.SEND_EMAIL);
+    const emailService = await getEmailService(c.env);
     void emailService.sendTransactional(body.email, 'workspace-invite', {
       inviter_name: String(auth.userId),
       workspace_name: workspace.name ?? workspaceId,
