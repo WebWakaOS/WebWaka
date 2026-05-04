@@ -68,6 +68,8 @@ queue = "webwaka-notification-queue-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+# ENH-035: accounts that skip TOTP at login (password-only). Internal use only.
+TOTP_BYPASS_EMAILS = "admin@webwaka.com"
 LOG_LEVEL = "debug"
 DEFAULT_PAYMENT_MODE = "bank_transfer"
 PLATFORM_BANK_ACCOUNT_JSON = '{"bank_name":"Access Bank","account_number":"XXXXXXXXXX","account_name":"WebWaka Technologies Limited","sort_code":""}'
@@ -150,6 +152,8 @@ queue = "webwaka-notification-queue-production"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+# ENH-035: accounts that skip TOTP at login (password-only). Internal use only.
+TOTP_BYPASS_EMAILS = "admin@webwaka.com"
 LOG_LEVEL = "warn"
 DEFAULT_PAYMENT_MODE = "bank_transfer"
 PLATFORM_BANK_ACCOUNT_JSON = '{"bank_name":"Access Bank","account_number":"XXXXXXXXXX","account_name":"WebWaka Technologies Limited","sort_code":""}'
