@@ -51,6 +51,16 @@ async function safeKvCount(kv: Env['RATE_LIMIT_KV'], key: string): Promise<numbe
 
 export function rateLimitMiddleware(opts: RateLimitOptions) {
   return createMiddleware<{ Bindings: Env }>(async (c, next) => {
+    // BUG-FIX: Bypass global rate limiting for trusted M2M/CI callers that present
+    // a valid INTER_SERVICE_SECRET. This mirrors the CSRF middleware bypass (BUG-003)
+    // and prevents CI smoke tests (k6) from exhausting the 100 req/60s IP bucket
+    // when all VUs share a single GitHub Actions runner IP.
+    const interServiceHeader = c.req.header('X-Inter-Service-Secret');
+    const expectedSecret = c.env?.INTER_SERVICE_SECRET;
+    if (expectedSecret && interServiceHeader === expectedSecret) {
+      return next();
+    }
+
     // SEC-005: Use CF-Connecting-IP — this is set by Cloudflare and cannot be
     // forged by the client. X-Forwarded-For is used as a local dev fallback only.
     const ip =

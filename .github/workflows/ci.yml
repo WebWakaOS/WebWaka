@@ -190,7 +190,7 @@ jobs:
       - name: Generate smoke test JWT tokens
         id: jwt
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET_STAGING }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           OUTPUT=$(node infra/k6/generate-smoke-jwt.mjs)
           echo "SMOKE_JWT=$(echo "$OUTPUT" | grep '^SMOKE_JWT=' | cut -d= -f2-)" >> $GITHUB_OUTPUT
@@ -214,11 +214,13 @@ jobs:
       - name: Run k6 smoke test (staging API)
         env:
           BASE_URL: ${{ secrets.STAGING_API_URL || 'http://localhost:8787' }}
+          INTER_SERVICE_SECRET: ${{ secrets.INTER_SERVICE_SECRET }}
         run: |
           k6 run \
             --env BASE_URL=$BASE_URL \
             --env JWT_TOKEN=${{ steps.jwt.outputs.SMOKE_JWT }} \
             --env SUPER_ADMIN_JWT=${{ steps.jwt.outputs.SMOKE_SUPER_ADMIN_JWT }} \
+            --env INTER_SERVICE_SECRET=$INTER_SERVICE_SECRET \
             --summary-export=infra/k6/results.json \
             infra/k6/smoke.js
       - name: Compare against performance baseline

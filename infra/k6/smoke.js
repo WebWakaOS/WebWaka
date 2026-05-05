@@ -23,6 +23,10 @@ const BASE_URL = __ENV.BASE_URL || 'http://localhost:8787';
 const JWT_TOKEN = __ENV.JWT_TOKEN || '';
 const SUPER_ADMIN_JWT = __ENV.SUPER_ADMIN_JWT || '';
 
+// BUG-FIX: Pass INTER_SERVICE_SECRET to bypass CSRF + global rate limit from CI runner IPs.
+// The staging rate-limit middleware honours this header (same as CSRF middleware does).
+const INTER_SERVICE_SECRET = __ENV.INTER_SERVICE_SECRET || '';
+
 // BUG-032 fix: When the k6 test makes requests that are EXPECTED to return 401
 // (the "without JWT" auth checks), these must NOT count against http_req_failed.
 // k6's default http_req_failed metric counts all non-2xx/3xx as failures.
@@ -54,6 +58,14 @@ const authHeaders = {
 const superAdminHeaders = {
   Authorization: `Bearer ${SUPER_ADMIN_JWT}`,
   'Content-Type': 'application/json',
+};
+
+// M2M headers: used for CI smoke requests that must bypass CSRF protection and global
+// rate limiting. INTER_SERVICE_SECRET is a shared secret known to the staging worker.
+const m2mHeaders = {
+  'Content-Type': 'application/json',
+  'X-CSRF-Intent': 'm2m',
+  ...(INTER_SERVICE_SECRET ? { 'X-Inter-Service-Secret': INTER_SERVICE_SECRET } : {}),
 };
 
 export default function () {
@@ -123,8 +135,11 @@ export default function () {
   });
 
   // P24: POST /fx-rates without JWT must return 401 (not 403) — SEC-002 regression guard
+  // BUG-FIX: CSRF middleware runs before auth — POST without Origin/Referer
+  // returns 403 (CSRF) instead of 401 (auth). Send X-CSRF-Intent: m2m so CSRF
+  // passes and the route handler returns the expected 401 (unauthenticated).
   const noAuthFxPost = http.post(`${BASE_URL}/fx-rates`, JSON.stringify({}), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: m2mHeaders,
   });
   check(noAuthFxPost, {
     'POST /fx-rates without JWT → 401': (r) => r.status === 401,
