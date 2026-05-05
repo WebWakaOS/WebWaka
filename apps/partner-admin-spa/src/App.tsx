@@ -15,6 +15,7 @@ import SubPartners   from './pages/SubPartners';
 import Branding      from './pages/Branding';
 import Notifications from './pages/Notifications';
 import Onboarding    from './pages/Onboarding';
+import Entitlements  from './pages/Entitlements';
 
 const ONBOARDING_KEY = 'pa_onboarding_done';
 
@@ -25,6 +26,7 @@ const NAV_LINKS = [
   { to: '/sub-partners',  label: 'Sub-Partners'  },
   { to: '/branding',      label: 'Branding'      },
   { to: '/notifications', label: 'Notifications' },
+  { to: '/entitlements',  label: 'Entitlements'  },
 ];
 
 export default function App() {
@@ -156,6 +158,7 @@ export default function App() {
           <Route path="/branding"      element={<Branding />}      />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/onboarding"    element={<Onboarding onComplete={handleOnboardingComplete} />} />
+          <Route path="/entitlements"  element={<Entitlements />} />
           <Route path="*"              element={<Navigate to="/overview" replace />} />
         </Routes>
       </main>

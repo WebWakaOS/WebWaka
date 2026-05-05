@@ -86,6 +86,7 @@ export const partnersApi = {
   saveBranding:     (body: BrandingBody) => api.put<BrandingData>(`/partners/${pid()}/branding`, body),
   notifications:    () => api.get<NotificationsData>(`/partners/${pid()}/notifications`),
   ackNotification:  (id: string) => api.post<void>(`/partners/${pid()}/notifications/${id}/ack`, {}),
+  entitlements:     () => api.get<EntitlementsData>(`/partners/${pid()}/entitlements`),
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -162,4 +163,18 @@ export interface Notification {
 
 export interface NotificationsData {
   notifications: Notification[];
+}
+
+// ─── Entitlements (appended) ──────────────────────────────────────────────────
+
+export interface Entitlement {
+  id: string;
+  dimension: string;
+  value: string;
+  granted_at: string;
+  expires_at?: string;
+}
+
+export interface EntitlementsData {
+  entitlements: Entitlement[];
 }
