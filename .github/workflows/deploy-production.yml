@@ -556,16 +556,44 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           PRODUCTION_HEALTH_URL: ${{ vars.PRODUCTION_HEALTH_URL }}
-      - name: Push secrets to production worker
+      - name: Push secrets to production API worker
+        # SEC-PROD-001: Sync ALL required secrets to webwaka-api-production on every deploy.
+        # Previously only JWT_SECRET + INTER_SERVICE_SECRET were synced — leaving 10 secrets
+        # unprovisionned. Fixed 2026-05-05.
         run: |
           cd apps/api
-          echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET --env production
-          echo "$INTER_SERVICE_SECRET" | npx wrangler secret put INTER_SERVICE_SECRET --env production
+          echo "$JWT_SECRET"               | npx wrangler secret put JWT_SECRET               --env production
+          echo "$INTER_SERVICE_SECRET"     | npx wrangler secret put INTER_SERVICE_SECRET     --env production
+          echo "$PAYSTACK_SECRET_KEY"      | npx wrangler secret put PAYSTACK_SECRET_KEY      --env production
+          echo "$PREMBLY_API_KEY"          | npx wrangler secret put PREMBLY_API_KEY          --env production
+          echo "$TERMII_API_KEY"           | npx wrangler secret put TERMII_API_KEY           --env production
+          echo "$AI_PROVIDER_API_KEY"      | npx wrangler secret put AI_PROVIDER_API_KEY      --env production
+          echo "$LOG_PII_SALT"             | npx wrangler secret put LOG_PII_SALT             --env production
+          echo "$DM_MASTER_KEY"            | npx wrangler secret put DM_MASTER_KEY            --env production
+          echo "$PRICE_LOCK_SECRET"        | npx wrangler secret put PRICE_LOCK_SECRET        --env production
+          echo "$ENCRYPTION_SECRET"        | npx wrangler secret put ENCRYPTION_SECRET        --env production
+          # Optional — skip if not yet provisioned
+          [ -n "$WHATSAPP_ACCESS_TOKEN" ]    && echo "$WHATSAPP_ACCESS_TOKEN"    | npx wrangler secret put WHATSAPP_ACCESS_TOKEN    --env production || echo "WHATSAPP_ACCESS_TOKEN not set — skipping"
+          [ -n "$WHATSAPP_PHONE_NUMBER_ID" ] && echo "$WHATSAPP_PHONE_NUMBER_ID" | npx wrangler secret put WHATSAPP_PHONE_NUMBER_ID --env production || echo "WHATSAPP_PHONE_NUMBER_ID not set — skipping"
+          [ -n "$TELEGRAM_BOT_TOKEN" ]       && echo "$TELEGRAM_BOT_TOKEN"       | npx wrangler secret put TELEGRAM_BOT_TOKEN       --env production || echo "TELEGRAM_BOT_TOKEN not set — skipping"
+          [ -n "$SLACK_WEBHOOK_URL" ]        && echo "$SLACK_WEBHOOK_URL"        | npx wrangler secret put SLACK_WEBHOOK_URL        --env production || echo "SLACK_WEBHOOK_URL not set — skipping"
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          INTER_SERVICE_SECRET: ${{ secrets.INTER_SERVICE_SECRET }}
+          CLOUDFLARE_ACCOUNT_ID:    ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN:     ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          JWT_SECRET:               ${{ secrets.JWT_SECRET }}
+          INTER_SERVICE_SECRET:     ${{ secrets.INTER_SERVICE_SECRET }}
+          PAYSTACK_SECRET_KEY:      ${{ secrets.PAYSTACK_SECRET_KEY }}
+          PREMBLY_API_KEY:          ${{ secrets.PREMBLY_API_KEY }}
+          TERMII_API_KEY:           ${{ secrets.TERMII_API_KEY }}
+          AI_PROVIDER_API_KEY:      ${{ secrets.AI_PROVIDER_API_KEY }}
+          LOG_PII_SALT:             ${{ secrets.LOG_PII_SALT }}
+          DM_MASTER_KEY:            ${{ secrets.DM_MASTER_KEY }}
+          PRICE_LOCK_SECRET:        ${{ secrets.PRICE_LOCK_SECRET }}
+          ENCRYPTION_SECRET:        ${{ secrets.ENCRYPTION_SECRET }}
+          WHATSAPP_ACCESS_TOKEN:    ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
+          TELEGRAM_BOT_TOKEN:       ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL:        ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # ── Deploy remaining workers (parallel) ────────────────────────────────────
   deploy-workers-production:
@@ -603,6 +631,36 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Sync secrets to ${{ matrix.app }} (production)
+        # SEC-PROD-002: Sync per-worker secrets after each worker deploy.
+        # Each worker only receives the secrets it needs (principle of least privilege).
+        # Added 2026-05-05 to fix missing secrets on ussd-gateway + notificator.
+        run: |
+          APP="${{ matrix.app }}"
+          cd apps/$APP
+          # Secrets common to all workers
+          echo "$INTER_SERVICE_SECRET" | npx wrangler secret put INTER_SERVICE_SECRET --env production
+          echo "$LOG_PII_SALT"         | npx wrangler secret put LOG_PII_SALT         --env production
+          # Worker-specific secrets
+          if [ "$APP" = "notificator" ]; then
+            echo "$TERMII_API_KEY" | npx wrangler secret put TERMII_API_KEY --env production
+            [ -n "$SLACK_WEBHOOK_URL" ] && echo "$SLACK_WEBHOOK_URL" | npx wrangler secret put SLACK_WEBHOOK_URL --env production || true
+          fi
+          if [ "$APP" = "ussd-gateway" ]; then
+            echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET --env production
+            [ -n "$AFRICAS_TALKING_API_KEY" ]   && echo "$AFRICAS_TALKING_API_KEY"   | npx wrangler secret put AFRICAS_TALKING_API_KEY   --env production || true
+            [ -n "$AFRICAS_TALKING_USERNAME" ]  && echo "$AFRICAS_TALKING_USERNAME"  | npx wrangler secret put AFRICAS_TALKING_USERNAME  --env production || true
+          fi
+        env:
+          CLOUDFLARE_ACCOUNT_ID:   ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN:    ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          INTER_SERVICE_SECRET:    ${{ secrets.INTER_SERVICE_SECRET }}
+          LOG_PII_SALT:            ${{ secrets.LOG_PII_SALT }}
+          JWT_SECRET:              ${{ secrets.JWT_SECRET }}
+          TERMII_API_KEY:          ${{ secrets.TERMII_API_KEY }}
+          SLACK_WEBHOOK_URL:       ${{ secrets.SLACK_WEBHOOK_URL }}
+          AFRICAS_TALKING_API_KEY: ${{ secrets.AFRICAS_TALKING_API_KEY }}
+          AFRICAS_TALKING_USERNAME: ${{ secrets.AFRICAS_TALKING_USERNAME }}
 
   # ── Large-file reference-data migrations for production (>5 MB) ────────────
   # Applied via wrangler d1 execute --file which handles chunked submission.
