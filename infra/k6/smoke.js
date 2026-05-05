@@ -50,22 +50,29 @@ export const options = {
   },
 };
 
+// M2M bypass header: added to ALL request sets so CI smoke runs bypass global
+// rate limiting. INTER_SERVICE_SECRET is the shared secret the staging worker checks.
+const bypassHeader = INTER_SERVICE_SECRET
+  ? { 'X-Inter-Service-Secret': INTER_SERVICE_SECRET, 'X-CSRF-Intent': 'm2m' }
+  : {};
+
 const authHeaders = {
   Authorization: `Bearer ${JWT_TOKEN}`,
   'Content-Type': 'application/json',
+  ...bypassHeader,
 };
 
 const superAdminHeaders = {
   Authorization: `Bearer ${SUPER_ADMIN_JWT}`,
   'Content-Type': 'application/json',
+  ...bypassHeader,
 };
 
-// M2M headers: used for CI smoke requests that must bypass CSRF protection and global
-// rate limiting. INTER_SERVICE_SECRET is a shared secret known to the staging worker.
+// M2M headers: used for unauthenticated CI smoke requests that must bypass
+// CSRF protection and global rate limiting.
 const m2mHeaders = {
   'Content-Type': 'application/json',
-  'X-CSRF-Intent': 'm2m',
-  ...(INTER_SERVICE_SECRET ? { 'X-Inter-Service-Secret': INTER_SERVICE_SECRET } : {}),
+  ...bypassHeader,
 };
 
 export default function () {

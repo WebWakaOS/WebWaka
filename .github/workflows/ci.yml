@@ -190,7 +190,9 @@ jobs:
       - name: Generate smoke test JWT tokens
         id: jwt
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          # Use environment-specific secret (JWT_SECRET_STAGING); fall back to JWT_SECRET.
+          # The staging worker is provisioned with JWT_SECRET_STAGING via deploy-staging.yml.
+          JWT_SECRET: ${{ secrets.JWT_SECRET_STAGING || secrets.JWT_SECRET }}
         run: |
           OUTPUT=$(node infra/k6/generate-smoke-jwt.mjs)
           echo "SMOKE_JWT=$(echo "$OUTPUT" | grep '^SMOKE_JWT=' | cut -d= -f2-)" >> $GITHUB_OUTPUT

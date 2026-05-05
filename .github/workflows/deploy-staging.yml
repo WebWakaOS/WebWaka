@@ -186,6 +186,8 @@ jobs:
         run: |
           cd apps/api
           echo "$JWT_SECRET"               | npx wrangler secret put JWT_SECRET               --env staging
+          # Also push JWT_SECRET_STAGING so env-specific secret matches the worker binding.
+          [ -n "$JWT_SECRET_STAGING" ] && echo "$JWT_SECRET_STAGING" | npx wrangler secret put JWT_SECRET --env staging || true
           echo "$INTER_SERVICE_SECRET"     | npx wrangler secret put INTER_SERVICE_SECRET     --env staging
           echo "$PAYSTACK_SECRET_KEY"      | npx wrangler secret put PAYSTACK_SECRET_KEY      --env staging
           echo "$PREMBLY_API_KEY"          | npx wrangler secret put PREMBLY_API_KEY          --env staging
@@ -203,6 +205,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID:    ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN:     ${{ secrets.CLOUDFLARE_API_TOKEN }}
           JWT_SECRET:               ${{ secrets.JWT_SECRET }}
+          JWT_SECRET_STAGING:       ${{ secrets.JWT_SECRET_STAGING }}
           INTER_SERVICE_SECRET:     ${{ secrets.INTER_SERVICE_SECRET }}
           PAYSTACK_SECRET_KEY:      ${{ secrets.PAYSTACK_SECRET_KEY }}
           PREMBLY_API_KEY:          ${{ secrets.PREMBLY_API_KEY }}
@@ -313,6 +316,8 @@ jobs:
           fi
           if [ "$APP" = "ussd-gateway" ]; then
             echo "$JWT_SECRET" | npx wrangler secret put JWT_SECRET --env staging
+            # Override with environment-specific secret if provided.
+            [ -n "$JWT_SECRET_STAGING" ] && echo "$JWT_SECRET_STAGING" | npx wrangler secret put JWT_SECRET --env staging || true
             [ -n "$AFRICAS_TALKING_API_KEY" ]  && echo "$AFRICAS_TALKING_API_KEY"  | npx wrangler secret put AFRICAS_TALKING_API_KEY  --env staging || true
             [ -n "$AFRICAS_TALKING_USERNAME" ] && echo "$AFRICAS_TALKING_USERNAME" | npx wrangler secret put AFRICAS_TALKING_USERNAME --env staging || true
           fi
@@ -322,6 +327,7 @@ jobs:
           INTER_SERVICE_SECRET:     ${{ secrets.INTER_SERVICE_SECRET }}
           LOG_PII_SALT:             ${{ secrets.LOG_PII_SALT }}
           JWT_SECRET:               ${{ secrets.JWT_SECRET }}
+          JWT_SECRET_STAGING:       ${{ secrets.JWT_SECRET_STAGING }}
           TERMII_API_KEY:           ${{ secrets.TERMII_API_KEY }}
           SLACK_WEBHOOK_URL:        ${{ secrets.SLACK_WEBHOOK_URL }}
           AFRICAS_TALKING_API_KEY:  ${{ secrets.AFRICAS_TALKING_API_KEY }}
