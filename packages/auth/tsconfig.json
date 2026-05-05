@@ -1,15 +1,30 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["@cloudflare/workers-types"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@webwaka/types": ["../types/src/index.ts"],
-      "@webwaka/ai": ["../ai-abstraction/src/index.ts"]
+      "@webwaka/types": [
+        "../types/src/index.ts"
+      ],
+      "@webwaka/ai": [
+        "../ai-abstraction/src/index.ts"
+      ],
+      "@webwaka/provider-registry": [
+        "../provider-registry/src/index.ts"
+      ]
     },
     "rootDir": "..",
     "outDir": "dist"
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -4,15 +4,32 @@
     "rootDir": "../..",
     "outDir": "dist",
     "declarationDir": "dist",
-    "types": ["@cloudflare/workers-types"],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@webwaka/ai":           ["../ai-abstraction/src/index.ts"],
-      "@webwaka/ai-adapters":  ["../ai-adapters/src/index.ts"],
-      "@webwaka/auth":         ["../auth/src/index.ts"],
-      "@webwaka/types":        ["../types/src/index.ts"],
-      "@webwaka/entitlements": ["../entitlements/src/index.ts"]
+      "@webwaka/ai": [
+        "../ai-abstraction/src/index.ts"
+      ],
+      "@webwaka/ai-adapters": [
+        "../ai-adapters/src/index.ts"
+      ],
+      "@webwaka/auth": [
+        "../auth/src/index.ts"
+      ],
+      "@webwaka/types": [
+        "../types/src/index.ts"
+      ],
+      "@webwaka/entitlements": [
+        "../entitlements/src/index.ts"
+      ],
+      "@webwaka/provider-registry": [
+        "../provider-registry/src/index.ts"
+      ]
     }
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

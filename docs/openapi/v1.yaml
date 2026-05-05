@@ -64,6 +64,24 @@ tags:
     description: P25 — B2B marketplace RFQ/bid/PO/invoice/dispute lifecycle
 
 paths:
+  /version:
+    get:
+      tags: [Health]
+      summary: API version
+      operationId: getVersion
+      security: []
+      responses:
+        "200":
+          description: Current API version string
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [version]
+                properties:
+                  version:
+                    type: string
+                    example: "1"
   /health:
     get:
       tags: [Health]

@@ -32,11 +32,13 @@ const EXEMPT_PREFIXES = ['/health', '/metrics', '/internal', '/__cf', '/favicon'
 const HTTP_METHODS   = ['get', 'post', 'put', 'patch', 'delete'];
 
 function extractRoutes(source: string): { method: string; path: string }[] {
+  // Strip single-line comments to avoid false positives from commented-out code
+  const stripped = source.replace(/\/\/[^\n]*/g, '');
   const routes: { method: string; path: string }[] = [];
   for (const m of HTTP_METHODS) {
     const re = new RegExp(`\\.${m}\\s*\\(\\s*['"\`]([^'"\`]+)['"\`]`, 'g');
     let match: RegExpExecArray | null;
-    while ((match = re.exec(source)) !== null) {
+    while ((match = re.exec(stripped)) !== null) {
       routes.push({ method: m.toUpperCase(), path: match[1]! });
     }
   }

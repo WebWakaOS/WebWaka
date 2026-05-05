@@ -50,3 +50,7 @@ pnpm-debug.log*
 # WebWaka Superagent workspace (not part of project source)
 .agents/
 apps/*/package-lock.json
+
+# Orphaned lock files from non-pnpm agents
+packages/*/yarn.lock
+apps/*/yarn.lock

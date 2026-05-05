@@ -4,10 +4,25 @@
     "rootDir": "../..",
     "outDir": "dist",
     "declarationDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "../..",
     "paths": {
-      "@webwaka/ai": ["../ai-abstraction/src/index.ts"]
-    }
+      "@webwaka/ai": [
+        "packages/ai-abstraction/src/index.ts"
+      ],
+      "@webwaka/provider-registry": [
+        "packages/provider-registry/src/index.ts"
+      ]
+    },
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

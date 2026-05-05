@@ -539,6 +539,9 @@
       ],
       "@webwaka/verticals-youth-organization": [
         "../../packages/verticals-youth-organization/src/index.ts"
+      ],
+      "@webwaka/provider-registry": [
+        "../../packages/provider-registry/src/index.ts"
       ]
     }
   },

@@ -3,7 +3,7 @@
  * Manages pool of encrypted API keys with LRU selection and rate-limit tracking.
  */
 
-import { decryptCredentials } from '../../provider-registry/src/crypto.js';
+import { decryptCredentials } from '@webwaka/provider-registry';
 
 export interface SelectedKey {
   id: string;
