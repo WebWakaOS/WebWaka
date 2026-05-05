@@ -404,7 +404,17 @@ authRoutes.post('/login', async (c) => {
   // BUG-038 / ENH-034: TOTP enforcement for super_admin role.
   // Super admins who have not enrolled in TOTP must do so before receiving a JWT.
   // Super admins who have enrolled must supply a valid TOTP code.
-  if (userRow.role === 'super_admin') {
+  //
+  // ENH-035: TOTP_BYPASS_EMAILS — comma-separated list of email addresses that skip
+  // this check entirely (password-only login). Intended for internal platform accounts
+  // (e.g. admin@webwaka.com). Set in wrangler.toml [vars] per environment.
+  const totpBypassList = (c.env.TOTP_BYPASS_EMAILS ?? '')
+    .split(',')
+    .map((e: string) => e.trim().toLowerCase())
+    .filter(Boolean);
+  const isTotpBypassed = totpBypassList.includes(userRow.email.toLowerCase());
+
+  if (userRow.role === 'super_admin' && !isTotpBypassed) {
     if (!userRow.totp_enabled) {
       // Not yet enrolled — force enrollment before issuing JWT.
       return c.json({

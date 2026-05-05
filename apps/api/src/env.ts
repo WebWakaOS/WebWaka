@@ -272,6 +272,19 @@ export interface Env {
    * Provision: wrangler kv namespace create WALLET_KV --env staging
    */
   WALLET_KV?: KVNamespace;
+  /**
+   * ENH-035: Comma-separated list of email addresses that bypass TOTP enforcement
+   * at login, even if they hold the super_admin role.
+   * Intended for platform-internal accounts (e.g. admin@webwaka.com) where the
+   * operator wants password-only login without 2FA friction.
+   *
+   * SECURITY NOTE: Only use this for accounts in non-public/internal environments.
+   * Never add customer-facing super_admin accounts to this list.
+   *
+   * Example: "admin@webwaka.com,superagent@webwaka.io"
+   * Set via wrangler.toml [vars] — NOT a secret (no credential value stored here).
+   */
+  TOTP_BYPASS_EMAILS?: string;
 
   /**
    * AES-256-GCM encryption secret for SuperAgent BYOK key storage.
