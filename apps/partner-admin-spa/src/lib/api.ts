@@ -87,11 +87,19 @@ export const partnersApi = {
   notifications:    () => api.get<NotificationsData>(`/partners/${pid()}/notifications`),
   ackNotification:  (id: string) => api.post<void>(`/partners/${pid()}/notifications/${id}/ack`, {}),
   entitlements:     () => api.get<EntitlementsData>(`/partners/${pid()}/entitlements`),
+  unreadCount:      () => api.get<UnreadCountData>(`/partners/${pid()}/notifications/unread-count`),
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface UsageData {
+  // Partner profile fields (returned by /api/usage when partner-scoped)
+  id?:              string;
+  company_name?:    string;
+  contact_email?:   string;
+  status?:          string;
+  max_sub_partners?: number;
+  // Usage metrics
   activeGroups?: number;
   totalMembers?: number;
 }
@@ -166,6 +174,10 @@ export interface NotificationsData {
 }
 
 // ─── Entitlements (appended) ──────────────────────────────────────────────────
+
+export interface UnreadCountData {
+  count: number;
+}
 
 export interface Entitlement {
   id: string;
